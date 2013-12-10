@@ -57,8 +57,8 @@
                             <c:choose>
                                 <c:when test="${earnCodeSection.isAmountEarnCode}">
                                     <tr>
-                                        <td colspan="2"  class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
-                                           <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
+                                        <td colspan="2"  class="${not empty assignmentRow.descr?assignmentRow.cssClass: ''}">${assignmentRow.descr}</td>
+                                        <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
                                             <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>
                                             <c:choose>
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
@@ -76,7 +76,7 @@
                                 <c:otherwise>
                                     <c:if test="${periodTotal ne '0.00' and periodTotal != 0}">
                                         <tr>
-                                           <td colspan="2" class="${assignmentRow.cssClass}">${assignmentRow.descr}</td>
+                                           <td colspan="2" class="${not empty assignmentRow.descr?assignmentRow.cssClass: ''}">${assignmentRow.descr}</td>
                                            <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
                                             	<c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>   
                                                

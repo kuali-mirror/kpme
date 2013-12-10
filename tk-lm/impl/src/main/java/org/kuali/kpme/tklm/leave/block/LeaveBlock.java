@@ -41,6 +41,7 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.block.CalendarBlock;
@@ -455,7 +456,7 @@ public class LeaveBlock extends CalendarBlock implements Assignable, LeaveBlockC
     
     public String getAssignmentKey() {
         if (assignmentKey == null) {
-            this.setAssignmentKey(TKUtils.formatAssignmentKey(jobNumber, workArea, task));
+            this.setAssignmentKey(KpmeUtils.formatAssignmentKey(jobNumber, workArea, task));
         }
         return assignmentKey;
     }

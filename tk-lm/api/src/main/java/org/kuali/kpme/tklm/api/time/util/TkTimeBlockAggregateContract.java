@@ -99,7 +99,7 @@ public interface TkTimeBlockAggregateContract {
 	 * @param The TimeZone to use when constructing this relative sorting
 	 * @return the list of flsa weeks for TkTimeBlockAggregate
 	 */
-	public List<? extends FlsaWeekContract> getFlsaWeeks(DateTimeZone zone);
+	public List<? extends FlsaWeekContract> getFlsaWeeks(DateTimeZone zone, int flsaDay, boolean isflsaDayPassed);
 	
 	/**
 	 * TODO: Put a better comment

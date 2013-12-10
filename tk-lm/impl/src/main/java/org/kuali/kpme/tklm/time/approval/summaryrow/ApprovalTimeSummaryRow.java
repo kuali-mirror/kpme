@@ -32,6 +32,8 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.doctype.SecuritySession;
@@ -318,6 +320,15 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
 	}
 
     public Map<String, String> getRoleNames() {
+    	//get role name for action request if available
+        if (StringUtils.isNotBlank(documentId)) {
+            List<ActionRequest> actionRequests = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(documentId);
+            Map<String, String> roleNames = new HashMap<String, String>();
+            for (ActionRequest ar : actionRequests) {
+                roleNames.put(ar.getPrincipalId(), ar.getQualifiedRoleNameLabel());
+            }
+            this.setRoleNames(roleNames);
+        }
         return roleNames;
     }
 

@@ -51,6 +51,9 @@ public class PrincipalHRAttributesLookupableHelper extends KPMELookupableHelper 
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
 		customActionUrls.add(viewUrl);
+
+		//	Add copy link - KPME-3058
+		customActionUrls.add(getUrlData(principalHRAttributes, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
 		
 		return customActionUrls;
 	}

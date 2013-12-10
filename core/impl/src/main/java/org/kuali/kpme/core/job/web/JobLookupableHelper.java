@@ -54,6 +54,9 @@ public class JobLookupableHelper extends KPMELookupableHelper {
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
 		customActionUrls.add(viewUrl);
 		
+		//	Add copy link - KPME-3059
+		customActionUrls.add(getUrlData(job, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
+		
 		return customActionUrls;
     }
 

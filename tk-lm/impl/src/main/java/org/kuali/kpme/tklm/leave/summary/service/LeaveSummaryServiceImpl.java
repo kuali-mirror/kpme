@@ -262,11 +262,15 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                             || acRule.getMaxUsage() != null)) {
                                 if (acRule.getMaxUsage() != null) {
                                     lsr.setUsageLimit(new BigDecimal(acRule.getMaxUsage()).setScale(2));
+                                    System.out.println("Inside if:   setUsage is true");
+                                    ls.setUsageLimit(true);
                                 } else {
+                                	System.out.println("Inside else:   setUsage is null1");
                                     lsr.setUsageLimit(null);
                                 }
 
                             } else {
+                            	System.out.println("Inside else:   setUsage is null2");
                                 lsr.setUsageLimit(null);
                             }
 

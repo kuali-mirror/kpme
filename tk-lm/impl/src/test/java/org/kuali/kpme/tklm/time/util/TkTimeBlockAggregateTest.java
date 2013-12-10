@@ -48,7 +48,7 @@ public class TkTimeBlockAggregateTest extends TKLMIntegrationTestCase {
 
 		List<TimeBlock> blocks = getSomeTimeBlocks();
 		TkTimeBlockAggregate tba = new TkTimeBlockAggregate(blocks, pcd, cal);
-		List<FlsaWeek> weeks = tba.getFlsaWeeks(DateTimeZone.UTC);
+		List<FlsaWeek> weeks = tba.getFlsaWeeks(DateTimeZone.UTC, 0, false);
 	}
 
 

@@ -26,6 +26,7 @@ import java.util.ListIterator;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
@@ -313,8 +314,11 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
      *
      * @param zone The TimeZone to use when constructing this relative sorting.
 	 */
-	public List<FlsaWeek> getFlsaWeeks(DateTimeZone zone){
-		int flsaDayConstant = payCalendar.getFlsaBeginDayConstant();
+	public List<FlsaWeek> getFlsaWeeks(DateTimeZone zone, int flsaDayConstant, boolean isFlsaDayPassed){
+		if(!isFlsaDayPassed) {
+			flsaDayConstant = payCalendar.getFlsaBeginDayConstant(); 
+		}
+				
 		Time flsaBeginTime  = payCalendar.getFlsaBeginTime();
 
 		// We can use these to build our interval, we have to make sure we
@@ -353,7 +357,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 	public List<List<FlsaWeek>> getFlsaWeeks(DateTimeZone zone, String principalId) {
 		List<List<FlsaWeek>> flsaWeeks = new ArrayList<List<FlsaWeek>>();
 		
-		List<FlsaWeek> currentWeeks = getFlsaWeeks(zone);
+		List<FlsaWeek> currentWeeks = getFlsaWeeks(zone, 0, false);
 		
 		for (ListIterator<FlsaWeek> weekIterator = currentWeeks.listIterator(); weekIterator.hasNext(); ) {
 			List<FlsaWeek> flsaWeek = new ArrayList<FlsaWeek>();
@@ -376,7 +380,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 						List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, previousCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), previousCalendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
 						if (CollectionUtils.isNotEmpty(timeBlocks)) {
 							TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, previousCalendarEntry, payCalendar, true);
-							List<FlsaWeek> previousWeek = previousAggregate.getFlsaWeeks(zone);
+							List<FlsaWeek> previousWeek = previousAggregate.getFlsaWeeks(zone, 0, false);
 							if (CollectionUtils.isNotEmpty(previousWeek)) {
 								flsaWeek.add(previousWeek.get(previousWeek.size() - 1));
 							}
@@ -402,7 +406,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 						List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, nextCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), nextCalendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
 						if (CollectionUtils.isNotEmpty(timeBlocks)) {
 							TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, nextCalendarEntry, payCalendar, true);
-							List<FlsaWeek> nextWeek = nextAggregate.getFlsaWeeks(zone);
+							List<FlsaWeek> nextWeek = nextAggregate.getFlsaWeeks(zone, 0, false);
 							if (CollectionUtils.isNotEmpty(nextWeek)) {
 								flsaWeek.add(nextWeek.get(0));
 							}
@@ -472,6 +476,9 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 						timeBlock.setBeginTimestamp(new Timestamp(lb.getLeaveDate().getTime()));
 						timeBlock.setEndTimestamp(new Timestamp(new DateTime(lb.getLeaveDate()).plusMinutes(timeBlock.getHours().intValue()).getMillis()));
 						timeBlock.setAssignmentKey(lb.getAssignmentKey());
+						timeBlock.setJobNumber(lb.getJobNumber());
+						timeBlock.setWorkArea(lb.getWorkArea());
+						timeBlock.setTask(lb.getTask());
 						timeBlock.setEarnCode(lb.getEarnCode());
 						
 						EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());

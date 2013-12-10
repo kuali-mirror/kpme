@@ -52,6 +52,9 @@ public class AssignmentLookupableHelper extends KPMELookupableHelper {
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
 		customActionUrls.add(viewUrl);
 		
+		//	Add copy link - KPME-3060
+		customActionUrls.add(getUrlData(assignment, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
+		
 		return customActionUrls;
     }
 

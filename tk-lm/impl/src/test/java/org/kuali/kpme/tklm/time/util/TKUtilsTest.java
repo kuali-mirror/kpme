@@ -28,6 +28,7 @@ import org.joda.time.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -90,7 +91,7 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
 
     @Test
     public void testFormatAssignmentKey() throws Exception {
-        String assignmentKey = TKUtils.formatAssignmentKey(1L,2L,3L);
+        String assignmentKey = KpmeUtils.formatAssignmentKey(1L, 2L, 3L);
         Assert.assertEquals("Assignment Key should be 1_2_3","1_2_3",assignmentKey);
     }
 

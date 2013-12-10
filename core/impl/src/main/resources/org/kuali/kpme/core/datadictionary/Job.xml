@@ -546,10 +546,10 @@
 							<bean parent="FieldDefinition" p:attributeName="name" />
 							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
-							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 							<bean parent="FieldDefinition" p:attributeName="hrPayType" />
+							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 							<bean parent="FieldDefinition" p:attributeName="payGrade" />
 							<bean parent="FieldDefinition" p:attributeName="compRate" />
 							<bean parent="FieldDefinition" p:attributeName="standardHours" />

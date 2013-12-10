@@ -242,7 +242,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		List<EarnGroupSection> earnGroupSections = new ArrayList<EarnGroupSection>();
 		Map<String, List<EarnGroupSection>> weeklyEarnGroupSections = new LinkedHashMap<String, List<EarnGroupSection>>();
 		Map<String, List<EarnCodeSection>> earnCodeSections = new LinkedHashMap<String, List<EarnCodeSection>>();
-		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback(), DateTimeConstants.SUNDAY, true);
 		Map<String, EarnCodeSection> earnCodeToEarnCodeSection = new TreeMap<String, EarnCodeSection>();
 		Map<String, EarnGroupSection> earnGroupToEarnGroupSection = new HashMap<String, EarnGroupSection>();
 		
@@ -425,7 +425,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         
         BigDecimal periodTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
         int i=0;
-        for (FlsaWeek week : aggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback())) {
+        for (FlsaWeek week : aggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback(), DateTimeConstants.SUNDAY, true)) {
         	weekHours = new TreeMap<Integer, BigDecimal>();
         	
             BigDecimal weeklyTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;

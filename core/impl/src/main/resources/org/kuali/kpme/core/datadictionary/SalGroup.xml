@@ -299,6 +299,11 @@
  <!-- SalGroup look up for KNS -->
  <bean id="SalaryGroup-lookupDefinition" parent="SalaryGroup-lookupDefinition-parentBean" />
 	<bean id="SalaryGroup-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="salaryGroupLookupable" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"  />

@@ -96,7 +96,7 @@
 	      <bean parent="CheckboxControlDefinition"/>
 	    </property>
 	    <property name="name" value="showSummary"/>
-	    <property name="label" value="Show On Summary"/>
+	    <property name="label" value="Show On Time Summary"/>
 	    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   	</bean>
 	

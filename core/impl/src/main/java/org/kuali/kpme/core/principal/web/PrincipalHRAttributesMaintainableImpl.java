@@ -50,6 +50,14 @@ public class PrincipalHRAttributesMaintainableImpl extends HrBusinessObjectMaint
 	}
 
 	@Override
+	public void processAfterCopy(MaintenanceDocument document,
+			Map<String, String[]> parameters) {
+		super.processAfterCopy(document, parameters);
+		PrincipalHRAttributes principalHRAttributes = (PrincipalHRAttributes) document.getNewMaintainableObject().getBusinessObject();
+		principalHRAttributes.setPrincipalId(null);
+	}
+
+	@Override
 	public void saveBusinessObject() {
 		super.saveBusinessObject();
 		CacheUtils.flushCache(PrincipalHRAttributes.CACHE_NAME);

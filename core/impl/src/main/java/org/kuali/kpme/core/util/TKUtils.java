@@ -42,6 +42,7 @@ import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -111,23 +112,10 @@ public class TKUtils {
         return hrsReminder.setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING).abs();
     }
 
-    public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
-    	String assignmentKey = StringUtils.EMPTY;
-    	
-    	String jobNumberString = ObjectUtils.toString(jobNumber, "0");
-    	String workAreaString = ObjectUtils.toString(workArea, "0");
-    	String taskString = ObjectUtils.toString(task, "0");
-    	
-    	if (!jobNumberString.equals("0") || !workAreaString.equals("0") || !taskString.equals("0")) {
-    		assignmentKey = StringUtils.join(new String[] {jobNumberString, workAreaString, taskString}, HrConstants.ASSIGNMENT_KEY_DELIMITER);
-    	}
-    	
-    	return assignmentKey;
-    }
-    
+
     public static Map<String, String> formatAssignmentDescription(AssignmentContract assignment) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-        String assignmentDescKey = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
+        String assignmentDescKey = KpmeUtils.formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
         String assignmentDescValue = getAssignmentString(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), assignment.getEffectiveLocalDate());
         assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
 

@@ -234,15 +234,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			approvalSummaryRow.setPayCalendarGroup(calGroup);
 			approvalSummaryRow.setDocumentId(documentId);
 
-            //get role name for action request if available
-            if (StringUtils.isNotBlank(documentId)) {
-                List<ActionRequest> actionRequests = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(documentId);
-                Map<String, String> roleNames = new HashMap<String, String>();
-                for (ActionRequest ar : actionRequests) {
-                    roleNames.put(ar.getPrincipalId(), ar.getQualifiedRoleNameLabel());
-                }
-                approvalSummaryRow.setRoleNames(roleNames);
-            }
+            
 			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
 			approvalSummaryRow.setHoursToFlsaPayLabelMap(hoursToFlsaPayLabelMap);
 			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap
@@ -390,8 +382,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
         TkTimeBlockAggregate tkTimeBlockAggregate = buildAndMergeAggregates(lstTimeBlocks, leaveBlocks, payCalendarEntry, payCalendar, dayIntervals);
 
-		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate
-				.getFlsaWeeks(dateTimeZone);
+		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(dateTimeZone,0, false);
 		for (FlsaWeek week : flsaWeeks) {
 			for (FlsaDay day : week.getFlsaDays()) {
 				BigDecimal total = new BigDecimal(0.00);

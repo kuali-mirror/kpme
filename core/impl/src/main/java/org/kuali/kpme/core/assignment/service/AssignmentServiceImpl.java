@@ -131,13 +131,13 @@ public class AssignmentServiceImpl implements AssignmentService {
         List<Assignment> finalAssignments = new ArrayList<Assignment>();
         Map<String, Assignment> assignKeyToAssignmentMap = new HashMap<String, Assignment>();
         for (Assignment assign : endPeriodAssign) {
-            assignKeyToAssignmentMap.put(TKUtils.formatAssignmentKey(assign.getJobNumber(), assign.getWorkArea(), assign.getTask()), assign);
+            assignKeyToAssignmentMap.put(AssignmentDescriptionKey.getAssignmentKeyString(assign), assign);
             finalAssignments.add(assign);
         }
 
         //Compare the begin and end and add any assignments to the end thats are not there
         for (Assignment assign : beginPeriodAssign) {
-            String assignKey = TKUtils.formatAssignmentKey(assign.getJobNumber(), assign.getWorkArea(), assign.getTask());
+            String assignKey = AssignmentDescriptionKey.getAssignmentKeyString(assign);
             if (!assignKeyToAssignmentMap.containsKey(assignKey)) {
                 finalAssignments.add(assign);
             }
@@ -145,7 +145,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         // Add the assignments within the pay period
         for (Assignment assign : assignsWithPeriod) {
-            String assignKey = TKUtils.formatAssignmentKey(assign.getJobNumber(), assign.getWorkArea(), assign.getTask());
+            String assignKey = AssignmentDescriptionKey.getAssignmentKeyString(assign);
             if (!assignKeyToAssignmentMap.containsKey(assignKey)) {
                 finalAssignments.add(assign);
             }

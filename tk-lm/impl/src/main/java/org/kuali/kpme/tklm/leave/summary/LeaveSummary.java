@@ -32,6 +32,7 @@ public class LeaveSummary implements Serializable, LeaveSummaryContract {
 	private String ytdDatesString;
 	private String pendingDatesString;
     private String note;
+	private boolean usageLimit;
 	private List<String> approvalHeaders = new ArrayList<String>();
 
 	public LeaveSummary(LeaveSummary leaveSummary) {
@@ -117,5 +118,14 @@ public class LeaveSummary implements Serializable, LeaveSummaryContract {
     public void setNote(String note) {
         this.note = note;
     }
+
+	public boolean isUsageLimit() {
+		return usageLimit;
+	}
+
+	public void setUsageLimit(boolean usageLimit) {
+		this.usageLimit = usageLimit;
+	}
+
 	
 }

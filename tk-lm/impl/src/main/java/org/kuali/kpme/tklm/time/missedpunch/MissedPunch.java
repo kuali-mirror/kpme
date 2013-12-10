@@ -26,6 +26,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -96,7 +97,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	}
 	
 	public String getAssignmentKey() {
-		return TKUtils.formatAssignmentKey(getJobNumber(), getWorkArea(), getTask());
+		return KpmeUtils.formatAssignmentKey(getJobNumber(), getWorkArea(), getTask());
 	}
 	
 	public void setAssignmentKey(String assignmentKey) {
