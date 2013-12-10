@@ -27,5 +27,5 @@ public interface PositionService {
 	
 	public List<? extends PositionContract> getPositions(String positionNum, String description,
                                        String location, String institution, String classificationTitle, String positionType,
-                                       String poolEligible, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+                                       String poolEligible, String positionStatus, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

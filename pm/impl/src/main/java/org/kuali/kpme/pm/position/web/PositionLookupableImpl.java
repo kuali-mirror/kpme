@@ -48,6 +48,7 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
         String classificationTitle = searchCriteria.get("classificationTitle");
         String positionType = searchCriteria.get("positionType");
         String poolEligible = searchCriteria.get("poolEligible");
+        String positionStatus = searchCriteria.get("positionStatus");
         String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
         String active = searchCriteria.get("active");
@@ -58,7 +59,7 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
         }
         
         return PmServiceLocator.getPositionService().getPositions(positionNum, description, location,
-                institution, classificationTitle, positionType, poolEligible, TKUtils.formatDateString(fromEffdt),
+                institution, classificationTitle, positionType, poolEligible, positionStatus, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);	
     }  
 	

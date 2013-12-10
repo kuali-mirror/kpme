@@ -43,16 +43,20 @@ public class StatusKeyValueFinder extends UifKeyValuesFinderBase {
 	@Override
 	public List<KeyValue> getKeyValues(ViewModel model) {
 		List<KeyValue> options = new ArrayList<KeyValue>();
-		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model; 
-		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
+        if (model instanceof MaintenanceDocumentForm) {
+		    MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
+		    HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
 		
-		if(anHrObject.getEffectiveDate() != null) {
-			options = this.getKeyValues();
-
-		} else {
+            if(anHrObject.getEffectiveDate() != null) {
+                options = this.getKeyValues();
+            } else {
 			options.add(new ConcreteKeyValue(PMConstants.PSTN_STATUS.NEW, PMConstants.PSTN_STATUS.NEW));			
-		}
-
+		    }
+        } else {
+            for (Map.Entry entry : PMConstants.PSTN_STATUS_MAP.entrySet()) {
+                options.add(new ConcreteKeyValue((String) entry.getKey(), (String) entry.getValue()));
+            }
+        }
         return options;
     }
 }

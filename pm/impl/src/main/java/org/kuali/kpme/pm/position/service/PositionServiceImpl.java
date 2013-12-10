@@ -33,10 +33,10 @@ public class PositionServiceImpl implements PositionService {
 	@Override
 	public List<Position> getPositions(String positionNum, String description,
             String location, String institution, String classificationTitle, String positionType,
-            String poolEligible, LocalDate fromEffdt, LocalDate toEffdt, String active,
+            String poolEligible, String positionStatus, LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {
 		return positionDao.getPositions(positionNum, description, location, institution,
-                classificationTitle, positionType, poolEligible, fromEffdt, toEffdt, active, showHistory);
+                classificationTitle, positionType, poolEligible, positionStatus, fromEffdt, toEffdt, active, showHistory);
 	}
 	
 	public PositionDao getPositionDao() {
