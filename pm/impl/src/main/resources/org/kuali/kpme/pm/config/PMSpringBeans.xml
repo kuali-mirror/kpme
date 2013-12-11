@@ -244,12 +244,6 @@
     </bean>
 
     <!-- PM Lookupable Definitions -->
-        
- 	<bean id="positionReportGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
-    	<property name="lookupableHelperService">
-    		<bean class="org.kuali.kpme.pm.positionreportgroup.web.PositionReportGroupLookupableHelper"/>
-    	</property>    
-    </bean>
     
     <bean id="positionReportCatLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
 	   	<property name="lookupableHelperService">

@@ -24,7 +24,7 @@
 		<documentType>
 			<name>PositionReportGroupMaintenanceDocumentType</name>
 			<parent>KpmeDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.positionreportgroup.PositionReportGroup</docHandler>
 			<label>Position Report Group Maintenance</label>
 		</documentType>   
      </documentTypes>
