@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
+import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -32,11 +33,11 @@ public class DepartmentAffiliationKeyValueFinder extends KeyValuesBase {
 	@Override
 	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
-		List<? extends PositionDepartmentAffiliationContract> affilList = PmServiceLocator.getPositionDepartmentAffiliationService().getAllActiveAffiliations();
+		List<? extends DepartmentAffiliationContract> affilList = HrServiceLocator.getDepartmentAffiliationService().getAllActiveAffiliations();
 		keyValues.add(new ConcreteKeyValue("", ""));
 		if(CollectionUtils.isNotEmpty(affilList)) {
-			for(PositionDepartmentAffiliationContract anAffil : affilList) {
-				keyValues.add(new ConcreteKeyValue((String) anAffil.getPositionDeptAfflType(), (String) anAffil.getPositionDeptAfflType()));
+			for(DepartmentAffiliationContract anAffil : affilList) {
+				keyValues.add(new ConcreteKeyValue((String) anAffil.getDeptAfflType(), (String) anAffil.getDeptAfflType()));
 			}
 		}         
 		return keyValues;

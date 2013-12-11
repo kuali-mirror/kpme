@@ -22,6 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.PositionDuty;
@@ -29,7 +30,6 @@ import org.kuali.kpme.pm.position.PositionQualification;
 import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
-import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -85,8 +85,8 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         // not on the form, and addNewLineToCollection doesn't get called. 
         if (aPosition.getDepartmentList() != null) {
         	for(PositionDepartment aPositionDepartment : aPosition.getDepartmentList()) {
-        		if(aPositionDepartment != null && aPositionDepartment.getPositionDeptAffl() != null) {
-        			PositionDepartmentAffiliation pda = (PositionDepartmentAffiliation)aPositionDepartment.getPositionDeptAfflObj();
+        		if(aPositionDepartment != null && aPositionDepartment.getDeptAffl() != null) {
+        			DepartmentAffiliation pda = (DepartmentAffiliation)aPositionDepartment.getDeptAfflObj();
         			if (pda.isPrimaryIndicator()) {
         				aPosition.setLocation(aPositionDepartment.getLocation());
         				aPosition.setInstitution(aPositionDepartment.getInstitution());

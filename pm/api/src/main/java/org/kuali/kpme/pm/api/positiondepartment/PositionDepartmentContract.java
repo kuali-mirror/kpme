@@ -17,36 +17,37 @@ package org.kuali.kpme.pm.api.positiondepartment;
 
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.api.location.LocationContract;
 
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
+
 
 
 public interface PositionDepartmentContract extends HrBusinessObjectContract {
 
 
     /**
-     * Position Department Affiliation
+     * Department Affiliation
      *
      * <p>
-     * positionDeptAffl for the Position Department.
+     * feptAffl for the Position Department.
      * <p>
      *
-     * @return positionDeptAffl for Position Department
+     * @return deptAffl for Position Department
      */
-    public String getPositionDeptAffl();
+    public String getDeptAffl();
 
     /**
-     * Position Department Affiliation   Object
+     * Department Affiliation   Object
      *
      * <p>
-     * positionDeptAfflObj for the Position Department.
+     * deptAfflObj for the Position Department.
      * <p>
      *
-     * @return positionDeptAfflObj for Position Department
+     * @return deptAfflObj for Position Department
      */
-    public PositionDepartmentAffiliationContract getPositionDeptAfflObj();
+    public DepartmentAffiliationContract getDeptAfflObj();
 
     /**
      * Position Department ID

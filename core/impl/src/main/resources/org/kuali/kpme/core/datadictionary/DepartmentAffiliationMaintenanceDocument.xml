@@ -24,10 +24,10 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PositionDepartmentAffiliationMaintenanceDocument" parent="PositionDepartmentAffiliationMaintenanceDocument-parentBean"/>
-  <bean id="PositionDepartmentAffiliationMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation"/>
-    <property name="maintainableClass" value="org.kuali.kpme.pm.positiondepartmentaffiliation.web.PositionDepartmentAffiliationMaintainableImpl"/>  
-    <property name="documentTypeName" value="PositionDepartmentAffiliationMaintenanceDocumentType"/>
-  </bean>
+    <bean id="DepartmentAffiliationMaintenanceDocument" parent="DepartmentAffiliationMaintenanceDocument-parentBean"/>
+    <bean id="DepartmentAffiliationMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"/>
+        <property name="maintainableClass" value="org.kuali.kpme.core.departmentaffiliation.web.DepartmentAffiliationMaintainableImpl"/>
+        <property name="documentTypeName" value="DepartmentAffiliationMaintenanceDocumentType"/>
+    </bean>
 </beans>

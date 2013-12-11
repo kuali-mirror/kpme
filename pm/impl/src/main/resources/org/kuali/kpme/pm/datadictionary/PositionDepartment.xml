@@ -31,7 +31,7 @@
 	        <ref bean="PositionDepartment-institution"/>
 	        <ref bean="PositionDepartment-location"/>
 	        <ref bean="PositionDepartment-department"/>
-	        <ref bean="PositionDepartment-positionDeptAffl"/>
+	        <ref bean="PositionDepartment-deptAffl"/>
 	        <ref bean="PositionDepartment-active"/>
             <ref bean="PositionDepartment-userPrincipalId"/>  
 	      </list>
@@ -116,8 +116,8 @@
 		<property name="label" value="Department" />
 	</bean>
 	
-	<bean id="PositionDepartment-positionDeptAffl" parent="PositionDepartment-positionDeptAffl-parentBean" />
-	<bean id="PositionDepartment-positionDeptAffl-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PositionDepartment-deptAffl" parent="PositionDepartment-deptAffl-parentBean" />
+	<bean id="PositionDepartment-deptAffl-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="60" />
 		<property name="required" value="true" />
 		<property name="shortLabel" value="Affiliation" />
@@ -129,7 +129,7 @@
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
-		<property name="name" value="positionDeptAffl" />
+		<property name="name" value="deptAffl" />
 		<property name="label" value="Affiliation" />
 	</bean>
 	
@@ -186,10 +186,10 @@
         			 p:fieldConversions="dept:department"/>
    		 	 </property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionDeptAffl" >
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="deptAffl" >
         	<property name="quickfinder">
-       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" 
-        			 p:fieldConversions="positionDeptAfflType:positionDeptAffl"/>
+       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"
+        			 p:fieldConversions="deptAfflType:deptAffl"/>
    		 	 </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
@@ -207,7 +207,7 @@
 	        	p:inquiryParameters="pmPositionDeptId:pmPositionDeptId"/>
     		</property>
         </bean>
-        <bean parent="Uif-DataField" p:propertyName="positionDeptAffl" />
+        <bean parent="Uif-DataField" p:propertyName="deptAffl" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -228,7 +228,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="department" />
-			        <bean parent="Uif-DataField" p:propertyName="positionDeptAffl" />			        			        
+			        <bean parent="Uif-DataField" p:propertyName="deptAffl" />			        			        
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
                     <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
 	        	</list>
@@ -268,10 +268,10 @@
 		        			 p:fieldConversions="dept:department"/>
 		   		 	 </property>
 		        </bean>
-				<bean parent="Uif-InputField" p:propertyName="positionDeptAffl" >
+				<bean parent="Uif-InputField" p:propertyName="deptAffl" >
 					<property name="quickfinder">
-       					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation" 
-        			 	p:fieldConversions="positionDeptAfflType:positionDeptAffl"/>
+       					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"
+        			 	p:fieldConversions="deptAfflType:deptAffl"/>
    		 	 		</property>
 				</bean>		        
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>

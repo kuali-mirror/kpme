@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
@@ -31,7 +32,6 @@ import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
-import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
@@ -331,7 +331,7 @@ public class Position extends PositionBase implements PositionContract {
 
 		if (this.departmentList != null && this.departmentList.size() > 0) {
 			for (PositionDepartment department: this.departmentList) {
-				PositionDepartmentAffiliation pda = department.getPositionDeptAfflObj();
+				DepartmentAffiliation pda = department.getDeptAfflObj();
 				if (pda.isPrimaryIndicator()) {
 					primaryDepartment = department.getDepartment();
 					break;

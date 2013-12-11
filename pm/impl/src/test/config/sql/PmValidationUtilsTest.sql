@@ -23,7 +23,7 @@ delete from PM_PSTN_RPT_SUB_CAT_T where pm_pstn_rpt_sub_cat_id >= 5000;
 delete from PM_PSTN_RPT_GRP_T where pm_pstn_rpt_grp_id >= 5000;
 delete from PM_PSTN_QLFCTN_VL_T where PM_PSTN_QLFCTN_VL_ID >= 5000;
 delete from HR_PAY_GRADE_T where HR_PAY_GRADE_ID >= 5000;
-delete from PM_PSTN_DEPT_AFFL_T where PM_PSTN_DEPT_AFFL_ID >= 5000;
+delete from HR_DEPT_AFFL_T where HR_DEPT_AFFL_ID >= 5000;
 delete from PM_PSTN_TYP_T where PM_PSTN_TYP_ID >= 5000;
 
 insert into PM_INSTITUTION_T (`pm_institution_id`, `effdt`, `institution_code`, `description`, `active`, `timestamp`) values ('5000', '2012-01-01', 'testInst', 'test', 'Y', now());
@@ -35,5 +35,5 @@ insert into PM_PSTN_RPT_SUB_CAT_T (`pm_pstn_rpt_sub_cat_id`, `pstn_rpt_sub_cat`,
 insert into PM_PSTN_RPT_GRP_T (`pm_pstn_rpt_grp_id`, `pstn_rpt_grp`, `description`, `institution`, `location`, `effdt`, `active`,  `timestamp`, `obj_id`, `ver_nbr` ) values ('5000', 'testPRG', null, 'testInst', 'BL', '2012-01-01', 'Y', now(), uuid(), '1');
 insert into PM_PSTN_QLFCTN_VL_T(`PM_PSTN_QLFCTN_VL_ID`, `VL_NM`, `OBJ_ID`, `VER_NBR`) values ('5000', 'existing', uuid(), '1');
 insert into HR_PAY_GRADE_T(`HR_PAY_GRADE_ID`,`PAY_GRADE`,`DESCRIPTION`,`TIMESTAMP`,`ACTIVE`,`EFFDT`,`SAL_GROUP`,`INSTITUTION`,`LOCATION`) values ('5000','T','test',now(),'Y','2012-01-01','testSalGrp','testInst','BL');
-insert into PM_PSTN_DEPT_AFFL_T(`PM_PSTN_DEPT_AFFL_ID`,`PSTN_DEPT_AFFL_TYP`,`EFFDT`,`PRIMARY_INDICATOR`,`ACTIVE`,`VER_NBR`) values ('5000','testType','2012-01-01','Y','Y',1);
+insert into HR_DEPT_AFFL_T(`HR_DEPT_AFFL_ID`,`DEPT_AFFL_TYP`,`EFFDT`,`PRIMARY_INDICATOR`,`ACTIVE`,`VER_NBR`) values ('5000','testType','2012-01-01','Y','Y',1);
 insert into PM_PSTN_TYP_T(`PM_PSTN_TYP_ID`,`PSTN_TYP`,`INSTITUTION`,`LOCATION`,`EFFDT`,`ACTIVE`,`VER_NBR`) values ('5000','testTyp','testInst','BL','2012-01-01','Y',1);

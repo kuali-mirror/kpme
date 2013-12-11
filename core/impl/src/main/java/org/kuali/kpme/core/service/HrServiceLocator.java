@@ -23,6 +23,7 @@ import org.kuali.kpme.core.api.block.service.CalendarBlockService;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.api.calendar.service.CalendarService;
 import org.kuali.kpme.core.api.department.service.DepartmentService;
+import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.api.earncode.group.service.EarnCodeGroupService;
 import org.kuali.kpme.core.api.earncode.security.service.EarnCodeSecurityService;
 import org.kuali.kpme.core.api.earncode.service.EarnCodeService;
@@ -77,6 +78,7 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static final String HR_PAY_TYPE_SERVICE = "payTypeService";
 	public static final String HR_WORK_AREA_SERVICE = "workAreaService";
 	public static final String HR_DEPARTMENT_SERVICE = "departmentService";
+    public static final String DEPT_AFFL_SERVICE = "departmentAffiliationService";
 	public static final String HR_EARN_CODE = "earnCodeService";
 	public static final String HR_EARN_CODE_SECURITY = "earnCodeSecurityService";
 	public static final String HR_TIME_EARN_CODE_GROUP_SERVICE = "earnCodeGroupService";
@@ -123,6 +125,10 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static DepartmentService getDepartmentService() {
 		return (DepartmentService) CONTEXT.getBean(HR_DEPARTMENT_SERVICE);
 	}
+
+    public static DepartmentAffiliationService getDepartmentAffiliationService() {
+        return (DepartmentAffiliationService) CONTEXT.getBean(DEPT_AFFL_SERVICE);
+    }
 
 	public static WorkAreaService getWorkAreaService() {
 	    return (WorkAreaService)CONTEXT.getBean(HR_WORK_AREA_SERVICE);

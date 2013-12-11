@@ -170,6 +170,8 @@
 
     <bean id="departmentDao" class="org.kuali.kpme.core.department.dao.DepartmentDaoOjbImpl" parent="platformAwareDao" />
 
+    <bean id="departmentAffiliationDao" class="org.kuali.kpme.core.departmentaffiliation.dao.DepartmentAffiliationDaoObjImpl" parent="platformAwareDao" />
+
     <bean id="earnCodeSecurityDao" class="org.kuali.kpme.core.earncode.security.dao.EarnCodeSecurityDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="earnCodeDao" class="org.kuali.kpme.core.earncode.dao.EarnCodeDaoOjbImpl" parent="platformAwareDao" />
@@ -254,6 +256,10 @@
 
     <bean id="departmentService" class="org.kuali.kpme.core.department.service.DepartmentServiceImpl">
         <property name="departmentDao" ref="departmentDao"/>
+    </bean>
+
+    <bean id="departmentAffiliationService" class="org.kuali.kpme.core.departmentaffiliation.service.DepartmentAffiliationServiceImpl">
+        <property name="departmentAffiliationDao" ref="departmentAffiliationDao"/>
     </bean>
 
     <bean id="earnCodeService" class="org.kuali.kpme.core.earncode.service.EarnCodeServiceImpl">
@@ -531,6 +537,7 @@
                 <idref local="principalHRAttributesService"/>
                 <idref local="earnCodeSecurityService"/>
                 <idref local="departmentService"/>
+                <idref local="departmentAffiliationService"/>
                 <idref local="earnCodeService"/>
                 <idref local="earnCodeGroupService"/>
                 <idref local="salaryGroupService"/>

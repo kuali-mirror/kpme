@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positiondepartmentaffiliation.web;
+package org.kuali.kpme.core.departmentaffiliation.dao;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import java.util.List;
 
-public class PositionDepartmentAffiliationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
-	
-	private static final long serialVersionUID = 1L;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 
-	@Override
-	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) PmServiceLocator.getPositionDepartmentAffiliationService().getPositionDepartmentAffiliationById(id);
-	}
+public interface DepartmentAffiliationDao {
+
+    public DepartmentAffiliation getDepartmentAffiliationById(String hrDeptAfflId);
+    public DepartmentAffiliation getDepartmentAffiliationByType(String deptAfflType);
+    public List<DepartmentAffiliation> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate);
+    public List<DepartmentAffiliation> getAllActiveAffiliations();
+
 }

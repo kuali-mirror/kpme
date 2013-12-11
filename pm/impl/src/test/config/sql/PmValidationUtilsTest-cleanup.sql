@@ -23,5 +23,5 @@ delete from PM_PSTN_RPT_SUB_CAT_T where pm_pstn_rpt_sub_cat_id >= 5000;
 delete from PM_PSTN_RPT_GRP_T where pm_pstn_rpt_grp_id >= 5000;
 delete from PM_PSTN_QLFCTN_VL_T where PM_PSTN_QLFCTN_VL_ID >= 5000;
 delete from HR_PAY_GRADE_T where HR_PAY_GRADE_ID >= 5000;
-delete from PM_PSTN_DEPT_AFFL_T where PM_PSTN_DEPT_AFFL_ID >= 5000;
+delete from HR_DEPT_AFFL_T where HR_DEPT_AFFL_ID >= 5000;
 delete from PM_PSTN_TYP_T where PM_PSTN_TYP_ID >= 5000;

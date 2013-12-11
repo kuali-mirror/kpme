@@ -15,13 +15,14 @@
  */
 package org.kuali.kpme.pm.positiondepartment;
 
+import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
-import org.kuali.kpme.pm.positiondepartmentaffiliation.PositionDepartmentAffiliation;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.springframework.util.StringUtils;
 
@@ -31,7 +32,7 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	
     private static final String DEPARTMENT = "department";
 
-	//TODO reslove the issue with PositionDepartmentAffiliation to implement  PositionDepartmentContract
+	//TODO reslove the issue with DepartmentAffiliation to implement  PositionDepartmentContract
 	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		    .add(DEPARTMENT)
@@ -43,13 +44,13 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	private String institution;
 	private String location;
 	private String department;
-	private String positionDeptAffl;
+	private String deptAffl;
 
     private String hrPositionId;
 	private Location locationObj;
 	private Institution institutionObj;
 	private Department departmentObj;
-	private PositionDepartmentAffiliation positionDeptAfflObj;
+	private DepartmentAffiliation deptAfflObj;
 
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -70,44 +71,44 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 
 	@Override
 	protected String getUniqueKey() {
-		return  getInstitution() + "_" + getLocation() + "_" + getDepartment() + "_" + getPositionDeptAffl()	;
+		return  getInstitution() + "_" + getLocation() + "_" + getDepartment() + "_" + getDeptAffl()	;
 	}
 
 	/**
-	 * @return the positionDeptAffl
+	 * @return the DeptAffl
 	 */
-	public String getPositionDeptAffl() {
-		return positionDeptAffl;
+	public String getDeptAffl() {
+		return deptAffl;
 	}
 
 	/**
-	 * @param positionDeptAffl the positionDeptAffl to set
+	 * @param deptAffl the deptAffl to set
 	 */
-	public void setPositionDeptAffl(String positionDeptAffl) {
-		this.positionDeptAffl = positionDeptAffl;
+	public void setDeptAffl(String deptAffl) {
+		this.deptAffl = deptAffl;
 	}
 
 	/**
-	 * @return the positionDeptAfflObj
+	 * @return the deptAfflObj
 	 */
-	public PositionDepartmentAffiliation getPositionDeptAfflObj() {
+	public DepartmentAffiliation getDeptAfflObj() {
 		
-		if (positionDeptAfflObj == null) {
-			if (!StringUtils.isEmpty(positionDeptAffl)) {
-				PositionDepartmentAffiliationService pdaService = PmServiceLocator.getPositionDepartmentAffiliationService();
-				positionDeptAfflObj = (PositionDepartmentAffiliation)pdaService.getPositionDepartmentAffiliationByType(positionDeptAffl);				
+		if (deptAfflObj == null) {
+			if (!StringUtils.isEmpty(deptAffl)) {
+				DepartmentAffiliationService pdaService = HrServiceLocator.getDepartmentAffiliationService();
+				deptAfflObj = (DepartmentAffiliation)pdaService.getDepartmentAffiliationByType(deptAffl);
 			}
 		} 
 		
-		return positionDeptAfflObj;
+		return deptAfflObj;
 	}
 
 	/**
-	 * @param positionDeptAfflObj the positionDeptAfflObj to set
+	 * @param deptAfflObj the deptAfflObj to set
 	 */
-	public void setPositionDeptAfflObj(
-			PositionDepartmentAffiliation positionDeptAfflObj) {
-		this.positionDeptAfflObj = positionDeptAfflObj;
+	public void setDeptAfflObj(
+			DepartmentAffiliation deptAfflObj) {
+		this.deptAfflObj = deptAfflObj;
 	}
 
     /**

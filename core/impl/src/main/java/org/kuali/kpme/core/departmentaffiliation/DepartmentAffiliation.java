@@ -13,76 +13,76 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.positiondepartmentaffiliation;
+package org.kuali.kpme.core.departmentaffiliation;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
+import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-public class PositionDepartmentAffiliation extends HrBusinessObject implements PositionDepartmentAffiliationContract {
+public class DepartmentAffiliation extends HrBusinessObject implements DepartmentAffiliationContract {
 	
-	private static final String POSITION_DEPT_AFFL_TYPE = "positionDeptAfflType";
+	private static final String DEPT_AFFL_TYPE = "deptAfflType";
 
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-		    .add(POSITION_DEPT_AFFL_TYPE)
+		    .add(DEPT_AFFL_TYPE)
 		    .build();
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String pmPositionDeptAfflId;
-	private String positionDeptAfflType;
+	private String hrDeptAfflId;
+	private String deptAfflType;
 	private boolean primaryIndicator;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
-				.put(POSITION_DEPT_AFFL_TYPE, this.getPositionDeptAfflType())
+				.put(DEPT_AFFL_TYPE, this.getDeptAfflType())
 				.build();
 	}
 	
 
 	@Override
 	public String getId() {
-		return this.getPmPositionDeptAfflId();
+		return this.getHrDeptAfflId();
 	}
 
 	@Override
 	public void setId(String id) {
-		setPmPositionDeptAfflId(id);
+		setHrDeptAfflId(id);
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionDeptAfflType();
+		return getDeptAfflType();
 	}
 
 	/**
-	 * @return the pmPositionDeptAfflId
+	 * @return the hrDeptAfflId
 	 */
-	public String getPmPositionDeptAfflId() {
-		return pmPositionDeptAfflId;
+	public String getHrDeptAfflId() {
+		return hrDeptAfflId;
 	}
 
 	/**
-	 * @param pmPositionDeptAfflId the pmPositionDeptAfflId to set
+	 * @param hrDeptAfflId the hrDeptAfflId to set
 	 */
-	public void setPmPositionDeptAfflId(String pmPositionDeptAfflId) {
-		this.pmPositionDeptAfflId = pmPositionDeptAfflId;
+	public void setHrDeptAfflId(String hrDeptAfflId) {
+		this.hrDeptAfflId = hrDeptAfflId;
 	}
 
 	/**
-	 * @return the positionDeptAfflType
+	 * @return the deptAfflType
 	 */
-	public String getPositionDeptAfflType() {
-		return positionDeptAfflType;
+	public String getDeptAfflType() {
+		return deptAfflType;
 	}
 
 	/**
-	 * @param positionDeptAfflType the positionDeptAfflType to set
+	 * @param deptAfflType the deptAfflType to set
 	 */
-	public void setPositionDeptAfflType(String positionDeptAfflType) {
-		this.positionDeptAfflType = positionDeptAfflType;
+	public void setDeptAfflType(String deptAfflType) {
+		this.deptAfflType = deptAfflType;
 	}
 
 	/**

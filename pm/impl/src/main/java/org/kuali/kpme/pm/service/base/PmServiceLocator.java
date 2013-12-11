@@ -24,7 +24,6 @@ import org.kuali.kpme.pm.api.position.service.PositionService;
 import org.kuali.kpme.pm.api.positionresponsibilityoption.service.PositionResponsibilityOptionService;
 import org.kuali.kpme.pm.api.positionappointment.service.PositionAppointmentService;
 import org.kuali.kpme.pm.api.positiondepartment.service.PositionDepartmentService;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.service.PositionDepartmentAffiliationService;
 import org.kuali.kpme.pm.api.positionflag.service.PositionFlagService;
 import org.kuali.kpme.pm.api.positionreportcat.service.PositionReportCatService;
 import org.kuali.kpme.pm.api.positionreportgroup.service.PositionReportGroupService;
@@ -58,7 +57,6 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_QUALIFIER_TYPE_SERVICE = "pstnQlfrTypeService";
     public static final String PM_POSITION_QUALIFICATION_VALUE_SERVICE = "pstnQlfctnVlService";
     public static final String PM_POSITION_APPOINTMENT_SERVICE = "positionAppointmentService";
-    public static final String PM_POSITION_DEPT_AFFL_SERVICE = "positionDepartmentAffiliationService";
     public static final String PM_POSITION_DEPT_SERVICE = "positionDepartmentService";
     public static final String PM_CLASSIFICATION_SERVICE = "classificationService";
     public static final String PM_CLASSIFICATION_QUAL_SERVICE = "classificationQualificationService";
@@ -109,10 +107,6 @@ public class PmServiceLocator implements ApplicationContextAware {
 	
 	public static PstnContractTypeService getPstnContractTypeService() {
 		return (PstnContractTypeService) CONTEXT.getBean(PM_PSTN_CONTRACT_TYPE_SERVICE);
-	}
-
-	public static PositionDepartmentAffiliationService getPositionDepartmentAffiliationService() {
-		return (PositionDepartmentAffiliationService) CONTEXT.getBean(PM_POSITION_DEPT_AFFL_SERVICE);
 	}
 	
 	public static PositionAppointmentService getPositionAppointmentService() {

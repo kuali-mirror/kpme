@@ -91,10 +91,10 @@ public class PositionDepartmentValidation extends MaintenanceDocumentRuleBase  {
 	}
 	
 	private boolean validateAffiliation(PositionDepartment positionDepartment) {
-		if (StringUtils.isNotEmpty(positionDepartment.getPositionDeptAffl())
-				&& !PmValidationUtils.validateAffiliation(positionDepartment.getPositionDeptAffl(), positionDepartment.getEffectiveLocalDate())) {
-			this.putFieldError("positionDeptAffl", "error.existence", "Affiliation '"
-					+ positionDepartment.getPositionDeptAffl() + "'");
+		if (StringUtils.isNotEmpty(positionDepartment.getDeptAffl())
+				&& !PmValidationUtils.validateAffiliation(positionDepartment.getDeptAffl(), positionDepartment.getEffectiveLocalDate())) {
+			this.putFieldError("deptAffl", "error.existence", "Affiliation '"
+					+ positionDepartment.getDeptAffl() + "'");
 			return false;
 		} else {
 			return true;

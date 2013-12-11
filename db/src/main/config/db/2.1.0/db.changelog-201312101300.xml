@@ -1,0 +1,34 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1" author="jwillia" context="kpme-client-bootstrap">
+        <renameColumn tableName="PM_PSTN_DEPT_AFFL_T" newColumnName="HR_DEPT_AFFL_ID" oldColumnName="PM_PSTN_DEPT_AFFL_ID" columnDataType="VARCHAR(60)"/>
+        <renameColumn tableName="PM_PSTN_DEPT_AFFL_T" newColumnName="DEPT_AFFL_TYP" oldColumnName="PSTN_DEPT_AFFL_TYP" columnDataType="VARCHAR(60)"/>
+    </changeSet>
+    <changeSet id="2" author="jwillia" context="kpme-client-bootstrap">
+        <renameTable newTableName="HR_DEPT_AFFL_T" oldTableName="PM_PSTN_DEPT_AFFL_T"/>
+    </changeSet>
+    <changeSet id="3" author="jwillia" context="kpme-client-bootstrap">
+        <renameTable newTableName="HR_DEPT_AFFL_S" oldTableName="PM_PSTN_DEPT_AFFL_S"/>
+    </changeSet>
+    <changeSet id="4" author="jwillia" context="kpme-client-bootstrap">
+        <renameColumn tableName="PM_PSTN_DEPT_T" newColumnName="DEPT_AFFL_TYP" oldColumnName="PSTN_DEPT_AFFL_TYP" columnDataType="VARCHAR(60)"/>
+    </changeSet>
+</databaseChangeLog>

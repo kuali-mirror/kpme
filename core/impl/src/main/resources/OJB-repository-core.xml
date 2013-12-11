@@ -140,7 +140,21 @@
         <field-descriptor name="active"         	column="ACTIVE"      	jdbc-type="VARCHAR"    length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
     </class-descriptor>
-    
+
+
+    <!-- Department Affliation-->
+    <!-- Business Keys - [DeptAfflType : effectiveDate : timestamp] -->
+    <class-descriptor class="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation" table="HR_DEPT_AFFL_T">
+        <field-descriptor name="hrDeptAfflId"           column="HR_DEPT_AFFL_ID"  	jdbc-type="VARCHAR"     length="60" 	  primarykey="true" autoincrement="true" sequence-name="HR_DEPT_AFFL_S" />
+        <field-descriptor name="deptAfflType"           column="DEPT_AFFL_TYP"		jdbc-type="VARCHAR"     length="60" 	  nullable="false" />
+        <field-descriptor name="active"                 column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" 		  nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="primaryIndicator"       column="PRIMARY_INDICATOR"      jdbc-type="VARCHAR"     length="1" 		  nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"          column="EFFDT"    		        jdbc-type="DATE"        nullable="true"	  conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false"  conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"          	    jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" nullable="false" />
+    </class-descriptor>
     <!--  Added for Work Area Table -->
     <class-descriptor class="org.kuali.kpme.core.workarea.WorkArea" table="TK_WORK_AREA_T">
         <field-descriptor name="tkWorkAreaId"               column="TK_WORK_AREA_ID"            jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_WORK_AREA_S" />

@@ -13,47 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.api.positiondepartmentaffiliation;
+package org.kuali.kpme.core.api.departmentaffiliation;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 
 /**
- * <p>PositionDepartmentAffiliationContract interface</p>
+ * <p>DepartmentAffiliationContract interface</p>
  *
  */
-public interface PositionDepartmentAffiliationContract extends HrBusinessObjectContract {
+public interface DepartmentAffiliationContract extends HrBusinessObjectContract {
 
     /**
-     * The primary key for a PositionDepartmentAffiliation entry saved in the database
+     * The primary key for a DepartmentAffiliation entry saved in the database
      *
      * <p>
-     * pmPositionDeptAfflId of a PositionDepartmentAffiliation.
+     * hrDeptAfflId of a DepartmentAffiliation.
      * <p>
      *
-     * @return pmPositionDeptAfflId for PositionDepartmentAffiliation
+     * @return hrDeptAfflId for DepartmentAffiliation
      */
-	public String getPmPositionDeptAfflId();
+    public String getHrDeptAfflId();
 
     /**
      * The name of affiliation types positions may have with departments 
      *
      * <p>
-     * positionDeptAfflType of a PositionDepartmentAffiliation.
+     * deptAfflType of a DepartmentAffiliation.
      * <p>
      *
-     * @return positionDeptAfflType for PositionDepartmentAffiliation
+     * @return deptAfflType for departmentAffiliation
      */
-	public String getPositionDeptAfflType();
+    public String getDeptAfflType();
 
     /**
      * The flag that indicates the department affiliation is the primary department that could be used to determine department's access to modify position data
      *
      * <p>
-     * primaryIndicator of a Position Department Affiliation.
+     * primaryIndicator of a Department Affiliation.
      * <p>
      *
-     * @return primaryIndicator for Position Department Affiliation
+     * @return primaryIndicator for Department Affiliation
      */
-	public boolean isPrimaryIndicator();
+    public boolean isPrimaryIndicator();
 
 }

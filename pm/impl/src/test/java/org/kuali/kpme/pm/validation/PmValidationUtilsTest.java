@@ -218,16 +218,16 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
     @Test
     public void testValidateAffiliation() {
        DateTime aDate = INVALID_DATE;
-       String positionDeptAffl = "nonExist";
-       boolean results = PmValidationUtils.validateAffiliation(positionDeptAffl, aDate.toLocalDate()); //non-existing
+       String deptAffl = "nonExist";
+       boolean results = PmValidationUtils.validateAffiliation(deptAffl, aDate.toLocalDate()); //non-existing
        Assert.assertFalse(results);
 
-       positionDeptAffl = "testType";
-       results = PmValidationUtils.validateAffiliation(positionDeptAffl, aDate.toLocalDate()); //existing, but wrong date
+       deptAffl = "testType";
+       results = PmValidationUtils.validateAffiliation(deptAffl, aDate.toLocalDate()); //existing, but wrong date
        Assert.assertFalse(results);
 
        aDate = VALID_DATE;
-       results = PmValidationUtils.validateAffiliation(positionDeptAffl, aDate.toLocalDate());
+       results = PmValidationUtils.validateAffiliation(deptAffl, aDate.toLocalDate());
        Assert.assertTrue(results);
 
     }

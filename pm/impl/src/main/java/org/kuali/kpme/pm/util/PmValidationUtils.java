@@ -20,13 +20,13 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
-import org.kuali.kpme.pm.api.positiondepartmentaffiliation.PositionDepartmentAffiliationContract;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
@@ -171,9 +171,9 @@ public class PmValidationUtils {
 		return false;
 	}
 	
-	public static boolean validateAffiliation(String positionDeptAffl,  LocalDate asOfDate) {
+	public static boolean validateAffiliation(String deptAffl,  LocalDate asOfDate) {
 		if (asOfDate != null) {
-			List<? extends PositionDepartmentAffiliationContract> pdaList = PmServiceLocator.getPositionDepartmentAffiliationService().getPositionDepartmentAffiliationList(positionDeptAffl, asOfDate);
+			List<? extends DepartmentAffiliationContract> pdaList = HrServiceLocator.getDepartmentAffiliationService().getDepartmentAffiliationList(deptAffl, asOfDate);
 			return CollectionUtils.isNotEmpty(pdaList);
 		}
 		return false;
