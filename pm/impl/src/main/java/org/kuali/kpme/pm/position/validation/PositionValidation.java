@@ -69,6 +69,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 	// Now each section is its own page that if you want to show errors globally, you have to catch them globally
 	private boolean validateOverviewPage(Position aPosition) {
 
+		// required fields
 		if (aPosition.getEffectiveDate() == null
 				|| StringUtils.isEmpty(aPosition.getDescription())
 				|| StringUtils.isEmpty(aPosition.getPositionStatus())
@@ -78,30 +79,44 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 			this.putFieldError("positionNumber", "error.overview.fields.required");
 			return false;
-		} else {
-			// validate appointment type
-			if (!StringUtils.isEmpty(aPosition.getAppointmentType())) {
-				List <PositionDepartment> depts = aPosition.getDepartmentList();
-				if (depts != null && depts.size() > 0) {
-					boolean found = false;
-					for (PositionDepartment aPos : depts) {
-						if (PmValidationUtils.validatePositionAppointmentType(aPosition.getAppointmentType(), aPos.getInstitution(), aPos.getLocation(), aPosition.getEffectiveLocalDate())) {
-							found = true;
-							break;
-						}
-					}
-					if (!found) {
-						this.putFieldError("appointmentType", "error.existence", "Appointment Type '" + aPosition.getAppointmentType() + "'");
-						return false;						
+		}
+		
+		// validate appointment type
+		if (!StringUtils.isEmpty(aPosition.getAppointmentType())) {
+			List <PositionDepartment> depts = aPosition.getDepartmentList();
+			if (depts != null && depts.size() > 0) {
+				boolean found = false;
+				for (PositionDepartment aPos : depts) {
+					if (PmValidationUtils.validatePositionAppointmentType(aPosition.getAppointmentType(), aPos.getInstitution(), aPos.getLocation(), aPosition.getEffectiveLocalDate())) {
+						found = true;
+						break;
 					}
 				}
+				if (!found) {
+					this.putFieldError("appointmentType", "error.existence", "Appointment Type '" + aPosition.getAppointmentType() + "'");
+					return false;						
+				}
 			}
-			// validate contract type
-			if (!StringUtils.isEmpty(aPosition.getContractType())) {
+		}
+		
+		// validate contract and contrqact type
+		if (StringUtils.equals(aPosition.getContract(), "Y")) {
+			if (StringUtils.isEmpty(aPosition.getContractType())) {
+				this.putFieldError("contractType", "error.overview.fields.required");
+				return false;
+			} else {
 				if (!PmValidationUtils.validatePositionContractType(aPosition.getContractType(), aPosition.getInstitution(), aPosition.getLocation(), aPosition.getEffectiveLocalDate())) {
 					this.putFieldError("contractType", "error.existence", "Contract Type '" + aPosition.getContractType() + "'");
 					return false;
 				}
+			}
+		}
+		
+		// validate renewal eligible
+		if (aPosition.getExpectedEndDate() != null) {
+			if (StringUtils.isEmpty(aPosition.getRenewEligible())) {
+				this.putFieldError("renewEligible", "error.overview.fields.required");
+				return false;
 			}
 		}
 		
@@ -117,6 +132,13 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 			this.putFieldError("pmPositionClassId", "error.classication.fields.required");
 			return false;
+		}
+		// validate leave plan
+		if (StringUtils.equals(aPosition.getLeaveEligible(), "Y")) {
+			if (StringUtils.isEmpty(aPosition.getLeavePlan())) {
+				this.putFieldError("leavePlan", "error.classication.fields.required");
+				return false;
+			} 
 		}
 		
 		return true;
