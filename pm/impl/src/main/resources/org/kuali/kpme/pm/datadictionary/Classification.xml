@@ -530,18 +530,18 @@
 				</property>
 				<property name="propertyReplacers">
 				    <list>
-<!-- 				   		 if the typevalue of selected type is not select,  use text control instead -->
-				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue eq 'T' or #line.typeValue eq 'N'"> 
+						<!-- if the typevalue of selected type is not select,  use text control instead -->
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue eq 'Text' or #line.typeValue eq 'Number'"> 
 				           <property name="replacement">
-				            <bean parent="Uif-TextControl" />
+				           	<bean parent="Uif-TextControl" />
 				           </property>
 				        </bean>
-				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'T'"> 
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'Text'"> 
 				           <property name="replacement">
-				            <bean parent="AnyCharacterPatternConstraint" />
+				           	<bean parent="AnyCharacterPatternConstraint" />
 				           </property>
 				        </bean>
-				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'N'"> 
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'Number'"> 
 				           <property name="replacement">
 				            <bean parent="NumericPatternConstraint" />
 				           </property>
