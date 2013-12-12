@@ -393,16 +393,6 @@
              </property>
              <property name="quickfinder.autoSearch" value="true"/>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="percentTime" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="benefitsEligible" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveEligible" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
-        	<property name="quickfinder">
-       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
-        			 p:fieldConversions="leavePlan:leavePlan"/>
-   		 	</property>
-   		 	<property name="quickfinder.autoSearch" value="true"/>
-        </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup">
         	<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
@@ -437,10 +427,6 @@
         <bean parent="Uif-DataField" p:propertyName="location" />
         <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
         <bean parent="Uif-DataField" p:propertyName="payGrade" />
-        <bean parent="Uif-DataField" p:propertyName="percentTime" />
-        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
-        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
-        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
         <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
         <bean parent="Uif-DataField" p:propertyName="positionType" />
         <bean parent="Uif-DataField" p:propertyName="poolEligible" />
