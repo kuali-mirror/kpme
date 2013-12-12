@@ -25,6 +25,7 @@ delete from PM_PSTN_QLFCTN_VL_T where PM_PSTN_QLFCTN_VL_ID >= 5000;
 delete from HR_PAY_GRADE_T where HR_PAY_GRADE_ID >= 5000;
 delete from HR_DEPT_AFFL_T where HR_DEPT_AFFL_ID >= 5000;
 delete from PM_PSTN_TYP_T where PM_PSTN_TYP_ID >= 5000;
+delete from PM_PSTN_APPOINTMENT_T where PM_PSTN_APPOINTMENT_ID >=5000
 
 insert into PM_INSTITUTION_T (`pm_institution_id`, `effdt`, `institution_code`, `description`, `active`, `timestamp`) values ('5000', '2012-01-01', 'testInst', 'test', 'Y', now());
 insert into KRLC_CMP_T(`campus_cd`, `campus_nm`, `campus_shrt_nm`, `campus_typ_cd`, `obj_id`, `ver_nbr`, `actv_ind`) values ('TS', 'testCam', 'testCam', null, uuid(), '1', 'Y');
@@ -37,3 +38,8 @@ insert into PM_PSTN_QLFCTN_VL_T(`PM_PSTN_QLFCTN_VL_ID`, `VL_NM`, `OBJ_ID`, `VER_
 insert into HR_PAY_GRADE_T(`HR_PAY_GRADE_ID`,`PAY_GRADE`,`DESCRIPTION`,`TIMESTAMP`,`ACTIVE`,`EFFDT`,`SAL_GROUP`,`INSTITUTION`,`LOCATION`) values ('5000','T','test',now(),'Y','2012-01-01','testSalGrp','testInst','BL');
 insert into HR_DEPT_AFFL_T(`HR_DEPT_AFFL_ID`,`DEPT_AFFL_TYP`,`EFFDT`,`PRIMARY_INDICATOR`,`ACTIVE`,`VER_NBR`) values ('5000','testType','2012-01-01','Y','Y',1);
 insert into PM_PSTN_TYP_T(`PM_PSTN_TYP_ID`,`PSTN_TYP`,`INSTITUTION`,`LOCATION`,`EFFDT`,`ACTIVE`,`VER_NBR`) values ('5000','testTyp','testInst','BL','2012-01-01','Y',1);
+
+insert into PM_PSTN_APPOINTMENT_T(`PM_PSTN_APPOINTMENT_ID`,`PSTN_APPOINTMENT`,`DESCRIPTION`,`INSTITUTION`,`LOCATION`,`EFFDT`,`ACTIVE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`USER_PRINCIPAL_ID`) values ('5000','noWildCard','noWildCard','ISU','IA','2010-01-01','Y',now(),1,1,'admin');
+insert into PM_PSTN_APPOINTMENT_T(`PM_PSTN_APPOINTMENT_ID`,`PSTN_APPOINTMENT`,`DESCRIPTION`,`INSTITUTION`,`LOCATION`,`EFFDT`,`ACTIVE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`USER_PRINCIPAL_ID`) values ('5001','institutionWildCard','institutionWildCard','*','IA','2010-01-01','Y',now(),1,1,'admin');
+insert into PM_PSTN_APPOINTMENT_T(`PM_PSTN_APPOINTMENT_ID`,`PSTN_APPOINTMENT`,`DESCRIPTION`,`INSTITUTION`,`LOCATION`,`EFFDT`,`ACTIVE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`USER_PRINCIPAL_ID`) values ('5002','locationWildCard','noWildCard','ISU','*','2010-01-01','Y',now(),1,1,'admin');
+insert into PM_PSTN_APPOINTMENT_T(`PM_PSTN_APPOINTMENT_ID`,`PSTN_APPOINTMENT`,`DESCRIPTION`,`INSTITUTION`,`LOCATION`,`EFFDT`,`ACTIVE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`USER_PRINCIPAL_ID`) values ('5003','bothWildCard','bothWildCard','%','%','2010-01-01','Y',now(),1,1,'admin');

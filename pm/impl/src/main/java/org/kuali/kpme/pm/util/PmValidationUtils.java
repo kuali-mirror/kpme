@@ -189,7 +189,7 @@ public class PmValidationUtils {
 	
 	public static boolean validatePositionAppointmentType(String positionAppointment, String institution, String location, LocalDate asOfDate) {
 		if (StringUtils.isNotEmpty(positionAppointment) && asOfDate != null) {
-			List<? extends PositionAppointmentContract> ptList = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, institution, location, asOfDate);
+			List<? extends PositionAppointmentContract> ptList = PmServiceLocator.getPositionAppointmentService().getValidPositionAppointmentList(positionAppointment, institution, location, asOfDate);
 			return CollectionUtils.isNotEmpty(ptList);
 		}
 		return false;

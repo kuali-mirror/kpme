@@ -25,3 +25,4 @@ delete from PM_PSTN_QLFCTN_VL_T where PM_PSTN_QLFCTN_VL_ID >= 5000;
 delete from HR_PAY_GRADE_T where HR_PAY_GRADE_ID >= 5000;
 delete from HR_DEPT_AFFL_T where HR_DEPT_AFFL_ID >= 5000;
 delete from PM_PSTN_TYP_T where PM_PSTN_TYP_ID >= 5000;
+delete from PM_PSTN_APPOINTMENT_T where PM_PSTN_APPOINTMENT_ID >=5000
