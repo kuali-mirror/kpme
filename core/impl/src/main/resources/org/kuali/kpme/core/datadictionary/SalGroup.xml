@@ -308,15 +308,6 @@
 	        		 p:fieldConversions="location:location" />
 	   		 </property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="percentTime" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="benefitsEligible" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveEligible" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
-        	<property name="quickfinder">
-       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
-        			 p:fieldConversions="leavePlan:leavePlan"/>
-   		 	</property>
-        </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
@@ -332,10 +323,6 @@
         </bean>
         <bean parent="Uif-DataField" p:propertyName="institution" />
         <bean parent="Uif-DataField" p:propertyName="location" />
-        <bean parent="Uif-DataField" p:propertyName="percentTime" />
-        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
-        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
-        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -356,10 +343,6 @@
 		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />       
 		        <bean parent="FieldDefinition" p:attributeName="institution"/>
 		        <bean parent="FieldDefinition" p:attributeName="location"/>
-		        <bean parent="FieldDefinition" p:attributeName="percentTime" />
-		        <bean parent="FieldDefinition" p:attributeName="benefitsEligible" />
-		        <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
-		        <bean parent="FieldDefinition" p:attributeName="leavePlan"/>
 		        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N" />
 		        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
@@ -370,10 +353,6 @@
 		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup"/>
 		        <bean parent="FieldDefinition" p:attributeName="institution" />
 		        <bean parent="FieldDefinition" p:attributeName="location" />
-		        <bean parent="FieldDefinition" p:attributeName="percentTime" />
-		        <bean parent="FieldDefinition" p:attributeName="benefitsEligible" />
-		        <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
-		        <bean parent="FieldDefinition" p:attributeName="leavePlan" />
 		        <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
