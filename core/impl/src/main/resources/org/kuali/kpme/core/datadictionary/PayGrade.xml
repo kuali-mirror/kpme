@@ -307,7 +307,7 @@
                                 Views
     ***************************************************************************-->
     <!-- Lookup View  -->
-    <bean id="PayGrade-LookupView" parent="KPMEUif-ViewLinkLookupView">
+    <bean id="PayGrade-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Pay Grade Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.paygrade.PayGrade"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paygrade.web.PayGradeLookupableImpl" />
@@ -439,7 +439,7 @@
 
     <!-- Pay Grade Maintenance View-->
     <bean id="PayGrade-MaintenanceView" parent="PayGrade-MaintenanceView-ParentBean"/>
-    <bean id="PayGrade-MaintenanceView-ParentBean" abstract="true" parent="Uif-MaintenanceView">
+    <bean id="PayGrade-MaintenanceView-ParentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
         <property name="headerText" value="Pay Grade Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.paygrade.PayGrade"/>
         <property name="items">

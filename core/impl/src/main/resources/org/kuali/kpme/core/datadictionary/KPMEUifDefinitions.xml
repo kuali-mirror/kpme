@@ -37,23 +37,31 @@
     <!-- lookup view for maint docs that have View action link. The page size is changed to 25 in the super view  -->
     <bean id="KPMEUif-ViewLinkLookupView" parent="KPME-ChangedPageSizeLookupView" abstract="true">
         <property name="resultsGroup">
-	        <bean id="KPMEAttributes-LookupView-ViewLink" parent="Uif-LookupResultsCollectionSection">
-		        <property name="lineActions">
-		            <list merge="true">
-		                <bean parent="Uif-ActionLink" p:order="10">
-		                    <property name="actionLabel" value="view" />
-		                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-		                    <property name="finalizeMethodAdditionalArguments">
-		                        <list>
-		                            <value>maintenanceView</value>
-		                        </list>
-		                    </property>
-		                </bean>
-		            </list>
-		        </property>
-            </bean>
+        	<bean parent="KPMEAttributes-LookupView-ViewLink"/>
         </property>
     </bean>
+    
+    <bean id="KPMEAttributes-LookupView-ViewLink" parent="Uif-LookupResultsCollectionSection">
+		<property name="lineActions">
+			<list merge="true">
+		    	<bean parent="Uif-ActionLink" p:order="10">
+		        	<property name="actionLabel" value="view" />
+		            <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+		            <property name="finalizeMethodAdditionalArguments">
+		            	<list>
+		                	<value>maintenanceView</value>
+		                </list>
+		            </property>
+		         </bean>
+		    </list>
+		</property>
+	</bean>
+    
+    <!-- lookup view for BO's that use effective date; maintainance for such BOs is performed via a special controller specified by the overriden property. -->
+    <bean id="KPMEUif-EffectiveDateBOLookupView" parent="KPMEUif-ViewLinkLookupView">
+    	 <property name="maintenanceUrlMapping" value="kpme/effectiveDateMaintenance"/>        
+    </bean>
+    
    
     <bean id="MaintDoc-HiddenFields-parentBean"
           abstract="true" parent="MaintainableSectionDefinition"  >
@@ -65,5 +73,22 @@
             </list>
         </property>
     </bean>
+	
+	
+	
+	
+	<bean id="KPMEEffectiveDateBO-MaintenanceView" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView-parentBean"/>
+  	<bean id="KPMEEffectiveDateBO-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  		<property name="dialogs">
+    		<list>
+        		<bean id="KPMEEffectiveDateWarning-Dialog" parent="KPMEEffectiveDateWarning-Dialog-parentBean"/>
+    		</list>
+  		</property>
+  	</bean>
+  	
+  	<bean id="KPMEEffectiveDateWarning-Dialog-parentBean" parent="Uif-Yes-No-DialogGroup">
+  		<property name="headerText" value="Effective date warning!"/>
+		<property name="promptText" value="A record for this object exists with a later effective date, if you continue with submission, this record will be overwritten when the future effective date takes effect.  Are you sure you want to continue?"/>
+	</bean>
 	
 </beans>

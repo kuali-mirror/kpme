@@ -288,7 +288,7 @@
   	
   <!-- Salary Group Lookup View -->
  
-  <bean id="SalaryGroup-LookupView" parent="KPMEUif-ViewLinkLookupView">
+  <bean id="SalaryGroup-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Salary Group Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.salarygroup.web.SalaryGroupLookupableImpl" />
@@ -424,7 +424,7 @@
   
 <!--  Salary Group Maintenance View -->
   <bean id="SalaryGroup-MaintenanceView" parent="SalaryGroup-MaintenanceView-parentBean"/>
-  <bean id="SalaryGroup-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  <bean id="SalaryGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Salary Group Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
     <property name="items">

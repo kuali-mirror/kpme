@@ -168,7 +168,7 @@
   	
   <!-- Position Appointment Lookup View -->
  
-  <bean id="PositionAppointment-LookupView" parent="KPMEUif-ViewLinkLookupView">
+  <bean id="PositionAppointment-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Appointment Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.positionappointment.web.PositionAppointmentLookupableImpl" />
@@ -240,7 +240,7 @@
   
 <!--  Position Appointment Maintenance View -->
   <bean id="PositionAppointment-MaintenanceView" parent="PositionAppointment-MaintenanceView-parentBean"/>
-  <bean id="PositionAppointment-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  <bean id="PositionAppointment-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Appointment Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment"/>
     <property name="items">

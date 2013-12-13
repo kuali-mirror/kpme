@@ -48,7 +48,7 @@
   <!-- Maintenance Section Definitions -->
 
   <bean id="PositionBaseMaintenanceDocument-MaintenanceView" parent="PositionBaseMaintenanceDocument-PositionBaseMaintenance-parentBean"/>
-  <bean id="PositionBaseMaintenanceDocument-PositionBaseMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  <bean id="PositionBaseMaintenanceDocument-PositionBaseMaintenance-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBase"/>
     <property name="items">
