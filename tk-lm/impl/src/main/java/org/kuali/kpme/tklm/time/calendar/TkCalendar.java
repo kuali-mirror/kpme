@@ -85,8 +85,9 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
 	                 //Set missed punch flag
 	                 for(TimeBlock tb : dayBlocks){
 						if (tb.getClockLogCreated()) {
-							MissedPunch missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(tb.getClockLogBeginId());
-							if (missedPunch != null) {
+							MissedPunch missedPunchClockIn = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(tb.getClockLogBeginId());
+							MissedPunch missedPunchClockOut = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(tb.getClockLogEndId());							
+							if (missedPunchClockIn != null || missedPunchClockOut != null) {
 								tb.setClockedByMissedPunch(Boolean.TRUE);
 							} else {
 								tb.setClockedByMissedPunch(Boolean.FALSE);
