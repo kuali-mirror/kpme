@@ -196,7 +196,7 @@
 
     <!--Position Reporting Category Lookup View-->
 
-    <bean id="PositionReportCat-LookupView" parent="KPME-ChangedPageSizeLookupView">
+    <bean id="PositionReportCat-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
         <property name="headerText" value="Position Report Category Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategory" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
@@ -267,7 +267,7 @@
 	<!--Position Reporting Category Maintenance View-->
 
     <bean id="PositionReportCat-MaintenanceView" parent="PositionReportCat-MaintenanceView-parentBean"/>
-    <bean id="PositionReportCat-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+    <bean id="PositionReportCat-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
         <property name="headerText" value="Position Report Category Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategory"/>
         <property name="items">

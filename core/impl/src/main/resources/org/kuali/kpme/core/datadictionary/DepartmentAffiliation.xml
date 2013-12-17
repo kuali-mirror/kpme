@@ -117,7 +117,7 @@
 
     <!-- Department Affiliation Lookup View -->
 
-    <bean id="DepartmentAffiliation-LookupView" parent="KPME-ChangedPageSizeLookupView">
+    <bean id="DepartmentAffiliation-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
         <property name="headerText" value="Department Affiliation Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
@@ -170,7 +170,7 @@
 
         <!--  Type Maintenance View -->
 <bean id="DepartmentAffiliation-MaintenanceView" parent="DepartmentAffiliation-MaintenanceView-parentBean"/>
-<bean id="DepartmentAffiliation-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+<bean id="DepartmentAffiliation-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
 <property name="headerText" value="Department Affiliation Maintenance"/>
 <property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"/>
     <property name="items">

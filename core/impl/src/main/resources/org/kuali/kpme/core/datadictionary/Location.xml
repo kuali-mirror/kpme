@@ -277,7 +277,7 @@
 	
 	<!-- KRAD Lookup View Definition -->
 
-  <bean id="Location-LookupView" parent="KPME-ChangedPageSizeLookupView">
+  <bean id="Location-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Location Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.location.Location" />
 

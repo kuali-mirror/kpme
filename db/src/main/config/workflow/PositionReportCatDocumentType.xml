@@ -23,9 +23,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>PositionReportCatMaintenanceDocumentType</name>
-			<parent>KpmeDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.positionReportCat.PositionReportCategory
-            </docHandler>
+			<parent>KpmeEffectiveDateMaintenanceDocumentType</parent>
 			<label>Position Report Category Maintenance</label>
 		</documentType>   
      </documentTypes>

@@ -22,8 +22,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
         <documentType>
             <name>DepartmentAffiliationMaintenanceDocumentType</name>
-            <parent>KpmeDocument</parent>
-            <docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler</docHandler>
+            <parent>KpmeEffectiveDateMaintenanceDocumentType</parent>
             <label>Department Affiliation Maintenance</label>
         </documentType>
     </documentTypes>

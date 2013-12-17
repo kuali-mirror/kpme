@@ -119,7 +119,7 @@
   	
   <!-- Position Flag Lookup View -->
  
-  <bean id="PositionFlag-LookupView" parent="KPME-ChangedPageSizeLookupView">
+  <bean id="PositionFlag-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Position Flag Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
@@ -175,7 +175,7 @@
   
 <!--  Position Flag Maintenance View -->
   <bean id="PositionFlag-MaintenanceView" parent="PositionFlag-MaintenanceView-parentBean"/>
-  <bean id="PositionFlag-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  <bean id="PositionFlag-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Flag Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
     <property name="items">

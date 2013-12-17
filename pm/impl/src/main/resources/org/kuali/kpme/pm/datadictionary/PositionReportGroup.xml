@@ -244,7 +244,7 @@
 
 <!--  Position Reporting Group Maintenance View -->
     <bean id="PositionReportGroup-MaintenanceView" parent="PositionReportGroup-MaintenanceView-parentBean"/>
-    <bean id="PositionReportGroup-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+    <bean id="PositionReportGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
       <property name="headerText" value="Position Report Group Inquiry"/>
       <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup"/>
       <property name="items">

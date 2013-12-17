@@ -222,7 +222,7 @@
 
   <!-- KRAD Lookup View Definition -->
  
-  <bean id="Institution-LookupView" parent="KPME-ChangedPageSizeLookupView">
+  <bean id="Institution-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Institution Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.institution.Institution" />
     <property name="criteriaFields">

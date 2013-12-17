@@ -22,9 +22,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>PositionFlagMaintenanceDocumentType</name>
-			<parent>KpmeDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.positionflag.PositionFlag
-			</docHandler>
+			<parent>KpmeEffectiveDateMaintenanceDocumentType</parent>
 			<label>Position Flag Maintenance</label>
 		</documentType>   
      </documentTypes>

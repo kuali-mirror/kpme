@@ -330,7 +330,7 @@
 	
 <!-- KRAD Lookup View Definition -->
  
-  <bean id="LeavePlan-LookupView" parent="KPME-ChangedPageSizeLookupView">
+  <bean id="LeavePlan-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="LeavePlan Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.leaveplan.LeavePlan" />
     <property name="criteriaFields">

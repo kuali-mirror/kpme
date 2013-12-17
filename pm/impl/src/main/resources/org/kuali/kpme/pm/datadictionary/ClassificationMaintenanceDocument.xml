@@ -31,7 +31,7 @@
   
   <!--  Position Classification Maintenance View -->
   <bean id="Classification-MaintenanceView" parent="Classification-MaintenanceView-parentBean"/>
-  <bean id="Classification-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  <bean id="Classification-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Classification Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification"/>
     <property name="items">

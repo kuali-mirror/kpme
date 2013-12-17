@@ -259,7 +259,7 @@
 	
 	<bean id="PositionResponsibility-MaintenanceView" parent="PositionResponsibility-MaintenanceView-parentBean" />
 	<bean id="PositionResponsibility-MaintenanceView-parentBean"
-		abstract="true" parent="Uif-MaintenanceView">
+		abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
 		<property name="headerText" value="Position Responsibility Maintenance" />
 		<property name="dataObjectClassName"
 			value="org.kuali.hr.pm.positionresponsibility.PositionResponsibility" />

@@ -57,8 +57,13 @@
 		</property>
 	</bean>
     
-    <!-- lookup view for BO's that use effective date; maintainance for such BOs is performed via a special controller specified by the overriden property. -->
-    <bean id="KPMEUif-EffectiveDateBOLookupView" parent="KPMEUif-ViewLinkLookupView">
+    <!-- lookup view for BO's that use effective date (and a view link from lookup); maintainance for such BOs is performed via a special controller specified by the overriden property. -->
+    <bean id="KPMEUif-EffectiveDateBOLookupView" parent="KPMEUif-ViewLinkLookupView" abstract="true">
+    	 <property name="maintenanceUrlMapping" value="kpme/effectiveDateMaintenance"/>        
+    </bean>
+    
+    <!-- lookup view for BO's that use effective date (but no view link from lookup); maintainance for such BOs is performed via a special controller specified by the overriden property. -->
+    <bean id="KPMEUif-EffectiveDateBONoViewLinkLookupView" parent="KPME-ChangedPageSizeLookupView" abstract="true">
     	 <property name="maintenanceUrlMapping" value="kpme/effectiveDateMaintenance"/>        
     </bean>
     

@@ -23,8 +23,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
     	<documentType>
     		<name>PositionMaintenanceDocumentType</name>
-    		<parent>KpmeDocument</parent>
-    		<docHandler>${kuali.docHandler.url.prefix}/kpme/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.pm.position.Position</docHandler>
+    		<parent>KpmeEffectiveDateMaintenanceDocumentType</parent>
     		<label>Position Document</label>
     	</documentType>    
      </documentTypes>

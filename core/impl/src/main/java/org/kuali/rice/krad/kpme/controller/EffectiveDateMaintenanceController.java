@@ -160,13 +160,15 @@ public class EffectiveDateMaintenanceController extends MaintenanceDocumentContr
 		return (HrBusinessObject) document.getNewMaintainableObject().getDataObject();
 	}
 	
-	protected HrBusinessObjectService getHrBusinessObjectService() {
+	public HrBusinessObjectService getHrBusinessObjectService() {
 		return HrServiceLocator.getService(HR_BUSINESS_OBJECT_SERVICE_NAME);		
 	}
 
+	// this can be overridden if needed to customize the logic for checking for newer versions. 
     protected boolean doesNewerVersionExist(HrBusinessObject newBo) {
     	// use the hr BO service to check if a new version exists
 		return getHrBusinessObjectService().doesNewerVersionExist(newBo);
     }
+    
 	
 }

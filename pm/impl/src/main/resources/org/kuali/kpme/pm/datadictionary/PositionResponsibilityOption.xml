@@ -117,7 +117,7 @@
   	
   <!-- Position Responsibility Option Lookup View -->
  
-  <bean id="PositionResponsibilityOption-LookupView" parent="KPME-ChangedPageSizeLookupView">
+  <bean id="PositionResponsibilityOption-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Position Responsibility Option Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
@@ -174,7 +174,7 @@
   
 <!--  Position Responsibility Option Maintenance View -->
   <bean id="PositionResponsibilityOption-MaintenanceView" parent="PositionResponsibilityOption-MaintenanceView-parentBean"/>
-  <bean id="PositionResponsibilityOption-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  <bean id="PositionResponsibilityOption-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Responsibility Option Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
     <property name="items">

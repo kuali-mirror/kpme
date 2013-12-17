@@ -23,9 +23,7 @@
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>SalaryGroupMaintenanceDocumentType</name>
-			<parent>KpmeDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.time.salgroup.SalGroup
-	      	</docHandler>
+			<parent>KpmeEffectiveDateMaintenanceDocumentType</parent>
 			<label>Salary Group Document</label>
 		</documentType> 
      </documentTypes>
