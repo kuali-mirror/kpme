@@ -175,7 +175,7 @@ $(document).ready(function () {
     });
 
     // display warning and notes
-    $(" .approvals-warning, .approvals-note").tooltip({ effect:'slide'});
+    $(" .approvals-warning, .approvals-note, .approvals-missedpunch").tooltip({ effect:'slide'});
 
 //    $('span[id^=showDetailButton]').click(function (e) {
 //

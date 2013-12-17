@@ -85,7 +85,45 @@
 	                </table>
 	            </div>
 	        </c:if>
-
+			<!-- Missed Punch Marker -->
+			<c:if test="${fn:length(row.missedPunchList) > 0 }">
+	         	<div class="ui-state-default ui-corner-all missed-punch-marker" style="float:right;">
+						<span id="approvals-missedpunch" class='approvals-missedpunch'>
+							<span class="icon-file2"></span>
+						</span>
+	        	</div>    
+	            <div id="approvals-missedpunch-details" class="approvals-missedpunch-details"
+	                 style="display:none; float:right; margin-left: 150px;">
+	                <table>
+	                    <thead>
+	                    <tr>
+	                        <th colspan="3" style="font-size: 1.2em; font-weight: bold; text-align: left;">
+	                            Missed Punch:
+	                        </th>
+	                    </tr>
+	                    <tr>
+	                        <th>Date</th>
+	                        <th>Clock Action</th>
+	                        <th>Details</th>
+	                    </tr>
+	                    </thead>
+	                    <tbody>
+	                    <c:forEach var="missedpunch" items="${row.missedPunchList}">
+	                        <tr>
+	                            <td style="width: 150px;">${missedpunch.actionDateTime}</td>
+	                            <td style="width: 30px;">${missedpunch.clockAction}</td>
+	                            <td>
+	                                <div class="warning-note-message">
+	                                        ${missedpunch.getAssignmentValue()}
+	                                </div>
+	                            </td>
+	                        </tr>
+	                    </c:forEach>
+	                    </tbody>
+	                </table>
+	            </div>
+	        </c:if> 
+	        
 	    <%--<display:column title="Status" sortable="true" sortName="status">--%>
 	    	<br/>
        		<div>

@@ -623,7 +623,7 @@ label.error {
     background-color: #EEE5E5;
 }
 
-.approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover, .approvals-table #approvals-status:hover {
+.approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover, .approvals-table #approvals-missedpunch:hover, .approvals-table #approvals-status:hover {
     background-color: #dadada;
     cursor: pointer;
 }
@@ -633,11 +633,11 @@ label.error {
     border-right: #666666 double 2px;
 }
 
-.approvals-note-details table, .approvals-warning-details table, .approvals-status-details table {
+.approvals-note-details table, .approvals-warning-details table, , #approvals-missedpunch-details table, .approvals-status-details table {
     border-collapse: collapse !important;
 }
 
-.approvals-note-details th .title, .approvals-warning-details th .title, .approvals-status-details th .title {
+.approvals-note-details th .title, .approvals-warning-details th .title, #approvals-missedpunch-details th .title, .approvals-status-details th .title {
     font-size: 1em;
     font-weight: bold;
     text-align: left;
@@ -646,6 +646,7 @@ label.error {
 
 .approvals-note-details table tr td, .approvals-note-details table tr th,
 .approvals-warning-details table tr td, .approvals-warning-details table tr th,
+.approvals-missedpunch-details table tr td, .approvals-missedpunch-details table tr th,
 .approvals-status-details table tr td, .approvals-status-details table tr th {
     border: 1px solid gray;
 }
