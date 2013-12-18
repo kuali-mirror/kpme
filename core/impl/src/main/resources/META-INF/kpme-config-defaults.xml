@@ -21,7 +21,7 @@
     <param name="application.id">KPME</param>
 	<param name="module.name">kpme</param>
     <param name="app.code">${module.name}</param>
-    <param name="version" override="false">${build.version}</param>
+    <param name="version" override="false">${parent.parent.name} :: ${parent.parent.version} :: ${kuali.build.timestamp}</param>
     <param name="kpme.version" override="false">${project.version}</param>
     <param name="kpme.system.timezone"></param>
     <!-- KPME Email Notifications -->
