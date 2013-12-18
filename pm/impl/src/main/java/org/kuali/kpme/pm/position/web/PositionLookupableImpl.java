@@ -63,7 +63,7 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
                 TKUtils.formatDateString(toEffdt), active, showHist);	
     }  
 	
-	@Override
+	/*@Override
     protected String getActionUrlHref(LookupForm lookupForm, Object dataObject, String methodToCall, List<String> pkNames) {
 		if (!StringUtils.equals(methodToCall, "maintenanceEdit")) {
 			return super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
@@ -82,11 +82,12 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
 	       	        
 	        String path = ConfigContext.getCurrentContextConfig().getProperty("application.url");
 	        String hrefPrefix = path + "/portal.do?channelTitle=ProcessMaint&channelUrl=" + path + "/ProcessMaint.do";
+//	        "http://localhost:8080/kpme-dev/kpme/positionMaintenance?hrPositionId=26&category=reorg&reason=null&viewTypeName=MAINTENANCE&returnLocation=http://localhost:8080/kpme-dev/portal.do&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.kpme.pm.position.Position"
 	        Position aPosition = (Position) dataObject;
 	        String paramString = "?positionId=" + aPosition.getHrPositionId();
 	        return (hrefPrefix + paramString);
 		}
-    }
+    }*/
 
     @Override
     public void initSuppressAction(LookupForm lookupForm) {
