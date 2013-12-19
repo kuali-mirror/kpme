@@ -22,7 +22,7 @@
       <name>KpmeEffectiveDateMaintenanceDocumentType</name>
       <parent>KpmeDocument</parent>
       <label>Kpme Effective Maintenance Document</label>
-      <docHandler>${kr.krad.url}/kpme/effectiveDateMaintenance?methodToCall=docHandler</docHandler>
+      <docHandler>${kuali.docHandler.url.prefix}/kr-krad/kpme/effectiveDateMaintenance?methodToCall=docHandler</docHandler>
     </documentType>
   </documentTypes>
 </data>

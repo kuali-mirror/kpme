@@ -34,7 +34,7 @@
             <column name="ACTV_IND" value="1"/>
             <column name="CUR_IND" value="1"/>
             <column name="LBL" value="KPME Effective Date Maintenance Document"/>
-            <column name="DOC_HDLR_URL" value="${kr.krad.url}/kpme/effectiveDateMaintenance?methodToCall=docHandler"/>
+            <column name="DOC_HDLR_URL" value="${kuali.docHandler.url.prefix}/kr-krad/kpme/effectiveDateMaintenance?methodToCall=docHandler"/>
             <column name="APPL_ID" value="KPME"/>
             <column name="OBJ_ID" valueComputed="SYS_GUID()"/>
         </insert>
