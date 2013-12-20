@@ -17,14 +17,14 @@ package org.kuali.kpme.pm.api.positionresponsibility;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.location.api.campus.CampusContract;
 
 /**
  * <p>PositionResponsibilityContract interface</p>
  *
  */
-public interface PositionResponsibilityContract extends HrBusinessObjectContract {
+public interface PositionResponsibilityContract extends PersistableBusinessObject {
 
     /**
      * The primary key for a PositionResponsibility entry saved in the database

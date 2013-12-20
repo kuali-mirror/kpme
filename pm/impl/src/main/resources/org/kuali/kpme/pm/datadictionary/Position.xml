@@ -775,8 +775,6 @@
 				<bean parent="Uif-DataField" p:propertyName="location" />
 				<bean parent="Uif-DataField" p:propertyName="percentTime" />
 				<bean parent="Uif-DataField" p:propertyName="positionResponsibilityOption" />
-				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-				<bean parent="Uif-DataField" p:propertyName="active" />
 			</list>
 		</property>
 	</bean>
@@ -1161,9 +1159,6 @@
 					</property>
 				</bean>
 
-				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-				<bean parent="Uif-InputField" p:propertyName="active"
-					p:defaultValue="true" />
 
 
 			</list>

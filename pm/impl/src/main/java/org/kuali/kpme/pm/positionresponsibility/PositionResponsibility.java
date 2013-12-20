@@ -17,14 +17,11 @@ package org.kuali.kpme.pm.positionresponsibility;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
 import org.kuali.rice.location.impl.campus.CampusBo;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import com.google.common.collect.ImmutableMap;
-
-
-public class PositionResponsibility extends HrBusinessObject implements PositionResponsibilityContract {
+public class PositionResponsibility extends PersistableBusinessObjectBase implements PositionResponsibilityContract {
 
 	/**
 	 * 
@@ -39,14 +36,6 @@ public class PositionResponsibility extends HrBusinessObject implements Position
 	private String hrPositionId;
 	private CampusBo campusObj;
 
-	// TODO returning an empty map for the time-being, until the BK is finalized
-	@Override
-	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-		return new ImmutableMap.Builder<String, Object>()
-				.build();
-	}
-	
-	
 	public String getPositionResponsibilityId() {
 		return positionResponsibilityId;
 	}
@@ -79,11 +68,6 @@ public class PositionResponsibility extends HrBusinessObject implements Position
 	public void setPercentTime(BigDecimal percentTime) {
 		this.percentTime = percentTime;
 	}
-
-	@Override
-	protected String getUniqueKey() {
-		return this.getInstitution() + "_" + this.getLocation();
-	}
 	
 	public CampusBo getCampusObj() {
 		return campusObj;
@@ -101,12 +85,10 @@ public class PositionResponsibility extends HrBusinessObject implements Position
 		this.hrPositionId = hrPositionId;
 	}
 
-	@Override
 	public String getId() {
 		return this.getPositionResponsibilityId();
 	}
 
-	@Override
 	public void setId(String id) {
 		this.setPositionResponsibilityId(id);
 		
@@ -119,7 +101,6 @@ public class PositionResponsibility extends HrBusinessObject implements Position
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
 	
 	
 	

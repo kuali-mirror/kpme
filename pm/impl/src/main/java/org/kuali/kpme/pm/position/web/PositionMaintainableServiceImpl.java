@@ -275,9 +275,6 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         for (PositionDepartment positionDepartment : position.getDepartmentList()) {
             positionDepartment.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         }
-        for (PositionResponsibility positionResponsibility : position.getPositionResponsibilityList()) {
-            positionResponsibility.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        }
         super.prepareForSave();
     }
 }

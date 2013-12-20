@@ -28,14 +28,11 @@
 		<property name="attributes">
 			<list>
 				<ref bean="PositionResponsibility-positionResponsibilityId" />
-				<ref bean="PositionResponsibility-effectiveDate" />
 				<ref bean="PositionResponsibility-institution" />
 				<ref bean="PositionResponsibility-location" />
 				<ref bean="PositionResponsibility-positionResponsibilityOption" />
 				<ref bean="PositionResponsibility-percentTime" />
-				<ref bean="PositionResponsibility-active" />
 				<ref bean="PositionDuty-hrPositionId"/>
-                <ref bean="PositionResponsibility-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -68,19 +65,6 @@
 		</property>
 		<property name="name" value="positionResponsibilityId" />
 		<property name="label" value="Position Responsibility Id" />
-	</bean>
-
-	<bean id="PositionResponsibility-effectiveDate" parent="PositionResponsibility-effectiveDate-parentBean" />
-	<bean id="PositionResponsibility-effectiveDate-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" p:size="10" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
 	</bean>
 
 	<bean id="PositionResponsibility-institution" parent="PositionResponsibility-institution-parentBean" />
@@ -176,16 +160,6 @@
 		<property name="label" value="Percent Time" />
 	</bean>
 
-
-
-
-	<bean id="PositionResponsibility-active" parent="PositionResponsibility-active-parentBean" />
-	<bean id="PositionResponsibility-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-activeIndicator" p:label="Active?">
-		<property name="required" value="true" />
-		<property name="name" value="active" />
-	</bean>
-	
 	<bean id="PositionDuty-hrPositionId" parent="PositionDuty-hrPositionId-parentBean"/>
 	<bean id="PositionDuty-hrPositionId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="60" />
@@ -198,23 +172,6 @@
 	    <property name="name" value="hrPositionId"/>
 	    <property name="label" value="Position Id"/>
 	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="PositionResponsibility-userPrincipalId" parent="PositionResponsibility-userPrincipalId-parentBean" />
-    <bean id="PositionResponsibility-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
 
 	<!-- Position Responsibility Lookup View 
 
