@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -344,7 +345,21 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-	
+
+    boolean isAccrualCategoryUnique(String newAccrualCategory, String oldAccrualCategory, LocalDate asOfDate) {
+        boolean valid = true;
+        if (oldAccrualCategory != null && oldAccrualCategory.equals(newAccrualCategory)) {
+            //do nothing, let true be returned
+        } else {
+            if (HrServiceLocator.getAccrualCategoryService().getAccrualCategory(newAccrualCategory, asOfDate) != null) {
+                this.putFieldError("accrualCategory","error.accrualCategory.unique");
+                valid = false;
+            }
+        };
+
+       return valid;
+    }
+
 	static final Comparator<AccrualCategoryRule> SENIORITY_ORDER = new Comparator<AccrualCategoryRule>() {
 
         public int compare(AccrualCategoryRule e1, AccrualCategoryRule e2) {
@@ -358,12 +373,20 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Leave Accrual");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+        PersistableBusinessObject oldPbo = (PersistableBusinessObject) this.getOldBo();
+
 		if (pbo instanceof AccrualCategory) {
+
 			AccrualCategory leaveAccrualCategory = (AccrualCategory) pbo;
+
 			if (leaveAccrualCategory != null) {
 				valid = true;
 				valid &= this.validateEffectiveDate(leaveAccrualCategory.getEffectiveLocalDate());                           //validate effective dates
 				valid &= this.doesCategoryHaveRules(leaveAccrualCategory);
+                if (oldPbo instanceof  AccrualCategory) {
+                    AccrualCategory oldAccrualCategory = (AccrualCategory) oldPbo;
+                    valid &= this.isAccrualCategoryUnique(leaveAccrualCategory.getAccrualCategory(), oldAccrualCategory.getAccrualCategory(), leaveAccrualCategory.getEffectiveLocalDate()); //validate accrual category is unique
+                }
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());               // validate existence of active rules if specified in Acc. Cat.
 				if(valid && CollectionUtils.isNotEmpty(leaveAccrualCategory.getAccrualCategoryRules())) {
 					valid &= this.validateAccrualRulesGapOverlap(leaveAccrualCategory.getAccrualCategoryRules());         //Validate gaps and overaps
