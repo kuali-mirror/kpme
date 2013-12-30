@@ -26,7 +26,6 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -124,10 +123,7 @@ public class EffectiveDateMaintenanceController extends MaintenanceDocumentContr
 		// first check if the dialog has already been answered by the user; this is an optimization to avoid checking existence of newer BO version 
 		// in case its the second pass through (due to user input on the dialog shown in the first pass).
 		if (!hasDialogBeenAnswered(KPME_EFFECTIVE_DATE_WARNING_DIALOG, form)) {
-			// get the BO being maintained
-			HrBusinessObject newBo = this.getNewHrBusinessObjectInstance((MaintenanceDocumentForm) form);
-			// check if a newer version of this BO already exists in our DB
-			if (doesNewerVersionExist(newBo)) {
+			if (doesNewerVersionExist((MaintenanceDocument) form.getDocument())) {
 				// redirect back to client to display lightbox
 				retVal = showDialog(KPME_EFFECTIVE_DATE_WARNING_DIALOG, form, request, response);
 			} 
@@ -154,20 +150,29 @@ public class EffectiveDateMaintenanceController extends MaintenanceDocumentContr
         return retVal;
 	}
 	
-	
-	protected HrBusinessObject getNewHrBusinessObjectInstance(MaintenanceDocumentForm form) {
-		MaintenanceDocument document = form.getDocument();
-		return (HrBusinessObject) document.getNewMaintainableObject().getDataObject();
-	}
-	
 	public HrBusinessObjectService getHrBusinessObjectService() {
 		return HrServiceLocator.getService(HR_BUSINESS_OBJECT_SERVICE_NAME);		
 	}
 
-	// this can be overridden if needed to customize the logic for checking for newer versions. 
-    protected boolean doesNewerVersionExist(HrBusinessObject newBo) {
-    	// use the hr BO service to check if a new version exists
-		return getHrBusinessObjectService().doesNewerVersionExist(newBo);
+
+	// This method will first check for availability of business keys for the BO and if so it simply delegates 
+	// to the newer-version checking logic in the hr business object service impl obtained via the getter. 
+	// It will throw an exception if the businesss keys are unavailable for any maintenance operation other than 'create new'. 
+	// It will return false if businesss keys are unavailable for 'create new'.
+    protected boolean doesNewerVersionExist(MaintenanceDocument document) throws Exception {
+    	boolean retVal = false;
+    	// get the new bo from the maintenance document
+    	HrBusinessObject newBo = (HrBusinessObject) document.getNewMaintainableObject().getDataObject();
+    	// check if all Business Key Values are available
+    	if(newBo.areAllBusinessKeyValuesAvailable()) {
+        	// use the hr BO service to check if a new version exists
+    		retVal = getHrBusinessObjectService().doesNewerVersionExist(newBo);
+    	}
+    	else if(!document.isNew()){
+    		// since its not a 'create new' operation all keys should have been present, throw an exception
+    		throw new Exception("All Business keys are not available for " + newBo);
+    	}
+		return retVal;
     }
     
 	

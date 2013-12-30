@@ -85,9 +85,18 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
         this.userPrincipalId = userPrincipalId;
     }
 
-//	@Override
-//	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-//		return null;
-//	}
+	public boolean areAllBusinessKeyValuesAvailable() {
+		boolean retVal = true;
+		try {
+			if(this.getBusinessKeyValuesMap().isEmpty()) {
+				retVal = false;
+			}
+		}
+		catch(Exception e) {
+			retVal = false;
+		}		
+		return retVal;
+	}
+
 
 }
