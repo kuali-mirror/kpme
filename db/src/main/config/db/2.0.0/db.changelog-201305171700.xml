@@ -1,6 +1,6 @@
- <!--
+<!--
 
-    Copyright 2004-2013 The Kuali Foundation
+    Copyright 2004-2014 The Kuali Foundation
 
     Licensed under the Educational Community License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
     limitations under the License.
 
 -->
-
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">

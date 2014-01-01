@@ -1,5 +1,5 @@
 /**
- * Copyright 2004-2013 The Kuali Foundation
+ * Copyright 2004-2014 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.kpme.tklm.time.service;
 //import org.kuali.hr.time.paytype.service.PayTypeService;
 //import org.kuali.hr.time.permission.service.TKPermissionService;
