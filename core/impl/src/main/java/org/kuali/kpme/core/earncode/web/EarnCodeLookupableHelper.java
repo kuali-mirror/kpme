@@ -54,19 +54,20 @@ public class EarnCodeLookupableHelper extends KPMELookupableHelper {
 		return customActionUrls;
 	}
 
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String earnCode = fieldValues.get("earnCode");
-        String ovtEarnCode = fieldValues.get("ovtEarnCode");
-        String descr = fieldValues.get("description");
-        String leavePlan = fieldValues.get("leavePlan");
-		String accrualCategory = fieldValues.get("accrualCategory");
-        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-        String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
-
-        return HrServiceLocator.getEarnCodeService().getEarnCodes(earnCode, ovtEarnCode, descr, leavePlan, accrualCategory, TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active, showHist);
-    }
+//    @Override
+//    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+//        String earnCode = fieldValues.get("earnCode");
+//        String ovtEarnCode = fieldValues.get("ovtEarnCode");
+//        String descr = fieldValues.get("description");
+//        String leavePlan = fieldValues.get("leavePlan");
+//		String accrualCategory = fieldValues.get("accrualCategory");
+//        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+//        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+//        String active = fieldValues.get("active");
+//        String showHist = fieldValues.get("history");
+//
+//        return HrServiceLocator.getEarnCodeService().getEarnCodes(earnCode, ovtEarnCode, descr, leavePlan, accrualCategory, TKUtils.formatDateString(fromEffdt),
+//                TKUtils.formatDateString(toEffdt), active, showHist);
+//    }
+	
 }
