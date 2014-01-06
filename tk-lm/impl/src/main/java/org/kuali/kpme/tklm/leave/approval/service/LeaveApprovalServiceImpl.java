@@ -164,11 +164,23 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			allMessages.get("infoMessages").addAll(transactionalMessages.get("infoMessages"));
 			allMessages.get("warningMessages").addAll(transactionalMessages.get("warningMessages"));
 			allMessages.get("actionMessages").addAll(transactionalMessages.get("actionMessages"));
+			
+			if(aRow.getLeaveSummary() != null && aRow.getLeaveSummary().getLeaveSummaryRows().size() > 0) {
+				for(LeaveSummaryRow summaryRow : aRow.getLeaveSummary().getLeaveSummaryRows()){
+					// check for negative available balance for accrual category.
+		    		if(summaryRow.getLeaveBalance() != null && summaryRow.getLeaveBalance().compareTo(BigDecimal.ZERO) < 0) {
+		    			String message = "Negative available balance found for the accrual category '"+summaryRow.getAccrualCategory()+ "'.";
+		    			allMessages.get("warningMessages").add(message);
+		    		}
+				}
+			}
 
             List<String> warningMessages = new ArrayList<String>();
             warningMessages.addAll(allMessages.get("warningMessages"));
             warningMessages.addAll(allMessages.get("infoMessages"));
             warningMessages.addAll(allMessages.get("actionMessages"));
+            
+            
 
             aRow.setWarnings(warningMessages); //these are only warning messages.
 
@@ -333,7 +345,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 
 	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntry calendarEntry, List<LeaveBlock> leaveBlocks) {
 //        List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
-        Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+        Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
         //get LeaveSummary and check for warnings
     	Map<String, Set<LeaveBlock>> eligibilities;
     	try {

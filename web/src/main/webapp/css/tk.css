@@ -23,6 +23,15 @@
 *@import "../../plugins/fancybox/jquery.fancybox.css";
 */
 @import "../plugins/fancybox/jquery.fancybox.css";
+.missed-punch-marker {
+	width: 15px;
+	height: 15px;
+	margin: 1px 0 0 4px;
+	z-index: 15;
+	cursor: pointer;
+	float: left;
+	clear: none;
+}
 
 .missed-punch-marker {
     width: 15px;

@@ -58,7 +58,7 @@ public class TimeBlockHistoryServiceImpl implements TimeBlockHistoryService {
     }
 
 	@Override
-	public List<TimeBlock> getTimeBlockHistoriesForLookup(String documentId,
+	public List<TimeBlockHistory> getTimeBlockHistoriesForLookup(String documentId,
 			String principalId, String userPrincipalId, LocalDate fromDate,
 			LocalDate toDate) {
 		return timeBlockHistoryDao.getTimeBlockHistoriesForLookup(documentId,principalId,userPrincipalId,fromDate,toDate);

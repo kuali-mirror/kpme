@@ -633,7 +633,7 @@ label.error {
     border-right: #666666 double 2px;
 }
 
-.approvals-note-details table, .approvals-warning-details table, , #approvals-missedpunch-details table, .approvals-status-details table {
+.approvals-note-details table, .approvals-warning-details table, #approvals-missedpunch-details table, .approvals-status-details table {
     border-collapse: collapse !important;
 }
 
@@ -1208,5 +1208,3 @@ label.error {
     font-weight: bold;
     font-size: 1.5em;
 }
-
-

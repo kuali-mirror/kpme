@@ -53,6 +53,7 @@ import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchService;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -190,29 +191,38 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleEndPayPeriodJobs(CalendarEntry calendarEntry) throws SchedulerException {
-		scheduleEndPayPeriodJobs(calendarEntry, calendarEntry.getBatchEndPayPeriodFullDateTime());
+//		scheduleEndPayPeriodJobs(calendarEntry, calendarEntry.getBatchEndPayPeriodFullDateTime());
+		TkServiceLocator.getBatchJobService().scheduleEndPayPeriodJobs(calendarEntry, calendarEntry.getBatchEndPayPeriodFullDateTime());
 	}
 	
 	@Override
 	public void scheduleEndPayPeriodJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
-		String calendarName = calendarEntry.getCalendarName();
-		    	
-    	List<PrincipalHRAttributes> principalHRAttributes = (List<PrincipalHRAttributes>) getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate.toLocalDate());
-        for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
-        	String principalId = principalHRAttribute.getPrincipalId();
-            
-        	List<Assignment> assignments = (List<Assignment>) getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
-    		for (Assignment assignment : assignments) {
-    			String jobNumber = String.valueOf(assignment.getJobNumber());
-    			String workArea = String.valueOf(assignment.getWorkArea());
-    			String task = String.valueOf(assignment.getTask());
-    			
-    			ClockLog lastClockLog = getClockLogService().getLastClockLog(principalId, jobNumber, workArea, task, calendarEntry);
-		    	if (lastClockLog != null && TkConstants.ON_THE_CLOCK_CODES.contains(lastClockLog.getClockAction())) {
-		    		scheduleEndPayPeriodJob(calendarEntry, scheduleDate, lastClockLog);
-		    	}
-    		}
-        }
+		Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+        jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+		
+		Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+		
+        scheduleJob(EndPayPeriodJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+		
+//		String calendarName = calendarEntry.getCalendarName();
+//		    	
+//    	List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate.toLocalDate());
+//        for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
+//        	String principalId = principalHRAttribute.getPrincipalId();
+//            
+//        	List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
+//    		for (Assignment assignment : assignments) {
+//    			String jobNumber = String.valueOf(assignment.getJobNumber());
+//    			String workArea = String.valueOf(assignment.getWorkArea());
+//    			String task = String.valueOf(assignment.getTask());
+//    			
+//    			ClockLog lastClockLog = getClockLogService().getLastClockLog(principalId, jobNumber, workArea, task, calendarEntry);
+//		    	if (lastClockLog != null && TkConstants.ON_THE_CLOCK_CODES.contains(lastClockLog.getClockAction())) {
+//		    		scheduleEndPayPeriodJob(calendarEntry, scheduleDate, lastClockLog);
+//		    	}
+//    		}
+//        }
 	}
 	
 	private void scheduleEndPayPeriodJob(CalendarEntry calendarEntry, DateTime scheduleDate, ClockLog clockLog) throws SchedulerException {

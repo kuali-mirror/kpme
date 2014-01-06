@@ -15,26 +15,34 @@
  */
 package org.kuali.kpme.tklm.time.util;
 
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.junit.Assert;
+import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.api.util.KpmeUtils;
+import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.*;
-import org.junit.Assert;
-import org.junit.Test;
-import org.kuali.kpme.core.KPMEConstants;
-import org.kuali.kpme.core.api.util.KpmeUtils;
-import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
-import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.rice.core.api.config.property.ConfigContext;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @IntegrationTest
 public class TKUtilsTest extends TKLMIntegrationTestCase {
@@ -106,7 +114,7 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
 
         Map<String,String> formattedAssignmentDescription = TKUtils.formatAssignmentDescription(testAssignment);
 
-        Assert.assertTrue(formattedAssignmentDescription.containsKey("30_30_30"));
+        assertTrue(formattedAssignmentDescription.containsKey("30_30_30"));
         Assert.assertEquals("Description is not correct","SDR1 Work Area : $20.00 Rcd 30 TEST-DEPT SDR1 task",formattedAssignmentDescription.get("30_30_30"));
 
         testAssignment.setJobNumber(999L);
@@ -116,7 +124,7 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
         testAssignment.setEffectiveLocalDate(new LocalDate(2013,1,1));
 
         formattedAssignmentDescription = TKUtils.formatAssignmentDescription(testAssignment);
-        Assert.assertTrue(formattedAssignmentDescription.containsKey("999_999_999"));
+        assertTrue(formattedAssignmentDescription.containsKey("999_999_999"));
         Assert.assertEquals("Description is not correct"," : $0.00 Rcd 999 ",formattedAssignmentDescription.get("999_999_999"));
     }
 
@@ -191,9 +199,9 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
     @Test
     public void testConvertMillisToMinutes() {
         BigDecimal mins = TKUtils.convertMillisToMinutes(380000);
-        Assert.assertTrue("Minutes should be between 6 and 7",  mins.compareTo(new BigDecimal(6)) > 0  && mins.compareTo(new BigDecimal(7)) < 0);
+        assertTrue("Minutes should be between 6 and 7", mins.compareTo(new BigDecimal(6)) > 0 && mins.compareTo(new BigDecimal(7)) < 0);
         mins = TKUtils.convertMillisToMinutes(240000);
-        Assert.assertTrue("Minutes should be 4",  mins.compareTo(new BigDecimal(4)) == 0);
+        assertTrue("Minutes should be 4", mins.compareTo(new BigDecimal(4)) == 0);
     }
 
     @Test
@@ -418,12 +426,12 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
 	public void testFromDateString() {
 		String dateString = "01/01/2012..12/31/2012";
 		String fromDateString = TKUtils.getFromDateString(dateString);
-		Assert.assertTrue("fromDateString should be 01/01/2012, not " + fromDateString, fromDateString.equals("01/01/2012"));
+		assertTrue("fromDateString should be 01/01/2012, not " + fromDateString, fromDateString.equals("01/01/2012"));
 		Assert.assertNotNull(TKUtils.formatDateString(fromDateString));
 
 		dateString = ">=2/01/2012";
 		fromDateString = TKUtils.getFromDateString(dateString);
-		Assert.assertTrue("fromDateString should be 2/01/2012, not " + fromDateString, fromDateString.equals("2/01/2012"));
+		assertTrue("fromDateString should be 2/01/2012, not " + fromDateString, fromDateString.equals("2/01/2012"));
 		Assert.assertNotNull(TKUtils.formatDateString(fromDateString));
 	}
 
@@ -431,13 +439,35 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
 	public void testToDateString() {
 		String dateString = "01/01/2012..12/31/2012";
 		String toDateString = TKUtils.getToDateString(dateString);
-		Assert.assertTrue("toDateString should be 12/31/2012, not " + toDateString, toDateString.equals("12/31/2012"));
+		assertTrue("toDateString should be 12/31/2012, not " + toDateString, toDateString.equals("12/31/2012"));
 		Assert.assertNotNull(TKUtils.formatDateString(toDateString));
 
 		dateString = "<=2/01/2012";
 		toDateString = TKUtils.getToDateString(dateString);
-		Assert.assertTrue("toDateString should be 2/01/2012, not " + toDateString, toDateString.equals("2/01/2012"));
-		Assert.assertNotNull(TKUtils.formatDateString(toDateString));
+        assertTrue("toDateString should be 2/01/2012, not " + toDateString, toDateString.equals("2/01/2012"));
+        Assert.assertNotNull(TKUtils.formatDateString(toDateString));
+	}
+	
+	@Test
+	public void testConvertTimeForDifferentTimeZone() {
+		// it's hard to test this functionality since it depends on the sytem time the user is running the test from
+		// picked Alaska time since we have no user working from Alaska time yet
+		DateTimeZone fromTimeZone = TKUtils.getSystemDateTimeZone();
+		DateTimeZone toTimeZone = DateTimeZone.forID("America/Anchorage");
+		DateTime originalDateTime = new DateTime(2011, 8, 28, 0, 0, 0, 0, fromTimeZone);
+		
+		DateTime newDateTime = TKUtils.convertTimeForDifferentTimeZone(originalDateTime, fromTimeZone, toTimeZone);	
+		assertNotNull(newDateTime);
+		assertTrue("newDateTime should be different than originalDateTime", !newDateTime.equals(originalDateTime));
+		
+		newDateTime = TKUtils.convertTimeForDifferentTimeZone(originalDateTime, null, toTimeZone);
+		assertTrue("newDateTime should be the same as originalDateTime", newDateTime.equals(originalDateTime));
+		
+		newDateTime = TKUtils.convertTimeForDifferentTimeZone(originalDateTime, null, null);
+		assertTrue("newDateTime should be the same as originalDateTime", newDateTime.equals(originalDateTime));
+		
+		newDateTime = TKUtils.convertTimeForDifferentTimeZone(originalDateTime, fromTimeZone, null);
+		assertTrue("newDateTime should be the same as originalDateTime", newDateTime.equals(originalDateTime));
 	}
 
 
@@ -445,11 +475,11 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
     public void testisDateEqualOrBetween() throws Exception {
         //equals
         DateTime equalsDate = new DateTime(2013,1,1,0,0,0);
-        Assert.assertTrue("This should be true",TKUtils.isDateEqualOrBetween(equalsDate, "01/01/2013..01/07/2013"));
+        assertTrue("This should be true", TKUtils.isDateEqualOrBetween(equalsDate, "01/01/2013..01/07/2013"));
 
         //between
         DateTime betweenDate = new DateTime(2013,1,4,0,0,0);
-        Assert.assertTrue("This should be true",TKUtils.isDateEqualOrBetween(betweenDate, "01/01/2013..01/07/2013"));
+        assertTrue("This should be true", TKUtils.isDateEqualOrBetween(betweenDate, "01/01/2013..01/07/2013"));
 
     }
     @Test
@@ -459,7 +489,7 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
         String color = TKUtils.getRandomColor(colorSet);
         Pattern colorPattern = Pattern.compile("^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$");
         Matcher colorMatcher = colorPattern.matcher(color);
-        Assert.assertTrue(colorMatcher.find());
+        assertTrue(colorMatcher.find());
     }
 
     @Test

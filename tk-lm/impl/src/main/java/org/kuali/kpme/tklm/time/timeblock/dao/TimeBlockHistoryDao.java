@@ -27,7 +27,7 @@ public interface TimeBlockHistoryDao {
 	public void saveOrUpdate(List<TimeBlockHistory> timeBlockHistoryList);
 
     public List<TimeBlockHistory> getTimeBlockHistoryByTkTimeBlockId(String tkTimeBlockId);
-	public List<TimeBlock> getTimeBlockHistoriesForLookup(String documentId,
+	public List<TimeBlockHistory> getTimeBlockHistoriesForLookup(String documentId,
 			String principalId, String userPrincipalId, LocalDate fromDate,
 			LocalDate toDate);
 }

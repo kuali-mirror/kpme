@@ -185,11 +185,11 @@ public abstract class HrPermissionServiceBase {
 	 * 
 	 * @return true if {@code principalId} is authorized to perform any permission templated by {@code permissionTemplateName} for the given document information, false otherwise.
 	 */
-    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentTypeName, String documentId, DocumentStatus documentStatus, List<Assignment> assignments) {
+    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentTypeName, String documentId, DocumentStatus documentStatus, List<Assignment> assignments, String positionNumber) {
     	boolean isAuthorized = false;
     	
     	for (Assignment assignment : assignments) {
-            if (isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignment)) {
+            if (isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignment, positionNumber)) {
             	isAuthorized = true;
             	break;
             }
@@ -211,7 +211,7 @@ public abstract class HrPermissionServiceBase {
 	 * 
 	 * @return true if {@code principalId} is authorized to perform any permission templated by {@code permissionTemplateName} for the given document information, false otherwise.
 	 */
-    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentTypeName, String documentId, DocumentStatus documentStatus, Assignment assignment) {
+    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentTypeName, String documentId, DocumentStatus documentStatus, Assignment assignment, String positionNumber) {
     	boolean isAuthorized = false;
     	
 		Long workArea = assignment.getWorkArea();
@@ -224,7 +224,8 @@ public abstract class HrPermissionServiceBase {
     	
         if (isAuthorizedByTemplateInWorkArea(principalId, namespaceCode, permissionTemplateName, workArea, documentTypeName, documentId, documentStatus, assignment.getEffectiveLocalDate().toDateTimeAtStartOfDay())
             	|| isAuthorizedByTemplateInDepartment(principalId, namespaceCode, permissionTemplateName, department, documentTypeName, documentId, documentStatus, assignment.getEffectiveLocalDate().toDateTimeAtStartOfDay())
-            	|| isAuthorizedByTemplateInLocation(principalId, namespaceCode, permissionTemplateName, location, documentTypeName, documentId, documentStatus, assignment.getEffectiveLocalDate().toDateTimeAtStartOfDay())) {
+            	|| isAuthorizedByTemplateInLocation(principalId, namespaceCode, permissionTemplateName, location, documentTypeName, documentId, documentStatus, assignment.getEffectiveLocalDate().toDateTimeAtStartOfDay())
+            	|| isAuthorizedByTemplateInPosition(principalId, namespaceCode, permissionTemplateName, positionNumber, workArea, documentTypeName, documentId, documentStatus, assignment.getEffectiveLocalDate().toDateTimeAtStartOfDay())) {
         	isAuthorized = true;
         }
         
@@ -309,7 +310,13 @@ public abstract class HrPermissionServiceBase {
     protected boolean isAuthorizedByTemplateInLocation(String principalId, String namespaceCode, String permissionTemplateName, String location, String documentTypeName, String documentId, DocumentStatus documentStatus, DateTime asOfDate) {
     	Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
-    	
+    	return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, qualification, asOfDate);
+    }
+    
+    protected boolean isAuthorizedByTemplateInPosition(String principalId, String namespaceCode, String permissionTemplateName, String position, Long workArea, String documentTypeName, String documentId, DocumentStatus documentStatus, DateTime asOfDate) {
+    	Map<String, String> qualification = new HashMap<String, String>();
+		qualification.put(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName(), position);
+		qualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), workArea.toString());
     	return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, qualification, asOfDate);
     }
     

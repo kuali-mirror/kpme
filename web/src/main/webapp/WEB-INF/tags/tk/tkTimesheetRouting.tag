@@ -31,4 +31,9 @@
             </c:otherwise>
         </c:choose>
     </c:if>
+
+    <c:if test="${kpmefunc:isTimesheetRefreshButtonDisplaying(Form.documentId)}">
+        <input type="button" id="ts-route-button" value="Refresh" class="button" name="route"
+   			onclick="location.href='TimesheetSubmit.do?action=H&methodToCall=approveTimesheet&documentId=${Form.documentId}'"/>
+   	</c:if>
 </div>

@@ -561,5 +561,20 @@ public class TKUtils {
         docDescription.append(personName + " (" + principalId + ")  - " + date);
 		return docDescription.toString();
 	}
+	
+	/*
+	 * aDateTime is the dateTime we would like to display in the fromTimeZone. 
+	 * The results of the method is the time showing in the toTimeZone considering the time difference between these two time zones
+	 */
+	public static DateTime convertTimeForDifferentTimeZone(DateTime aDateTime, DateTimeZone fromTimeZone, DateTimeZone toTimeZone) {
+		if(fromTimeZone == null || toTimeZone == null || fromTimeZone.equals(toTimeZone))
+			return aDateTime;	// no conversion is needed
+		
+		Long millisOfSysTime = fromTimeZone.getMillisKeepLocal(toTimeZone, aDateTime.getMillis());
+		DateTime toTime = new DateTime(millisOfSysTime);
+		
+		return toTime;
+	}
+
 
 }

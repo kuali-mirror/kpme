@@ -22,6 +22,7 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
@@ -118,13 +119,16 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     
     private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, CalendarDocument calendarDocument) {
     	boolean isAuthorizedByTemplate = false;
-
     	if (calendarDocument != null) {
     		String documentTypeName = calendarDocument.getCalendarType();
         	DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
     		List<Assignment> assignments = calendarDocument.getAssignments();
-        	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignments);
+    		String positionNumber = null;
+    		JobContract jobObj = HrServiceLocator.getJobService().getPrimaryJob(principalId, LocalDate.now());
+    		if(jobObj != null) {
+    			positionNumber = jobObj.getPositionNumber();
+    		}
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignments, positionNumber);
     	}
     	
     	return isAuthorizedByTemplate;
@@ -132,12 +136,15 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     
     private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, CalendarDocument calendarDocument, Assignment assignment) {
     	boolean isAuthorizedByTemplate = false;
-
     	if (calendarDocument != null) {
     		String documentTypeName = calendarDocument.getCalendarType();
         	DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
-        	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignment);
+        	String positionNumber = null;
+    		JobContract jobObj = HrServiceLocator.getJobService().getPrimaryJob(principalId, LocalDate.now());
+    		if(jobObj != null) {
+    			positionNumber = jobObj.getPositionNumber();
+    		}
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignment, positionNumber);
     	}
     	
     	return isAuthorizedByTemplate;

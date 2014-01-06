@@ -438,13 +438,16 @@
   				</property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="timesheetDocumentHeader.documentStatus"
-  						p:optionsFinderClass="org.kuali.rice.kew.impl.document.search.DocumentStatusValuesFinder"
+  						p:optionsFinderClass="org.kuali.kpme.core.calendar.web.CalendarDocumentStatusValuesFinder"
                         p:enableAutoDirectInquiry="false"
                         p:enableAutoQuickfinder="false"
   						p:label="Document Status">
-  				<property name="control">
-  					<bean parent="Uif-DropdownControl"/>
-  				</property>
+  				<!--<property name="control">
+  					<bean parent="Uif-MultiSelectControl"/>
+  				</property>-->
+                <property name="control">
+                    <bean parent="Uif-DropdownControl"/>
+                </property>
   			</bean>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="beginDate" p:ranged="true" p:label="Begin Date">
   				<property name="control">

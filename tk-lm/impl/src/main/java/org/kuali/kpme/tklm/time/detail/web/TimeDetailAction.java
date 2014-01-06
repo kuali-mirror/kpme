@@ -62,6 +62,8 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
+import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.kpme.tklm.time.calendar.TkCalendar;
@@ -223,7 +225,7 @@ public class TimeDetailAction extends TimesheetAction {
         List<LeaveBlock> balanceTransferLeaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(timesheetDocument.getPrincipalId(),
        		 calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
        
-        Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks);
+        Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
        
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
         List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
@@ -256,6 +258,9 @@ public class TimeDetailAction extends TimesheetAction {
 					    			AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 					    			BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, lb.getLeaveLocalDate());
 						        	
+//					    			BigDecimal leaveBalance = LmServiceLocator.getLeaveSummaryService().getLeaveBalanceForAccrCatUpToDate(principalId, startDate, endDate, accrualCategory, usageEndDate)
+					    			
+					    			
 						        	BalanceTransfer loseTransfer = LmServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), accruedBalance, lb.getLeaveLocalDate());
 						        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
 						        	if (valid) {
@@ -283,6 +288,15 @@ public class TimeDetailAction extends TimesheetAction {
             allMessages.get("warningMessages").addAll(transactionalMessages.get("warningMessages"));
             allMessages.get("actionMessages").addAll(transactionalMessages.get("actionMessages"));
            
+            
+            LeaveSummary leaveSummary = null;
+			try {
+				leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
         	if (principalCalendar != null) {
         	   CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate(), true);
 					
@@ -296,6 +310,16 @@ public class TimeDetailAction extends TimesheetAction {
 							if (!allMessages.get("warningMessages").contains(message)) {
 		                        allMessages.get("warningMessages").add(message);
 							}
+						}
+					}
+					
+					// check for the negative Accrual balance for the category.
+					if(leaveSummary != null && leaveSummary.getLeaveSummaryRows().size() > 0) {
+						for(LeaveSummaryRow summaryRow : leaveSummary.getLeaveSummaryRows()) {
+							if(summaryRow.getLeaveBalance() != null && summaryRow.getLeaveBalance().compareTo(BigDecimal.ZERO) < 0) {
+								String message = "Negative available balance found for the accrual category '"+summaryRow.getAccrualCategory()+ "'.";
+			        			allMessages.get("warningMessages").add(message);
+			        		}
 						}
 					}
 				}
@@ -699,6 +723,11 @@ public class TimeDetailAction extends TimesheetAction {
         if (updatedLeaveBlock.isEditable()) {
             if (!updatedLeaveBlock.getLeaveAmount().equals(tdaf.getLeaveAmount())) {
                 updatedLeaveBlock.setLeaveAmount(tdaf.getLeaveAmount());
+                Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+                updatedLeaveBlock.setAssignmentKey(tdaf.getSelectedAssignment());
+                updatedLeaveBlock.setJobNumber(assignment.getJobNumber());
+                updatedLeaveBlock.setWorkArea(assignment.getWorkArea());
+                updatedLeaveBlock.setTask(assignment.getTask());
             }
             
             DateTime beginDate = null;

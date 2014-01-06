@@ -43,6 +43,7 @@
         <ref bean="LeaveBlock-workArea" />
         <ref bean="LeaveBlock-task" />
         <ref bean="LeaveBlock-leaveCalendarDocumentHeader" />
+        <ref bean="LeaveBlock-affectPay" />
         <ref bean="LeaveBlock-leaveDate" />
         </list>
     </property>
@@ -310,6 +311,24 @@
             <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.rice.kew.lookup.valuefinder.DocumentRouteStatusValuesFinder" p:includeKeyInLabel="false"/>
         </property>
 	</bean>
+	
+	<bean id="LeaveBlock-affectPay" parent="LeaveBlock-affectPay-parentBean" />
+	<bean id="LeaveBlock-affectPay-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Affect Pay" />
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl"/>
+		</property>
+		<property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
+        </property>
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="affectPay" />
+		<property name="label" value="Affect Pay" />
+	</bean>
 
 
 <!--   KRAD Inquiry View -->
@@ -402,6 +421,7 @@
   					<bean parent="Uif-DropdownControl"/>
   				</property>
   			</bean>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="affectPay" p:defaultValue="Y"/>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveDate" p:ranged="true" p:label="Leave Date">
   				<property name="control">
   					<bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY"/>

@@ -23,10 +23,10 @@
         <div id="${timeBlockDivId}" class="event ${last} ${block.assignmentClass}">
             <div id="timeblock_${block.timeBlock.tkTimeBlockId}" 
             	 class="${editableClass}">
-                <c:if test="${block.timeBlock.clockedByMissedPunch}">
-					<div class="missed-punch-marker">
-						<span class='icon-file2'/>
-					</div>
+            	 <c:if test="${block.timeBlock.clockedByMissedPunch}">
+ 	 	 	 	 	<div class="missed-punch-marker">
+ 	 	 	 			<span class='icon-file2'/>
+ 	 	 	 		</div>
 				</c:if>
                 <c:if test="${Form.docEditable && block.timeBlock.timeBlockEditable && block.timeBlock.deleteable}">
                     <div><img id="timeblockDelete_${block.timeBlock.tkTimeBlockId}"

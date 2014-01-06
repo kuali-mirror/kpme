@@ -104,12 +104,14 @@ public class HrContext {
 	}
 	
 	public static boolean isAnyPositionAuthorizedUser(String principalId, String roleName){
+		DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
 		JobContract jobObj = HrServiceLocator.getJobService().getPrimaryJob(principalId, LocalDate.now());
 		Map<String, String> qualification = new HashMap<String, String>();
 		if(jobObj != null) {
 			qualification.put(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName(), jobObj.getPositionNumber());
+			qualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "%");
 		}
-		return HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), roleName, qualification, new DateTime());
+		return HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), roleName, qualification, asOfDate);
 	}
 	
     public static boolean isAnyPayrollProcessor() {

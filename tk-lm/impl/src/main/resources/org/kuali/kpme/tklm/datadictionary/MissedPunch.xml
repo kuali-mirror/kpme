@@ -290,13 +290,25 @@
         </property>
     </bean>
 
-    <bean id="MissedPunch-relativeEffectiveDate" parent="MissedPunch-actionDate-parentBean" p:name="relativeEffectiveDate">
+    <bean id="MissedPunch-relativeEffectiveDate" parent="MissedPunch-effectiveDate-parentBean" p:name="relativeEffectiveDate">
         <property name="controlField">
             <bean parent="Uif-DateControl" p:hidden="true"/>
         </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+    </bean>
+    
+    <bean id="MissedPunch-effectiveDate-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Effective Date" />
+        <property name="maxLength" value="12" />
+        <property name="validationPattern">
+            <bean parent="DateValidationPattern" />
         </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+        <property name="name" value="effectiveDate" />
+        <property name="label" value="Effective Date" />
     </bean>
 
     <bean id="MissedPunch-department" parent="MissedPunch-department-parentBean" />

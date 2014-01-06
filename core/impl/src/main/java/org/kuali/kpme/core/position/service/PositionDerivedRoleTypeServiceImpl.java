@@ -21,13 +21,19 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.api.job.service.JobService;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 @SuppressWarnings("deprecation")
@@ -63,22 +69,35 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         	return null;
 //            throw new RiceIllegalArgumentException("roleName was null");
         }
-        
-        List<RoleMembership> roleMembers = new ArrayList<RoleMembership>();
-		
+        List<RoleMembership> roleMemberShip = new ArrayList<RoleMembership>();
+        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+       
 		Role role = getRoleService().getRoleByNamespaceCodeAndName(namespaceCode, roleName);
-		
         if (role != null) {
 	        if (qualification.containsKey(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName())) {
 				String positionNumber = qualification.get(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName());
-	            List<String> principalIds = getJobService().getPrincipalIdsInPosition(positionNumber, LocalDate.now());
+				
+				List<String> principalIds = getJobService().getPrincipalIdsInPosition(positionNumber, LocalDate.now());
+				
+				DateTime asOfDate = new DateTime();// LocalDate.now().toDateTimeAtStartOfDay();
+				roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInPosition(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), positionNumber, asOfDate, false));
+				roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInPosition(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), positionNumber, asOfDate, false));
+				roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInPosition(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), positionNumber, asOfDate, false));
 	            for (String principalId : principalIds) {
-	            	roleMembers.add(RoleMembership.Builder.create(role.getId(), null, principalId, MemberType.PRINCIPAL, qualification).build());
+					for (RoleMember roleMember : roleMembers) {
+			    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
+			    		// position role
+			    		if(roleMember.getAttributes().containsKey(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName())) {
+			    			if (roleMemberBo.isActive()) {
+			    				roleMemberShip.add(RoleMembership.Builder.create(role.getId(), null, principalId, MemberType.PRINCIPAL, roleMember.getAttributes()).build());
+			    			}
+			    		}
+					}
 	            }
 			}
         }
         
-        return roleMembers;
+        return roleMemberShip;
 	}
 	
     @Override
@@ -106,5 +125,12 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
 	public void setJobService(JobService jobService) {
 		this.jobService = jobService;
 	}
+
+//	@Override
+//	public List<String> getQualifiersForExactMatch() {
+//		return Collections.singletonList(KPMERoleMemberAttribute.POSITION.getRoleMemberAttributeName());
+//	}
+	
+	
 
 }

@@ -136,10 +136,13 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTime(dateString, timeString);
 	        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
 
+            ClockLog lastClockIn = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId(),TkConstants.CLOCK_IN);
+
             //Make sure user should be able to route!!
             String userPrincipalId = HrContext.getPrincipalId();
             if (!StringUtils.equals(userPrincipalId, missedPunch.getPrincipalId())) {
                 AssignmentContract assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(missedPunch.getAssignmentKey()), actionDateTime.toLocalDate());
+
                 if (assignment != null) {
                     Long workArea = assignment.getWorkArea();
                     String dept = assignment.getJob().getDept();
@@ -158,11 +161,12 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
                 }
             }
 	
-	        if (actionDateTime.toLocalDate().isAfter(LocalDate.now())) {
+
+            if (actionDateTime.toLocalDate().isAfter(LocalDate.now())) {
 	        	GlobalVariables.getMessageMap().putError("document.actionDate", "clock.mp.future.date");
 	        	valid = false;
 	        }
-	
+
 	        if (actionDateTime.toLocalDate().isEqual(LocalDate.now()) && actionDateTime.isAfterNow()) {
 	        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.future.time");
 	        	valid = false;
@@ -170,16 +174,21 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        
 	    	ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
 	        if (lastClockLog != null) {
-	        	if( (StringUtils.isNotEmpty(missedPunch.getTkClockLogId()) && !missedPunch.getTkClockLogId().equals(lastClockLog.getTkClockLogId()))
+                if( (StringUtils.isNotEmpty(missedPunch.getTkClockLogId()) && !missedPunch.getTkClockLogId().equals(lastClockLog.getTkClockLogId()))
 	        			|| StringUtils.isEmpty(missedPunch.getTkClockLogId()) ) {
 	        			
 		        	DateTime clockLogDateTime = lastClockLog.getClockDateTime();
 			        DateTime boundaryMax = clockLogDateTime.plusDays(1);
+                    DateTime boundaryMin = DateTime.now().minusDays(1);
 			        if ((!StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
 			        		|| actionDateTime.isBefore(clockLogDateTime)) {
 			        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
 			            valid = false;
 			        }
+                    if ((!StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_IN) && actionDateTime.isBefore(boundaryMin))) {
+                        GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.past24hour.date");
+                        valid = false;
+                    }
 	        	}
 	        }
         }

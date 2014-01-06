@@ -272,7 +272,9 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		    String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 		    Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
 		    Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
-		    
+		    for (ApprovalTimeSummaryRow approvalTimeSummaryRow : approvalRows) {
+ 	 	 	 	approvalTimeSummaryRow.setMissedPunchList(getMissedPunches(approvalTimeSummaryRow.getDocumentId()));
+		    }
 		    for (ApprovalTimeSummaryRow approvalTimeSummaryRow : approvalRows) {
 		    	approvalTimeSummaryRow.setMissedPunchList(getMissedPunches(approvalTimeSummaryRow.getDocumentId()));
 			}
@@ -282,10 +284,10 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		    
 		}		
 	}
-
-    private List<MissedPunch> getMissedPunches(String documentId) {
-    	List<MissedPunch> missedPunchList = new ArrayList<MissedPunch>();
-    	List<MissedPunchDocument> mpDoc = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentsByTimesheetDocumentId(documentId);
+	
+	private List<MissedPunch> getMissedPunches(String documentId) {
+		List<MissedPunch> missedPunchList = new ArrayList<MissedPunch>();
+		List<MissedPunchDocument> mpDoc = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentsByTimesheetDocumentId(documentId);
 		if(mpDoc!=null){
 			for (MissedPunchDocument mpd : mpDoc) {
 				missedPunchList.add(mpd.getMissedPunch());
@@ -293,7 +295,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		}
 		return missedPunchList;
 	}
-
+	
 	protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm timeApprovalActionForm, List<String> assignmentPrincipalIds, String docIdSearchTerm) {
     	return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(timeApprovalActionForm.getSelectedPayCalendarGroup(), assignmentPrincipalIds, timeApprovalActionForm.getPayCalendarLabels(), timeApprovalActionForm.getCalendarEntry(), docIdSearchTerm);
     }

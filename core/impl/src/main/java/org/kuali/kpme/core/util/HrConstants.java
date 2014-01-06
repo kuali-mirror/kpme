@@ -51,6 +51,7 @@ public class HrConstants {
 		public static final String ROUTE = "R";
 		public static final String APPROVE = "A";
 		public static final String DISAPPROVE = "D";
+		public static final String REFRESH = "H";
 	}
 
 	public static final class BATCH_JOB_ACTIONS {

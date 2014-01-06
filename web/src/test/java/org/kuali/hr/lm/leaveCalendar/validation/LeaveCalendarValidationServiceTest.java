@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
@@ -312,7 +313,7 @@ public class LeaveCalendarValidationServiceTest extends KPMEWebTestCase {
 		lbC.setLeaveDate(LocalDate.now().toDate());
 		leaveBlocs.add(lbC);
 
-		Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs);
+		Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs, LocalDate.now().toDateTimeAtStartOfDay().toDate(), new DateTime().plusDays(1).toDate());
         int numberOfMessages = 0;
         for (Set<String> msgs : allMessages.values()){
             numberOfMessages += msgs.size();

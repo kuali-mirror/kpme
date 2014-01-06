@@ -27,6 +27,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -158,7 +160,7 @@ LOG.info("in ClockLogServiceImpl.processTimeBlock, after saving time blocks, the
     	}
     }
 
-    private ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId) {
+    private ClockLog buildClockLog(DateTime clockDateTime, Timestamp originalTimestamp, AssignmentContract assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId) {
         ClockLog clockLog = new ClockLog();
         clockLog.setDocumentId(timesheetDocument.getDocumentId());
         clockLog.setPrincipalId(timesheetDocument.getPrincipalId());

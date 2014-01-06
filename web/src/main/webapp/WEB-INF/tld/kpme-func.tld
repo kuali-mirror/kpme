@@ -31,6 +31,13 @@
     </function>
     
     <function>
+        <description>Determines if a Timesheet's refresh button should be displayed</description>
+        <name>isTimesheetRefreshButtonDisplaying</name>
+        <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>
+        <function-signature>java.lang.Boolean isTimesheetRefreshButtonDisplaying(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
         <description>Determines if a Leave Calendar's route button should be displayed</description>
         <name>isLeaveCalendarRouteButtonDisplaying</name>
         <function-class>org.kuali.kpme.tklm.common.WorkflowTagSupport</function-class>

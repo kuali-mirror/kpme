@@ -130,7 +130,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         //Create 1 or many timeblocks if the span of timeblocks exceed more than one
         //day that is determined by pay period day(24 hrs + period begin date)
         Interval firstDay = null;
-        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());
+        DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(timesheetDocument.getPrincipalId()));
+        if(userTimeZone == null)
+        	userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        
+        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry(), userTimeZone);
+//        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
         DateTime currentDateTime = beginDateTime;
 
@@ -561,7 +566,6 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	public List<TimeBlock> getTimeBlocksForLookup(String documentId,
 			String principalId, String userPrincipalId, LocalDate fromDate,
 			LocalDate toDate) {
-		// TODO Auto-generated method stub
 		return timeBlockDao.getTimeBlocksForLookup(documentId,principalId,userPrincipalId,fromDate,toDate);
 	}
 }

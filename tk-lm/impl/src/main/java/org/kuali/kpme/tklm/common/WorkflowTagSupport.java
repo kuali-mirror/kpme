@@ -54,6 +54,28 @@ public class WorkflowTagSupport implements WorkflowTagSupportContract {
         return isTimesheetRouteButtonDisplaying;
     }
     
+    public static boolean isTimesheetRefreshButtonDisplaying(String documentId) {
+    	boolean isTimesheetRefreshButtonDisplaying = false;
+    	
+    	if (StringUtils.isNotBlank(documentId)) {
+    		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+	        DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
+	        
+            String initiatorId = KewApiServiceLocator.getWorkflowDocumentService().getDocumentInitiatorPrincipalId(documentId);
+            boolean initiator = false;
+            if (StringUtils.equals(HrContext.getPrincipalId(), initiatorId)) {
+                initiator = true;
+            }
+
+            if (DocumentStatus.ENROUTE.equals(documentStatus) && !initiator) {
+	        	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+        		isTimesheetRefreshButtonDisplaying = HrServiceLocator.getHRPermissionService().canSubmitCalendarDocument(principalId, timesheetDocument);
+	        }
+    	}
+    	
+        return isTimesheetRefreshButtonDisplaying;
+    }
+
     public static boolean isLeaveCalendarRouteButtonDisplaying(String documentId) {
     	boolean isLeaveCalendarRouteButtonDisplaying = false;
     	

@@ -15,8 +15,10 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.dao;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -51,11 +53,28 @@ public class TimeBlockHistoryDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		return (List<TimeBlockHistory>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
-	@Override
-	public List<TimeBlock> getTimeBlockHistoriesForLookup(String documentId,
-			String principalId, String userPrincipalId, LocalDate fromDate,
-			LocalDate toDate) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<TimeBlockHistory> getTimeBlockHistoriesForLookup(String documentId,
+                                                  String principalId, String userPrincipalId, LocalDate fromDate,
+                                                  LocalDate toDate) {
+        Criteria criteria = new Criteria();
+        if(StringUtils.isNotBlank(documentId)) {
+            criteria.addEqualTo("documentId", documentId);
+        }
+        if(fromDate != null) {
+            criteria.addGreaterOrEqualThan("beginTimestamp", fromDate.toDate());
+        }
+        if(toDate != null) {
+            criteria.addLessOrEqualThan("endTimestamp",toDate.toDate());
+        }
+        if(StringUtils.isNotBlank(principalId)) {
+            criteria.addEqualTo("principalId", principalId);
+        }
+        if(StringUtils.isNotBlank(userPrincipalId)) {
+            criteria.addEqualTo("userPrincipalId", userPrincipalId);
+        }
+        Query query = QueryFactory.newQuery(TimeBlockHistory.class, criteria);
+        List<TimeBlockHistory> timeBlocks = (List<TimeBlockHistory>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlockHistory>() : timeBlocks;
+    }
 }

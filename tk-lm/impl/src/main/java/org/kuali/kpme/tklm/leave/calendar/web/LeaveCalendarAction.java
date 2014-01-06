@@ -560,7 +560,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
     	CalendarEntry calendarEntry = leaveCalendarForm.getCalendarEntry();
     	PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
     	
-        Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+        Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
 
         // add warning message for accrual categories that have exceeded max balance.
         // Could set a flag on the transferable rows here so that LeaveCalendarSubmit.do knows
@@ -583,6 +583,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        	for (LeaveBlock lb : entry.getValue()) {
 	        		AccrualCategory accrualCat = lb.getAccrualCategoryObj();
 		        	AccrualCategoryRuleContract aRule = lb.getAccrualCategoryRule();
+		        	List<LeaveSummaryRow> summaryRows = summary.getLeaveSummaryRows();
 		        	if (StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.LOSE)) {
 		        		DateTime aDate = null;
 		        		if (StringUtils.equals(aRule.getMaxBalanceActionFrequency(), HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
@@ -608,7 +609,6 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		        	} else if (StringUtils.equals(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, aRule.getMaxBalanceActionFrequency())) {
 			        	if (calendarInterval.contains(lb.getLeaveDate().getTime())) {
 				        	// accrual categories within the leave plan that are hidden from the leave summary will not appear.
-				        	List<LeaveSummaryRow> summaryRows = summary.getLeaveSummaryRows();
 				        	List<LeaveSummaryRow> updatedSummaryRows = new ArrayList<LeaveSummaryRow>(summaryRows.size());
 				        	//AccrualCategoryRule currentRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCat, effectiveDate, principalCalendar.getServiceDate());
 				        	for (LeaveSummaryRow summaryRow : summaryRows) {
@@ -640,6 +640,14 @@ public class LeaveCalendarAction extends CalendarFormAction {
     				}
 	        	}
 	        }
+	        
+	     // check for negative available balance for accrual category.
+			for (LeaveSummaryRow summaryRow : summary.getLeaveSummaryRows()) {
+        		if(summaryRow.getLeaveBalance() != null && summaryRow.getLeaveBalance().compareTo(BigDecimal.ZERO) < 0) {
+        			String message = "Negative available balance found for the accrual category '"+summaryRow.getAccrualCategory()+ "'.";
+        			allMessages.get("warningMessages").add(message);
+        		}
+			}
         	leaveCalendarForm.setLeaveSummary(summary);
         }
         leaveCalendarForm.setForfeitures(losses);
@@ -657,22 +665,6 @@ public class LeaveCalendarAction extends CalendarFormAction {
 					String message = "Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.";
 					if (!allMessages.get("warningMessages").contains(message)) {
                         allMessages.get("warningMessages").add(message);
-					}
-				}
-			}
-			
-			// KPME-1279 check for Absent Earn code to add warning.
-			List<EarnCode> earnCodes = (List<EarnCode>) HrServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate(), true);
-			if (earnCodes != null && !earnCodes.isEmpty()) {
-				for (EarnCode earnCodeObj : earnCodes) {
-					if (earnCodeObj != null) {
-						if("Y".equalsIgnoreCase(earnCodeObj.getAffectPay()) && "N".equalsIgnoreCase(earnCodeObj.getEligibleForAccrual())) {
-							String message = "Absent time cannot be used until other accrual balances are zero or below a specified accrual balance.";
-							if (!allMessages.get("warningMessages").contains(message)) {
-	                            allMessages.get("warningMessages").add(message);
-	                            break;
-							}
-						}
 					}
 				}
 			}

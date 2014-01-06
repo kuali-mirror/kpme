@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.leave.calendar.validation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,6 +40,7 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -338,7 +340,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 	}
 	
     // get warning messages associated with earn codes of leave blocks
-    public static Map<String, Set<String>> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+    public static Map<String, Set<String>> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks, Date beginDate, Date endDate) {
 //        List<String> warningMessages = new ArrayList<String>();
         Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
         
@@ -348,19 +350,27 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 
         if (CollectionUtils.isNotEmpty(leaveBlocks)) {
             for(LeaveBlock lb : leaveBlocks) {
-                EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
-                if(ec != null) {
-                	// KPME-2529
-                    //EarnCodeGroup eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
-                	List<EarnCodeGroup> egs = (List<EarnCodeGroup>) HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupsForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
-                	if (egs != null && egs.size() > 0) {                	    
-                		for (EarnCodeGroup eg : egs) {
-		                    if(!StringUtils.isEmpty(eg.getWarningText())) {
-		                        warningMessages.add(eg.getWarningText());
-		                    }
-                		}
-                	}
-                }
+            	if(lb.getLeaveDate().compareTo(beginDate) >= 0 && lb.getLeaveDate().compareTo(endDate) < 0) {
+	                EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
+	                if(ec != null) {
+	                	// KPME-2529
+	                    //EarnCodeGroup eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
+	                	List<? extends EarnCodeGroupContract> egs = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupsForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
+	                	if (egs != null && egs.size() > 0) {                	    
+	                		for (EarnCodeGroupContract eg : egs) {
+			                    if(!StringUtils.isEmpty(eg.getWarningText())) {
+			                        warningMessages.add(eg.getWarningText());
+			                    }
+	                		}
+	                	}
+	                	// check if Earncode is Absent earncode
+						if("Y".equalsIgnoreCase(ec.getAffectPay()) && "N".equalsIgnoreCase(ec.getEligibleForAccrual())) {
+							String message = "Absent time cannot be used until other accrual balances are zero or below a specified accrual balance.";
+							warningMessages.add(message);
+		                    break;
+						}
+	                }
+            	}
             }
         }
         allMessages.put("actionMessages", actionMessages);

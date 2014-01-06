@@ -117,6 +117,9 @@
         <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="255" nullable="true" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="jobNumber"              column="JOB_NUMBER"             jdbc-type="BIGINT"      nullable="false" primarykey="false" />
+        <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT"      nullable="false" primarykey="false" />
+        <field-descriptor name="task"                   column="TASK"                   jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="beginTimestamp"         column="BEGIN_TS"           jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
         <field-descriptor name="endTimestamp"           column="END_TS"             jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
         <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
@@ -134,6 +137,10 @@
         <field-descriptor name="leaveBlockType"         column="LEAVE_BLOCK_TYPE"       jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+		<field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <reference-descriptor name="leaveCalendarDocumentHeader" class-ref="org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader" auto-retrieve="true" auto-update="false" proxy="true" >
+            <foreignkey field-ref="documentId" />
+        </reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader" table="LM_LEAVE_DOCUMENT_HEADER_T">

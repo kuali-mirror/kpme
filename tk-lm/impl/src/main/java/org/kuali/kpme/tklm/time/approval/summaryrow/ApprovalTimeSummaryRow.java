@@ -77,7 +77,15 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
     /** A Map (Weeks) of Mapped totals (week total mapping) */
     private Map<String, BigDecimal> weekTotalMap;
     
-    public String getApprovalStatusMessage() {
+    public List<MissedPunch> getMissedPunchList() {
+		return missedPunchList;
+	}
+
+	public void setMissedPunchList(List<MissedPunch> missedPunchList) {
+		this.missedPunchList = missedPunchList;
+	}
+
+	public String getApprovalStatusMessage() {
 		return approvalStatusMessage;
 	}
 
@@ -150,12 +158,6 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
 	}
 	public String getClockStatusMessage() {
 		return clockStatusMessage;
-	}
-    public List<MissedPunch> getMissedPunchList() {
-		return missedPunchList;
-	}
-	public void setMissedPunchList(List<MissedPunch> missedPunchList) {
-		this.missedPunchList = missedPunchList;
 	}
 
 	public String getPayCalendarGroup() {

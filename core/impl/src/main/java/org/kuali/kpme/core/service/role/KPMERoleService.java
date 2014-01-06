@@ -144,6 +144,7 @@ public interface KPMERoleService {
 	 */
 	List<RoleMember> getRoleMembersInDepartment(String namespaceCode, String roleName, String department, DateTime asOfDate, boolean isActiveOnly);
 
+	List<RoleMember> getRoleMembersInPosition(String namespaceCode, String roleName, String positionNumber, DateTime asOfDate, boolean isActiveOnly);
 	/**
 	 * Gets the members of the role {@code roleName} for the given location.
 	 * 

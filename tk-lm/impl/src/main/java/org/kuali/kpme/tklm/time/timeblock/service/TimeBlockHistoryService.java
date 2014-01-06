@@ -47,7 +47,7 @@ public interface TimeBlockHistoryService {
 	 */
     public void addTimeBlockHistoryDetails(TimeBlockHistory timeBlockHistory, TimeBlock timeBlock);
     
-	public List<TimeBlock> getTimeBlockHistoriesForLookup(String documentId,
+	public List<TimeBlockHistory> getTimeBlockHistoriesForLookup(String documentId,
 			String principalId, String userPrincipalId, LocalDate fromDate,
 			LocalDate toDate);
 }

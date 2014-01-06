@@ -57,6 +57,10 @@ public class LeaveBlockHistory extends LeaveBlock implements LeaveBlockHistoryCo
 		this.setLeaveBlockType(lb.getLeaveBlockType());
 		this.setBeginTimestamp(lb.getBeginTimestamp());
 		this.setEndTimestamp(lb.getEndTimestamp());
+        this.setWorkArea(lb.getWorkArea());
+        this.setTask(lb.getTask());
+        this.setJobNumber(lb.getJobNumber());
+        this.setTransactionDocId(lb.getTransactionalDocId());
 	}
 	
 	
