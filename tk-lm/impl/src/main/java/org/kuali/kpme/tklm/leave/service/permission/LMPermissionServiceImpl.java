@@ -284,14 +284,16 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
             }
         	String documentId = leaveBlock.getDocumentId();
         	if (StringUtils.isBlank(documentId)) {
-        		TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay());
-        		if (timesheetDocumentHeader != null) {
-        			documentId = timesheetDocumentHeader.getDocumentId();
-        		}
+                    String targetPrincipalId = HrContext.isTargetInUse() ? HrContext.getTargetPrincipalId() : principalId;
+                    TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(targetPrincipalId, leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay());
+
+                    if (timesheetDocumentHeader != null) {
+                        documentId = timesheetDocumentHeader.getDocumentId();
+                    }
         	}
         	if (StringUtils.isNotBlank(documentId)) {
         		DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
-        		if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus)) {
+        		if (DocumentStatus.CANCELED.equals(documentStatus) || DocumentStatus.DISAPPROVED.equals(documentStatus) || DocumentStatus.FINAL.equals(documentStatus)) {
                     return updateCanDeleteLeaveblockPerm(principalId, perms, false);
         		}
         	}
