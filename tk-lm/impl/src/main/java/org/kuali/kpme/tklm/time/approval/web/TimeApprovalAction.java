@@ -275,13 +275,10 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		    for (ApprovalTimeSummaryRow approvalTimeSummaryRow : approvalRows) {
  	 	 	 	approvalTimeSummaryRow.setMissedPunchList(getMissedPunches(approvalTimeSummaryRow.getDocumentId()));
 		    }
-		    for (ApprovalTimeSummaryRow approvalTimeSummaryRow : approvalRows) {
-		    	approvalTimeSummaryRow.setMissedPunchList(getMissedPunches(approvalTimeSummaryRow.getDocumentId()));
-			}
-		    timeApprovalActionForm.setApprovalRows(approvalRows.subList(beginIndex, endIndex)); 	
-		    timeApprovalActionForm.setResultSize(approvalRows.size());
-		    
-		    
+            List<ApprovalTimeSummaryRow> sublist = new ArrayList<ApprovalTimeSummaryRow>();
+            sublist.addAll(approvalRows.subList(beginIndex, endIndex));
+		    timeApprovalActionForm.setApprovalRows(sublist);
+		    timeApprovalActionForm.setResultSize(sublist.size());
 		}		
 	}
 	

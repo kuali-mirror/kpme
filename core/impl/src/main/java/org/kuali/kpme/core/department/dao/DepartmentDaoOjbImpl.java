@@ -102,7 +102,7 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 
 	@Override
 	@SuppressWarnings("unchecked")
-    public List<Department> getDepartments(String dept, String location, String departmentDescr, String active, String showHistory) {
+    public List<Department> getDepartments(String dept, String location, String departmentDescr, String active, String showHistory, String payrollApproval) {
         List<Department> results = new ArrayList<Department>();
 
         Criteria root = new Criteria();
@@ -132,6 +132,10 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
         if (StringUtils.equals(showHistory, "N")) {
             root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Department.class, Department.BUSINESS_KEYS, false));
             root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Department.class, Department.BUSINESS_KEYS, false));
+        }
+
+        if (StringUtils.isNotEmpty(payrollApproval)) {
+            root.addEqualTo("payrollApproval",payrollApproval);
         }
 
         Query query = QueryFactory.newQuery(Department.class, root);

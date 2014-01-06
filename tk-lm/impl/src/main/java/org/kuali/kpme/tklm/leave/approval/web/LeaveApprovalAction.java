@@ -30,6 +30,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -269,13 +270,15 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 			Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
 			Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
 
-			leaveApprovalActionForm.setLeaveApprovalRows(approvalRows.subList(beginIndex, endIndex));
-			leaveApprovalActionForm.setResultSize(approvalRows.size());
+            List<ApprovalLeaveSummaryRow> sublist = new ArrayList<ApprovalLeaveSummaryRow>();
+            sublist.addAll(approvalRows.subList(beginIndex, endIndex));
+			leaveApprovalActionForm.setLeaveApprovalRows(sublist);
+			leaveApprovalActionForm.setResultSize(sublist.size());
 		    
 		    Map<String, String> userColorMap = new HashMap<String, String>();
 	        Set<String> randomColors = new HashSet<String>();
 		    List<Map<String, String>> approvalRowsMap = new ArrayList<Map<String, String>>();
-		    if(approvalRows != null && !approvalRows.isEmpty()) {
+		    if(CollectionUtils.isNotEmpty(approvalRows)) {
 		    	for (ApprovalLeaveSummaryRow row : approvalRows) {
 		    		for (Date date : leaveApprovalActionForm.getLeaveCalendarDates()) {
 		    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

@@ -332,10 +332,15 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
         if (task.getEffectiveDate() == null) {
             return false;
         }
-		if (task.getEffectiveDate().compareTo(workArea.getEffectiveDate()) < 0) {
-            this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() + "'");
-            valid = false;
-        }
+       	if(workArea.getEffectiveDate()!=null){
+       		if (task.getEffectiveDate().compareTo(workArea.getEffectiveDate()) < 0) {
+       			this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() + "'");
+       			valid = false;
+       		}
+       	}else{
+       		this.putGlobalError("workarea.invalid.effdt");
+       		valid = false;
+       	}
 
          //before commit check against tasks common to different work areas and assignments
          List<Long> inactiveTasks = new ArrayList<Long>();

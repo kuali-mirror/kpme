@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.common;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -33,17 +34,19 @@ public class LMConstants {
 		 public static final String CARRY_OVER_ADJUSTMENT = "COA";
 	 }
 
-	 public static final Map<String, String> LEAVE_BLOCK_TYPE_MAP = new HashMap<String, String>(8);
+	 public static final Map<String, String> LEAVE_BLOCK_TYPE_MAP = new LinkedHashMap<String, String>(8);
 	 static {
 		 	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, "Leave Calendar");
 		 	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.TIME_CALENDAR, "Time Calendar");
 	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE, "Accrual Service");
 	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.BALANCE_TRANSFER, "Balance Transfer");
-	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.LEAVE_PAYOUT, "Leave Payout");
+            LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.CARRY_OVER, "Carry Over");
+            LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT, "Carry Over Adjustment");
 	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.DONATION_MAINT, "Donation");
-	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT, "Leave Adjustment");
-	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.CARRY_OVER, "Carry Over");
-	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT, "Carry Over Adjustment");
+            LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT, "Leave Adjustment");
+            LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.LEAVE_PAYOUT, "Leave Payout");
+
+
 	 }
 	    
 	 public static final String STATUS_CHANGE_EARN_CODE = "Accrual Note";

@@ -19,9 +19,10 @@ package org.kuali.kpme.core.principal.valuesfinder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.coreservice.api.parameter.ParameterKey;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 
@@ -30,10 +31,11 @@ public class TimeZoneKeyValue extends KeyValuesBase{
 	@Override
 	public List getKeyValues(){
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for(int i=0; i < HrConstants.TIME_ZONES.size(); i++)
-        {
-        	keyValues.add(new ConcreteKeyValue(HrConstants.TIME_ZONES.get(i),HrConstants.TIME_ZONES.get(i)));
-        }        		
+        String timeZoneString = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameterValueAsString(ParameterKey.create("KPME", "KPME-HR", "KeyValues", "TIME_ZONES"));
+        String[] timeZoneArray = timeZoneString.split(";");
+        for(String timeZone : timeZoneArray){
+            keyValues.add(new ConcreteKeyValue(timeZone, timeZone));
+        }
         return keyValues;
 	}
 }

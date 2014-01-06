@@ -421,7 +421,7 @@
   					<bean parent="Uif-DropdownControl"/>
   				</property>
   			</bean>
-  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="affectPay" p:defaultValue="Y"/>
+  			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="affectPay" p:defaultValue="N"/>
   			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveDate" p:ranged="true" p:label="Leave Date">
   				<property name="control">
   					<bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY"/>

@@ -110,13 +110,13 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="missedpunch" items="${row.missedPunchList}">
+							<c:forEach var="aMp" items="${row.missedPunchList}">
 								<tr>
-									<td style="width: 150px;">${missedpunch.actionDateTime}</td>
-									<td style="width: 30px;">${missedpunch.clockAction}</td>
+									<td style="width: 150px;">${aMp.actionDateTime}</td>
+									<td style="width: 30px;">${aMp.clockAction}</td>
 									<td>
 										<div class="warning-note-message">
-											${missedpunch.getAssignmentValue()}</div>
+											${aMp.assignmentValue}</div>
 									</td>
 								</tr>
 							</c:forEach>

@@ -847,6 +847,13 @@ $(function () {
                 // Currently, the fields variable contains a list of the entry field classes.
                 // The Underscore.js _.without function returns an array except the ones you speficied.
                 if (earnCodeType == CONSTANTS.EARNCODE_TYPE.HOUR) {
+                	var oldStartTimeValue = document.getElementById('startTimeHourMinute').value;
+                	var oldEndTimeValue = document.getElementById('endTimeHourMinute').value;
+                	//	if previously selected earn code was different and if components are being changed, we'll clear the hours field
+                	if ((oldStartTimeValue != "" && oldStartTimeValue != null)
+                			|| (oldEndTimeValue != "" && oldEndTimeValue != null)){
+                		$('#hours').val("");
+                	}
                     $(_.without(fieldSections, ".hourSection").join(",")).hide();
                     $(fieldSections[2]).show();
                     // TODO: figure out why we had to do something crazy like below...
@@ -860,6 +867,11 @@ $(function () {
                     // KPME-1793 do not blank amount
                     $('#startTimeHourMinute, #endTimeHourMinute, #hours').val("");
                 } else {
+                	var oldHourValue = document.getElementById('hours').value;
+                	//	if previously selected earn code was different and if components are being changed, we'll clear the start and end time fields
+                	if (oldHourValue != "" && oldHourValue != null) {
+                		$('#startTimeHourMinute, #endTimeHourMinute').val("");
+                	}
                 	// earnCodeType == CONSTANTS.EARNCODE_TYPE.TIME
                     $(_.without(fieldSections, ".clockInSection", ".clockOutSection").join(",")).hide();
                     $(fieldSections[0] + "," + fieldSections[1]).show();

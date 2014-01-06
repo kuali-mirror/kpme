@@ -144,7 +144,7 @@ public class TimesheetDocumentHeaderDaoOjbImpl extends PlatformAwareDaoBaseOjb i
 	   Criteria crit = new Criteria();
        crit.addEqualTo("principalId", principalId);
        crit.addLessOrEqualThan("beginDate", asOfDate.toDate());
-       crit.addGreaterOrEqualThan("endDate", asOfDate.toDate());
+       crit.addGreaterThan("endDate", asOfDate.toDate());
        
        QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
 

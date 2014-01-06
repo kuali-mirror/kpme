@@ -33,6 +33,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 @FunctionalTest
 public class LeaveBlockDisplayWebTest extends KPMEWebTestCase {
+    private static String YEAR = "2013";
 
 	@Before
 	public void setUp() throws Exception {
@@ -63,7 +64,7 @@ public class LeaveBlockDisplayWebTest extends KPMEWebTestCase {
 
 		// check page contains the current year
 		Assert.assertTrue("Page is not current year ",
-				leaveBlockDisplayPage.asText().contains(Integer.toString(DateTime.now().getYear())));
+				leaveBlockDisplayPage.asText().contains(YEAR));
 
 		// Check Main section
 		// depends on injection of test data for current year.
@@ -95,7 +96,7 @@ public class LeaveBlockDisplayWebTest extends KPMEWebTestCase {
 
 		// check page contains the next year
 		Assert.assertTrue("Page does not contain next year ",
-				leaveBlockDisplayPage.asText().contains(Integer.toString(DateTime.now().getYear() + 1)));
+				leaveBlockDisplayPage.asText().contains(String.valueOf(Integer.valueOf(YEAR) + 1)));
 	}
 
 }

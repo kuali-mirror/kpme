@@ -365,6 +365,9 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                 }
 
                 tb.setHours(hours);
+            } else {
+            	// create new time hour details for earn codes of other types
+            	tb.setTimeHourDetails(this.createTimeHourDetails(earnCodeObj,tb.getHours(),tb.getAmount(),tb.getTkTimeBlockId(),true));
             }
             //reset time block history details
             for(TimeBlockHistory tbh : tb.getTimeBlockHistories()) {

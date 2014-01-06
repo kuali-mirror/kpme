@@ -78,16 +78,17 @@ public class HrConstants {
         public static final String PAY_FREQUENCY_MONTH = "M";
     }
 
-	public static final Map<String, String> DOC_ROUTE_STATUS = new HashMap<String, String>(8);
+	public static final Map<String, String> DOC_ROUTE_STATUS = new LinkedHashMap<String, String>(8);
 
 	static {
 		DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_INITIATED_CD, KewApiConstants.ROUTE_HEADER_INITIATED_LABEL);
+        DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_SAVED_CD, KewApiConstants.ROUTE_HEADER_SAVED_LABEL);
+        DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_ENROUTE_CD, KewApiConstants.ROUTE_HEADER_ENROUTE_LABEL);
+        DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_FINAL_CD, KewApiConstants.ROUTE_HEADER_FINAL_LABEL);
 		DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_CANCEL_CD, KewApiConstants.ROUTE_HEADER_CANCEL_LABEL);
-		DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_ENROUTE_CD, KewApiConstants.ROUTE_HEADER_ENROUTE_LABEL);
-		DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_FINAL_CD, KewApiConstants.ROUTE_HEADER_FINAL_LABEL);
 		DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, KewApiConstants.ROUTE_HEADER_DISAPPROVED_LABEL);
 		DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_EXCEPTION_CD, KewApiConstants.ROUTE_HEADER_EXCEPTION_LABEL);
-		DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_SAVED_CD, KewApiConstants.ROUTE_HEADER_SAVED_LABEL);
+
 	}
 
 	public static final class BATCH_JOB_NAMES {

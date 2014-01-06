@@ -28,5 +28,5 @@ public interface DepartmentDao {
     public Department getDepartment(String hrDeptId);
     public int getDepartmentCount(String department);
     public List<Department> getDepartments(String department);
-    List<Department> getDepartments(String department, String location, String descr, String active, String showHistory);
+    List<Department> getDepartments(String department, String location, String descr, String active, String showHistory, String payrollApproval);
 }

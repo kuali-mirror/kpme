@@ -59,7 +59,9 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 		String leavePlan = (principalHRAttributes != null) ? principalHRAttributes.getLeavePlan() : null;
 
 		if (lbdf.getNavString() == null) {
-			lbdf.setYear(LocalDate.now().getYear());
+            if (lbdf.getYear() == 0) {
+			    lbdf.setYear(LocalDate.now().getYear());
+            }
 		} else if(lbdf.getNavString().equals("NEXT")) {
 			lbdf.setYear(lbdf.getYear() + 1);
 		} else if(lbdf.getNavString().equals("PREV")) {

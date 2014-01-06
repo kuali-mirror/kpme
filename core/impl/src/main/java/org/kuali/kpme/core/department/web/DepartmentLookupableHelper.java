@@ -62,7 +62,7 @@ public class DepartmentLookupableHelper extends KPMELookupableHelper {
         String descr = fieldValues.get("description");
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
-
-        return HrServiceLocator.getDepartmentService().getDepartments(GlobalVariables.getUserSession().getPrincipalId(), dept, location, descr, active, showHist);
+        String payrollApproval = fieldValues.get("payrollApproval");
+        return HrServiceLocator.getDepartmentService().getDepartments(GlobalVariables.getUserSession().getPrincipalId(), dept, location, descr, active, showHist, payrollApproval);
     }
 }

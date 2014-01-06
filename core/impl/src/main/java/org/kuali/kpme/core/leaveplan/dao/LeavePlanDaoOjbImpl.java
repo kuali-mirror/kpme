@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
@@ -192,8 +193,13 @@ public class LeavePlanDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Leav
 	@Override
 	public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays,
 			LocalDate asOfDate) {
-
+        DateTime current = asOfDate.toDateTimeAtStartOfDay();
+        DateTime windowStart = current.minusDays(thresholdDays);
+        DateTime windowEnd = current.plusDays(thresholdDays);
         Criteria root = new Criteria();
+
+        root.addGreaterOrEqualThan("batchPriorYearCarryOverStartDate", windowStart.toDate());
+        root.addLessOrEqualThan("batchPriorYearCarryOverStartDate", windowEnd.toDate());
 
         root.addEqualTo("active", true);
 

@@ -242,32 +242,40 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleEmployeeApprovalJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
-    	DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
-    	DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
-    	CalendarContract calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+//    	DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+//    	DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
+//    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
     	
-    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
-	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
-	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
-	        	scheduleEmployeeApprovalJob(calendarEntry, scheduleDate, timesheetDocumentHeader);
-	        }
-    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
-	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
-	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
-	        	scheduleEmployeeApprovalJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
-	        }
-    	}
-	}
-	
-	private void scheduleEmployeeApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
-        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+    	Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
-		
-		Map<String, String> jobDataMap = new HashMap<String, String>();
-        jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
-		
+  		
+  		Map<String, String> jobDataMap = new HashMap<String, String>();
+          jobDataMap.put("hrCalendarEntryId",  calendarEntry.getHrCalendarEntryId());
+  		
         scheduleJob(EmployeeApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+    	
+//    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+//	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+//	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+//	        	scheduleEmployeeApprovalJob(calendarEntry, scheduleDate, timesheetDocumentHeader);
+//	        }
+//    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+//	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+//	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+//	        	scheduleEmployeeApprovalJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
+//	        }
+//    	}
 	}
+		
+//	private void scheduleEmployeeApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
+//        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+//        jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+//		
+//		Map<String, String> jobDataMap = new HashMap<String, String>();
+//        jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
+//		
+//        scheduleJob(EmployeeApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+//	}
 
 	@Override
 	public void scheduleMissedPunchApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException {
@@ -308,32 +316,41 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleSupervisorApprovalJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
-		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
-		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
-    	CalendarContract calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
-
-    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
-	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
-	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
-	        	scheduleSupervisorApprovalJob(calendarEntry, scheduleDate, timesheetDocumentHeader);
-	        }
-    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
-	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
-	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
-	        	scheduleSupervisorApprovalJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
-	        }
-    	}
+		
+		 Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+	     jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+			
+		 Map<String, String> jobDataMap = new HashMap<String, String>();
+	     jobDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+			
+	     scheduleJob(SupervisorApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+				
+//		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+//		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
+//    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+//
+//    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+//	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+//	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+//	        	scheduleSupervisorApprovalJob(calendarEntry, scheduleDate, timesheetDocumentHeader);
+//	        }
+//    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+//	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+//	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+//	        	scheduleSupervisorApprovalJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
+//	        }
+//    	}
 	}
 	
-	private void scheduleSupervisorApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
-        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
-        jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
-		
-		Map<String, String> jobDataMap = new HashMap<String, String>();
-        jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
-		
-        scheduleJob(SupervisorApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
-	}
+//	private void scheduleSupervisorApprovalJob(CalendarEntry calendarEntry, DateTime scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
+//        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+//        jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+//		
+//		Map<String, String> jobDataMap = new HashMap<String, String>();
+//        jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
+//		
+//        scheduleJob(SupervisorApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+//	}
 	
 	
 	@Override

@@ -86,6 +86,9 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 		
 		String roleId = getRoleService().getRoleIdByNamespaceCodeAndName(namespaceCode, roleName);
 
+		if(roleId == null)
+			return false;
+		
         if (asOfDate.equals(LocalDate.now().toDateTimeAtStartOfDay())) {
             principalHasRole = getRoleService().principalHasRole(principalId, Collections.singletonList(roleId), qualification);
         } else {

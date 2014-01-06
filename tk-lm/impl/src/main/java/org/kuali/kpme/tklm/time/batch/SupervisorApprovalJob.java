@@ -21,10 +21,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.common.TkConstants;
@@ -35,14 +37,10 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -62,32 +60,74 @@ public class SupervisorApprovalJob extends BatchJob {
 			JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 	
 			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
-			String documentId = jobDataMap.getString("documentId");
+//			String documentId = jobDataMap.getString("documentId");
 	
 			CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 			Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
-					
-			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
-				TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-				if (timesheetDocumentHeader != null) {
-					if (missedPunchDocumentsEnroute(documentId) || documentNotEnroute(documentId)) {
-						rescheduleJob(context);
-					} else {
-						TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-						TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-					}
-				}
+			DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+	    	DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
+	    	
+			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {	
+				List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+		        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+		        	String docId = timesheetDocumentHeader.getDocumentId();
+		        	if (timesheetDocumentHeader != null) {
+						if (missedPunchDocumentsEnroute(timesheetDocumentHeader.getDocumentId()) || documentNotEnroute(docId)) {
+							rescheduleJob(context);
+						} else {
+							TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+							String documentStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(docId);
+							if (TkConstants.SUPERVISOR_APPROVAL_DOC_STATUS.contains(documentStatus)) {
+								PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
+								if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {	
+									TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+								}
+							}
+						}
+		        	}
+		        }
 			} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
-				LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
-				if (leaveCalendarDocumentHeader != null) {
-					if (documentNotEnroute(documentId)) {
-						rescheduleJob(context);
-					} else {
-						LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-						LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+		        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+		        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+		        	if (leaveCalendarDocumentHeader != null) {
+		        		if (documentNotEnroute(leaveCalendarDocumentHeader.getDocumentId())) {
+							rescheduleJob(context);
+						} else {
+							LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentHeader.getDocumentId());
+							String documentStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(leaveCalendarDocument.getDocumentId());
+							if (TkConstants.SUPERVISOR_APPROVAL_DOC_STATUS.contains(documentStatus)) {
+								PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(leaveCalendarDocument.getPrincipalId(), endDate.toLocalDate());
+								if(phraRecord != null && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {	
+									LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+								}
+							}
+						}
 					}
-				}
+		        }
+	    	
 			}
+			
+//			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+//				TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+//				if (timesheetDocumentHeader != null) {
+//					if (missedPunchDocumentsEnroute(documentId) || documentNotEnroute(documentId)) {
+//						rescheduleJob(context);
+//					} else {
+//						TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+//						TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+//					}
+//				}
+//			} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+//				LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+//				if (leaveCalendarDocumentHeader != null) {
+//					if (documentNotEnroute(documentId)) {
+//						rescheduleJob(context);
+//					} else {
+//						LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+//						LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+//					}
+//				}
+//			}
         } else {
         	String principalName = getBatchUserPrincipalName();
         	LOG.error("Could not run batch jobs due to missing batch user " + principalName);

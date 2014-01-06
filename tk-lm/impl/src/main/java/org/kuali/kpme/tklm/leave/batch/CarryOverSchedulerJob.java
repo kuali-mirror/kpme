@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.leave.batch;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -32,7 +33,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class CarryOverSchedulerJob extends QuartzJobBean {
 
-	private static int LEAVE_PLAN_POLLING_WINDOW;
+	private int leavePlanPollingWindow;
 	private static final Logger LOG = Logger.getLogger(CarryOverSchedulerJob.class);
 	
 	private static BatchJobService batchJobService;
@@ -42,20 +43,10 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 		LocalDate asOfDate = LocalDate.now();
 		List<LeavePlan> leavePlans = (List<LeavePlan>) HrServiceLocator.getLeavePlanService().getLeavePlansNeedsCarryOverScheduled(getLeavePlanPollingWindow(), asOfDate);
         try {
-        	if(leavePlans!=null && !leavePlans.isEmpty()) {
-				DateTime current = asOfDate.toDateTimeAtStartOfDay();
-		        DateTime windowStart = current.minusDays(getLeavePlanPollingWindow());
-		        DateTime windowEnd = current.plusDays(getLeavePlanPollingWindow());
-
+        	if(CollectionUtils.isNotEmpty(leavePlans)) {
         		// schedule batch job for all LeavePlans who fall in leave polling window.
         		for(LeavePlan leavePlan : leavePlans) {
-        			if(leavePlan.getBatchPriorYearCarryOverStartDate() != null  && leavePlan.getBatchPriorYearCarryOverStartTime() != null ) {
-        				DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd");
-        				DateTime batchPriorYearCarryOverStartDateTime = formatter.parseDateTime(leavePlan.getBatchPriorYearCarryOverStartDate()).plus(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
-        				if (batchPriorYearCarryOverStartDateTime.compareTo(windowStart) >= 0 && batchPriorYearCarryOverStartDateTime.compareTo(windowEnd) <= 0) {
-        					getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan);
-        				}
-        			}
+        		    getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan);
         		}
         	}
         } catch (SchedulerException se) {
@@ -65,11 +56,11 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 	}
 	
 	public int getLeavePlanPollingWindow() {
-		return LEAVE_PLAN_POLLING_WINDOW;
+		return leavePlanPollingWindow;
 	}
 
 	public void setLeavePlanPollingWindow(int leavePlanPollingWindow) {
-		LEAVE_PLAN_POLLING_WINDOW = leavePlanPollingWindow;
+        this.leavePlanPollingWindow = leavePlanPollingWindow;
 	}
 
 	public static BatchJobService getBatchJobService() {

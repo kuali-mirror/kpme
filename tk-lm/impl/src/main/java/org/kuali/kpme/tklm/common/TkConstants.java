@@ -27,6 +27,7 @@ import java.util.TimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 
 public class TkConstants {
 
@@ -236,5 +237,18 @@ public class TkConstants {
         public static final String MODULE_NAME = "tklm";
         public static final String NAMESPACE_PREFIX = KPMEConstants.CacheNamespace.ROOT_NAMESPACE_PREFIX + "/"
                 + MODULE_NAME +'/';
+    }
+    
+    public static final List<String> EMPLOYEE_APPROVAL_DOC_STATUS = new ArrayList<String>();
+    static {
+    	EMPLOYEE_APPROVAL_DOC_STATUS.add(DocumentStatus.INITIATED.getCode());
+    	EMPLOYEE_APPROVAL_DOC_STATUS.add(DocumentStatus.SAVED.getCode());
+    }
+    
+    public static final List<String> SUPERVISOR_APPROVAL_DOC_STATUS = new ArrayList<String>();
+    static {
+    	SUPERVISOR_APPROVAL_DOC_STATUS.add(DocumentStatus.INITIATED.getCode());
+    	SUPERVISOR_APPROVAL_DOC_STATUS.add(DocumentStatus.SAVED.getCode());
+    	SUPERVISOR_APPROVAL_DOC_STATUS.add(DocumentStatus.ENROUTE.getCode());
     }
 }
