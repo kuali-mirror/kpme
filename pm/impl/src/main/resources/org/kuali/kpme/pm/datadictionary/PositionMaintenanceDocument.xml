@@ -249,15 +249,21 @@
 		p:headerText="Classification">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="pmPositionClassId"
+				<bean parent="Uif-InputField" p:propertyName="positionClass"
 					p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="true"
+                              p:enabledWhenChangedPropertyNames="pmPositionClassId"
+                              p:evaluateDisabledOnKeyUp="true" />
+                    </property>
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinder"
 							p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification" />
 					</property>
 					<property name="quickfinder.fieldConversions">
 						<map>
-							<entry key="pmPositionClassId" value="pmPositionClassId" />
+							<entry key="positionClass" value="positionClass"/>
+                            <entry key="pmPositionClassId" value="pmPositionClassId" />
 							<entry key="classificationTitle" value="classificationTitle" />
 							<entry key="salaryGroup" value="salaryGroup" />
 							<entry key="percentTime" value="percentTime" />

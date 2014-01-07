@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.position.PositionContract;
@@ -56,6 +57,7 @@ public class Position extends PositionBase implements PositionContract {
     private String institution;
     private String salaryGroup;
     private String pmPositionClassId;
+    private transient String positionClass;
     private String classificationTitle;
 
     private BigDecimal percentTime;
@@ -161,8 +163,21 @@ public class Position extends PositionBase implements PositionContract {
 	public void setPmPositionClassId(String id) {
 		this.pmPositionClassId = id;
 	}
-	
-	public List<ClassificationQualification> getRequiredQualList() {
+
+    public String getPositionClass() {
+        if (StringUtils.isBlank(positionClass) && StringUtils.isNotBlank(pmPositionClassId)) {
+            ClassificationContract classification = PmServiceLocator.getClassificationService().getClassificationById(this.pmPositionClassId);
+            positionClass = classification != null ? classification.getPositionClass() : null;
+        }
+
+        return positionClass;
+    }
+
+    public void setPositionClass(String positionClass) {
+        this.positionClass = positionClass;
+    }
+
+    public List<ClassificationQualification> getRequiredQualList() {
 		if(StringUtils.isNotEmpty(this.getPmPositionClassId())) {
 			// when Position Classification Id is changed, change the requiredQualList with it
 			if(CollectionUtils.isEmpty(requiredQualList) ||

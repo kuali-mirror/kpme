@@ -47,6 +47,7 @@
 				<ref bean="Position-maxPoolHeadCount" />
 				<ref bean="Position-tenureEligible" />
 				<ref bean="Position-pmPositionClassId" />
+                <ref bean="Position-positionClass"/>
 				<ref bean="Position-effectiveDate" />
 				<ref bean="Position-history" />
 				<ref bean="Position-active" />
@@ -444,6 +445,18 @@
 		<property name="label" value="Position Classification Id" />
 	</bean>
 
+    <bean id="Position-positionClass" parent="Position-positionClass-parentBean" />
+    <bean id="Position-positionClass-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="maxLength" value="60" />
+        <property name="shortLabel" value="Class" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="60" />
+        </property>
+        <property name="name" value="positionClass" />
+        <property name="label" value="Position Classification" />
+    </bean>
+
 	<bean id="Position-category" parent="Position-category-parentBean" />
 	<bean id="Position-category-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -685,7 +698,6 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="category" />
 				<bean parent="Uif-DataField" p:propertyName="names" />
-				<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 			</list>
 		</property>
 	</bean>
