@@ -503,7 +503,7 @@
 					<bean parent="Uif-DropdownControl"/>
 				</property>
 				<property name="optionsFinder">
-					<bean class="org.kuali.kpme.pm.util.PositionClassQualifierKeyValueFinder" />
+					<bean class="org.kuali.kpme.pm.util.PositionClassQualifierKeyValueFinder" p:addBlankOption="false" />
 				</property>
            </bean>
            <bean parent="Uif-InputField" p:propertyName="qualificationValue"
@@ -517,17 +517,17 @@
 				<property name="propertyReplacers">
 				    <list>
 						<!-- if the typevalue of selected type is not select,  use text control instead -->
-				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue eq 'Text' or #line.typeValue eq 'Number'"> 
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#line.typeValue eq 'Text' or #line.typeValue eq 'Number'">
 				           <property name="replacement">
 				           	<bean parent="Uif-TextControl" />
 				           </property>
 				        </bean>
-				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'Text'"> 
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'Text'">
 				           <property name="replacement">
-				           	<bean parent="AnyCharacterPatternConstraint" />
+				           	<bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
 				           </property>
 				        </bean>
-				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'Number'"> 
+				        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="validCharactersConstraint" p:condition="#line.typeValue eq 'Number'">
 				           <property name="replacement">
 				            <bean parent="NumericPatternConstraint" />
 				           </property>
