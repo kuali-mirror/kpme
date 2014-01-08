@@ -618,7 +618,7 @@
 			<bean parent="SortDefinition">
 			</bean>
 		</property>
-		<property name="lookupableID" value="earnCodeLookupable"></property>
+		<property name="lookupableID" value="kpmeHrBusinessObjectLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />

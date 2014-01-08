@@ -416,26 +416,27 @@
         </property>
     </bean>
     
-    
-    
-    <bean id="earnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
-    	<property name="lookupableHelperService">
-       		<bean class="org.kuali.kpme.core.earncode.web.EarnCodeLookupableHelper">
-       			<property name="lookupService">
-       				<ref bean="kpmeHrBusinessObjectLookupService"/>
-    			</property>
-			</bean>       		
-    	</property>
-	</bean>    
+	
+	
 <!--     common beans for KNS hr business object lookup -->
+	<bean id="kpmeHrBusinessObjectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
+    	<property name="lookupableHelperService">
+       		<ref bean="kpmeHrBusinessObjectLookupableHelper"/>      		
+    	</property>
+	</bean>
 	
-	
-<!--     common beans for KRAD hr business object lookup -->
-	<bean id="kpmeHrBusinessObjectLookupable" class="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl">
+	<bean id="kpmeHrBusinessObjectLookupableHelper" class="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper">
     	<property name="lookupService">
        		<ref bean="kpmeHrBusinessObjectLookupService"/>
     	</property>
 	</bean>
+	
+<!-- 	<bean id="kpmeHrBusinessObjectWithoutViewLinkLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"> -->
+<!--     	<property name="lookupableHelperService"> -->
+<!--        		<bean parent="kpmeHrBusinessObjectLookupableHelper" p:viewLinkEnabled="false" />      		 -->
+<!--     	</property> -->
+<!-- 	</bean> -->
+	
     
 <!--     common beans for KNS/KRAD hr business object lookup -->
   	<bean id="kpmeHrBusinessObjectLookupService" parent="lookupService">
@@ -448,16 +449,12 @@
 		<property name="lookupDaoOjb">
 			<ref bean="kpmeHrBusinessObjectLookupDaoOjb"/>
 		</property>
-	</bean>
-    
+	</bean>    
 
-	<bean id="kpmeHrBusinessObjectLookupDaoOjb" parent="lookupDaoOjb" class="org.kuali.kpme.core.bo.dao.HrBusinessObjectLookupDaoOjbImpl" />
+	<bean id="kpmeHrBusinessObjectLookupDaoOjb" parent="lookupDaoOjb" class="org.kuali.kpme.core.bo.dao.KpmeHrBusinessObjectLookupDaoOjbImpl" />
     
     
-    
-    
-    
-    
+<!--  parent beans for the above common beans for KNS/KRAD hr business object lookup; copied and pasted from KRAD spring bean file --> 
     <bean id="lookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl">
     	<property name="lookupDao">
       		<ref bean="lookupDao"/>
@@ -490,7 +487,7 @@
     </bean>
     <bean id="departmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.department.web.DepartmentLookupableHelper"/>
+            <bean class="org.kuali.kpme.core.department.web.DepartmentLookupableHelper" parent="kpmeHrBusinessObjectLookupableHelper"/>
         </property>
     </bean>
     <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">

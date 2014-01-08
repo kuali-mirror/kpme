@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -43,19 +41,6 @@ public class KPMELookupableHelper extends KualiLookupableHelperServiceImpl {
 			}
 		}
 		
-        if (businessObject instanceof HrBusinessObject) {
-            HrBusinessObject bo = (HrBusinessObject) businessObject;
-            if (!bo.isActive()) {
-                if (!HrContext.canEditInactiveRecords()) {    //KPME-2699
-                    for (HtmlData action : customActionUrls) {
-                        if (StringUtils.equals(action.getMethodToCall(),"edit")) {
-                            customActionUrls.remove(action);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
 		return customActionUrls;
 	}
 

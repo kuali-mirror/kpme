@@ -15,54 +15,47 @@
  */
 package org.kuali.kpme.core.department.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
+import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 
-@SuppressWarnings("deprecation")
-public class DepartmentLookupableHelper extends KPMELookupableHelper {
+public class DepartmentLookupableHelper extends KpmeHrBusinessObjectLookupableHelper {
 	
 	private static final long serialVersionUID = 566277764259830850L;
 
+    @SuppressWarnings("unchecked")
 	@Override
-	@SuppressWarnings("rawtypes")
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
-		Department departmentObj = (Department) businessObject;
-		String hrDeptId = departmentObj.getHrDeptId();
-
-		Properties params = new Properties();
-		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
-		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("hrDeptId", hrDeptId);
-        params.put("dept", departmentObj.getDept());
-		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
-		viewUrl.setDisplayText("view");
-		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
-		customActionUrls.add(viewUrl);
-		
-		return customActionUrls;
-	}
-
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String dept = fieldValues.get("dept");
-        String location = fieldValues.get("location");
-        String descr = fieldValues.get("description");
-        String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
-        String payrollApproval = fieldValues.get("payrollApproval");
-        return HrServiceLocator.getDepartmentService().getDepartments(GlobalVariables.getUserSession().getPrincipalId(), dept, location, descr, active, showHist, payrollApproval);
+    public List<? extends HrBusinessObjectContract> getSearchResults(Map<String, String> fieldValues) {
+    	// get the unfiltered list from the superclass
+    	List<Department> departmentObjs = (List<Department>) super.getSearchResults(fieldValues);
+    	
+    	//filter based on permissions for current logged in user
+    	String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+    	List<Department> returnList = new ArrayList<Department>();    	
+    	for (Department departmentObj : departmentObjs) {
+        	Map<String, String> roleQualification = new HashMap<String, String>();
+        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), departmentObj.getDept());
+        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), departmentObj.getLocation());
+        	
+        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+        		returnList.add(departmentObj);
+        	}
+    	}
+        
+        return returnList;
     }
 }

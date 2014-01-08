@@ -29,7 +29,7 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 
-public class HrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
+public class KpmeHrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
 
 	private static final String DOES_NOT_CONTAIN_BUSINESS_KEYS_MESSAGE = " does not contain a BUSINESS_KEYS list";
 	private static final String TIMESTAMP = "timestamp";
@@ -38,7 +38,7 @@ public class HrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
 	private static final String NO = "N";
 	private static final String HISTORY_PARAM_NAME = "history";
 	
-	private static final Logger LOG = Logger.getLogger(HrBusinessObjectLookupDaoOjbImpl.class);
+	private static final Logger LOG = Logger.getLogger(KpmeHrBusinessObjectLookupDaoOjbImpl.class);
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
