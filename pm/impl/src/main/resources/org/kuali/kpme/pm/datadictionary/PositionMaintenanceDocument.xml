@@ -98,7 +98,7 @@
 				<bean parent="Uif-NavigationActionLink" id="Pos-Funding-Actionlink"
 					p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-NoteAttachment-Actionlink"
-					p:navigateToPageId="Pos-NoteAttachmentPage" p:actionLabel="Notes and Attachments" />
+					p:navigateToPageId="Pos-NoteAttachmentPage" p:actionLabel="Notes @{#DocumentEntry.allowsNoteAttachments ? 'and Attachments' : ''} (@{document.notes.size()})" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-AdHoc-Actionlink"
 					p:navigateToPageId="Pos-AdHocPage" p:actionLabel="Ad Hoc Recipients" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-RouteLog-Actionlink"
@@ -467,7 +467,7 @@
 	<bean id="Pos-NoteAttachmentPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-DocumentNotesSection"
+				<bean parent="KPMEUif-DocumentNotesSection"
 					p:disclosure.defaultOpen="true" />
 			</list>
 		</property>
