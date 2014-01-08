@@ -417,53 +417,6 @@
     </bean>
     
     
-<!--     <bean id="earnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton"> -->
-<!--         <property name="lookupableHelperService"> -->
-<!--             <bean class="org.kuali.kpme.core.earncode.web.EarnCodeLookupableHelper"/> -->
-<!--         </property> -->
-<!--     </bean> -->  
-
-
-
-
-  
-<!--     <bean id="earnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"> -->
-<!--     	<property name="lookupableHelperService"> -->
-<!--        		<ref bean ="earnCodeLookupableHelper"/> -->
-<!--     	</property> -->
-<!-- 	</bean> -->
-	
-<!-- 	<bean id="earnCodeLookupableHelper" class="org.kuali.kpme.core.earncode.web.EarnCodeLookupableHelper"> -->
-<!--     	<property name="lookupService"> -->
-<!--        		<ref bean="kpmeHrBusinessObjectLookupService"/> -->
-<!--     	</property> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="kpmeHrBusinessObjectLookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl"> -->
-<!--     	<property name="lookupDao"> -->
-<!--        		<ref bean="kpmeHrBusinessObjectLookupDao"/> -->
-<!--     	</property> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="kpmeHrBusinessObjectLookupDao" class="org.kuali.kpme.core.KpmeHrBusinessObjectLookupDaoOjbImpl" /> -->
-    
- 
-    
-    
-<!--     <bean id="earnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl"> -->
-<!--     	<property name="lookupableHelperService"> -->
-<!--        		<bean class="org.kuali.kpme.core.earncode.web.EarnCodeLookupableHelper"> -->
-<!--        			<property name="lookupService"> -->
-<!--        				<bean class="org.kuali.rice.krad.service.impl.LookupServiceImpl"> -->
-<!--        					<property name="lookupDao"> -->
-<!--        						<bean class="org.kuali.kpme.core.KpmeHrBusinessObjectLookupDaoOjbImpl"/> -->
-<!--     					</property> -->
-<!-- 					</bean> -->
-<!--     			</property> -->
-<!-- 			</bean>       		 -->
-<!--     	</property> -->
-<!-- 	</bean> -->
-    
     
     <bean id="earnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">
     	<property name="lookupableHelperService">
@@ -474,8 +427,17 @@
 			</bean>       		
     	</property>
 	</bean>    
+<!--     common beans for KNS hr business object lookup -->
+	
+	
+<!--     common beans for KRAD hr business object lookup -->
+	<bean id="kpmeHrBusinessObjectLookupable" class="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl">
+    	<property name="lookupService">
+       		<ref bean="kpmeHrBusinessObjectLookupService"/>
+    	</property>
+	</bean>
     
-<!--     common beans for hr business object lookup -->
+<!--     common beans for KNS/KRAD hr business object lookup -->
   	<bean id="kpmeHrBusinessObjectLookupService" parent="lookupService">
     	<property name="lookupDao">
        		<ref bean="kpmeHrBusinessObjectLookupDao"/>

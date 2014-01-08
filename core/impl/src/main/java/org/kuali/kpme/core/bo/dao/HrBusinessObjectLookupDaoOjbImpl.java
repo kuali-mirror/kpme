@@ -31,70 +31,74 @@ import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 
 public class HrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
 
-	private static final String YES = "Y";
-	private static final String ACTIVE = "active";
+	private static final String DOES_NOT_CONTAIN_BUSINESS_KEYS_MESSAGE = " does not contain a BUSINESS_KEYS list";
+	private static final String TIMESTAMP = "timestamp";
+	private static final String BUSINESS_KEYS_VAR_NAME = "BUSINESS_KEYS";
 	private static final String EFFECTIVE_DATE = "effectiveDate";
-
+	private static final String NO = "N";
+	private static final String HISTORY_PARAM_NAME = "history";
+	
 	private static final Logger LOG = Logger.getLogger(HrBusinessObjectLookupDaoOjbImpl.class);
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Criteria getCollectionCriteriaFromMap(BusinessObject example, Map formProps) {
 		// read and remove the history option from the form map
-		String showHistory = (String) formProps.remove("history");
+		String showHistory = (String) formProps.remove(HISTORY_PARAM_NAME);
 		Criteria returnVal = super.getCollectionCriteriaFromMap(example, formProps);
 		// inject the efft date and timestamp subqueries if history is not to be shown
-		if (StringUtils.equals(showHistory, "N")) {
+		if (StringUtils.equals(showHistory, NO)) {
 			injectSubQueries(returnVal,	(Class<? extends HrBusinessObjectContract>) example.getClass(), formProps);
 		}
 		return returnVal;
 	}
 	
 
-	 @SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Criteria getCollectionCriteriaFromMapUsingPrimaryKeysOnly(Class businessObjectClass, Map formProps) {
 		 // read and remove the history option from the form map
-		 String showHistory = (String) formProps.remove("history");
+		 String showHistory = (String) formProps.remove(HISTORY_PARAM_NAME);
 		 Criteria returnVal = super.getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, formProps);
 		 // inject the efft date and timestamp subqueries if history is not to be shown
-		 if (StringUtils.equals(showHistory, "N")) {
+		 if (StringUtils.equals(showHistory, NO)) {
 			 injectSubQueries(returnVal, (Class<? extends HrBusinessObjectContract>) businessObjectClass, formProps);
 		 }
 		 return returnVal;
-	 }
+	}
 
+	
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void injectSubQueries(Criteria root, Class<? extends HrBusinessObjectContract> hrBOClass, Map formProps) {
 		// create the effective date filter criteria
 		Criteria effectiveDateFilter = new Criteria();
-		LocalDate fromEffdt = TKUtils.formatDateString(TKUtils.getFromDateString((String) formProps.get("effectiveDate")));
-		LocalDate toEffdt = TKUtils.formatDateString(TKUtils.getToDateString((String) formProps.get("effectiveDate")));
+		LocalDate fromEffdt = TKUtils.formatDateString(TKUtils.getFromDateString((String) formProps.get(EFFECTIVE_DATE)));
+		LocalDate toEffdt = TKUtils.formatDateString(TKUtils.getToDateString((String) formProps.get(EFFECTIVE_DATE)));
 		if (fromEffdt != null) {
-			effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
+			effectiveDateFilter.addGreaterOrEqualThan(EFFECTIVE_DATE, fromEffdt.toDate());
 		}
 		if (toEffdt != null) {
-			effectiveDateFilter.addLessOrEqualThan("effectiveDate",	toEffdt.toDate());
+			effectiveDateFilter.addLessOrEqualThan(EFFECTIVE_DATE,	toEffdt.toDate());
 		}
 		if (fromEffdt == null && toEffdt == null) {
-			effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
+			effectiveDateFilter.addLessOrEqualThan(EFFECTIVE_DATE, LocalDate.now().toDate());
 		}
 
 		List<String> businessKeys = new ArrayList<String>();
 		try {
-			businessKeys = (List<String>) hrBOClass.getDeclaredField(
-					"BUSINESS_KEYS").get(hrBOClass);
+			businessKeys = (List<String>) hrBOClass.getDeclaredField(BUSINESS_KEYS_VAR_NAME).get(hrBOClass);
 		} 
 		catch (NoSuchFieldException e) {
-			LOG.warn(hrBOClass.getName() + " does not contain a BUSINESS_KEYS list");
+			LOG.warn(hrBOClass.getName() + DOES_NOT_CONTAIN_BUSINESS_KEYS_MESSAGE);
 		} 
 		catch (IllegalAccessException e) {
-			LOG.warn(hrBOClass.getName() + " does not contain a BUSINESS_KEYS list");
+			LOG.warn(hrBOClass.getName() + DOES_NOT_CONTAIN_BUSINESS_KEYS_MESSAGE);
 		}
 		
 	    // inject the subqueries
-		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(hrBOClass, effectiveDateFilter, businessKeys, false));
-		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(hrBOClass, businessKeys, false));
-
+		root.addEqualTo(EFFECTIVE_DATE, OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(hrBOClass, effectiveDateFilter, businessKeys, false));
+		root.addEqualTo(TIMESTAMP, OjbSubQueryUtil.getTimestampSubQuery(hrBOClass, businessKeys, false));
 	}
+
 
 }

@@ -291,7 +291,7 @@
   <bean id="SalaryGroup-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Salary Group Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.salarygroup.web.SalaryGroupLookupableImpl" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
