@@ -1012,7 +1012,7 @@
 						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.pm.position.PositionQualifierKeyValueFinder" />
+						<bean class="org.kuali.kpme.pm.position.PositionQualifierKeyValueFinder" p:addBlankOption="false"/>
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="qualificationValue"
