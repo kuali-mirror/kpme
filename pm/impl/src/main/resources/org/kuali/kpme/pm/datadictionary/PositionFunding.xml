@@ -81,7 +81,7 @@
             </bean>
         </property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="2" />
 		</property>
 		<property name="name" value="chart" />
 		<property name="label" value="Chart" />
@@ -96,7 +96,7 @@
             </bean>
         </property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
 		<property name="name" value="org" />
 		<property name="label" value="Org" />
@@ -112,7 +112,7 @@
             </bean>
         </property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
 		<property name="name" value="account" />
 		<property name="label" value="Account" />
@@ -127,7 +127,7 @@
             </bean>
         </property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="5" />
 		</property>
 		<property name="name" value="subAccount" />
 		<property name="label" value="Sub Account" />
@@ -143,7 +143,7 @@
             </bean>
         </property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="5" />
 		</property>
 		<property name="name" value="objectCode" />
 		<property name="label" value="Object Code" />
@@ -158,7 +158,7 @@
             </bean>
         </property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
+			<bean parent="Uif-TextControl" p:size="3" />
 		</property>
 		<property name="name" value="subObjectCode" />
 		<property name="label" value="Sub Object Code" />
