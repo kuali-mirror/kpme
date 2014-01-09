@@ -36,7 +36,6 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
@@ -230,12 +229,12 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	//set document description here so it passes validation.  It will get overriden in doRouteStatusChange method
 	@Override
 	public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        document.getDocumentHeader().setDocumentDescription("New Position");
+        document.getDocumentHeader().setDocumentDescription("Edit Position");
         super.processAfterEdit(document, requestParameters);
     }
 	@Override 
 	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        document.getDocumentHeader().setDocumentDescription("Edit Position");
+        document.getDocumentHeader().setDocumentDescription("New Position");
 		super.processAfterNew(document, requestParameters);
 	} 
 	@Override
