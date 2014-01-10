@@ -38,17 +38,6 @@ public interface PositionResponsibilityContract extends PersistableBusinessObjec
 	public String getPositionResponsibilityId();
 
     /**
-     * The institution associated with the PositionResponsibility
-     *
-     * <p>
-     * institution of a PositionResponsibility.
-     * <p>
-     *
-     * @return institution for PositionResponsibility
-     */
-	public String getInstitution();
-
-    /**
      * The position responsibility Option associated with the PositionResponsibility
      *
      * <p>
@@ -92,16 +81,5 @@ public interface PositionResponsibilityContract extends PersistableBusinessObjec
      * @return getHrPositionId for PositionResponsibility
      */
 	public String getHrPositionId();
-
-    /**
-     * The location associated with the PositionResponsibility
-     *
-     * <p>
-     * location of a PositionResponsibility.
-     * <p>
-     *
-     * @return location for PositionResponsibility
-     */
-	public String getLocation();
 
 }

@@ -29,8 +29,6 @@ public class PositionResponsibility extends PersistableBusinessObjectBase implem
 	private static final long serialVersionUID = -1631206606795253956L;
 	
 	private String positionResponsibilityId;
-	private String institution;
-	private String location;
 	private String positionResponsibilityOption;
 	private BigDecimal percentTime;
 	private String hrPositionId;
@@ -42,14 +40,6 @@ public class PositionResponsibility extends PersistableBusinessObjectBase implem
 
 	public void setPositionResponsibilityId(String positionResponsibilityId) {
 		this.positionResponsibilityId = positionResponsibilityId;
-	}
-
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
 	}
 
 	public String getPositionResponsibilityOption() {
@@ -93,15 +83,6 @@ public class PositionResponsibility extends PersistableBusinessObjectBase implem
 		this.setPositionResponsibilityId(id);
 		
 	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	
 	
 	
 }

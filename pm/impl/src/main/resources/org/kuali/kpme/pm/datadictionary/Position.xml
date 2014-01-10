@@ -783,8 +783,6 @@
 		<property name="layoutManager.richTable.render" value="false" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="institution" />
-				<bean parent="Uif-DataField" p:propertyName="location" />
 				<bean parent="Uif-DataField" p:propertyName="percentTime" />
 				<bean parent="Uif-DataField" p:propertyName="positionResponsibilityOption" />
 			</list>
@@ -1143,16 +1141,6 @@
 		<property name="layoutManager.numberOfColumns" value="7" />
 		<property name="items">
 			<list>
-
-				<bean parent="Uif-InputField" p:propertyName="institution">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
-							p:fieldConversions="institutionCode:institution" />
-					</property>
-				</bean>
-
-				<bean parent="Uif-InputField" p:propertyName="location" />
-
 				<bean parent="Uif-InputField" p:propertyName="percentTime"
 					p:exclusiveMin="0" p:inclusiveMax="100"
 					p:constraintText="Must be a number between 0 and 100.">

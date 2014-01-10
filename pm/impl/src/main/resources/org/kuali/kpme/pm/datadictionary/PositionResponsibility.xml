@@ -28,24 +28,9 @@
 		<property name="attributes">
 			<list>
 				<ref bean="PositionResponsibility-positionResponsibilityId" />
-				<ref bean="PositionResponsibility-institution" />
-				<ref bean="PositionResponsibility-location" />
-				<ref bean="PositionResponsibility-positionResponsibilityOption" />
+                <ref bean="PositionResponsibility-positionResponsibilityOption" />
 				<ref bean="PositionResponsibility-percentTime" />
 				<ref bean="PositionDuty-hrPositionId"/>
-			</list>
-		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="campusObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="code" />
-						</list>
-					</property>
-				</bean>
 			</list>
 		</property>
 		<property name="objectLabel" value="Position Type" />
@@ -65,42 +50,6 @@
 		</property>
 		<property name="name" value="positionResponsibilityId" />
 		<property name="label" value="Position Responsibility Id" />
-	</bean>
-
-	<bean id="PositionResponsibility-institution" parent="PositionResponsibility-institution-parentBean" />
-	<bean id="PositionResponsibility-institution-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="maxLength" value="15" />
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Institution" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
-	</bean>
-
-	<bean id="PositionResponsibility-location" parent="PositionResponsibility-location-parentBean" />
-	<bean id="PositionResponsibility-location-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="maxLength" value="15" />
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Location" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
 	</bean>
 
 	<!-- here comes the position responsibility option look up 
