@@ -26,5 +26,6 @@ public interface DepartmentAffiliationDao {
     public DepartmentAffiliation getDepartmentAffiliationByType(String deptAfflType);
     public List<DepartmentAffiliation> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate);
     public List<DepartmentAffiliation> getAllActiveAffiliations();
+    public DepartmentAffiliation getPrimaryAffiliation();
 
 }

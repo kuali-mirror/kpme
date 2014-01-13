@@ -805,6 +805,7 @@
 							<bean parent="Uif-DataField" p:propertyName="description" />
 							<bean parent="Uif-DataField" p:propertyName="institution" />
 							<bean parent="Uif-DataField" p:propertyName="location" />
+                            <bean parent="Uif-DataField" p:propertyName="primaryDepartment"/>
 							<bean parent="Uif-DataField" p:propertyName="classificationTitle" />
 							<bean parent="Uif-DataField" p:propertyName="positionType" />
 							<bean parent="Uif-DataField" p:propertyName="poolEligible" />
@@ -867,7 +868,7 @@
 									</list>
 								</property>
 							</bean>
-							<bean parent="Uif-VerticalBoxSection" p:headerText="Departments">
+							<bean parent="Uif-VerticalBoxSection" p:headerText="Additional Departments">
 								<property name="items">
 									<list>
 										<ref bean="Position-departments" />
@@ -1240,7 +1241,11 @@
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="layoutManager.generateAutoSequence" value="true" />
 		<property name="layoutManager.numberOfColumns" value="4" />
-
+        <property name="filters">
+            <list>
+                <bean parent="Uif-ConditionalCollectionFilter" p:expression="#line.deptAfflObj.primaryIndicator ne true"/>
+            </list>
+        </property>
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="institution">
@@ -1273,7 +1278,7 @@
 					<property name="optionsFinder">
 						<bean class="org.kuali.kpme.pm.util.DepartmentAffiliationKeyValueFinder" />
 					</property>
-				</bean>
+                </bean>
 				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 				<bean parent="Uif-InputField" p:propertyName="active"
 					p:defaultValue="true" />

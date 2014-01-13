@@ -37,7 +37,6 @@ public class InstitutionKeyValueFinder extends UifKeyValuesFinderBase {
 	public List<KeyValue> getKeyValues(ViewModel model) {
 
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
-		
 		if (!StringUtils.contains(model.getFormPostUrl(), "inquiry")) {
 			
 			MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
@@ -52,7 +51,10 @@ public class InstitutionKeyValueFinder extends UifKeyValuesFinderBase {
 				}
 			}
 		}
-		
+
+		if (keyValues.size() > 1) {
+            keyValues.add(0, new ConcreteKeyValue("", ""));
+        }
 		return keyValues;
 	}
 }

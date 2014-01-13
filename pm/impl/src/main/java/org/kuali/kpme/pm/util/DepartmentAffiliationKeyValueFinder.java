@@ -37,7 +37,9 @@ public class DepartmentAffiliationKeyValueFinder extends KeyValuesBase {
 		keyValues.add(new ConcreteKeyValue("", ""));
 		if(CollectionUtils.isNotEmpty(affilList)) {
 			for(DepartmentAffiliationContract anAffil : affilList) {
-				keyValues.add(new ConcreteKeyValue((String) anAffil.getDeptAfflType(), (String) anAffil.getDeptAfflType()));
+                if (!anAffil.isPrimaryIndicator()) {
+				    keyValues.add(new ConcreteKeyValue((String) anAffil.getDeptAfflType(), (String) anAffil.getDeptAfflType()));
+                }
 			}
 		}         
 		return keyValues;

@@ -20,9 +20,11 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.PositionDuty;
@@ -268,12 +270,35 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     @Override
     public void prepareForSave() {
         Position position = (Position)this.getDataObject();
+        boolean hasPrimaryDepartment = false;
         for (PositionFunding positionFunding : position.getFundingList()) {
             positionFunding.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         }
         for (PositionDepartment positionDepartment : position.getDepartmentList()) {
             positionDepartment.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+            if (positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
+                hasPrimaryDepartment=true;
+                positionDepartment.setDepartment(position.getPrimaryDepartment());
+                positionDepartment.setLocation(position.getLocation());
+                positionDepartment.setInstitution(position.getInstitution());
+                positionDepartment.setDeptAffl(HrServiceLocator.getDepartmentAffiliationService().getPrimaryAffiliation().getDeptAfflType());
+                positionDepartment.setEffectiveDate(position.getEffectiveDate());
+            }
         }
+
+        //create primary department
+        if (!hasPrimaryDepartment) {
+            PositionDepartment primaryDepartment = new PositionDepartment();
+            primaryDepartment.setDepartment(position.getPrimaryDepartment());
+            primaryDepartment.setLocation(position.getLocation());
+            primaryDepartment.setInstitution(position.getInstitution());
+            primaryDepartment.setDeptAffl(HrServiceLocator.getDepartmentAffiliationService().getPrimaryAffiliation().getDeptAfflType());
+            primaryDepartment.setEffectiveDate(position.getEffectiveDate());
+            primaryDepartment.setActive(true);
+            position.getDepartmentList().add(primaryDepartment);
+        }
+
         super.prepareForSave();
+
     }
 }

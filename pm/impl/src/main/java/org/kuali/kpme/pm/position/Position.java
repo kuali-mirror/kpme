@@ -342,9 +342,12 @@ public class Position extends PositionBase implements PositionContract {
 		this.positionStatus = positionStatus;
 	}
 
+    public void setPrimaryDepartment () {
+
+    }
 	public String getPrimaryDepartment() {
 
-		if (this.departmentList != null && this.departmentList.size() > 0) {
+		if (this.primaryDepartment == null && this.departmentList != null && this.departmentList.size() > 0) {
 			for (PositionDepartment department: this.departmentList) {
 				DepartmentAffiliation pda = department.getDeptAfflObj();
 				if (pda.isPrimaryIndicator()) {
@@ -356,6 +359,10 @@ public class Position extends PositionBase implements PositionContract {
 		
 		return primaryDepartment;
 	}
+
+    public void setPrimaryDepartment (String primaryDepartment) {
+        this.primaryDepartment = primaryDepartment;
+    }
 
 	public String getLocation() {
 		return location;

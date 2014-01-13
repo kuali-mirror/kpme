@@ -43,4 +43,10 @@ public interface DepartmentAffiliationService {
      * @return
      */
     public List<? extends DepartmentAffiliationContract> getAllActiveAffiliations();
+
+    /**
+     * Retrieve the primary affiliation
+     * @return
+     */
+    public DepartmentAffiliationContract getPrimaryAffiliation();
 }

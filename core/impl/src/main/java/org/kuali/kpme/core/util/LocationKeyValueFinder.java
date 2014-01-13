@@ -42,8 +42,12 @@ public class LocationKeyValueFinder extends UifKeyValuesFinderBase {
 			for(LocationContract aLocation : locList) {
 				keyValues.add(new ConcreteKeyValue((String)aLocation.getLocation(), (String)aLocation.getLocation()));
 			}	
-		}    
-		
+		}
+
+        if (keyValues.size() > 1) {
+            keyValues.add(0, new ConcreteKeyValue("", ""));
+        }
+
 		return keyValues;
 	}
 }

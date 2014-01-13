@@ -87,4 +87,12 @@ public class DepartmentAffiliationDaoObjImpl extends PlatformAwareDaoBaseOjb imp
         return aList;
     }
 
+    @Override
+    public DepartmentAffiliation getPrimaryAffiliation() {
+        Criteria crit = new Criteria();
+        crit.addEqualTo("primaryIndicator", true);
+        crit.addEqualTo("active", true);
+        Query query = QueryFactory.newQuery(DepartmentAffiliation.class, crit);
+        return (DepartmentAffiliation) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
 }

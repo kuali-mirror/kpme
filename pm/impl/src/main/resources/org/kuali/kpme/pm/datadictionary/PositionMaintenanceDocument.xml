@@ -86,7 +86,7 @@
 				<bean parent="Uif-NavigationActionLink" id="Pos-Classification-Actionlink"
 					p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Department-Actionlink"
-					p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Department" />
+					p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Qualification-Actionlink"
 					p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Duty-Actionlink"
@@ -137,12 +137,78 @@
 	</bean>
 
 	<bean id="Pos-OverviewPage-Section" parent="Uif-MaintenanceGridSection">
+
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="effectiveDate"
 					p:required="true">
                     <property name="validCharactersConstraint">
                         <bean parent="BasicDatePatternConstraint"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="institution"
+                      p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.effectiveDate"
+                      p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="location"
+                      p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="primaryDepartment"
+                      p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                              p:fieldConversions="dept:primaryDepartment"
+                              p:lookupParameters="location:location" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="positionClass"
+                      p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="true"
+                              p:enabledWhenChangedPropertyNames="pmPositionClassId"
+                              p:evaluateDisabledOnKeyUp="true" />
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"
+                              p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification"
+                              p:lookupParameters="location:location,institution:institution"/>
+                    </property>
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="positionClass" value="positionClass"/>
+                            <entry key="pmPositionClassId" value="pmPositionClassId" />
+                            <entry key="classificationTitle" value="classificationTitle" />
+                            <entry key="salaryGroup" value="salaryGroup" />
+                            <entry key="percentTime" value="percentTime" />
+                            <entry key="benefitsEligible" value="benefitsEligible" />
+                            <entry key="leaveEligible" value="leaveEligible" />
+                            <entry key="leavePlan" value="leavePlan" />
+                            <entry key="payGrade" value="payGrade" />
+                            <entry key="positionReportGroup" value="positionReportGroup" />
+                            <entry key="positionType" value="positionType" />
+                            <entry key="poolEligible" value="poolEligible" />
+                            <entry key="tenureEligible" value="tenureEligible" />
+                            <entry key="active" value="active" />
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="classificationTitle" p:readOnly="true ">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"
+                              p:enabledWhenChangedPropertyNames="pmPositionClassId"
+                              p:evaluateDisabledOnKeyUp="true" />
                     </property>
                 </bean>
 				<bean parent="Uif-InputField" p:propertyName="description"
@@ -170,13 +236,6 @@
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
 							p:fieldConversions="positionNumber:reportsToPositionId" />
-					</property>
-					<property name="quickfinder.autoSearch" value="true" />
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="reportsToPrincipalId">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-							p:fieldConversions="principalId:reportsToPrincipalId" />
 					</property>
 					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
@@ -230,8 +289,6 @@
 				         </bean>
 					</property>	
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="positionNumber"
-					p:readOnly="true" />
 			</list>
 		</property>
 	</bean>
@@ -249,43 +306,14 @@
 		p:headerText="Classification">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="positionClass"
-					p:required="true">
+                <bean parent="Uif-InputField" p:propertyName="positionClass"
+                      p:required="true" p:readOnly="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:disabled="true"
+                        <bean parent="Uif-TextControl"
                               p:enabledWhenChangedPropertyNames="pmPositionClassId"
                               p:evaluateDisabledOnKeyUp="true" />
                     </property>
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinder"
-							p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification" />
-					</property>
-					<property name="quickfinder.fieldConversions">
-						<map>
-							<entry key="positionClass" value="positionClass"/>
-                            <entry key="pmPositionClassId" value="pmPositionClassId" />
-							<entry key="classificationTitle" value="classificationTitle" />
-							<entry key="salaryGroup" value="salaryGroup" />
-							<entry key="percentTime" value="percentTime" />
-							<entry key="benefitsEligible" value="benefitsEligible" />
-							<entry key="leaveEligible" value="leaveEligible" />
-							<entry key="leavePlan" value="leavePlan" />
-							<entry key="payGrade" value="payGrade" />
-							<entry key="positionReportGroup" value="positionReportGroup" />
-							<entry key="positionType" value="positionType" />
-							<entry key="poolEligible" value="poolEligible" />
-							<entry key="tenureEligible" value="tenureEligible" />
-							<entry key="active" value="active" />
-						</map>
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="classificationTitle">
-					<property name="control">
-						<bean parent="Uif-TextControl" p:disabled="true"
-							p:enabledWhenChangedPropertyNames="pmPositionClassId"
-							p:evaluateDisabledOnKeyUp="true" />
-					</property>
-				</bean>
+                </bean>
 				<bean parent="Uif-InputField" p:propertyName="positionReportGroup"
 					p:readOnly="true" />
 				<bean parent="Uif-InputField" p:propertyName="positionType"
@@ -364,7 +392,7 @@
 	<bean id="Pos-DepartmentPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-VerticalBoxSection" p:headerText="Department">
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Additional Departments">
 					<property name="items">
 						<list>
 							<bean parent="Position-departments" />

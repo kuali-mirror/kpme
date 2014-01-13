@@ -18,6 +18,7 @@ package org.kuali.kpme.core.departmentaffiliation.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.departmentaffiliation.dao.DepartmentAffiliationDao;
@@ -62,4 +63,9 @@ public class DepartmentAffiliationServiceImpl implements DepartmentAffiliationSe
 		return this.departmentAffiliationDao.getAllActiveAffiliations();
 	}
 
+
+    @Override
+    public DepartmentAffiliation getPrimaryAffiliation() {
+        return this.departmentAffiliationDao.getPrimaryAffiliation();
+    }
 }
