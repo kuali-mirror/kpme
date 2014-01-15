@@ -112,7 +112,12 @@
 		<property name="items">
 			<list>
 				<ref bean="Pos-OverviewPage-Widgets" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Next to Classification" p:align="right" />
+				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification" p:actionImagePlacement="RIGHT" p:style='float: right;'>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Next"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>
@@ -298,7 +303,12 @@
 		<property name="items">
 			<list>
 				<ref bean="Pos-ClassificationPage-Widgets" />
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Next to Department" p:align="right" />
+				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments" p:actionImagePlacement="RIGHT" p:style='float: right;'>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Next"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>
@@ -399,7 +409,12 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Next to Qualifications" p:align="right" />
+				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications" p:actionImagePlacement="RIGHT" p:style='float: right;'>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Next"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>
@@ -422,7 +437,12 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-DutyPage" p:actionLabel="Next to Duties" p:align="right" />
+				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" p:actionImagePlacement="RIGHT" p:style='float: right;'>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Next"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>
@@ -438,7 +458,12 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-FlagPage" p:actionLabel="Next to Position Flags" p:align="right" />
+				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" p:actionImagePlacement="RIGHT" p:style='float: right;'>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Next"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>
@@ -454,7 +479,12 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Next to Responsibility" p:align="right" />
+				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility" p:actionImagePlacement="RIGHT" p:style='float: right;'>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Next"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
 	</bean>
@@ -470,7 +500,12 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-FundingPage" p:actionLabel="Next to Funding" p:align="right" />
+				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding" p:actionImagePlacement="RIGHT" p:style='float: right;'>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Next"/>
+                    </property>
+                </bean>        
 			</list>
 		</property>
 	</bean>
@@ -486,7 +521,12 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-NavigationActionLink" p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Back to Overview" p:align="right" />
+				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Back to Overview" p:actionImagePlacement="RIGHT" p:style='float: right;'>
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
+                              p:altText="Next"/>
+                    </property> 
+                </bean>        
 			</list>
 		</property>
 	</bean>
