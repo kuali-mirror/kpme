@@ -1248,20 +1248,22 @@
         </property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="institution">
+				<bean parent="Uif-InputField" p:propertyName="institution" id="position_department_institution"
+                        p:onDocumentReadyScript="jQuery('#position_department_institution_add_control').val('@{#dp.institution}');">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
+						<bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" p:addBlankOption="false" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="location">
+				<bean parent="Uif-InputField" p:propertyName="location" id="position_department_location"
+                      p:onDocumentReadyScript="jQuery('#position_department_location_add_control').val('@{#dp.location}');">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" />
+						<bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" p:addBlankOption="false" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="department">
@@ -1279,7 +1281,12 @@
 						<bean class="org.kuali.kpme.pm.util.DepartmentAffiliationKeyValueFinder" />
 					</property>
                 </bean>
-				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-InputField" p:propertyName="effectiveDate" id="position_department_effectiveDate"
+                      p:onDocumentReadyScript="var date = '@{#dp.effectiveDate}';
+                            var dateString = date.length == 10 ? date.substr(5,2) + '/' + date.substr(8,2) + '/' + date.substr(0,4) : '';
+                            jQuery('#position_department_effectiveDate_add_control').val(dateString);">
+
+                </bean>
 				<bean parent="Uif-InputField" p:propertyName="active"
 					p:defaultValue="true" />
 			</list>

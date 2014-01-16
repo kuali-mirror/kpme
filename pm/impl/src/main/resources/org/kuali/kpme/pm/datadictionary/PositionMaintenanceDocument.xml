@@ -152,7 +152,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="institution"
-                      p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.effectiveDate"
+                      p:refreshWhenChangedPropertyNames="#dp.effectiveDate"
                       p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
