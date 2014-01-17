@@ -147,27 +147,38 @@
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="effectiveDate"
 					p:required="true">
+
                     <property name="validCharactersConstraint">
                         <bean parent="BasicDatePatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="institution"
+                <bean parent="Uif-InputField" p:propertyName="institution" id="position_institution"
                       p:refreshWhenChangedPropertyNames="#dp.effectiveDate"
+                      p:onDocumentReadyScript="
+                        var options = jQuery('#position_institution_control option');
+                        if (options.length == 2) {
+                            jQuery('#position_institution_control').val(options[1].value);
+                         }"
                       p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" p:addBlankOption="false" />
+                        <bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="location"
+                <bean parent="Uif-InputField" p:propertyName="location" id="position_location"
+                      p:onDocumentReadyScript="
+                        var options = jQuery('#position_location_control option');
+                        if (options.length == 2) {
+                            jQuery('#position_location_control').val(options[1].value);
+                         }"
                       p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" p:addBlankOption="false" />
+                        <bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="primaryDepartment"

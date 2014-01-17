@@ -44,10 +44,6 @@ public class LocationKeyValueFinder extends UifKeyValuesFinderBase {
 			}	
 		}
 
-        if (keyValues.size() > 1) {
-            keyValues.add(0, new ConcreteKeyValue("", ""));
-        }
-
 		return keyValues;
 	}
 }

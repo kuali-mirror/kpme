@@ -1255,7 +1255,7 @@
 						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" p:addBlankOption="false" />
+						<bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="location" id="position_department_location"
@@ -1264,7 +1264,7 @@
 						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" p:addBlankOption="false" />
+						<bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="department">
