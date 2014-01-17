@@ -1167,14 +1167,15 @@
 	</bean>
 
 	<!-- Funding List, used by maintenance views -->
-	<bean id="Position-fundings" parent="Uif-TableCollectionGroup">
+	<bean id="Position-fundings" parent="Uif-StackedCollectionGroup">
 		<property name="collectionObjectClass"
 			value="org.kuali.kpme.pm.position.funding.PositionFunding" />
 		<property name="propertyName" value="fundingList" />
+		<!-- 
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="layoutManager.richTable.render" value="false" />
 		<property name="layoutManager.generateAutoSequence" value="true" />
-		<property name="layoutManager.numberOfColumns" value="7" />
+		<property name="layoutManager.numberOfColumns" value="7" />   -->
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
