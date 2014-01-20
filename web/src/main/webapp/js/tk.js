@@ -140,6 +140,8 @@ $(document).ready(function() {
     var nextDocumentId = $('input[name=nextDocumentId]').val();
     var prevHrCalendarEntryId = $('input[name=prevHrCalendarEntryId]').val();
     var nextHrCalendarEntryId = $('input[name=nextHrCalendarEntryId]').val();
+    var beginDateString = $('input[name=beginDateString]').val();
+    var endDateString =$('input[name=endDateString]').val();
 
     // create navigation buttons for timesheet
     $('#nav_prev').button({
@@ -175,8 +177,10 @@ $(document).ready(function() {
     });
 
     $('#nav_prev_lc').click(function() {
-        this.form.documentId.value = prevDocumentId;
-        this.form.hrCalendarEntryId.value = prevHrCalendarEntryId;
+    	if(this.form.documentId != undefined){
+    		this.form.documentId.value = prevDocumentId;
+    	}
+    	this.form.hrCalendarEntryId.value = prevHrCalendarEntryId;
         this.form.submit();
     });
 
@@ -188,7 +192,9 @@ $(document).ready(function() {
     });
 
     $('#nav_next_lc').click(function() {
-        this.form.documentId.value = nextDocumentId;
+    	if(this.form.documentId != undefined){
+    		this.form.documentId.value = nextDocumentId;
+    	}
         this.form.hrCalendarEntryId.value = nextHrCalendarEntryId;
         this.form.submit();
     });
@@ -236,6 +242,34 @@ $(document).ready(function() {
     });
 
    
+    // create navigation buttons for leave request approval calendar    
+    $('#nav_prev_lra').button({
+        icons: {
+            primary: "ui-icon-triangle-1-w"
+        },
+        text: false
+    });
+
+    $('#nav_prev_lra').click(function() {
+    	this.form.beginDateString.value = beginDateString;
+    	this.form.endDateString.value = endDateString;
+    	this.form.navigationAction.value = 'PREV';
+    	this.form.submit();
+    });
+
+    $('#nav_next_lra').button({
+        icons: {
+            primary: "ui-icon-triangle-1-e"
+        },
+        text: false
+    });
+
+    $('#nav_next_lra').click(function() {
+    	this.form.beginDateString.value = beginDateString;
+    	this.form.endDateString.value = endDateString;
+    	this.form.navigationAction.value = 'NEXT';
+    	this.form.submit();
+    });
 
     // datepicker
     $('#startDate, #endDate').datepicker({

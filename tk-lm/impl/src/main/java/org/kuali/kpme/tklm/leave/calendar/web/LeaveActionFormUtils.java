@@ -29,6 +29,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.request.approval.web.LeaveRequestApprovalRow;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 public class LeaveActionFormUtils {
@@ -88,6 +89,32 @@ public class LeaveActionFormUtils {
 
         
         return JSONValue.toJSONString(leaveBlockList);
+        
+    }
+    
+    
+    public static String getLeaveRequestsJson(List<LeaveRequestApprovalRow> reqRows) {
+
+        if (reqRows == null || reqRows.size() == 0) {
+            return "";
+        }
+
+        List<Map<String, Object>> leaveRequestList = new LinkedList<Map<String, Object>>();
+
+        for (LeaveRequestApprovalRow requestRow : reqRows) {
+            Map<String, Object> leaveRequestMap = new LinkedHashMap<String, Object>();
+            leaveRequestMap.put("id", requestRow.getLeaveRequestDocId());
+            leaveRequestMap.put("documentId", requestRow.getLeaveRequestDocId());
+            leaveRequestMap.put("leaveDate", requestRow.getRequestedDate()); 
+            leaveRequestMap.put("assignmentTitle", requestRow.getAssignmentTitle());
+            leaveRequestMap.put("leaveHours", requestRow.getRequestedHours());
+            leaveRequestMap.put("principalId", requestRow.getPrincipalId());
+            leaveRequestMap.put("principalName", requestRow.getEmployeeName());
+            leaveRequestMap.put("leaveCode", requestRow.getLeaveCode());
+            leaveRequestList.add(leaveRequestMap);
+        }
+        
+        return JSONValue.toJSONString(leaveRequestList);
         
     }
 

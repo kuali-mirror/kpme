@@ -551,6 +551,10 @@ label.error {
     display: none;
 }
 
+#leaveRequestString {
+    display: none;
+}
+
 #docEditable {
     display: none;
 }

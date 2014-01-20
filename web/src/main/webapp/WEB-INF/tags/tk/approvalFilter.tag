@@ -1,27 +1,55 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <jsp:useBean id="tagSupport" class="org.kuali.kpme.tklm.common.TagSupport"/>
+<%@ attribute name="calledFrom" required="false" type="java.lang.String" %>
 
 <table id="approvals-filter">
     <tr>
-        <td style="white-space:nowrap;">
-            Calendar:
-            <%--<label for="selectedPayCalendarGroup">--%>
-                <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup"
-                        onchange="this.form.methodToCall.value='selectNewPayCalendar'; this.form.submit();">
-                    <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
-                        <c:choose>
-                            <c:when test="${Form.selectedPayCalendarGroup eq payCalendarGroup}">
-                                <option value="${payCalendarGroup}" selected="selected">${payCalendarGroup}</option>
+    	<c:if test="${empty calledFrom}">
+	        <td style="white-space:nowrap;">
+	            Calendar:
+	            <%--<label for="selectedPayCalendarGroup">--%>
+	                <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup"
+	                        onchange="this.form.methodToCall.value='selectNewPayCalendar'; this.form.submit();" >
+	                    <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
+	                        <c:choose>
+	                            <c:when test="${Form.selectedPayCalendarGroup eq payCalendarGroup}">
+	                                <option value="${payCalendarGroup}" selected="selected">${payCalendarGroup}</option>
+	                            </c:when>
+	                            <c:otherwise>
+	                                <option value="${payCalendarGroup}">${payCalendarGroup}</option>
+	                            </c:otherwise>
+	                        </c:choose>
+	                    </c:forEach>
+	                </select>
+	            <%--</label>--%>
+	        </td>
+        </c:if>
+      	<c:if test="${not empty calledFrom}">
+	        <td style="white-space:nowrap;">
+	            Calendar View:
+                <select id="selectedCalendarType" name="selectedCalendarType"
+                       onchange="this.form.methodToCall.value='selectNewCalendarType'; this.form.submit();">
+            	         <c:choose>
+                            <c:when test="${Form.selectedCalendarType eq 'M'}">
+                                <option value="M" selected="selected">Month View</option>
                             </c:when>
                             <c:otherwise>
-                                <option value="${payCalendarGroup}">${payCalendarGroup}</option>
+                                <option value="M">Month View</option>
                             </c:otherwise>
                         </c:choose>
-                    </c:forEach>
-                </select>
-            <%--</label>--%>
-        </td>
+            	         <c:choose>
+                            <c:when test="${Form.selectedCalendarType eq 'W'}">
+                                <option value="W" selected="selected">Week View</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="W">Week View</option>
+                            </c:otherwise>
+                        </c:choose>
+ 	              </select>
+	        </td>
+        </c:if>
+        
         <td style="white-space:nowrap;">
             Department:
             <select id="selectedDept" name="selectedDept"

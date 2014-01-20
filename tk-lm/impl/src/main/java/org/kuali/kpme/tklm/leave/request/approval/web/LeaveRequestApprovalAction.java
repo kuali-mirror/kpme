@@ -31,16 +31,25 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.api.calendar.CalendarContract;
+import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.ApprovalFormAction;
+import org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalActionForm;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
+import org.kuali.kpme.tklm.leave.calendar.LeaveRequestCalendar;
+import org.kuali.kpme.tklm.leave.calendar.web.LeaveActionFormUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.kpme.tklm.time.util.TkContext;
@@ -57,6 +66,9 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
     public static final String ID_SEPARATOR = "____";	// separator for documentId and reason string
     public static final String DOC_NOT_FOUND = "Leave request document not found with id ";
     public static final String LEAVE_BLOCK_NOT_FOUND = "Leave Block not found for Leave request document ";
+    public static final String APPROVE_ACTION = "Approve";	
+    public static final String DISAPPROVE_ACTION = "Disapprove";
+    public static final String DEFER_ACTION = "Defer";
     
     @Override
 	protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
@@ -69,53 +81,47 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
-		
         LeaveRequestApprovalActionForm leaveRequestApprovalActionForm = (LeaveRequestApprovalActionForm) form;
         
         setSearchFields(leaveRequestApprovalActionForm);
-        
-	    List<ActionItem> items = getActionItems(leaveRequestApprovalActionForm.getSelectedPayCalendarGroup(), leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm));
-		leaveRequestApprovalActionForm.setEmployeeRows(getEmployeeRows(items));
-		
+        if(leaveRequestApprovalActionForm.getSelectedCalendarType() == null) {
+        	leaveRequestApprovalActionForm.setSelectedCalendarType("M");
+        }
+        setUpLeaveRequestApprovalFieldsForm(leaveRequestApprovalActionForm, false);
 		return forward;
 	}
 	
-	@Override
-	protected List<String> getCalendars(List<String> principalIds) {
-		return HrServiceLocator.getPrincipalHRAttributeService().getUniqueLeaveCalendars(principalIds);
-	}
-	
-	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return mapping.findForward("basic");
-	}
+    protected List<LeaveBlock> getLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        List<String> assignments = Collections.emptyList();
+        leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(principalId, beginDate, endDate, assignments);
+        return leaveBlocks;
+    }
 	
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveRequestApprovalActionForm leaveRequestApprovalActionForm = (LeaveRequestApprovalActionForm) form;
-        
-    	List<ActionItem> items = getActionItems(leaveRequestApprovalActionForm.getSelectedPayCalendarGroup(), leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm));
-    	leaveRequestApprovalActionForm.setEmployeeRows(getEmployeeRows(items));	
- 	
+        setUpLeaveRequestApprovalFieldsForm(leaveRequestApprovalActionForm, false);
 		return mapping.findForward("basic");
 	}
 	
 	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveRequestApprovalActionForm leaveRequestApprovalActionForm = (LeaveRequestApprovalActionForm) form;
-        
-    	List<ActionItem> items = getActionItems(leaveRequestApprovalActionForm.getSelectedPayCalendarGroup(), leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm));
-    	leaveRequestApprovalActionForm.setEmployeeRows(getEmployeeRows(items));	
-        
+        setUpLeaveRequestApprovalFieldsForm(leaveRequestApprovalActionForm, false);
 		return mapping.findForward("basic");
 	}
 	
-	private List<ActionItem> getActionItems(String calGroup, String dept, List<String> workAreaList) {
+	public ActionForward selectNewCalendarType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LeaveRequestApprovalActionForm leaveRequestApprovalActionForm = (LeaveRequestApprovalActionForm) form;
+		setUpLeaveRequestApprovalFieldsForm(leaveRequestApprovalActionForm, true);
+		return mapping.findForward("basic");
+	}
+	
+	private Map<String, List<LeaveRequestDocument>> getLeaveRequestDocsMap(List<String> principalIds, String dept, List<String> workAreaList, LocalDate beginDate, LocalDate endDate) {
 		String principalId = HrContext.getTargetPrincipalId();
 		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
-		List<ActionItem> resultsList = new ArrayList<ActionItem>();
+		Map<String, List<LeaveRequestDocument>> resultsMap = new HashMap<String, List<LeaveRequestDocument>>();
 
-		LocalDate currentDate = LocalDate.now();
-		List<String> principalIds = LmServiceLocator.getLeaveApprovalService()
- 			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calGroup, currentDate, currentDate, currentDate);    
-		
+		List<LeaveRequestDocument> leaveReqDocs = new ArrayList<LeaveRequestDocument>();
 		if(CollectionUtils.isNotEmpty(principalIds)) {
 			for(ActionItem anAction : actionList) {
 				String docId = anAction.getDocumentId();
@@ -125,199 +131,94 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 						LeaveBlock lb = lrd.getLeaveBlock();
 						if(lb != null) {
 							if(principalIds.contains(lb.getPrincipalId())) {
-								resultsList.add(anAction);
+								String key = lb.getLeaveLocalDate().toString();
+								if(resultsMap.containsKey(key)) {
+									leaveReqDocs = resultsMap.get(key);
+								} else {
+									leaveReqDocs = new ArrayList<LeaveRequestDocument>();
+								}
+								leaveReqDocs.add(lrd);
+								resultsMap.put(key, leaveReqDocs);
 							}
 						}
 					}
 				}
 			}
 		}
-        
-        return resultsList;
+        return resultsMap;
 	}
 	
-	public ActionForward takeActionOnEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-		
-		if(StringUtils.isNotEmpty(lraaForm.getApproveList())) {
-			String[] approveList = lraaForm.getApproveList().split(DOC_SEPARATOR);
-			for(String eachAction : approveList){
-				String[] fields = eachAction.split(ID_SEPARATOR);
-				String docId = fields[0];	// leave request document id
-				String reasonString = fields.length > 1 ? fields[1] : ""; 	// approve reason text, could be empty
-				LmServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, HrContext.getPrincipalId(), reasonString);
-				// leave block's status is changed to "approved" in postProcessor of LeaveRequestDocument
+	private Map<String,List<LeaveBlock>> getLeaveBlocksForDisplay(List<String> principalIds, String dept, List<String> workAreaList, LocalDate beginDate, LocalDate endDate) {
+		Map<String, List<LeaveBlock>> leaveBlockMaps = new HashMap<String, List<LeaveBlock>>();
+		List<LeaveBlock> leaveBlocksForDisplay = new ArrayList<LeaveBlock>();
+		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+		if(CollectionUtils.isNotEmpty(principalIds)) {
+			for(String userId : principalIds) {
+				leaveBlocksForDisplay = getLeaveBlocks(userId, beginDate, endDate);
+				for(LeaveBlock lb : leaveBlocksForDisplay) {
+					String key = lb.getLeaveLocalDate().toString();
+					if(leaveBlockMaps.containsKey(key)) {
+						leaveBlocks = leaveBlockMaps.get(key);
+					} else {
+						leaveBlocks = new ArrayList<LeaveBlock>();
+					}
+					leaveBlocks.add(lb);
+					leaveBlockMaps.put(key, leaveBlocks);
+				}
 			}
 		}
-		if(StringUtils.isNotEmpty(lraaForm.getDisapproveList())) {
-			String[] disapproveList = lraaForm.getDisapproveList().split(DOC_SEPARATOR);
-			for(String eachAction : disapproveList){
-				String[] fields = eachAction.split(ID_SEPARATOR);
-				String docId = fields[0];	// leave request document id
-				String reasonString = fields.length > 1 ? fields[1] : ""; 	// disapprove reason
-				LmServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, HrContext.getPrincipalId(), reasonString);
-				// leave block's status is changed to "disapproved" in postProcessor of LeaveRequestDocument	
-			}
-		}
-		if(StringUtils.isNotEmpty(lraaForm.getDeferList())) {
-			String[] deferList = lraaForm.getDeferList().split(DOC_SEPARATOR);
-			for(String eachAction : deferList){
-				String[] fields = eachAction.split(ID_SEPARATOR);
-				String docId = fields[0];	// leave request document id
-				String reasonString =  fields.length > 1 ? fields[1] : ""; 	// defer reason
-				LmServiceLocator.getLeaveRequestDocumentService().deferLeave(docId, HrContext.getPrincipalId(), reasonString);
-				// leave block's status is changed to "deferred" in postProcessor of LeaveRequestDocument	
-			}
-		}
-		return mapping.findForward("basic");
+        return leaveBlockMaps;
 	}
 
-	private List<LeaveRequestApprovalEmployeeRow> getEmployeeRows(List<ActionItem> actionList) {
-		List<LeaveRequestApprovalEmployeeRow> empRowList = new ArrayList<LeaveRequestApprovalEmployeeRow>();
-		Map<String, List<LeaveRequestDocument>> docMap = new HashMap<String, List<LeaveRequestDocument>>();
-		for(ActionItem action : actionList) {
-			if(action.getDocName().equals(LeaveRequestDocument.LEAVE_REQUEST_DOCUMENT_TYPE)) {
-				String docId = action.getDocumentId();
-				LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
-				if(lrd != null) {
-					LeaveBlock lb = lrd.getLeaveBlock();
-					if(lb != null) {
-						String lbPrincipalId = lb.getPrincipalId();
-						List<LeaveRequestDocument> docList = docMap.get(lbPrincipalId) == null ? new ArrayList<LeaveRequestDocument>() : docMap.get(lbPrincipalId);
-						docList.add(lrd);
-						docMap.put(lbPrincipalId, docList);
+	
+
+	public ActionForward takeAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("In Take ACtion Principal id is : "+HrContext.getPrincipalId());
+		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+		String action =  lraaForm.getAction();
+		if(StringUtils.isNotEmpty(action) && StringUtils.isNotEmpty(lraaForm.getActionList())) {
+			String[] actionList = lraaForm.getActionList().split(DOC_SEPARATOR);
+			for(String docId : actionList){
+				if(StringUtils.isNotEmpty(docId) && !StringUtils.equals(docId, DOC_SEPARATOR)) {
+					String reasonString = lraaForm.getReason(); 	// approve reason text, could be empty
+					if(StringUtils.equals(action, APPROVE_ACTION)) {
+						LmServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, HrContext.getPrincipalId(), reasonString);
+						// leave block's status is changed to "approved" in postProcessor of LeaveRequestDocument
+					} else if (StringUtils.equals(action, DISAPPROVE_ACTION)) {
+						LmServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, HrContext.getPrincipalId(), reasonString);
+						// leave block's status is changed to "disapproved" in postProcessor of LeaveRequestDocument
+					} else if (StringUtils.equals(action, DEFER_ACTION)) {
+						LmServiceLocator.getLeaveRequestDocumentService().deferLeave(docId, HrContext.getPrincipalId(), reasonString);
+						// leave block's status is changed to "deferred" in postProcessor of LeaveRequestDocument
 					}
 				}
-				
 			}
 		}
-		for (Map.Entry<String, List<LeaveRequestDocument>> entry : docMap.entrySet()) {
-			LeaveRequestApprovalEmployeeRow aRow = this.getAnEmployeeRow(entry.getKey(), entry.getValue());
-			if(aRow != null) {
-				empRowList.add(aRow);
-			}
-		}
-		// sort list by employee name
-		Collections.sort(empRowList, new Comparator<LeaveRequestApprovalEmployeeRow>() {
-			@Override
-			public int compare(LeaveRequestApprovalEmployeeRow row1, LeaveRequestApprovalEmployeeRow row2) {
-				return ObjectUtils.compare(row1.getEmployeeName(), row2.getEmployeeName());
-			}
-    	});		
-		
-		return empRowList;
+		lraaForm.setDocumentId(null);
+		return mapping.findForward("basic");
 	}
 	
-	private LeaveRequestApprovalEmployeeRow getAnEmployeeRow(String principalId, List<LeaveRequestDocument> docList) {
-		if(CollectionUtils.isEmpty(docList) || StringUtils.isEmpty(principalId)) {
-			return null;
-		}
-        EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
-		if(entityNamePrincipalName == null) {
-			return null;
-		}
-		LeaveRequestApprovalEmployeeRow empRow = new LeaveRequestApprovalEmployeeRow();
-		empRow.setPrincipalId(principalId);
-		empRow.setEmployeeName(entityNamePrincipalName.getDefaultName() == null ? StringUtils.EMPTY : entityNamePrincipalName.getDefaultName().getCompositeName());
-		List<LeaveRequestApprovalRow> rowList = new ArrayList<LeaveRequestApprovalRow>();
-		for(LeaveRequestDocument lrd : docList) {
-			if(lrd == null) {
-				return null;
-			}
-			LeaveBlock lb = lrd.getLeaveBlock();
-			if(lb == null) {
-				return null;
-			}
-			LeaveRequestApprovalRow aRow = new LeaveRequestApprovalRow();
-			aRow.setLeaveRequestDocId(lrd.getDocumentNumber());
-			aRow.setLeaveCode(lb.getEarnCode());
-			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveLocalDate()));
-			aRow.setRequestedHours(lb.getLeaveAmount().toString());
-			aRow.setDescription(lrd.getDescription());
-			DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-			aRow.setSubmittedTime(formatter.print(lrd.getDocumentHeader().getWorkflowDocument().getDateCreated()));
-			rowList.add(aRow);
-		}
-		// sort list by date
-		if(CollectionUtils.isNotEmpty(rowList)) {
-			Collections.sort(rowList, new Comparator<LeaveRequestApprovalRow>() {
-				@Override
-				public int compare(LeaveRequestApprovalRow row1, LeaveRequestApprovalRow row2) {
-					return ObjectUtils.compare(row1.getRequestedDate(), row2.getRequestedDate());
-				}
-	    	});
-			empRow.setLeaveRequestList(rowList);
-		}
-		return empRow;
+	@Override
+	protected List<String> getCalendars(List<String> principalIds) {
+		return HrServiceLocator.getPrincipalHRAttributeService().getUniqueLeaveCalendars(principalIds);
 	}
 
-	@SuppressWarnings("unchecked")
-	public ActionForward validateActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ActionForward validateNewActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		JSONArray errorMsgList = new JSONArray();
         List<String> errors = new ArrayList<String>();
-        if(StringUtils.isEmpty(lraaForm.getApproveList()) 
-	        	&& StringUtils.isEmpty(lraaForm.getDisapproveList())
-	        	&& StringUtils.isEmpty(lraaForm.getDeferList())) {
+        if(StringUtils.isEmpty(lraaForm.getActionList())){ 
         	errors.add("No Actions selected. Please try again.");
         } else {
-			if(StringUtils.isNotEmpty(lraaForm.getApproveList())) {
-				String[] approveList = lraaForm.getApproveList().split(DOC_SEPARATOR);
-				for(String eachAction : approveList){
-					String[] fields = eachAction.split(ID_SEPARATOR);
-					String docId = fields[0];	// leave request document id
-					LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
-					if(lrd == null) {
-						errors.add(DOC_NOT_FOUND + docId);
-						break;
-					} else {
-						LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
-						if(lb == null) {
-							errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
-							break;
-						}
-					}
-				}
-			}
-			if(StringUtils.isNotEmpty(lraaForm.getDisapproveList())) {
-				String[] disapproveList = lraaForm.getDisapproveList().split(DOC_SEPARATOR);
-				for(String eachAction : disapproveList){
-					String[] fields = eachAction.split(ID_SEPARATOR);
-					String docId = fields[0];	// leave request document id
-					String reasonString = fields.length > 1 ? fields[1] : ""; 	// disapprove reason
-					if(StringUtils.isEmpty(reasonString)) {
-						errors.add("Reason is required for Disapprove action");
-						break;
-					} else {
+			if(StringUtils.isNotEmpty(lraaForm.getActionList())) {
+				String[] actionList = lraaForm.getActionList().split(DOC_SEPARATOR);
+				for(String docId : actionList){
+					if(StringUtils.isNotEmpty(docId) && !StringUtils.equals(docId, DOC_SEPARATOR)) {
 						LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 						if(lrd == null) {
 							errors.add(DOC_NOT_FOUND + docId);
 							break;
-						}else {
-							LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
-							if(lb == null) {
-								errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
-								break;
-							}
-						}
-					}
-				}
-			}
-			if(StringUtils.isNotEmpty(lraaForm.getDeferList())) {
-				String[] deferList = lraaForm.getDeferList().split(DOC_SEPARATOR);
-				for(String eachAction : deferList){
-					String[] fields = eachAction.split(ID_SEPARATOR);
-					String docId = fields[0];	// leave request document id
-					String reasonString =  fields.length > 1 ? fields[1] : ""; 	// defer reason
-					if(StringUtils.isEmpty(reasonString)) {
-						errors.add("Reason is required for Defer action");
-						break;
-					} else {
-						LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
-						if(lrd == null) {
-							errors.add(DOC_NOT_FOUND + docId);
-							break;
-						}else {
+						} else {
 							LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 							if(lb == null) {
 								errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
@@ -331,5 +232,99 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
         errorMsgList.addAll(errors);
         lraaForm.setOutputString(JSONValue.toJSONString(errorMsgList));
         return mapping.findForward("ws");
-    }	
+    }
+	
+	
+	private void setUpLeaveRequestApprovalFieldsForm(LeaveRequestApprovalActionForm leaveRequestApprovalActionForm, boolean isCalendarTypeChanged) {
+        String calendarType = leaveRequestApprovalActionForm.getSelectedCalendarType();
+        String bString = leaveRequestApprovalActionForm.getBeginDateString();
+        String eString = leaveRequestApprovalActionForm.getEndDateString();
+        String navigationString = leaveRequestApprovalActionForm.getNavigationAction();
+        DateTime beginDateTime = null;
+        DateTime endDateTime = null;
+        String selectedPrincipal = leaveRequestApprovalActionForm.getSelectedPrincipal();
+        List<String> principalIds = new ArrayList<String>();
+        if(bString != null && eString != null) {
+        	beginDateTime = TKUtils.formatDateTimeStringNoTimezone(leaveRequestApprovalActionForm.getBeginDateString());
+        	endDateTime = TKUtils.formatDateTimeStringNoTimezone(leaveRequestApprovalActionForm.getEndDateString());
+        } else {
+        	DateMidnight dtFirst = new DateMidnight().withDayOfMonth(1);
+        	dtFirst = dtFirst.plusMonths(1);
+        	beginDateTime = new DateTime(dtFirst.getMillis());
+        	endDateTime = beginDateTime.plusMonths(1);
+        }
+    	if(isCalendarTypeChanged) {
+    		beginDateTime = beginDateTime.withDayOfMonth(1);
+    		if(calendarType.equalsIgnoreCase("W")) {
+    			if(beginDateTime.getDayOfWeek() != DateTimeConstants.SUNDAY) {
+    				endDateTime = beginDateTime.withDayOfWeek(7);
+    				beginDateTime = beginDateTime.withDayOfWeek(1).minus(1);
+    			} else {
+    				endDateTime = beginDateTime.plusDays(1).withDayOfWeek(7);
+    				beginDateTime = beginDateTime.withDayOfWeek(1).minusDays(1);    				
+    			}
+    		} else {
+    			endDateTime = beginDateTime.plusMonths(1);
+    		}
+    	} 
+    	// check navigation String
+    	if(navigationString != null) {
+        	if(navigationString.equalsIgnoreCase("PREV")) {
+        		if(calendarType.equalsIgnoreCase("W")) {
+        			beginDateTime = beginDateTime.minusWeeks(1);
+        			if(beginDateTime.getDayOfWeek() != DateTimeConstants.SUNDAY) {
+        				endDateTime = beginDateTime.withDayOfWeek(7);
+        			} else {
+        				endDateTime = beginDateTime.plusDays(1).withDayOfWeek(7);
+        			}
+        		} else {
+        			beginDateTime = beginDateTime.minusMonths(1);
+        			endDateTime = beginDateTime.plusMonths(1);
+        		}
+        	} else if(navigationString.equalsIgnoreCase("NEXT")) {
+        		if(calendarType.equalsIgnoreCase("W")) {
+        			beginDateTime = beginDateTime.plusWeeks(1);
+        			if(beginDateTime.getDayOfWeek() != DateTimeConstants.SUNDAY) {
+        				endDateTime = beginDateTime.withDayOfWeek(7);
+        			} else {
+        				endDateTime = beginDateTime.plusDays(1).withDayOfWeek(7);
+        			}
+        		} else {
+        			beginDateTime = beginDateTime.plusMonths(1);
+        			endDateTime = beginDateTime.plusMonths(1);
+        		}
+        	}
+    	}
+
+    	List<String> principalIdsToSearch = new ArrayList<String>();
+    	
+//        DateTime beginDateTime =  currentCE.getBeginPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+//        DateTime endDateTime = currentCE.getEndPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        if(selectedPrincipal == null || StringUtils.isEmpty(selectedPrincipal)) {
+        	List<String> leaveCalendars = leaveRequestApprovalActionForm.getPayCalendarGroups();
+        	for(String calendar : leaveCalendars) {
+            	principalIds.addAll(LmServiceLocator.getLeaveApprovalService()
+        	 			.getLeavePrincipalIdsWithSearchCriteria(getWorkAreas(leaveRequestApprovalActionForm), calendar, LocalDate.now(), beginDateTime.toLocalDate(), endDateTime.toLocalDate()));
+            	Collections.sort(principalIds);
+            	leaveRequestApprovalActionForm.setPrincipalIds(principalIds);
+        	}
+        	principalIdsToSearch = new ArrayList<String>(principalIds);
+        } else {
+        	principalIdsToSearch = Collections.singletonList(selectedPrincipal);
+        }
+        
+		// set LeaveCalendar
+		Map<String, List<LeaveRequestDocument>> leaveReqDocsMap = getLeaveRequestDocsMap(principalIdsToSearch, leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm), beginDateTime.toLocalDate(), endDateTime.plusDays(1).toLocalDate());
+		Map<String, List<LeaveBlock>> leaveBlocksMap = getLeaveBlocksForDisplay(principalIdsToSearch, leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm), beginDateTime.toLocalDate(), endDateTime.plusDays(1).toLocalDate());
+		leaveRequestApprovalActionForm.setLeaveRequestCalendar(new LeaveRequestCalendar(beginDateTime, endDateTime, leaveReqDocsMap, leaveBlocksMap, calendarType));
+
+		// generate json
+		leaveRequestApprovalActionForm.setLeaveRequestString(LeaveActionFormUtils.getLeaveRequestsJson(leaveRequestApprovalActionForm.getLeaveRequestCalendar().getRequestList()));
+		
+		// set begin and end date time string
+		leaveRequestApprovalActionForm.setBeginDateString(TKUtils.formatDateTimeLong(leaveRequestApprovalActionForm.getLeaveRequestCalendar().getBeginDateTime()));
+		leaveRequestApprovalActionForm.setEndDateString(TKUtils.formatDateTimeLong(leaveRequestApprovalActionForm.getLeaveRequestCalendar().getEndDateTime()));		
+    	
+	}
+
 }

@@ -22,18 +22,41 @@ import org.kuali.kpme.tklm.api.leave.request.approval.web.LeaveRequestApprovalRo
 public class LeaveRequestApprovalRow implements Comparable<LeaveRequestApprovalRow>, Serializable, LeaveRequestApprovalRowContract {
 
 	private static final long serialVersionUID = -5107503528620209360L;
+	
+	private String employeeName;
+	private String principalId;	
 	private String leaveRequestDocId;	
 	private String requestedDate;
 	private String requestedHours;
 	private String description;
 	private String leaveCode;
 	private String submittedTime;
+	private String assignmentTitle;
+	private String requestStatus;
+	private boolean selected;
 
 	@Override
 	public int compareTo(LeaveRequestApprovalRow row) {
 		  return requestedDate.compareToIgnoreCase(row.getRequestedDate());
 	}
 	
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+
+	public String getPrincipalId() {
+		return principalId;
+	}
+
+
+	public void setPrincipalId(String principalId) {
+		this.principalId = principalId;
+	}
+
 	public String getRequestedDate() {
 		return requestedDate;
 	}
@@ -82,4 +105,27 @@ public class LeaveRequestApprovalRow implements Comparable<LeaveRequestApprovalR
 		this.requestedHours = requestedHours;
 	}
 
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	public String getAssignmentTitle() {
+		return assignmentTitle;
+	}
+
+	public void setAssignmentTitle(String assignmentTitle) {
+		this.assignmentTitle = assignmentTitle;
+	}
+
+	public String getRequestStatus() {
+		return requestStatus;
+	}
+
+	public void setRequestStatus(String requestStatus) {
+		this.requestStatus = requestStatus;
+	}
 }

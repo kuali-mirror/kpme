@@ -3,6 +3,7 @@
 <%@ attribute name="cal" required="true" type="org.kuali.kpme.core.calendar.CalendarParent" %>
 <%@ attribute name="docId" required="true" type="java.lang.String" %>
 <%@ attribute name="calType" required="true" type="java.lang.String" %>
+<%@ attribute name="calledFrom" required="false" type="java.lang.String" %>
 
 <div id="tkCal" class="ui-widget cal ${calType}" style="margin: 0px auto 0px auto; width:100%;">
 	<c:choose>
@@ -21,26 +22,46 @@
         <tr>
             <%-- Paging controls for moving between calendars --%>
             <td align="left" width="30%">
-                <tk:payCalendarSelect calType="${calType}" />
+            	<c:if test="${empty calledFrom}">
+                	<tk:payCalendarSelect calType="${calType}" />
+                </c:if>
             </td>
             <%-- Displayed month and prev/next buttons --%>
-            <td align="center" width="40%">
-                <c:if test="${Form.prevDocumentId ne null || (calType eq 'leaveCalendar' && Form.prevHrCalendarEntryId ne null)}">
-                    <button id="${calType == 'payCalendar' ? 'nav_prev' : 'nav_prev_lc' }"
-                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                            role="button" title="Previous">
-                        <span class="ui-button-text">Previous</span>
-                    </button>
-                </c:if>
-                <span class="header-title-center">${cal.calendarTitle}</span>
-                <c:if test="${Form.nextDocumentId ne null || (calType eq 'leaveCalendar' && Form.nextHrCalendarEntryId ne null)}">
-                    <button id="${calType == 'payCalendar' ? 'nav_next' : 'nav_next_lc' }"
-                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                            role="button" title="Next">
-                        <span class="ui-button-text">Next</span>
-                    </button>
-                </c:if>
-            </td>
+            <c:if test="${empty calledFrom}">
+	            <td align="center" width="40%">
+	                <c:if test="${Form.prevDocumentId ne null || (calType eq 'leaveCalendar' && Form.prevHrCalendarEntryId ne null)}">
+	                    <button id="${calType == 'payCalendar' ? 'nav_prev' : 'nav_prev_lc' }"
+	                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+	                            role="button" title="Previous">
+	                        <span class="ui-button-text">Previous</span>
+	                    </button>
+	                </c:if>
+	                <span class="header-title-center">${cal.calendarTitle}</span>
+	                <c:if test="${Form.nextDocumentId ne null || (calType eq 'leaveCalendar' && Form.nextHrCalendarEntryId ne null)}">
+	                    <button id="${calType == 'payCalendar' ? 'nav_next' : 'nav_next_lc' }"
+	                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+	                            role="button" title="Next">
+	                        <span class="ui-button-text">Next</span>
+	                    </button>
+	                </c:if>
+	            </td>
+            </c:if>
+            <c:if test="${not empty calledFrom}">
+            	<td align="center" width="40%">
+	                    <button id="nav_prev_lra"
+	                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+	                            role="button" title="Previous">
+	                        <span class="ui-button-text">Previous</span>
+	                    </button>
+	                <span class="header-title-center">${cal.calendarTitle}</span>
+	                    <button id="nav_next_lra"
+	                            class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+	                            role="button" title="Next">
+	                        <span class="ui-button-text">Next</span>
+	                    </button>
+	            </td>
+            </c:if>
+            
             <%-- Links to alternate views --%>
             <td align="right" width="30%">
                 <table>
@@ -53,7 +74,7 @@
                                             <c:when test="${calType eq 'payCalendar'}">
                                                 Current Pay Period
                                             </c:when>
-                                            <c:when test="${calType eq 'leaveCalendar'}">
+                                            <c:when test="${calType eq 'leaveCalendar' and empty calledFrom}">
                                                 Current Leave Period
                                             </c:when>
                                         </c:choose>
@@ -63,7 +84,7 @@
                         </tr>
                         <tr>
                             <td align="right">
-                            <c:if test="${calType eq 'leaveCalendar'}">
+                            <c:if test="${calType eq 'leaveCalendar' and empty calledFrom}">
                                 <span class="header-title-right">
          	                        <a href="LeaveBlockDisplay.do"
                                         target="_self" id="ledger-link">Ledger View</a>
@@ -83,7 +104,7 @@
                         </tr>
                         <tr>
                             <td align="right">
-                            <c:if test="${calType eq 'leaveCalendar'}">
+                            <c:if test="${calType eq 'leaveCalendar' and empty calledFrom}">
                                 <span class="header-title-right">
                                     <a href="LeaveRequest.do"
                                         target="_self" id="lrlink">Leave Request</a>
@@ -96,18 +117,19 @@
             </td>
         </tr>
     </table>
-
-    <div class="messages">
-        <c:forEach var="action" items="${Form.actionMessages}">
-            <span class="action"> ${action}</span> <br/>
-        </c:forEach>
-        <c:forEach var="warning" items="${Form.warningMessages}">
-            <span class="warning"> ${warning}</span> <br/>
-        </c:forEach>
-        <c:forEach var="info" items="${Form.infoMessages}">
-            <span class="info"> ${info}</span> <br/>
-        </c:forEach>
-    </div>
+	<c:if test="${empty calledFrom}">
+	    <div class="messages">
+	        <c:forEach var="action" items="${Form.actionMessages}">
+	            <span class="action"> ${action}</span> <br/>
+	        </c:forEach>
+	        <c:forEach var="warning" items="${Form.warningMessages}">
+	            <span class="warning"> ${warning}</span> <br/>
+	        </c:forEach>
+	        <c:forEach var="info" items="${Form.infoMessages}">
+	            <span class="info"> ${info}</span> <br/>
+	        </c:forEach>
+	    </div>
+	</c:if>
 
     <div id="tkCalContent">
         <table class="cal-table ${calType}-table">
@@ -152,8 +174,11 @@
                                     <c:when test="${calType eq 'payCalendar'}">
                                         <tk:payCalendar day="${day}"/>
                                     </c:when>
-                                    <c:when test="${calType eq 'leaveCalendar'}">
+                                    <c:when test="${calType eq 'leaveCalendar' and empty calledFrom}">
                                         <tk:leaveCalendar day="${day}" dayNumberId="${dayNumberId}" />
+                                    </c:when>
+                                    <c:when test="${calType eq 'leaveCalendar' and not empty calledFrom}">
+                                        <tk:leaveRequestCalendar day="${day}" dayNumberId="${dayNumberId}" />
                                     </c:when>
                                     <c:otherwise>
                                     </c:otherwise>
