@@ -37,6 +37,15 @@ public class PstnQlfrTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 	}
 
 	@Override
+	public PstnQlfrType getPstnQlfrTypeByType(String pmPstnQlfrType) {
+		Criteria crit = new Criteria();
+        crit.addEqualTo("type", pmPstnQlfrType);
+
+        Query query = QueryFactory.newQuery(PstnQlfrType.class, crit);
+        return (PstnQlfrType) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
+	@Override
 	public List<PstnQlfrType> getAllActivePstnQlfrTypes() {
 		List<PstnQlfrType> aList = new ArrayList<PstnQlfrType>();
 		Criteria root = new Criteria();

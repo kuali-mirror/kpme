@@ -17,11 +17,13 @@ package org.kuali.kpme.pm.classification.qual;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ClassificationQualification extends PersistableBusinessObjectBase implements ClassificationQualificationContract {
 	private static final long serialVersionUID = 1L;
@@ -33,6 +35,36 @@ public class ClassificationQualification extends PersistableBusinessObjectBase i
 	private String qualificationValue;
 	private String pmPositionClassId;
 	private String displayOrder;
+	private transient String qualifierString;
+	
+	public String getQualifierString() {
+		String qualifierString = qualificationValue;
+		if (qualifier != null) {
+			PstnQlfrTypeContract qualifierType = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeByType(qualificationType);
+			
+			if (ObjectUtils.isNotNull(qualifierType)
+					&& qualifierType.getTypeValue().equals(PMConstants.PSTN_QLFR_NUMBER)) {
+				if (qualifier.equals(PMConstants.PSTN_CLSS_QLFR_VALUE.GREATER_EQUAL)) {
+					qualifierString = PMConstants.PSTN_CLSS_QLFR_STRING_VALUE.GREATER_EQUAL + " " + qualificationValue;
+				} else if (qualifier.equals(PMConstants.PSTN_CLSS_QLFR_VALUE.GREATER_THAN)) {
+					qualifierString = PMConstants.PSTN_CLSS_QLFR_STRING_VALUE.GREATER_THAN + " " + qualificationValue;
+				} else if (qualifier.equals(PMConstants.PSTN_CLSS_QLFR_VALUE.LESS_EQUAL)) {
+					qualifierString = PMConstants.PSTN_CLSS_QLFR_STRING_VALUE.LESS_EQUAL + " " + qualificationValue;
+				} else if (qualifier.equals(PMConstants.PSTN_CLSS_QLFR_VALUE.LESS_THAN)) {
+					qualifierString = PMConstants.PSTN_CLSS_QLFR_STRING_VALUE.LESS_THAN + " " + qualificationValue;
+				} else if (qualifier.equals(PMConstants.PSTN_CLSS_QLFR_VALUE.EQUAL)) {
+					qualifierString = PMConstants.PSTN_CLSS_QLFR_STRING_VALUE.EQUAL + " " + qualificationValue;
+				} else {
+					qualifierString = qualifier + " " + qualificationValue;
+				}
+			}
+		}
+		return qualifierString;
+	}
+
+	public void setQualifierString(String qualifierString) {
+		this.qualifierString = qualifierString;
+	}
 		
 	public String getQualificationType() {
 		return qualificationType;

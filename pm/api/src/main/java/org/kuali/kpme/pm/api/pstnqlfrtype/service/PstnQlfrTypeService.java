@@ -49,8 +49,6 @@ package org.kuali.kpme.pm.api.pstnqlfrtype.service;
 
 import java.util.List;
 
-
-
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 
 
@@ -69,7 +67,12 @@ public interface PstnQlfrTypeService {
 
 	public PstnQlfrTypeContract getPstnQlfrTypeById(String pmPstnQlfrTypeId);
 
-	
+	/**
+	 * retrieve the Position Qualifier Type with given type
+	 * @param pmPstnQlfrType
+	 * @return
+	 */
+	public PstnQlfrTypeContract getPstnQlfrTypeByType(String pmPstnQlfrType);
 
 	/**
 

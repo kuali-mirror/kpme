@@ -47,6 +47,14 @@ public class PMConstants {
 	        public static final String LESS_THAN = "<";
 	        public static final String LESS_EQUAL = "<=";
 	 }
+	 
+	 public static final class PSTN_CLSS_QLFR_STRING_VALUE {
+	        public static final String EQUAL = "Equal to";
+	        public static final String GREATER_THAN = "Greater than";
+	        public static final String GREATER_EQUAL = "Greater than or equal to";
+	        public static final String LESS_THAN = "Less than";
+	        public static final String LESS_EQUAL = "Less than or equal to";
+	 }
 	
 	 public static final Map<String, String> PSTN_CLSS_QLFR_VALUE_MAP = new LinkedHashMap<String, String>(2);
 	 static {

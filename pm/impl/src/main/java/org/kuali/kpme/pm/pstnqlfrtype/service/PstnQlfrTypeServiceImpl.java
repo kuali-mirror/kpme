@@ -24,16 +24,25 @@ import org.kuali.kpme.pm.pstnqlfrtype.dao.PstnQlfrTypeDao;
 public class PstnQlfrTypeServiceImpl implements PstnQlfrTypeService {
 
 	private PstnQlfrTypeDao pstnQlfrTypeDao;
+	
 	@Override
 	public PstnQlfrType getPstnQlfrTypeById(String pmPstnQlfrTypeId) {
 		return pstnQlfrTypeDao.getPstnQlfrTypeById(pmPstnQlfrTypeId);
 	}
+	
+	@Override
+	public PstnQlfrType getPstnQlfrTypeByType(String pmPstnQlfrType) {
+		return pstnQlfrTypeDao.getPstnQlfrTypeByType(pmPstnQlfrType);
+	}
+	
 	public PstnQlfrTypeDao getPstnQlfrTypeDao() {
 		return pstnQlfrTypeDao;
 	}
+	
 	public void setPstnQlfrTypeDao(PstnQlfrTypeDao pstnQlfrTypeDao) {
 		this.pstnQlfrTypeDao = pstnQlfrTypeDao;
 	}
+	
 	@Override
 	public List<PstnQlfrType> getAllActivePstnQlfrTypes() {
 		return pstnQlfrTypeDao.getAllActivePstnQlfrTypes();

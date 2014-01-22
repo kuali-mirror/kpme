@@ -704,19 +704,20 @@
 
 	<!-- Required Qualification List, used by inquiry and maint view -->
 	<bean id="Position-requiredQualList" abstract="true"
-		parent="Uif-ListCollectionSection">
+		parent="Uif-TableCollectionSection">
 		<property name="collectionObjectClass"
 			value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
 		<property name="propertyName" value="requiredQualList" />
 		<property name="headerText" value="Required Qualification" />
-		<property name="layoutManager.lineGroupPrototype.layoutManager.orientation"
-			value="HORIZONTAL" />
+		<property name="layoutManager.groupingPropertyNames">
+			<list>
+				<value>qualificationType</value>
+			</list>
+		</property>
 		<property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="qualificationType" />
-				<bean parent="Uif-DataField" p:propertyName="qualifier" />
-				<bean parent="Uif-DataField" p:propertyName="qualificationValue" />
+				<bean parent="Uif-DataField" p:propertyName="qualifierString" />
 			</list>
 		</property>
 	</bean>
