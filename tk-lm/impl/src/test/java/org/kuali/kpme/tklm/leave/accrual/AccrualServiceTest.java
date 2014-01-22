@@ -717,7 +717,7 @@ public class AccrualServiceTest extends TKLMIntegrationTestCase {
 		 leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate.toLocalDate());
 		 Assert.assertTrue("There should be 2 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
-			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-1))) {
+			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-2))) {
 				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + aLeaveBlock.getAccrualCategory()
 						 , aLeaveBlock.getAccrualCategory().equals("testAC9")); 
 			 } else if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(32))) {

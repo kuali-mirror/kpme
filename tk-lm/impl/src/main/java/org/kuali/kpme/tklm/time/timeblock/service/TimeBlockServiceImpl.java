@@ -571,4 +571,14 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			LocalDate toDate) {
 		return timeBlockDao.getTimeBlocksForLookup(documentId,principalId,userPrincipalId,fromDate,toDate);
 	}
+
+    @Override
+    public List<TimeBlock> getAbsentTimeBlocksForDate(String principalId, LocalDate startDate) {
+        return timeBlockDao.getAbsentTimeBlocksForDate(principalId, startDate);
+    }
+
+    @Override
+    public List<TimeBlock> getAbsentTimeBlocksSinceDateTime(String principalId, DateTime lastRanDateTime) {
+        return timeBlockDao.getAbsentTimeBlocksSinceDateTime(principalId, lastRanDateTime);
+    }
 }

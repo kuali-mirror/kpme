@@ -28,7 +28,10 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -177,4 +180,54 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
         return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlock>() : timeBlocks;
 	}
 
+    @Override
+    public List<TimeBlock> getAbsentTimeBlocksForDate(String principalId, LocalDate startDate) {
+        List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+        Criteria criteria = new Criteria();
+
+        criteria.addEqualTo("principalId", principalId);
+        criteria.addGreaterOrEqualThan("beginTimestamp", startDate.toDate());
+        criteria.addLessThan("beginTimestamp", startDate.plusDays(1).toDate());
+        Query query = QueryFactory.newQuery(TimeBlock.class, criteria);
+
+        List<TimeBlock> tempList = (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        for (TimeBlock tb: tempList) {
+            EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(),tb.getBeginDateTime().toLocalDate());
+            if(ec == null) {
+                continue;
+            }
+            if(ec.getEligibleForAccrual().equals("N")
+                    && (ec.getLeavePlan() == null || ec.getLeavePlan().isEmpty())) {
+                timeBlocks.add(tb);
+            }
+        }
+        return timeBlocks;
+    }
+
+    @Override
+    public List<TimeBlock> getAbsentTimeBlocksSinceDateTime(String principalId, DateTime lastRanDateTime) {
+        List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+        List<TimeBlock> tempList = new ArrayList<TimeBlock>();
+        Criteria criteria = new Criteria();
+
+        criteria.addEqualTo("principalId", principalId);
+        criteria.addGreaterThan("timestamp", lastRanDateTime.toDate());
+        Query query = QueryFactory.newQuery(TimeBlock.class, criteria);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+           tempList.addAll(c);
+        }
+        for (TimeBlock tb: tempList) {
+            EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(),tb.getBeginDateTime().toLocalDate());
+            if(ec == null) {
+                continue;
+            }
+            if(ec.getEligibleForAccrual().equals("N")
+                    && (ec.getLeavePlan() == null || ec.getLeavePlan().isEmpty())) {
+                timeBlocks.add(tb);
+            }
+        }
+        return timeBlocks;
+    }
 }

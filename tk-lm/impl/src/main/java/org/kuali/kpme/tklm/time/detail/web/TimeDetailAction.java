@@ -395,7 +395,17 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
 
         generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
-        
+
+        // if the time block is NOT eligible for accrual and has no leave plan, rerun accrual service for the leave calendar the time block is on
+        EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(deletedTimeBlock.getEarnCode(), deletedTimeBlock.getBeginDateTime().toLocalDate());
+        if(ec != null && ec.getEligibleForAccrual().equals("N") && (ec.getLeavePlan() == null || ec.getLeavePlan().isEmpty())) {
+            CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService()
+                    .getCurrentCalendarDatesForLeaveCalendar(deletedTimeBlock.getPrincipalId(), deletedTimeBlock.getBeginDateTime());
+            if(ce != null) {
+                LmServiceLocator.getLeaveAccrualService().runAccrual(deletedTimeBlock.getPrincipalId(), ce.getBeginPeriodFullDateTime().toDateTime(), ce.getEndPeriodFullDateTime().toDateTime(), false);
+            }
+        }
+
         return mapping.findForward("basic");
     }
 
