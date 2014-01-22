@@ -242,7 +242,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	
 	@Override
 	public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-		document.getDocumentHeader().setDocumentDescription("New");
+		document.getDocumentHeader().setDocumentDescription("New Position - Status: New");
 		super.processAfterCopy(document, parameters);
 	}
 	
