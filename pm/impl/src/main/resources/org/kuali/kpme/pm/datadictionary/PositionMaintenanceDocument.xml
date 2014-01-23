@@ -248,26 +248,6 @@
 					</property>
 					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="reportsToPositionId">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
-							p:fieldConversions="positionNumber:reportsToPositionId" />
-					</property>
-					<property name="quickfinder.autoSearch" value="true" />
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="expectedEndDate">
-					<property name="validCharactersConstraint">
-						<bean parent="BasicDatePatternConstraint" />
-					</property>
-					<property name="dependencyConstraints">
-						<list>
-							<bean parent="PrerequisiteConstraint" p:propertyName="renewEligible" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="renewEligible"
-					p:constraintText="Required if Expected End Date is filled.">
-				</bean>
 				<bean parent="Uif-InputField" p:propertyName="temporary"
 					p:required="true" p:defaultValue="N" />
 				<bean parent="Uif-InputField" p:propertyName="contract"
@@ -304,6 +284,26 @@
 					         </property>
 				         </bean>
 					</property>	
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="reportsToPositionId">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+							p:fieldConversions="positionNumber:reportsToPositionId" />
+					</property>
+					<property name="quickfinder.autoSearch" value="true" />
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="expectedEndDate">
+					<property name="validCharactersConstraint">
+						<bean parent="BasicDatePatternConstraint" />
+					</property>
+					<property name="dependencyConstraints">
+						<list>
+							<bean parent="PrerequisiteConstraint" p:propertyName="renewEligible" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:propertyName="renewEligible"
+					p:constraintText="Required if Expected End Date is filled.">
 				</bean>
 			</list>
 		</property>
