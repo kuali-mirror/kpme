@@ -17,7 +17,6 @@ package org.kuali.kpme.tklm.leave.request.approval.web;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -35,19 +33,15 @@ import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.ApprovalFormAction;
-import org.kuali.kpme.tklm.leave.approval.web.LeaveApprovalActionForm;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.LeaveRequestCalendar;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveActionFormUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -55,8 +49,6 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
-import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -156,14 +148,19 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 			for(String userId : principalIds) {
 				leaveBlocksForDisplay = getLeaveBlocks(userId, beginDate, endDate);
 				for(LeaveBlock lb : leaveBlocksForDisplay) {
-					String key = lb.getLeaveLocalDate().toString();
-					if(leaveBlockMaps.containsKey(key)) {
-						leaveBlocks = leaveBlockMaps.get(key);
-					} else {
-						leaveBlocks = new ArrayList<LeaveBlock>();
+					if(lb.getLeaveBlockType().equalsIgnoreCase(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR) && 
+					   (lb.getRequestStatus().equalsIgnoreCase(HrConstants.REQUEST_STATUS.REQUESTED) || 
+					   lb.getRequestStatus().equalsIgnoreCase(HrConstants.REQUEST_STATUS.APPROVED) ||
+					   lb.getRequestStatus().equalsIgnoreCase(HrConstants.REQUEST_STATUS.USAGE))) {
+							String key = lb.getLeaveLocalDate().toString();
+							if(leaveBlockMaps.containsKey(key)) {
+								leaveBlocks = leaveBlockMaps.get(key);
+							} else {
+								leaveBlocks = new ArrayList<LeaveBlock>();
+							}
+							leaveBlocks.add(lb);
+							leaveBlockMaps.put(key, leaveBlocks);
 					}
-					leaveBlocks.add(lb);
-					leaveBlockMaps.put(key, leaveBlocks);
 				}
 			}
 		}
@@ -173,7 +170,6 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 	
 
 	public ActionForward takeAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("In Take ACtion Principal id is : "+HrContext.getPrincipalId());
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		String action =  lraaForm.getAction();
 		if(StringUtils.isNotEmpty(action) && StringUtils.isNotEmpty(lraaForm.getActionList())) {
@@ -294,6 +290,7 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
         			endDateTime = beginDateTime.plusMonths(1);
         		}
         	}
+        	leaveRequestApprovalActionForm.setNavigationAction(null);
     	}
 
     	List<String> principalIdsToSearch = new ArrayList<String>();

@@ -111,8 +111,6 @@ public class LeaveRequestCalendar extends CalendarParent {
 		       			aRow.setDescription(lrd.getDescription());
 		       			aRow.setAssignmentTitle(lb.getAssignmentTitle());
 		       			aRow.setRequestStatus(lb.getRequestStatusString().toLowerCase());
-		       			DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
-		       			aRow.setSubmittedTime(formatter.print(lrd.getDocumentHeader().getWorkflowDocument().getDateCreated()));
 		       			rowList.add(aRow);
 	               }
                }
@@ -120,24 +118,20 @@ public class LeaveRequestCalendar extends CalendarParent {
                if(!leaveBlocks.isEmpty()) {
             	   for(LeaveBlock lb: leaveBlocks) {
             		   if(!leaveBlockIds.contains(lb.getLmLeaveBlockId())) {
-            			   if(lb.getLeaveBlockType().equalsIgnoreCase(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR) && 
-                				   !lb.getRequestStatus().equalsIgnoreCase(HrConstants.REQUEST_STATUS.PLANNED)) {
-		            		   	String principalId = lb.getPrincipalId();
-			            	   	LeaveRequestApprovalRow aRow = new LeaveRequestApprovalRow();
-			            	   	// Set Employee Name 
-			            	    EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
-			            		if(entityNamePrincipalName != null) {
-			            			aRow.setPrincipalId(principalId);
-			            			aRow.setEmployeeName(entityNamePrincipalName.getDefaultName() == null ? StringUtils.EMPTY : entityNamePrincipalName.getDefaultName().getCompositeName());
-			            		}
-				       			aRow.setLeaveCode(lb.getEarnCode());
-				       			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveLocalDate()));
-				       			aRow.setRequestedHours(lb.getLeaveAmount().toString());
-				       			aRow.setRequestStatus(lb.getRequestStatusString().toLowerCase());
-				       			System.out.println("Here Request String is >> "+lb.getRequestStatusString());
-				       			aRow.setAssignmentTitle(lb.getAssignmentTitle());
-				       			rowList.add(aRow);
-			       			}
+	            		   	String principalId = lb.getPrincipalId();
+		            	   	LeaveRequestApprovalRow aRow = new LeaveRequestApprovalRow();
+		            	   	// Set Employee Name 
+		            	    EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+		            		if(entityNamePrincipalName != null) {
+		            			aRow.setPrincipalId(principalId);
+		            			aRow.setEmployeeName(entityNamePrincipalName.getDefaultName() == null ? StringUtils.EMPTY : entityNamePrincipalName.getDefaultName().getCompositeName());
+		            		}
+			       			aRow.setLeaveCode(lb.getEarnCode());
+			       			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveLocalDate()));
+			       			aRow.setRequestedHours(lb.getLeaveAmount().toString());
+			       			aRow.setRequestStatus(lb.getRequestStatusString().toLowerCase());
+			       			aRow.setAssignmentTitle(lb.getAssignmentTitle());
+			       			rowList.add(aRow);
             		   }
             	   }
                }
