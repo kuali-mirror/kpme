@@ -434,7 +434,7 @@
 	<bean id="Pos-QualificationPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-VerticalBoxSection">
+				<bean parent="Uif-VerticalBoxSection" p:readOnly="true">
 					<property name="items">
 						<list>
 							<bean parent="Position-requiredQualList" />
