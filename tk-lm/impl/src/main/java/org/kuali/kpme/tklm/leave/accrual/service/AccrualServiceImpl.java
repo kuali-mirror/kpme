@@ -56,8 +56,6 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 
 public class AccrualServiceImpl implements AccrualService {
     private static final Logger LOG = Logger.getLogger(AccrualServiceImpl.class);
@@ -411,7 +409,6 @@ public class AccrualServiceImpl implements AccrualService {
 		// check if there's any manual not-eligible-for-accrual leave blocks, use the hours of the leave block to adjust accrual calculation 
 		List<LeaveBlock> lbs = LmServiceLocator.getLeaveBlockService().getNotAccrualGeneratedLeaveBlocksForDate(principalId, currentDate);
 		for(LeaveBlock lb : lbs) {
-
 			EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), currentDate);
 			if(ec == null) {
 				LOG.error("Cannot find Earn Code for Leave block " + lb.getLmLeaveBlockId());
@@ -424,13 +421,6 @@ public class AccrualServiceImpl implements AccrualService {
 				hours = hours.add(lb.getLeaveAmount());
 			}		
 		}
-
-        //KPME-3031 check for absent time blocks for the day
-
-        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().getAbsentTimeBlocksForDate(principalId, currentDate);
-        for(TimeBlock tb : tbs) {
-            hours = hours.subtract(tb.getHours());
-        }
 		return hours;
 	}
 	
@@ -1149,9 +1139,8 @@ public class AccrualServiceImpl implements AccrualService {
 			return true;
 		}
 		// if there are leave blocks created for earn codes with eligible-for-accrual = no since the last accrual run, it should trigger recalculation 
-		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getABELeaveBlocksSinceTime(principalId, par.getLastRanDateTime());	
-        List<TimeBlock> tbList = TkServiceLocator.getTimeBlockService().getAbsentTimeBlocksSinceDateTime(principalId,par.getLastRanDateTime());
-        if(CollectionUtils.isNotEmpty(lbList) || CollectionUtils.isNotEmpty(tbList)) {
+		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getABELeaveBlocksSinceTime(principalId, par.getLastRanDateTime());
+		if(CollectionUtils.isNotEmpty(lbList)) {
 			return true;
 		}		
 		return false;

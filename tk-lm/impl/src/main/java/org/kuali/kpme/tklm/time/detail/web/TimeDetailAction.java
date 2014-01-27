@@ -395,17 +395,7 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
 
         generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
-
-        // if the time block is NOT eligible for accrual and has no leave plan, rerun accrual service for the leave calendar the time block is on
-        EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(deletedTimeBlock.getEarnCode(), deletedTimeBlock.getBeginDateTime().toLocalDate());
-        if(ec != null && ec.getEligibleForAccrual().equals("N") && (ec.getLeavePlan() == null || ec.getLeavePlan().isEmpty())) {
-            CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService()
-                    .getCurrentCalendarDatesForLeaveCalendar(deletedTimeBlock.getPrincipalId(), deletedTimeBlock.getBeginDateTime());
-            if(ce != null) {
-                LmServiceLocator.getLeaveAccrualService().runAccrual(deletedTimeBlock.getPrincipalId(), ce.getBeginPeriodFullDateTime().toDateTime(), ce.getEndPeriodFullDateTime().toDateTime(), false);
-            }
-        }
-
+        
         return mapping.findForward("basic");
     }
 
@@ -434,7 +424,7 @@ public class TimeDetailAction extends TimesheetAction {
         
         if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
         	EarnCode ec = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
-        	if(ec != null && ec.getLeavePlan() != null) {
+        	if(ec != null && (ec.getLeavePlan() != null || (ec.getEligibleForAccrual().equals("N") && ec.getAccrualBalanceAction().equals("U")) )) {
         		//leave blocks changes
             	List<String> errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
             	if(errors.isEmpty()) {

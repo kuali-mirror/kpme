@@ -179,6 +179,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                             earnCodeMap.put("unitOfTime", ActionFormUtils.getUnitOfTimeForEarnCode(earnCode));
                         }
                         earnCodeMap.put("eligibleForAccrual", earnCode.getEligibleForAccrual());
+                        earnCodeMap.put("accrualBalanceAction", earnCode.getAccrualBalanceAction());
                         EarnCode regEarnCode = regEarnCodes.get(assignment.getAssignmentKey());
                         if (regEarnCode != null
                                 && StringUtils.equals(regEarnCode.getEarnCode(), earnCode.getEarnCode())) {
