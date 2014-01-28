@@ -40,6 +40,7 @@ public class RateRange implements RateRangeContract {
 	private List<AccrualCategoryRule> acRuleList = new ArrayList<AccrualCategoryRule>();
 	private SystemScheduledTimeOff sysScheTimeOff;
 	private String leaveCalendarDocumentId;
+	private String primaryLeaveAssignmentId;
 	
 	private boolean statusChanged;
 	
@@ -117,5 +118,11 @@ public class RateRange implements RateRangeContract {
 	}
 	public void setLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
 		this.leaveCalendarDocumentId = leaveCalendarDocumentId;
+	}
+	public String getPrimaryLeaveAssignmentId() {
+		return primaryLeaveAssignmentId;
+	}
+	public void setPrimaryLeaveAssignmentId(String primaryLeaveAssignmentId) {
+		this.primaryLeaveAssignmentId = primaryLeaveAssignmentId;
 	}
 }

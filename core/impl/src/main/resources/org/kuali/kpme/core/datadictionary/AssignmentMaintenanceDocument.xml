@@ -81,6 +81,8 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="task"
 					p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="primaryAssign"
+					p:required="true" p:defaultValue="false"/>
 				<bean parent="MaintainableFieldDefinition" p:name="active"
 					p:required="true" p:defaultValue="true"/>
 

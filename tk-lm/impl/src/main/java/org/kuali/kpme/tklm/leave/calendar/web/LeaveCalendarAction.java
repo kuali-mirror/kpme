@@ -738,7 +738,11 @@ public class LeaveCalendarAction extends CalendarFormAction {
             
             DateTime beginDate = null;
     		DateTime endDate = null;
-            
+    		
+			beginDate = TKUtils.formatDateTimeStringNoTimezone(lcf.getStartDate());
+			endDate = TKUtils.formatDateTimeStringNoTimezone(lcf.getEndDate());
+        	updatedLeaveBlock.setLeaveDate(new Date(beginDate.getMillis()));
+        	
             EarnCodeContract earnCode =  HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveLocalDate()); // selectedEarnCode = hrEarnCodeId
             if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
             	if(lcf.getStartTime() != null && lcf.getEndTime() != null) {

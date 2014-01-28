@@ -65,13 +65,13 @@ public interface CalendarBlockContract {
 
 	public void setTimestamp(Timestamp timestamp);
 
-	public Date getBeginTimestamp();
+	public Timestamp getBeginTimestamp();
 
-	public void setBeginTimestamp(Date beginTimestamp);
+	public void setBeginTimestamp(Timestamp beginTimestamp);
 
-	public Date getEndTimestamp();
+	public Timestamp getEndTimestamp();
 
-	public void setEndTimestamp(Date endTimestamp);
+	public void setEndTimestamp(Timestamp endTimestamp);
 	
 	public BigDecimal getAmount();
 

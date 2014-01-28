@@ -36,7 +36,12 @@ public enum KPMERole {
 	PAYROLL_PROCESSOR_DELEGATE ("Payroll Processor Delegate"),
 	
 	// derived roles
-	DERIVED_ROLE_POSITION ("Derived Role : Position");
+	DERIVED_ROLE_POSITION ("Derived Role : Position"),
+	
+	// PROXY roles
+	KPME_PROXY_ROLE("Derived Role : KPME Role Proxy"),
+	APPROVER_PROXY_ROLE("Derived Role: Approver Proxy"),
+	APPROVER_DELEGATE_PROXY_ROLE("Derived Role: Approver Delegate Proxy");
 	
 	private String roleName;
 	

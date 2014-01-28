@@ -61,7 +61,7 @@ public class FlsaDay implements FlsaDayContract {
 	public FlsaDay(LocalDateTime flsaDate, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, DateTimeZone timeZone) {
 		this.flsaDate = flsaDate;
         this.timeZone = timeZone;
-		flsaDateInterval = new Interval(flsaDate.toDateTime(timeZone), flsaDate.toDateTime(timeZone).plusDays(1));
+		flsaDateInterval = new Interval(flsaDate.toDateTime().withZone(timeZone), flsaDate.toDateTime().withZone(timeZone).plusDays(1));
 		this.setTimeBlocks(timeBlocks);
 		this.setLeaveBlocks(leaveBlocks);
 	}
@@ -155,9 +155,8 @@ public class FlsaDay implements FlsaDayContract {
      * Danger may still lurk in day-boundary overlapping time blocks that have multiple Time Hour Detail entries.
 	 */
 	private boolean applyBlock(TimeBlock block, List<TimeBlock> applyList) {
-		DateTime beginDateTime = block.getBeginDateTime().withZone(timeZone);
-		DateTime endDateTime = block.getEndDateTime().withZone(timeZone);
-
+		DateTime beginDateTime = block.getBeginTimeDisplay();
+		DateTime endDateTime = block.getEndTimeDisplay();
 		if (beginDateTime.isAfter(flsaDateInterval.getEnd()))
 			return false;
 
@@ -169,7 +168,9 @@ public class FlsaDay implements FlsaDayContract {
 		}
 		
 		if(flsaDateInterval.contains(beginDateTime)){
-			zeroHoursTimeBlock = true;
+			if(flsaDateInterval.contains(endDateTime) || endDateTime.compareTo(flsaDateInterval.getEnd()) == 0){
+				zeroHoursTimeBlock = true;
+			}
 		}
 
 		Interval overlapInterval = flsaDateInterval.overlap(timeBlockInterval);

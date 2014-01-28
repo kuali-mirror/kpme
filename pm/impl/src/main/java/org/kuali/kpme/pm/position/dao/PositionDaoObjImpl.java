@@ -49,27 +49,27 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
 
     	// KPME-2695
         if (StringUtils.isNotBlank(positionNum)) {
-            root.addLike("UPPER(`position_nbr`)", positionNum.toUpperCase()); // just in case position number is not a number
+            root.addLike("UPPER(positionNumber)", positionNum.toUpperCase()); // just in case position number is not a number
         }
 
         if (StringUtils.isNotBlank(description)) {
-            root.addLike("UPPER(`description`)", description.toUpperCase());
+            root.addLike("UPPER(description)", description.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(`location`)", location.toUpperCase());
+            root.addLike("UPPER(workingPositionTitle)", location.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(institution)) {
-            root.addLike("UPPER(`institution`)", institution.toUpperCase());
+            root.addLike("UPPER(institution)", institution.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(classificationTitle)) {
-            root.addLike("UPPER(`cl_ttl`)", classificationTitle.toUpperCase());
+            root.addLike("UPPER(classificationTitle)", classificationTitle.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(positionType)) {
-            root.addLike("UPPER(`pstn_typ`)", positionType.toUpperCase());
+            root.addLike("UPPER(positionType)", positionType.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(poolEligible)) {

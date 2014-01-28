@@ -162,7 +162,7 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
         Criteria root = new Criteria();
         
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
+            root.addLike("UPPER(principalId)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
 
         if (StringUtils.isNotBlank(jobNumber)) {
@@ -178,7 +178,7 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
         }
 
         if (StringUtils.isNotBlank(hrPayType)) {
-            root.addLike("UPPER(`hr_paytype`)", hrPayType.toUpperCase()); // KPME-2695  
+            root.addLike("UPPER(hrPayType)", hrPayType.toUpperCase()); // KPME-2695
         }
 
         Criteria effectiveDateFilter = new Criteria();

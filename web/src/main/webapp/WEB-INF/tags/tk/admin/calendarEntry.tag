@@ -30,7 +30,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Pay Calendar Period:</td>
+                        <td>Calendar Period:</td>
                         <td>
                             <html:text property="hrPyCalendarEntryId" />
                         </td>

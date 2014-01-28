@@ -124,22 +124,22 @@ public class CalendarBlock extends CalendarBlockBase {
 	}
 
 	@Override
-	public Date getBeginTimestamp() {
+	public Timestamp getBeginTimestamp() {
 		return beginTimestamp;
 	}
 
 	@Override
-	public void setBeginTimestamp(Date beginTimestamp) {
+	public void setBeginTimestamp(Timestamp beginTimestamp) {
 		this.beginTimestamp = beginTimestamp;
 	}
 
 	@Override
-	public Date getEndTimestamp() {
+	public Timestamp getEndTimestamp() {
 		return endTimestamp;
 	}
 
 	@Override
-	public void setEndTimestamp(Date endTimestamp) {
+	public void setEndTimestamp(Timestamp endTimestamp) {
 		this.endTimestamp = endTimestamp;
 	}
 

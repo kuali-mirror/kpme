@@ -28,6 +28,7 @@ delete from lm_leave_plan_t where lm_leave_plan_id >= 8000;
 delete from lm_leave_document_header_t where document_id >= 5000;
 delete from hr_calendar_t where hr_calendar_id >= 1000;
 delete from hr_calendar_entries_t where hr_calendar_entry_id >= 5000;
+delete from tk_assignment_t where tk_assignment_id >= 5000;
 
 insert into lm_leave_plan_t (`lm_leave_plan_id`, `LEAVE_PLAN`, `DESCR`, `CAL_YEAR_START`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `ACTIVE`, `TIMESTAMP`, `PLANNING_MONTHS`) values ('8000', 'testLP', 'Test Leave Plan', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', '12');
 insert into hr_principal_attributes_t (`hr_principal_attribute_id`, `principal_id`, `pay_calendar`, `leave_plan`, `service_date`, `fmla_eligible`, `workers_eligible`, `timezone`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `active`, `leave_calendar`) values('5001', 'testUser', 'BWS-CAL', 'testLP', '2012-03-01', 'Y', 'Y', null, '2012-03-01', now(), uuid(), '1', 'Y', 'LM');
@@ -37,7 +38,7 @@ insert into hr_earn_code_t (`hr_earn_code_id`,`earn_code`,`descr`,`effdt`,`ovt_e
 
 # two not eligible for leave jobs and one eligible one
 insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5000', 'testUser', '1', '2012-01-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-01-01 11:00:00', uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'Y',  'Y', 'N', 'N', null);
-insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5001', 'testUser', '2', '2012-02-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-02-01 11:00:00', uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'Y',  'Y', 'N', 'N', null);
+insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5001', 'testUser', '2', '2012-02-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-02-01 11:00:00', uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'Y',  'N', 'N', 'N', null);
 insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5002', 'testUser', '3', '2012-03-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-03-01 11:00:00', uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'Y',  'Y', 'N', 'Y', null);
 
 # set up a system scheduled time off on 04/10/2012
@@ -53,8 +54,11 @@ insert into lm_sys_schd_timeoff_t (`lm_sys_schd_timeoff_id`,`leave_plan`,`accrua
 
 # add an inactive entry for job 3 and add a new job 4 for employee status change
 # employee changed status on 04/01, fte is changed from 1 to 0.5
-insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5003', 'testUser', '3', '2012-04-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-04-01 11:00:00', uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'N',  'Y', 'N', 'Y', null);
+insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5003', 'testUser', '3', '2012-04-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-04-01 11:00:00', uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'N',  'N', 'N', 'Y', null);
 insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5004', 'testUser', '4', '2012-04-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-04-01 11:00:00', uuid(), '1', '0.000000', 'SD1', '20.00', 'BW', 'Y',  'Y', 'N', 'Y', null);
+
+# primary assignment for the leave eligible job 
+insert into tk_assignment_t (`tk_assignment_id`, `principal_id`, `job_number`, `effdt`, `work_area`, `task`, `obj_id`, `ver_nbr`, `active`, `timestamp`,  `primary_assign`) values ('5000', 'testUser', '4', '2010-01-01', '1001', '0', uuid(), '1', 'Y', now(), 'Y');
 
 # for testRunAccrualForRuleChangeS
 # user testUser2 has 2 rules

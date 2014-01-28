@@ -245,10 +245,11 @@ public class TkConstants {
     	EMPLOYEE_APPROVAL_DOC_STATUS.add(DocumentStatus.SAVED.getCode());
     }
     
-    public static final List<String> SUPERVISOR_APPROVAL_DOC_STATUS = new ArrayList<String>();
+    public static final List<String> MISSEDPUNCH_APPROVAL_TIME_DOC_STATUS = new ArrayList<String>();
     static {
-    	SUPERVISOR_APPROVAL_DOC_STATUS.add(DocumentStatus.INITIATED.getCode());
-    	SUPERVISOR_APPROVAL_DOC_STATUS.add(DocumentStatus.SAVED.getCode());
-    	SUPERVISOR_APPROVAL_DOC_STATUS.add(DocumentStatus.ENROUTE.getCode());
+    	MISSEDPUNCH_APPROVAL_TIME_DOC_STATUS.add(DocumentStatus.INITIATED.getCode());
+    	MISSEDPUNCH_APPROVAL_TIME_DOC_STATUS.add(DocumentStatus.SAVED.getCode());
+    	MISSEDPUNCH_APPROVAL_TIME_DOC_STATUS.add(DocumentStatus.ENROUTE.getCode());
     }
+    
 }

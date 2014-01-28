@@ -69,6 +69,7 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 	//private Long tkWorkAreaId;
 	private Long task;
 	private String dept;
+	private boolean primaryAssign;
 
 	private transient WorkArea workAreaObj;
 	private Boolean history;
@@ -214,7 +215,7 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 	}
 
 	public String getAssignmentDescription() {
-		return TKUtils.getAssignmentString(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getEffectiveLocalDate());
+        return HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getEffectiveLocalDate());
 	}
 
 	public Person getPrincipal() {
@@ -295,4 +296,13 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
     public String getAssignmentKey() {
         return new AssignmentDescriptionKey(this).toAssignmentKeyString();
     }
+    
+	public Boolean isPrimaryAssign() {
+		return Boolean.valueOf(primaryAssign);
+	}
+
+	public void setPrimaryAssign(boolean primaryAssign) {
+		this.primaryAssign = primaryAssign;
+	}
+
 }

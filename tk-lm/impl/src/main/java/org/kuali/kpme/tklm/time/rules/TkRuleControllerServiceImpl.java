@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.rules;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
@@ -34,7 +35,7 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 	public void applyRules(String action, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntry payEntry, TimesheetDocument timesheetDocument, String principalId){
 		//foreach action run the rules that apply
 		if(StringUtils.equals(action, TkConstants.ACTIONS.ADD_TIME_BLOCK) || StringUtils.equals(action, TkConstants.ACTIONS.CLOCK_OUT)){
-            TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, payEntry, payEntry.getCalendarObj(), true);
+            TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, payEntry, (Calendar)payEntry.getCalendarObj(), true);
             //
             // Need to run LunchRule first - It will reduce hours in some instances
 

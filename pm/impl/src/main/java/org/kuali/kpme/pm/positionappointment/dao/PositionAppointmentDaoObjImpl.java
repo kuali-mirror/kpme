@@ -58,22 +58,22 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 
 		if (StringUtils.isNotEmpty(positionAppointment) 
 				&& !ValidationUtils.isWildCard(positionAppointment)) {
-			root.addLike("UPPER(`pstn_appointment`)", positionAppointment.toUpperCase());
+			root.addLike("UPPER(positionAppointment)", positionAppointment.toUpperCase());
 		}
 		
 		if (StringUtils.isNotEmpty(description) 
 				&& !ValidationUtils.isWildCard(description)) {
-			root.addLike("UPPER(`description`)", description.toUpperCase());
+			root.addLike("UPPER(description)", description.toUpperCase());
 		}
 		
 		if (StringUtils.isNotEmpty(institution) 
 				&& !ValidationUtils.isWildCard(institution)) {
-			root.addLike("UPPER(`institution`)", institution.toUpperCase());
+			root.addLike("UPPER(institution)", institution.toUpperCase());
 		}
 		
 		if (StringUtils.isNotEmpty(location) 
 				&& !ValidationUtils.isWildCard(location)) {
-			root.addLike("UPPER(`location`)", location.toUpperCase());
+			root.addLike("UPPER(location)", location.toUpperCase());
 		}
 
 		Criteria effectiveDateFilter = new Criteria();

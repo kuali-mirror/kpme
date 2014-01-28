@@ -50,6 +50,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockDao;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -67,7 +68,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                                                     DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount, 
                                                     Boolean getClockLogCreated, Boolean getLunchDeleted, String spanningWeeks, String userPrincipalId,
                                                     String clockLogBeginId, String clockLogEndId) {
-        DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         DateTime beginDt = beginDateTime.withZone(zone);
         DateTime endDt = beginDt.toLocalDate().toDateTime(endDateTime.withZone(zone).toLocalTime(), zone);
         if (endDt.isBefore(beginDt)) endDt = endDt.plusDays(1);
@@ -132,7 +133,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         Interval firstDay = null;
         DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(timesheetDocument.getPrincipalId()));
         if(userTimeZone == null)
-        	userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        	userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         
         List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry(), userTimeZone);
 //        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());
@@ -235,7 +236,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 
     public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, DateTime beginDateTime, DateTime endDateTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId) {
-        DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         EarnCode earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
 
         TimeBlock tb = new TimeBlock();
@@ -278,6 +279,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                 lunchDeleted, userPrincipalId);
         tb.setClockLogBeginId(clockLogBeginId);
         tb.setClockLogEndId(clockLogEndId);
+        tb.assignClockedByMissedPunch();
+        
         return tb;
     }
 
@@ -412,7 +415,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     //
     public List<TimeBlock> getTimeBlocks(String documentId) {
     	List<TimeBlock> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
-        DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+            DateTimeZone timezone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(tdh.getPrincipalId()));
+            if (timezone == null)
+             timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         for(TimeBlock tb : timeBlocks) {
             String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
             tb.setEarnCodeType(earnCodeType);
@@ -434,7 +440,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	if(assign != null) {
         	timeBlocks = timeBlockDao.getTimeBlocksForAssignment(assign);
     	}
-        DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
     	 for(TimeBlock tb : timeBlocks) {
              String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
              tb.setEarnCodeType(earnCodeType);

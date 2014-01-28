@@ -85,7 +85,7 @@ public interface ClockLogContract extends PersistableBusinessObject {
 	 * 
 	 * @return clockTimestamp for ClockLog
 	 */
-    public Date getClockTimestamp();
+    public Timestamp getClockTimestamp();
    
     /**
 	 * The clockTimestamp associated with the ClockLog

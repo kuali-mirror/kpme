@@ -130,6 +130,9 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
         //so assuming the common pairs of this are the 1st & 16th, and then 15th and the last day,
         // and 14th with the last day minus 1
         //so we'll peek at the current date and try to figure out the best guesses for addition.
+        if (date == null)  {
+            return null;
+        }
         if (date.getDayOfMonth() == date.dayOfMonth().getMaximumValue()) {
             //date is on the last day of the month.  Set next date to the 15th
         	return date.plusMonths(1).withDayOfMonth(15);

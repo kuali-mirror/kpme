@@ -15,11 +15,6 @@
  */
 package org.kuali.kpme.core.util;
 
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
@@ -42,18 +37,18 @@ import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.kfs.coa.businessobject.Account;
-import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
-import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
-import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
-import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kpme.core.kfs.coa.businessobject.*;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -146,22 +141,22 @@ public class ValidationUtils {
 
 	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, LocalDate asOfDate) {
 		boolean valid = false;
-		
-		if (asOfDate != null) {
-			AccrualCategoryContract accrualCategoryObj = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
-			if (accrualCategoryObj != null) {
-				if (StringUtils.equals(earnCode, accrualCategoryObj.getEarnCode())) {
-					valid = true;
-				}
-			}
-		} else {
-			Map<String, String> fieldValues = new HashMap<String, String>();
-			fieldValues.put("earnCode", earnCode);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(EarnCode.class, fieldValues);
-			
-			valid = matches > 0;
-		}
-		
+
+        if (asOfDate != null) {
+            EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+            if (earnCodeObj != null) {
+                if(StringUtils.equals(earnCodeObj.getAccrualCategory(),accrualCategory)) {
+                    valid = true;
+                }
+            }
+        } else {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("earnCode", earnCode);
+            int matches = KRADServiceLocator.getBusinessObjectService().countMatching(EarnCode.class, fieldValues);
+
+            valid = matches > 0;
+        }
+
 		return valid;
 	}
 	

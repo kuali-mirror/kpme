@@ -75,16 +75,16 @@ public class PayGradeDaoObjImpl  extends PlatformAwareDaoBaseOjb implements PayG
     	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(payGrade)) {
-            root.addLike("UPPER(`pay_grade`)", payGrade.toUpperCase()); // KPME-2695 
+            root.addLike("UPPER(payGrade)", payGrade.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(payGradeDescr)) {
-            root.addLike("UPPER(`description`)", payGradeDescr.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(description)", payGradeDescr.toUpperCase()); // KPME-2695
         }
         
         // KPME-2700
         if (StringUtils.isNotBlank(salGroup)) {
-            root.addLike("UPPER(`sal_group`)", salGroup.toUpperCase()); // KPME-2695 
+            root.addLike("UPPER(salGroup)", salGroup.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(active)) {

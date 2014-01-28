@@ -385,7 +385,7 @@
                                     <dropFirst>true</dropFirst>
                                     <clearCheckSums>false</clearCheckSums>
                                     <contexts>kpme-server-bootstrap</contexts>
-                                    <migrationSqlOutputFile>db/src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-install.sql</migrationSqlOutputFile>
+                                    <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-install.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>
                             <execution>
@@ -402,7 +402,7 @@
                                     <dropFirst>true</dropFirst>
                                     <clearCheckSums>false</clearCheckSums>
                                     <contexts>kpme-client-bootstrap</contexts>
-                                    <migrationSqlOutputFile>db/src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-install.sql</migrationSqlOutputFile>
+                                    <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-install.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>
                             <execution>
@@ -454,7 +454,7 @@
                                     <clearCheckSums>false</clearCheckSums>
                                     <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
                                     <contexts>kpme-server-bootstrap</contexts>
-                                    <migrationSqlOutputFile>db/src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-upgrade.sql</migrationSqlOutputFile>
+                                    <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-upgrade.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>
                             <execution>
@@ -472,7 +472,7 @@
                                     <clearCheckSums>false</clearCheckSums>
                                     <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
                                     <contexts>kpme-client-bootstrap</contexts>
-                                    <migrationSqlOutputFile>db/src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-upgrade.sql</migrationSqlOutputFile>
+                                    <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-upgrade.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>
                         </executions>

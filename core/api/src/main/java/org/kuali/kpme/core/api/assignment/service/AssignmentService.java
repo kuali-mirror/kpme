@@ -166,6 +166,7 @@ public interface AssignmentService {
 	 */
 	public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
 	
-	 public List<? extends AssignmentContract> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
-	 
+	public List<? extends AssignmentContract> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
+
+    public String getAssignmentDescription(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate);
 }

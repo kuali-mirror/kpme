@@ -79,15 +79,15 @@ public class LeaveAdjustmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implement
         root.addAndCriteria(effectiveDateFilter);
         
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
+            root.addLike("UPPER(principalId)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
 
         if (StringUtils.isNotBlank(accrualCategory)) {
-            root.addLike("UPPER(`accrual_cat`)", accrualCategory.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(accrualCategory)", accrualCategory.toUpperCase()); // KPME-2695
         }
 
         if (StringUtils.isNotBlank(earnCode)) {
-        	root.addLike("UPPER(`earn_code`)", earnCode.toUpperCase()); // KPME-2695
+        	root.addLike("UPPER(earnCode)", earnCode.toUpperCase()); // KPME-2695
         }
 
         Query query = QueryFactory.newQuery(LeaveAdjustment.class, root);

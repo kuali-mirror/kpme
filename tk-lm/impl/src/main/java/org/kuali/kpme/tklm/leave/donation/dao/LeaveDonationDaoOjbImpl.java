@@ -59,11 +59,11 @@ public class LeaveDonationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         root.addAndCriteria(effectiveDateFilter);
 
         if (StringUtils.isNotBlank(donorsPrincipalId)) {
-            root.addLike("UPPER(`donor`)", donorsPrincipalId.toUpperCase()); // KPME-2695 in case principal id is not a number
+            root.addLike("UPPER(donor)", donorsPrincipalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
         
         if (StringUtils.isNotBlank(donatedAccrualCategory)) {
-            root.addLike("UPPER(`donated_acc_cat`)", donatedAccrualCategory.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(donatedAccrualCategory)", donatedAccrualCategory.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(amountDonated)) {
@@ -71,11 +71,11 @@ public class LeaveDonationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         }
         
         if (StringUtils.isNotBlank(recipientsPrincipalId)) {
-        	root.addLike("UPPER(`recepient`)", recipientsPrincipalId.toUpperCase()); // KPME-2695 in case principal id is not a number
+        	root.addLike("UPPER(recepient)", recipientsPrincipalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
         
         if (StringUtils.isNotBlank(recipientsAccrualCategory)) {
-        	root.addLike("UPPER(`recipients_acc_cat`)", recipientsAccrualCategory.toUpperCase()); // KPME-2695
+        	root.addLike("UPPER(recipientsAccrualCategory)", recipientsAccrualCategory.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(amountReceived)) {

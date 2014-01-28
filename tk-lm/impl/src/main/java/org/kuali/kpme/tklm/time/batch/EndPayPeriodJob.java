@@ -55,10 +55,6 @@ public class EndPayPeriodJob extends BatchJob {
 			JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 	
 			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
-//			String tkClockLogId = jobDataMap.getString("tkClockLogId");
-//			ClockLog openClockLog = TkServiceLocator.getClockLogService().getClockLog(tkClockLogId);
-//			String ipAddress = openClockLog.getIpAddress();
-//		    String principalId = openClockLog.getPrincipalId();
 			
 		    DateTime currentDateTime =  new DateTime();
 			LOG.info("EndOfPayPeiodJob is running at " + currentDateTime.toString() + " for hrCalendarEntryId " + hrCalendarEntryId);
@@ -110,7 +106,6 @@ LOG.info("EndOfPayPeiodJob started for user " + principalId + " and clockLog " +
         DateTime ciLogDateTime = TKUtils.convertTimeForDifferentTimeZone(beginNextPeriodDateTime,systemTimeZone,userTimezone);
         
         String ipAddress = openClockLog.getIpAddress();
-//        TimesheetDocumentHeader openLogDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(openClockLog.getDocumentId());
 	    TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, calendarEntry.getBeginPeriodFullDateTime(), endPeriodDateTime);
 	    if (timesheetDocumentHeader != null) {
 	        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());

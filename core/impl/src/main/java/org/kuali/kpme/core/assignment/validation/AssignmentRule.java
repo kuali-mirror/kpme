@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
@@ -268,6 +269,26 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
+	protected boolean validateOnePrimaryAssignment(Assignment assignment, Assignment oldAssignment) {
+		if (assignment.isPrimaryAssign()) {
+			//do not block editing of previous primary assignment
+			if(oldAssignment!=null && oldAssignment.isPrimaryAssign()){
+				return true;
+			}
+			JobContract job = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate(), false);
+			if(job != null && job.isEligibleForLeave()) {
+				List<? extends AssignmentContract> assignList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate());
+				for(AssignmentContract anAssignment : assignList) {
+					if(anAssignment != null && anAssignment.isPrimaryAssign()) {
+						this.putFieldError("primaryAssign", "error.primary.assignment.exists.for.leaveJob", assignment.getJobNumber().toString());
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
 /*	protected boolean validateActiveFlag(Assignment assign){
 		if(!assign.isActive()) {
 			List<TimeBlock> tbList = TkServiceLocator.getTimeBlockService().getTimeBlocksForAssignment(assign);
@@ -311,6 +332,11 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				if(!assignment.getAssignmentAccounts().isEmpty()) {
 					valid &= this.validateRegPayEarnCode(assignment);
 					valid &= this.validateAccounts(assignment); // KPME-2780
+				}
+				// only allow one primary assignment for the leave eligible job
+				if(assignment.isPrimaryAssign()) {
+					Assignment oldAssignment = (Assignment) this.getOldBo();
+					valid &= this.validateOnePrimaryAssignment(assignment, oldAssignment);
 				}
 			}
 		}

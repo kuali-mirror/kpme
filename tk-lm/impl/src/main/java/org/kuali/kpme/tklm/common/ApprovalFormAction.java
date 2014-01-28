@@ -15,6 +15,11 @@
  */
 package org.kuali.kpme.tklm.common;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -24,21 +29,17 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public abstract class ApprovalFormAction extends KPMEAction {
 	
 	protected void setSearchFields(ApprovalForm approvalForm) {
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+		String principalId = HrContext.getTargetPrincipalId();
+//        String principalId = GlobalVariables.getUserSession().getPrincipalId();
 		LocalDate currentDate = LocalDate.now();
         DateTime currentDateTime = currentDate.toDateTimeAtStartOfDay();
 

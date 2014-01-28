@@ -36,6 +36,8 @@ import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchContract;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -71,6 +73,8 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	
 	private transient boolean isAssignmentReadOnly;
     private transient String note;
+    private transient String missedPunchDocId;
+    private transient String missedPunchDocStatus;
 
 	public String getTkMissedPunchId() {
 		return tkMissedPunchId;
@@ -111,7 +115,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	public String getAssignmentValue() {
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
 		LocalDate asOfDate = timesheetDocument != null ? timesheetDocument.getAsOfDate() : null;
-		return TKUtils.getAssignmentString(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), asOfDate);
+		return HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), asOfDate);
 	}
 	
     public Date getRelativeEffectiveDate() {
@@ -330,4 +334,37 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
     public void setNote(String note) {
         this.note = note;
     }
+
+	public String getMissedPunchDocId() {
+		if(StringUtils.isBlank(missedPunchDocId)) {
+			MissedPunchDocument aDoc = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentByMissedPunchId(this.getTkMissedPunchId());
+			if(aDoc != null) {
+				this.setMissedPunchDocId(aDoc.getDocumentNumber());
+			}
+		}
+		
+		return missedPunchDocId;
+	}
+
+	public void setMissedPunchDocId(String missedPunchDocId) {
+		this.missedPunchDocId = missedPunchDocId;
+	}
+
+	public String getMissedPunchDocStatus() {
+		if(StringUtils.isBlank(missedPunchDocStatus)) {
+			MissedPunchDocument aDoc = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentByMissedPunchId(this.getTkMissedPunchId());
+			if(aDoc != null) {
+				DocumentStatus aStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(aDoc.getDocumentNumber());
+				if(aStatus != null) {
+					this.setMissedPunchDocStatus(aStatus.getLabel());
+				}
+			}
+		}
+		
+		return missedPunchDocStatus;
+	}
+
+	public void setMissedPunchDocStatus(String missedPunchDocStatus) {
+		this.missedPunchDocStatus = missedPunchDocStatus;
+	}
 }

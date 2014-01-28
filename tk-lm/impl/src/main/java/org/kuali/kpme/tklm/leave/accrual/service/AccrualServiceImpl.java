@@ -15,15 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -56,6 +47,9 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class AccrualServiceImpl implements AccrualService {
     private static final Logger LOG = Logger.getLogger(AccrualServiceImpl.class);
@@ -300,7 +294,7 @@ public class AccrualServiceImpl implements AccrualService {
 						BigDecimal acHours = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						
 						if(acHours != null) {
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), acHours, anAC, null, true, currentRange.getLeaveCalendarDocumentId());
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), acHours, anAC, null, true, currentRange.getLeaveCalendarDocumentId(), null);
 							accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToAccrualAmounts
 							fullFteGranted = false;
 						}
@@ -308,7 +302,7 @@ public class AccrualServiceImpl implements AccrualService {
 						BigDecimal adjustmentHours = accumulatedAccrualCatToNegativeAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						if(adjustmentHours != null && adjustmentHours.compareTo(BigDecimal.ZERO) != 0) {
 							// do not create leave block if the ajustment amount is 0
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), adjustmentHours, anAC, null, false, currentRange.getLeaveCalendarDocumentId());
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), adjustmentHours, anAC, null, false, currentRange.getLeaveCalendarDocumentId(), null);
 							accumulatedAccrualCatToNegativeAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToNegativeAccrualAmounts
 						}
 					}			
@@ -325,11 +319,12 @@ public class AccrualServiceImpl implements AccrualService {
 				}
 				BigDecimal hrs = ssto.getAmountofTime().multiply(ftePercentage);
 				// system scheduled time off leave block
-				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), hrs, anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId());
+				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), hrs, anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId(), null);
 				// we only need to create usage leave block for ssto if there is a scheduled time off date
 				if(ssto.getScheduledTimeOffDate() != null) {
-					// usage leave block with negative amount.
-					createLeaveBlock(principalId, accrualLeaveBlocks, ssto.getScheduledTimeOffLocalDate(), hrs.negate(), anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId());
+					// usage leave block with negative amount. Assign primary leave assignment information to ssto usage leave block
+					createLeaveBlock(principalId, accrualLeaveBlocks, ssto.getScheduledTimeOffLocalDate(), 
+								hrs.negate(), anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId(), currentRange.getPrimaryLeaveAssignmentId());
 				}
 			}
 			// if today is the last day of the employment, create leave blocks if there's any hours available
@@ -339,7 +334,7 @@ public class AccrualServiceImpl implements AccrualService {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
 							AccrualCategory anAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), entry.getValue(), anAC, null, true, currentRange.getLeaveCalendarDocumentId());
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), entry.getValue(), anAC, null, true, currentRange.getLeaveCalendarDocumentId(), null);
 						}
 					}
 					accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();	// reset accumulatedAccrualCatToAccrualAmounts
@@ -349,7 +344,7 @@ public class AccrualServiceImpl implements AccrualService {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToNegativeAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
 							AccrualCategory anAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), entry.getValue(), anAC, null, true, currentRange.getLeaveCalendarDocumentId());
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), entry.getValue(), anAC, null, true, currentRange.getLeaveCalendarDocumentId(), null);
 						}
 					}
 					accumulatedAccrualCatToNegativeAccrualAmounts = new HashMap<String,BigDecimal>();	// reset accumulatedAccrualCatToNegativeAccrualAmounts
@@ -426,7 +421,7 @@ public class AccrualServiceImpl implements AccrualService {
 	
 	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks, 
 			LocalDate leaveDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId, 
-			boolean createZeroLeaveBlock, String leaveDocId) {
+			boolean createZeroLeaveBlock, String leaveDocId, String primaryAssignmentId) {
 		// Replacing Leave Code to earn code - KPME 1634
 		EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(anAC.getEarnCode(), anAC.getEffectiveLocalDate());
 		if(ec == null) {
@@ -452,6 +447,15 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
 		aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setDocumentId(leaveDocId);
+		
+		if(StringUtils.isNotBlank(primaryAssignmentId)) {
+			AssignmentContract primAssignment = HrServiceLocator.getAssignmentService().getAssignment(primaryAssignmentId);
+			if(primAssignment != null) {
+				aLeaveBlock.setWorkArea(primAssignment.getWorkArea());
+				aLeaveBlock.setJobNumber(primAssignment.getJobNumber());
+		        aLeaveBlock.setTask(primAssignment.getTask());
+			}		
+		}
 		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		
@@ -693,6 +697,22 @@ public class AccrualServiceImpl implements AccrualService {
 				for(SystemScheduledTimeOff ssto : sstoList) {
 					if(ssto.getAccruedLocalDate().equals(currentDate.toLocalDate())
 							&& ssto.getLeavePlan().equals(rateRange.getLeavePlan().getLeavePlan())) {
+						
+						// figure out the primary leave assignment to use for ssto usage leave blocks
+						if(CollectionUtils.isNotEmpty(jobs) && StringUtils.isBlank(rateRange.getPrimaryLeaveAssignmentId())) {
+							for(Job aJob : jobs) {
+								if(aJob.isEligibleForLeave() && aJob.getPrimaryIndicator()) {
+									List<? extends AssignmentContract> assignmentList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, aJob.getJobNumber(), currentDate.toLocalDate());
+									for(AssignmentContract anAssignment : assignmentList) {
+										if(anAssignment != null && anAssignment.isPrimaryAssign()) {
+											rateRange.setPrimaryLeaveAssignmentId(anAssignment.getTkAssignmentId());
+											break;
+										}
+									}
+								}
+							}
+						}
+						
 						// if there exists a ssto accrualed leave block with this ssto id, it means the ssto hours has been banked or transferred by the employee
 						// this logic depends on the deactivateOldAccruals() runs before buildRateRangeAggregate()
 						// because deactivateOldAccruals() removes accrued ssto leave blocks unless they are banked/transferred

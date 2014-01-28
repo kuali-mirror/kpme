@@ -15,13 +15,9 @@
     limitations under the License.
 
 --%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
-
 <c:set var="Form" value="${ClockActionForm}" scope="request"/>
-
-<script type="text/javascript">
-var tdocid = ${Form.timesheetDocument.documentId} ;
-</script>
 
 <c:choose>
 	<c:when test="${Form.currentClockAction eq 'CI'}">
@@ -47,26 +43,8 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
 </c:if>
 
 <tk:tkHeader tabId="clock">
-    <script type="text/javascript" src="plugins/jquery/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="plugins/jqueryUI/jquery-ui-1.9.2.js"></script>
-    <script type="text/javascript" src="plugins/jgrowl/jquery.jgrowl.js"></script>
-    <script type="text/javascript" src="plugins/blockUI/jquery.blockUI.js"></script>
-    <script type="text/javascript" src="plugins/validate/jquery.validate.js"></script>
-    <script type="text/javascript" src="plugins/tooltip/jquery.bubblepopup.v2.3.1.js"></script>
 
-    <script type="text/javascript" src="plugins/scrollto/jquery.scrollTo-1.4.3-min.js"></script>
-    <script type="text/javascript" src="plugins/datatables/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="plugins/datatables/ZeroClipboard.js"></script>
-    <script type="text/javascript" src="plugins/datatables/TableTools.js"></script>
-    <script type="text/javascript" src="plugins/datatables/jquery.dataTables.rowGrouping.js"></script>
-    <script type="text/javascript" src="plugins/fancybox/jquery.fancybox.pack.js"></script>
-    <script type="text/javascript" src="krad/scripts/krad.variables.js"></script>
-    <script type="text/javascript" src="krad/scripts/krad.message.js"></script>
-    <script type="text/javascript" src="krad/scripts/krad.widget.js"></script>
-    <script type="text/javascript" src="krad/scripts/krad.url.js"></script>
-    <script type="text/javascript" src="krad/scripts/krad.utility.js"></script>
-    <script type="text/javascript" src="krad/scripts/krad.dirty.js"></script>
-    <script type="text/javascript" src="krad/scripts/krad.initialize.js"></script>
+    <script type="text/javascript" src="themes/kboot/scripts/kboot.2.3.1.min.js"></script>
 
 
 	<html:form action="/Clock.do">
@@ -144,7 +122,7 @@ var tdocid = ${Form.timesheetDocument.documentId} ;
                             </c:choose>
                             <c:choose>
                                 <c:when test="${Form.clockButtonEnabled}">
-                                    <input type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + tdocid, {minHeight: 500, maxWidth: 600, closeBtn: false})" />
+                                    <input type="button" class="button" value="Missed Punch" name="missedPunch" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/missedPunch?&methodToCall=start&viewId=MissedPunch-SubmitView&missedPunch.timesheetDocumentId=' + ${Form.timesheetDocument.documentId}, {minHeight: 600, maxWidth: 600, closeBtn: false})" />
                                 </c:when>
                                 <c:otherwise>
                                     <input disabled type="button" class="button" value="Missed Punch" name="missedPunch"  />

@@ -20,13 +20,50 @@
             <c:set var="timeBlockDivId" value=""/>
         </c:if>
 
-        <div id="${timeBlockDivId}" class="event ${last} ${block.assignmentClass}">
+        <div id="${timeBlockDivId}" class="approvals-table event ${last} ${block.assignmentClass}">
             <div id="timeblock_${block.timeBlock.tkTimeBlockId}" 
             	 class="${editableClass}">
             	 <c:if test="${block.timeBlock.clockedByMissedPunch}">
- 	 	 	 	 	<div class="missed-punch-marker">
+ 	 	 	 	 	<!-- <div class="missed-punch-marker">
  	 	 	 			<span class='icon-file2'/>
- 	 	 	 		</div>
+ 	 	 	 		</div> -->
+ 	 	 	 		<div class="missed-punch-marker">
+						<span id="approvals-missedpunch" class='approvals-missedpunch'>
+							<span class="icon-file2"></span>
+						</span>
+					</div>
+					<div id="approvals-missedpunch-details"
+						class="approvals-missedpunch-details"
+						style="display: none; float: right; margin-left: 20px;">
+						<table>
+							<thead>
+								<tr>
+									<th colspan="3"
+										style="font-size: 1.2em; font-weight: bold; text-align: left; border-bottom: none;">
+										Missed Punch:
+									</th>
+								</tr>
+								<tr>
+									<th>Date</th>
+									<th>Clock Action</th>
+									<th>Details</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="width: 250px;height: auto;">${block.timeBlock.actionDateTime}</td>
+									<td style="width: 30px; height: auto;">${block.timeBlock.clockAction}</td>
+									<td style="height: auto">
+										<div class="warning-note-message">
+                        					${block.timeBlock.assignmentValue}
+											<br/>Doc Id: ${block.timeBlock.missedPunchDocId}
+											&nbsp;Doc Status: ${block.timeBlock.missedPunchDocStatus}
+									</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</c:if>
                 <c:if test="${Form.docEditable && block.timeBlock.timeBlockEditable && block.timeBlock.deleteable}">
                     <div><img id="timeblockDelete_${block.timeBlock.tkTimeBlockId}"

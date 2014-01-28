@@ -1772,7 +1772,7 @@
             <column name="VER_NBR" value="1" />
         </insert>		
 
-        <modifySql>
+        <modifySql dbms="mysql">
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>

@@ -27,11 +27,13 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -43,6 +45,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.RoleMember;
@@ -67,41 +70,53 @@ public class PayrollApprovalJob extends BatchJob {
         
 		if (batchUserPrincipalId != null) {
 			JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-	
 			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
-			String documentId = jobDataMap.getString("documentId");
 	
 			CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 			Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
-			
+			DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+	    	DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
+	    	
 			List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 			String subject = new String();
 			List<Long> workAreas = new ArrayList<Long>();
-
+			
 			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
-				TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-				if (timesheetDocumentHeader != null) {
-					TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-					if (!TkServiceLocator.getTimesheetService().isReadyToApprove(timesheetDocument) || documentNotEnroute(documentId)) {
-						rescheduleJob(context);
-					} else {
-						TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-						roleMembers = getRoleMembersInDepartment(timesheetDocument.getAssignments(), KPMENamespace.KPME_TK);
-						subject = "Payroll Batch Approved Timesheet Document " + documentId;
+				List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+		        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+		        	if (timesheetDocumentHeader != null) {
+		        		String docId = timesheetDocumentHeader.getDocumentId();
+			        	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+						String documentStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(docId);
+						
+						if(documentStatus.equals(DocumentStatus.ENROUTE.getCode())) {
+							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
+							if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {	
+								TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+								roleMembers = getRoleMembersInDepartment(timesheetDocument.getAssignments(), KPMENamespace.KPME_TK);
+								subject = "Payroll Batch Approved Timesheet Document " + docId;
+							}
+		        		}
 					}
-				}
+		        }
 			} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
-				LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
-				if (leaveCalendarDocumentHeader != null) {
-					LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-					if (!LmServiceLocator.getLeaveCalendarService().isReadyToApprove(leaveCalendarDocument) || documentNotEnroute(documentId)) {
-						rescheduleJob(context);
-					} else {
-						LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-						roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAssignments(), KPMENamespace.KPME_LM);
-						subject = "Payroll Batch Approved Leave Calendar Document " + documentId;
+		        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+		        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+		        	if (leaveCalendarDocumentHeader != null) {
+		        		String docId = leaveCalendarDocumentHeader.getDocumentId();
+		        		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
+						String documentStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(docId);
+						// only approve documents in enroute status
+						if (documentStatus.equals(DocumentStatus.ENROUTE.getCode())) {
+							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(leaveCalendarDocument.getPrincipalId(), endDate.toLocalDate());
+							if(phraRecord != null && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {	
+								LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+								roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAssignments(), KPMENamespace.KPME_LM);
+								subject = "Payroll Batch Approved Leave Calendar Document " + docId;
+							}
+						}
 					}
-				}
+		        }
 			}
 			sendNotifications(subject, roleMembers, workAreas);
         } else {

@@ -65,7 +65,7 @@ public class SystemScheduledTimeOffDaoOjbImpl extends PlatformAwareDaoBaseOjb im
     	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(earnCode)) {
-            root.addLike("UPPER(`earn_code`)", earnCode.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(earnCode)", earnCode.toUpperCase()); // KPME-2695
         }
 
         Criteria effectiveDateFilter = new Criteria();

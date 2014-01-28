@@ -96,6 +96,7 @@
         <field-descriptor name="effectiveDate"  column="EFFDT"              jdbc-type="DATE"        nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="workArea"       column="WORK_AREA"          jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="task"           column="TASK"               jdbc-type="BIGINT"      nullable="true" primarykey="false" />
+        <field-descriptor name="primaryAssign"  column="PRIMARY_ASSIGN"     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="active"         column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="objectId"       column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />

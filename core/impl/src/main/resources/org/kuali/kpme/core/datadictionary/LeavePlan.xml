@@ -264,6 +264,8 @@
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 							<bean parent="FieldDefinition" p:attributeName="calendarYearStart" />
+							<bean parent="FieldDefinition" p:attributeName="batchPriorYearCarryOverStartDate" />
+							<bean parent="FieldDefinition" p:attributeName="batchPriorYearCarryOverStartTime" />
 							<bean parent="FieldDefinition" p:attributeName="descr" />
 							<bean parent="FieldDefinition" p:attributeName="planningMonths" />
 							<bean parent="FieldDefinition" p:attributeName="active" />

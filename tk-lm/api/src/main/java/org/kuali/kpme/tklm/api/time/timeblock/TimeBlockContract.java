@@ -76,7 +76,7 @@ public interface TimeBlockContract extends CalendarBlockContract {
 	 * 
 	 * @return endTimestamp for TimeBlock
 	 */
-    public Date getEndTimestamp();
+    public Timestamp getEndTimestamp();
     
     /**
 	 * The endTimestamp (Date) associated with the TimeBlock

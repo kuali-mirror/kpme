@@ -89,30 +89,6 @@ public class EmployeeApprovalJob extends BatchJob {
 				}
 	        }
     	}
-		
-//		if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
-//			TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-//			if (timesheetDocumentHeader != null) {
-//				TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-//				String documentStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(timesheetDocument.getDocumentId());
-//				String principalId = timesheetDocument == null ? null : timesheetDocument.getPrincipalId();
-//				
-//				if (DocumentStatus.INITIATED.getCode().equals(documentStatus) || DocumentStatus.SAVED.getCode().equals(documentStatus)) {
-//					TkServiceLocator.getTimesheetService().routeTimesheet(principalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
-//	            }
-//			}
-//		} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
-//			LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
-//			if (leaveCalendarDocumentHeader != null) {
-//				LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-//				String documentStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(leaveCalendarDocument.getDocumentId());
-//				String principalId = leaveCalendarDocument.getPrincipalId();
-//				
-//				if (DocumentStatus.INITIATED.getCode().equals(documentStatus) || DocumentStatus.SAVED.getCode().equals(documentStatus)) {
-//					LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(principalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
-//				}
-//			}
-//		}
 	}
 	
 }

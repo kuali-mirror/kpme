@@ -427,11 +427,11 @@ public class PrincipalHRAttributesDaoOjbImpl extends PlatformAwareDaoBaseOjb imp
     	Criteria root = new Criteria();
     	
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
+            root.addLike("UPPER(principalId)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
 
         if (StringUtils.isNotBlank(leavePlan)) {
-            root.addLike("UPPER(`leave_plan`)", leavePlan.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(leavePlan)", leavePlan.toUpperCase()); // KPME-2695
         }
 
         Criteria effectiveDateFilter = new Criteria();

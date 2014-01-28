@@ -18,10 +18,12 @@ package org.kuali.kpme.core.calendar.entry;
 import java.sql.Time;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -47,7 +49,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     private Date batchSupervisorApprovalDateTime;
     private Date batchPayrollApprovalDateTime;
 
-    private transient Calendar calendarObj;
+    private transient CalendarContract calendarObj;
 
     public String getHrCalendarId() {
         calendarObj = (Calendar)HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
@@ -309,11 +311,14 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
     	batchSupervisorApprovalDateTime = batchSupervisorApprovalFullDateTime != null ? batchSupervisorApprovalFullDateTime.toDate() : null;
     }
 
-	public Calendar getCalendarObj() {
+	public CalendarContract getCalendarObj() {
+		if(calendarObj == null && StringUtils.isNotBlank(this.getCalendarName())) {
+			this.setCalendarObj(HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName()));
+		}		
 		return calendarObj;
 	}
 
-	public void setCalendarObj(Calendar calendarObj) {
+	public void setCalendarObj(CalendarContract calendarObj) {
 		this.calendarObj = calendarObj;
 	}
 

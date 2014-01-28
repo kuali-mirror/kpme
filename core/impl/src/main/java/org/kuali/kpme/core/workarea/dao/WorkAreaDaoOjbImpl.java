@@ -138,7 +138,7 @@ public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkA
 		}
 		
 		if (StringUtils.isNotBlank(description)) {
-			root.addLike("UPPER(`descr`)", description.toUpperCase()); // KPME-2695
+			root.addLike("UPPER(descr)", description.toUpperCase()); // KPME-2695
 		}
 		
 		Criteria effectiveDateFilter = new Criteria();

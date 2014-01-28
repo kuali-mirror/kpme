@@ -27,6 +27,7 @@ import org.kuali.kpme.core.KPMEConstants;
 import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -130,7 +131,7 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
 
     @Test
     public void testGetAssignmentString() throws Exception {
-        String testAssignmentString = TKUtils.getAssignmentString("admin",30L,30L,30L,new LocalDate(2010,1,1));
+        String testAssignmentString = HrServiceLocator.getAssignmentService().getAssignmentDescription("admin", 30L, 30L, 30L, new LocalDate(2010, 1, 1));
         Assert.assertEquals("Assignment String is wrong","SDR1 Work Area : $20.00 Rcd 30 TEST-DEPT SDR1 task",testAssignmentString);
     }
 

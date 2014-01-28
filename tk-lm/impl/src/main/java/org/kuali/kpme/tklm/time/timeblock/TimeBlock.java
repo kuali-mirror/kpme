@@ -42,6 +42,7 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -84,6 +85,13 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     
     @Transient
 	private Boolean clockedByMissedPunch;
+    
+    private Date actionDateTime;
+    private String clockAction;
+    private String assignmentValue;
+    
+    private transient String missedPunchDocId;
+    private transient String missedPunchDocStatus;
 
     // the two variables below are used to determine if a time block needs to be visually pushed forward / backward
     @Transient
@@ -101,10 +109,61 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     	super();
     }
     
-    public Boolean getClockedByMissedPunch() {
-		return clockedByMissedPunch;
+	public Date getActionDateTime() {
+		return actionDateTime;
 	}
 
+	public void setActionDateTime(Date actionDateTime) {
+		this.actionDateTime = actionDateTime;
+	}
+
+	public String getClockAction() {
+		return clockAction;
+	}
+
+	public void setClockAction(String clockAction) {
+		this.clockAction = clockAction;
+	}
+
+	public String getAssignmentValue() {
+		return assignmentValue;
+	}
+
+	public void setAssignmentValue(String assignmentValue) {
+		this.assignmentValue = assignmentValue;
+	}
+
+	public Boolean getClockedByMissedPunch() {
+    	if(clockedByMissedPunch == null) {
+    		this.assignClockedByMissedPunch();
+    	}
+		return clockedByMissedPunch;
+	}
+    
+    public void assignClockedByMissedPunch() {
+    	if(this.getClockLogCreated() != null && this.getClockLogCreated()){
+  			MissedPunch missedPunchClockIn = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(this.getClockLogBeginId());
+  			MissedPunch missedPunchClockOut = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(this.getClockLogEndId());     
+  			if(missedPunchClockIn!=null){
+  				generateMissedPunchDetails(missedPunchClockIn);
+  				return;
+  			}else if(missedPunchClockOut!=null){
+  				generateMissedPunchDetails(missedPunchClockOut);
+  				return;
+  			}  			
+    	}
+    	this.setClockedByMissedPunch(Boolean.FALSE);
+    }
+
+    private void generateMissedPunchDetails( MissedPunch missedPunch){
+    		actionDateTime = missedPunch.getActionDateTime();
+			clockAction = missedPunch.getClockAction();
+			missedPunchDocId = missedPunch.getMissedPunchDocId();
+			missedPunchDocStatus = missedPunch.getMissedPunchDocStatus();
+			assignmentValue = missedPunch.getAssignmentValue();
+			this.setClockedByMissedPunch(Boolean.TRUE);
+    }
+    
 	public void setClockedByMissedPunch(Boolean clockedByMissedPunch) {
 		this.clockedByMissedPunch = clockedByMissedPunch;
 	}
@@ -130,7 +189,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     	DateTime dateTime = new DateTime(beginTimestamp);
     	LocalDate localDate = new LocalDate(beginDate);
     	LocalTime localTime = new LocalTime(beginTimestamp);
-    	beginTimestamp = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	beginTimestamp = new Timestamp(localDate.toDateTime(localTime, dateTime.getZone()).getMillis());
     }
     
     public Time getBeginTime() {
@@ -147,7 +206,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     	DateTime dateTime = new DateTime(beginTimestamp);
     	LocalDate localDate = new LocalDate(beginTimestamp);
     	LocalTime localTime = new LocalTime(beginTime);
-    	beginTimestamp = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	beginTimestamp = new Timestamp(localDate.toDateTime(localTime, dateTime.getZone()).getMillis());
     }
     
     public DateTime getBeginDateTime() {
@@ -155,14 +214,14 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     }
     
     public void setBeginDateTime(DateTime beginDateTime) {
-    	beginTimestamp = beginDateTime != null ? beginDateTime.toDate() : null;
+    	beginTimestamp = beginDateTime != null ? new Timestamp(beginDateTime.getMillis()) : null;
     }
 
-    public Date getEndTimestamp() {
+    public Timestamp getEndTimestamp() {
         return endTimestamp;
     }
 
-    public void setEndTimestamp(Date endTimestamp) {
+    public void setEndTimestamp(Timestamp endTimestamp) {
         this.endTimestamp = endTimestamp;
     }
 
@@ -180,7 +239,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     	DateTime dateTime = new DateTime(endTimestamp);
     	LocalDate localDate = new LocalDate(endDate);
     	LocalTime localTime = new LocalTime(endTimestamp);
-    	endTimestamp = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    	endTimestamp = new Timestamp(localDate.toDateTime(localTime, dateTime.getZone()).getMillis());
     }
 
     public Time getEndTime() {
@@ -197,7 +256,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     	DateTime dateTime = new DateTime(endTimestamp);
     	LocalDate localDate = new LocalDate(endTimestamp);
     	LocalTime localTime = new LocalTime(endTime);
-    	endTimestamp = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+        endTimestamp = new Timestamp(localDate.toDateTime(localTime, dateTime.getZone()).getMillis());
     }
     
     public DateTime getEndDateTime() {
@@ -205,7 +264,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     }
     
     public void setEndDateTime(DateTime endDateTime) {
-    	endTimestamp = endDateTime != null ? endDateTime.toDate() : null;
+    	endTimestamp = endDateTime != null ? new Timestamp(endDateTime.getMillis()) : null;
     }
     
     public Boolean getClockLogCreated() {
@@ -316,7 +375,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
      */
     public DateTime getBeginTimeDisplay() {
     	if(beginTimeDisplay == null && this.getBeginDateTime() != null) {
-    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
     		if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone()))
 				this.setBeginTimeDisplay(this.getBeginDateTime());
     		else
@@ -338,22 +397,22 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     *   fix timezone issues caused by JScript, for GUI use only,
     */
     public String getBeginTimeDisplayDateOnlyString() {
-    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         return getBeginDateTime() != null ? getBeginDateTime().withZone(zone).toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
     }
 
     public String getBeginTimeDisplayTimeOnlyString() {
-    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
     	return getBeginDateTime() != null ? getBeginDateTime().withZone(zone).toString(TkConstants.DT_BASIC_TIME_FORMAT) : null;
     }
 
     public String getEndTimeDisplayDateOnlyString() {
-    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         return getEndDateTime() != null ? getEndDateTime().withZone(zone).toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
     }
 
     public String getEndTimeDisplayTimeOnlyString() {
-    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    	DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         return getEndDateTime() != null ? getEndDateTime().withZone(zone).toString(TkConstants.DT_BASIC_TIME_FORMAT) : null;
     }
 
@@ -378,7 +437,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
      */
     public DateTime getEndTimeDisplay() {
     	if(endTimeDisplay == null && this.getEndDateTime() != null) {
-    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+    		DateTimeZone timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
      		if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone()))
  				this.setEndTimeDisplay(this.getBeginDateTime());
      		else
@@ -519,6 +578,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
          this.workArea = b.workArea;
          this.task = b.task;
          this.earnCode = b.earnCode;
+         this.earnCodeType = b.earnCodeType;
          this.beginTimestamp = new Timestamp(b.beginTimestamp.getTime());
          this.endTimestamp = new Timestamp(b.endTimestamp.getTime());
          this.clockLogCreated = b.clockLogCreated;
@@ -740,6 +800,22 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 	@Override
 	public void setConcreteBlockType(String ojbConcreteClass) {
 		super.concreteBlockType = ojbConcreteClass;
+	}
+
+	public String getMissedPunchDocId() {
+		return missedPunchDocId;
+	}
+
+	public void setMissedPunchDocId(String missedPunchDocId) {
+		this.missedPunchDocId = missedPunchDocId;
+	}
+
+	public String getMissedPunchDocStatus() {
+		return missedPunchDocStatus;
+	}
+
+	public void setMissedPunchDocStatus(String missedPunchDocStatus) {
+		this.missedPunchDocStatus = missedPunchDocStatus;
 	}
 	
 }

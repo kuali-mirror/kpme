@@ -158,7 +158,7 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
 		MissedPunchForm missedPunchForm = (MissedPunchForm) form;
 		MissedPunchDocument missedPunchDocument = (MissedPunchDocument) missedPunchForm.getDocument();
 		MissedPunch missedPunch = (MissedPunch) missedPunchDocument.getMissedPunch();
-		TkServiceLocator.getMissedPunchService().addClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request.getRemoteAddr()));
+		TkServiceLocator.getMissedPunchService().addClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request));
 		
 		missedPunchDocument.setMissedPunch(missedPunch);
 		missedPunchForm.setDocument(missedPunchDocument);
@@ -171,7 +171,7 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
     public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MissedPunchDocument missedPunchDocument = (MissedPunchDocument) form.getDocument();
         MissedPunch missedPunch = (MissedPunch) missedPunchDocument.getMissedPunch();
-    	TkServiceLocator.getMissedPunchService().updateClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request.getRemoteAddr()));
+    	TkServiceLocator.getMissedPunchService().updateClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request));
         
     	return super.approve(form, result, request, response);
     }

@@ -232,4 +232,7 @@ public interface AssignmentContract extends HrBusinessObjectContract {
 	 * @return assignmentKey for Assignment
 	 */
     public String getAssignmentKey();
+
+    public Boolean isPrimaryAssign();
+
 }

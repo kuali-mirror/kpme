@@ -78,11 +78,11 @@ public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Locat
         Criteria root = new Criteria();
         // ignore cases for location
         if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(`location`)", location.toUpperCase());
+            root.addLike("UPPER(location)", location.toUpperCase());
         }
         
         if (StringUtils.isNotBlank(locationDescr)) {
-            root.addLike("UPPER(`description`)", locationDescr.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(description)", locationDescr.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(active)) {

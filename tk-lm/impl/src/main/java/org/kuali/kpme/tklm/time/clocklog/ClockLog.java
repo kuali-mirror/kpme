@@ -46,7 +46,7 @@ public class ClockLog extends PersistableBusinessObjectBase implements ClockLogC
     private Long jobNumber;
     private Long workArea;
     private Long task;
-    private Date clockTimestamp;
+    private Timestamp clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
     private String ipAddress;
@@ -94,20 +94,20 @@ public class ClockLog extends PersistableBusinessObjectBase implements ClockLogC
         this.jobNumber = jobNumber;
     }
 
-    public Date getClockTimestamp() {
+    public Timestamp getClockTimestamp() {
         return clockTimestamp;
     }
 
-    public void setClockTimestamp(Date clockTimestamp) {
+    public void setClockTimestamp(Timestamp clockTimestamp) {
         this.clockTimestamp = clockTimestamp;
     }
     
     public DateTime getClockDateTime() {
-    	return clockTimestamp != null? new DateTime(clockTimestamp) : null;
+    	return clockTimestamp != null? new DateTime(clockTimestamp.getTime()) : null;
     }
     
     public void setClockDateTime(DateTime clockDateTime) {
-    	clockTimestamp = clockDateTime != null ? clockDateTime.toDate() : null;
+    	clockTimestamp = clockDateTime != null ? new Timestamp(clockDateTime.getMillis()) : null;
     }
 
     public String getClockAction() {

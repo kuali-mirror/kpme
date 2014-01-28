@@ -33,8 +33,8 @@ public abstract class CalendarBlockBase extends PersistableBusinessObjectBase im
 	protected String principalId;
 	protected String userPrincipalId;
 	protected String documentId;
-	protected Date beginTimestamp;
-	protected Date endTimestamp;
+	protected Timestamp beginTimestamp;
+	protected Timestamp endTimestamp;
 	protected Timestamp timestamp;
 	protected boolean lunchDeleted;
 	protected BigDecimal hours;

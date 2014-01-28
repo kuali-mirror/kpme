@@ -46,6 +46,7 @@
 				<ref bean="Assignment-workArea" />
 				<ref bean="Assignment-tkWorkAreaId" />
 				<ref bean="Assignment-task" />
+				<ref bean="Assignment-primaryAssign" />
 				<ref bean="Assignment-active" />
 				<ref bean="Assignment-history" />
                 <ref bean="Assignment-userPrincipalId" />
@@ -284,6 +285,11 @@
 		<property name="name" value="task" />
 		<property name="label" value="Task" />
 	</bean>
+	
+	<bean id="Assignment-primaryAssign" parent="GenericAttributes-activeIndicator">
+		<property name="name" value="primaryAssign" />
+		<property name="label" value="Primary Assignment" />
+	</bean>	
 
 	<bean id="Assignment-active" parent="Assignment-active-parentBean" />
 	<bean id="Assignment-active-parentBean" abstract="true"
@@ -354,6 +360,7 @@
 							<bean parent="FieldDefinition" p:attributeName="dept" p:noInquiry="true" p:noLookup="true" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="task" />
+							<bean parent="FieldDefinition" p:attributeName="primaryAssign" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
@@ -410,6 +417,7 @@
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history"
 					p:defaultValue="N" />
+				<bean parent="FieldDefinition" p:attributeName="primaryAssign" />
 				<bean parent="FieldDefinition" p:attributeName="hrJobId" />
 				<bean parent="FieldDefinition" p:attributeName="workAreaObj.tkWorkAreaId" />
 			</list>
@@ -424,6 +432,7 @@
 				<bean parent="FieldDefinition" p:attributeName="task" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
+				<bean parent="FieldDefinition" p:attributeName="primaryAssign" />
 			</list>
 		</property>
 		<property name="title" value="Assignment Lookup" />

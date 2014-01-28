@@ -83,7 +83,12 @@ public class ClockLogServiceImpl implements ClockLogService {
             roundedClockDateTime = roundedClockDateTime.withMillisOfSecond(lastClockLogTime.getMillisOfSecond() + 1);
         }
 
+        //if span timesheets, we need to build some co/ci clock logs to close out the old period
+        if (lastClockLog != null
+              && !StringUtils.equals(lastClockLog.getDocumentId(), td.getDocumentId())
+              && (StringUtils.equals(clockAction, TkConstants.CLOCK_OUT) || StringUtils.equals(clockAction, TkConstants.LUNCH_OUT))) {
 
+        }
         ClockLog clockLog = buildClockLog(roundedClockDateTime, new Timestamp(System.currentTimeMillis()), assignment, td, clockAction, ip, userPrincipalId);
 
         if (runRules) {

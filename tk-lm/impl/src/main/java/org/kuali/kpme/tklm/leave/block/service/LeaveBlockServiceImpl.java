@@ -220,7 +220,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
                     	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlockDate);
                     	if (tdh != null) {
-                    		if (DateUtils.isSameDay(leaveBlockDate.toDate(), tdh.getBeginDate()) || leaveBlockDate.isAfter(tdh.getEndDateTime())) {
+                    		if (DateUtils.isSameDay(leaveBlockDate.toDate(), tdh.getEndDate()) || leaveBlockDate.isAfter(tdh.getEndDateTime())) {
         	            		requestStatus = HrConstants.REQUEST_STATUS.PLANNED;
         	            	}
      	               } else {

@@ -54,6 +54,8 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class TKUtils {
 
     private static final Logger LOG = Logger.getLogger(TKUtils.class);
@@ -116,13 +118,13 @@ public class TKUtils {
     public static Map<String, String> formatAssignmentDescription(AssignmentContract assignment) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
         String assignmentDescKey = KpmeUtils.formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
-        String assignmentDescValue = getAssignmentString(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), assignment.getEffectiveLocalDate());
+        String assignmentDescValue = HrServiceLocator.getAssignmentService().getAssignmentDescription(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), assignment.getEffectiveLocalDate());
         assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
 
         return assignmentDescriptions;
     }
 
-    public static String getAssignmentString(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
+/*    public static String getAssignmentString(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
     	StringBuilder builder = new StringBuilder();
     	
     	if (jobNumber != null && workArea != null && task != null) {
@@ -142,7 +144,7 @@ public class TKUtils {
         }
         
         return builder.toString();
-    }
+    }*/
 
     /**
      * Constructs a list of Day Spans for the pay calendar entry provided. You
@@ -218,7 +220,7 @@ public class TKUtils {
         String[] date = dateStr.split("/");
         String[] time = timeStr.split(":");
 
-        DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
+        DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getTargetUserTimezone());
 
         // this is from the jodattime javadoc:
         // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
@@ -254,7 +256,7 @@ public class TKUtils {
 
         return dateTime;
     }
-    
+
    public static String getIPAddressFromRequest(String remoteAddress) {
         // Check for IPv6 addresses - Not sure what to do with them at this point.
         // TODO: IPv6 - I see these on my local machine.
@@ -273,6 +275,25 @@ public class TKUtils {
             return "unknown";
         }
     }
+
+    public static String getIPAddressFromRequest(HttpServletRequest request) {
+        // Check for IPv6 addresses - Not sure what to do with them at this point.
+        // TODO: IPv6 - I see these on my local machine.
+        String fwdIp = request.getHeader("X-Forwarded-For");
+        if (fwdIp != null) {
+            LOG.info("Forwarded IP: " + fwdIp);
+            return fwdIp;
+        }
+
+        String ip = request.getRemoteAddr();
+        if (ip.indexOf(':') > -1) {
+            LOG.warn("ignoring IPv6 address for clock-in: " + ip);
+            ip = "";
+        }
+
+        return ip;
+    }
+
     //Used to preserve active row fetching based on max(timestamp)
     public static Timestamp subtractOneSecondFromTimestamp(Timestamp originalTimestamp) {
         DateTime dt = new DateTime(originalTimestamp);
@@ -398,11 +419,11 @@ public class TKUtils {
     }
     
     public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
-        return getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        return getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
     }
 
     public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
-        return getFullWeekDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        return getFullWeekDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
     }
     
     public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry, DateTimeZone timeZone) {

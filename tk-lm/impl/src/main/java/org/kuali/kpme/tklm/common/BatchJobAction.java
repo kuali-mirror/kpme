@@ -36,38 +36,40 @@ public class BatchJobAction extends KPMEAction {
         String batchJobName = bjaf.getSelectedBatchJob();
 
         CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(bjaf.getHrPyCalendarEntryId());
-        DateTime scheduleDate = new DateTime();
-        
-        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.INITIATE)) {
-        	TkServiceLocator.getBatchJobService().scheduleInitiateJobs(calendarEntry, scheduleDate);
-        }
-        
-        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.END_PAY_PERIOD)) {
-        	TkServiceLocator.getBatchJobService().scheduleEndPayPeriodJobs(calendarEntry, scheduleDate);
-        }
-        
-        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.END_REPORTING_PERIOD)) {
-        	TkServiceLocator.getBatchJobService().scheduleEndReportingPeriodJobs(calendarEntry, scheduleDate);
-        }
-        
-        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.EMPLOYEE_APPROVAL)) {
-        	TkServiceLocator.getBatchJobService().scheduleEmployeeApprovalJobs(calendarEntry, scheduleDate);
-        }
-        
-        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.MISSED_PUNCH_APPROVAL)) {
-        	TkServiceLocator.getBatchJobService().scheduleMissedPunchApprovalJobs(calendarEntry, scheduleDate);
-        }
-        
-        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) {
-        	TkServiceLocator.getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry, scheduleDate);
-        }
-        
-        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.PAYROLL_APPROVAL)) {
-        	TkServiceLocator.getBatchJobService().schedulePayrollApprovalJobs(calendarEntry, scheduleDate);
-        }
-        
-        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.LEAVE_CALENDAR_DELINQUENCY)) {
-        	TkServiceLocator.getBatchJobService().scheduleLeaveCalendarDelinquencyJobs(calendarEntry,scheduleDate);
+        if(calendarEntry != null) {
+	        DateTime scheduleDate = new DateTime();
+	        
+	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.INITIATE)) {
+	        	TkServiceLocator.getBatchJobService().scheduleInitiateJobs(calendarEntry, scheduleDate);
+	        }
+	        
+	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.END_PAY_PERIOD)) {
+	        	TkServiceLocator.getBatchJobService().scheduleEndPayPeriodJobs(calendarEntry, scheduleDate);
+	        }
+	        
+	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.END_REPORTING_PERIOD)) {
+	        	TkServiceLocator.getBatchJobService().scheduleEndReportingPeriodJobs(calendarEntry, scheduleDate);
+	        }
+	        
+	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.EMPLOYEE_APPROVAL)) {
+	        	TkServiceLocator.getBatchJobService().scheduleEmployeeApprovalJobs(calendarEntry, scheduleDate);
+	        }
+	        
+	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.MISSED_PUNCH_APPROVAL)) {
+	        	TkServiceLocator.getBatchJobService().scheduleMissedPunchApprovalJobs(calendarEntry, scheduleDate);
+	        }
+	        
+	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) {
+	        	TkServiceLocator.getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry, scheduleDate);
+	        }
+	        
+	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.PAYROLL_APPROVAL)) {
+	        	TkServiceLocator.getBatchJobService().schedulePayrollApprovalJobs(calendarEntry, scheduleDate);
+	        }
+	        
+	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.LEAVE_CALENDAR_DELINQUENCY)) {
+	        	TkServiceLocator.getBatchJobService().scheduleLeaveCalendarDelinquencyJobs(calendarEntry,scheduleDate);
+	        }
         }
         return mapping.findForward("basic");
     }

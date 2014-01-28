@@ -132,11 +132,11 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         root.addAndCriteria(effectiveDateFilter);
 
         if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("UPPER(`principal_id`)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
+            root.addLike("UPPER(principalId)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
         }
 
         if (StringUtils.isNotBlank(dept)) {
-            root.addLike("UPPER(`dept`)", dept.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(dept)", dept.toUpperCase()); // KPME-2695
         }
 
 //        if (StringUtils.isNotBlank(jobNumber)) {
@@ -147,10 +147,12 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
             OjbSubQueryUtil.addNumericCriteria(root, "jobNumber", jobNumber);
         }
 
-        if (StringUtils.isNotBlank(dept)) {
+        if (StringUtils.isNotBlank(dept)
+                && StringUtils.isBlank(workArea)) {
             Criteria workAreaCriteria = new Criteria();
             LocalDate asOfDate = toEffdt != null ? toEffdt : LocalDate.now();
             List<Long> workAreasForDept = HrServiceLocator.getWorkAreaService().getWorkAreasForDepartment(dept, asOfDate);
+            workAreasForDept.add(-1L); //keep wild card records in mind
             if (CollectionUtils.isNotEmpty(workAreasForDept)) {
                 workAreaCriteria.addIn("workArea", workAreasForDept);
             }

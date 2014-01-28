@@ -53,7 +53,7 @@ public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements Cale
 	public Calendar getCalendarByName(String calendarName) {
 		Criteria currentRecordCriteria = new Criteria();
 		if(StringUtils.isNotBlank(calendarName) && StringUtils.isNotEmpty(calendarName)){
-            currentRecordCriteria.addLike("UPPER(`calendar_name`)", calendarName.toUpperCase()); 
+            currentRecordCriteria.addLike("UPPER(calendarName)", calendarName.toUpperCase());
         }
 		return (Calendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Calendar.class, currentRecordCriteria));
 	}
@@ -80,7 +80,7 @@ public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements Cale
         List<Calendar> results = new ArrayList<Calendar>();
 
         if(StringUtils.isNotBlank(calendarName) && StringUtils.isNotEmpty(calendarName)){
-            crit.addLike("UPPER(`calendar_name`)", calendarName.toUpperCase()); // KPME-2695
+            crit.addLike("UPPER(calendarName)", calendarName.toUpperCase()); // KPME-2695
         }
         if(StringUtils.isNotBlank(calendarTypes) && StringUtils.isNotEmpty(calendarTypes)){
             crit.addLike("calendarTypes", calendarTypes);

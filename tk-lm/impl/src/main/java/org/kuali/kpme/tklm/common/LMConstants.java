@@ -15,9 +15,13 @@
  */
 package org.kuali.kpme.tklm.common;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.kuali.kpme.core.util.HrConstants;
 
 
 public class LMConstants {
@@ -93,4 +97,34 @@ public class LMConstants {
     
     public static final String MAX_CARRY_OVER_ADJUSTMENT = "Max carry over adjustment";
     
+    public static final List<String> YTD_EARNED_LEAVE_BLOCK_TYPES = new ArrayList<String>();
+    static {
+    	YTD_EARNED_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
+    	YTD_EARNED_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+    	YTD_EARNED_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
+    	YTD_EARNED_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT);
+    	YTD_EARNED_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT);
+    }
+    
+    public static final List<String> ADJUSTMENT_YTD_EARNED_LEAVE_BLOCK_TYPES = new ArrayList<String>();
+    static {
+    	ADJUSTMENT_YTD_EARNED_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
+    	ADJUSTMENT_YTD_EARNED_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR);
+    	ADJUSTMENT_YTD_EARNED_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT);
+    }
+    
+    
+    public static final List<String> USAGE_LEAVE_BLOCK_TYPES = new ArrayList<String>();
+    static {
+    	USAGE_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
+    	USAGE_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR);
+    	USAGE_LEAVE_BLOCK_TYPES.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT);
+    }
+    
+    public static final List<String> PENDING_LEAVE_BLOCK_STATUS = new ArrayList<String>();
+    static {
+    	PENDING_LEAVE_BLOCK_STATUS.add(HrConstants.REQUEST_STATUS.PLANNED);
+    	PENDING_LEAVE_BLOCK_STATUS.add(HrConstants.REQUEST_STATUS.REQUESTED);
+    	PENDING_LEAVE_BLOCK_STATUS.add(HrConstants.REQUEST_STATUS.APPROVED);
+    }
 }

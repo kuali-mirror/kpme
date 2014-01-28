@@ -193,7 +193,7 @@ public class TimesheetSubmitAction extends KPMEAction {
             }
         }
         
-        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, document.getAsOfDate());
+        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(document, document.getDocEndDate());
         ActionRedirect rd = new ActionRedirect(mapping.findForward("timesheetRedirect"));
         rd.addParameter("documentId", tsaf.getDocumentId());
         if(CollectionUtils.isNotEmpty(errorList)) {

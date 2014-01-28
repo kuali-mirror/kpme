@@ -16,16 +16,10 @@
 package org.kuali.kpme.tklm.time.detail.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.Days;
-import org.joda.time.DurationFieldType;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
+import org.joda.time.*;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -159,6 +153,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
     	if(tdaf.getAcrossDays() != null) {
     		acrossDays = tdaf.getAcrossDays().equalsIgnoreCase("y");
     	}
+    	
         return validateTimeEntryDetails(
                 tdaf.getHours(), tdaf.getAmount(), tdaf.getStartTime(), tdaf.getEndTime(),
                 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getTimesheetDocument(),
@@ -174,7 +169,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
             errors.add("No timesheet document found.");
         }
         if (errors.size() > 0) return errors;
-
+        
         CalendarEntry payCalEntry = timesheetDocument.getCalendarEntry();
         EarnCode earnCode = null;
         if (StringUtils.isNotBlank(selectedEarnCode)) {
@@ -323,10 +318,10 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         //------------------------
 
         boolean isRegularEarnCode = StringUtils.equals(assign.getJob().getPayTypeObj().getRegEarnCode(),selectedEarnCode);
-        
         startTime = TKUtils.convertDateStringToDateTime(startDateS, startTimeS).getMillis();
         endTime = TKUtils.convertDateStringToDateTime(endDateS, endTimeS).getMillis();
-        errors.addAll(validateOverlap(startTime, endTime, acrossDays, startDateS, endTimeS,startTemp, endTemp, timesheetDocument, timeblockId, isRegularEarnCode));
+        
+        errors.addAll(validateOverlap(startTime, endTime, acrossDays, startDateS, endTimeS,startTemp, endTemp, timesheetDocument, timeblockId, isRegularEarnCode, selectedEarnCode));
         if (errors.size() > 0) return errors;
 
         // Accrual Hour Limits Validation
@@ -335,7 +330,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         return errors;
     }
 
-    public static List<String> validateOverlap(Long startTime, Long endTime, boolean acrossDays, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, TimesheetDocument timesheetDocument, String timeblockId, boolean isRegularEarnCode) {
+    public static List<String> validateOverlap(Long startTime, Long endTime, boolean acrossDays, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, TimesheetDocument timesheetDocument, String timeblockId, boolean isRegularEarnCode, String selectedEarnCode) {
         List<String> errors = new ArrayList<String>();
         Interval addedTimeblockInterval = new Interval(startTime, endTime);
         List<Interval> dayInt = new ArrayList<Interval>();
@@ -359,7 +354,6 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
             }
             
             Interval currentClockInInterval = new Interval(lastClockDateTime, currentTime);
-       
             if (isRegularEarnCode && addedTimeblockInterval.overlaps(currentClockInInterval)) {
                  errors.add("The time block you are trying to add overlaps with the current clock action.");
                  return errors;
@@ -405,6 +399,12 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
 
         for (TimeBlock timeBlock : timesheetDocument.getTimeBlocks()) {
             if (errors.size() == 0 && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
+            	// allow regular time blocks to be added with overlapping non-regular time blocks
+            	JobContract aJob = HrServiceLocator.getJobService().getJob(timeBlock.getPrincipalId(), timeBlock.getJobNumber(), new LocalDate(timeBlock.getBeginDate()));
+            	if(aJob != null && aJob.getPayTypeObj() != null && isRegularEarnCode && !StringUtils.equals(aJob.getPayTypeObj().getRegEarnCode(),timeBlock.getEarnCode())) {
+            		continue;
+            	}
+            	
                 Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
                 for (Interval intv : dayInt) {
                 	// KPME-2720
@@ -428,13 +428,23 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
                     if (acrossDays) {
                         List<LocalDate> localDates = new ArrayList<LocalDate>();
                         LocalDate startDay = new LocalDate(start_dt_timezone);
-                        int days = Days.daysBetween(startDay, new LocalDate(end_dt_timezone)).getDays()+1;
+                        DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(timesheetDocument.getPrincipalId()));
+                        if (userTimeZone==null) {
+                            userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+                        }
+
+
+                        int days = end_dt_timezone.withZone(userTimeZone).toLocalTime().equals(new LocalTime(0,0,0)) ? Days.daysBetween(startDay, new LocalDate(end_dt_timezone)).getDays() : Days.daysBetween(startDay, new LocalDate(end_dt_timezone)).getDays()+1;
                         for (int i=0; i < days; i++) {
                             LocalDate d = startDay.withFieldAdded(DurationFieldType.days(), i);
                             localDates.add(d);
                         }
                         for (LocalDate localDate : localDates) {
-                            intervals.add(new Interval(localDate.toDateTime(start_dt_timezone.toLocalTime()), localDate.toDateTime(end_dt_timezone.toLocalTime())));
+                            DateTime startDateTime = localDate.toDateTime(start_dt_timezone.toLocalTime());
+                            DateTime endDateTime = localDate.toDateTime(end_dt_timezone.toLocalTime());
+                            endDateTime = endDateTime.isBefore(startDateTime) ? endDateTime.plusDays(1) : endDateTime;
+
+                            intervals.add(new Interval(startDateTime,endDateTime));
                         }
 
                     } else {
@@ -443,7 +453,11 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
 
                     for (Interval interval : intervals) {
                         if (isRegularEarnCode && timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
-                            errors.add("The time block you are trying to add overlaps with an existing time block.");
+                        	errors.add("The time block you are trying to add overlaps with an existing time block.");
+                            break;
+                        }else if(timeBlock.getEarnCode().equals(selectedEarnCode) && timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)){
+                        	errors.add("The time block you are trying to add overlaps with an existing time block.");
+                        	break;
                         }
                     }
                 }

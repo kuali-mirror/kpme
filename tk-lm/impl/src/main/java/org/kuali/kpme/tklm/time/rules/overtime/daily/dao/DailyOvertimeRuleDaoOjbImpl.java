@@ -88,7 +88,7 @@ public class DailyOvertimeRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
         
 
         if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(`location`)", location.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(location)", location.toUpperCase()); // KPME-2695
         }
         
         Criteria effectiveDateFilter = new Criteria();

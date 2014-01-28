@@ -57,9 +57,9 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 	            	getBatchJobService().scheduleEmployeeApprovalJobs(calendarEntry);
 	            }
 	            
-	            if (calendarEntry.getBatchSupervisorApprovalDateTime() != null) {
-	            	getBatchJobService().scheduleMissedPunchApprovalJobs(calendarEntry);
-	            }
+//	            if (calendarEntry.getBatchSupervisorApprovalDateTime() != null) {
+//	            	getBatchJobService().scheduleMissedPunchApprovalJobs(calendarEntry);
+//	            }
 	            
 	            if (calendarEntry.getBatchSupervisorApprovalDateTime() != null) {
 	            	getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry);

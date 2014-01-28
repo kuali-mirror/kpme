@@ -15,17 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.summary.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -54,6 +43,9 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	private LeaveBlockService leaveBlockService;
@@ -453,9 +445,14 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                     	// disapproved/deferred leave blocks should not be calculated into the approved values
                     	 if(!(StringUtils.equals(HrConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
                          		StringUtils.equals(HrConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
+                    		 
+                    		 String leveBlockType = aLeaveBlock.getLeaveBlockType();
                     		 EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveLocalDate());
-                    		 // use accrualBalanceAction flag of the earn code to determine which bucket the leave block should go into
-                    		 if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.ADJUSTMENT)) {
+                    		 boolean adjustmentYtd = ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.ADJUSTMENT)
+                    				 					&& LMConstants.ADJUSTMENT_YTD_EARNED_LEAVE_BLOCK_TYPES.contains(leveBlockType);
+                    		 
+                    		 // YTD earned
+                    		 if(LMConstants.YTD_EARNED_LEAVE_BLOCK_TYPES.contains(leveBlockType) || adjustmentYtd ) {
                     			 if (aLeaveBlock.getLeaveLocalDate().toDate().getTime() <= cutOffDate.toDate().getTime()) {
                                      String yearKey = getYearKey(aLeaveBlock.getLeaveLocalDate(), lp);
                                      BigDecimal co = yearlyAccrued.get(yearKey);
@@ -466,10 +463,14 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                      yearlyAccrued.put(yearKey, co);
                                  } else if(aLeaveBlock.getLeaveDate().getTime() < ytdEarnedEffectiveDate.toDate().getTime()) {
                                      accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
-                                 }                     			 
-                    		 } else if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
+                                 }            
+                    		 }
+                    		 
+                    		 // YTD usage
+                    		 if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)
+                    				 && LMConstants.USAGE_LEAVE_BLOCK_TYPES.contains(leveBlockType)) {
                     			 if (aLeaveBlock.getLeaveDate().getTime() > cutOffDate.toDate().getTime()) {
-                     				approvedUsage = approvedUsage.add(aLeaveBlock.getLeaveAmount());
+                    				approvedUsage = approvedUsage.add(aLeaveBlock.getLeaveAmount());
                      				if(ec.getFmla().equals("Y")) {
                      					fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
                      				}
@@ -483,7 +484,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                      				use = use.add(aLeaveBlock.getLeaveAmount());
                      				yearlyUsage.put(yearKey, use);
                      			}
-                    		 }
+                    		 }                     		 
                     	 }
                     }
                 } else {
@@ -518,16 +519,20 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 		BigDecimal pendingRequests = BigDecimal.ZERO.setScale(2);
         if (CollectionUtils.isNotEmpty(pendingLeaveBlocks)) {
             for(LeaveBlock aLeaveBlock : pendingLeaveBlocks) {
-            	if(!aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER)) {
-                if((StringUtils.isBlank(accrualCategory) && StringUtils.isBlank(aLeaveBlock.getAccrualCategory()))
-                        || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategory())
-                            && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
-                    if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
-                        pendingAccrual = pendingAccrual.add(aLeaveBlock.getLeaveAmount());
-                    } else {
-                        pendingRequests = pendingRequests.add(aLeaveBlock.getLeaveAmount());
-                    }
-                }
+            	EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveLocalDate());
+            	boolean usageFlag = ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE);
+            	if(LMConstants.USAGE_LEAVE_BLOCK_TYPES.contains(aLeaveBlock.getLeaveBlockType())
+            			&& LMConstants.PENDING_LEAVE_BLOCK_STATUS.contains(aLeaveBlock.getRequestStatus())
+            			&& usageFlag) {
+	                if((StringUtils.isBlank(accrualCategory) && StringUtils.isBlank(aLeaveBlock.getAccrualCategory()))
+	                        || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategory())
+	                            && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
+	                    if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
+	                        pendingAccrual = pendingAccrual.add(aLeaveBlock.getLeaveAmount());
+	                    } else {
+	                        pendingRequests = pendingRequests.add(aLeaveBlock.getLeaveAmount());
+	                    }
+	                }
             	}
             }
         }

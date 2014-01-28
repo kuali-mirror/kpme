@@ -83,23 +83,23 @@ public class PayTypeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PayTyp
         Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(payType)) {
-            root.addLike("UPPER(`paytype`)", payType.toUpperCase()); // KPME-2695 
+            root.addLike("UPPER(paytype)", payType.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(regEarnCode)) {
-            root.addLike("UPPER(`reg_ern_code`)", regEarnCode.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(regEarnCode)", regEarnCode.toUpperCase()); // KPME-2695
         }
 
         if (StringUtils.isNotBlank(descr)) {
-            root.addLike("UPPER(`descr`)", descr.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(descr)", descr.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(`location`)", location.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(location)", location.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(institution)) {
-            root.addLike("UPPER(`institution`)", institution.toUpperCase()); // KPME-2695
+            root.addLike("UPPER(institution)", institution.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(flsaStatus)) {

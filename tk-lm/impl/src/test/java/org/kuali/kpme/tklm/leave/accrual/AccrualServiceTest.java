@@ -123,6 +123,12 @@ public class AccrualServiceTest extends TKLMIntegrationTestCase {
 		Assert.assertTrue("Requst status of leave block should be " + HrConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
 				, lb.getRequestStatus().equals(HrConstants.REQUEST_STATUS.APPROVED));
 		Assert.assertTrue("Hours of the leave block for date 04/12/2012 should be -4, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(-4)));		
+		Assert.assertNotNull("System Scheduled Timeoff usage leave block's Job number should not be null", lb.getJobNumber());
+		Assert.assertTrue("System Scheduled Timeoff usage leave block should have Job number 4, not " + lb.getJobNumber(), lb.getJobNumber().equals(4L));
+		Assert.assertNotNull("System Scheduled Timeoff usage leave block's work area should not be null", lb.getWorkArea());
+		Assert.assertTrue("System Scheduled Timeoff usage leave block should have work area 1001, not " + lb.getWorkArea(), lb.getWorkArea().equals(1001L));
+		Assert.assertNotNull("System Scheduled Timeoff usage leave block's task should not be null", lb.getTask());
+		Assert.assertTrue("System Scheduled Timeoff usage leave block should have task 0, not " + lb.getTask(), lb.getTask().equals(0L));
 		
 		// there should be one accrualed leave blocks of 4 hours on 04/11/2012
 		intervalDate = new DateTime(2012, 4, 11, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());

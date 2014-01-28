@@ -82,19 +82,11 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
 	                 // Create the individual days.
 	                 TkCalendarDay day = new TkCalendarDay();
 	                 
-	                 //Set missed punch flag
+	               //Set missed punch flag
 	                 for(TimeBlock tb : dayBlocks){
-						if (tb.getClockLogCreated()) {
-							MissedPunch missedPunchClockIn = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(tb.getClockLogBeginId());
-							MissedPunch missedPunchClockOut = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(tb.getClockLogEndId());							
-							if (missedPunchClockIn != null || missedPunchClockOut != null) {
-								tb.setClockedByMissedPunch(Boolean.TRUE);
-							} else {
-								tb.setClockedByMissedPunch(Boolean.FALSE);
-							}
-						}
-	                 }
-	                 
+	                   	tb.assignClockedByMissedPunch();
+	         	 	 }
+	                    
 	                 day.setTimeblocks(dayBlocks);
 	                 day.setLeaveBlocks(dayLeaveBlocks);
 	                 day.setDayNumberString(tc.getDayNumberString(i * 7 + j + firstDay));
@@ -144,19 +136,6 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
                     List<TimeBlock> dayBlocks = weekBlocks.get(j);
                     // Create the individual days.
                     TkCalendarDay day = new TkCalendarDay();
-                    
-                    //Set missed punch flag
-                    for(TimeBlock tb : dayBlocks){
-                    	if(tb.getTkTimeBlockId()!=null && tb.getClockLogCreated()){
-         	 	  			MissedPunch missedPunchClockIn = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(tb.getClockLogBeginId());
-         	 	  			MissedPunch missedPunchClockOut = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(tb.getClockLogEndId());                                                   
-         	 	  			if (missedPunchClockIn != null || missedPunchClockOut != null) {
-         	 	  				tb.setClockedByMissedPunch(Boolean.TRUE);
-         	 	 	 		} else {
-         	 	 	 			tb.setClockedByMissedPunch(Boolean.FALSE);
-         	 	 	 		}
-                    	}
-         	 	 	}
                     
                     day.setTimeblocks(dayBlocks);
                     day.setDayNumberString(tc.getDayNumberString(i * 7 + j + firstDay));

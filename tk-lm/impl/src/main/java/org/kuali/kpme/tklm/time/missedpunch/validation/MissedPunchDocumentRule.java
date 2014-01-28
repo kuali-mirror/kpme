@@ -185,7 +185,8 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 			        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
 			            valid = false;
 			        }
-                    if ((!StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_IN) && actionDateTime.isBefore(boundaryMin))) {
+                    if (StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT)
+                            && actionDateTime.isBefore(boundaryMin)) {
                         GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.past24hour.date");
                         valid = false;
                     }
