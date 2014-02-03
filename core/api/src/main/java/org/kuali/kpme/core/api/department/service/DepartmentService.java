@@ -97,5 +97,15 @@ public interface DepartmentService {
 	 * @return int
 	 */
 	List<? extends DepartmentContract> getDepartments(String department);
+	
+	/**
+     * Fetch department by department, location and effective date
+     * @param department
+     * @param location
+     * @param asOfDate
+     * @return Department
+     */
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'department=' + #p0 + '|' + 'location=' + #p1 + '|' + 'asOfDate=' + #p2")
+    DepartmentContract getDepartment(String department, String location, LocalDate asOfDate);
 
 }

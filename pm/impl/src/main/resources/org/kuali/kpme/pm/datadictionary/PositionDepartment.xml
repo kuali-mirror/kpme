@@ -213,7 +213,7 @@
     </property>
   </bean> 
  
- <!-- Position Type Inquiry View -->
+ <!-- Position Department Inquiry View -->
   <bean id="PositionDepartment-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Department Inquiry"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiondepartment.PositionDepartment"/>

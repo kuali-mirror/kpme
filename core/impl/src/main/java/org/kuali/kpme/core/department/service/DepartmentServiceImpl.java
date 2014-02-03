@@ -178,5 +178,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 	    	}
     	}
     }
+    
+    @Override
+    public DepartmentContract getDepartment(String department, String location, LocalDate asOfDate) {
+    	Department departmentObj = departmentDao.getDepartment(department, location, asOfDate);
+        
+        if (departmentObj != null) {
+        	populateDepartmentRoleMembers(departmentObj, asOfDate);
+        }
+
+		return departmentObj;
+    }
 
 }

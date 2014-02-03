@@ -908,6 +908,12 @@
                               p:fieldConversions="location:location" />
                     </property>
                 </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="primaryDepartment" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                              p:fieldConversions="dept:primaryDepartment" />
+                    </property>
+                </bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType" >
                     <property name="quickfinder">
@@ -944,6 +950,12 @@
 				<bean parent="Uif-DataField" p:propertyName="description" />
 				<bean parent="Uif-DataField" p:propertyName="institution" />
 				<bean parent="Uif-DataField" p:propertyName="location" />
+				<bean parent="Uif-DataField" p:propertyName="primaryDepartment">
+					<property name="inquiry">
+						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+							p:inquiryParameters="primaryDepartment:dept,location:location,effectiveDate:effectiveDate" />
+					</property>
+				</bean>
 				<bean parent="Uif-DataField" p:propertyName="classificationTitle" />
 				<bean parent="Uif-DataField" p:propertyName="positionType" />
 				<bean parent="Uif-DataField" p:propertyName="poolEligible" />

@@ -15,24 +15,17 @@
  */
 package org.kuali.kpme.pm.position.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.api.position.PositionContract;
+import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.util.LookupInquiryUtils;
 import org.kuali.rice.krad.uif.view.LookupView;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADUtils;
-import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PositionLookupableImpl extends KPMELookupableImpl {
@@ -45,6 +38,7 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
         String description = searchCriteria.get("description");
         String location = searchCriteria.get("location");
         String institution = searchCriteria.get("institution");
+        String primaryDepartment = searchCriteria.get("primaryDepartment");  // KPME-3189
         String classificationTitle = searchCriteria.get("classificationTitle");
         String positionType = searchCriteria.get("positionType");
         String poolEligible = searchCriteria.get("poolEligible");
@@ -58,9 +52,35 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
             positionNum = "";
         }
         
-        return PmServiceLocator.getPositionService().getPositions(positionNum, description, location,
-                institution, classificationTitle, positionType, poolEligible, positionStatus, TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active, showHist);	
+        List<? extends PositionContract> posContrasts = PmServiceLocator.getPositionService().getPositions(positionNum, description, location,
+                        institution, classificationTitle, positionType, poolEligible, positionStatus, TKUtils.formatDateString(fromEffdt),
+                        TKUtils.formatDateString(toEffdt), active, showHist);
+        
+        if (StringUtils.isEmpty(primaryDepartment)) {
+        	return posContrasts;
+        }
+        
+        List<PositionContract> tempContracts = new ArrayList<PositionContract>();
+        for (PositionContract posContract: posContrasts) {
+        	List<? extends PositionDepartmentContract> posDepartments = posContract.getDepartmentList();
+        	for (PositionDepartmentContract posDepartment: posDepartments) {
+        		if (posDepartment.getDeptAfflObj().isPrimaryIndicator()) {
+        			if (StringUtils.contains(primaryDepartment, "*") || StringUtils.contains(primaryDepartment, "%")) {
+	        			String tempPrimaryDepartment = StringUtils.remove(primaryDepartment, "*");
+	        			tempPrimaryDepartment = StringUtils.remove(tempPrimaryDepartment, "%");
+	        			if (posDepartment.getDepartment().toUpperCase().contains(tempPrimaryDepartment.toUpperCase())) {
+	        				tempContracts.add(posContract);
+	        			}
+        			} else {
+        				if (posDepartment.getDepartment().toUpperCase().equals(primaryDepartment.toUpperCase())) {
+	        				tempContracts.add(posContract);
+	        			}
+        			}
+        		}
+        	}
+        }
+        
+        return tempContracts;
     }  
 	
 	/*@Override

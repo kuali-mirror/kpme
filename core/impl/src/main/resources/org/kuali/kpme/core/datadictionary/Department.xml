@@ -405,5 +405,76 @@
       </list>
     </property>
   </bean>
+
+    <!-- KPME-3189 -->
+  	<!-- KRAD Inquiry Definitions -->
+	<bean id="Department-InquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Department Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.department.Department" />
+		<property name="viewHelperServiceClass" value="org.kuali.kpme.core.department.web.DepartmentInquirableKradImpl" />
+		<property name="singlePageView" value="true" />
+		<property name="items">
+			<list>
+			  <bean parent="Uif-Disclosure-GridSection">
+		      	<property name="layoutManager.numberOfColumns" value="2"/>
+		      	<property name="items">
+	       	 	  <list>
+		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			        <bean parent="Uif-DataField" p:propertyName="dept" />
+			        <bean parent="Uif-DataField" p:propertyName="description" />
+			        <bean parent="Uif-DataField" p:propertyName="location" />
+			        <bean parent="Uif-DataField" p:propertyName="chart" />
+			        <bean parent="Uif-DataField" p:propertyName="org" />
+                    <bean parent="Uif-DataField" p:propertyName="payrollApproval" />
+			        <bean parent="Uif-DataField" p:propertyName="active" />
+			        <bean parent="Uif-DataField" p:propertyName="relativeEffectiveDate" />
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
+	        	  </list>
+	     	    </property>
+	     	    <property name="title" value="Department Inquiry"/>
+	   	      </bean>
+	   	      <bean parent="Department-roleMembersInquiry"/>
+	          <bean parent="Department-inactiveRoleMembersInquiry"/>		
+	       </list>
+		 </property>
+	</bean>
+	
+	<bean id="Department-roleMembersInquiry" parent="Uif-Disclosure-TableCollectionSection">
+	    <property name="headerText" value="Role Members"/>
+	    <property name="collectionObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo"/>
+	    <property name="propertyName" value="roleMembers"/>
+		<property name="layoutManager.richTable.render" value="false"/>
+		<property name="header"> <!-- Without this, active/inactive button shows up -->
+			<bean parent="Uif-SectionHeader" /> 
+		</property>
+	    <property name="items">
+	      <list>
+	        <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+	        <bean parent="Uif-InputField" p:propertyName="principalId" />
+	        <bean parent="Uif-InputField" p:propertyName="principalName"/>
+	        <bean parent="Uif-InputField" p:propertyName="roleName"/>
+	        <bean parent="Uif-InputField" p:propertyName="expirationDate"/>
+	      </list>
+	    </property>                    
+    </bean>
+
+    <bean id="Department-inactiveRoleMembersInquiry" parent="Uif-Disclosure-TableCollectionSection">
+	    <property name="headerText" value="Inactive Role Members"/>
+	    <property name="collectionObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo"/>
+	    <property name="propertyName" value="inactiveRoleMembers"/>
+		<property name="layoutManager.richTable.render" value="false"/>
+		<property name="header">
+			<bean parent="Uif-SectionHeader" />
+		</property>
+	    <property name="items">
+	      <list>
+	        <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+	        <bean parent="Uif-InputField" p:propertyName="principalId" />
+	        <bean parent="Uif-InputField" p:propertyName="principalName"/>
+	        <bean parent="Uif-InputField" p:propertyName="roleName"/>
+	        <bean parent="Uif-InputField" p:propertyName="expirationDate"/>
+	      </list>
+	    </property>
+    </bean>
     
 </beans>
