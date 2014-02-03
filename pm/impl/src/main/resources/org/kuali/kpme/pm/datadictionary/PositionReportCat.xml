@@ -40,15 +40,6 @@
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="prtObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionReportType"
-								p:targetName="positionReportType" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="locationObj" />
 					<property name="primitiveAttributes">
 						<list>

@@ -65,7 +65,7 @@ public class PositionReportSubCategory extends HrBusinessObject implements Posit
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionReportSubCat() +this.getPositionReportCat() + "_" + this.getPositionReportType();
+		return getPositionReportSubCat() + "_" + this.getPositionReportCat() + "_" + this.getPositionReportType();
 		
 	}
 
