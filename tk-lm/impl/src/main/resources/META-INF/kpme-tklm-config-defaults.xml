@@ -29,7 +29,7 @@
     <param name="kpme.batch.accrual.cronExpression">0 0 1 1 * ? 2099</param>
     <param name="kpme.batch.leaveCalendarDelinquency.cronExpression">0 0 1 1 * ? 2099</param>
     <param name="kpme.batch.serializer.cronExpression">0 0 1 1 * ? 2099</param>
-    
+
     <!-- 
         Specifies whether the application allows the user to run the Accrual service by looking at leave calendars.  Options are:
             true: (Default) Run via leave calendar entries
@@ -44,5 +44,12 @@
     -->
     <param name="kpme.lm.leaveCalendar.initiate.leaveRequest.action">DELETE</param>
 
-
+    <!--
+        Specifies the action take when employee is clocked in over the hour limit.  Options are:
+            NOTIFY: (Default) Sends a notification to the approver with a list of employees clocked in over the hour limit.
+            CLOCK_OUT: Clocks out the user, sends a notification to the user, and adds a note to the timesheet.
+    -->
+    <param name="kpme.batch.clockedInEmployee.jobAction">NOTIFY</param>
+    <param name="kpme.batch.clockedInEmployee.hourLimit">24</param>
+    <param name="kpme.batch.clockedInEmployee.cronExpression">0 0 1 1 * ? 2099</param>
 </config>

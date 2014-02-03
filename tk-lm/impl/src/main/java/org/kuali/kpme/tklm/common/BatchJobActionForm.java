@@ -42,6 +42,7 @@ public class BatchJobActionForm extends KPMEForm {
     	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.MISSED_PUNCH_APPROVAL);
     	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.PAYROLL_APPROVAL);
     	BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.LEAVE_CALENDAR_DELINQUENCY);
+        BATCH_JOB_NAMES.add(HrConstants.BATCH_JOB_NAMES.CLOCKED_IN_EMPLOYEE);
     }
 
     public List<String> getBatchJobNames() {

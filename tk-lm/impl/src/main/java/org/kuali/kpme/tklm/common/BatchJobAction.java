@@ -70,6 +70,10 @@ public class BatchJobAction extends KPMEAction {
 	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.LEAVE_CALENDAR_DELINQUENCY)) {
 	        	TkServiceLocator.getBatchJobService().scheduleLeaveCalendarDelinquencyJobs(calendarEntry,scheduleDate);
 	        }
+
+            if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.CLOCKED_IN_EMPLOYEE)) {
+                TkServiceLocator.getBatchJobService().scheduleClockedInEmployeeJob(calendarEntry, scheduleDate);
+            } 
         }
         return mapping.findForward("basic");
     }

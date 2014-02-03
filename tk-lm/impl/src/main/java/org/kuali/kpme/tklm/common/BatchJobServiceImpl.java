@@ -42,12 +42,7 @@ import org.kuali.kpme.tklm.leave.batch.CarryOverJob;
 import org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
-import org.kuali.kpme.tklm.time.batch.EmployeeApprovalJob;
-import org.kuali.kpme.tklm.time.batch.EndPayPeriodJob;
-import org.kuali.kpme.tklm.time.batch.EndReportingPeriodJob;
-import org.kuali.kpme.tklm.time.batch.InitiateJob;
-import org.kuali.kpme.tklm.time.batch.MissedPunchApprovalJob;
-import org.kuali.kpme.tklm.time.batch.SupervisorApprovalJob;
+import org.kuali.kpme.tklm.time.batch.*;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
@@ -427,7 +422,17 @@ public class BatchJobServiceImpl implements BatchJobService {
 		
         scheduleJob(LeaveCalendarDelinquencyJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}
-	
+
+    @Override
+    public void scheduleClockedInEmployeeJob(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
+        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+        jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+
+        Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+        scheduleJob(ClockedInEmployeeJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+    }
+
 	@SuppressWarnings("unchecked")
 	private void scheduleJob(Class<?> jobClass, DateTime jobDate, Map<String, String> jobGroupDataMap, Map<String, String> jobDataMap) throws SchedulerException {
 		if(jobDate == null) {

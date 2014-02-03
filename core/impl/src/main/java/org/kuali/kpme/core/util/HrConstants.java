@@ -100,6 +100,7 @@ public class HrConstants {
 		public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
 		public static final String PAYROLL_APPROVAL = "Payroll Approval";
 		public static final String LEAVE_CALENDAR_DELINQUENCY = "Leave Calendar Delinquency";
+        public static final String CLOCKED_IN_EMPLOYEE = "Clocked In Employee";
 	}
 
 	/**
