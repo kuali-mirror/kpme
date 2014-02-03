@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.detail.validation;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.*;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
@@ -368,10 +369,15 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         	// startTime would have 8a 8/19 and endTime would have 10a 8/21.  With the line below, "end" would have 10a 8/19, and
         	// an interval from 8a 8/19 to 10a 8/19 would be created.  However, since it was using convertDateStringToDateTime,
         	// which takes into account user time zone, "end" was off.  Use convertDateStringToDateTimeWithoutZone isntead
-        	// so that "end" would have the right time in default time zone. 
-            //DateTime end = TKUtils.convertDateStringToDateTime(startDateS, endTimeS);
-        	DateTime end = TKUtils.convertDateStringToDateTimeWithoutZone(startDateS, endTimeS);
-            if (endTemp.getDayOfYear() - startTemp.getDayOfYear() < 1) {
+        	// so that "end" would have the right time in default time zone.
+        	//        	DateTime end = TKUtils.convertDateStringToDateTimeWithoutZone(startDateS, endTimeS);
+        	
+        	// kpme-3181
+        	// revert the following line of change from kpme-2720 since it's using timezone for starttime but not endtime
+        	// that's causing interval not being build correctly issue
+            DateTime end = TKUtils.convertDateStringToDateTime(startDateS, endTimeS);
+        	
+        	if (endTemp.getDayOfYear() - startTemp.getDayOfYear() < 1) {
                 end = new DateTime(endTime);
             }
             DateTime groupEnd = new DateTime(endTime);
@@ -454,10 +460,10 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
                     for (Interval interval : intervals) {
                         if (isRegularEarnCode && timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
                         	errors.add("The time block you are trying to add overlaps with an existing time block.");
-                            break;
+                            return errors;
                         }else if(timeBlock.getEarnCode().equals(selectedEarnCode) && timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)){
                         	errors.add("The time block you are trying to add overlaps with an existing time block.");
-                        	break;
+                        	return errors;
                         }
                     }
                 }

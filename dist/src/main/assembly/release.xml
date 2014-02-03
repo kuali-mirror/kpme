@@ -46,14 +46,23 @@
             <outputDirectory>db-scripts/workflow</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}</directory>
+            <directory>${project.basedir}/..</directory>
             <outputDirectory>kpme-project</outputDirectory>
             <excludes>
-                <exclude>.apt_generated/**</exclude>
+                <exclude>**/.apt_generated/**</exclude>
                 <exclude>.classpath</exclude>
                 <exclude>.project</exclude>
-                <exclude>target/**</exclude>
+                <exclude>**/target/**</exclude>
+                <exclude>velocity.log</exclude>
+                <exclude>*.txt</exclude>
             </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/..</directory>
+            <includes>
+                <include>*.txt</include>
+            </includes>
+            <filtered>true</filtered>
         </fileSet>
         <fileSet>
             <directory>${project.basedir}/../src/license</directory>

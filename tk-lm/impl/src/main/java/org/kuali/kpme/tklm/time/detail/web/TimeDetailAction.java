@@ -442,7 +442,7 @@ public class TimeDetailAction extends TimesheetAction {
                 if(errors.isEmpty()) {
             		//KPME-2832: validate leave entry prior to save.
             		//This duplicates validation done on submissions that went through TimeDetailWSAction, i.e. typical time calendar transactions.
-                	this.changeTimeBlocks(tdaf);
+                	this.changeTimeBlocks(tdaf, ec);
                 }
                 else {
                 	tdaf.setErrorMessages(errors);
@@ -551,7 +551,7 @@ public class TimeDetailAction extends TimesheetAction {
 	 * @param tdaf
 	 */
 	// add/update time blocks
-	private void changeTimeBlocks(TimeDetailActionForm tdaf) {
+	private void changeTimeBlocks(TimeDetailActionForm tdaf, EarnCodeContract ec) {
 		boolean isClockLogCreated = false;
         String clockLogBeginId = null;
         String clockLogEndId = null;
@@ -572,16 +572,18 @@ public class TimeDetailAction extends TimesheetAction {
         Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
-        DateTime startTime = null;
-        DateTime endTime = null;
+        DateTime startTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
+        DateTime endTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
         if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
             startTime = TKUtils.convertDateStringToDateTime(tdaf.getStartDate(), tdaf.getStartTime());
             endTime = TKUtils.convertDateStringToDateTime(tdaf.getEndDate(), tdaf.getEndTime());
-            //KPME-2737
-            if (HrContext.isAnyAdmin() || HrContext.isAnyApprover() || HrContext.isAnyPayrollProcessor()) {
-                startTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(startTime, LocalDate.fromDateFields(tdaf.getBeginCalendarEntryDate()));
-                endTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endTime, LocalDate.fromDateFields(tdaf.getBeginCalendarEntryDate()));
-            }
+        	if(ec != null &&  StringUtils.equals(ec.getRecordMethod(), HrConstants.RECORD_METHOD.TIME)) {
+	            //KPME-2737
+	            if (HrContext.isAnyAdmin() || HrContext.isAnyApprover() || HrContext.isAnyPayrollProcessor()) {
+	                startTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(startTime, LocalDate.fromDateFields(tdaf.getBeginCalendarEntryDate()));
+	                endTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endTime, LocalDate.fromDateFields(tdaf.getBeginCalendarEntryDate()));
+	            }
+        	}
         } else {
             // should not apply time zone to dates when user's changing an hour entry
             startTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
@@ -707,7 +709,7 @@ public class TimeDetailAction extends TimesheetAction {
 			List<String> errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
 			if (errors.isEmpty()) {
 				// validate leave entry prior to save.
-				this.changeTimeBlocks(tdaf);
+				this.changeTimeBlocks(tdaf, ec);
 			} else {
 				tdaf.setErrorMessages(errors);
 			}

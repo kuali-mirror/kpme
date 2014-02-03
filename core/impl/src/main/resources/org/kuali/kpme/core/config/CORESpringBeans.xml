@@ -322,6 +322,8 @@
         <property name="permissionService" ref="kimPermissionService" />
         <property name="workAreaService" ref="workAreaService" />
         <property name="departmentService" ref="departmentService" />
+        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
+        <property name="roleService" ref="kimRoleService" />
     </bean>
     
     <bean id="kpmeRoleService" class="org.kuali.kpme.core.service.role.KPMERoleServiceImpl">

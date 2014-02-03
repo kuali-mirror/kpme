@@ -16,7 +16,7 @@
 
 README.txt
 Kuali People Management for the Enterprise ${project.version}
-${readme.build.timestamp}
+${docbook.build.timestamp}
 
 
 Contents

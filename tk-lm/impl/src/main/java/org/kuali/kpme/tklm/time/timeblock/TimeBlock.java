@@ -104,8 +104,19 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     private transient List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
     private transient List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 	protected BigDecimal leaveAmount = new BigDecimal("0.0");
+	
+	@Transient
+	private Date leaveDate;
+	
+    public Date getLeaveDate() {
+		return leaveDate;
+	}
 
-    public TimeBlock() {
+	public void setLeaveDate(Date leaveLocalDate) {
+		this.leaveDate = leaveLocalDate;
+	}
+
+	public TimeBlock() {
     	super();
     }
     

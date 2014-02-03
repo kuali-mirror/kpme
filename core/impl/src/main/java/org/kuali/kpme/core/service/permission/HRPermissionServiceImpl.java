@@ -37,12 +37,9 @@ import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class HRPermissionServiceImpl extends HrPermissionServiceBase implements HRPermissionService {
-	
-	private PermissionService permissionService;
 	
 	@Override
 	public boolean isAuthorized(String principalId, String permissionName, DateTime asOfDate) {
@@ -124,7 +121,7 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
         	DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
     		List<Assignment> assignments = calendarDocument.getAssignments();
         	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignments);
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignments, calendarDocument.getCalendarEntry().getEndPeriodFullDateTime());
     	}
     	
     	return isAuthorizedByTemplate;
@@ -137,19 +134,11 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     		String documentTypeName = calendarDocument.getCalendarType();
         	DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
         	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignment);
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignment, calendarDocument.getCalendarEntry().getEndPeriodFullDateTime());
     	}
     	
     	return isAuthorizedByTemplate;
     }
-    
-	public PermissionService getPermissionService() {
-		return permissionService;
-	}
-
-	public void setPermissionService(PermissionService permissionService) {
-		this.permissionService = permissionService;
-	}
 
     @Override
     public boolean canViewTimeTabs() {

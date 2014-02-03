@@ -31,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -61,7 +62,7 @@ public class FlsaDay implements FlsaDayContract {
 	public FlsaDay(LocalDateTime flsaDate, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, DateTimeZone timeZone) {
 		this.flsaDate = flsaDate;
         this.timeZone = timeZone;
-		flsaDateInterval = new Interval(flsaDate.toDateTime().withZone(timeZone), flsaDate.toDateTime().withZone(timeZone).plusDays(1));
+		flsaDateInterval = new Interval(flsaDate.toDateTime(timeZone), flsaDate.toDateTime(timeZone).plusDays(1));
 		this.setTimeBlocks(timeBlocks);
 		this.setLeaveBlocks(leaveBlocks);
 	}
@@ -155,24 +156,49 @@ public class FlsaDay implements FlsaDayContract {
      * Danger may still lurk in day-boundary overlapping time blocks that have multiple Time Hour Detail entries.
 	 */
 	private boolean applyBlock(TimeBlock block, List<TimeBlock> applyList) {
-		DateTime beginDateTime = block.getBeginTimeDisplay();
-		DateTime endDateTime = block.getEndTimeDisplay();
+		DateTime beginDateTime = null;
+		DateTime endDateTime = null;
+		boolean zeroHoursTimeBlock = false;
+		boolean addLeaveBlock = false;
+		boolean isLeaveBlock = false;
+		if(block.getLeaveDate() == null) {
+			beginDateTime = block.getBeginTimeDisplay();
+			endDateTime = block.getEndTimeDisplay();
+			if(flsaDateInterval.contains(beginDateTime)){
+				if(flsaDateInterval.contains(endDateTime) || endDateTime.compareTo(flsaDateInterval.getEnd()) == 0){
+					zeroHoursTimeBlock = true;
+				}
+			}
+		} else {
+			isLeaveBlock = true;
+			beginDateTime = new DateTime(block.getLeaveDate(), this.timeZone);
+			endDateTime = new DateTime(block.getLeaveDate(), this.timeZone);
+			DateTime localTime = flsaDateInterval.getStart().toLocalDateTime().toDateTime();
+			String intervalStartDateString = localTime.toLocalDate().toString();
+			if(flsaDateInterval.getEnd().getHourOfDay() == 0) {
+				String lbDateString = LocalDate.fromDateFields(block.getLeaveDate()).toString();
+				if(intervalStartDateString.equals(lbDateString)) {
+					addLeaveBlock = true;
+				}
+			} else {
+                LocalDate localDate = LocalDate.fromDateFields(block.getLeaveDate());
+                LocalDate dayIntBegin = flsaDateInterval.getStart().toLocalDate();
+                if(localDate.equals(dayIntBegin)){
+					addLeaveBlock = true;
+                }
+			}
+		}
+			
 		if (beginDateTime.isAfter(flsaDateInterval.getEnd()))
 			return false;
-
+		
 		Interval timeBlockInterval = null;
+
 		//Requested to have zero hour time blocks be able to be added to the GUI
-		boolean zeroHoursTimeBlock = false;
 		if(endDateTime.getMillis() > beginDateTime.getMillis()){
 			timeBlockInterval = new Interval(beginDateTime,endDateTime);
 		}
 		
-		if(flsaDateInterval.contains(beginDateTime)){
-			if(flsaDateInterval.contains(endDateTime) || endDateTime.compareTo(flsaDateInterval.getEnd()) == 0){
-				zeroHoursTimeBlock = true;
-			}
-		}
-
 		Interval overlapInterval = flsaDateInterval.overlap(timeBlockInterval);
 		long overlap = (overlapInterval == null) ? 0L : overlapInterval.toDurationMillis();
 		BigDecimal overlapHours = TKUtils.convertMillisToHours(overlap);
@@ -188,27 +214,40 @@ public class FlsaDay implements FlsaDayContract {
         // for the individual time block.
         Map<String,BigDecimal> localEarnCodeToHours = new HashMap<String,BigDecimal>();
 
-		if (zeroHoursTimeBlock || overlapHours.compareTo(BigDecimal.ZERO) > 0 || (flsaDateInterval.contains(beginDateTime) && StringUtils.equals(block.getEarnCodeType(),HrConstants.EARN_CODE_AMOUNT)))  {
+        if(!isLeaveBlock) {
+    		if (zeroHoursTimeBlock || overlapHours.compareTo(BigDecimal.ZERO) > 0 || (flsaDateInterval.contains(beginDateTime) && StringUtils.equals(block.getEarnCodeType(),HrConstants.EARN_CODE_AMOUNT)))  {
 
-            List<TimeHourDetail> details = block.getTimeHourDetails();
-            for (TimeHourDetail thd : details) {
-                BigDecimal localEcHours = localEarnCodeToHours.containsKey(thd.getEarnCode()) ? localEarnCodeToHours.get(thd.getEarnCode()) : BigDecimal.ZERO;
-                //NOTE adding this in the last few hours before release.. remove if side effects are noticed
-                if (overlapHours.compareTo(localEcHours) >= 0 || thd.getAmount().compareTo(BigDecimal.ZERO) == 0) {
-                    localEcHours = localEcHours.add(thd.getHours(), HrConstants.MATH_CONTEXT);
-                    localEarnCodeToHours.put(thd.getEarnCode(), localEcHours);
+                List<TimeHourDetail> details = block.getTimeHourDetails();
+                for (TimeHourDetail thd : details) {
+                    BigDecimal localEcHours = localEarnCodeToHours.containsKey(thd.getEarnCode()) ? localEarnCodeToHours.get(thd.getEarnCode()) : BigDecimal.ZERO;
+                    //NOTE adding this in the last few hours before release.. remove if side effects are noticed
+                    if (overlapHours.compareTo(localEcHours) >= 0 || thd.getAmount().compareTo(BigDecimal.ZERO) == 0) {
+                        localEcHours = localEcHours.add(thd.getHours(), HrConstants.MATH_CONTEXT);
+                        localEarnCodeToHours.put(thd.getEarnCode(), localEcHours);
+                    }
                 }
-            }
 
-			List<TimeBlock> blocks = earnCodeToTimeBlocks.get(block.getEarnCode());
-			if (blocks == null) {
-				blocks = new ArrayList<TimeBlock>();
-				earnCodeToTimeBlocks.put(block.getEarnCode(), blocks);
-			}
-			blocks.add(block);
-			applyList.add(block);
-		}
+    			List<TimeBlock> blocks = earnCodeToTimeBlocks.get(block.getEarnCode());
+    			if (blocks == null) {
+    				blocks = new ArrayList<TimeBlock>();
+    				earnCodeToTimeBlocks.put(block.getEarnCode(), blocks);
+    			}
+    			blocks.add(block);
+    			applyList.add(block);
+    		}
 
+        } else {
+        	if(addLeaveBlock) {
+        		List<TimeBlock> blocks = earnCodeToTimeBlocks.get(block.getEarnCode());
+    			if (blocks == null) {
+    				blocks = new ArrayList<TimeBlock>();
+    				earnCodeToTimeBlocks.put(block.getEarnCode(), blocks);
+    			}
+    			blocks.add(block);
+    			applyList.add(block);
+        	}
+        }
+        
 		return true;
 	}
 	

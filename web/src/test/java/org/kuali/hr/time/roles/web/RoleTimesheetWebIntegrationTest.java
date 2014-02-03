@@ -27,6 +27,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.workflow.TimesheetWebTestBase;
@@ -156,12 +157,13 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
     }
 
     @Test
+    //@Ignore
     public void testInitiatedTimesheetIsNotVisible() throws Exception {
         for (String uid : INVALID_NON_ENTRY_USERS) {
             LOG.info("Testing visibility for " + uid);
             HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), uid, fredsDocument.getDocumentId(), false);
             //HtmlUnitUtil.createTempFile(page, "badlogin");
-            Assert.assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
+            Assert.assertTrue(uid + " should not have access" , page.asText().contains("You are not authorized to access this portion of the application."));
         }
     }
 

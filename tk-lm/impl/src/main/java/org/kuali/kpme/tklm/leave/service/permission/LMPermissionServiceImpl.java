@@ -49,12 +49,10 @@ import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class LMPermissionServiceImpl extends HrPermissionServiceBase implements LMPermissionService {
 	
-	private PermissionService permissionService;
 	private LeaveCalendarService leaveCalendarService;
 	private LeaveRequestDocumentService leaveRequestDocumentService;
 	
@@ -364,13 +362,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 	   return false;
 	}
 	
-	public PermissionService getPermissionService() {
-		return permissionService;
-	}
-
-	public void setPermissionService(PermissionService permissionService) {
-		this.permissionService = permissionService;
-	}
+	
 
 	public LeaveCalendarService getLeaveCalendarService() {
 		return leaveCalendarService;

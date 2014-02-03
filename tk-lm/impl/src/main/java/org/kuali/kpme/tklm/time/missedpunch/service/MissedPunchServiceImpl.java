@@ -225,8 +225,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>();
         boolean createNewTb = true;
         for (TimeBlock tb : newTimeBlocks) {
-        	if(beginClockLog != null && tb.getClockLogBeginId().equals(beginClockLog.getTkClockLogId())
-        			&& endClockLog != null && tb.getClockLogEndId().equals(endClockLog.getTkClockLogId())) {
+        	if(beginClockLog != null && StringUtils.isNotBlank(tb.getClockLogBeginId()) && tb.getClockLogBeginId().equals(beginClockLog.getTkClockLogId())
+        			&& endClockLog != null && StringUtils.isNotBlank(tb.getClockLogEndId()) && tb.getClockLogEndId().equals(endClockLog.getTkClockLogId())) {
         		// if there's already time block created with the same clock logs, don't create timeblock for it again
         		createNewTb = false;	
         	}

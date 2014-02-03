@@ -252,14 +252,18 @@
         <property name="permissionService" ref="kimPermissionService" />
         <property name="timesheetService" ref="timesheetService" />
         <property name="workAreaService" ref="kpme.core.workAreaService" />
+        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
+        <property name="roleService" ref="kimRoleService" />
     </bean>
-    
+
     <bean id="lmPermissionService" class="org.kuali.kpme.tklm.leave.service.permission.LMPermissionServiceImpl">
         <property name="departmentService" ref="kpme.core.departmentService" />
         <property name="permissionService" ref="kimPermissionService" />
         <property name="leaveCalendarService" ref="leaveCalendarService" />
         <property name="leaveRequestDocumentService" ref="leaveRequestDocumentService" />
         <property name="workAreaService" ref="kpme.core.workAreaService" />
+        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
+        <property name="roleService" ref="kimRoleService" />
     </bean>
     
     <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchServiceImpl">

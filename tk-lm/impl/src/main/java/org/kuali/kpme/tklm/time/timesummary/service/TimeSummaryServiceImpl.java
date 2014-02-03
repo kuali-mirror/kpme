@@ -242,7 +242,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		List<EarnGroupSection> earnGroupSections = new ArrayList<EarnGroupSection>();
 		Map<String, List<EarnGroupSection>> weeklyEarnGroupSections = new LinkedHashMap<String, List<EarnGroupSection>>();
 		Map<String, List<EarnCodeSection>> earnCodeSections = new LinkedHashMap<String, List<EarnCodeSection>>();
-		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback(), DateTimeConstants.SUNDAY, true);
+		DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(userTimeZone, DateTimeConstants.SUNDAY, true);
 		Map<String, EarnCodeSection> earnCodeToEarnCodeSection = new TreeMap<String, EarnCodeSection>();
 		Map<String, EarnGroupSection> earnGroupToEarnGroupSection = new HashMap<String, EarnGroupSection>();
 		
@@ -266,6 +267,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			List<FlsaDay> flsaDays = flsaWeek.getFlsaDays();
 			for(FlsaDay flsaDay : flsaDays){
                 LocalDateTime ld = flsaDay.getFlsaDate();
+                DateTime td = flsaDay.getFlsaDate().toDateTime(userTimeZone);
                 int ldDay = ld.getDayOfWeek();
 
 				Map<String, List<TimeBlock>> earnCodeToTimeBlocks = flsaDay.getEarnCodeToTimeBlocks();
@@ -321,8 +323,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								earnCodeSection.addAssignmentRow(assignRow);
 							}
 							
-							assignRow.addToTotal(timeBlock.getBeginTimeDisplay().getDayOfWeek(), thd.getHours());
-							assignRow.addToAmount(timeBlock.getBeginTimeDisplay().getDayOfWeek(), thd.getAmount());
+							assignRow.addToTotal(td.getDayOfWeek(), thd.getHours());
+							assignRow.addToAmount(td.getDayOfWeek(), thd.getAmount());
 
 						}
 					}

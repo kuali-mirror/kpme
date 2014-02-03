@@ -728,6 +728,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                                     <listitem><emphasis role="bold">2.0.0/oracle/rice-2.2.2-oracle-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">2.0.0/oracle/rice-2.2.4-oracle-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">2.0.0/oracle/kpme-2.0.0-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.1/oracle/kpme-2.0.1-oracle-client-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                        <listitem>
@@ -736,6 +737,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                                <listitem><emphasis role="bold">1.2.0/oracle/kpme-1.2.0-oracle-server-install.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.0/oracle/kpme-1.5.0-oracle-server-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">2.0.0/oracle/kpme-2.0.0-oracle-server-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.1/oracle/kpme-2.0.1-oracle-server-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                        <listitem>
@@ -756,6 +758,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                                     <listitem><emphasis role="bold">2.0.0/mysql/rice-2.2.2-mysql-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">2.0.0/mysql/rice-2.2.4-mysql-client-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">2.0.0/mysql/kpme-2.0.0-mysql-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.1/mysql/kpme-2.0.1-mysql-client-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                        <listitem>
@@ -764,35 +767,69 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                                <listitem><emphasis role="bold">1.2.0/mysql/kpme-1.2.0-mysql-server-install.sql</emphasis></listitem>
 	                                <listitem><emphasis role="bold">1.5.0/mysql/kpme-1.5.0-mysql-server-upgrade.sql</emphasis></listitem>
                                     <listitem><emphasis role="bold">2.0.0/mysql/kpme-2.0.0-mysql-server-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.1/mysql/kpme-2.0.1-mysql-server-upgrade.sql</emphasis></listitem>
 	                            </orderedlist>
 	                        </listitem>
 	                    </itemizedlist>
 	               </section>
 	               <section>
-                        <title>Upgrade from 1.5.2</title>
+                        <title>Upgrade from 1.5.2 or 1.5.3</title>
                         <itemizedlist>
                             <listitem>
                                 <para>Oracle Client</para>
                                 <orderedlist>
                                     <listitem><emphasis role="bold">2.0.0/oracle/kpme-2.0.0-oracle-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.1/oracle/kpme-2.0.1-oracle-client-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                             <listitem>
                                 <para>Oracle Server</para>
                                 <orderedlist>
                                     <listitem><emphasis role="bold">2.0.0/oracle/kpme-2.0.0-server-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.1/oracle/kpme-2.0.1-server-client-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                             <listitem>
                                 <para>MySQL Client</para>
                                 <orderedlist>
                                     <listitem><emphasis role="bold">2.0.0/mysql/kpme-2.0.0-mysql-client-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.1/mysql/kpme-2.0.1-mysql-client-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                             <listitem>
                                 <para>MySQL Server</para>
                                 <orderedlist>
                                     <listitem><emphasis role="bold">2.0.0/mysql/kpme-2.0.0-mysql-server-upgrade.sql</emphasis></listitem>
+                                    <listitem><emphasis role="bold">2.0.1/mysql/kpme-2.0.1-mysql-server-upgrade.sql</emphasis></listitem>
+                                </orderedlist>
+                            </listitem>
+                        </itemizedlist>
+                   </section>
+                   <section>
+                        <title>Upgrade from 2.0.0</title>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Oracle Client</para>
+                                <orderedlist>
+                                    <listitem><emphasis role="bold">2.0.1/oracle/kpme-2.0.1-oracle-client-upgrade.sql</emphasis></listitem>
+                                </orderedlist>
+                            </listitem>
+                            <listitem>
+                                <para>Oracle Server</para>
+                                <orderedlist>
+                                    <listitem><emphasis role="bold">2.0.1/oracle/kpme-2.0.1-server-client-upgrade.sql</emphasis></listitem>
+                                </orderedlist>
+                            </listitem>
+                            <listitem>
+                                <para>MySQL Client</para>
+                                <orderedlist>
+                                    <listitem><emphasis role="bold">2.0.1/mysql/kpme-2.0.1-mysql-client-upgrade.sql</emphasis></listitem>
+                                </orderedlist>
+                            </listitem>
+                            <listitem>
+                                <para>MySQL Server</para>
+                                <orderedlist>
+                                    <listitem><emphasis role="bold">2.0.1/mysql/kpme-2.0.1-mysql-server-upgrade.sql</emphasis></listitem>
                                 </orderedlist>
                             </listitem>
                         </itemizedlist>

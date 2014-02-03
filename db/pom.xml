@@ -382,7 +382,7 @@
                                     <url>${kr.dataSource.jdbcUrl}</url>
                                     <username>${kr.dataSource.username}</username>
                                     <password>${kr.dataSource.password}</password>
-                                    <dropFirst>true</dropFirst>
+                                    <!--<dropFirst>true</dropFirst>-->
                                     <clearCheckSums>false</clearCheckSums>
                                     <contexts>kpme-server-bootstrap</contexts>
                                     <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-install.sql</migrationSqlOutputFile>
@@ -399,7 +399,7 @@
                                     <url>${kpme.dataSource.jdbcUrl}</url>
                                     <username>${kpme.dataSource.username}</username>
                                     <password>${kpme.dataSource.password}</password>
-                                    <dropFirst>true</dropFirst>
+                                    <!--<dropFirst>true</dropFirst>-->
                                     <clearCheckSums>false</clearCheckSums>
                                     <contexts>kpme-client-bootstrap</contexts>
                                     <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-install.sql</migrationSqlOutputFile>
@@ -450,7 +450,7 @@
                                     <url>${kr.dataSource.jdbcUrl}</url>
                                     <username>${kr.dataSource.username}</username>
                                     <password>${kr.dataSource.password}</password>
-                                    <dropFirst>false</dropFirst>
+                                    <!--<dropFirst>false</dropFirst>-->
                                     <clearCheckSums>false</clearCheckSums>
                                     <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
                                     <contexts>kpme-server-bootstrap</contexts>
@@ -468,7 +468,7 @@
                                     <url>${kpme.dataSource.jdbcUrl}</url>
                                     <username>${kpme.dataSource.username}</username>
                                     <password>${kpme.dataSource.password}</password>
-                                    <dropFirst>false</dropFirst>
+                                    <!--<dropFirst>false</dropFirst>-->
                                     <clearCheckSums>false</clearCheckSums>
                                     <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
                                     <contexts>kpme-client-bootstrap</contexts>
