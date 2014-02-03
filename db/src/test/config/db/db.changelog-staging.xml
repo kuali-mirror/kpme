@@ -206,6 +206,9 @@
         </loadData>
         <loadData tableName="PSTN_RPS_OPT_T" file="src/test/config/db/staging/pstn_rps_opt_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>  
+        <loadData tableName="PM_PSTN_DEPT_T" file="src/test/config/db/staging/pm_pstn_dept_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>        
     </changeSet>
 </databaseChangeLog>
