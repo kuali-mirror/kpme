@@ -32,6 +32,7 @@ public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 		if (pbo != null && pbo instanceof PayGrade) {
 			PayGrade aPayGrade = (PayGrade) pbo;
 			valid &= this.validateSalGroup(aPayGrade);
+			valid &= this.validateRateAttrubutes(aPayGrade);
 		}
 		return valid;
 	}
@@ -61,5 +62,42 @@ public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 			}
 		} 
 		return true;
+	}
+	
+	private boolean validateRateAttrubutes(PayGrade aPayGrade){
+		boolean isValid = true;
+		// check if one of the min, mid or max provided then Rate time should be required
+		if(aPayGrade.getMinRate() != null || aPayGrade.getMidPointRate() != null || aPayGrade.getMaxRate() != null ) {
+			if(aPayGrade.getRateType() == null) {
+				this.putFieldError("dataObject.rateType", "error.required", "Rate Type");
+				isValid = false;
+			}
+			
+			// check for min rate
+			if(isValid && aPayGrade.getMinRate() != null) {
+				isValid = (aPayGrade.getMidPointRate() != null ?(aPayGrade.getMinRate().compareTo(aPayGrade.getMidPointRate()) < 0)  : true);
+				isValid = isValid && (aPayGrade.getMaxRate() != null ? (aPayGrade.getMinRate().compareTo(aPayGrade.getMaxRate()) < 0)  : true);
+				if(!isValid) {
+					this.putFieldError("dataObject.minRate", "error.minrate.invalid");
+				}
+			}
+			// check for mid point rate
+			if(isValid && aPayGrade.getMidPointRate() != null) {
+				isValid = isValid && (aPayGrade.getMinRate() != null ? (aPayGrade.getMidPointRate().compareTo(aPayGrade.getMinRate()) > 0)  : true);
+				isValid = isValid && (aPayGrade.getMaxRate() != null ? (aPayGrade.getMidPointRate().compareTo(aPayGrade.getMaxRate()) < 0)  : true);
+				if(!isValid) {
+					this.putFieldError("dataObject.midPointRate", "error.midpointrate.invalid");
+				}
+			}
+			// check for max rate
+			if(isValid && aPayGrade.getMaxRate() != null) {
+				isValid = isValid && (aPayGrade.getMinRate() != null ? aPayGrade.getMaxRate().compareTo(aPayGrade.getMinRate()) > 0  : true);
+				isValid = isValid && (aPayGrade.getMidPointRate() != null ? aPayGrade.getMaxRate().compareTo(aPayGrade.getMidPointRate()) > 0  : true);
+				if(!isValid) {
+					this.putFieldError("dataObject.maxRate", "error.maxrate.invalid");
+				}
+			}
+		}
+		return isValid;
 	}
 }
