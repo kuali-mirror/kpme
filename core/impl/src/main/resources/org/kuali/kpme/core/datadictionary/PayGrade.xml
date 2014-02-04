@@ -310,9 +310,10 @@
     <bean id="PayGrade-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Pay Grade Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.paygrade.PayGrade"/>
-        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paygrade.web.PayGradeLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
         <property name="criteriaFields">
             <list>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="salGroup">
                     <property name="quickfinder">
@@ -320,6 +321,18 @@
                               p:fieldConversions="hrSalGroup:salGroup"/>
                     </property>
                 </bean>
+		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
+			         <property name="quickfinder">
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+			        		 p:fieldConversions="institutionCode:institution"/>
+			   		 </property>
+		        </bean>
+		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
+		       		<property name="quickfinder">
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+			        		 p:fieldConversions="location:location" />
+			   		 </property>
+		        </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
@@ -334,6 +347,8 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="salGroup"/>
+		        <bean parent="Uif-DataField" p:propertyName="institution" />
+		        <bean parent="Uif-DataField" p:propertyName="location" />
                 <bean parent="Uif-DataField" p:propertyName="description" />
                 <bean parent="Uif-DataField" p:propertyName="minRate" />
                 <bean parent="Uif-DataField" p:propertyName="midPointRate" />
@@ -354,6 +369,8 @@
 		     <list>
                 <bean parent="FieldDefinition" p:attributeName="payGrade"/>
                 <bean parent="FieldDefinition" p:attributeName="salGroup"/>
+                <bean parent="FieldDefinition" p:attributeName="institution"/>
+                <bean parent="FieldDefinition" p:attributeName="location"/>
                 <bean parent="FieldDefinition" p:attributeName="description" />
                 <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
             </list>
@@ -363,6 +380,8 @@
 		        <bean parent="FieldDefinition" p:attributeName="payGrade"/>
                 <bean parent="FieldDefinition" p:attributeName="salGroup"/>
                 <bean parent="FieldDefinition" p:attributeName="description" />
+                <bean parent="FieldDefinition" p:attributeName="institution" />
+                <bean parent="FieldDefinition" p:attributeName="location" />
                 <bean parent="FieldDefinition" p:attributeName="minRate" />
                 <bean parent="FieldDefinition" p:attributeName="midPointRate" />
                 <bean parent="FieldDefinition" p:attributeName="maxRate" />
@@ -390,6 +409,8 @@
                             <bean parent="FieldDefinition" p:attributeName="payGrade"/>
                             <bean parent="FieldDefinition" p:attributeName="description"/>
                             <bean parent="FieldDefinition" p:attributeName="salGroup"/>
+                            <bean parent="FieldDefinition" p:attributeName="institution"/>
+                            <bean parent="FieldDefinition" p:attributeName="location"/>
                             <bean parent="FieldDefinition" p:attributeName="minRate" />
                             <bean parent="FieldDefinition" p:attributeName="midPointRate" />
                             <bean parent="FieldDefinition" p:attributeName="maxRate" />
@@ -422,6 +443,8 @@
                               <bean parent="Uif-DataField" p:propertyName="payGrade"/>
                               <bean parent="Uif-DataField" p:propertyName="description"/>
                               <bean parent="Uif-DataField" p:propertyName="salGroup"/>
+                              <bean parent="Uif-DataField" p:propertyName="institution" />
+	                          <bean parent="Uif-DataField" p:propertyName="location" />
                               <bean parent="Uif-DataField" p:propertyName="minRate" />
                               <bean parent="Uif-DataField" p:propertyName="midPointRate" />
                               <bean parent="Uif-DataField" p:propertyName="maxRate" />
@@ -472,12 +495,12 @@
 					        			 p:fieldConversions="location:location" />
 					   		 	</property>
 				       		</bean>
-                            <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                             <bean parent="Uif-InputField" p:propertyName="minRate"/>
                             <bean parent="Uif-InputField" p:propertyName="maxRate"/>
                             <bean parent="Uif-InputField" p:propertyName="midPointRate"/>
                             <bean parent="Uif-InputField" p:propertyName="maxHiringRate"/>
                             <bean parent="Uif-InputField" p:propertyName="rateType"/>
+                            <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="Y"/>
                         </list>
                     </property>
                 </bean>
