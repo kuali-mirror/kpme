@@ -194,9 +194,8 @@
 	<bean id="PayStep-active" parent="PayStep-active-parentBean" />
 	<bean id="PayStep-active-parentBean" abstract="true"
 		parent="AttributeReferenceDummy-activeIndicator">
-		<property name="required" value="true" />
 		<property name="name" value="active" />
-		<property name="label" value="Active" />
+		<property name="label" value="Active?" />
 	</bean>
 
 
@@ -301,7 +300,7 @@
 						</property>
 					</bean>
 					<bean parent="Uif-InputField" p:propertyName="serviceUnit" p:defaultValue="N"/>
-			        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true"/>
+			        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
 			    </list>
 	      	</property>
       	  </bean>
@@ -313,9 +312,10 @@
   <bean id="PayStep-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Pay Step Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStep" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paystep.web.PayStepLookupableImpl" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
     <property name="criteriaFields">
       <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
       	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payStep" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 			<property name="quickfinder">
