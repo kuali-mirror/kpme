@@ -270,7 +270,7 @@
 <!--    				</bean> -->
 		         	
 			         	 <bean parent="Uif-InputField" p:propertyName="selectValues"
-			         	 		p:constraintText="Comma delimited list of qualification values." >
+			         	 		p:constraintText="Required if Type Value is Select.  Comma delimited list of qualification values." >
 <!-- 			         	 		 p:disabled="@{#typeValue eq 'S'}"> -->
 <!-- 						       	<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfctnvl.PositionQualificationValue"  -->
 <!-- 						       		p:fieldConversions="vlName:selectValues"/> -->
@@ -283,20 +283,21 @@
 								          <bean parent="WhenConstraint">
 								              <property name="values">
 								                  <list>
-								                      <value>S</value>
+								                      <value>Select</value>
 								                  </list>
 								              </property>
 								              <property name="constraint">
 								                  <bean parent="RequiredConstraint" />
 								              </property>
-<!-- 								              <property name="disabled"> -->
-<!-- 								              	<value>false</value> -->
-<!-- 								              </property> -->
 								          </bean>
 							         	 </list>
 							         </property>
 						         </bean>
 					        </property>
+					        <property name="control">
+								<bean parent="Uif-TextControl"
+									p:disabled="@{document.newMaintainableObject.dataObject.typeValue eq 'Text' or document.newMaintainableObject.dataObject.typeValue eq 'Number'}" />
+							</property>
 				        </bean>
 		       
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
