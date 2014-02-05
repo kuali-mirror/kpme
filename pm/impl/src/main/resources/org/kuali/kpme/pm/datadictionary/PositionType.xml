@@ -139,7 +139,7 @@
 	
     <bean id="PositionType-active" parent="PositionType-active-parentBean"/>
  	<bean id="PositionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
- 		<property name="required" value="true" />
+ 		<!-- <property name="required" value="true" /> -->
    		<property name="name" value="active"/>
   	</bean>
 
