@@ -424,12 +424,11 @@ public class BatchJobServiceImpl implements BatchJobService {
 	}
 
     @Override
-    public void scheduleClockedInEmployeeJob(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
+    public void scheduleClockedInEmployeeJob(DateTime scheduleDate) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
-        jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
-
+        jobGroupDataMap.put("scheduleDate",scheduleDate.toString());
         Map<String, String> jobDataMap = new HashMap<String, String>();
-        jobDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
+        jobDataMap.put("scheduleDate",scheduleDate.toString());
         scheduleJob(ClockedInEmployeeJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
     }
 
@@ -452,7 +451,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 	        Trigger trigger = new SimpleTrigger(triggerName, triggerGroupName, jobDate.toDate());
 	        trigger.setJobGroup(jobGroupName);
 	        trigger.setJobName(jobName);
-	        
+
 	        LOG.info("Scheduing " + jobDetail.getFullName() + " to be run on " + jobDate);
 	        
 	        getScheduler().scheduleJob(jobDetail, trigger);

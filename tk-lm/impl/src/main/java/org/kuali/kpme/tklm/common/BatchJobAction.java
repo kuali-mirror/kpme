@@ -36,8 +36,9 @@ public class BatchJobAction extends KPMEAction {
         String batchJobName = bjaf.getSelectedBatchJob();
 
         CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(bjaf.getHrPyCalendarEntryId());
+        DateTime scheduleDate = new DateTime();
         if(calendarEntry != null) {
-	        DateTime scheduleDate = new DateTime();
+
 	        
 	        if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.INITIATE)) {
 	        	TkServiceLocator.getBatchJobService().scheduleInitiateJobs(calendarEntry, scheduleDate);
@@ -71,9 +72,12 @@ public class BatchJobAction extends KPMEAction {
 	        	TkServiceLocator.getBatchJobService().scheduleLeaveCalendarDelinquencyJobs(calendarEntry,scheduleDate);
 	        }
 
+
+            }  else {
+
             if (StringUtils.equals(batchJobName, HrConstants.BATCH_JOB_NAMES.CLOCKED_IN_EMPLOYEE)) {
-                TkServiceLocator.getBatchJobService().scheduleClockedInEmployeeJob(calendarEntry, scheduleDate);
-            } 
+                TkServiceLocator.getBatchJobService().scheduleClockedInEmployeeJob(scheduleDate);
+            }
         }
         return mapping.findForward("basic");
     }
