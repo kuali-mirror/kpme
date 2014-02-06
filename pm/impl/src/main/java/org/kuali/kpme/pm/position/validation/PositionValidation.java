@@ -43,7 +43,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			valid &= this.validateClassificationPage(aPosition);
 			valid &= this.validateDutyListPercentage(aPosition);
 			valid &= this.validatePrimaryDepartment(aPosition);
-            valid &= this.validateProcess(aPosition,oldPosition);
+            valid &= this.validateProcess(aPosition, oldPosition);
 		}
 		return valid;
 	}
@@ -163,19 +163,24 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return false;
 	}
 
-    private boolean validateProcess(Position aPosition, Position oldPosition) {
-        boolean valid = true;
-        String process = aPosition.getProcess();
+    private boolean validateProcess(Position newPosition, Position oldPosition) {
+        String process = newPosition.getProcess();
             if (StringUtils.equals(process,"Reorganization")) {
 
-                if (StringUtils.equals(aPosition.getPrimaryDepartment(),oldPosition.getPrimaryDepartment())
-                        && StringUtils.equals(aPosition.getReportsToPositionId(),oldPosition.getReportsToPositionId())) {
+                if (StringUtils.equals(newPosition.getPrimaryDepartment(),oldPosition.getPrimaryDepartment())
+                        && StringUtils.equals(newPosition.getReportsToPositionId(),oldPosition.getReportsToPositionId())) {
                     this.putGlobalError("error.reorganization.noChange");
+                    return false;
+                }
+
+            } else if (StringUtils.equals(process,"Reclassification")) {
+                if(StringUtils.equals(newPosition.getPmPositionClassId(),oldPosition.getPmPositionClassId())) {
+                    this.putFieldError("positionClass","error.reclassification.noChange");
                     return false;
                 }
             }
 
-        return valid;
+        return true;
     }
 
 
