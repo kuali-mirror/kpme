@@ -78,13 +78,13 @@
 		<property name="validationPattern">
 			<bean parent="DateValidationPattern" />
 		</property>
-<!-- 		<property name="controlField">
+ 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="12">
 			 <property name="datePicker">
 	          <bean parent="Uif-DatePicker"/>
 	        </property>
 			</bean>
-		</property> -->
+		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
@@ -136,6 +136,12 @@
 		<property name="control">
 			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
 			</bean>
+		</property>
+		<property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
+        </property>
+        <property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl"/>
 		</property>
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
@@ -225,11 +231,12 @@
   <bean id="Institution-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Institution Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.institution.Institution" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
     <property name="criteriaFields">
       <list>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institutionCode" />
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
       </list>
     </property>
