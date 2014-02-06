@@ -22,18 +22,15 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionType" parent="PositionType-parentBean"/>
- 	<bean id="PositionType-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 	<bean id="PositionType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positiontype.PositionType"/>
 	    <property name="attributes">
-	      <list>
+	      <list merge="true">
 	        <ref bean="PositionType-pmPositionTypeId"/>
-	        <ref bean="PositionType-effectiveDate"/>	        
 	        <ref bean="PositionType-positionType"/>
 	        <ref bean="PositionType-description"/>
 	        <ref bean="PositionType-institution"/>
 	        <ref bean="PositionType-location"/>
-	        <ref bean="PositionType-active"/>
-            <ref bean="PositionType-userPrincipalId"/>  
 	      </list>
 	    </property>
 	   <property name="relationships">
@@ -66,18 +63,6 @@
 	    <property name="label" value="Position Type Id"/>
 	 </bean>   
 	 
-	<bean id="PositionType-effectiveDate" parent="PositionType-effectiveDate-parentBean" />
-	<bean id="PositionType-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" p:size="10" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-
 	<bean id="PositionType-positionType" parent="PositionType-positionType-parentBean" />
 	<bean id="PositionType-positionType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
@@ -104,62 +89,16 @@
 	</bean>
 	
 	<bean id="PositionType-institution" parent="PositionType-institution-parentBean" />
-	<bean id="PositionType-institution-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="maxLength" value="15" />
+	<bean id="PositionType-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Institution" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
 	</bean>
 	
 	<bean id="PositionType-location" parent="PositionType-location-parentBean" />
-	<bean id="PositionType-location-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PositionType-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="15" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
 	</bean>
 	
-    <bean id="PositionType-active" parent="PositionType-active-parentBean"/>
- 	<bean id="PositionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
- 		<!-- <property name="required" value="true" /> -->
-   		<property name="name" value="active"/>
-  	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="PositionType-userPrincipalId" parent="PositionType-userPrincipalId-parentBean" />
-    <bean id="PositionType-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-<!--*************************************************************************** 
+<!--***************************************************************************
 							Views
  ***************************************************************************-->  	
   	

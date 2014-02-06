@@ -22,10 +22,10 @@
 
 	<bean id="PositionFunding" parent="PositionFunding-parentBean" />
 	<bean id="PositionFunding-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
+		parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.funding.PositionFunding" />
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="PositionFunding-pmPositionFunctionId" />
 				<ref bean="PositionFunding-hrPositionId"/>
 				<ref bean="PositionFunding-chart" />
@@ -38,10 +38,7 @@
 				<ref bean="PositionFunding-percent" />
 				<ref bean="PositionFunding-amount" />
 				<ref bean="PositionFunding-priorityFlag" />
-				<ref bean="PositionFunding-effectiveDate" />
-				<ref bean="PositionFunding-active" />
-                <ref bean="PositionFunding-userPrincipalId"/>
-				
+
 			</list>
 		</property>
 		<property name="objectLabel" value="Position Funding" />
@@ -228,39 +225,4 @@
 		<property name="name" value="priorityFlag" />
 	</bean>
 
-	<bean id="PositionFunding-effectiveDate" parent="PositionFunding-effectiveDate-parentBean" />
-	<bean id="PositionFunding-effectiveDate-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" p:size="10" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>	
-
-	<bean id="PositionFunding-active" parent="PositionFunding-active-parentBean" />
-	<bean id="PositionFunding-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-activeIndicator" p:label="Active?">
-		<property name="required" value="true" />
-		<property name="name" value="active" />
-	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="PositionFunding-userPrincipalId" parent="PositionFunding-userPrincipalId-parentBean" />
-    <bean id="PositionFunding-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
 </beans>

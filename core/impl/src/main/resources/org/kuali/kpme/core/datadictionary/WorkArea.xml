@@ -22,12 +22,12 @@
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="WorkArea" parent="WorkArea-parentBean" />
-	<bean id="WorkArea-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="WorkArea-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.core.workarea.WorkArea" />
 		<property name="titleAttribute" value="tkWorkAreaId" />
 		<property name="objectLabel" value="Work Area" />
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="WorkArea-tkWorkAreaId" />
 				<ref bean="WorkArea-workArea" />
 				<ref bean="WorkArea-description" />
@@ -36,12 +36,7 @@
 				<ref bean="WorkArea-ovtEarnCode" />
 				<ref bean="WorkArea-dept" />
 				<ref bean="WorkArea-adminDescr" />
-				<ref bean="WorkArea-userPrincipalId" />
 				<ref bean="WorkArea-hrsDistributionF" />
-				<ref bean="WorkArea-history" />
-				<ref bean="WorkArea-effectiveDate" />
-				<ref bean="WorkArea-active" />
-				<ref bean="WorkArea-timestamp" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -167,16 +162,7 @@
     </bean>
 
 	<bean id="WorkArea-dept" parent="WorkArea-dept-parentBean" />
-	<bean id="WorkArea-dept-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="dept" />
-        <property name="label" value="Department" />
-        <property name="shortLabel" value="Department" />
-		<property name="maxLength" value="21" />
-		<property name="forceUppercase" value="true" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="21" />
-		</property>
-	</bean>
+	<bean id="WorkArea-dept-parentBean" abstract="true" parent="KpmeAttributeReference-dept" />
 
 	<bean id="WorkArea-adminDescr" parent="WorkArea-adminDescr-parentBean" />
 	<bean id="WorkArea-adminDescr-parentBean" abstract="true" parent="AttributeDefinition">
@@ -190,22 +176,6 @@
 		</property>
 	</bean>
 
-	<bean id="WorkArea-userPrincipalId" parent="WorkArea-userPrincipalId-parentBean" />
-	<bean id="WorkArea-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-		<property name="shortLabel" value="User Principal Id" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-	</bean>
-	
 	<bean id="WorkArea-hrsDistributionF" parent="WorkArea-hrsDistributionF-parentBean" />
 	<bean id="WorkArea-hrsDistributionF-parentBean"
 		abstract="true" parent="AttributeDefinition">
@@ -217,48 +187,6 @@
 		<property name="label" value="Hr Distribution" />
 	</bean>
 	
-    <bean id="WorkArea-history" parent="WorkArea-history-parentBean" />
-    <bean id="WorkArea-history-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="history" />
-        <property name="label" value="Show History" />
-        <property name="shortLabel" value="Show History" />
-        <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
-        </property>
-    </bean>
-	
-    <bean id="WorkArea-effectiveDate" parent="WorkArea-effectiveDate-parentBean" />
-    <bean id="WorkArea-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="effectiveDate" />
-        <property name="label" value="Effective Date" />
-        <property name="shortLabel" value="Effective Date" />
-        <property name="maxLength" value="10" />
-        <property name="validationPattern">
-            <bean parent="DateValidationPattern" />
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-        </property>
-        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-    </bean>
-
-    <bean id="WorkArea-active" parent="WorkArea-active-parentBean" />
-    <bean id="WorkArea-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
-        <property name="name" value="active" />
-        <property name="label" value="Active" />
-    </bean>
-
-	<bean id="WorkArea-timestamp" parent="WorkArea-timestamp-parentBean" />
-	<bean id="WorkArea-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="timestamp" />
-        <property name="label" value="Timestamp" />
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-	</bean>
-
 	<!-- Business Object Inquiry Definition -->
 	
 	<bean id="WorkArea-inquiryDefinition" parent="WorkArea-inquiryDefinition-parentBean" />

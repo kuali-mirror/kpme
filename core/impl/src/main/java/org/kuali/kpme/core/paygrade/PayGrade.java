@@ -49,8 +49,7 @@ public class PayGrade extends HrBusinessObject implements PayGradeContract {
     private BigDecimal maxRate;
     private BigDecimal midPointRate;
     private BigDecimal maxHiringRate;
-    private String history;
- 
+
     
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -154,14 +153,6 @@ public class PayGrade extends HrBusinessObject implements PayGradeContract {
 
     public void setMaxHiringRate(BigDecimal maxHiringRate) {
         this.maxHiringRate = maxHiringRate;
-    }
-
-    public String getHistory() {
-        return history;
-    }
-
-    public void setHistory(String history) {
-        this.history = history;
     }
 
 	public String getLocation() {

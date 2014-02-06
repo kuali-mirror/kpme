@@ -22,25 +22,19 @@
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="Department" parent="Department-parentBean" />
-    <bean id="Department-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <bean id="Department-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
         <property name="businessObjectClass" value="org.kuali.kpme.core.department.Department" />
         <property name="titleAttribute" value="dept" />
         <property name="objectLabel" value="Department" />
         <property name="attributes">
-            <list>
+            <list merge="true">
 		      	<ref bean="Department-hrDeptId" />
 		        <ref bean="Department-dept" />
 		        <ref bean="Department-description" />
 		        <ref bean="Department-location" />
 		        <ref bean="Department-chart" />
 		        <ref bean="Department-org" />
-		        <ref bean="Department-effectiveDate" />
 		        <ref bean="Department-payrollApproval" />
-		        <ref bean="Department-active" />
-		        <ref bean="Department-history" />
-		        <ref bean="Department-timestamp" />
-		        <ref bean="Department-relativeEffectiveDate" />
-                <ref bean="Department-userPrincipalId" />
             </list>
         </property>
         <property name="relationships">
@@ -112,21 +106,7 @@
     </bean>
 
     <bean id="Department-dept" parent="Department-dept-parentBean" />
-    <bean id="Department-dept-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="dept" />
-        <property name="label" value="Department" />
-        <property name="shortLabel" value="Department" />
-	    <property name="forceUppercase" value="true" />
-	    <property name="maxLength" value="21" />
-	    <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-	    <property name="control">
-            <bean parent="TextControlDefinition" p:size="21" />
-	    </property>
-    </bean>
+    <bean id="Department-dept-parentBean" abstract="true" parent="KpmeAttributeReference-dept"/>
 
     <bean id="Department-description" parent="Department-description-parentBean" />
     <bean id="Department-description-parentBean" abstract="true" parent="AttributeDefinition">
@@ -146,21 +126,7 @@
     </bean>
   
     <bean id="Department-location" parent="Department-location-parentBean" />
-    <bean id="Department-location-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="location" />
-        <property name="label" value="Location" />
-        <property name="shortLabel" value="Location" />
-	    <property name="forceUppercase" value="false" />
-	    <property name="maxLength" value="20" />
-	    <property name="control">
-            <bean parent="TextControlDefinition" p:size="20" />
-	    </property>
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-    </bean>
+    <bean id="Department-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
     
     <bean id="Department-chart" parent="Department-chart-parentBean" />
     <bean id="Department-chart-parentBean" abstract="true" parent="AttributeDefinition">
@@ -196,28 +162,7 @@
         </property>
     </bean>
     
-    	<!-- effectiveDate -->
-    <bean id="Department-relativeEffectiveDate" parent="Department-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-    
-    <bean id="Department-effectiveDate" parent="Department-effectiveDate-parentBean" />
-    <bean id="Department-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="name" value="effectiveDate" />
-        <property name="label" value="Effective Date" />
-	    <property name="shortLabel" value="Effective Date" />
-	    <property name="maxLength" value="10" />
-	    <property name="validationPattern">
-	       <bean parent="DateValidationPattern" />
-	    </property>
-	    <property name="control">
-            <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-	    </property>
-	    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-    </bean>
-    
+
     <bean id="Department-payrollApproval" parent="Department-payrollApproval-parentBean" />
 	<bean id="Department-payrollApproval-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Payroll Approval" />
@@ -228,51 +173,7 @@
 		<property name="label" value="Payroll Approval" />
 	</bean>
 
-    <bean id="Department-active" parent="Department-active-parentBean" />
-    <bean id="Department-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
-        <property name="name" value="active" />
-        <property name="label" value="Active" />
-    </bean>
-    
-    <bean id="Department-history" parent="Department-history-parentBean" />
-    <bean id="Department-history-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="history" />
-        <property name="label" value="Show History" />
-        <property name="shortLabel" value="Show History" />
-        <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
-        </property>
-    </bean>
 
-	<bean id="Department-timestamp" parent="Department-timestamp-parentBean" />
-	<bean id="Department-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="timestamp" />
-        <property name="label" value="Timestamp" />
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="Department-userPrincipalId" parent="Department-userPrincipalId-parentBean" />
-    <bean id="Department-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
-    
     <!-- Business Object Inquiry Definition -->
 
     <bean id="Department-inquiryDefinition" parent="Department-inquiryDefinition-parentBean" />

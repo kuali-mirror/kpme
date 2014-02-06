@@ -23,7 +23,7 @@
 	<bean id="AccrualCategoryRule" parent="AccrualCategoryRule-parentBean" />
 
 	<bean id="AccrualCategoryRule-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
+		parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass"
 			value="org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule" />
 		<property name="titleAttribute" value="id" />
@@ -32,7 +32,7 @@
 			<ref bean="AccrualCategoryRule-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="AccrualCategoryRule-serviceUnitOfTime" />
 				<ref bean="AccrualCategoryRule-start" />
 				<ref bean="AccrualCategoryRule-end" />
@@ -48,8 +48,6 @@
 				<ref bean="AccrualCategoryRule-maxPayoutEarnCode" />
 				<ref bean="AccrualCategoryRule-maxUsage" />
 				<ref bean="AccrualCategoryRule-maxCarryOver" />
-				<ref bean="AccrualCategoryRule-active" />
-                <ref bean="AccrualCategoryRule-userPrincipalId" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -307,34 +305,6 @@
 		<property name="label" value="Max Carry Over" />
 	</bean>
 
-	<bean id="AccrualCategoryRule-active" parent="AccrualCategoryRule-active-parentBean" />
-	<bean id="AccrualCategoryRule-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="AccrualCategoryRule-userPrincipalId" parent="AccrualCategoryRule-userPrincipalId-parentBean" />
-    <bean id="AccrualCategoryRule-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
-    
 	<!--  Inquiry Definitions  -->
 	<bean id="AccrualCategoryRule-lookupDefinition" parent="AccrualCategoryRule-lookupDefinition-parentBean" />
 	<bean id="AccrualCategoryRule-lookupDefinition-parentBean" abstract="true"

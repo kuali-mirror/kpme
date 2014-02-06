@@ -22,19 +22,16 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PositionReportCat" parent="PositionReportCat-parentBean" />
-	<bean id="PositionReportCat-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="PositionReportCat-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategory" />
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="PositionReportCat-pmPositionReportCatId" />
-				<ref bean="PositionReportCat-effectiveDate" />
 				<ref bean="PositionReportCat-positionReportCat" />
 				<ref bean="PositionReportCat-positionReportType" />
 				<ref bean="PositionReportCat-description" />
 				<ref bean="PositionReportCat-institution" />
 				<ref bean="PositionReportCat-location" />
-				<ref bean="PositionReportCat-active" />
-                <ref bean="PositionReportCat-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -79,19 +76,6 @@
 		<property name="label" value="PositionReportCat Id" />
 	</bean>
 
-	<bean id="PositionReportCat-effectiveDate" parent="PositionReportCat-effectiveDate-parentBean" />
-	<bean id="PositionReportCat-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="10" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" p:size="10"/>
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-
 	<bean id="PositionReportCat-positionReportCat" parent="PositionReportCat-positionReportCat-parentBean" />
 	<bean id="PositionReportCat-positionReportCat-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
@@ -126,60 +110,10 @@
 	</bean>
 	
 	<bean id="PositionReportCat-institution" parent="PositionReportCat-institution-parentBean" />
-	<bean id="PositionReportCat-institution-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Institution" />
-		<property name="maxLength" value="15" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
-	</bean>
+	<bean id="PositionReportCat-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution"/>
 	
 	<bean id="PositionReportCat-location" parent="PositionReportCat-location-parentBean" />
-	<bean id="PositionReportCat-location-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="15" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
-	</bean>
-	
-	<bean id="PositionReportCat-active" parent="PositionReportCat-active-parentBean" />
-	<bean id="PositionReportCat-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-activeIndicator">
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="PositionReportCat-userPrincipalId" parent="PositionReportCat-userPrincipalId-parentBean" />
-    <bean id="PositionReportCat-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
+	<bean id="PositionReportCat-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
 
     <!--***************************************************************************
                                 Views

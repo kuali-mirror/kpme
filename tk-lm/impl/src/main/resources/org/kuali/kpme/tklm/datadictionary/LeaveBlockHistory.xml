@@ -148,18 +148,7 @@
   </bean>  
   
 	<bean id="LeaveBlockHistory-timestamp" parent="LeaveBlockHistory-timestamp-parentBean" />
-	<bean id="LeaveBlockHistory-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Modified Time" />
-		<property name="maxLength" value="22" />
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="22" />
-        </property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Modified Time" />
-	</bean>  
+	<bean id="LeaveBlockHistory-timestamp-parentBean" abstract="true" parent="KpmeAttributeReference-timestamp" />
 	
 	<bean id="LeaveBlockHistory-leaveDate" parent="LeaveBlockHistory-leaveDate-parentBean" />
 	<bean id="LeaveBlockHistory-leaveDate-parentBean" abstract="true" parent="AttributeDefinition">

@@ -49,8 +49,7 @@ public class Department extends HrBusinessObject implements DepartmentContract {
     private String location;
     private String chart;
     private String org;
-    private String history;
-    private boolean payrollApproval;	
+    private boolean payrollApproval;
 
     private Location locationObj;
     private Chart chartObj;
@@ -189,14 +188,6 @@ public class Department extends HrBusinessObject implements DepartmentContract {
 		this.inactiveRoleMembers = inactiveRoleMembers;
 	}
 	
-    public String getHistory() {
-        return history;
-    }
-
-    public void setHistory(String history) {
-        this.history = history;
-    }
-
 	public boolean isPayrollApproval() {
 		return payrollApproval;
 	}

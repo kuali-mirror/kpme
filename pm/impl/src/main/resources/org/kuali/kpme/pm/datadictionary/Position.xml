@@ -21,14 +21,14 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="Position" parent="Position-parentBean" />
-	<bean id="Position-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="Position-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.Position" />
 		<property name="objectLabel" value="Position" />
 		<property name="lookupDefinition">
 			<ref bean="Position-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="Position-hrPositionId" />
 				<ref bean="Position-positionNumber" />
 				<ref bean="Position-description" />
@@ -48,10 +48,6 @@
 				<ref bean="Position-tenureEligible" />
 				<ref bean="Position-pmPositionClassId" />
                 <ref bean="Position-positionClass"/>
-				<ref bean="Position-effectiveDate" />
-				<ref bean="Position-history" />
-				<ref bean="Position-active" />
-				<ref bean="Position-timestamp" />
 				<ref bean="Position-category" />
 				<ref bean="Position-process" />
 				<ref bean="Position-positionStatus" />
@@ -64,7 +60,6 @@
 				<ref bean="Position-temporary" />
 				<ref bean="Position-contract" />
 				<ref bean="Position-contractType" />
-				<ref bean="Position-userPrincipalId"/>
 				<ref bean="Position-payGrade" />
 				<ref bean="Position-payStep" />
 			</list>
@@ -174,38 +169,10 @@
 	</bean>
 
 	<bean id="Position-institution" parent="Position-institution-parentBean" />
-	<bean id="Position-institution-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="maxLength" value="15" />
-		<property name="shortLabel" value="Institution" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
-	</bean>
+	<bean id="Position-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution"/>
 
 	<bean id="Position-location" parent="Position-location-parentBean" />
-	<bean id="Position-location-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="maxLength" value="15" />
-		<property name="shortLabel" value="Location" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
-	</bean>
+	<bean id="Position-location-parentBean" abstract="true" parent="KpmeAttributeReference-location" />
 
 	<bean id="Position-salaryGroup" parent="Position-salaryGroup-parentBean" />
 	<bean id="Position-salaryGroup-parentBean" abstract="true"
@@ -385,54 +352,6 @@
 		<property name="label" value="Tenure Eligible" />
 	</bean>
 
-	<bean id="Position-effectiveDate" parent="Position-effectiveDate-parentBean" />
-	<bean id="Position-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="10" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-
-	<bean id="Position-active" parent="Position-active-parentBean" />
-	<bean id="Position-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-activeIndicator">
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-	</bean>
-
-	<bean id="Position-timestamp" parent="Position-timestamp-parentBean" />
-	<bean id="Position-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean>
-
-	<bean id="Position-history" parent="Position-history-parentBean" />
-	<bean id="Position-history-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl" />
-		</property>
-		<property name="optionsFinder">
-			<bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>
-
 	<bean id="Position-pmPositionClassId" parent="Position-pmPositionClassId-parentBean" />
 	<bean id="Position-pmPositionClassId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -607,23 +526,6 @@
 	</bean>
 
 
-	<!--userPrincipalId-->
-    <bean id="Position-userPrincipalId" parent="Position-userPrincipalId-parentBean" />
-    <bean id="Position-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-	
 	<bean id="Position-payGrade" parent="Position-payGrade-parentBean" />
 	<bean id="Position-payGrade-parentBean" abstract="true"
 		parent="AttributeDefinition">

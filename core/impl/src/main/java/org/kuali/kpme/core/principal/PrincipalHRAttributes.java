@@ -49,7 +49,6 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 	private boolean fmlaEligible;
 	private boolean workersCompEligible;
 	private String timezone;
-	private Boolean history;
 	// KPME-1268 Kagata added recordTime and recordLeave variables
 	// KPME-1676 
 //	private String recordTime;
@@ -203,11 +202,4 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 		this.hrPrincipalAttributeId = hrPrincipalAttributeId;
 	}
 
-	public Boolean getHistory() {
-		return history;
-	}
-
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
 }

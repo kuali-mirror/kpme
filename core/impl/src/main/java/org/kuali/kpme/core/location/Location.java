@@ -43,8 +43,7 @@ public class Location extends HrBusinessObject implements LocationContract {
 	private String location;
 	private String timezone;
 	private String description;
-	private String history;
-	
+
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
@@ -106,14 +105,6 @@ public class Location extends HrBusinessObject implements LocationContract {
 		this.description = description;
 	}
 
-	public String getHistory() {
-		return history;
-	}
-
-	public void setHistory(String history) {
-		this.history = history;
-	}
-	
 	public List<LocationPrincipalRoleMemberBo> getRoleMembers() {
 		return roleMembers;
 	}

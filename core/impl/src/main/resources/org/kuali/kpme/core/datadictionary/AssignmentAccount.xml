@@ -256,15 +256,7 @@
 	</bean>
 	
 	<bean id="AssignmentAccount-active" parent="AssignmentAccount-active-parentBean" />
-	<bean id="AssignmentAccount-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-	</bean>
+	<bean id="AssignmentAccount-active-parentBean" abstract="true" parent="KpmeAttributeReference-active"/>
 
 	<bean id="AssignmentAccount-tkAssignmentId" parent="AssignmentAccount-tkAssignmentId-parentBean" />
 	<bean id="AssignmentAccount-tkAssignmentId-parentBean" abstract="true"
@@ -302,20 +294,7 @@
 
     <!--userPrincipalId-->
     <bean id="AssignmentAccount-userPrincipalId" parent="AssignmentAccount-userPrincipalId-parentBean" />
-    <bean id="AssignmentAccount-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
+    <bean id="AssignmentAccount-userPrincipalId-parentBean" abstract="true" parent="KpmeAttributeReference-userPrincipalId" />
 
 	<!--  Inquiry Definitions  -->
 	<bean id="AssignmentAccount-lookupDefinition" parent="AssignmentAccount-lookupDefinition-parentBean" />

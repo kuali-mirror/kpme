@@ -22,18 +22,15 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PstnContractType" parent="PstnContractType-parentBean"/>
- 	<bean id="PstnContractType-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 	<bean id="PstnContractType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
 	    <property name="attributes">
-	      <list>
+	      <list merge="true">
 	        <ref bean="PstnContractType-pmCntrctTypeId"/>
-	        <ref bean="PstnContractType-effectiveDate"/>	        
 	        <ref bean="PstnContractType-name"/>
 	        <ref bean="PstnContractType-description"/>
 	        <ref bean="PstnContractType-institution"/>
 	        <ref bean="PstnContractType-location"/>
-	        <ref bean="PstnContractType-active"/>
-            <ref bean="PstnContractType-userPrincipalId"/>
           </list>
 	    </property>
 	    <property name="relationships">
@@ -66,18 +63,6 @@
 	    <property name="label" value="Position Contract Type Id"/>
 	 </bean>   
 	 
-	<bean id="PstnContractType-effectiveDate" parent="PstnContractType-effectiveDate-parentBean" />
-	<bean id="PstnContractType-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" p:size="10" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
 	<bean id="PstnContractType-name" parent="PstnContractType-name-parentBean" />
 	<bean id="PstnContractType-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
@@ -103,61 +88,16 @@
 	</bean>
 	
 	<bean id="PstnContractType-institution" parent="PstnContractType-institution-parentBean" />
-	<bean id="PstnContractType-institution-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="maxLength" value="15" />
+	<bean id="PstnContractType-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Institution" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
 	</bean>
 	
 	<bean id="PstnContractType-location" parent="PstnContractType-location-parentBean" />
-	<bean id="PstnContractType-location-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PstnContractType-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="15" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
 	</bean>
 	
-    <bean id="PstnContractType-active" parent="PstnContractType-active-parentBean"/>
- 	<bean id="PstnContractType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
-   		<property name="name" value="active"/>
-  	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="PstnContractType-userPrincipalId" parent="PstnContractType-userPrincipalId-parentBean" />
-    <bean id="PstnContractType-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-<!--*************************************************************************** 
+<!--***************************************************************************
 							Views
  ***************************************************************************-->  	
   	

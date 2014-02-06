@@ -40,7 +40,6 @@ public class LeavePlan extends HrBusinessObject implements LeavePlanContract {
 	private String leavePlan;
 	private String descr;
 	private String calendarYearStart;
-	private Boolean history;
 	private String planningMonths;
 	private String batchPriorYearCarryOverStartDate;
 	private Time batchPriorYearCarryOverStartTime;
@@ -127,14 +126,6 @@ public class LeavePlan extends HrBusinessObject implements LeavePlanContract {
 		return date[1];
 	}
 
-
-	public Boolean getHistory() {
-		return history;
-	}
-
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
 
 	@Override
 	protected String getUniqueKey() {

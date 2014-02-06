@@ -23,7 +23,7 @@
 	<bean name="EarnCodeSecurity" parent="EarnCodeSecurity-parentBean" />
 
 	<bean id="EarnCodeSecurity-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
+		parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass"
 			value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
 		<property name="titleAttribute" value="hrEarnCodeSecurityId" />
@@ -35,22 +35,16 @@
 			<ref bean="EarnCodeSecurity-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
                 <ref bean="EarnCodeSecurity-hrEarnCodeSecurityId" />
 				<ref bean="EarnCodeSecurity-dept" />
 				<ref bean="EarnCodeSecurity-hrSalGroup" />
 				<ref bean="EarnCodeSecurity-earnCode" />
 				<ref bean="EarnCodeSecurity-location" />
-				<ref bean="EarnCodeSecurity-effectiveDate" />
-				<ref bean="EarnCodeSecurity-timestamp" />
 				<ref bean="EarnCodeSecurity-employee" />
 				<ref bean="EarnCodeSecurity-approver" />
 				<ref bean="EarnCodeSecurity-payrollProcessor" />
-				<ref bean="EarnCodeSecurity-history" />
-				<ref bean="EarnCodeSecurity-active" />
 				<ref bean="EarnCodeSecurity-earnCodeType" />
-				<ref bean="EarnCodeSecurity-relativeEffectiveDate" />
-                <ref bean="EarnCodeSecurity-userPrincipalId" />
 			</list>
 		</property>
 		  
@@ -131,39 +125,13 @@
 
 	<!-- deptId -->
 	<bean id="EarnCodeSecurity-dept" parent="EarnCodeSecurity-dept-parentBean" />
-	<bean id="EarnCodeSecurity-dept-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Department" />
-		<property name="maxLength" value="21" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="21" />
-		</property>
-		<property name="name" value="dept" />
-		<property name="label" value="Department" />
-	</bean>
+	<bean id="EarnCodeSecurity-dept-parentBean" abstract="true" parent="KpmeAttributeReference-dept"/>
 
 	<!-- salGroup -->
 	<bean id="EarnCodeSecurity-hrSalGroup" parent="EarnCodeSecurity-hrSalGroup-parentBean" />
 	<bean id="EarnCodeSecurity-hrSalGroup-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Sal. Group" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="hrSalGroup" />
-		<property name="label" value="Sal. Group" />
-	</bean>
+		parent="SalaryGroup-hrSalGroup-parentBean"/>
+
 	<!-- earnCode -->
 	<bean id="EarnCodeSecurity-earnCode" parent="EarnCodeSecurity-earnCode-parentBean" />
 	<bean id="EarnCodeSecurity-earnCode-parentBean" abstract="true"
@@ -183,43 +151,8 @@
 	</bean>
 
     <bean id="EarnCodeSecurity-location" parent="EarnCodeSecurity-location-parentBean" />
-	<bean id="EarnCodeSecurity-location-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
-	</bean>
+	<bean id="EarnCodeSecurity-location-parentBean" abstract="true"	parent="KpmeAttributeReference-location"/>
 
-    <bean id="EarnCodeSecurity-relativeEffectiveDate" parent="EarnCodeSecurity-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-
-  <bean id="EarnCodeSecurity-effectiveDate" parent="EarnCodeSecurity-effectiveDate-parentBean"/>
-  <bean id="EarnCodeSecurity-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Effective Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
-    <property name="name" value="effectiveDate"/>
-    <property name="label" value="Effective Date"/>
-  </bean>
-  	
 	<!-- Employee -->
 	<bean id="EarnCodeSecurity-employee" parent="EarnCodeSecurity-employee-parentBean" />
 	<bean id="EarnCodeSecurity-employee-parentBean" abstract="true"
@@ -256,45 +189,7 @@
 		<property name="label" value="Payroll Processor" />
 	</bean>
 
-	<!-- timeStamp -->
-	<bean id="EarnCodeSecurity-timestamp" parent="EarnCodeSecurity-timestamp-parentBean" />
-	<bean id="EarnCodeSecurity-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean>
-	<!-- history -->
-	<bean id="EarnCodeSecurity-history" parent="EarnCodeSecurity-history-parentBean" />
-	<bean id="EarnCodeSecurity-history-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>
-	
-	<bean id="EarnCodeSecurity-active" parent="EarnCodeSecurity-active-parentBean"/>
-    <bean id="EarnCodeSecurity-active-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Active"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    <property name="name" value="active"/>
-    <property name="label" value="Active"/>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
-  </bean>
 
-	
 	<!--  KPME-1633 -->
 	<bean id="EarnCodeSecurity-earnCodeType" parent="EarnCodeSecurity-earnCodeType-parentBean" />
 	<bean id="EarnCodeSecurity-earnCodeType-parentBean" abstract="true" parent="AttributeDefinition">
@@ -307,23 +202,6 @@
 		<property name="name" value="earnCodeType" />
 		<property name="label" value="Earn Code Type" />
 	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="EarnCodeSecurity-userPrincipalId" parent="EarnCodeSecurity-userPrincipalId-parentBean" />
-    <bean id="EarnCodeSecurity-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
 
  	<!--  Inquiry Definitions  -->
   

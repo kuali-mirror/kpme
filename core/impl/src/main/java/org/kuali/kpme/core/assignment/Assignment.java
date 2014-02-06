@@ -72,7 +72,6 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 	private boolean primaryAssign;
 
 	private transient WorkArea workAreaObj;
-	private Boolean history;
     private String assignmentKey;
 
 	private transient Person principal;
@@ -241,12 +240,6 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 	public void setTkWorkAreaId(Long tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}*/
-	public Boolean getHistory() {
-		return history;
-	}
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
 
 	@Override
 	public String getUniqueKey() {

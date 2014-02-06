@@ -23,22 +23,16 @@
 	                       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="Location" parent="Location-parentBean" />
-	<bean id="Location-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="Location-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.core.location.Location" />
 		<property name="titleAttribute" value="location" />
 		<property name="objectLabel" value="Location" />
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="Location-hrLocationId" />
 				<ref bean="Location-location" />
 				<ref bean="Location-timezone" />
 				<ref bean="Location-description" />
-				<ref bean="Location-userPrincipalId" />
-				<ref bean="Location-history" />
-				<ref bean="Location-effectiveDate" />
-				<ref bean="Location-active" />
-				<ref bean="Location-timestamp" />
-				<ref bean="Location-relativeEffectiveDate" />
 			</list>
 		</property>
         <property name="collections">
@@ -74,20 +68,7 @@
 	</bean>
 
 	<bean id="Location-location" parent="Location-location-parentBean" />
-	<bean id="Location-location-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="location" />
-        <property name="label" value="Location" />
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="20" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-	</bean>
+	<bean id="Location-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
 	
 	<bean id="Location-timezone" parent="Location-timezone-parentBean" />
 	<bean id="Location-timezone-parentBean" abstract="true" parent="AttributeDefinition">
@@ -123,71 +104,6 @@
 		</property>
 	</bean>
 	
-	<bean id="Location-userPrincipalId" parent="Location-userPrincipalId-parentBean" />
-    <bean id="Location-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="LookupReadonlyControlDefinition" p:size="30" />
-        </property>
-    </bean>
-    
-    <bean id="Location-history" parent="Location-history-parentBean" />
-    <bean id="Location-history-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="history" />
-        <property name="label" value="Show History" />
-        <property name="shortLabel" value="Show History" />
-        <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
-        </property>
-    </bean>
-
-    <bean id="Location-relativeEffectiveDate" parent="Location-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-
-	<bean id="Location-effectiveDate" parent="Location-effectiveDate-parentBean" />
-	<bean id="Location-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="effectiveDate" />
-        <property name="label" value="Effective Date" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-	</bean>
-
-    <bean id="Location-active" parent="Location-active-parentBean" />
-    <bean id="Location-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
-        <property name="name" value="active" />
-        <property name="label" value="Active" />
-    </bean>
-
-	<bean id="Location-timestamp" parent="Location-timestamp-parentBean" />
-	<bean id="Location-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="timestamp" />
-        <property name="label" value="Timestamp" />
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-	</bean>
-
 	<!-- Business Object Inquiry Definition -->
   
   	<bean id="Location-inquiryDefinition" parent="Location-inquiryDefinition-parentBean" />

@@ -96,17 +96,6 @@ public interface PayTypeContract extends HrBusinessObjectContract {
 	public String getHrEarnCodeId();
 	
 	/**
-	 * History flag for PayType lookups 
-	 * 
-	 * <p>
-	 * history of PayType
-	 * </p>
-	 * 
-	 * @return true if want to show history, false if not
-	 */
-	public String getHistory();
-	
-	/**
 	 * Indicates if the EarnCode associated with the PayType is an Overtime earn code
 	 * 
 	 * <p>

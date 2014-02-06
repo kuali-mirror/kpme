@@ -57,8 +57,6 @@ public class LeaveDonation extends HrBusinessObject implements LeaveDonationCont
 	private String recipientsPrincipalID;
 	private String description;
 	
-	private Boolean history;
-	
 	private transient AccrualCategory accrualCategoryObj;
 	private transient Person personObj;
 	private transient EarnCode earnCodeObj;
@@ -164,14 +162,6 @@ public class LeaveDonation extends HrBusinessObject implements LeaveDonationCont
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Boolean getHistory() {
-		return history;
-	}
-
-	public void setHistory(Boolean history) {
-		this.history = history;
 	}
 
 	public Person getPersonObj() {

@@ -23,19 +23,16 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionQualifierType" parent="PositionQualifierType-parentBean"/>
- 	<bean id="PositionQualifierType-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 	<bean id="PositionQualifierType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
 	    <property name="attributes">
-	      <list>
+	      <list merge="true">
 	        <ref bean="PositionQualifierType-pmPstnQlfrTypeId"/>
-	        <ref bean="PositionQualifierType-effectiveDate"/>
 	        <ref bean="PositionQualifierType-code"/>
 	        <ref bean="PositionQualifierType-type"/>
 	        <ref bean="PositionQualifierType-descr"/>
 	        <ref bean="PositionQualifierType-typeValue"/>
 	        <ref bean="PositionQualifierType-selectValues"/>	
-	        <ref bean="PositionQualifierType-active"/>
-            <ref bean="PositionQualifierType-userPrincipalId"/>
 		 </list>
 	    </property>
 <!-- 	    <property name="collections"> -->
@@ -61,18 +58,6 @@
 	    <property name="label" value="Position Qualifier Type Id"/>
 	 </bean>   
 	 
-	<bean id="PositionQualifierType-effectiveDate" parent="PositionQualifierType-effectiveDate-parentBean" />
-	<bean id="PositionQualifierType-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
 	<bean id="PositionQualifierType-code" parent="PositionQualifierType-code-parentBean" />
 	<bean id="PositionQualifierType-code-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50"/>
@@ -136,28 +121,6 @@
 		<property name="description" value="Select Values" />
 	</bean>
 
-    <bean id="PositionQualifierType-active" parent="PositionQualifierType-active-parentBean"/>
- 	<bean id="PositionQualifierType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
-   		<property name="name" value="active"/>
-  	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="PositionQualifierType-userPrincipalId" parent="PositionQualifierType-userPrincipalId-parentBean" />
-    <bean id="PositionQualifierType-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-  	 
 
 <!--*************************************************************************** 
 							Views

@@ -30,7 +30,7 @@
 
 	<bean name="LeavePlan" parent="LeavePlan-parentBean" />
 
-	<bean id="LeavePlan-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="LeavePlan-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.core.leaveplan.LeavePlan" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="leavePlan" />
@@ -41,18 +41,13 @@
 			<ref bean="LeavePlan-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="LeavePlan-leavePlan" />
 				<ref bean="LeavePlan-descr" />
 				<ref bean="LeavePlan-planningMonths" />
 				<ref bean="LeavePlan-calendarYearStart" />
 				<ref bean="LeavePlan-batchPriorYearCarryOverStartDate" />
 				<ref bean="LeavePlan-batchPriorYearCarryOverStartTime" />
-				<ref bean="LeavePlan-effectiveDate" />
-				<ref bean="LeavePlan-timestamp" />
-				<ref bean="LeavePlan-history" />
-				<ref bean="LeavePlan-active" />
-                <ref bean="LeavePlan-userPrincipalId"/>
 			</list>
 		</property>
 	</bean>
@@ -126,72 +121,6 @@
 		</property>
 		<property name="name" value="calendarYearStart" />
 		<property name="label" value="Calendar Year Start (MM/DD)" />
-	</bean>
-
-	<!-- effectiveDate -->
-	<bean id="LeavePlan-effectiveDate" parent="LeavePlan-effectiveDate-parentBean" />
-	<bean id="LeavePlan-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="12">
-			 <property name="datePicker">
-	          <bean parent="Uif-DatePicker"/>
-	        </property>
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-
-	<!-- timeStamp -->
-	<bean id="LeavePlan-timestamp" parent="LeavePlan-timestamp-parentBean" />
-	<bean id="LeavePlan-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean>
-
-	<!-- history -->
-	<bean id="LeavePlan-history" parent="LeavePlan-history-parentBean" />
-	<bean id="LeavePlan-history-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>
-
-	<!-- active -->
-	<bean id="LeavePlan-active" parent="LeavePlan-active-parentBean" />
-	<bean id="LeavePlan-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 
@@ -280,22 +209,6 @@
 		<property name="title" value="Leave Plan Inquiry" />
 	</bean>
 
-    <!--userPrincipalId-->
-    <bean id="LeavePlan-userPrincipalId" parent="LeavePlan-userPrincipalId-parentBean" />
-    <bean id="LeavePlan-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
 	<!-- Look up Definitions -->
 
 	<bean id="LeavePlan-lookupDefinition" parent="LeavePlan-lookupDefinition-parentBean" />

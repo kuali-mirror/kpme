@@ -23,7 +23,7 @@
 	<bean name="Institution" parent="Institution-parentBean" />
 
 	<bean id="Institution-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
+		parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.core.institution.Institution" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="institution" />
@@ -34,15 +34,10 @@
 			<ref bean="Institution-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="Institution-pmInstitutionId" />
-				<ref bean="Institution-effectiveDate" />
-				<ref bean="Institution-institutionCode" />			
+				<ref bean="Institution-institutionCode" />
 				<ref bean="Institution-description" />
-				<ref bean="Institution-history"/>
-				<ref bean="Institution-active" />
-				<ref bean="Institution-relativeEffectiveDate" />
-                <ref bean="Institution-userPrincipalId" />
 			</list>
 		</property>
 	</bean>
@@ -63,50 +58,10 @@
 		</property>
 	</bean>
 	
-    <bean id="Institution-relativeEffectiveDate" parent="Institution-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-	
-	<!-- effectiveDate -->
-	<bean id="Institution-effectiveDate" parent="Institution-effectiveDate-parentBean" />
-	<bean id="Institution-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
- 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="12">
-			 <property name="datePicker">
-	          <bean parent="Uif-DatePicker"/>
-	        </property>
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
 	<!-- institution -->
 	<bean id="Institution-institutionCode" parent="Institution-institutionCode-parentBean" />
-	<bean id="Institution-institutionCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Institution-institutionCode-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
 		<property name="shortLabel" value="Institution Code" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
 		<property name="name" value="institutionCode" />
 		<property name="label" value="Institution Code" />
 	</bean>
@@ -129,49 +84,6 @@
 		<property name="label" value="Description" />
 	</bean>
 	
-	<!-- history -->
-	<bean id="Institution-history" parent="Institution-history-parentBean" />
-	<bean id="Institution-history-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
-		<property name="optionsFinder">
-            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
-        </property>
-        <property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl"/>
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>
-	
-	<!-- active -->
-	<bean id="Institution-active" parent="Institution-active-parentBean" />
-	<bean id="Institution-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-activeIndicator">
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="Institution-userPrincipalId" parent="Institution-userPrincipalId-parentBean" />
-    <bean id="Institution-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
-
 	<!--  Inquiry Definitions  -->
   
   	<bean id="Institution-inquiryDefinition" parent="Institution-inquiryDefinition-parentBean" />

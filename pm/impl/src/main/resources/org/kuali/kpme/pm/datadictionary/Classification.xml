@@ -23,10 +23,10 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="Classification" parent="Classification-parentBean"/>
- 	<bean id="Classification-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 	<bean id="Classification-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.Classification"/>
 	    <property name="attributes">
-	      <list>
+	      <list merge="true">
 	        <ref bean="Classification-pmPositionClassId"/>
 	        <ref bean="Classification-positionClass"/>
 	        <ref bean="Classification-classificationTitle"/>
@@ -42,10 +42,7 @@
 	        <ref bean="Classification-positionType"/>
 	        <ref bean="Classification-poolEligible"/>
 	        <ref bean="Classification-tenureEligible"/>	        
-	        <ref bean="Classification-effectiveDate"/>
 	        <ref bean="Classification-externalReference"/>
-	        <ref bean="Classification-active"/>
-            <ref bean="Classification-userPrincipalId"/>
 		 </list>
 	    </property>
 		
@@ -114,37 +111,13 @@
 	</bean>
 	
 	<bean id="Classification-institution" parent="Classification-institution-parentBean" />
-	<bean id="Classification-institution-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="maxLength" value="15" />
+	<bean id="Classification-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Institution" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
 	</bean>
-	
+
 	<bean id="Classification-location" parent="Classification-location-parentBean" />
-	<bean id="Classification-location-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Classification-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="15" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
 	</bean>
 	
 	<bean id="Classification-salaryGroup" parent="Classification-salaryGroup-parentBean" />
@@ -306,18 +279,6 @@
  		<property name="label" value="Tenure Eligible" />
   	</bean>
 	
-	<bean id="Classification-effectiveDate" parent="Classification-effectiveDate-parentBean" />
-	<bean id="Classification-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
 	<bean id="Classification-externalReference" parent="Classification-externalReference-parentBean" />
 	<bean id="Classification-externalReference-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="100" />
@@ -329,28 +290,7 @@
 		<property name="label" value="External Reference" />
 	</bean>
 	
-    <bean id="Classification-active" parent="Classification-active-parentBean"/>
- 	<bean id="Classification-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
-   		<property name="name" value="active"/>
-  	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="Classification-userPrincipalId" parent="Classification-userPrincipalId-parentBean" />
-    <bean id="Classification-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-<!--*************************************************************************** 
+<!--***************************************************************************
 							Views
  ***************************************************************************-->  	
   	

@@ -22,7 +22,7 @@
 
 	<bean id="BalanceTransfer" parent="BalanceTransfer-parentBean" />
 
-	<bean id="BalanceTransfer-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="BalanceTransfer-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass"
 			value="org.kuali.kpme.tklm.leave.transfer.BalanceTransfer" />
  		<property name="inquiryDefinition">
@@ -33,7 +33,7 @@
 			<ref bean="BalanceTransfer-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="BalanceTransfer-balanceTransferId" />
 				<ref bean="BalanceTransfer-principalId" />
 				<ref bean="BalanceTransfer-transferAmount"/>
@@ -42,11 +42,8 @@
 				<ref bean="BalanceTransfer-toAccrualCategory" />
 				<ref bean="BalanceTransfer-forfeitedAmount"/>
 				<ref bean="BalanceTransfer-accrualCategoryRule"/>
-				<ref bean="BalanceTransfer-effectiveDate" />
 				<ref bean="BalanceTransfer-leaveCalendarDocumentId"/>
 				<ref bean="BalanceTransfer-sstoId"/>
-				<ref bean="BalanceTransfer-relativeEffectiveDate" />
-                <ref bean="BalanceTransfer-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -240,29 +237,7 @@
 		<property name="label" value="Leave Calendar ID" />
 	</bean>
 	
-    <bean id="BalanceTransfer-relativeEffectiveDate" parent="BalanceTransfer-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-	
-	<!-- effectiveDate -->
-	<bean id="BalanceTransfer-effectiveDate" parent="BalanceTransfer-effectiveDate-parentBean" />
-	<bean id="BalanceTransfer-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
+
 	<!-- system scheduled time off id -->
 	<bean id="BalanceTransfer-sstoId" parent="BalanceTransfer-sstoId-parentBean" />
 	<bean id="BalanceTransfer-sstoId-parentBean" abstract="true"
@@ -275,24 +250,7 @@
 		<property name="label" value="SSTO ID" />
 	</bean>
 
-    <!--userPrincipalId-->
-    <bean id="BalanceTransfer-userPrincipalId" parent="BalanceTransfer-userPrincipalId-parentBean" />
-    <bean id="BalanceTransfer-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
 	<!--  Inquiry Definitions  -->
-
 	<bean id="BalanceTransfer-inquiryDefinition" parent="BalanceTransfer-inquiryDefinition-parentBean" />
 
 	<bean id="BalanceTransfer-inquiryDefinition-parentBean" abstract="true"

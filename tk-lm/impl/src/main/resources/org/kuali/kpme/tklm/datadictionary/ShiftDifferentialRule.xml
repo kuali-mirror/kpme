@@ -23,7 +23,7 @@
 	<bean name="ShiftDifferentialRule" parent="ShiftDifferentialRule-parentBean" />
 
 	<bean id="ShiftDifferentialRule-parentBean" abstract="true"
-		parent="BusinessObjectEntry">
+		parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass"
 			value="org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule" />
 		<property name="titleAttribute" value="tkShiftDiffRuleId" />
@@ -35,12 +35,10 @@
 			<ref bean="ShiftDifferentialRule-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="ShiftDifferentialRule-location" />
 				<ref bean="ShiftDifferentialRule-hrSalGroup" />
 				<ref bean="ShiftDifferentialRule-payGrade" />
-				<ref bean="ShiftDifferentialRule-effectiveDate" />
-                <ref bean="ShiftDifferentialRule-relativeEffectiveDate" />
 				<ref bean="ShiftDifferentialRule-earnCode" />
 				<ref bean="ShiftDifferentialRule-beginTime" />
 				<ref bean="ShiftDifferentialRule-endTime" />
@@ -53,15 +51,11 @@
 				<ref bean="ShiftDifferentialRule-saturday" />
 				<ref bean="ShiftDifferentialRule-sunday" />
 				<ref bean="ShiftDifferentialRule-maxGap" />
-				<ref bean="ShiftDifferentialRule-userPrincipalId" />
-				<ref bean="ShiftDifferentialRule-timestamp" />
-				<ref bean="ShiftDifferentialRule-active" />
 				<ref bean="ShiftDifferentialRule-pyCalendarGroup" />
 				<ref bean="ShiftDifferentialRule-fromEarnGroup" />
 				<ref bean="ShiftDifferentialRule-hrSalGroupId" />
 				<ref bean="ShiftDifferentialRule-hrLocationId" />
 				<ref bean="ShiftDifferentialRule-hrPayGradeId" />
-				<ref bean="ShiftDifferentialRule-history" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -168,51 +162,11 @@
 
 	<!-- location -->
 	<bean id="ShiftDifferentialRule-location" parent="ShiftDifferentialRule-location-parentBean" />
-	<bean id="ShiftDifferentialRule-location-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="2" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="2" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
-	</bean>
-	
-	<bean id="ShiftDifferentialRule-history" parent="ShiftDifferentialRule-history-parentBean" />
-	<bean id="ShiftDifferentialRule-history-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>
+	<bean id="ShiftDifferentialRule-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
 
 	<!-- hrSalGroup -->
 	<bean id="ShiftDifferentialRule-hrSalGroup" parent="ShiftDifferentialRule-hrSalGroup-parentBean" />
-	<bean id="ShiftDifferentialRule-hrSalGroup-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Salary Group" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="hrSalGroup" />
-		<property name="label" value="Salary Group" />
-	</bean>
+	<bean id="ShiftDifferentialRule-hrSalGroup-parentBean" abstract="true" parent="SalaryGroup-hrSalGroup-parentBean"/>
 
 	<!-- payGrade -->
 	<bean id="ShiftDifferentialRule-payGrade" parent="ShiftDifferentialRule-payGrade-parentBean" />
@@ -230,28 +184,6 @@
 		</property>
 		<property name="name" value="payGrade" />
 		<property name="label" value="Pay Grade" />
-	</bean>
-
-	<!-- effectiveDate-->
-    <bean id="ShiftDifferentialRule-relativeEffectiveDate" parent="ShiftDifferentialRule-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-	<bean id="ShiftDifferentialRule-effectiveDate" parent="ShiftDifferentialRule-effectiveDate-parentBean" />
-	<bean id="ShiftDifferentialRule-effectiveDate-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
 	</bean>
 
 
@@ -431,51 +363,6 @@
 		</property>
 		<property name="name" value="maxGap" />
 		<property name="label" value="Max. Gap Minutes" />
-	</bean>
-	<!-- userPrincipalId -->
-	<bean id="ShiftDifferentialRule-userPrincipalId" parent="ShiftDifferentialRule-userPrincipalId-parentBean" />
-	<bean id="ShiftDifferentialRule-userPrincipalId-parentBean"
-		abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="User PrincipalId" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="name" value="userPrincipalId" />
-		<property name="label" value="User Principal Id" />
-	</bean>
-
-	<!-- timestamp -->
-	<bean id="ShiftDifferentialRule-timestamp" parent="ShiftDifferentialRule-timestamp-parentBean" />
-	<bean id="ShiftDifferentialRule-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean>
-	<!-- active -->
-	<bean id="ShiftDifferentialRule-active" parent="ShiftDifferentialRule-active-parentBean" />
-	<bean id="ShiftDifferentialRule-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<!-- pyCalendarGroup -->

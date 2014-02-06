@@ -58,15 +58,4 @@ public interface PositionBaseContract extends HrBusinessObjectContract {
 	 * @return description for PositionBase
 	 */
 	public String getDescription();
-
-	 /**
-	 * History flag for PositionBase lookups 
-	 * 
-	 * <p>
-	 * history of PositionBase
-	 * </p>
-	 * 
-	 * @return true if want to show history, false if not
-	 */
-	public String getHistory();
 }

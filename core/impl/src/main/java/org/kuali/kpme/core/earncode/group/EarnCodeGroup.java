@@ -43,8 +43,6 @@ public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupCont
 
 	private String descr;
 
-	private Boolean history;
-	
 	private Boolean showSummary;
 
 	private List<EarnCodeGroupDefinition> earnCodeGroups = new ArrayList<EarnCodeGroupDefinition>();
@@ -59,14 +57,6 @@ public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupCont
 				.build();
 	}
 	
-
-	public Boolean getHistory() {
-		return history;
-	}
-
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
 
 	public List<EarnCodeGroupDefinition> getEarnCodeGroups() {
 		return earnCodeGroups;

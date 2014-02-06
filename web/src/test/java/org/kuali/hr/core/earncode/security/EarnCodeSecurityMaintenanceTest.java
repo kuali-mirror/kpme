@@ -106,7 +106,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
         Assert.assertTrue("Maintenance Page contains test deptErrormessage",
 				resultantPageAfterEdit.asText().contains(
 						"The specified department '"
-								+ testDept
+								+ testDept.toUpperCase()
 								+ "' does not exist."));
 		
 		Assert.assertTrue("Maintenance Page contains test SalGroupErrormessage",

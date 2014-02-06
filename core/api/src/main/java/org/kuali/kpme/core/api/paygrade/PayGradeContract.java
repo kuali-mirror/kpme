@@ -141,17 +141,6 @@ public interface PayGradeContract extends HrBusinessObjectContract {
 	 * @return maxHiringRate for PayGrade
 	 */
     public BigDecimal getMaxHiringRate();
-
-    /**
-	 * History flag for PayGrade lookups 
-	 * 
-	 * <p>
-	 * history of PayGrade
-	 * </p>
-	 * 
-	 * @return true if want to show history, false if not
-	 */
-    public String getHistory();
     
     /**
 	 * The name of the Location the PayGrade is associated with.

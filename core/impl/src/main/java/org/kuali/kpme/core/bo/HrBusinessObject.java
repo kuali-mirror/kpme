@@ -31,6 +31,9 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
 	private Timestamp timestamp;
     private String userPrincipalId;
 
+    //purely for UI (showHistory)
+    private transient Boolean history;
+
 	public abstract String getId();
 	
 	public abstract void setId(String id);
@@ -97,6 +100,14 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
 		}		
 		return retVal;
 	}
+
+    public Boolean getHistory() {
+        return history;
+    }
+
+    public void setHistory(Boolean history) {
+        this.history = history;
+    }
 
 
 }

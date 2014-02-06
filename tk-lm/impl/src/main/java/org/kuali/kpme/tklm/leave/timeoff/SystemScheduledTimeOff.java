@@ -67,7 +67,6 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	private BigDecimal transferConversionFactor;
 	private String transfertoEarnCode;
 	private String premiumHoliday;
-	private Boolean history;
 
 	private LeavePlan leavePlanObj;
 	private AccrualCategory accrualCategoryObj;
@@ -264,14 +263,6 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	@Override
 	public String getId() {
 		return getLmSystemScheduledTimeOffId();
-	}
-
-	public Boolean getHistory() {
-		return history;
-	}
-
-	public void setHistory(Boolean history) {
-		this.history = history;
 	}
 
 	@Override

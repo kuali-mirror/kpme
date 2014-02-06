@@ -152,17 +152,7 @@ public interface DepartmentContract extends HrBusinessObjectContract {
    	 * @return inactiveRoleMembers for WorkArea
    	 */
 	public List<? extends DepartmentPrincipalRoleMemberBoContract> getInactiveRoleMembers();
-	
-	/**
-	 * History flag for Department lookups 
-	 * 
-	 * <p>
-	 * history of Department
-	 * </p>
-	 * 
-	 * @return Y if want to show history, N if not
-	 */
-    public String getHistory();
+
 
     /**
 	 * Indicates if this Department needs payroll approval

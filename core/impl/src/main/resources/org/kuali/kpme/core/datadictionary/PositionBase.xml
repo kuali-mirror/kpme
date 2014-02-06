@@ -21,7 +21,7 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
         
 	<bean id="PositionBase" parent="PositionBase-parentBean" />
-	<bean id="PositionBase-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="PositionBase-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.position.PositionBase" />
 		<property name="objectLabel" value="Position" />
 		<property name="lookupDefinition">
@@ -31,14 +31,10 @@
 			<ref bean="PositionBase-inquiryDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="PositionBase-hrPositionId" />
 				<ref bean="PositionBase-positionNumber" />
 				<ref bean="PositionBase-description" />
-				<ref bean="PositionBase-effectiveDate" />
-				<ref bean="PositionBase-history"/>
-				<ref bean="PositionBase-active" />
-				<ref bean="PositionBase-timestamp" />
 			</list>
 		</property>	
 		
@@ -120,57 +116,7 @@
 		<property name="label" value="Description" />
 	</bean>
 
-	<bean id="PositionBase-effectiveDate" parent="PositionBase-effectiveDate-parentBean" />
-	<bean id="PositionBase-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="controlField">
-			<bean parent="Uif-DateControl" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
-	<bean id="PositionBase-active" parent="PositionBase-active-parentBean" />
-	<bean id="PositionBase-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-activeIndicator" >
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-	</bean>
 
-	<bean id="PositionBase-timestamp" parent="PositionBase-timestamp-parentBean" />
-	<bean id="PositionBase-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean> 
-
-	<bean id="PositionBase-history" parent="PositionBase-history-parentBean" />
-	<bean id="PositionBase-history-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl" />
-		</property>
-		<property name="optionsFinder">
-			<bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>	
-	
-	
 	<!-- Position Qualification List, used by inquiry view -->
 	<!--<bean id="Position-qualificationList" abstract="true" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">

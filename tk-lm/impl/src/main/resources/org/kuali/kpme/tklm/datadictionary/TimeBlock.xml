@@ -203,18 +203,7 @@
 	</bean> 	  
 
 	<bean id="TimeBlock-timestamp" parent="TimeBlock-timestamp-parentBean" />
-	<bean id="TimeBlock-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="22" />
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="22" />
-        </property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean>  
+	<bean id="TimeBlock-timestamp-parentBean" abstract="true" parent="KpmeAttributeReference-timestamp" />
 	
 	<bean id="TimeBlock-beginDate" parent="TimeBlock-beginDate-parentBean" />
 	<bean id="TimeBlock-beginDate-parentBean" abstract="true" parent="AttributeDefinition">

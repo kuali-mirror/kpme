@@ -39,9 +39,7 @@
 	<!-- Attribute Definitions -->
 	
     <bean id="PositionRoleMemberBo-effectiveDate" parent="PositionRoleMemberBo-effectiveDate-parentBean" />
-    <bean id="PositionRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="KPMERoleMemberBo-effectiveDate">
-        <property name="name" value="effectiveDate" />
-    </bean>
+    <bean id="PositionRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="KpmeAttributeReference-effectiveDate"/>
     
     <bean id="PositionRoleMemberBo-positionNumber" parent="PositionRoleMemberBo-positionNumber-parentBean" />
     <bean id="PositionRoleMemberBo-positionNumber-parentBean" abstract="true" parent="AttributeDefinition">
@@ -70,7 +68,5 @@
     </bean>
     
     <bean id="PositionRoleMemberBo-active" parent="PositionRoleMemberBo-active-parentBean" />
-    <bean id="PositionRoleMemberBo-active-parentBean" abstract="true" parent="KPMERoleMemberBo-active">
-        <property name="name" value="active" />
-    </bean>
+    <bean id="PositionRoleMemberBo-active-parentBean" abstract="true" parent="KPMERoleMemberBo-active" />
 </beans>

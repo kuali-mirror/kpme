@@ -36,8 +36,7 @@ public class PositionBase extends HrBusinessObject implements PositionBaseContra
 	private String hrPositionId;
 	private String positionNumber;
 	private String description;
-	private String history;
-	
+
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
@@ -84,13 +83,4 @@ public class PositionBase extends HrBusinessObject implements PositionBaseContra
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public String getHistory() {
-		return history;
-	}
-
-	public void setHistory(String history) {
-		this.history = history;
-	}
-
 }

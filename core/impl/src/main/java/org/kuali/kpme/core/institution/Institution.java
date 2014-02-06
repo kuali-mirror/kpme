@@ -37,8 +37,7 @@ public class Institution extends HrBusinessObject implements InstitutionContract
 	private String pmInstitutionId;
 	private String institutionCode;
 	private String description;
-	private boolean history;
-	
+
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
@@ -85,13 +84,4 @@ public class Institution extends HrBusinessObject implements InstitutionContract
 	public void setPmInstitutionId(String pmInstitutionId) {
 		this.pmInstitutionId = pmInstitutionId;
 	}
-
-	public boolean getHistory() {
-		return history;
-	}
-
-	public void setHistory(boolean history) {
-		this.history = history;
-	}
-
 }

@@ -185,15 +185,4 @@ public interface EarnCodeSecurityContract extends HrBusinessObjectContract {
 	 */
 	public String getLocation();
 
-	/**
-	 * The history flag for EarnCodeSecurity lookups 
-	 * 
-	 * <p>
-	 * history of an EarnCodeSecurity
-	 * </p>
-	 * 
-	 * @return Y if want to show history, N if not
-	 */
-	public String getHistory();
-
 }

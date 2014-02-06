@@ -52,7 +52,6 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
     /** Used for lookup */
 	private String hrEarnCodeId;
     private EarnCode regEarnCodeObj;
-    private String history;
     private Boolean ovtEarnCode;
     
     // KPME-2252
@@ -125,14 +124,6 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 	@Override
 	public String getUniqueKey() {
 		return payType;
-	}
-
-	public String getHistory() {
-		return history;
-	}
-
-	public void setHistory(String history) {
-		this.history = history;
 	}
 
 	public Boolean getOvtEarnCode() {

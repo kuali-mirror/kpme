@@ -66,7 +66,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 	private String hrJobId;
 
 	private List<ClockLocationRuleIpAddress> ipAddresses = new ArrayList<ClockLocationRuleIpAddress>();
-	private Boolean history;
 
 	private WorkArea workAreaObj;
 	private Job job;
@@ -144,14 +143,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 
 	public void setDept(String dept) {
 		this.dept = dept;
-	}
-
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
-
-	public Boolean getHistory() {
-		return history;
 	}
 
 	public Person getPrincipal() {

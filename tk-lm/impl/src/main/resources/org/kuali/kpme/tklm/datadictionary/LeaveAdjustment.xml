@@ -22,7 +22,7 @@
 	
 	<bean name="LeaveAdjustment" parent="LeaveAdjustment-parentBean" />
 
-	<bean id="LeaveAdjustment-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="LeaveAdjustment-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.tklm.leave.adjustment.LeaveAdjustment" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="leaveadjustment" />
@@ -33,16 +33,13 @@
 			<ref bean="LeaveAdjustment-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
-				<ref bean="LeaveAdjustment-effectiveDate" />
-                <ref bean="LeaveAdjustment-relativeEffectiveDate" />
+			<list merge="true">
 				<ref bean="LeaveAdjustment-principalId" />
 				<ref bean="LeaveAdjustment-leavePlan" />
 				<ref bean="LeaveAdjustment-earnCode" />
 				<ref bean="LeaveAdjustment-accrualCategory" />
 				<ref bean="LeaveAdjustment-adjustmentAmount" />
 				<ref bean="LeaveAdjustment-description" />
-                <ref bean="LeaveAdjustment-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -105,26 +102,6 @@
 		</property>
 	</bean>
 
-    <bean id="LeaveAdjustment-relativeEffectiveDate" parent="LeaveAdjustment-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-	<bean id="LeaveAdjustment-effectiveDate" parent="LeaveAdjustment-effectiveDate-parentBean" />
-	<bean id="LeaveAdjustment-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
 	<bean id="LeaveAdjustment-principalId" parent="LeaveAdjustment-principalId-parentBean" />
 	<bean id="LeaveAdjustment-principalId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -213,22 +190,6 @@
 		<property name="label" value="Adjustment Amount" />
 	</bean>
 
-    <!--userPrincipalId-->
-    <bean id="LeaveAdjustment-userPrincipalId" parent="LeaveAdjustment-userPrincipalId-parentBean" />
-    <bean id="LeaveAdjustment-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
 	<!-- Inquiry Definitions -->
 	<bean id="LeaveAdjustment-inquiryDefinition" parent="LeaveAdjustment-inquiryDefinition-parentBean" />
 	<bean id="LeaveAdjustment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"

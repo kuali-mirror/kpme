@@ -22,7 +22,7 @@
 
 
 	<bean id="EarnCodeGroup" parent="EarnCodeGroup-parentBean" />
-	<bean id="EarnCodeGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="EarnCodeGroup-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup" />
 		<property name="titleAttribute" value="hrEarnCodeGroupId" />
 		<property name="objectLabel" value="earnCodeGroup" />
@@ -33,17 +33,12 @@
 			<ref bean="EarnCodeGroup-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="EarnCodeGroup-hrEarnCodeGroupId" />
 				<ref bean="EarnCodeGroup-earnCodeGroup" />
 				<ref bean="EarnCodeGroup-descr" />
-				<ref bean="EarnCodeGroup-effectiveDate" />
-				<ref bean="EarnCodeGroup-timestamp" />
 				<ref bean="EarnCodeGroup-showSummary" />
-				<ref bean="EarnCodeGroup-history" />
 				<ref bean="EarnCodeGroup-warningText" />
-				<ref bean="EarnCodeGroup-active" />
-                <ref bean="EarnCodeGroup-userPrincipalId" />
 			</list>
 		</property>
 		<property name="collections">
@@ -118,48 +113,6 @@
 		<property name="label" value="Description" />
 	</bean>
 
-	<bean id="EarnCodeGroup-effectiveDate" parent="EarnCodeGroup-effectiveDate-parentBean" />
-	<bean id="EarnCodeGroup-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	<!-- timeStamp -->
-	<bean id="EarnCodeGroup-timestamp" parent="EarnCodeGroup-timestamp-parentBean" />
-	<bean id="EarnCodeGroup-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean>
-<!-- history -->
-	<bean id="EarnCodeGroup-history" parent="EarnCodeGroup-history-parentBean" />
-	<bean id="EarnCodeGroup-history-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>
-	
 	<bean id="EarnCodeGroup-warningText" parent="EarnCodeGroup-warningText-parentBean" />
 	<bean id="EarnCodeGroup-warningText-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -172,36 +125,7 @@
 		<property name="label" value="Warning Text" />
 	</bean>
 	
-	<bean id="EarnCodeGroup-active" parent="EarnCodeGroup-active-parentBean" />
-	<bean id="EarnCodeGroup-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="EarnCodeGroup-userPrincipalId" parent="EarnCodeGroup-userPrincipalId-parentBean" />
-    <bean id="EarnCodeGroup-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
-    
 	<!--  Inquiry Definitions  -->
-  
   	<bean id="EarnCodeGroup-inquiryDefinition" parent="EarnCodeGroup-inquiryDefinition-parentBean"
         p:inquirableClass="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupInquirableImpl"/>
 

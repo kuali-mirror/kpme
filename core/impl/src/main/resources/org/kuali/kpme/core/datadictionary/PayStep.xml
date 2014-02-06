@@ -21,12 +21,11 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="PayStep" parent="PayStep-parentBean" />
-	<bean id="PayStep-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="PayStep-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.paystep.PayStep" />
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="PayStep-pmPayStepId" />
-				<ref bean="PayStep-effectiveDate" />
 				<ref bean="PayStep-payStep" />
 				<ref bean="PayStep-institution" />
 				<ref bean="PayStep-location" />
@@ -36,9 +35,6 @@
 				<ref bean="PayStep-compRate" />
 				<ref bean="PayStep-serviceAmount" />
 				<ref bean="PayStep-serviceUnit" />
-                <ref bean="PayStep-history"/>
-				<ref bean="PayStep-active" />
-                <ref bean="PayStep-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="objectLabel" value="Pay Step" />
@@ -54,19 +50,6 @@
 		</property>
 		<property name="name" value="pmPayStepId" />
 		<property name="label" value="PayStep Id" />
-	</bean>
-
-	<bean id="PayStep-effectiveDate" parent="PayStep-effectiveDate-parentBean" />
-	<bean id="PayStep-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="required" value="true" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
 	</bean>
 
 	<bean id="PayStep-payStep" parent="PayStep-payStep-parentBean" />
@@ -106,27 +89,13 @@
 	</bean>
 	
 	<bean id="PayStep-institution" parent="PayStep-institution-parentBean" />
-	<bean id="PayStep-institution-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Institution" />
+	<bean id="PayStep-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
  		<property name="required" value="true" />
-		<property name="maxLength" value="15" />
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
 	</bean>
 	
 	<bean id="PayStep-location" parent="PayStep-location-parentBean" />
-	<bean id="PayStep-location-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Location" />
+	<bean id="PayStep-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
  		<property name="required" value="true" />
-		<property name="maxLength" value="15" />
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
 	</bean>
 	
 	<bean id="PayStep-stepNumber" parent="PayStep-stepNumber-parentBean" />
@@ -176,45 +145,7 @@
 		<property name="label" value="Service Unit" />
 	</bean>
 	
-	<!-- history -->
-    <bean id="PayStep-history" parent="PayStep-history-parentBean" />
-    <bean id="PayStep-history-parentBean" abstract="true"
-          parent="AttributeDefinition">
-        <property name="shortLabel" value="Show History" />
-        <property name="controlField">
-            <bean parent="Uif-HorizontalRadioControl" />
-        </property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
-        </property>
-        <property name="name" value="history" />
-        <property name="label" value="Show History" />
-    </bean>
 
-	<bean id="PayStep-active" parent="PayStep-active-parentBean" />
-	<bean id="PayStep-active-parentBean" abstract="true"
-		parent="AttributeReferenceDummy-activeIndicator">
-		<property name="name" value="active" />
-		<property name="label" value="Active?" />
-	</bean>
-
-
-    <!--userPrincipalId-->
-    <bean id="PayStep-userPrincipalId" parent="PayStep-userPrincipalId-parentBean" />
-    <bean id="PayStep-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
 	<!-- Business Object Inquiry Definition -->
 	<bean id="PayStep-InquiryView" parent="Uif-InquiryView">
 		<property name="headerText" value="Pay Step Inquiry"/>

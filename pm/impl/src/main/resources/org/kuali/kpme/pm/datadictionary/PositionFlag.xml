@@ -23,16 +23,13 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionFlag" parent="PositionFlag-parentBean"/>
- 	<bean id="PositionFlag-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 	<bean id="PositionFlag-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
 	    <property name="attributes">
-	      <list>
+	      <list merge="true">
 	        <ref bean="PositionFlag-pmPositionFlagId"/>
-	        <ref bean="PositionFlag-effectiveDate"/>
 	        <ref bean="PositionFlag-category"/>
 	        <ref bean="PositionFlag-positionFlagName"/>
-	        <ref bean="PositionFlag-active"/>
-            <ref bean="PositionFlag-userPrincipalId"/>  
 		 </list>
 	    </property>
 	    <property name="objectLabel" value="Position Flag"/>
@@ -53,19 +50,6 @@
 	    <property name="label" value="Position Flag Id"/>
 	 </bean>   
 	 
-	<bean id="PositionFlag-effectiveDate" parent="PositionFlag-effectiveDate-parentBean" />
-	<bean id="PositionFlag-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="maxLength" value="10" />
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
 	<bean id="PositionFlag-category" parent="PositionFlag-category-parentBean" />
 	<bean id="PositionFlag-category-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
@@ -91,28 +75,7 @@
 		<property name="description" value="Position Flag Name" />
 	</bean>
 
-    <bean id="PositionFlag-active" parent="PositionFlag-active-parentBean"/>
- 	<bean id="PositionFlag-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
-   		<property name="name" value="active"/>
-  	</bean>
 
-    <!--userPrincipalId-->
-    <bean id="PositionFlag-userPrincipalId" parent="PositionFlag-userPrincipalId-parentBean" />
-    <bean id="PositionFlag-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-    
 <!--*************************************************************************** 
 							Views
  ***************************************************************************-->  	

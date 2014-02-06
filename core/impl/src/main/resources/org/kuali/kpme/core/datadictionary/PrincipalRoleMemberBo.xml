@@ -40,10 +40,8 @@
 	<!-- Attribute Definitions -->
 	
     <bean id="PrincipalRoleMemberBo-effectiveDate" parent="PrincipalRoleMemberBo-effectiveDate-parentBean" />
-    <bean id="PrincipalRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="KPMERoleMemberBo-effectiveDate">
-        <property name="name" value="effectiveDate" />
-    </bean>
-	
+    <bean id="PrincipalRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="KPMERoleMemberBo-effectiveDate"/>
+
     <bean id="PrincipalRoleMemberBo-principalId" parent="PrincipalRoleMemberBo-principalId-parentBean" />
     <bean id="PrincipalRoleMemberBo-principalId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="principalId" />
@@ -87,7 +85,5 @@
     </bean>
     
     <bean id="PrincipalRoleMemberBo-active" parent="PrincipalRoleMemberBo-active-parentBean" />
-    <bean id="PrincipalRoleMemberBo-active-parentBean" abstract="true" parent="KPMERoleMemberBo-active">
-        <property name="name" value="active" />
-    </bean>
+    <bean id="PrincipalRoleMemberBo-active-parentBean" abstract="true" parent="KPMERoleMemberBo-active" />
 </beans>

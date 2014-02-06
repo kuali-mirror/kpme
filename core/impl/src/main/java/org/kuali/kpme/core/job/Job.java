@@ -68,7 +68,6 @@ public class Job extends HrBusinessObject implements JobContract {
 	private String dept;
 	private String hrSalGroup;
 	private Boolean primaryIndicator;
-	private Boolean history;
 	private KualiDecimal compRate = new KualiDecimal(0);
 	private String positionNumber;
 	
@@ -188,14 +187,6 @@ public class Job extends HrBusinessObject implements JobContract {
 		this.jobNumber = jobNumber;
 	}
 
-	public Boolean getHistory() {
-		return history;
-	}
-
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
-	
 	public void setLocation(String location) {
 		this.location = location;
 	}

@@ -51,9 +51,7 @@
 	<!-- Attribute Definitions -->
 	
     <bean id="WorkAreaPrincipalRoleMemberBo-effectiveDate" parent="WorkAreaPrincipalRoleMemberBo-effectiveDate-parentBean" />
-    <bean id="WorkAreaPrincipalRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="PrincipalRoleMemberBo-effectiveDate">
-        <property name="name" value="effectiveDate" />
-    </bean>
+    <bean id="WorkAreaPrincipalRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="KpmeAttributeReference-effectiveDate"/>
 	
     <bean id="WorkAreaPrincipalRoleMemberBo-principalId" parent="WorkAreaPrincipalRoleMemberBo-principalId-parentBean" />
     <bean id="WorkAreaPrincipalRoleMemberBo-principalId-parentBean" abstract="true" parent="PrincipalRoleMemberBo-principalId">

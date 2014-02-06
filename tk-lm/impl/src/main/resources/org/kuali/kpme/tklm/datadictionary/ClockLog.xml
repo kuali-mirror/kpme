@@ -243,37 +243,11 @@
 
 	<!-- userPrincipalId -->
 	<bean id="ClockLog-userPrincipalId" parent="ClockLog-userPrincipalId-parentBean" />
-	<bean id="ClockLog-userPrincipalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="User PrincipalId" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="name" value="userPrincipalId" />
-		<property name="label" value="User Principal Id" />
-	</bean>
+	<bean id="ClockLog-userPrincipalId-parentBean" abstract="true" parent="KpmeAttributeReference-userPrincipalId" />
+
 	 <!-- timestamp -->
 	<bean id="ClockLog-timestamp" parent="ClockLog-timestamp-parentBean" />
-	<bean id="ClockLog-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="21" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="21" />
-		</property>
-		<property name="validationPattern">
-			<bean parent="TimestampValidationPattern" />
-		</property>
-		 <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>    
-		<property name="name" value="timestamp" />
-		<property name="label" value="Timestamp" />
-	</bean>
+	<bean id="ClockLog-timestamp-parentBean" abstract="true" parent="KpmeAttributeReference-timestamp" />
 	
 	<bean id="ClockLog-clockedByMissedPunch" parent="ClockLog-clockedByMissedPunch-parentBean" />
 	<bean id="ClockLog-clockedByMissedPunch-parentBean" abstract="true"

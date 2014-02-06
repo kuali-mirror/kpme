@@ -22,7 +22,7 @@
 
 	<bean id="DeptLunchRule" parent="DeptLunchRule-parentBean" />
 
-	<bean id="DeptLunchRule-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="DeptLunchRule-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="DeptLunchRule" />
@@ -33,22 +33,16 @@
 			<ref bean="DeptLunchRule-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="DeptLunchRule-dept" />
 				<ref bean="DeptLunchRule-workArea" />
 				<ref bean="DeptLunchRule-principalId" />
 				<ref bean="DeptLunchRule-jobNumber" />
 				<ref bean="DeptLunchRule-deductionMins" />
 				<ref bean="DeptLunchRule-shiftHours" />
-				<ref bean="DeptLunchRule-effectiveDate" />
-				<ref bean="DeptLunchRule-active" />
-				<ref bean="DeptLunchRule-userPrincipalId" />
-				<ref bean="DeptLunchRule-timestamp" />
 				<ref bean="DeptLunchRule-tkWorkAreaId" />
 				<ref bean="DeptLunchRule-hrDeptId" />
 				<ref bean="DeptLunchRule-hrJobId" />
-				<ref bean="DeptLunchRule-history" />
-				<ref bean="DeptLunchRule-relativeEffectiveDate" />
 			</list>
 		</property>
  
@@ -104,22 +98,7 @@
 	<!-- Attribute Definitions -->
 
 	<bean id="DeptLunchRule-dept" parent="DeptLunchRule-dept-parentBean" />
-	<bean id="DeptLunchRule-dept-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="forceUppercase" value="true" />
-		<property name="shortLabel" value="Department" />
-		<property name="maxLength" value="21" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="true" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="21" />
-		</property>
-		<property name="name" value="dept" />
-		<property name="label" value="Department" />
-	</bean>
+	<bean id="DeptLunchRule-dept-parentBean" abstract="true" parent="KpmeAttributeReference-dept"/>
 
 
 	<bean id="DeptLunchRule-workArea" parent="DeptLunchRule-workArea-parentBean" />
@@ -214,85 +193,6 @@
 		</property>
 		<property name="name" value="shiftHours" />
 		<property name="label" value="Shift Hours" />
-	</bean>
-	
-    <bean id="DeptLunchRule-relativeEffectiveDate" parent="DeptLunchRule-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-
-	<bean id="DeptLunchRule-effectiveDate" parent="DeptLunchRule-effectiveDate-parentBean" />
-	<bean id="DeptLunchRule-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-
-	<bean id="DeptLunchRule-active" parent="DeptLunchRule-active-parentBean" />
-	<bean id="DeptLunchRule-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
-	</bean>
-
-    <bean id="DeptLunchRule-history" parent="DeptLunchRule-history-parentBean" />
-        <bean id="DeptLunchRule-history-parentBean" abstract="true"
-            parent="AttributeDefinition">
-        <property name="shortLabel" value="Show History" />
-        <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-            </bean>
-        </property>
-        <property name="name" value="history" />
-        <property name="label" value="Show History" />
-    </bean>
-
-	<bean id="DeptLunchRule-userPrincipalId" parent="DeptLunchRule-userPrincipalId-parentBean" />
-	<bean id="DeptLunchRule-userPrincipalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="User Principal Id" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="20" />
-		</property>
-		<property name="name" value="userPrincipalId" />
-		<property name="label" value="User Principal Id" />
-	</bean>
-
-
-	<bean id="DeptLunchRule-timestamp" parent="DeptLunchRule-timestamp-parentBean" />
-	<bean id="DeptLunchRule-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
 	</bean>
 	
 	<bean id="DeptLunchRule-hrDeptId" parent="DeptLunchRule-hrDeptId-parentBean" />

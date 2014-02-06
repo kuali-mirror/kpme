@@ -49,7 +49,6 @@ public class AccrualCategory extends HrBusinessObject implements AccrualCategory
 	private String donation;
 	private String showOnGrid;
 	private String unitOfTime;
-	private Boolean history;
 	private String hasRules;
 
 	private LeavePlan leavePlanObj;
@@ -178,13 +177,7 @@ public class AccrualCategory extends HrBusinessObject implements AccrualCategory
 		return lmAccrualCategoryId;
 	}
 
-	public Boolean getHistory() {
-		return history;
-	}
 
-	public void setHistory(Boolean history) {
-		this.history = history;
-	}
 
 	public String getEarnCode() {
 		return earnCode;

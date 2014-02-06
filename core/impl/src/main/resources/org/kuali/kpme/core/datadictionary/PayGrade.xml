@@ -22,7 +22,7 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PayGrade" parent="PayGrade-parentBean" />
-	<bean id="PayGrade-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="PayGrade-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.paygrade.PayGrade" />
 		<property name="lookupDefinition">
 			<ref bean="PayGrade-lookupDefinition" />
@@ -31,7 +31,7 @@
             <ref bean="PayGrade-inquiryDefinition" />
         </property>
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="PayGrade-hrPayGradeId" />
 				<ref bean="PayGrade-payGrade" />
 				<ref bean="PayGrade-salGroup" />
@@ -43,11 +43,6 @@
                 <ref bean="PayGrade-midPointRate" />
                 <ref bean="PayGrade-maxHiringRate" />
                 <ref bean="PayGrade-rateType" />
-				<ref bean="PayGrade-effectiveDate" />
-                <ref bean="PayGrade-history"/>
-				<ref bean="PayGrade-active" />
-				<ref bean="PayGrade-userPrincipalId" />
-				<ref bean="PayGrade-timestamp" />
 			</list>
 		</property>	
         <property name="objectLabel" value="PayGrade"/>
@@ -122,21 +117,8 @@
 	</bean>
 
     <bean id="PayGrade-institution" parent="PayGrade-institution-parentBean" />
-    <bean id="PayGrade-institution-parentBean" abstract="true"
-          parent="AttributeDefinition">
-        <property name="shortLabel" value="Institution" />
-        <property name="maxLength" value="15" />
+    <bean id="PayGrade-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
         <property name="required" value="true"/>
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="15" />
-        </property>
-        <property name="name" value="institution" />
-        <property name="label" value="Institution" />
     </bean>
 
     <bean id="PayGrade-minRate" parent="PayGrade-minRate-parentBean" />
@@ -200,20 +182,8 @@
     </bean>
 
     <bean id="PayGrade-location" parent="PayGrade-location-parentBean" />
-    <bean id="PayGrade-location-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Location" />
+    <bean id="PayGrade-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
         <property name="required" value="true"/>
-        <property name="maxLength" value="10" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10" />
-        </property>
-        <property name="name" value="location" />
-        <property name="label" value="Location" />
     </bean>
 
     <bean id="PayGrade-rateType" parent="PayGrade-rateType-parentBean" />
@@ -236,72 +206,6 @@
         <property name="label" value="Rate Type" />
     </bean>
 
-	<bean id="PayGrade-effectiveDate" parent="PayGrade-effectiveDate-parentBean" />
-	<bean id="PayGrade-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="required" value="true"/>
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" p:size="10" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-
-    <!-- history -->
-    <bean id="PayGrade-history" parent="PayGrade-history-parentBean" />
-    <bean id="PayGrade-history-parentBean" abstract="true"
-          parent="AttributeDefinition">
-        <property name="shortLabel" value="Show History" />
-        <property name="controlField">
-            <bean parent="Uif-HorizontalRadioControl" />
-        </property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
-        </property>
-        <property name="name" value="history" />
-        <property name="label" value="Show History" />
-    </bean>
-
-	<bean id="PayGrade-active" parent="PayGrade-active-parentBean" />
-	<bean id="PayGrade-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
-		<property name="name" value="active" />
-		<property name="required" value="false" />
-	</bean>
-
-
-	<bean id="PayGrade-userPrincipalId" parent="PayGrade-userPrincipalId-parentBean" />
-	<bean id="PayGrade-userPrincipalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="User Principal Id" />
-		<property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-		<property name="name" value="userPrincipalId" />
-		<property name="label" value="User Principal Id" />
-	</bean>
-
-
-	<bean id="PayGrade-timestamp" parent="PayGrade-timestamp-parentBean" />
-	<bean id="PayGrade-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean>
 
     <!--***************************************************************************
                                 Views

@@ -42,7 +42,6 @@
 	        <ref bean="SalaryGroup-benefitsEligible"/>
 	        <ref bean="SalaryGroup-leaveEligible"/>
 	        <ref bean="SalaryGroup-leavePlan"/>
-            <ref bean="SalaryGroup-userPrincipalId"/>  
 		 </list>
 	    </property>
 	    <property name="objectLabel" value="SalaryGroup"/>
@@ -98,10 +97,18 @@
 	<bean id="SalaryGroup-hrSalGroup" parent="SalaryGroup-hrSalGroup-parentBean" />
 	<bean id="SalaryGroup-hrSalGroup-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Sal Grp" />
+		<property name="shortLabel" value="Salary Group" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
 		<property name="name" value="hrSalGroup" />
 		<property name="label" value="Salary Group" />
 		<property name="description" value="Salary Group" />
@@ -119,35 +126,13 @@
 	</bean>
 	
 	<bean id="SalaryGroup-institution" parent="SalaryGroup-institution-parentBean" />
-	<bean id="SalaryGroup-institution-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Institution" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
-	</bean>
+	<bean id="SalaryGroup-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
+        <property name="required" value="true"/>
+    </bean>
 	
 	<bean id="SalaryGroup-location" parent="SalaryGroup-location-parentBean" />
-	<bean id="SalaryGroup-location-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="SalaryGroup-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Location" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
 	</bean>
 	
 	<bean id="SalaryGroup-percentTime" parent="SalaryGroup-percentTime-parentBean" />
@@ -229,23 +214,7 @@
 		<property name="label" value="Leave Plan" />
 	</bean>
 
-    <!--userPrincipalId-->
-    <bean id="SalaryGroup-userPrincipalId" parent="SalaryGroup-userPrincipalId-parentBean" />
-    <bean id="SalaryGroup-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-<!--*************************************************************************** 
+<!--***************************************************************************
 							Views
  ***************************************************************************-->  	
   	

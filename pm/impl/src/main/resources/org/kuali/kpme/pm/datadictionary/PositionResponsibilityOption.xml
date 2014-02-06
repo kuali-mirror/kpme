@@ -23,16 +23,13 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionResponsibilityOption" parent="PositionResponsibilityOption-parentBean"/>
- 	<bean id="PositionResponsibilityOption-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 	<bean id="PositionResponsibilityOption-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
 	    <property name="attributes">
-	      <list>
+	      <list merge="true">
 	        <ref bean="PositionResponsibilityOption-prOptionId"/>
-	        <ref bean="PositionResponsibilityOption-effectiveDate"/>
 	        <ref bean="PositionResponsibilityOption-prOptionName"/>
 	        <ref bean="PositionResponsibilityOption-prDescription"/>
-	        <ref bean="PositionResponsibilityOption-active"/>
-            <ref bean="PositionResponsibilityOption-userPrincipalId"/>  
 		 </list>
 	    </property>
 	    <property name="objectLabel" value="Position Responsibility Option"/>
@@ -53,18 +50,6 @@
 	    <property name="label" value="Position Responsibility Option Id"/>
 	 </bean>   
 	 
-	<bean id="PositionResponsibilityOption-effectiveDate" parent="PositionResponsibilityOption-effectiveDate-parentBean" />
-	<bean id="PositionResponsibilityOption-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-	
 	<bean id="PositionResponsibilityOption-prOptionName" parent="PositionResponsibilityOption-prOptionName-parentBean" />
 	<bean id="PositionResponsibilityOption-prOptionName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
@@ -90,28 +75,7 @@
 		<property name="description" value="Position Responsibility Description Name" />
 	</bean>
 
-    <bean id="PositionResponsibilityOption-active" parent="PositionResponsibilityOption-active-parentBean"/>
- 	<bean id="PositionResponsibilityOption-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
-   		<property name="name" value="active"/>
-  	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="PositionResponsibilityOption-userPrincipalId" parent="PositionResponsibilityOption-userPrincipalId-parentBean" />
-    <bean id="PositionResponsibilityOption-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-<!--*************************************************************************** 
+<!--***************************************************************************
 							Views
  ***************************************************************************-->  	
   	

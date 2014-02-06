@@ -69,7 +69,6 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	private EarnCode earnCodeObj;
     private Job jobObj;
     private Location locationObj;
-    private String history;
 
     
     @Override
@@ -198,14 +197,6 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	@Override
 	public String getUniqueKey() {
 		return dept + "_" + hrSalGroup + "_" + earnCode;
-	}
-	
-	public String getHistory() {
-		return history;
-	}
-	
-	public void setHistory(String history) {
-		this.history = history;
 	}
 	
 	@Override

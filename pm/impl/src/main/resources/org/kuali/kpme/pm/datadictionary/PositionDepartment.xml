@@ -22,18 +22,15 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionDepartment" parent="PositionDepartment-parentBean"/>
- 	<bean id="PositionDepartment-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 	<bean id="PositionDepartment-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positiondepartment.PositionDepartment"/>
 	    <property name="attributes">
-	      <list>
+	      <list merge="true">
 	        <ref bean="PositionDepartment-pmPositionDeptId"/>
-	        <ref bean="PositionDepartment-effectiveDate"/>	        
 	        <ref bean="PositionDepartment-institution"/>
 	        <ref bean="PositionDepartment-location"/>
 	        <ref bean="PositionDepartment-department"/>
 	        <ref bean="PositionDepartment-deptAffl"/>
-	        <ref bean="PositionDepartment-active"/>
-            <ref bean="PositionDepartment-userPrincipalId"/>  
 	      </list>
 	    </property>
 	    <property name="objectLabel" value="Position Department"/>
@@ -53,50 +50,14 @@
 	    <property name="label" value="Position Department Id"/>
 	 </bean>   
 	 
-	<bean id="PositionDepartment-effectiveDate" parent="PositionType-effectiveDate-parentBean" />
-	<bean id="PositionDepartment-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" p:size="10" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-
 	<bean id="PositionDepartment-institution" parent="PositionDepartment-institution-parentBean" />
-	<bean id="PositionDepartment-institution-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="maxLength" value="15" />
+	<bean id="PositionDepartment-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Institution" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
 	</bean>
 	
 	<bean id="PositionDepartment-location" parent="PositionDepartment-location-parentBean" />
-	<bean id="PositionDepartment-location-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="PositionDepartment-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="15" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Location" />
 	</bean>
 	
 	<bean id="PositionDepartment-department" parent="PositionDepartment-department-parentBean" />
@@ -133,29 +94,7 @@
 		<property name="label" value="Affiliation" />
 	</bean>
 	
-    <bean id="PositionDepartment-active" parent="PositionDepartment-active-parentBean"/>
- 	<bean id="PositionDepartment-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
- 		<property name="required" value="false" />
-   		<property name="name" value="active"/>
-  	</bean>
-
-    <!--userPrincipalId-->
-    <bean id="PositionDepartment-userPrincipalId" parent="PositionDepartment-userPrincipalId-parentBean" />
-    <bean id="PositionDepartment-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="true" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-<!--*************************************************************************** 
+<!--***************************************************************************
 							Views
  ***************************************************************************-->  	
   	

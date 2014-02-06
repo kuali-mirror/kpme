@@ -22,7 +22,7 @@
 
 	<bean id="Job" parent="Job-parentBean" />
 
-	<bean id="Job-parentBean" abstract="true" parent="BusinessObjectEntry">
+	<bean id="Job-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.core.job.Job" />
 		<property name="inquiryDefinition">
 			<ref bean="Job-inquiryDefinition" />
@@ -32,7 +32,7 @@
 		</property>
 		<property name="titleAttribute" value="hrJobId" />
 		<property name="attributes">
-			<list>
+			<list merge="true">
 				<ref bean="Job-hrJobId" />
 				<ref bean="Job-principalId" />
 				<ref bean="Job-principalName" />
@@ -40,11 +40,8 @@
 				<ref bean="Job-firstName" />
 				<ref bean="Job-lastName" />
 				<ref bean="Job-jobNumber" />
-				<ref bean="Job-effectiveDate" />
-				<ref bean="Job-relativeEffectiveDate" />
 				<ref bean="Job-dept" />
 				<ref bean="Job-hrSalGroup" />
-				<ref bean="Job-timestamp" />
 				<ref bean="Job-location" />
 				<ref bean="Job-hrPayType" />
 				<ref bean="Job-payGrade" />
@@ -52,12 +49,9 @@
 				<ref bean="Job-fte" />
 				<ref bean="Job-compRate" />
 				<ref bean="Job-primaryIndicator" />
-				<ref bean="Job-history" />
 				<ref bean="Job-eligibleForLeave" />
-				<ref bean="Job-active" />
 				<ref bean="Job-positionNbr" />
 				<ref bean="Job-flsaStatus"/>
-                <ref bean="Job-userPrincipalId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -211,20 +205,7 @@
 
 	<!-- The validation type and length on this may be wrong -->
 	<bean id="Job-location" parent="Job-location-parentBean" />
-	<bean id="Job-location-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Location" />
-		<property name="maxLength" value="20" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-		<property name="name" value="location" />
-		<property name="label" value="Job Location" />
-	</bean>
+	<bean id="Job-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
 
 	<bean id="Job-positionNbr" parent="Job-positionNbr-parentBean" />
 	<bean id="Job-positionNbr-parentBean" abstract="true"
@@ -375,42 +356,8 @@
 		<property name="label" value="Job Number" />
 	</bean>
 
-    <bean id="Job-relativeEffectiveDate" parent="Job-effectiveDate-parentBean" p:name="relativeEffectiveDate">
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="12"/>
-        </property>
-    </bean>
-
-	<bean id="Job-effectiveDate" parent="Job-effectiveDate-parentBean" />
-	<bean id="Job-effectiveDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Effective Date" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
-
 	<bean id="Job-dept" parent="Job-dept-parentBean" />
-
-	<bean id="Job-dept-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="forceUppercase" value="true" />
-
-		<property name="maxLength" value="21" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="21" />
-		</property>
-
-		<property name="name" value="dept" />
-		<property name="label" value="Department Name" />
-		<property name="description" value="dept" />
-	</bean>
+	<bean id="Job-dept-parentBean" abstract="true" parent="KpmeAttributeReference-dept"/>
 
 	<bean id="Job-primaryIndicator" parent="Job-primaryIndicator-parentBean" />
 	<bean id="Job-primaryIndicator-parentBean" abstract="true"
@@ -434,20 +381,7 @@
 		<property name="label" value="Pay Calendar Id" /> </bean> -->
 
 	<bean id="Job-hrSalGroup" parent="Job-hrSalGroup-parentBean" />
-
-	<bean id="Job-hrSalGroup-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="forceUppercase" value="true" />
-
-		<property name="maxLength" value="10" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-
-		<property name="name" value="hrSalGroup" />
-		<property name="label" value="Sal Group" />
-		<property name="description" value="hrSalGroup" />
-	</bean>
+	<bean id="Job-hrSalGroup-parentBean" abstract="true" parent="SalaryGroup-hrSalGroup-parentBean"/>
 
 	<!-- Eligible For Leave -->
 	<bean id="Job-eligibleForLeave" parent="Job-eligibleForLeave-parentBean" />
@@ -463,39 +397,6 @@
 			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
-	<bean id="Job-timestamp" parent="Job-timestamp-parentBean" />
-
-	<bean id="Job-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Timestamp" />
-		<property name="maxLength" value="15" />
-
-		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
-		</property>
-		<!-- <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/> -->
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
-	</bean>
-
-	<!-- history -->
-	<bean id="Job-history" parent="Job-history-parentBean" />
-	<bean id="Job-history-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>
-
-	<bean id="Job-active-parentBean" abstract="true"
-		parent="GenericAttributes-activeIndicator">
-		<property name="name" value="active" />
-		<property name="label" value="Active" />
-	</bean>
-
-	<bean id="Job-active" parent="Job-active-parentBean" />
 
 	<!-- FLSA Status -->
 	<bean id="Job-flsaStatus" parent="Job-flsaStatus-parentBean" />
@@ -511,23 +412,6 @@
 		<property name="label" value="FLSA Status" />
 	</bean>
 
-    <!--userPrincipalId-->
-    <bean id="Job-userPrincipalId" parent="Job-userPrincipalId-parentBean" />
-    <bean id="Job-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
-    
 	<!-- Business Object Inquiry Definition -->
 
 

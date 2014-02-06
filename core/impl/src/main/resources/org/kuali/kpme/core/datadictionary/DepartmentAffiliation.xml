@@ -22,16 +22,13 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="DepartmentAffiliation" parent="DepartmentAffiliation-parentBean"/>
-    <bean id="DepartmentAffiliation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <bean id="DepartmentAffiliation-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
         <property name="dataObjectClass" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"/>
         <property name="attributes">
-            <list>
+            <list merge="true">
                 <ref bean="DepartmentAffiliation-hrDeptAfflId"/>
-                <ref bean="DepartmentAffiliation-effectiveDate"/>
                 <ref bean="DepartmentAffiliation-deptAfflType"/>
                 <ref bean="DepartmentAffiliation-primaryIndicator"/>
-                <ref bean="DepartmentAffiliation-active"/>
-                <ref bean="DepartmentAffiliation-userPrincipalId"/>
             </list>
         </property>
         <property name="objectLabel" value="Department Affiliation"/>
@@ -51,18 +48,6 @@
         <property name="label" value="Type Id"/>
     </bean>
 
-    <bean id="DepartmentAffiliation-effectiveDate" parent="DepartmentAffiliation-effectiveDate-parentBean" />
-    <bean id="DepartmentAffiliation-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="required" value="true" />
-        <property name="shortLabel" value="Effective Date" />
-        <property name="controlField">
-            <bean parent="Uif-DateControl" p:size="10" />
-        </property>
-        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-        <property name="name" value="effectiveDate" />
-        <property name="label" value="Effective Date" />
-    </bean>
-
     <bean id="DepartmentAffiliation-deptAfflType" parent="DepartmentAffiliation-deptAfflType-parentBean" />
     <bean id="DepartmentAffiliation-deptAfflType-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="required" value="true" />
@@ -74,12 +59,6 @@
         <property name="name" value="deptAfflType" />
         <property name="label" value="Department Affiliation Type" />
         <property name="description" value="Department Affiliation Type" />
-    </bean>
-
-    <bean id="DepartmentAffiliation-active" parent="DepartmentAffiliation-active-parentBean"/>
-    <bean id="DepartmentAffiliation-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
-        <property name="required" value="false" />
-        <property name="name" value="active"/>
     </bean>
 
     <bean id="DepartmentAffiliation-primaryIndicator" parent="DepartmentAffiliation-primaryIndicator-parentBean" />
@@ -94,24 +73,7 @@
         <property name="description" value="Primary Indicator" />
     </bean>
 
-    <!--userPrincipalId-->
-    <bean id="DepartmentAffiliation-userPrincipalId" parent="DepartmentAffiliation-userPrincipalId-parentBean" />
-    <bean id="DepartmentAffiliation-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="userPrincipalId" />
-        <property name="label" value="User Principal Id" />
-        <property name="shortLabel" value="User Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
-
-    <!--*************************************************************************** 
+    <!--***************************************************************************
                                           Views
     *******************************************************************************-->
 

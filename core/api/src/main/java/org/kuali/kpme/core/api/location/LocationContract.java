@@ -76,16 +76,6 @@ public interface LocationContract extends HrBusinessObjectContract {
 	// TODO: not sure if this field is needed...
 	public String getUserPrincipalId();
 
-	/**
-	 * History flag for Location lookups 
-	 * 
-	 * <p>
-	 * history of Location
-	 * </p>
-	 * 
-	 * @return Y if want to show history, N if not
-	 */
-	public String getHistory();
 	
 	/**
 	 * Active Role member list for the Location 
