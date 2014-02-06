@@ -23,7 +23,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="SalaryGroup" parent="SalaryGroup-parentBean"/>
- 	<bean id="SalaryGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+ 	<bean id="SalaryGroup-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
 	    <property name="lookupDefinition">
 			<ref bean="SalaryGroup-lookupDefinition" />
@@ -32,9 +32,8 @@
             <ref bean="SalaryGroup-inquiryDefinition" />
         </property>
 	    <property name="attributes">
-	      <list>
+	      <list merge="true">
 	        <ref bean="SalaryGroup-hrSalGroupId"/>
-	        <ref bean="SalaryGroup-effectiveDate"/>
 	        <ref bean="SalaryGroup-hrSalGroup"/>
 	        <ref bean="SalaryGroup-descr"/>
 	        <ref bean="SalaryGroup-institution"/>
@@ -43,8 +42,6 @@
 	        <ref bean="SalaryGroup-benefitsEligible"/>
 	        <ref bean="SalaryGroup-leaveEligible"/>
 	        <ref bean="SalaryGroup-leavePlan"/>
-	        <ref bean="SalaryGroup-history"/>
-	        <ref bean="SalaryGroup-active"/>
             <ref bean="SalaryGroup-userPrincipalId"/>  
 		 </list>
 	    </property>
@@ -96,20 +93,7 @@
 	    <property name="label" value="Salary Group Id"/>
 	 </bean>   
 	 
-	<bean id="SalaryGroup-effectiveDate" parent="SalaryGroup-effectiveDate-parentBean" />
-	<bean id="SalaryGroup-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="true" />
-		<property name="shortLabel" value="Effective Date" />
-		<property name="controlField">
-			<bean parent="Uif-DateControl" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="effectiveDate" />
-		<property name="label" value="Effective Date" />
-	</bean>
+	
 	
 	<bean id="SalaryGroup-hrSalGroup" parent="SalaryGroup-hrSalGroup-parentBean" />
 	<bean id="SalaryGroup-hrSalGroup-parentBean" abstract="true" parent="AttributeDefinition">
@@ -232,22 +216,7 @@
  		<property name="label" value="Leave Eligible" />
   	</bean>
 	
-	<!-- history -->
-	<bean id="SalaryGroup-history" parent="SalaryGroup-history-parentBean" />
-	<bean id="SalaryGroup-history-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Show History" />
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl"/>
-		</property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
-        </property>
-        <property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
-		</property>
-		<property name="name" value="history" />
-		<property name="label" value="Show History" />
-	</bean>
+	
 	
 	<bean id="SalaryGroup-leavePlan" parent="SalaryGroup-leavePlan-parentBean" />
 	<bean id="SalaryGroup-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
@@ -259,12 +228,6 @@
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />
 	</bean>
-	
-    <bean id="SalaryGroup-active" parent="SalaryGroup-active-parentBean"/>
- 	<bean id="SalaryGroup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
-   		<property name="name" value="active"/>
-  	</bean>
-
 
     <!--userPrincipalId-->
     <bean id="SalaryGroup-userPrincipalId" parent="SalaryGroup-userPrincipalId-parentBean" />
@@ -293,14 +256,13 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
     <property name="criteriaFields">
-      <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+      <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-	         <property name="quickfinder">
+	    	<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
 	        		 p:fieldConversions="institutionCode:institution"/>
-	   		 </property>
+	   		</property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
        		<property name="quickfinder">

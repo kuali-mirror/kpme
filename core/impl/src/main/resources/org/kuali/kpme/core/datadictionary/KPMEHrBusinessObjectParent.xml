@@ -1,0 +1,81 @@
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	
+	
+
+	
+	<bean id="KPMEHrBusinessObjectParent" parent="BusinessObjectEntry" abstract="true">
+    	<property name="attributes">
+	      	<list>
+		        <ref bean="KPMEHrBusinessObjectParent-effectiveDate"/>
+		        <ref bean="KPMEHrBusinessObjectParent-history"/>
+		        <ref bean="KPMEHrBusinessObjectParent-active"/>  
+		 	</list>
+		</property>
+    </bean>
+    
+    <!--  Common attributes -->    
+    
+    <!-- effective date -->
+    <bean id="KPMEHrBusinessObjectParent-effectiveDate" parent="KPMEHrBusinessObjectParent-effectiveDate-parentBean" />
+	<bean id="KPMEHrBusinessObjectParent-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Effective Date" />
+		<property name="controlField">
+			<bean parent="Uif-DateControl" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>    
+	
+	
+	<!-- history -->
+	<bean id="KPMEHrBusinessObjectParent-history" parent="KPMEHrBusinessObjectParent-history-parentBean" />
+	<bean id="KPMEHrBusinessObjectParent-history-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl"/>
+		</property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
+        </property>
+        <property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
+	
+	
+	<!-- active -->		
+    <bean id="KPMEHrBusinessObjectParent-active" parent="KPMEHrBusinessObjectParent-active-parentBean"/>
+ 	<bean id="KPMEHrBusinessObjectParent-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
+   		<property name="name" value="active"/>
+  	</bean>
+  	
+</beans>
