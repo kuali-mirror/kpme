@@ -33,12 +33,18 @@
             	     <list>
 							<bean parent="Uif-InputField" p:labelPlacement="LEFT" p:fieldLabel.renderColon="true" p:style="align: right;"
 								p:propertyName="fromDate" p:label="From Date" p:required="true" p:defaultValue="@{fromDate}">
+									<property name="validCharactersConstraint">
+            							<bean parent="DatePatternConstraint"/>
+        							</property>
 									<property name="control">
             							<bean parent="Uif-DateControl"/>
           							</property>
 							</bean>
 							<bean parent="Uif-InputField" p:labelPlacement="LEFT" p:fieldLabel.renderColon="true" p:style="align: right;"
 								p:propertyName="toDate" p:label="To Date" p:required="true" p:defaultValue="@{toDate}">
+									<property name="validCharactersConstraint">
+            							<bean parent="DatePatternConstraint"/>
+        							</property>
 									<property name="control">
             							<bean parent="Uif-DateControl"/>
           							</property>
