@@ -15,10 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.request.web;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -42,7 +38,6 @@ import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
-import org.kuali.kpme.tklm.leave.calendar.exportCalendar.CalendarEvent;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
@@ -94,7 +89,6 @@ public class LeaveRequestAction extends KPMEAction {
 			}
 		}
         List<LeaveBlock> plannedLeaves = getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.PLANNED);
-//        exportApprovedLeaves(beginDate,endDate);
         plannedLeaves.addAll(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.DEFERRED));
 		leaveForm.setPlannedLeaves(plannedLeaves);
 		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.REQUESTED));
@@ -180,42 +174,6 @@ public class LeaveRequestAction extends KPMEAction {
            
         }
         return docs;
-    }
-
-    /* Method to export approved leaves 
-     * Call with begin date and end date */
-    private void exportApprovedLeaves(LocalDate beginDate,LocalDate endDate){
-    	List<LeaveBlock> approvedLeaves = getApprovedLeaveRequestDocuments(beginDate, endDate);
-    	if(approvedLeaves!=null && approvedLeaves.size()>0){
-    		CalendarEvent mycal = new CalendarEvent();
-    		try{
-    			mycal.setFilename();
-        		BufferedWriter outputstream = new BufferedWriter(new FileWriter(new File(mycal.getFilename())));
-        		outputstream.write(mycal.calendarHeader());
-        		for (LeaveBlock leaveBlock : approvedLeaves) {
-        			String desc = leaveBlock.getDescription();
-        			if(desc == null){
-        				desc = "";
-        			}
-        			String uid = "" + leaveBlock.getBlockId() + leaveBlock.getObjectId();
-        			String event = mycal.createEvent(leaveBlock.getAssignmentTitle(),leaveBlock.getLeaveDate(),leaveBlock.getLeaveDate(),"000000","000000",leaveBlock.getEarnCode() + "(" + leaveBlock.getLeaveAmount() + ")\n" + desc, uid);
-        			outputstream.write(event);
-				}
-        		outputstream.write(mycal.calendarFooter());
-        		outputstream.close();
-        	}catch(IOException ie){
-        		//Not Created
-            }
-    	}else{
-    		//No Approved Leaves
-    	}
-    }
-    
-    private List<LeaveBlock> getApprovedLeaveRequestDocuments(LocalDate beginDate,LocalDate endDate) {
-    	String principalId = HrContext.getTargetPrincipalId();
-		List<LeaveBlock> approvedLeaves = getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.APPROVED);
-		
-		return approvedLeaves;
     }
     
     private LeaveRequestDocumentService getLeaveRequestDocumentService() {

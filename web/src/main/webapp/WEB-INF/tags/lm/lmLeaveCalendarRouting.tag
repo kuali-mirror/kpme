@@ -30,4 +30,6 @@
             </c:otherwise>
         </c:choose>
     </c:if>
+    
+    <input type="button" class="button" value="Download Leave Usage" name="leaveBlock" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/leaveBlock?&methodToCall=start&viewId=leaveUsageView', {minHeight: 500, maxWidth: 600, closeBtn: false})" />
 </div>

@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	 <bean id="LeaveBlock-SubmitView" parent="Uif-FormView">
+  		<property name="id" value="leaveUsageView" />
+		<property name="headerText" value="Download Leave Usage" />
+		<property name="formClass"	value="org.kuali.kpme.tklm.leave.block.web.LeaveBlockForm" />
+		<property name="formPostUrl" value="leaveBlock" />
+		<property name="items">
+			<list>
+				<ref bean="LeaveBlock-LeaveUsage-View"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="LeaveBlock-LeaveUsage-View" parent="Uif-Page">
+		<property name="items">
+        	<list merge="true">
+				<ref bean="LeaveBlock-LeaveUsage-Section" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="LeaveBlock-LeaveUsage-Section" parent="Uif-VerticalBoxSection" >
+		<property name="items">
+			<list merge="true">
+				<bean parent="Uif-GridGroup">
+		     		<property name="layoutManager.numberOfColumns" value="2"/>
+	                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+            	    <property name="items">
+            	     <list>
+							<bean parent="Uif-InputField" p:labelPlacement="LEFT" p:fieldLabel.renderColon="true" p:style="align: right;"
+								p:propertyName="fromDate" p:label="From Date" p:required="true" p:defaultValue="@{fromDate}">
+									<property name="control">
+            							<bean parent="Uif-DateControl"/>
+          							</property>
+							</bean>
+							<bean parent="Uif-InputField" p:labelPlacement="LEFT" p:fieldLabel.renderColon="true" p:style="align: right;"
+								p:propertyName="toDate" p:label="To Date" p:required="true" p:defaultValue="@{toDate}">
+									<property name="control">
+            							<bean parent="Uif-DateControl"/>
+          							</property>
+							</bean> 
+						</list>
+					</property>
+				</bean>	
+				<bean parent="Uif-FooterBase" p:align="center">
+                	<property name="items">
+                    	<list merge="true">
+                        	<bean parent="Uif-PrimaryActionButton" p:methodToCall="submit" p:actionLabel="Submit" p:ajaxSubmit="false"/>
+                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" 
+                                 p:actionScript="var hash = top.window.location.toString(); 
+                                       hash = hash.replace('&amp;' + kradVariables.LIGHTBOX_PARAM + '=true', '');
+                                       hash = hash.replace(kradVariables.LIGHTBOX_PARAM + '=true&amp;', '');
+                                      top.window.location.replace(hash);" />
+                     	</list>
+                    </property>
+  				</bean>						
+			</list>
+		</property>
+	</bean> 
+</beans>

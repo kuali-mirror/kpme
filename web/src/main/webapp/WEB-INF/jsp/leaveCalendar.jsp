@@ -19,6 +19,27 @@
 <c:set var="Form" value="${LeaveCalendarForm}" scope="request"/>
 
 <tk:tkHeader tabId="leaveCalendar" nocache="true">
+    <script type="text/javascript" src="plugins/jquery/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="plugins/jqueryUI/jquery-ui-1.9.2.js"></script>
+    <script type="text/javascript" src="plugins/jgrowl/jquery.jgrowl.js"></script>
+    <script type="text/javascript" src="plugins/blockUI/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="plugins/validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="plugins/tooltip/jquery.bubblepopup.v2.3.1.js"></script>
+
+    <script type="text/javascript" src="plugins/scrollto/jquery.scrollTo-1.4.3-min.js"></script>
+    <script type="text/javascript" src="plugins/datatables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="plugins/datatables/ZeroClipboard.js"></script>
+    <script type="text/javascript" src="plugins/datatables/TableTools.js"></script>
+    <script type="text/javascript" src="plugins/datatables/jquery.dataTables.rowGrouping.js"></script>
+    <script type="text/javascript" src="plugins/fancybox/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.variables.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.message.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.widget.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.url.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.utility.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.dirty.js"></script>
+    <script type="text/javascript" src="krad/scripts/krad.initialize.js"></script>
+    
     <html:form action="/LeaveCalendar.do" method="POST">
         <html:hidden property="reloadValue" value="" styleId="reloadValue"/>
         <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
@@ -36,6 +57,7 @@
         <script src="${ConfigProperties.js.dir}/tk.ui.js"></script>
         <script src="${ConfigProperties.js.dir}/common.calendar.backbone.js"></script>
         <script src="${ConfigProperties.js.dir}/tk.leaveCalendar.backbone.js"></script>
+        
         <script type="text/javascript">
             jQuery(document).ready(function()
             {
