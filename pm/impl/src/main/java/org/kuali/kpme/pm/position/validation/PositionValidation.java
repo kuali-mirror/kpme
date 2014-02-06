@@ -35,6 +35,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position");
 		Position aPosition = (Position) this.getNewDataObject();
+        Position oldPosition = (Position) this.getOldDataObject();
 
 		if (aPosition != null) {
 			valid = true;
@@ -42,6 +43,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			valid &= this.validateClassificationPage(aPosition);
 			valid &= this.validateDutyListPercentage(aPosition);
 			valid &= this.validatePrimaryDepartment(aPosition);
+            valid &= this.validateProcess(aPosition,oldPosition);
 		}
 		return valid;
 	}
@@ -160,6 +162,21 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		this.putFieldError("primaryDepartment", "error.primaryDepartment.required");
 		return false;
 	}
+
+    private boolean validateProcess(Position aPosition, Position oldPosition) {
+        boolean valid = true;
+        String process = aPosition.getProcess();
+            if (StringUtils.equals(process,"Reorganization")) {
+
+                if (StringUtils.equals(aPosition.getPrimaryDepartment(),oldPosition.getPrimaryDepartment())
+                        && StringUtils.equals(aPosition.getReportsToPositionId(),oldPosition.getReportsToPositionId())) {
+                    this.putGlobalError("error.reorganization.noChange");
+                    return false;
+                }
+            }
+
+        return valid;
+    }
 
 
 }

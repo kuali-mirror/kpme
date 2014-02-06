@@ -236,6 +236,9 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     }
 	@Override 
 	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
+        aPosition.setProcess("New");
+
         document.getDocumentHeader().setDocumentDescription("New Position");
 		super.processAfterNew(document, requestParameters);
 	}
@@ -255,9 +258,9 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	
 		//Set document description for real here
 		if (StringUtils.isEmpty(position.getPositionNumber())) {
-			docDescription = "Status: " + position.getProcess();
+			docDescription = "Process: " + position.getProcess() + " Position Status: " + position.getPositionStatus();
 		} else {
-			docDescription = "Position Number: " + position.getPositionNumber() + " Status: " + position.getProcess();;
+			docDescription = "Process: " + position.getProcess() + " Position Number: " + position.getPositionNumber() + " Position Status: " + position.getPositionStatus();
 		}
 
 		if (DocumentStatus.ENROUTE.equals(documentStatus)) {

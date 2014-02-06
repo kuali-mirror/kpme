@@ -39,6 +39,7 @@ public class ProcessKeyValueFinder extends UifKeyValuesFinderBase {
 	@Override
 	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("",""));
 		for(String aString : PMConstants.PSTN_PROCESS_LIST) { 
 			keyValues.add(new ConcreteKeyValue(aString, aString));
 		}
