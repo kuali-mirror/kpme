@@ -24,6 +24,7 @@ import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContra
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.position.Position;
@@ -38,6 +39,7 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
@@ -245,7 +247,11 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	
 	@Override
 	public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-		document.getDocumentHeader().setDocumentDescription("New Position - Status: New");
+        Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
+        aPosition.setProcess("New");
+        aPosition.setPositionNumber(null);
+
+        document.getDocumentHeader().setDocumentDescription("New Position");
 		super.processAfterCopy(document, parameters);
 	}
 	

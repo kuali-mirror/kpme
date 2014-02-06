@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.position.PositionDuty;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
@@ -165,7 +166,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
     private boolean validateProcess(Position newPosition, Position oldPosition) {
         String process = newPosition.getProcess();
-            if (StringUtils.equals(process,"Reorganization")) {
+            if (StringUtils.equals(process, PMConstants.PSTN_PROCESS_REORG)) {
 
                 if (StringUtils.equals(newPosition.getPrimaryDepartment(),oldPosition.getPrimaryDepartment())
                         && StringUtils.equals(newPosition.getReportsToPositionId(),oldPosition.getReportsToPositionId())) {
@@ -173,10 +174,14 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
                     return false;
                 }
 
-            } else if (StringUtils.equals(process,"Reclassification")) {
+            } else if (StringUtils.equals(process,PMConstants.PSTN_PROCESS_RECLASS)) {
                 if(StringUtils.equals(newPosition.getPmPositionClassId(),oldPosition.getPmPositionClassId())) {
                     this.putFieldError("positionClass","error.reclassification.noChange");
                     return false;
+                }
+            } else if (StringUtils.equals(process,PMConstants.PSTN_PROCESS_STATUS)) {
+                if(StringUtils.equals(newPosition.getPositionStatus(),oldPosition.getPositionStatus())) {
+                    this.putFieldError("positionStatus","error.changeStatus.noChange");
                 }
             }
 
