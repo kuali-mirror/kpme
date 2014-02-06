@@ -37,7 +37,7 @@ public class CarryOverBatchJobAction extends KPMEAction {
     	DateTime scheduleDate = new DateTime();
     	
     	TkServiceLocator.getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan, scheduleDate);
-    	
+    	cobjaf.setMessage("Carry over batch job ran sucessfully.");
     	return mapping.findForward("basic");
     }
 

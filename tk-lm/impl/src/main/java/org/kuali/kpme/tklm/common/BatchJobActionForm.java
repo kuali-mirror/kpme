@@ -31,6 +31,7 @@ public class BatchJobActionForm extends KPMEForm {
     private String selectedBatchJob;
     private String hrPyCalendarEntryId;
     private String leavePlan;
+    private String message;
     
     static {
     	BATCH_JOB_NAMES.add(StringUtils.EMPTY);
@@ -72,5 +73,15 @@ public class BatchJobActionForm extends KPMEForm {
 	public void setLeavePlan(String leavePlan) {
 		this.leavePlan = leavePlan;
 	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	
 
 }

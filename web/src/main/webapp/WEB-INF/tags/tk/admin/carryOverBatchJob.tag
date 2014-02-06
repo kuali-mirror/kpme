@@ -38,6 +38,7 @@
                         </td>
                     </tr>
                 </table>
+                ${CarryOverBatchJobActionForm.message}
             </div>
         </div>
     </html:form>

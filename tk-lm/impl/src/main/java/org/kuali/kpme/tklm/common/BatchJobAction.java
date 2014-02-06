@@ -79,6 +79,7 @@ public class BatchJobAction extends KPMEAction {
                 TkServiceLocator.getBatchJobService().scheduleClockedInEmployeeJob(scheduleDate);
             }
         }
+        bjaf.setMessage("Batch job ran sucessfully.");
         return mapping.findForward("basic");
     }
 

@@ -48,6 +48,7 @@
                         </td>
                     </tr>
                 </table>
+                ${BatchJobActionForm.message}
             </div>
         </div>
     </html:form>

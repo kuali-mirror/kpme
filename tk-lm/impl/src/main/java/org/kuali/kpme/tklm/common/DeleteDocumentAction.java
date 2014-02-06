@@ -42,9 +42,11 @@ public class DeleteDocumentAction extends KPMEAction {
             	TkServiceLocator.getClockLogService().deleteClockLogsForDocumentId(documentId);
                 TkServiceLocator.getTimeBlockService().deleteTimeBlocksAssociatedWithDocumentId(documentId);
     		    TkServiceLocator.getTimesheetService().deleteTimesheet(documentId);
+    		    deleteDocumentForm.setMessage("Timesheet deleted sucessfully.");
             } else if (ldh != null) {
             	LmServiceLocator.getLeaveBlockService().deleteLeaveBlocksForDocumentId(documentId);
                 LmServiceLocator.getLeaveCalendarDocumentHeaderService().deleteLeaveCalendarHeader(documentId);
+                deleteDocumentForm.setMessage("Leave Calendar deleted sucessfully.");
             }
     	}
     	

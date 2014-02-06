@@ -50,6 +50,7 @@ public class CalculateLeaveAccrualsAction extends KPMEAction {
     			LmServiceLocator.getLeaveAccrualService().runAccrual(principal.getPrincipalId());
     		}
 		}
+		calculateLeaveAccrualsForm.setMessage("Leave Accruals calculated sucessfully.");
     	return mapping.findForward("basic");
     }
     

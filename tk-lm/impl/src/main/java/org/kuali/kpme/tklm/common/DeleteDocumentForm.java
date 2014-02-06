@@ -22,6 +22,7 @@ public class DeleteDocumentForm extends KPMEForm {
 	private static final long serialVersionUID = 3121271193055358638L;
 	
 	private String deleteDocumentId;
+	private String message;
 
 	public String getDeleteDocumentId() {
 		return deleteDocumentId;
@@ -31,4 +32,12 @@ public class DeleteDocumentForm extends KPMEForm {
 		this.deleteDocumentId = deleteDocumentId;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
 }

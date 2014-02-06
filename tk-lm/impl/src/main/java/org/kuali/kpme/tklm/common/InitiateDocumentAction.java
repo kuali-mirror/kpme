@@ -48,8 +48,10 @@ public class InitiateDocumentAction extends KPMEAction {
     			if (calendar != null) {
     				if (StringUtils.equals(calendar.getCalendarTypes(), TkConstants.CALENDAR_TYPE_PAY)) {
     					TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
+    					initiateDocumentForm.setMessage("Timesheet initiated sucessfully.");
     				} else if (StringUtils.equals(calendar.getCalendarTypes(), TkConstants.CALENDAR_TYPE_LEAVE)) {
     					LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
+    					initiateDocumentForm.setMessage("Leave Calendar initiated sucessfully.");
     				}
     			}
     		}

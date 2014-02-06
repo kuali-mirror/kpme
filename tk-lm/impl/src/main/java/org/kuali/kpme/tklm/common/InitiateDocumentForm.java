@@ -23,7 +23,16 @@ public class InitiateDocumentForm extends KPMEForm {
 	
 	private String principalId;
 	private String hrCalendarEntryId;
+	private String message;
 	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	public String getPrincipalId() {
 		return principalId;
 	}

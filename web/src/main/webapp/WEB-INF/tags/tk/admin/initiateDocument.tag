@@ -47,8 +47,10 @@
                         </td>
                     </tr>
                 </table>
+                ${InitiateDocumentForm.message}
             </div>
         </div>
     </html:form>
+    
     <channel:portalChannelBottom />
 </c:if>

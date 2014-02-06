@@ -22,6 +22,7 @@ public class CarryOverBatchJobActionForm extends KPMEForm {
 	private static final long serialVersionUID = 244583075214705760L;
 	
 	private String leavePlan;
+	private String message;
 
 	public String getLeavePlan() {
 		return leavePlan;
@@ -31,4 +32,12 @@ public class CarryOverBatchJobActionForm extends KPMEForm {
 		this.leavePlan = leavePlan;
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
 }

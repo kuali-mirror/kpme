@@ -25,6 +25,7 @@
                 <html:text property="deleteDocumentId" />
                 <html:submit property="methodToCall.deleteDocument" value="Submit" />
             </html:form>
+            ${DeleteDocumentForm.message}
         </div>
     </div>
     <channel:portalChannelBottom />

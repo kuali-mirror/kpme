@@ -49,6 +49,7 @@
                         </td>
                     </tr>
                 </table>
+                ${CalculateLeaveAccrualsForm.message}
             </html:form>
         </div>
     </div>
