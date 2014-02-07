@@ -135,6 +135,8 @@
         <field-descriptor name="org"            	column="ORG"         	jdbc-type="VARCHAR"    length="10" nullable="false" primarykey="false" />
         <field-descriptor name="chart"          	column="CHART"       	jdbc-type="VARCHAR"    length="10" nullable="false" primarykey="false" />
         <field-descriptor name="location"       	column="LOCATION"    	jdbc-type="VARCHAR"    length="20" nullable="fales" primarykey="false" />
+        <!--  KPME-3184 : institution field added -->
+        <field-descriptor name="institution"    	column="INSTITUTION"	jdbc-type="VARCHAR"    length="15" nullable="false" primarykey="false" />
         <field-descriptor name="payrollApproval"    column="PYRLL_APPRVL"   jdbc-type="VARCHAR"    length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="effectiveDate"  	column="EFFDT"       	jdbc-type="DATE"       nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"      	column="TIMESTAMP"   	jdbc-type="TIMESTAMP"  nullable="false" primarykey="false" conversion="org.kuali.kpme.core.TimestampConverter" />

@@ -47,6 +47,10 @@ public class Department extends HrBusinessObject implements DepartmentContract {
     private String dept;
     private String description;
     private String location;
+    
+	// field added for KPME-3184
+	private String institution;
+	
     private String chart;
     private String org;
     private boolean payrollApproval;
@@ -116,7 +120,15 @@ public class Department extends HrBusinessObject implements DepartmentContract {
 		this.location = location;
 	}
 
-    public String getChart() {
+    public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+
+	public String getChart() {
         return chart;
     }
 

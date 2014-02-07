@@ -32,6 +32,7 @@
 		        <ref bean="Department-dept" />
 		        <ref bean="Department-description" />
 		        <ref bean="Department-location" />
+		        <ref bean="Department-institution"/>
 		        <ref bean="Department-chart" />
 		        <ref bean="Department-org" />
 		        <ref bean="Department-payrollApproval" />
@@ -127,7 +128,23 @@
   
     <bean id="Department-location" parent="Department-location-parentBean" />
     <bean id="Department-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
-    
+
+	<bean id="Department-institution" parent="Department-institution-parentBean" />
+	<bean id="Department-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Institution" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="institution" />
+		<property name="label" value="Institution" />
+	</bean>
+	
     <bean id="Department-chart" parent="Department-chart-parentBean" />
     <bean id="Department-chart-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="chart" />
@@ -190,6 +207,7 @@
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="description" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
+							<bean parent="FieldDefinition" p:attributeName="institution" />
 							<bean parent="FieldDefinition" p:attributeName="chart" />
 							<bean parent="FieldDefinition" p:attributeName="org" />
 							<bean parent="FieldDefinition" p:attributeName="payrollApproval" />
@@ -251,6 +269,7 @@
             <list>
 		        <bean parent="FieldDefinition" p:attributeName="dept" />
 		        <bean parent="FieldDefinition" p:attributeName="location" />
+		        <bean parent="FieldDefinition" p:attributeName="institution" />
 		        <bean parent="FieldDefinition" p:attributeName="description" />
 		        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 		        <bean parent="FieldDefinition" p:attributeName="payrollApproval" />
@@ -263,6 +282,7 @@
             <list>
 		        <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
 		        <bean parent="FieldDefinition" p:attributeName="location" />
+		        <bean parent="FieldDefinition" p:attributeName="institution" />
 		        <bean parent="FieldDefinition" p:attributeName="description" />
 		        <bean parent="FieldDefinition" p:attributeName="timestamp" />
 		        <bean parent="FieldDefinition" p:attributeName="payrollApproval" />
@@ -285,6 +305,7 @@
       <list>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution"/>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
 
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payrollApproval" />
@@ -299,6 +320,7 @@
       <list>
 		<bean parent="Uif-DataField" p:propertyName="dept" />
 		<bean parent="Uif-DataField" p:propertyName="location" />
+		<bean parent="Uif-DataField" p:propertyName="institution" />
 		<bean parent="Uif-DataField" p:propertyName="description" />
 		<bean parent="Uif-DataField" p:propertyName="timestamp" />
 		<bean parent="Uif-DataField" p:propertyName="payrollApproval" />
@@ -324,6 +346,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="dept" />
 			        <bean parent="Uif-DataField" p:propertyName="description" />
 			        <bean parent="Uif-DataField" p:propertyName="location" />
+			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="chart" />
 			        <bean parent="Uif-DataField" p:propertyName="org" />
                     <bean parent="Uif-DataField" p:propertyName="payrollApproval" />
