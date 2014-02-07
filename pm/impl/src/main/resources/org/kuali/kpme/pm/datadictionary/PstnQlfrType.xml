@@ -131,16 +131,15 @@
   <bean id="PositionQualifierType-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Position Qualifier Type Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
     <property name="criteriaFields">
-      <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+      <list merge="true">       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="type" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeValue" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="selectValues" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="true"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
     <property name="resultFields">

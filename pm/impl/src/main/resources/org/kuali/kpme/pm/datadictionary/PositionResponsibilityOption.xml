@@ -84,12 +84,11 @@
   <bean id="PositionResponsibilityOption-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Position Responsibility Option Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
     <property name="criteriaFields">
-      <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+      <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="prOptionName" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="prDescription" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
@@ -102,8 +101,7 @@
   			</property>
         </bean>
        	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-        <bean parent="Uif-DataField" p:propertyName="prDescription" />
-        
+        <bean parent="Uif-DataField" p:propertyName="prDescription" />        
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
