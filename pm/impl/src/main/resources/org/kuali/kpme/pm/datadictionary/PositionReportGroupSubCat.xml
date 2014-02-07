@@ -118,13 +118,11 @@
   	
   <!-- Position Reporting Group Sub Category Lookup View -->
  
-  <bean id="PositionReportGroupSubCat-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+  <bean id="PositionReportGroupSubCat-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Report Group Sub Category Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
     <property name="criteriaFields">
-      <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+      <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="pstnRptGrpSubCat" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" >
         	<property name="quickfinder">
@@ -150,6 +148,7 @@
 								p:fieldConversions="location:location" />
 			</property>
         </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>

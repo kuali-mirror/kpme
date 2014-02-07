@@ -82,13 +82,12 @@
     <bean id="DepartmentAffiliation-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
         <property name="headerText" value="Department Affiliation Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation" />
-        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
         <property name="criteriaFields">
-            <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+            <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="deptAfflType" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="primaryIndicator" p:defaultValue="Y"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
+        		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
             </list>
         </property>
         <property name="resultFields">

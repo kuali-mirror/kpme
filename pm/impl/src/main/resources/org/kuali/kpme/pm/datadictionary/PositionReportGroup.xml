@@ -133,14 +133,12 @@
 
     <!-- Position Reporting Group Lookup View -->
 
-    <bean id="PositionReportGroup-LookupView" parent="Uif-LookupView">
+    <bean id="PositionReportGroup-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Group Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" />
-        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />
         <property name="criteriaFields">
-            <list>
+            <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
                     <property name="quickfinder">
@@ -148,7 +146,8 @@
                               p:fieldConversions="location:location" />
                     </property>
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
+        		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
             </list>
         </property>
         <property name="resultFields">

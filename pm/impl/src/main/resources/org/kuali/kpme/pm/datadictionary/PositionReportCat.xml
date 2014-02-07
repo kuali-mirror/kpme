@@ -124,11 +124,9 @@
     <bean id="PositionReportCat-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
         <property name="headerText" value="Position Report Category Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategory" />
-        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
         <property name="criteriaFields">
-            <list>
+            <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportCat" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" >
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportType"
@@ -147,7 +145,8 @@
                               p:fieldConversions="location:location" />
                     </property>
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
+        		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
             </list>
         </property>
         <property name="resultFields">
