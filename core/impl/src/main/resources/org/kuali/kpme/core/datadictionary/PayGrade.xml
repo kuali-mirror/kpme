@@ -214,7 +214,6 @@
     <bean id="PayGrade-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Pay Grade Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.paygrade.PayGrade"/>
-        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
         <property name="criteriaFields">
             <list>
             	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />

@@ -298,10 +298,8 @@
   <bean id="Classification-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Position Classification Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />  <!--KPME-2699-->
     <property name="criteriaFields">
-      <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+      <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionClass" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
@@ -350,6 +348,7 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="poolEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="tenureEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="externalReference" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>

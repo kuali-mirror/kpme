@@ -243,7 +243,6 @@
   <bean id="PayStep-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Pay Step Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStep" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
