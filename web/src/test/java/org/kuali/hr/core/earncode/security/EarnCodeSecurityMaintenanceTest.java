@@ -118,7 +118,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 		Assert.assertTrue("Maintenance Page contains test Earncode",
 				resultantPageAfterEdit.asText().contains(
 						"The specified Earncode '"
-								+ testEarnCode
+								+ testEarnCode.toUpperCase()
 								+ "' does not exist."));
 				
 		

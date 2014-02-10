@@ -36,7 +36,8 @@
         limitations under the License.
 
     -->
-    <bean id="KpmeAttributeReference-effectiveDate" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-effectiveDate" parent="KpmeAttributeReference-effectiveDate-parentBean"/>
+    <bean id="KpmeAttributeReference-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Effective Date" />
         <property name="maxLength" value="10" />
         <property name="validationPattern">
@@ -54,13 +55,15 @@
         <property name="required" value="true" />
     </bean>
 
-    <bean id="KpmeAttributeReference-relativeEffectiveDate" parent="KpmeAttributeReference-effectiveDate" p:name="relativeEffectiveDate">
+    <bean id="KpmeAttributeReference-relativeEffectiveDate" parent="KpmeAttributeReference-relativeEffectiveDate-parentBean"/>
+    <bean id="KpmeAttributeReference-relativeEffectiveDate-parentBean" parent="KpmeAttributeReference-effectiveDate" p:name="relativeEffectiveDate">
         <property name="control">
             <bean parent="TextControlDefinition" p:size="12"/>
         </property>
     </bean>
 
-    <bean id="KpmeAttributeReference-timestamp" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-timestamp" parent="KpmeAttributeReference-timestamp-parentBean"/>
+    <bean id="KpmeAttributeReference-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Timestamp" />
         <property name="maxLength" value="15" />
         <property name="controlField">
@@ -74,12 +77,14 @@
         <property name="label" value="Time Stamp" />
     </bean>
 
-    <bean id="KpmeAttributeReference-active" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+    <bean id="KpmeAttributeReference-active" parent="KpmeAttributeReference-active-parentBean"/>
+    <bean id="KpmeAttributeReference-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
         <property name="name" value="active" />
         <property name="label" value="Active" />
     </bean>
 
-    <bean id="KpmeAttributeReference-userPrincipalId" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-userPrincipalId" parent="KpmeAttributeReference-userPrincipalId-parentBean"/>
+    <bean id="KpmeAttributeReference-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="userPrincipalId" />
         <property name="label" value="User Principal Id" />
         <property name="shortLabel" value="User Principal Id" />
@@ -102,7 +107,8 @@
         </property>
     </bean>
 
-    <bean id="KpmeAttributeReference-history" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-history" parent="KpmeAttributeReference-history-parentBean"/>
+    <bean id="KpmeAttributeReference-history-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Show History" />
         <property name="controlField">
             <bean parent="Uif-HorizontalRadioControl"/>
@@ -120,7 +126,8 @@
 
 
     <!-- Common core key fields -->
-    <bean id="KpmeAttributeReference-dept" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-dept" parent="KpmeAttributeReference-dept-parentBean"/>
+    <bean id="KpmeAttributeReference-dept-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="dept" />
         <property name="label" value="Department" />
         <property name="shortLabel" value="Department" />
@@ -144,7 +151,33 @@
         </property>
     </bean>
 
-    <bean id="KpmeAttributeReference-institution" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-earnCode" parent="KpmeAttributeReference-earnCode-parentBean" />
+    <bean id="KpmeAttributeReference-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Earn Code" />
+        <property name="maxLength" value="15" />
+        <property name="forceUppercase" value="true" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="15" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15" />
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="name" value="earnCode" />
+        <property name="label" value="Earn Code" />
+    </bean>
+
+    <bean id="KpmeAttributeReference-institution" parent="KpmeAttributeReference-institution-parentBean"/>
+    <bean id="KpmeAttributeReference-institution-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Institution" />
         <property name="maxLength" value="15" />
         <property name="validationPattern">
@@ -167,7 +200,52 @@
         <property name="label" value="Institution" />
     </bean>
 
-    <bean id="KpmeAttributeReference-location" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-jobNumber" parent="KpmeAttributeReference-jobNumber-parentBean"/>
+    <bean id="KpmeAttributeReference-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Job Number" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern">
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="NumericPatternConstraint" />
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="3" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="3" />
+        </property>
+        <property name="name" value="jobNumber" />
+        <property name="label" value="Job Number" />
+    </bean>
+
+    <bean id="KpmeAttributeReference-leavePlan" parent="KpmeAttributeReference-leavePlan-parentBean"/>
+    <bean id="KpmeAttributeReference-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Leave Plan" />
+        <property name="maxLength" value="15" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="25" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="25" />
+        </property>
+        <property name="name" value="leavePlan" />
+        <property name="label" value="Leave Plan" />
+    </bean>
+
+    <bean id="KpmeAttributeReference-location" parent="KpmeAttributeReference-location-parentBean"/>
+    <bean id="KpmeAttributeReference-location-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="location" />
         <property name="label" value="Location" />
         <property name="shortLabel" value="Location" />
@@ -179,21 +257,49 @@
         </property>
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="true" />
+                <property name="allowWhitespace" value="false" />
             </bean>
         </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="20" />
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10" />
+            <bean parent="Uif-TextControl" p:size="20" />
         </property>
     </bean>
 
-    <bean id="KpmeAttributeReference-workArea" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-task" parent="KpmeAttributeReference-task-parentBean"/>
+    <bean id="KpmeAttributeReference-task-parentBean" abstract="true" parent="KpmeAttributeReference-numericBusinessKey">
+        <property name="name" value="task" />
+        <property name="shortLabel" value="Task" />
+        <property name="label" value="Task" />
+        <property name="description" value="Task" />
+    </bean>
+
+    <bean id="KpmeAttributeReference-workArea" parent="KpmeAttributeReference-workArea-parentBean"/>
+    <bean id="KpmeAttributeReference-workArea-parentBean" abstract="true" parent="KpmeAttributeReference-numericBusinessKey">
         <property name="name" value="workArea" />
         <property name="label" value="Work Area" />
         <property name="shortLabel" value="Work Area" />
+        <property name="description" value="Work Area" />
+    </bean>
+
+    <bean id="KpmeAttributeReference-principalId" parent="KpmeAttributeReference-principalId-parentBean"/>
+    <bean id="KpmeAttributeReference-principalId-parentBean" abstract="true" parent="KimBaseBeans-principalId">
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint"/>
+        </property>
+    </bean>
+
+    <bean id="KpmeAttributeReference-principalName" parent="KpmeAttributeReference-principalName-parentBean"/>
+    <bean id="KpmeAttributeReference-principalName-parentBean" abstract="true" parent="KimBaseBeans-principalName">
+        <property name="validCharactersConstraint">
+            <bean parent="AlphaNumericPatternConstraint" p:lowerCase="true"/>
+        </property>
+    </bean>
+
+    <bean id="KpmeAttributeReference-numericBusinessKey" parent="KpmeAttributeReference-numericBusinessKey-parentBean"/>
+    <bean id="KpmeAttributeReference-numericBusinessKey-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="maxLength" value="7" />
         <property name="validationPattern">
             <bean parent="NumericValidationPattern" />
@@ -208,4 +314,30 @@
             <bean parent="Uif-TextControl" p:size="7" />
         </property>
     </bean>
+
+    <bean id="KpmeAttributeReference-datePicker" parent="KpmeAttributeReference-datePicker-parentBean"/>
+    <bean id="KpmeAttributeReference-datePicker-parentBean" abstract="true" parent="AttributeReference-genericDate">
+        <property name="maxLength" value="10"/>
+        <property name="description" value="date field"/>
+        <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint" />
+        </property>
+    </bean>
+
+    <bean id="KpmeAttributeReference-timestampPicker" parent="KpmeAttributeReference-timestampPicker-parentBean"/>
+    <bean id="KpmeAttributeReference-timestampPicker-parentBean" abstract="true" parent="AttributeReference-genericTimestamp">
+        <property name="description" value="date field"/>
+        <property name="validCharactersConstraint">
+            <bean parent="TimestampPatternConstraint" />
+        </property>
+        <property name="maxLength" value="30"/>
+        <property name="validationPattern">
+            <bean parent="TimestampValidationPattern"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+    </bean>
+
 </beans>

@@ -256,19 +256,8 @@
 	<!-- KPME-1347 Kagata -->
 	<!-- earn code -->
 	<bean id="AccrualCategory-earnCode" parent="AccrualCategory-earnCode-parentBean" />
-	<bean id="AccrualCategory-earnCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="AccrualCategory-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode">
 		<property name="shortLabel" value="Default Earn Code" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="earnCode" />
 		<property name="label" value="Default Earn Code" />
 	</bean>
 

@@ -43,20 +43,7 @@
     <bean id="PrincipalRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="KPMERoleMemberBo-effectiveDate"/>
 
     <bean id="PrincipalRoleMemberBo-principalId" parent="PrincipalRoleMemberBo-principalId-parentBean" />
-    <bean id="PrincipalRoleMemberBo-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="principalId" />
-        <property name="label" value="Principal Id" />
-        <property name="shortLabel" value="Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40" />
-        </property>
-    </bean>
+    <bean id="PrincipalRoleMemberBo-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
     
     <bean id="PrincipalRoleMemberBo-principalName" parent="PrincipalRoleMemberBo-principalName-parentBean" />
     <bean id="PrincipalRoleMemberBo-principalName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -73,7 +60,7 @@
             <bean parent="TextControlDefinition" p:size="122" />
         </property>
     </bean>
-    
+
     <bean id="PrincipalRoleMemberBo-roleName" parent="PrincipalRoleMemberBo-roleName-parentBean" />
     <bean id="PrincipalRoleMemberBo-roleName-parentBean" abstract="true" parent="KPMERoleMemberBo-roleName">
         <property name="name" value="roleName" />

@@ -161,18 +161,9 @@
 
 	<bean id="LeavePlan-batchPriorYearCarryOverStartDateTime"
 		parent="LeavePlan-batchPriorYearCarryOverStartDateTime-parentBean" />
-	<bean id="LeavePlan-batchPriorYearCarryOverStartDateTime-parentBean"
-		abstract="true" parent="AttributeDefinition">
+	<bean id="LeavePlan-batchPriorYearCarryOverStartDateTime-parentBean" abstract="true"
+          parent="KpmeAttributeReference-timestampPicker">
 		<property name="shortLabel" value="Batch Prior Year Carry OverStart Datetime" />
-		<property name="maxLength" value="30" />
-		<property name="validationPattern">
-			<bean parent="TimestampValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
-		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
 		<property name="name" value="batchPriorYearCarryOverStartDateTime" />
 		<property name="label" value="Batch Prior Year Carry OverStart Datetime" />
 	</bean>

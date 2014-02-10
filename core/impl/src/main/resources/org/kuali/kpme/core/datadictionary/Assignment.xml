@@ -137,21 +137,8 @@
 	</bean>
 	
 	<bean id="Assignment-principalId" parent="Assignment-principalId-parentBean" />
-	<bean id="Assignment-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="Assignment-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" p:required="true" />
+
 
 	<bean id="Assignment-name" parent="Assignment-name-parentBean" />
 	<bean id="Assignment-name-parentBean" abstract="true"
@@ -167,19 +154,7 @@
 
 
 	<bean id="Assignment-jobNumber" parent="Assignment-jobNumber-parentBean" />
-	<bean id="Assignment-jobNumber-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Job Number" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
-		</property>
-		<property name="name" value="jobNumber" />
-		<property name="label" value="Job Number" />
-	</bean>
+	<bean id="Assignment-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
 
 	<bean id="Assignment-hrJobId" parent="Assignment-hrJobId-parentBean" />
 	<bean id="Assignment-hrJobId-parentBean" abstract="true"
@@ -206,19 +181,7 @@
 	<bean id="Assignment-workArea-parentBean" abstract="true" parent="KpmeAttributeReference-workArea"/>
 
 	<bean id="Assignment-task" parent="Assignment-task-parentBean" />
-	<bean id="Assignment-task-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Task" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="task" />
-		<property name="label" value="Task" />
-	</bean>
+	<bean id="Assignment-task-parentBean" abstract="true" parent="KpmeAttributeReference-task"/>
 	
 	<bean id="Assignment-primaryAssign" parent="GenericAttributes-activeIndicator">
 		<property name="name" value="primaryAssign" />

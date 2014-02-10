@@ -45,13 +45,8 @@
 	<!-- Attributes  -->
 
 	<bean id="SystemLunchRule-showLunchButton" parent="SystemLunchRule-showLunchButton-parentBean" />
-	<bean id="SystemLunchRule-showLunchButton-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="SystemLunchRule-showLunchButton-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
 		<property name="shortLabel" value="Show Lunch Button" />
-    	<property name="control">
-      		<bean parent="CheckboxControlDefinition"/>
-    	</property>
-    	<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
 		<property name="name" value="showLunchButton" />
 		<property name="label" value="Show Lunch Button" />
 	</bean>

@@ -232,19 +232,8 @@
   </bean>
 
   <bean id="DailyOvertimeRule-earnCode" parent="DailyOvertimeRule-earnCode-parentBean" />
-  <bean id="DailyOvertimeRule-earnCode-parentBean"
-    abstract="true" parent="AttributeDefinition">
+  <bean id="DailyOvertimeRule-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode">
     <property name="shortLabel" value="Convert to Earncode" />
-    <property name="maxLength" value="15" />
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-        <property name="allowWhitespace" value="false" />
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="15" />
-    </property>
-    <property name="name" value="earnCode" />
     <property name="label" value="Convert to Earncode" />
   </bean>
 

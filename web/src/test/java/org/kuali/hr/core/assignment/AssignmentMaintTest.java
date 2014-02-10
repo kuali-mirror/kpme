@@ -34,7 +34,7 @@ public class AssignmentMaintTest extends KPMEWebTestCase {
 	//data defined in boot strap script
 	private static final String TEST_CODE="admin";
 	final String ERROR_EFF_DATE = "Effective Date (Effective Date) is a required field.";
-	final String ERROR_PRINCIPAL_ID = "Principal Id (Principal Id) is a required field.";
+	final String ERROR_PRINCIPAL_ID = "Principal ID (Principal ID) is a required field.";
 	final String ERROR_JOB_NUMBER = "Job Number (Job Number) is a required field.";
 	final String ERROR_WORK_AREA = "Work Area (Work Area) is a required field.";
 	final String ERROR_TASK = "Task (Task) is a required field.";

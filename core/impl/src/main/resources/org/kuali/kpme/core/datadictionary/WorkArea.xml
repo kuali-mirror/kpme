@@ -97,18 +97,7 @@
 	</bean>
 
 	<bean id="WorkArea-workArea" parent="WorkArea-workArea-parentBean" />
-	<bean id="WorkArea-workArea-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="name" value="workArea" />
-        <property name="label" value="Work Area" />
-		<property name="shortLabel" value="Work Area" />
-		<property name="maxLength" value="7" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
-		</property>
-	</bean>
+	<bean id="WorkArea-workArea-parentBean" abstract="true" parent="KpmeAttributeReference-workArea" />
 
 	<bean id="WorkArea-description" parent="WorkArea-description-parentBean" />
 	<bean id="WorkArea-description-parentBean" abstract="true" parent="AttributeDefinition">

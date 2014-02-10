@@ -80,21 +80,7 @@
 	</bean>
 
 	<bean id="EmployeeOverride-principalId" parent="EmployeeOverride-principalId-parentBean" />
-	<bean id="EmployeeOverride-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="EmployeeOverride-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 	
 	<bean id="EmployeeOverride-name" parent="EmployeeOverride-name-parentBean" />
 	<bean id="EmployeeOverride-name-parentBean" abstract="true"

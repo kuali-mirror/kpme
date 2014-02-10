@@ -153,35 +153,13 @@
 
 <!-- Leave code -->
 	<bean id="SystemScheduledTimeOff-earnCode" parent="SystemScheduledTimeOff-earnCode-parentBean" />
-	<bean id="SystemScheduledTimeOff-earnCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Earn Code" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="earnCode" />
-		<property name="label" value="Earn Code" />
-	</bean>
+	<bean id="SystemScheduledTimeOff-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode" />
 
 <!-- Accrued Date -->
 	<bean id="SystemScheduledTimeOff-accruedDate" parent="SystemScheduledTimeOff-accruedDate-parentBean" />
 	<bean id="SystemScheduledTimeOff-accruedDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-datePicker">
 		<property name="shortLabel" value="Accrued Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="accruedDate" />
 		<property name="label" value="Accrued Date" />
 	</bean>
@@ -189,16 +167,8 @@
 <!-- Scheduled Time Off Date -->
 	<bean id="SystemScheduledTimeOff-scheduledTimeOffDate" parent="SystemScheduledTimeOff-scheduledTimeOffDate-parentBean" />
 	<bean id="SystemScheduledTimeOff-scheduledTimeOffDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-datePicker">
 		<property name="shortLabel" value="Scheduled Time Off Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="scheduledTimeOffDate" />
 		<property name="label" value="Scheduled Time Off Date" />
 	</bean>

@@ -35,7 +35,7 @@ public class LeaveAdjustmentMaintTest extends KPMEWebTestCase{
 	private static final String PRINCIPAL_ID = "admin";
 	
 	private static final String EFFECTIVE_DATE_REQUIRED = "Effective Date (Effective Date) is a required field.";
-	private static final String PRINCIPAL_ID_REQUIRED = "Principal Id (Principal Id) is a required field.";
+	private static final String PRINCIPAL_ID_REQUIRED = "Principal ID (Principal ID) is a required field.";
 	private static final String LEAVE_PLAN_REQUIRED = "Leave Plan (Leave Plan) is a required field.";
 	private static final String EARN_CODE_REQUIRED = "Earn Code (Earn Code) is a required field.";
 	private static final String ACCRUAL_CATEGORY_REQUIRED = "Accrual Category (Accrual Category) is a required field.";

@@ -112,21 +112,7 @@
     </bean>
 
 	<bean id="PrincipalHRAttributes-principalId" parent="PrincipalHRAttributes-principalId-parentBean" />
-	<bean id="PrincipalHRAttributes-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="20" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="PrincipalHRAttributes-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 	
  	<bean id="PrincipalHRAttributes-name" parent="PrincipalHRAttributes-name-parentBean"/>
  	<bean id="PrincipalHRAttributes-name-parentBean" abstract="true" parent="AttributeDefinition">
@@ -191,16 +177,8 @@
 		
 	<bean id="PrincipalHRAttributes-serviceDate" parent="PrincipalHRAttributes-serviceDate-parentBean" />
 	<bean id="PrincipalHRAttributes-serviceDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-datePicker">
 		<property name="shortLabel" value="Service Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="serviceDate" />
 		<property name="label" value="Service Date" />
 	</bean>
@@ -224,25 +202,17 @@
 	
 
  	<bean id="PrincipalHRAttributes-fmlaEligible" parent="PrincipalHRAttributes-fmlaEligible-parentBean"/>
-  	<bean id="PrincipalHRAttributes-fmlaEligible-parentBean" abstract="true" parent="AttributeDefinition">
+  	<bean id="PrincipalHRAttributes-fmlaEligible-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
     	<property name="shortLabel" value="FMLA Eligible"/>
-    	<property name="control">
-      		<bean parent="CheckboxControlDefinition"/>
-    	</property>
     	<property name="name" value="fmlaEligible"/>
     	<property name="label" value="FMLA Eligible"/>
-    	<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   	</bean>
 	
  	<bean id="PrincipalHRAttributes-workersCompEligible" parent="PrincipalHRAttributes-workersCompEligible-parentBean"/>
-  	<bean id="PrincipalHRAttributes-workersCompEligible-parentBean" abstract="true" parent="AttributeDefinition">
+  	<bean id="PrincipalHRAttributes-workersCompEligible-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
     	<property name="shortLabel" value="Workman's Comp Eligible"/>
-    	<property name="control">
-      		<bean parent="CheckboxControlDefinition"/>
-    	</property>
     	<property name="name" value="workersCompEligible"/>
     	<property name="label" value="Worker's Comp Eligible"/>
-    	<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   	</bean>
 
 

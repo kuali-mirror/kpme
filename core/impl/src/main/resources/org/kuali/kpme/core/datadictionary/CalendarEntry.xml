@@ -149,32 +149,16 @@
     </bean>
 
     <bean id="CalendarEntry-beginPeriodDateTime" parent="CalendarEntry-beginPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntry-beginPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-beginPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
     <property name="shortLabel" value="Begin Period Date Time"/>
-    <property name="maxLength" value="30"/>
-     <property name="validationPattern">
- 		<bean parent="TimestampValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="beginPeriodDateTime"/>
     <property name="label" value="Begin Period Date Time"/>
   </bean>
   
     
   <bean id="CalendarEntry-beginPeriodDate" parent="CalendarEntry-beginPeriodDate-parentBean"/>
-  <bean id="CalendarEntry-beginPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-beginPeriodDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="Begin Period Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="beginPeriodDate"/>
     <property name="label" value="Begin Period Date"/>
   </bean>  
@@ -192,31 +176,15 @@
   </bean>
 
   <bean id="CalendarEntry-endPeriodDateTime" parent="CalendarEntry-endPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntry-endPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-endPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
     <property name="shortLabel" value="End Period Date Time"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
- 		<bean parent="TimestampValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="endPeriodDateTime"/>
     <property name="label" value="End Period Date Time"/>
   </bean>
   
   <bean id="CalendarEntry-endPeriodDate" parent="CalendarEntry-endPeriodDate-parentBean"/>
-  <bean id="CalendarEntry-endPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-endPeriodDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="End Period Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="endPeriodDate"/>
     <property name="label" value="End Period Date"/>
   </bean>    
@@ -234,31 +202,15 @@
   </bean>
   
   <bean id="CalendarEntry-batchInitiateDateTime" parent="CalendarEntry-batchInitiateDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchInitiateDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchInitiateDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
     <property name="shortLabel" value="Batch Initiate Date Time"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
-        <bean parent="TimestampValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="batchInitiateDateTime"/>
     <property name="label" value="Batch Initiate Date Time"/>
   </bean>
     
   <bean id="CalendarEntry-batchInitiateDate" parent="CalendarEntry-batchInitiateDate-parentBean"/>
-  <bean id="CalendarEntry-batchInitiateDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchInitiateDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="Batch Initiate Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="batchInitiateDate"/>
     <property name="label" value="Batch Initiate Date"/>
   </bean>
@@ -276,31 +228,15 @@
   </bean>
 
   <bean id="CalendarEntry-batchEndPayPeriodDateTime" parent="CalendarEntry-batchEndPayPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchEndPayPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEndPayPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
     <property name="shortLabel" value="Batch End Period Date Time"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
-        <bean parent="TimestampValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="batchEndPayPeriodDateTime"/>
     <property name="label" value="Batch End Period Date Time"/>
   </bean>
 
   <bean id="CalendarEntry-batchEndPayPeriodDate" parent="CalendarEntry-batchEndPayPeriodDate-parentBean"/>
-  <bean id="CalendarEntry-batchEndPayPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEndPayPeriodDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="Batch End Period Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="batchEndPayPeriodDate"/>
     <property name="label" value="Batch End Period Date"/>
   </bean>
@@ -318,31 +254,15 @@
   </bean>
 
   <bean id="CalendarEntry-batchEmployeeApprovalDateTime" parent="CalendarEntry-batchEmployeeApprovalDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchEmployeeApprovalDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEmployeeApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
     <property name="shortLabel" value="Batch Employee Approval Date Time"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
-        <bean parent="TimestampValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="batchEmployeeApprovalDateTime"/>
     <property name="label" value="Batch Employee Approval Date Time"/>
   </bean>
 
   <bean id="CalendarEntry-batchEmployeeApprovalDate" parent="CalendarEntry-batchEmployeeApprovalDate-parentBean"/>
-  <bean id="CalendarEntry-batchEmployeeApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEmployeeApprovalDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="Batch Employee Approval Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="batchEmployeeApprovalDate"/>
     <property name="label" value="Batch Employee Approval Date"/>
   </bean>
@@ -360,31 +280,15 @@
   </bean>
 
   <bean id="CalendarEntry-batchSupervisorApprovalDateTime" parent="CalendarEntry-batchSupervisorApprovalDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchSupervisorApprovalDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchSupervisorApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
     <property name="shortLabel" value="Batch Supervisor Approval Date Time"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
-        <bean parent="TimestampValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="batchSupervisorApprovalDateTime"/>
     <property name="label" value="Batch Supervisor Approval Date Time"/>
   </bean>
 
   <bean id="CalendarEntry-batchSupervisorApprovalDate" parent="CalendarEntry-batchSupervisorApprovalDate-parentBean"/>
-  <bean id="CalendarEntry-batchSupervisorApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchSupervisorApprovalDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="Batch Supervisor Approval Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="batchSupervisorApprovalDate"/>
     <property name="label" value="Batch Supervisor Approval Date"/>
   </bean>
@@ -402,31 +306,15 @@
   </bean>
   
   <bean id="CalendarEntry-batchPayrollApprovalDateTime" parent="CalendarEntry-batchPayrollApprovalDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchPayrollApprovalDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchPayrollApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
     <property name="shortLabel" value="Batch Payroll Approval Date Time"/>
-    <property name="maxLength" value="30"/>
-    <property name="validationPattern">
-        <bean parent="TimestampValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
     <property name="name" value="batchPayrollApprovalDateTime"/>
     <property name="label" value="Batch Payroll Approval Date Time"/>
   </bean>
 
   <bean id="CalendarEntry-batchPayrollApprovalDate" parent="CalendarEntry-batchPayrollApprovalDate-parentBean"/>
-  <bean id="CalendarEntry-batchPayrollApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchPayrollApprovalDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="Batch Payroll Approval Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     <property name="name" value="batchPayrollApprovalDate"/>
     <property name="label" value="Batch Payroll Approval Date"/>
   </bean>

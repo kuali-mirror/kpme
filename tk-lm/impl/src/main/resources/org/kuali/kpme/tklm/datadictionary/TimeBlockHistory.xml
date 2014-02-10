@@ -128,60 +128,16 @@
     </bean>
 
     <bean id="TimeBlockHistory-workArea" parent="TimeBlockHistory-workArea-parentBean"/>
-    <bean id="TimeBlockHistory-workArea-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Work Area"/>
-        <property name="maxLength" value="7"/>
-        <property name="validationPattern">
-            <bean parent="NumericValidationPattern"/>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="7"/>
-        </property>
-        <property name="name" value="workArea"/>
-        <property name="label" value="Work Area"/>
-    </bean>
-    
+    <bean id="TimeBlockHistory-workArea-parentBean" abstract="true" parent="KpmeAttributeReference-workArea" />
+
     <bean id="TimeBlockHistory-task" parent="TimeBlockHistory-task-parentBean"/>
-    <bean id="TimeBlockHistory-task-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Task"/>
-        <property name="maxLength" value="10"/>
-        <property name="validationPattern">
-            <bean parent="NumericValidationPattern"/>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10"/>
-        </property>
-        <property name="name" value="task"/>
-        <property name="label" value="Task"/>
-    </bean>
+    <bean id="TimeBlockHistory-task-parentBean" abstract="true" parent="KpmeAttributeReference-task"/>
 
     <bean id="TimeBlockHistory-jobNumber" parent="TimeBlockHistory-jobNumber-parentBean"/>
-    <bean id="TimeBlockHistory-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="forceUppercase" value="true"/>
-        <property name="maxLength" value="7"/>
-        <property name="validationPattern">
-            <bean parent="NumericValidationPattern"/>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10"/>
-        </property>
-        <property name="name" value="jobNumber"/>
-        <property name="label" value="Job Number"/>
-        <property name="description" value="jobNumber"/>
-    </bean>
+    <bean id="TimeBlockHistory-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
 
     <bean id="TimeBlockHistory-earnCode" parent="TimeBlockHistory-earnCode-parentBean"/>
-
-    <bean id="TimeBlockHistory-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="forceUppercase" value="true"/>
-        <property name="maxLength" value="15"/>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="15"/>
-        </property>
-        <property name="name" value="earnCode"/>
-        <property name="label" value="Earn Code"/>
-        <property name="description" value="Earn Code"/>
-    </bean>
+    <bean id="TimeBlockHistory-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode" />
 
     <bean id="TimeBlockHistory-beginTimestampVal" parent="TimeBlockHistory-beginTimestampVal-parentBean"/>
     <bean id="TimeBlockHistory-beginTimestampVal-parentBean" parent="TimeBlock-beginTimestampVal" abstract="true" />
@@ -190,45 +146,13 @@
     <bean id="TimeBlockHistory-endTimestampVal-parentBean" abstract="true" parent="TimeBlock-endTimestampVal" />
     
     <bean id="TimeBlockHistory-beginDate" parent="TimeBlockHistory-beginDate-parentBean" />
-	<bean id="TimeBlockHistory-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Date" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="beginDate" />
-		<property name="label" value="Date" />
-	</bean> 
+	<bean id="TimeBlockHistory-beginDate-parentBean" abstract="true" parent="TimeBlock-beginDate" />
 
     <bean id="TimeBlockHistory-timestamp" parent="TimeBlockHistory-timestamp-parentBean"/>
-    <bean id="TimeBlockHistory-timestamp-parentBean" abstract="true"
-          parent="AttributeDefinition">
-        <property name="shortLabel" value="Modified Time"/>
-        <property name="maxLength" value="15"/>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="15" p:datePicker="true" />
-        </property>
-        <property name="formatterClass"
-                  value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
-        <property name="name" value="timestamp"/>
-        <property name="label" value="Modified Time"/>
-    </bean>
+    <bean id="TimeBlockHistory-timestamp-parentBean" abstract="true" parent="TimeBlock-timestamp" />
 
     <bean id="TimeBlockHistory-clockLogCreated" parent="TimeBlockHistory-clockLogCreated-parentBean"/>
-    <bean id="TimeBlockHistory-clockLogCreated-parentBean" abstract="true"
-          parent="AttributeDefinition">
-        <property name="shortLabel" value="Clock Log Created"/>
-        <property name="control">
-            <bean parent="CheckboxControlDefinition"/>
-        </property>
-        <property name="name" value="clockLogCreated"/>
-        <property name="label" value="Clock Log Created"/>
-        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
-    </bean>
+    <bean id="TimeBlockHistory-clockLogCreated-parentBean" abstract="true" parent="TimeBlock-clockLogCreated-parentBean" />
 
     <bean id="TimeBlockHistory-userPrincipalId" parent="TimeBlockHistory-userPrincipalId-parentBean"/>
     <bean id="TimeBlockHistory-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -247,20 +171,7 @@
     </bean>
 
     <bean id="TimeBlockHistory-principalId" parent="TimeBlockHistory-principalId-parentBean"/>
-    <bean id="TimeBlockHistory-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Principal Id"/>
-        <property name="maxLength" value="40"/>
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false"/>
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="40"/>
-        </property>
-        <property name="name" value="principalId"/>
-        <property name="label" value="Principal Id"/>
-    </bean>
+    <bean id="TimeBlockHistory-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 
     <bean id="TimeBlockHistory-actionHistory" parent="TimeBlockHistory-actionHistory-parentBean"/>
     <bean id="TimeBlockHistory-actionHistory-parentBean" abstract="true" parent="AttributeDefinition">

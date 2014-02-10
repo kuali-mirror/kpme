@@ -52,21 +52,8 @@
 
 	<!-- Attribute Definitions -->
   <bean id="EarnCodeGroupDefinition-earnCode" parent="EarnCodeGroupDefinition-earnCode-parentBean"/>
-  <bean id="EarnCodeGroupDefinition-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Earn Code"/>
-    <property name="forceUppercase" value="true" />
-    <property name="maxLength" value="15"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="15"/>
-    </property>
-    <property name="name" value="earnCode"/>
-    <property name="label" value="Earn Code"/>
-  </bean>
+  <bean id="EarnCodeGroupDefinition-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode" />
+
 
   <bean id="EarnCodeGroupDefinition-earnCodeDesc" parent="EarnCodeGroupDefinition-earnCodeDesc-parentBean"/>
   <bean id="EarnCodeGroupDefinition-earnCodeDesc-parentBean" abstract="true" parent="AttributeDefinition">

@@ -129,19 +129,7 @@
     </bean>
     
     <bean id="MissedPunch-principalId" parent="MissedPunch-principalId-parentBean" />
-    <bean id="MissedPunch-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="principalId" />
-        <property name="label" value="Principal Id" />
-        <property name="shortLabel" value="Principal Id" />
-        <property name="maxLength" value="40" />
-        <property name="required" value="true" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint" />
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40" />
-        </property>
-    </bean>
+    <bean id="MissedPunch-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 
     <!--<bean id="MissedPunch-principalName" parent="MissedPunch-principalName-parentBean"/>
     <bean id="MissedPunch-principalName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -217,56 +205,13 @@
     </bean>
     
     <bean id="MissedPunch-jobNumber" parent="MissedPunch-jobNumber-parentBean" />
-    <bean id="MissedPunch-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="jobNumber" />
-        <property name="label" value="Job Number" />
-        <property name="shortLabel" value="Job Number" />
-        <property name="maxLength" value="3" />
-        <property name="validCharactersConstraint">
-            <bean parent="NumericPatternConstraint" />
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="3" />
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="3" />
-        </property>
-    </bean>
+    <bean id="MissedPunch-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
     
     <bean id="MissedPunch-workArea" parent="MissedPunch-workArea-parentBean" />
-    <bean id="MissedPunch-workArea-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="workArea" />
-        <property name="label" value="Work Area" />
-        <property name="shortLabel" value="Work Area" />
-        <property name="maxLength" value="10" />
-        <property name="validCharactersConstraint">
-            <bean parent="NumericPatternConstraint" />
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="7" />
-        </property>
-        <!-- need this for custom doc search until krad rewrite -->
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="7" />
-        </property>
-    </bean>
+    <bean id="MissedPunch-workArea-parentBean" abstract="true" parent="KpmeAttributeReference-workArea"/>
 
     <bean id="MissedPunch-task" parent="MissedPunch-task-parentBean" />
-    <bean id="MissedPunch-task-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="task" />
-        <property name="label" value="Task" />
-        <property name="shortLabel" value="Task" />
-        <property name="maxLength" value="10" />
-        <property name="validCharactersConstraint">
-            <bean parent="NumericPatternConstraint" />
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10" />
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10" />
-        </property>
-    </bean>
+    <bean id="MissedPunch-task-parentBean" abstract="true" parent="KpmeAttributeReference-task"/>
     
     <bean id="MissedPunch-actionDateTime" parent="MissedPunch-actionDateTime-parentBean" />
     <bean id="MissedPunch-actionDateTime-parentBean" abstract="true" parent="AttributeDefinition">

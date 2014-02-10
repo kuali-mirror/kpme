@@ -103,21 +103,7 @@
 	</bean>
 
 	<bean id="LeaveAdjustment-principalId" parent="LeaveAdjustment-principalId-parentBean" />
-	<bean id="LeaveAdjustment-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="LeaveAdjustment-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" p:required="true"/>
 		
 	<bean id="LeaveAdjustment-leavePlan" parent="LeaveAdjustment-leavePlan-parentBean" />
 	<bean id="LeaveAdjustment-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
@@ -147,21 +133,8 @@
 	</bean>
 	
 	<bean id="LeaveAdjustment-earnCode" parent="LeaveAdjustment-earnCode-parentBean" />
-	<bean id="LeaveAdjustment-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Earn Code" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="15" />
-		</property>
-		<property name="name" value="earnCode" />
-		<property name="label" value="Earn Code" />
-	</bean>
-	
+	<bean id="LeaveAdjustment-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode" />
+
 	<bean id="LeaveAdjustment-description" parent="LeaveAdjustment-description-parentBean" />
 	<bean id="LeaveAdjustment-description-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />

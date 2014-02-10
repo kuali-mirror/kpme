@@ -64,14 +64,7 @@
   </bean>
     
   <bean id="LeaveCalendarDocumentHeader-principalId" parent="LeaveCalendarDocumentHeader-principalId-parentBean" />
-  <bean id="LeaveCalendarDocumentHeader-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="maxLength" value="40" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="40" />
-    </property>
-    <property name="name" value="principalId" />
-    <property name="label" value="Principal ID" />
-  </bean> 
+  <bean id="LeaveCalendarDocumentHeader-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
   
   <bean id="LeaveCalendarDocumentHeader-documentStatus" parent="LeaveCalendarDocumentHeader-documentStatus-parentBean" />
   <bean id="LeaveCalendarDocumentHeader-documentStatus-parentBean" abstract="true" parent="AttributeDefinition">
@@ -85,31 +78,15 @@
   
 
   <bean id="LeaveCalendarDocumentHeader-payBeginDate" parent="LeaveCalendarDocumentHeader-payBeginDate-parentBean"/>
-  <bean id="LeaveCalendarDocumentHeader-payBeginDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LeaveCalendarDocumentHeader-payBeginDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="Pay Begin Date"/>
-    <property name="maxLength" value="12"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
     <property name="name" value="beginDate" />
     <property name="label" value="Pay Begin Date" />
   </bean> 
   
   <bean id="LeaveCalendarDocumentHeader-payEndDate" parent="LeaveCalendarDocumentHeader-payEndDate-parentBean"/>
-  <bean id="LeaveCalendarDocumentHeader-payEndDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="LeaveCalendarDocumentHeader-payEndDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
     <property name="shortLabel" value="Pay End Date"/>
-    <property name="maxLength" value="12"/>
-    <property name="validationPattern">
- 		<bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
     <property name="name" value="endDate" />
     <property name="label" value="Pay End Date" />
   </bean>

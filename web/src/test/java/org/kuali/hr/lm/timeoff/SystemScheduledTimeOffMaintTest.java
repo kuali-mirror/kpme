@@ -44,7 +44,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMEWebTestCase{
 	private static final String ACCRUED_DATE_PAST_ERROR = "'Accrued Date' needs to be a future date.";
 	private static final String SCHEDULED_TO_DATE_PAST_ERROR = "'Scheduled Time Off Date' needs to be a future date.";
 	private static final String SUCCESS_MESSAGE = "Document was successfully submitted.";
-	private static final String ERROR_LEAVE_CODE = "The specified earnCode 'testLCL' does not exist";
+	private static final String ERROR_LEAVE_CODE = "The specified earnCode 'TESTLCL' does not exist";
 	
 	@Test
 	public void testRequiredFields() throws Exception {

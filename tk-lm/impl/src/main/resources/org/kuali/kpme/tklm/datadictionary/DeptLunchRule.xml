@@ -125,37 +125,16 @@
    -->
 
 	<bean id="DeptLunchRule-principalId" parent="DeptLunchRule-principalId-parentBean" />
-	<bean id="DeptLunchRule-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="DeptLunchRule-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 
 	<bean id="DeptLunchRule-jobNumber" parent="DeptLunchRule-jobNumber-parentBean" />
-	<bean id="DeptLunchRule-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Job Number" />
-		<property name="maxLength" value="3" />
+	<bean id="DeptLunchRule-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber">
 		<property name="validationPattern">
 			<bean parent="RegexValidationPattern">
  		   		<property name="pattern" value="\%|((\+|-)?([0-9]+))"></property>
  		   		<property name="validationErrorMessageKey" value="error.validation.long.or.wildcard"></property>
  			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
-		</property>
-		<property name="name" value="jobNumber" />
-		<property name="label" value="Job Number" />
         <property name="formatterClass" value="org.kuali.kpme.core.web.formatter.LongOrWildcardFormatter"/>
 	</bean>
 

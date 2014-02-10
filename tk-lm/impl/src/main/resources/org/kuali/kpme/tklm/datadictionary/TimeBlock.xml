@@ -127,57 +127,17 @@
   </bean>    
   
  <bean id="TimeBlock-workArea" parent="TimeBlock-workArea-parentBean"/>
-  <bean id="TimeBlock-workArea-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Work Area"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="workArea"/>
-    <property name="label" value="Work Area"/>
-  </bean>
-  
+  <bean id="TimeBlock-workArea-parentBean" abstract="true" parent="KpmeAttributeReference-workArea" />
+
   <bean id="TimeBlock-task" parent="TimeBlock-task-parentBean"/>
-  <bean id="TimeBlock-task-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Task"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="task"/>
-    <property name="label" value="Task"/>
-  </bean>
+  <bean id="TimeBlock-task-parentBean" abstract="true" parent="KpmeAttributeReference-task"/>
  
-<bean id="TimeBlock-jobNumber" parent="TimeBlock-jobNumber-parentBean" />
-  <bean id="TimeBlock-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-      <property name="forceUppercase" value="true" />
-      <property name="maxLength" value="7"/>
-       <property name="validationPattern">
- 		 <bean parent="NumericValidationPattern"/>
-       </property>      
-      <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-      </property>
-    <property name="name" value="jobNumber" />
-    <property name="label" value="Job Number" />
-    <property name="description" value="jobNumber" />
-  </bean>
+  <bean id="TimeBlock-jobNumber" parent="TimeBlock-jobNumber-parentBean" />
+  <bean id="TimeBlock-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
   
  <bean id="TimeBlock-earnCode" parent="TimeBlock-earnCode-parentBean" />
+  <bean id="TimeBlock-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode" />
 
-  <bean id="TimeBlock-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
-    <property name="maxLength" value="15" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="15" />
-    </property>
-    <property name="name" value="earnCode" />
-    <property name="label" value="Earn Code" />
-    <property name="description" value="Earn Code" />
-  </bean>  
-  
    <bean id="TimeBlock-beginTimestampVal" parent="TimeBlock-beginTimestampVal-parentBean" />
    <bean id="TimeBlock-beginTimestampVal-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -206,31 +166,18 @@
 	<bean id="TimeBlock-timestamp-parentBean" abstract="true" parent="KpmeAttributeReference-timestamp" />
 	
 	<bean id="TimeBlock-beginDate" parent="TimeBlock-beginDate-parentBean" />
-	<bean id="TimeBlock-beginDate-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="TimeBlock-beginDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
 		<property name="shortLabel" value="Date" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="beginDate" />
 		<property name="label" value="Date" />
 	</bean> 
 	
 	<bean id="TimeBlock-clockLogCreated" parent="TimeBlock-clockLogCreated-parentBean" />
-	<bean id="TimeBlock-clockLogCreated-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="TimeBlock-clockLogCreated-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
 		<property name="shortLabel" value="Clock Log Created" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 		<property name="name" value="clockLogCreated" />
 		<property name="label" value="Clock Log Created" />
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
-	</bean>	
+	</bean>
     
   <bean id="TimeBlock-userPrincipalId" parent="TimeBlock-userPrincipalId-parentBean"/>
   <bean id="TimeBlock-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -249,20 +196,7 @@
   </bean>  
   
   <bean id="TimeBlock-principalId" parent="TimeBlock-principalId-parentBean"/>
-  <bean id="TimeBlock-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Principal Id"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
-    </property>
-    <property name="name" value="principalId"/>
-    <property name="label" value="Principal Id"/>
-  </bean>  
+  <bean id="TimeBlock-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
   
 	<bean id="TimeBlock-hours" parent="TimeBlock-hours-parentBean" />
  	 <bean id="TimeBlock-hours-parentBean" abstract="true" parent="AttributeDefinition">
@@ -293,15 +227,10 @@
   </bean>
 
     <bean id="TimeBlock-lunchDeleted" parent="TimeBlock-lunchDeleted-parentBean"/>
-    <bean id="TimeBlock-lunchDeleted-parentBean" abstract="true"
-          parent="AttributeDefinition">
+    <bean id="TimeBlock-lunchDeleted-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
         <property name="shortLabel" value="Lunch Deleted"/>
-        <property name="control">
-            <bean parent="CheckboxControlDefinition"/>
-        </property>
         <property name="name" value="lunchDeleted"/>
         <property name="label" value="Lunch Deleted"/>
-        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
     </bean>
 
     <bean id="TimeBlock-overtimePref" parent="TimeBlock-overtimePref-parentBean"/>

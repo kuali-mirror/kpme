@@ -241,16 +241,8 @@
 
 	<!--  percentage validation -->
 	<bean id="AssignmentAccount-percent" parent="AssignmentAccount-percent-parentBean" />
-	<bean id="AssignmentAccount-percent-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="AssignmentAccount-percent-parentBean" abstract="true"	parent="KpmeAttributeReference-numericBusinessKey">
 		<property name="shortLabel" value="Percent" />
-		<property name="maxLength" value="7" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
-		</property>
 		<property name="name" value="percent" />
 		<property name="label" value="Percent" />
 	</bean>
@@ -276,21 +268,7 @@
 	</bean>
 
 	<bean id="AssignmentAccount-earnCode" parent="AssignmentAccount-earnCode-parentBean" />
-	<bean id="AssignmentAccount-earnCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Earn Code" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="15" />
-		</property>
-		<property name="name" value="earnCode" />
-		<property name="label" value="Earn Code" />
-	</bean>
+	<bean id="AssignmentAccount-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode" />
 
     <!--userPrincipalId-->
     <bean id="AssignmentAccount-userPrincipalId" parent="AssignmentAccount-userPrincipalId-parentBean" />

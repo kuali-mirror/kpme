@@ -106,37 +106,11 @@
 
 	<!-- PrincipalId -->
 	<bean id="ClockLog-principalId" parent="ClockLog-principalId-parentBean" />
-	<bean id="ClockLog-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="ClockLog-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 
 	<!-- ClockLog-jobNumber  -->
 	<bean id="ClockLog-jobNumber" parent="ClockLog-jobNumber-parentBean" />
-	<bean id="ClockLog-jobNumber-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="JobNumber" />
-		<property name="maxLength" value="20" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-		<property name="name" value="jobNumber" />
-		<property name="label" value="Job Number" />
-	</bean>
+	<bean id="ClockLog-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
 
 	<!--workArea  -->
 	<bean id="ClockLog-workArea" parent="ClockLog-workArea-parentBean" />
@@ -156,33 +130,16 @@
 
 	<!-- taskId -->
 	<bean id="ClockLog-task" parent="ClockLog-task-parentBean" />
-	<bean id="ClockLog-task-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Task" />
-		<property name="maxLength" value="20" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-		<property name="name" value="task" />
-		<property name="label" value="Task" />
-	</bean>
+	<bean id="ClockLog-task-parentBean" abstract="true" parent="KpmeAttributeReference-task"/>
 
 	<!-- clockTimestamp -->
 	<bean id="ClockLog-clockTimestamp" parent="ClockLog-clockTimestamp-parentBean" />
-	<bean id="ClockLog-clockTimestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="ClockLog-clockTimestamp-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
 		<property name="shortLabel" value="Clock Timestamp" />
 		<property name="maxLength" value="20" />
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="21" p:datePicker="true" p:ranged="true"/>
 		</property>
-		<property name="validationPattern">
-			<bean parent="TimestampValidationPattern" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>		
 		<property name="name" value="clockTimestamp" />
 		<property name="label" value="Clock Timestamp (MM/DD/YYYY HH:MM AM)" />
 	</bean>

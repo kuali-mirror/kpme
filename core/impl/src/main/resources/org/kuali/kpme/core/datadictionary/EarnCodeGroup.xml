@@ -85,14 +85,10 @@
 	</bean>
 	
 	<bean id="EarnCodeGroup-showSummary" parent="EarnCodeGroup-showSummary-parentBean"/>
-  	<bean id="EarnCodeGroup-showSummary-parentBean" abstract="true" parent="AttributeDefinition">
+  	<bean id="EarnCodeGroup-showSummary-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
 	    <property name="shortLabel" value="Show On Summary"/>
-	    <property name="control">
-	      <bean parent="CheckboxControlDefinition"/>
-	    </property>
 	    <property name="name" value="showSummary"/>
 	    <property name="label" value="Show On Time Summary"/>
-	    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   	</bean>
 	
 

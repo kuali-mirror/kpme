@@ -54,15 +54,13 @@
     <bean id="LocationPrincipalRoleMemberBo-effectiveDate-parentBean" abstract="true" parent="KpmeAttributeReference-effectiveDate"/>
 	
     <bean id="LocationPrincipalRoleMemberBo-principalId" parent="LocationPrincipalRoleMemberBo-principalId-parentBean" />
-    <bean id="LocationPrincipalRoleMemberBo-principalId-parentBean" abstract="true" parent="PrincipalRoleMemberBo-principalId">
-        <property name="name" value="principalId" />
-    </bean>
+    <bean id="LocationPrincipalRoleMemberBo-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
     
     <bean id="LocationPrincipalRoleMemberBo-principalName" parent="LocationPrincipalRoleMemberBo-principalName-parentBean" />
     <bean id="LocationPrincipalRoleMemberBo-principalName-parentBean" abstract="true" parent="PrincipalRoleMemberBo-principalName">
         <property name="name" value="principalName" />
     </bean>
-    
+
     <bean id="LocationPrincipalRoleMemberBo-roleName" parent="LocationPrincipalRoleMemberBo-roleName-parentBean" />
     <bean id="LocationPrincipalRoleMemberBo-roleName-parentBean" abstract="true" parent="PrincipalRoleMemberBo-roleName">
         <property name="name" value="roleName" />

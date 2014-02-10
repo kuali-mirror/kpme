@@ -55,18 +55,10 @@
     </bean>
 
     <bean id="KPMERoleMemberBo-expirationDate" parent="KPMERoleMemberBo-expirationDate-parentBean" />
-    <bean id="KPMERoleMemberBo-expirationDate-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="KPMERoleMemberBo-expirationDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
         <property name="name" value="expirationDate" />
         <property name="label" value="Expiration Date" />
         <property name="shortLabel" value="Expiration Date" />
-        <property name="maxLength" value="10" />
-        <property name="validationPattern">
-            <bean parent="DateValidationPattern" />
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-        </property>
-        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
     </bean>
 
     <bean id="KPMERoleMemberBo-active" parent="KPMERoleMemberBo-active-parentBean" />

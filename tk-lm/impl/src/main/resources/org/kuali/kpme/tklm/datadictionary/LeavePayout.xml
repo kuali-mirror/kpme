@@ -106,40 +106,11 @@
 	
 	<!-- principalId -->
 	<bean id="LeavePayout-principalId" parent="LeavePayout-principalId-parentBean" />
-	<bean id="LeavePayout-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="PrincipalId" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-		<property name="required" value="true"/>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="LeavePayout-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 
     <!-- EarnCode -->
     <bean id="LeavePayout-earnCode" parent="LeavePayout-earnCode-parentBean" />
-    <bean id="LeavePayout-earnCode-parentBean" abstract="true"
-        parent="AttributeDefinition">
-        <property name="shortLabel" value="Earn Code" />
-        <property name="maxLength" value="15" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10" />
-        </property>
-        <property name="name" value="earnCode" />
-        <property name="label" value="Earn Code" />
-    </bean>
+    <bean id="LeavePayout-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode"/>
 
     <!-- fromAccrualCategory -->
     <bean id="LeavePayout-fromAccrualCategory" parent="LeavePayout-fromAccrualCategory-parentBean" />

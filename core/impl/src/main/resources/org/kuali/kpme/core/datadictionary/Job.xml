@@ -271,21 +271,7 @@
 	</bean>
 
 	<bean id="Job-principalId" parent="Job-principalId-parentBean" />
-	<bean id="Job-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="Job-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 
 	<bean id="Job-firstName" parent="Job-firstName-parentBean" />
 	<bean id="Job-firstName-parentBean" abstract="true" parent="AttributeDefinition">
@@ -320,15 +306,10 @@
 	</bean>
 
 	<bean id="Job-principalName" parent="Job-principalName-parentBean" />
-	<bean id="Job-principalName-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Name" />
-		<property name="maxLength" value="30" />
+	<bean id="Job-principalName-parentBean" abstract="true"	parent="KpmeAttributeReference-principalName">
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="30" />
 		</property>
-		<property name="name" value="principalName" />
-		<property name="label" value="Principal Name" />
 	</bean>
 
 	<bean id="Job-name" parent="Job-name-parentBean" />
@@ -343,34 +324,16 @@
 	</bean>
 
 	<bean id="Job-jobNumber" parent="Job-jobNumber-parentBean" />
-	<bean id="Job-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Job Number" />
-		<property name="maxLength" value="3" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
-		</property>
-		<property name="name" value="jobNumber" />
-		<property name="label" value="Job Number" />
-	</bean>
+	<bean id="Job-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
 
 	<bean id="Job-dept" parent="Job-dept-parentBean" />
 	<bean id="Job-dept-parentBean" abstract="true" parent="KpmeAttributeReference-dept"/>
 
 	<bean id="Job-primaryIndicator" parent="Job-primaryIndicator-parentBean" />
-	<bean id="Job-primaryIndicator-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Primary Indicator" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="primaryIndicator" />
-		<property name="label" value="Primary Indicator" />
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.BooleanFormatter" />
-	</bean>
+	<bean id="Job-primaryIndicator-parentBean" abstract="true" parent="AttributeReference-genericBoolean"
+		p:shortLabel="Primary Indicator"
+		p:name="primaryIndicator"
+		p:label="Primary Indicator" />
 
 	<!-- <bean id="Job-hrPyCalendarId" parent="Job-hrPyCalendarId-parentBean" 
 		/> <bean id="Job-hrPyCalendarId-parentBean" abstract="true" parent="AttributeDefinition"> 
@@ -385,17 +348,10 @@
 
 	<!-- Eligible For Leave -->
 	<bean id="Job-eligibleForLeave" parent="Job-eligibleForLeave-parentBean" />
-	<bean id="Job-eligibleForLeave-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Eligible For Leave" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="eligibleForLeave" />
-		<property name="label" value="Eligible For Leave" />
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.BooleanFormatter" />
-	</bean>
+	<bean id="Job-eligibleForLeave-parentBean" abstract="true" parent="AttributeReference-genericBoolean"
+		p:shortLabel="Eligible For Leave"
+		p:name="eligibleForLeave"
+		p:label="Eligible For Leave" />
 
 
 	<!-- FLSA Status -->

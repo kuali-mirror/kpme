@@ -108,22 +108,7 @@
 	
 	<!-- principalId -->
 	<bean id="BalanceTransfer-principalId" parent="BalanceTransfer-principalId-parentBean" />
-	<bean id="BalanceTransfer-principalId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="PrincipalId" />
-		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-		<property name="required" value="true"/>
-		<property name="name" value="principalId" />
-		<property name="label" value="Principal Id" />
-	</bean>
+	<bean id="BalanceTransfer-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 	
 	<!-- transferAmount -->
 	<bean id="BalanceTransfer-transferAmount" parent="BalanceTransfer-transferAmount-parentBean" />

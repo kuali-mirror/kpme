@@ -97,59 +97,19 @@
   </bean>    
   
  <bean id="LeaveBlock-workArea" parent="LeaveBlock-workArea-parentBean"/>
-  <bean id="LeaveBlock-workArea-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Work Area"/>
-    <property name="maxLength" value="7"/>
-    <property name="validationPattern">
- 		<bean parent="NumericValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="workArea"/>
-    <property name="label" value="Work Area"/>
-  </bean>
-  
-  <bean id="LeaveBlock-task" parent="LeaveBlock-task-parentBean"/>
-  <bean id="LeaveBlock-task-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Task"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="7"/>
-    </property>
-    <property name="name" value="task"/>
-    <property name="label" value="Task"/>
-  </bean>
- 
-<bean id="LeaveBlock-jobNumber" parent="LeaveBlock-jobNumber-parentBean" />
-  <bean id="LeaveBlock-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
-      <property name="forceUppercase" value="true" />
-      <property name="maxLength" value="7"/>
-       <property name="validationPattern">
- 		 <bean parent="NumericValidationPattern"/>
-       </property>      
-      <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10"/>
-      </property>
-    <property name="name" value="jobNumber" />
-    <property name="label" value="Job Number" />
-    <property name="description" value="jobNumber" />
-  </bean>
-  
- <bean id="LeaveBlock-earnCode" parent="LeaveBlock-earnCode-parentBean" />
+  <bean id="LeaveBlock-workArea-parentBean" abstract="true" parent="KpmeAttributeReference-workArea" />
 
-  <bean id="LeaveBlock-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
-    <property name="maxLength" value="15" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="15" />
-    </property>
-    <property name="name" value="earnCode" />
-    <property name="label" value="Earn Code" />
-    <property name="description" value="Earn Code" />
-  </bean>  
+  <bean id="LeaveBlock-task" parent="LeaveBlock-task-parentBean"/>
+  <bean id="LeaveBlock-task-parentBean" abstract="true" parent="KpmeAttributeReference-task"/>
+ 
+  <bean id="LeaveBlock-jobNumber" parent="LeaveBlock-jobNumber-parentBean" />
+  <bean id="LeaveBlock-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
   
-	<bean id="LeaveBlock-timestamp" parent="LeaveBlock-timestamp-parentBean" />
-	<bean id="LeaveBlock-timestamp-parentBean" abstract="true" parent="KpmeAttributeReference-timestamp" />
+  <bean id="LeaveBlock-earnCode" parent="LeaveBlock-earnCode-parentBean" />
+  <bean id="LeaveBlock-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode" />
+  
+  <bean id="LeaveBlock-timestamp" parent="LeaveBlock-timestamp-parentBean" />
+  <bean id="LeaveBlock-timestamp-parentBean" abstract="true" parent="KpmeAttributeReference-timestamp" />
 	
 <!-- 	<bean id="LeaveBlock-beginDate" parent="LeaveBlock-beginDate-parentBean" /> -->
 <!-- 	<bean id="LeaveBlock-beginDate-parentBean" abstract="true" parent="AttributeDefinition"> -->
@@ -167,35 +127,14 @@
 <!-- 	</bean>  -->
 	
 	<bean id="LeaveBlock-leaveDate" parent="LeaveBlock-leaveDate-parentBean" />
-	<bean id="LeaveBlock-leaveDate-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="LeaveBlock-leaveDate-parentBean" abstract="true" parent="KpmeAttributeReference-datePicker">
 		<property name="shortLabel" value="Leave Date" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="leaveDate" />
 		<property name="label" value="Leave Date" />
 	</bean> 
 
   <bean id="LeaveBlock-principalId" parent="LeaveBlock-principalId-parentBean"/>
-  <bean id="LeaveBlock-principalId-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Principal Id"/>
-    <property name="maxLength" value="40"/>
-    <property name="validationPattern">
-      <bean parent="AnyCharacterValidationPattern">
-      	<property name="allowWhitespace" value="false"/>
-      </bean>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="40"/>
-    </property>
-    <property name="name" value="principalId"/>
-    <property name="label" value="Principal Id"/>
-  </bean>  
+  <bean id="LeaveBlock-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
  
   <bean id="LeaveBlock-userPrincipalId" parent="LeaveBlock-userPrincipalId-parentBean"/>
   <bean id="LeaveBlock-userPrincipalId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -253,17 +192,11 @@
     </bean>
        
     <bean id="LeaveBlock-accrualGenerated" parent="LeaveBlock-accrualGenerated-parentBean" />
-	<bean id="LeaveBlock-accrualGenerated-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Accrual Generated" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
-		<property name="name" value="accrualGenerated" />
-		<property name="label" value="Accrual Generated" />
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
-	</bean>	
-	
+	<bean id="LeaveBlock-accrualGenerated-parentBean" abstract="true" parent="AttributeReference-genericBoolean"
+		p:shortLabel="Accrual Generated"
+		p:name="accrualGenerated"
+		p:label="Accrual Generated" />
+
 	 <bean id="LeaveBlock-accrualCategory" parent="LeaveBlock-accrualCategory-parentBean"/>
     <bean id="LeaveBlock-accrualCategory-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="forceUppercase" value="true"/>
