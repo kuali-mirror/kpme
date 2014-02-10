@@ -82,7 +82,7 @@
   	
   <!-- Position Flag Lookup View -->
  
-  <bean id="PositionFlag-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+  <bean id="PositionFlag-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Flag Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag" />
     <property name="criteriaFields">

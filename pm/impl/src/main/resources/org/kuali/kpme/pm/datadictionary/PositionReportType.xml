@@ -135,7 +135,7 @@
 
     <!-- Position Reporting Type Lookup View -->
 
-    <bean id="PositionReportType-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+    <bean id="PositionReportType-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Type Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType" />
         <property name="criteriaFields">

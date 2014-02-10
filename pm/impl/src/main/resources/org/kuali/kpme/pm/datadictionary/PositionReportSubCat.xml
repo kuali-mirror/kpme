@@ -110,7 +110,7 @@
 
     <!-- Position Reporting Sub Category Lookup View -->
 
-    <bean id="PositionReportSubCat-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+    <bean id="PositionReportSubCat-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Sub Category Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" />
         <property name="criteriaFields">

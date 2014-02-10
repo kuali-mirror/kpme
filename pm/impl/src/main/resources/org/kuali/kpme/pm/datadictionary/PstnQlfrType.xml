@@ -128,7 +128,7 @@
   	
   <!-- Position Qualifier Type Lookup View -->
  
-  <bean id="PositionQualifierType-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+  <bean id="PositionQualifierType-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Qualifier Type Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" />
     <property name="criteriaFields">

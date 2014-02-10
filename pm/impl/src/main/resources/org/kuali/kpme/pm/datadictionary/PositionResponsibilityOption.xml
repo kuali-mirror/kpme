@@ -81,7 +81,7 @@
   	
   <!-- Position Responsibility Option Lookup View -->
  
-  <bean id="PositionResponsibilityOption-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+  <bean id="PositionResponsibilityOption-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Responsibility Option Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" />
     <property name="criteriaFields">

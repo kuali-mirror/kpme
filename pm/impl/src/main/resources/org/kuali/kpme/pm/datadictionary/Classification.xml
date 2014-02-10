@@ -295,7 +295,7 @@
  ***************************************************************************-->  	
   	
   <!-- Position Classification Lookup View -->
-  <bean id="Classification-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+  <bean id="Classification-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Classification Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification" />
     <property name="criteriaFields">

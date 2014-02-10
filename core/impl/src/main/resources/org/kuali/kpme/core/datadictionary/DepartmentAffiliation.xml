@@ -79,7 +79,7 @@
 
     <!-- Department Affiliation Lookup View -->
 
-    <bean id="DepartmentAffiliation-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+    <bean id="DepartmentAffiliation-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Department Affiliation Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation" />
         <property name="criteriaFields">
