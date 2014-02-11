@@ -15,6 +15,15 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -47,9 +56,6 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class AccrualServiceImpl implements AccrualService {
     private static final Logger LOG = Logger.getLogger(AccrualServiceImpl.class);
@@ -1254,5 +1260,22 @@ public class AccrualServiceImpl implements AccrualService {
     		}
     	}
 		return balance;
+	}
+
+	@Override
+	public void runAccrualForLeavePlan(LeavePlan aLeavePlan, DateTime startDate, DateTime endDate, boolean recordRanData) {		
+		if(aLeavePlan != null) {
+			List<PrincipalHRAttributes> phaList = (List<PrincipalHRAttributes>) HrServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForLeavePlan(aLeavePlan.getLeavePlan(), aLeavePlan.getEffectiveLocalDate());		
+			for(PrincipalHRAttributes aPHA : phaList) {
+				String anId = aPHA.getPrincipalId();
+				if(LmServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(anId)) {
+					DateTime startDT = startDate == null ? getStartAccrualDate(anId) : startDate;
+					DateTime endDT = endDate == null ? getEndAccrualDate(anId) : endDate;	
+					if(startDT != null && endDT != null) {
+						this.runAccrual(anId, startDT, endDT, recordRanData);
+					}
+				}
+			}
+		}
 	}
 }

@@ -23,6 +23,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
 
 public interface AccrualService {
@@ -35,6 +36,12 @@ public interface AccrualService {
 	public void runAccrual(String principalId, DateTime startDate, DateTime endDate, boolean recordRanData);
 	public void runAccrual(String principalId, DateTime startDate, DateTime endDate, boolean recordRanData, String runAsPrincipalId);
 	public void runAccrual(List<String> principalIds);
+	
+	/*
+	 * run Accrual for the all employees with the given leave plan and dates. 
+	 * If recordRanData is true, record the timestamp of this run in database 
+	 */
+	public void runAccrualForLeavePlan(LeavePlan aLeavePlan, DateTime startDate, DateTime endDate, boolean recordRanData);
 	
 	
 	/**

@@ -31,6 +31,16 @@
                         </td>
                     </tr>
                     <tr>
+                    	<td>Or</td>
+                    </tr>
+                    <tr>
+                    	<td>Leave Plan ID: </td>                    	
+                    	<td>
+                    		<html:text property="leavePlanId" size="20" />
+                        	<kul:lookup boClassName="org.kuali.kpme.core.leaveplan.LeavePlan" fieldConversions="lmLeavePlanId:leavePlanId" />
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Start Date:</td>
                         <td>
                             <html:text property="startDate" size="12" />
