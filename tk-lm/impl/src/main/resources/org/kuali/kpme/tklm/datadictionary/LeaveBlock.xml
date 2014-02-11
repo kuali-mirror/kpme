@@ -235,19 +235,8 @@
 	</bean>
 	
 	<bean id="LeaveBlock-affectPay" parent="LeaveBlock-affectPay-parentBean" />
-	<bean id="LeaveBlock-affectPay-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="LeaveBlock-affectPay-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Affect Pay" />
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl"/>
-		</property>
-		<property name="optionsFinder">
-            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
-        </property>
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
 		<property name="name" value="affectPay" />
 		<property name="label" value="Affect Pay" />
 	</bean>

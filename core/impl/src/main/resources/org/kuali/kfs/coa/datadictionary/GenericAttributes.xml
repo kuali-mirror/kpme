@@ -34,7 +34,7 @@
 
   <bean id="GenericAttributes-activeIndicator" parent="GenericAttributes-activeIndicator-parentBean"/>
 
-  <bean id="GenericAttributes-activeIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="GenericAttributes-activeIndicator-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
     <property name="name" value="activeIndicator"/>
     <property name="forceUppercase" value="false"/>
     <property name="label" value="Active Indicator"/>
@@ -42,9 +42,6 @@
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
     </property>
     <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>

@@ -149,12 +149,8 @@
 	</bean>
 
 	<bean id="TimeCollectionRule-clockUserFl" parent="TimeCollectionRule-clockUserFl-parentBean" />
-	<bean id="TimeCollectionRule-clockUserFl-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="TimeCollectionRule-clockUserFl-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Clock User" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 		<property name="name" value="clockUserFl" />
 		<property name="label" value="Clock User" />
 	</bean>

@@ -97,6 +97,7 @@
 	<bean id="SalaryGroup-hrSalGroup" parent="SalaryGroup-hrSalGroup-parentBean" />
 	<bean id="SalaryGroup-hrSalGroup-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="true" />
+        <property name="maxLength" value="10" />
 		<property name="shortLabel" value="Salary Group" />
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="10" />
@@ -162,41 +163,15 @@
 	</bean>
 	
 	<bean id="SalaryGroup-benefitsEligible" parent="SalaryGroup-benefitsEligible-parentBean"/>
- 	<bean id="SalaryGroup-benefitsEligible-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="SalaryGroup-benefitsEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
  		<property name="required" value="true" />
- 		<property name="controlField">
-	      	<bean parent="Uif-HorizontalRadioControl">
-		        <property name="options">
-		          <list>
-		            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
-		            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
-		          </list>
-		        </property>
-	        </bean>
-    	</property>
-        <property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
-		</property>
  		<property name="name" value="benefitsEligible" />
  		<property name="label" value="Benefit Eligible" />
   	</bean>
 	
 	<bean id="SalaryGroup-leaveEligible" parent="SalaryGroup-leaveEligible-parentBean"/>
- 	<bean id="SalaryGroup-leaveEligible-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="SalaryGroup-leaveEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
  		<property name="required" value="true" />
-   		<property name="controlField">
-	      	<bean parent="Uif-HorizontalRadioControl">
-		        <property name="options">
-		          <list>
-		            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
-		            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
-		          </list>
-		        </property>
-	        </bean>
-    	</property>
-        <property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder" />
-		</property>
     	<property name="name" value="leaveEligible" />
  		<property name="label" value="Leave Eligible" />
   	</bean>
@@ -204,15 +179,7 @@
 	
 	
 	<bean id="SalaryGroup-leavePlan" parent="SalaryGroup-leavePlan-parentBean" />
-	<bean id="SalaryGroup-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Leave Plan" />
-		<property name="required" value="false" />
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
-		<property name="name" value="leavePlan" />
-		<property name="label" value="Leave Plan" />
-	</bean>
+	<bean id="SalaryGroup-leavePlan-parentBean" abstract="true" parent="KpmeAttributeReference-leavePlan"/>
 
 <!--***************************************************************************
 							Views

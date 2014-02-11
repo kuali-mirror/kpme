@@ -141,36 +141,24 @@
 
 	<!-- Employee -->
 	<bean id="EarnCodeSecurity-employee" parent="EarnCodeSecurity-employee-parentBean" />
-	<bean id="EarnCodeSecurity-employee-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="EarnCodeSecurity-employee-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Employee" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 		<property name="name" value="employee" />
 		<property name="label" value="Employee" />
 	</bean>
 
 	<!-- Approver -->
 	<bean id="EarnCodeSecurity-approver" parent="EarnCodeSecurity-approver-parentBean" />
-	<bean id="EarnCodeSecurity-approver-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="EarnCodeSecurity-approver-parentBean" abstract="true"	parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Approver" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 		<property name="name" value="approver" />
 		<property name="label" value="Approver" />
 	</bean>
 	
 	<!-- Payroll Processor KPME-2532 -->
 	<bean id="EarnCodeSecurity-payrollProcessor" parent="EarnCodeSecurity-payrollProcessor-parentBean" />
-	<bean id="EarnCodeSecurity-payrollProcessor-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="EarnCodeSecurity-payrollProcessor-parentBean" abstract="true"	parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Payroll Processor" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 		<property name="name" value="payrollProcessor" />
 		<property name="label" value="Payroll Processor" />
 	</bean>

@@ -240,35 +240,13 @@
 	</bean>
 
 	<bean id="Position-benefitsEligible" parent="Position-benefitsEligible-parentBean" />
-	<bean id="Position-benefitsEligible-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl">
-				<property name="options">
-					<list>
-						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-					</list>
-				</property>
-			</bean>
-		</property>
+	<bean id="Position-benefitsEligible-parentBean" abstract="true"	parent="KpmeAttributeReference-booleanYesNo">
 		<property name="name" value="benefitsEligible" />
 		<property name="label" value="Benefit Eligible" />
 	</bean>
 
 	<bean id="Position-leaveEligible" parent="Position-leaveEligible-parentBean" />
-	<bean id="Position-leaveEligible-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl">
-				<property name="options">
-					<list>
-						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-					</list>
-				</property>
-			</bean>
-		</property>
+	<bean id="Position-leaveEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
 		<property name="name" value="leaveEligible" />
 		<property name="label" value="Leave Eligible" />
 	</bean>
@@ -309,18 +287,7 @@
 	</bean>
 
 	<bean id="Position-poolEligible" parent="Position-poolEligible-parentBean" />
-	<bean id="Position-poolEligible-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl">
-				<property name="options">
-					<list>
-						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-					</list>
-				</property>
-			</bean>
-		</property>
+	<bean id="Position-poolEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
 		<property name="name" value="poolEligible" />
 		<property name="label" value="Pool Eligible" />
 	</bean>
@@ -336,18 +303,7 @@
 	</bean>
 
 	<bean id="Position-tenureEligible" parent="Position-tenureEligible-parentBean" />
-	<bean id="Position-tenureEligible-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl">
-				<property name="options">
-					<list>
-						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-					</list>
-				</property>
-			</bean>
-		</property>
+	<bean id="Position-tenureEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
 		<property name="name" value="tenureEligible" />
 		<property name="label" value="Tenure Eligible" />
 	</bean>
@@ -464,52 +420,19 @@
 	</bean>
 
 	<bean id="Position-renewEligible" parent="Position-renewEligible-parentBean" />
-	<bean id="Position-renewEligible-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl">
-				<property name="options">
-					<list>
-						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-					</list>
-				</property>
-			</bean>
-		</property>
+	<bean id="Position-renewEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
 		<property name="name" value="renewEligible" />
 		<property name="label" value="Renewal Eligible" />
 	</bean>
 
 	<bean id="Position-temporary" parent="Position-temporary-parentBean" />
-	<bean id="Position-temporary-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl">
-				<property name="options">
-					<list>
-						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-					</list>
-				</property>
-			</bean>
-		</property>
+	<bean id="Position-temporary-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
 		<property name="name" value="temporary" />
 		<property name="label" value="Temporary" />
 	</bean>
 
 	<bean id="Position-contract" parent="Position-contract-parentBean" />
-	<bean id="Position-contract-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="controlField">
-			<bean parent="Uif-HorizontalRadioControl">
-				<property name="options">
-					<list>
-						<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes" />
-						<bean parent="Uif-KeyLabelPair" p:key="N" p:value="No" />
-					</list>
-				</property>
-			</bean>
-		</property>
+	<bean id="Position-contract-parentBean" abstract="true"	parent="KpmeAttributeReference-booleanYesNo">
 		<property name="name" value="contract" />
 		<property name="label" value="Contract" />
 	</bean>
@@ -527,15 +450,7 @@
 
 
 	<bean id="Position-payGrade" parent="Position-payGrade-parentBean" />
-	<bean id="Position-payGrade-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="maxLength" value="10" />
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="payGrade" />
-		<property name="label" value="Pay Grade" />
-	</bean>
+	<bean id="Position-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade"/>
 	
 	<bean id="Position-payStep" parent="Position-payStep-parentBean" />
 	<bean id="Position-payStep-parentBean" abstract="true"

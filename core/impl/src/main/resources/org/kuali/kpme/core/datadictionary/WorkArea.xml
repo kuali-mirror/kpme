@@ -130,14 +130,10 @@
 	</bean>
 
 	<bean id="WorkArea-defaultOvertimeEarnCode" parent="WorkArea-defaultOvertimeEarnCode-parentBean" />
-	<bean id="WorkArea-defaultOvertimeEarnCode-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="WorkArea-defaultOvertimeEarnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode">
 		<property name="name" value="defaultOvertimeEarnCode" />
         <property name="label" value="Default Overtime Earn Code" />
         <property name="shortLabel" value="Default Overtime Earn Code" />
-		<property name="maxLength" value="15" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="15" />
-		</property>
 	</bean>
 	
     <bean id="WorkArea-ovtEarnCode" parent="WorkArea-ovtEarnCode-parentBean" />
@@ -166,12 +162,8 @@
 	</bean>
 
 	<bean id="WorkArea-hrsDistributionF" parent="WorkArea-hrsDistributionF-parentBean" />
-	<bean id="WorkArea-hrsDistributionF-parentBean"
-		abstract="true" parent="AttributeDefinition">
+	<bean id="WorkArea-hrsDistributionF-parentBean"	abstract="true" parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Hr Distribution" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 		<property name="name" value="hrsDistributionF" />
 		<property name="label" value="Hr Distribution" />
 	</bean>

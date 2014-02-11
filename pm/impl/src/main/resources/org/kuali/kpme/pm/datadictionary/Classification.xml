@@ -121,38 +121,13 @@
 	</bean>
 	
 	<bean id="Classification-salaryGroup" parent="Classification-salaryGroup-parentBean" />
-	<bean id="Classification-salaryGroup-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="maxLength" value="50" />
+	<bean id="Classification-salaryGroup-parentBean" abstract="true" parent="SalaryGroup-hrSalGroup">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Sal Group" />
-		<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="true" />
-            </bean>
-		</property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
 		<property name="name" value="salaryGroup" />
-		<property name="label" value="Salary Group" />
 	</bean>
 
     <bean id="Classification-payGrade" parent="Classification-payGrade-parentBean" />
-    <bean id="Classification-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="payGrade" />
-        <property name="required" value="false" />
-        <property name="maxLength" value="10" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="20" />
-        </property>
-        <property name="name" value="payGrade" />
-        <property name="label" value="Pay Grade" />
-    </bean>
+    <bean id="Classification-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade" />
 
 	<bean id="Classification-percentTime" parent="Classification-percentTime-parentBean" />
 	<bean id="Classification-percentTime-parentBean" abstract="true" parent="AttributeDefinition">
@@ -178,35 +153,15 @@
 	</bean>
 	
 	<bean id="Classification-benefitsEligible" parent="Classification-benefitsEligible-parentBean"/>
- 	<bean id="Classification-benefitsEligible-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="Classification-benefitsEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
  		<property name="required" value="true" />
- 		<property name="controlField">
-	      	<bean parent="Uif-HorizontalRadioControl">
-		        <property name="options">
-		          <list>
-		            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
-		            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
-		          </list>
-		        </property>
-	        </bean>
-    	</property>
  		<property name="name" value="benefitsEligible" />
  		<property name="label" value="Benefit Eligible" />
   	</bean>
 	
 	<bean id="Classification-leaveEligible" parent="Classification-leaveEligible-parentBean"/>
- 	<bean id="Classification-leaveEligible-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="Classification-leaveEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
  		<property name="required" value="true" />
-   		<property name="controlField">
-	      	<bean parent="Uif-HorizontalRadioControl">
-		        <property name="options">
-		          <list>
-		            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
-		            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
-		          </list>
-		        </property>
-	        </bean>
-    	</property>
     	<property name="name" value="leaveEligible" />
  		<property name="label" value="Leave Eligible" />
   	</bean>
@@ -246,35 +201,15 @@
 	</bean>
 	
 	<bean id="Classification-poolEligible" parent="Classification-poolEligible-parentBean"/>
- 	<bean id="Classification-poolEligible-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="Classification-poolEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
  		<property name="required" value="true" />
-   		<property name="controlField">
-	      	<bean parent="Uif-HorizontalRadioControl">
-		        <property name="options">
-		          <list>
-		            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
-		            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
-		          </list>
-		        </property>
-	        </bean>
-    	</property>
     	<property name="name" value="poolEligible" />
  		<property name="label" value="Pool Eligible" />
   	</bean>
 	
 	<bean id="Classification-tenureEligible" parent="Classification-tenureEligible-parentBean"/>
- 	<bean id="Classification-tenureEligible-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="Classification-tenureEligible-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
  		<property name="required" value="true" />
-   		<property name="controlField">
-	      	<bean parent="Uif-HorizontalRadioControl">
-		        <property name="options">
-		          <list>
-		            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
-		            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
-		          </list>
-		        </property>
-	        </bean>
-    	</property>
     	<property name="name" value="tenureEligible" />
  		<property name="label" value="Tenure Eligible" />
   	</bean>

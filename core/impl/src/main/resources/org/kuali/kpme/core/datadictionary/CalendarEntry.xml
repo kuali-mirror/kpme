@@ -164,13 +164,8 @@
   </bean>  
 
   <bean id="CalendarEntry-beginPeriodTime" parent="CalendarEntry-beginPeriodTime-parentBean"/>
-  <bean id="CalendarEntry-beginPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-beginPeriodTime-parentBean" abstract="true" parent="KpmeAttributeReference-time">
     <property name="shortLabel" value="Begin Period Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="beginPeriodTime"/>
     <property name="label" value="Begin Period Time (12:00 AM)"/>
   </bean>
@@ -190,13 +185,8 @@
   </bean>    
   
   <bean id="CalendarEntry-endPeriodTime" parent="CalendarEntry-endPeriodTime-parentBean"/>
-  <bean id="CalendarEntry-endPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-endPeriodTime-parentBean" abstract="true" parent="KpmeAttributeReference-time">
     <property name="shortLabel" value="End Period Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="endPeriodTime"/>
     <property name="label" value="End Period Time (12:00 AM)"/>
   </bean>
@@ -216,13 +206,8 @@
   </bean>
 
   <bean id="CalendarEntry-batchInitiateTime" parent="CalendarEntry-batchInitiateTime-parentBean"/>
-  <bean id="CalendarEntry-batchInitiateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchInitiateTime-parentBean" abstract="true" parent="KpmeAttributeReference-time">
     <property name="shortLabel" value="Batch Initiate Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchInitiateTime"/>
     <property name="label" value="Batch Initiate Time (12:00 AM)"/>
   </bean>
@@ -242,13 +227,8 @@
   </bean>
 
   <bean id="CalendarEntry-batchEndPayPeriodTime" parent="CalendarEntry-batchEndPayPeriodTime-parentBean"/>
-  <bean id="CalendarEntry-batchEndPayPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEndPayPeriodTime-parentBean" abstract="true" parent="KpmeAttributeReference-time">
     <property name="shortLabel" value="Batch End Period Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchEndPayPeriodTime"/>
     <property name="label" value="Batch End Period Time (12:00 AM)"/>
   </bean>
@@ -268,13 +248,8 @@
   </bean>
 
   <bean id="CalendarEntry-batchEmployeeApprovalTime" parent="CalendarEntry-batchEmployeeApprovalTime-parentBean"/>
-  <bean id="CalendarEntry-batchEmployeeApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEmployeeApprovalTime-parentBean" abstract="true" parent="KpmeAttributeReference-time">
     <property name="shortLabel" value="Batch Employee Approval Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchEmployeeApprovalTime"/>
     <property name="label" value="Batch Employee Approval Time (12:00 AM)"/>
   </bean>
@@ -294,13 +269,8 @@
   </bean>
 
   <bean id="CalendarEntry-batchSupervisorApprovalTime" parent="CalendarEntry-batchSupervisorApprovalTime-parentBean"/>
-  <bean id="CalendarEntry-batchSupervisorApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchSupervisorApprovalTime-parentBean" abstract="true" parent="KpmeAttributeReference-time">
     <property name="shortLabel" value="Batch Supervisor Approval Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchSupervisorApprovalTime"/>
     <property name="label" value="Batch Supervisor Approval Time (12:00 AM)"/>
   </bean>
@@ -320,13 +290,8 @@
   </bean>
 
   <bean id="CalendarEntry-batchPayrollApprovalTime" parent="CalendarEntry-batchPayrollApprovalTime-parentBean"/>
-  <bean id="CalendarEntry-batchPayrollApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchPayrollApprovalTime-parentBean" abstract="true" parent="KpmeAttributeReference-time">
     <property name="shortLabel" value="Batch Payroll Approval Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="batchPayrollApprovalTime"/>
     <property name="label" value="Batch Payroll Approval Time (12:00 AM)"/>
   </bean>

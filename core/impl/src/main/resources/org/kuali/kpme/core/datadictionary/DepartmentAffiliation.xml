@@ -62,12 +62,9 @@
     </bean>
 
     <bean id="DepartmentAffiliation-primaryIndicator" parent="DepartmentAffiliation-primaryIndicator-parentBean" />
-    <bean id="DepartmentAffiliation-primaryIndicator-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="DepartmentAffiliation-primaryIndicator-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
         <property name="required" value="false" />
         <property name="shortLabel" value="Primary Indicator" />
-        <property name="controlField">
-            <bean parent="Uif-CheckboxControl" />
-        </property>
         <property name="name" value="primaryIndicator" />
         <property name="label" value="Primary Indicator" />
         <property name="description" value="Primary Indicator" />

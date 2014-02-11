@@ -71,7 +71,7 @@
   </bean>
   <bean id="Chart-active" parent="Chart-active-parentBean"/>
 
-  <bean id="Chart-active-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Chart-active-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
     <property name="name" value="active"/>
     <property name="label" value="Chart Active Indicator"/>
     <property name="shortLabel" value="ChartActive"/>
@@ -80,9 +80,6 @@
     <property name="maxLength" value="1"/>
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
     </property>
   </bean>
   

@@ -157,8 +157,7 @@
 	<bean id="Assignment-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
 
 	<bean id="Assignment-hrJobId" parent="Assignment-hrJobId-parentBean" />
-	<bean id="Assignment-hrJobId-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Assignment-hrJobId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="hrJobId" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
@@ -166,8 +165,7 @@
 	</bean>
 
 	<bean id="Assignment-tkWorkAreaId" parent="Assignment-tkWorkAreaId-parentBean" />
-	<bean id="Assignment-tkWorkAreaId-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Assignment-tkWorkAreaId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="workAreaObj.tkWorkAreaId" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />

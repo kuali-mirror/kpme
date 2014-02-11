@@ -200,13 +200,8 @@
 	
 	<!-- donation -->
 	<bean id="AccrualCategory-donation" parent="AccrualCategory-donation-parentBean" />
-	<bean id="AccrualCategory-donation-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="AccrualCategory-donation-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Donation" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
 		<property name="name" value="donation" />
 		<property name="label" value="Donation" />
 	</bean>
@@ -214,12 +209,8 @@
 		<!-- hasRules -->
 	<bean id="AccrualCategory-hasRules" parent="AccrualCategory-hasRules-parentBean" />
 	<bean id="AccrualCategory-hasRules-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Category Has Rules" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
 		<property name="name" value="hasRules" />
 		<property name="label" value="Category Has Rules" />
 	</bean>
@@ -227,12 +218,8 @@
 	<!-- showOnGrid -->
 	<bean id="AccrualCategory-showOnGrid" parent="AccrualCategory-showOnGrid-parentBean" />
 	<bean id="AccrualCategory-showOnGrid-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Show On Grid" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
 		<property name="name" value="showOnGrid" />
 		<property name="label" value="Show On Grid" />
 	</bean>

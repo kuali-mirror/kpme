@@ -130,19 +130,8 @@
     <bean id="Department-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
 
 	<bean id="Department-institution" parent="Department-institution-parentBean" />
-	<bean id="Department-institution-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Department-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
 		<property name="required" value="true" />
-		<property name="shortLabel" value="Institution" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="institution" />
-		<property name="label" value="Institution" />
 	</bean>
 	
     <bean id="Department-chart" parent="Department-chart-parentBean" />
@@ -181,11 +170,8 @@
     
 
     <bean id="Department-payrollApproval" parent="Department-payrollApproval-parentBean" />
-	<bean id="Department-payrollApproval-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Department-payrollApproval-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Payroll Approval" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
 		<property name="name" value="payrollApproval" />
 		<property name="label" value="Payroll Approval" />
 	</bean>

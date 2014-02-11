@@ -187,21 +187,7 @@
 
 	<!-- The validation type and length on this may be wrong -->
 	<bean id="Job-payGrade" parent="Job-payGrade-parentBean" />
-	<bean id="Job-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Pay Grade" />
-		<property name="maxLength" value="27" />
-		<property name="forceUppercase" value="true" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
-		</property>
-		<property name="name" value="payGrade" />
-		<property name="label" value="Pay Grade" />
-	</bean>
+	<bean id="Job-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade"/>
 
 	<!-- The validation type and length on this may be wrong -->
 	<bean id="Job-location" parent="Job-location-parentBean" />

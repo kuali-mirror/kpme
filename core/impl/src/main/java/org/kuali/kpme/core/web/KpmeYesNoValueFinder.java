@@ -22,7 +22,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
-public class KpmeHistoryKeyValueFinder extends KeyValuesBase {
+public class KpmeYesNoValueFinder extends KeyValuesBase {
 
 	@Override
 	public List<KeyValue> getKeyValues() {

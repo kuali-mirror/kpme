@@ -267,12 +267,8 @@
     <!-- Premium Holiday -->
 	<bean id="SystemScheduledTimeOff-premiumHoliday" parent="SystemScheduledTimeOff-premiumHoliday-parentBean" />
 	<bean id="SystemScheduledTimeOff-premiumHoliday-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Premium Holiday" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
 		<property name="name" value="premiumHoliday" />
 		<property name="label" value="Premium Holiday" />
 	</bean>

@@ -77,15 +77,8 @@
 	</bean>
 	
 	<bean id="PayStep-payGrade" parent="PayStep-payGrade-parentBean" />
-	<bean id="PayStep-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="maxLength" value="10" />
+	<bean id="PayStep-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade">
  		<property name="required" value="true" />
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
-		<property name="name" value="payGrade" />
-		<property name="label" value="Pay Grade" />
-		<property name="description" value="Pay Grade" />
 	</bean>
 	
 	<bean id="PayStep-institution" parent="PayStep-institution-parentBean" />

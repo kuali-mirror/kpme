@@ -277,12 +277,8 @@
 	<!-- Eligible for Accrual -->
 	<bean id="EarnCode-eligibleForAccrual" parent="EarnCode-eligibleForAccrual-parentBean" />
 	<bean id="EarnCode-eligibleForAccrual-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Eligible for Accrual" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
 		<property name="name" value="eligibleForAccrual" />
 		<property name="label" value="Eligible for Accrual" />
 	</bean>
@@ -290,12 +286,8 @@
 	<!-- Affect Pay -->
 	<bean id="EarnCode-affectPay" parent="EarnCode-affectPay-parentBean" />
 	<bean id="EarnCode-affectPay-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Affect Pay" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
 		<property name="name" value="affectPay" />
 		<property name="label" value="Affect Pay" />
 	</bean>
@@ -407,12 +399,8 @@
 	
 	<bean id="EarnCode-countsAsRegularPay" parent="EarnCode-countsAsRegularPay-parentBean" />
 	<bean id="EarnCode-countsAsRegularPay-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Counts as Regular Pay" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-			</bean>
-		</property>
 		<property name="name" value="countsAsRegularPay" />
 		<property name="label" value="Counts as Regular Pay" />
 	</bean>

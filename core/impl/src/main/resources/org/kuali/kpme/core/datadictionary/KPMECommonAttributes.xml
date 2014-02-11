@@ -108,18 +108,8 @@
     </bean>
 
     <bean id="KpmeAttributeReference-history" parent="KpmeAttributeReference-history-parentBean"/>
-    <bean id="KpmeAttributeReference-history-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-history-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
         <property name="shortLabel" value="Show History" />
-        <property name="controlField">
-            <bean parent="Uif-HorizontalRadioControl"/>
-        </property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder"/>
-        </property>
-        <property name="control">
-            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeHistoryKeyValueFinder">
-            </bean>
-        </property>
         <property name="name" value="history" />
         <property name="label" value="Show History" />
     </bean>
@@ -268,6 +258,31 @@
         </property>
     </bean>
 
+    <bean id="KpmeAttributeReference-payGrade" parent="KpmeAttributeReference-payGrade-parentBean" />
+    <bean id="KpmeAttributeReference-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Pay Grade" />
+        <property name="required" value="true" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="20" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20" />
+        </property>
+        <property name="name" value="payGrade" />
+        <property name="label" value="Pay Grade" />
+    </bean>
+
     <bean id="KpmeAttributeReference-task" parent="KpmeAttributeReference-task-parentBean"/>
     <bean id="KpmeAttributeReference-task-parentBean" abstract="true" parent="KpmeAttributeReference-numericBusinessKey">
         <property name="name" value="task" />
@@ -338,6 +353,39 @@
             <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+    </bean>
+
+    <bean id="KpmeAttributeReference-time" parent="KpmeAttributeReference-time-parentBean"/>
+    <bean id="KpmeAttributeReference-time-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="10"/>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
+    </bean>
+
+    <bean id="KpmeAttributeReference-booleanYesNo" parent="KpmeAttributeReference-booleanYesNo-parentBean" />
+    <bean id="KpmeAttributeReference-booleanYesNo-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="control">
+            <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.KpmeYesNoValueFinder">
+            </bean>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.web.KpmeYesNoValueFinder"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl"/>
+        </property>
+    </bean>
+
+    <bean id="KpmeAttributeReference-genericCheckbox" parent="KpmeAttributeReference-genericCheckbox-parentBean" />
+    <bean id="KpmeAttributeReference-genericCheckbox-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="control">
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
     </bean>
 
 </beans>

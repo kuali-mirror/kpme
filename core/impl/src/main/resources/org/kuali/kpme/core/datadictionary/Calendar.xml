@@ -95,13 +95,8 @@
   </bean>
   
   <bean id="Calendar-flsaBeginTime" parent="Calendar-flsaBeginTime-parentBean"/>
-  <bean id="Calendar-flsaBeginTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="Calendar-flsaBeginTime-parentBean" abstract="true" parent="KpmeAttributeReference-time">
     <property name="shortLabel" value="Flsa Begin Time"/>
-    <property name="maxLength" value="10"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10"/>
-    </property>
-    <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
     <property name="name" value="flsaBeginTime"/>
     <property name="label" value="Flsa Begin Time (12:00 AM)"/>
   </bean>

@@ -66,35 +66,10 @@
 	</bean>
 
 	<bean id="PayGrade-payGrade" parent="PayGrade-payGrade-parentBean" />
-	<bean id="PayGrade-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="payGrade" />
-        <property name="required" value="true" />
-		<property name="maxLength" value="10" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="20" />
-		</property>
-		<property name="name" value="payGrade" />
-		<property name="label" value="Pay Grade" />
-	</bean>
+	<bean id="PayGrade-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade"/>
 
 	<bean id="PayGrade-salGroup" parent="PayGrade-salGroup-parentBean" />
-	<bean id="PayGrade-salGroup-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Sal Group" />
-        <property name="required" value="true"/>
-		<property name="maxLength" value="10" />
-        <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint">
-                <property name="allowWhitespace" value="true" />
-            </bean>
-        </property>
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
+	<bean id="PayGrade-salGroup-parentBean" abstract="true" parent="SalaryGroup-hrSalGroup">
 		<property name="name" value="salGroup" />
 		<property name="label" value="Salary Group" />
 	</bean>
