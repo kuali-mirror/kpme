@@ -31,9 +31,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.calendar.exportCalendar.CalendarEvent;
@@ -67,13 +69,13 @@ public class LeaveBlockController extends UifControllerBase {
 	
 	@RequestMapping(params = "methodToCall=submit")
     public ModelAndView submit(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		String fromDate = request.getParameter("fromDate").replace("/", "-");
-		String toDate = request.getParameter("toDate").replace("/", "-");
+		String fromDate = request.getParameter("fromDate");
+		String toDate = request.getParameter("toDate");
 		if (fromDate != null && !fromDate.equals("") && toDate != null && !toDate.equals("")) {
-			LocalDate beginDate = new LocalDate(convertDate(fromDate));
-			LocalDate endDate = new LocalDate(convertDate(toDate));
+			DateTime beginDate = TKUtils.formatDateTimeStringNoTimezone(fromDate);
+			DateTime endDate = TKUtils.formatDateTimeStringNoTimezone(toDate);
 			if (beginDate != null && endDate != null) {
-				StringBuffer sb = exportApprovedLeaves(beginDate, endDate);
+				StringBuffer sb = exportApprovedLeaves(beginDate.toLocalDate(), endDate.toLocalDate());
 				if (sb != null) {
 					try {
 						File file = new File(fileName);
@@ -97,6 +99,9 @@ public class LeaveBlockController extends UifControllerBase {
 		            	response.setContentLength(calendar.length);
 		            	response.getOutputStream().flush();
 		            	response.getOutputStream().close();
+		            	if(file.exists()){
+		            		file.delete();
+		            	}
 					}catch(Exception e){
 						//IO EXCEPTION
 						e.printStackTrace();
@@ -106,47 +111,27 @@ public class LeaveBlockController extends UifControllerBase {
 		}
 		return null;
     }
-
-	private String convertDate(String dateString){
-		SimpleDateFormat formatter;
-		String myString = null;
-		try{
-			formatter = new SimpleDateFormat("dd-MM-yyyy");
-			Date myDate = formatter.parse(dateString);
-			formatter = new SimpleDateFormat("yyyy-MM-dd");
-			myString = formatter.format(myDate);
-			return myString;
-		}catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return myString;
-	}
 	
 	public StringBuffer exportApprovedLeaves(LocalDate beginDate,LocalDate endDate){
 		String principalId = HrContext.getTargetPrincipalId();
 		List<LeaveBlock> approvedLeaves = getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.APPROVED);
-    	if(approvedLeaves!=null && approvedLeaves.size()>0){
-    			CalendarEvent mycal = new CalendarEvent();
-    			fileName = mycal.generateFilename();
-    			StringBuffer writer = new StringBuffer();
-    			writer.append(mycal.calendarHeader());
-        		for (LeaveBlock leaveBlock : approvedLeaves) {
-        			String desc = leaveBlock.getDescription();
-        			if(desc == null){
-        				desc = "";
-        			}
-        			String uid = "" + leaveBlock.getBlockId() + leaveBlock.getObjectId();
-        			String event = mycal.createEvent(leaveBlock.getAssignmentTitle(),leaveBlock.getLeaveDate(),leaveBlock.getLeaveDate(),"000000","000000",leaveBlock.getEarnCode() + "(" + leaveBlock.getLeaveAmount() + ")\n" + desc, uid);
-        			writer.append(event);
-				}
-        		writer.append(mycal.calendarFooter());
-        		return writer;
-    	}else{
-    		//Message:: No Approved Leaves
-    		System.out.println("No Approved Leaves");
-    		return null;
+		CalendarEvent mycal = new CalendarEvent();
+		fileName = mycal.generateFilename();
+		StringBuffer writer = new StringBuffer();
+		writer.append(mycal.calendarHeader());
+    	if(approvedLeaves!=null && !approvedLeaves.isEmpty()){
+        	for (LeaveBlock leaveBlock : approvedLeaves) {
+        		String desc = leaveBlock.getDescription();
+        		if(desc == null){
+        			desc = "";
+        		}
+        		String uid = "" + leaveBlock.getBlockId() + leaveBlock.getObjectId();
+        		String event = mycal.createEvent(leaveBlock.getAssignmentTitle(),leaveBlock.getLeaveDate(),leaveBlock.getLeaveDate(),"000000","000000",leaveBlock.getEarnCode() + "(" + leaveBlock.getLeaveAmount() + ")\n" + desc, uid);
+        		writer.append(event);
+			}		
     	}
+    	writer.append(mycal.calendarFooter());
+		return writer;
     }
 
 	private List<LeaveBlock> getLeaveBlocksWithRequestStatus(String principalId, LocalDate beginDate, LocalDate endDate, String requestStatus) {
@@ -158,7 +143,11 @@ public class LeaveBlockController extends UifControllerBase {
                 return ObjectUtils.compare(leaveBlock1.getLeaveDate(), leaveBlock2.getLeaveDate());
             }
         });
-        return plannedLeaves;
+        if(plannedLeaves!=null && !plannedLeaves.isEmpty()){
+        	return plannedLeaves;
+        }else{
+        	return null;
+        }
 	}
 	
 	@Override
