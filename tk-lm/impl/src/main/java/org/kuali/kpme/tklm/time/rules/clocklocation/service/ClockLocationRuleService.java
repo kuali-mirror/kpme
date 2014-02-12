@@ -81,4 +81,6 @@ public interface ClockLocationRuleService {
 
     List<ClockLocationRule> getClockLocationRules(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                                   String dept, String workArea, String active, String showHistory);
+    
+    public boolean isInValidIPClockLocation(String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate);
 }

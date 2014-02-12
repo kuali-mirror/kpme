@@ -40,6 +40,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
@@ -49,6 +50,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -237,7 +239,7 @@ public class ClockAction extends TimesheetAction {
     
     public ActionForward clockAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ClockActionForm caf = (ClockActionForm) form;
-
+        DateTime currentDateTime = new DateTime();
         // TODO: Validate that clock action is valid for this user
         // TODO: this needs to be integrated with the error tag
         if (StringUtils.isBlank(caf.getSelectedAssignment())) {
@@ -251,7 +253,18 @@ public class ClockAction extends TimesheetAction {
             return mapping.findForward("basic");
         }
         String ip = TKUtils.getIPAddressFromRequest(request);
+        
         Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(caf.getSelectedAssignment()));
+        
+        // check if User takes action from Valid location.
+        String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
+        if(StringUtils.equals(allowActionFromInvalidLocaiton, "false")) {
+	        boolean isInValid = TkServiceLocator.getClockLocationRuleService().isInValidIPClockLocation(assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ip, currentDateTime.toLocalDate());
+	        if(isInValid){
+	        	caf.setErrorMessage("Could not take the action as Action taken from  "+ ip + ",  is not a valid IP address.");
+	            return mapping.findForward("basic");
+	        }
+        }
         
         List<? extends AssignmentContract> lstAssingmentAsOfToday = HrServiceLocator.getAssignmentService().getAssignments(pId, LocalDate.now());
         boolean foundValidAssignment = false;
@@ -288,7 +301,7 @@ public class ClockAction extends TimesheetAction {
 	         }
         }
         
-        DateTime currentDateTime = new DateTime();
+        
         // for clock out and lunch out actions, check if the current time and last clock log time is on two different calendar entries,
         // if they are, we need to clock out the employee at the endDatTime (in employee's time zone) of the last calendar entry,
         // and clock employee back in at the beginDateTime (in employee's time zone) of the new calendar entry

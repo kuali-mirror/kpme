@@ -52,4 +52,8 @@
     <param name="kpme.batch.clockedInEmployee.jobAction">NOTIFY</param>
     <param name="kpme.batch.clockedInEmployee.hourLimit">24</param>
     <param name="kpme.batch.clockedInEmployee.cronExpression">0 0 1 1 * ? 2099</param>
+    
+    <!-- Specifies whether the System allows users to clock/clock out action from the invalid Clock action (Invalid IP). If true it shows just warning and if false hard stop for clock in/out.  -->
+    <param name="kpme.allow.clockingEmployee.from.invalidLocation">false</param>
+    
 </config>

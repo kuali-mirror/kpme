@@ -67,6 +67,27 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 		GlobalVariables.getMessageMap().putWarning("property", "ipaddress.invalid.format", clockLog.getIpAddress());
 
 	}
+	
+	public boolean isInValidIPClockLocation(String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate){
+		Boolean isInValid = true;
+		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(dept, workArea, principalId, jobNumber, asOfDate);
+		if(lstClockLocationRules.isEmpty()){
+			isInValid = false;
+			return isInValid;
+		}
+		for(ClockLocationRule clockLocationRule : lstClockLocationRules){
+			List<ClockLocationRuleIpAddress> ruleIpAddresses = clockLocationRule.getIpAddresses();
+			String ipAddressClock = ipAddress;
+			for(ClockLocationRuleIpAddress ruleIp : ruleIpAddresses) {
+				if(compareIpAddresses(ruleIp.getIpAddress(), ipAddressClock)){
+					isInValid = false;
+					break;
+				}
+			}
+		}
+		return isInValid;
+
+	}
 
 	private boolean compareIpAddresses(String ipAddressRule, String ipAddress){
 		String[] rulePieces = StringUtils.split(ipAddressRule, ".");
