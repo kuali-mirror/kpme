@@ -203,7 +203,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
                               p:fieldConversions="dept:primaryDepartment"
-                              p:lookupParameters="location:location" />
+                              p:lookupParameters="location:location,institution:institution" />
                     </property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Data Update'}" >
