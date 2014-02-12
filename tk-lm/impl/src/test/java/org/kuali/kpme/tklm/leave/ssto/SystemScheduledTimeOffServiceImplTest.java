@@ -29,10 +29,10 @@ public class SystemScheduledTimeOffServiceImplTest extends TKLMIntegrationTestCa
 	
 	@Test
 	public void testSearchSystemScheduledTimeOffs() throws Exception {
-		List<SystemScheduledTimeOff> allResults = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs("admin", null, null, null, null, null, null, null, "Y", "N");
+		List<SystemScheduledTimeOff> allResults = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs("admin", null, null, null, null, null, null, null,null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
 		
-		List<SystemScheduledTimeOff> restrictedResults = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs("testuser6", null, null, null, null, null, null, null, "Y", "N");
+		List<SystemScheduledTimeOff> restrictedResults = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs("testuser6", null, null, null, null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
 	}
 
