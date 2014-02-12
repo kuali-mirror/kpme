@@ -34,37 +34,37 @@ public class EarnCodeGroupLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 4154366560525047293L;
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-
-		EarnCodeGroup earnCodeGroup = (EarnCodeGroup) businessObject;
-		String hrEarnCodeGroupId = earnCodeGroup.getHrEarnCodeGroupId();
-		
-		Properties params = new Properties();
-		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
-		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("hrEarnCodeGroupId", hrEarnCodeGroupId);
-		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
-		viewUrl.setDisplayText("view");
-		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
-		customActionUrls.add(viewUrl);
-		
-		return customActionUrls;
-	}
-	
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String earnCodeGroup = fieldValues.get("earnCodeGroup");
-        String descr = fieldValues.get("descr");
-        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-        String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
-
-        return HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroups(earnCodeGroup, descr, TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active, showHist);
-    }
-	
+//	@Override
+//	@SuppressWarnings("rawtypes")
+//	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+//		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+//
+//		EarnCodeGroup earnCodeGroup = (EarnCodeGroup) businessObject;
+//		String hrEarnCodeGroupId = earnCodeGroup.getHrEarnCodeGroupId();
+//		
+//		Properties params = new Properties();
+//		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+//		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+//		params.put("hrEarnCodeGroupId", hrEarnCodeGroupId);
+//		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+//		viewUrl.setDisplayText("view");
+//		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+//		customActionUrls.add(viewUrl);
+//		
+//		return customActionUrls;
+//	}
+//	
+//    @Override
+//    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+//        String earnCodeGroup = fieldValues.get("earnCodeGroup");
+//        String descr = fieldValues.get("descr");
+//        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+//        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+//        String active = fieldValues.get("active");
+//        String showHist = fieldValues.get("history");
+//
+//        return HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroups(earnCodeGroup, descr, TKUtils.formatDateString(fromEffdt),
+//                TKUtils.formatDateString(toEffdt), active, showHist);
+//    }
+//	
 }

@@ -261,7 +261,7 @@
 	<bean id="PayType-lookupDefinition" parent="PayType-lookupDefinition-parentBean" />
 	<bean id="PayType-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="lookupableID" value="payTypeLookupable"></property>
+		<property name="lookupableID" value="kpmeHrBusinessObjectLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="payType" />

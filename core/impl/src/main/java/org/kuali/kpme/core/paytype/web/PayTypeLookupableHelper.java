@@ -33,48 +33,48 @@ import org.kuali.rice.krad.util.UrlFactory;
 @SuppressWarnings("deprecation")
 public class PayTypeLookupableHelper extends KPMELookupableHelper {
 
-	private static final long serialVersionUID = 3694868213243393295L;
-
-	@Override
-	@SuppressWarnings("rawtypes")
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
-		PayType payTypeObj = (PayType) businessObject;
-		String hrPayTypeId = payTypeObj.getHrPayTypeId();
-		
-		Properties params = new Properties();
-		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
-		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("hrPayTypeId", hrPayTypeId);
-		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
-		viewUrl.setDisplayText("view");
-		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
-		customActionUrls.add(viewUrl);
-		
-		return customActionUrls;
-	}
-
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String payType = fieldValues.get("payType");
-        String regEarnCode = fieldValues.get("regEarnCode");
-        String descr = fieldValues.get("descr");
-        String location = fieldValues.get("location"); // KPME-2701
-        String institution = fieldValues.get("institution");
-        String flsaStatus = fieldValues.get("flsaStatus");
-        String payFrequency = fieldValues.get("payFrequency");
-        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-        String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
-
-        if (StringUtils.equals(payType, "%")) {
-            payType = "";
-        }
-        
-        return HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, location, institution, flsaStatus, payFrequency,
-        		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
-    }
+//	private static final long serialVersionUID = 3694868213243393295L;
+//
+//	@Override
+//	@SuppressWarnings("rawtypes")
+//	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+//		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+//		
+//		PayType payTypeObj = (PayType) businessObject;
+//		String hrPayTypeId = payTypeObj.getHrPayTypeId();
+//		
+//		Properties params = new Properties();
+//		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+//		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+//		params.put("hrPayTypeId", hrPayTypeId);
+//		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+//		viewUrl.setDisplayText("view");
+//		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+//		customActionUrls.add(viewUrl);
+//		
+//		return customActionUrls;
+//	}
+//
+//    @Override
+//    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+//        String payType = fieldValues.get("payType");
+//        String regEarnCode = fieldValues.get("regEarnCode");
+//        String descr = fieldValues.get("descr");
+//        String location = fieldValues.get("location"); // KPME-2701
+//        String institution = fieldValues.get("institution");
+//        String flsaStatus = fieldValues.get("flsaStatus");
+//        String payFrequency = fieldValues.get("payFrequency");
+//        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+//        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+//        String active = fieldValues.get("active");
+//        String showHist = fieldValues.get("history");
+//
+//        if (StringUtils.equals(payType, "%")) {
+//            payType = "";
+//        }
+//        
+//        return HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, location, institution, flsaStatus, payFrequency,
+//        		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
+//    }
 
 }
