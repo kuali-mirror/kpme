@@ -155,4 +155,27 @@
       </list>
     </property>
   </bean>
+
+        
+    <!--KRAD Lookup View-->
+    <bean id="Organization-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Organization Lookup"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.Organization"/>
+    <property name="criteriaFields">
+        <list>
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode"/>
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="organizationCode" />
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="organizationName"/>
+            <bean parent="Uif-LookupCriteriaInputField" p:defaultValue="Y" p:propertyName="active"/>
+        </list>
+    </property>
+    <property name="resultFields">
+        <list>
+            <bean parent="Uif-DataField" p:propertyName="chartOfAccountsCode"/>
+            <bean parent="Uif-DataField" p:propertyName="organizationCode"/>
+            <bean parent="Uif-DataField" p:propertyName="organizationName"/>
+            <bean parent="Uif-DataField" p:propertyName="active"/>
+        </list>
+    </property>
+    </bean>
 </beans>

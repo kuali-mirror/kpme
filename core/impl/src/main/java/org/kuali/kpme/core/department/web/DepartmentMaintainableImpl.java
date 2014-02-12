@@ -34,8 +34,7 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -50,26 +49,11 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 	public HrBusinessObject getObjectById(String id) {
 		return (HrBusinessObject) HrServiceLocator.getDepartmentService().getDepartment(id);
 	}
-	
-	@Override
-	@SuppressWarnings("rawtypes")
-	public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-		List sections = super.getSections(document, oldMaintainable);
-		
-		for (Object obj : sections) {
-			Section sec = (Section) obj;
-			if (sec.getSectionId().equals("inactiveRoleMembers")) {
-            	sec.setHidden(!document.isOldBusinessObjectInDocument());
-            }
-		}
-		
-		return sections;
-	}
-	
+
     @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
-        Department oldMaintainableObject = (Department) document.getOldMaintainableObject().getBusinessObject();
-        Department newMaintainableObject = (Department) document.getNewMaintainableObject().getBusinessObject();
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        Department oldMaintainableObject = (Department) document.getOldMaintainableObject().getDataObject();
+        Department newMaintainableObject = (Department) document.getNewMaintainableObject().getDataObject();
         
         DepartmentContract oldDepartment = oldMaintainableObject;
         if(StringUtils.isNotBlank(oldMaintainableObject.getHrDeptId())) {
@@ -91,7 +75,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         newMaintainableObject.setRoleMembers((List<DepartmentPrincipalRoleMemberBo>) newDepartment.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers((List<DepartmentPrincipalRoleMemberBo>) newDepartment.getInactiveRoleMembers());
         
-        super.processAfterEdit(document, parameters);
+        super.processAfterEdit(document, requestParameters);
     }
 
     @Override
@@ -152,7 +136,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
     		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department.getDept()));
     		
     		if (StringUtils.isBlank(roleMember.getId())) {
-    			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
+                KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
     		} else {
     			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
     		}
@@ -163,6 +147,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
     		
     		if (StringUtils.isBlank(inactiveRoleMember.getId())) {
     			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
+
     		} else {
     			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
     		}
@@ -196,13 +181,6 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         
         return inactiveRoleMembers;
     }
-        
-    @Override
-    public Map<String, String> populateNewCollectionLines(Map<String, String> fieldValues,
-			MaintenanceDocument maintenanceDocument, String methodToCall) {
-    	if(fieldValues.containsKey("roleMembers.roleName") && StringUtils.isEmpty(fieldValues.get("roleMembers.roleName"))) {
-    		fieldValues.put("roleMembers.roleName", null);
-    	}
-    	return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
-    }   
+
+
 }

@@ -334,9 +334,9 @@
     <bean id="KpmeAttributeReference-datePicker-parentBean" abstract="true" parent="AttributeReference-genericDate">
         <property name="maxLength" value="10"/>
         <property name="description" value="date field"/>
-        <property name="validCharactersConstraint">
+        <!--<property name="validCharactersConstraint">
             <bean parent="BasicDatePatternConstraint" />
-        </property>
+        </property>-->
     </bean>
 
     <bean id="KpmeAttributeReference-timestampPicker" parent="KpmeAttributeReference-timestampPicker-parentBean"/>

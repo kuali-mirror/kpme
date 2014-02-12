@@ -130,4 +130,25 @@
       </list>
     </property>
   </bean>
+
+
+    <!--KRAD Lookup-->
+    <bean id="Chart-LookupView" parent="Uif-LookupView">
+        <property name="headerText" value="Chart Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.Chart"/>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="finChartOfAccountDescription"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="chartOfAccountsCode"/>
+                <bean parent="Uif-DataField" p:propertyName="finChartOfAccountDescription"/>
+                <bean parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
 </beans>

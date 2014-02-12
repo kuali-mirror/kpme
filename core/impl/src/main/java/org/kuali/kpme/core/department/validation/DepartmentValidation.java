@@ -29,8 +29,8 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -41,7 +41,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = true;
 
-		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		
 		if (pbo instanceof Department) {
 			Department department = (Department) pbo;
@@ -75,7 +75,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 	protected boolean validateChart(String chart) {
 		boolean valid = true;
 		
-		if (chart != null) {
+		if (StringUtils.isNotEmpty(chart)) {
 			Chart chartObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
 
 			if (chartObj == null) {
@@ -90,7 +90,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 	protected boolean validateOrg(String organization) {
 		boolean valid = true;
 		
-		if (organization != null) {
+		if (StringUtils.isNotEmpty(organization)) {
 			Organization organizationObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Organization.class, organization);
 
 			if (organizationObj == null) {
@@ -105,7 +105,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 	boolean validateChartAndOrg(String chart, String organization) {
 		boolean valid = true;
 		
-		if (chart != null && organization != null) {
+		if (StringUtils.isNotEmpty(chart) && StringUtils.isNotEmpty(organization)) {
 			Chart chartObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
 			Organization organizationObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Organization.class, organization);
 			if (chartObj != null && organizationObj != null) {
@@ -178,7 +178,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
 		if(line instanceof DepartmentPrincipalRoleMemberBo) {
 			DepartmentPrincipalRoleMemberBo roleMember = (DepartmentPrincipalRoleMemberBo) line;
-			Department location = (Department) document.getDocumentBusinessObject();
+			Department location = (Department) document.getNewMaintainableObject().getDataObject();
 			List<DepartmentPrincipalRoleMemberBo> existingRoleMembers = location.getRoleMembers();
 			for(ListIterator<DepartmentPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 				int index = iter.nextIndex();

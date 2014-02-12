@@ -15,15 +15,14 @@
     limitations under the License.
 
 -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	   xmlns:p="http://www.springframework.org/schema/p"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="DepartmentPrincipalRoleMemberBo" parent="DepartmentPrincipalRoleMemberBo-parentBean" />
 	<bean id="DepartmentPrincipalRoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo" />
 		<property name="objectLabel" value="Role Member" />
 		<property name="attributes">
             <list>
@@ -34,18 +33,6 @@
                 <ref bean="DepartmentPrincipalRoleMemberBo-expirationDate" />
 			</list>
 		</property>
-        <property name="relationships">
-            <list>
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="person" />
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId" />
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -64,16 +51,21 @@
     <bean id="DepartmentPrincipalRoleMemberBo-roleName" parent="DepartmentPrincipalRoleMemberBo-roleName-parentBean" />
     <bean id="DepartmentPrincipalRoleMemberBo-roleName-parentBean" abstract="true" parent="PrincipalRoleMemberBo-roleName">
         <property name="name" value="roleName" />
-        <property name="control">
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kpme.core.role.department.DepartmentRoleValuesFinder"
-                  p:includeKeyInLabel="false" />
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.role.department.DepartmentRoleValuesFinder"/>
         </property>
     </bean>
     
     <bean id="DepartmentPrincipalRoleMemberBo-expirationDate" parent="DepartmentPrincipalRoleMemberBo-expirationDate-parentBean" />
     <bean id="DepartmentPrincipalRoleMemberBo-expirationDate-parentBean" abstract="true" parent="PrincipalRoleMemberBo-expirationDate">
         <property name="name" value="expirationDate" />
+        <property name="controlField">
+            <bean parent="Uif-DateControl"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
     </bean>
     
 </beans>
