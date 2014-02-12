@@ -472,11 +472,11 @@
         </property>
     </bean>
 
-    <bean id="Department-InactiveRoleMembers" parent="Uif-Disclosure-TableCollectionSection" p:disclosure.defaultOpen="false" p:readOnly="true">
+    <bean id="Department-InactiveRoleMembers" parent="Uif-Disclosure-TableCollectionSection" p:disclosure.defaultOpen="false" >
         <property name="headerText" value="Inactive Role Members"/>
         <property name="collectionObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo"/>
         <property name="propertyName" value="inactiveRoleMembers"/>
-        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="header">
