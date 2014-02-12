@@ -36,8 +36,8 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-@FunctionalTest
-public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
+//@FunctionalTest
+//public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 	/*private static final DateTime TEST_DATE_OLD = new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final DateTime TEST_DATE_NEW = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final String EARN_CODE = "RGN";
@@ -197,4 +197,4 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 		super.setUp();
 		this.createNewEarnCodeSecurity();		
 	}*/
-}
+//}
