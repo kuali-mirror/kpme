@@ -27,7 +27,7 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
 	private static final long serialVersionUID = -5743717258128864335L;
 	
 	private Date effectiveDate;
-	private boolean active;
+	private boolean active=true;
 	private Timestamp timestamp;
     private String userPrincipalId;
 
