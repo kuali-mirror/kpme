@@ -19,7 +19,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.tklm.common.CalendarApprovalForm;
+import org.kuali.kpme.tklm.common.LMConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class LeaveApprovalActionForm extends CalendarApprovalForm {
 	
@@ -27,6 +30,23 @@ public class LeaveApprovalActionForm extends CalendarApprovalForm {
 	
 	private List<ApprovalLeaveSummaryRow> leaveApprovalRows;
 	private List<Date> leaveCalendarDates = new ArrayList<Date>();
+	private Boolean displayYTDFMLA;
+	
+	public boolean isDisplayYTDFMLA() {
+		if(displayYTDFMLA == null) {
+			String displayColumn = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.DISPLAY_YTD_FMLA_LEAVESUMMARY);
+			if (StringUtils.equals(displayColumn, "Yes")) {
+				displayYTDFMLA = Boolean.TRUE;
+			} else {
+				displayYTDFMLA = Boolean.FALSE;
+			}
+		}
+		return displayYTDFMLA;
+	}
+
+	public void setDisplayYTDFMLA(boolean displayYTDFMLA) {
+		this.displayYTDFMLA = displayYTDFMLA;
+	}
 	
 	public List<ApprovalLeaveSummaryRow> getLeaveApprovalRows() {
 		return leaveApprovalRows;

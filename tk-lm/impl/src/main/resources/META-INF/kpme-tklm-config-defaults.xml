@@ -53,7 +53,16 @@
     <param name="kpme.batch.clockedInEmployee.hourLimit">24</param>
     <param name="kpme.batch.clockedInEmployee.cronExpression">0 0 1 1 * ? 2099</param>
     
-    <!-- Specifies whether the System allows users to clock/clock out action from the invalid Clock action (Invalid IP). If true it shows just warning and if false hard stop for clock in/out.  -->
+    <!-- Specifies whether the System allows users to clock/clock out action from the invalid Clock action (Invalid IP).
+         true : If true it shows just warning for Invalid IP Address
+         false : If false hard stop to user for action clock in/out. 
+    -->
     <param name="kpme.allow.clockingEmployee.from.invalidLocation">false</param>
+
+    <!-- Specifies the option to display the FMLA YTD Column on Leave Summary.
+         Yes : If true it displays FMLA YTD Column on Leave Summary.
+         No : If false it does not display FMLA YTD Column on Leave Summary. 
+    -->
+    <param name="kpme.display.ytdfmla.on.leavesummary">Yes</param>
     
 </config>

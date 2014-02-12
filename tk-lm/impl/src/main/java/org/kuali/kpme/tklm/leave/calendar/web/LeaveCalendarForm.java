@@ -19,12 +19,15 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.tklm.common.CalendarForm;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.accrual.bucket.KPMEAccrualCategoryBucket;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 @SuppressWarnings("serial")
 public class LeaveCalendarForm extends CalendarForm {
@@ -53,7 +56,23 @@ public class LeaveCalendarForm extends CalendarForm {
 	private KPMEAccrualCategoryBucket bucket;
 	private String approval; // KPME-2540
 	private boolean isBlockSubmittable; // KPME-2540
+	private Boolean displayYTDFMLA;
 	
+	public boolean isDisplayYTDFMLA() {
+		if(displayYTDFMLA == null) {
+			String displayColumn = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.DISPLAY_YTD_FMLA_LEAVESUMMARY);
+			if (StringUtils.equals(displayColumn, "Yes")) {
+				displayYTDFMLA = Boolean.TRUE;
+			} else {
+				displayYTDFMLA = Boolean.FALSE;
+			}
+		}
+		return displayYTDFMLA;
+	}
+
+	public void setDisplayYTDFMLA(boolean displayYTDFMLA) {
+		this.displayYTDFMLA = displayYTDFMLA;
+	}
 
 	public boolean isBlockSubmittable() {
 		return isBlockSubmittable;
