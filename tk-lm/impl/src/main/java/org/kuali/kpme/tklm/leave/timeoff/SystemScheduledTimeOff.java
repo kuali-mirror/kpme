@@ -66,12 +66,14 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	private String unusedTime;
 	private BigDecimal transferConversionFactor;
 	private String transfertoEarnCode;
+	private String premiumEarnCode;
 	private String premiumHoliday;
 
 	private LeavePlan leavePlanObj;
 	private AccrualCategory accrualCategoryObj;
 	private EarnCode earnCodeObj;
 	private EarnCode transferToEarnCodeObj;
+	private EarnCode premiumEarnCodeObj;
 	private Location locationObj;
 	
 	
@@ -278,4 +280,20 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		this.transferToEarnCodeObj = transferToEarnCodeObj;
 	}
 
+	public String getPremiumEarnCode() {
+		return premiumEarnCode;
+	}
+
+	public void setPremiumEarnCode(String premiumEarnCode) {
+		this.premiumEarnCode = premiumEarnCode;
+	}
+
+	public EarnCode getPremiumEarnCodeObj() {
+		return premiumEarnCodeObj;
+	}
+
+	public void setPremiumEarnCodeObj(EarnCode premiumEarnCodeObj) {
+		this.premiumEarnCodeObj = premiumEarnCodeObj;
+	}
+	
 }

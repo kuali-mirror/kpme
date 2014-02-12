@@ -86,11 +86,11 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 
     @Override
     public List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate, 
-    		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String active, String showHist) {
+    		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String premiumEarnCode, String active, String showHist) {
     	List<SystemScheduledTimeOff> results = new ArrayList<SystemScheduledTimeOff>();
         
     	List<SystemScheduledTimeOff> systemScheduledTimeOffObjs = systemScheduledTimeOffDao.getSystemScheduledTimeOffs(fromEffdt, toEffdt, earnCode, fromAccruedDate, toAccruedDate, fromSchTimeOffDate, 
-        															toSchTimeOffDate, active, showHist);
+        															toSchTimeOffDate, premiumEarnCode, active, showHist);
     
     	for (SystemScheduledTimeOff systemScheduledTimeOffObj : systemScheduledTimeOffObjs) {
         	Map<String, String> roleQualification = new HashMap<String, String>();

@@ -197,4 +197,6 @@ public interface TimeBlockService {
     public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate);
 
 	public List<TimeBlock> getTimeBlocksForLookup(String documentId, String principalId, String userPrincipalId, LocalDate fromDate, LocalDate toDate);
+	
+	public void applyHolidayPremiumEarnCode(TimesheetDocument timesheetDocument, List<TimeBlock> appliedTimeBlocks);
 }

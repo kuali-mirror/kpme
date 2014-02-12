@@ -105,6 +105,25 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
+	boolean validatePremiumEarnCode(String premiumEarnCode, String premiumHoliday, LocalDate localDate) {
+		boolean valid = true;
+		if (!StringUtils.isEmpty(premiumEarnCode)){
+			if(premiumHoliday.equalsIgnoreCase("N")) {
+				this.putFieldError("premiumHoliday", "error.SSTO,premiumHoliday", "Premium Holiday");
+				valid = false;
+			} 
+			if(valid) {
+				if (!ValidationUtils.validateEarnCode(premiumEarnCode, localDate)) {
+					this.putFieldError("premiumEarnCode", "error.existence", "earnCode '"
+							+ premiumEarnCode + "'");
+					valid = false;
+				}
+			}
+			
+		}
+		return valid;
+	}
+	
 	boolean validateTransferConversionFactor(BigDecimal transferConversionFactor) {
 		boolean valid = true;
 		if (transferConversionFactor == null) {
@@ -183,9 +202,11 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
                 valid &= this.validateFraction(sysSchTimeOff.getEarnCode(),sysSchTimeOff.getAmountofTime(),sysSchTimeOff.getEffectiveLocalDate(),"amountofTime");
 				//valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffLocalDate(), sysSchTimeOff.getUnusedTime());
 				valid &= this.validateUnusedTime(sysSchTimeOff);
+				
 				//valid &= this.validateNoUnusedTimeAllowed(sysSchTimeOff.getScheduledTimeOffLocalDate(),sysSchTimeOff.getAccruedLocalDate(),sysSchTimeOff.getUnusedTime());
 				valid &= this.validateLocation(sysSchTimeOff.getLocation(), sysSchTimeOff.getEffectiveLocalDate());
 				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveLocalDate());
+				valid &= this.validatePremiumEarnCode(sysSchTimeOff.getPremiumEarnCode(), sysSchTimeOff.getPremiumHoliday(), sysSchTimeOff.getEffectiveLocalDate());
 			}
 		}
 		

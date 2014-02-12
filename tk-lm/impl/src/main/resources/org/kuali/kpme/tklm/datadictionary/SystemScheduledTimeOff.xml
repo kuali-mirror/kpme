@@ -46,6 +46,7 @@
 				<ref bean="SystemScheduledTimeOff-unusedTime" />
 				<ref bean="SystemScheduledTimeOff-transferConversionFactor" />
 				<ref bean="SystemScheduledTimeOff-transfertoEarnCode" />
+				<ref bean="SystemScheduledTimeOff-premiumEarnCode" />
 				<ref bean="SystemScheduledTimeOff-premiumHoliday" />
 			</list>
 		</property>
@@ -86,6 +87,16 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="transfertoEarnCode" p:targetName="earnCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="premiumEarnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="premiumEarnCode" p:targetName="earnCode" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
 								p:targetName="effectiveDate" />
 						</list>
@@ -263,6 +274,23 @@
 		<property name="name" value="transfertoEarnCode" />
 		<property name="label" value="Transfer to Earn Code" />
 	</bean>
+	
+	<bean id="SystemScheduledTimeOff-premiumEarnCode" parent="SystemScheduledTimeOff-premiumEarnCode-parentBean" />
+	<bean id="SystemScheduledTimeOff-premiumEarnCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Premium Earn Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="premiumEarnCode" />
+		<property name="label" value="Premium Earn Code" />
+	</bean>
 
     <!-- Premium Holiday -->
 	<bean id="SystemScheduledTimeOff-premiumHoliday" parent="SystemScheduledTimeOff-premiumHoliday-parentBean" />
@@ -296,6 +324,7 @@
                             <bean parent="FieldDefinition" p:attributeName="unusedTime" />
                             <bean parent="FieldDefinition" p:attributeName="transfertoEarnCode" />
                             <bean parent="FieldDefinition" p:attributeName="transferConversionFactor" />
+                            <bean parent="FieldDefinition" p:attributeName="premiumEarnCode" />
                             <bean parent="FieldDefinition" p:attributeName="premiumHoliday" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
@@ -325,6 +354,7 @@
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
+				<bean parent="FieldDefinition" p:attributeName="premiumEarnCode" />
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
                 <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"

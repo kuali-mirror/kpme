@@ -35,7 +35,7 @@ public interface SystemScheduledTimeOffDao {
 	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, LocalDate startDate);
 
     List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate, 
-    		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String active, String showHist);
+    		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String premiumEarnCode, String active, String showHist);
     
     public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(LocalDate fromAccruedDate,LocalDate toAccruedDate, String leavePlan);
 }

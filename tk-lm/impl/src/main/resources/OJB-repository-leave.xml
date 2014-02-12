@@ -63,6 +63,7 @@
         <field-descriptor name="unusedTime"                   column="UNUSED_TIME"            jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="transferConversionFactor"     column="TRANS_CONV_FACTOR"      jdbc-type="DECIMAL"     length="12" nullable="false" />
         <field-descriptor name="transfertoEarnCode"           column="TRANSFER_TO_EARN_CODE"  jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="premiumEarnCode"              column="PREMIUM_EARN_CODE"      jdbc-type="VARCHAR"     length="15" nullable="false" />
      	<field-descriptor name="premiumHoliday"               column="PREMIUM_HOLIDAY"        jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="effectiveDate"                column="EFFDT"                  jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"                    column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />

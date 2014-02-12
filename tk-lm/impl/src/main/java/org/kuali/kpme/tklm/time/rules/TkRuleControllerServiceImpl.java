@@ -47,6 +47,8 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 			TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(timesheetDocument, timeBlockAggregate);
 			TkServiceLocator.getDailyOvertimeRuleService().processDailyOvertimeRules(timesheetDocument, timeBlockAggregate);
 			TkServiceLocator.getWeeklyOvertimeRuleService().processWeeklyOvertimeRule(timesheetDocument, timeBlockAggregate);
+			// check for Premium holiday Earncode 
+			TkServiceLocator.getTimeBlockService().applyHolidayPremiumEarnCode(timesheetDocument, timeBlockAggregate.getFlattenedTimeBlockList());
 		}
 	}
 
