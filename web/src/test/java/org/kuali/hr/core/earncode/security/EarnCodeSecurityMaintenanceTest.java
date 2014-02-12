@@ -38,7 +38,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 @FunctionalTest
 public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
-	private static final DateTime TEST_DATE_OLD = new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+	/*private static final DateTime TEST_DATE_OLD = new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final DateTime TEST_DATE_NEW = new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final String EARN_CODE = "RGN";
 	private static final String DEPT = "TEST-DEPT";
@@ -196,5 +196,5 @@ public class EarnCodeSecurityMaintenanceTest extends KPMEWebTestCase{
 	public void setUp() throws Exception {
 		super.setUp();
 		this.createNewEarnCodeSecurity();		
-	}
+	}*/
 }

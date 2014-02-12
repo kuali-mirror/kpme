@@ -25,48 +25,11 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
 	<bean id="EarnCodeSecurityMaintenanceDocument" parent="EarnCodeSecurityMaintenanceDocument-parentBean" />
-
-	<bean id="EarnCodeSecurityMaintenanceDocument-parentBean" abstract="true"
-		parent="KPMEHrBusinessObjectMaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.earncode.security.EarnCodeSecurity"
-		p:businessRulesClass="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityRule"
-		p:maintainableClass="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.kpme.core.earncode.security.authorization.EarnCodeSecurityAuthorizer">
-		<property name="maintainableSections">
-			<list>
-				<ref bean="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance" />
-				<ref bean="EarnCodeSecurityMaintenanceDocument-HiddenFieldsSection" />
-			</list>
-		</property>
-		<property name="lockingKeys">
-			<list>
-				<value>hrEarnCodeSecurityId</value>
-			</list>
-		</property>
-		<property name="documentTypeName" value="EarnCodeSecurityDocumentType" />
-<!--         <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityEffectiveDatePrompt"/> -->
-	</bean>
-
-	<bean id="EarnCodeSecurityMaintenanceDocument-HiddenFieldsSection" parent="MaintDoc-HiddenFields-parentBean" />
-
-	<!-- Maintenance Section Definitions -->
-	<bean id="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance" parent="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance-parentBean" />
-	<bean id="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Earn Code Security Maintenance" />
-		<property name="maintainableItems">
-			<list>
-			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"
-                      p:noLookup="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
-                <bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="hrSalGroup" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="earnCodeType" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="employee" />
-				<bean parent="MaintainableFieldDefinition" p:name="approver" />
-				<bean parent="MaintainableFieldDefinition" p:name="payrollProcessor" />
-				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
-			</list>
-		</property>
-	</bean>
+	<bean id="EarnCodeSecurityMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity"/>
+    <property name="businessRulesClass" value="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityRule"/>
+    <property name="maintainableClass" value="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityMaintainableImpl"/>
+    <property name="documentTypeName" value="EarnCodeSecurityDocumentType"/>
+  	</bean>
+	
 </beans>

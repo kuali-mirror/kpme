@@ -18,22 +18,14 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean name="EarnCodeSecurity" parent="EarnCodeSecurity-parentBean" />
 
-	<bean id="EarnCodeSecurity-parentBean" abstract="true"
-		parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass"
-			value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
-		<property name="titleAttribute" value="hrEarnCodeSecurityId" />
-		<property name="objectLabel" value="Earn -Code Security" />
-		<property name="inquiryDefinition">
-			<ref bean="EarnCodeSecurity-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="EarnCodeSecurity-lookupDefinition" />
-		</property>
+	<bean id="EarnCodeSecurity" parent="EarnCodeSecurity-parentBean" />
+
+	<bean id="EarnCodeSecurity-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
 		<property name="attributes">
 			<list merge="true">
                 <ref bean="EarnCodeSecurity-hrEarnCodeSecurityId" />
@@ -48,60 +40,7 @@
 			</list>
 		</property>
 		  
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="departmentObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
-								p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
-								p:targetName="effectiveDate" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="location" />
-						</list>
-					</property>
-				</bean>
-				
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="salaryGroupObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
-								p:targetName="hrSalGroup" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
-								p:targetName="effectiveDate" />
-						</list>
-					</property>
-				</bean>
-				
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="earnCodeObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
-								p:targetName="effectiveDate" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
-								  p:targetName="earnCode" />
-						</list>
-		            </property>
-				</bean>
-
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="locationObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="location" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
-								p:targetName="effectiveDate" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-		
+		<property name="objectLabel" value="EarnCodeSecurity"/>
 	</bean>
 
 	<!-- Attributes  -->
@@ -111,14 +50,12 @@
           parent="AttributeDefinition">
         <property name="shortLabel" value="Id" />
         <property name="maxLength" value="60" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="false"/>
         </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="21" />
-        </property>
+        <property name="controlField">
+        	<bean parent="Uif-TextControl" p:size="21" />
+		</property>
         <property name="name" value="hrEarnCodeSecurityId" />
         <property name="label" value="Earn Code Security Id" />
     </bean>
@@ -134,14 +71,15 @@
 
 	<!-- earnCode -->
 	<bean id="EarnCodeSecurity-earnCode" parent="EarnCodeSecurity-earnCode-parentBean" />
-	<bean id="EarnCodeSecurity-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode" />
+	<bean id="EarnCodeSecurity-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode"/>
 
     <bean id="EarnCodeSecurity-location" parent="EarnCodeSecurity-location-parentBean" />
 	<bean id="EarnCodeSecurity-location-parentBean" abstract="true"	parent="KpmeAttributeReference-location"/>
 
 	<!-- Employee -->
 	<bean id="EarnCodeSecurity-employee" parent="EarnCodeSecurity-employee-parentBean" />
-	<bean id="EarnCodeSecurity-employee-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
+	<bean id="EarnCodeSecurity-employee-parentBean" abstract="true"
+		parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Employee" />
 		<property name="name" value="employee" />
 		<property name="label" value="Employee" />
@@ -149,7 +87,8 @@
 
 	<!-- Approver -->
 	<bean id="EarnCodeSecurity-approver" parent="EarnCodeSecurity-approver-parentBean" />
-	<bean id="EarnCodeSecurity-approver-parentBean" abstract="true"	parent="KpmeAttributeReference-genericCheckbox">
+	<bean id="EarnCodeSecurity-approver-parentBean" abstract="true"
+		parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Approver" />
 		<property name="name" value="approver" />
 		<property name="label" value="Approver" />
@@ -157,7 +96,8 @@
 	
 	<!-- Payroll Processor KPME-2532 -->
 	<bean id="EarnCodeSecurity-payrollProcessor" parent="EarnCodeSecurity-payrollProcessor-parentBean" />
-	<bean id="EarnCodeSecurity-payrollProcessor-parentBean" abstract="true"	parent="KpmeAttributeReference-genericCheckbox">
+	<bean id="EarnCodeSecurity-payrollProcessor-parentBean" abstract="true"
+		parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Payroll Processor" />
 		<property name="name" value="payrollProcessor" />
 		<property name="label" value="Payroll Processor" />
@@ -168,85 +108,174 @@
 	<bean id="EarnCodeSecurity-earnCodeType" parent="EarnCodeSecurity-earnCodeType-parentBean" />
 	<bean id="EarnCodeSecurity-earnCodeType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Earn Code Type" />
-		<property name="control">
-			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.kpme.core.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder">
-			</bean>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl"/>
+		</property>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.core.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder" />
 		</property>
 		<property name="name" value="earnCodeType" />
 		<property name="label" value="Earn Code Type" />
 	</bean>
 
- 	<!--  Inquiry Definitions  -->
-  
-  	<bean id="EarnCodeSecurity-inquiryDefinition" parent="EarnCodeSecurity-inquiryDefinition-parentBean" />
-
-	<bean id="EarnCodeSecurity-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-                            <bean parent="FieldDefinition" p:attributeName="location" />
-							<bean parent="FieldDefinition" p:attributeName="dept" />
-							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
-							<bean parent="FieldDefinition" p:attributeName="earnCode" />
-                            <bean parent="FieldDefinition" p:attributeName="earnCodeType" />
-							<bean parent="FieldDefinition" p:attributeName="employee" />
-							<bean parent="FieldDefinition" p:attributeName="approver" />
-							<bean parent="FieldDefinition" p:attributeName="payrollProcessor" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-			                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
-			                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
-                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-						</list>
-					</property>
-					<property name="title" value="Earn Code Security" />
+ 
+ <!--  KRAD Inquiry View -->
+	
+	<bean id="EarnCodeSecurity-InquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Earn Code Security Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+          <list>      
+            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+            <bean parent="Uif-DataField" p:propertyName="location" />
+            <bean parent="Uif-DataField" p:propertyName="dept" />
+            <bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
+            <bean parent="Uif-DataField" p:propertyName="earnCode" />
+            <bean parent="Uif-DataField" p:propertyName="earnCodeType" />
+            <bean parent="Uif-DataField" p:propertyName="employee" />
+            <bean parent="Uif-DataField" p:propertyName="approver" />
+            <bean parent="Uif-DataField" p:propertyName="payrollProcessor" />
+            <bean parent="Uif-DataField" p:propertyName="active" />
+            <bean parent="Uif-DataField" p:propertyName="relativeEffectiveDate" p:hidden="true" p:defaultValue=" "/>
+            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+          </list>
+        </property>
+        <property name="title" value="Earn Code Security Inquiry"/>
+    </bean>
+	
+	<!--  KRAD Lookup View -->
+	
+	<bean id="EarnCodeSecurity-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+		<property name="headerText" value="Earn Code Security Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KPMELookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
+                	<property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                              p:fieldConversions="location:location,relativeEffectiveDate:effectiveDate"/>
+                    </property>
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                              p:inquiryParameters="location:location"/>
+                    </property>
+                </bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
+					<property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                              p:fieldConversions="dept:dept,relativeEffectiveDate:effectiveDate,location:location"/>
+                    </property>
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                              p:inquiryParameters="dept:dept"/>
+                    </property>
 				</bean>
-			</list>
-		</property>
-		<property name="translateCodes" value="false"/>
-		<property name="title" value="Earn Code Security Inquiry" />
-	</bean>
-
-	<!-- Look up Definitions  -->
-
-	<bean id="EarnCodeSecurity-lookupDefinition" parent="EarnCodeSecurity-lookupDefinition-parentBean" />
-	<bean id="EarnCodeSecurity-lookupDefinition-parentBean"
-		abstract="true" parent="LookupDefinition">
-		<property name="lookupableID" value="earnCodeSecurityLookupable"></property>
-		<property name="lookupFields">
-			<list>
-                <bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="dept" />
-				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
-				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="earnCodeType" p:defaultValue="A"/>
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
-                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
-                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" >
+					<property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                              p:fieldConversions="hrSalGroup:salGroup,relativeEffectiveDate:effectiveDate"/>
+                    </property>
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                              p:inquiryParameters="hrSalGroup:salGroup"/>
+                    </property>
+				</bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode" >
+					<property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                              p:fieldConversions="earnCode:earnCode,relativeEffectiveDate:effectiveDate"/>
+                    </property>
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                              p:inquiryParameters="earnCode:earnCode"/>
+                    </property>
+				</bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCodeType" p:defaultValue="A"/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-                <bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="dept" />
-				<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
-				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="employee" />
-				<bean parent="FieldDefinition" p:attributeName="approver" />
-				<bean parent="FieldDefinition" p:attributeName="payrollProcessor" />
-				<bean parent="FieldDefinition" p:attributeName="earnCodeType"/>
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="timestamp" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="Uif-DataField" p:propertyName="location" />
+                <bean parent="Uif-DataField" p:propertyName="dept" />
+				<bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
+				<bean parent="Uif-DataField" p:propertyName="earnCode" />
+				<bean parent="Uif-DataField" p:propertyName="employee" />
+				<bean parent="Uif-DataField" p:propertyName="approver" />
+				<bean parent="Uif-DataField" p:propertyName="payrollProcessor" />
+				<bean parent="Uif-DataField" p:propertyName="earnCodeType" />
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-DataField" p:propertyName="timestamp" />
+				<bean parent="Uif-DataField" p:propertyName="active" />
 			</list>
 		</property>
 		<property name="title" value="Earn Code Security Lookup" />
 	</bean>
+	
+	<bean id="EarnCodeSecurity-MaintenanceView" parent="EarnCodeSecurity-EarnCodeSecurityMaintenance-parentBean" />
+	<bean id="EarnCodeSecurity-EarnCodeSecurityMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
+		<property name="headerText" value="Earn Code Security Maintenance" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="Uif-MaintenanceGridSection">
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="location" p:required="true" >
+								<property name="quickfinder">
+                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                              			p:fieldConversions="location:location,relativeEffectiveDate:effectiveDate"/>
+                    			</property>
+                    			<property name="inquiry">
+                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                              			p:inquiryParameters="location:location"/>
+                    			</property>
+							</bean>
+							<bean parent="Uif-InputField" p:propertyName="dept" p:required="true" >
+								<property name="quickfinder">
+                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                              			p:fieldConversions="dept:dept,relativeEffectiveDate:effectiveDate,location:location"/>
+                    			</property>
+                    			<property name="inquiry">
+                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                              			p:inquiryParameters="dept:dept"/>
+                    			</property>							
+							</bean>
+							<bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:required="true" >
+								<property name="quickfinder">
+                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                              			p:fieldConversions="hrSalGroup:salGroup,relativeEffectiveDate:effectiveDate"/>
+                    			</property>
+                    			<property name="inquiry">
+                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                              			p:inquiryParameters="hrSalGroup:salGroup"/>
+                    			</property>
+							</bean>
+							<bean parent="Uif-InputField" p:propertyName="earnCode" p:required="true" >
+								<property name="quickfinder">
+                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                              			p:fieldConversions="earnCode:earnCode,relativeEffectiveDate:effectiveDate"/>
+                    			</property>
+                    			<property name="inquiry">
+                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                              			p:inquiryParameters="earnCode:earnCode"/>
+                    			</property>
+							</bean>
+							<bean parent="Uif-InputField" p:propertyName="earnCodeType" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="employee" p:required="false" />
+							<bean parent="Uif-InputField" p:propertyName="approver" p:required="false" />
+							<bean parent="Uif-InputField" p:propertyName="payrollProcessor" p:required="false" />
+							<bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="Y" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 </beans>

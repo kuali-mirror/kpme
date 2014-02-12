@@ -446,13 +446,7 @@
             <bean class="org.kuali.kpme.core.salarygroup.web.SalaryGroupLookupableHelper"/>
         </property>
     </bean>
-    <bean id="earnCodeSecurityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityLookupableHelper"/>
-        </property>
-    </bean>
-    
-	
+  	
 	
 <!--     common beans for KNS hr business object lookup -->
 	<bean id="kpmeHrBusinessObjectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl">

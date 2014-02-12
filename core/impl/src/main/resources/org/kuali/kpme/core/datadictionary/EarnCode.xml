@@ -517,4 +517,54 @@
 		</property>
 		<property name="title" value="Earn Code Lookup" />
 	</bean>
+	
+	<bean id="EarnCode-LookupView" parent="Uif-LookupView">
+        <property name="headerText" value="Earn Code Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCode"/>
+        <property name="criteriaFields">
+            <list>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode"/>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description"/>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
+            		<property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                              p:fieldConversions="leavePlan:leavePlan,relativeEffectiveDate:effectiveDate"/>
+                    </property>
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                              p:inquiryParameters="leavePlan:leavePlan"/>
+                    </property>
+            	</bean>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="accrualCategory">
+            		<property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategory"
+                              p:fieldConversions="accrualCategory:accrualCategory,leavePlan:leavePlan,relativeEffectiveDate:effectiveDate"/>
+                    </property>
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategory"
+                              p:inquiryParameters="accrualCategory:accrualCategory"/>
+                    </property>
+            	</bean>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="ovtEarnCode"/>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>        
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
+            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="relativeEffectiveDate" p:hidden="true" p:defaultValue=" "/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="earnCode"/>
+                <bean parent="Uif-DataField" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:propertyName="leavePlan"/>
+                <bean parent="Uif-DataField" p:propertyName="accrualCategory"/>
+                <bean parent="Uif-DataField" p:propertyName="ovtEarnCode"/>
+                <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-DataField" p:propertyName="timeStamp"/>
+                <bean parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+    </bean>
+	
+	
 </beans>
