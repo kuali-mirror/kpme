@@ -57,6 +57,7 @@
 		      	<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true" />
 		        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
 		        <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true" />
+		        <bean parent="MaintainableFieldDefinition" p:name="institution" />
 		        <bean parent="MaintainableFieldDefinition" p:name="chart" />
 		        <bean parent="MaintainableFieldDefinition" p:name="org" />
 		        <bean parent="MaintainableFieldDefinition" p:name="payrollApproval" />
