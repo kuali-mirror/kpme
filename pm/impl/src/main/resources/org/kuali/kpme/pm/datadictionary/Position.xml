@@ -717,7 +717,6 @@
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
 							p:fieldConversions="institutionCode:institution" />
 					</property>
-					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
                     <property name="quickfinder">

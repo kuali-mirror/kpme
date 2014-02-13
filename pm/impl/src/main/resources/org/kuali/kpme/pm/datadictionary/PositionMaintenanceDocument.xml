@@ -284,7 +284,6 @@
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Change Status'}" >
                     </property>
-					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="temporary"
 					p:required="true" p:defaultValue="N" >
@@ -363,7 +362,6 @@
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
                     </property>
-					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="expectedEndDate">
                     <property name="control">
@@ -581,7 +579,6 @@
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
                     </property>
-					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="payStep">
                     <property name="control">
@@ -596,7 +593,6 @@
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
                     </property>
-					<property name="quickfinder.autoSearch" value="true" />
 				</bean>
 			</list>
 		</property>
