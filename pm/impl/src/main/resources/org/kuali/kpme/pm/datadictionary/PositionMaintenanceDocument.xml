@@ -127,7 +127,9 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="process"
-					p:required="true">
+					p:required="true" id="position_process"
+                    p:onChangeScript="if (jQuery('#position_process_control').val() == '') {jQuery('.ui-datepicker-trigger').hide();} else {jQuery('.ui-datepicker-trigger').show();}"
+                       >
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
@@ -154,9 +156,12 @@
                         <bean parent="BasicDatePatternConstraint"/>
                     </property>
                     <property name="control">
-                        <bean parent="Uif-DateControl"
+                        <bean parent="Uif-TextControl"
                               p:disabled="@{#dp.process eq '' or #dp.process eq null}"
                               p:refreshWhenChangedPropertyNames="#dp.process">
+                            <property name="datePicker">
+                                <bean parent="Uif-DatePicker" p:onDocumentReadyScript="if (jQuery('#position_process_control').val() == '') {jQuery('.ui-datepicker-trigger').hide();} else {jQuery('.ui-datepicker-trigger').show();}"/>
+                            </property>
                         </bean>
                     </property>
                 </bean>

@@ -80,7 +80,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 				|| StringUtils.isEmpty(aPosition.getTemporary())
 				|| StringUtils.isEmpty(aPosition.getContract())) {
 
-			this.putFieldError("positionNumber", "error.overview.fields.required");
+			this.putFieldError("dataObject.positionNumber", "error.overview.fields.required");
 			return false;
 		}
 		
@@ -96,7 +96,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 					}
 				}
 				if (!found) {
-					this.putFieldError("appointmentType", "error.existence", "Appointment Type '" + aPosition.getAppointmentType() + "'");
+					this.putFieldError("dataObject.appointmentType", "error.existence", "Appointment Type '" + aPosition.getAppointmentType() + "'");
 					return false;						
 				}
 			}
@@ -105,11 +105,11 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		// validate contract and contrqact type
 		if (StringUtils.equals(aPosition.getContract(), "Y")) {
 			if (StringUtils.isEmpty(aPosition.getContractType())) {
-				this.putFieldError("contractType", "error.overview.fields.required");
+				this.putFieldError("dataObject.contractType", "error.overview.fields.required");
 				return false;
 			} else {
 				if (!PmValidationUtils.validatePositionContractType(aPosition.getContractType(), aPosition.getInstitution(), aPosition.getLocation(), aPosition.getEffectiveLocalDate())) {
-					this.putFieldError("contractType", "error.existence", "Contract Type '" + aPosition.getContractType() + "'");
+					this.putFieldError("dataObject.contractType", "error.existence", "Contract Type '" + aPosition.getContractType() + "'");
 					return false;
 				}
 			}
@@ -118,7 +118,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		// validate renewal eligible
 		if (aPosition.getExpectedEndDate() != null) {
 			if (StringUtils.isEmpty(aPosition.getRenewEligible())) {
-				this.putFieldError("renewEligible", "error.overview.fields.required");
+				this.putFieldError("dataObject.renewEligible", "error.overview.fields.required");
 				return false;
 			}
 		}
@@ -133,13 +133,13 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 				|| StringUtils.isEmpty(aPosition.getBenefitsEligible())
 				|| StringUtils.isEmpty(aPosition.getLeaveEligible())) {
 
-			this.putFieldError("pmPositionClassId", "error.classication.fields.required");
+			this.putFieldError("dataObject.pmPositionClassId", "error.classication.fields.required");
 			return false;
 		}
 		// validate leave plan
 		if (StringUtils.equals(aPosition.getLeaveEligible(), "Y")) {
 			if (StringUtils.isEmpty(aPosition.getLeavePlan())) {
-				this.putFieldError("leavePlan", "error.classication.fields.required");
+				this.putFieldError("dataObject.leavePlan", "error.classication.fields.required");
 				return false;
 			} 
 		}
@@ -160,7 +160,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			}
 		}
 
-		this.putFieldError("primaryDepartment", "error.primaryDepartment.required");
+		this.putFieldError("dataObject.primaryDepartment", "error.primaryDepartment.required");
 		return false;
 	}
 
@@ -170,18 +170,18 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
                 if (StringUtils.equals(newPosition.getPrimaryDepartment(),oldPosition.getPrimaryDepartment())
                         && StringUtils.equals(newPosition.getReportsToPositionId(),oldPosition.getReportsToPositionId())) {
-                    this.putGlobalError("error.reorganization.noChange");
+                    this.putFieldError("dataObject.primaryDepartment","error.reorganization.noChange");
                     return false;
                 }
 
             } else if (StringUtils.equals(process,PMConstants.PSTN_PROCESS_RECLASS)) {
                 if(StringUtils.equals(newPosition.getPmPositionClassId(),oldPosition.getPmPositionClassId())) {
-                    this.putFieldError("positionClass","error.reclassification.noChange");
+                    this.putFieldError("dataObject.positionClass","error.reclassification.noChange");
                     return false;
                 }
             } else if (StringUtils.equals(process,PMConstants.PSTN_PROCESS_STATUS)) {
                 if(StringUtils.equals(newPosition.getPositionStatus(),oldPosition.getPositionStatus())) {
-                    this.putFieldError("positionStatus","error.changeStatus.noChange");
+                    this.putFieldError("dataObject.positionStatus","error.changeStatus.noChange");
                 }
             }
 

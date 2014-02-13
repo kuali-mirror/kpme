@@ -254,7 +254,13 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         document.getDocumentHeader().setDocumentDescription("New Position");
 		super.processAfterCopy(document, parameters);
 	}
-	
+
+    @Override
+    public String getDocumentTitle(MaintenanceDocument document) {
+        String docTitle = document.getDocumentHeader().getDocumentDescription();
+        return docTitle;
+    }
+
 	@Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
 
