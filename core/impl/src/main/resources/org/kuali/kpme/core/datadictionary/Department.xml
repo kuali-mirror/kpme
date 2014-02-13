@@ -477,6 +477,7 @@
         <property name="collectionObjectClass" value="org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo"/>
         <property name="propertyName" value="inactiveRoleMembers"/>
         <property name="renderLineActions" value="false"/>
+        <property name="renderAddLine" value="false"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="header">
