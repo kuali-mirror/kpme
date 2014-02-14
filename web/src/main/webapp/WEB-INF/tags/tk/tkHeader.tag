@@ -12,7 +12,7 @@
       response.setDateHeader ("Expires", -1);
     %>
 </c:if>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <title>Kuali People Management for the Enterprise</title>
