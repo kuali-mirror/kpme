@@ -356,13 +356,14 @@
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
-							p:fieldConversions="positionNumber:reportsToPositionId" />
+						<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase" 
+						    p:fieldConversions="positionNumber:reportsToPositionId,description:reportsToWorkingTitle" />
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
                     </property>
 				</bean>
+				<bean parent="Uif-InputField" p:propertyName="reportsToWorkingTitle" p:readOnly="true " />
 				<bean parent="Uif-InputField" p:propertyName="expectedEndDate">
                     <property name="control">
                         <bean parent="Uif-TextControl"

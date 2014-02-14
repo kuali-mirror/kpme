@@ -89,6 +89,8 @@ public class Position extends PositionBase implements PositionContract {
     
     private String category;		// used to determine what fields should show when editing an existing maint doc
     
+    private String reportsToWorkingTitle; // KPME-3269
+    
     private List<ClassificationQualification> requiredQualList = new ArrayList<ClassificationQualification>(); 	// read only required qualifications that comes from assiciated Classification
 
     public List<PositionDuty> getDutyList() {
@@ -450,5 +452,13 @@ public class Position extends PositionBase implements PositionContract {
 
 	public void setPayStep(String payStep) {
 		this.payStep = payStep;
+	}
+
+	public String getReportsToWorkingTitle() {
+		return reportsToWorkingTitle;
+	}
+
+	public void setReportsToWorkingTitle(String reportsToWorkingTitle) {
+		this.reportsToWorkingTitle = reportsToWorkingTitle;
 	}
 }
