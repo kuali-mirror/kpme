@@ -16,6 +16,7 @@
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
 <channel:portalChannelTop channelTitle="HR/Payroll" />
+ <c:set var="locationViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isPositionModuleEnabled()%>' />
 <div class="body">
     <ul class="chan">
         <li>
@@ -62,10 +63,12 @@
             <portal:portalLink displayTitle="true" title="Pay Type"
                                url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.paytype.PayType&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
-        <li>
-            <portal:portalLink displayTitle="true" title="Position Base"
-                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.position.PositionBase&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
-        </li>
+        <c:if test="${not locationViewOnly}">
+	        <li>
+	            <portal:portalLink displayTitle="true" title="Position Base"
+	                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.position.PositionBase&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+	        </li>
+        </c:if>
         <li>
             <portal:portalLink displayTitle="true" title="Principal HR Attributes"
                                url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.principal.PrincipalHRAttributes&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
