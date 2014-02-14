@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.approval.web;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,8 +41,10 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -52,6 +55,9 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.CollectionUtils;
 
 public class TimeApprovalAction extends CalendarApprovalFormAction {
@@ -124,7 +130,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 				
 	        setApprovalTables(timeApprovalActionForm, request, pidList, docIdSearchTerm);
         }
-
+        setMessages(timeApprovalActionForm);
         return actionForward;
 	}
 	
@@ -305,10 +311,12 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
             if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
                 String documentNumber = ar.getDocumentId();
                 TimesheetDocument tDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentNumber);
-                if (!isOverlapTimeBlocks(tDoc)) {
-                	TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getTargetPrincipalId(), tDoc);
-                } else {
-                	errorList.add("Timesheet "+tDoc.getDocumentId()+ " could not be approved as it contains overlapping time blocks");
+                if (tDoc != null) {
+                    if(TkServiceLocator.getTimesheetService().isTimesheetValid(tDoc)) {
+                        TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getPrincipalId(), tDoc);
+                    } else {
+                        errorList.add( "Timesheet " + tDoc.getDocumentId() + " could not be approved as it contains errors, see time detail for more info");
+                    }
                 }
             }
         }
@@ -321,51 +329,17 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
         
         return redirect;
     }
-    
-    private boolean isOverlapTimeBlocks(TimesheetDocument tDoc) {
-    	boolean isOverLap = false;
-        Map<String, String> earnCodeTypeMap = new HashMap<String, String>();
-    	List<TimeBlock> timeBlocks = tDoc.getTimeBlocks();
-        for(TimeBlock tb1 : timeBlocks) {
-        	String earnCode = tb1.getEarnCode();
-        	String earnCodeType = null;
-        	if(earnCodeTypeMap.containsKey(earnCode)) {
-        		earnCodeType = earnCodeTypeMap.get(earnCode);
-        	} else {
-       	 		EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tDoc.getAsOfDate());
-       	 		if(earnCodeObj != null) {
-       	 			earnCodeType = earnCodeObj.getEarnCodeType();
-       	 		}
-        	}
-       	 	if(earnCodeType != null && HrConstants.EARN_CODE_TIME.equals(earnCodeType)) {
-            	DateTime beginDate = tb1.getBeginDateTime();
-            	for(TimeBlock tb2 : timeBlocks){
-            		if(!tb1.getTkTimeBlockId().equals(tb2.getTkTimeBlockId())) {
-	            		earnCode = tb2.getEarnCode();
-	            		earnCodeType = null;
-	            		if(earnCodeTypeMap.containsKey(earnCode)) {
-	                		earnCodeType = earnCodeTypeMap.get(earnCode);
-	                	} else {
-	   	        	 		EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tDoc.getAsOfDate());
-	   	        	 		if(earnCodeObj != null) {
-	   	        	 			earnCodeType = earnCodeObj.getEarnCodeType();
-	   	        	 		}
-	                	}
-	            		if(earnCodeType != null && HrConstants.EARN_CODE_TIME.equals(earnCodeType)) {
-	                		Interval blockInterval = new Interval(tb2.getBeginDateTime(), tb2.getEndDateTime());
-	                		if(blockInterval.contains(beginDate.getMillis())) {
-	   	        			    isOverLap= true;	
-	   	        			    break;
-	                		}
-	            		}
-	            	}
-            	}
-            	if(isOverLap){
-            		break;
-            	}
-       	 	}
+
+    protected void setMessages(TimeApprovalActionForm taaf) {
+        List<ApprovalTimeSummaryRow> lstApprovalRows = taaf.getApprovalRows();
+        List<String> errorList = new ArrayList<String>();
+        for (ApprovalTimeSummaryRow ar : lstApprovalRows) {
+            String documentNumber = ar.getDocumentId();
+            TimesheetDocument tDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentNumber);
+            if (tDoc != null && !TkServiceLocator.getTimesheetService().isTimesheetValid(tDoc)) {
+                    errorList.add("Timesheet " + tDoc.getDocumentId() + " could not be approved as it contains errors, see time detail for more info");
+            }
         }
-        return isOverLap;
+        taaf.setErrorMessageList(errorList);
     }
-	
 }

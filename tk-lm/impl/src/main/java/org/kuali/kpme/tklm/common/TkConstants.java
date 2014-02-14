@@ -252,4 +252,16 @@ public class TkConstants {
     	MISSEDPUNCH_APPROVAL_TIME_DOC_STATUS.add(DocumentStatus.ENROUTE.getCode());
     }
     
+
+    public static final Map<String, Integer> FLSA_WEEK_END_DAY = new LinkedHashMap<String, Integer>(7);
+
+    static {
+        FLSA_WEEK_END_DAY.put("Sun",6);
+        FLSA_WEEK_END_DAY.put("Mon",7);
+        FLSA_WEEK_END_DAY.put("Tues",1);
+        FLSA_WEEK_END_DAY.put("Wed",2);
+        FLSA_WEEK_END_DAY.put("Thur",3);
+        FLSA_WEEK_END_DAY.put("Fri",4);
+        FLSA_WEEK_END_DAY.put("Sat",5);
+    }
 }

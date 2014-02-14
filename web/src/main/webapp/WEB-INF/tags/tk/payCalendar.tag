@@ -20,8 +20,14 @@
             <c:set var="timeBlockDivId" value=""/>
         </c:if>
 
-        <div id="${timeBlockDivId}" class="approvals-table event ${last} ${block.assignmentClass}">
-            <div id="timeblock_${block.timeBlock.tkTimeBlockId}" 
+        <c:forEach var="action" items="${Form.actionMessages}">
+            <c:if test="${fn:containsIgnoreCase(action,block.timeBlock.tkTimeBlockId)}">
+                <c:set var="error" value="block-error"/>
+            </c:if>
+        </c:forEach>
+
+        <div id="${timeBlockDivId}" class="approvals-table event ${last} ${block.assignmentClass} ${error}">
+            <div id="timeblock_${block.timeBlock.tkTimeBlockId}"
             	 class="${editableClass}">
             	 <c:if test="${block.timeBlock.clockedByMissedPunch}">
  	 	 	 	 	<!-- <div class="missed-punch-marker">

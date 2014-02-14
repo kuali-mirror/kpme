@@ -15,8 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.timesheet.web;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +40,7 @@ import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -163,7 +163,7 @@ public class TimesheetAction extends CalendarFormAction {
         	EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.missing.payCalendar", entityNamePrincipalName.getPrincipalName());
         }
-
+        setMessages(timesheetActionForm);
 		return super.execute(mapping, form, request, response);
 	}
     
@@ -177,6 +177,13 @@ public class TimesheetAction extends CalendarFormAction {
         }
         
         return calendarEntries;
+    }
+
+    protected void setMessages(TimesheetActionForm timesheetActionForm) {
+       List<String> errorList = new ArrayList<String>();
+       errorList.addAll(TkServiceLocator.getTimesheetService().validateTimeBlock(timesheetActionForm.getTimesheetDocument()));
+       errorList.addAll(TkServiceLocator.getTimesheetService().validateHours(timesheetActionForm.getTimesheetDocument()));
+       timesheetActionForm.setActionMessages(errorList);
     }
 
 }

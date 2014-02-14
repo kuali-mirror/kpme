@@ -167,7 +167,13 @@ public class WorkflowTagSupport implements WorkflowTagSupportContract {
     }
 
     public static boolean isTimesheetApprovalButtonsEnabled(String documentId) {
-        return isApprovalButtonsEnabled(documentId);
+        boolean isTimesheetApprovalButtonsEnabled = false;
+
+        if (StringUtils.isNotBlank(documentId) && isApprovalButtonsEnabled(documentId)) {
+            TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+            isTimesheetApprovalButtonsEnabled = TkServiceLocator.getTimesheetService().isTimesheetValid(timesheetDocument);
+        }
+        return isTimesheetApprovalButtonsEnabled;
     }
 
     public static boolean isLeaveCalendarApprovalButtonsEnabled(String documentId) {

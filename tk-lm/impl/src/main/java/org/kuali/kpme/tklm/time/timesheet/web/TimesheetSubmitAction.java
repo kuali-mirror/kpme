@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.time.timesheet.web;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +40,10 @@ import org.joda.time.Interval;
 import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -178,11 +181,11 @@ public class TimesheetSubmitAction extends KPMEAction {
         } else if (StringUtils.equals(tsaf.getAction(), HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
         	if(TkServiceLocator.getTimesheetService().isReadyToApprove(document)) {
 	            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-	                if(!isOverlapTimeBlocks(document)) {
-	            		TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getPrincipalId(), document);
-	            	} else {
-	            		errorList.add("Timesheet "+document.getDocumentId()+ " could not be approved as it contains overlapping time blocks");
-	            	}
+                    if(TkServiceLocator.getTimesheetService().isTimesheetValid(document)) {
+                        TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getPrincipalId(), document);
+                    } else {
+                        errorList.add("Timesheet " + document.getDocumentId() + " could not be approved as it contains errors, see time detail for more info");
+                    }
 	            }
         	} else {
         		//ERROR!!!
@@ -216,11 +219,11 @@ public class TimesheetSubmitAction extends KPMEAction {
         } else if (StringUtils.equals(tsaf.getAction(), HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
         	if(TkServiceLocator.getTimesheetService().isReadyToApprove(document)) {
 	            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-	            	if(!isOverlapTimeBlocks(document)) {
-	            		TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getPrincipalId(), document);
-	            	} else {
-	            		errorList.add("Timesheet "+document.getDocumentId()+ " could not be approved as it contains overlapping time blocks");
-	            	}
+                    if(TkServiceLocator.getTimesheetService().isTimesheetValid(document)) {
+                        TkServiceLocator.getTimesheetService().approveTimesheet(HrContext.getPrincipalId(), document);
+                    } else {
+                        errorList.add("Timesheet " + document.getDocumentId() + " could not be approved as it contains errors, see time detail for more info");
+                    }
 	            }
         	} else {
         		//ERROR!!!
@@ -248,51 +251,5 @@ public class TimesheetSubmitAction extends KPMEAction {
         	redirect.addParameter("errorMessageList", errorList);
         }
         return redirect;
-    }
-    
-    private boolean isOverlapTimeBlocks(TimesheetDocument tDoc) {
-    	boolean isOverLap = false;
-        Map<String, String> earnCodeTypeMap = new HashMap<String, String>();
-    	List<TimeBlock> timeBlocks = tDoc.getTimeBlocks();
-        for(TimeBlock tb1 : timeBlocks) {
-        	String earnCode = tb1.getEarnCode();
-        	String earnCodeType = null;
-        	if(earnCodeTypeMap.containsKey(earnCode)) {
-        		earnCodeType = earnCodeTypeMap.get(earnCode);
-        	} else {
-       	 		EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tDoc.getAsOfDate());
-       	 		if(earnCodeObj != null) {
-       	 			earnCodeType = earnCodeObj.getEarnCodeType();
-       	 		}
-        	}
-       	 	if(earnCodeType != null && HrConstants.EARN_CODE_TIME.equals(earnCodeType)) {
-            	DateTime beginDate = tb1.getBeginDateTime();
-            	for(TimeBlock tb2 : timeBlocks){
-            		if(!tb1.getTkTimeBlockId().equals(tb2.getTkTimeBlockId())) {
-	            		earnCode = tb2.getEarnCode();
-	            		earnCodeType = null;
-	            		if(earnCodeTypeMap.containsKey(earnCode)) {
-	                		earnCodeType = earnCodeTypeMap.get(earnCode);
-	                	} else {
-	   	        	 		EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, tDoc.getAsOfDate());
-	   	        	 		if(earnCodeObj != null) {
-	   	        	 			earnCodeType = earnCodeObj.getEarnCodeType();
-	   	        	 		}
-	                	}
-	            		if(earnCodeType != null && HrConstants.EARN_CODE_TIME.equals(earnCodeType)) {
-	                		Interval blockInterval = new Interval(tb2.getBeginDateTime(), tb2.getEndDateTime());
-	                		if(blockInterval.contains(beginDate.getMillis())) {
-	   	        			    isOverLap= true;	
-	   	        			    break;
-	                		}
-	            		}
-	            	}
-            	}
-            	if(isOverLap){
-            		break;
-            	}
-       	 	}
-        }
-        return isOverLap;
     }
 }

@@ -325,7 +325,7 @@ $(function () {
                             }
                         },
                         Cancel : function () {
-                            $('.block-error').removeClass();
+                            $("#dialog-form").find('.block-error').removeClass();
                             $(this).dialog("close");
 
                         }

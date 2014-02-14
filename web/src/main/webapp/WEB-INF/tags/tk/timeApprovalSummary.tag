@@ -4,8 +4,9 @@
 <jsp:useBean id="workflowTagSupport" class="org.kuali.kpme.tklm.common.WorkflowTagSupport"/>
 <%@ attribute name="timeApprovalSummary" required="true" type="org.kuali.kpme.tklm.time.timesummary.TimeSummary"%>
 <%@ attribute name="principalId" required="true" type="java.lang.String"%>
+<%@ attribute name="error" required="true" type="java.lang.String"%>
 
-<div id="timeapproval-summary">	
+<div id="timeapproval-summary" class="${error}">
     <div id="timesheet-table-basic">
         <table border="1" >
         <thead>
