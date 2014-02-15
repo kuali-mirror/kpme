@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.bo.dao;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +25,13 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.lookup.WildcardableAttributeDefinition;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class KpmeHrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
 
@@ -45,23 +49,62 @@ public class KpmeHrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
 	public Criteria getCollectionCriteriaFromMap(BusinessObject example, Map formProps) {
 		// read and remove the history option from the form map
 		String showHistory = (String) formProps.remove(HISTORY_PARAM_NAME);
+		Class<? extends HrBusinessObjectContract> businessObjectClass = 
+				 (Class<? extends HrBusinessObjectContract>) example.getClass();
+		transformWildCardableFields(businessObjectClass, formProps);
 		Criteria returnVal = super.getCollectionCriteriaFromMap(example, formProps);
 		// inject the efft date and timestamp subqueries if history is not to be shown
 		if (StringUtils.equals(showHistory, NO)) {
-			injectSubQueries(returnVal,	(Class<? extends HrBusinessObjectContract>) example.getClass(), formProps);
+			injectSubQueries(returnVal,	businessObjectClass, formProps);
 		}
 		return returnVal;
 	}
 	
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void transformWildCardableFields(Class<? extends HrBusinessObjectContract> hrBOClass, Map formProps) {
+		Iterator propsIter = formProps.keySet().iterator();
+        while (propsIter.hasNext()) {
+            String propertyName = (String) propsIter.next();
+            String propertyValue = (String) formProps.get(propertyName);
+            if (StringUtils.isNotBlank(propertyValue)) {
+            	// transform this value into an "OR" with the wildcard symbols
+            	boolean canContainWildcard = false;
+            	if (KRADServiceLocatorWeb.getDataDictionaryService().isAttributeDefined(hrBOClass, propertyName)) {
+            		AttributeDefinition attributeDefinition = KRADServiceLocatorWeb.getDataDictionaryService().getAttributeDefinition(hrBOClass.getName(), propertyName);
+            		// check if this property is wildcarded
+            		if (attributeDefinition instanceof WildcardableAttributeDefinition) {
+            			canContainWildcard = ((WildcardableAttributeDefinition) attributeDefinition).getContainsWildcardData();
+            		}
+            		if (canContainWildcard) {
+                		// get the wildcard symbols and attach them with an "OR" seperator i.e. "|"
+                		List<String> wildcardStrings = ((WildcardableAttributeDefinition) attributeDefinition).getAllowedWildcardStrings();
+                		if(wildcardStrings != null) {
+	                		for(String wildcardString : wildcardStrings) {
+	                			if( StringUtils.equals("*", wildcardString) || StringUtils.equals("%", wildcardString) ){
+	                				wildcardString = "\\" + wildcardString;
+	                			}
+	                			propertyValue = propertyValue + "|" + wildcardString;                			
+	                		}
+	                		formProps.put(propertyName, propertyValue);
+                		}
+            		}
+            	}            	
+            }
+        }
+	}
+
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Criteria getCollectionCriteriaFromMapUsingPrimaryKeysOnly(Class businessObjectClass, Map formProps) {
 		 // read and remove the history option from the form map
 		 String showHistory = (String) formProps.remove(HISTORY_PARAM_NAME);
+		 businessObjectClass = (Class<? extends HrBusinessObjectContract>) businessObjectClass;
+		 transformWildCardableFields(businessObjectClass, formProps);
 		 Criteria returnVal = super.getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, formProps);
 		 // inject the efft date and timestamp subqueries if history is not to be shown
 		 if (StringUtils.equals(showHistory, NO)) {
-			 injectSubQueries(returnVal, (Class<? extends HrBusinessObjectContract>) businessObjectClass, formProps);
+			 injectSubQueries(returnVal, businessObjectClass, formProps);
 		 }
 		 return returnVal;
 	}

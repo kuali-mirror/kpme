@@ -167,7 +167,7 @@
     </bean>
 
     <bean id="KpmeAttributeReference-institution" parent="KpmeAttributeReference-institution-parentBean"/>
-    <bean id="KpmeAttributeReference-institution-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-institution-parentBean" abstract="true" parent="WildcardableAttributeDefinition">
         <property name="shortLabel" value="Institution" />
         <property name="maxLength" value="15" />
         <property name="validationPattern">
@@ -235,7 +235,7 @@
     </bean>
 
     <bean id="KpmeAttributeReference-location" parent="KpmeAttributeReference-location-parentBean"/>
-    <bean id="KpmeAttributeReference-location-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="KpmeAttributeReference-location-parentBean" abstract="true" parent="WildcardableAttributeDefinition">
         <property name="name" value="location" />
         <property name="label" value="Location" />
         <property name="shortLabel" value="Location" />
@@ -387,5 +387,19 @@
             <bean parent="Uif-CheckboxControl"/>
         </property>
     </bean>
+    
+    
+<!--     To be used for marking BO fields that can carry wildcard strings as data -->
+     <bean id="WildcardableAttributeDefinition" class="org.kuali.kpme.core.lookup.WildcardableAttributeDefinition"
+        abstract="true" parent="AttributeDefinition">        
+     	<property name="containsWildcardData" value="true"/>
+    	<property name="allowedWildcardStrings">
+    		<list>
+    			<value>*</value>
+    			<value>ALL</value>
+    			<value>%</value>
+    		</list>    		
+    	</property>       
+     </bean>
 
 </beans>
