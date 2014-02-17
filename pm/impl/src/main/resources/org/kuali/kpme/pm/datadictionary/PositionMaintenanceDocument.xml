@@ -362,8 +362,16 @@
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
                     </property>
+                    <property name="attributeQuery">
+	            		<bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+	                  		p:queryFieldMapping="reportsToPositionId:positionNumber" p:returnFieldMapping="description:reportsToWorkingTitle"/>
+	        		</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="reportsToWorkingTitle" p:readOnly="true " />
+				<bean parent="Uif-InputField" p:propertyName="reportsToWorkingTitle">
+					<property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="true" />
+                    </property>
+				</bean>
 				<bean parent="Uif-InputField" p:propertyName="expectedEndDate">
                     <property name="control">
                         <bean parent="Uif-TextControl"
