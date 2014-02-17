@@ -26,10 +26,10 @@
 
 	<bean id="EarnCodeSecurityMaintenanceDocument" parent="EarnCodeSecurityMaintenanceDocument-parentBean" />
 	<bean id="EarnCodeSecurityMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity"/>
-    <property name="businessRulesClass" value="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityRule"/>
-    <property name="maintainableClass" value="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityMaintainableImpl"/>
-    <property name="documentTypeName" value="EarnCodeSecurityDocumentType"/>
+   		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity"/>
+    	<property name="businessRulesClass" value="org.kuali.kpme.core.earncode.security.validation.EarnCodeSecurityRule"/>
+    	<property name="maintainableClass" value="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityMaintainableImpl"/>
+    	<property name="documentTypeName" value="EarnCodeSecurityDocumentType"/>
   	</bean>
 	
 </beans>
