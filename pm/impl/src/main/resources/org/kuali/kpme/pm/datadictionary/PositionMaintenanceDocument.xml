@@ -112,12 +112,7 @@
 		<property name="items">
 			<list>
 				<ref bean="Pos-OverviewPage-Widgets" />
-				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification" p:actionImagePlacement="RIGHT" p:style='float: right;'>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Next"/>
-                    </property>
-                </bean>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification"/>
 			</list>
 		</property>
 	</bean>
@@ -411,12 +406,7 @@
 		<property name="items">
 			<list>
 				<ref bean="Pos-ClassificationPage-Widgets" />
-				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments" p:actionImagePlacement="RIGHT" p:style='float: right;'>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Next"/>
-                    </property>
-                </bean>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments"/>
 			</list>
 		</property>
 	</bean>
@@ -618,12 +608,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications" p:actionImagePlacement="RIGHT" p:style='float: right;'>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Next"/>
-                    </property>
-                </bean>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications"/>
 			</list>
 		</property>
 	</bean>
@@ -635,7 +620,7 @@
 				<bean parent="Uif-VerticalBoxSection" p:readOnly="true">
 					<property name="items">
 						<list>
-							<bean parent="Position-requiredQualList" />
+							<bean parent="Position-QualificationsInquiryPage-Required-Section" />
 						</list>
 					</property>
 				</bean>
@@ -646,12 +631,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" p:actionImagePlacement="RIGHT" p:style='float: right;'>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Next"/>
-                    </property>
-                </bean>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties"/>
 			</list>
 		</property>
 	</bean>
@@ -660,19 +640,14 @@
 	<bean id="Pos-DutyPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-VerticalBoxSection" p:headerText="Duty" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status'}">
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Duties" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status'}">
 					<property name="items">
 						<list>
 							<bean parent="Position-duties" />
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" p:actionImagePlacement="RIGHT" p:style='float: right;'>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Next"/>
-                    </property>
-                </bean>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags"/>
 			</list>
 		</property>
 	</bean>
@@ -688,12 +663,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility" p:actionImagePlacement="RIGHT" p:style='float: right;'>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Next"/>
-                    </property>
-                </bean>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility"/>
 			</list>
 		</property>
 	</bean>
@@ -709,12 +679,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding" p:actionImagePlacement="RIGHT" p:style='float: right;'>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Next"/>
-                    </property>
-                </bean>        
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding"/>
 			</list>
 		</property>
 	</bean>
@@ -730,12 +695,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-SecondaryNavigationActionButton" p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Back to Overview" p:actionImagePlacement="RIGHT" p:style='float: right;'>
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/krms/images/arrow-right.png"
-                              p:altText="Next"/>
-                    </property> 
-                </bean>        
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Back to Overview"/>
 			</list>
 		</property>
 	</bean>
