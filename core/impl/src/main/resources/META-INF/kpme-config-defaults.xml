@@ -78,6 +78,9 @@
 
     <!-- Caching Defaults -->
     <param name="kpme.core.ehcache.config.location" override="false">classpath:kpme.core.ehcache.xml</param>
+    
+    <!--  Position Module On/Off -->
+    <param name="kpme.pm.module.status">On</param>
 
     <!-- Login Filter Override -->
     <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
