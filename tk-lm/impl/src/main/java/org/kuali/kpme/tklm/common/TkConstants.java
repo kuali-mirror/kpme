@@ -255,6 +255,8 @@ public class TkConstants {
 
     public static final Map<String, Integer> FLSA_WEEK_END_DAY = new LinkedHashMap<String, Integer>(7);
 
+    //used to determine last day of the FLSA week based on the FLSA start day, i.e if the start day is "Sun" the
+    // last day would be 6 ("Sat")
     static {
         FLSA_WEEK_END_DAY.put("Sun",6);
         FLSA_WEEK_END_DAY.put("Mon",7);
