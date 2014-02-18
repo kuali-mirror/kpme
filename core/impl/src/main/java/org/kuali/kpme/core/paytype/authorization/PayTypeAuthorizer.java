@@ -17,11 +17,11 @@ package org.kuali.kpme.core.paytype.authorization;
 
 import java.util.Map;
 
-import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
+import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
 @SuppressWarnings("deprecation")
-public class PayTypeAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
+public class PayTypeAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = -9208365216914230499L;
 

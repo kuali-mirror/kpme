@@ -23,9 +23,9 @@ import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 public class PayTypeRule extends MaintenanceDocumentRuleBase {
 
@@ -33,12 +33,12 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		boolean valid = ValidationUtils.validateEarnCode(regEarnCode, asOfDate);
 
 		if (!valid) {
-			this.putFieldError("regEarnCode", "earncode.notfound");
+			this.putFieldError("dataObject.regEarnCode", "earncode.notfound");
 		} else {
 			valid = !ValidationUtils.validateEarnCode(regEarnCode, true,
 					asOfDate);
 			if (!valid) {
-				this.putFieldError("regEarnCode", "earncode.ovt.not.required",
+				this.putFieldError("dataObject.regEarnCode", "earncode.ovt.not.required",
 						regEarnCode);
 			}
 		}
@@ -53,7 +53,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 			valid = ValidationUtils.validateInstitution(institution, asOfDate);
 
 			if (!valid) {
-				this.putFieldError("institution", "paytype.institution.invalid", institution);
+				this.putFieldError("dataObject.institution", "paytype.institution.invalid", institution);
 			} 			
 		}
 		
@@ -66,7 +66,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		if (!StringUtils.isBlank(location)) {
 			valid = ValidationUtils.validateLocation(location, asOfDate);
 			if (!valid) {
-				this.putFieldError("location", "error.existence", location);
+				this.putFieldError("dataObject.location", "error.existence", location);
 			} 			
 		}
 
@@ -79,7 +79,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		List<Job> jobs = (List<Job>) HrServiceLocator.getJobService()
 				.getActiveJobsForPayType(hrPayType, asOfDate);
 		if (jobs != null && !jobs.isEmpty()) {
-			this.putFieldError("active", "paytype.inactivate.locked", hrPayType);
+			this.putFieldError("dataObject.active", "paytype.inactivate.locked", hrPayType);
 			valid = false;
 		}
 		return valid;
@@ -89,14 +89,14 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 
-		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		if (pbo instanceof PayType) {
 			PayType pt = (PayType) pbo;
 
 			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveLocalDate());
 			valid &= validateInstitution(pt.getInstitution(), pt.getEffectiveLocalDate());
 			valid &= validateLocation(pt.getLocation(), pt.getEffectiveLocalDate());
-			if (document.isOldBusinessObjectInDocument() && !pt.isActive()) {
+			if (document.isOldDataObjectInDocument() && !pt.isActive()) {
 				valid &= validateActive(pt.getPayType(), pt.getEffectiveLocalDate());
 			}
 		}

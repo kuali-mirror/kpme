@@ -27,48 +27,13 @@
 	<bean id="PayTypeMaintenanceDocument" parent="PayTypeMaintenanceDocument-parentBean" />
 
 	<bean id="PayTypeMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.paytype.PayType"
+		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.core.paytype.PayType"
         p:businessRulesClass="org.kuali.kpme.core.paytype.validation.PayTypeRule"
 		p:maintainableClass="org.kuali.kpme.core.paytype.web.PayTypeMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.paytype.authorization.PayTypeAuthorizer">
-		<property name="maintainableSections">
-			<list>
-				<ref bean="PayTypeMaintenanceDocument-PayTypeMaintenance" />
-				<ref bean="PayTypeMaintenanceDocument-HiddenSection" />
-			</list>
-		</property>
-		<property name="lockingKeys">
-			<list>
-				<value>payType</value>
-			</list>
-		</property>
 		<property name="documentTypeName" value="PayTypeDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.paytype.validation.PayTypeEffectiveDatePrompt"/>
 	</bean>
 
-	<!-- Maintenance Section Definitions -->
 
-    <bean id="PayTypeMaintenanceDocument-HiddenSection"
-          parent="MaintDoc-HiddenFields-parentBean" />
-
-	<bean id="PayTypeMaintenanceDocument-PayTypeMaintenance" parent="PayTypeMaintenanceDocument-PayTypeMaintenance-parentBean" />
-
-	<bean id="PayTypeMaintenanceDocument-PayTypeMaintenance-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Pay Type Maintenance" />
-		<property name="maintainableItems">
-			<list>
-			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="payType" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="descr" p:required="false" />
-				<bean parent="MaintainableFieldDefinition" p:name="regEarnCode" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="location" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="institution" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="flsaStatus" p:defaultValue="NE" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="payFrequency" p:defaultValue="M" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true" />
-			</list>
-		</property>
-	</bean>
 
 </beans>

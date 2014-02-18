@@ -23,8 +23,7 @@
 	<bean name="PayType" parent="PayType-parentBean" />
 
 	<bean id="PayType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.paytype.PayType" />
-		<property name="titleAttribute" value="payTypeId" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.paytype.PayType" />
 		<property name="objectLabel" value="Pay Type" />
 		<property name="inquiryDefinition">
 			<ref bean="PayType-inquiryDefinition" />
@@ -97,32 +96,33 @@
 
 	<bean id="PayType-hrPayTypeId" parent="PayType-hrPayTypeId-parentBean" />
 	<bean id="PayType-hrPayTypeId-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Id" />
-		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="60" />
-		</property>
+		 <property name="required" value="false" />
+	    <property name="forceUppercase" value="false"/>
+	    <property name="shortLabel" value="id"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="60"/>
+	    </property>
+
 		<property name="name" value="hrPayTypeId" />
 		<property name="label" value="Pay Type Id" />
 	</bean>
 
 	<bean id="PayType-payType" parent="PayType-payType-parentBean" />
 	<bean id="PayType-payType-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
 		<property name="shortLabel" value="Type" />
 		<property name="maxLength" value="5" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="5" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="5" />
-		</property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="5" />
+        </property>
 		<property name="name" value="payType" />
 		<property name="label" value="Pay Type" />
 	</bean>
@@ -132,31 +132,22 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="30" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="true" />
-			</bean>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="30" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
-		</property>
+		 <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
 		<property name="name" value="descr" />
 		<property name="label" value="Description" />
 	</bean>
 
 	<bean id="PayType-regEarnCode" parent="PayType-regEarnCode-parentBean" />
 	<bean id="PayType-regEarnCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
+		parent="KpmeAttributeReference-earnCode">
 		<property name="shortLabel" value="Earn Code" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="15" />
-		</property>
 		<property name="name" value="regEarnCode" />
 		<property name="label" value="Regular Earn Code" />
 	</bean>
@@ -166,9 +157,9 @@
 	<bean id="PayType-hrEarnCodeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="hrEarnCodeId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
+		<property name="controlField">
+	      <bean parent="Uif-HiddenControl"/>
+	    </property>
 	</bean>
 	
 	<!-- location -->
@@ -179,9 +170,9 @@
 	<bean id="PayType-hrLocationId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="hrLocationId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
+		<property name="controlField">
+	      <bean parent="Uif-HiddenControl" />
+	    </property>
 	</bean>
 	
 	<!-- instituition -->
@@ -192,9 +183,9 @@
 	<bean id="PayType-pmInstitutionId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="pmInstitutionId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
+		<property name="controlField">
+	      <bean parent="Uif-HiddenControl"/>
+	    </property>
 	</bean>
 
 	<!-- flsaStatus -->
@@ -202,9 +193,11 @@
 	<bean id="PayType-flsaStatus-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="FLSA Status" />
-				<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.flsa.TkFlsaStatusKeyValueFinder">
-			</bean>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl"/>
+		</property>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.core.flsa.TkFlsaStatusKeyValueFinder" />
 		</property>
 		<property name="name" value="flsaStatus" />
 		<property name="label" value="FLSA Status" />
@@ -215,9 +208,11 @@
 	<bean id="PayType-payFrequency-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Pay Frequency" />
-				<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.paytype.valuesfinder.PayFrequencyKeyValueFinder">
-			</bean>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl"/>
+		</property>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.core.paytype.valuesfinder.PayFrequencyKeyValueFinder" />
 		</property>
 		<property name="name" value="payFrequency" />
 		<property name="label" value="Pay Frequency" />
@@ -293,4 +288,148 @@
 		<property name="title" value="Pay Type Lookup" />
 	</bean>
 
+
+	<!--  KRAD Lookup view  -->
+ 
+  <bean id="PayType-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+    <property name="headerText" value="Pay Type Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayType" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
+    <property name="criteriaFields">
+      <list merge="true">
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payType" />  
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="regEarnCode" >
+        	<property name="quickfinder">
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+	        		 p:fieldConversions="earnCode:regEarnCode"/>
+	   		</property>
+	   		<property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                              p:inquiryParameters="regEarnCode:earnCode"/>
+             </property>
+        </bean>      
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
+       		<property name="quickfinder">
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+	        		 p:fieldConversions="location:location" />
+	   		 </property>
+	   		 <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                              p:inquiryParameters="location:location"/>
+             </property>
+        </bean> 
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
+	    	<property name="quickfinder">
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+	        		 p:fieldConversions="institutionCode:institution"/>
+	   		</property>
+	   		<property name="inquiry">
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+                              p:inquiryParameters="institution:institutionCode"/>
+             </property>
+        </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="payType" />
+        <bean parent="Uif-DataField" p:propertyName="descr" />
+        <bean parent="Uif-DataField" p:propertyName="regEarnCode">
+         	<property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                              p:inquiryParameters="regEarnCode:earnCode"/>
+            </property>
+        </bean>
+        <bean parent="Uif-DataField" p:propertyName="location" >
+        	 <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                              p:inquiryParameters="location:location"/>
+             </property>
+        </bean>
+        <bean parent="Uif-DataField" p:propertyName="institution" >
+        	<property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+                              p:inquiryParameters="institution:institutionCode"/>
+            </property>
+        </bean>
+        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-DataField" p:propertyName="active"/>
+      </list>
+    </property>
+  </bean> 
+  
+  <!--  KRAD Inquiry View  -->
+  
+  <bean id="PayType-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Pay Type Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayType"/>
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paytype.web.PayTypeInquirableImpl" />
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+  			<bean parent="Uif-Disclosure-GridSection">
+		      <property name="layoutManager.numberOfColumns" value="2"/>
+		      <property name="items">
+	       	 	<list>
+		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			        <bean parent="Uif-DataField" p:propertyName="payType" />
+			        <bean parent="Uif-DataField" p:propertyName="descr" />
+			        <bean parent="Uif-DataField" p:propertyName="regEarnCode" ></bean>
+			        <bean parent="Uif-DataField" p:propertyName="institution" />
+			        <bean parent="Uif-DataField" p:propertyName="location" />
+			        <bean parent="Uif-DataField" p:propertyName="active"/>
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+                </list>
+	     	 </property>
+	     	 <property name="title" value="Pay Type Inquiry"/>
+	   	   </bean>
+      </list>
+    </property>
+  </bean> 
+  
+  <!--  PayType MaintView -->
+  
+  <bean id="PayType-MaintenanceView" parent="PayType-MaintenanceView-parentBean"/>
+  <bean id="PayType-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+    <property name="headerText" value="Pay Type Maintenance"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayType"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-MaintenanceGridSection">
+          <property name="items">
+            <list>
+	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
+		        <bean parent="Uif-InputField" p:propertyName="payType" p:required="true" />
+		        <bean parent="Uif-InputField" p:propertyName="descr" />
+		        <bean parent="Uif-InputField" p:propertyName="location" p:required="true" >
+				      <property name="quickfinder">
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+			        		 p:fieldConversions="location:location" />
+			   		 </property>
+		        </bean>
+		        <bean parent="Uif-InputField" p:propertyName="institution"  p:required="true" >
+			        <property name="quickfinder">
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+		        			 p:fieldConversions="institutionCode:institution"/>
+		   			</property>
+		        </bean>
+		         <bean parent="Uif-InputField" p:propertyName="regEarnCode" p:required="true" >
+			        <property name="quickfinder">
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+		        			 p:fieldConversions="earnCode:regEarnCode"/>
+		   			</property>
+		        </bean>
+		        <bean parent="Uif-InputField" p:propertyName="flsaStatus" p:defaultValue="NE" p:required="true" />
+		       	<bean parent="Uif-InputField" p:propertyName="payFrequency" p:defaultValue="M" p:required="true"  />
+		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean> 
+  
 </beans>

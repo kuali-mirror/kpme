@@ -23,35 +23,30 @@ import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.inquiry.InquirableImpl;
 
-public class PayTypeInquirableImpl extends KualiInquirableImpl {
+public class PayTypeInquirableImpl extends InquirableImpl {
 
-	@Override
-	public HtmlData getInquiryUrl(BusinessObject businessObject,
-			String attributeName, boolean forceInquiry) {
-		return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
-	}
+	private static final long serialVersionUID = 4652705374494441128L;
 
 	@Override
-	@Deprecated
-	public BusinessObject getBusinessObject(Map fieldValues) {
-        PayTypeContract payTypeObj = null;
+	public Object retrieveDataObject(Map<String, String> parameters) {
+		PayTypeContract payTypeObj = null;
 
-        if (StringUtils.isNotBlank((String) fieldValues.get("hrPayTypeId"))) {
-            payTypeObj = HrServiceLocator.getPayTypeService().getPayType((String) fieldValues.get("hrPayTypeId"));
-        } else if (fieldValues.containsKey("payType")) {
-            String payType = (String) fieldValues.get("payType");
-            String effDate = (String) fieldValues.get("effectiveDate");
+        if (StringUtils.isNotBlank((String) parameters.get("hrPayTypeId"))) {
+            payTypeObj = HrServiceLocator.getPayTypeService().getPayType((String) parameters.get("hrPayTypeId"));
+        } else if (parameters.containsKey("payType")) {
+            String payType = (String) parameters.get("payType");
+            String effDate = (String) parameters.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
             payTypeObj = HrServiceLocator.getPayTypeService().getPayType(payType, effectiveDate);
         } else {
-            payTypeObj = (PayType) super.getBusinessObject(fieldValues);
+            payTypeObj = (PayType) super.retrieveDataObject(parameters);
         }
 
         return payTypeObj;
 	}
+	
+	
 
 }
