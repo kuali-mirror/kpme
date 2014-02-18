@@ -392,7 +392,7 @@
 <!--     To be used for marking BO fields that can carry wildcard strings as data -->
      <bean id="WildcardableAttributeDefinition" class="org.kuali.kpme.core.lookup.WildcardableAttributeDefinition"
         abstract="true" parent="AttributeDefinition">        
-     	<property name="containsWildcardData" value="true"/>
+     	<property name="containsWildcardData" value="false"/>
     	<property name="allowedWildcardStrings">
     		<list>
     			<value>*</value>

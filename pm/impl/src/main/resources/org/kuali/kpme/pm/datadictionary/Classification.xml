@@ -113,11 +113,13 @@
 	<bean id="Classification-institution" parent="Classification-institution-parentBean" />
 	<bean id="Classification-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
 		<property name="required" value="true" />
+		<property name="containsWildcardData" value="true"/>
 	</bean>
 
 	<bean id="Classification-location" parent="Classification-location-parentBean" />
 	<bean id="Classification-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
+		<property name="containsWildcardData" value="true"/>
 	</bean>
 	
 	<bean id="Classification-salaryGroup" parent="Classification-salaryGroup-parentBean" />

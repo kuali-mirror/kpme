@@ -274,7 +274,8 @@
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointment"
-							p:fieldConversions="positionAppointment:appointmentType" />
+							p:fieldConversions="positionAppointment:appointmentType"
+							p:lookupParameters="location:location,institution:institution"/>
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Change Status'}" >
@@ -319,8 +320,9 @@
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractType"
-							p:fieldConversions="name:contractType" />
-					</property>
+							p:fieldConversions="name:contractType" 
+							p:lookupParameters="location:location,institution:institution" />
+					</property>					
 					<property name="quickfinder.quickfinderAction.disabled"
 						value="@{document.newMaintainableObject.dataObject.contract ne 'Y' or #dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Change Status'}" >
 					</property>
@@ -351,14 +353,15 @@
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase" 
-						    p:fieldConversions="positionNumber:reportsToPositionId,description:reportsToWorkingTitle" />
+						<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.position.Position" 
+						      p:fieldConversions="positionNumber:reportsToPositionId,description:reportsToWorkingTitle" 
+						      p:lookupParameters="location:location,institution:institution" />
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
                     </property>
                     <property name="attributeQuery">
-	            		<bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+	            		<bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.kpme.pm.position.Position"
 	                  		p:queryFieldMapping="reportsToPositionId:positionNumber" p:returnFieldMapping="description:reportsToWorkingTitle"/>
 	        		</property>
 				</bean>
@@ -573,7 +576,7 @@
                     </property>
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
-							p:fieldConversions="payGrade:payGrade" />
+							p:fieldConversions="payGrade:payGrade" p:lookupParameters="salaryGroup:salGroup" />
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
@@ -587,7 +590,7 @@
                     </property>
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paystep.PayStep"
-							p:fieldConversions="payStep:payStep" p:lookupParameters="payGrade:payGrade,salaryGroup:salaryGroup" />
+							p:fieldConversions="payStep:payStep" p:lookupParameters="payGrade:payGrade" />
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >

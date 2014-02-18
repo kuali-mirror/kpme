@@ -90,11 +90,13 @@
 	<bean id="PstnContractType-institution" parent="PstnContractType-institution-parentBean" />
 	<bean id="PstnContractType-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
 		<property name="required" value="true" />
+		<property name="containsWildcardData" value="true"/>
 	</bean>
 	
 	<bean id="PstnContractType-location" parent="PstnContractType-location-parentBean" />
 	<bean id="PstnContractType-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
+		<property name="containsWildcardData" value="true"/>
 	</bean>
 	
 <!--***************************************************************************

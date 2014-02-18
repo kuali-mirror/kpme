@@ -28,6 +28,7 @@ import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.lookup.WildcardableAttributeDefinition;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.search.SearchOperator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
@@ -84,7 +85,7 @@ public class KpmeHrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
 	                			if( StringUtils.equals("*", wildcardString) || StringUtils.equals("%", wildcardString) ){
 	                				wildcardString = "\\" + wildcardString;
 	                			}
-	                			propertyValue = propertyValue + "|" + wildcardString;                			
+	                			propertyValue = propertyValue + SearchOperator.OR.op() + wildcardString;                			
 	                		}
 	                		formProps.put(propertyName, propertyValue);
                 		}
