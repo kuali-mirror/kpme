@@ -15,20 +15,20 @@
  */
 package org.kuali.kpme.tklm.leave.service;
 
-import org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxBalanceService;
-import org.kuali.kpme.tklm.leave.accrual.service.AccrualCategoryMaxCarryOverService;
-import org.kuali.kpme.tklm.leave.accrual.service.AccrualService;
-import org.kuali.kpme.tklm.leave.accrual.service.PrincipalAccrualRanService;
-import org.kuali.kpme.tklm.leave.adjustment.service.LeaveAdjustmentService;
-import org.kuali.kpme.tklm.leave.approval.service.LeaveApprovalService;
+import org.kuali.kpme.tklm.api.leave.accrual.AccrualCategoryMaxBalanceService;
+import org.kuali.kpme.tklm.api.leave.accrual.AccrualCategoryMaxCarryOverService;
+import org.kuali.kpme.tklm.api.leave.accrual.AccrualService;
+import org.kuali.kpme.tklm.api.leave.accrual.PrincipalAccrualRanService;
+import org.kuali.kpme.tklm.api.leave.adjustment.LeaveAdjustmentService;
+import org.kuali.kpme.tklm.api.leave.approval.LeaveApprovalService;
 import org.kuali.kpme.tklm.leave.block.service.LeaveBlockHistoryService;
-import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarService;
 import org.kuali.kpme.tklm.leave.donation.service.LeaveDonationService;
 import org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideService;
 import org.kuali.kpme.tklm.leave.payout.service.LeavePayoutService;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
-import org.kuali.kpme.tklm.leave.service.permission.LMPermissionService;
+import org.kuali.kpme.tklm.api.permission.LMPermissionService;
 import org.kuali.kpme.tklm.leave.summary.service.LeaveSummaryService;
 import org.kuali.kpme.tklm.leave.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.kpme.tklm.leave.transfer.service.BalanceTransferService;

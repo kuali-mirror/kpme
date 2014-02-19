@@ -538,11 +538,11 @@
             	</bean>
             	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="accrualCategory">
             		<property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategory"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"
                               p:fieldConversions="accrualCategory:accrualCategory,leavePlan:leavePlan"/>
                     </property>
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategory"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"
                               p:inquiryParameters="accrualCategory:accrualCategory"/>
                     </property>
             	</bean>

@@ -18,18 +18,16 @@ package org.kuali.kpme.core.util;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.KPMEConstants;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
@@ -192,7 +190,7 @@ public class HrConstants {
 		keys = new HashSet<String>();
 		keys.add("accrualCategory");
 		keys.add("effectiveDate");
-		CLASS_INQUIRY_KEY_MAP.put(AccrualCategory.class.getName(), keys);
+		CLASS_INQUIRY_KEY_MAP.put(AccrualCategoryBo.class.getName(), keys);
 
 		keys = new HashSet<String>();
 		keys.add("earnCode");

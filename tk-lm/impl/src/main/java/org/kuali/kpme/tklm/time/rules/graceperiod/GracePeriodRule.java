@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.tklm.api.time.rules.graceperiod.GracePeriodRuleContract;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 
 import com.google.common.collect.ImmutableMap;
 

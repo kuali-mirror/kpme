@@ -28,7 +28,7 @@
 
 	<bean id="AccrualCategoryMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" 
-		p:businessObjectClass="org.kuali.kpme.core.accrualcategory.AccrualCategory"
+		p:businessObjectClass="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"
 		p:businessRulesClass="org.kuali.kpme.core.accrualcategory.validation.AccrualCategoryValidation"
 		p:maintainableClass="org.kuali.kpme.core.accrualcategory.web.AccrualCategoryMaintainableServiceImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.accrualcategory.authorization.AccrualCategoryAuthorizer">
@@ -101,7 +101,7 @@
 				<bean parent="MaintainableCollectionDefinition">
 					<property name="name" value="accrualCategoryRules" />
 					<property name="businessObjectClass"
-						value="org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule" />
+						value="org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

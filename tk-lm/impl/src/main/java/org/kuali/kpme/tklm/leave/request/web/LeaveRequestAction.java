@@ -35,8 +35,9 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -106,7 +107,7 @@ public class LeaveRequestAction extends KPMEAction {
         Collections.sort(plannedLeaves, new Comparator<LeaveBlock>() {
             @Override
             public int compare(LeaveBlock leaveBlock1, LeaveBlock leaveBlock2) {
-                return ObjectUtils.compare(leaveBlock1.getLeaveDate(), leaveBlock2.getLeaveDate());
+                return ObjectUtils.compare(leaveBlock1.getLeaveDateTime(), leaveBlock2.getLeaveDateTime());
             }
         });
 
@@ -152,7 +153,7 @@ public class LeaveRequestAction extends KPMEAction {
         		docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));	
         	}
         }
-        for (LeaveBlock leaveBlock : form.getApprovedLeaves()) {        	
+        for (LeaveBlock leaveBlock : form.getApprovedLeaves()) {
         	if(leaveBlock.getLeaveRequestDocumentId() != null && !leaveBlock.getLeaveRequestDocumentId().isEmpty()){
             docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));
         	}

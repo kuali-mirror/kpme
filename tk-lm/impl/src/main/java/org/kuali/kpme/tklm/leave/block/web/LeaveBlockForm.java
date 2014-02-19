@@ -15,10 +15,8 @@
  */
 package org.kuali.kpme.tklm.leave.block.web;
 
-import java.util.Date;
-
 import org.joda.time.LocalDate;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 public class LeaveBlockForm extends UifFormBase {
@@ -30,13 +28,13 @@ public class LeaveBlockForm extends UifFormBase {
 	
 	private LocalDate toDate;
 	private LocalDate fromDate;
-	private LeaveBlock leaveBlock;
+	private LeaveBlockBo leaveBlock;
 
-	public LeaveBlock getLeaveBlock() {
+	public LeaveBlockBo getLeaveBlock() {
 		return leaveBlock;
 	}
 
-	public void setLeaveBlock(LeaveBlock leaveBlock) {
+	public void setLeaveBlock(LeaveBlockBo leaveBlock) {
 		this.leaveBlock = leaveBlock;
 	}
 

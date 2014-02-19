@@ -31,7 +31,7 @@ public class AccrualCategoryInquirableImplTest extends CoreUnitTestCase {
 	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.leaveplan.LeavePlan&lmLeavePlanId=&methodToCall=start&effectiveDate=03%2F04%2F2012&leavePlan=testLeavePlan";
 	@Test
 	public void testGetInquiryUrl() throws Exception {
-		AccrualCategory ac = new AccrualCategory();
+		AccrualCategoryBo ac = new AccrualCategoryBo();
 		ac.setAccrualCategory("testAC");
 		ac.setLeavePlan("testLeavePlan");
 		ac.setEffectiveLocalDate(new LocalDate(2012, 3, 4));

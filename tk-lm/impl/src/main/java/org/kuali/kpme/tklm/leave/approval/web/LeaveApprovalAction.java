@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,13 +41,16 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
 import org.kuali.kpme.tklm.common.CalendarApprovalFormAction;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -64,7 +66,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
         
         setSearchFields(leaveApprovalActionForm);
         
-        CalendarEntry calendarEntry = null;
+        CalendarEntryContract calendarEntry = null;
         if (StringUtils.isNotBlank(documentId)) {
         	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 
@@ -135,7 +137,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveApprovalActionForm leaveApprovalActionForm = (LeaveApprovalActionForm) form;
 		CalendarEntry calendarEntry = null;
-        leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
+        leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRowContract>());
 		Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendarByGroup(leaveApprovalActionForm.getSelectedPayCalendarGroup());
         
 		if (calendar != null) {
@@ -223,16 +225,16 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	
 	private void setApprovalTables(LeaveApprovalActionForm leaveApprovalActionForm, HttpServletRequest request, List<String> principalIds, String docIdSearchTerm) {
 		if (principalIds.isEmpty()) {
-			leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
+			leaveApprovalActionForm.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRowContract>());
 			leaveApprovalActionForm.setResultSize(0);
 		} else {
-			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(leaveApprovalActionForm, principalIds, docIdSearchTerm); 
+			List<ApprovalLeaveSummaryRowContract> approvalRows = getApprovalLeaveRows(leaveApprovalActionForm, principalIds, docIdSearchTerm);
 			String sortField = getSortField(request);
 			if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
 				final boolean sortNameAscending = getAscending(request);
-		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
+		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRowContract>() {
 					@Override
-					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {
+					public int compare(ApprovalLeaveSummaryRowContract row1, ApprovalLeaveSummaryRowContract row2) {
 						if (sortNameAscending) {
 							return ObjectUtils.compare(StringUtils.lowerCase(row1.getName()), StringUtils.lowerCase(row2.getName()));
 						} else {
@@ -242,9 +244,9 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		    	});
 			} else if (StringUtils.equals(sortField, "documentID")) {
 				final boolean sortDocumentIdAscending = getAscending(request);
-		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
+		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRowContract>() {
 					@Override
-					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {
+					public int compare(ApprovalLeaveSummaryRowContract row1, ApprovalLeaveSummaryRowContract row2) {
 						if (sortDocumentIdAscending) {
 							return ObjectUtils.compare(NumberUtils.toInt(row1.getDocumentId()), NumberUtils.toInt(row2.getDocumentId()));
 						} else {
@@ -254,9 +256,9 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		    	});
 			} else if (StringUtils.equals(sortField, "status")) {
 				final boolean sortStatusIdAscending = getAscending(request);
-		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
+		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRowContract>() {
 					@Override
-					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {
+					public int compare(ApprovalLeaveSummaryRowContract row1, ApprovalLeaveSummaryRowContract row2) {
 						if (sortStatusIdAscending) {
 							return ObjectUtils.compare(StringUtils.lowerCase(row1.getApprovalStatus()), StringUtils.lowerCase(row2.getApprovalStatus()));
 						} else {
@@ -270,7 +272,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 			Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
 			Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
 
-            List<ApprovalLeaveSummaryRow> sublist = new ArrayList<ApprovalLeaveSummaryRow>();
+            List<ApprovalLeaveSummaryRowContract> sublist = new ArrayList<ApprovalLeaveSummaryRowContract>();
             sublist.addAll(approvalRows.subList(beginIndex, endIndex));
 			leaveApprovalActionForm.setLeaveApprovalRows(sublist);
 			leaveApprovalActionForm.setResultSize(sublist.size());
@@ -279,8 +281,8 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	        Set<String> randomColors = new HashSet<String>();
 		    List<Map<String, String>> approvalRowsMap = new ArrayList<Map<String, String>>();
 		    if(CollectionUtils.isNotEmpty(approvalRows)) {
-		    	for (ApprovalLeaveSummaryRow row : approvalRows) {
-		    		for (Date date : leaveApprovalActionForm.getLeaveCalendarDates()) {
+		    	for (ApprovalLeaveSummaryRowContract row : approvalRows) {
+		    		for (LocalDateTime date : leaveApprovalActionForm.getLeaveCalendarDates()) {
 		    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 						String dateString = formatter.format(date);
 		    			Map<String, BigDecimal> earnCodeMap = row.getEarnCodeLeaveHours().get(date);
@@ -311,15 +313,15 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		}
 	}
 	   
-    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm leaveApprovalActionForm, List<String> assignmentPrincipalIds, String docIdSearchTerm) {
+    protected List<ApprovalLeaveSummaryRowContract> getApprovalLeaveRows(LeaveApprovalActionForm leaveApprovalActionForm, List<String> assignmentPrincipalIds, String docIdSearchTerm) {
         return LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(assignmentPrincipalIds, leaveApprovalActionForm.getCalendarEntry(), leaveApprovalActionForm.getLeaveCalendarDates(), docIdSearchTerm);
     }
 	
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
        
-        List<ApprovalLeaveSummaryRow> lstLeaveRows = laaf.getLeaveApprovalRows();
-        for (ApprovalLeaveSummaryRow ar : lstLeaveRows) {
+        List<ApprovalLeaveSummaryRowContract> lstLeaveRows = laaf.getLeaveApprovalRows();
+        for (ApprovalLeaveSummaryRowContract ar : lstLeaveRows) {
             if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
                 String documentNumber = ar.getDocumentId();
                 LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentNumber);

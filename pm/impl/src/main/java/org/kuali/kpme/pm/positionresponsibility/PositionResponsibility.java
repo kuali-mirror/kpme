@@ -15,11 +15,11 @@
  */
 package org.kuali.kpme.pm.positionresponsibility;
 
-import java.math.BigDecimal;
-
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
-import org.kuali.rice.location.impl.campus.CampusBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.location.api.campus.Campus;
+
+import java.math.BigDecimal;
 
 public class PositionResponsibility extends PersistableBusinessObjectBase implements PositionResponsibilityContract {
 
@@ -32,7 +32,7 @@ public class PositionResponsibility extends PersistableBusinessObjectBase implem
 	private String positionResponsibilityOption;
 	private BigDecimal percentTime;
 	private String hrPositionId;
-	private CampusBo campusObj;
+	private Campus campusObj;
 
 	public String getPositionResponsibilityId() {
 		return positionResponsibilityId;
@@ -59,11 +59,11 @@ public class PositionResponsibility extends PersistableBusinessObjectBase implem
 		this.percentTime = percentTime;
 	}
 	
-	public CampusBo getCampusObj() {
+	public Campus getCampusObj() {
 		return campusObj;
 	}
 
-	public void setCampusObj(CampusBo campusObj) {
+	public void setCampusObj(Campus campusObj) {
 		this.campusObj = campusObj;
 	}
 

@@ -26,10 +26,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -46,9 +48,9 @@ public class LeavePayoutServiceTest extends TKLMIntegrationTestCase {
 	private final String USER_ID = "testUser1";
 	
 	private LeaveCalendarDocument janLCD;
-	private CalendarEntry janEntry;
+	private CalendarEntryContract janEntry;
 	private LeaveCalendarDocument decLCD;
-	private CalendarEntry decEntry;
+	private CalendarEntryContract decEntry;
 	
 	private LocalDate janStart;
 	private LocalDate decStart;

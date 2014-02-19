@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -62,9 +63,9 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 	
     protected void setCalendarFields(CalendarApprovalForm calendarApprovalForm) {
 		Set<String> calendarYears = new TreeSet<String>(Collections.reverseOrder());
-		List<CalendarEntry> calendarEntries = getCalendarEntries(calendarApprovalForm.getCalendarEntry());
+		List<CalendarEntryContract> calendarEntries = getCalendarEntries(calendarApprovalForm.getCalendarEntry());
 		
-	    for (CalendarEntry calendarEntry : calendarEntries) {
+	    for (CalendarEntryContract calendarEntry : calendarEntries) {
 	    	String calendarEntryYear = calendarEntry.getBeginPeriodFullDateTime().toString("yyyy");
 	    	calendarYears.add(calendarEntryYear);
 	    }
@@ -79,8 +80,11 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
         calendarApprovalForm.setSelectedPayPeriod(calendarApprovalForm.getCalendarEntry().getHrCalendarEntryId());
 	}
 
-    protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
-		return (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(currentCalendarEntry.getHrCalendarId());
+    protected List<CalendarEntryContract> getCalendarEntries(CalendarEntryContract currentCalendarEntry) {
+		List<? extends CalendarEntryContract> contracts =  HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(currentCalendarEntry.getHrCalendarId());
+        List<CalendarEntryContract> cecs = new ArrayList<CalendarEntryContract>();
+        cecs.addAll(contracts);
+        return cecs;
 	}
 	
 	protected List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {

@@ -19,23 +19,23 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
-import org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.workflow.LeaveCalendarDocumentHeaderContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
 @IntegrationTest
 public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
@@ -45,15 +45,16 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testGetLeaveApprovalSummaryRows() {
 		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
+		List<LocalDateTime> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> testPrincipalIds = new ArrayList<String>();
 		testPrincipalIds.add("admin");
-		List<ApprovalLeaveSummaryRow> rows = LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(testPrincipalIds, ce, leaveSummaryDates, "");
+		List<ApprovalLeaveSummaryRowContract> rows = LmServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(testPrincipalIds, ce, leaveSummaryDates, "");
 		Assert.assertTrue("Rows should not be empty. ", CollectionUtils.isNotEmpty(rows));
 		
-		ApprovalLeaveSummaryRow aRow = rows.get(0);
-		Map<Date, Map<String, BigDecimal>> aMap = aRow.getEarnCodeLeaveHours();
+		ApprovalLeaveSummaryRowContract aRow = rows.get(0);
+		Map<LocalDateTime, Map<String, BigDecimal>> aMap = aRow.getEarnCodeLeaveHours();
 		Assert.assertTrue("Leave Approval Summary Rows should have 14 items, not " + aMap.size(), aMap.size() == 14);
+
 	}
 	
 	@Test
@@ -61,7 +62,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<String> testPrincipalIds = new ArrayList<String>();
 		testPrincipalIds.add("admin");
-		Map<String, LeaveCalendarDocumentHeader> lvCalHdr = LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(testPrincipalIds, ce.getBeginPeriodFullDateTime(), ce.getEndPeriodFullDateTime());
+		Map<String, LeaveCalendarDocumentHeaderContract> lvCalHdr = LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(testPrincipalIds, ce.getBeginPeriodFullDateTime(), ce.getEndPeriodFullDateTime());
 		Assert.assertTrue("Header should not be empty. ", CollectionUtils.isNotEmpty(lvCalHdr.values()));
 
 	}
@@ -69,14 +70,14 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testGetEarnCodeLeaveHours() throws Exception {
 		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
+		List<LocalDateTime> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
-		Map<Date, Map<String, BigDecimal>> aMap = LmServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(lbList, leaveSummaryDates);
+		Map<LocalDateTime, Map<String, BigDecimal>> aMap = LmServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(lbList, leaveSummaryDates);
 		
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
-		Map<String, BigDecimal> dayMap = aMap.get(DATE_FORMAT.parse("03/05/2012"));
+		Map<String, BigDecimal> dayMap = aMap.get(TKUtils.formatDateString("03/05/2012").toDateTimeAtStartOfDay().toLocalDateTime());
 		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
 		Assert.assertTrue("EC on day 03/05 should have 8 hours, not " + dayMap.get("EC6|P|AS"), dayMap.get("EC6|P|AS").equals(new BigDecimal(8)));
 	}
@@ -84,14 +85,14 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testGetAccrualCategoryLeaveHours() throws Exception {
 		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
+		List<LocalDateTime> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
-		Map<Date, Map<String, BigDecimal>> aMap = LmServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(lbList, leaveSummaryDates);
+		Map<LocalDateTime, Map<String, BigDecimal>> aMap = LmServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(lbList, leaveSummaryDates);
 		
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
-		Map<String, BigDecimal> dayMap = aMap.get(DATE_FORMAT.parse("03/05/2012"));
+		Map<String, BigDecimal> dayMap = aMap.get(TKUtils.formatDateString("03/05/2012").toDateTimeAtStartOfDay().toLocalDateTime());
 		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
 		Assert.assertTrue("testAC on day 03/05 should have 8 hours, not " + dayMap.get("testAC"), dayMap.get("testAC").equals(new BigDecimal(8)));
 	}

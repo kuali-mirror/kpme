@@ -16,11 +16,6 @@
 package org.kuali.kpme.core.batch;
 
 import org.apache.log4j.Logger;
-import org.kuali.kpme.core.KPMEConstants;
-import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.quartz.*;
 
 import java.net.InetAddress;

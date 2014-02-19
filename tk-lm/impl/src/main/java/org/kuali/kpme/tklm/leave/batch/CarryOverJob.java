@@ -15,12 +15,7 @@
  */
 package org.kuali.kpme.tklm.leave.batch;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
@@ -28,7 +23,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.api.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryService;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
@@ -39,9 +34,10 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
@@ -109,7 +105,7 @@ public class CarryOverJob extends BatchJob {
 
                                         // update existing first
                                         for (Map.Entry<String, LeaveBlock> entry : existingCarryOver.entrySet()) {
-                                            LeaveBlock carryOverBlock = entry.getValue();
+                                            LeaveBlock.Builder carryOverBlock = LeaveBlock.Builder.create(entry.getValue());
                                             LeaveSummaryRow lsr = leaveSummary.getLeaveSummaryRowForAccrualCtgy(entry.getKey());
 
                                             //update values
@@ -119,8 +115,9 @@ public class CarryOverJob extends BatchJob {
                                                 } else {
                                                     carryOverBlock.setLeaveAmount(lsr.getAccruedBalance());
                                                 }
+                                                getLeaveBlockService().updateLeaveBlock(carryOverBlock.build(), batchUserPrincipalId);
                                             }
-                                            getLeaveBlockService().updateLeaveBlock(carryOverBlock, batchUserPrincipalId);
+
                                             //remove row from leave summary
                                             leaveSummary.getLeaveSummaryRows().remove(lsr);
                                         }
@@ -230,7 +227,7 @@ public class CarryOverJob extends BatchJob {
             for(LeaveSummaryRow lsr : leaveSummaryRows){
                 AccrualCategoryContract accrualCategory = getAccrualCategoryService().getAccrualCategory(lsr.getAccrualCategoryId());
 
-                LeaveBlock leaveBlock = new LeaveBlock();
+                LeaveBlockBo leaveBlock = new LeaveBlockBo();
                 leaveBlock.setAccrualCategory(lsr.getAccrualCategory());
                 leaveBlock.setLeaveLocalDate(prevCalEndDate.toLocalDate());
                 leaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
@@ -259,7 +256,7 @@ public class CarryOverJob extends BatchJob {
 
                 // Set EarnCode
                 if(leaveBlock.getLeaveAmount() != null && leaveBlock.getEarnCode() != null) {
-                    leaveBlocks.add(leaveBlock);
+                    leaveBlocks.add(LeaveBlockBo.to(leaveBlock));
                 }
             }
         }

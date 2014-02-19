@@ -21,7 +21,7 @@ import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.rules.timecollection.TimeCollectionRuleContract;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

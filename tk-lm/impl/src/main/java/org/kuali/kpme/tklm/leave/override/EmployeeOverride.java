@@ -16,12 +16,12 @@
 package org.kuali.kpme.tklm.leave.override;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -50,7 +50,7 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
 	private String leavePlan;
 	private transient Person principal;
 	private transient PrincipalHRAttributes principalHRAttrObj;
-	private transient AccrualCategory accrualCategoryObj;
+	private transient AccrualCategoryBo accrualCategoryObj;
 	private String overrideType;
 	private Long overrideValue;
 	private String description;
@@ -117,11 +117,11 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
 		return (principal != null) ? principal.getName() : "";
 	}
 
-	public AccrualCategory getAccrualCategoryObj() {
+	public AccrualCategoryBo getAccrualCategoryObj() {
 		return accrualCategoryObj;
 	}
 
-	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
+	public void setAccrualCategoryObj(AccrualCategoryBo accrualCategoryObj) {
 		this.accrualCategoryObj = accrualCategoryObj;
 	}
 

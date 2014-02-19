@@ -34,7 +34,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.service.DepartmentService;
 import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.core.api.criteria.Predicate;

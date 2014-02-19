@@ -18,7 +18,8 @@ package org.kuali.kpme.tklm.leave.block.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.web.KPMEForm;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 

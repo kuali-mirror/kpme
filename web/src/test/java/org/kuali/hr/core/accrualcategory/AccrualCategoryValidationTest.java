@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo;
 import org.kuali.kpme.core.accrualcategory.validation.AccrualCategoryValidation;
 import org.kuali.kpme.core.util.HrTestConstants;
 
@@ -165,12 +165,12 @@ public class AccrualCategoryValidationTest extends KPMEWebTestCase {
 	
 	@Test
 	public void testValidateAccrualRules() {
-		List<AccrualCategoryRule> accrualCategoryRules = new ArrayList<AccrualCategoryRule>();
-		AccrualCategoryRule rule1 = new AccrualCategoryRule();
+		List<AccrualCategoryRuleBo> accrualCategoryRules = new ArrayList<AccrualCategoryRuleBo>();
+		AccrualCategoryRuleBo rule1 = new AccrualCategoryRuleBo();
 		rule1.setStart(0L);
 		rule1.setEnd(50L);
 		accrualCategoryRules.add(rule1);
-		AccrualCategoryRule rule2 = new AccrualCategoryRule();
+		AccrualCategoryRuleBo rule2 = new AccrualCategoryRuleBo();
 		rule2.setStart(60L);	// gap
 		rule2.setEnd(999L);
 		accrualCategoryRules.add(rule2);

@@ -27,20 +27,20 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.common.CalendarFormAction;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -104,7 +104,7 @@ public class TimesheetAction extends CalendarFormAction {
 		String documentId = timesheetActionForm.getDocumentId();
         String principalId = HrContext.getTargetPrincipalId();
         timesheetActionForm.setPrincipalId(principalId);
-		CalendarEntry calendarEntry = null;
+		CalendarEntryContract calendarEntry = null;
 		TimesheetDocument timesheetDocument = null;
 
         if (StringUtils.isNotBlank(documentId)) {
@@ -168,12 +168,12 @@ public class TimesheetAction extends CalendarFormAction {
 	}
     
     @Override
-    protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
-        List<CalendarEntry> calendarEntries = new ArrayList<CalendarEntry>();
+    protected List<CalendarEntryContract> getCalendarEntries(CalendarEntryContract currentCalendarEntry) {
+        List<CalendarEntryContract> calendarEntries = new ArrayList<CalendarEntryContract>();
         
         List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(HrContext.getTargetPrincipalId());
         for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
-        	calendarEntries.add((CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE));
+        	calendarEntries.add(HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE));
         }
         
         return calendarEntries;

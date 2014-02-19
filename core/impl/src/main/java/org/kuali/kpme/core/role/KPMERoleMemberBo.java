@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.role.KPMERoleMemberBoContract;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.role.Role;

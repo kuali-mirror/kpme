@@ -28,7 +28,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
  * <p>CalendarEntryContract interface</p>
  *
  */
-public interface CalendarEntryContract extends PersistableBusinessObject {
+public interface CalendarEntryContract extends PersistableBusinessObject, Comparable<CalendarEntryContract> {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "CalendarEntry";
 	

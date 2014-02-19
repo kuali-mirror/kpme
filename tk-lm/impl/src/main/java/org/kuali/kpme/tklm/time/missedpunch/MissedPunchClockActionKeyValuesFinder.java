@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;

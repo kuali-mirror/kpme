@@ -27,7 +27,7 @@ import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJob;
-import org.kuali.kpme.tklm.leave.accrual.service.AccrualService;
+import org.kuali.kpme.tklm.api.leave.accrual.AccrualService;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarServiceImpl;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

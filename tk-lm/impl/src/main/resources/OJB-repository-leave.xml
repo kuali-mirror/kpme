@@ -75,7 +75,7 @@
 
     <!--  Leave Block -->
     <!-- Business Keys - [principalId : accrualCategory : earncode : workArea : task : jobNumber : leaveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.tklm.leave.block.LeaveBlock" table="LM_LEAVE_BLOCK_T">
+    <class-descriptor class="org.kuali.kpme.tklm.leave.block.LeaveBlockBo" table="LM_LEAVE_BLOCK_T">
         <field-descriptor name="lmLeaveBlockId"         column="LM_LEAVE_BLOCK_ID"      jdbc-type="VARCHAR"     length="60"  primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_BLOCK_S" />
         <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="jobNumber"              column="JOB_NUMBER"             jdbc-type="BIGINT"      nullable="false" primarykey="false" />

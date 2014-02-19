@@ -15,37 +15,32 @@
  */
 package org.kuali.kpme.tklm.leave.block.web;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.KewApiConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.*;
 
 public class LeaveBlockDisplayAction extends KPMEAction {
 
@@ -94,7 +89,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 		if (inActiveLeaveEntries != null) {
 			leaveEntries = new ArrayList<LeaveBlockHistory>();
 			for (LeaveBlockHistory leaveBlockHistory:inActiveLeaveEntries) {
-				if (leaveBlockHistory.getAccrualGenerated() == null || !leaveBlockHistory.getAccrualGenerated()) {
+				if (leaveBlockHistory.isAccrualGenerated() == null || !leaveBlockHistory.isAccrualGenerated()) {
 					if (leaveBlockHistory.getAction()!= null) {
                         if (leaveBlockHistory.getAction().equalsIgnoreCase(HrConstants.ACTION.DELETE)) {
                             leaveBlockHistory.setPrincipalIdModified(leaveBlockHistory.getPrincipalIdDeleted());
@@ -125,7 +120,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 	private List<AccrualCategory> getAccrualCategories(String leavePlan) {
 		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
 		
-		List<AccrualCategory> allAccrualCategories = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, LocalDate.now());
+		List<AccrualCategory> allAccrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, LocalDate.now());
 		if (allAccrualCategories != null) {
 			for (AccrualCategory ac : allAccrualCategories) {
 				if (StringUtils.equalsIgnoreCase(ac.getShowOnGrid(), "Y")) {
@@ -193,7 +188,7 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 		return previousAccrualBalances;
 	}
 
-	private void assignDocumentStatusToLeaveBlock(LeaveBlock leaveBlock) {
+	private void assignDocumentStatusToLeaveBlock(LeaveBlockBo leaveBlock) {
 		//lookup document associated with this leave block and assign document status
 		if(StringUtils.isNotEmpty(leaveBlock.getDocumentId())) {
 			LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(leaveBlock.getDocumentId());

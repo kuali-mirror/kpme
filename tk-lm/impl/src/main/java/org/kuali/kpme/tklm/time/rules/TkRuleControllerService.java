@@ -17,8 +17,9 @@ package org.kuali.kpme.tklm.time.rules;
 
 import java.util.List;
 
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
@@ -29,5 +30,5 @@ public interface TkRuleControllerService {
      * to reference old vs. new changes, be sure to copy/clone the list before
      * passing it to this method.
      */
-    public void applyRules(String action, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntry payEntry, TimesheetDocument timesheetDocument, String principalId);
+    public void applyRules(String action, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntryContract payEntry, TimesheetDocument timesheetDocument, String principalId);
 }

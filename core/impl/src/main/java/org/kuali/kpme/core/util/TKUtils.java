@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -38,17 +37,13 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
-import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.util.KpmeUtils;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -154,7 +149,7 @@ public class TKUtils {
      * @param timeZone
      * @return
      */
-    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry, DateTimeZone timeZone) {
+    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntryContract calendarEntry, DateTimeZone timeZone) {
         DateTime beginDateTime = calendarEntry.getBeginPeriodLocalDateTime().toDateTime(timeZone);
         DateTime endDateTime = calendarEntry.getEndPeriodLocalDateTime().toDateTime(timeZone);
 
@@ -418,15 +413,15 @@ public class TKUtils {
         return dayIntervals;
     }
     
-    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
+    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntryContract calendarEntry) {
         return getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
     }
 
-    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
+    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntryContract calendarEntry) {
         return getFullWeekDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
     }
     
-    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry, DateTimeZone timeZone) {
+    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntryContract calendarEntry, DateTimeZone timeZone) {
         DateTime beginDateTime = calendarEntry.getBeginPeriodLocalDateTime().toDateTime(timeZone);
         DateTime endDateTime = calendarEntry.getEndPeriodLocalDateTime().toDateTime(timeZone);
 

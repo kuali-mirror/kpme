@@ -18,6 +18,7 @@ package org.kuali.kpme.core.bo;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -109,5 +110,7 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
         this.history = history;
     }
 
-
+    public DateTime getCreateTime() {
+        return new DateTime(getTimestamp().getTime());
+    }
 }

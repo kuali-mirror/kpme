@@ -19,11 +19,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +33,9 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.exportCalendar.CalendarEvent;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -126,7 +124,7 @@ public class LeaveBlockController extends UifControllerBase {
         			desc = "";
         		}
         		String uid = "" + leaveBlock.getBlockId() + leaveBlock.getObjectId();
-        		String event = mycal.createEvent(leaveBlock.getAssignmentTitle(),leaveBlock.getLeaveDate(),leaveBlock.getLeaveDate(),"000000","000000",leaveBlock.getEarnCode() + "(" + leaveBlock.getLeaveAmount() + ")\n" + desc, uid);
+        		String event = mycal.createEvent(leaveBlock.getAssignmentTitle(),leaveBlock.getLeaveDateTime(),leaveBlock.getLeaveDateTime(),"000000","000000",leaveBlock.getEarnCode() + "(" + leaveBlock.getLeaveAmount() + ")\n" + desc, uid);
         		writer.append(event);
 			}		
     	}
@@ -140,7 +138,7 @@ public class LeaveBlockController extends UifControllerBase {
         Collections.sort(plannedLeaves, new Comparator<LeaveBlock>() {
             @Override
             public int compare(LeaveBlock leaveBlock1, LeaveBlock leaveBlock2) {
-                return ObjectUtils.compare(leaveBlock1.getLeaveDate(), leaveBlock2.getLeaveDate());
+                return ObjectUtils.compare(leaveBlock1.getLeaveDateTime(), leaveBlock2.getLeaveDateTime());
             }
         });
         if(plannedLeaves!=null && !plannedLeaves.isEmpty()){

@@ -18,14 +18,17 @@ package org.kuali.kpme.tklm.time.util;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.*;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.time.util.TkTimeBlockAggregateContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
@@ -44,7 +47,7 @@ import java.util.*;
 public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 	private List<List<TimeBlock>> dayTimeBlockList = new ArrayList<List<TimeBlock>>();
 	private List<List<LeaveBlock>> dayLeaveBlockList = new ArrayList<List<LeaveBlock>>();
-	private CalendarEntry payCalendarEntry;
+	private CalendarEntryContract payCalendarEntry;
 	private CalendarContract payCalendar;
 
     /**
@@ -53,7 +56,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
      * @param timeBlocks
      * @param payCalendarEntry
      */
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry){
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntryContract payCalendarEntry){
 		this(timeBlocks, payCalendarEntry, (Calendar)HrServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()));
 	}
 
@@ -64,7 +67,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
      * @param payCalendarEntry
      * @param payCalendar
      */
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, CalendarContract payCalendar) {
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntryContract payCalendarEntry, CalendarContract payCalendar) {
         this(timeBlocks, payCalendarEntry, payCalendar, false);
     }
 
@@ -76,12 +79,12 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
      * @param payCalendar
      * @param useUserTimeZone
      */
-    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, CalendarContract payCalendar, boolean useUserTimeZone) {
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntryContract payCalendarEntry, CalendarContract payCalendar, boolean useUserTimeZone) {
         this(timeBlocks, payCalendarEntry, payCalendar, useUserTimeZone, 
         		useUserTimeZone ? TKUtils.getDaySpanForCalendarEntry(payCalendarEntry) : TKUtils.getDaySpanForCalendarEntry(payCalendarEntry, TKUtils.getSystemDateTimeZone()));
 	}
 
-    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, CalendarContract payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntryContract payCalendarEntry, CalendarContract payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
     	this.payCalendarEntry = payCalendarEntry;
 		this.payCalendar = payCalendar;
 		
@@ -118,7 +121,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
      * @param leaveBlocks
      * @param payCalendarEntry
      */
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntry payCalendarEntry){
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntryContract payCalendarEntry){
 		this(timeBlocks, leaveBlocks, payCalendarEntry, (Calendar)HrServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()));
 	}
 
@@ -130,7 +133,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
      * @param payCalendarEntry
      * @param payCalendar
      */
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntry payCalendarEntry, CalendarContract payCalendar) {
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntryContract payCalendarEntry, CalendarContract payCalendar) {
         this(timeBlocks, leaveBlocks, payCalendarEntry, payCalendar, false);
     }
 
@@ -142,12 +145,12 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
      * @param payCalendar
      * @param useUserTimeZone
      */
-    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntry payCalendarEntry, CalendarContract payCalendar, boolean useUserTimeZone) {
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntryContract payCalendarEntry, CalendarContract payCalendar, boolean useUserTimeZone) {
         this(timeBlocks, leaveBlocks, payCalendarEntry, payCalendar, useUserTimeZone, 
         		useUserTimeZone ? TKUtils.getDaySpanForCalendarEntry(payCalendarEntry) : TKUtils.getDaySpanForCalendarEntry(payCalendarEntry, TKUtils.getSystemDateTimeZone()));
 	}
 
-    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntry payCalendarEntry, CalendarContract payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntryContract payCalendarEntry, CalendarContract payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
     	this.payCalendarEntry = payCalendarEntry;
 		this.payCalendar = payCalendar;
 
@@ -184,8 +187,8 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
                 // in the "days" that are displayed to users.
 				
 				DateTimeZone dateTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-				DateTime beginTime = new DateTime(leaveBlock.getLeaveDate(), useUserTimeZone ? dateTimeZone : TKUtils.getSystemDateTimeZone());
-				DateTime endTime = new DateTime(leaveBlock.getLeaveDate(), useUserTimeZone ? dateTimeZone : TKUtils.getSystemDateTimeZone());
+				DateTime beginTime = new DateTime(leaveBlock.getLeaveDateTime().toDate(), useUserTimeZone ? dateTimeZone : TKUtils.getSystemDateTimeZone());
+				DateTime endTime = new DateTime(leaveBlock.getLeaveDateTime().toDate(), useUserTimeZone ? dateTimeZone : TKUtils.getSystemDateTimeZone());
 				if(dayInt.contains(beginTime)){
 					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
 						dayLeaveBlocks.add(leaveBlock);
@@ -222,7 +225,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 		Collections.sort(lstLeaveBlocks, new Comparator<LeaveBlock>() { // Sort the Leave Blocks
 			public int compare(LeaveBlock lb1, LeaveBlock lb2) {
 				if (lb1 != null && lb2 != null)
-					return lb1.getLeaveDate().compareTo(lb2.getLeaveDate());
+					return lb1.getLeaveDateTime().compareTo(lb2.getLeaveDateTime());
 				return 0;
 			}
 		});
@@ -289,7 +292,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
             Collections.sort(dList, new Comparator<LeaveBlock>() { // Sort the Leave Blocks
                 public int compare(LeaveBlock lb1, LeaveBlock lb2) {
                     if (lb1 != null && lb2 != null)
-                        return lb1.getLeaveDate().compareTo(lb2.getLeaveDate());
+                        return lb1.getLeaveDateTime().compareTo(lb2.getLeaveDateTime());
                     return 0;
                 }
             });
@@ -436,7 +439,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 		return dayLeaveBlockList;
 	}
 
-	public CalendarEntry getPayCalendarEntry() {
+	public CalendarEntryContract getPayCalendarEntry() {
 		return payCalendarEntry;
 	}
 
@@ -460,19 +463,19 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 			for (int i = 0; i < tbAggregate.getDayTimeBlockList().size(); i++) {
 				List<LeaveBlock> leaveBlocks = lbAggregate.getDayLeaveBlockList().get(i);
 				if (CollectionUtils.isNotEmpty(leaveBlocks)) {
-					for (LeaveBlock lb : leaveBlocks) {
+					for (LeaveBlockContract lb : leaveBlocks) {
 						//convert leave block to generic time block and add to list
 						//conveniently, we only really need the hours amount
 						TimeBlock timeBlock = new TimeBlock();
 						timeBlock.setHours(lb.getLeaveAmount().negate());
-						timeBlock.setBeginTimestamp(new Timestamp(lb.getLeaveDate().getTime()));
-						timeBlock.setEndTimestamp(new Timestamp(new DateTime(lb.getLeaveDate()).plusHours(timeBlock.getHours().intValue()).getMillis()));
+						timeBlock.setBeginTimestamp(new Timestamp(lb.getLeaveLocalDate().toDate().getTime()));
+						timeBlock.setEndTimestamp(new Timestamp(new DateTime(lb.getLeaveLocalDate().toDate().getTime()).plusHours(timeBlock.getHours().intValue()).getMillis()));
 						timeBlock.setAssignmentKey(lb.getAssignmentKey());
 						timeBlock.setJobNumber(lb.getJobNumber());
 						timeBlock.setWorkArea(lb.getWorkArea());
 						timeBlock.setTask(lb.getTask());
 						timeBlock.setEarnCode(lb.getEarnCode());
-						timeBlock.setLeaveDate(lb.getLeaveDate());
+						timeBlock.setLeaveDate(lb.getLeaveLocalDate().toDate());
 						EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
 						if(earnCodeObj != null) {
 							timeBlock.setEarnCodeType(earnCodeObj.getEarnCodeType());

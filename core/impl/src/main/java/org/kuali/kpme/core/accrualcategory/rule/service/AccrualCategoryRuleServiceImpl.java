@@ -18,27 +18,38 @@ package org.kuali.kpme.core.accrualcategory.rule.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
+import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo;
 import org.kuali.kpme.core.accrualcategory.rule.dao.AccrualCategoryRuleDao;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.accrualcategory.rule.service.AccrualCategoryRuleService;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleService;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleService {
 	
 	private AccrualCategoryRuleDao accrualCategoryRuleDao;
-	
+    private static final ModelObjectUtils.Transformer<AccrualCategoryRuleBo, AccrualCategoryRule> toAccrualCategoryRule =
+            new ModelObjectUtils.Transformer<AccrualCategoryRuleBo, AccrualCategoryRule>() {
+                public AccrualCategoryRule transform(AccrualCategoryRuleBo input) {
+                    return AccrualCategoryRuleBo.to(input);
+                };
+            };
+
+    @Override
 	public List <AccrualCategoryRule> getActiveAccrualCategoryRules(String accrualCategoryId) {
-		return accrualCategoryRuleDao.getActiveAccrualCategoryRules(accrualCategoryId);
+		return ModelObjectUtils.transform(accrualCategoryRuleDao.getActiveAccrualCategoryRules(accrualCategoryId), toAccrualCategoryRule);
 	}
-	 
+
+    @Override
 	public AccrualCategoryRule getAccrualCategoryRule(String lmAccrualCategoryRuleId) {
-		return accrualCategoryRuleDao.getAccrualCategoryRule(lmAccrualCategoryRuleId);
+		return AccrualCategoryRuleBo.to(accrualCategoryRuleDao.getAccrualCategoryRule(lmAccrualCategoryRuleId));
 			
 	}
-	
-    public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategoryContract accrualCategory, LocalDate currentDate, LocalDate serviceDate) {
+
+    @Override
+    public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, LocalDate currentDate, LocalDate serviceDate) {
     	if(serviceDate == null) {
     		return null;
     	}
@@ -83,11 +94,11 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
 	}
 	@Override
 	public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId) {
-		return this.accrualCategoryRuleDao.getActiveRulesForAccrualCategoryId(accrualCategoryId);
+		return ModelObjectUtils.transform(this.accrualCategoryRuleDao.getActiveRulesForAccrualCategoryId(accrualCategoryId), toAccrualCategoryRule);
 	}
     @Override
     public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId) {
-    	return this.accrualCategoryRuleDao.getInActiveRulesForAccrualCategoryId(accrualCategoryId);
+    	return ModelObjectUtils.transform(this.accrualCategoryRuleDao.getInActiveRulesForAccrualCategoryId(accrualCategoryId), toAccrualCategoryRule);
     }
 
 }

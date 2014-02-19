@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kpme.core.web.KPMEForm;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 

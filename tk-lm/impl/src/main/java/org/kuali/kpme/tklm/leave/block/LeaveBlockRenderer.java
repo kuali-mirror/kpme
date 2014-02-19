@@ -21,10 +21,12 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockRendererContract;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -37,7 +39,7 @@ public class LeaveBlockRenderer implements LeaveBlockRendererContract {
         this.leaveBlock = leaveBlock;
     }
  
-    public LeaveBlock getLeaveBlock() {
+    public LeaveBlockContract getLeaveBlock() {
         return leaveBlock;
     }
 
@@ -62,11 +64,11 @@ public class LeaveBlockRenderer implements LeaveBlockRendererContract {
 	}
 
     public boolean isEditable() {
-        return leaveBlock.isEditable();
+        return LmServiceLocator.getLMPermissionService().canEditLeaveBlock(HrContext.getPrincipalId(), leaveBlock);
     }
 
     public boolean isDeletable() {
-        return leaveBlock.isDeletable();
+        return LmServiceLocator.getLMPermissionService().canDeleteLeaveBlock(HrContext.getPrincipalId(), leaveBlock);
     }
 
 	public String getAssignmentClass() {
@@ -132,7 +134,7 @@ public class LeaveBlockRenderer implements LeaveBlockRendererContract {
     public String getTimeRange() {
         StringBuilder b = new StringBuilder();
 
-        if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
+        if(leaveBlock.getBeginDateTime() != null && leaveBlock.getEndDateTime() != null) {
         	String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(leaveBlock.getEarnCode(), leaveBlock.getBeginDateTime().toLocalDate());
         	if(StringUtils.equals(earnCodeType, HrConstants.EARN_CODE_TIME)) {
 	        	DateTime start = leaveBlock.getBeginDateTime();

@@ -15,21 +15,23 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.bucket;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.AvailableLeaveBalanceContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.NegativeBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.UsageLimitException;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AvailableLeaveBalance extends LeaveBalance implements AvailableLeaveBalanceContract {
 
@@ -53,13 +55,13 @@ public class AvailableLeaveBalance extends LeaveBalance implements AvailableLeav
 		
 		DateTime rolloverDate = HrServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCalendar.getLeavePlan(), asOfDate);
 		
-		if((leaveBlock.getLeaveDate().compareTo(asOfDate.toDate()) <= 0)/*with any signum*/
+		if((leaveBlock.getLeaveDateTime().toLocalDate().compareTo(asOfDate) <= 0)/*with any signum*/
 				|| leaveBlock.getLeaveAmount().signum() < 0 ) {
 			try {
 				//AVAILABLE BALANCE = USAGE LIMIT - YTDUSAGE - PENDING/FUTURE USAGE
 				ytdUsage.add(leaveBlock);
 				
-				EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
+				EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), leaveBlock.getLeaveLocalDate());
 				if(earnCode != null) {
 					if(earnCode.getAccrualBalanceAction().equals(HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
 						//available balance is derived from ytdUsage, usage limit ( if any ), and pendingBalance[usage]
@@ -119,13 +121,13 @@ public class AvailableLeaveBalance extends LeaveBalance implements AvailableLeav
 	@Override
 	public void remove(LeaveBlock leaveBlock) {
 		
-		if((leaveBlock.getLeaveDate().compareTo(asOfDate.toDate()) <= 0)/*any leave amount signum*/
+		if((leaveBlock.getLeaveLocalDate().compareTo(asOfDate) <= 0)/*any leave amount signum*/
 				|| leaveBlock.getLeaveAmount().signum() < 0 ) {
 			try {
 				//AVAILABLE BALANCE = USAGE LIMIT - YTDUSAGE - PENDING/FUTURE USAGE
 				ytdUsage.remove(leaveBlock);
 				
-				EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
+				EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), leaveBlock.getLeaveLocalDate());
 				if(earnCode != null) {
 					if(earnCode.getAccrualBalanceAction().equals(HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
 						//available balance is derived from ytdUsage, usage limit ( if any ), and pendingBalance[usage]

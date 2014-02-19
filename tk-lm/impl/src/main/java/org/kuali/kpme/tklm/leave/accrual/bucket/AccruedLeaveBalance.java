@@ -15,26 +15,25 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.bucket;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.AccruedLeaveBalanceContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaxCarryoverException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.NegativeBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.UsageLimitException;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccruedLeaveBalance extends LeaveBalance implements AccruedLeaveBalanceContract {
 
@@ -60,7 +59,7 @@ public class AccruedLeaveBalance extends LeaveBalance implements AccruedLeaveBal
 		//TODO: Is the leave block within the previous calendar year ( carryover ), a current calendar year ( could be planned/future usage ), or 
 		// a future calendar year ( is planned/future if usage; no balance action if accrual. )
 		//DateTime prevRolloverDate = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), asOfDate);
-		if(leaveBlock.getLeaveDate().compareTo(asOfDate.toDate()) <= 0) {
+		if(leaveBlock.getLeaveLocalDate().compareTo(asOfDate) <= 0) {
 			
 			try {
 				ytdUsage.add(leaveBlock);
@@ -76,7 +75,7 @@ public class AccruedLeaveBalance extends LeaveBalance implements AccruedLeaveBal
 				e.printStackTrace();
 			}
 			
-			EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
+			EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), leaveBlock.getLeaveLocalDate());
 			if(earnCode != null) {
 				if(earnCode.getAccrualBalanceAction().equals(HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
 		
@@ -151,7 +150,7 @@ public class AccruedLeaveBalance extends LeaveBalance implements AccruedLeaveBal
 	@Override
 	public void remove(LeaveBlock leaveBlock) throws MaximumBalanceException, NegativeBalanceException {
 
-		if(leaveBlock.getLeaveDate().compareTo(asOfDate.toDate()) <= 0) {
+		if(leaveBlock.getLeaveLocalDate().compareTo(asOfDate) <= 0) {
 		
 			try {
 				ytdUsage.remove(leaveBlock);
@@ -168,7 +167,7 @@ public class AccruedLeaveBalance extends LeaveBalance implements AccruedLeaveBal
 			}
 			
 			AccrualCategoryRule accrualRule = getAccrualCategoryRuleForDate(leaveBlock.getLeaveLocalDate());
-			EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), LocalDate.fromDateFields(leaveBlock.getLeaveDate()));
+			EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(leaveBlock.getEarnCode(), leaveBlock.getLeaveLocalDate());
 			if(earnCode != null) {
 				if(earnCode.getAccrualBalanceAction().equals(HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
 					//validate and add to / subtract from balances

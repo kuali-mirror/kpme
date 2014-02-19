@@ -15,44 +15,29 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.web;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
-import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
-import org.kuali.kpme.core.role.KPMERole;
+import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.core.api.search.Range;
-import org.kuali.rice.core.api.search.SearchExpressionUtils;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.DocumentStatusCategory;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.inquiry.Inquirable;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.uif.view.LookupView;
@@ -83,14 +68,14 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
         if(dataObject instanceof TimeBlock) {
             TimeBlock tb = (TimeBlock) dataObject;
             if (tb.getConcreteBlockType() != null
-                    && tb.getConcreteBlockType().equals(LeaveBlock.class.getName())) {
-                inquirableClass = LeaveBlock.class;
+                    && tb.getConcreteBlockType().equals(LeaveBlockBo.class.getName())) {
+                inquirableClass = LeaveBlockBo.class;
             }
         }
 
         Inquirable inquirable = getViewDictionaryService().getInquirable(inquirableClass, inquiry.getViewName());
         if (inquirable != null) {
-            if(!inquirableClass.equals(LeaveBlock.class)) {
+            if(!inquirableClass.equals(LeaveBlockBo.class)) {
                 inquirable.buildInquirableLink(dataObject, propertyName, inquiry);
             }
         } else {
@@ -112,9 +97,9 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
             TimeBlock tb = (TimeBlock) dataObject;
             concreteBlockId = tb.getTkTimeBlockId();
             if (tb.getConcreteBlockType() != null
-                    && tb.getConcreteBlockType().equals(LeaveBlock.class.getName())) {
+                    && tb.getConcreteBlockType().equals(LeaveBlockBo.class.getName())) {
                 actionUrlHref = actionUrlHref.replace("tkTimeBlockId", "lmLeaveBlockId");
-                actionUrlHref = actionUrlHref.replace(TimeBlock.class.getName(), LeaveBlock.class.getName());
+                actionUrlHref = actionUrlHref.replace(TimeBlock.class.getName(), LeaveBlockBo.class.getName());
             }
 
         }
@@ -169,9 +154,9 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
             leaveCriteria.remove(DOC_STATUS_ID);
         }
         LookupForm leaveBlockForm = (LookupForm) ObjectUtils.deepCopy(form);
-        leaveBlockForm.setDataObjectClassName(LeaveBlock.class.getName());
-        setDataObjectClass(LeaveBlock.class);
-        List<LeaveBlock> leaveBlocks = (List<LeaveBlock>)super.getSearchResults(leaveBlockForm, LookupUtils.forceUppercase(LeaveBlock.class, leaveCriteria), unbounded);
+        leaveBlockForm.setDataObjectClassName(LeaveBlockBo.class.getName());
+        setDataObjectClass(LeaveBlockBo.class);
+        List<LeaveBlockBo> leaveBlocks = (List<LeaveBlockBo>)super.getSearchResults(leaveBlockForm, LookupUtils.forceUppercase(LeaveBlockBo.class, leaveCriteria), unbounded);
         List<TimeBlock> convertedLeaveBlocks = convertLeaveBlockHistories(leaveBlocks);
         searchResults.addAll(convertedLeaveBlocks);
         for ( TimeBlock searchResult : searchResults) {
@@ -185,9 +170,9 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
         return results;
     }
 
-    protected List<TimeBlock> convertLeaveBlockHistories(List<LeaveBlock> leaveBlocks) {
+    protected List<TimeBlock> convertLeaveBlockHistories(List<LeaveBlockBo> leaveBlocks) {
         List<TimeBlock> histories = new ArrayList<TimeBlock>();
-        for(LeaveBlock leaveBlock : leaveBlocks) {
+        for(LeaveBlockBo leaveBlock : leaveBlocks) {
 
             TimeBlock tBlock = new TimeBlock();
             tBlock.setAmount(leaveBlock.getLeaveAmount());
@@ -203,7 +188,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
             tBlock.setJobNumber(assignKey.getJobNumber());
             tBlock.setTask(assignKey.getTask());
             tBlock.setOvertimePref(leaveBlock.getOvertimePref());
-            tBlock.setLunchDeleted(leaveBlock.getLunchDeleted());
+            tBlock.setLunchDeleted(leaveBlock.isLunchDeleted());
             tBlock.setDocumentId(leaveBlock.getDocumentId());
             tBlock.setBeginDate(leaveBlock.getLeaveDate());
             tBlock.setEndDate(leaveBlock.getLeaveDate());

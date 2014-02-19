@@ -39,9 +39,10 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.ApprovalFormAction;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.LeaveRequestCalendar;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveActionFormUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -84,10 +85,7 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 	}
 	
     protected List<LeaveBlock> getLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
-        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
-        List<String> assignments = Collections.emptyList();
-        leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(principalId, beginDate, endDate, assignments);
-        return leaveBlocks;
+        return LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(principalId, beginDate, endDate, Collections.<String>emptyList());
     }
 	
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

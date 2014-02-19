@@ -29,7 +29,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
@@ -70,15 +72,15 @@ public class LeaveCalendarValidationServiceTest extends KPMEWebTestCase {
 		Assert.assertTrue("There should NOT be error message(s)" , errors.isEmpty());
 		
 		//updating an existing leave block
-		LeaveBlock aLeaveBlock = new LeaveBlock();
-		aLeaveBlock.setEarnCode("EC");
-		aLeaveBlock.setLeaveAmount(new BigDecimal(-10));
+        LeaveBlock.Builder aLeaveBlock = LeaveBlock.Builder.create("xxx", "EC", new BigDecimal(-10));
+		//aLeaveBlock.setEarnCode("EC");
+		//aLeaveBlock.setLeaveAmount(new BigDecimal(-10));
 		
-		errors = LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage("EC", "02/15/2012", "02/15/2012", new BigDecimal(3), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage("EC", "02/15/2012", "02/15/2012", new BigDecimal(3), aLeaveBlock.build());
 		Assert.assertTrue("There should NOT be error message(s)" , errors.isEmpty());
 		
 		aLeaveBlock.setLeaveAmount(new BigDecimal(-2));
-		errors = LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage("EC", "02/15/2012", "02/15/2012", new BigDecimal(10), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage("EC", "02/15/2012", "02/15/2012", new BigDecimal(10), aLeaveBlock.build());
 		anError = errors.get(0);
 		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount 10 is greater than available leave balance 2.00"));
 	}
@@ -172,30 +174,31 @@ public class LeaveCalendarValidationServiceTest extends KPMEWebTestCase {
 		ls.setLeaveSummaryRows(lsrList);
 		
 		//updating an existing leave block
-		LeaveBlock aLeaveBlock = new LeaveBlock();
-		aLeaveBlock.setEarnCode("EC");
-		aLeaveBlock.setLeaveAmount(new BigDecimal(-10)); //this amount, multiplied by the days in the span, is considered to be part of the pending leave requests.
+        LeaveBlock.Builder aLeaveBlock = LeaveBlock.Builder.create("xxx", "EC", new BigDecimal(-10));
+		//LeaveBlockBo aLeaveBlock = new LeaveBlockBo();
+		//aLeaveBlock.setEarnCode("EC");
+		//aLeaveBlock.setLeaveAmount(new BigDecimal(-10)); //this amount, multiplied by the days in the span, is considered to be part of the pending leave requests.
 		List<String> errors = new ArrayList<String>();
 
 		// EC1 belongs to the accrual category testAC
 		// should still be under 50 effective difference is +9, over 1 days = 9 -> 40+12 < 50
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(19), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(19), aLeaveBlock.build());
 		Assert.assertTrue("There should be no error message test 1" , errors.size()== 0);
 		
 		// should be right at 50 effective difference is +10, over 1 days = 10 -> 40+10 = 50
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(20), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(20), aLeaveBlock.build());
 		Assert.assertTrue("There should be no error message test 2" , errors.size()== 0);
 		
 		// should be over 50 effective difference is +11, over 1 day = 11 -> 40+11 > 50
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(21), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(21), aLeaveBlock.build());
 		Assert.assertTrue("There should be 1 error message test 3" , errors.size()== 1);
 		
 		// should be over 50 effective difference is +2, over 6 days = 12 -> 40+12 > 50
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/20/2012", new BigDecimal(12), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/20/2012", new BigDecimal(12), aLeaveBlock.build());
 		Assert.assertTrue("There should be 1 error message test 5" , errors.size()== 1);
 		
 		// should be under effective difference is +2, over 4 days = 8 -> 40+8 < 50
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/18/2012", new BigDecimal(12), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/18/2012", new BigDecimal(12), aLeaveBlock.build());
 		Assert.assertTrue("There should be 1 error message test 6" , errors.size()== 1);
 	}
 	
@@ -215,17 +218,18 @@ public class LeaveCalendarValidationServiceTest extends KPMEWebTestCase {
 		//updating an existing leave block
 		//Somehow a block enters the system that exceeds max_usage. The only way for it to be saved
 		//is if the net change drops below the usage limit.
-		LeaveBlock aLeaveBlock = new LeaveBlock();
-		aLeaveBlock.setEarnCode("EC");
-		aLeaveBlock.setLeaveAmount(new BigDecimal(-10));
+        LeaveBlock.Builder aLeaveBlock = LeaveBlock.Builder.create("xxx", "EC", new BigDecimal(-10));
+		//LeaveBlockBo aLeaveBlock = new LeaveBlockBo();
+		//aLeaveBlock.setEarnCode("EC");
+		//aLeaveBlock.setLeaveAmount(new BigDecimal(-10));
 		List<String> errors = new ArrayList<String>();
 
 		// effective difference is (-2), over 1 days = -2 -> 55+(-2) > 50
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(8), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(8), aLeaveBlock.build());
 		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
 		
 		// should be equal effective difference is (-0.5), over 5 days = -2.5 -> 55+(-2.5) > 50
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(9.5), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(9.5), aLeaveBlock.build());
 		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
 	}
 
@@ -251,42 +255,44 @@ public class LeaveCalendarValidationServiceTest extends KPMEWebTestCase {
 		ls.setLeaveSummaryRows(lsrList);
 		
 		//updating an existing leave block
-		LeaveBlock aLeaveBlock = new LeaveBlock();
-		aLeaveBlock.setEarnCode("EC");
-		aLeaveBlock.setAccrualCategory("testAC");
-		aLeaveBlock.setLeaveAmount(new BigDecimal(-10));
+        LeaveBlock.Builder aLeaveBlock = LeaveBlock.Builder.create("xxx", "EC", new BigDecimal(-10));
+        aLeaveBlock.setAccrualCategory("testAC");
+		//LeaveBlockBo aLeaveBlock = new LeaveBlockBo();
+		//aLeaveBlock.setEarnCode("EC");
+		//aLeaveBlock.setAccrualCategory("testAC");
+		//aLeaveBlock.setLeaveAmount(new BigDecimal(-10));
 		List<String> errors = new ArrayList<String>();
 
 		//Changing to an earn code with different accrual category, testAC2
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/15/2012", new BigDecimal(6), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/15/2012", new BigDecimal(6), aLeaveBlock.build());
 		Assert.assertTrue("There should be no error message. reached usage limit." , errors.size()== 0);
 		
 		//Changing to an earn code with different accrual category, testAC2
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/15/2012", new BigDecimal(7), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/15/2012", new BigDecimal(7), aLeaveBlock.build());
 		Assert.assertTrue("There should be 1 error message, there were " + errors.size() + " errors" , errors.size()== 1);
 		
 		//Changing to an earn code with different accrual category, testAC2 with spanning days.
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/19/2012", new BigDecimal(1), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/19/2012", new BigDecimal(1), aLeaveBlock.build());
 		Assert.assertTrue("There should be no error message, there were " + errors.size() + " errors" , errors.size()== 0);
 		
 		//Changing to an earn code with different accrual category, testAC2 with spanning days.
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/20/2012", new BigDecimal(1), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/20/2012", new BigDecimal(1), aLeaveBlock.build());
 		Assert.assertTrue("There should be no error message, there were " + errors.size() + " errors" , errors.size()== 0);
 		
 		//Changing to an earn code with different accrual category, testAC2 with spanning days.
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/21/2012", new BigDecimal(1), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/21/2012", new BigDecimal(1), aLeaveBlock.build());
 		Assert.assertTrue("There should be 1 error message, there were " + errors.size() + " errors" , errors.size()== 1);
 		
 		//Changing to an earn code within same accrual category, testAC
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC1", "02/15/2012", "02/15/2012", new BigDecimal(10), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC1", "02/15/2012", "02/15/2012", new BigDecimal(10), aLeaveBlock.build());
 		Assert.assertTrue("There should be no error message, there were " + errors.size() + " errors" , errors.size()== 0);
 		
 		//Changing to an earn code within same accrual category, testAC with spanning days.
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC1", "02/15/2012", "02/19/2012", new BigDecimal(2), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC1", "02/15/2012", "02/19/2012", new BigDecimal(2), aLeaveBlock.build());
 		Assert.assertTrue("There should be 0 error message, there were " + errors.size() + " errors" , errors.size()== 0);
 		
 		//Changing to an earn code within same accrual category, testAC with spanning days.
-		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/25/2012", new BigDecimal(1), aLeaveBlock);
+		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/25/2012", new BigDecimal(1), aLeaveBlock.build());
 		Assert.assertTrue("There should be 1 error message, there were " + errors.size() + " errors" , errors.size()== 1);
 				
 	}
@@ -297,23 +303,23 @@ public class LeaveCalendarValidationServiceTest extends KPMEWebTestCase {
 		// earn Code "ECB" has fmla = N, has earn code group with warning messages
 		// earn code "ECC" does not have earn code group with warning messages
 
-		List<LeaveBlock> leaveBlocs = new ArrayList<LeaveBlock>();
-		LeaveBlock lbA = new LeaveBlock();
+		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+		LeaveBlockBo lbA = new LeaveBlockBo();
 		lbA.setEarnCode("ECA");
 		lbA.setLeaveDate(LocalDate.now().toDate());
-		leaveBlocs.add(lbA);
+		leaveBlocks.add(LeaveBlockBo.to(lbA));
 
-		LeaveBlock lbB = new LeaveBlock();
+		LeaveBlockBo lbB = new LeaveBlockBo();
 		lbB.setEarnCode("ECB");
 		lbB.setLeaveDate(LocalDate.now().toDate());
-		leaveBlocs.add(lbB);
+		leaveBlocks.add(LeaveBlockBo.to(lbB));
 
-		LeaveBlock lbC = new LeaveBlock();
+		LeaveBlockBo lbC = new LeaveBlockBo();
 		lbC.setEarnCode("ECC");
 		lbC.setLeaveDate(LocalDate.now().toDate());
-		leaveBlocs.add(lbC);
+		leaveBlocks.add(LeaveBlockBo.to(lbC));
 
-		Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs, LocalDate.now().toDateTimeAtStartOfDay().toDate(), new DateTime().plusDays(1).toDate());
+		Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, LocalDate.now().toDateTimeAtStartOfDay().toDate(), new DateTime().plusDays(1).toDate());
         int numberOfMessages = 0;
         for (Set<String> msgs : allMessages.values()){
             numberOfMessages += msgs.size();

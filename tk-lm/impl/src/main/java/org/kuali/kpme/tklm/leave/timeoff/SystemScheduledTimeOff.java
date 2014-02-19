@@ -20,7 +20,7 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
@@ -28,7 +28,7 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -70,7 +70,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	private String premiumHoliday;
 
 	private LeavePlan leavePlanObj;
-	private AccrualCategory accrualCategoryObj;
+	private AccrualCategoryBo accrualCategoryObj;
 	private EarnCode earnCodeObj;
 	private EarnCode transferToEarnCodeObj;
 	private EarnCode premiumEarnCodeObj;
@@ -216,11 +216,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		this.leavePlanObj = leavePlanObj;
 	}
 
-	public AccrualCategory getAccrualCategoryObj() {
+	public AccrualCategoryBo getAccrualCategoryObj() {
 		return accrualCategoryObj;
 	}
 
-	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
+	public void setAccrualCategoryObj(AccrualCategoryBo accrualCategoryObj) {
 		this.accrualCategoryObj = accrualCategoryObj;
 	}
 

@@ -72,7 +72,7 @@ public interface ClockLogService {
 	 * @return
 	 */
 	@CacheEvict(value={Assignment.CACHE_NAME}, allEntries = true)
-    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId);
+    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId);
     
     /**
      * Fetch clock log by id
@@ -81,7 +81,7 @@ public interface ClockLogService {
      */
     public ClockLog getClockLog(String tkClockLogId);
 
-    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId);
+    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId);
     
     public void deleteClockLogsForDocumentId(String documentId);
     

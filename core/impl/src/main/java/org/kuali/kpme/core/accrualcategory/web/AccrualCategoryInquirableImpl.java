@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.inquirable.KPMEInquirableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -40,9 +40,14 @@ public class AccrualCategoryInquirableImpl extends KPMEInquirableImpl {
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
 		    ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, effectiveDate);
 		} else {
-			ac = (AccrualCategory) super.getBusinessObject(fieldValues);
+			ac = (AccrualCategoryBo) super.getBusinessObject(fieldValues);
 		}
 
-		return ac;
+        if (ac == null){
+            return null;
+        }
+        org.kuali.kpme.core.api.accrualcategory.AccrualCategory accrualCategory =
+                org.kuali.kpme.core.api.accrualcategory.AccrualCategory.Builder.create(ac).build();
+		return AccrualCategoryBo.from(accrualCategory);
 	}
 }

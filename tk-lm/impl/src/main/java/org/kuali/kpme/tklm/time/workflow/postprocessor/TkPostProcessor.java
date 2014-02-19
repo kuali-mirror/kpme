@@ -22,15 +22,16 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -94,14 +95,14 @@ public class TkPostProcessor extends DefaultPostProcessor {
 						}
 					}
 					if (overtimeEarnCode != null && leaveAmount != null) {
-						AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), endDate.toLocalDate());
+						AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), endDate.toLocalDate());
 						
 						if (accrualCategory != null) {
 							LocalDate leaveDate = LocalDate.fromDateFields(timeBlock.getBeginDate());
-							LeaveBlock.Builder builder = new LeaveBlock.Builder(leaveDate, null, principalId, overtimeEarnCode.getEarnCode(), leaveAmount)
-								.accrualCategory(accrualCategory.getAccrualCategory())
-								.leaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)
-								.requestStatus(HrConstants.REQUEST_STATUS.APPROVED);
+                            LeaveBlock.Builder builder = LeaveBlock.Builder.create(principalId, overtimeEarnCode.getEarnCode(), leaveAmount, leaveDate, null);
+                            builder.setAccrualCategory(accrualCategory.getAccrualCategory());
+                            builder.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
+                            builder.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 							
 							leaveBlocks.add(builder.build());
 						}
@@ -135,8 +136,9 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), endDate.toLocalDate());
 			for(LeaveBlock lb : leaveBlocks) {
 				if(StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER_ADJUSTMENT)) {
-					lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
-					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, HrContext.getPrincipalId());
+                    LeaveBlock.Builder builder = LeaveBlock.Builder.create(lb);
+					builder.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
+					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(builder.build(), HrContext.getPrincipalId());
 				}
 			}
 		}

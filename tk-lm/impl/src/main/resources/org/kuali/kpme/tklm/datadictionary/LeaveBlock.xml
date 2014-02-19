@@ -22,7 +22,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="LeaveBlock" parent="LeaveBlock-parentBean" />
   <bean id="LeaveBlock-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kpme.tklm.leave.block.LeaveBlock" />
+    <property name="businessObjectClass" value="org.kuali.kpme.tklm.leave.block.LeaveBlockBo" />
     <property name="titleAttribute" value="lmLeaveBlockId" />
     <property name="attributes" >
       <list>
@@ -246,7 +246,7 @@
   <bean id="LeaveBlock-inquiryView" parent="LeaveBlock-inquiryView-parentBean" />
   <bean id="LeaveBlock-inquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
   	<property name="headerText" value="Leave Block Inquiry"/>
-  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.leave.block.LeaveBlock"/>
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.leave.block.LeaveBlockBo"/>
   	<property name="singlePageView" value="true"/>
     <property name="items" >
       <list>
@@ -280,7 +280,7 @@
 
   <bean id="LeaveBlock-lookupView" parent="KPMEUif-ViewLinkLookupView">
   	<property name="headerText" value="Leave Block Lookup" />
-  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.leave.block.LeaveBlock"/>
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.leave.block.LeaveBlockBo"/>
   	<property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.leave.block.web.LeaveBlockLookupableHelperServiceImpl"/>
   	<property name="criteriaFields">
   		<list>

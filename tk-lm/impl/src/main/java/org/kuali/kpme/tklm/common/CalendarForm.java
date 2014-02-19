@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.web.KPMEForm;
 
@@ -45,7 +46,7 @@ public abstract class CalendarForm extends KPMEForm {
 	private Date beginCalendarEntryDate;
 	private Date endCalendarEntryDate;
 	
-    private CalendarEntry calendarEntry;
+    private CalendarEntryContract calendarEntry;
 	
 	private List<String> calendarYears = new ArrayList<String>();
     private Map<String,String> payPeriodsMap = new HashMap<String,String>();
@@ -133,11 +134,11 @@ public abstract class CalendarForm extends KPMEForm {
 		this.payPeriodsMap = payPeriodsMap;
 	}
 	
-    public CalendarEntry getCalendarEntry() {
+    public CalendarEntryContract getCalendarEntry() {
         return calendarEntry;
     }
 
-    public void setCalendarEntry(CalendarEntry calendarEntry) {
+    public void setCalendarEntry(CalendarEntryContract calendarEntry) {
         this.calendarEntry = calendarEntry;
     }
 	

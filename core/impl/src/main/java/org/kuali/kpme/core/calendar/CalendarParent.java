@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.calendar.CalendarParentContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -29,11 +30,11 @@ public abstract class CalendarParent implements Serializable, CalendarParentCont
 
 	private static final long serialVersionUID = 8840878349037013345L;
 	private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
-    private CalendarEntry calendarEntry;
+    private CalendarEntryContract calendarEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
 
-    public CalendarParent(CalendarEntry calendarEntry) {
+    public CalendarParent(CalendarEntryContract calendarEntry) {
         this.calendarEntry = calendarEntry;
         if (calendarEntry != null) {
             this.beginDateTime = calendarEntry.getBeginPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
@@ -61,11 +62,11 @@ public abstract class CalendarParent implements Serializable, CalendarParentCont
         this.endDateTime = endDateTime;
     }
 
-    public CalendarEntry getCalendarEntry() {
+    public CalendarEntryContract getCalendarEntry() {
         return calendarEntry;
     }
 
-    public void setCalendarEntry(CalendarEntry calendarEntry) {
+    public void setCalendarEntry(CalendarEntryContract calendarEntry) {
         this.calendarEntry = calendarEntry;
     }
 

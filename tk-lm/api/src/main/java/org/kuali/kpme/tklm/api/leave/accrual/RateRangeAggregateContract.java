@@ -92,6 +92,6 @@ public interface RateRangeAggregateContract {
 	 * 
 	 * @return calEntryMap for RateRangeAggregate
 	 */
-	public Map<String, ? extends List<? extends CalendarEntryContract>> getCalEntryMap();
+	public Map<String, List<? extends CalendarEntryContract>> getCalEntryMap();
 
 }

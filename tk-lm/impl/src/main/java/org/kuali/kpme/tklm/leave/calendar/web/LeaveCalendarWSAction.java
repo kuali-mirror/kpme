@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
@@ -64,7 +65,7 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
 
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
-        CalendarEntry calendarEntry = lcf.getCalendarEntry();
+        CalendarEntryContract calendarEntry = lcf.getCalendarEntry();
         if (StringUtils.isNotBlank(lcf.getSelectedAssignment())) {
         	List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(HrContext.getTargetPrincipalId(), lcf.getCalendarEntry());
         	boolean leavePlanningCalendar = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(HrContext.getTargetPrincipalId(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());

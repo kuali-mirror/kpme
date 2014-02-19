@@ -22,13 +22,19 @@ import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.mo.Effective;
+import org.kuali.kpme.core.api.mo.UserModified;
 import org.kuali.kpme.core.api.util.HrApiConstants;
+import org.kuali.rice.core.api.mo.common.GloballyUnique;
+import org.kuali.rice.core.api.mo.common.Identifiable;
+import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>AccrualCategoryContract interface.</p>
  *
  */
-public interface AccrualCategoryContract extends HrBusinessObjectContract {
+public interface AccrualCategoryContract extends Versioned, GloballyUnique, Inactivatable, Identifiable, Effective, UserModified {
 	
 	 public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "AccrualCategory";
 	
@@ -64,7 +70,7 @@ public interface AccrualCategoryContract extends HrBusinessObjectContract {
 	 * 
 	 * @return leavePlanObj for AccrualCategory
 	 */
-	public LeavePlanContract getLeavePlanObj();
+	//public LeavePlanContract getLeavePlanObj();
 	
 	/**
 	 * The list of AccrualCaegoryRules of the AccrualCategory
@@ -75,7 +81,7 @@ public interface AccrualCategoryContract extends HrBusinessObjectContract {
 	 * 
 	 * @return accrualCategoryRules for AccrualCategory
 	 */
-	public List<? extends AccrualCategoryRuleContract> getAccrualCategoryRules();
+	//public List<? extends AccrualCategoryRuleContract> getAccrualCategoryRules();
 	
 	/**
 	 * The Primary Key of an AccrualCategory entry saved in a database
@@ -186,7 +192,7 @@ public interface AccrualCategoryContract extends HrBusinessObjectContract {
 	 * 
 	 * @return Y if on, N if not
 	 */
-	public Boolean getHistory();
+	//public Boolean getHistory();
 	
 	/**
 	 * The EarnCode of the earnCodeObject associated with an AccrualCategory

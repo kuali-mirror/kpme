@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.CalendarParent;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.web.CalendarDay;
@@ -28,12 +29,11 @@ import org.kuali.kpme.core.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.time.calendar.TkCalendarContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
@@ -43,7 +43,7 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
 
 	private static final long serialVersionUID = -5393478597803080619L;
 	private static final Logger LOG = Logger.getLogger(TkCalendar.class);
-    private CalendarEntry payCalEntry;
+    private CalendarEntryContract payCalEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
 
@@ -211,11 +211,11 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
         }
     }
 
-    public CalendarEntry getPayCalEntry() {
+    public CalendarEntryContract getPayCalEntry() {
         return payCalEntry;
     }
 
-    public void setPayCalEntry(CalendarEntry payCalEntry) {
+    public void setPayCalEntry(CalendarEntryContract payCalEntry) {
         this.payCalEntry = payCalEntry;
         // Relative time, with time zone added.
         this.beginDateTime = payCalEntry.getBeginPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());

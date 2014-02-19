@@ -37,7 +37,6 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -49,7 +48,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -91,7 +90,7 @@ public class TimesheetSubmitAction extends KPMEAction {
             	boolean nonExemptLE = LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(document.getPrincipalId(),
             				HrConstants.FLSA_STATUS_NON_EXEMPT, true);
             	if(nonExemptLE) {
-            		Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
+            		Map<String,Set<LeaveBlockContract>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
             		PrincipalHRAttributes pha = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), document.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 					Calendar cal = pha.getLeaveCalObj();
 					if(cal == null) {
@@ -101,14 +100,14 @@ public class TimesheetSubmitAction extends KPMEAction {
 						return mapping.findForward("basic");
 //						throw new RuntimeException("Principal is without a leave calendar");
                     }
-    				List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
-    				List<LeaveBlock> eligiblePayouts = new ArrayList<LeaveBlock>();
+    				List<LeaveBlockContract> eligibleTransfers = new ArrayList<LeaveBlockContract>();
+    				List<LeaveBlockContract> eligiblePayouts = new ArrayList<LeaveBlockContract>();
             		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
 
-	        		for(Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
+	        		for(Entry<String,Set<LeaveBlockContract>> entry : eligibilities.entrySet()) {
 	        			
-	            		for(LeaveBlock lb : entry.getValue()) {
-	            			if(interval.contains(lb.getLeaveDate().getTime())) {
+	            		for(LeaveBlockContract lb : entry.getValue()) {
+	            			if(interval.contains(lb.getLeaveDateTime())) {
 	            				//maxBalanceViolations should, if a violation exists, return a leave block with leave date either current date, or the end period date - 1 days.
 		        				AccrualCategoryRuleContract aRule = lb.getAccrualCategoryRule();
 	
@@ -120,7 +119,7 @@ public class TimesheetSubmitAction extends KPMEAction {
 		            					if(interval.contains(rollOverDate.minusDays(1).getMillis())) {
 		            						//only leave blocks belonging to the calendar entry being submitted may reach this point
 		            						//if the infraction occurs before the relative end date of the leave plan year, then action will be executed.
-			            					if(lb.getLeaveDate().before(rollOverDate.toDate())) {
+			            					if(lb.getLeaveDateTime().isBefore(rollOverDate)) {
 						            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT)) {
 						            				eligiblePayouts.add(lb);
 						            			}
@@ -133,7 +132,7 @@ public class TimesheetSubmitAction extends KPMEAction {
 		            				}
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 		            					//a leave period should end within the time period.
-		            					CalendarEntry leaveEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveLocalDate().toDateTimeAtStartOfDay());
+		            					CalendarEntry leaveEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveDateTime());
 		            					if(ObjectUtils.isNotNull(leaveEntry)) {
 		            						//only leave blocks belonging to the calendar entry being submitted may reach this point.
 		            						//if the infraction occurs before the end of the leave calendar entry, then action will be executed.

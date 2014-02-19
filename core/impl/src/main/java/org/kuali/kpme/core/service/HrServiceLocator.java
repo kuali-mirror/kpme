@@ -16,8 +16,8 @@
 package org.kuali.kpme.core.service;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.accrualcategory.rule.service.AccrualCategoryRuleService;
-import org.kuali.kpme.core.api.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleService;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryService;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.block.service.CalendarBlockService;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
@@ -34,7 +34,7 @@ import org.kuali.kpme.core.api.location.service.LocationService;
 import org.kuali.kpme.core.api.paygrade.service.PayGradeService;
 import org.kuali.kpme.core.api.paystep.service.PayStepService;
 import org.kuali.kpme.core.api.paytype.service.PayTypeService;
-import org.kuali.kpme.core.api.permission.service.HRPermissionService;
+import org.kuali.kpme.core.api.permission.HRPermissionService;
 import org.kuali.kpme.core.api.position.service.PositionBaseService;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.api.salarygroup.service.SalaryGroupService;

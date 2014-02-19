@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.common;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.role.KPMERole;

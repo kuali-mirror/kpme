@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.exportCalendar;
 
+import org.joda.time.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -63,17 +65,17 @@ public class CalendarEvent {
     	return headerContent;
     }
     
-    public String createEvent(String title, Date dStart, Date dEnd, String tStart,
+    public String createEvent(String title, DateTime dStart, DateTime dEnd, String tStart,
             String tEnd, String desc, String uid){
     			setTitle(title);
-    			setDate_start(dStart, tStart);
+    			setDate_start(dStart.toDate(), tStart);
     			if(dStart.compareTo(dEnd)==0 && tStart.equals(tEnd)){
     				Calendar c = Calendar.getInstance();
-    				c.setTime(dEnd);
+    				c.setTime(dEnd.toDate());
     				c.add(Calendar.DATE, 1);
     				setDate_end(c.getTime(), tEnd);
     			}else{
-    				setDate_end(dEnd, tEnd);
+    				setDate_end(dEnd.toDate(), tEnd);
     			}
     			setTimestamp();
     			setDescription(desc);

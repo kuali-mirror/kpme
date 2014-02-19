@@ -69,7 +69,7 @@ public class Department extends HrBusinessObject implements DepartmentContract {
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
-				.put(DEPT, this.getDept())		
+				.put(DEPT, this.getDept())
 				.build();
 	}
     

@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
+import org.kuali.kpme.tklm.api.leave.accrual.PrincipalAccrualRanContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 @Ignore
@@ -43,7 +44,7 @@ public class PrincipalAccrualRanServiceTest extends TKLMIntegrationTestCase {
 		// the database has an entry for principalId testUser dated 2012-05-01
 		// run accrual service for testUser
 		// the principalAccrualRan entry in database should be changed to today's timestamp
-		PrincipalAccrualRan par = LmServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan("testUser");
+		PrincipalAccrualRanContract par = LmServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan("testUser");
 		Assert.assertNotNull("There should be one entry in PrincipalAccrualRan table for 'testUser'", par);
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy");
 		Assert.assertTrue("Date of the original entry in PrincipalAccrualRan for 'testUser' should be 05/01/2012"

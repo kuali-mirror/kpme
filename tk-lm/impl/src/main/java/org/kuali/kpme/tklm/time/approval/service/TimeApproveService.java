@@ -23,9 +23,10 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -42,7 +43,7 @@ public interface TimeApproveService {
      * @param calGroup Specify a calendar group to filter by.
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry, String docIdSearchTerm);
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntryContract payCalendarEntry, String docIdSearchTerm);
 
     /**
      * Used to determine if there are notes on a document
@@ -51,9 +52,9 @@ public interface TimeApproveService {
      */
 	public List<Note> getNotesForDocument(String documentNumber);
 
-    public Map<String, BigDecimal> getHoursToPayDayMap(String principalId, DateTime payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea, CalendarEntry payCalendarEntry, Calendar payCalendar, DateTimeZone dateTimeZone, List<Interval> dayIntervals);
+    public Map<String, BigDecimal> getHoursToPayDayMap(String principalId, DateTime payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea, CalendarEntryContract payCalendarEntry, Calendar payCalendar, DateTimeZone dateTimeZone, List<Interval> dayIntervals);
 
-	public Map<String, BigDecimal> getHoursToFlsaWeekMap(String principalId, DateTime payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea, CalendarEntry payCalendarEntry, Calendar payCalendar, DateTimeZone dateTimeZone, List<Interval> dayIntervals);
+	public Map<String, BigDecimal> getHoursToFlsaWeekMap(String principalId, DateTime payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea, CalendarEntryContract payCalendarEntry, Calendar payCalendar, DateTimeZone dateTimeZone, List<Interval> dayIntervals);
         
     /**
      * Method to create a map that contains the principal's id and corresponding timesheet document header.

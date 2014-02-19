@@ -20,11 +20,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.kuali.kpme.core.KPMENamespace;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
-import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;

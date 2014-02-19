@@ -16,10 +16,11 @@
 package org.kuali.kpme.tklm.leave.approval.web;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDateTime;
+import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
 import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -28,8 +29,8 @@ public class LeaveApprovalActionForm extends CalendarApprovalForm {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private List<ApprovalLeaveSummaryRow> leaveApprovalRows;
-	private List<Date> leaveCalendarDates = new ArrayList<Date>();
+	private List<ApprovalLeaveSummaryRowContract> leaveApprovalRows;
+	private List<LocalDateTime> leaveCalendarDates = new ArrayList<LocalDateTime>();
 	private Boolean displayYTDFMLA;
 	
 	public boolean isDisplayYTDFMLA() {
@@ -48,16 +49,16 @@ public class LeaveApprovalActionForm extends CalendarApprovalForm {
 		this.displayYTDFMLA = displayYTDFMLA;
 	}
 	
-	public List<ApprovalLeaveSummaryRow> getLeaveApprovalRows() {
+	public List<ApprovalLeaveSummaryRowContract> getLeaveApprovalRows() {
 		return leaveApprovalRows;
 	}
-	public void setLeaveApprovalRows(List<ApprovalLeaveSummaryRow> leaveApprovalRows) {
+	public void setLeaveApprovalRows(List<ApprovalLeaveSummaryRowContract> leaveApprovalRows) {
 		this.leaveApprovalRows = leaveApprovalRows;
 	}
-	public List<Date> getLeaveCalendarDates() {
+	public List<LocalDateTime> getLeaveCalendarDates() {
 		return leaveCalendarDates;
 	}
-	public void setLeaveCalendarDates(List<Date> leaveCalendarDates) {
+	public void setLeaveCalendarDates(List<LocalDateTime> leaveCalendarDates) {
 		this.leaveCalendarDates = leaveCalendarDates;
 	}
 	
@@ -65,7 +66,7 @@ public class LeaveApprovalActionForm extends CalendarApprovalForm {
 		boolean isAnyApprovalRowApprovable = false;
 		
 		if (leaveApprovalRows != null) {
-			for (ApprovalLeaveSummaryRow approvalRow : leaveApprovalRows) {
+			for (ApprovalLeaveSummaryRowContract approvalRow : leaveApprovalRows) {
 				if (approvalRow.isApprovable()) {
 					isAnyApprovalRowApprovable = true;
 					break;

@@ -20,32 +20,39 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.accrualcategory.dao.AccrualCategoryDao;
-import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
-import org.kuali.kpme.core.api.accrualcategory.service.AccrualCategoryService;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryService;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(AccrualCategoryServiceImpl.class);
 	private AccrualCategoryDao accrualCategoryDao;
-	public AccrualCategoryServiceImpl() {
-	}
+    private static final ModelObjectUtils.Transformer<AccrualCategoryBo, AccrualCategory> toAccrualCategory =
+            new ModelObjectUtils.Transformer<AccrualCategoryBo, AccrualCategory>() {
+                public AccrualCategory transform(AccrualCategoryBo input) {
+                    return AccrualCategoryBo.to(input);
+                };
+            };
 
 	public AccrualCategory getAccrualCategory(String accrualCategory, LocalDate asOfDate) {
-		return accrualCategoryDao.getAccrualCategory(accrualCategory, asOfDate);
+		return AccrualCategoryBo.to(accrualCategoryDao.getAccrualCategory(accrualCategory, asOfDate));
 	}
 
 	@Override
-	public void saveOrUpdate(AccrualCategoryContract accrualCategory) {
-		accrualCategoryDao.saveOrUpdate((AccrualCategory)accrualCategory);
+	public AccrualCategory saveOrUpdate(AccrualCategory accrualCategory) {
+        if (accrualCategory == null) {
+            return null;
+        }
+        return AccrualCategoryBo.to(KRADServiceLocator.getBusinessObjectService().save(AccrualCategoryBo.from(accrualCategory)));
 	}
 
 	public AccrualCategoryDao getAccrualCategoryDao() {
@@ -58,17 +65,17 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
 	@Override
 	public AccrualCategory getAccrualCategory(String lmAccrualCategoryId) {
-		return accrualCategoryDao.getAccrualCategory(lmAccrualCategoryId);
+		return AccrualCategoryBo.to(accrualCategoryDao.getAccrualCategory(lmAccrualCategoryId));
 	}
 
 	@Override
 	public List <AccrualCategory> getActiveAccrualCategories(LocalDate asOfDate){
-		return accrualCategoryDao.getActiveAccrualCategories(asOfDate);
+		return ModelObjectUtils.transform(accrualCategoryDao.getActiveAccrualCategories(asOfDate), toAccrualCategory);
 	}
 
     @Override
     public List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, String leavePlan, String accrualEarnInterval, String unitOfTime, String minPercentWorked, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-        return accrualCategoryDao.getAccrualCategories(accrualCategory, accrualCatDescr, leavePlan, accrualEarnInterval, unitOfTime, minPercentWorked, fromEffdt, toEffdt, active, showHistory);
+        return ModelObjectUtils.transform(accrualCategoryDao.getAccrualCategories(accrualCategory, accrualCatDescr, leavePlan, accrualEarnInterval, unitOfTime, minPercentWorked, fromEffdt, toEffdt, active, showHistory), toAccrualCategory);
     }
    
 
@@ -97,8 +104,8 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		}
 
 		//Grab all the accrual categories for leave plan
-		List<AccrualCategory> accrualCategories = accrualCategoryDao.getActiveAccrualCategories(leavePlanStr, asOfDate); 
-		for(AccrualCategory accrualCat : accrualCategories){
+		List<AccrualCategoryBo> accrualCategories = accrualCategoryDao.getActiveAccrualCategories(leavePlanStr, asOfDate);
+		for(AccrualCategoryBo accrualCat : accrualCategories){
 			//if no rules continue
 			if(StringUtils.equals(accrualCat.getAccrualEarnInterval(), AccrualEarnInterval.NO_ACCRUAL.getCode())
 					|| accrualCat.getAccrualCategoryRules().isEmpty()){
@@ -110,18 +117,18 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		}
 	}	
 
-	public List <AccrualCategory> getActiveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate) {
-    	return accrualCategoryDao.getActiveAccrualCategories(leavePlan, asOfDate);
+	public List<AccrualCategory> getActiveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate) {
+    	return ModelObjectUtils.transform(accrualCategoryDao.getActiveAccrualCategories(leavePlan, asOfDate), toAccrualCategory);
     }
     
 	 @Override
-    public List <AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate) {
-    	return accrualCategoryDao.getActiveLeaveAccrualCategoriesForLeavePlan(leavePlan, asOfDate);
+    public List<AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate) {
+    	return ModelObjectUtils.transform(accrualCategoryDao.getActiveLeaveAccrualCategoriesForLeavePlan(leavePlan, asOfDate), toAccrualCategory);
     }
     
     @Override
-    public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate) {
-    	return accrualCategoryDao.getInActiveLeaveAccrualCategoriesForLeavePlan(leavePlan, asOfDate);
+    public List<AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate) {
+    	return ModelObjectUtils.transform(accrualCategoryDao.getInActiveLeaveAccrualCategoriesForLeavePlan(leavePlan, asOfDate), toAccrualCategory);
     }
 
 }

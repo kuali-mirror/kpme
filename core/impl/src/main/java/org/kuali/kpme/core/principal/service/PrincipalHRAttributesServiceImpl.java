@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;

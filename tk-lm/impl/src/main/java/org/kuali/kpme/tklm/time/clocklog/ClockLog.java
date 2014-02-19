@@ -16,14 +16,13 @@
 package org.kuali.kpme.tklm.time.clocklog;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogContract;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 

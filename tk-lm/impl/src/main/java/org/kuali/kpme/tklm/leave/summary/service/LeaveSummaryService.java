@@ -20,13 +20,15 @@ import java.util.Date;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 
 public interface LeaveSummaryService {
-	public LeaveSummary getLeaveSummary(String principalId, CalendarEntry calendarEntry) throws Exception;
+	public LeaveSummary getLeaveSummary(String principalId, CalendarEntryContract calendarEntry) throws Exception;
 
-	public List<Date> getLeaveSummaryDates(CalendarEntry cal);
+	public List<LocalDateTime> getLeaveSummaryDates(CalendarEntryContract cal);
 
     public LeaveSummary getLeaveSummaryAsOfDate(String principalId, LocalDate asOfDate);
 

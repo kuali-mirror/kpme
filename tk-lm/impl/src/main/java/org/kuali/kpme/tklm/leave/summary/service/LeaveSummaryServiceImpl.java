@@ -23,20 +23,19 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -60,7 +59,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     }
 
     @Override
-    public LeaveSummary getLeaveSummary(String principalId, CalendarEntry calendarEntry) {
+    public LeaveSummary getLeaveSummary(String principalId, CalendarEntryContract calendarEntry) {
         return getLeaveSummary(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), null, true);
     }
 
@@ -79,7 +78,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         }
 
         LeaveSummaryRow lsr = new LeaveSummaryRow();
-        AccrualCategoryContract ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, endDate);
+        AccrualCategory ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, endDate);
         
         if(ac != null) {
             LeavePlan lp = (LeavePlan) HrServiceLocator.getLeavePlanService().getLeavePlan(ac.getLeavePlan(), ac.getEffectiveLocalDate());
@@ -234,7 +233,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 }
                 Map<String, List<LeaveBlock>> leaveBlockMap = mapLeaveBlocksByAccrualCategory(leaveBlocks);
                 Map<String, List<LeaveBlock>> futureLeaveBlockMap = mapLeaveBlocksByAccrualCategory(futureLeaveBlocks);
-                List<AccrualCategory> acList = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), endDate);
+                List<AccrualCategory> acList = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), endDate);
                 if(CollectionUtils.isNotEmpty(acList)) {
                     for(AccrualCategory ac : acList) {
                         if(ac.getShowOnGrid().equals("Y")) {
@@ -438,7 +437,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
             for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
              	// check if leave date is before the next calendar start.
             	if(!aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER)
-                        && aLeaveBlock.getLeaveDate().getTime() < effectiveDate.toDate().getTime()) {
+                        && aLeaveBlock.getLeaveDateTime().getMillis() < effectiveDate.toDate().getTime()) {
                     if((StringUtils.isBlank(accrualCategory) && StringUtils.isBlank(aLeaveBlock.getAccrualCategory()))
                             || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategory())
                                 && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
@@ -461,7 +460,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                      }
                                      co = co.add(aLeaveBlock.getLeaveAmount());
                                      yearlyAccrued.put(yearKey, co);
-                                 } else if(aLeaveBlock.getLeaveDate().getTime() < ytdEarnedEffectiveDate.toDate().getTime()) {
+                                 } else if(aLeaveBlock.getLeaveDateTime().getMillis() < ytdEarnedEffectiveDate.toDate().getTime()) {
                                      accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
                                  }            
                     		 }
@@ -469,7 +468,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                     		 // YTD usage
                     		 if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), HrConstants.ACCRUAL_BALANCE_ACTION.USAGE)
                     				 && LMConstants.USAGE_LEAVE_BLOCK_TYPES.contains(leveBlockType)) {
-                    			 if (aLeaveBlock.getLeaveDate().getTime() > cutOffDate.toDate().getTime()) {
+                    			 if (aLeaveBlock.getLeaveDateTime().getMillis() > cutOffDate.toDate().getTime()) {
                     				approvedUsage = approvedUsage.add(aLeaveBlock.getLeaveAmount());
                      				if(ec.getFmla().equals("Y")) {
                      					fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
@@ -541,15 +540,15 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	}
 	
 	@Override
-	public List<Date> getLeaveSummaryDates(CalendarEntry calendarEntry) {
-		List<Date> leaveSummaryDates = new ArrayList<Date>();
+	public List<LocalDateTime> getLeaveSummaryDates(CalendarEntryContract calendarEntry) {
+		List<LocalDateTime> leaveSummaryDates = new ArrayList<LocalDateTime>();
 
 		DateTime start = calendarEntry.getBeginPeriodLocalDateTime().toDateTime();
 		DateTime end = calendarEntry.getEndPeriodLocalDateTime().toDateTime();
         Interval interval = new Interval(start, end);
 
         for (DateTime day = interval.getStart(); day.isBefore(interval.getEnd()); day = day.plusDays(1)) {
-        	leaveSummaryDates.add(day.toLocalDate().toDateTimeAtStartOfDay().toDate());
+        	leaveSummaryDates.add(day.toLocalDateTime());
         }
 		 
 		 return leaveSummaryDates;

@@ -18,6 +18,8 @@ package org.kuali.kpme.tklm.leave.adjustment.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.tklm.api.leave.adjustment.LeaveAdjustmentContract;
+import org.kuali.kpme.tklm.api.leave.adjustment.LeaveAdjustmentService;
 import org.kuali.kpme.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.kpme.tklm.leave.adjustment.dao.LeaveAdjustmentDao;
 
@@ -26,12 +28,12 @@ public class LeaveAdjustmentServiceImpl implements LeaveAdjustmentService {
 	private LeaveAdjustmentDao leaveAdjustmentDao;
 
 	@Override
-	public List<LeaveAdjustment> getLeaveAdjustments(String principalId, LocalDate asOfDate) {
+	public List<? extends LeaveAdjustmentContract> getLeaveAdjustments(String principalId, LocalDate asOfDate) {
 		return leaveAdjustmentDao.getLeaveAdjustments(principalId, asOfDate);
 	}
 
 	@Override
-	public LeaveAdjustment getLeaveAdjustment(String lmLeaveAdjustmentId) {
+	public LeaveAdjustmentContract getLeaveAdjustment(String lmLeaveAdjustmentId) {
 		return leaveAdjustmentDao.getLeaveAdjustment(lmLeaveAdjustmentId);
 	}
 
@@ -44,7 +46,7 @@ public class LeaveAdjustmentServiceImpl implements LeaveAdjustmentService {
 	}
 
 	@Override
-	public List<LeaveAdjustment> getLeaveAdjustments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String accrualCategory, String earnCode) {
+	public List<? extends LeaveAdjustment> getLeaveAdjustments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String accrualCategory, String earnCode) {
 		return leaveAdjustmentDao.getLeaveAdjustments(fromEffdt, toEffdt, principalId, accrualCategory, earnCode);
 	}
 

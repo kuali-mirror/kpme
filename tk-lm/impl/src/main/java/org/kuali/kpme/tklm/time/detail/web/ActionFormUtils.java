@@ -33,7 +33,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
@@ -42,14 +42,14 @@ import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
@@ -109,16 +109,16 @@ public class ActionFormUtils {
 //        return JSONValue.toJSONString(jsonMappedList);
 //    }
 
-    public static Map<String, String> buildAssignmentStyleClassMap(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks) {
+    public static Map<String, String> buildAssignmentStyleClassMap(List<? extends TimeBlockContract> timeBlocks, List<? extends LeaveBlockContract> leaveBlocks) {
     	Map<String, String> aMap = new HashMap<String, String>();
         List<String> assignmentKeys = new ArrayList<String>();
 
-        for (TimeBlock tb : timeBlocks) {
+        for (TimeBlockContract tb : timeBlocks) {
             if (!assignmentKeys.contains(tb.getAssignmentKey())) {
                 assignmentKeys.add(tb.getAssignmentKey());
             }
         }
-        for(LeaveBlock lb : leaveBlocks) {
+        for(LeaveBlockContract lb : leaveBlocks) {
         	if (!assignmentKeys.contains(lb.getAssignmentKey())) {
                 assignmentKeys.add(lb.getAssignmentKey());
             }
@@ -284,7 +284,7 @@ public class ActionFormUtils {
             return "";
         }
         List<Map<String, Object>> leaveBlockList = new LinkedList<Map<String, Object>>();
-        for (LeaveBlock leaveBlock : leaveBlocks) {
+        for (LeaveBlockContract leaveBlock : leaveBlocks) {
         	Map<String, Object> leaveBlockMap = new LinkedHashMap<String, Object>();
         	leaveBlockMap.put("title", leaveBlock.getAssignmentTitle());
         	leaveBlockMap.put("assignment", leaveBlock.getAssignmentKey());
@@ -298,7 +298,7 @@ public class ActionFormUtils {
         	leaveBlockMap.put("startDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("endDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
         	
-        	if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
+        	if(leaveBlock.getBeginDateTime() != null && leaveBlock.getEndDateTime() != null) {
 	            DateTime start = leaveBlock.getBeginDateTime();
 	        	DateTime end = leaveBlock.getEndDateTime();
 	        	leaveBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
@@ -314,7 +314,7 @@ public class ActionFormUtils {
     	return JSONValue.toJSONString(leaveBlockList);
     }
     
-    public static Map<String, String> getPayPeriodsMap(List<CalendarEntry> payPeriods, String viewPrincipal) {
+    public static Map<String, String> getPayPeriodsMap(List<CalendarEntryContract> payPeriods, String viewPrincipal) {
     	// use linked map to keep the order of the pay periods
     	Map<String, String> pMap = Collections.synchronizedMap(new LinkedHashMap<String, String>());
     	if (payPeriods == null || payPeriods.isEmpty()) {
@@ -324,7 +324,7 @@ public class ActionFormUtils {
     	Collections.sort(payPeriods);  // sort the pay period list by getBeginPeriodDate
     	Collections.reverse(payPeriods);  // newest on top
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        for (CalendarEntry pce : payPeriods) {
+        for (CalendarEntryContract pce : payPeriods) {
         	// Check if service date of user is after the Calendar entry
             DateTime asOfDate = pce.getEndPeriodFullDateTime().minusDays(1);
     		PrincipalHRAttributesContract principalHRAttributes = null;
@@ -391,10 +391,10 @@ public class ActionFormUtils {
 		return plannningMonths;
     }
     
-    public static List<CalendarEntry> getAllCalendarEntriesForYear(List<CalendarEntry> calendarEntries, String year) {
-    	List<CalendarEntry> allCalendarEntriesForYear = new ArrayList<CalendarEntry>();
+    public static List<CalendarEntryContract> getAllCalendarEntriesForYear(List<CalendarEntryContract> calendarEntries, String year) {
+    	List<CalendarEntryContract> allCalendarEntriesForYear = new ArrayList<CalendarEntryContract>();
     	
-	    for (CalendarEntry calendarEntry : calendarEntries) {
+	    for (CalendarEntryContract calendarEntry : calendarEntries) {
 	    	String calendarEntryYear = calendarEntry.getBeginPeriodFullDateTime().toString("yyyy");
 	    	if (StringUtils.equals(calendarEntryYear, year)) {
 	    		allCalendarEntriesForYear.add(calendarEntry);

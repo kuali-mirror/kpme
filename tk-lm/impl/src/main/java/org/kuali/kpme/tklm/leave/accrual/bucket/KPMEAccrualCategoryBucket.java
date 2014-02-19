@@ -31,7 +31,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -41,7 +42,8 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEAccrualCategoryBucketContract;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContract {
@@ -60,7 +62,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 		leaveBalances = new LinkedHashMap<String, List<LeaveBalance>>();
 		principalCalendar = currentPrincipalCalendar;
 		asOfDate = LocalDate.now();
-		List<AccrualCategory> accrualCategories = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(currentPrincipalCalendar.getLeavePlan(), asOfDate);
+		List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(currentPrincipalCalendar.getLeavePlan(), asOfDate);
 		for(AccrualCategory accrualCategory : accrualCategories) {
 			List<LeaveBalance> leaveBalances = new ArrayList<LeaveBalance>();
 			for(Class<LeaveBalance> leaveBalanceClazz : baseBalanceList) {
@@ -533,7 +535,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 	}
 
 
-	public LeaveBlock withdrawal(AccrualCategory accrualCategory,
+	public LeaveBlockBo withdrawal(AccrualCategoryBo accrualCategory,
 			BigDecimal amount) {
 		return null;
 	}

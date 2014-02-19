@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.leave.calendar.web;
 
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
-import org.kuali.kpme.tklm.api.leave.calendar.web.LeaveCalendarWeekContract;
+import org.kuali.kpme.tklm.api.leave.calendar.LeaveCalendarWeekContract;
 
 public class LeaveCalendarWeek extends CalendarWeek implements LeaveCalendarWeekContract {
 	

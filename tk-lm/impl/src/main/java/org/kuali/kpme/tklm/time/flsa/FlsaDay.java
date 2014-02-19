@@ -21,12 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -35,8 +29,9 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.flsa.FlsaDayContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 
@@ -278,8 +273,8 @@ public class FlsaDay implements FlsaDayContract {
 	 * TODO : Bucketing of partial FLSA days is still suspect, however real life examples of this are likely non-existent to rare.
 	 */
 	private boolean applyBlock(LeaveBlock block, List<LeaveBlock> applyList) {
-		DateTime beginDateTime = new DateTime(block.getLeaveDate(), this.timeZone);
-		DateTime endDateTime = new DateTime(block.getLeaveDate(), this.timeZone);
+		DateTime beginDateTime = new DateTime(block.getLeaveDateTime().toDate(), this.timeZone);
+		DateTime endDateTime = new DateTime(block.getLeaveDateTime().toDate(), this.timeZone);
 
 		if (beginDateTime.isAfter(flsaDateInterval.getEnd())) {
 			return false;

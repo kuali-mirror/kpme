@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.core.accrualcategory.web;
 
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
+import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -38,9 +38,9 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
     @Override
 	protected void setNewCollectionLineDefaultValues(String arg0,
 			PersistableBusinessObject arg1) {
-    	if(arg1 instanceof AccrualCategoryRule){
-    		AccrualCategoryRule leaveAccrualCategoryRule = (AccrualCategoryRule)arg1;
-    		AccrualCategory leaveAccrualCategory = (AccrualCategory) this.getBusinessObject();
+    	if(arg1 instanceof AccrualCategoryRuleBo){
+    		AccrualCategoryRuleBo leaveAccrualCategoryRule = (AccrualCategoryRuleBo)arg1;
+    		AccrualCategoryBo leaveAccrualCategory = (AccrualCategoryBo) this.getBusinessObject();
     		leaveAccrualCategoryRule.setActive(leaveAccrualCategory.isActive());
     	}
 		super.setNewCollectionLineDefaultValues(arg0, arg1);
@@ -48,8 +48,8 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj) {
-		AccrualCategory leaveAccrualCategory = (AccrualCategory)hrObj;
-		for (AccrualCategoryRule accCatRule : leaveAccrualCategory.getAccrualCategoryRules()) {
+		AccrualCategoryBo leaveAccrualCategory = (AccrualCategoryBo)hrObj;
+		for (AccrualCategoryRuleBo accCatRule : leaveAccrualCategory.getAccrualCategoryRules()) {
 			if(!isOldBusinessObjectInDocument()){ //prevents duplicate object on edit
 				accCatRule.setLmAccrualCategoryId(null);
 			}
@@ -62,14 +62,14 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(id);
+		return AccrualCategoryBo.from(HrServiceLocator.getAccrualCategoryService().getAccrualCategory(id));
 	}
 
     //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
     @Override
     public void prepareForSave() {
-        AccrualCategory accrualCategory = (AccrualCategory)this.getBusinessObject();
-        for (AccrualCategoryRule accrualCategoryRule : accrualCategory.getAccrualCategoryRules()) {
+        AccrualCategoryBo accrualCategory = (AccrualCategoryBo)this.getBusinessObject();
+        for (AccrualCategoryRuleBo accrualCategoryRule : accrualCategory.getAccrualCategoryRules()) {
             accrualCategoryRule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         }
         super.prepareForSave();

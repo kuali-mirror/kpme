@@ -17,7 +17,7 @@ package org.kuali.kpme.core.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.department.DepartmentContract;
@@ -169,7 +169,7 @@ public class ValidationUtils {
 		} else {
 			Map<String, String> fieldValues = new HashMap<String, String>();
 			fieldValues.put("accrualCategory", accrualCategory);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(AccrualCategory.class, fieldValues);
+			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(AccrualCategoryBo.class, fieldValues);
 			
 			valid = matches > 0;
 		}
@@ -196,7 +196,7 @@ public class ValidationUtils {
 		} else {
 			Map<String, String> fieldValues = new HashMap<String, String>();
 			fieldValues.put("accrualCategory", accrualCategory);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(AccrualCategory.class, fieldValues);
+			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(AccrualCategoryBo.class, fieldValues);
 			
 			valid = matches > 0;
 		}

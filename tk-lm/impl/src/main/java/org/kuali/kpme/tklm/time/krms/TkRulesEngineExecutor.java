@@ -15,10 +15,8 @@
  */
 package org.kuali.kpme.tklm.time.krms;
 
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.krms.KPMERulesEngineExecuter;
-import org.kuali.kpme.core.krms.KpmeKrmsFactBuilderService;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;

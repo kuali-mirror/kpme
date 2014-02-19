@@ -28,7 +28,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.adjustment.LeaveAdjustment;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
@@ -48,7 +48,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 		
 		// create leave block 
 		LeaveAdjustment la = (LeaveAdjustment) this.getBusinessObject();
-		LeaveBlock aLeaveBlock = new LeaveBlock();
+		LeaveBlockBo aLeaveBlock = new LeaveBlockBo();
 		aLeaveBlock.setPrincipalId(la.getPrincipalId());
 		aLeaveBlock.setLeaveDate(la.getEffectiveDate());
 		aLeaveBlock.setEarnCode(la.getEarnCode());
@@ -60,7 +60,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 		aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		
-		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, HrContext.getPrincipalId());		
+		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(LeaveBlockBo.to(aLeaveBlock), HrContext.getPrincipalId());
 	}
 	
 	@SuppressWarnings("rawtypes")

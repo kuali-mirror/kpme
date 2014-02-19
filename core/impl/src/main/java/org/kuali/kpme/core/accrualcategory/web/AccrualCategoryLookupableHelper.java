@@ -15,32 +15,43 @@
  */
 package org.kuali.kpme.core.accrualcategory.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
+import org.kuali.rice.krms.impl.repository.FunctionBo;
 
 @SuppressWarnings("deprecation")
 public class AccrualCategoryLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 878982834891191463L;
+    private static final ModelObjectUtils.Transformer<AccrualCategory, AccrualCategoryBo> toBo =
+            new ModelObjectUtils.Transformer<AccrualCategory, AccrualCategoryBo>() {
+                public AccrualCategoryBo transform(AccrualCategory input) {
+                    return AccrualCategoryBo.from(input);
+                };
+            };
 
 	@Override
 	@SuppressWarnings("rawtypes")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		AccrualCategory leaveAccrualCategory = (AccrualCategory) businessObject;
+		AccrualCategoryBo leaveAccrualCategory = (AccrualCategoryBo) businessObject;
 		String lmAccrualCategoryId = leaveAccrualCategory.getLmAccrualCategoryId();
 		
 		Properties params = new Properties();
@@ -73,8 +84,10 @@ public class AccrualCategoryLookupableHelper extends KPMELookupableHelper {
             accrualCategory = "";
         }
 
-        return HrServiceLocator.getAccrualCategoryService().getAccrualCategories(accrualCategory, descr, leavePlan, accrualEarnInterval, unitOfTime, 
+        List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getAccrualCategories(accrualCategory, descr, leavePlan, accrualEarnInterval, unitOfTime,
         		minPercentWorked, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
+
+        return ModelObjectUtils.transform(accrualCategories,toBo);
     }
 
 }

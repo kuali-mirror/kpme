@@ -24,7 +24,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.role.department.DepartmentPrincipalRoleMemberBoContract;
 import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
 import org.kuali.rice.core.api.membership.MemberType;

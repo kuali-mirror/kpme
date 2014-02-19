@@ -34,20 +34,20 @@ import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.web.CalendarDay;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -68,7 +68,6 @@ import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -78,7 +77,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 public class TimeApproveServiceImpl implements TimeApproveService {
 
 	@Override
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry, String docIdSearchTerm) {
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntryContract payCalendarEntry, String docIdSearchTerm) {
 		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
 		DateTime payEndDate = payCalendarEntry.getEndPeriodFullDateTime();
 		
@@ -137,8 +136,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 for(Assignment a : td.getAssignments()) {
                 	assignKeys.add(a.getAssignmentKey());
                 }
-                leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId,
-                		payBeginDate.toLocalDate(), payEndDate.toLocalDate(), assignKeys);
+                leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId,
+                        payBeginDate.toLocalDate(), payEndDate.toLocalDate(), assignKeys));
                 notes = getNotesForDocument(documentId);
                 Map<String, List<LocalDate>> earnCodeMap = new HashMap<String, List<LocalDate>>();
                 for(TimeBlock tb : td.getTimeBlocks()) {
@@ -300,20 +299,18 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return isSynchronousUser;
     }
 
-	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntry calendarEntry) {
+	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntryContract calendarEntry) {
 		Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
 		allMessages.put("warningMessages", new HashSet<String>());
 
-		Map<String, Set<LeaveBlock>> eligibilities;
-	
-		eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
+        Map<String, Set<LeaveBlockContract>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
 	
 		if (eligibilities != null) {
-			for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
-				for(LeaveBlock lb : entry.getValue()) {
+			for (Entry<String,Set<LeaveBlockContract>> entry : eligibilities.entrySet()) {
+				for(LeaveBlockContract lb : entry.getValue()) {
 					AccrualCategoryRuleContract rule = lb.getAccrualCategoryRule();
 					if (rule != null) {
-						AccrualCategory accrualCategory = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+						AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
 						if (rule.getActionAtMaxBalance().equals(HrConstants.ACTION_AT_MAX_BALANCE.TRANSFER)) {
 							//Todo: add link to balance transfer
 							allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
@@ -375,7 +372,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public Map<String, BigDecimal> getHoursToPayDayMap(String principalId,
 			DateTime payEndDate, List<String> payCalendarLabels,
 			List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea,
-			CalendarEntry payCalendarEntry, Calendar payCalendar,
+			CalendarEntryContract payCalendarEntry, Calendar payCalendar,
 			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
 		Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
 		List<BigDecimal> dayTotals = new ArrayList<BigDecimal>();
@@ -432,7 +429,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 	
     private TkTimeBlockAggregate buildAndMergeAggregates(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks,
-                                                         CalendarEntry calendarEntries, Calendar calendar, List<Interval> dayIntervals) {
+                                                         CalendarEntryContract calendarEntries, Calendar calendar, List<Interval> dayIntervals) {
         TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntries, calendar, true, dayIntervals);
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntries);
         return TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
@@ -444,8 +441,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public Map<String, BigDecimal> getHoursToFlsaWeekMap(String principalId, 
 			DateTime payEndDate, List<String> payCalendarLabels, 
-			List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea, 
-			CalendarEntry payCalendarEntry, Calendar payCalendar,
+			List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks,
+            Long workArea, CalendarEntryContract payCalendarEntry, Calendar payCalendar,
 			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
 		
 		Map<String, BigDecimal> hoursToFlsaWeekMap = new LinkedHashMap<String, BigDecimal>();

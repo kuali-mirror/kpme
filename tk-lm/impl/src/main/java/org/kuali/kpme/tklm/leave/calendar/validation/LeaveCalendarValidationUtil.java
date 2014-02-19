@@ -39,21 +39,23 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.accrual.RateRangeAggregateContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.common.CalendarValidationUtil;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarForm;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWSForm;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
@@ -70,7 +72,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 	public static List<String> validateLeaveEntry(LeaveCalendarForm lcf) {
 
     	List<String> errorMsgList = new ArrayList<String>();
-    	CalendarEntry leaveCalendarEntry = lcf.getCalendarEntry();
+        CalendarEntryContract leaveCalendarEntry = lcf.getCalendarEntry();
     	
     	if(leaveCalendarEntry != null) {
 	    	// validates the selected earn code exists on every day within the date range
@@ -98,7 +100,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
     	if (StringUtils.isNotBlank(lcf.getSelectedEarnCode()) &&  lcf.getCalendarEntry() != null) {
     		//earn code is validate through the span of the leave entry, could the earn code's record method change between then and the leave period end date?
     		//Why not use endDateS to retrieve the earn code?
-    		CalendarEntry calendarEntry = lcf.getCalendarEntry();
+            CalendarEntryContract calendarEntry = lcf.getCalendarEntry();
     		EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
     		if(earnCode != null) {
     			if(earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
@@ -119,7 +121,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
     	return errors;
     }
 	
-    public static List<String> validateTimeParametersForLeaveEntry(EarnCode selectedEarnCode, CalendarEntry leaveCalEntry, String startDateS, String endDateS, String startTimeS, String endTimeS, String selectedAssignment, String leaveBlockId, String spanningWeeks) {
+    public static List<String> validateTimeParametersForLeaveEntry(EarnCode selectedEarnCode, CalendarEntryContract leaveCalEntry, String startDateS, String endDateS, String startTimeS, String endTimeS, String selectedAssignment, String leaveBlockId, String spanningWeeks) {
     	/**
     	 * Cannot pull this method up to super until validateOverlap is refactored.
     	 */
@@ -238,7 +240,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 	    						if(oldLeaveAmount!=null) {
 	    							
 	    							if(!earnCodeChanged || 
-	    									updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+	    									StringUtils.equals(updatedLeaveBlock.getAccrualCategory(), accrualCategory.getAccrualCategory())) {
    			    						pendingLeaveBalance = pendingLeaveBalance.subtract(oldLeaveAmount.abs());
 	    							}
 	    						}
@@ -349,8 +351,8 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
         Set<String> warningMessages = new HashSet<String>();
 
         if (CollectionUtils.isNotEmpty(leaveBlocks)) {
-            for(LeaveBlock lb : leaveBlocks) {
-            	if(lb.getLeaveDate().compareTo(beginDate) >= 0 && lb.getLeaveDate().compareTo(endDate) < 0) {
+            for(LeaveBlockContract lb : leaveBlocks) {
+            	if(lb.getLeaveDateTime().toDate().compareTo(beginDate) >= 0 && lb.getLeaveDateTime().toDate().compareTo(endDate) < 0) {
 	                EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
 	                if(ec != null) {
 	                	// KPME-2529
@@ -417,8 +419,8 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
                 DateTime nextIntervalDate;
                 if (accrualEarnInterval != null
                         && AccrualEarnInterval.PAY_CAL.equals(accrualEarnInterval)) {
-                    RateRangeAggregate rrAggregate = LmServiceLocator.getAccrualService().buildRateRangeAggregate(HrContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
-                    PrincipalHRAttributes phra = rrAggregate.getRateOnDate(endDate.toDateTimeAtStartOfDay()).getPrincipalHRAttributes();
+                    RateRangeAggregateContract rrAggregate = LmServiceLocator.getAccrualService().buildRateRangeAggregate(HrContext.getTargetPrincipalId(), startDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
+                    PrincipalHRAttributesContract phra = rrAggregate.getRateOnDate(endDate.toDateTimeAtStartOfDay()).getPrincipalHRAttributes();
                     nextIntervalDate = LmServiceLocator.getAccrualService().getNextIntervalDate(endDate.toDateTimeAtStartOfDay(), accrualEarnInterval.getCode(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
                 } else {
     			    nextIntervalDate = LmServiceLocator.getAccrualService().getNextAccrualIntervalDate(accrualCategory.getAccrualEarnInterval(), endDate.toDateTimeAtStartOfDay());
@@ -559,23 +561,23 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
         return errors;
     }
     
-    public static List<String> validateOverlap(Long startTime, Long endTime, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, CalendarEntry calendarEntry, String lmLeaveBlockId, boolean isRegularEarnCode, String earnCodeType) {
+    public static List<String> validateOverlap(Long startTime, Long endTime, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, CalendarEntryContract calendarEntry, String lmLeaveBlockId, boolean isRegularEarnCode, String earnCodeType) {
         List<String> errors = new ArrayList<String>();
         Interval addedTimeblockInterval = new Interval(startTime, endTime);
         List<Interval> dayInt = new ArrayList<Interval>();
         String viewPrincipal = HrContext.getTargetPrincipalId();
         
         dayInt.add(addedTimeblockInterval);
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+        List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
 		List<String> assignmentKeys = new ArrayList<String>();
-        for(Assignment assign : assignments) {
+        for(AssignmentContract assign : assignments) {
         	assignmentKeys.add(assign.getAssignmentKey());
         }
         
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
         for (LeaveBlock leaveBlock : leaveBlocks) {
-        	 if (errors.size() == 0 && StringUtils.equals(earnCodeType, HrConstants.EARN_CODE_TIME) && leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp()!= null) {
-                Interval leaveBlockInterval = new Interval(leaveBlock.getBeginTimestamp().getTime(), leaveBlock.getEndTimestamp().getTime());
+        	 if (errors.size() == 0 && StringUtils.equals(earnCodeType, HrConstants.EARN_CODE_TIME) && leaveBlock.getBeginDateTime() != null && leaveBlock.getEndDateTime()!= null) {
+                Interval leaveBlockInterval = new Interval(leaveBlock.getBeginDateTime(), leaveBlock.getEndDateTime());
                 for (Interval intv : dayInt) {
                     if (isRegularEarnCode && leaveBlockInterval.overlaps(intv) && (lmLeaveBlockId == null || lmLeaveBlockId.compareTo(leaveBlock.getLmLeaveBlockId()) != 0)) {
                         errors.add("The leave block you are trying to add overlaps with an existing time block.");

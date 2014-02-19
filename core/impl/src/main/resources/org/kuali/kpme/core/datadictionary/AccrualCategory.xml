@@ -23,7 +23,7 @@
 	<bean id="AccrualCategory" parent="AccrualCategory-parentBean" />
 
 	<bean id="AccrualCategory-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.accrualcategory.AccrualCategory" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="AccrualCategory" />
 		<property name="inquiryDefinition">
@@ -283,7 +283,7 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="accrualCategoryRules"
-								p:businessObjectClass="org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule">
+								p:businessObjectClass="org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="serviceUnitOfTime"/>

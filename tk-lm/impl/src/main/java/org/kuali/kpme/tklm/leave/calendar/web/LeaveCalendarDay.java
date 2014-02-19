@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.calendar.web.CalendarDay;
-import org.kuali.kpme.tklm.api.leave.calendar.web.LeaveCalendarDayContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.calendar.LeaveCalendarDayContract;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
 
 public class LeaveCalendarDay extends CalendarDay implements LeaveCalendarDayContract {

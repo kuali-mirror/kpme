@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.api.KPMEConstants;
 
 public class PMConstants {
 	

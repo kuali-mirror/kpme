@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.time.rules.lunch.sys;
 
 import org.kuali.kpme.tklm.api.time.rules.lunch.sys.SystemLunchRuleContract;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 
 import com.google.common.collect.ImmutableMap;

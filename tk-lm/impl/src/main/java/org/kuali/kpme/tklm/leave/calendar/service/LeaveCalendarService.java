@@ -16,15 +16,16 @@
 package org.kuali.kpme.tklm.leave.calendar.service;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface LeaveCalendarService {
-    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntry calEntry) throws WorkflowException;
+    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntryContract calEntry) throws WorkflowException;
     public LeaveCalendarDocument getLeaveCalendarDocument(String documentId);
-    public LeaveCalendarDocument getLeaveCalendarDocument(String principalId, CalendarEntry calendarEntry);
+    public LeaveCalendarDocument getLeaveCalendarDocument(String principalId, CalendarEntryContract calendarEntry);
 
 
     boolean isReadyToApprove(CalendarDocument calendarDocument);
@@ -47,7 +48,7 @@ public interface LeaveCalendarService {
      * @param calEntry
      * @return boolean  
      */
-    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntry calEntry);
+    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntryContract calEntry);
 
     /**
      * Determine if Leave Calendar is planning or reporting calendar

@@ -16,8 +16,9 @@
 package org.kuali.kpme.tklm.leave.workflow;
 
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.workflow.LeaveRequestDocumentContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
@@ -74,7 +75,7 @@ public class LeaveRequestDocument extends TransactionalDocumentBase implements L
 
     @Override
     public List<? extends AssignmentContract> getAssignments() {
-        LeaveBlock lb = getLeaveBlock();
+        LeaveBlockBo lb = LeaveBlockBo.from(getLeaveBlock());
         return lb != null ? lb.getAssignments() : Collections.<AssignmentContract>emptyList();
     }
 }

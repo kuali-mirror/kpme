@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.time.timeblock.service;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.core.web.format.Formatter;
 
 public class TimeBlockActionHistoryFormatter extends Formatter {

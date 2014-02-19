@@ -31,8 +31,9 @@ import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.service.LeaveBlockService;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 @IntegrationTest
@@ -123,12 +124,12 @@ public class LeaveBlockServiceImplTest extends TKLMIntegrationTestCase {
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
 		Assert.assertTrue("There should be 2 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 2);
 		
-		LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock("1001");
+		LeaveBlock.Builder lb = LeaveBlock.Builder.create(LmServiceLocator.getLeaveBlockService().getLeaveBlock("1001"));
 		lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
-		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(lb, TEST_USER);
+		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(lb.build(), TEST_USER);
 		leaveBlocks = leaveBlockService.getLeaveBlocksForTimeCalendar(TEST_USER, LocalDate.fromDateFields(beginDate), LocalDate.fromDateFields(endDate), assignmentKeys);
 		Assert.assertTrue("There should be 3 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 3);
-		Assert.assertTrue("Approved leave block should be in the list", leaveBlocks.contains(lb));
+		Assert.assertTrue("Approved leave block should be in the list", leaveBlocks.contains(lb.build()));
 	}
 	
 	@Test

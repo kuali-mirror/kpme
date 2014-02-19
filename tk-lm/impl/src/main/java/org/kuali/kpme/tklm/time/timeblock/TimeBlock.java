@@ -40,7 +40,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -633,7 +633,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     }
 
     public int compareTo(CalendarBlockBase tb) {
-        return this.getBeginTimestamp().compareTo(tb.getBeginTimestamp());
+        return this.getBeginDateTime().compareTo(tb.getBeginDateTime());
     }
 
     public Boolean getEditable() {

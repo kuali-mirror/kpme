@@ -16,7 +16,8 @@
 package org.kuali.kpme.tklm.leave.workflow.postprocessor;
 
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -36,25 +37,26 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 		if (document != null) {
 			pdr = super.doRouteStatusChange(statusChangeEvent);
             LeaveBlock lb = document.getLeaveBlock();
+            LeaveBlock.Builder builder = LeaveBlock.Builder.create(lb);
 	        if(lb != null) {
 	            if (!document.getDocumentNumber().equals(lb.getLeaveRequestDocumentId())) {
-	                lb.setLeaveRequestDocumentId(document.getDocumentNumber());
+                    builder.setLeaveRequestDocumentId(document.getDocumentNumber());
 	            }
 				// Only update the status if it's different.
 				if (!statusChangeEvent.getOldRouteStatus().equals(statusChangeEvent.getNewRouteStatus())) {
 	
 	                DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
 	                if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
+                        builder.setRequestStatus(HrConstants.REQUEST_STATUS.REQUESTED);
 	                } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.DISAPPROVED);	                                      
+                        builder.setRequestStatus(HrConstants.REQUEST_STATUS.DISAPPROVED);
 	                } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
+                        builder.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 	                } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(HrConstants.REQUEST_STATUS.DEFERRED);
-	                    lb.setLeaveRequestDocumentId("");
+                        builder.setRequestStatus(HrConstants.REQUEST_STATUS.DEFERRED);
+                        builder.setLeaveRequestDocumentId("");
 	                }
-	                LmServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
+	                LmServiceLocator.getLeaveBlockService().updateLeaveBlock(builder.build(), document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
 	                if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
 		                // delete leave block from leave block table when leave request gets disapproved 
 	                    // leave request page gets disapproved leave block list from leave block history table

@@ -17,11 +17,11 @@ package org.kuali.kpme.tklm.leave.donation;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.tklm.api.leave.donation.LeaveDonationContract;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 
 import com.google.common.collect.ImmutableList;
@@ -57,7 +57,7 @@ public class LeaveDonation extends HrBusinessObject implements LeaveDonationCont
 	private String recipientsPrincipalID;
 	private String description;
 	
-	private transient AccrualCategory accrualCategoryObj;
+	private transient AccrualCategoryBo accrualCategoryObj;
 	private transient Person personObj;
 	private transient EarnCode earnCodeObj;
 	
@@ -172,11 +172,11 @@ public class LeaveDonation extends HrBusinessObject implements LeaveDonationCont
 		this.personObj = personObj;
 	}
 
-	public AccrualCategory getAccrualCategoryObj() {
+	public AccrualCategoryBo getAccrualCategoryObj() {
 		return accrualCategoryObj;
 	}
 
-	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
+	public void setAccrualCategoryObj(AccrualCategoryBo accrualCategoryObj) {
 		this.accrualCategoryObj = accrualCategoryObj;
 	}
 

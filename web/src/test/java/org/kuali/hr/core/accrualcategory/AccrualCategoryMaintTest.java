@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -49,7 +49,7 @@ public class AccrualCategoryMaintTest extends KPMEWebTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		AccrualCategory accrualCategory = new AccrualCategory();
+		AccrualCategoryBo accrualCategory = new AccrualCategoryBo();
 		accrualCategory.setAccrualCategory(TEST_CODE);
 		accrualCategory.setActive(true);
 		accrualCategory.setDescr(TEST_CODE);
@@ -66,9 +66,9 @@ public class AccrualCategoryMaintTest extends KPMEWebTestCase {
 
 	@Override
 	public void tearDown() throws Exception {
-		AccrualCategory accrualCategory = KRADServiceLocator
+		AccrualCategoryBo accrualCategory = KRADServiceLocator
 				.getBusinessObjectService().findBySinglePrimaryKey(
-						AccrualCategory.class, accrualCategoryId);
+						AccrualCategoryBo.class, accrualCategoryId);
 		KRADServiceLocator.getBusinessObjectService().delete(accrualCategory);
 		super.tearDown();
 	}

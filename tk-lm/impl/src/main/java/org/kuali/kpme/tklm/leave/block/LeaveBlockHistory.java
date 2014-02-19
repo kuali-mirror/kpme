@@ -21,13 +21,12 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockHistoryContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
-public class LeaveBlockHistory extends LeaveBlock implements LeaveBlockHistoryContract {
+public class LeaveBlockHistory extends LeaveBlockBo implements LeaveBlockHistoryContract {
 
 	private static final long serialVersionUID = 1L;
 	private String lmLeaveBlockHistoryId;
@@ -38,11 +37,11 @@ public class LeaveBlockHistory extends LeaveBlock implements LeaveBlockHistoryCo
 	public LeaveBlockHistory() {
 	}
 
-	public LeaveBlockHistory(LeaveBlock lb) {
+	public LeaveBlockHistory(LeaveBlockBo lb) {
 		this.setLmLeaveBlockId(lb.getLmLeaveBlockId());
 		this.setDocumentId(lb.getDocumentId());
 		this.setAccrualCategory(lb.getAccrualCategory());
-		this.setAccrualGenerated(lb.getAccrualGenerated());
+		this.setAccrualGenerated(lb.isAccrualGenerated());
 //		this.setApplyToYtdUsed(lb.getApplyToYtdUsed());
 		this.setDescription(lb.getDescription());
 		this.setLeaveAmount(lb.getLeaveAmount());

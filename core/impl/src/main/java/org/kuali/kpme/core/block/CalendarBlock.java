@@ -58,7 +58,6 @@ public class CalendarBlock extends CalendarBlockBase {
 		return workArea;
 	}
 
-	@Override
 	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
 	}
@@ -68,7 +67,6 @@ public class CalendarBlock extends CalendarBlockBase {
 		return jobNumber;
 	}
 
-	@Override
 	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
 	}
@@ -78,7 +76,6 @@ public class CalendarBlock extends CalendarBlockBase {
 		return task;
 	}
 
-	@Override
 	public void setTask(Long task) {
 		this.task = task;
 	}
@@ -88,7 +85,6 @@ public class CalendarBlock extends CalendarBlockBase {
 		return earnCode;
 	}
 
-	@Override
 	public void setEarnCode(String earnCode) {
 		this.earnCode = earnCode;
 	}
@@ -98,7 +94,6 @@ public class CalendarBlock extends CalendarBlockBase {
 		return documentId;
 	}
 
-	@Override
 	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
@@ -108,37 +103,40 @@ public class CalendarBlock extends CalendarBlockBase {
 		return principalId;
 	}
 
-	@Override
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
 	}
 
-	@Override
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 
-	@Override
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
 	}
 
-	@Override
 	public Timestamp getBeginTimestamp() {
 		return beginTimestamp;
 	}
 
-	@Override
+    @Override
+    public DateTime getBeginDateTime() {
+        return beginTimestamp == null ? null : new DateTime(beginTimestamp.getTime());
+    }
+
 	public void setBeginTimestamp(Timestamp beginTimestamp) {
 		this.beginTimestamp = beginTimestamp;
 	}
 
-	@Override
 	public Timestamp getEndTimestamp() {
 		return endTimestamp;
 	}
 
-	@Override
+    @Override
+    public DateTime getEndDateTime() {
+        return endTimestamp == null ? null : new DateTime(endTimestamp.getTime());
+    }
+
 	public void setEndTimestamp(Timestamp endTimestamp) {
 		this.endTimestamp = endTimestamp;
 	}
@@ -152,7 +150,6 @@ public class CalendarBlock extends CalendarBlockBase {
 		return amount;
 	}
 
-	@Override
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
@@ -162,7 +159,6 @@ public class CalendarBlock extends CalendarBlockBase {
 		return hours;
 	}
 
-	@Override
 	public void setHours(BigDecimal hours) {
 		this.hours = hours;
 	}
@@ -172,18 +168,16 @@ public class CalendarBlock extends CalendarBlockBase {
 		return overtimePref;
 	}
 
-	@Override
 	public void setOvertimePref(String overtimePref) {
 		this.overtimePref = overtimePref;
 	}
 
-	@Override
 	public void setLunchDeleted(boolean lunchDeleted) {
 		this.lunchDeleted = lunchDeleted;
 	}
 
 	@Override
-	public boolean getLunchDeleted() {
+	public boolean isLunchDeleted() {
 		return lunchDeleted;
 	}
 

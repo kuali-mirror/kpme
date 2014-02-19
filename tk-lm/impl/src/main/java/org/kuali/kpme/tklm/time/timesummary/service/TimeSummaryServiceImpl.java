@@ -39,9 +39,9 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
@@ -52,8 +52,9 @@ import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.workarea.WorkArea;
-import org.kuali.kpme.tklm.common.TkConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -96,8 +97,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
             tAssignmentKeys.add(assign.getAssignmentKey());
             regularEarnCodes.add(assign.getJob().getPayTypeObj().getRegEarnCode());
         }
-        List<LeaveBlock> leaveBlocks =  LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
-                timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), tAssignmentKeys);
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
+                timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), tAssignmentKeys));
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, timesheetDocument.getCalendarEntry());
         tkTimeBlockAggregate = TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 
@@ -182,13 +184,13 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	}
 	
     private List<LeaveSummaryRow> getMaxedLeaveRows(
-			CalendarEntry calendarEntry, String principalId) throws Exception {
+			CalendarEntryContract calendarEntry, String principalId) throws Exception {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
     	
     	if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
     		
-        	Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
-        	Set<LeaveBlock> onDemandTransfers = eligibilities.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+        	Map<String,Set<LeaveBlockContract>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
+        	Set<? extends LeaveBlockContract> onDemandTransfers = eligibilities.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
 
         	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
         	
@@ -196,7 +198,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         	//change, no warning given to the employee of balance limits being exceeded except on or after that day.
 
         	if(!onDemandTransfers.isEmpty()) {
-            	for(LeaveBlock lb : onDemandTransfers) {
+            	for(LeaveBlockContract lb : onDemandTransfers) {
             		LocalDate leaveDate = lb.getLeaveLocalDate();
                 	LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, leaveDate.plusDays(1));
                 	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
@@ -470,7 +472,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * for FLSA week boundaries in the pay period.
      */
     @Override
-    public List<String> getHeaderForSummary(CalendarEntry cal, List<Boolean> dayArrangements) {
+    public List<String> getHeaderForSummary(CalendarEntryContract cal, List<Boolean> dayArrangements) {
  		List<String> header = new ArrayList<String>();
         if (cal == null) {
             return Collections.emptyList();
@@ -522,7 +524,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         return header;
     }
 
-    public Map<Integer, String> getHeaderForSummary(CalendarEntry cal, TimeSummary timeSummary) {
+    public Map<Integer, String> getHeaderForSummary(CalendarEntryContract cal, TimeSummary timeSummary) {
         Map<Integer, String> header = new LinkedHashMap<Integer,String>();
         Map<String, String> weekDates = new LinkedHashMap<String,String>();
         
@@ -631,7 +633,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @param calEntry Calendar entry we are using for lookup.
      * @return The PayCalendar that owns the provided entry.
      */
-    private Calendar getPayCalendarForEntry(CalendarEntry calEntry) {
+    private Calendar getPayCalendarForEntry(CalendarEntryContract calEntry) {
         Calendar cal = null;
 
         if (calEntry != null) {

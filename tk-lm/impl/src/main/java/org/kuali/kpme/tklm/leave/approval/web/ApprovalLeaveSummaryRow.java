@@ -18,18 +18,18 @@ package org.kuali.kpme.tklm.leave.approval.web;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.api.leave.approval.web.ApprovalLeaveSummaryRowContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -43,7 +43,7 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryRow>, Serializable, ApprovalLeaveSummaryRowContract {
+public class ApprovalLeaveSummaryRow implements Serializable, ApprovalLeaveSummaryRowContract {
 
 	private static final long serialVersionUID = -1573234630744940098L;
 	private String name;
@@ -61,8 +61,8 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	private List<LeaveBlock> leaveBlockList = new ArrayList<LeaveBlock>();
 	private Map<Integer, String> weeklyDistribution = new LinkedHashMap<Integer, String>();
 	private Map<String, String> weekDates = new LinkedHashMap<String, String>();
-	private Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = new LinkedHashMap<Date, Map<String, BigDecimal>>();
-	private Map<String, Set<Date>> weekDateList = new LinkedHashMap<String, Set<Date>>();
+	private Map<LocalDateTime, Map<String, BigDecimal>> earnCodeLeaveHours = new LinkedHashMap<LocalDateTime, Map<String, BigDecimal>>();
+	private Map<String, Set<LocalDateTime>> weekDateList = new LinkedHashMap<String, Set<LocalDateTime>>();
 	private Boolean exemptEmployee;
 	private String color;
 	private Map<String,List<Map<String, Object>>> detailMap = new LinkedHashMap<String, List<Map<String,Object>>>();
@@ -107,7 +107,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
     }
 	
 	 
-	public int compareTo(ApprovalLeaveSummaryRow row) {
+	public int compareTo(ApprovalLeaveSummaryRowContract row) {
         return name.compareToIgnoreCase(row.getName());
     }
 
@@ -194,11 +194,11 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 		this.approvalStatus = approvalStatus;
 	}
 
-	public Map<Date, Map<String, BigDecimal>> getEarnCodeLeaveHours() {
+	public Map<LocalDateTime, Map<String, BigDecimal>> getEarnCodeLeaveHours() {
 		return earnCodeLeaveHours;
 	}
 
-	public void setEarnCodeLeaveHours(Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours) {
+	public void setEarnCodeLeaveHours(Map<LocalDateTime, Map<String, BigDecimal>> earnCodeLeaveHours) {
 		this.earnCodeLeaveHours = earnCodeLeaveHours;
 	}
 
@@ -273,12 +273,12 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
     }
 
 
-	public Map<String, Set<Date>> getWeekDateList() {
+	public Map<String, Set<LocalDateTime>> getWeekDateList() {
 		return weekDateList;
 	}
 
 
-	public void setWeekDateList(Map<String, Set<Date>> weekDateList) {
+	public void setWeekDateList(Map<String, Set<LocalDateTime>> weekDateList) {
 		this.weekDateList = weekDateList;
 	}
 

@@ -15,25 +15,24 @@
  */
 package org.kuali.kpme.tklm.leave.payout;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.payout.LeavePayoutContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import com.google.common.collect.ImmutableMap;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeavePayout extends HrBusinessObject implements Assignable, LeavePayoutContract {
 
@@ -48,7 +47,7 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
 	private BigDecimal payoutAmount = new BigDecimal("0.0");
     private BigDecimal forfeitedAmount = new BigDecimal("0.0");
 	private transient Person principal;
-	private transient AccrualCategory fromAccrualCategoryObj;
+	private transient AccrualCategoryBo fromAccrualCategoryObj;
 	private transient EarnCode earnCodeObj;
 	private transient PrincipalHRAttributes principalHRAttrObj;
     private String leaveCalendarDocumentId;
@@ -134,13 +133,13 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
     public void setForfeitedAmount(BigDecimal amount) {
         this.forfeitedAmount = amount;
     }
-	public AccrualCategory getFromAccrualCategoryObj() {
+	public AccrualCategoryBo getFromAccrualCategoryObj() {
         if (fromAccrualCategoryObj == null) {
-            fromAccrualCategoryObj =  (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate());
+            fromAccrualCategoryObj =  AccrualCategoryBo.from(HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveLocalDate()));
         }
         return fromAccrualCategoryObj;
 	}
-	public void setFromAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
+	public void setFromAccrualCategoryObj(AccrualCategoryBo accrualCategoryObj) {
 		this.fromAccrualCategoryObj = accrualCategoryObj;
 	}
 	public static long getSerialversionuid() {

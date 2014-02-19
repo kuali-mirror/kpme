@@ -28,7 +28,7 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 @IntegrationTest
 public class EmployeeOverrideInquirableTest extends TKLMIntegrationTestCase {
 
-	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.accrualcategory.AccrualCategory&methodToCall=start&effectiveDate=03%2F04%2F2012&accrualCategory=testAC&lmAccrualCategoryId=";
+	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.accrualcategory.AccrualCategoryBo&methodToCall=start&effectiveDate=03%2F04%2F2012&accrualCategory=testAC&lmAccrualCategoryId=";
 	@Test
 	public void testGetInquiryUrl() throws Exception {
 		EmployeeOverride eo = new EmployeeOverride();

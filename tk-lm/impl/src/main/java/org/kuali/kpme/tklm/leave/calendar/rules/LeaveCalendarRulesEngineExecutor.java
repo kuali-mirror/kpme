@@ -15,12 +15,12 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.rules;
 
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.krms.KPMERulesEngineExecuter;
 import org.kuali.kpme.core.krms.KpmeKrmsFactBuilderService;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.krms.TklmKrmsConstants;
+import org.kuali.kpme.tklm.api.common.krms.TklmKrmsConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kew.engine.RouteContext;

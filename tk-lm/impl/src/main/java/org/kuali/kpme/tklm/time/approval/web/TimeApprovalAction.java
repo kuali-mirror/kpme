@@ -40,6 +40,7 @@ import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
@@ -70,8 +71,8 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
         String documentId = timeApprovalActionForm.getDocumentId();
         
         setSearchFields(timeApprovalActionForm);
-        
-        CalendarEntry calendarEntry = null;
+
+        CalendarEntryContract calendarEntry = null;
         if (StringUtils.isNotBlank(documentId)) {
         	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 

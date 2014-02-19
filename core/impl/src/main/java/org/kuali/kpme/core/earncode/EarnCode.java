@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
@@ -59,7 +59,7 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 
 	private boolean history;
 
-	private AccrualCategory accrualCategoryObj;
+	private AccrualCategoryBo accrualCategoryObj;
 	private EarnCode rollupToEarnCodeObj;
 	private LeavePlan leavePlanObj;
 	
@@ -262,7 +262,7 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 		this.accrualCategory = accrualCategory;
 	}
 
-	public AccrualCategory getAccrualCategoryObj() {
+	public AccrualCategoryBo getAccrualCategoryObj() {
 		if(accrualCategoryObj == null && !this.getAccrualCategory().isEmpty()) {
 			this.assingAccrualCategoryObj();
 		}
@@ -271,13 +271,13 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 	public void assingAccrualCategoryObj() {
 		Map<String,Object> parameters = new HashMap<String,Object>();
 		parameters.put("accrualCategory", getAccrualCategory());
-		Collection<AccrualCategory> c = KRADServiceLocator.getBusinessObjectService().findMatching(AccrualCategory.class, parameters);
+		Collection<AccrualCategoryBo> c = KRADServiceLocator.getBusinessObjectService().findMatching(AccrualCategoryBo.class, parameters);
 		if(!c.isEmpty()) {
-			this.setAccrualCategoryObj((AccrualCategory)c.toArray()[0]);
+			this.setAccrualCategoryObj((AccrualCategoryBo)c.toArray()[0]);
 		}
 	}
 
-	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
+	public void setAccrualCategoryObj(AccrualCategoryBo accrualCategoryObj) {
 		this.accrualCategoryObj = accrualCategoryObj;
 	}
 

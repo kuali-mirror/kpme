@@ -15,11 +15,11 @@
  */
 package org.kuali.kpme.tklm.time.timesheet.rules;
 
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.krms.KPMERulesEngineExecuter;
 import org.kuali.kpme.core.krms.KpmeKrmsFactBuilderService;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.common.krms.TklmKrmsConstants;
+import org.kuali.kpme.tklm.api.common.krms.TklmKrmsConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.engine.RouteContext;

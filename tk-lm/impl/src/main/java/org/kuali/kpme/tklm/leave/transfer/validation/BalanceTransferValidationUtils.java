@@ -19,8 +19,9 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -43,7 +44,7 @@ public class BalanceTransferValidationUtils {
 		LocalDate effectiveDate = balanceTransfer.getEffectiveLocalDate();
 		String fromAccrualCategory = balanceTransfer.getFromAccrualCategory();
 		String toAccrualCategory = balanceTransfer.getToAccrualCategory();
-		AccrualCategory fromCat = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+		AccrualCategory fromCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
 		
 		if(!ValidationUtils.validateAccrualCategory(fromAccrualCategory, effectiveDate)) {
 			GlobalVariables.getMessageMap().putError("balanceTransfer.fromAccrualCategory", "balanceTransfer.accrualcategory.exists");
@@ -65,12 +66,12 @@ public class BalanceTransferValidationUtils {
 			isValid &= false;
 		}
 		
-		AccrualCategory toCat = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
+		AccrualCategory toCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 		PrincipalHRAttributes pha = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 		
 		if(ObjectUtils.isNotNull(pha)) {
 			if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-				AccrualCategoryRule acr = (AccrualCategoryRule) HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
+				AccrualCategoryRule acr = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
 						effectiveDate, pha.getServiceLocalDate());
 				if(ObjectUtils.isNotNull(acr)) {
 					if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
@@ -229,12 +230,12 @@ public class BalanceTransferValidationUtils {
 			return false;
 		}
 		
-		AccrualCategory fromAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveLocalDate());
+		AccrualCategory fromAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveLocalDate());
 		if(fromAC == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.acDoesNotExist", bt.getFromAccrualCategory());
 			return false;
 		}
-		AccrualCategory toAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getToAccrualCategory(), bt.getEffectiveLocalDate());
+		AccrualCategory toAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getToAccrualCategory(), bt.getEffectiveLocalDate());
 		if(toAC == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.transferSSTO.acDoesNotExist", bt.getToAccrualCategory());
 			return false;

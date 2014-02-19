@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
@@ -122,7 +123,7 @@ public class LeaveSummaryServiceImplTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testGetHeaderForSummary() throws Exception {
 		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("56");
-		List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
+		List<LocalDateTime> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		Assert.assertTrue("The number of leave summary dates should be 17, not " + leaveSummaryDates.size(), leaveSummaryDates.size()== 17);
 		

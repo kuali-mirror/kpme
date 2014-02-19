@@ -18,7 +18,7 @@ package org.kuali.kpme.core.accrualcategory.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 
 public interface AccrualCategoryDao {
 
@@ -28,22 +28,21 @@ public interface AccrualCategoryDao {
 	 * @param asOfDate
 	 * @return
 	 */
-    public AccrualCategory getAccrualCategory(String accrualCategory, LocalDate asOfDate);
-    public void saveOrUpdate(AccrualCategory accrualCategory);
+    public AccrualCategoryBo getAccrualCategory(String accrualCategory, LocalDate asOfDate);
     /**
      * Fetch accrual category by a unique id
      * @param lmAccrualCategoryId
      * @return
      */
-    public AccrualCategory getAccrualCategory(String lmAccrualCategoryId);
+    public AccrualCategoryBo getAccrualCategory(String lmAccrualCategoryId);
     /**
      * Fetch list of active accrual categories
      * @param asOfDate
      * @return
      */
-    public List<AccrualCategory> getActiveAccrualCategories(LocalDate asOfDate);
+    public List<AccrualCategoryBo> getActiveAccrualCategories(LocalDate asOfDate);
 
-    List<AccrualCategory> getAccrualCategories(String accrualCategory, String descr, String leavePlan, String accrualEarnInterval, String unitOfTime, String minPercentWorked, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    List<AccrualCategoryBo> getAccrualCategories(String accrualCategory, String descr, String leavePlan, String accrualEarnInterval, String unitOfTime, String minPercentWorked, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 
     /**
      * 
@@ -51,11 +50,11 @@ public interface AccrualCategoryDao {
      * @param asOfDate
      * @return
      */
-   public List<AccrualCategory> getActiveAccrualCategories(String leavePlan, LocalDate asOfDate);
+   public List<AccrualCategoryBo> getActiveAccrualCategories(String leavePlan, LocalDate asOfDate);
      
-    public List<AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate);
+    public List<AccrualCategoryBo> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate);
 	
     
-    public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate);
+    public List <AccrualCategoryBo> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, LocalDate asOfDate);
 
 }

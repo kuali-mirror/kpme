@@ -22,29 +22,32 @@ import java.util.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.*;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.api.permission.service.HRPermissionService;
+import org.kuali.kpme.core.api.permission.HRPermissionService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.core.calendar.*;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.common.TkConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.common.WorkflowTagSupport;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
@@ -52,23 +55,17 @@ import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.service.permission.TKPermissionService;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
-import org.kuali.kpme.tklm.time.timesummary.service.TimeSummaryServiceImpl;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimesheetServiceImpl implements TimesheetService {
@@ -144,7 +141,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     @Override
-    public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntry calendarDates) throws WorkflowException {
+    public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntryContract calendarDates) throws WorkflowException {
         TimesheetDocument timesheetDocument = null;
 
         DateTime begin = calendarDates.getBeginPeriodFullDateTime();
@@ -216,7 +213,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		return null;
 	}
 
-	protected TimesheetDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate,  DateTime payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
+	protected TimesheetDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate,  DateTime payEndDate, CalendarEntryContract calendarEntry, String documentType, String title) throws WorkflowException {
         TimesheetDocument timesheetDocument = null;
         WorkflowDocument workflowDocument = null;
 
@@ -285,7 +282,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         return timesheetDocument;
     }
 
-    protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntry payCalEntry) {
+    protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntryContract payCalEntry) {
     	tdoc.setAssignments((List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry));
     	if (payCalEntry != null) {
     		tdoc.setJobs((List<Job>) HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));
@@ -422,7 +419,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         String leavePlan = principalHRAttributes.getLeavePlan();
         if (leavePlan != null) {
-            for (AccrualCategory accrualCategories : (List<AccrualCategory>)HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
+            for (AccrualCategory accrualCategories : HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
                 accrualCategory = accrualCategories.getAccrualCategory();
                 if(accrualCategory != null) {
                     listAccrualCategories.add(accrualCategory);
@@ -431,8 +428,8 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<EarnCodeSecurity> decs = (List<EarnCodeSecurity>) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
-        for (EarnCodeSecurity dec : decs) {
+        List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+        for (EarnCodeSecurityContract dec : decs) {
 
             boolean addEarnCode = HrServiceLocator.getEarnCodeService().addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
             if (addEarnCode) {
@@ -493,7 +490,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     	return getEarnCodesForTime(a, asOfDate, false);
 	}
 
-    private boolean showEarnCodeIfHoliday(EarnCode earnCode, EarnCodeSecurity security) {
+    private boolean showEarnCodeIfHoliday(EarnCode earnCode, EarnCodeSecurityContract security) {
         if (earnCode.getEarnCode().equals(HrConstants.HOLIDAY_EARN_CODE)) {
             if (security.isApprover() || HrContext.isSystemAdmin()) {
                 return true;

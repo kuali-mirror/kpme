@@ -23,7 +23,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.KPMEConstants;
+import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;

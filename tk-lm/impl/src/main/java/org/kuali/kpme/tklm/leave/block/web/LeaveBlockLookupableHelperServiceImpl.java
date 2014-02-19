@@ -24,17 +24,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.KPMENamespace;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.core.api.search.Range;
@@ -109,13 +109,13 @@ public class LeaveBlockLookupableHelperServiceImpl extends KPMELookupableImpl  {
 				}
 			}
 			if(invalid) {
-				return new ArrayList<LeaveBlock>();
+				return new ArrayList<LeaveBlockBo>();
 			}
 		}
 
 		//Could also simply use super.getSearchResults for an initial object list, then invoke LeaveBlockService with the relevant query params.
 		List<LeaveBlock> leaveBlockList = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForLookup(documentId, principalId, userPrincipalId, fromDate, toDate, leaveBlockType);
-		List<LeaveBlock> objectList = new ArrayList<LeaveBlock>();
+		List<LeaveBlockBo> objectList = new ArrayList<LeaveBlockBo>();
 		
 		for(LeaveBlock lBlock : leaveBlockList) {
 			LeaveCalendarDocumentHeader lcHeader = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(lBlock.getDocumentId());
@@ -129,37 +129,37 @@ public class LeaveBlockLookupableHelperServiceImpl extends KPMELookupableImpl  {
 						if(searchCriteria.get(DOC_STATUS_ID).contains("P")) {
 							//pending statuses
 							if("I,S,R,E".contains(lcHeader.getDocumentStatus())) {
-								objectList.add(lBlock);
+								objectList.add(LeaveBlockBo.from(lBlock));
 							}
 						}
 						else if(searchCriteria.get(DOC_STATUS_ID).contains("S")) {
 							//successful statuses
 							if("P,F".contains(lcHeader.getDocumentStatus())) {
-								objectList.add(lBlock);
+								objectList.add(LeaveBlockBo.from(lBlock));
 							}
 						}
 						else if(searchCriteria.get(DOC_STATUS_ID).contains("U")) {
 							//unsuccessful statuses
 							if("X,D".contains(lcHeader.getDocumentStatus())) {
-								objectList.add(lBlock);
+								objectList.add(LeaveBlockBo.from(lBlock));
 							}
 						}
 					}
 					else if(searchCriteria.get(DOC_STATUS_ID).contains(lcHeader.getDocumentStatus())) {
 						//match the specific doc status
-						objectList.add(lBlock);
+						objectList.add(LeaveBlockBo.from(lBlock));
 					}
 				}
 				else {
 					//no status specified, add regardless of status
-					objectList.add(lBlock);
+					objectList.add(LeaveBlockBo.from(lBlock));
 				}
 					
 				
 			} else if(StringUtils.isBlank(searchCriteria.get(DOC_STATUS_ID))) {
 				//can't match doc status with a non existent header
 				//only add to list if no status was selected
-				objectList.add(lBlock);
+				objectList.add(LeaveBlockBo.from(lBlock));
 			}
 		}
 		
@@ -169,7 +169,7 @@ public class LeaveBlockLookupableHelperServiceImpl extends KPMELookupableImpl  {
         	Iterator<? extends BusinessObject> itr = objectList.iterator();
             DateTime date = LocalDate.now().toDateTimeAtStartOfDay();
         	while (itr.hasNext()) {
-				LeaveBlock lb = (LeaveBlock) itr.next();
+				LeaveBlockBo lb = (LeaveBlockBo) itr.next();
 				
 				Long workArea = lb.getWorkArea();
 				
@@ -219,10 +219,10 @@ public class LeaveBlockLookupableHelperServiceImpl extends KPMELookupableImpl  {
 	protected String getActionUrlHref(LookupForm lookupForm, Object dataObject,
 			String methodToCall, List<String> pkNames) {
 		String actionUrlHref = super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
-		LeaveBlock tb = null;
+		LeaveBlockBo tb = null;
 		String concreteBlockId = null;
-		if(dataObject instanceof LeaveBlock) {
-			tb = (LeaveBlock) dataObject;
+		if(dataObject instanceof LeaveBlockBo) {
+			tb = (LeaveBlockBo) dataObject;
 			concreteBlockId = tb.getLmLeaveBlockId();
 		}
 		if(concreteBlockId == null) {

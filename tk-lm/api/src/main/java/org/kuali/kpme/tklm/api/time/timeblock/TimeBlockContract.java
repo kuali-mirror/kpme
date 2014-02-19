@@ -293,7 +293,7 @@ public interface TimeBlockContract extends CalendarBlockContract {
    	 * 
    	 * @return timesheetDocumentHeader for TimeBlock
    	 */
-    public TimesheetDocumentHeaderContract getTimesheetDocumentHeader();
+    //public TimesheetDocumentHeaderContract getTimesheetDocumentHeader();
   
     /**
    	 * The list of TimeBlockHistory objects associated with the TimeBlock
@@ -304,7 +304,7 @@ public interface TimeBlockContract extends CalendarBlockContract {
    	 * 
    	 * @return timeBlockHistories for TimeBlock
    	 */
-    public List<? extends TimeBlockHistoryContract> getTimeBlockHistories();
+    //public List<? extends TimeBlockHistoryContract> getTimeBlockHistories();
    
     /**
    	 * The clock log begin id associated with the TimeBlock

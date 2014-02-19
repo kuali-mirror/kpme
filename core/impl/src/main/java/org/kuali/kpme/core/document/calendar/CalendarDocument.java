@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
@@ -33,7 +34,7 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
 	private static final long serialVersionUID = 6074564807962995821L;
 	protected CalendarDocumentHeader documentHeader;
 	protected List<Assignment> assignments = new LinkedList<Assignment>();
-	protected CalendarEntry calendarEntry = null;
+	protected CalendarEntryContract calendarEntry = null;
 	protected LocalDate asOfDate;
 	protected String calendarType;
 	
@@ -41,7 +42,7 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
 
 	public abstract List<Assignment> getAssignments();
 
-	public abstract CalendarEntry getCalendarEntry();
+	public abstract CalendarEntryContract getCalendarEntry();
 
 	public abstract LocalDate getAsOfDate();	
 	

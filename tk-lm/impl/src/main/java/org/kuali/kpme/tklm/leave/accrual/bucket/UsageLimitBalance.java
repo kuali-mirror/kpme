@@ -15,12 +15,13 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.bucket;
 
-import java.math.BigDecimal;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.UsageLimitBalanceContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+
+import java.math.BigDecimal;
 
 public class UsageLimitBalance extends LeaveBalance implements UsageLimitBalanceContract {
 

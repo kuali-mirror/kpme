@@ -30,7 +30,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class CalendarEntry extends PersistableBusinessObjectBase implements Comparable<CalendarEntry>, CalendarEntryContract {
+public class CalendarEntry extends PersistableBusinessObjectBase implements CalendarEntryContract {
 
 	private static final long serialVersionUID = -1977756526579659122L;
 
@@ -322,7 +322,7 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Comp
 		this.calendarObj = calendarObj;
 	}
 
-    public int compareTo(CalendarEntry pce) {
+    public int compareTo(CalendarEntryContract pce) {
         return this.getBeginPeriodDate().compareTo(pce.getBeginPeriodDate());
     }
 

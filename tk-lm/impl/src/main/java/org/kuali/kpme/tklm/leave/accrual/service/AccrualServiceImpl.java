@@ -31,16 +31,18 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.leaveplan.LeavePlan;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
@@ -48,11 +50,16 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.accrual.AccrualService;
+import org.kuali.kpme.tklm.api.leave.accrual.PrincipalAccrualRanContract;
+import org.kuali.kpme.tklm.api.leave.accrual.RateRangeAggregateContract;
+import org.kuali.kpme.tklm.api.leave.accrual.RateRangeContract;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.kpme.tklm.leave.accrual.RateRange;
 import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
@@ -95,16 +102,16 @@ public class AccrualServiceImpl implements AccrualService {
 		
 		//Build a rate range aggregate with appropriate information for this period of time detailing Rate Ranges for job
 		//entries for this range of time
-		RateRangeAggregate rrAggregate = this.buildRateRangeAggregate(principalId, startDate, endDate);	
-		PrincipalHRAttributes phra = null;
-		PrincipalHRAttributes endPhra = null;
-		LeavePlan lp = null;
-		List<AccrualCategory> accrCatList = null;
+		RateRangeAggregateContract rrAggregate = this.buildRateRangeAggregate(principalId, startDate, endDate);
+		PrincipalHRAttributesContract phra = null;
+		PrincipalHRAttributesContract endPhra = null;
+		LeavePlanContract lp = null;
+		List<? extends AccrualCategoryContract> accrCatList = null;
 		
 		//Iterate over every day in span 
 		DateTime currentDate = startDate;
 		while (!currentDate.isAfter(endDate)) {
-			RateRange currentRange = rrAggregate.getRateOnDate(currentDate);
+			RateRangeContract currentRange = rrAggregate.getRateOnDate(currentDate);
 			if(currentRange == null) {
 				currentDate = currentDate.plusDays(1);
 				continue;
@@ -145,7 +152,7 @@ public class AccrualServiceImpl implements AccrualService {
 			BigDecimal ftePercentage = currentRange.getAccrualRatePercentageModifier();
 			BigDecimal totalOfStandardHours = currentRange.getStandardHours();
 			boolean fullFteGranted = false;
-			for(AccrualCategory anAC : accrCatList) {
+			for(AccrualCategoryContract anAC : accrCatList) {
 				if(anAC == null)
 					continue;
 				
@@ -153,7 +160,7 @@ public class AccrualServiceImpl implements AccrualService {
 				if(!currentDate.toLocalDate().isBefore(phra.getEffectiveLocalDate()) && !anAC.getAccrualEarnInterval().equals("N")) {   	// "N" means no accrual
 					boolean prorationFlag = this.isProrationFlag(anAC.getProration());
 					// get the accrual rule 
-					AccrualCategoryRule currentAcRule = this.getRuleForAccrualCategory(currentRange.getAcRuleList(), anAC);
+					AccrualCategoryRuleContract currentAcRule = this.getRuleForAccrualCategory(currentRange.getAcRuleList(), anAC);
 				
 					// check if accrual category rule changed
 					if(currentAcRule != null) {
@@ -161,8 +168,8 @@ public class AccrualServiceImpl implements AccrualService {
 						DateTime previousIntervalDay = this.getPrevIntervalDate(ruleStartDate, anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 						DateTime nextIntervalDay = this.getNextIntervalDate(ruleStartDate, anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 						
-						RateRange previousRange = rrAggregate.getRateOnDate(previousIntervalDay);
-						AccrualCategoryRule previousAcRule = null;
+						RateRangeContract previousRange = rrAggregate.getRateOnDate(previousIntervalDay);
+						AccrualCategoryRuleContract previousAcRule = null;
 						if(previousRange != null) {
 							previousAcRule = this.getRuleForAccrualCategory(previousRange.getAcRuleList(), anAC);
 						}
@@ -315,9 +322,9 @@ public class AccrualServiceImpl implements AccrualService {
 				}
 			}
 			//Determine if today is a system scheduled time off and accrue holiday if so.
-			SystemScheduledTimeOff ssto = currentRange.getSysScheTimeOff();
+			SystemScheduledTimeOffContract ssto = currentRange.getSysScheTimeOff();
 			if(ssto != null) {
-				AccrualCategory anAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(ssto.getAccrualCategory(), ssto.getEffectiveLocalDate());
+				AccrualCategory anAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(ssto.getAccrualCategory(), ssto.getEffectiveLocalDate());
 				if(anAC == null) {
 					LOG.error("Cannot find Accrual Category for system scheduled time off " + ssto.getLmSystemScheduledTimeOffId());
 					return;
@@ -339,7 +346,7 @@ public class AccrualServiceImpl implements AccrualService {
 				if(!accumulatedAccrualCatToAccrualAmounts.isEmpty()) {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
-							AccrualCategory anAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
+							AccrualCategory anAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
 							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), entry.getValue(), anAC, null, true, currentRange.getLeaveCalendarDocumentId(), null);
 						}
 					}
@@ -349,7 +356,7 @@ public class AccrualServiceImpl implements AccrualService {
 				if(!accumulatedAccrualCatToNegativeAccrualAmounts.isEmpty()) {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToNegativeAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
-							AccrualCategory anAC = (AccrualCategory) HrServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
+							AccrualCategory anAC = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
 							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate.toLocalDate(), entry.getValue(), anAC, null, true, currentRange.getLeaveCalendarDocumentId(), null);
 						}
 					}
@@ -425,8 +432,8 @@ public class AccrualServiceImpl implements AccrualService {
 		return hours;
 	}
 	
-	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks, 
-			LocalDate leaveDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId, 
+	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks,
+			LocalDate leaveDate, BigDecimal hrs, AccrualCategoryContract anAC, String sysSchTimeOffId,
 			boolean createZeroLeaveBlock, String leaveDocId, String primaryAssignmentId) {
 		// Replacing Leave Code to earn code - KPME 1634
 		EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(anAC.getEarnCode(), anAC.getEffectiveLocalDate());
@@ -440,7 +447,7 @@ public class AccrualServiceImpl implements AccrualService {
 		if(!createZeroLeaveBlock && roundedHours.compareTo(BigDecimal.ZERO) == 0) {
 			return;	// do not create leave block with zero amount
 		}
-		LeaveBlock aLeaveBlock = new LeaveBlock();
+		LeaveBlockBo aLeaveBlock = new LeaveBlockBo();
 		aLeaveBlock.setAccrualCategory(anAC.getAccrualCategory());
 		aLeaveBlock.setLeaveLocalDate(leaveDate);
 		aLeaveBlock.setPrincipalId(principalId);
@@ -463,12 +470,12 @@ public class AccrualServiceImpl implements AccrualService {
 			}		
 		}
 		
-		accrualLeaveBlocks.add(aLeaveBlock);
+		accrualLeaveBlocks.add(LeaveBlockBo.to(aLeaveBlock));
 		
 	}
 	
 	private void createEmptyLeaveBlockForStatusChange(String principalId, List<LeaveBlock> accrualLeaveBlocks, LocalDate leaveDate) {
-		LeaveBlock aLeaveBlock = new LeaveBlock();
+		LeaveBlockBo aLeaveBlock = new LeaveBlockBo();
 		aLeaveBlock.setAccrualCategory(null);
 		aLeaveBlock.setLeaveLocalDate(leaveDate);
 		aLeaveBlock.setPrincipalId(principalId);
@@ -480,7 +487,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
 		aLeaveBlock.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 		
-		accrualLeaveBlocks.add(aLeaveBlock);
+		accrualLeaveBlocks.add(LeaveBlockBo.to(aLeaveBlock));
 		
 	}
 
@@ -506,7 +513,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private boolean isDateAnIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private boolean isDateAnIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return isDateAtPayCalInterval(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -514,13 +521,13 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private boolean isDateAtPayCalInterval(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private boolean isDateAtPayCalInterval(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
-			List<CalendarEntry> entryList = aMap.get(payCalName);
+			List<? extends CalendarEntryContract> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
-				for(CalendarEntry anEntry : entryList) {
+				for(CalendarEntryContract anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
 					LocalDate endDate = anEntry.getEndPeriodFullDateTime().toLocalDate().minusDays(1);
 					if(aDate.compareTo(endDate) == 0) {
@@ -602,11 +609,11 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 		
 		// get all pay calendar entries for this employee. used to determine interval dates
-		Map<String, List<CalendarEntry>> calEntryMap = new HashMap<String, List<CalendarEntry>>();
+		Map<String, List<? extends CalendarEntryContract>> calEntryMap = new HashMap<String, List<? extends CalendarEntryContract>>();
 		for(String calName : calNameSet) {
 			Calendar aCal = (Calendar) HrServiceLocator.getCalendarService().getCalendarByGroup(calName);
 			if(aCal != null) {
-				List<CalendarEntry> aList = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(aCal.getHrCalendarId());
+				List<? extends CalendarEntryContract> aList = HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(aCal.getHrCalendarId());
 				Collections.sort(aList);
 				calEntryMap.put(calName, aList);
 			}
@@ -630,12 +637,12 @@ public class AccrualServiceImpl implements AccrualService {
 		List<AccrualCategory> activeAccrCatList = new ArrayList<AccrualCategory>();
 		List<AccrualCategory> inactiveAccrCatList = new ArrayList<AccrualCategory>();
 		for(String lpString : lpStringSet) {
-			List<AccrualCategory> aList = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(lpString, endDate.toLocalDate());
+			List<AccrualCategory> aList = HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(lpString, endDate.toLocalDate());
 			if(CollectionUtils.isNotEmpty(aList)) {
 				activeAccrCatList.addAll(aList);
 			}
 			
-			aList = (List<AccrualCategory>) HrServiceLocator.getAccrualCategoryService().getInActiveLeaveAccrualCategoriesForLeavePlan(lpString, endDate.toLocalDate());
+			aList = HrServiceLocator.getAccrualCategoryService().getInActiveLeaveAccrualCategoriesForLeavePlan(lpString, endDate.toLocalDate());
 			if(CollectionUtils.isNotEmpty(aList)) {
 				inactiveAccrCatList.addAll(aList);
 			}
@@ -644,10 +651,10 @@ public class AccrualServiceImpl implements AccrualService {
 		List<AccrualCategoryRule> activeRuleList = new ArrayList<AccrualCategoryRule>();
 		List<AccrualCategoryRule> inactiveRuleList = new ArrayList<AccrualCategoryRule>();
 		for(AccrualCategory ac : activeAccrCatList) {
-			List<AccrualCategoryRule> aRuleList = (List<AccrualCategoryRule>) HrServiceLocator.getAccrualCategoryRuleService().getActiveRulesForAccrualCategoryId(ac.getLmAccrualCategoryId());
+			List<AccrualCategoryRule> aRuleList = HrServiceLocator.getAccrualCategoryRuleService().getActiveRulesForAccrualCategoryId(ac.getLmAccrualCategoryId());
 			activeRuleList.addAll(aRuleList);
 			
-			aRuleList = (List<AccrualCategoryRule>) HrServiceLocator.getAccrualCategoryRuleService().getInActiveRulesForAccrualCategoryId(ac.getLmAccrualCategoryId());
+			aRuleList = HrServiceLocator.getAccrualCategoryRuleService().getInActiveRulesForAccrualCategoryId(ac.getLmAccrualCategoryId());
 			inactiveRuleList.addAll(aRuleList);
 		}
 		
@@ -934,7 +941,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, int workDays, DateTime intervalDate, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, int workDays, DateTime intervalDate, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(min == null || min.compareTo(BigDecimal.ZERO) == 0) {
 			return true;
 		}
@@ -950,7 +957,7 @@ public class AccrualServiceImpl implements AccrualService {
 		return false;	
 	}
 
-	private DateTime getPrevIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private DateTime getPrevIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getPrevPayCalIntervalDate(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -986,13 +993,13 @@ public class AccrualServiceImpl implements AccrualService {
 		return previousAccrualIntervalDate;
 	}
 	
-	private DateTime getPrevPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private DateTime getPrevPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
-			List<CalendarEntry> entryList = aMap.get(payCalName);
+			List<? extends CalendarEntryContract> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
-				for(CalendarEntry anEntry : entryList) {
+				for(CalendarEntryContract anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
 					DateTime endDate = anEntry.getEndPeriodFullDateTime().minusDays(1);
 					if(anEntry.getBeginPeriodFullDateTime().compareTo(aDate) <= 0 && endDate.compareTo(aDate) >= 0) {
@@ -1007,7 +1014,7 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 
     @Override
-	public DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName, Map<String, List<CalendarEntry>> aMap) {
+	public DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName, Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getNextPayCalIntervalDate(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -1015,13 +1022,13 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private DateTime getNextPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private DateTime getNextPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
-			List<CalendarEntry> entryList = aMap.get(payCalName);
+			List<? extends CalendarEntryContract> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
-				for(CalendarEntry anEntry : entryList) {
+				for(CalendarEntryContract anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
 					DateTime endDate = anEntry.getEndPeriodFullDateTime().minusDays(1);
 					if(anEntry.getBeginPeriodFullDateTime().compareTo(aDate) <= 0 && endDate.compareTo(aDate) >= 0) {
@@ -1066,7 +1073,7 @@ public class AccrualServiceImpl implements AccrualService {
 		return nextAccrualIntervalDate;
 	}
 
-	private int getWorkDaysInInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private int getWorkDaysInInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getWorkDaysInPayCalInterval(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -1074,13 +1081,13 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private int getWorkDaysInPayCalInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
+	private int getWorkDaysInPayCalInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
-			List<CalendarEntry> entryList = aMap.get(payCalName);
+			List<? extends CalendarEntryContract> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
-				for(CalendarEntry anEntry : entryList) {
+				for(CalendarEntryContract anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
 					DateTime endDate = anEntry.getEndPeriodFullDateTime().minusDays(1);
 					if(anEntry.getBeginPeriodFullDateTime().compareTo(aDate) <= 0 && endDate.compareTo(aDate) >= 0) {
@@ -1145,7 +1152,7 @@ public class AccrualServiceImpl implements AccrualService {
 	
 	@Override
 	public boolean statusChangedSinceLastRun(String principalId) {
-		PrincipalAccrualRan par = LmServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan(principalId);
+		PrincipalAccrualRanContract par = LmServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan(principalId);
 		if(par == null) {
 			return true;
 		}
@@ -1208,9 +1215,9 @@ public class AccrualServiceImpl implements AccrualService {
     	return aList;
 	}
     
-    public AccrualCategoryRule getRuleForAccrualCategory(List<AccrualCategoryRule> acrList, AccrualCategory ac) {
+    public AccrualCategoryRuleContract getRuleForAccrualCategory(List<AccrualCategoryRule> acrList, AccrualCategoryContract ac) {
     	if(CollectionUtils.isNotEmpty(acrList)) {
-	    	for(AccrualCategoryRule acr : acrList) {
+	    	for(AccrualCategoryRuleContract acr : acrList) {
 	    		if(acr.getLmAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
 	    			return acr;
 	    		}
@@ -1222,7 +1229,7 @@ public class AccrualServiceImpl implements AccrualService {
     
     @Override
 	public BigDecimal getAccruedBalanceForPrincipal(String principalId,
-			AccrualCategory accrualCategory, LocalDate asOfDate) {
+			AccrualCategoryContract accrualCategory, LocalDate asOfDate) {
     	BigDecimal balance = new BigDecimal(0);
     	PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	if(pha == null)
@@ -1245,7 +1252,7 @@ public class AccrualServiceImpl implements AccrualService {
 
 	@Override
 	public BigDecimal getApprovedBalanceForPrincipal(String principalId,
-			AccrualCategory accrualCategory, LocalDate asOfDate) {
+			AccrualCategoryContract accrualCategory, LocalDate asOfDate) {
     	BigDecimal balance = new BigDecimal(0);
     	PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
@@ -1263,10 +1270,10 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 
 	@Override
-	public void runAccrualForLeavePlan(LeavePlan aLeavePlan, DateTime startDate, DateTime endDate, boolean recordRanData) {		
+	public void runAccrualForLeavePlan(LeavePlanContract aLeavePlan, DateTime startDate, DateTime endDate, boolean recordRanData) {
 		if(aLeavePlan != null) {
-			List<PrincipalHRAttributes> phaList = (List<PrincipalHRAttributes>) HrServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForLeavePlan(aLeavePlan.getLeavePlan(), aLeavePlan.getEffectiveLocalDate());		
-			for(PrincipalHRAttributes aPHA : phaList) {
+			List<? extends PrincipalHRAttributesContract> phaList = HrServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForLeavePlan(aLeavePlan.getLeavePlan(), aLeavePlan.getEffectiveLocalDate());
+			for(PrincipalHRAttributesContract aPHA : phaList) {
 				String anId = aPHA.getPrincipalId();
 				if(LmServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(anId)) {
 					DateTime startDT = startDate == null ? getStartAccrualDate(anId) : startDate;

@@ -30,7 +30,8 @@ import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.request.LeaveRequestActionValue;
 import org.kuali.kpme.tklm.leave.request.dao.LeaveRequestDocumentDao;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -288,7 +289,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
             sb.append("<SALGROUP value=\""+salGroup+"\"/>");
         }
 
-        sb.append("<PAYENDDATE value=\""+leaveBlock.getLeaveDate()+"\"/>");
+        sb.append("<PAYENDDATE value=\""+leaveBlock.getLeaveLocalDate()+"\"/>");
         sb.append("</").append(className).append("></applicationContent></documentContext>");
 
         return sb.toString();
