@@ -27,34 +27,16 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 public class PrincipalHRAttributesMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	private static final long serialVersionUID = 1L;
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public Map populateBusinessObject(Map<String, String> fieldValues,
-			MaintenanceDocument maintenanceDocument, String methodToCall) {
-		if (fieldValues.containsKey("principalId")
-				&& StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-			EntityNamePrincipalName p = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(fieldValues.get("principalId"));
-			if (p != null
-                    && p.getDefaultName() != null) {
-				fieldValues.put("name", p.getDefaultName().getCompositeName());
-			}else{
-				fieldValues.put("name", "");
-			}
-		}
-		return super.populateBusinessObject(fieldValues, maintenanceDocument,
-				methodToCall);
-	}
 
 	@Override
 	public void processAfterCopy(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
 		super.processAfterCopy(document, parameters);
-		PrincipalHRAttributes principalHRAttributes = (PrincipalHRAttributes) document.getNewMaintainableObject().getBusinessObject();
+		PrincipalHRAttributes principalHRAttributes = (PrincipalHRAttributes) document.getNewMaintainableObject().getDataObject();
 		principalHRAttributes.setPrincipalId(null);
 	}
 
