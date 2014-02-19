@@ -161,8 +161,36 @@
 	</bean>
 
 
-	<!-- Inquiry Definitions -->
 
+
+    <!--KRAD Inquiry View-->
+    <bean id="LeavePlan-InquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Leave Plan Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.leaveplan.LeavePlan"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+                            <bean parent="Uif-DataField" p:propertyName="leavePlan" />
+                            <bean parent="Uif-DataField" p:propertyName="calendarYearStart" />
+                            <bean parent="Uif-DataField" p:propertyName="batchPriorYearCarryOverStartDate" />
+                            <bean parent="Uif-DataField" p:propertyName="batchPriorYearCarryOverStartTime" />
+                            <bean parent="Uif-DataField" p:propertyName="descr" />
+                            <bean parent="Uif-DataField" p:propertyName="planningMonths" />
+                            <bean parent="Uif-DataField" p:propertyName="active" />
+                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Inquiry Definitions -->
 	<bean id="LeavePlan-inquiryDefinition" parent="LeavePlan-inquiryDefinition-parentBean" />
 
 	<bean id="LeavePlan-inquiryDefinition-parentBean" abstract="true"

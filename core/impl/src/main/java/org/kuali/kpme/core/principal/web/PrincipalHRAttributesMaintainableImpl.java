@@ -24,6 +24,7 @@ import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -68,6 +69,10 @@ public class PrincipalHRAttributesMaintainableImpl extends HrBusinessObjectMaint
 	public HrBusinessObject getObjectById(String id) {
 		return (HrBusinessObject) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(id);
 	}
-	
-	
+
+    //attribute query, populates name when principalID is selected
+    public EntityName getName(String principalId) {
+        return KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId).getDefaultName();
+    }
+
 }

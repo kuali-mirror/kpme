@@ -445,7 +445,7 @@
 
     <!-- Job Inquiry View -->
     <bean id="Job-InquiryView" parent="Uif-InquiryView">
-        <property name="headerText" value="Department Inquiry"/>
+        <property name="headerText" value="Job Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.job.Job"/>
         <property name="singlePageView" value="true"/>
         <property name="items">

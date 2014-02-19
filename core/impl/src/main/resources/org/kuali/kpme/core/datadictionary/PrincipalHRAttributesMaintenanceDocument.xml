@@ -26,51 +26,82 @@
 
 	<bean id="PrincipalHRAttributesMaintenanceDocument" parent="PrincipalHRAttributesMaintenanceDocument-parentBean" />
 
-	<bean id="PrincipalHRAttributesMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.kpme.core.principal.PrincipalHRAttributes"
+	<bean id="PrincipalHRAttributesMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry" 
+        p:dataObjectClass="org.kuali.kpme.core.principal.PrincipalHRAttributes"
 		p:businessRulesClass="org.kuali.kpme.core.principal.validation.PrincipalHRAttributesRule"
 		p:maintainableClass="org.kuali.kpme.core.principal.web.PrincipalHRAttributesMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.principal.authorization.PrincipalHRAttributesAuthorizer">
-		<property name="maintainableSections">
-			<list>
-				<ref bean="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" />
-				<ref bean="PrincipalHRAttributesMaintenanceDocument-HiddenSection" />
-			</list>
-		</property>
 		<property name="lockingKeys">
-			<list>
-				<value>principalId</value>
-			</list>
-		</property>
-		<property name="documentTypeName" value="PrincipalHRAttributesMaintenanceDocumentType" />
-        <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.principal.validation.PrincipalHRAttributesEffectiveDatePrompt"/>
-	</bean>
+            <list>
+                <value>principalId</value>
+            </list>
+        </property>
+        <property name="documentTypeName" value="PrincipalHRAttributesMaintenanceDocumentType"/>
+    </bean>
 
-	<!-- Maintenance Section Definitions -->
+    <!-- Maintenance Section Definitions -->
 
-	<bean id="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" parent="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance-parentBean" />
-
-	<bean id="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Principal Calendar Maintenance" />
-		<property name="maintainableItems">
-			<list>
-			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="payCalendar" />
-				<bean parent="MaintainableFieldDefinition" p:name="leaveCalendar" />
-				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="false" />
-				<bean parent="MaintainableFieldDefinition" p:name="serviceDate" p:required="false" />
-				<bean parent="MaintainableFieldDefinition" p:name="fmlaEligible" />
-				<bean parent="MaintainableFieldDefinition" p:name="workersCompEligible" />
-				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="false" />
-				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
-			</list>
-		</property>
-	</bean>
-
-    <bean id="PrincipalHRAttributesMaintenanceDocument-HiddenSection"
-          parent="MaintDoc-HiddenFields-parentBean" />
-
+    <bean id="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance"
+          parent="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance-parentBean"/>
+    <bean id="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance-parentBean"
+          abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+        <property name="title" value="Principal HR Attributes Maintenance"/>
+        <property name="headerText" value="Principal HR Attributes Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.principal.PrincipalHRAttributes"/>
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.principal.web.PrincipalHRAttributesMaintainableImpl"/>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Principal Maintenance"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="principalId" p:required="true">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                                          p:fieldConversions="principalId:principalId"/>
+                                </property>
+                                <property name="attributeQuery">
+                                    <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getName"
+                                          p:queryMethodArgumentFieldList="principalId"
+                                          p:returnFieldMapping="compositeName:name"/>
+                                </property>
+                                <property name="inquiry">
+                                    <bean parent="Uif-Inquiry" p:render="false"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="name" p:widgetInputOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="payCalendar">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.calendar.Calendar"
+                                          p:fieldConversions="calendarName:payCalendar"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="leaveCalendar">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.calendar.Calendar"
+                                          p:fieldConversions="calendarName:leaveCalendar"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="leavePlan" p:required="false">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                                          p:fieldConversions="leavePlan:leavePlan"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="serviceDate" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="fmlaEligible"/>
+                            <bean parent="Uif-InputField" p:propertyName="workersCompEligible"/>
+                            <bean parent="Uif-InputField" p:propertyName="timezone" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 </beans>
