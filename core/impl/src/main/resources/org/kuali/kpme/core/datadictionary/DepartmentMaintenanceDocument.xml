@@ -46,7 +46,7 @@
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-MaintenanceGridSection">
-                    <property name="headerText" value="Position Classification Maintenance"/>
+                    <property name="headerText" value="Department Maintenance"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
