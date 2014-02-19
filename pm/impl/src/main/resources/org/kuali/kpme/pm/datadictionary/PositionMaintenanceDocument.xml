@@ -604,7 +604,7 @@
 	<bean id="Pos-DepartmentPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-VerticalBoxSection" p:headerText="Additional Departments" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status'}" >
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Additional Departments" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}" >
 					<property name="items">
 						<list>
 							<bean parent="Position-departments" />
@@ -627,7 +627,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="Uif-VerticalBoxSection" p:headerText="Preferred Qualification" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status'}">
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Preferred Qualification" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
 					<property name="items">
 						<list>
 							<bean parent="Position-qualifications" />
@@ -643,7 +643,7 @@
 	<bean id="Pos-DutyPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-VerticalBoxSection" p:headerText="Duties" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status'}">
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Duties" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
 					<property name="items">
 						<list>
 							<bean parent="Position-duties" />
@@ -659,7 +659,7 @@
 	<bean id="Pos-FlagPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-VerticalBoxSection" p:headerText="Position Flags" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status'}">
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Position Flags" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
 					<property name="items">
 						<list>
 							<bean parent="Position-flags" />
@@ -675,7 +675,7 @@
 	<bean id="Pos-ResponsibilityPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-VerticalBoxSection" p:headerText="Responsibility" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status'}">
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Responsibility" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
 					<property name="items">
 						<list>
 							<bean parent="Position-responsibilities" />
@@ -691,7 +691,7 @@
 	<bean id="Pos-FundingPage" parent="Uif-MaintenancePage">
 		<property name="items">
 			<list>
-				<bean parent="Uif-VerticalBoxSection" p:headerText="Funding" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status'}">
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Funding" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
 					<property name="items">
 						<list>
 							<bean parent="Position-fundings" />
@@ -708,7 +708,7 @@
 		<property name="items">
 			<list>
 				<bean parent="KPMEUif-DocumentNotesSection"
-					p:disclosure.defaultOpen="true" p:readOnly="@{#dp.process eq '' or #dp.process eq null}"/>
+					p:disclosure.defaultOpen="true" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #parent.readOnly}"/>
 			</list>
 		</property>
 	</bean>
@@ -718,7 +718,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-DocumentAdHocRecipientsSection"
-					p:disclosure.defaultOpen="true" p:readOnly="@{#dp.process eq '' or #dp.process eq null}" />
+					p:disclosure.defaultOpen="true" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #parent.readOnly}" />
 			</list>
 		</property>
 	</bean>
