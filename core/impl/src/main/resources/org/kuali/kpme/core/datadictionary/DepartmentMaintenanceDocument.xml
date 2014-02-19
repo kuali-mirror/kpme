@@ -38,7 +38,7 @@
     </bean>
 
     <bean id="Department-MaintenanceView" parent="Department-MaintenanceView-parentBean"/>
-    <bean id="Department-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+    <bean id="Department-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
         <property name="title" value="Department Maintenance"/>
         <property name="headerText" value="Department Maintenance"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.department.web.DepartmentMaintainableImpl" />

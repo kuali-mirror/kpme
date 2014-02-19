@@ -280,6 +280,9 @@ public class Job extends HrBusinessObject implements JobContract {
 	}
 
 	public Location getLocationObj() {
+        if (locationObj == null) {
+            this.setLocationObj((Location)HrServiceLocator.getLocationService().getLocation(location,getEffectiveLocalDate()));
+        }
 		return locationObj;
 	}
 
@@ -316,8 +319,12 @@ public class Job extends HrBusinessObject implements JobContract {
 	}
 
 	public PositionBase getPositionObj() {
-		return positionObj;
-	}
+        if (positionObj == null) {
+            this.setPositionObj((PositionBase)HrServiceLocator.getPositionService().getPosition(positionNumber, getEffectiveLocalDate()));
+        }
+        return positionObj;
+
+    }
 
 	@Override
 	public String getUniqueKey() {

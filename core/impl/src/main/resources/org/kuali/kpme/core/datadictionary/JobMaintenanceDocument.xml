@@ -25,54 +25,119 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="JobMaintenanceDocument" parent="JobMaintenanceDocument-parentBean"/>
+    <bean id="JobMaintenanceDocument" parent="JobMaintenanceDocument-parentBean"/>
 
-  <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.kpme.core.job.Job"
-  		p:businessRulesClass="org.kuali.kpme.core.job.validation.JobValidation"
-  		p:maintainableClass="org.kuali.kpme.core.job.web.JobMaintainableImpl"
-  		p:documentAuthorizerClass="org.kuali.kpme.core.job.authorization.JobAuthorizer">
-    <property name="maintainableSections">
-      <list>
-        <ref bean="JobMaintenanceDocument-JobMaintenance"/>
-        <ref bean="JobMaintenanceDocument-HiddenFields"/>
-      </list>
-    </property>
-    <property name="documentTypeName" value="JobMaintenanceDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.kpme.core.job.validation.JobEffectiveDatePrompt"/>
-  </bean>
+    <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
+          p:dataObjectClass="org.kuali.kpme.core.job.Job"
+          p:businessRulesClass="org.kuali.kpme.core.job.validation.JobValidation"
+          p:maintainableClass="org.kuali.kpme.core.job.web.JobMaintainableImpl"
+          p:documentAuthorizerClass="org.kuali.kpme.core.job.authorization.JobAuthorizer">
+        <property name="documentTypeName" value="JobMaintenanceDocumentType"/>
+    </bean>
 
-  <!-- Maintenance Section Definitions -->
+    <!-- Maintenance Section Definitions -->
 
-  <bean id="JobMaintenanceDocument-JobMaintenance" parent="JobMaintenanceDocument-JobMaintenance-parentBean"/>
+    <bean id="JobMaintenanceDocument-JobMaintenance" parent="JobMaintenanceDocument-JobMaintenance-parentBean"/>
+    <bean id="JobMaintenanceDocument-JobMaintenance-parentBean" abstract="true"
+          parent="KPMEEffectiveDateBO-MaintenanceView">
+        <property name="title" value="Job Maintenance"/>
+        <property name="headerText" value="Job Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.Job"/>
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobMaintainableImpl"/>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="headerText" value="Job Maintenance"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="principalId" p:required="true">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                                          p:fieldConversions="principalId:principalId"/>
+                                </property>
+                                <property name="attributeQuery">
+                                    <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getName"
+                                          p:queryMethodArgumentFieldList="principalId"
+                                          p:returnFieldMapping="compositeName:name"/>
+                                </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <!-- if the maintenance action is new get job number from query -->
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                              p:propertyName="attributeQuery"
+                                              p:condition="document.newMaintainableObject.maintenanceAction eq 'New' or document.newMaintainableObject.maintenanceAction eq 'Copy'">
+                                            <property name="replacement">
+                                                <bean parent="Uif-AttributeQueryConfig"
+                                                      p:queryMethodToCall="getNameAndJob"
+                                                      p:queryMethodArgumentFieldList="principalId"
+                                                      p:returnFieldMapping="principalName:name,jobNumber:jobNumber"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="name" p:widgetInputOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="jobNumber" p:widgetInputOnly="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="dept" p:required="true">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                                          p:fieldConversions="dept:dept"/>
+                                </property>
+                            </bean>
 
-  <bean id="JobMaintenanceDocument-JobMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Job Maintenance"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="name" p:noLookup="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="jobNumber" p:unconditionallyReadOnly="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="hrPayType" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="hrSalGroup" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="compRate" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="standardHours" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="fte" p:unconditionallyReadOnly="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="eligibleForLeave" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="primaryIndicator" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="flsaStatus" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
-      </list>
-    </property>
-  </bean>
+                            <bean parent="Uif-InputField" p:propertyName="location" p:required="true">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                                          p:fieldConversions="location:location"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="positionNumber" p:required="true">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+                                          p:fieldConversions="positionNumber:positionNumber"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="hrPayType" p:required="true">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.paytype.PayType"
+                                          p:fieldConversions="payType:payType"/>
+                                </property>
+                            </bean>
 
+                            <bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:required="true">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                                          p:fieldConversions="hrSalGroup:hrSalGroup"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="payGrade" p:required="true">
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinderByScript"
+                                          p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
+                                          p:fieldConversions="payGrade:payGrade"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="compRate" p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="standardHours" p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="fte" p:widgetInputOnly="true" p:refreshWhenChangedPropertyNames="#dp.standardHours"/>
+                            <bean parent="Uif-InputField" p:propertyName="eligibleForLeave" />
+                            <bean parent="Uif-InputField" p:propertyName="primaryIndicator" />
+                            <bean parent="Uif-InputField" p:propertyName="flsaStatus" p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"
+                                  p:required="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
-    <bean id="JobMaintenanceDocument-HiddenFields"
-          parent="MaintDoc-HiddenFields-parentBean" />
 
 </beans>

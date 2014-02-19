@@ -16,20 +16,15 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="Job" parent="Job-parentBean" />
-
 	<bean id="Job-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.job.Job" />
-		<property name="inquiryDefinition">
-			<ref bean="Job-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="Job-lookupDefinition" />
-		</property>
+		<property name="dataObjectClass" value="org.kuali.kpme.core.job.Job" />
+
 		<property name="titleAttribute" value="hrJobId" />
 		<property name="attributes">
 			<list merge="true">
@@ -54,97 +49,104 @@
 				<ref bean="Job-flsaStatus"/>
 			</list>
 		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="principal" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
-								p:targetName="principalId" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="deptObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
-								p:targetName="dept" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:targetName="effectiveDate"
-								p:sourceName="relativeEffectiveDate" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="payTypeObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayType"
-								p:targetName="payType" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:targetName="effectiveDate"
-								p:sourceName="relativeEffectiveDate" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="locationObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="location" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="payGradeObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="payGrade"
-								p:targetName="payGrade" />
-						</list>
-					</property>
-					<property name="supportAttributes">
+
+        <property name="inquiryDefinition">
+            <ref bean="Job-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="Job-lookupDefinition" />
+        </property>
+        <!--<property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="principal"/>
+                    <property name="primitiveAttributes">
                         <list>
-                            <bean parent="SupportAttributeDefinition" p:sourceName="hrSalGroup"
-                                  p:targetName="salGroup" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+                                  p:targetName="principalId"/>
                         </list>
                     </property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="salaryGroupObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
-								p:targetName="hrSalGroup" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="positionObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionNumber"
-								p:targetName="positionNumber" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:targetName="effectiveDate"
-								p:sourceName="relativeEffectiveDate" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="deptObj"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+                                  p:targetName="dept"/>
+                        </list>
+                    </property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:targetName="effectiveDate"
+                                  p:sourceName="relativeEffectiveDate"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="payTypeObj"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayType"
+                                  p:targetName="payType"/>
+                        </list>
+                    </property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:targetName="effectiveDate"
+                                  p:sourceName="relativeEffectiveDate"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="locationObj"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+                                  p:targetName="location"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="payGradeObj"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="payGrade"
+                                  p:targetName="payGrade"/>
+                        </list>
+                    </property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="hrSalGroup"
+                                  p:targetName="salGroup"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="salaryGroupObj"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
+                                  p:targetName="hrSalGroup"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="positionObj"/>
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="positionNumber"
+                                  p:targetName="positionNumber"/>
+                        </list>
+                    </property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:targetName="effectiveDate"
+                                  p:sourceName="relativeEffectiveDate"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>-->
 		<property name="objectLabel" value="job" />
 	</bean>
 
@@ -155,6 +157,14 @@
 	<bean id="Job-hrJobId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Job Id" />
 		<property name="maxLength" value="60" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="60" />
+        </property>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
@@ -173,6 +183,14 @@
 	<bean id="Job-hrPayType-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Pay Type" />
 		<property name="maxLength" value="5" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="5" />
+        </property>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
@@ -198,6 +216,14 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Location" />
 		<property name="maxLength" value="27" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="27" />
+        </property>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
@@ -216,6 +242,14 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Standard Hours" />
 		<property name="maxLength" value="27" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="27" />
+        </property>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
@@ -232,6 +266,9 @@
 	<bean id="Job-fte-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="FTE" />
 		<property name="maxLength" value="5" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="6"/>
+        </property>
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="6" />
 		</property>
@@ -243,6 +280,13 @@
 	<bean id="Job-compRate-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Compensation Rate" />
 		<property name="maxLength" value="25" />
+        <property name="validCharactersConstraint">
+            <bean parent="ValidCharactersConstraint" p:value="((\+|-)?([0-9]{1,3}(\.[0-9]{1,2})?))()"
+                    p:messageKey="error.jobDocument.bigDecimal"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="25" />
+        </property>
 		<property name="validationPattern">
 			<bean parent="RegexValidationPattern">
 				<property name="pattern" value="((\+|-)?([0-9]{1,3}(\.[0-9]{1,2})?))()"></property>
@@ -263,6 +307,14 @@
 	<bean id="Job-firstName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="First Name" />
 		<property name="maxLength" value="40" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40" />
+        </property>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
@@ -279,6 +331,14 @@
 	<bean id="Job-lastName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Last Name" />
 		<property name="maxLength" value="80" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="80" />
+        </property>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
@@ -293,6 +353,14 @@
 
 	<bean id="Job-principalName" parent="Job-principalName-parentBean" />
 	<bean id="Job-principalName-parentBean" abstract="true"	parent="KpmeAttributeReference-principalName">
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30" />
+        </property>
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="30" />
 		</property>
@@ -302,6 +370,9 @@
 	<bean id="Job-name-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Name" />
 		<property name="maxLength" value="30" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30" />
+        </property>
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="30" />
 		</property>
@@ -316,28 +387,36 @@
 	<bean id="Job-dept-parentBean" abstract="true" parent="KpmeAttributeReference-dept"/>
 
 	<bean id="Job-primaryIndicator" parent="Job-primaryIndicator-parentBean" />
-	<bean id="Job-primaryIndicator-parentBean" abstract="true" parent="AttributeReference-genericBoolean"
-		p:shortLabel="Primary Indicator"
-		p:name="primaryIndicator"
-		p:label="Primary Indicator" />
+	<bean id="Job-primaryIndicator-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
+        <property name="shortLabel" value="Primary Indicator" />
+        <property name="name" value="primaryIndicator" />
+        <property name="label" value="Primary Indicator" />
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
 
-	<!-- <bean id="Job-hrPyCalendarId" parent="Job-hrPyCalendarId-parentBean" 
-		/> <bean id="Job-hrPyCalendarId-parentBean" abstract="true" parent="AttributeDefinition"> 
-		<property name="shortLabel" value="Job Id" /> <property name="maxLength" 
-		value="7" /> <property name="validationPattern"> <bean parent="NumericValidationPattern" 
-		/> </property> <property name="control"> <bean parent="TextControlDefinition" 
-		p:size="7" /> </property> <property name="name" value="hrPyCalendarId" /> 
-		<property name="label" value="Pay Calendar Id" /> </bean> -->
+    <!-- <bean id="Job-hrPyCalendarId" parent="Job-hrPyCalendarId-parentBean"
+        /> <bean id="Job-hrPyCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Job Id" /> <property name="maxLength"
+        value="7" /> <property name="validationPattern"> <bean parent="NumericValidationPattern"
+        /> </property> <property name="control"> <bean parent="TextControlDefinition"
+        p:size="7" /> </property> <property name="name" value="hrPyCalendarId" />
+        <property name="label" value="Pay Calendar Id" /> </bean> -->
 
 	<bean id="Job-hrSalGroup" parent="Job-hrSalGroup-parentBean" />
 	<bean id="Job-hrSalGroup-parentBean" abstract="true" parent="SalaryGroup-hrSalGroup-parentBean"/>
 
 	<!-- Eligible For Leave -->
 	<bean id="Job-eligibleForLeave" parent="Job-eligibleForLeave-parentBean" />
-	<bean id="Job-eligibleForLeave-parentBean" abstract="true" parent="AttributeReference-genericBoolean"
-		p:shortLabel="Eligible For Leave"
-		p:name="eligibleForLeave"
-		p:label="Eligible For Leave" />
+	<bean id="Job-eligibleForLeave-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
+        <property name="shortLabel" value="Eligible For Leave" />
+        <property name="name" value="eligibleForLeave" />
+        <property name="label" value="Eligible For Leave" />
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
 
 
 	<!-- FLSA Status -->
@@ -345,6 +424,12 @@
 	<bean id="Job-flsaStatus-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="FLSA Status" />
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.flsa.TkFlsaStatusKeyValueFinder"/>
+        </property>
 		<property name="control">
 			<bean parent="RadioControlDefinition"
 				p:valuesFinderClass="org.kuali.kpme.core.flsa.TkFlsaStatusKeyValueFinder">
@@ -354,11 +439,49 @@
 		<property name="label" value="FLSA Status" />
 	</bean>
 
-	<!-- Business Object Inquiry Definition -->
+    <!--***************************************************************************
+                                   Views
+        ***************************************************************************-->
 
-
+    <!-- Job Inquiry View -->
+    <bean id="Job-InquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Department Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.Job"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+                            <bean parent="Uif-DataField" p:propertyName="principalId"/>
+                            <bean parent="Uif-DataField" p:propertyName="name"/>
+                            <bean parent="Uif-DataField" p:propertyName="jobNumber"/>
+                            <bean parent="Uif-DataField" p:propertyName="dept"/>
+                            <bean parent="Uif-DataField" p:propertyName="location"/>
+                            <bean parent="Uif-DataField" p:propertyName="positionNumber"/>
+                            <bean parent="Uif-DataField" p:propertyName="hrPayType"/>
+                            <bean parent="Uif-DataField" p:propertyName="hrSalGroup"/>
+                            <bean parent="Uif-DataField" p:propertyName="payGrade"/>
+                            <bean parent="Uif-DataField" p:propertyName="compRate"/>
+                            <bean parent="Uif-DataField" p:propertyName="standardHours"/>
+                            <bean parent="Uif-DataField" p:propertyName="fte"/>
+                            <bean parent="Uif-DataField" p:propertyName="primaryIndicator"/>
+                            <bean parent="Uif-DataField" p:propertyName="eligibleForLeave"/>
+                            <bean parent="Uif-DataField" p:propertyName="flsaStatus"/>
+                            <bean parent="Uif-DataField" p:propertyName="active"/>
+                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
+                        </list>
+                    </property>
+                    <property name="title" value="Department Inquiry"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- KNS Inquiry View -->
 	<bean id="Job-inquiryDefinition" parent="Job-inquiryDefinition-parentBean" />
-
 	<bean id="Job-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.job.web.JobInquirableImpl">
 		<property name="inquirySections">
@@ -397,11 +520,90 @@
 		<property name="title" value="Job Inquiry" />
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
+    <!--Job Lookup View -->
+    <bean id="Job-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+        <property name="headerText" value="Job Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.Job"/>
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript"
+                              p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                              p:fieldConversions="principalId:principalId"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="firstName"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lastName"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobNumber"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript"
+                              p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                              p:fieldConversions="dept:dept"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript"
+                              p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+                              p:fieldConversions="positionNumber:positionNumber"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrPayType">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript"
+                              p:dataObjectClassName="org.kuali.kpme.core.paytype.PayType"
+                              p:fieldConversions="payType:payType"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history"
+                      p:defaultValue="N"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="principalId">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+                              p:inquiryParameters="principalId:principalId"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="principalName"/>
+                <bean parent="Uif-DataField" p:propertyName="jobNumber"/>
+                <bean parent="Uif-DataField" p:propertyName="dept">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                              p:inquiryParameters="deptObj.hrDeptId:hrDeptId"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="location">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                              p:inquiryParameters="locationObj.hrLocationId:hrLocationId"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="positionNumber">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+                              p:inquiryParameters="positionObj.hrPositionId:hrPositionId"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="eligibleForLeave"/>
+                <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-DataField" p:propertyName="timestamp"/>
+                <bean parent="Uif-DataField" p:propertyName="primaryIndicator"/>
+                <bean parent="Uif-DataField" p:propertyName="active"/>
+            </list>
+        </property>
+        <property name="title" value="Job Lookup"/>
+    </bean>
 
-
+	<!-- KNS Lookup View -->
 	<bean id="Job-lookupDefinition" parent="Job-lookupDefinition-parentBean" />
-
 	<bean id="Job-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="lookupableID" value="jobLookupable" />
@@ -411,17 +613,17 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="principalId" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                <bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="firstName" />
 				<bean parent="FieldDefinition" p:attributeName="lastName" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="hrPayType" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
 				<bean parent="FieldDefinition" p:attributeName="history"
 					p:defaultValue="N" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
                 <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                       p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
 			</list>

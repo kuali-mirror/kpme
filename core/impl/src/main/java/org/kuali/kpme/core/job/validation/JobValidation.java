@@ -25,8 +25,8 @@ import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class JobValidation extends MaintenanceDocumentRuleBase {
@@ -172,14 +172,14 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Job");
-		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		if (pbo instanceof Job) {
 			Job job = (Job) pbo;
-			Job oldJob = (Job) this.getOldBo();
+			Job oldJob = (Job) this.getOldDataObject();
 			if (job != null) {
 				valid = true;
 				valid &= this.validatePrincipalId(job);
-				if(!document.isOldBusinessObjectInDocument()){
+				if(!document.isOldDataObjectInDocument()){
 					valid &= this.validateJobNumber(job);
 				}
 				valid &= this.validateDepartment(job);

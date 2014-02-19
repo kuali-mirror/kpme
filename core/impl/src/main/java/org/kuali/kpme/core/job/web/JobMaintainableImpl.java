@@ -23,9 +23,12 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kim.impl.identity.PersonImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 /**
  * Hooks in to Rice to over-ride the way we are saving our Business Objects.  We
@@ -39,55 +42,11 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
-	public void setJobNumber(Job job) {
-		Long jobNumber = new Long("0");
-		JobContract maxJob = HrServiceLocator.getJobService().getMaxJob(job.getPrincipalId());
-		
-		if(maxJob != null) {
-			// get the max of job number of the collection
-			jobNumber = maxJob.getJobNumber() +1;
-		}		
-		job.setJobNumber(jobNumber);
-	}
-	/**
-	 * Override to populate user information in Maintenance page
-	 */
-	@SuppressWarnings("rawtypes")
-	@Override
-	public Map populateBusinessObject(Map<String, String> fieldValues,
-			MaintenanceDocument maintenanceDocument, String methodToCall) {
-		if (fieldValues.containsKey("principalId")
-				&& StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-			EntityNamePrincipalName p = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(fieldValues.get("principalId"));
-			if (p != null && p.getDefaultName() != null) {
-				fieldValues.put("name", p.getDefaultName().getCompositeName());
-			}else{
-				fieldValues.put("name", "");
-			}
-		}
-		if(StringUtils.equals(getMaintenanceAction(),"New") || StringUtils.equals(getMaintenanceAction(),"Copy")){
-			if (!fieldValues.containsKey("jobNumber") || StringUtils.isEmpty(fieldValues.get("jobNumber"))) {
-				if (fieldValues.containsKey("principalId") && StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-					JobContract maxJob = HrServiceLocator.getJobService().getMaxJob(fieldValues.get("principalId"));
-					if(maxJob != null) {
-						fieldValues.put("jobNumber", Long.toString(maxJob.getJobNumber() +1));
-					} else {
-						fieldValues.put("jobNumber", "0");
-					}
-				}
-			} 
-		}
-		
-		return super.populateBusinessObject(fieldValues, maintenanceDocument,
-				methodToCall); 
-	}
-	
 	@Override
 	public void processAfterCopy(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
 		super.processAfterCopy(document, parameters);
-		Job job = (Job) document.getNewMaintainableObject().getBusinessObject();
+		Job job = (Job) document.getNewMaintainableObject().getDataObject();
 		job.setPrincipalId(null);
 		job.setJobNumber(null);
 	}	
@@ -97,13 +56,30 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		return (HrBusinessObject)HrServiceLocator.getJobService().getJob(id);
 	}
 
-	@Override
-	public void customSaveLogic(HrBusinessObject hrObj) {
-		if(StringUtils.equals(getMaintenanceAction(),"New")){
-			Job job = (Job)hrObj;
-			this.setJobNumber(job);
-		}
-	}
-	
+    //attribute query, populates name when principalID is selected
+    public EntityName getName(String principalId) {
+        return KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId).getDefaultName();
+    }
+
+    //attribute query, populates name and job number when principalID is selected, for new jobs
+    public Job getNameAndJob(String principalId) {
+        Job aJob = new Job();
+
+        EntityNamePrincipalName p = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+        if (p != null && p.getDefaultName() != null) {
+            aJob.setPrincipalName(p.getDefaultName().getCompositeName());
+        }else{
+            aJob.setPrincipalName("");
+        }
+
+        JobContract maxJob = HrServiceLocator.getJobService().getMaxJob(principalId);
+        if(maxJob != null) {
+            aJob.setJobNumber(maxJob.getJobNumber() +1);
+        } else {
+            aJob.setJobNumber(0L);
+        }
+
+        return aJob;
+    }
 	
 }
