@@ -222,13 +222,13 @@ LOG.info("in ClockLogServiceImpl.processTimeBlock, after saving time blocks, the
 		    	 if(tb.getClockLogCreated()) {
 		    		 if(StringUtils.isNotEmpty(tb.getClockLogBeginId())){
 		    			 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(tb.getClockLogBeginId());
-		    			 if(cl == null || cl.isUnapprovedIP()) {
+		    			 if(cl != null && cl.isUnapprovedIP()) {
 		    				 aSet.add(buildUnapprovedIPWarning(cl));
 		    			 }
 		    		 }
 		    		 if(StringUtils.isNotEmpty(tb.getClockLogEndId())){
 		    			 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(tb.getClockLogEndId());
-		    			 if(cl == null || cl.isUnapprovedIP()) {
+		    			 if(cl != null && cl.isUnapprovedIP()) {
 		    				 aSet.add(buildUnapprovedIPWarning(cl));
 		    			 }
 		    		 }		
