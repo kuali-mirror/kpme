@@ -42,6 +42,8 @@ import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.Calendar;
@@ -280,11 +282,14 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		    Map<String, String> userColorMap = new HashMap<String, String>();
 	        Set<String> randomColors = new HashSet<String>();
 		    List<Map<String, String>> approvalRowsMap = new ArrayList<Map<String, String>>();
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 		    if(CollectionUtils.isNotEmpty(approvalRows)) {
 		    	for (ApprovalLeaveSummaryRowContract row : approvalRows) {
 		    		for (LocalDateTime date : leaveApprovalActionForm.getLeaveCalendarDates()) {
-		    			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-						String dateString = formatter.format(date);
+                        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+						//String dateString = formatter.format(date);
+                        String dateString = fmt.print(date);
 		    			Map<String, BigDecimal> earnCodeMap = row.getEarnCodeLeaveHours().get(date);
 		    			if(earnCodeMap != null && !earnCodeMap.isEmpty()) {
 			    			for (String key : earnCodeMap.keySet()){
