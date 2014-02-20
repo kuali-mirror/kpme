@@ -455,7 +455,9 @@
 
 
 	<bean id="Position-payGrade" parent="Position-payGrade-parentBean" />
-	<bean id="Position-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade"/>
+	<bean id="Position-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade">
+           <property name="required" value="false"/>
+    </bean>
 	
 	<bean id="Position-payStep" parent="Position-payStep-parentBean" />
 	<bean id="Position-payStep-parentBean" abstract="true"

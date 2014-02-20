@@ -474,7 +474,7 @@
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="salaryGroup"    		column="SALARY_GROUP"			 jdbc-type="VARCHAR"     length="10"		nullable="false" />
-        <field-descriptor name="payGrade"    			column="PAY_GRADE"				 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
+        <field-descriptor name="payGrade"    			column="PAY_GRADE"				 jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="stepNumber"   			column="STEP_NUM"				 jdbc-type="TINYINT"	 />
         <field-descriptor name="compRate"    			column="COMP_RATE"				 jdbc-type="DECIMAL"     />
         <field-descriptor name="serviceUnit"    		column="SERVICE_UNIT"			 jdbc-type="VARCHAR"     length="5"  		/>
