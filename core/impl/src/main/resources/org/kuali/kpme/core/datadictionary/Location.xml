@@ -20,11 +20,11 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	   xmlns:p="http://www.springframework.org/schema/p"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-	                       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="Location" parent="Location-parentBean" />
 	<bean id="Location-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.location.Location" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.location.Location" />
 		<property name="titleAttribute" value="location" />
 		<property name="objectLabel" value="Location" />
 		<property name="attributes">
@@ -37,15 +37,19 @@
 		</property>
         <property name="collections">
             <list>
-                <bean parent="CollectionDefinition" p:name="roleMembers" p:label="Role Members" p:shortLabel="Role Members" p:summary="Role Members" p:description="Role Members" />
-                <bean parent="CollectionDefinition" p:name="inactiveRoleMembers" p:label="Inactive Role Members" p:shortLabel="Inactive Role Members" p:summary="Inactive Role Members" p:description="Inactive Role Members" />
+                <bean parent="CollectionDefinition">
+                 	<property name="dataObjectClass" value="org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo" />
+					<property name="name" value="roleMembers" />
+					<property name="shortLabel" value="Role Members" />
+					<property name="label" value="Role Members" />
+                </bean>
+                <bean parent="CollectionDefinition">
+                	<property name="dataObjectClass" value="org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo" />
+					<property name="name" value="inactiveRoleMembers" />
+					<property name="shortLabel" value="Inactive Role Members" />
+					<property name="label" value="Inactive Role Members" />
+                </bean>
             </list>
-        </property>
-        <property name="inquiryDefinition">
-            <ref bean="Location-inquiryDefinition" />
-        </property>
-        <property name="lookupDefinition">
-            <ref bean="Location-lookupDefinition" />
         </property>
 	</bean>
 
@@ -57,14 +61,14 @@
         <property name="label" value="Location Id" />
 		<property name="shortLabel" value="Location Id" />
 		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="60" />
-		</property>
+		<property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="Location-location" parent="Location-location-parentBean" />
@@ -76,16 +80,14 @@
         <property name="label" value="Timezone" />
 		<property name="shortLabel" value="Timezone" />
 		<property name="maxLength" value="30" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-        <property name="control">
-            <bean parent="SelectControlDefinition" 
-                  p:valuesFinderClass="org.kuali.kpme.core.location.service.TimezoneKeyValueFinder"
-                  p:includeKeyInLabel="false" />
-        </property>
+        <property name="controlField">
+			<bean parent="Uif-TextControl" p:size="30" />
+		</property>
 	</bean>
 
 	<bean id="Location-description" parent="Location-description-parentBean" />
@@ -94,127 +96,112 @@
         <property name="label" value="Description" />
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="40" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint">
 				<property name="allowWhitespace" value="true" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-	</bean>
-	
-	<!-- Business Object Inquiry Definition -->
-  
-  	<bean id="Location-inquiryDefinition" parent="Location-inquiryDefinition-parentBean" />
-	<bean id="Location-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.location.web.LocationInquirableImpl">
-		<property name="title" value="Location Inquiry" />
-		<property name="translateCodes" value="false" />
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition" p:title="Location">
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-							<bean parent="FieldDefinition" p:attributeName="location" />
-							<bean parent="FieldDefinition" p:attributeName="timezone" />
-							<bean parent="FieldDefinition" p:attributeName="description" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
-								p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
-                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="InquirySectionDefinition" p:title="Role Members">
-                    <property name="inquiryFields">
-                        <list>
-                            <bean parent="InquiryCollectionDefinition" p:attributeName="roleMembers" p:businessObjectClass="org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo">
-                                <property name="inquiryFields">
-                                    <list>
-                                        <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
-                                        <bean parent="FieldDefinition" p:attributeName="principalId" />
-                                        <bean parent="FieldDefinition" p:attributeName="principalName" />
-                                        <bean parent="FieldDefinition" p:attributeName="roleName" />
-                                        <bean parent="FieldDefinition" p:attributeName="expirationDate" p:noInquiry="true" />
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="InquirySectionDefinition" p:title="Inactive Role Members">
-                    <property name="inquiryFields">
-                        <list>
-                            <bean parent="InquiryCollectionDefinition" p:attributeName="inactiveRoleMembers" p:businessObjectClass="org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo">
-                                <property name="inquiryFields">
-                                    <list>
-                                        <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
-                                        <bean parent="FieldDefinition" p:attributeName="principalId" />
-                                        <bean parent="FieldDefinition" p:attributeName="principalName" />
-                                        <bean parent="FieldDefinition" p:attributeName="roleName" />
-                                        <bean parent="FieldDefinition" p:attributeName="expirationDate" p:noInquiry="true" />
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-			</list>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
 	</bean>
 
-	<!-- Business Object Lookup Definition -->
-
-	<bean id="Location-lookupDefinition" parent="Location-lookupDefinition-parentBean" />
-	<bean id="Location-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Location Lookup" />
-		<property name="lookupableID" value="locationLookupable"></property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="description" />
-				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="location" />
-				<bean parent="FieldDefinition" p:attributeName="timezone" />
-				<bean parent="FieldDefinition" p:attributeName="description" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="timestamp" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-			</list>
-		</property>
-	</bean>
-	
 	<!-- KRAD Lookup View Definition -->
+	<bean id="Location-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+	    <property name="headerText" value="Location Lookup" />
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.location.Location" />
+	    <property name="criteriaFields">
+		    <list>
+		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
+					<property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:render="false"/>
+                    </property>
+				</bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
+			</list>
+	    </property>
+	    
+	    <property name="resultFields">
+		    <list>
+				<bean parent="Uif-DataField" p:propertyName="location" />
+				<bean parent="Uif-DataField" p:propertyName="timezone" />
+				<bean parent="Uif-DataField" p:propertyName="description" />
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-DataField" p:propertyName="timestamp" />
+				<bean parent="Uif-DataField" p:propertyName="active" />
+			</list>
+	    </property>
+	</bean>
+	  
+	<!-- KRAD Inquiry Definition -->
+	<bean id="Location-InquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Location Inquiry" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.location.Location" /> 
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.location.web.LocationInquirableImpl" />
+        <property name="singlePageView" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+                            <bean parent="Uif-DataField" p:propertyName="location" />
+                            <bean parent="Uif-DataField" p:propertyName="timezone" />
+                            <bean parent="Uif-DataField" p:propertyName="description" />
+                            <bean parent="Uif-DataField" p:propertyName="active" />
+                            <bean parent="Uif-DataField" p:propertyName="relativeEffectiveDate" />
+                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
+                        </list>
+                    </property>
+                    <property name="title" value="Location Inquiry"/>
+                </bean>
+                <bean parent="Location-roleMembersInquiry"/>
+                <bean parent="Location-inactiveRoleMembersInquiry"/>
+            </list>
+        </property>
+    </bean>
 
-  <bean id="Location-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
-    <property name="headerText" value="Location Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.location.Location" />
+    <bean id="Location-roleMembersInquiry" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Role Members"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo"/>
+        <property name="propertyName" value="roleMembers"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header"> <!-- Without this, active/inactive button shows up -->
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-InputField" p:propertyName="principalId" />
+                <bean parent="Uif-InputField" p:propertyName="principalName"/>
+                <bean parent="Uif-InputField" p:propertyName="roleName"/>
+                <bean parent="Uif-InputField" p:propertyName="expirationDate"/>
+            </list>
+        </property>
+    </bean>
 
-    <property name="criteriaFields">
-	    <list>
-					<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" />
-					<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-					<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
-		</list>
-    </property>
-    
-    <property name="resultFields">
-	    <list>
-			<bean parent="Uif-DataField" p:propertyName="location" />
-			<bean parent="Uif-DataField" p:propertyName="timezone" />
-			<bean parent="Uif-DataField" p:propertyName="description" />
-			<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-			<bean parent="Uif-DataField" p:propertyName="timestamp" />
-			<bean parent="Uif-DataField" p:propertyName="active" />
-		</list>
-    </property>
-  </bean>
+    <bean id="Location-inactiveRoleMembersInquiry" parent="Uif-Disclosure-TableCollectionSection" p:disclosure.defaultOpen="false">
+        <property name="headerText" value="Inactive Role Members"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo"/>
+        <property name="propertyName" value="inactiveRoleMembers"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="showInactiveLines" value = "true"/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-InputField" p:propertyName="principalId" />
+                <bean parent="Uif-InputField" p:propertyName="principalName"/>
+                <bean parent="Uif-InputField" p:propertyName="roleName"/>
+                <bean parent="Uif-InputField" p:propertyName="expirationDate"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>

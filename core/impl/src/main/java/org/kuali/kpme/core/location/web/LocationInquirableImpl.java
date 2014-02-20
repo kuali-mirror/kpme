@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.location.web;
 
+
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -24,20 +25,18 @@ import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.inquiry.InquirableImpl;
 
-@SuppressWarnings("deprecation")
-public class LocationInquirableImpl extends KualiInquirableImpl {
-
-	private static final long serialVersionUID = 7952001181052895833L;
+public class LocationInquirableImpl extends InquirableImpl {
+	
+	private static final long serialVersionUID = -828163766114475072L;
 
 	@Override
-	@SuppressWarnings("rawtypes")
-	public BusinessObject getBusinessObject(Map fieldValues) {
-		LocationContract locationObj = null;
-		
-		if (StringUtils.isNotBlank((String) fieldValues.get("hrLocationId"))) {
+    @SuppressWarnings("rawtypes")
+    public LocationContract retrieveDataObject(Map fieldValues) {
+    	LocationContract locationObj = null;
+
+    	if (StringUtils.isNotBlank((String) fieldValues.get("hrLocationId"))) {
 			locationObj = HrServiceLocator.getLocationService().getLocation((String) fieldValues.get("hrLocationId"));
         } else if (fieldValues.containsKey("location")) {
             String location = (String) fieldValues.get("location");
@@ -47,10 +46,12 @@ public class LocationInquirableImpl extends KualiInquirableImpl {
             locationObj = HrServiceLocator.getLocationService().getLocation(location, effectiveDate);
         } else {
        	 	if(fieldValues.get("location") != null && !ValidationUtils.isWildCard(fieldValues.get("location").toString())){
-       	 		locationObj = (Location) super.getBusinessObject(fieldValues);
+       	 		locationObj = (Location) super.retrieveDataObject(fieldValues);
        	 	}
        	}
 
-		return locationObj;
-	}
+        return locationObj;
+    	
+    }
+
 }

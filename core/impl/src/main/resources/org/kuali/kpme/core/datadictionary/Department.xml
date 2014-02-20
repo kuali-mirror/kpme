@@ -41,20 +41,6 @@
         <property name="relationships">
             <list>
                 <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="locationObj" />
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="location" p:targetName="location" />
-                        </list>
-                    </property>
-                    <property name="supportAttributes">
-                        <list>
-                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-                                  p:targetName="effectiveDate" />
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="RelationshipDefinition">
                     <property name="objectAttributeName" value="chartObj" />
                     <property name="primitiveAttributes">
                         <list>

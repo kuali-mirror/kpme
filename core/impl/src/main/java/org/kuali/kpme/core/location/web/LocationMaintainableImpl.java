@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.location.Location;
@@ -34,10 +35,8 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -51,25 +50,10 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		return (HrBusinessObject) HrServiceLocator.getLocationService().getLocation(id);
 	}
 	
-	@Override
-	@SuppressWarnings("rawtypes")
-	public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-		List sections = super.getSections(document, oldMaintainable);
-		
-		for (Object obj : sections) {
-			Section sec = (Section) obj;
-			if (sec.getSectionId().equals("inactiveRoleMembers")) {
-            	sec.setHidden(!document.isOldBusinessObjectInDocument());
-            }
-		}
-		
-		return sections;
-	}
-	
     @Override
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
-        Location oldMaintainableObject = (Location) document.getOldMaintainableObject().getBusinessObject();
-        Location newMaintainableObject = (Location) document.getNewMaintainableObject().getBusinessObject();
+        Location oldMaintainableObject = (Location) document.getOldMaintainableObject().getDataObject();
+        Location newMaintainableObject = (Location) document.getNewMaintainableObject().getDataObject();
         
         Location oldLocation = oldMaintainableObject;
         if(StringUtils.isNotBlank(oldMaintainableObject.getHrLocationId())) {
@@ -91,7 +75,7 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         newMaintainableObject.setRoleMembers(newLocation.getRoleMembers());
         newMaintainableObject.setInactiveRoleMembers(newLocation.getInactiveRoleMembers());
 
-        List<Location> locationList = (List<Location>) HrServiceLocator.getLocationService().getNewerVersionLocation(newLocation.getLocation(), newLocation.getEffectiveLocalDate());
+        List<? extends LocationContract> locationList = (List<? extends LocationContract>) HrServiceLocator.getLocationService().getNewerVersionLocation(newLocation.getLocation(), newLocation.getEffectiveLocalDate());
         if (locationList.size() > 0) {
             GlobalVariables.getMessageMap().putWarningForSectionId(
                     "Location Maintenance",
@@ -205,12 +189,4 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         return inactiveRoleMembers;
     }
         
-    @Override
-    public Map<String, String> populateNewCollectionLines(Map<String, String> fieldValues,
-			MaintenanceDocument maintenanceDocument, String methodToCall) {
-    	if(fieldValues.containsKey("roleMembers.roleName") && StringUtils.isEmpty(fieldValues.get("roleMembers.roleName"))) {
-    		fieldValues.put("roleMembers.roleName", null);
-    	}
-    	return super.populateNewCollectionLines(fieldValues, maintenanceDocument, methodToCall);
-    }   
 }

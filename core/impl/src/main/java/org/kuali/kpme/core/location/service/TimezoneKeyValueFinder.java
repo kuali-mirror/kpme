@@ -22,12 +22,14 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.api.parameter.ParameterKey;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 
-public class TimezoneKeyValueFinder extends KeyValuesBase{
+public class TimezoneKeyValueFinder extends UifKeyValuesFinderBase {
+
+	private static final long serialVersionUID = 6740248820806819529L;
 
 	@Override
-	public List getKeyValues() {
+	public List<KeyValue> getKeyValues() {
 		List<KeyValue> timezones = new ArrayList<KeyValue>();
         String timeZoneString = CoreServiceApiServiceLocator.getParameterRepositoryService().getParameterValueAsString(ParameterKey.create("KPME","KPME-HR","KeyValues","TIME_ZONES"));
 		String[] timeZoneArray = timeZoneString.split(";");

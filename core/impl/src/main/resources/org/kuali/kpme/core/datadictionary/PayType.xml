@@ -63,20 +63,6 @@
                </property>
             </bean>
 			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="locationObj" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="location" p:targetName="location" />
-                    </list>
-				</property>
-               <property name="supportAttributes">
-                   <list>
-                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-                             p:targetName="effectiveDate" />
-                   </list>
-               </property>
-			</bean>
-			<bean parent="RelationshipDefinition">
 				<property name="objectAttributeName" value="institutionObj" />
 				<property name="primitiveAttributes">
 					<list>
@@ -404,7 +390,7 @@
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
 		        <bean parent="Uif-InputField" p:propertyName="payType" p:required="true" />
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
-		        <bean parent="Uif-InputField" p:propertyName="location" p:required="true" >
+		        <bean parent="Uif-InputField" p:propertyName="location" p:required="true" >  
 				      <property name="quickfinder">
 			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
 			        		 p:fieldConversions="location:location" />
