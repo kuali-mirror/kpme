@@ -131,9 +131,13 @@ public class LeaveRequestAction extends KPMEAction {
 	  
 	public ActionForward submitForApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveRequestForm lf = (LeaveRequestForm) form;
-		for(LeaveBlock leaveBlock : lf.getPlannedLeaves()) {
+		for(int i=0; i< lf.getPlannedLeaves().size(); i++) {
+            LeaveBlock leaveBlock = lf.getPlannedLeaves().get(i);
+            String submit = request.getParameter("plannedLeaves["+i+"].submit");
+            if (submit != null
+                    && Boolean.valueOf(submit)) {
 			// check if check box is checked
-			if(leaveBlock.isSubmit()) {
+			//if(leaveBlock.isSubmit()) {
                 LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
                 LmServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
 		    }
