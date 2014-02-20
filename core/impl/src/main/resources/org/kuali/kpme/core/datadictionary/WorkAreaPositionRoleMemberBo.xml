@@ -19,11 +19,11 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	   xmlns:p="http://www.springframework.org/schema/p"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="WorkAreaPositionRoleMemberBo" parent="WorkAreaPositionRoleMemberBo-parentBean" />
 	<bean id="WorkAreaPositionRoleMemberBo-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo" />
 		<property name="objectLabel" value="Position Role Member" />
 		<property name="attributes">
             <list>
@@ -33,19 +33,6 @@
                 <ref bean="WorkAreaPositionRoleMemberBo-expirationDate" />
 			</list>
 		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="positionBaseObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionNumber"
-								p:targetName="positionNumber" />
-						</list>
-					</property>
-				</bean>
-	    	</list>
-	    </property>
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -61,15 +48,20 @@
     <bean id="WorkAreaPositionRoleMemberBo-roleName" parent="WorkAreaPositionRoleMemberBo-roleName-parentBean" />
     <bean id="WorkAreaPositionRoleMemberBo-roleName-parentBean" abstract="true" parent="PositionRoleMemberBo-roleName">
         <property name="name" value="roleName" />
-        <property name="control">
-            <bean parent="SelectControlDefinition"
-                  p:valuesFinderClass="org.kuali.kpme.core.role.workarea.WorkAreaRoleValuesFinder"
-                  p:includeKeyInLabel="false" />
-        </property>
+        <property name="controlField">
+			<bean parent="Uif-DropdownControl"/>
+		</property>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.core.role.workarea.WorkAreaRoleValuesFinder" />
+		</property>
     </bean>
     
     <bean id="WorkAreaPositionRoleMemberBo-expirationDate" parent="WorkAreaPositionRoleMemberBo-expirationDate-parentBean" />
     <bean id="WorkAreaPositionRoleMemberBo-expirationDate-parentBean" abstract="true" parent="PositionRoleMemberBo-expirationDate">
         <property name="name" value="expirationDate" />
+        <property name="controlField">
+            <bean parent="Uif-DateControl"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
     </bean>
 </beans>

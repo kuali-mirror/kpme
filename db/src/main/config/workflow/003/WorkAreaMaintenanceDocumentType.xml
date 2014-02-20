@@ -23,8 +23,7 @@
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
    		 <documentType>
      		 <name>WorkAreaMaintenanceDocumentType</name>
-      		 <parent>KpmeDocument</parent>
-      		 <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+      		 <parent>KpmeEffectiveDateMaintenanceDocumentType</parent>
      		 <label>Work Area Document</label>
     	</documentType>  
 	</documentTypes>

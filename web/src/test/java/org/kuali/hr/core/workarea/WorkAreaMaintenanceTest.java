@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-@FunctionalTest
+/*@FunctionalTest
 public class WorkAreaMaintenanceTest extends KPMEWebTestCase {
 
 	@Test
@@ -66,4 +66,4 @@ public class WorkAreaMaintenanceTest extends KPMEWebTestCase {
 		Assert.assertTrue("Work area is not null and valid", workArea != null && workArea.getWorkArea().longValue() == 1234L);
 	}
 	
-}
+}*/

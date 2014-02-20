@@ -35,8 +35,8 @@ import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 @SuppressWarnings("deprecation")
@@ -46,7 +46,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = true;
 
-		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		
 		if (pbo instanceof WorkArea) {
 			WorkArea workArea = (WorkArea) pbo;
@@ -73,7 +73,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 	public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
 		boolean valid = true;
 		
-		PersistableBusinessObject pboWorkArea = document.getDocumentBusinessObject();
+		PersistableBusinessObject pboWorkArea = (PersistableBusinessObject)document.getDocumentDataObject();
 		PersistableBusinessObject pboTask = line;
 		
 		if (pboWorkArea instanceof WorkArea && pboTask instanceof Task) {
@@ -104,7 +104,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
 		if(line instanceof WorkAreaPrincipalRoleMemberBo) {
 			WorkAreaPrincipalRoleMemberBo roleMember = (WorkAreaPrincipalRoleMemberBo) line;
-			WorkArea location = (WorkArea) document.getDocumentBusinessObject();
+			WorkArea location = (WorkArea) document.getDocumentDataObject();
 			List<WorkAreaPrincipalRoleMemberBo> existingRoleMembers = location.getPrincipalRoleMembers();
 			for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 				int index = iter.nextIndex();
@@ -154,7 +154,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
 		if(line instanceof WorkAreaPositionRoleMemberBo) {
 			WorkAreaPositionRoleMemberBo roleMember = (WorkAreaPositionRoleMemberBo) line;
-			WorkArea location = (WorkArea) document.getDocumentBusinessObject();
+			WorkArea location = (WorkArea) document.getDocumentDataObject();
 			List<WorkAreaPositionRoleMemberBo> existingRoleMembers = location.getPositionRoleMembers();
 			for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 				int index = iter.nextIndex();

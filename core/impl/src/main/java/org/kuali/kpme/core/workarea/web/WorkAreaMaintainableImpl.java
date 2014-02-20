@@ -43,9 +43,9 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.Maintainable;
-import org.kuali.rice.kns.web.ui.Section;
+/*import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.kns.maintenance.Maintainable;*/
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -59,7 +59,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         return (HrBusinessObject) HrServiceLocator.getWorkAreaService().getWorkArea(id);
     }
     
-	@Override
+	/*@Override
 	@SuppressWarnings("rawtypes")
     public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
         List sections = super.getSections(document, oldMaintainable);
@@ -72,7 +72,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         }
         
         return sections;
-    }
+    }*/
     
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -86,9 +86,9 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     }
     
     @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
-        WorkArea oldMaintainableObject = (WorkArea) document.getOldMaintainableObject().getBusinessObject();
-        WorkArea newMaintainableObject = (WorkArea) document.getNewMaintainableObject().getBusinessObject();
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        WorkArea oldMaintainableObject = (WorkArea) document.getOldMaintainableObject().getDataObject();
+        WorkArea newMaintainableObject = (WorkArea) document.getNewMaintainableObject().getDataObject();
         
         WorkArea oldWorkArea = oldMaintainableObject;
         if(StringUtils.isNotBlank(oldMaintainableObject.getTkWorkAreaId())) {
@@ -115,7 +115,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         newMaintainableObject.setPositionRoleMembers(newWorkArea.getPositionRoleMembers());
         newMaintainableObject.setInactivePositionRoleMembers(newWorkArea.getInactivePositionRoleMembers());
         
-        super.processAfterEdit(document, parameters);
+        super.processAfterEdit(document, requestParameters);
     }
 
     @Override

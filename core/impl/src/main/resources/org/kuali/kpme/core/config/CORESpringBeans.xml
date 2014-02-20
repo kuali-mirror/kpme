@@ -524,12 +524,11 @@
     </bean>
     
     
-    
-    <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <!-- <bean id="workAreaLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.workarea.web.WorkAreaLookupableHelper"/>
         </property>
-    </bean>
+    </bean> -->
     <bean id="assignmentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.assignment.web.AssignmentLookupableHelper"/>
