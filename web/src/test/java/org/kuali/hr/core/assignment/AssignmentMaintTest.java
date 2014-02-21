@@ -29,6 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 //@FunctionalTest
+/**
 public class AssignmentMaintTest extends KPMEWebTestCase {
 	
 	//data defined in boot strap script
@@ -114,3 +115,4 @@ public class AssignmentMaintTest extends KPMEWebTestCase {
 	}
 
 }
+*/

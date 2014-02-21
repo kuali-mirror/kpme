@@ -27,8 +27,8 @@ import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-@FunctionalTest
+/**
+//@FunctionalTest
 public class AssignmentAccountMaintTest extends KPMEWebTestCase{
 	private static final String TEST_CODE="CD";
 	private static final String TEST_ID="1";
@@ -70,4 +70,4 @@ public class AssignmentAccountMaintTest extends KPMEWebTestCase{
 	
 }
 
-
+*/
