@@ -106,7 +106,7 @@
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
                                           p:dataObjectClassName="org.kuali.kpme.core.paytype.PayType"
-                                          p:fieldConversions="payType:payType"/>
+                                          p:fieldConversions="payType:hrPayType"/>
                                 </property>
                             </bean>
 
