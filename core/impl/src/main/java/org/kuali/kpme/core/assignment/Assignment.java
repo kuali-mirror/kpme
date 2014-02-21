@@ -30,7 +30,6 @@ import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -113,7 +112,7 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 
 	public String getName() {
 		if (principal == null) {
-        principal = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
+			principal = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 		}
 		return (principal != null) ? principal.getName() : "";
 	}
@@ -289,13 +288,17 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
     public String getAssignmentKey() {
         return new AssignmentDescriptionKey(this).toAssignmentKeyString();
     }
-    
-	public Boolean isPrimaryAssign() {
-		return Boolean.valueOf(primaryAssign);
+
+
+	public boolean isPrimaryAssign() {
+		return primaryAssign;
 	}
+
 
 	public void setPrimaryAssign(boolean primaryAssign) {
 		this.primaryAssign = primaryAssign;
 	}
+    
+	
 
 }

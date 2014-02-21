@@ -20,13 +20,12 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 @SuppressWarnings("deprecation")
-public class AssignmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
+public class AssignmentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = 1962036374728477204L;
 

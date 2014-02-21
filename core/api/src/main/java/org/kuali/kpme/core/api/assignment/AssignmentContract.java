@@ -233,6 +233,6 @@ public interface AssignmentContract extends HrBusinessObjectContract {
 	 */
     public String getAssignmentKey();
 
-    public Boolean isPrimaryAssign();
+    public boolean isPrimaryAssign();
 
 }

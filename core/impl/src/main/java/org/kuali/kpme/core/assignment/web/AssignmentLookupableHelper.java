@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -29,48 +30,54 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.krad.web.form.LookupForm;
 
 @SuppressWarnings("deprecation")
-public class AssignmentLookupableHelper extends KPMELookupableHelper {
+public class AssignmentLookupableHelper extends KPMELookupableImpl {
 
 	private static final long serialVersionUID = 774015772672806415L;
 
+	
+//	@Override
+//	@SuppressWarnings("rawtypes")
+//    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+//    	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+//
+//		Assignment assignment = (Assignment) businessObject;
+//        String tkAssignmentId = assignment.getTkAssignmentId();
+//
+//		Properties params = new Properties();
+//		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+//		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+//		params.put("tkAssignmentId", tkAssignmentId);
+//		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+//		viewUrl.setDisplayText("view");
+//		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+//		customActionUrls.add(viewUrl);
+//		
+//		//	Add copy link - KPME-3060
+//		customActionUrls.add(getUrlData(assignment, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
+//		
+//		return customActionUrls;
+//    }
+
+
 	@Override
-	@SuppressWarnings("rawtypes")
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-    	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-
-		Assignment assignment = (Assignment) businessObject;
-        String tkAssignmentId = assignment.getTkAssignmentId();
-
-		Properties params = new Properties();
-		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
-		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("tkAssignmentId", tkAssignmentId);
-		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
-		viewUrl.setDisplayText("view");
-		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
-		customActionUrls.add(viewUrl);
-		
-		//	Add copy link - KPME-3060
-		customActionUrls.add(getUrlData(assignment, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
-		
-		return customActionUrls;
-    }
-
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-        String principalId = fieldValues.get("principalId");
-        String jobNumber = fieldValues.get("jobNumber");
-        String dept = fieldValues.get("dept");
-        String workArea = fieldValues.get("workArea");
-        String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
+	protected List<?> getSearchResults(LookupForm form,
+			Map<String, String> searchCriteria, boolean unbounded) {
+        String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
+        String principalId = searchCriteria.get("principalId");
+        String jobNumber = searchCriteria.get("jobNumber");
+        String dept = searchCriteria.get("dept");
+        String workArea = searchCriteria.get("workArea");
+        String active = searchCriteria.get("active");
+        String showHist = searchCriteria.get("history");
 
         return HrServiceLocator.getAssignmentService().searchAssignments(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId, 
         		jobNumber, dept, workArea, active, showHist);
-    }
+	}
+    
+    
 
 }

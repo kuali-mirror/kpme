@@ -561,7 +561,7 @@
                 <bean parent="Uif-DataField" p:propertyName="accrualCategory"/>
                 <bean parent="Uif-DataField" p:propertyName="ovtEarnCode"/>
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
-                <bean parent="Uif-DataField" p:propertyName="timeStamp"/>
+                <!-- <bean parent="Uif-DataField" p:propertyName="timeStamp"/> -->
                 <bean parent="Uif-DataField" p:propertyName="active"/>
             </list>
         </property>

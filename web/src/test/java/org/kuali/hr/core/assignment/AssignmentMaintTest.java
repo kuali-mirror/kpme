@@ -28,7 +28,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-@FunctionalTest
+//@FunctionalTest
 public class AssignmentMaintTest extends KPMEWebTestCase {
 	
 	//data defined in boot strap script
@@ -43,7 +43,7 @@ public class AssignmentMaintTest extends KPMEWebTestCase {
 	final String ERROR_JOB_NUMBER_INVALID = "The specified jobNumber '1' does not exist.";
 	
 	
-	@Test
+//	@Test
 	public void testAssignmentMaint() throws Exception {
 		HtmlPage assignmentLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.ASSIGNMENT_MAINT_URL);
 		HtmlUnitUtil.setFieldValue(assignmentLookUp, "workArea", "30");
@@ -56,7 +56,7 @@ public class AssignmentMaintTest extends KPMEWebTestCase {
 		Assert.assertTrue("Maintenance Page contains test assignment",maintPage.asText().contains(TEST_CODE.toString()));	
 	}
 	
-	@Test
+//	@Test
 	public void testAssignmentCreateNew() throws Exception {
 		
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.ASSIGNMENT_MAINT_NEW_URL);
@@ -80,7 +80,7 @@ public class AssignmentMaintTest extends KPMEWebTestCase {
         Assert.assertFalse("page contains: " + ERROR_TASK_NULL, nextPage.asText().contains(ERROR_TASK_NULL));
 	}
 	
-	@Test
+//	@Test
 	public void testAssignmentCreateNewJobValidation() throws Exception {
 		
 		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.ASSIGNMENT_MAINT_NEW_URL);

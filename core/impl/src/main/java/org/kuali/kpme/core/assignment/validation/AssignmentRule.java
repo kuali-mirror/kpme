@@ -30,14 +30,11 @@ import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
-import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 @SuppressWarnings("deprecation")
 public class AssignmentRule extends MaintenanceDocumentRuleBase {
@@ -47,14 +44,14 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		if (assignment.getWorkArea() != null) {
 			if (!ValidationUtils.validateWorkArea(assignment.getWorkArea(),
 					assignment.getEffectiveLocalDate())) {
-				this.putFieldError("workArea", "error.existence", "workArea '"
+				this.putFieldError("dataObject.workArea", "error.existence", "workArea '"
 						+ assignment.getWorkArea() + "'");
 				valid = false;
 			} else {
 				int count = HrServiceLocator.getWorkAreaService().getWorkAreaCount(assignment.getDept(), assignment.getWorkArea());
 				valid = (count > 0);
 				if (!valid) {
-					this.putFieldError("workArea", "dept.workarea.invalid.sync");
+					this.putFieldError("dataObject.workArea", "dept.workarea.invalid.sync");
 				}
 			}
 		}
@@ -68,7 +65,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			TaskContract task = HrServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
 			if(task != null) {
 				if(task.getWorkArea() == null || !task.getWorkArea().equals(assignment.getWorkArea())) {
-					this.putFieldError("task", "task.workarea.invalid.sync");
+					this.putFieldError("dataObject.task", "task.workarea.invalid.sync");
 					valid = false;
 				}
 			} 
@@ -82,7 +79,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				int count = HrServiceLocator.getJobService().getJobCount(null, assignment.getJobNumber(), assignment.getDept());
 				valid = (count > 0);
 				if (!valid) {
-					this.putFieldError("dept", "dept.jobnumber.invalid.sync");
+					this.putFieldError("dataObject.dept", "dept.jobnumber.invalid.sync");
 				}
 			 
 		}
@@ -103,7 +100,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
 			LOG.debug("found job.");
 		} else {
-			this.putFieldError("jobNumber", "error.existence", "jobNumber '"
+			this.putFieldError("dataObject.jobNumber", "error.existence", "jobNumber '"
 					+ assignment.getJobNumber() + "'");
 		}
 		return valid;
@@ -143,7 +140,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				int index = 0;
 				for (AssignmentAccount account : assignmentAccounts) {
 					if (invalidEarnCodes.contains(account.getEarnCode())) {
-						this.putFieldError("assignmentAccounts[" + index
+						this.putFieldError("dataObject.assignmentAccounts[" + index
 								+ "].percent", "error.percentage.earncode");
 					}
 					index++;
@@ -186,7 +183,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			}
 		}
 		if(!valid) {
-			this.putFieldError("assignmentAccounts", "earncode.regular.pay.required");
+			this.putFieldError("dataObject.assignmentAccounts", "earncode.regular.pay.required");
 		}
 		return valid;
 	}
@@ -198,7 +195,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
 			valid = ValidationUtils.validateAccount(assignmentAccount.getFinCoaCd(), assignmentAccount.getAccountNbr());
 			if(!valid) {
-				this.putFieldError("assignmentAccounts", "error.existence", "Account Number '" + assignmentAccount.getAccountNbr() + "'");
+				this.putFieldError("dataObject.assignmentAccounts", "error.existence", "Account Number '" + assignmentAccount.getAccountNbr() + "'");
 				break;
 			}
 		}
@@ -280,7 +277,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				List<? extends AssignmentContract> assignList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveLocalDate());
 				for(AssignmentContract anAssignment : assignList) {
 					if(anAssignment != null && anAssignment.isPrimaryAssign()) {
-						this.putFieldError("primaryAssign", "error.primary.assignment.exists.for.leaveJob", assignment.getJobNumber().toString());
+						this.putFieldError("dataObject.primaryAssign", "error.primary.assignment.exists.for.leaveJob", assignment.getJobNumber().toString());
 						return false;
 					}
 				}
@@ -317,7 +314,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Assignment");
-		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		if (pbo instanceof Assignment) {
 			Assignment assignment = (Assignment) pbo;
 			if (assignment != null) {
@@ -335,7 +332,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				}
 				// only allow one primary assignment for the leave eligible job
 				if(assignment.isPrimaryAssign()) {
-					Assignment oldAssignment = (Assignment) this.getOldBo();
+					Assignment oldAssignment = (Assignment) this.getOldDataObject();
 					valid &= this.validateOnePrimaryAssignment(assignment, oldAssignment);
 				}
 			}
@@ -349,8 +346,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document, String collectionName,
 			PersistableBusinessObject line) {
 		boolean valid = false;
+		System.out.println("Custom Add line adding called>>>>");
 		LOG.debug("entering custom add assignment account business rules");
-		PersistableBusinessObject assignmentPbo = (PersistableBusinessObject) this.getNewBo();
+		PersistableBusinessObject assignmentPbo = (PersistableBusinessObject) this.getNewDataObject();
 		PersistableBusinessObject pbo = line;
 		if (pbo instanceof AssignmentAccount) {
 			AssignmentAccount assignmentAccount = (AssignmentAccount) pbo;
@@ -371,4 +369,5 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
+	
 }
