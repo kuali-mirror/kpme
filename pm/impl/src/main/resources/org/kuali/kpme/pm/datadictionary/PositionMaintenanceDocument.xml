@@ -346,15 +346,15 @@
 				         </bean>
 					</property>	
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="reportsToPositionId">
+				<bean parent="Uif-InputField" p:propertyName="reportsToPositionId" p:propertyNamesForAdditionalDisplay="reportsToWorkingTitle" >
                     <property name="control">
                         <bean parent="Uif-TextControl"
                               p:disabled="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}"
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.pm.position.Position" 
-						      p:fieldConversions="positionNumber:reportsToPositionId,description:reportsToWorkingTitle" 
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.position.Position" 
+						      p:fieldConversions="positionNumber:reportsToPositionId" 
 						      p:lookupParameters="location:location,institution:institution" />
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"
@@ -364,11 +364,6 @@
 	            		<bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.kpme.pm.position.Position"
 	                  		p:queryFieldMapping="reportsToPositionId:positionNumber" p:returnFieldMapping="description:reportsToWorkingTitle"/>
 	        		</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="reportsToWorkingTitle">
-					<property name="control">
-                        <bean parent="Uif-TextControl" p:disabled="true" />
-                    </property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="expectedEndDate">
                     <property name="control">
