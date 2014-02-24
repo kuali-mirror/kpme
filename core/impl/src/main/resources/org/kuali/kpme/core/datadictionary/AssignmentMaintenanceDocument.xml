@@ -97,13 +97,21 @@
 	            </list>
 	          </property>
 	        </bean>
-	        <bean parent="Assignment-assignmentAccounts"/>
+	        
+	        <bean parent="Uif-MaintenanceGridSection">
+				<property name="headerText" value="Assignment Accounts" />
+				<property name="items">
+					<list>
+	        			<bean parent="Assignment-assignmentAccounts"/>
+	        		</list>
+	        	</property>
+	        </bean>
 	      </list>
 	    </property>
 	  </bean> 
 
 	<!-- AssignmentAccounts maintenance section -->
-	<bean id="Assignment-assignmentAccounts" parent="Uif-Disclosure-StackedCollectionSection">
+	<bean id="Assignment-assignmentAccounts" parent="Uif-StackedCollectionGroup">
 	  <property name="headerText" value="Assignment Account"/>
 	  <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.account.AssignmentAccount" />
 	  <property name="propertyName" value="assignmentAccounts" />
