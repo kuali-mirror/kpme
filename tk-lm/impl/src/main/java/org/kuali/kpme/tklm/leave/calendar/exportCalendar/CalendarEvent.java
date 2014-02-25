@@ -16,6 +16,8 @@
 package org.kuali.kpme.tklm.leave.calendar.exportCalendar;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.kuali.kpme.core.service.HrServiceLocator;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,63 +32,87 @@ public class CalendarEvent {
     private static final String VERSION = "\nVERSION:2.0";
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
     private SimpleDateFormat timeFormat = new SimpleDateFormat("HHmmss");
-    private GregorianCalendar gCal = new GregorianCalendar();
-    public  TimeZone localeTZ = gCal.getTimeZone();
-    private String DSTname;
-    private String STname;
-    private String UTCoffset;
-    private String sTime;
+    private DateTime dateTime = new DateTime();
+	private DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getTargetUserTimezone());
+	public  TimeZone localeTZ = dtz.toTimeZone();
+	private String DSTname;
+	private String STname;
+	private String UTCoffset;
+	private String sTime;
     private String date_start;
     private String date_end;
     private String description;
     private String title;
     private String timestamp;
-    private String filename;
+	private String filename;
         
     public String calendarHeader(){
     	setTimezone();
-    	String headerContent = "BEGIN:VCALENDAR" + "\nMETHOD:PUBLISH" +
-                  VERSION + "\nX-WR-CALNAME:" + filename + PRODID + 
-                  "\nX-WR-TIMEZONE:" + localeTZ.getID() + "\nCALSCALE:GREGORIAN" +
+    	String headerContent = 
+    			"BEGIN:VCALENDAR" + 
+    			"\nMETHOD:PUBLISH" +
+                VERSION + 
+                "\nX-WR-CALNAME:" + filename +
+                PRODID + 
+                "\nX-WR-TIMEZONE:" + dtz +
+                "\nCALSCALE:GREGORIAN" +
                   
-                  "\nBEGIN:VTIMEZONE" + "\nTZID:" + localeTZ.getID() +
-                  
-                  "\nBEGIN:STANDARD" + "\nTZOFFSETFROM:" + UTCoffset +
-                  "\nDTSTART:19420515T000000" + "\nTZNAME:" + STname +
-                  "\nTZOFFSETTO:" + sTime + "\nRDATE:19420515T000000" +
-                  "\nRDATE:19451015T000000" + "\nEND:STANDARD" +
+                  "\nBEGIN:VTIMEZONE" + 
+                  	"\nTZID:" + 
+                  		"\nBEGIN:STANDARD" + 
+                  			"\nDTSTART:19981025T020000" +
+                  			"\nRDATE:19981025T020000" +
+                  			"\nTZOFFSETFROM:" + UTCoffset +
+                  			"\nTZOFFSETTO:"  + sTime + 
+                  			"\nTZNAME:" + STname +
+                  		"\nEND:STANDARD" +
                  
-				  "\nBEGIN:DAYLIGHT" + "\nTZOFFSETFROM:" +  UTCoffset + 
-				  "\nDTSTART:" + "19420901T000000" + "\nTZNAME:" +  DSTname +
-				  "\nTZOFFSETTO:" + sTime + "\nRDATE:19420901T000000" + "\nEND:DAYLIGHT" 
+				  		"\nBEGIN:DAYLIGHT" + 
+				  			"\nDTSTART:19990404T020000" +
+				  			"\nRDATE:19990404T020000" +
+				  			"\nTZOFFSETFROM:" + UTCoffset +   
+				  			"\nTZOFFSETTO:" + sTime +
+				  			"\nTZNAME:" + DSTname + 
+				  		"\nEND:DAYLIGHT" 
 				  
 				  + "\nEND:VTIMEZONE";
     	
     	return headerContent;
     }
     
-    public String createEvent(String title, DateTime dStart, DateTime dEnd, String tStart,
+    public String createEvent(String calTitle, DateTime dStart, DateTime dEnd, String tStart,
             String tEnd, String desc, String uid){
-    			setTitle(title);
-    			setDate_start(dStart.toDate(), tStart);
+    			
+    			System.out.println(dStart.toString());
+    			System.out.println(tStart);
+    			System.out.println(dEnd.toString());
+    			System.out.println(tEnd);
+    			setTitle(calTitle);
     			if(dStart.compareTo(dEnd)==0 && tStart.equals(tEnd)){
+    				
     				Calendar c = Calendar.getInstance();
     				c.setTime(dEnd.toDate());
     				c.add(Calendar.DATE, 1);
-    				setDate_end(c.getTime(), tEnd);
+    				date_start = dateFormat.format(dStart.toDate());
+    				date_end = dateFormat.format(c.getTime());
     			}else{
+    				setDate_start(dStart.toDate(), tStart);
     				setDate_end(dEnd.toDate(), tEnd);
     			}
     			setTimestamp();
     			setDescription(desc);
     			
-    			String eventDetails = "\nBEGIN:VEVENT" + "\nUID:" + uid +  
-                  "\nCREATED:" + dateFormat.format(gCal.getTime()) +
-                      "T" + timeFormat.format(gCal.getTime()) + "Z" +
-                  "\nDTSTART;TZID=" + localeTZ.getID() + ":" + date_start +
-                  "\nDTEND;TZID=" + localeTZ.getID() + ":" + date_end + 
-                  timestamp + "\nTRANSP:OPAQUE" +
-                  this.title + description + "\nSEQUENCE:0" + "\nEND:VEVENT";           
+    			String eventDetails = 
+    					"\nBEGIN:VEVENT" + 
+    						"\nUID:" + uid +  
+    						"\nCREATED:" + dateFormat.format(dateTime.toDate()) + "T" + timeFormat.format(dateTime.toDate()) +
+    						"\nDTSTART;TZID=" + dtz + ":" + date_start +
+    						"\nDTEND;TZID=" + dtz + ":" + date_end + 
+    						timestamp + 
+    						"\nTRANSP:OPAQUE" +
+    						title + description + 
+    						"\nSEQUENCE:0" + 
+    					"\nEND:VEVENT";           
         
         return eventDetails;
     }
@@ -100,8 +126,8 @@ public class CalendarEvent {
     }
     
     public String generateFilename(){
-        this.filename =  "KPME-ALR-" + dateFormat.format(gCal.getTime()) + "-" + 
-                timeFormat.format(gCal.getTime()) + ".ics";
+        this.filename =  "KPME-ALR-" + dateFormat.format(dateTime.toDate()) + "-" + 
+                timeFormat.format(dateTime.toDate()) + ".ics";
         return this.filename;
     }
     
@@ -119,22 +145,31 @@ public class CalendarEvent {
     } 
     
     private void setTimestamp(){
-        this.timestamp = "\nDTSTAMP:" + dateFormat.format(gCal.getTime()) +
-                         "T" + timeFormat.format(gCal.getTime()) + "Z";
+        this.timestamp = "\nDTSTAMP:" + dateFormat.format(dateTime.toDate()) +
+                         "T" + timeFormat.format(dateTime.toDate()) + "Z";
     }
     
     private void setTimezone(){
-        int DST = gCal.get(Calendar.DST_OFFSET);
+    	
+    	int offset = dtz.getOffset(dateTime);
+    	int DST = localeTZ.getDSTSavings();
         
         DSTname = localeTZ.getDisplayName(true, TimeZone.LONG);
         STname = localeTZ.getDisplayName(false, TimeZone.LONG);
         
-        int offset = localeTZ.getRawOffset();  
+        //Changes for KPME-2996 offset issue
+        char sign;
+        if (offset >= 0) {
+    		sign = '+';
+    	}else{
+    		sign = '-';
+    		offset = offset * (-1);
+    	}        
         
-        UTCoffset = String.format("%s%02d%02d", offset >= 0 ? "+" : "", 
-                offset / 3600000, (offset / 60000) % 60);
-        
-        sTime = String.format("%s%02d%02d", (offset + DST) >= 0 ? "+" : "", 
-                (offset + DST) / 3600000, ((offset + DST) / 60000) % 60);
+        UTCoffset = String.format("%s%02d%02d", sign, 
+	    			offset / 3600000, (offset / 60000) % 60);
+    	sTime = String.format("%s%02d%02d", sign, 
+	    			(offset + DST) / 3600000, ((offset + DST) / 60000) % 60);
+    	 
     }
 }

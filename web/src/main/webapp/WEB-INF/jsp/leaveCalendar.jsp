@@ -15,12 +15,14 @@
     limitations under the License.
 
 --%>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> -->
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 <c:set var="Form" value="${LeaveCalendarForm}" scope="request"/>
 
 <tk:tkHeader tabId="leaveCalendar" nocache="true">
    
  	<script type="text/javascript" src="themes/kboot/scripts/kboot.2.3.4-r44639.min.js"></script>
+ 	
     <html:form action="/LeaveCalendar.do" method="POST">
         <html:hidden property="reloadValue" value="" styleId="reloadValue"/>
         <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
@@ -58,7 +60,7 @@
         <c:if test="${not empty Form.calendarEntry}">
         
             <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
-            
+            <a href="#" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/leaveBlock?&methodToCall=start&viewId=leaveUsageView', {minHeight: 300, height: 300, maxWidth: 600, closeBtn: false})" >Copy Leave Usage to External Calendar</a>
             <%-- if this leave calendar does not have a leave calendar document, then do not show routing sections --%>
             <c:if test="${not empty Form.documentId}">
             	<%-- render the calendar buttons --%>
@@ -178,6 +180,7 @@
             </div>
         </html:form>
     </div>
+
 </div>
 
 <%-- Earn code template --%>
