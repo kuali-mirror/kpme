@@ -183,6 +183,7 @@
 				</property>
 			</bean>
 		</property>
+		<property name="required" value="true" />
 		<property name="name" value="percent" />
 		<property name="label" value="Percent" />
 	</bean>

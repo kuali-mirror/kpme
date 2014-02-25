@@ -161,7 +161,12 @@
 	            </property>        
 		 	</bean>
 		 	<bean parent="Uif-InputField" p:propertyName="orgRefId" />
-		 	<bean parent="Uif-InputField" p:propertyName="percent" p:required="true"/>             		
+		 	<bean parent="Uif-InputField" p:propertyName="percent" p:exclusiveMin="0" p:inclusiveMax="100"
+			        	 p:constraintText="Must be a number between 0 and 100." p:required="true">
+			        	<property name="validCharactersConstraint">
+				        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
+						</property>
+		    </bean>            		
            	<bean parent="Uif-InputField" p:propertyName="active" />           
 	    </list>
 	  </property>

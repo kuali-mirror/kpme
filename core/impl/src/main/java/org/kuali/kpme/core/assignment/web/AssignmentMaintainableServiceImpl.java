@@ -15,12 +15,19 @@
  */
 package org.kuali.kpme.core.assignment.web;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
 /**
  * Override the Maintenance page behavior for Assignment object
@@ -61,4 +68,69 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
         super.prepareForSave();
     }
 
+	@Override
+	protected boolean performAddLineValidation(View view,
+			CollectionGroup collectionGroup, Object model, Object addLine) {
+        boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
+        if (model instanceof MaintenanceDocumentForm) {
+	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+	        MaintenanceDocument document = maintenanceForm.getDocument();
+	        if (document.getNewMaintainableObject().getDataObject() instanceof Assignment) {
+	        	Assignment assignment = (Assignment) document.getNewMaintainableObject().getDataObject();
+	        	// Duty line validation
+		        if (addLine instanceof AssignmentAccount) {
+		        	AssignmentAccount assignmentAccount = (AssignmentAccount) addLine;
+		        	boolean results = this.validateAssignmentAccount(assignmentAccount, assignment);
+		        	if(!results) {
+		        		return false;
+		        	}
+		        }
+	        }
+        }
+		return isValid;
+	}
+	
+	private boolean validateAssignmentAccount(AssignmentAccount assignmentAccount, Assignment assignmentObj) {
+		boolean valid = false;
+		
+		if(StringUtils.isNotEmpty(assignmentAccount.getEarnCode())) {
+			valid = ValidationUtils.validateEarnCode(assignmentAccount.getEarnCode(), assignmentObj.getEffectiveLocalDate());
+			if(!valid) {
+				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.assignmentAccounts'].earnCode","error.existence", "earn code '"+ assignmentAccount.getEarnCode() + "'");
+				return valid;
+			}
+		}
+		if(StringUtils.isNotEmpty(assignmentAccount.getAccountNbr())) {
+			valid = ValidationUtils.validateAccount(assignmentAccount.getFinCoaCd(),assignmentAccount.getAccountNbr());
+			if(!valid) {
+				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.assignmentAccounts'].accountNbr","error.existence", "Account Number '"+ assignmentAccount.getAccountNbr() + "'");
+				return valid;
+			}
+		}
+		if(StringUtils.isNotEmpty(assignmentAccount.getFinObjectCd())) {
+			valid = ValidationUtils.validateObjectCode(assignmentAccount.getFinObjectCd(),assignmentAccount.getFinCoaCd(),null);
+			if (!valid) {
+				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.assignmentAccounts'].finObjectCd","error.existence", "Object Code '"+ assignmentAccount.getFinObjectCd() + "'");
+				return valid;
+			}			
+		}
+		if (StringUtils.isNotEmpty(assignmentAccount.getFinSubObjCd())) {
+			valid = ValidationUtils.validateSubObjectCode(String.valueOf(assignmentObj.getEffectiveLocalDate().getYear()),assignmentAccount.getFinCoaCd(),
+					assignmentAccount.getAccountNbr(), assignmentAccount.getFinObjectCd(), assignmentAccount.getFinSubObjCd());
+			if (!valid) {
+				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.assignmentAccounts'].finSubObjectCd","error.existence", "SubObject Code '"+ assignmentAccount.getFinSubObjCd() + "'");
+				return valid;
+			}
+		} 
+		if(assignmentAccount.getSubAcctNbr() != null) {
+			valid = ValidationUtils.validateSubAccount(assignmentAccount.getSubAcctNbr(),assignmentAccount.getAccountNbr(), assignmentAccount.getFinCoaCd());
+			if (!valid) {
+				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.assignmentAccounts'].subAcctNbr", "error.existence", "Sub-Account Number '"+ assignmentAccount.getSubAcctNbr() + "'");
+				return valid;
+			}
+		}
+		
+		return valid;
+	}
+    
 }
