@@ -72,7 +72,7 @@
 							<logic:iterate scope="request" indexId="index" name="Form"
 								property="plannedLeaves" id="plannedLeave">
 								<tr>
-									<td><fmt:formatDate value="${plannedLeave.leaveDateTime.toDate()}"
+									<td><joda:format value="${plannedLeave.leaveDateTime}"
 											pattern="MM/dd/yyyy" />
 									</td>
 									<td>${plannedLeave.earnCodeDescription} (${plannedLeave.earnCode})</td>
@@ -106,7 +106,7 @@
 						<c:if test="${fn:length(Form.pendingLeaves) > 0}">
 							<c:forEach var="pendingLeave" items="${Form.pendingLeaves}">
 								<tr>
-									<td><fmt:formatDate value="${pendingLeave.leaveDateTime.toDate()}"
+									<td><joda:format value="${pendingLeave.leaveDateTime}"
 											pattern="MM/dd/yyyy" />
 									</td>
 									<td>${pendingLeave.earnCodeDescription} (${pendingLeave.earnCode})</td>
@@ -137,7 +137,7 @@
 						<c:if test="${fn:length(Form.approvedLeaves) > 0}">
 							<c:forEach var="approvedLeave" items="${Form.approvedLeaves}">
 								<tr>
-									<td><fmt:formatDate value="${approvedLeave.leaveDateTime.toDate()}"
+									<td><joda:format value="${approvedLeave.leaveDateTime}"
 											pattern="MM/dd/yyyy" />
 									</td>
 									<td>${approvedLeave.earnCodeDescription} (${approvedLeave.earnCode})</td>
@@ -172,7 +172,7 @@
 							<c:forEach var="disaprovedLeave"
 								items="${Form.disapprovedLeaves}">
 								<tr>
-									<td><fmt:formatDate value="${disaprovedLeave.leaveDateTime.toDate()}"
+									<td><joda:format value="${disaprovedLeave.leaveDateTime}"
 											pattern="MM/dd/yyyy" />
 									</td>
 									<td>${disaprovedLeave.earnCodeDescription} (${disaprovedLeave.earnCode})</td>
