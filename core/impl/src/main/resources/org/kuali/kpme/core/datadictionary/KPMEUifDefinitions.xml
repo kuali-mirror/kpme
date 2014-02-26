@@ -89,12 +89,15 @@
             </list>
         </property>
     </bean>
-	
-	
-	
-	
+
+    <!-- maintenance view to hide cancel button upon submit -->
+	<bean id="KPMEUif-MaintenanceView" parent="Uif-MaintenanceView">
+        <property name="presentationControllerClass"
+                  value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceViewPresentationControllerBase"/>
+	</bean>
+
 	<bean id="KPMEEffectiveDateBO-MaintenanceView" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView-parentBean"/>
-  	<bean id="KPMEEffectiveDateBO-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  	<bean id="KPMEEffectiveDateBO-MaintenanceView-parentBean" abstract="true" parent="KPMEUif-MaintenanceView">
   		<property name="dialogs">
     		<list>
         		<bean id="KPMEEffectiveDateWarning-Dialog" parent="KPMEEffectiveDateWarning-Dialog-parentBean"/>
