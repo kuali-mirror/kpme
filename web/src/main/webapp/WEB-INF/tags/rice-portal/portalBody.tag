@@ -54,7 +54,8 @@
                   <portal:maintenanceTab />
               </c:when>
 	          
-	          <c:when test='${selectedTab == "administration"}'>
+	          
+	          <c:when test='${selectedTab == "riceadministration"}'>
 	              <portal:administrationTab />
 	          </c:when>
 	          

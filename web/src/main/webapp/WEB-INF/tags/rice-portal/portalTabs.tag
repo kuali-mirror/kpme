@@ -66,17 +66,17 @@
         </c:if>
 
 		<%-- Administration --%>
-		<c:if test='${selectedTab == "administration"}'>
+		<c:if test='${selectedTab == "riceadministration"}'>
 			<li class="red">
-				<a class="red" href="portal.do?selectedTab=administration"
-					title="Administration">Administration</a>
+				<a class="red" href="portal.do?selectedTab=riceadministration"
+					title="Rice Administration">Rice Administration</a>
 			</li>
 		</c:if>
-		<c:if test='${selectedTab != "administration"}'>
+		<c:if test='${selectedTab != "riceadministration"}'>
 			<li class="green">
 				<a class="green"
-					href="portal.do?selectedTab=administration"
-					title="Administration">Administration</a>
+					href="portal.do?selectedTab=riceadministration"
+					title="Rice Administration">Rice Administration</a>
 			</li>
 		</c:if>
 
