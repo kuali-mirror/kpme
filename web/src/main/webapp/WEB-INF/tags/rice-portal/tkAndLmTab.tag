@@ -24,6 +24,9 @@
     <jsp:forward page="portal.do?selectedTab=main"/>
 </c:if>
 <td class="content" valign="top">
+    <c:if test="${systemAdmin}">
+        <admin:adminActions/>
+    </c:if>
     <admin:timeKeeping />
     <admin:leaveMaintenance />
     <admin:inquiries/>

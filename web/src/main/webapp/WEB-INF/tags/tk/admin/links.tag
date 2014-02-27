@@ -70,11 +70,6 @@
                 <a href="DepartmentAdmin.do">Department Admin</a>
             </li>
         </c:if>
-        <c:if test="${systemAdmin}">
-            <li>
-                <a href="AdminActions.do">Admin Actions</a>
-            </li>
-        </c:if>
 	</ul>
 </div>
 <channel:portalChannelBottom />
