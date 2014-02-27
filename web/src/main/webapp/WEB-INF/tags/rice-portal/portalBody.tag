@@ -59,6 +59,10 @@
 	              <portal:administrationTab />
 	          </c:when>
 	          
+	          <c:when test='${selectedTab == "tkandlm"}'>
+	                <portal:tkAndLmTab />
+	          </c:when>
+	          
 	          <%-- as backup go to the main menu index --%>
 	          <c:otherwise>
 	              <portal:mainTab />
