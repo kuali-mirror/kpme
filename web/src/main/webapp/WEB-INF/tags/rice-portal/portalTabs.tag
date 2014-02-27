@@ -70,14 +70,14 @@
             <c:if test='${selectedTab == "maintenance"}'>
                 <li class="red">
                     <a class="red" href="portal.do?selectedTab=maintenance"
-                        title="Maintenance">Maintenance</a>
+                        title="Maintenance">KPME Maintenance</a>
                 </li>
             </c:if>
             <c:if test='${selectedTab != "maintenance"}'>
                 <li class="green">
                     <a class="green"
-                        href="portal.do?selectedTab=maintenance"
-                        title="Maintenance">Maintenance</a>
+                        href="portal.do?selectedTab=kpmemaintenance"
+                        title="KPME Maintenance">KPME Maintenance</a>
                 </li>
             </c:if>
         </c:if>

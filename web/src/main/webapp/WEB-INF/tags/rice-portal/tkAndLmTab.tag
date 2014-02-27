@@ -26,4 +26,5 @@
 <td class="content" valign="top">
     <admin:timeKeeping />
     <admin:leaveMaintenance />
+    <admin:inquiries/>
 </td>

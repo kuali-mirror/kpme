@@ -50,7 +50,7 @@
 	              <portal:mainTab />
 	          </c:when>
 	          
-              <c:when test='${selectedTab == "maintenance"}'>
+              <c:when test='${selectedTab == "kpmemaintenance"}'>
                   <portal:maintenanceTab />
               </c:when>
 	          

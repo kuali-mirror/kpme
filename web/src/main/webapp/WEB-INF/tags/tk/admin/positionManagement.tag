@@ -17,12 +17,6 @@
 
 <channel:portalChannelTop channelTitle="Position Management" />
 <div class="body">
-    <ul class="chan">
-        <li>
-            <portal:portalLink displayTitle="true" title="Position"
-                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.pm.position.Position&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
-        </li>    
-    </ul>
     <strong>Maintenance</strong>
     <ul class="chan">
         <li>

@@ -134,6 +134,10 @@
         <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.kpme.core.web.KPMEAction">
             <forward name="basic" path="/WEB-INF/jsp/departmentAdmin.jsp"/>
         </action>
+
+        <action path="/AdminActions" name="TkForm" type="org.kuali.kpme.core.web.KPMEAction">
+            <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
+        </action>
         
         <action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp"
                 type="org.kuali.kpme.tklm.time.clock.web.ClockAction" parameter="methodToCall" validate="false">

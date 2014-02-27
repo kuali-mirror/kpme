@@ -472,6 +472,43 @@ label.error {
     text-decoration: underline;
 }
 
+/* admin section */
+#adminActions {
+    font-size: .8em;
+}
+
+#adminActions .content {
+    padding: 10px;
+}
+
+#adminActions .portlet {
+    border: 1px solid #999999;
+    margin: 20px 0;
+    width: 100%;
+}
+
+#adminActions .header {
+    background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
+    border-bottom: 1px solid #999999;
+    color: #8D2C1B !important;
+    font-weight: bold;
+    padding: 5px;
+}
+
+#adminActions .body {
+    padding: 10px;
+}
+
+#adminActions li:hover {
+    background: none;
+    border: none;
+}
+
+#adminActions a:hover {
+    color: red;
+    text-decoration: underline;
+}
+
 #tab-section {
     clear: both;
 }
