@@ -1,10 +1,10 @@
-PM_PSTN_TYP_ID,PSTN_TYP,DESCRIPTION,INSTITUTION,LOCATION,EFFDT,ACTIVE,USER_PRINCIPAL_ID,OBJ_ID,VER_NBR
-1,ACAD-FAC,Academic Faculty,%,%,2010-01-01,Y,admin,1,1
-2,ACAD-INST,Academic Instructors and Clinicians,%,%,2010-01-01,Y,admin,2,1
-3,PRO-STAFF,Professional Staff,%,%,2010-01-01,Y,admin,3,1
-4,SUP-STAFF,Support Staff,%,%,2010-01-01,Y,admin,4,1
-5,HOURLY,Hourly Staff,%,%,2010-01-01,Y,admin,5,1
-6,GRAD,Graduate Student,%,%,2010-01-01,Y,admin,6,1
-7,CONTRACT,Contract Staff,%,%,2010-01-01,Y,admin,7,1
-8,INSTR,Instructional,UGA,GA,2010-01-01,Y,admin,8,1
-9,STAFF,University Staff,Utah,UT,2010-01-01,Y,admin,9,1
+PM_PSTN_TYP_ID,PSTN_TYP,DESCRIPTION,INSTITUTION,LOCATION,EFFDT,ACTIVE,USER_PRINCIPAL_ID,OBJ_ID,VER_NBR,ACAD_FLAG
+1,ACAD-FAC,Academic Faculty,%,%,2010-01-01,Y,admin,1,1,Y
+2,ACAD-INST,Academic Instructors and Clinicians,%,%,2010-01-01,Y,admin,2,1,Y
+3,PRO-STAFF,Professional Staff,%,%,2010-01-01,Y,admin,3,1,N
+4,SUP-STAFF,Support Staff,%,%,2010-01-01,Y,admin,4,1,N
+5,HOURLY,Hourly Staff,%,%,2010-01-01,Y,admin,5,1,N
+6,GRAD,Graduate Student,%,%,2010-01-01,Y,admin,6,1,N
+7,CONTRACT,Contract Staff,%,%,2010-01-01,Y,admin,7,1,N
+8,INSTR,Instructional,UGA,GA,2010-01-01,Y,admin,8,1,N
+9,STAFF,University Staff,Utah,UT,2010-01-01,Y,admin,9,1,N

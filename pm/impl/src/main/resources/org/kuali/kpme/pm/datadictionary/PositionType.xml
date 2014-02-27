@@ -31,6 +31,7 @@
 	        <ref bean="PositionType-description"/>
 	        <ref bean="PositionType-institution"/>
 	        <ref bean="PositionType-location"/>
+            <ref bean="PositionType-academicFlag"/>
 	      </list>
 	    </property>
 	   <property name="relationships">
@@ -97,6 +98,13 @@
 	<bean id="PositionType-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
 	</bean>
+
+    <bean id="PositionType-academicFlag" parent="PositionType-academicFlag-parentBean" />
+    <bean id="PositionType-academicFlag-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
+        <property name="shortLabel" value="Academic" />
+        <property name="name" value="academicFlag" />
+        <property name="label" value="Academic" />
+    </bean>
 	
 <!--***************************************************************************
 							Views
@@ -122,6 +130,7 @@
 								p:fieldConversions="location:location" />
 			</property>
         </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="academicFlag"/>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
@@ -139,6 +148,7 @@
         <bean parent="Uif-DataField" p:propertyName="location" >
         	
         </bean>
+        <bean parent="Uif-DataField" p:propertyName="academicFlag"/>
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -160,6 +170,7 @@
 			        <bean parent="Uif-DataField" p:propertyName="description" />
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="location" />
+                    <bean parent="Uif-DataField" p:propertyName="academicFlag"/>
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
                     <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
 	        	</list>
@@ -195,6 +206,7 @@
 								p:fieldConversions="location:location" />
 					</property>
 		        </bean>
+                <bean parent="Uif-InputField" p:propertyName="academicFlag"/>
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>
           </property>

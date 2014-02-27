@@ -38,6 +38,7 @@ public class PositionType extends HrBusinessObject implements PositionTypeContra
 	private String description;
 	private String institution;
 	private String location;
+    private boolean academicFlag;
 	
 	private Location locationObj;
 	private Institution institutionObj;
@@ -124,4 +125,11 @@ public class PositionType extends HrBusinessObject implements PositionTypeContra
 		return serialVersionUID;
 	}
 
+    public boolean isAcademicFlag() {
+        return academicFlag;
+    }
+
+    public void setAcademicFlag(boolean academicFlag) {
+        this.academicFlag = academicFlag;
+    }
 }
