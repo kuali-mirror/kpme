@@ -346,7 +346,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document, String collectionName,
 			PersistableBusinessObject line) {
 		boolean valid = false;
-		System.out.println("Custom Add line adding called>>>>");
 		LOG.debug("entering custom add assignment account business rules");
 		PersistableBusinessObject assignmentPbo = (PersistableBusinessObject) this.getNewDataObject();
 		PersistableBusinessObject pbo = line;
