@@ -18,7 +18,8 @@ package org.kuali.kpme.tklm.time.service.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 
 public interface TKPermissionService {
 
@@ -144,13 +145,13 @@ public interface TKPermissionService {
 	 */
 	boolean isAuthorizedByTemplateInLocation(String principalId, String namespaceCode, String permissionTemplateName, String location, DateTime asOfDate);
 
-	boolean canEditTimeBlock(String principalId, TimeBlock timeBlock);
+	boolean canEditTimeBlock(String principalId, TimeBlockContract timeBlock);
 
-    boolean canEditTimeBlockAllFields(String principalId, TimeBlock timeBlock);
+    boolean canEditTimeBlockAllFields(String principalId, TimeBlockContract timeBlock);
 
-    boolean canDeleteTimeBlock(String principalId, TimeBlock timeBlock);
+    boolean canDeleteTimeBlock(String principalId, TimeBlockContract timeBlock);
 
-    boolean canEditOvertimeEarnCode(String principalId, TimeBlock timeBlock);
+    boolean canEditOvertimeEarnCode(String principalId, TimeBlockContract timeBlock);
     
     /**
      * Checks whether the given {@code principalId} has systemAdmin/TimeSystemAdmin/TimeLocationAdmin roles on given {@code aTimeBlock}
@@ -158,14 +159,14 @@ public interface TKPermissionService {
      * @param aTimeBlock
      * @return
      */
-	public boolean userHasTimeSysLocationAdminRoles(String principalId,TimeBlock aTimeBlock);
+	public boolean userHasTimeSysLocationAdminRoles(String principalId,TimeBlockContract aTimeBlock);
 	/**
      * Checks whether the given {@code principalId} has edit permission roles on given {@code aTimeBlock}
      * @param principalId
      * @param aTimeBlock
      * @return
      */
-    public boolean userHasRolesToEditTimeBlock(String principalId, TimeBlock aTimeBlock);
+    public boolean userHasRolesToEditTimeBlock(String principalId, TimeBlockContract aTimeBlock);
     
     /**
      * Checks whether the given {@code principalId} has PayrollProcessor/PayrollProcessorDelegate roles on given {@code dept} and {@code asOfDate}

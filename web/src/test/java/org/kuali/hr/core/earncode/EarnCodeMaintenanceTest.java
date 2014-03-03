@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
@@ -30,7 +29,7 @@ import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
@@ -76,7 +75,7 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		KRADServiceLocator.getBusinessObjectService().save(earnCode);	
 		hrEarnCodeId = earnCode.getHrEarnCodeId();
 		
-		TimeBlock timeBlock = new TimeBlock();
+		TimeBlockBo timeBlock = new TimeBlockBo();
 		timeBlock.setAmount(BigDecimal.ONE);
 		timeBlock.setAssignmentKey("somedesc");
 		timeBlock.setJobNumber(new Long(30));

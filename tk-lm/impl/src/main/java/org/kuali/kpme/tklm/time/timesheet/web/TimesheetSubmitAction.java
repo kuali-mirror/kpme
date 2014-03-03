@@ -16,9 +16,7 @@
 package org.kuali.kpme.tklm.time.timesheet.web;
 
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -38,11 +36,8 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -52,7 +47,6 @@ import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.exception.AuthorizationException;

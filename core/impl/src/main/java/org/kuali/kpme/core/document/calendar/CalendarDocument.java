@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
@@ -33,14 +34,14 @@ import org.kuali.kpme.core.util.TKUtils;
 public abstract class CalendarDocument implements Serializable, CalendarDocumentContract{
 	private static final long serialVersionUID = 6074564807962995821L;
 	protected CalendarDocumentHeader documentHeader;
-	protected List<Assignment> assignments = new LinkedList<Assignment>();
+	protected List<AssignmentContract> assignments = new LinkedList<AssignmentContract>();
 	protected CalendarEntryContract calendarEntry = null;
 	protected LocalDate asOfDate;
 	protected String calendarType;
 	
 	public abstract CalendarDocumentHeader getDocumentHeader();
 
-	public abstract List<Assignment> getAssignments();
+	public abstract List<AssignmentContract> getAssignments();
 
 	public abstract CalendarEntryContract getCalendarEntry();
 
@@ -70,15 +71,15 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
     
     public Map<String, String> getAssignmentDescriptions() {
    	 Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-     for (Assignment assignment : assignments) {
+     for (AssignmentContract assignment : assignments) {
              assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
      }
      return assignmentDescriptions;
     }
     
-    public Assignment getAssignment(AssignmentDescriptionKey assignmentDescriptionKey) {
+    public AssignmentContract getAssignment(AssignmentDescriptionKey assignmentDescriptionKey) {
 
-        for (Assignment assignment : assignments) {
+        for (AssignmentContract assignment : assignments) {
             if (assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
                     assignment.getWorkArea().compareTo(assignmentDescriptionKey.getWorkArea()) == 0 &&
                     assignment.getTask().compareTo(assignmentDescriptionKey.getTask()) == 0) {

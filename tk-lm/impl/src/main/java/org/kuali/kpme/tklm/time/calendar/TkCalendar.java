@@ -30,11 +30,11 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.time.calendar.TkCalendarContract;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
@@ -83,9 +83,9 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
 	                 TkCalendarDay day = new TkCalendarDay();
 	                 
 	               //Set missed punch flag
-	                 for(TimeBlock tb : dayBlocks){
-	                   	tb.assignClockedByMissedPunch();
-	         	 	 }
+	                 //for(TimeBlock tb : dayBlocks){
+	                 //  	tb.assignClockedByMissedPunch();
+	         	 	 //}
 	                    
 	                 day.setTimeblocks(dayBlocks);
 	                 day.setLeaveBlocks(dayLeaveBlocks);

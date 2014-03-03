@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -51,7 +52,7 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 
 		if (calendarApprovalForm.getCalendarDocument() != null) {
 			calendarApprovalForm.setSelectedPayCalendarGroup(calendarApprovalForm.getCalendarDocument().getCalendarEntry().getCalendarName());
-			for (Assignment assignment : calendarApprovalForm.getCalendarDocument().getAssignments()) {
+			for (AssignmentContract assignment : calendarApprovalForm.getCalendarDocument().getAssignments()) {
 				WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 				if (calendarApprovalForm.getDepartments().contains(workArea.getDept())) {
 					calendarApprovalForm.setSelectedDept(workArea.getDept());

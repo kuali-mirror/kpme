@@ -15,13 +15,10 @@
  */
 package org.kuali.kpme.tklm.time.approval.web;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,15 +34,10 @@ import org.apache.struts.action.ActionRedirect;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
-import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -54,11 +46,7 @@ import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.rice.krad.util.ErrorMessage;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.CollectionUtils;
 
 public class TimeApprovalAction extends CalendarApprovalFormAction {

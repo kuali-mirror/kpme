@@ -15,23 +15,18 @@
  */
 package org.kuali.kpme.tklm.time.timesheet.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.util.ErrorMessage;
-import org.omg.TimeBase._TimeBaseModule;
 import org.springframework.cache.annotation.Cacheable;
+
+import java.util.List;
 
 public interface TimesheetService {
 
@@ -88,7 +83,7 @@ public interface TimesheetService {
 	 */
 	public void deleteTimesheet(String documentId);
 	
-	public void resetTimeBlock(List<TimeBlock> timeBlock, LocalDate asOfDate);
+	public List<TimeBlock> resetTimeBlock(List<TimeBlock> timeBlock, LocalDate asOfDate);
 
     void approveTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
 
@@ -111,7 +106,7 @@ public interface TimesheetService {
 	 * @return
 	 */
 	@Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.kpme.tklm.time.util.TkContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.tklm.time.util.TkContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'includeRegularEarnCode=' + #p2")
-	public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate, boolean includeRegularEarnCode);
+	public List<EarnCode> getEarnCodesForTime(AssignmentContract a, LocalDate asOfDate, boolean includeRegularEarnCode);
 
 
     public List<String> validateTimeBlock(TimesheetDocument td);

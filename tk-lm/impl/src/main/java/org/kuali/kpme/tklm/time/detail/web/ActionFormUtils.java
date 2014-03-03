@@ -48,12 +48,14 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -133,11 +135,11 @@ public class ActionFormUtils {
         return aMap;
     }
     
-    public static Map<String, String> buildAssignmentStyleClassMap(List<TimeBlock> timeBlocks) {
+    public static Map<String, String> buildAssignmentStyleClassMap(List<? extends TimeBlockContract> timeBlocks) {
         Map<String, String> aMap = new HashMap<String, String>();
         List<String> assignmentKeys = new ArrayList<String>();
 
-        for (TimeBlock tb : timeBlocks) {
+        for (TimeBlockContract tb : timeBlocks) {
             if (!assignmentKeys.contains(tb.getAssignmentKey())) {
                 assignmentKeys.add(tb.getAssignmentKey());
             }
@@ -162,7 +164,7 @@ public class ActionFormUtils {
      * @param timeBlocks
      * @return
      */
-    public static String getTimeBlocksJson(List<TimeBlock> timeBlocks) {
+    public static String getTimeBlocksJson(List<? extends TimeBlockContract> timeBlocks) {
         if (timeBlocks == null || timeBlocks.size() == 0) {
             return "";
         }
@@ -175,14 +177,14 @@ public class ActionFormUtils {
         boolean isAnyApprover = HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay())
                 || HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
 
-        for (TimeBlock timeBlock : timeBlocks) {
+        for (TimeBlockContract timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
             WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
             String workAreaDesc = workArea.getDescription();
 
             timeBlockMap.put("isApprover", isAnyApprover);
-            timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
+            timeBlockMap.put("isSynchronousUser", timeBlock.isClockLogCreated());
 
             timeBlockMap.put("canEditTb", TkServiceLocator.getTKPermissionService().canEditTimeBlock(principalId, timeBlock));
             timeBlockMap.put("canEditTBOvt", TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(principalId, timeBlock));
@@ -204,7 +206,7 @@ public class ActionFormUtils {
              * the purpose of this is to accommodate the virtual day mode where the start/end period time is not from 12a to 12a.
              * A timeblock will be pushed back if the timeblock is still within the previous interval
              */
-            if (timeBlock.getPushBackward()) {
+            if (timeBlock.isPushBackward()) {
                 start = start.minusDays(1);
                 end = end.minusDays(1);
             }
@@ -241,7 +243,7 @@ public class ActionFormUtils {
             timeBlockMap.put("lunchDeleted", timeBlock.isLunchDeleted());
 
             List<Map<String, Object>> timeHourDetailList = new LinkedList<Map<String, Object>>();
-            for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
+            for (TimeHourDetailContract timeHourDetail : timeBlock.getTimeHourDetails()) {
                 Map<String, Object> timeHourDetailMap = new LinkedHashMap<String, Object>();
                 timeHourDetailMap.put("earnCode", timeHourDetail.getEarnCode());
                 timeHourDetailMap.put("hours", timeHourDetail.getHours());

@@ -22,8 +22,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 
 @IntegrationTest
 public class ClockLogServiceTest extends TKLMIntegrationTestCase {
@@ -31,11 +32,11 @@ public class ClockLogServiceTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testGetUnapprovedIPWarning() throws Exception {
 		List<TimeBlock> tbLists = new ArrayList<TimeBlock>();
-		TimeBlock timeBlock = new TimeBlock();
+		TimeBlockBo timeBlock = new TimeBlockBo();
         timeBlock.setUserPrincipalId("testUser");
         timeBlock.setClockLogCreated(true);
         timeBlock.setClockLogEndId("5000");
-        tbLists.add(timeBlock);		
+        tbLists.add(TimeBlockBo.to(timeBlock));
 		
 		List<String> warningList = TkServiceLocator.getClockLogService().getUnapprovedIPWarning(tbLists);
 		Assert.assertTrue("There should be 1 warning message ", warningList.size()== 1);

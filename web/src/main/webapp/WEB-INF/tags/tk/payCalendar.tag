@@ -15,7 +15,7 @@
 
  		<c:set var="editableClass" value="event-title-false"/>
         <c:set var="timeBlockDivId" value="doNotShow_${block.timeBlock.tkTimeBlockId}" />
-        <c:if test="${Form.docEditable && block.timeBlock.timeBlockEditable}">
+        <c:if test="${Form.docEditable && Form.isTimeBlockEditable(block.timeBlock)}">
         	<c:set var="editableClass" value="event-title-true"/>
             <c:set var="timeBlockDivId" value=""/>
         </c:if>
@@ -29,7 +29,7 @@
         <div id="${timeBlockDivId}" class="approvals-table event ${last} ${block.assignmentClass} ${error}">
             <div id="timeblock_${block.timeBlock.tkTimeBlockId}"
             	 class="${editableClass}">
-            	 <c:if test="${block.timeBlock.clockedByMissedPunch}">
+            	 <c:if test="${block.timeBlock.isClockedByMissedPunch()}">
  	 	 	 	 	<!-- <div class="missed-punch-marker">
  	 	 	 			<span class='icon-file2'/>
  	 	 	 		</div> -->
@@ -71,14 +71,14 @@
 						</table>
 					</div>
 				</c:if>
-                <c:if test="${Form.docEditable && block.timeBlock.timeBlockEditable && block.timeBlock.deleteable}">
+                <c:if test="${Form.docEditable && Form.isTimeBlockEditable(block.timeBlock) && Form.isDeletable(block.timeBlock)}">
                     <div><img id="timeblockDelete_${block.timeBlock.tkTimeBlockId}"
                               class='event-delete'
                               src='images/delete.png'/>
                     </div>
                 </c:if>
                 <c:choose>
-                    <c:when test="${block.timeBlock.timeBlockEditable}">
+                    <c:when test="${Form.isTimeBlockEditable(block.timeBlock)}">
                         <div id="show_${block.timeBlock.tkTimeBlockId}">${block.title}</div>
                     </c:when>
                     <c:otherwise>
@@ -135,7 +135,7 @@
                 </c:if>
             </div>
             <div class="lunch">
-                <c:if test="${block.lunchLabel ne '' and block.timeBlock.deleteable}">
+                <c:if test="${block.lunchLabel ne '' and Form.isDeletable(block.timeBlock)}">
                     <div><img id="lunchDelete_${block.lunchLabelId}"
                               class='event-delete'
                               src='images/delete.png'/>

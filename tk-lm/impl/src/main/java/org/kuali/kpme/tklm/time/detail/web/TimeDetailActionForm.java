@@ -23,9 +23,13 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Interval;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.time.calendar.TkCalendar;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
@@ -33,7 +37,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private static final long serialVersionUID = 5277197287612035236L;
 
 
-	private TimeBlock timeBlock;
+	private TimeBlockBo timeBlock;
 	private String clockAction;
 	private TimeSummary timeSummary;
 	private Map<String, String> assignStyleClassMap = new HashMap<String, String>();
@@ -64,18 +68,18 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	public List<TimeBlock> getClockLogTimeBlockList() {
 		List<TimeBlock> clockList = new ArrayList<TimeBlock>();
 		for(TimeBlock tb : this.getTimeBlockList()){
-			if(tb.getClockLogCreated()) {
+			if(tb.isClockLogCreated()) {
 				clockList.add(tb);
 			}
 		}
 		return clockList;
 	}
 
-	public TimeBlock getTimeBlock() {
+	public TimeBlockBo getTimeBlock() {
 		return timeBlock;
 	}
 
-	public void setTimeBlock(TimeBlock timeBlock) {
+	public void setTimeBlock(TimeBlockBo timeBlock) {
 		this.timeBlock = timeBlock;
 	}
 
@@ -201,5 +205,13 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	public void setNotesEditable(Boolean notesEditable) {
 		this.notesEditable = notesEditable;
 	}
+
+    public Boolean isTimeBlockEditable(TimeBlockContract timeBlock) {
+        return TkServiceLocator.getTKPermissionService().canEditTimeBlock(HrContext.getPrincipalId(), timeBlock);
+    }
+
+    public Boolean isDeletable(TimeBlockContract timeBlock) {
+        return TkServiceLocator.getTKPermissionService().canDeleteTimeBlock(HrContext.getPrincipalId(), timeBlock);
+    }
 
 }

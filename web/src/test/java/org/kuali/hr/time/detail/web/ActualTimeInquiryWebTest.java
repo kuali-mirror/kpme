@@ -27,10 +27,11 @@ import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -40,7 +41,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 @FunctionalTest
 public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
 	private String documentId;
-	private TimeBlock timeBlock;
+	private TimeBlockBo timeBlock;
 
     @Override
     public void setUp() throws Exception {
@@ -72,7 +73,7 @@ public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
 	}
 
 	public void createTB() {
-		timeBlock = new TimeBlock();
+		timeBlock = new TimeBlockBo();
 		timeBlock.setUserPrincipalId("admin");
 		timeBlock.setPrincipalId("admin");
 		timeBlock.setJobNumber(2L);
@@ -81,7 +82,7 @@ public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
 		timeBlock.setEarnCode("RGN");
 		timeBlock.setBeginTimestamp(TKUtils.getCurrentTimestamp());
 		timeBlock.setEndTimestamp(TKUtils.getCurrentTimestamp());
-		TimeHourDetail timeHourDetail = new TimeHourDetail();
+		TimeHourDetailBo timeHourDetail = new TimeHourDetailBo();
 		timeHourDetail.setEarnCode("RGN");
 		timeHourDetail.setHours(new BigDecimal(2.0));
 		timeBlock.getTimeHourDetails().add(timeHourDetail);
@@ -89,10 +90,10 @@ public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
 		timeBlock.setClockLogCreated(Boolean.TRUE);
 		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 		timeBlock.setDocumentId(documentId);
-		tbList.add(timeBlock);
+		tbList.add(TimeBlockBo.to(timeBlock));
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(tbList);
 
-		TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId.toString());
+		TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 		td.setTimeBlocks(tbList);
 	}
 	

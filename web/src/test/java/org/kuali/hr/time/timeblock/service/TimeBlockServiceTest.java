@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 @FunctionalTest
@@ -29,7 +29,7 @@ public class TimeBlockServiceTest extends KPMEWebTestCase {
 	
 	@Test
 	public void testIsTimeBlockEditableAdmin() throws Exception {
-		TimeBlock tb = new TimeBlock();
+		TimeBlockBo tb = new TimeBlockBo();
 		tb.setJobNumber(new Long(30));
 		tb.setBeginDateTime(new DateTime(2010, 1, 1, 0, 0, 0));
 		tb.setEndDateTime(new DateTime(2010, 1, 1, 0, 0, 0));
@@ -52,7 +52,7 @@ public class TimeBlockServiceTest extends KPMEWebTestCase {
 	
 	@Test
 	public void testIsTimeBlockEditableUser() throws Exception {
-		TimeBlock tb = new TimeBlock();
+		TimeBlockBo tb = new TimeBlockBo();
 		tb.setJobNumber(new Long(1));
 		tb.setBeginDateTime(new DateTime(2010, 8, 12, 0, 0, 0));
 		tb.setEndDateTime(new DateTime(2010, 8, 12, 0, 0, 0));

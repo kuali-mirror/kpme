@@ -119,7 +119,7 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     	if (calendarDocument != null) {
     		String documentTypeName = calendarDocument.getCalendarType();
         	DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
-    		List<Assignment> assignments = calendarDocument.getAssignments();
+    		List<AssignmentContract> assignments = calendarDocument.getAssignments();
         	
         	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignments, calendarDocument.getCalendarEntry().getEndPeriodFullDateTime());
     	}
@@ -127,7 +127,7 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     	return isAuthorizedByTemplate;
     }
     
-    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, CalendarDocument calendarDocument, Assignment assignment) {
+    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, CalendarDocument calendarDocument, AssignmentContract assignment) {
     	boolean isAuthorizedByTemplate = false;
 
     	if (calendarDocument != null) {

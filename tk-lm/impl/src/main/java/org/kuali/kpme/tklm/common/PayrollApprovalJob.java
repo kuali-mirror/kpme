@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -121,10 +122,10 @@ public class PayrollApprovalJob extends BatchJob {
 	}
 	
     private List<RoleMember> getRoleMembersInDepartment(
-			List<Assignment> assignments, final KPMENamespace namespace) {
+			List<AssignmentContract> assignments, final KPMENamespace namespace) {
 		Set<String> departments = new HashSet<String>();
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
-		for(Assignment assignment : assignments) {
+		for(AssignmentContract assignment : assignments) {
 			departments.add(assignment.getDept());
 		}
 		for(String dept : departments) {

@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail;
 import org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockHistoryDao;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 
 public class TimeBlockHistoryServiceImpl implements TimeBlockHistoryService {
 
@@ -45,11 +45,11 @@ public class TimeBlockHistoryServiceImpl implements TimeBlockHistoryService {
         return timeBlockHistoryDao.getTimeBlockHistoryByTkTimeBlockId(tkTimeBlockId);
     }
     
-    public void addTimeBlockHistoryDetails(TimeBlockHistory timeBlockHistory, TimeBlock timeBlock) {
-      List<TimeHourDetail> details = timeBlock.getTimeHourDetails();
+    public void addTimeBlockHistoryDetails(TimeBlockHistory timeBlockHistory, TimeBlockBo timeBlock) {
+      List<TimeHourDetailBo> details = timeBlock.getTimeHourDetails();
       if(!details.isEmpty()) {
       	List<TimeBlockHistoryDetail> tbhds = new ArrayList<TimeBlockHistoryDetail>();
-      	for(TimeHourDetail thd : details) {
+      	for(TimeHourDetailBo thd : details) {
       		TimeBlockHistoryDetail tbhd = new TimeBlockHistoryDetail(thd);
       		tbhds.add(tbhd);
       	}

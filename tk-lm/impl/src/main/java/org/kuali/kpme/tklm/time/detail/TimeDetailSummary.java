@@ -19,17 +19,17 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.kpme.tklm.api.time.detail.TimeDetailSummaryContract;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 
 public class TimeDetailSummary implements TimeDetailSummaryContract {
-	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
+	private List<TimeBlockBo> timeBlocks = new LinkedList<TimeBlockBo>();
 	private Integer numberOfDays;
 
-	public void setTimeBlocks(List<TimeBlock> timeBlocks) {
+	public void setTimeBlocks(List<TimeBlockBo> timeBlocks) {
 		this.timeBlocks = timeBlocks;
 	}
 
-	public List<TimeBlock> getTimeBlocks() {
+	public List<TimeBlockBo> getTimeBlocks() {
 		return timeBlocks;
 	}
 

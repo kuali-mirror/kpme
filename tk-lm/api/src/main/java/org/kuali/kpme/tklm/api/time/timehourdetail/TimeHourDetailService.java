@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.timehourdetail.service;
+package org.kuali.kpme.tklm.api.time.timehourdetail;
+
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 
 import java.util.List;
-
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
 
 
 public interface TimeHourDetailService{
@@ -33,11 +35,17 @@ public interface TimeHourDetailService{
 	 * @param timeBlock
 	 * @return
 	 */
+    @Caching(evict = {
+            @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    })
 	public TimeHourDetail saveTimeHourDetail(TimeBlock timeBlock);
 	/**
 	 * Remove TimeHourDetail for the given id
 	 * @param timeBlockId
 	 */
+    @Caching(evict = {
+            @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
+    })
     public void removeTimeHourDetails(String timeBlockId);
     
 	/**

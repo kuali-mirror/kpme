@@ -28,8 +28,9 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TimeBlockDao {
@@ -37,47 +38,47 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
     @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(TimeBlockDaoOjbImpl.class);
 
-    public void saveOrUpdate(TimeBlock timeBlock) {
+    public void saveOrUpdate(TimeBlockBo timeBlock) {
         this.getPersistenceBrokerTemplate().store(timeBlock);
     }
 
-    public void saveOrUpdate(List<TimeBlock> timeBlockList) {
+    public void saveOrUpdate(List<TimeBlockBo> timeBlockList) {
         if (timeBlockList != null) {
-            for (TimeBlock timeBlock : timeBlockList) {
+            for (TimeBlockBo timeBlock : timeBlockList) {
                 this.getPersistenceBrokerTemplate().store(timeBlock);
             }
         }
     }
 
-    public TimeBlock getTimeBlock(String tkTimeBlockId) {
+    public TimeBlockBo getTimeBlock(String tkTimeBlockId) {
         Criteria currentRecordCriteria = new Criteria();
         currentRecordCriteria.addEqualTo("tkTimeBlockId", tkTimeBlockId);
 
-        return (TimeBlock) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria));
+        return (TimeBlockBo) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimeBlockBo.class, currentRecordCriteria));
     }
 
     @SuppressWarnings("unchecked")
-    public List<TimeBlock> getTimeBlocks(String documentId) {
+    public List<TimeBlockBo> getTimeBlocks(String documentId) {
         Criteria currentRecordCriteria = new Criteria();
         currentRecordCriteria.addEqualTo("documentId", documentId);
-        Query query = QueryFactory.newQuery(TimeBlock.class, currentRecordCriteria);
-        List<TimeBlock> timeBlocks = (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlock>() : timeBlocks;
+        Query query = QueryFactory.newQuery(TimeBlockBo.class, currentRecordCriteria);
+        List<TimeBlockBo> timeBlocks = (List<TimeBlockBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlockBo>() : timeBlocks;
     }
 
     @SuppressWarnings("unchecked")
-    public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign) {
+    public List<TimeBlockBo> getTimeBlocksForAssignment(AssignmentContract assign) {
         Criteria rootCriteria = new Criteria();
         rootCriteria.addEqualTo("principalId", assign.getPrincipalId());
         rootCriteria.addEqualTo("jobNumber", assign.getJobNumber());
         rootCriteria.addEqualTo("task", assign.getTask());
         rootCriteria.addEqualTo("workArea", assign.getWorkArea());
-        Query query = QueryFactory.newQuery(TimeBlock.class, rootCriteria);
-        List<TimeBlock> timeBlocks = (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        return timeBlocks == null || timeBlocks.isEmpty() ? new ArrayList<TimeBlock>() : timeBlocks;
+        Query query = QueryFactory.newQuery(TimeBlockBo.class, rootCriteria);
+        List<TimeBlockBo> timeBlocks = (List<TimeBlockBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return timeBlocks == null || timeBlocks.isEmpty() ? new ArrayList<TimeBlockBo>() : timeBlocks;
     }
 
-    public void deleteTimeBlock(TimeBlock timeBlock) {
+    public void deleteTimeBlock(TimeBlockBo timeBlock) {
         this.getPersistenceBrokerTemplate().delete(timeBlock);
     }
 
@@ -85,38 +86,38 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
     public void deleteTimeBlocksAssociatedWithDocumentId(String documentId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("documentId", documentId);
-        this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
+        this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(TimeBlockBo.class, crit));
 
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId) {
+    public List<TimeBlockBo> getTimeBlocksForClockLogEndId(String tkClockLogId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("clockLogEndId", tkClockLogId);
-        return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
+        return (List<TimeBlockBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlockBo.class, crit));
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId) {
+    public List<TimeBlockBo> getTimeBlocksForClockLogBeginId(String tkClockLogId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("clockLogBeginId", tkClockLogId);
-        return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, crit));
+        return (List<TimeBlockBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlockBo.class, crit));
     }
 
     @Override
-    public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode) { //KPME937
-        List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+    public List<TimeBlockBo> getLatestEndTimestampForEarnCode(String earnCode) { //KPME937
+        List<TimeBlockBo> timeBlocks = new ArrayList<TimeBlockBo>();
         Criteria root = new Criteria();
         Criteria crit = new Criteria();
         crit.addEqualTo("earnCode", earnCode);
-        ReportQueryByCriteria endTimestampSubQuery = QueryFactory.newReportQuery(TimeBlock.class, crit);
+        ReportQueryByCriteria endTimestampSubQuery = QueryFactory.newReportQuery(TimeBlockBo.class, crit);
         endTimestampSubQuery.setAttributes(new String[]{"max(endTimestamp)"});
 
         root.addEqualTo("endTimestamp", endTimestampSubQuery);
         root.addEqualTo("earnCode", earnCode);
-        Query query = QueryFactory.newQuery(TimeBlock.class, root);
+        Query query = QueryFactory.newQuery(TimeBlockBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -127,13 +128,13 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
     }
 
     @Override
-    public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId) {
-        List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
+    public List<TimeBlockBo> getOvernightTimeBlocks(String clockLogEndId) {
+        List<TimeBlockBo> timeBlocks = new ArrayList<TimeBlockBo>();
         Criteria root = new Criteria();
 
         root.addEqualTo("clockLogEndId", clockLogEndId);
 
-        Query query = QueryFactory.newQuery(TimeBlock.class, root);
+        Query query = QueryFactory.newQuery(TimeBlockBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -145,15 +146,15 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
     
     @SuppressWarnings("unchecked")
 	@Override
-    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate) {
+    public List<TimeBlockBo> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate) {
     	 Criteria root = new Criteria();
          root.addEqualTo("earnCode", earnCode);
          root.addGreaterOrEqualThan("beginTimestamp", effDate.toDate());
-         return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, root));
+         return (List<TimeBlockBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlockBo.class, root));
     }
 
 	@Override
-	public List<TimeBlock> getTimeBlocksForLookup(String documentId,
+	public List<TimeBlockBo> getTimeBlocksForLookup(String documentId,
 			String principalId, String userPrincipalId, LocalDate fromDate,
 			LocalDate toDate) {
         Criteria criteria = new Criteria();
@@ -172,9 +173,9 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
         if(StringUtils.isNotBlank(userPrincipalId)) {
         	criteria.addEqualTo("userPrincipalId", userPrincipalId);
         }
-        Query query = QueryFactory.newQuery(TimeBlock.class, criteria);
-        List<TimeBlock> timeBlocks = (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlock>() : timeBlocks;
+        Query query = QueryFactory.newQuery(TimeBlockBo.class, criteria);
+        List<TimeBlockBo> timeBlocks = (List<TimeBlockBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlockBo>() : timeBlocks;
 	}
 
 }

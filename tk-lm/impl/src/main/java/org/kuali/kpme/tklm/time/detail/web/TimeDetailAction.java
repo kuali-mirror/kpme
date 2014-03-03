@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -43,6 +44,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
@@ -58,7 +60,9 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
@@ -71,9 +75,9 @@ import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUt
 import org.kuali.kpme.tklm.time.calendar.TkCalendar;
 import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
@@ -83,6 +87,7 @@ import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -121,7 +126,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         if (calendarEntry != null && timesheetDocument != null) {
 			List<String> assignmentKeys = new ArrayList<String>();
-	        for (Assignment assignment : timesheetDocument.getAssignments()) {
+	        for (AssignmentContract assignment : timesheetDocument.getAssignments()) {
 	        	assignmentKeys.add(assignment.getAssignmentKey());
 	        }
 
@@ -370,7 +375,7 @@ public class TimeDetailAction extends TimesheetAction {
         //Remove from the list of timeblocks
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(tdaf.getTimesheetDocument().getTimeBlocks().size());
         for (TimeBlock b : tdaf.getTimesheetDocument().getTimeBlocks()) {
-            referenceTimeBlocks.add(b.copy());
+            referenceTimeBlocks.add(TimeBlock.copy(b));
         }
 
         // simple pointer, for clarity
@@ -380,21 +385,21 @@ public class TimeDetailAction extends TimesheetAction {
         //Delete timeblock
         TkServiceLocator.getTimeBlockService().deleteTimeBlock(deletedTimeBlock);
         // Add a row to the history table
-        TimeBlockHistory tbh = new TimeBlockHistory(deletedTimeBlock);
+        TimeBlockHistory tbh = new TimeBlockHistory(TimeBlockBo.from(deletedTimeBlock));
         tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 
-        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (Assignment assignment : assignments) {
+        for (AssignmentContract assignment : assignments) {
             assignmentKeys.add(assignment.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
         //reset time block
-        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+        newTimeBlocks = TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
+        newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+        newTimeBlocks = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
 
         generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
         
@@ -464,7 +469,7 @@ public class TimeDetailAction extends TimesheetAction {
 	  if (tdaf.getTkTimeBlockId() != null) {
 	      TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
 	      if (tb != null) {
-	          TimeBlockHistory tbh = new TimeBlockHistory(tb);
+	          TimeBlockHistory tbh = new TimeBlockHistory(TimeBlockBo.from(tb));
 	          TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
 	
 	          // mark the original timeblock as deleted in the history table
@@ -511,14 +516,14 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
-        Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+        AssignmentContract currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getCalendarEntry(), selectedEarnCode, leaveAmount, desc, currentAssignment,
                 spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, HrContext.getTargetPrincipalId());
 
-        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (Assignment assignment : assignments) {
+        for (AssignmentContract assignment : assignments) {
           	assignmentKeys.add(assignment.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
@@ -538,10 +543,10 @@ public class TimeDetailAction extends TimesheetAction {
         // persist any potential changes without making hundreds of DB calls.
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
         for (TimeBlock tb : newTimeBlocks) {
-            referenceTimeBlocks.add(tb.copy());
+            referenceTimeBlocks.add(TimeBlock.copy(tb));
         }
-		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+        newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+        newTimeBlocks = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
         generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
 	}
 	
@@ -564,13 +569,13 @@ public class TimeDetailAction extends TimesheetAction {
         if (tdaf.getTkTimeBlockId() != null) {
             TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
             if (tb != null) {
-	            isClockLogCreated = tb.getClockLogCreated();
+	            isClockLogCreated = tb.isClockLogCreated();
                 clockLogBeginId = tb.getClockLogBeginId();
                 clockLogEndId = tb.getClockLogEndId();
             }
         }
 
-        Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+        AssignmentContract currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
         DateTime startTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
@@ -593,93 +598,96 @@ public class TimeDetailAction extends TimesheetAction {
 
         // This is just a reference, for code clarity, the below list is actually
         // separate at the object level.
-        List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+        List<TimeBlock.Builder> newTimeBlocks = ModelObjectUtils.transform(tdaf.getTimesheetDocument().getTimeBlocks(), toTimeBlockBuilder);
 
         // We need a  cloned reference set so we know whether or not to
         // persist any potential changes without making hundreds of DB calls.
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
-        for (TimeBlock tb : newTimeBlocks) {
-            referenceTimeBlocks.add(tb.copy());
+        for (TimeBlock.Builder tb : newTimeBlocks) {
+            referenceTimeBlocks.add(TimeBlock.copy(tb.build()));
         }
 
-        List<TimeBlock> timeBlocksToAdd = null;
+        List<TimeBlock.Builder> timeBlocksToAdd = null;
         // KPME-1446 add spanningweeks to the calls below 
         if (StringUtils.equals(tdaf.getAcrossDays(), "y")
                 && !(endTime.getDayOfYear() - startTime.getDayOfYear() <= 1
                 && endTime.getHourOfDay() == 0)) {
 
-            timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(currentAssignment,
-                    tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
+            timeBlocksToAdd = ModelObjectUtils.transform(TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(tdaf.getTimesheetDocument().getPrincipalId(),
+                    tdaf.getTimesheetDocument().getCalendarEntry(), currentAssignment,
+                    tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getDocumentId(), startTime,
                     endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()),
-                    tdaf.getSpanningWeeks(), HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId);
+                    tdaf.getSpanningWeeks(), HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId), toTimeBlockBuilder);
         } else {
-            timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment,
-                    tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
+            TimesheetDocument tempTd = tdaf.getTimesheetDocument();
+            timeBlocksToAdd = ModelObjectUtils.transform(TkServiceLocator.getTimeBlockService().buildTimeBlocks(tempTd.getPrincipalId(), tempTd.getCalendarEntry(), currentAssignment,
+                    tdaf.getSelectedEarnCode(), tdaf.getDocumentId(), startTime,
                     endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()),
-                    HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId);
+                    HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId), toTimeBlockBuilder);
         }
         
-        TimeBlock existingTimeBlock = null;
-        TimeBlock timeBlockToUpdate = null;
+        TimeBlock.Builder existingTimeBlock = null;
+        TimeBlock.Builder timeBlockToUpdate = null;
         
         
-        if (tdaf.getTkTimeBlockId() != null) {
+        if (tdaf.getTkTimeBlockId() != null
+               && CollectionUtils.isNotEmpty(timeBlocksToAdd)) {
         	timeBlockToUpdate = timeBlocksToAdd.get(0);
         	TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tdaf.getTkTimeBlockId());
         	timeBlockToUpdate.setTkTimeBlockId(tdaf.getTkTimeBlockId());
         }
         
-        List<TimeBlock> finalNewTimeBlocks = new ArrayList<TimeBlock>();
-        
-        for (TimeBlock tb : newTimeBlocks) {
+        List<TimeBlock.Builder> finalNewTimeBlocks = new ArrayList<TimeBlock.Builder>();
+        for (TimeBlock.Builder tb : newTimeBlocks) {
         	if(!ObjectUtils.equals(tb.getTkTimeBlockId(), tdaf.getTkTimeBlockId())) {
-        		finalNewTimeBlocks.add(tb);
+        		finalNewTimeBlocks.add(TimeBlock.Builder.create(tb));
         	} else {
-        		existingTimeBlock = tb;
-        		existingTimeBlock.copy(timeBlockToUpdate);
-        		finalNewTimeBlocks.add(existingTimeBlock);
+                existingTimeBlock = tb;
+                existingTimeBlock.setTkTimeBlockId(timeBlockToUpdate.getTkTimeBlockId());
+        		finalNewTimeBlocks.add(timeBlockToUpdate);
         	}
         }
         
-        for (TimeBlock tb : timeBlocksToAdd) {
+        for (TimeBlock.Builder tb : timeBlocksToAdd) {
         	if(tdaf.getTkTimeBlockId() != null) {
 	        	if(!ObjectUtils.equals(tb.getTkTimeBlockId(), tdaf.getTkTimeBlockId())) {
-	        		finalNewTimeBlocks.add(tb);
+	        		finalNewTimeBlocks.add(TimeBlock.Builder.create(tb));
 	        	}
         	} else {
-        		finalNewTimeBlocks.add(tb);
+        		finalNewTimeBlocks.add(TimeBlock.Builder.create(tb));
         	}
         }
 
         //reset time block
-        TkServiceLocator.getTimesheetService().resetTimeBlock(finalNewTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
-
+        List<TimeBlock> tbs = TkServiceLocator.getTimesheetService().resetTimeBlock(ModelObjectUtils.<TimeBlock>buildImmutableCopy(finalNewTimeBlocks), tdaf.getTimesheetDocument().getAsOfDate());
+        finalNewTimeBlocks = ModelObjectUtils.transform(tbs, toTimeBlockBuilder);
         // apply overtime pref
         // I changed start and end times comparison below. it used to be overtimeBeginTimestamp and overtimeEndTimestamp but
         // for some reason, they're always null because, we have removed the time block before getting here. KPME-2162
         if(StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
-	        for (TimeBlock tb : finalNewTimeBlocks) {
+	        for (TimeBlock.Builder tb : finalNewTimeBlocks) {
 	        	if ((StringUtils.isNotEmpty(tdaf.getTkTimeBlockId()) && tdaf.getTkTimeBlockId().equals(tb.getTkTimeBlockId()))
-	        		|| (tb.getBeginTimestamp().equals(startTime) && tb.getEndTimestamp().equals(endTime))) {
+	        		|| (tb.getBeginDateTime().compareTo(startTime) == 0 && tb.getEndDateTime().compareTo(endTime) == 0)) {
 	                tb.setOvertimePref(tdaf.getOvertimePref());
 	            }
 	        }
         }
 
-		List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+		List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (Assignment assignment : assignments) {
+        for (AssignmentContract assignment : assignments) {
             	assignmentKeys.add(assignment.getAssignmentKey());
         }
 
+        tbs = ModelObjectUtils.<TimeBlock>buildImmutableCopy(finalNewTimeBlocks);
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, finalNewTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+        tbs = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, tbs, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
 
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, finalNewTimeBlocks, HrContext.getPrincipalId());
+        tbs = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, tbs, HrContext.getPrincipalId());
         
         generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
-        
+        tdaf.getTimesheetDocument().setTimeBlocks(tbs);
 	}
 	
 	/**
@@ -729,7 +737,7 @@ public class TimeDetailAction extends TimesheetAction {
             LeaveBlock.Builder builder = LeaveBlock.Builder.create(updatedLeaveBlock);
             if (!updatedLeaveBlock.getLeaveAmount().equals(tdaf.getLeaveAmount())) {
                 builder.setLeaveAmount(tdaf.getLeaveAmount());
-                Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+                AssignmentContract assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
                 builder.setAssignmentKey(tdaf.getSelectedAssignment());
                 builder.setJobNumber(assignment.getJobNumber());
                 builder.setWorkArea(assignment.getWorkArea());
@@ -764,9 +772,9 @@ public class TimeDetailAction extends TimesheetAction {
             LmServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
         }
         
-        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (Assignment assignment : assignments) {
+        for (AssignmentContract assignment : assignments) {
             assignmentKeys.add(assignment.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(targetPrincipalId, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
@@ -777,9 +785,9 @@ public class TimeDetailAction extends TimesheetAction {
         // persist any potential changes without making hundreds of DB calls.
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
         for (TimeBlock tb : newTimeBlocks) {
-            referenceTimeBlocks.add(tb.copy());
+            referenceTimeBlocks.add(TimeBlock.copy(tb));
         }
-		TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), principalId);
+		newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), principalId);
 		//should we validate time blocks altered by rules service before saving? i.o.w. disallow leave block changes that would otherwise invalidate certain time entries?
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, principalId);
    	 	generateTimesheetChangedNotification(principalId, targetPrincipalId, tdaf.getDocumentId());
@@ -790,7 +798,7 @@ public class TimeDetailAction extends TimesheetAction {
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+        AssignmentContract assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         //Grab timeblock to be updated from form
         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
@@ -798,30 +806,30 @@ public class TimeDetailAction extends TimesheetAction {
         // persist any potential changes without making hundreds of DB calls.
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(timeBlocks.size());
         for (TimeBlock tb : timeBlocks) {
-            referenceTimeBlocks.add(tb.copy());
+            referenceTimeBlocks.add(TimeBlock.copy(tb));
         }
-        TimeBlock updatedTimeBlock = null;
-        List<TimeHourDetail> oldDetailList = new ArrayList<TimeHourDetail>();
+        TimeBlock.Builder updatedTimeBlock = null;
+        List<TimeHourDetail.Builder> oldDetailList = new ArrayList<TimeHourDetail.Builder>();
         String oldAssignmenString = "";
         for (TimeBlock tb : timeBlocks) {
             if (tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
-            	oldDetailList = tb.getTimeHourDetails();
-            	oldAssignmenString = tb.getAssignmentKey();
-                updatedTimeBlock = tb;
-                tb.setJobNumber(assignment.getJobNumber());
-                tb.setWorkArea(assignment.getWorkArea());
-                tb.setTask(assignment.getTask());
+                updatedTimeBlock = TimeBlock.Builder.create(tb);
+            	oldDetailList = updatedTimeBlock.getTimeHourDetails();
+            	oldAssignmenString = updatedTimeBlock.getAssignmentKey();
+                updatedTimeBlock.setJobNumber(assignment.getJobNumber());
+                updatedTimeBlock.setWorkArea(assignment.getWorkArea());
+                updatedTimeBlock.setTask(assignment.getTask());
                 break;
             }
         }
         
         AssignmentDescriptionKey assignKey = AssignmentDescriptionKey.get(oldAssignmenString);
-        Assignment oldAssignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(updatedTimeBlock.getPrincipalId(), assignKey, new LocalDate(updatedTimeBlock.getBeginDate()));
+        Assignment oldAssignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(updatedTimeBlock.getPrincipalId(), assignKey, updatedTimeBlock.getBeginDateTime().toLocalDate());
         String oldRegEarnCode = oldAssignment.getJob().getPayTypeObj().getRegEarnCode();
         
-        List<TimeHourDetail> tempList = new ArrayList<TimeHourDetail>();
+        List<TimeHourDetail.Builder> tempList = new ArrayList<TimeHourDetail.Builder>();
         tempList.addAll(oldDetailList);
-        for(TimeHourDetail thd : tempList) {
+        for(TimeHourDetail.Builder thd : tempList) {
         	// remove rule created details from old time block
         	if(!thd.getEarnCode().equals(oldRegEarnCode)) {
         	    oldDetailList.remove(thd);
@@ -838,16 +846,16 @@ public class TimeDetailAction extends TimesheetAction {
 
         if (updatedTimeBlock != null
         		&& earnCodes.contains(updatedTimeBlock.getEarnCode())) {
-        	List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        	List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
             List<String> assignmentKeys = new ArrayList<String>();
-            for (Assignment assign : assignments) {
+            for (AssignmentContract assign : assignments) {
                 	assignmentKeys.add(assign.getAssignmentKey());
             }        	
             List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
-            TkServiceLocator.getTimesheetService().resetTimeBlock(timeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
-        	TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, timeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-            TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, timeBlocks, HrContext.getPrincipalId());
+            timeBlocks = TkServiceLocator.getTimesheetService().resetTimeBlock(timeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
+        	timeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, timeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+            timeBlocks = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, timeBlocks, HrContext.getPrincipalId());
 
             generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
         }
@@ -868,9 +876,9 @@ public class TimeDetailAction extends TimesheetAction {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         String timeHourDetailId = tdaf.getTkTimeHourDetailId();
         
-        List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+        List<TimeBlock.Builder> newTimeBlocks = ModelObjectUtils.transform(tdaf.getTimesheetDocument().getTimeBlocks(), toTimeBlockBuilder);
         TimeHourDetail thd = TkServiceLocator.getTimeHourDetailService().getTimeHourDetail(timeHourDetailId);
-        for(TimeBlock tb : newTimeBlocks) {
+        for(TimeBlock.Builder tb : newTimeBlocks) {
         	if(tb.getTkTimeBlockId().equals(thd.getTkTimeBlockId())) {
 	        	// mark the lunch deleted as Y
 	            tb.setLunchDeleted(true);
@@ -879,19 +887,20 @@ public class TimeDetailAction extends TimesheetAction {
        // remove the related time hour detail row with the lunch deduction
        TkServiceLocator.getTimeHourDetailService().removeTimeHourDetail(thd.getTkTimeHourDetailId());
         
-       List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+       List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
        List<String> assignmentKeys = new ArrayList<String>();
-       for (Assignment assignment : assignments) {
+       for (AssignmentContract assignment : assignments) {
            	assignmentKeys.add(assignment.getAssignmentKey());
        }
        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
-       TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
+        List<TimeBlock> tbs = ModelObjectUtils.<TimeBlock>buildImmutableCopy(newTimeBlocks);
+        tbs = TkServiceLocator.getTimesheetService().resetTimeBlock(tbs, tdaf.getTimesheetDocument().getAsOfDate());
         
         // KPME-1340
-        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks);
-        tdaf.getTimesheetDocument().setTimeBlocks(newTimeBlocks);
+        tbs = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, tbs, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+        tbs = TkServiceLocator.getTimeBlockService().saveTimeBlocks(tbs);
+        tdaf.getTimesheetDocument().setTimeBlocks(tbs);
         
         return mapping.findForward("basic");
     }
@@ -914,19 +923,19 @@ public class TimeDetailAction extends TimesheetAction {
           // persist any potential changes without making hundreds of DB calls.
           List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
           for (TimeBlock tb : newTimeBlocks) {
-              referenceTimeBlocks.add(tb.copy());
+              referenceTimeBlocks.add(TimeBlock.copy(tb));
           }
-          List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+          List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
           List<String> assignmentKeys = new ArrayList<String>();
-          for (Assignment assignment : assignments) {
+          for (AssignmentContract assignment : assignments) {
               assignmentKeys.add(assignment.getAssignmentKey());
           }
           List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
 
           //reset time block
-          TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
-          TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-          TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+          newTimeBlocks = TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
+          newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+          newTimeBlocks = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
           generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
       }
 

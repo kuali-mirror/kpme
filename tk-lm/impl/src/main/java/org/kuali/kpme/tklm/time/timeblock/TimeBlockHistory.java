@@ -23,7 +23,7 @@ import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockHistoryContract;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 
-public class TimeBlockHistory extends TimeBlock implements TimeBlockHistoryContract {
+public class TimeBlockHistory extends TimeBlockBo implements TimeBlockHistoryContract {
 
 	private static final long serialVersionUID = 3943771766084238699L;
 
@@ -34,12 +34,12 @@ public class TimeBlockHistory extends TimeBlock implements TimeBlockHistoryContr
 	private transient Person principal;
 	private transient Person userPrincipal;
 	private List<TimeBlockHistoryDetail> timeBlockHistoryDetails = new ArrayList<TimeBlockHistoryDetail>();
-	private TimeBlock timeBlock;
+	private TimeBlockBo timeBlock;
 	
 	public TimeBlockHistory() {
 	}
 
-	public TimeBlockHistory(TimeBlock tb) {
+	public TimeBlockHistory(TimeBlockBo tb) {
 		this.setTkTimeBlockId(tb.getTkTimeBlockId());
 		this.setDocumentId(tb.getDocumentId());
 		this.setJobNumber(tb.getJobNumber());
@@ -48,7 +48,7 @@ public class TimeBlockHistory extends TimeBlock implements TimeBlockHistoryContr
 		this.setEarnCode(tb.getEarnCode());
 		this.setBeginTimestamp(tb.getBeginTimestamp());
 		this.setEndTimestamp(tb.getEndTimestamp());
-		this.setClockLogCreated(tb.getClockLogCreated());
+		this.setClockLogCreated(tb.isClockLogCreated());
 		this.setHours(tb.getHours());
 		this.setUserPrincipalId(tb.getUserPrincipalId());
 		this.setPrincipalId(tb.getPrincipalId());
@@ -108,11 +108,11 @@ public class TimeBlockHistory extends TimeBlock implements TimeBlockHistoryContr
 		this.timeBlockHistoryDetails = timeBlockHistoryDetails;
 	}
 	
-	public TimeBlock getTimeBlock(){
+	public TimeBlockBo getTimeBlock(){
 		return this.timeBlock;
 	}
 	
-	public void setTimeBlock(TimeBlock timeBlock) {
+	public void setTimeBlock(TimeBlockBo timeBlock) {
 		this.timeBlock = timeBlock;
 	}
 

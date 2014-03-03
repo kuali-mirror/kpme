@@ -20,7 +20,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.DocumentStatusCategory;
@@ -242,7 +242,7 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
             tBlock.setDocumentId(history.getDocumentId());
             tBlock.setBeginDate(history.getLeaveDate());
             tBlock.setEndDate(history.getLeaveDate());
-            tBlock.setTimeHourDetails(new ArrayList<TimeHourDetail>());
+            tBlock.setTimeHourDetails(new ArrayList<TimeHourDetailBo>());
             tBlock.setTimestampModified(history.getTimestamp());
             tBlock.setTimestamp(history.getTimestamp());
             tBlock.setActionHistory(TkConstants.ACTION_HISTORY_CODES.get(history.getAction()));

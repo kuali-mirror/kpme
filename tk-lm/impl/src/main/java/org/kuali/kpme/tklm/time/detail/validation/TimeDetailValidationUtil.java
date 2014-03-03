@@ -29,6 +29,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.common.CalendarValidationUtil;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
@@ -37,7 +38,7 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -406,12 +407,12 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         for (TimeBlock timeBlock : timesheetDocument.getTimeBlocks()) {
             if (errors.size() == 0 && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
             	// allow regular time blocks to be added with overlapping non-regular time blocks
-            	JobContract aJob = HrServiceLocator.getJobService().getJob(timeBlock.getPrincipalId(), timeBlock.getJobNumber(), new LocalDate(timeBlock.getBeginDate()));
+            	JobContract aJob = HrServiceLocator.getJobService().getJob(timeBlock.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate());
             	if(aJob != null && aJob.getPayTypeObj() != null && isRegularEarnCode && !StringUtils.equals(aJob.getPayTypeObj().getRegEarnCode(),timeBlock.getEarnCode())) {
             		continue;
             	}
             	
-                Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
+                Interval timeBlockInterval = new Interval(timeBlock.getBeginDateTime(), timeBlock.getEndDateTime());
                 for (Interval intv : dayInt) {
                 	// KPME-2720
                 	// timeblockInterval above seems to have the server timezone (America/New York), for example, if you log in as iadetail1 (America/chicago) 

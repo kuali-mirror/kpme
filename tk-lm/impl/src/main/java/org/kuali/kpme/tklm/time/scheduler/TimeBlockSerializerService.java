@@ -22,7 +22,7 @@ import java.io.FileWriter;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.thoughtworks.xstream.XStream;
@@ -42,10 +42,10 @@ public class TimeBlockSerializerService {
 	public void serializeToXML() throws FileNotFoundException {
 		// Fetching data using BO service
 		Collection timeBlocks = KRADServiceLocator.getBusinessObjectService()
-				.findAll(TimeBlock.class);
-		Iterator<TimeBlock> itr = timeBlocks.iterator();
+				.findAll(TimeBlockBo.class);
+		Iterator<TimeBlockBo> itr = timeBlocks.iterator();
 		while (itr.hasNext()) {
-			TimeBlock timeBlockObj = itr.next();
+			TimeBlockBo timeBlockObj = itr.next();
 			XStream xs = new XStream(new DomDriver());
 			FileOutputStream fos;
 			// writting it to file temporarily 'temp.xml' file will be created
@@ -60,11 +60,11 @@ public class TimeBlockSerializerService {
 	public void serializeToCSV() throws FileNotFoundException {
 		// Fetching data using BO service
 		Collection timeBlocks = KRADServiceLocator.getBusinessObjectService()
-				.findAll(TimeBlock.class);
-		Iterator<TimeBlock> itr = timeBlocks.iterator();
+				.findAll(TimeBlockBo.class);
+		Iterator<TimeBlockBo> itr = timeBlocks.iterator();
 		while (itr.hasNext()) {
 
-			TimeBlock timeBlockObj = itr.next();
+			TimeBlockBo timeBlockObj = itr.next();
 			try {
 				// Create file
 				FileWriter fstream = new FileWriter(System.getProperty("user.home")

@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.timeblock.service;
-
-import java.math.BigDecimal;
-import java.util.List;
+package org.kuali.kpme.tklm.api.time.timeblock;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public interface TimeBlockService {
 	/**
@@ -35,7 +33,7 @@ public interface TimeBlockService {
 	 * @param timeBlockId
 	 * @return
 	 */
-	@Cacheable(value=TimeBlock.CACHE_NAME, key="'{getTimeBlock}' + 'timeBlockId=' + #p0")
+	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlock}' + 'timeBlockId=' + #p0")
 	public TimeBlock getTimeBlock(String timeBlockId);
 
 	/**
@@ -49,9 +47,11 @@ public interface TimeBlockService {
 	public void deleteTimeBlock(TimeBlock timeBlock);
 	/**
 	 * Build a TimeBlock with the given criteria
+     * @param principalId
+     * @param calendarEntry
 	 * @param assignment
 	 * @param earnCode
-	 * @param timesheetDocument
+	 * @param documentId
 	 * @param beginDateTime
 	 * @param endDateTime
 	 * @param hours
@@ -62,7 +62,7 @@ public interface TimeBlockService {
      * @param clockLogEndId
 	 * @return
 	 */
-	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
+	public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntryContract calendarEntry, AssignmentContract assignment, String earnCode, String documentId,
 											DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
                                             Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId,
                                             String clockLogBeginId, String clockLogEndId);
@@ -75,7 +75,7 @@ public interface TimeBlockService {
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
     })
-	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId);
+	public List<TimeBlock> saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId);
 
 	/**
 	 * Save a list of new TimeBlocks
@@ -84,12 +84,12 @@ public interface TimeBlockService {
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
     })
-	public void saveTimeBlocks(List<TimeBlock> tbList);
+	public List<TimeBlock> saveTimeBlocks(List<TimeBlock> tbList);
 	/**
 	 * Reset the TimeHourDetail object associated with the TimeBlock object on a List of TimeBlocks
 	 * @param origTimeBlocks
 	 */
-	public void resetTimeHourDetail(List<TimeBlock> origTimeBlocks);
+	public List<TimeBlock> resetTimeHourDetail(List<TimeBlock> origTimeBlocks);
 	/**
 	 * Get the List of TimeBlock of a given document id
 	 * @param documentId
@@ -102,43 +102,46 @@ public interface TimeBlockService {
 	 * @param assign
 	 * @return List<TimeBlock>
 	 */
-	 @Cacheable(value= TimeBlock.CACHE_NAME, key="{getTimeBlocksForAssignment}' + 'assign=' + #p0.tkAssignmentId")
-	 public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign);
+	 @Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksForAssignment}' + 'assign=' + #p0.tkAssignmentId")
+	 public List<TimeBlock> getTimeBlocksForAssignment(AssignmentContract assign);
 	/**
 	 * Build a List of TimeBlocks over a span of multiple days
+     * @param principalId
+     * @param calendarEntry
 	 * @param assignment
 	 * @param earnCode
-	 * @param timesheetDocument
+	 * @param documentId
 	 * @param beginDateTime
 	 * @param endDateTime
 	 * @param hours
      * @param amount
-	 * @param isClockLogCreated
-     * @param isLunchDeleted
+	 * @param clockLogCreated
+     * @param lunchDeleted
      * @param spanningWeeks
 	 * @return
 	 */
-	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
-												DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
-                                                Boolean getClockLogCreated, Boolean getLunchDeleted, String spanningWeeks, String userPrincipalId,
-                                                String clockLogBeginId, String clockLogEndId);
+	public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntryContract calendarEntry, AssignmentContract assignment, String earnCode,
+                                                    String documentId, DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
+                                                    Boolean clockLogCreated, Boolean lunchDeleted, String spanningWeeks, String userPrincipalId,
+                                                    String clockLogBeginId, String clockLogEndId);
 	/**
 	 * Create a TimeBlock for the given criteria
-	 * @param timesheetDocument
+	 * @param principalId
+     * @param documentId
 	 * @param beginDateTime
 	 * @param endDateTime
 	 * @param assignment
 	 * @param earnCode
 	 * @param hours
      * @param amount
-	 * @param isClockLogCreated
-	 * @param isLunchDeleted
+	 * @param clockLogCreated
+	 * @param lunchDeleted
 	 * @return
 	 */
 	
-	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, DateTime beginDateTime, DateTime endDateTime,
-										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
-                                        Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId);
+	public TimeBlock createTimeBlock(String principalId, String documentId, DateTime beginDateTime, DateTime endDateTime,
+										AssignmentContract assignment, String earnCode, BigDecimal hours, BigDecimal amount,
+                                        Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId);
 
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
@@ -146,7 +149,7 @@ public interface TimeBlockService {
     })
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
-	public Boolean getTimeBlockEditable(TimeBlock tb);
+	public Boolean getTimeBlockEditable(TimeBlockContract tb);
 	
 	/*
 	 * Get all the time blocks with the given Clock Log id as the clockLogEndId
@@ -169,19 +172,22 @@ public interface TimeBlockService {
 
     /**
      * Get overnight timeblocks by the clock log begin id
-     * @param clockLogBeginId
+     * @param clockLogEndId
      * @return
      */
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getOvernightTimeBlocks}' + 'clockLogEndId=' + #p0")
 	public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 
+    @Cacheable(value= TimeBlock.CACHE_NAME, key="'{isOvernightTimeBlock}' + 'clockLogEndId=' + #p0")
+    public boolean isOvernightTimeBlock(String clockLogEndId);
+
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
             @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="'{time}' + #p0.tkTimeBlockId")
     })
-	public void updateTimeBlock(TimeBlock tb);
+	public TimeBlock updateTimeBlock(TimeBlock tb);
 	
-	public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
+	//public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
 
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
@@ -198,5 +204,5 @@ public interface TimeBlockService {
 
 	public List<TimeBlock> getTimeBlocksForLookup(String documentId, String principalId, String userPrincipalId, LocalDate fromDate, LocalDate toDate);
 	
-	public void applyHolidayPremiumEarnCode(TimesheetDocument timesheetDocument, List<TimeBlock> appliedTimeBlocks);
+	public List<TimeBlock> applyHolidayPremiumEarnCode(String principalId, List<AssignmentContract> timeAssignments, List<TimeBlock> appliedTimeBlocks);
 }

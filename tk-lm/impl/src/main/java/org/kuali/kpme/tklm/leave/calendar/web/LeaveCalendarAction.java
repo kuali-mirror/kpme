@@ -49,6 +49,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
@@ -258,8 +259,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        if (leaveCalendarDocument != null) {
 	        	leaveCalendarForm.setLeaveCalendarDocument(leaveCalendarDocument);
 	        	leaveCalendarForm.setDocumentId(leaveCalendarDocument.getDocumentId());
-	        	List<Assignment> docAssignments = new ArrayList<Assignment>();
-	        	for(Assignment anAssignment : leaveCalendarDocument.getAssignments()) {
+	        	List<AssignmentContract> docAssignments = new ArrayList<AssignmentContract>();
+	        	for(AssignmentContract anAssignment : leaveCalendarDocument.getAssignments()) {
 	        		if(loggedInUserAssignmentKeys.contains(anAssignment.getAssignmentKey()))
 	        			docAssignments.add(anAssignment);
 	        	}
@@ -379,14 +380,14 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		
 		String documentId = lcd != null ? lcd.getDocumentId() : "";
 		
-		Assignment assignment = null;
+		AssignmentContract assignment = null;
 		if(lcd != null) {
 			assignment = lcd.getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
 			if(assignment == null)
 				LOG.warn("No matched assignment found");
 		} else {
-			List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
-			assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+			List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
+			assignment = HrServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 		}
 		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
 				LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, targetPrincipalId);

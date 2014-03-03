@@ -17,13 +17,16 @@ package org.kuali.kpme.tklm.api.time.timehourdetail;
 
 import java.math.BigDecimal;
 
+import org.kuali.rice.core.api.mo.common.GloballyUnique;
+import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>TimeHourDetailContract interface</p>
  *
  */
-public interface TimeHourDetailContract extends PersistableBusinessObject {
+public interface TimeHourDetailContract extends Versioned, GloballyUnique {
 
 	/**
 	 * The EarnCode name associated with the TimeHourDetail

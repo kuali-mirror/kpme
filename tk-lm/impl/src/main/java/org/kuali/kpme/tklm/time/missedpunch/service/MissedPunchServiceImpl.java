@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
@@ -35,6 +36,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
@@ -43,8 +45,7 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDao;
 import org.kuali.kpme.tklm.time.rules.TkRuleControllerService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockService;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -227,13 +228,13 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         		// if there's already time block created with the same clock logs, don't create timeblock for it again
         		createNewTb = false;	
         	}
-            referenceTimeBlocks.add(tb.copy());
+            referenceTimeBlocks.add(TimeBlock.Builder.create(tb).build());
         }
         
         if(createNewTb) {
 	        // Add TimeBlocks after we store our reference object!
-	        List<TimeBlock> blocks = getTimeBlockService().buildTimeBlocks(
-	                currentAssignment, earnCode, tdoc, beginDateTime,
+	        List<TimeBlock> blocks = getTimeBlockService().buildTimeBlocks(tdoc.getPrincipalId(), tdoc.getCalendarEntry(),
+	                currentAssignment, earnCode, tdoc.getDocumentId(), beginDateTime,
 	                endDateTime, BigDecimal.ZERO, BigDecimal.ZERO, true, false, HrContext.getPrincipalId(),
 	                beginClockLog != null ? beginClockLog.getTkClockLogId() : null,
 	                endClockLog != null ? endClockLog.getTkClockLogId() : null);
@@ -241,9 +242,9 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 	        newTimeBlocks.addAll(blocks);
         }
         
-        List<Assignment> assignments = tdoc.getAssignments();
+        List<AssignmentContract> assignments = tdoc.getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (Assignment assignment : assignments) {
+        for (AssignmentContract assignment : assignments) {
         	assignmentKeys.add(assignment.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(tdoc.getPrincipalId(), tdoc.getAsOfDate(), tdoc.getDocEndDate(), assignmentKeys);

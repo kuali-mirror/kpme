@@ -40,7 +40,7 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.search.Range;
 import org.kuali.rice.core.api.search.SearchExpressionUtils;
@@ -102,7 +102,7 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 				}
 			}
 			if(invalid) {
-				return new ArrayList<TimeBlock>();
+				return new ArrayList<TimeBlockBo>();
 			}
 		}
 		searchCriteria.remove("actionDate");

@@ -36,6 +36,7 @@ import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
@@ -48,6 +49,8 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -59,9 +62,9 @@ import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
@@ -133,7 +136,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 //timeBlocks = TkServiceLocator.getTimeBlockService()
                 //              .getTimeBlocks(documentId);
                 List<String> assignKeys = new ArrayList<String>();
-                for(Assignment a : td.getAssignments()) {
+                for(AssignmentContract a : td.getAssignments()) {
                 	assignKeys.add(a.getAssignmentKey());
                 }
                 leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId,

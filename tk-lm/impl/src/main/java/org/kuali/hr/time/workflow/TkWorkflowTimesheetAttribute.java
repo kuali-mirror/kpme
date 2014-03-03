@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -52,8 +53,8 @@ public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 
 		if (timesheetDocument != null) {
-			List<Assignment> assignments = timesheetDocument.getAssignments();
-			for (Assignment assignment : assignments) {
+			List<AssignmentContract> assignments = timesheetDocument.getAssignments();
+			for (AssignmentContract assignment : assignments) {
 				String roleStr = roleName + "_" + assignment.getWorkArea();
 				if (!roles.contains(roleStr)) {
 					roles.add(roleStr);

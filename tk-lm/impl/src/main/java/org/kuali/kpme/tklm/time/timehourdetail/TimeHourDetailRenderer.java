@@ -25,10 +25,12 @@ import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailRendererContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 
 import java.util.ArrayList;

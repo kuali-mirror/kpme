@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
@@ -76,8 +77,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         lcd.setLeaveBlocks(leaveBlocks);
 
         // Fetching assignments
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
-        lcd.setAssignments(assignments);
+        List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
+        lcd.setAssignments((List<AssignmentContract>)assignments);
         
         return lcd;
     }
@@ -205,7 +206,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntryContract calEntry) {
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
+        List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
         ldoc.setAssignments(assignments);
     }
 
@@ -226,7 +227,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 		lcdh.setEndDate(calendarEntry.getEndPeriodDateTime());
 		leaveCalendarDocument.setDocumentHeader(lcdh);
 		// Fetching assignments
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+        List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
         leaveCalendarDocument.setAssignments(assignments);
 		return leaveCalendarDocument;
 	}

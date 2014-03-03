@@ -58,8 +58,10 @@
                 Workarea Id: ${timeBlock.workArea}<br/>
                 Task Id: ${timeBlock.task}<br/>
                 Earn Code: ${timeBlock.earnCode}<br/>
-                Begin Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.beginTimeDisplayDate}"/><br/>
-                End Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.endTimeDisplayDate}"/><br/>
+                <%--Begin Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.beginTimeDisplayDate}"/><br/>
+                End Time: <fmt:formatDate type="both" dateStyle="full" value="${timeBlock.endTimeDisplayDate}"/><br/>--%>
+                Begin Time: <joda:format style="FM" value="${timeBlock.beginTimeDisplay}"/><br/>
+                End Time: <joda:format style="FM" value="${timeBlock.endTimeDisplay}"/><br/>
                 Hours: ${timeBlock.hours}<br/>
                 Amount: ${timeBlock.amount}<br/>
                 <br/>

@@ -30,11 +30,13 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.rules.lunch.department.dao.DepartmentLunchRuleDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -78,9 +80,11 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 	 * If the hours is greater or equal than the shift hours, deduct the hour from the deduction_mins field
 	 */
 	@Override
-	public void applyDepartmentLunchRule(List<TimeBlock> timeblocks) {
+	public List<TimeBlock> applyDepartmentLunchRule(List<TimeBlock> timeblocks) {
 		Map<String,TimeBlock> clockLogEndIdToTimeBlockMap = new HashMap<String,TimeBlock>();
+        List<TimeBlock> updatedBlocks = new ArrayList<TimeBlock>();
 		for(TimeBlock timeBlock : timeblocks) {
+            TimeBlock updatedBlock = timeBlock;
             if (timeBlock.isLunchDeleted()) {
                 continue;
             }
@@ -88,39 +92,43 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 			String dept = HrServiceLocator.getJobService().getJob(doc.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate()).getDept();
 			
 			DeptLunchRule deptLunchRule = getDepartmentLunchRule(dept, timeBlock.getWorkArea(), doc.getPrincipalId(), timeBlock.getJobNumber(), timeBlock.getBeginDateTime().toLocalDate());
-			if(timeBlock.getClockLogCreated() && deptLunchRule!= null && deptLunchRule.getDeductionMins() != null && timeBlock.getHours().compareTo(deptLunchRule.getShiftHours()) >= 0) {
+			if(timeBlock.isClockLogCreated() && deptLunchRule!= null && deptLunchRule.getDeductionMins() != null && timeBlock.getHours().compareTo(deptLunchRule.getShiftHours()) >= 0) {
 				//KPME-2740 apply lunch deduction to only one of the two time blocks created by an overnight shift.
 				if(timeBlock.getClockLogEndId() != null && !clockLogEndIdToTimeBlockMap.containsKey(timeBlock.getClockLogEndId())) {
-					applyLunchRuleToDetails(timeBlock, deptLunchRule, clockLogEndIdToTimeBlockMap);
+					updatedBlock = applyLunchRuleToDetails(timeBlock, deptLunchRule, clockLogEndIdToTimeBlockMap);
 				}
 			}
+            updatedBlocks.add(updatedBlock);
 		}
+        return updatedBlocks;
 	}
 	
-    private void applyLunchRuleToDetails(TimeBlock block, DeptLunchRule rule, Map<String, TimeBlock> clockIdToTimeBlockMap) {
-        List<TimeHourDetail> details = block.getTimeHourDetails();
+    private TimeBlock applyLunchRuleToDetails(TimeBlock block, DeptLunchRule rule, Map<String, TimeBlock> clockIdToTimeBlockMap) {
+        TimeBlock.Builder tbBuilder = TimeBlock.Builder.create(block);
+        List<TimeHourDetail.Builder> details = tbBuilder.getTimeHourDetails();
         // TODO : Assumption here is that there will be one time hour detail -- May not be accurate.
         if (details.size() == 1) {
-            TimeHourDetail detail = details.get(0);
+            TimeHourDetail.Builder detail = details.get(0);
 
             BigDecimal lunchHours = TKUtils.convertMinutesToHours(rule.getDeductionMins());
             BigDecimal newHours = detail.getHours().subtract(lunchHours).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
             detail.setHours(newHours);
 
-            TimeHourDetail lunchDetail = new TimeHourDetail();
+            TimeHourDetail.Builder lunchDetail = TimeHourDetail.Builder.create();
             lunchDetail.setHours(lunchHours.multiply(HrConstants.BIG_DECIMAL_NEGATIVE_ONE));
             lunchDetail.setEarnCode(HrConstants.LUNCH_EARN_CODE);
             lunchDetail.setTkTimeBlockId(block.getTkTimeBlockId());
             
             //Deduct from total for worked hours
-            block.setHours(block.getHours().subtract(lunchHours,HrConstants.MATH_CONTEXT));
+            tbBuilder.setHours(block.getHours().subtract(lunchHours,HrConstants.MATH_CONTEXT));
             
             details.add(lunchDetail);
-            clockIdToTimeBlockMap.put(block.getClockLogEndId(), block);
+            clockIdToTimeBlockMap.put(block.getClockLogEndId(), tbBuilder.build());
         } else {
             // TODO : Determine what to do in this case.
             LOG.warn("Hour details size > 1 in Lunch rule application.");
         }
+        return tbBuilder.build();
     }
 
 	public DepartmentLunchRuleDao getDeptLunchRuleDao() {

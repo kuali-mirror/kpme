@@ -16,14 +16,16 @@
 package org.kuali.kpme.tklm.time.timehourdetail;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TimeHourDetail extends PersistableBusinessObjectBase implements TimeHourDetailContract {
+public class TimeHourDetailBo extends PersistableBusinessObjectBase implements TimeHourDetailContract {
 
 	private static final long serialVersionUID = 1L;
 	private String tkTimeHourDetailId;
@@ -32,10 +34,10 @@ public class TimeHourDetail extends PersistableBusinessObjectBase implements Tim
 	private BigDecimal hours = HrConstants.BIG_DECIMAL_SCALED_ZERO;
 	private BigDecimal amount = HrConstants.BIG_DECIMAL_SCALED_ZERO;
 
-    public TimeHourDetail() {
+    public TimeHourDetailBo() {
     }
 
-    protected TimeHourDetail(TimeHourDetail t) {
+    protected TimeHourDetailBo(TimeHourDetailBo t) {
         // All of the following are Immutable, be aware if new fields
         // are added.
         this.tkTimeHourDetailId = t.tkTimeHourDetailId;
@@ -45,8 +47,8 @@ public class TimeHourDetail extends PersistableBusinessObjectBase implements Tim
         this.amount = t.amount;
     }
 
-    public TimeHourDetail copy() {
-        return new TimeHourDetail(this);
+    public TimeHourDetailBo copy() {
+        return new TimeHourDetailBo(this);
     }
 
 	public String getEarnCode() {
@@ -107,7 +109,7 @@ public class TimeHourDetail extends PersistableBusinessObjectBase implements Tim
 		if (obj.getClass() != getClass()) {
 			return false;
 		}
-		TimeHourDetail timeHourDetail = (TimeHourDetail) obj;
+		TimeHourDetailBo timeHourDetail = (TimeHourDetailBo) obj;
 		return new EqualsBuilder()
 			.append(earnCode, timeHourDetail.earnCode)
 			.append(amount, timeHourDetail.amount)
@@ -123,5 +125,26 @@ public class TimeHourDetail extends PersistableBusinessObjectBase implements Tim
 			.append(hours)
 			.toHashCode();
 	}
+
+    public static TimeHourDetailBo from(TimeHourDetail im) {
+        TimeHourDetailBo tb = new TimeHourDetailBo();
+        tb.setTkTimeBlockId(im.getTkTimeBlockId());
+        tb.setTkTimeHourDetailId(im.getTkTimeHourDetailId());
+        tb.setHours(im.getHours());
+        tb.setAmount(im.getAmount());
+        tb.setEarnCode(im.getEarnCode());
+        tb.setObjectId(im.getObjectId());
+        tb.setVersionNumber(im.getVersionNumber());
+
+        return tb;
+    }
+
+    public static TimeHourDetail to(TimeHourDetailBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return TimeHourDetail.Builder.create(bo).build();
+    }
 
 }

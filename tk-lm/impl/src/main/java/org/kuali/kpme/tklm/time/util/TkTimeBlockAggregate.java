@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.*;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
@@ -27,15 +28,16 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.util.TkTimeBlockAggregateContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 
@@ -91,7 +93,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 		for(Interval dayInt : dayIntervals){
 			List<TimeBlock> dayTimeBlocks = new ArrayList<TimeBlock>();
 			for(TimeBlock timeBlock : timeBlocks){
-
+                TimeBlock.Builder builder = TimeBlock.Builder.create(timeBlock);
                 // Assumption: Timezones can only be switched at pay period end boundaries.
                 // If the above assumption becomes false, the logic below will need to
                 // accommodate virtual chopping of time blocks to have them fit nicely
@@ -103,10 +105,10 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
 						// determine if the time block needs to be pushed forward / backward
 						if(beginTime.getHourOfDay() < dayInt.getStart().getHourOfDay()) {
-							timeBlock.setPushBackward(true);
+							builder.setPushBackward(true);
 						}
 
-						dayTimeBlocks.add(timeBlock);
+						dayTimeBlocks.add(builder.build());
 					}
 				}
 			}
@@ -162,17 +164,17 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
                 // If the above assumption becomes false, the logic below will need to
                 // accommodate virtual chopping of time blocks to have them fit nicely
                 // in the "days" that are displayed to users.
-
-				DateTime beginTime = useUserTimeZone ? timeBlock.getBeginTimeDisplay() : new DateTime(timeBlock.getBeginTimestamp(), TKUtils.getSystemDateTimeZone());
-				DateTime endTime = useUserTimeZone ? timeBlock.getEndTimeDisplay() :  new DateTime(timeBlock.getEndTimestamp(), TKUtils.getSystemDateTimeZone());
+                TimeBlock.Builder builder = TimeBlock.Builder.create(timeBlock);
+				DateTime beginTime = useUserTimeZone ? timeBlock.getBeginTimeDisplay() : new DateTime(timeBlock.getBeginDateTime(), TKUtils.getSystemDateTimeZone());
+				DateTime endTime = useUserTimeZone ? timeBlock.getEndTimeDisplay() :  new DateTime(timeBlock.getEndDateTime(), TKUtils.getSystemDateTimeZone());
 				if(dayInt.contains(beginTime)){
 					if(dayInt.contains(endTime) || endTime.compareTo(dayInt.getEnd()) == 0){
 						// determine if the time block needs to be pushed forward / backward
 						if(beginTime.getHourOfDay() < dayInt.getStart().getHourOfDay()) {
-							timeBlock.setPushBackward(true);
+							builder.setPushBackward(true);
 						}
 
-						dayTimeBlocks.add(timeBlock);
+						dayTimeBlocks.add(builder.build());
 					}
 				}
 			}
@@ -208,7 +210,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 		Collections.sort(lstTimeBlocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
 			public int compare(TimeBlock tb1, TimeBlock tb2) {
 				if (tb1 != null && tb2 != null)
-					return tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
+					return tb1.getBeginDateTime().compareTo(tb2.getBeginDateTime());
 				return 0;
 			}
 		});
@@ -258,7 +260,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
             Collections.sort(dList, new Comparator<TimeBlock>() { // Sort the Time Blocks
                 public int compare(TimeBlock tb1, TimeBlock tb2) {
                     if (tb1 != null && tb2 != null)
-                        return tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
+                        return tb1.getBeginDateTime().compareTo(tb2.getBeginDateTime());
                     return 0;
                 }
             });
@@ -367,7 +369,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 					if (timesheetDocumentHeader != null) { 
 		                TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 		                List<String> assignmentKeys = new ArrayList<String>();
-		                for(Assignment assignment : timesheetDocument.getAssignments()) {
+		                for(AssignmentContract assignment : timesheetDocument.getAssignments()) {
 		                	assignmentKeys.add(assignment.getAssignmentKey());
 		                }
 		                
@@ -393,7 +395,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 					if (timesheetDocumentHeader != null) {
 		                TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 		                List<String> assignmentKeys = new ArrayList<String>();
-		                for(Assignment assignment : timesheetDocument.getAssignments()) {
+		                for(AssignmentContract assignment : timesheetDocument.getAssignments()) {
 		                	assignmentKeys.add(assignment.getAssignmentKey());
 		                }
 		                
@@ -454,6 +456,10 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 	public void setPayCalendar(CalendarContract payCalendar) {
 		this.payCalendar = payCalendar;
 	}
+
+    public void setDayTimeBlockList(List<List<TimeBlock>> dayTimeBlockList) {
+        this.dayTimeBlockList =  dayTimeBlockList;
+    }
 	
 	//Very much a hack to add valid leave blocks to a time block aggregate...
 	public static TkTimeBlockAggregate combineTimeAndLeaveAggregates(TkTimeBlockAggregate tbAggregate, LeaveBlockAggregate lbAggregate) {
@@ -466,28 +472,28 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 					for (LeaveBlockContract lb : leaveBlocks) {
 						//convert leave block to generic time block and add to list
 						//conveniently, we only really need the hours amount
-						TimeBlock timeBlock = new TimeBlock();
+						TimeBlock.Builder timeBlock = TimeBlock.Builder.create();
 						timeBlock.setHours(lb.getLeaveAmount().negate());
-						timeBlock.setBeginTimestamp(new Timestamp(lb.getLeaveLocalDate().toDate().getTime()));
-						timeBlock.setEndTimestamp(new Timestamp(new DateTime(lb.getLeaveLocalDate().toDate().getTime()).plusHours(timeBlock.getHours().intValue()).getMillis()));
+						timeBlock.setBeginDateTime(lb.getBeginDateTime());
+						timeBlock.setEndDateTime(lb.getBeginDateTime().plusHours(timeBlock.getHours().intValue()));
 						timeBlock.setAssignmentKey(lb.getAssignmentKey());
 						timeBlock.setJobNumber(lb.getJobNumber());
 						timeBlock.setWorkArea(lb.getWorkArea());
 						timeBlock.setTask(lb.getTask());
 						timeBlock.setEarnCode(lb.getEarnCode());
-						timeBlock.setLeaveDate(lb.getLeaveLocalDate().toDate());
+						timeBlock.setLeaveDateTime(lb.getLeaveDateTime());
 						EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
 						if(earnCodeObj != null) {
 							timeBlock.setEarnCodeType(earnCodeObj.getEarnCodeType());
 						}
 						timeBlock.setPrincipalId(lb.getPrincipalId());
 						timeBlock.setWorkArea(lb.getWorkArea());
-						TimeHourDetail timeHourDetail = new TimeHourDetail();
+                        TimeHourDetail.Builder timeHourDetail = TimeHourDetail.Builder.create();
 						timeHourDetail.setEarnCode(timeBlock.getEarnCode());
 						timeHourDetail.setHours(timeBlock.getHours());
 						timeHourDetail.setAmount(BigDecimal.ZERO);
-						timeBlock.addTimeHourDetail(timeHourDetail);
-						tbAggregate.getDayTimeBlockList().get(i).add(timeBlock);
+						timeBlock.setTimeHourDetails(Collections.singletonList(timeHourDetail));
+						tbAggregate.getDayTimeBlockList().get(i).add(timeBlock.build());
 					}
 				}
 

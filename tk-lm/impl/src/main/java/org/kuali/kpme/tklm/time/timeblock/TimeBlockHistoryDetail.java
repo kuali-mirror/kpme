@@ -18,10 +18,10 @@ package org.kuali.kpme.tklm.time.timeblock;
 import java.util.Date;
 
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockHistoryDetailContract;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.rice.kim.api.identity.Person;
 
-public class TimeBlockHistoryDetail extends TimeHourDetail implements TimeBlockHistoryDetailContract {
+public class TimeBlockHistoryDetail extends TimeHourDetailBo implements TimeBlockHistoryDetailContract {
 
 	private static final long serialVersionUID = 1L;
 	private String tkTimeBlockHistoryDetailId;
@@ -49,7 +49,7 @@ public class TimeBlockHistoryDetail extends TimeHourDetail implements TimeBlockH
 	}
 
 		
-	public TimeBlockHistoryDetail(TimeHourDetail thd) {
+	public TimeBlockHistoryDetail(TimeHourDetailBo thd) {
 		this.setEarnCode(thd.getEarnCode());
 		this.setAmount(thd.getAmount());
 		this.setHours(thd.getHours());

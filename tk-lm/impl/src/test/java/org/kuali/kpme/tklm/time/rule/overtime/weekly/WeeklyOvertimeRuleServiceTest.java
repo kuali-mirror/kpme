@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.rule.overtime.weekly;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,9 +31,10 @@ import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
@@ -285,7 +287,7 @@ public class WeeklyOvertimeRuleServiceTest extends TKLMIntegrationTestCase {
 
 	@Override
 	public void tearDown() throws Exception {
-		KRADServiceLocator.getBusinessObjectService().deleteMatching(WeeklyOvertimeRule.class, new HashMap());
+		KRADServiceLocator.getBusinessObjectService().deleteMatching(WeeklyOvertimeRule.class, Collections.<String, String>emptyMap());
 		super.tearDown();
 	}
 		

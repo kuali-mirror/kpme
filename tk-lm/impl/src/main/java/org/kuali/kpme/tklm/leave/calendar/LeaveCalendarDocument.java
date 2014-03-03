@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
@@ -91,11 +92,11 @@ public class LeaveCalendarDocument extends CalendarDocument implements Assignabl
 	}
 
     @Override
-	public List<Assignment> getAssignments() {
+	public List<AssignmentContract> getAssignments() {
 		return assignments;
 	}
 
-	public void setAssignments(List<Assignment> assignments) {
+	public void setAssignments(List<AssignmentContract> assignments) {
 		this.assignments = assignments;
 	}
 

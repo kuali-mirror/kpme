@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -71,7 +72,7 @@ public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
 	        if (tsDocIdString != null && assignKey != null) {
 	            TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsDocIdString);
 	            if (tdoc != null) {
-	                Assignment assignment = tdoc.getAssignment(assignKey);
+	                AssignmentContract assignment = tdoc.getAssignment(assignKey);
 	                if (assignment != null) {
 	            		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	            		

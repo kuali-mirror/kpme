@@ -39,8 +39,10 @@ import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.util.KpmeUtils;
+import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -591,6 +593,19 @@ public class TKUtils {
 		
 		return toTime;
 	}
+
+    public static AssignmentContract getAssignmentWithKey(List<AssignmentContract> assignments, AssignmentDescriptionKey assignmentDescriptionKey) {
+
+        for (AssignmentContract assignment : assignments) {
+            if (assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
+                    assignment.getWorkArea().compareTo(assignmentDescriptionKey.getWorkArea()) == 0 &&
+                    assignment.getTask().compareTo(assignmentDescriptionKey.getTask()) == 0) {
+                return assignment;
+            }
+        }
+
+        return null;
+    }
 
 
 }

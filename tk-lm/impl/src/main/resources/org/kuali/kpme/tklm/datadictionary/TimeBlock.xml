@@ -22,7 +22,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   <bean id="TimeBlock" parent="TimeBlock-parentBean" />
   <bean id="TimeBlock-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timeblock.TimeBlock" />
+    <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timeblock.TimeBlockBo" />
     <property name="inquiryDefinition" >
       <ref bean="TimeBlock-inquiryDefinition" />
     </property>
@@ -294,7 +294,7 @@
             <list>
               <bean parent="InquiryCollectionDefinition">
                 <property name="attributeName" value="timeHourDetails"/>
-                <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail"/>
+                <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo"/>
                 <property name="numberOfColumns" value="1"/>
                 <property name="inquiryFields">
                    <list>
@@ -318,7 +318,7 @@
   <bean id="TimeBlock-inquiryView" parent="TimeBlock-inquiryView-parentBean" />
   <bean id="TimeBlock-inquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
   	<property name="headerText" value="Time Block Inquiry"/>
-  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.timeblock.TimeBlock"/>
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.timeblock.TimeBlockBo"/>
   	<property name="singlePageView" value="true"/>
     <property name="items" >
       <list>
@@ -347,7 +347,7 @@
         </bean>
 	        <bean parent="Uif-Disclosure-StackedCollectionSection">
 	          <property name="headerText" value="Time Hour Details"/>
-	          <property name="collectionObjectClass" value="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail"/>
+	          <property name="collectionObjectClass" value="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo"/>
 	          <property name="propertyName" value="timeHourDetails"/>
 	          <property name="items">
 	            <list>
@@ -367,7 +367,7 @@
 
   <bean id="TimeBlock-lookupView" parent="KPMEUif-ViewLinkLookupView">
   	<property name="headerText" value="Time Block Lookup" />
-  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.timeblock.TimeBlock"/>
+  	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.timeblock.TimeBlockBo"/>
   	<property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.timeblock.web.TimeBlockLookupableHelperServiceImpl"/>
   	<property name="criteriaFields">
   		<list>

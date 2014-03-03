@@ -35,6 +35,7 @@ import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -43,12 +44,12 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.common.CalendarApprovalForm;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
@@ -143,9 +144,9 @@ public class TimeApprovalWSAction extends KPMEAction {
         TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(taaf.getDocumentId());
 		TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
 		
-		List<Assignment> assignments = td.getAssignments();
+		List<AssignmentContract> assignments = td.getAssignments();
 		List<String> assignmentKeys = new ArrayList<String>();
-		for(Assignment assignment : assignments) {
+		for(AssignmentContract assignment : assignments) {
 			assignmentKeys.add(assignment.getAssignmentKey());
 		}
 		List<TimeBlock> timeBlocks = td.getTimeBlocks();

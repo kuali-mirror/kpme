@@ -34,11 +34,16 @@
         <maven.skip.packaging>true</maven.skip.packaging>
     </properties>
     <dependencies>
-        <!--<dependency>
-            <groupId>org.kuali.kpme</groupId>
-            <artifactId>kpme-web</artifactId>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kpme-tk-lm-impl</artifactId>
             <version>${project.version}</version>
-        </dependency>-->
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kpme-pm-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-development-tools</artifactId>

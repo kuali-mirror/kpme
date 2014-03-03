@@ -29,38 +29,45 @@ import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 @IntegrationTest
 public class TimeBlockTest extends TKLMIntegrationTestCase {
-	
+    private static final ModelObjectUtils.Transformer<TimeBlockBo, TimeBlock> toTimeBlock =
+            new ModelObjectUtils.Transformer<TimeBlockBo, TimeBlock>() {
+                public TimeBlock transform(TimeBlockBo input) {
+                    return TimeBlockBo.to(input);
+                };
+            };
 	@Test
 	public void testTimeBlockComparison() throws Exception {
 		DateTime beginDateTime = new DateTime();
 		DateTime endDateTime = new DateTime();
 		
-		TimeBlock timeBlock = new TimeBlock();
+		TimeBlockBo timeBlock = new TimeBlockBo();
 		timeBlock.setJobNumber(2L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);
 		timeBlock.setEarnCode("REG");
 		timeBlock.setBeginDateTime(beginDateTime);
 		timeBlock.setEndDateTime(endDateTime);
-		TimeHourDetail timeHourDetail = new TimeHourDetail();
+		TimeHourDetailBo timeHourDetail = new TimeHourDetailBo();
 		timeHourDetail.setEarnCode("REG");
 		timeHourDetail.setHours(new BigDecimal(2.0));
 		timeBlock.getTimeHourDetails().add(timeHourDetail);
 		
-		TimeBlock timeBlock2 = new TimeBlock();
+		TimeBlockBo timeBlock2 = new TimeBlockBo();
 		timeBlock2.setJobNumber(2L);
 		timeBlock2.setWorkArea(1234L);
 		timeBlock2.setTask(1L);
 		timeBlock2.setEarnCode("REG");
 		timeBlock2.setBeginDateTime(beginDateTime);
 		timeBlock2.setEndDateTime(endDateTime);
-		TimeHourDetail timeHourDetail2 = new TimeHourDetail();
+		TimeHourDetailBo timeHourDetail2 = new TimeHourDetailBo();
 		timeHourDetail2.setEarnCode("REG");
 		timeHourDetail2.setHours(new BigDecimal(2.0));
 		timeBlock2.getTimeHourDetails().add(timeHourDetail);
@@ -81,11 +88,11 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 		DateTime endDateTime = new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		Interval firstDay = null;
-		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+		List<TimeBlockBo> lstTimeBlocks = new ArrayList<TimeBlockBo>();
 		for(Interval dayInt : dayInterval){
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
-				TimeBlock tb = new TimeBlock();
+				TimeBlockBo tb = new TimeBlockBo();
 				tb.setBeginDateTime(dayInt.getStart());
 				tb.setEndDateTime(endDateTime);
 				lstTimeBlocks.add(tb);
@@ -95,14 +102,14 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 				firstDay = dayInt;
 				if(dayInt.contains(endDateTime)){
 					//create one timeblock if contained in one day interval
-					TimeBlock tb = new TimeBlock();
+					TimeBlockBo tb = new TimeBlockBo();
 					tb.setBeginDateTime(beginDateTime);
 					tb.setEndDateTime(endDateTime);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
-					TimeBlock tb = new TimeBlock();
+					TimeBlockBo tb = new TimeBlockBo();
 					tb.setBeginDateTime(beginDateTime);
 					tb.setEndDateTime(firstDay.getEnd());
 					lstTimeBlocks.add(tb);
@@ -120,7 +127,7 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 		for(Interval dayInt : dayInterval){
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
-				TimeBlock tb = new TimeBlock();
+				TimeBlockBo tb = new TimeBlockBo();
 				tb.setBeginDateTime(dayInt.getStart());
 				tb.setEndDateTime(endDateTime);
 				lstTimeBlocks.add(tb);
@@ -130,14 +137,14 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 				firstDay = dayInt;
 				if(dayInt.contains(endDateTime)){
 					//create one timeblock if contained in one day interval
-					TimeBlock tb = new TimeBlock();
+					TimeBlockBo tb = new TimeBlockBo();
 					tb.setBeginDateTime(beginDateTime);
 					tb.setEndDateTime(endDateTime);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
-					TimeBlock tb = new TimeBlock();
+					TimeBlockBo tb = new TimeBlockBo();
 					tb.setBeginDateTime(beginDateTime);
 					tb.setEndDateTime(firstDay.getEnd());
 					lstTimeBlocks.add(tb);
@@ -166,14 +173,14 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testTimeBlockSorting() throws Exception {
-		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
-		TimeBlock tb1 = new TimeBlock();
+		List<TimeBlockBo> tbList = new ArrayList<TimeBlockBo>();
+		TimeBlockBo tb1 = new TimeBlockBo();
 		// time block with 2010 time
 		tb1.setBeginDateTime(new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 		tb1.setEndDateTime(new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 		tbList.add(tb1);
 		//time block with 2009 time
-		TimeBlock tb2 = new TimeBlock();
+		TimeBlockBo tb2 = new TimeBlockBo();
 		tb2.setBeginDateTime(new DateTime(2009, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 		tb2.setEndDateTime(new DateTime(2009, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 		tbList.add(tb2);
@@ -191,11 +198,11 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 		DateTime endDateTime = new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		Interval firstDay = null;
-		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
+		List<TimeBlockBo> lstTimeBlocks = new ArrayList<TimeBlockBo>();
 		for(Interval dayInt : dayInterval){
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
-				TimeBlock tb = new TimeBlock();
+				TimeBlockBo tb = new TimeBlockBo();
 				tb.setBeginDateTime(dayInt.getStart());
 				tb.setEndDateTime(endDateTime);
 				lstTimeBlocks.add(tb);
@@ -205,14 +212,14 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 				firstDay = dayInt;
 				if(dayInt.contains(endDateTime)){
 					//create one timeblock if contained in one day interval
-					TimeBlock tb = new TimeBlock();
+					TimeBlockBo tb = new TimeBlockBo();
 					tb.setBeginDateTime(beginDateTime);
 					tb.setEndDateTime(endDateTime);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
-					TimeBlock tb = new TimeBlock();
+					TimeBlockBo tb = new TimeBlockBo();
 					tb.setBeginDateTime(beginDateTime);
 					tb.setEndDateTime(firstDay.getEnd());
 					lstTimeBlocks.add(tb);
@@ -230,7 +237,7 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 		for(Interval dayInt : dayInterval){
 			//on second day of span so safe to assume doesnt go furthur than this
 			if(firstDay != null){
-				TimeBlock tb = new TimeBlock();
+				TimeBlockBo tb = new TimeBlockBo();
 				tb.setBeginDateTime(dayInt.getStart());
 				tb.setEndDateTime(endDateTime);
 				lstTimeBlocks.add(tb);
@@ -240,20 +247,20 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 				firstDay = dayInt;
 				if(dayInt.contains(endDateTime)){
 					//create one timeblock if contained in one day interval
-					TimeBlock tb = new TimeBlock();
+					TimeBlockBo tb = new TimeBlockBo();
 					tb.setBeginDateTime(beginDateTime);
 					tb.setEndDateTime(endDateTime);
 					lstTimeBlocks.add(tb);
 					break;
 				} else {
 					//create a timeblock that wraps the 24 hr day
-					TimeBlock tb = new TimeBlock();
+					TimeBlockBo tb = new TimeBlockBo();
 					tb.setBeginDateTime(beginDateTime);
 					tb.setEndDateTime(firstDay.getEnd());
 					lstTimeBlocks.add(tb);
 				}
 			}
 		}
-		return lstTimeBlocks;
+		return ModelObjectUtils.transform(lstTimeBlocks, toTimeBlock);
 	}
 }

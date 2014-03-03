@@ -21,7 +21,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistoryDetail;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class TimeBlockHistoryDetailDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TimeBlockHistoryDetailDao {
@@ -58,7 +58,7 @@ public class TimeBlockHistoryDetailDaoOjbImpl extends PlatformAwareDaoBaseOjb im
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("tkTimeBlockHistoryId",
 				timeBlockHistoryId);
-		Query query = QueryFactory.newQuery(TimeHourDetail.class,
+		Query query = QueryFactory.newQuery(TimeHourDetailBo.class,
 				currentRecordCriteria);
 		return (List<TimeBlockHistoryDetail>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 	}
@@ -68,7 +68,7 @@ public class TimeBlockHistoryDetailDaoOjbImpl extends PlatformAwareDaoBaseOjb im
 		removalCriteria.addEqualTo("tkTimeBlockHistoryId", timeBlockHistoryId);
 
 		this.getPersistenceBrokerTemplate().deleteByQuery(
-				QueryFactory.newQuery(TimeHourDetail.class, removalCriteria));
+				QueryFactory.newQuery(TimeHourDetailBo.class, removalCriteria));
 	}
 
 }

@@ -35,10 +35,11 @@ import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
@@ -180,7 +181,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(22), 1, new BigDecimal("2"), "RGN", jobNumber, workArea));
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1), 1, new BigDecimal("1"), "RGN", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1).plusHours(17), 1, new BigDecimal("6"), "RGN", jobNumber, workArea));
-		setDocumentIdOnBlocks(blocks, tdoc.getDocumentId());
+		blocks = setDocumentIdOnBlocks(blocks, tdoc.getDocumentId());
         
 		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry, (Calendar) HrServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()), true);
 		
@@ -191,10 +192,14 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("8.75"));put("RGN", new BigDecimal(20));}},aggregate);
 	}
 
-    private void setDocumentIdOnBlocks(List<TimeBlock> blocks, String id) {
+    private List<TimeBlock> setDocumentIdOnBlocks(List<TimeBlock> blocks, String id) {
+        List<TimeBlock> updatedTimeBlocks = new ArrayList<TimeBlock>();
         for (TimeBlock b : blocks) {
-            b.setDocumentId(id);
+            TimeBlock.Builder builder = TimeBlock.Builder.create(b);
+            builder.setDocumentId(id);
+            updatedTimeBlocks.add(builder.build());
         }
+        return updatedTimeBlocks;
     }
 
 

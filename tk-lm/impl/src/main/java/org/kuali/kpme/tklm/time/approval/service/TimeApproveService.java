@@ -15,10 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.approval.service;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
@@ -26,12 +22,15 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 
 public interface TimeApproveService {

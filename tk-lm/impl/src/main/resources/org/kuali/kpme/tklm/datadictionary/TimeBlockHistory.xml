@@ -260,7 +260,7 @@
         </bean>
 	        <bean parent="Uif-Disclosure-StackedCollectionSection">
 	          <property name="headerText" value="Time Hour Details"/>
-	          <property name="collectionObjectClass" value="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail"/>
+	          <property name="collectionObjectClass" value="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo"/>
 	          <property name="propertyName" value="timeHourDetails"/>
 	          <property name="items">
 	            <list>

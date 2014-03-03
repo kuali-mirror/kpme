@@ -106,7 +106,7 @@ LOG.info("EndOfPayPeiodJob started for user " + principalId + " and clockLog " +
 	    if (timesheetDocumentHeader != null) {
 	        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 	        AssignmentDescriptionKey assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask());
-	        Assignment assignment = timesheetDocument.getAssignment(assignmentKey);
+	        AssignmentContract assignment = timesheetDocument.getAssignment(assignmentKey);
 	        ClockLog clockOutLog = TkServiceLocator.getClockLogService().processClockLog(coLogDateTime, assignment, calendarEntry, ipAddress,
 	            		endPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_OUT, false, principalId, batchUserPrincipalId);
 

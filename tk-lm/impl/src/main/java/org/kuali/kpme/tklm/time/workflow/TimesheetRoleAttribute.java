@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
@@ -65,8 +66,8 @@ public class TimesheetRoleAttribute extends GenericRoleAttribute {
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 
 		if (timesheetDocument != null) {
-			List<Assignment> assignments = timesheetDocument.getAssignments();
-			for (Assignment assignment : assignments) {
+			List<AssignmentContract> assignments = timesheetDocument.getAssignments();
+			for (AssignmentContract assignment : assignments) {
 				roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
 			}
 		}

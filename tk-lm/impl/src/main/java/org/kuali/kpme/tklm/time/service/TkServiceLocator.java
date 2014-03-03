@@ -34,8 +34,8 @@ import org.kuali.kpme.tklm.time.rules.timecollection.service.TimeCollectionRuleS
 import org.kuali.kpme.tklm.time.service.permission.TKPermissionService;
 import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryDetailService;
 import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryService;
-import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockService;
-import org.kuali.kpme.tklm.time.timehourdetail.service.TimeHourDetailService;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailService;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.kpme.tklm.time.timesummary.service.TimeSummaryService;
 import org.kuali.kpme.tklm.time.user.pref.service.UserPreferenceService;

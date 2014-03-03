@@ -24,7 +24,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 

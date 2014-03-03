@@ -31,8 +31,8 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.document.DocumentStatusCategory;
@@ -65,8 +65,8 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 
     public void buildInquiryLink(Object dataObject, String propertyName, Inquiry inquiry) {
         Class inquirableClass = dataObject.getClass();
-        if(dataObject instanceof TimeBlock) {
-            TimeBlock tb = (TimeBlock) dataObject;
+        if(dataObject instanceof TimeBlockBo) {
+            TimeBlockBo tb = (TimeBlockBo) dataObject;
             if (tb.getConcreteBlockType() != null
                     && tb.getConcreteBlockType().equals(LeaveBlockBo.class.getName())) {
                 inquirableClass = LeaveBlockBo.class;
@@ -93,13 +93,13 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 
         String actionUrlHref = super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
         String concreteBlockId = null;
-        if(dataObject instanceof TimeBlock) {
-            TimeBlock tb = (TimeBlock) dataObject;
+        if(dataObject instanceof TimeBlockBo) {
+            TimeBlockBo tb = (TimeBlockBo) dataObject;
             concreteBlockId = tb.getTkTimeBlockId();
             if (tb.getConcreteBlockType() != null
                     && tb.getConcreteBlockType().equals(LeaveBlockBo.class.getName())) {
                 actionUrlHref = actionUrlHref.replace("tkTimeBlockId", "lmLeaveBlockId");
-                actionUrlHref = actionUrlHref.replace(TimeBlock.class.getName(), LeaveBlockBo.class.getName());
+                actionUrlHref = actionUrlHref.replace(TimeBlockBo.class.getName(), LeaveBlockBo.class.getName());
             }
 
         }
@@ -118,7 +118,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm form,
                                        Map<String, String> searchCriteria, boolean unbounded) {
-        List<TimeBlock> results = new ArrayList<TimeBlock>();
+        List<TimeBlockBo> results = new ArrayList<TimeBlockBo>();
 
         if (searchCriteria.containsKey(BEGIN_DATE)) {
             searchCriteria.put(BEGIN_TIMESTAMP, searchCriteria.get(BEGIN_DATE));
@@ -128,7 +128,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
             searchCriteria.put(DOC_STATUS_ID, resolveDocumentStatus(searchCriteria.get(DOC_STATUS_ID)));
         }
         //List<TimeBlock> searchResults = new ArrayList<TimeBlock>();
-        List<TimeBlock> searchResults = (List<TimeBlock>)super.getSearchResults(form, searchCriteria, unbounded);
+        List<TimeBlockBo> searchResults = (List<TimeBlockBo>)super.getSearchResults(form, searchCriteria, unbounded);
 
         //convert lookup criteria for LeaveBlock
         Map<String, String> leaveCriteria = new HashMap<String, String>();
@@ -157,10 +157,10 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
         leaveBlockForm.setDataObjectClassName(LeaveBlockBo.class.getName());
         setDataObjectClass(LeaveBlockBo.class);
         List<LeaveBlockBo> leaveBlocks = (List<LeaveBlockBo>)super.getSearchResults(leaveBlockForm, LookupUtils.forceUppercase(LeaveBlockBo.class, leaveCriteria), unbounded);
-        List<TimeBlock> convertedLeaveBlocks = convertLeaveBlockHistories(leaveBlocks);
+        List<TimeBlockBo> convertedLeaveBlocks = convertLeaveBlockHistories(leaveBlocks);
         searchResults.addAll(convertedLeaveBlocks);
-        for ( TimeBlock searchResult : searchResults) {
-            TimeBlock timeBlock = (TimeBlock) searchResult;
+        for ( TimeBlockBo searchResult : searchResults) {
+            TimeBlockBo timeBlock = (TimeBlockBo) searchResult;
             results.add(timeBlock);
         }
 
@@ -170,11 +170,11 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
         return results;
     }
 
-    protected List<TimeBlock> convertLeaveBlockHistories(List<LeaveBlockBo> leaveBlocks) {
-        List<TimeBlock> histories = new ArrayList<TimeBlock>();
+    protected List<TimeBlockBo> convertLeaveBlockHistories(List<LeaveBlockBo> leaveBlocks) {
+        List<TimeBlockBo> histories = new ArrayList<TimeBlockBo>();
         for(LeaveBlockBo leaveBlock : leaveBlocks) {
 
-            TimeBlock tBlock = new TimeBlock();
+            TimeBlockBo tBlock = new TimeBlockBo();
             tBlock.setAmount(leaveBlock.getLeaveAmount());
             tBlock.setHours(leaveBlock.getHours());
 
@@ -192,7 +192,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
             tBlock.setDocumentId(leaveBlock.getDocumentId());
             tBlock.setBeginDate(leaveBlock.getLeaveDate());
             tBlock.setEndDate(leaveBlock.getLeaveDate());
-            tBlock.setTimeHourDetails(new ArrayList<TimeHourDetail>());
+            tBlock.setTimeHourDetails(new ArrayList<TimeHourDetailBo>());
             tBlock.setTimestamp(leaveBlock.getTimestamp());
             tBlock.setClockLogCreated(false);
             tBlock.setTkTimeBlockId(leaveBlock.getLmLeaveBlockId());
@@ -223,11 +223,11 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
         return StringUtils.EMPTY;
     }
 
-    private List<TimeBlock> filterByPrincipalId(List<TimeBlock> timeBlocks, String principalId) {
-        List<TimeBlock> results = new ArrayList<TimeBlock>();
+    private List<TimeBlockBo> filterByPrincipalId(List<TimeBlockBo> timeBlocks, String principalId) {
+        List<TimeBlockBo> results = new ArrayList<TimeBlockBo>();
 
         //TODO - performance  too many db calls in loop
-        for (TimeBlock timeBlock : timeBlocks) {
+        for (TimeBlockBo timeBlock : timeBlocks) {
             JobContract jobObj = HrServiceLocator.getJobService().getJob(timeBlock.getPrincipalId(), timeBlock.getJobNumber(), LocalDate.fromDateFields(timeBlock.getBeginDate()), false);
             String department = jobObj != null ? jobObj.getDept() : null;
 

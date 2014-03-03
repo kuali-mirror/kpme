@@ -33,9 +33,12 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
@@ -43,9 +46,10 @@ import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
@@ -134,10 +138,10 @@ public class TimeDetailWSAction extends TimesheetAction {
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
         if (StringUtils.isNotBlank(tdaf.getSelectedAssignment())) {
-            List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+            List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
             AssignmentDescriptionKey key = AssignmentDescriptionKey.get(tdaf.getSelectedAssignment());
             Map<String, EarnCode> regEarnCodes = getRegularEarnCodes(tdaf.getTimesheetDocument());
-            for (Assignment assignment : assignments) {
+            for (AssignmentContract assignment : assignments) {
             	if (assignment.getJobNumber().equals(key.getJobNumber()) &&
             			assignment.getWorkArea().equals(key.getWorkArea()) &&
             			assignment.getTask().equals(key.getTask())) {
@@ -212,16 +216,16 @@ public class TimeDetailWSAction extends TimesheetAction {
     private Map<String, EarnCode> getRegularEarnCodes(TimesheetDocument td) {
     	Map<String, EarnCode> regEarnCodes = new HashMap<String, EarnCode>();
     	if (td != null) {
-    		for (Assignment a : td.getAssignments()) {
+    		for (AssignmentContract a : td.getAssignments()) {
     			if (a.getJob() != null
     					&& a.getJob().getPayTypeObj() != null) {
-    				PayType payType = a.getJob().getPayTypeObj();
-    				EarnCode ec = payType.getRegEarnCodeObj();
+    				PayTypeContract payType = a.getJob().getPayTypeObj();
+    				EarnCodeContract ec = payType.getRegEarnCodeObj();
     				if (ec == null
     						&& StringUtils.isNotEmpty(payType.getRegEarnCode()))  {
-    					ec = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(payType.getRegEarnCode(), payType.getEffectiveLocalDate());
+    					ec =  HrServiceLocator.getEarnCodeService().getEarnCode(payType.getRegEarnCode(), payType.getEffectiveLocalDate());
     				}
-    				regEarnCodes.put(a.getAssignmentKey(), ec);
+    				regEarnCodes.put(a.getAssignmentKey(), (EarnCode)ec);
 	    			}
     			}
     		}
@@ -231,7 +235,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 	private List<Map<String, Object>> getAssignmentsForRegEarnCode(TimesheetDocument td, String earnCode) {
 		List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
 		if (td != null) {
-			for (Assignment a : td.getAssignments()) {
+			for (AssignmentContract a : td.getAssignments()) {
 				Map<String, Object> assignment = new HashMap<String, Object>();
 				if (earnCode.equals(a.getJob().getPayTypeObj().getRegEarnCode())) {
 					assignment.put("assignment", a.getAssignmentKey());
@@ -257,7 +261,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
-        List<EarnCode> overtimeEarnCodes = (List<EarnCode>) HrServiceLocator.getEarnCodeService().getOvertimeEarnCodes(LocalDate.now());
+        List<? extends EarnCodeContract> overtimeEarnCodes = HrServiceLocator.getEarnCodeService().getOvertimeEarnCodes(LocalDate.now());
         List<Map<String, Object>> overtimeEarnCodeList = new LinkedList<Map<String, Object>>();
         
         if(StringUtils.isNotEmpty(tdaf.getTkTimeBlockId())) {
@@ -265,12 +269,12 @@ public class TimeDetailWSAction extends TimesheetAction {
         	if(tb != null) {
         		JobContract job = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), tb.getJobNumber(), tb.getEndDateTime().toLocalDate());
         		if(job != null) {
-        			for (EarnCode earnCode : overtimeEarnCodes) {
+        			for (EarnCodeContract earnCode : overtimeEarnCodes) {
         				String employee = HrContext.isActiveEmployee() ? "Y" : null;
         				String approver = HrContext.isApprover() ? "Y" : null;
         				String payrollProcessor = HrContext.isPayrollProcessor() ? "Y" : null; // KPME-2532
         				
-        				List<EarnCodeSecurity> securityList = (List<EarnCodeSecurity>) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor, job.getLocation(),
+        				List<? extends EarnCodeSecurityContract> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor, job.getLocation(),
         									"Y", tb.getEndDateTime().toLocalDate());
         				if(CollectionUtils.isNotEmpty(securityList)) {
         					Map<String, Object> earnCodeMap = new HashMap<String, Object>();

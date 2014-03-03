@@ -36,11 +36,12 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -59,12 +60,12 @@ public class ClockLogServiceImpl implements ClockLogService {
     }
 
     @Override
-    public ClockLog processClockLog(DateTime clockDateTime, Assignment assignment,CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId) {
+    public ClockLog processClockLog(DateTime clockDateTime, AssignmentContract assignment,CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId) {
         return processClockLog(clockDateTime, assignment, pe, ip, asOfDate, td, clockAction, runRules, principalId, HrContext.getPrincipalId());
     }
 
     @Override
-    public synchronized ClockLog processClockLog(DateTime clockDateTime, Assignment assignment,CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId) {
+    public synchronized ClockLog processClockLog(DateTime clockDateTime, AssignmentContract assignment,CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId) {
         // process rules
         DateTime roundedClockDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockDateTime, pe.getBeginPeriodFullDateTime().toLocalDate());
 
@@ -104,7 +105,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         return clockLog;
     }
 
-    private void processTimeBlock(ClockLog clockLog, Assignment currentAssignment, CalendarEntryContract pe, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId) {
+    private void processTimeBlock(ClockLog clockLog, AssignmentContract currentAssignment, CalendarEntryContract pe, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId) {
 LOG.info("in ClockLogServiceImpl.processTimeBlock");    	
         ClockLog lastLog = null;
         DateTime lastClockDateTime = null;
@@ -134,19 +135,19 @@ LOG.info("in ClockLogServiceImpl.processTimeBlock");
 	        List<TimeBlock> newTimeBlocks = td.getTimeBlocks();
 	        List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(td.getTimeBlocks().size());
 	        for (TimeBlock tb : td.getTimeBlocks()) {
-	            referenceTimeBlocks.add(tb.copy());
+	            referenceTimeBlocks.add(TimeBlock.Builder.create(tb).build());
 	        }
 	
 	        // Add TimeBlocks after we store our reference object!
-	        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(currentAssignment,
-                    currentAssignment.getJob().getPayTypeObj().getRegEarnCode(), td, beginDateTime, endDateTime,
+	        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getPrincipalId(), td.getCalendarEntry(), currentAssignment,
+                    currentAssignment.getJob().getPayTypeObj().getRegEarnCode(), td.getDocumentId(), beginDateTime, endDateTime,
                     BigDecimal.ZERO, BigDecimal.ZERO, true, false, userPrincipalId, beginClockLogId, endClockLogId);
 
 	        newTimeBlocks.addAll(aList);
 	        
-	        List<Assignment> assignments = td.getAssignments();
+	        List<AssignmentContract> assignments = td.getAssignments();
 	        List<String> assignmentKeys = new ArrayList<String>();
-	        for (Assignment assignment : assignments) {
+	        for (AssignmentContract assignment : assignments) {
 	        	assignmentKeys.add(assignment.getAssignmentKey());
 	        }
 	        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, td.getAsOfDate(), td.getDocEndDate(), assignmentKeys);
@@ -218,7 +219,7 @@ LOG.info("in ClockLogServiceImpl.processTimeBlock, after saving time blocks, the
 		 if (CollectionUtils.isNotEmpty(timeBlocks)) {
 		     Set<String> aSet = new HashSet<String>();
 		     for(TimeBlock tb : timeBlocks) {
-		    	 if(tb.getClockLogCreated()) {
+		    	 if(tb.isClockLogCreated()) {
 		    		 if(StringUtils.isNotEmpty(tb.getClockLogBeginId())){
 		    			 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(tb.getClockLogBeginId());
 		    			 if(cl != null && cl.isUnapprovedIP()) {

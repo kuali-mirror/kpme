@@ -27,6 +27,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -36,12 +38,16 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.dao.DailyOvertimeRuleDao;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -50,6 +56,24 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
     private static final Logger LOG = Logger.getLogger(DailyOvertimeRuleServiceImpl.class);
 
 	private DailyOvertimeRuleDao dailyOvertimeRuleDao = null;
+    private static final ModelObjectUtils.Transformer<TimeBlock, TimeBlock.Builder> toTimeBlockBuilder =
+            new ModelObjectUtils.Transformer<TimeBlock, TimeBlock.Builder>() {
+                public TimeBlock.Builder transform(TimeBlock input) {
+                    return TimeBlock.Builder.create(input);
+                };
+            };
+    private static final ModelObjectUtils.Transformer<TimeBlockBo, TimeBlock> toTimeBlock =
+            new ModelObjectUtils.Transformer<TimeBlockBo, TimeBlock>() {
+                public TimeBlock transform(TimeBlockBo input) {
+                    return TimeBlockBo.to(input);
+                };
+            };
+    private static final ModelObjectUtils.Transformer<TimeBlock, TimeBlockBo> toTimeBlockBo =
+            new ModelObjectUtils.Transformer<TimeBlock, TimeBlockBo>() {
+                public TimeBlockBo transform(TimeBlock input) {
+                    return TimeBlockBo.from(input);
+                };
+            };
 
 	public void saveOrUpdate(DailyOvertimeRule dailyOvertimeRule) {
 		dailyOvertimeRuleDao.saveOrUpdate(dailyOvertimeRule);
@@ -145,10 +169,10 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		this.dailyOvertimeRuleDao = dailyOvertimeRuleDao;
 	}
 
-	private Assignment getIdentifyingKey(TimeBlock block, LocalDate asOfDate, String principalId) {
-		List<Assignment> lstAssign = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+	private AssignmentContract getIdentifyingKey(TimeBlockContract block, LocalDate asOfDate, String principalId) {
+		List<? extends AssignmentContract> lstAssign = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 
-		for(Assignment assign : lstAssign){
+		for(AssignmentContract assign : lstAssign){
 			if((assign.getJobNumber().compareTo(block.getJobNumber()) == 0) && (assign.getWorkArea().compareTo(block.getWorkArea()) == 0)){
 				return assign;
 			}
@@ -158,19 +182,19 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 
 	public void processDailyOvertimeRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate timeBlockAggregate){
-		Map<DailyOvertimeRule, List<Assignment>> mapDailyOvtRulesToAssignment = new HashMap<DailyOvertimeRule, List<Assignment>>();
+		Map<DailyOvertimeRule, List<AssignmentContract>> mapDailyOvtRulesToAssignment = new HashMap<DailyOvertimeRule, List<AssignmentContract>>();
 
-		for(Assignment assignment : timesheetDocument.getAssignments()) {
-			Job job = assignment.getJob();
+		for(AssignmentContract assignment : timesheetDocument.getAssignments()) {
+			JobContract job = assignment.getJob();
 			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getDocEndDate());
 
 			if(dailyOvertimeRule !=null) {
 				if(mapDailyOvtRulesToAssignment.containsKey(dailyOvertimeRule)){
-					List<Assignment> lstAssign = mapDailyOvtRulesToAssignment.get(dailyOvertimeRule);
+					List<AssignmentContract> lstAssign = mapDailyOvtRulesToAssignment.get(dailyOvertimeRule);
 					lstAssign.add(assignment);
 					mapDailyOvtRulesToAssignment.put(dailyOvertimeRule, lstAssign);
 				}  else {
-					List<Assignment> lstAssign = new ArrayList<Assignment>();
+					List<AssignmentContract> lstAssign = new ArrayList<AssignmentContract>();
 					lstAssign.add(assignment);
 					mapDailyOvtRulesToAssignment.put(dailyOvertimeRule, lstAssign);
 				}
@@ -182,18 +206,24 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			return;
 		}
 
+        List<List<TimeBlock>> newTimeBlocks = new ArrayList<List<TimeBlock>>();
+        List<List<TimeBlockBo>> aggregateTimeBlockBos = new ArrayList<List<TimeBlockBo>>();
+        for (List<TimeBlock> imBlocks : timeBlockAggregate.getDayTimeBlockList()) {
+            aggregateTimeBlockBos.add(ModelObjectUtils.transform(imBlocks, toTimeBlockBo));
+        }
 		// TODO: We iterate Day by Day
-		for(List<TimeBlock> dayTimeBlocks : timeBlockAggregate.getDayTimeBlockList()){
+		for(List<TimeBlockBo> dayTimeBlocks : aggregateTimeBlockBos){
 
-			if (dayTimeBlocks.size() == 0)
+			if (dayTimeBlocks.size() == 0) {
 				continue;
+            }
 
 			// 1: ... bucketing by (DailyOvertimeRule -> List<TimeBlock>)
-			Map<DailyOvertimeRule,List<TimeBlock>> dailyOvtRuleToDayTotals = new HashMap<DailyOvertimeRule,List<TimeBlock>>();
-			for(TimeBlock timeBlock : dayTimeBlocks) {
-				Assignment assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
-				for(Map.Entry<DailyOvertimeRule, List<Assignment>> entry : mapDailyOvtRulesToAssignment.entrySet()){
-					List<Assignment> lstAssign = entry.getValue();
+			Map<DailyOvertimeRule,List<TimeBlockBo>> dailyOvtRuleToDayTotals = new HashMap<DailyOvertimeRule,List<TimeBlockBo>>();
+			for(TimeBlockBo timeBlock : dayTimeBlocks) {
+				AssignmentContract assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
+				for(Map.Entry<DailyOvertimeRule, List<AssignmentContract>> entry : mapDailyOvtRulesToAssignment.entrySet()){
+					List<AssignmentContract> lstAssign = entry.getValue();
 
                     // for this kind of operation to work, equals() and hashCode() need to
                     // be over ridden for the object of comparison.
@@ -201,11 +231,11 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
                         // comparison here will always work, because we're comparing
                         // against our existing instantiation of the object.
 						if(dailyOvtRuleToDayTotals.get(entry.getKey()) != null){
-							List<TimeBlock> lstTimeBlock = dailyOvtRuleToDayTotals.get(entry.getKey());
+							List<TimeBlockBo> lstTimeBlock = dailyOvtRuleToDayTotals.get(entry.getKey());
 							lstTimeBlock.add(timeBlock);
 							dailyOvtRuleToDayTotals.put(entry.getKey(), lstTimeBlock);
 						} else {
-							List<TimeBlock> lstTimeBlock = new ArrayList<TimeBlock>();
+							List<TimeBlockBo> lstTimeBlock = new ArrayList<TimeBlockBo>();
 							lstTimeBlock.add(timeBlock);
 							dailyOvtRuleToDayTotals.put(entry.getKey(), lstTimeBlock);
 						}
@@ -215,16 +245,17 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 			for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet() ){
 				Set<String> fromEarnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(dr.getFromEarnGroup(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
-				List<TimeBlock> blocksForRule = dailyOvtRuleToDayTotals.get(dr);
-				if (blocksForRule == null || blocksForRule.size() == 0)
+				List<TimeBlockBo> blocksForRule = dailyOvtRuleToDayTotals.get(dr);
+				if (blocksForRule == null || blocksForRule.size() == 0) {
 					continue; // skip to next rule and check for valid blocks.
+                }
 				sortTimeBlocksNatural(blocksForRule);
 
 				// 3: Iterate over the timeblocks, apply the rule when necessary.
 				BigDecimal hours = BigDecimal.ZERO;
-				List<TimeBlock> applicationList = new LinkedList<TimeBlock>();
-				TimeBlock previous = null;
-				for (TimeBlock block : blocksForRule) {
+				List<TimeBlockBo> applicationList = new LinkedList<TimeBlockBo>();
+				TimeBlockBo previous = null;
+				for (TimeBlockBo block : blocksForRule) {
 					if (exceedsMaxGap(previous, block, dr.getMaxGap())) {
 						apply(hours, applicationList, dr, fromEarnGroup);
 						applicationList.clear();
@@ -234,14 +265,21 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 						previous = block; // build up our chain
 					}
                     applicationList.add(block);
-					for (TimeHourDetail thd : block.getTimeHourDetails())
-						if (fromEarnGroup.contains(thd.getEarnCode()))
+					for (TimeHourDetailBo thd : block.getTimeHourDetails()) {
+						if (fromEarnGroup.contains(thd.getEarnCode())) {
 							hours = hours.add(thd.getHours(), HrConstants.MATH_CONTEXT);
+                        }
+                    }
 				}
 				// when we run out of blocks, we may have more to apply.
 				apply(hours, applicationList, dr, fromEarnGroup);
 			}
 		}
+        //convert back to TimeBlock
+        for (List<TimeBlockBo> bos : aggregateTimeBlockBos) {
+            newTimeBlocks.add(ModelObjectUtils.transform(bos, toTimeBlock));
+        }
+        timeBlockAggregate.setDayTimeBlockList(newTimeBlocks);
 	}
 
 	/**
@@ -253,12 +291,12 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	 * @param rule The rule we are applying.
 	 * @param earnGroup Earn group we've already loaded for this rule.
 	 */
-	private void apply(BigDecimal hours, List<TimeBlock> blocks, DailyOvertimeRule rule, Set<String> earnGroup) {
+	private void apply(BigDecimal hours, List<TimeBlockBo> blocks, DailyOvertimeRule rule, Set<String> earnGroup) {
 		sortTimeBlocksInverse(blocks);
 		if (blocks != null && blocks.size() > 0)
 			if (hours.compareTo(rule.getMinHours()) >= 0) {
                 BigDecimal remaining = hours.subtract(rule.getMinHours(), HrConstants.MATH_CONTEXT);
-				for (TimeBlock block : blocks) {
+				for (TimeBlockBo block : blocks) {
 					remaining = applyOvertimeToTimeBlock(block, rule.getEarnCode(), earnGroup, remaining);
                 }
                 if (remaining.compareTo(BigDecimal.ZERO) > 0) {
@@ -279,15 +317,16 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	 *
 	 * @return The amount of overtime hours remaining to be applied.  (BigDecimal is immutable)
 	 */
-	private BigDecimal applyOvertimeToTimeBlock(TimeBlock block, String otEarnCode, Set<String> convertFromEarnCodes, BigDecimal otHours) {
+	private BigDecimal applyOvertimeToTimeBlock(TimeBlockBo block, String otEarnCode, Set<String> convertFromEarnCodes, BigDecimal otHours) {
 		BigDecimal applied = BigDecimal.ZERO;
 
-		if (otHours.compareTo(BigDecimal.ZERO) <= 0)
+		if (otHours.compareTo(BigDecimal.ZERO) <= 0) {
 			return BigDecimal.ZERO;
+        }
 
-		List<TimeHourDetail> details = block.getTimeHourDetails();
-		List<TimeHourDetail> addDetails = new LinkedList<TimeHourDetail>();
-		for (TimeHourDetail detail : details) {
+		List<TimeHourDetailBo> details = block.getTimeHourDetails();
+		List<TimeHourDetailBo> addDetails = new LinkedList<TimeHourDetailBo>();
+		for (TimeHourDetailBo detail : details) {
 			if (convertFromEarnCodes.contains(detail.getEarnCode())) {
 				// n = detailHours - otHours
 				BigDecimal n = detail.getHours().subtract(otHours, HrConstants.MATH_CONTEXT);
@@ -301,7 +340,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 				}
 
 				// Make a new TimeHourDetail with the otEarnCode with "applied" hours
-				TimeHourDetail timeHourDetail = new TimeHourDetail();
+				TimeHourDetailBo timeHourDetail = new TimeHourDetailBo();
 				timeHourDetail.setHours(applied);
 				timeHourDetail.setEarnCode(otEarnCode);
 				timeHourDetail.setTkTimeBlockId(block.getTkTimeBlockId());
@@ -323,22 +362,22 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 	// TODO : Refactor this Copy-Pasta mess to util/comparator classes.
 
-	private void sortTimeBlocksInverse(List<TimeBlock> blocks) {
-		Collections.sort(blocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
-			public int compare(TimeBlock tb1, TimeBlock tb2) {
+	private void sortTimeBlocksInverse(List<? extends TimeBlockContract> blocks) {
+		Collections.sort(blocks, new Comparator<TimeBlockContract>() { // Sort the Time Blocks
+			public int compare(TimeBlockContract tb1, TimeBlockContract tb2) {
 				if (tb1 != null && tb2 != null)
-					return -1 * tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
+					return -1 * tb1.getBeginDateTime().compareTo(tb2.getBeginDateTime());
 				return 0;
 			}
 		});
 	}
 
 
-	private void sortTimeBlocksNatural(List<TimeBlock> blocks) {
-		Collections.sort(blocks, new Comparator<TimeBlock>() { // Sort the Time Blocks
-			public int compare(TimeBlock tb1, TimeBlock tb2) {
+	private void sortTimeBlocksNatural(List<? extends TimeBlockContract> blocks) {
+		Collections.sort(blocks, new Comparator<TimeBlockContract>() { // Sort the Time Blocks
+			public int compare(TimeBlockContract tb1, TimeBlockContract tb2) {
 				if (tb1 != null && tb2 != null)
-					return tb1.getBeginTimestamp().compareTo(tb2.getBeginTimestamp());
+					return tb1.getBeginDateTime().compareTo(tb2.getBeginDateTime());
 				return 0;
 			}
 		});
@@ -353,11 +392,11 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	 * @param maxGap
 	 * @return
 	 */
-	boolean exceedsMaxGap(TimeBlock previous, TimeBlock current, BigDecimal maxGap) {
+	boolean exceedsMaxGap(TimeBlockContract previous, TimeBlockContract current, BigDecimal maxGap) {
 		if (previous == null)
 			return false;
 
-		long difference = current.getBeginTimestamp().getTime() - previous.getEndTimestamp().getTime();
+		long difference = current.getBeginDateTime().getMillis() - previous.getEndDateTime().getMillis();
 		BigDecimal gapHours = TKUtils.convertMillisToHours(difference);
 		BigDecimal cmpGapHrs = TKUtils.convertMinutesToHours(maxGap);
 		return (gapHours.compareTo(cmpGapHrs) > 0);

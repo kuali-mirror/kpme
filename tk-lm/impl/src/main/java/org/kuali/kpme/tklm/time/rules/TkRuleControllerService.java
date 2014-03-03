@@ -15,13 +15,12 @@
  */
 package org.kuali.kpme.tklm.time.rules;
 
-import java.util.List;
-
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+
+import java.util.List;
 
 public interface TkRuleControllerService {
 
@@ -30,5 +29,5 @@ public interface TkRuleControllerService {
      * to reference old vs. new changes, be sure to copy/clone the list before
      * passing it to this method.
      */
-    public void applyRules(String action, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntryContract payEntry, TimesheetDocument timesheetDocument, String principalId);
+    public List<TimeBlock> applyRules(String action, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks, CalendarEntryContract payEntry, TimesheetDocument timesheetDocument, String principalId);
 }

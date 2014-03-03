@@ -30,12 +30,13 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -98,7 +99,7 @@ public class TkPostProcessor extends DefaultPostProcessor {
 						AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), endDate.toLocalDate());
 						
 						if (accrualCategory != null) {
-							LocalDate leaveDate = LocalDate.fromDateFields(timeBlock.getBeginDate());
+							LocalDate leaveDate = timeBlock.getBeginDateTime().toLocalDate();
                             LeaveBlock.Builder builder = LeaveBlock.Builder.create(principalId, overtimeEarnCode.getEarnCode(), leaveAmount, leaveDate, null);
                             builder.setAccrualCategory(accrualCategory.getAccrualCategory());
                             builder.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);

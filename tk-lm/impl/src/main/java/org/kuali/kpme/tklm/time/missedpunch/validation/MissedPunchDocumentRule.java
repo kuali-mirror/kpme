@@ -31,11 +31,12 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -221,7 +222,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 		        	String earnCode = tb.getEarnCode();
 		        	EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
 		        	if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
-		        		Interval clockInterval = new Interval(tb.getBeginTimestamp().getTime(), tb.getEndTimestamp().getTime());
+		        		Interval clockInterval = new Interval(tb.getBeginDateTime(), tb.getEndDateTime());
 		           	 	if(clockInterval.contains(actionDateTime.getMillis())) {
 		           	 		GlobalVariables.getMessageMap().putError("document", "clock.mp.already.logged.time");
 		           	 		return false;

@@ -19,11 +19,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -31,9 +31,9 @@ import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.kpme.tklm.time.util.TkContext;
@@ -97,7 +97,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
 
     @Override
-    public boolean canEditTimeBlock(String principalId, TimeBlock timeBlock) {
+    public boolean canEditTimeBlock(String principalId, TimeBlockContract timeBlock) {
         if (principalId != null) {
             //check cache!
             CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
@@ -116,7 +116,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
     
     @Override
-    public boolean userHasRolesToEditTimeBlock(String principalId, TimeBlock aTimeBlock) {
+    public boolean userHasRolesToEditTimeBlock(String principalId, TimeBlockContract aTimeBlock) {
     	// system admin, TimeSysAdmin and time location admin have full permissions when they are not working on their own timesheet, no need to check earnCodeSecurity in this case
     	if(this.userHasTimeSysLocationAdminRoles(principalId,aTimeBlock) && !StringUtils.equals(TkContext.getTargetPrincipalId(), principalId)) {
     		return true;
@@ -239,7 +239,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
 
     @Override
-	public boolean userHasTimeSysLocationAdminRoles(String principalId,TimeBlock aTimeBlock) {
+	public boolean userHasTimeSysLocationAdminRoles(String principalId,TimeBlockContract aTimeBlock) {
 		DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
 		// system admin or TimeSysAdmin has full permissions when they are not working on their own timesheet, no need to check earnCodeSecurity in this case
 		if(HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, asOfDate )
@@ -260,7 +260,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 	} 
     
     @Override
-    public boolean canEditTimeBlockAllFields(String principalId, TimeBlock timeBlock) {
+    public boolean canEditTimeBlockAllFields(String principalId, TimeBlockContract timeBlock) {
         if (principalId != null) {
             CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
             Boolean canEditAll = perms.isPrincipalCanEditAllFields(principalId);
@@ -300,7 +300,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
 
     @Override
-    public boolean canDeleteTimeBlock(String principalId, TimeBlock timeBlock) {
+    public boolean canDeleteTimeBlock(String principalId, TimeBlockContract timeBlock) {
         if (principalId != null) {
             CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
             Boolean canDelete = perms.isPrincipalCanDelete(principalId);
@@ -320,7 +320,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                          job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
             	  if (principalId.equals(HrContext.getTargetPrincipalId())) {
             		  // if the user is working on his/her own timesheet and the time block is clock generated, user should not be able to delete the time block
-            		  if(timeBlock.getClockLogCreated()) {
+            		  if(timeBlock.isClockLogCreated()) {
       	                return updateCanDeleteTimeblockPerm(principalId, perms, false);
       				  }
             		  //if on a regular earncode and the user is a clock user and this is the users timesheet, do not allow to be deleted
@@ -346,7 +346,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
     
     @Override
-    public boolean canEditOvertimeEarnCode(String principalId, TimeBlock timeBlock) {
+    public boolean canEditOvertimeEarnCode(String principalId, TimeBlockContract timeBlock) {
         if (principalId != null) {
             CalendarBlockPermissions perms = HrServiceLocator.getHRPermissionService().getTimeBlockPermissions(timeBlock.getTkTimeBlockId());
             Boolean canEdit = perms.isPrincipalCanEditOvertimeEarnCode(principalId);

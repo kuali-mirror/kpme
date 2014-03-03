@@ -17,40 +17,60 @@ package org.kuali.kpme.tklm.time.timehourdetail.service;
 
 import java.util.List;
 
-import org.kuali.kpme.tklm.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailService;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timehourdetail.dao.TimeHourDetailDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TimeHourDetailServiceImpl implements TimeHourDetailService {
-
+    private static final ModelObjectUtils.Transformer<TimeHourDetailBo, TimeHourDetail> toTimeHourDetail =
+            new ModelObjectUtils.Transformer<TimeHourDetailBo, TimeHourDetail>() {
+                public TimeHourDetail transform(TimeHourDetailBo input) {
+                    return TimeHourDetailBo.to(input);
+                };
+            };
+    private static final ModelObjectUtils.Transformer<TimeHourDetail, TimeHourDetailBo> toTimeHourDetailBo =
+            new ModelObjectUtils.Transformer<TimeHourDetail, TimeHourDetailBo>() {
+                public TimeHourDetailBo transform(TimeHourDetail input) {
+                    return TimeHourDetailBo.from(input);
+                };
+            };
 	TimeHourDetailDao timeHourDetailDao;
 
 	@Override
 	public TimeHourDetail getTimeHourDetail(String timeHourDetailId) {
-		return timeHourDetailDao.getTimeHourDetail(timeHourDetailId);
+		return TimeHourDetailBo.to(getTimeHourDetailBo(timeHourDetailId));
 	}
+
+    protected TimeHourDetailBo getTimeHourDetailBo(String timeHourDetailId) {
+        return timeHourDetailDao.getTimeHourDetail(timeHourDetailId);
+    }
 
 	@Override
 	public TimeHourDetail saveTimeHourDetail(TimeBlock tb) {
 
-		TimeHourDetail td = new TimeHourDetail();
+		TimeHourDetailBo td = new TimeHourDetailBo();
 
 		td.setTkTimeBlockId(tb.getTkTimeBlockId());
 		td.setEarnCode(tb.getEarnCode());
 		td.setHours(tb.getHours());
-		tb.setAmount(tb.getAmount());
+		td.setAmount(tb.getAmount());
 
-		timeHourDetailDao.saveOrUpdate(td);
+		TimeHourDetailBo timeHourDetailBo = KRADServiceLocator.getBusinessObjectService().save(td);
 
-		return td;
+		return TimeHourDetailBo.to(timeHourDetailBo);
 	}
 
 	public void setTimeHourDetailDao(TimeHourDetailDao timeHourDetailDao) {
 		this.timeHourDetailDao = timeHourDetailDao;
 	}
-	@Override
+
+    @Override
 	public List<TimeHourDetail> getTimeHourDetailsForTimeBlock(String timeBlockId) {
-		return this.timeHourDetailDao.getTimeHourDetailsForTimeBlock(timeBlockId);
+		return ModelObjectUtils.transform(this.timeHourDetailDao.getTimeHourDetailsForTimeBlock(timeBlockId), toTimeHourDetail);
 	}
 
     public void removeTimeHourDetails(String timeBlockId) {

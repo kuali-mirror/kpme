@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -68,9 +69,9 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 		return getSystemScheduledTimeOffDao().getSystemScheduledTimeOffByDate(leavePlan, startDate);
 	}	
 	@Override
-	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
+	public AssignmentContract getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
 		JobContract primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
-		for(Assignment assign : timesheetDocument.getAssignments()){
+		for(AssignmentContract assign : timesheetDocument.getAssignments()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;
 			}
@@ -79,7 +80,7 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 	}
 
     @Override
-    public BigDecimal calculateSysSchTimeOffHours(Job job, BigDecimal sstoHours) {
+    public BigDecimal calculateSysSchTimeOffHours(JobContract job, BigDecimal sstoHours) {
         BigDecimal fte = job.getStandardHours().divide(new BigDecimal(40.0),HrConstants.BIG_DECIMAL_SCALE);
         return fte.multiply(sstoHours).setScale(HrConstants.BIG_DECIMAL_SCALE);
     }

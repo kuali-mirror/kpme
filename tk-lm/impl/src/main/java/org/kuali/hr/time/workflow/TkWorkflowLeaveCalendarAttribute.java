@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -52,8 +53,7 @@ public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
 		LeaveCalendarDocument leaveDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
 
 		if (leaveDocument != null) {
-			List<Assignment> assignments = leaveDocument.getAssignments();
-			for (Assignment assignment : assignments) {
+			for (AssignmentContract assignment : leaveDocument.getAssignments()) {
 				String roleStr = roleName + "_" + assignment.getWorkArea();
 				if (!roles.contains(roleStr)) {
 					roles.add(roleStr);

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -43,7 +44,7 @@ public class WorkAreaSearchableAttribute extends StandardGenericXMLSearchableAtt
 		String documentId = StringUtils.substringBetween(documentWithContent.getDocumentContent().toString(), "<string>", "</string>");
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 		List<Long> workAreasIncluded = new ArrayList<Long>();
-		for(Assignment assign : timesheetDocument.getAssignments()){
+		for(AssignmentContract assign : timesheetDocument.getAssignments()){
 			if(!workAreasIncluded.contains(assign.getWorkArea())){
 				SearchableAttributeValue attValue = new SearchableAttributeLongValue();
 				attValue.setSearchableAttributeKey(WORK_AREA);

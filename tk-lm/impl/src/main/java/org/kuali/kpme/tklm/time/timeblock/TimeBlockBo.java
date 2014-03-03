@@ -15,15 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.timeblock;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Transient;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -39,16 +31,26 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.Person;
 
-public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockContract {
+import javax.persistence.Transient;
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
 
     private static final long serialVersionUID = -4164042707879641855L;
     public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "TimeBlock";
@@ -85,9 +87,11 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     
     @Transient
 	private Boolean clockedByMissedPunch;
-    
-    private Date actionDateTime;
+    @Transient
+    private DateTime actionDateTime;
+    @Transient
     private String clockAction;
+    @Transient
     private String assignmentValue;
     
     private transient String missedPunchDocId;
@@ -101,7 +105,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     private transient Person user;
     private transient Person employeeObj;
 
-    private transient List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+    private transient List<TimeHourDetailBo> timeHourDetails = new ArrayList<TimeHourDetailBo>();
     private transient List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 	protected BigDecimal leaveAmount = new BigDecimal("0.0");
 	
@@ -112,19 +116,23 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 		return leaveDate;
 	}
 
+    public DateTime getLeaveDateTime() {
+        return leaveDate == null ? null : new DateTime(leaveDate.getTime());
+    }
+
 	public void setLeaveDate(Date leaveLocalDate) {
 		this.leaveDate = leaveLocalDate;
 	}
 
-	public TimeBlock() {
+	public TimeBlockBo() {
     	super();
     }
     
-	public Date getActionDateTime() {
+	public DateTime getActionDateTime() {
 		return actionDateTime;
 	}
 
-	public void setActionDateTime(Date actionDateTime) {
+	public void setActionDateTime(DateTime actionDateTime) {
 		this.actionDateTime = actionDateTime;
 	}
 
@@ -144,7 +152,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 		this.assignmentValue = assignmentValue;
 	}
 
-	public Boolean getClockedByMissedPunch() {
+	public Boolean isClockedByMissedPunch() {
     	if(clockedByMissedPunch == null) {
     		this.assignClockedByMissedPunch();
     	}
@@ -152,22 +160,25 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 	}
     
     public void assignClockedByMissedPunch() {
-    	if(this.getClockLogCreated() != null && this.getClockLogCreated()){
+    	if(this.isClockLogCreated() != null && this.isClockLogCreated()){
   			MissedPunch missedPunchClockIn = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(this.getClockLogBeginId());
-  			MissedPunch missedPunchClockOut = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(this.getClockLogEndId());     
+
   			if(missedPunchClockIn!=null){
   				generateMissedPunchDetails(missedPunchClockIn);
   				return;
-  			}else if(missedPunchClockOut!=null){
-  				generateMissedPunchDetails(missedPunchClockOut);
-  				return;
+            } else {
+                MissedPunch missedPunchClockOut = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(this.getClockLogEndId());
+  			    if(missedPunchClockOut!=null){
+  				    generateMissedPunchDetails(missedPunchClockOut);
+  				    return;
+                }
   			}  			
     	}
     	this.setClockedByMissedPunch(Boolean.FALSE);
     }
 
     private void generateMissedPunchDetails( MissedPunch missedPunch){
-    		actionDateTime = missedPunch.getActionDateTime();
+    		actionDateTime = missedPunch.getActionFullDateTime();
 			clockAction = missedPunch.getClockAction();
 			missedPunchDocId = missedPunch.getMissedPunchDocId();
 			missedPunchDocStatus = missedPunch.getMissedPunchDocStatus();
@@ -203,21 +214,21 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     	beginTimestamp = new Timestamp(localDate.toDateTime(localTime, dateTime.getZone()).getMillis());
     }
     
-    public Time getBeginTime() {
-    	Time beginTime = null;
+    public LocalTime getBeginTime() {
+    	LocalTime beginTime = null;
     	
     	if (beginTimestamp != null) {
-    		beginTime = new Time(beginTimestamp.getTime());
+    		beginTime = new LocalTime(beginTimestamp.getTime());
     	}
     	
     	return beginTime;
     }
 
-    public void setBeginTime(Time beginTime) {
+    public void setBeginTime(LocalTime beginTime) {
     	DateTime dateTime = new DateTime(beginTimestamp);
     	LocalDate localDate = new LocalDate(beginTimestamp);
-    	LocalTime localTime = new LocalTime(beginTime);
-    	beginTimestamp = new Timestamp(localDate.toDateTime(localTime, dateTime.getZone()).getMillis());
+    	//LocalTime localTime = new LocalTime(beginTime);
+    	beginTimestamp = new Timestamp(localDate.toDateTime(beginTime, dateTime.getZone()).getMillis());
     }
     
     public DateTime getBeginDateTime() {
@@ -253,21 +264,20 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     	endTimestamp = new Timestamp(localDate.toDateTime(localTime, dateTime.getZone()).getMillis());
     }
 
-    public Time getEndTime() {
-    	Time endTime = null;
+    public LocalTime getEndTime() {
+    	LocalTime endTime = null;
     	
     	if (endTimestamp != null) {
-    		endTime = new Time(endTimestamp.getTime());
+    		endTime = new LocalTime(endTimestamp.getTime());
     	}
     	
     	return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(LocalTime endTime) {
     	DateTime dateTime = new DateTime(endTimestamp);
     	LocalDate localDate = new LocalDate(endTimestamp);
-    	LocalTime localTime = new LocalTime(endTime);
-        endTimestamp = new Timestamp(localDate.toDateTime(localTime, dateTime.getZone()).getMillis());
+        endTimestamp = new Timestamp(localDate.toDateTime(endTime, dateTime.getZone()).getMillis());
     }
     
     public DateTime getEndDateTime() {
@@ -278,7 +288,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     	endTimestamp = endDateTime != null ? new Timestamp(endDateTime.getMillis()) : null;
     }
     
-    public Boolean getClockLogCreated() {
+    public Boolean isClockLogCreated() {
         return clockLogCreated;
     }
 
@@ -322,6 +332,10 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
         return timestamp;
     }
 
+    public DateTime getCreateTime() {
+        return timestamp == null ? null : new DateTime(timestamp.getTime());
+    }
+
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
@@ -352,23 +366,23 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
         super.concreteBlockId = tkTimeBlockId;
     }
 
-    public List<TimeHourDetail> getTimeHourDetails() {
+    public List<TimeHourDetailBo> getTimeHourDetails() {
         return timeHourDetails;
     }
     
-    public void addTimeHourDetail(TimeHourDetail timeHourDetail) {
+    public void addTimeHourDetail(TimeHourDetailBo timeHourDetail) {
     	timeHourDetails.add(timeHourDetail);
     }
     
-    public void removeTimeHourDetail(TimeHourDetail timeHourDetail) {
+    public void removeTimeHourDetail(TimeHourDetailBo timeHourDetail) {
     	timeHourDetails.remove(timeHourDetail);
     }
 
-    public void setTimeHourDetails(List<TimeHourDetail> timeHourDetails) {
+    public void setTimeHourDetails(List<TimeHourDetailBo> timeHourDetails) {
         this.timeHourDetails = timeHourDetails;
     }
 
-    public Boolean getPushBackward() {
+    public Boolean isPushBackward() {
         return pushBackward;
     }
 
@@ -462,9 +476,9 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
      *
      * @return a date representing the getEndTimeDisplay() DateTime.
      */
-    public Date getEndTimeDisplayDate() {
-        return getEndTimeDisplay() != null ? getEndTimeDisplay().toDate() : null;
-    }
+    //public Date getEndTimeDisplayDate() {
+    //    return getEndTimeDisplay() != null ? getEndTimeDisplay().toDate() : null;
+    //}
 
     /**
      * Set this value with a DateTime that is in the current users Timezone. This
@@ -524,9 +538,13 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     }
 
     public String getAssignmentDescription() {
-        AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
-        AssignmentContract anAssignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, adk, this.getBeginDateTime().toLocalDate());
-        return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
+        if (getJobNumber() != null && getWorkArea() != null && getTask() != null && getBeginDateTime() != null) {
+            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
+            AssignmentContract anAssignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, adk, this.getBeginDateTime().toLocalDate());
+            return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
+        } else {
+            return null;
+        }
     }
 
 
@@ -540,7 +558,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
      *
      * @param b The TimeBlock to copy values from when creating this instance.
      */
-    protected TimeBlock(TimeBlock b) {
+    protected TimeBlockBo(TimeBlockBo b) {
         // TODO : Implement "copy" constructor.
         this.tkTimeBlockId = b.tkTimeBlockId;
         this.documentId = b.documentId;
@@ -567,7 +585,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
         this.timesheetDocumentHeader = b.timesheetDocumentHeader;
 
         //private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
-        for (TimeHourDetail thd : b.timeHourDetails) {
+        for (TimeHourDetailBo thd : b.timeHourDetails) {
             this.timeHourDetails.add(thd.copy());
         }
 
@@ -578,11 +596,11 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     /**
      * @return A new copy of this TimeBlock.
      */
-    public TimeBlock copy() {
-        return new TimeBlock(this);
+    public TimeBlockBo copy() {
+        return new TimeBlockBo(this);
     }
     
-    public void copy(TimeBlock b) {
+    public void copy(TimeBlockBo b) {
     	 this.tkTimeBlockId = b.tkTimeBlockId;
          this.documentId = b.documentId;
          this.jobNumber = b.jobNumber;
@@ -609,7 +627,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
          this.timesheetDocumentHeader = b.timesheetDocumentHeader;
 
          //private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
-         for (TimeHourDetail thd : b.timeHourDetails) {
+         for (TimeHourDetailBo thd : b.timeHourDetails) {
              this.timeHourDetails.add(thd.copy());
          }
          
@@ -628,7 +646,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
      *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    public int compareTo(Object o) {
+    public int compareTo(TimeBlockContract o) {
         return compareTo((CalendarBlockBase) o);
     }
 
@@ -691,13 +709,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
     }
 
     private Boolean getOvernightTimeClockLog(String clockLogId) {
-        // https://jira.kuali.org/browse/KPME-1179
-        Integer overnightTimeBlocks = TkServiceLocator.getTimeBlockService().getOvernightTimeBlocks(clockLogEndId).size();
-        if (overnightTimeBlocks >= 2) {
-            return true;
-        }
-
-        return false;
+        return TkServiceLocator.getTimeBlockService().isOvernightTimeBlock(clockLogEndId);
     }
 
 	public Boolean getDeleteable() {
@@ -747,7 +759,7 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 		if (obj.getClass() != getClass()) {
 			return false;
 		}
-		TimeBlock timeBlock = (TimeBlock) obj;
+		TimeBlockBo timeBlock = (TimeBlockBo) obj;
 		return new EqualsBuilder()
 			.append(jobNumber, timeBlock.jobNumber)
 			.append(workArea, timeBlock.workArea)
@@ -828,5 +840,88 @@ public class TimeBlock extends CalendarBlock implements Comparable, TimeBlockCon
 	public void setMissedPunchDocStatus(String missedPunchDocStatus) {
 		this.missedPunchDocStatus = missedPunchDocStatus;
 	}
-	
+
+    public static TimeBlockBo from(TimeBlock im) {
+        TimeBlockBo tb = new TimeBlockBo();
+
+        tb.setTkTimeBlockId(im.getTkTimeBlockId());
+        tb.setBeginDate(im.getBeginDateTime() == null ? null : im.getBeginDateTime().toDate());
+        tb.setEndDate(im.getEndDateTime() == null ? null : im.getEndDateTime().toDate());
+        tb.setBeginTime(im.getBeginTime() == null ? null : im.getBeginTime());
+        tb.setEndTime(im.getEndTime() == null ? null : im.getEndTime());
+        tb.setEarnCodeType(im.getEarnCodeType());
+
+        tb.setClockLogCreated(im.isClockLogCreated());
+        tb.setHours(im.getHours());
+        tb.setAmount(im.getAmount());
+        tb.setBeginTimeDisplay(im.getBeginTimeDisplay());
+        tb.setEndTimeDisplay(im.getEndTimeDisplay());
+        tb.setClockLogBeginId(im.getClockLogBeginId());
+        tb.setClockLogEndId(im.getClockLogEndId());
+        tb.setAssignmentKey(im.getAssignmentKey());
+        tb.setOvertimePref(im.getOvertimePref());
+
+
+        tb.setClockedByMissedPunch(im.isClockedByMissedPunch());
+
+        tb.setActionDateTime(im.getActionDateTime() == null ? null : im.getActionDateTime());
+        tb.setClockAction(im.getClockAction());
+        tb.setAssignmentValue(im.getAssignmentValue());
+        tb.setMissedPunchDocId(im.getMissedPunchDocId());
+        tb.setMissedPunchDocStatus(im.getMissedPunchDocStatus());
+
+        // the two variables below are used to determine if a time block needs to be visually pushed forward / backward
+        tb.setPushBackward(im.isPushBackward());
+
+        List<TimeHourDetailBo> tempTHDs = new ArrayList<TimeHourDetailBo>();
+        if (CollectionUtils.isNotEmpty(im.getTimeHourDetails())) {
+            for (TimeHourDetail thd : im.getTimeHourDetails()) {
+                tempTHDs.add(TimeHourDetailBo.from(thd));
+            }
+        }
+        tb.setTimeHourDetails(tempTHDs);
+
+        //tb.setLeaveAmount(im.getL);
+
+        tb.setLeaveDate(im.getLeaveDateTime() == null ? null : im.getLeaveDateTime().toDate());
+
+        tb.setHrCalendarBlockId(im.getHrCalendarBlockId());
+        tb.setPrincipalId(im.getPrincipalId());
+        tb.setUserPrincipalId(im.getUserPrincipalId());
+        tb.setDocumentId(im.getDocumentId());
+        tb.setBeginTimestamp(im.getBeginDateTime() == null ? null : new Timestamp(im.getBeginDateTime().getMillis()));
+        tb.setEndTimestamp(im.getEndDateTime() == null ? null : new Timestamp((im.getEndDateTime().getMillis())));
+        tb.setTimestamp(im.getCreateTime() == null ? null : new Timestamp(im.getCreateTime().getMillis()));
+        tb.setLunchDeleted(im.isLunchDeleted());
+        tb.setHours(im.getHours());
+        tb.setAmount(im.getAmount());
+        tb.setOvertimePref(im.getOvertimePref());
+        tb.setEarnCode(im.getEarnCode());
+        tb.setWorkArea(im.getWorkArea());
+        tb.setJobNumber(im.getJobNumber());
+        tb.setTask(im.getTask());
+        tb.setConcreteBlockType(im.getConcreteBlockType());
+        tb.setConcreteBlockId(im.getConcreteBlockId());
+        tb.setPrincipalIdModified(im.getUserPrincipalId());
+        tb.setBeginDate(im.getBeginDateTime() == null ? null : im.getBeginDateTime().toDate());
+
+        tb.setAssignmentKey(im.getAssignmentKey());
+
+
+        //need lots more!!!!
+        tb.setLeaveDate(im.getLeaveDateTime() == null ? null : im.getLeaveDateTime().toDate());
+
+        tb.setObjectId(im.getObjectId());
+        tb.setVersionNumber(im.getVersionNumber());
+
+        return tb;
+    }
+
+    public static TimeBlock to(TimeBlockBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return TimeBlock.Builder.create(bo).build();
+    }
 }
