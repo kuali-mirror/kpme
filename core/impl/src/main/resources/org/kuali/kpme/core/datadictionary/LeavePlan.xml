@@ -42,6 +42,7 @@
 		</property>
 		<property name="attributes">
 			<list merge="true">
+				<ref bean="LeavePlan-lmLeavePlanId" />
 				<ref bean="LeavePlan-leavePlan" />
 				<ref bean="LeavePlan-descr" />
 				<ref bean="LeavePlan-planningMonths" />
@@ -50,6 +51,17 @@
 				<ref bean="LeavePlan-batchPriorYearCarryOverStartTime" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="LeavePlan-lmLeavePlanId" parent="LeavePlan-lmLeavePlanId-parentBean"/>
+	<bean id="LeavePlan-lmLeavePlanId-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="shortLabel" value="Lm Leave Plan Id" />
+		<property name="maxLength" value="60" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="name" value="lmLeavePlanId" />
+		<property name="label" value="Lm Leave Plan Id" />
 	</bean>
 
 	<!-- leavePlan -->

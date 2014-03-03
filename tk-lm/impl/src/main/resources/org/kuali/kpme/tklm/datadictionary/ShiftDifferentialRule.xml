@@ -36,6 +36,7 @@
 		</property>
 		<property name="attributes">
 			<list merge="true">
+				<ref bean="ShiftDifferentialRule-tkShiftDiffRuleId" />
 				<ref bean="ShiftDifferentialRule-location" />
 				<ref bean="ShiftDifferentialRule-hrSalGroup" />
 				<ref bean="ShiftDifferentialRule-payGrade" />
@@ -159,6 +160,18 @@
 	</bean>
 
 	<!-- Attributes  -->
+	
+	<bean id="ShiftDifferentialRule-tkShiftDiffRuleId" parent="ShiftDifferentialRule-tkShiftDiffRuleId-parentBean"/>
+	<bean id="ShiftDifferentialRule-tkShiftDiffRuleId-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="shortLabel" value="tkShiftDiffRuleId" />
+		<property name="maxLength" value="60" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="name" value="tkShiftDiffRuleId" />
+		<property name="label" value="Tk Shift Diff Rule Id" />
+	</bean>
+	
 
 	<!-- location -->
 	<bean id="ShiftDifferentialRule-location" parent="ShiftDifferentialRule-location-parentBean" />

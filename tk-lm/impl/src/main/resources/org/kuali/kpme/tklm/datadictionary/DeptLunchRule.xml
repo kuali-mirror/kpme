@@ -34,6 +34,7 @@
 		</property>
 		<property name="attributes">
 			<list merge="true">
+				<ref bean="DeptLunchRule-tkDeptLunchRuleId" />
 				<ref bean="DeptLunchRule-dept" />
 				<ref bean="DeptLunchRule-workArea" />
 				<ref bean="DeptLunchRule-principalId" />
@@ -96,6 +97,17 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
+
+	<bean id="DeptLunchRule-tkDeptLunchRuleId" parent="DeptLunchRule-tkDeptLunchRuleId-parentBean"/>
+	<bean id="DeptLunchRule-tkDeptLunchRuleId-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="shortLabel" value="Tk Dept Lunch Rule Id" />
+		<property name="maxLength" value="60" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="name" value="tkDeptLunchRuleId" />
+		<property name="label" value="TK Dept Lunch Rule Id" />
+	</bean>
 
 	<bean id="DeptLunchRule-dept" parent="DeptLunchRule-dept-parentBean" />
 	<bean id="DeptLunchRule-dept-parentBean" abstract="true" parent="KpmeAttributeReference-dept"/>

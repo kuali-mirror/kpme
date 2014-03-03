@@ -35,6 +35,7 @@
 		</property>
 		<property name="attributes">
 			<list merge="true">
+				<ref bean="LeaveDonation-lmLeaveDonationId" />
 				<ref bean="LeaveDonation-donatedAccrualCategory" />
 				<ref bean="LeaveDonation-recipientsAccrualCategory" />
 				<ref bean="LeaveDonation-donatedEarnCode" />
@@ -130,24 +131,17 @@
 		</property>
 	</bean>
 
-	<!-- leaveDonation -->
-	<bean id="LeaveDonation-leaveDonation" parent="LeaveDonation-leaveDonation-parentBean" />
-	<bean id="LeaveDonation-leaveDonation-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Leave Plan" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
+	<bean id="LeaveDonation-lmLeaveDonationId" parent="LeaveDonation-lmLeaveDonationId-parentBean"/>
+	<bean id="LeaveDonation-lmLeaveDonationId-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="shortLabel" value="Lm Leave Donation Id" />
+		<property name="maxLength" value="60" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
-		<property name="name" value="leaveDonation" />
-		<property name="label" value="Leave Plan" />
+		<property name="name" value="lmLeaveDonationId" />
+		<property name="label" value="Lm Leave Donation Id" />
 	</bean>
-	
+
 	<!-- donatedAccrualCategory	 -->
 	<bean id="LeaveDonation-donatedAccrualCategory" parent="LeaveDonation-donatedAccrualCategory-parentBean" />
 	<bean id="LeaveDonation-donatedAccrualCategory-parentBean" abstract="true"

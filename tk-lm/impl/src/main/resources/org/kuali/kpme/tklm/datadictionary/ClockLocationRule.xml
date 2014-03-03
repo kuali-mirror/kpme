@@ -30,6 +30,7 @@
     </property>
     <property name="attributes">
       <list merge="true">
+      	<ref bean="ClockLocationRule-tkClockLocationRuleId"/>
         <ref bean="ClockLocationRule-dept"/>
         <ref bean="ClockLocationRule-workArea"/>
         <ref bean="ClockLocationRule-principalId"/>
@@ -97,6 +98,17 @@
   </bean>
 
   <!-- Attribute Definitions -->
+  <bean id="ClockLocationRule-tkClockLocationRuleId" parent="ClockLocationRule-tkClockLocationRuleId-parentBean"/>
+  <bean id="ClockLocationRule-tkClockLocationRuleId-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="shortLabel" value="Tk Clock Location Rule Id" />
+		<property name="maxLength" value="60" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="name" value="tkClockLocationRuleId" />
+		<property name="label" value="Tk Clock Location Rule Id" />
+ </bean>
+  
   
   <bean id="ClockLocationRule-dept" parent="ClockLocationRule-dept-parentBean"/>
   <bean id="ClockLocationRule-dept-parentBean" abstract="true" parent="AttributeDefinition">

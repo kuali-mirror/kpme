@@ -36,6 +36,7 @@
         </property>
         <property name="attributes">
             <list>
+            	<ref bean="Calendar-hrCalendarId"/>
                 <ref bean="Calendar-calendarName"/>
                 <ref bean="Calendar-calendarDescriptions"/>
                 <ref bean="Calendar-flsaBeginDay"/>
@@ -52,6 +53,17 @@
     </bean>
 
     <!-- Attribute Definitions -->
+
+	<bean id="Calendar-hrCalendarId" parent="Calendar-hrCalendarId-parentBean"/>
+	<bean id="Calendar-hrCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="shortLabel" value="HrCalendar Id" />
+		<property name="maxLength" value="60" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
+		</property>
+		<property name="name" value="hrCalendarId" />
+		<property name="label" value="HrCalendar Id" />
+	</bean>
 
     <bean id="Calendar-calendarName" parent="Calendar-calendarName-parentBean"/>
     <bean id="Calendar-calendarName-parentBean" abstract="true" parent="AttributeDefinition">

@@ -34,6 +34,7 @@
 		</property>
 		<property name="attributes">
 			<list merge="true">
+				<ref bean="LeaveAdjustment-lmLeaveAdjustmentId" />
 				<ref bean="LeaveAdjustment-principalId" />
 				<ref bean="LeaveAdjustment-leavePlan" />
 				<ref bean="LeaveAdjustment-earnCode" />
@@ -101,6 +102,18 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="LeaveAdjustment-lmLeaveAdjustmentId" parent="LeaveAdjustment-lmLeaveAdjustmentId-parentBean"/>
+	<bean id="LeaveAdjustment-lmLeaveAdjustmentId-parentBean" abstract="true" parent="AttributeDefinition">
+	   	<property name="shortLabel" value="Lm Leave Adjustment Id" />
+		<property name="maxLength" value="60" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="name" value="lmLeaveAdjustmentId" />
+		<property name="label" value="Lm Leave Adjustment Id" />
+	</bean>
+
 
 	<bean id="LeaveAdjustment-principalId" parent="LeaveAdjustment-principalId-parentBean" />
 	<bean id="LeaveAdjustment-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" p:required="true"/>
