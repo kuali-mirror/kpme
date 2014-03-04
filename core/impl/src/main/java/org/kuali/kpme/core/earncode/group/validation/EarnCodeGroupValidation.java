@@ -27,8 +27,8 @@ import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -36,7 +36,7 @@ public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-		EarnCodeGroup earnGroup = (EarnCodeGroup)this.getNewBo();
+		EarnCodeGroup earnGroup = (EarnCodeGroup)this.getNewDataObject();
 		Set<String> earnCodes = new HashSet<String>();
 		int index = 0;
 		if(earnGroup.getEarnCodeGroups().size() < 1){

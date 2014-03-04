@@ -18,20 +18,13 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 
 	<bean id="EarnCodeGroup" parent="EarnCodeGroup-parentBean" />
 	<bean id="EarnCodeGroup-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup" />
-		<property name="titleAttribute" value="hrEarnCodeGroupId" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup" />
 		<property name="objectLabel" value="earnCodeGroup" />
-		<property name="inquiryDefinition">
-			<ref bean="EarnCodeGroup-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="EarnCodeGroup-lookupDefinition" />
-		</property>
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="EarnCodeGroup-hrEarnCodeGroupId" />
@@ -42,10 +35,13 @@
 			</list>
 		</property>
 		<property name="collections">
-			<list>
-				<bean parent="CollectionDefinition" p:name="earnCodeGroups"
-					p:label="Earn Code Group Definitions" p:shortLabel="Earn Code Group Definitions"
-					p:summary="Earn Code Group Definitions" p:description="Earn Code Group Definitions" />
+	    	<list>
+	    		<bean parent="CollectionDefinition">
+	          		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition" />
+	          		<property name="name" value="earnCodeGroups" />
+	          		<property name="shortLabel" value="Earn Code Group Definitions" />
+	          		<property name="label" value="Earn Code Group Definitions" />
+	        	</bean>
 			</list>
 		</property>
 	</bean>
@@ -57,13 +53,11 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="60" />
+		<property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="false"/>
+        </property>
+        <property name="controlField">
+        	<bean parent="Uif-TextControl" p:size="60" />
 		</property>
 		<property name="name" value="hrEarnCodeGroupId" />
 		<property name="label" value="Earn Code Group Id" />
@@ -74,11 +68,11 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Earn Code Group" />
 		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+		<property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="false"/>
+        </property>
+        <property name="controlField">
+        	<bean parent="Uif-TextControl" p:size="10" />
 		</property>
 		<property name="name" value="earnCodeGroup" />
 		<property name="label" value="Earn Code Group" />
@@ -97,13 +91,11 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="30" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern">
-			   <property name="allowWhitespace" value="true"/>
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+		<property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+        	<bean parent="Uif-TextControl" p:size="30" />
 		</property>
 		<property name="name" value="descr" />
 		<property name="label" value="Description" />
@@ -114,84 +106,141 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Warning" />
 		<property name="maxLength" value="100" />
-		<property name="control">
-			<bean parent="TextareaControlDefinition" p:size="100" />
+        <property name="controlField">
+        	<bean parent="Uif-TextAreaControl" />
 		</property>
 		<property name="name" value="warningText" />
 		<property name="label" value="Warning Text" />
 	</bean>
 	
-	<!--  Inquiry Definitions  -->
-  	<bean id="EarnCodeGroup-inquiryDefinition" parent="EarnCodeGroup-inquiryDefinition-parentBean"
-        p:inquirableClass="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupInquirableImpl"/>
+		<!--***************************************************************************
+                                                        Views
+        ***************************************************************************-->
+          <!-- KRAD Inquiry View -->
+    
+    <bean id="EarnCodeGroup-InquiryView" parent="Uif-InquiryView" >
+        <property name="headerText" value="Earn Code Group Inquiry" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupInquirableKradImpl"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup" />
+        <property name="singlePageView" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+                            <bean parent="Uif-DataField" p:propertyName="earnCodeGroup" />
+                            <bean parent="Uif-DataField" p:propertyName="descr" />
+                            <bean parent="Uif-DataField" p:propertyName="showSummary" />
+                            <bean parent="Uif-DataField" p:propertyName="active" />
+                            <bean parent="Uif-DataField" p:propertyName="warningText" />
+                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
+                        </list>
+                    </property>
+                    <property name="title" value="Earn Code Group Inquiry"/>
+                </bean>
+                <!-- <bean parent="EarnCodeGroup-earnCodeGroupDefinitionInquiry"/> -->
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="EarnCodeGroup-earnCodeGroupDefinitionInquiry" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Earn Group Defintions"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition"/>
+        <property name="propertyName" value="earnCodeGroups"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header"> <!-- Without this, active/inactive button shows up -->
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="earnCode" />
+        		<bean parent="Uif-InputField" p:propertyName="earnCodeDesc" />
+            </list>
+        </property>
+    </bean>
+    
+        <!-- KRAD Lookup View -->
+        
+        <bean id="EarnCodeGroup-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+        <property name="headerText" value="Earn Code Group Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup"/>
+        <property name="criteriaFields">
+        	<list>
+         		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCodeGroup" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="earnCodeGroup"/>
+                <bean parent="Uif-DataField" p:propertyName="descr" />
+                <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+                <bean parent="Uif-DataField" p:propertyName="timestamp" />
+                <bean parent="Uif-DataField" p:propertyName="active" />
+                <bean parent="Uif-DataField" p:propertyName="warningText" />
+            </list>
+        </property>
+    </bean>
 
-	<bean id="EarnCodeGroup-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
+ 	<!-- KRAD Maintenance View -->
+ 	
+ 	<bean id="EarnCodeGroup-MaintenanceView" parent="EarnCodeGroup-MaintenanceView-parentBean"/>
+	<bean id="EarnCodeGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+		<property name="headerText" value="Earn Code Group Maintenance" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup" />
+		<property name="items">
+			<list merge="true">
+				<bean parent="Uif-MaintenanceGridSection">
+					<property name="headerText" value="Earn Code Group Maintenance" />
+					<property name="items">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-							<bean parent="FieldDefinition" p:attributeName="earnCodeGroup" />
-							<bean parent="FieldDefinition" p:attributeName="descr" />
-							<bean parent="FieldDefinition" p:attributeName="showSummary" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-							<bean parent="FieldDefinition" p:attributeName="warningText" />
-                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-						</list>
-					</property>
-					<property name="title" value="Earn Code Group" />
-				</bean>
-				<bean parent="InquirySectionDefinition" p:title="Earn Group Defintions">
-					<property name="inquiryFields">
-						<list>
-							<bean parent="InquiryCollectionDefinition" p:attributeName="earnCodeGroups"
-								p:businessObjectClass="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition">
-								<property name="inquiryFields">
-									<list>
-										<bean parent="FieldDefinition" p:attributeName="earnCode" />
-										<bean parent="FieldDefinition" p:attributeName="earnCodeDesc" />
-									</list>
-								</property>
-							</bean>
+							<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" /> 
+							<bean parent="Uif-InputField" p:propertyName="earnCodeGroup" p:required="true"/> 
+							<bean parent="Uif-InputField" p:propertyName="descr" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="showSummary" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="active" p:required="true" p:defaultValue="true" />
+							<bean parent="Uif-InputField" p:propertyName="warningText" p:required="false" />
 						</list>
 					</property>
 				</bean>
+				<bean parent="EarnCodeGroup-EarnCodeGroupDefinitions" />
 			</list>
 		</property>
-		<property name="translateCodes" value="false"/>
-		<property name="title" value="Earn Code Group Inquiry" />
 	</bean>
-
-	<!-- Look up Definitions  -->
 	
-
-	<bean id="EarnCodeGroup-lookupDefinition" parent="EarnCodeGroup-lookupDefinition-parentBean" />
-	<bean id="EarnCodeGroup-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="lookupableID" value="kpmeHrBusinessObjectLookupable"></property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnCodeGroup" />
-                <bean parent="FieldDefinition" p:attributeName="descr" />
-                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-                <bean parent="FieldDefinition" p:attributeName="active" />
-                <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnCodeGroup" />
-				<bean parent="FieldDefinition" p:attributeName="descr" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="timestamp" />
-				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="warningText" />
-			</list>
-		</property>
-		<property name="title" value="Earn Code Group Lookup" />
-	</bean>
-
+	<bean id="EarnCodeGroup-EarnCodeGroupDefinitions" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Earn Code Group Defintions"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition"/>
+        <property name="propertyName" value="earnCodeGroups"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="showInactiveLines" value = "true"/>
+        <property name="renderInactiveToggleButton" value="false"/>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <!--remove delete action-->
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="earnCode">
+                	<property name="quickfinder">
+                    		<bean parent="Uif-QuickFinder"
+                            	p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                                p:fieldConversions="earnCode:earnCode" />
+                  	</property>
+                </bean>
+        		<bean parent="Uif-InputField" p:propertyName="earnCodeDesc" p:readOnly="true"/>
+            </list>
+        </property>
+    </bean>
 </beans>

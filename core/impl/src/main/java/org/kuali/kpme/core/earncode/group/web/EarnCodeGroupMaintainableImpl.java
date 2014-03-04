@@ -16,7 +16,6 @@
 package org.kuali.kpme.core.earncode.group.web;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
@@ -25,7 +24,6 @@ import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 

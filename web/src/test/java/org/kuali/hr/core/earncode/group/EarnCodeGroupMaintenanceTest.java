@@ -42,7 +42,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
-@FunctionalTest
+/*@FunctionalTest
 public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
     private static final Logger LOG = Logger.getLogger(EarnCodeGroupMaintenanceTest.class);
     private static final LocalDate TEST_DATE = LocalDate.now();
@@ -292,4 +292,4 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
     }
 
 
-}
+}*/
