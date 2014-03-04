@@ -53,6 +53,8 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.accrual.RateRangeAggregateContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.common.CalendarValidationUtil;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
@@ -185,12 +187,12 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
     	if(lcf.getLeaveBlockId() != null) {
     		updatedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
     	}
-    	LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(HrContext.getTargetPrincipalId(), TKUtils.formatDateString(lcf.getEndDate()));
+    	LeaveSummaryContract leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(HrContext.getTargetPrincipalId(), TKUtils.formatDateString(lcf.getEndDate()));
     	return validateLeaveAccrualRuleMaxUsage(leaveSummary, lcf.getSelectedEarnCode(), lcf.getStartDate(),
     			lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
     }
 
-	public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveSummary ls, String selectedEarnCode, String leaveStartDateString,
+	public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveSummaryContract ls, String selectedEarnCode, String leaveStartDateString,
 			String leaveEndDateString, BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
     	List<String> errors = new ArrayList<String>();
         String principalId = HrContext.getTargetPrincipalId();
@@ -215,8 +217,8 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
                     || StringUtils.equals(earnCodeObj.getUsageLimit(), "I")) {
 	    		AccrualCategoryContract accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), aDate);
 	    		if(accrualCategory != null) {
-	    			List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();
-	    			for(LeaveSummaryRow aRow : rows) {
+	    			List<? extends LeaveSummaryRowContract> rows = ls.getLeaveSummaryRows();
+	    			for(LeaveSummaryRowContract aRow : rows) {
 	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
 	    					//Does employee have overrides in place?
 	    					List<EmployeeOverride> employeeOverrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.formatDateString(leaveEndDateString));

@@ -233,10 +233,11 @@ public class TkConstants {
 
     public static final String DAILY_OVT_CODE = "DOT";
 
-    public static final class CacheNamespace {
+    public static final class Namespace {
         public static final String MODULE_NAME = "tklm";
         public static final String NAMESPACE_PREFIX = KPMEConstants.CacheNamespace.ROOT_NAMESPACE_PREFIX + "/"
                 + MODULE_NAME +'/';
+        public static final String TKLM_NAMESPACE_2_1 = NAMESPACE_PREFIX + KPMEConstants.Versions.VERSION_2_1;
     }
     
     public static final List<String> EMPLOYEE_APPROVAL_DOC_STATUS = new ArrayList<String>();

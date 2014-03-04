@@ -27,7 +27,7 @@ public class GracePeriodRule extends HrBusinessObject implements GracePeriodRule
 
 	private static final long serialVersionUID = 2756221187837436165L;
 
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "GracePeriodRule";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "GracePeriodRule";
 
 	private String tkGracePeriodRuleId;
 	private BigDecimal hourFactor;

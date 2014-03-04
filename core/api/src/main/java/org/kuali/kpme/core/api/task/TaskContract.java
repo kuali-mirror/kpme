@@ -85,8 +85,7 @@ public interface TaskContract extends HrBusinessObjectContract {
     public String getAdministrativeDescription() ;
     
     /**
-   	 * TODO: is this field needed???
-   	 * 
+   	 *
    	 * @return userPricipalId for Task
    	 */
     public String getUserPrincipalId();

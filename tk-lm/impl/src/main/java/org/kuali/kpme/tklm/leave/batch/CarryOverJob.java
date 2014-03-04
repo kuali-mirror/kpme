@@ -35,13 +35,15 @@ import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
-import org.kuali.kpme.tklm.leave.summary.service.LeaveSummaryService;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryService;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -92,7 +94,7 @@ public class CarryOverJob extends BatchJob {
                                     DateTime lpPreviousFirstDay = getLeavePlanService().getFirstDayOfLeavePlan(leavePlan, lpPreviousLastDay.toLocalDate());
 
                                     List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksWithType(principalId,  lpPreviousFirstDay.toLocalDate(), lpPreviousLastDay.toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
-                                    LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, lpPreviousLastDay.toLocalDate());
+                                    LeaveSummaryContract leaveSummary = getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, lpPreviousLastDay.toLocalDate());
                                     //no existing carry over blocks.  just create new
                                     if(CollectionUtils.isEmpty(prevYearCarryOverleaveBlocks)){
                                         getLeaveBlockService().saveLeaveBlocks(createCarryOverLeaveBlocks(principalId, lpPreviousLastDay, leaveSummary));
@@ -106,7 +108,7 @@ public class CarryOverJob extends BatchJob {
                                         // update existing first
                                         for (Map.Entry<String, LeaveBlock> entry : existingCarryOver.entrySet()) {
                                             LeaveBlock.Builder carryOverBlock = LeaveBlock.Builder.create(entry.getValue());
-                                            LeaveSummaryRow lsr = leaveSummary.getLeaveSummaryRowForAccrualCtgy(entry.getKey());
+                                            LeaveSummaryRowContract lsr = leaveSummary.getLeaveSummaryRowForAccrualCtgy(entry.getKey());
 
                                             //update values
                                             if(lsr.getAccruedBalance() != null)  {
@@ -218,13 +220,13 @@ public class CarryOverJob extends BatchJob {
 	
 	private List<LeaveBlock> createCarryOverLeaveBlocks(String principalId,
                                                         DateTime prevCalEndDate,
-                                                        LeaveSummary leaveSummary) {
+                                                        LeaveSummaryContract leaveSummary) {
 
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
-        List<LeaveSummaryRow> leaveSummaryRows = leaveSummary.getLeaveSummaryRows();
+        List<? extends LeaveSummaryRowContract> leaveSummaryRows = leaveSummary.getLeaveSummaryRows();
         if(leaveSummaryRows !=null && !leaveSummaryRows.isEmpty()){
 
-            for(LeaveSummaryRow lsr : leaveSummaryRows){
+            for(LeaveSummaryRowContract lsr : leaveSummaryRows){
                 AccrualCategoryContract accrualCategory = getAccrualCategoryService().getAccrualCategory(lsr.getAccrualCategoryId());
 
                 LeaveBlockBo leaveBlock = new LeaveBlockBo();

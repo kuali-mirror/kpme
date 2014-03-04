@@ -34,7 +34,7 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 
 	private static final long serialVersionUID = 7892616560736184294L;
 
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "TimeCollectionRule";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "TimeCollectionRule";
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(WORK_AREA)

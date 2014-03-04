@@ -37,16 +37,16 @@ public class TimeBlockServiceTest extends KPMEWebTestCase {
 		GlobalVariables.getUserSession().setBackdoorUser("admin");
 		
 		tb.setUserPrincipalId("admin");
-		boolean editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(tb);
+		boolean editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(TimeBlockBo.to(tb));
 		Assert.assertEquals("TimeBlock created by admin should be editable by admin", true, editable);
 
 		tb.setUserPrincipalId("eric");
-		editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(tb);
+		editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(TimeBlockBo.to(tb));
 		Assert.assertEquals("TimeBlock created by eric should be editable by admin", true, editable);
 	
 		tb.setUserPrincipalId("eric");
 		tb.setClockLogCreated(true);
-		editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(tb);
+		editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(TimeBlockBo.to(tb));
 		Assert.assertEquals("TimeBlock created by Clock in/out should be editable by admin", true, editable);
 	}
 	
@@ -60,12 +60,12 @@ public class TimeBlockServiceTest extends KPMEWebTestCase {
 		GlobalVariables.getUserSession().setBackdoorUser("eric");
 		
 		tb.setUserPrincipalId("admin");
-		boolean editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(tb);
+		boolean editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(TimeBlockBo.to(tb));
 		Assert.assertEquals("TimeBlock created by admin should NOT be editable by eric", false, editable);
 		
 		tb.setUserPrincipalId("eric");
 		tb.setClockLogCreated(true);
-		editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(tb);
+		editable = TkServiceLocator.getTimeBlockService().getTimeBlockEditable(TimeBlockBo.to(tb));
 		Assert.assertEquals("TimeBlock created by Clock in/out should NOT be editable by eric", false, editable);
 	}
 

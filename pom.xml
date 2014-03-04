@@ -90,6 +90,8 @@
         <mysql.dba.username>root</mysql.dba.username>
         <mysql.dba.password>NONE</mysql.dba.password>
         <project.scm.url>https://svn.kuali.org/repos/kpme/trunk</project.scm.url>
+        <kpme.java2ws.phase>process-classes</kpme.java2ws.phase>
+        <wsdl.dir>${project.build.directory}/wsdl</wsdl.dir>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -859,6 +861,11 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>2.3</version>
                 </plugin>
+                <!--<plugin>
+                    <groupId>com.sun.tools.jxc.maven2</groupId>
+                    <artifactId>maven-jaxb-schemagen-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>-->
                 <plugin>
                     <groupId>com.agilejava.docbkx</groupId>
                     <artifactId>docbkx-maven-plugin</artifactId>

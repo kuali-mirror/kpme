@@ -30,6 +30,8 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -361,9 +363,9 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			String fromAccrualCat, LocalDate effectiveLocalDate) {
 		boolean isValid = true;
 		if(payoutAmount != null) {
-			LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveLocalDate, fromAccrualCat);
+			LeaveSummaryContract leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveLocalDate, fromAccrualCat);
 			if(leaveSummary != null) {
-				LeaveSummaryRow leaveSummaryRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromAccrualCat);
+				LeaveSummaryRowContract leaveSummaryRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromAccrualCat);
 				if(leaveSummaryRow != null) {
 					BigDecimal accruedBalance = leaveSummaryRow.getAccruedBalance();
 					if(payoutAmount.compareTo(accruedBalance) > 0) {

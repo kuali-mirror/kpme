@@ -29,7 +29,7 @@ import org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideService;
 import org.kuali.kpme.tklm.leave.payout.service.LeavePayoutService;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.api.permission.LMPermissionService;
-import org.kuali.kpme.tklm.leave.summary.service.LeaveSummaryService;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryService;
 import org.kuali.kpme.tklm.leave.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.kpme.tklm.leave.transfer.service.BalanceTransferService;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;

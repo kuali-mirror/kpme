@@ -478,7 +478,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				FlsaWeek previousFlsaWeek = currentWeekParts.get(0);
 				for (FlsaDay flsaDay : previousFlsaWeek.getFlsaDays()) {
 					KRADServiceLocator.getBusinessObjectService().save(ModelObjectUtils.transform(flsaDay.getAppliedTimeBlocks(), toTimeBlockBo));
-                    //TkServiceLocator.getTimeBlockService().saveTimeBlocks(flsaDay.getAppliedTimeBlocks());
+                    //TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(flsaDay.getAppliedTimeBlocks());
 				}
 			}
 				
@@ -486,7 +486,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				FlsaWeek nextFlsaWeek = currentWeekParts.get(currentWeekParts.size() - 1);
 				for (FlsaDay flsaDay : nextFlsaWeek.getFlsaDays()) {
 					KRADServiceLocator.getBusinessObjectService().save(ModelObjectUtils.transform(flsaDay.getAppliedTimeBlocks(), toTimeBlockBo));
-                    //TkServiceLocator.getTimeBlockService().saveTimeBlocks(flsaDay.getAppliedTimeBlocks());
+                    //TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(flsaDay.getAppliedTimeBlocks());
 				}
 			}
 		}

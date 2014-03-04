@@ -36,7 +36,7 @@ public class LeaveDonation extends HrBusinessObject implements LeaveDonationCont
 	private static final String DONATED_ACCRUAL_CATEGORY = "donatedAccrualCategory";
 	private static final String DONORS_PRINCIPAL_ID = "donorsPrincipalID";
     
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveDonation";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "LeaveDonation";
     private static final long serialVersionUID = 1L;
     //KPME-2273/1965 Primary Business Keys List.	
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()

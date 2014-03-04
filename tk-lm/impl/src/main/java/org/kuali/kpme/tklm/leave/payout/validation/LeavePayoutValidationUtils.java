@@ -27,6 +27,8 @@ import org.kuali.kpme.core.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -141,8 +143,8 @@ public class LeavePayoutValidationUtils {
 			AccrualCategory fromCat, EarnCode earnCode, String principalId,
 			LocalDate effectiveDate, AccrualCategoryRule accrualRule) {
 
-		LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveDate, fromCat.getAccrualCategory());
-		LeaveSummaryRow row = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromCat.getAccrualCategory());
+		LeaveSummaryContract leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(principalId, effectiveDate, fromCat.getAccrualCategory());
+		LeaveSummaryRowContract row = leaveSummary.getLeaveSummaryRowForAccrualCtgy(fromCat.getAccrualCategory());
 		BigDecimal balance = row.getAccruedBalance();
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.
 		//it cannot be negative.

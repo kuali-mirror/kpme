@@ -47,6 +47,8 @@ import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.leave.approval.LeaveApprovalService;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.leave.workflow.LeaveCalendarDocumentHeaderContract;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -170,7 +172,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			allMessages.get("actionMessages").addAll(transactionalMessages.get("actionMessages"));
 			
 			if(aRow.getLeaveSummary() != null && aRow.getLeaveSummary().getLeaveSummaryRows().size() > 0) {
-				for(LeaveSummaryRow summaryRow : aRow.getLeaveSummary().getLeaveSummaryRows()){
+				for(LeaveSummaryRowContract summaryRow : aRow.getLeaveSummary().getLeaveSummaryRows()){
 					// check for negative available balance for accrual category.
 		    		if(summaryRow.getLeaveBalance() != null && summaryRow.getLeaveBalance().compareTo(BigDecimal.ZERO) < 0) {
 		    			String message = "Negative available balance found for the accrual category '"+summaryRow.getAccrualCategory()+ "'.";
@@ -427,7 +429,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		if(calendarEntry != null) {
 			DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
 			DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
-			LeaveSummary leaveSummary;
+			LeaveSummaryContract leaveSummary;
 			List<LocalDateTime> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry);
             try {
                 leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
@@ -459,7 +461,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 						}
 						index++;
 					}
-                    LeaveSummaryRow lsr = leaveSummary == null ? null : leaveSummary.getLeaveSummaryRowForAccrualCtgy(ac.getAccrualCategory());
+                    LeaveSummaryRowContract lsr = leaveSummary == null ? null : leaveSummary.getLeaveSummaryRowForAccrualCtgy(ac.getAccrualCategory());
 					displayMap.put("periodUsage", totalAmount);
 					displayMap.put("availableBalance", BigDecimal.ZERO);
                     displayMap.put("availableBalance", lsr == null ? BigDecimal.ZERO : lsr.getLeaveBalance());
@@ -479,7 +481,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		 
         //CalendarEntry calendarEntry = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
 		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
-			LeaveSummary leaveSummary;
+			LeaveSummaryContract leaveSummary;
 			PrincipalHRAttributesContract pha; 
 //			List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry);
             try {
@@ -515,7 +517,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 							index++;
 						}
 					}
-                    LeaveSummaryRow lsr = leaveSummary == null ? null : leaveSummary.getLeaveSummaryRowForAccrualCtgy(ac.getAccrualCategory());
+                    LeaveSummaryRowContract lsr = leaveSummary == null ? null : leaveSummary.getLeaveSummaryRowForAccrualCtgy(ac.getAccrualCategory());
                     if(!totalAmount.equals(BigDecimal.ZERO)) {                    	
                     	enableWeekDetails.put(week, Boolean.TRUE);
                     	

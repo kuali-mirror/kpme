@@ -56,6 +56,8 @@ import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
@@ -203,7 +205,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         	if(!onDemandTransfers.isEmpty()) {
             	for(LeaveBlockContract lb : onDemandTransfers) {
             		LocalDate leaveDate = lb.getLeaveLocalDate();
-                	LeaveSummary summary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, leaveDate.plusDays(1));
+                	LeaveSummary summary = (LeaveSummary)LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, leaveDate.plusDays(1));
                 	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
             		if(row != null) {
             			//AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());
@@ -225,8 +227,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	            				if(StringUtils.equals(maxedRow.getAccrualCategoryId(),row.getAccrualCategoryId()))
 	            					exists = true;
 	            			}
-	            			if(!exists)
+	            			if(!exists) {
             					maxedLeaveRows.add(row);
+                            }
                     	}
             		}
             	}

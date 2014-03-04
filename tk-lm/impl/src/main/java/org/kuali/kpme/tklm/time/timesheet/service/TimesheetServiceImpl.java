@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.timesheet.service;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -27,7 +26,6 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
@@ -59,7 +57,6 @@ import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -207,7 +204,7 @@ public class TimesheetServiceImpl implements TimesheetService {
               }
 	            //If system scheduled time off are loaded will need to save them to the database
 		        if (CollectionUtils.isNotEmpty(sstoList)) {
-		           TkServiceLocator.getTimeBlockService().saveTimeBlocks(Collections.<TimeBlock>emptyList(), timesheetDocument.getTimeBlocks(), HrContext.getPrincipalId());
+		           TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(Collections.<TimeBlock>emptyList(), timesheetDocument.getTimeBlocks(), HrContext.getPrincipalId());
 		        }
         	}
         }

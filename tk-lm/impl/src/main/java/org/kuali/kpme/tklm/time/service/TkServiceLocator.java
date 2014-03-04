@@ -49,7 +49,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 public class TkServiceLocator implements ApplicationContextAware {
-	public static String SPRING_BEANS = "classpath:org/kuali/kpme/tklm/config/TKLMSpringBeans.xml";
 	private static ApplicationContext CONTEXT;
 	public static final String HR_BATCH_JOB_SERVICE = "batchJobService";
 	public static final String TK_CLOCK_LOG_SERVICE = "clockLogService";
@@ -57,12 +56,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_BLOCK_HISTORY_SERVICE = "timeBlockHistoryService";
 	public static final String TK_TIME_BLOCK_HISTORY_DETAIL_SERVICE = "timeBlockHistoryDetailService";
 	public static final String TK_PERSISTENCE_BROKER_TEMPLATE = "tkPersistenceBrokerTemplate";
-	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
 	public static final String TK_TIMESHEET_SERVICE = "timesheetService";
 	public static final String TK_TIMESHEET_DOCUMENT_HEADER_SERVICE = "timesheetDocumentHeaderService";
 	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
 	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
-	public static final String TK_TIME_EARN_CODE_GROUP_SERVICE = "earnCodeGroupService";
 	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
 	public static final String TK_DAILY_OVERTIME_RULE_SERVICE = "dailyOvertimeRuleService";
 	public static final String TK_WEEKLY_OVERTIME_RULE_SERVICE = "weeklyOvertimeRuleService";
@@ -71,17 +68,13 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_GRACE_PERIOD_SERVICE = "gracePeriodService";
 	public static final String TK_SYSTEM_LUNCH_RULE_SERVICE = "systemLunchRuleService";
 	public static final String TK_DEPT_LUNCH_RULE_SERVICE = "deptLunchRuleService";
-	public static final String TK_PRINCIPAL_CALENDAR_SERVICE = "principalCalendarService";
 	public static final String TK_USER_PREF_SERVICE = "userPrefService";
-	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
     public static final String TK_APPROVE_SERVICE = "timeApproveService";
     public static final String TK_MISSED_PUNCH_SERVICE = "missedPunchService";
-    public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
 
     public static final String TK_PERMISSION_SERVICE = "tkPermissionService";
-    public static final String TK_ROLE_SERVICE = "tkRoleService";
-    
+
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
     }

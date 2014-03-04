@@ -47,7 +47,7 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 	            .build();
 
 		
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "DailyOvertimeRule";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "DailyOvertimeRule";
 
 	private String tkDailyOvertimeRuleId;
 

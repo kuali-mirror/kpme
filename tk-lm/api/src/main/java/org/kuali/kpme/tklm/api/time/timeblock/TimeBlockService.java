@@ -16,23 +16,33 @@
 package org.kuali.kpme.tklm.api.time.timeblock;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 
+import javax.jws.WebMethod;
+import javax.jws.WebResult;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.math.BigDecimal;
 import java.util.List;
 
+//@WebService(name = "groupService", targetNamespace = TkConstants.Namespace.TKLM_NAMESPACE_2_1)
+//@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface TimeBlockService {
 	/**
 	 * Fetch a TimeBlock by a given ID
 	 * @param timeBlockId
 	 * @return
 	 */
+    //@WebMethod(operationName = "getTimeBlock")
+    //@WebResult(name = "timeBlock")
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlock}' + 'timeBlockId=' + #p0")
 	public TimeBlock getTimeBlock(String timeBlockId);
 
@@ -40,6 +50,7 @@ public interface TimeBlockService {
 	 * Delete a given TimeBlock
 	 * @param timeBlock
 	 */
+    //@WebMethod(operationName = "deleteTimeBlock")
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
             @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="'{time}' + #p0.tkTimeBlockId")
@@ -62,6 +73,10 @@ public interface TimeBlockService {
      * @param clockLogEndId
 	 * @return
 	 */
+    //@WebMethod(operationName = "buildTimeBlocks")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    @WebResult(name = "timeBlocks")
 	public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntryContract calendarEntry, AssignmentContract assignment, String earnCode, String documentId,
 											DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
                                             Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId,
@@ -72,39 +87,51 @@ public interface TimeBlockService {
 	 * @param oldTimeBlocks
 	 * @param newTimeBlocks
 	 */
+    //@WebMethod(operationName = "saveOrUpdateTimeBlocks")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
     })
-	public List<TimeBlock> saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId);
+	public List<TimeBlock> saveOrUpdateTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId);
 
 	/**
 	 * Save a list of new TimeBlocks
 	 * @param tbList
 	 */
+    @WebMethod(operationName = "saveTimeBlocks")
+    @XmlElementWrapper(name = "timeBlocks", required = true)
+    @XmlElement(name = "timeBlock", required = false)
+    @WebResult(name = "timeBlocks")
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
     })
 	public List<TimeBlock> saveTimeBlocks(List<TimeBlock> tbList);
-	/**
+
+    /**
 	 * Reset the TimeHourDetail object associated with the TimeBlock object on a List of TimeBlocks
 	 * @param origTimeBlocks
 	 */
+    //@WebMethod(operationName = "resetTimeHourDetail")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
 	public List<TimeBlock> resetTimeHourDetail(List<TimeBlock> origTimeBlocks);
-	/**
+
+    /**
 	 * Get the List of TimeBlock of a given document id
 	 * @param documentId
 	 * @return
 	 */
+    //@WebMethod(operationName = "getTimeBlocks")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocks}' + 'documentId=' + #p0")
 	public List<TimeBlock> getTimeBlocks(String documentId);	
-	/**
-	 * Get the List of TimeBlock of a given Assignment
-	 * @param assign
-	 * @return List<TimeBlock>
-	 */
-	 @Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksForAssignment}' + 'assign=' + #p0.tkAssignmentId")
-	 public List<TimeBlock> getTimeBlocksForAssignment(AssignmentContract assign);
-	/**
+
+    /**
 	 * Build a List of TimeBlocks over a span of multiple days
      * @param principalId
      * @param calendarEntry
@@ -120,6 +147,10 @@ public interface TimeBlockService {
      * @param spanningWeeks
 	 * @return
 	 */
+    //@WebMethod(operationName = "buildTimeBlocksSpanDates")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
 	public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntryContract calendarEntry, AssignmentContract assignment, String earnCode,
                                                     String documentId, DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
                                                     Boolean clockLogCreated, Boolean lunchDeleted, String spanningWeeks, String userPrincipalId,
@@ -138,35 +169,51 @@ public interface TimeBlockService {
 	 * @param lunchDeleted
 	 * @return
 	 */
-	
+    //@WebMethod(operationName = "createTimeBlock")
+    //@WebResult(name = "timeBlock")
 	public TimeBlock createTimeBlock(String principalId, String documentId, DateTime beginDateTime, DateTime endDateTime,
 										AssignmentContract assignment, String earnCode, BigDecimal hours, BigDecimal amount,
                                         Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId);
 
+    //@WebMethod(operationName = "deleteTimeBlocksAssociatedWithDocumentId")
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
             @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
     })
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 
-	public Boolean getTimeBlockEditable(TimeBlockContract tb);
+    //@WebMethod(operationName = "getTimeBlockEditable")
+    //@WebResult(name = "editable")
+	public Boolean getTimeBlockEditable(TimeBlock tb);
 	
 	/*
 	 * Get all the time blocks with the given Clock Log id as the clockLogEndId
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
+    //@WebMethod(operationName = "getTimeBlocksForClockLogEndId")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksForClockLogEndId}' + 'tkClockLogId=' + #p0")
 	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId);
+
 	/*
 	 * Get all the time blocks with the given Clock Log id as the clockLogBeginId
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
+    //@WebMethod(operationName = "getTimeBlocksForClockLogBeginId")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksForClockLogBeginId}' + 'tkClockLogId=' + #p0")
 	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
-	
 
+    //@WebMethod(operationName = "getLatestEndTimestampForEarnCode")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getLatestEndTimestampForEarnCode}' + 'earnCode=' + #p0")
 	public List<TimeBlock> getLatestEndTimestampForEarnCode(String earnCode);
 
@@ -175,34 +222,35 @@ public interface TimeBlockService {
      * @param clockLogEndId
      * @return
      */
+    //@WebMethod(operationName = "getOvernightTimeBlocks")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getOvernightTimeBlocks}' + 'clockLogEndId=' + #p0")
 	public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 
+    //@WebMethod(operationName = "isOvernightTimeBlock")
+    //@WebResult(name = "overnightBlock")
     @Cacheable(value= TimeBlock.CACHE_NAME, key="'{isOvernightTimeBlock}' + 'clockLogEndId=' + #p0")
     public boolean isOvernightTimeBlock(String clockLogEndId);
 
+    //@WebMethod(operationName = "updateTimeBlock")
+    //@WebResult(name = "timeBlock")
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true),
             @CacheEvict(value={CalendarBlockPermissions.CACHE_NAME}, key="'{time}' + #p0.tkTimeBlockId")
     })
 	public TimeBlock updateTimeBlock(TimeBlock tb);
 	
-	//public List<TimeBlockHistory> createTimeBlockHistories(TimeBlock tb, String actionHistory);
-
+    //@WebMethod(operationName = "deleteLunchDeduction")
     @Caching(evict = {
             @CacheEvict(value={TimeBlock.CACHE_NAME}, allEntries = true)
     })
     void deleteLunchDeduction(String tkTimeHourDetailId);
-	/*
-	 * Get all the active time blocks with the given earn code and effectiveDate
-	 * @param earnCode
-	 * @param effDate
-	 * @return List<TimeBlock>	 * 
-	 */
-    @Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksWithEarnCode}' + 'earnCode=' + #p0 + '|' + 'effDate=' + #p1")
-    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate);
 
-	public List<TimeBlock> getTimeBlocksForLookup(String documentId, String principalId, String userPrincipalId, LocalDate fromDate, LocalDate toDate);
-	
+    //@WebMethod(operationName = "applyHolidayPremiumEarnCode")
+    //@XmlElementWrapper(name = "timeBlocks", required = true)
+    //@XmlElement(name = "timeBlock", required = false)
+    //@WebResult(name = "timeBlocks")
 	public List<TimeBlock> applyHolidayPremiumEarnCode(String principalId, List<AssignmentContract> timeAssignments, List<TimeBlock> appliedTimeBlocks);
 }

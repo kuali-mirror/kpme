@@ -35,7 +35,7 @@ public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleCont
 	private static final String WORK_AREA = "workArea";
 	private static final String DEPT = "dept";
 	
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "DeptLunchRule";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "DeptLunchRule";
     //KPME-2273/1965 Primary Business Keys List.
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(DEPT)

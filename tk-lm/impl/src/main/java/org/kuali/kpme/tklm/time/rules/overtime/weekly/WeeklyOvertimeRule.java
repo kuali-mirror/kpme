@@ -29,7 +29,7 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 
 	private static final long serialVersionUID = 5229797885418317405L;
 
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "WeeklyOvertimeRule";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "WeeklyOvertimeRule";
 
 	private String tkWeeklyOvertimeRuleId;
 	private String maxHoursEarnGroup;

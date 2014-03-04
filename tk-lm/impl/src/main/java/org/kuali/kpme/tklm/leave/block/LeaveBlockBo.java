@@ -62,7 +62,7 @@ import java.util.List;
 public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBlockContract {
 	
 	private static final long serialVersionUID = -8240826812581295376L;
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveBlock";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "LeaveBlock";
 
 	protected String earnCode;
 	protected Long workArea;

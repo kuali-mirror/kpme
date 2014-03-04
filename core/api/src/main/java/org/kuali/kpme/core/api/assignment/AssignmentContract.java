@@ -15,15 +15,14 @@
  */
 package org.kuali.kpme.core.api.assignment;
 
-import java.util.List;
-
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.rice.kim.api.identity.Person;
+
+import java.util.List;
 
 /**
  * <p>AssignmentContract interface.</p>
@@ -178,16 +177,6 @@ public interface AssignmentContract extends HrBusinessObjectContract {
 	 */
 	public String getAssignmentDescription() ;
 
-	/**
-	 * Employee associated with the Assignment
-	 *
-	 * <p>
-	 * principal of Assignment
-	 * </p>
-	 * 
-	 * @return principal for Assignment
-	 */
-	public Person getPrincipal();
 
 	/**
 	 * Task object associated with the Assignment

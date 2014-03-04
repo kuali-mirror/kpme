@@ -22,7 +22,7 @@ import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class UserPreferences extends PersistableBusinessObjectBase implements UserPreferencesContract {
-    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "UserPreferences";
+    public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "UserPreferences";
 
 	private static final long serialVersionUID = 1L;
 	private String principalId;

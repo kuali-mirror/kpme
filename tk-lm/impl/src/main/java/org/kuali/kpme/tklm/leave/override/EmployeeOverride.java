@@ -36,7 +36,7 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
 	private static final String PRINCIPAL_ID = "principalId";
 	
 	private static final long serialVersionUID = 1L;
-    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "EmployeeOverride";
+    public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "EmployeeOverride";
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(PRINCIPAL_ID)
             .add(LEAVE_PLAN)

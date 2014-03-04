@@ -193,7 +193,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     }
 
     @Override
-    public List<TimeBlock> saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId) {
+    public List<TimeBlock> saveOrUpdateTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId) {
         List<TimeBlockBo> alteredTimeBlocks = new ArrayList<TimeBlockBo>();
 
         List<TimeBlockBo> oldTimeBlockBos = ModelObjectUtils.transform(oldTimeBlocks, toTimeBlockBo);
@@ -472,7 +472,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         return ModelObjectUtils.transform(timeBlocks, toTimeBlock);
     }
 
-    @Override
+/*    @Override
     public List<TimeBlock> getTimeBlocksForAssignment(AssignmentContract assign) {
     	List<TimeBlockBo> timeBlocks = new ArrayList<TimeBlockBo>();
     	if(assign != null) {
@@ -492,7 +492,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			}
          }
     	return ModelObjectUtils.transform(timeBlocks, toTimeBlock);
-    }
+    }*/
 
 
 	@Override
@@ -502,7 +502,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 	@Override
 	// figure out if the user has permission to edit/delete the time block
-	public Boolean getTimeBlockEditable(TimeBlockContract timeBlock) {
+	public Boolean getTimeBlockEditable(TimeBlock timeBlock) {
 		String userId = GlobalVariables.getUserSession().getPrincipalId();
 
     	if(userId != null) {
@@ -589,10 +589,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         // remove the related time hour detail row with the lunch deduction
         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetail(thd.getTkTimeHourDetailId());
     }
-    @Override
+    /*@Override
     public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, DateTime effDate) {
     	return ModelObjectUtils.transform(timeBlockDao.getTimeBlocksWithEarnCode(earnCode, effDate), toTimeBlock);
-    }
+    }*/
 
     private BigDecimal applyInflateMinHoursAndFactor(EarnCode earnCodeObj, BigDecimal blockHours) {
         if(earnCodeObj != null) {
@@ -616,12 +616,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         return blockHours;
     }
 
-	@Override
+	/*@Override
 	public List<TimeBlock> getTimeBlocksForLookup(String documentId,
 			String principalId, String userPrincipalId, LocalDate fromDate,
 			LocalDate toDate) {
 		return ModelObjectUtils.transform(timeBlockDao.getTimeBlocksForLookup(documentId, principalId, userPrincipalId, fromDate, toDate), toTimeBlock);
-	}
+	}*/
 	
 	@Override
 	public List<TimeBlock> applyHolidayPremiumEarnCode(String principalId, List<AssignmentContract> timeAssignments, List<TimeBlock> timeBlockList) {

@@ -28,7 +28,6 @@ import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
@@ -45,7 +44,7 @@ public class TimeBlockHistoryTest extends TKLMIntegrationTestCase {
         TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT, "admin");
         List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getPrincipalId(), td.getCalendarEntry(), td.getAssignments().get(0), "RGH",
                 td.getDocumentId(), beginDateTime, endDateTime, new BigDecimal("8"), BigDecimal.ZERO, true, false, "admin", null, null);
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(td.getTimeBlocks(), tbs, "admin");
+        TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(td.getTimeBlocks(), tbs, "admin");
 
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();
         for(TimeBlock tb : td.getTimeBlocks()) {

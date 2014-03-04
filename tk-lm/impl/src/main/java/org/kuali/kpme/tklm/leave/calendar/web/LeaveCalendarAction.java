@@ -69,6 +69,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.common.CalendarFormAction;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
@@ -404,8 +405,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		 }
 		// recalculate summary
 		if (calendarEntry != null) {
-			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
-		    lcf.setLeaveSummary(ls);
+			LeaveSummaryContract ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
+		    lcf.setLeaveSummary((LeaveSummary)ls);
 		}
 		
 		// KPME-2540 replicate submitForApproval method in LeaveRequestAction here
@@ -475,7 +476,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
         }
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
-			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
+			LeaveSummary ls = (LeaveSummary)LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
 		    lcf.setLeaveSummary(ls);
 		}
 		return mapping.findForward("basic");
@@ -539,12 +540,12 @@ public class LeaveCalendarAction extends CalendarFormAction {
             DateTime calEntryEndDate = calendarEntry.getEndPeriodFullDateTime();
             if (calEntryEndDate.getMillis() > currentYearBeginDate.getMillis()) {
             	//current or future year
-                LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+                LeaveSummary ls = (LeaveSummary)LmServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
                 leaveCalendarForm.setLeaveSummary(ls);
             } else {
                 //current year roll over date has been passed, all previous calendars belong to the previous leave plan calendar year.
                 DateTime effDate = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalHRAttributes.getLeavePlan(), calEntryEndDate.minusDays(1).toLocalDate());
-                LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, effDate.toLocalDate());
+                LeaveSummary ls = (LeaveSummary)LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, effDate.toLocalDate());
                 //override title element (based on date passed in)
                 DateFormat formatter = new SimpleDateFormat("MMMM d");
                 DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
@@ -776,7 +777,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
             lcf.setSelectedEarnCode(null);
     		// recalculate summary
     		if(lcf.getCalendarEntry() != null) {
-    			LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
+    			LeaveSummary ls = (LeaveSummary)LmServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
     		    lcf.setLeaveSummary(ls);
     		    // call accrual service if earn code is not eligible for accrual
     		    this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, previousEarnCode, TKUtils.formatDateTimeStringNoTimezone(lcf.getEndDate()).toLocalDate(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());

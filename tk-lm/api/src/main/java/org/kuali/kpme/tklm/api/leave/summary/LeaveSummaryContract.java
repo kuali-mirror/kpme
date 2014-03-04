@@ -90,7 +90,7 @@ public interface LeaveSummaryContract {
 	 * leaveSummaryRow of a LeaveSummary
 	 * <p>
 	 * 
-	 * @param accrualCategory id to retrieve LeaveSummaryRow object from leaveSummaryRows
+	 * @param accrualCategoryId id to retrieve LeaveSummaryRow object from leaveSummaryRows
 	 * @return leaveSummaryRow for LeaveSummary
 	 */
 	public LeaveSummaryRowContract getLeaveSummaryRowForAccrualCategory(String accrualCategoryId);

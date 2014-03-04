@@ -28,6 +28,8 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
@@ -179,9 +181,9 @@ public class LeaveBlockDisplayAction extends KPMEAction {
 	private SortedMap<String, BigDecimal> getPreviousAccrualBalances(String principalId, LocalDate serviceDate, LocalDate beginDate, List<AccrualCategory> accrualCategories) {
 		SortedMap<String, BigDecimal> previousAccrualBalances = new TreeMap<String, BigDecimal>();
 
-        LeaveSummary leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, beginDate);
+        LeaveSummaryContract leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, beginDate);
 
-        for (LeaveSummaryRow row : leaveSummary.getLeaveSummaryRows()) {
+        for (LeaveSummaryRowContract row : leaveSummary.getLeaveSummaryRows()) {
             previousAccrualBalances.put(row.getAccrualCategory(), row.getLeaveBalance());
         }
 		

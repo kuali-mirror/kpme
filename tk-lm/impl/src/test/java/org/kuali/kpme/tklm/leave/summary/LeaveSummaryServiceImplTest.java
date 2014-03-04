@@ -26,6 +26,8 @@ import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 @IntegrationTest
@@ -36,13 +38,13 @@ public class LeaveSummaryServiceImplTest extends TKLMIntegrationTestCase {
 		// selected calendar entry is 03/15/2012 - 04/01/2012
 		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("56");
 		
-		LeaveSummary ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
+		LeaveSummaryContract ls = LmServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
 		Assert.assertTrue("There pending dates String should be 'March 15 - March 31 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("March 15 - March 31 2012"));
 		
-		List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();
+		List<? extends LeaveSummaryRowContract> rows = ls.getLeaveSummaryRows();
 		Assert.assertTrue("There should be 1 leave summary rows for emplyee 'testUser', not " + rows.size(), rows.size()== 1);
-		LeaveSummaryRow aRow = rows.get(0);
+		LeaveSummaryRowContract aRow = rows.get(0);
 		Assert.assertTrue("Accrual cateogry for Row should be 'testAC', not " + aRow.getAccrualCategory(), aRow.getAccrualCategory().equals("testAC"));
 		Assert.assertTrue("Carry over for Row should be '0', not " + aRow.getCarryOver(), aRow.getCarryOver().compareTo(BigDecimal.ZERO) == 0);
 		Assert.assertTrue("YTD accrualed balance for Row should be '8', not " + aRow.getYtdAccruedBalance(), aRow.getYtdAccruedBalance().compareTo(new BigDecimal(8)) == 0);
@@ -84,7 +86,7 @@ public class LeaveSummaryServiceImplTest extends TKLMIntegrationTestCase {
 		
 		rows = ls.getLeaveSummaryRows();
 		Assert.assertTrue("There should be 2 leave summary rows for employee 'testUser', not " + rows.size(), rows.size()== 2);
-		for(LeaveSummaryRow lsRow : rows ) {
+		for(LeaveSummaryRowContract lsRow : rows ) {
 			if(lsRow.getAccrualCategory().equals("testAC")) {
 				Assert.assertTrue("Carry over for Row should be '0', not " + lsRow.getCarryOver(), lsRow.getCarryOver().compareTo(BigDecimal.ZERO) == 0);
 				Assert.assertTrue("YTD accrualed balance for Row should be '8', not " + lsRow.getYtdAccruedBalance(), lsRow.getYtdAccruedBalance().compareTo(new BigDecimal(8)) == 0);

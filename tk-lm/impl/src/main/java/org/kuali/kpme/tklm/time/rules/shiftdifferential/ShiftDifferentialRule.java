@@ -50,7 +50,7 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 
 	private static final long serialVersionUID = -3990672795815968915L;
 
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "ShiftDifferentialRule";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "ShiftDifferentialRule";
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(LOCATION)

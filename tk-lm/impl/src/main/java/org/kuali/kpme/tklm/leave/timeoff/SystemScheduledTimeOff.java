@@ -43,7 +43,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 
 	private static final long serialVersionUID = 6660625335629574993L;
 
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "SystemScheduledTimeOff";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "SystemScheduledTimeOff";
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> fields = new ImmutableList.Builder<String>()
              .add(EARN_CODE)             

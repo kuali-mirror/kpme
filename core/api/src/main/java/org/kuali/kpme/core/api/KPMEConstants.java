@@ -31,4 +31,10 @@ public class KPMEConstants {
     }
 
     public static final String BATCH_USER_PRINCIPAL_NAME = "kpme.batch.user.principalName";
+
+    public static final class Versions {
+        public static final String UNSPECIFIED = "unspecifiedVersion";
+
+        public static final String VERSION_2_1 = "v2_1";
+    }
 }

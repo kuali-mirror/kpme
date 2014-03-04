@@ -25,9 +25,12 @@ import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.kpme.core.api.util.jaxb.LocalTimeAdapter;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -93,12 +96,15 @@ public final class TimeBlock
     @XmlElement(name = Elements.HOURS, required = false)
     private final BigDecimal hours;
     @XmlElement(name = Elements.END_DATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime endDateTime;
     @XmlElement(name = Elements.CLOCK_LOG_CREATED, required = false)
     private final Boolean clockLogCreated;
     @XmlElement(name = Elements.BEGIN_DATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime beginDateTime;
     @XmlElement(name = Elements.END_TIME, required = false)
+    @XmlJavaTypeAdapter(LocalTimeAdapter.class)
     private final LocalTime endTime;
     @XmlElement(name = Elements.AMOUNT, required = false)
     private final BigDecimal amount;
@@ -111,6 +117,7 @@ public final class TimeBlock
     @XmlElement(name = Elements.PUSH_BACKWARD, required = false)
     private final Boolean pushBackward;
     @XmlElement(name = Elements.BEGIN_TIME_DISPLAY, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime beginTimeDisplay;
     @XmlElement(name = Elements.BEGIN_TIME_DISPLAY_DATE_ONLY_STRING, required = false)
     private final String beginTimeDisplayDateOnlyString;
@@ -121,6 +128,7 @@ public final class TimeBlock
     @XmlElement(name = Elements.END_TIME_DISPLAY_TIME_ONLY_STRING, required = false)
     private final String endTimeDisplayTimeOnlyString;
     @XmlElement(name = Elements.END_TIME_DISPLAY, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime endTimeDisplay;
     @XmlElement(name = Elements.CLOCK_LOG_BEGIN_ID, required = false)
     private final String clockLogBeginId;
@@ -145,8 +153,10 @@ public final class TimeBlock
     @XmlElement(name = Elements.HR_CALENDAR_BLOCK_ID, required = false)
     private final String hrCalendarBlockId;
     @XmlElement(name = Elements.BEGIN_TIME, required = false)
+    @XmlJavaTypeAdapter(LocalTimeAdapter.class)
     private final LocalTime beginTime;
     @XmlElement(name = Elements.CREATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime createTime;
     @XmlElement(name = Elements.WORK_AREA, required = false)
     private final Long workArea;
@@ -163,8 +173,10 @@ public final class TimeBlock
     @XmlElement(name = Elements.DOCUMENT_ID, required = false)
     private final String documentId;
     @XmlElement(name = Elements.LEAVE_DATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime leaveDateTime;
     @XmlElement(name = Elements.ACTION_DATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime actionDateTime;
     @XmlElement(name = Elements.CLOCK_ACTION, required = false)
     private final String clockAction;
@@ -1192,5 +1204,5 @@ public final class TimeBlock
 
     }
 
-    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "TimeBlock";
+    public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "TimeBlock";
 }

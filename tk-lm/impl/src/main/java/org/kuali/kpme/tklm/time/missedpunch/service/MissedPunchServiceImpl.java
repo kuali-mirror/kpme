@@ -258,7 +258,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 tdoc, tdoc.getPrincipalId()
         );
 
-        getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+        getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
     }
     
     public MissedPunchDao getMissedPunchDao() {

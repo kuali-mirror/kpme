@@ -22,10 +22,13 @@ import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -97,10 +100,12 @@ public final class AccrualCategory
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private final LocalDate effectiveLocalDate;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
     @XmlElement(name = Elements.CREATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime createTime;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;

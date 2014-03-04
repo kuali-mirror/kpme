@@ -31,4 +31,32 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+    <!--<properties>
+        <svc.timeblock.name>TimeBlockService</svc.timeblock.name>
+        <svc.timeblock.wsdl>${wsdl.dir}/${svc.timeblock.name}.wsdl</svc.timeblock.wsdl>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>timeblock-wsdl</id>
+                        <phase>${kpme.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService</className>
+                            <outputFile>${svc.timeblock.wsdl}</outputFile>
+                            <serviceName>TimeBlockService</serviceName>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>-->
+
 </project>

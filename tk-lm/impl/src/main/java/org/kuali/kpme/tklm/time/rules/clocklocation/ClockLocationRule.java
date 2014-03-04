@@ -43,7 +43,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 
 	private static final long serialVersionUID = 959554402289679184L;
 
-	public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "ClockLocationRule";
+	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "ClockLocationRule";
 	//KPME-2273/1965 Primary Business Keys List. 
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(DEPT)

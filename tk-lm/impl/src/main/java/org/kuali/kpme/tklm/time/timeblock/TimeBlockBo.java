@@ -53,7 +53,7 @@ import java.util.List;
 public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
 
     private static final long serialVersionUID = -4164042707879641855L;
-    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "TimeBlock";
+    public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "TimeBlock";
 
     private String tkTimeBlockId;
 
@@ -655,7 +655,8 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
     }
 
     public Boolean getEditable() {
-        return TkServiceLocator.getTimeBlockService().getTimeBlockEditable(this);
+        TimeBlock tb = to(this);
+        return TkServiceLocator.getTimeBlockService().getTimeBlockEditable(tb);
     }
 
     public String getPrincipalId() {

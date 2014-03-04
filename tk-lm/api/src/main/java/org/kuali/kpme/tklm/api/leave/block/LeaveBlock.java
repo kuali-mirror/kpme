@@ -18,26 +18,25 @@ package org.kuali.kpme.tklm.api.leave.block;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = LeaveBlock.Constants.ROOT_ELEMENT_NAME)
@@ -115,8 +114,6 @@ public final class LeaveBlock
     private final Long blockId;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
-    //@XmlElement(name = Elements.LEAVE_DATE, required = false)
-    //private final DateTime leaveDate;
     @XmlElement(name = Elements.ASSIGNMENT_TITLE, required = false)
     private final String assignmentTitle;
     @XmlElement(name = Elements.CALENDAR_ID, required = false)
@@ -125,10 +122,6 @@ public final class LeaveBlock
     private final String earnCodeDescription;
     @XmlElement(name = Elements.LEAVE_BLOCK_TYPE, required = false)
     private final String leaveBlockType;
-    //@XmlElement(name = Elements.EDITABLE, required = false)
-    //private final boolean editable;
-    //@XmlElement(name = Elements.DELETABLE, required = false)
-    //private final boolean deletable;
     @XmlElement(name = Elements.ASSIGNMENT_KEY, required = false)
     private final String assignmentKey;
     @XmlElement(name = Elements.DOCUMENT_STATUS, required = false)
@@ -140,8 +133,10 @@ public final class LeaveBlock
     @XmlElement(name = Elements.TRANSACTIONAL_DOC_ID, required = false)
     private final String transactionalDocId;
     @XmlElement(name = Elements.BEGIN_DATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime beginDateTime;
     @XmlElement(name = Elements.END_DATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime endDateTime;
     @XmlElement(name = Elements.LM_LEAVE_BLOCK_ID, required = false)
     private final String lmLeaveBlockId;
@@ -154,8 +149,10 @@ public final class LeaveBlock
     @XmlElement(name = Elements.ACCRUAL_GENERATED, required = false)
     private final Boolean accrualGenerated;
     @XmlElement(name = Elements.LEAVE_LOCAL_DATE, required = false)
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private final LocalDate leaveLocalDate;
     @XmlElement(name = Elements.LEAVE_DATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime leaveDateTime;
     @XmlElement(name = Elements.SCHEDULE_TIME_OFF_ID, required = false)
     private final String scheduleTimeOffId;
@@ -168,6 +165,7 @@ public final class LeaveBlock
     @XmlElement(name = Elements.HOURS, required = false)
     private final BigDecimal hours;
     @XmlElement(name = Elements.CREATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime createTime;
     @XmlElement(name = Elements.HR_CALENDAR_BLOCK_ID, required = false)
     private final String hrCalendarBlockId;
@@ -1231,7 +1229,7 @@ public final class LeaveBlock
         final static String LEAVE_DATE_TIME = "leaveDateTime";
     }
 
-    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "LeaveBlock";
+    public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "LeaveBlock";
 
 
 }

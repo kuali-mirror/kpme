@@ -22,7 +22,7 @@ import org.kuali.kpme.tklm.time.rules.TkRule;
 import com.google.common.collect.ImmutableMap;
 
 public class SystemLunchRule extends TkRule implements SystemLunchRuleContract {
-    public static final String CACHE_NAME = TkConstants.CacheNamespace.NAMESPACE_PREFIX + "SystemLunchRule";
+    public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "SystemLunchRule";
 	/**
 	 * 
 	 */

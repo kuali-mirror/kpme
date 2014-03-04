@@ -22,7 +22,7 @@
 
 <td class="content" valign="top">
     <mainChannel:workflow />
-    <mainChannel:rules />
+    <admin:krmsRules />
 </td>
 
 <td class="content" valign="top">

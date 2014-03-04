@@ -60,6 +60,8 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
@@ -77,7 +79,6 @@ import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
@@ -296,7 +297,7 @@ public class TimeDetailAction extends TimesheetAction {
             allMessages.get("actionMessages").addAll(transactionalMessages.get("actionMessages"));
            
             
-            LeaveSummary leaveSummary = null;
+            LeaveSummaryContract leaveSummary = null;
 			try {
 				leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
 			} catch (Exception e) {
@@ -322,7 +323,7 @@ public class TimeDetailAction extends TimesheetAction {
 					
 					// check for the negative Accrual balance for the category.
 					if(leaveSummary != null && leaveSummary.getLeaveSummaryRows().size() > 0) {
-						for(LeaveSummaryRow summaryRow : leaveSummary.getLeaveSummaryRows()) {
+						for(LeaveSummaryRowContract summaryRow : leaveSummary.getLeaveSummaryRows()) {
 							if(summaryRow.getLeaveBalance() != null && summaryRow.getLeaveBalance().compareTo(BigDecimal.ZERO) < 0) {
 								String message = "Negative available balance found for the accrual category '"+summaryRow.getAccrualCategory()+ "'.";
 			        			allMessages.get("warningMessages").add(message);
@@ -399,7 +400,7 @@ public class TimeDetailAction extends TimesheetAction {
         //reset time block
         newTimeBlocks = TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
         newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-        newTimeBlocks = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+        newTimeBlocks = TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
 
         generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
         
@@ -546,7 +547,7 @@ public class TimeDetailAction extends TimesheetAction {
             referenceTimeBlocks.add(TimeBlock.copy(tb));
         }
         newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-        newTimeBlocks = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+        newTimeBlocks = TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
         generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
 	}
 	
@@ -684,7 +685,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         tbs = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, tbs, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
 
-        tbs = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, tbs, HrContext.getPrincipalId());
+        tbs = TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, tbs, HrContext.getPrincipalId());
         
         generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
         tdaf.getTimesheetDocument().setTimeBlocks(tbs);
@@ -789,7 +790,7 @@ public class TimeDetailAction extends TimesheetAction {
         }
 		newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), principalId);
 		//should we validate time blocks altered by rules service before saving? i.o.w. disallow leave block changes that would otherwise invalidate certain time entries?
-		TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, principalId);
+		TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, newTimeBlocks, principalId);
    	 	generateTimesheetChangedNotification(principalId, targetPrincipalId, tdaf.getDocumentId());
 
     }
@@ -855,7 +856,7 @@ public class TimeDetailAction extends TimesheetAction {
 
             timeBlocks = TkServiceLocator.getTimesheetService().resetTimeBlock(timeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
         	timeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, timeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-            timeBlocks = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, timeBlocks, HrContext.getPrincipalId());
+            timeBlocks = TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, timeBlocks, HrContext.getPrincipalId());
 
             generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
         }
@@ -935,7 +936,7 @@ public class TimeDetailAction extends TimesheetAction {
           //reset time block
           newTimeBlocks = TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, tdaf.getTimesheetDocument().getAsOfDate());
           newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, leaveBlocks, tdaf.getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
-          newTimeBlocks = TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+          newTimeBlocks = TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
           generateTimesheetChangedNotification(principalId, targetPrincipalId, documentId);
       }
 

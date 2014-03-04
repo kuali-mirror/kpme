@@ -13,28 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.leave.summary.service;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+package org.kuali.kpme.tklm.api.leave.summary;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public interface LeaveSummaryService {
-	public LeaveSummary getLeaveSummary(String principalId, CalendarEntryContract calendarEntry) throws Exception;
+	public LeaveSummaryContract getLeaveSummary(String principalId, CalendarEntryContract calendarEntry) throws Exception;
 
 	public List<LocalDateTime> getLeaveSummaryDates(CalendarEntryContract cal);
 
-    public LeaveSummary getLeaveSummaryAsOfDate(String principalId, LocalDate asOfDate);
+    public LeaveSummaryContract getLeaveSummaryAsOfDate(String principalId, LocalDate asOfDate);
 
-    public LeaveSummary getLeaveSummaryAsOfDateForAccrualCategory(String principalId, LocalDate asOfDate, String accrualCategory);
+    public LeaveSummaryContract getLeaveSummaryAsOfDateForAccrualCategory(String principalId, LocalDate asOfDate, String accrualCategory);
 
-    public LeaveSummary getLeaveSummaryAsOfDateWithoutFuture(String principalId, LocalDate asOfDate);
+    public LeaveSummaryContract getLeaveSummaryAsOfDateWithoutFuture(String principalId, LocalDate asOfDate);
     
     
     public BigDecimal getLeaveBalanceForAccrCatUpToDate(String principalId, LocalDate startDate, LocalDate endDate, String accrualCategory, LocalDate usageEndDate);

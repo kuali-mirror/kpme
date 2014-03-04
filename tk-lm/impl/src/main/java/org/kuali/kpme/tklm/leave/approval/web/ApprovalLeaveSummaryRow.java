@@ -30,6 +30,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -66,13 +67,13 @@ public class ApprovalLeaveSummaryRow implements Serializable, ApprovalLeaveSumma
 	private Boolean exemptEmployee;
 	private String color;
 	private Map<String,List<Map<String, Object>>> detailMap = new LinkedHashMap<String, List<Map<String,Object>>>();
-	private LeaveSummary leaveSummary;
+	private LeaveSummaryContract leaveSummary;
 	
-    public LeaveSummary getLeaveSummary() {
+    public LeaveSummaryContract getLeaveSummary() {
 		return leaveSummary;
 	}
 
-	public void setLeaveSummary(LeaveSummary leaveSummary) {
+	public void setLeaveSummary(LeaveSummaryContract leaveSummary) {
 		this.leaveSummary = leaveSummary;
 	}
 
