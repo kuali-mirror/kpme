@@ -112,7 +112,7 @@
 			<bean parent="Uif-HorizontalRadioControl"/>
 		</property>
 		<property name="optionsFinder">
-			<bean class="org.kuali.kpme.core.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder" />
+			<bean class="org.kuali.kpme.core.earncode.security.valuesfinder.EarnCodeTypeKeyValueFinder" p:addBlankOption="false"/>
 		</property>
 		<property name="name" value="earnCodeType" />
 		<property name="label" value="Earn Code Type" />
@@ -176,7 +176,7 @@
 	<bean id="EarnCodeSecurity-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
 		<property name="headerText" value="Earn Code Security Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
-         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
+         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityLookupableImpl" />
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
@@ -242,7 +242,7 @@
 				<bean parent="Uif-DataField" p:propertyName="hrSalGroup" >
 					<property name="inquiry">
                     	<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
-                        	p:inquiryParameters="hrSalGroup:salGroup"/>
+                        	p:inquiryParameters="hrSalGroup:hrSalGroup"/>
                     </property>				
 				</bean>
 				<bean parent="Uif-DataField" p:propertyName="earnCode" >
@@ -300,7 +300,7 @@
                     			</property>
                     			<property name="inquiry">
                         			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
-                              			p:inquiryParameters="hrSalGroup:salGroup"/>
+                              			p:inquiryParameters="hrSalGroup:hrSalGroup"/>
                     			</property>
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="earnCode" p:required="true" >
