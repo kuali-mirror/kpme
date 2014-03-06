@@ -24,10 +24,12 @@ import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.web.TimeBlockRendererContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
@@ -124,5 +126,13 @@ public class TimeBlockRenderer implements TimeBlockRendererContract {
 
     public void setLunchLabelId(String lunchLabelId) {
         this.lunchLabelId = lunchLabelId;
+    }
+
+    public boolean isTimeBlockEditable() {
+        return TkServiceLocator.getTKPermissionService().canEditTimeBlock(HrContext.getPrincipalId(), timeBlock);
+    }
+
+    public boolean isDeletable() {
+        return TkServiceLocator.getTKPermissionService().canDeleteTimeBlock(HrContext.getPrincipalId(), timeBlock);
     }
 }

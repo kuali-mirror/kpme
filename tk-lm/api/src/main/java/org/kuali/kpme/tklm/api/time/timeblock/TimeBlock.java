@@ -502,6 +502,10 @@ public final class TimeBlock
         return clockedByMissedPunch;
     }
 
+    public Boolean getClockedByMissedPunch() {
+        return isClockedByMissedPunch();
+    }
+
     @Override
     public String getAssignmentValue() {
         return assignmentValue;
