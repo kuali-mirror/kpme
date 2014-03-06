@@ -20,7 +20,9 @@ public enum KPMERoleMemberAttribute {
 	WORK_AREA ("workArea"),
 	DEPARTMENT ("department"),
 	LOCATION ("location"),
-	POSITION ("position");
+	POSITION ("position"),
+	INSTITUION ("institution"),
+	ORGANIZATION ("organization");
 	
 	private String roleMemberAttributeName;
 	

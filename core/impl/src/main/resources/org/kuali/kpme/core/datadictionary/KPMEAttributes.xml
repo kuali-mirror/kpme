@@ -46,6 +46,9 @@
                 <ref bean="KpmeAttributes-department"/>
                 <ref bean="KpmeAttributes-location"/>
                 <ref bean="KpmeAttributes-position"/>
+                <ref bean="KpmeAttributes-institution"/>
+                <ref bean="KpmeAttributes-organization"/>
+                <ref bean="KpmeAttributes-positionType"/>
             </list>
         </property>
     </bean>
@@ -55,5 +58,22 @@
     <bean id="KpmeAttributes-department" parent="Department-dept" p:name="department"/>
     <bean id="KpmeAttributes-location" parent="Location-location" p:name="location"/>
     <bean id="KpmeAttributes-position" parent="PositionBase-positionNumber" p:name="position"/>
+    <bean id="KpmeAttributes-institution" parent="Institution-institutionCode" p:name="institution"/>
+    <bean id="KpmeAttributes-organization" parent="Organization-chartOfAccountsCode" p:name="organization"/>
+    <!-- 
+    <bean id="KpmeAttributes-positionType" parent="PositionType-positionType" p:name="positionType"/>   -->
+    
+    <bean id="KpmeAttributes-positionType" parent="KpmeAttributes-positionType-parentBean" />
+    <bean id="KpmeAttributes-positionType-parentBean" abstract="true" parent="AttributeDefinition">
+       <property name="required" value="true" />
+       <property name="maxLength" value="50"/>
+       <property name="shortLabel" value="Position Type" />
+       <property name="controlField">
+          <bean parent="Uif-TextControl" p:size="50" />
+       </property>
+       <property name="name" value="positionType" />
+       <property name="label" value="PositionType" />
+       <property name="description" value="Position Type" />
+    </bean>           
 
 </beans>

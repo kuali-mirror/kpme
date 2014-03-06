@@ -13,28 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.api.namespace;
+package org.kuali.kpme.core.location.service;
 
-public enum KPMENamespace {
-	
-	KPME_WKFLW ("KPME-WKFLW"),
-	KPME_HR ("KPME-HR"),
-	KPME_TK ("KPME-TK"),
-	KPME_LM ("KPME-LM"),
-	KPME_PM ("KPME-PM");
-	
-	private String namespaceCode;
-	
-	private KPMENamespace(String namespaceCode) {
-		this.namespaceCode = namespaceCode;
-	}
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
-	public String getNamespaceCode() {
-		return namespaceCode;
-	}
-
-	public void setNamespaceCode(String namespaceCode) {
-		this.namespaceCode = namespaceCode;
-	}
+@SuppressWarnings("deprecation")
+public class LocationPositionTypeRoleTypeServiceImpl extends RoleTypeServiceBase {
 
 }

@@ -403,6 +403,30 @@
           p:callbackService-ref="positionDerivedRoleTypeService"
           p:localServiceName="positionDerivedRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+          
+    <bean id="institutionRoleTypeService" class="org.kuali.kpme.core.institution.service.InstitutionRoleTypeServiceImpl" />
+    <bean id="institutionRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="institutionRoleTypeService"
+          p:localServiceName="institutionRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+          
+    <bean id="organizationRoleTypeService" class="org.kuali.kpme.core.kfs.coa.businessobject.service.OrganizationRoleTypeServiceImpl" />
+    <bean id="organizationRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="organizationRoleTypeService"
+          p:localServiceName="organizationRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+             
+    <bean id="institutionPositionTypeRoleTypeService" class="org.kuali.kpme.core.institution.service.InstitutionPositionTypeRoleTypeServiceImpl" />
+    <bean id="institutionPositionTypeRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="institutionPositionTypeRoleTypeService"
+          p:localServiceName="institutionPositionTypeRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+          
+    <bean id="locationPositionTypeRoleTypeService" class="org.kuali.kpme.core.location.service.LocationPositionTypeRoleTypeServiceImpl" />
+    <bean id="locationPositionTypeRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="locationPositionTypeRoleTypeService"
+          p:localServiceName="locationPositionTypeRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
 
     <bean id="documentTypeAndMaintenanceActionService" class="org.kuali.kpme.core.permission.service.DocumentTypeAndMaintenanceActionServiceImpl" />
 
