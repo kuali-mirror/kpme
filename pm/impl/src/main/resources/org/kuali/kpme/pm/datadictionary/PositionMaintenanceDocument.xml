@@ -88,19 +88,19 @@
 				<bean parent="Uif-NavigationActionLink" id="Pos-Department-Actionlink"
 					p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Qualification-Actionlink"
-					p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications" />
+					p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications" p:render="@{#dp.displayQualifications}"/>
 				<bean parent="Uif-NavigationActionLink" id="Pos-Duty-Actionlink"
-					p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" />
+					p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" p:render="@{#dp.displayDuties}"/>
 				<bean parent="Uif-NavigationActionLink" id="Pos-Flag-Actionlink"
-					p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" />
+					p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" p:render="@{#dp.displayFlags}" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Responsibility-Actionlink"
-					p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility" />
+					p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility" p:render="@{#dp.displayResponsibility}" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-Funding-Actionlink"
-					p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding" />
+					p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding"  p:render="@{#dp.displayFunding}" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-NoteAttachment-Actionlink"
 					p:navigateToPageId="Pos-NoteAttachmentPage" p:actionLabel="Notes @{#DocumentEntry.allowsNoteAttachments ? 'and Attachments' : ''} (@{document.notes.size()})" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-AdHoc-Actionlink"
-					p:navigateToPageId="Pos-AdHocPage" p:actionLabel="Ad Hoc Recipients" />
+					p:navigateToPageId="Pos-AdHocPage" p:actionLabel="Ad Hoc Recipients" p:render="@{#dp.displayAdHocRecipients}" />
 				<bean parent="Uif-NavigationActionLink" id="Pos-RouteLog-Actionlink"
 					p:navigateToPageId="Pos-RouteLogPage" p:actionLabel="Route Log" />
 			</list>
@@ -404,7 +404,7 @@
 		<property name="items">
 			<list>
 				<ref bean="Pos-ClassificationPage-Widgets" />
-				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments"/>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments" />
 			</list>
 		</property>
 	</bean>
@@ -606,7 +606,12 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications"/>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayQualifications ? 'Pos-QualificationPage' : 
+				(#dp.displayDuties ? 'Pos-DutyPage' : (#dp.displayFlags ? 'Pos-FlagPage' : (#dp.displayResponsibility ? 'Pos-ResponsibilityPage' :
+				 (#dp.displayFunding ? 'Pos-FundingPage' : 'Pos-OverviewPage'))))}"  
+				p:actionLabel="@{#dp.displayQualifications ? 'Qualifications' : 
+				(#dp.displayDuties ? 'Duties' : (#dp.displayFlags ? 'Position Flags' : (#dp.displayResponsibility ? 'Responsibility' :
+				 (#dp.displayFunding ? 'Funding' : 'Back to Overview'))))}"/>
 			</list>
 		</property>
 	</bean>
@@ -629,7 +634,10 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties"/>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayDuties ? 'Pos-DutyPage' : (#dp.displayFlags ? 'Pos-FlagPage' : (#dp.displayResponsibility ? 'Pos-ResponsibilityPage' :
+				 (#dp.displayFunding ? 'Pos-FundingPage' : 'Pos-OverviewPage')))}" 
+				  p:actionLabel="@{#dp.displayDuties ? 'Duties' : (#dp.displayFlags ? 'Position Flags' : (#dp.displayResponsibility ? 'Responsibility' :
+				 (#dp.displayFunding ? 'Funding' : 'Back to Overview')))}"/>
 			</list>
 		</property>
 	</bean>
@@ -645,7 +653,10 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags"/>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayFlags ? 'Pos-FlagPage' : (#dp.displayResponsibility ? 'Pos-ResponsibilityPage' :
+				 (#dp.displayFunding ? 'Pos-FundingPage' : 'Pos-OverviewPage'))}" 
+				  p:actionLabel="@{#dp.displayFlags ? 'Position Flags' : (#dp.displayResponsibility ? 'Responsibility' :
+				 (#dp.displayFunding ? 'Funding' : 'Back to Overview'))}" />
 			</list>
 		</property>
 	</bean>
@@ -661,7 +672,10 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility"/>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayResponsibility ? 'Pos-ResponsibilityPage' :
+				 (#dp.displayFunding ? 'Pos-FundingPage' : 'Pos-OverviewPage')}" 
+				  p:actionLabel="@{#dp.displayResponsibility ? 'Responsibility' :
+				 (#dp.displayFunding ? 'Funding' : 'Back to Overview')}" />
 			</list>
 		</property>
 	</bean>
@@ -677,7 +691,8 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="PositionNavigationButton" p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding"/>
+				<bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayFunding ? 'Pos-FundingPage' : 'Pos-OverviewPage'}" 
+				  p:actionLabel="@{#dp.displayFunding ? 'Funding' : 'Back to Overview'}" />
 			</list>
 		</property>
 	</bean>

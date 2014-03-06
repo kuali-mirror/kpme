@@ -35,6 +35,7 @@ import org.kuali.kpme.pm.position.funding.PositionFunding;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import com.google.common.collect.ImmutableList;
 
@@ -92,7 +93,13 @@ public class Position extends PositionBase implements PositionContract {
     private String reportsToWorkingTitle; // KPME-3269
     
     private List<ClassificationQualification> requiredQualList = new ArrayList<ClassificationQualification>(); 	// read only required qualifications that comes from assiciated Classification
-
+    private transient boolean displayQualifications;
+    private transient boolean displayDuties;
+    private transient boolean displayFlags;
+    private transient boolean displayResponsibility;
+    private transient boolean displayFunding;
+    private transient boolean displayAdHocRecipients;
+   
     public List<PositionDuty> getDutyList() {
     	if(CollectionUtils.isEmpty(dutyList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
     		List<? extends ClassificationDutyContract> aList = PmServiceLocator.getClassificationDutyService().getDutyListForClassification(this.getPmPositionClassId());
@@ -461,4 +468,77 @@ public class Position extends PositionBase implements PositionContract {
 	public void setReportsToWorkingTitle(String reportsToWorkingTitle) {
 		this.reportsToWorkingTitle = reportsToWorkingTitle;
 	}
+
+	public boolean isDisplayQualifications() {
+		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.qualifications");
+    	if(StringUtils.equals(status, "true")) {
+    		displayQualifications = true;
+    	} 
+    	return displayQualifications;
+	}
+
+	public void setDisplayQualifications(boolean displayQualifications) {
+		this.displayQualifications = displayQualifications;
+	}
+
+	public boolean isDisplayDuties() {
+		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.duties");
+    	if(StringUtils.equals(status, "true")) {
+    		displayDuties = true;
+    	} 
+    	return displayDuties;
+	}
+
+	public void setDisplayDuties(boolean displayDuties) {
+		this.displayDuties = displayDuties;
+	}
+
+	public boolean isDisplayFlags() {
+		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.flags");
+    	if(StringUtils.equals(status, "true")) {
+    		displayFlags = true;
+    	} 
+    	return displayFlags;
+	}
+
+	public void setDisplayFlags(boolean displayFlags) {
+		this.displayFlags = displayFlags;
+	}
+
+	public boolean isDisplayResponsibility() {
+		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.responsibility");
+    	if(StringUtils.equals(status, "true")) {
+    		displayResponsibility = true;
+    	}
+    	return displayResponsibility;
+	}
+
+	public void setDisplayResponsibility(boolean displayResponsibility) {
+		this.displayResponsibility = displayResponsibility;
+	}
+
+	public boolean isDisplayFunding() {
+		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.funding");
+    	if(StringUtils.equals(status, "true")) {
+    		displayFunding = true;
+    	} 
+    	return displayFunding;
+	}
+
+	public void setDisplayFunding(boolean displayFunding) {
+		this.displayFunding = displayFunding;
+	}
+
+	public boolean isDisplayAdHocRecipients() {
+		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.adhocrecipients");
+    	if(StringUtils.equals(status, "true")) {
+    		displayAdHocRecipients = true;
+    	}
+    	return displayAdHocRecipients;
+	}
+
+	public void setDisplayAdHocRecipients(boolean displayAdHocRecipients) {
+		this.displayAdHocRecipients = displayAdHocRecipients;
+	}
+
 }

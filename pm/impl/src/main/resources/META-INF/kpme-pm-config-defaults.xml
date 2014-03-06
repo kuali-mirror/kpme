@@ -17,5 +17,10 @@
 -->
 <config>
     <param name="kpme.pm.ehcache.config.location" override="false">classpath:kpme.pm.ehcache.xml</param>
-	
+	<param name="kpme.pm.position.display.qualifications">true</param>
+	<param name="kpme.pm.position.display.duties">true</param>
+	<param name="kpme.pm.position.display.flags">true</param>
+	<param name="kpme.pm.position.display.responsibility">true</param>
+	<param name="kpme.pm.position.display.funding">true</param>
+	<param name="kpme.pm.position.display.adhocrecipients">true</param>
 </config>
