@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.api.leaveplan.service;
+package org.kuali.kpme.core.api.leaveplan;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -31,28 +32,28 @@ public interface LeavePlanService {
      * @return
      */
     @Cacheable(value= LeavePlanContract.CACHE_NAME, key="'lmLeavePlanId=' + #p0")
-    public LeavePlanContract getLeavePlan(String lmLeavePlanId);
+    public LeavePlan getLeavePlan(String lmLeavePlanId);
 
     @Cacheable(value= LeavePlanContract.CACHE_NAME, key="'leavePlan=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public LeavePlanContract getLeavePlan(String leavePlan, LocalDate asOfDate);
+    public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate);
     
     @Cacheable(value= LeavePlanContract.CACHE_NAME, key="'leavePlans=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
-    public List<? extends LeavePlanContract> getLeavePlans(List<String> leavePlan, LocalDate asOfDate);
+    public List<LeavePlan> getLeavePlans(List<String> leavePlan, LocalDate asOfDate);
 
     public boolean isValidLeavePlan(String leavePlan);
     
-    public List<? extends LeavePlanContract> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate);
+    public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate);
     
-    public List<? extends LeavePlanContract> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate);
+    public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate);
 
-    List<? extends LeavePlanContract> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths,
+    List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths,
                                   LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
     boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate);
     
     boolean isLastCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate);
     
-    public List<? extends LeavePlanContract> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, LocalDate asOfDate);
+    public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, LocalDate asOfDate);
 
     @Cacheable(value= LeavePlanContract.CACHE_NAME, key="'{getFirstDayOfLeavePlan}' + 'leavePlan=' + #p0 + '|' + 'date=' + #p1")
     public DateTime getFirstDayOfLeavePlan(String leavePlan, LocalDate date);

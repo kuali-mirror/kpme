@@ -834,7 +834,7 @@
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="primaryDepartment" >
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               p:fieldConversions="dept:primaryDepartment" />
                     </property>
                 </bean>
@@ -876,7 +876,7 @@
 				<bean parent="Uif-DataField" p:propertyName="location" />
 				<bean parent="Uif-DataField" p:propertyName="primaryDepartment">
 					<property name="inquiry">
-						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
 							p:inquiryParameters="primaryDepartment:dept,location:location,effectiveDate:effectiveDate" />
 					</property>
 				</bean>
@@ -1218,7 +1218,7 @@
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="department">
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
 							p:fieldConversions="dept:department"
                             p:lookupParameters="location:location" />
 					</property>

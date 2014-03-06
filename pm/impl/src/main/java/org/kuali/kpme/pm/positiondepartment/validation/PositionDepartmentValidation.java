@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.positiondepartment.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -71,7 +72,7 @@ public class PositionDepartmentValidation extends MaintenanceDocumentRuleBase  {
 					+ positionDepartment.getDepartment() + "'");
 			return false;
 		}
-		DepartmentContract dep = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(positionDepartment.getDepartment(), positionDepartment.getEffectiveLocalDate());
+		Department dep = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(), positionDepartment.getEffectiveLocalDate());
 		if(dep == null ) {
 			this.putFieldError("department", "error.existence", "Department '"
 					+ positionDepartment.getDepartment() + "'");

@@ -48,11 +48,12 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -70,8 +71,6 @@ import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.kpme.tklm.time.calendar.TkCalendar;
@@ -203,7 +202,7 @@ public class TimeDetailAction extends TimesheetAction {
 
     // use lists of time blocks and leave blocks to build the style class map and assign css class to associated summary rows
 	private void assignStypeClassMapForTimeSummary(TimeDetailActionForm tdaf, List<? extends TimeBlockContract> timeBlocks, List<? extends LeaveBlockContract> leaveBlocks) throws Exception {
-		TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument());
+		TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument());
         tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(timeBlocks, leaveBlocks));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
         // set css classes for each assignment row
@@ -431,7 +430,7 @@ public class TimeDetailAction extends TimesheetAction {
         }
         
         if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
-        	EarnCode ec = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
+        	EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
         	if(ec != null && (ec.getLeavePlan() != null || (ec.getEligibleForAccrual().equals("N") && ec.getAccrualBalanceAction().equals("U")) )) {
         		//leave blocks changes
             	List<String> errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
@@ -752,7 +751,7 @@ public class TimeDetailAction extends TimesheetAction {
 			endDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
             builder.setLeaveDateTime(beginDate);
             
-            EarnCode earnCode =  (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveLocalDate()); // selectedEarnCode = hrEarnCodeId
+            EarnCode earnCode =  HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveLocalDate()); // selectedEarnCode = hrEarnCodeId
             if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
             	if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
         			beginDate = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getStartDate(), tdaf.getStartTime());
@@ -766,7 +765,7 @@ public class TimeDetailAction extends TimesheetAction {
             	builder.setLeaveAmount(TKUtils.getHoursBetween(beginDate.getMillis(), endDate.getMillis()));
             }
             
-            if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
+            if (earnCode != null && !StringUtils.equals(updatedLeaveBlock.getEarnCode(), earnCode.getEarnCode())) {
                 builder.setEarnCode(earnCode.getEarnCode());
             }
             

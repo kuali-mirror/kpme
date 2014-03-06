@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.Interval;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.tklm.api.leave.accrual.RateRangeContract;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;

@@ -28,9 +28,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
@@ -185,7 +185,7 @@ public class HrConstants {
 		Set<String> keys = new HashSet<String>();
 		keys.add("leavePlan");
 		keys.add("effectiveDate");
-		CLASS_INQUIRY_KEY_MAP.put(LeavePlan.class.getName(), keys);
+		CLASS_INQUIRY_KEY_MAP.put(LeavePlanBo.class.getName(), keys);
 
 		keys = new HashSet<String>();
 		keys.add("accrualCategory");
@@ -195,7 +195,7 @@ public class HrConstants {
 		keys = new HashSet<String>();
 		keys.add("earnCode");
 		keys.add("effectiveDate");
-		CLASS_INQUIRY_KEY_MAP.put(EarnCode.class.getName(), keys);
+		CLASS_INQUIRY_KEY_MAP.put(EarnCodeBo.class.getName(), keys);
 	}
 
 	public static final Map<String, String> EARN_CODE_SECURITY_TYPE = new HashMap<String, String>();

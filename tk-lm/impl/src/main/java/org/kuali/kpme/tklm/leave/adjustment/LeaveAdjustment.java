@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.adjustment.LeaveAdjustmentContract;
@@ -50,7 +50,7 @@ public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustment
 	private BigDecimal adjustmentAmount = new BigDecimal("0.0");
     private transient Person principal;
 	private transient AccrualCategoryBo accrualCategoryObj;
-	private transient EarnCode earnCodeObj;
+	private transient EarnCodeBo earnCodeObj;
 	private transient PrincipalHRAttributes principalHRAttrObj;
 	
 	
@@ -71,10 +71,10 @@ public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustment
 	public void setEarnCode(String earnCode) {
 		this.earnCode = earnCode;
 	}
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 	public String getPrincipalId() {

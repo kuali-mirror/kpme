@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.rules.clocklocation.authorization;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -41,7 +42,7 @@ public class ClockLocationRuleAuthorizer extends KPMEMaintenanceDocumentAuthoriz
 			if (clockLocationRuleObj != null) {
 				department = clockLocationRuleObj.getDept();
 				
-				DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, clockLocationRuleObj.getEffectiveLocalDate());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

@@ -19,10 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -33,13 +35,18 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class LeavePlanLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 3382815973444543931L;
-
+    private static final ModelObjectUtils.Transformer<LeavePlan, LeavePlanBo> toLeavePlanBo =
+            new ModelObjectUtils.Transformer<LeavePlan, LeavePlanBo>() {
+                public LeavePlanBo transform(LeavePlan input) {
+                    return LeavePlanBo.from(input);
+                };
+            };
 	@Override
 	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 			
-		LeavePlan leavePlan = (LeavePlan) businessObject;
+		LeavePlanBo leavePlan = (LeavePlanBo) businessObject;
 		String lmLeavePlanId = leavePlan.getLmLeavePlanId();
 		
 		Properties params = new Properties();
@@ -65,8 +72,8 @@ public class LeavePlanLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHistory = fieldValues.get("history");
 
-        return HrServiceLocator.getLeavePlanService().getLeavePlans(leavePlan, calendarYearStart, descr, planningMonths, TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active, showHistory);
+        return ModelObjectUtils.transform(HrServiceLocator.getLeavePlanService().getLeavePlans(leavePlan, calendarYearStart, descr, planningMonths, TKUtils.formatDateString(fromEffdt),
+                TKUtils.formatDateString(toEffdt), active, showHistory), toLeavePlanBo);
     }
     
 }

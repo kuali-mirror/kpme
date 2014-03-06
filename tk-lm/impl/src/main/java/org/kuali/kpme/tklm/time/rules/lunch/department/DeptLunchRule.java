@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.rules.lunch.department;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.rules.lunch.department.DeptLunchRuleContract;
@@ -60,7 +60,7 @@ public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleCont
     private String hrJobId;
 
     private transient WorkArea workAreaObj;
-    private transient Department departmentObj;
+    private transient DepartmentBo departmentObj;
     private transient Job job;
 	private transient Person principal;
 	
@@ -105,12 +105,12 @@ public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleCont
 	}
 
 
-	public Department getDepartmentObj() {
+	public DepartmentBo getDepartmentObj() {
 		return departmentObj;
 	}
 
 
-	public void setDepartmentObj(Department departmentObj) {
+	public void setDepartmentObj(DepartmentBo departmentObj) {
 		this.departmentObj = departmentObj;
 	}
 

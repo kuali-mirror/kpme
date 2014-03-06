@@ -21,7 +21,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocatorInternal;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 
@@ -30,10 +32,10 @@ public class DepartmentInquirableKradImpl extends InquirableImpl {
     @Override
     @SuppressWarnings("rawtypes")
     public DepartmentContract retrieveDataObject(Map fieldValues) {
-    	DepartmentContract departmentObj = null;
+    	DepartmentBo departmentObj = null;
 
         if (StringUtils.isNotBlank((String) fieldValues.get("hrDeptId"))) {
-            departmentObj = HrServiceLocator.getDepartmentService().getDepartment((String) fieldValues.get("hrDeptId"));
+            departmentObj = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData((String) fieldValues.get("hrDeptId"));
         } else if (fieldValues.containsKey("dept") && fieldValues.containsKey("effectiveDate")) {
             String department = (String) fieldValues.get("dept");
             String effDate = (String) fieldValues.get("effectiveDate");
@@ -41,12 +43,12 @@ public class DepartmentInquirableKradImpl extends InquirableImpl {
             
             if (fieldValues.containsKey("location")) {
             	String location = (String) fieldValues.get("location");
-            	departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, location, effectiveDate);
+            	departmentObj =HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(department, location, effectiveDate);
             } else {
-            	departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, effectiveDate);	
+            	departmentObj = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(department, effectiveDate);
             }
         } else {
-            departmentObj = (DepartmentContract) super.retrieveDataObject(fieldValues);
+            departmentObj = (DepartmentBo) super.retrieveDataObject(fieldValues);
         }
 
         return departmentObj;

@@ -28,38 +28,38 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeavePlanDaoOjbImpl extends PlatformAwareDaoBaseOjb implements LeavePlanDao {
    
 	@Override
-	public LeavePlan getLeavePlan(String lmLeavePlanId) {
+	public LeavePlanBo getLeavePlan(String lmLeavePlanId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("lmLeavePlanId", lmLeavePlanId);
-		Query query = QueryFactory.newQuery(LeavePlan.class, crit);
-		return (LeavePlan) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(LeavePlanBo.class, crit);
+		return (LeavePlanBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 
     @Override
-    public List<LeavePlan> getLeavePlans(List<String> leavePlan, LocalDate asOfDate) {
-        LeavePlan lp = null;
+    public List<LeavePlanBo> getLeavePlans(List<String> leavePlan, LocalDate asOfDate) {
+        LeavePlanBo lp = null;
 
         Criteria root = new Criteria();
         root.addIn("leavePlan", leavePlan);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlan.class, asOfDate, LeavePlan.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, LeavePlan.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlanBo.class, asOfDate, LeavePlanBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlanBo.class, LeavePlanBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(LeavePlan.class, root);
+        Query query = QueryFactory.newQuery(LeavePlanBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
-        List<LeavePlan> lps = new LinkedList<LeavePlan>();
+        List<LeavePlanBo> lps = new LinkedList<LeavePlanBo>();
         if (c != null) {
             lps.addAll(c);
         }
@@ -67,24 +67,24 @@ public class LeavePlanDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Leav
     }
 
 	@Override
-	public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate) {
-		LeavePlan lp = null;
+	public LeavePlanBo getLeavePlan(String leavePlan, LocalDate asOfDate) {
+		LeavePlanBo lp = null;
 
 		Criteria root = new Criteria();
 		root.addEqualTo("leavePlan", leavePlan);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlan.class, asOfDate, LeavePlan.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, LeavePlan.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlanBo.class, asOfDate, LeavePlanBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlanBo.class, LeavePlanBo.BUSINESS_KEYS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 		
 		
-		Query query = QueryFactory.newQuery(LeavePlan.class, root);
+		Query query = QueryFactory.newQuery(LeavePlanBo.class, root);
 		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
 		if (obj != null) {
-			lp = (LeavePlan) obj;
+			lp = (LeavePlanBo) obj;
 		}
 
 		return lp;
@@ -94,21 +94,21 @@ public class LeavePlanDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Leav
 	public int getNumberLeavePlan(String leavePlan) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("leavePlan", leavePlan);
-		Query query = QueryFactory.newQuery(LeavePlan.class, crit);
+		Query query = QueryFactory.newQuery(LeavePlanBo.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 	
 	@Override
-	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
+	public List<LeavePlanBo> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("leavePlan", leavePlan);
         root.addEqualTo("active", true);
         root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
 
-        Query query = QueryFactory.newQuery(LeavePlan.class, root);
+        Query query = QueryFactory.newQuery(LeavePlanBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         
-        List<LeavePlan> lps = new LinkedList<LeavePlan>();
+        List<LeavePlanBo> lps = new LinkedList<LeavePlanBo>();
         if (c != null) {
         	lps.addAll(c);
         }
@@ -117,16 +117,16 @@ public class LeavePlanDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Leav
 	}
 	
 	@Override
-	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
+	public List<LeavePlanBo> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("leavePlan", leavePlan);
         root.addEqualTo("active", false);
         root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
         
-        Query query = QueryFactory.newQuery(LeavePlan.class, root);
+        Query query = QueryFactory.newQuery(LeavePlanBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         
-        List<LeavePlan> lps = new LinkedList<LeavePlan>();
+        List<LeavePlanBo> lps = new LinkedList<LeavePlanBo>();
         if (c != null) {
         	lps.addAll(c);
         }
@@ -135,10 +135,10 @@ public class LeavePlanDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Leav
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, LocalDate fromEffdt, LocalDate toEffdt, 
+    public List<LeavePlanBo> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, LocalDate fromEffdt, LocalDate toEffdt,
     									 String active, String showHistory) {
 
-        List<LeavePlan> results = new ArrayList<LeavePlan>();
+        List<LeavePlanBo> results = new ArrayList<LeavePlanBo>();
         
     	Criteria root = new Criteria();
 
@@ -181,18 +181,18 @@ public class LeavePlanDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Leav
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeavePlan.class, effectiveDateFilter, LeavePlan.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, LeavePlan.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeavePlanBo.class, effectiveDateFilter, LeavePlanBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlanBo.class, LeavePlanBo.BUSINESS_KEYS, false));
         }
 
-        Query query = QueryFactory.newQuery(LeavePlan.class, root);
+        Query query = QueryFactory.newQuery(LeavePlanBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
     }
 
 	@Override
-	public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays,
+	public List<LeavePlanBo> getLeavePlansNeedsScheduled(int thresholdDays,
 			LocalDate asOfDate) {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("MM/dd");
         DateTime current = asOfDate.toDateTimeAtStartOfDay();
@@ -218,10 +218,10 @@ public class LeavePlanDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Leav
 
         root.addEqualTo("active", true);
 
-        Query query = QueryFactory.newQuery(LeavePlan.class, root);
+        Query query = QueryFactory.newQuery(LeavePlanBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
-        List<LeavePlan> leavePlans = new ArrayList<LeavePlan>(c.size());
+        List<LeavePlanBo> leavePlans = new ArrayList<LeavePlanBo>(c.size());
         leavePlans.addAll(c);
 
         return leavePlans;

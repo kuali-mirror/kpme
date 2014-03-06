@@ -24,7 +24,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KPMEAction;
@@ -56,7 +57,7 @@ public class CalculateLeaveAccrualsAction extends KPMEAction {
         		}
     		}	
     	} else if(StringUtils.isNotBlank(calculateLeaveAccrualsForm.getLeavePlanId())) {
-    		LeavePlan aLeavePlan = (LeavePlan) HrServiceLocator.getLeavePlanService().getLeavePlan(calculateLeaveAccrualsForm.getLeavePlanId());
+    		LeavePlan aLeavePlan = HrServiceLocator.getLeavePlanService().getLeavePlan(calculateLeaveAccrualsForm.getLeavePlanId());
     		if (aLeavePlan != null) {
         		if (StringUtils.isNotBlank(calculateLeaveAccrualsForm.getStartDate()) && StringUtils.isNotBlank(calculateLeaveAccrualsForm.getEndDate())) {
         			DateTime startDate = TKUtils.formatDateTimeString(calculateLeaveAccrualsForm.getStartDate());

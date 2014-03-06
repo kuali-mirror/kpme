@@ -17,13 +17,12 @@ package org.kuali.kpme.pm.positiondepartment;
 
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.ImmutableList;
@@ -49,7 +48,7 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
     private String hrPositionId;
 	private Location locationObj;
 	private Institution institutionObj;
-	private Department departmentObj;
+	private DepartmentBo departmentObj;
 	private DepartmentAffiliation deptAfflObj;
 
 	@Override
@@ -214,14 +213,14 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	/**
 	 * @return the departmentObj
 	 */
-	public Department getDepartmentObj() {
+	public DepartmentBo getDepartmentObj() {
 		return departmentObj;
 	}
 
 	/**
 	 * @param departmentObj the departmentObj to set
 	 */
-	public void setDepartmentObj(Department departmentObj) {
+	public void setDepartmentObj(DepartmentBo departmentObj) {
 		this.departmentObj = departmentObj;
 	}
 

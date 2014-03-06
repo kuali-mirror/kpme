@@ -680,7 +680,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
     */
     public String getActualBeginTimeString() {
         if (this.getClockLogBeginId() != null) {
-        	 DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
+        	 DateTimeZone dtz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         	 if (getOvernightTimeClockLog(clockLogBeginId)) {
                  return getBeginDateTime().withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
              } else {
@@ -695,7 +695,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
 
     public String getActualEndTimeString() {
         if (this.getClockLogEndId() != null) {
-        	DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
+        	DateTimeZone dtz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
             if (getOvernightTimeClockLog(clockLogEndId)) {
                 return getEndDateTime().withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
             } else {

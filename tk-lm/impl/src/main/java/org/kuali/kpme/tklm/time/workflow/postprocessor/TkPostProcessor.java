@@ -23,9 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -35,8 +36,6 @@ import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
@@ -87,8 +86,8 @@ public class TkPostProcessor extends DefaultPostProcessor {
 					EarnCode overtimeEarnCode = null;
 					BigDecimal leaveAmount = null;
 					for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
-						EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(),  endDate.toLocalDate());
-						if (earnCode != null && earnCode.getOvtEarnCode()) {
+						EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(),  endDate.toLocalDate());
+						if (earnCode != null && earnCode.isOvtEarnCode()) {
 							overtimeEarnCode = earnCode;
 							leaveAmount = timeHourDetail.getHours();
 							//What if [can] the units are [be] days?

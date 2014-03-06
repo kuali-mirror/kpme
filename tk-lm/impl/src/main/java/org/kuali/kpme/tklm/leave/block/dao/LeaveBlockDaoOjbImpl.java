@@ -31,7 +31,7 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -292,7 +292,7 @@ public class LeaveBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Lea
         Criteria earnCode = new Criteria();
         earnCode.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
         earnCode.addEqualTo("fmla", "Y");
-        ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnCode.class, earnCode);
+        ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnCodeBo.class, earnCode);
         root.addEqualTo("earnCode", earnCodeSubQuery);
         
         //root.add

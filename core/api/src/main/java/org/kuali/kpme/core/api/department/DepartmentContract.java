@@ -21,14 +21,20 @@ import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.kfs.coa.businessobject.ChartContract;
 import org.kuali.kpme.core.api.kfs.coa.businessobject.OrganizationContract;
 import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.mo.Effective;
+import org.kuali.kpme.core.api.mo.UserModified;
 import org.kuali.kpme.core.api.role.department.DepartmentPrincipalRoleMemberBoContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
+import org.kuali.rice.core.api.mo.common.GloballyUnique;
+import org.kuali.rice.core.api.mo.common.Identifiable;
+import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>DepartmentContract interface.</p>
  *
  */
-public interface DepartmentContract extends HrBusinessObjectContract {
+public interface DepartmentContract extends Versioned, GloballyUnique, Inactivatable, Identifiable, Effective, UserModified {
 
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Department";
 	
@@ -75,6 +81,17 @@ public interface DepartmentContract extends HrBusinessObjectContract {
 	 * @return location for Department
 	 */
 	public String getLocation();
+
+    /**
+     * The name of the Institution object associated with this Department
+     *
+     * <p>
+     * institution of Department
+     * <p>
+     *
+     * @return institution for Department
+     */
+    public String getInstitution();
 	 
     /**
 	 * Chart value under which the Department is defined
@@ -107,7 +124,7 @@ public interface DepartmentContract extends HrBusinessObjectContract {
 	 * 
 	 * @return locationObj for Department
 	 */
-	public LocationContract getLocationObj();
+	//public LocationContract getLocationObj();
 	 
     /**
 	 * Chart object under which the Department is defined
@@ -118,7 +135,7 @@ public interface DepartmentContract extends HrBusinessObjectContract {
 	 * 
 	 * @return chartObj for Department
 	 */
-	public ChartContract getChartObj();
+	//public ChartContract getChartObj();
 	
 	/**
 	 * Organization under which the Department is defined
@@ -129,7 +146,7 @@ public interface DepartmentContract extends HrBusinessObjectContract {
 	 * 
 	 * @return org for Department
 	 */
-	public OrganizationContract getOrgObj();
+	//public OrganizationContract getOrgObj();
 
 	/**
    	 * List of Active principal role approvers for this Department
@@ -140,7 +157,7 @@ public interface DepartmentContract extends HrBusinessObjectContract {
    	 * 
    	 * @return roleMembers for WorkArea
    	 */
-	public List<? extends DepartmentPrincipalRoleMemberBoContract> getRoleMembers();
+	//public List<? extends DepartmentPrincipalRoleMemberBoContract> getRoleMembers();
 	
 	/**
    	 * List of Inactive principal role approvers for this Department
@@ -151,7 +168,7 @@ public interface DepartmentContract extends HrBusinessObjectContract {
    	 * 
    	 * @return inactiveRoleMembers for WorkArea
    	 */
-	public List<? extends DepartmentPrincipalRoleMemberBoContract> getInactiveRoleMembers();
+	//public List<? extends DepartmentPrincipalRoleMemberBoContract> getInactiveRoleMembers();
 
 
     /**

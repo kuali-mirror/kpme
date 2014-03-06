@@ -15,33 +15,6 @@
  */
 package org.kuali.hr.core.earncode.group;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.joda.time.LocalDate;
-import org.junit.Assert;
-import org.junit.Test;
-import org.kuali.hr.KPMEWebTestCase;
-import org.kuali.hr.util.HtmlUnitUtil;
-import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
-import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrTestConstants;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-
 /*@FunctionalTest
 public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
     private static final Logger LOG = Logger.getLogger(EarnCodeGroupMaintenanceTest.class);

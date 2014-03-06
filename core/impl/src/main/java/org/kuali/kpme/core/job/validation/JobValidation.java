@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.location.LocationContract;
@@ -154,7 +155,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateConsistentLocation(Job job) {
 		String department = job.getDept();
-		DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, job.getEffectiveLocalDate());
+		Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, job.getEffectiveLocalDate());
 		LocationContract location = HrServiceLocator.getLocationService().getLocation(job.getLocation(), job.getEffectiveLocalDate());
 		if(departmentObj != null && location != null) {
 			if(departmentObj.getLocation().equals(location.getLocation())) {

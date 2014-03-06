@@ -110,7 +110,7 @@
 
     <!-- Leave Plan -->
     <!-- Business Keys - [leavePlan : effectiveDate : timestamp ] -->
-    <class-descriptor class="org.kuali.kpme.core.leaveplan.LeavePlan" table="LM_LEAVE_PLAN_T">
+    <class-descriptor class="org.kuali.kpme.core.leaveplan.LeavePlanBo" table="LM_LEAVE_PLAN_T">
         <field-descriptor name="lmLeavePlanId"      column="LM_LEAVE_PLAN_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_PLAN_S" />
         <field-descriptor name="leavePlan"          column="LEAVE_PLAN"         jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="calendarYearStart"  column="CAL_YEAR_START"     jdbc-type="VARCHAR"     length="5"  nullable="false" />
@@ -119,8 +119,10 @@
         <field-descriptor name="effectiveDate"      column="EFFDT"              jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
- 		<field-descriptor name="batchPriorYearCarryOverStartDate"    column="BATCH_CARRY_OVER_START_DATE"   jdbc-type="VARCHAR"     length="5" />
- 		<field-descriptor name="batchPriorYearCarryOverStartTime"    column="BATCH_CARRY_OVER_START_TIME"   jdbc-type="TIME" />
+ 		<field-descriptor name="batchPriorYearCarryOverStartDate"
+                                                    column="BATCH_CARRY_OVER_START_DATE"   jdbc-type="VARCHAR"     length="5" />
+ 		<field-descriptor name="batchPriorYearCarryOverStartTime"
+                                                    column="BATCH_CARRY_OVER_START_TIME"   jdbc-type="TIME" />
         <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  dbc-type="VARCHAR"     length="40" nullable="false" />
@@ -128,7 +130,7 @@
     
         <!-- Department -->
     <!-- Business Keys - [dept : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.department.Department" table="HR_DEPT_T">
+    <class-descriptor class="org.kuali.kpme.core.department.DepartmentBo" table="HR_DEPT_T">
         <field-descriptor name="hrDeptId"       	column="HR_DEPT_ID"  	jdbc-type="VARCHAR"    length="60" nullable="false" primarykey="true"  autoincrement="true" sequence-name="HR_DEPT_S" />
         <field-descriptor name="dept"          		column="DEPT"        	jdbc-type="VARCHAR"    length="21" nullable="false" primarykey="false" />
         <field-descriptor name="description"    	column="DESCRIPTION" 	jdbc-type="VARCHAR"    length="30" nullable="false" primarykey="false" />
@@ -202,7 +204,7 @@
     </class-descriptor>
     <!-- EarnCode -->
     <!-- Business Keys - [earnCode : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.earncode.EarnCode" table="HR_EARN_CODE_T">
+    <class-descriptor class="org.kuali.kpme.core.earncode.EarnCodeBo" table="HR_EARN_CODE_T">
         <field-descriptor name="hrEarnCodeId"                   column="HR_EARN_CODE_ID"            jdbc-type="VARCHAR"     length="60"  primarykey="true" autoincrement="true" sequence-name="HR_EARN_CODE_S" />
         <field-descriptor name="earnCode"                       column="EARN_CODE"                  jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="active"                         column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />

@@ -21,7 +21,7 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
@@ -48,7 +48,7 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
     private BigDecimal forfeitedAmount = new BigDecimal("0.0");
 	private transient Person principal;
 	private transient AccrualCategoryBo fromAccrualCategoryObj;
-	private transient EarnCode earnCodeObj;
+	private transient EarnCodeBo earnCodeObj;
 	private transient PrincipalHRAttributes principalHRAttrObj;
     private String leaveCalendarDocumentId;
     private String accrualCategoryRule;
@@ -71,13 +71,13 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
 	public void setEarnCode(String earnCode) {
 		this.earnCode = earnCode;
 	}
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		if (earnCodeObj == null) {
-            earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, getEffectiveLocalDate());
+            earnCodeObj = EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, getEffectiveLocalDate()));
         }
         return earnCodeObj;
 	}
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 	public String getPrincipalId() {

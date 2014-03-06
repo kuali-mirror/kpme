@@ -71,6 +71,7 @@ public final class AccrualCategory
         implements AccrualCategoryContract
 {
 
+    private static final long serialVersionUID = 5215514350209105035L;
     @XmlElement(name = Elements.HAS_RULES, required = false)
     private final String hasRules;
     @XmlElement(name = Elements.MIN_PERCENT_WORKED, required = false)

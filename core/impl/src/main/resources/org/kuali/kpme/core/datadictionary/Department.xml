@@ -23,7 +23,7 @@
 
     <bean id="Department" parent="Department-parentBean" />
     <bean id="Department-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-        <property name="dataObjectClass" value="org.kuali.kpme.core.department.Department" />
+        <property name="dataObjectClass" value="org.kuali.kpme.core.department.DepartmentBo" />
         <property name="titleAttribute" value="dept" />
         <property name="objectLabel" value="Department" />
         <property name="attributes">
@@ -212,7 +212,7 @@
     <!-- Department Inquiry View -->
     <bean id="Department-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Department Inquiry" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.department.Department" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.department.web.DepartmentInquirableKradImpl" />
         <property name="singlePageView" value="true" />
         <property name="items">
@@ -348,7 +348,7 @@
     <!-- Department Lookup View -->
     <bean id="Department-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
         <property name="headerText" value="Department Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.department.Department" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo" />
 
         <property name="criteriaFields">
             <list>

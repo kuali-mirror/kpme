@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -69,11 +69,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	private String premiumEarnCode;
 	private String premiumHoliday;
 
-	private LeavePlan leavePlanObj;
+	private LeavePlanBo leavePlanObj;
 	private AccrualCategoryBo accrualCategoryObj;
-	private EarnCode earnCodeObj;
-	private EarnCode transferToEarnCodeObj;
-	private EarnCode premiumEarnCodeObj;
+	private EarnCodeBo earnCodeObj;
+	private EarnCodeBo transferToEarnCodeObj;
+	private EarnCodeBo premiumEarnCodeObj;
 	private Location locationObj;
 	
 	
@@ -102,7 +102,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		}
 		if (this.earnCodeObj == null && 
 				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {		
-			earnCodeObj =  (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
+			earnCodeObj =  EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate()));
 		}
 		leavePlan = (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
 		return leavePlan;
@@ -118,7 +118,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
         }
 		if (this.earnCodeObj == null &&
 				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {
-			earnCodeObj =  (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate());
+			earnCodeObj =  EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveLocalDate()));
 		}
 		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
 		return accrualCategory;
@@ -208,11 +208,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		this.premiumHoliday = premiumHoliday;
 	}
 
-	public LeavePlan getLeavePlanObj() {
+	public LeavePlanBo getLeavePlanObj() {
 		return leavePlanObj;
 	}
 
-	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+	public void setLeavePlanObj(LeavePlanBo leavePlanObj) {
 		this.leavePlanObj = leavePlanObj;
 	}
 
@@ -240,11 +240,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		this.transfertoEarnCode = transfertoEarnCode;
 	}
 
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
 
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 
@@ -272,11 +272,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		setLmSystemScheduledTimeOffId(id);
 	}
 
-	public EarnCode getTransferToEarnCodeObj() {
+	public EarnCodeBo getTransferToEarnCodeObj() {
 		return transferToEarnCodeObj;
 	}
 
-	public void setTransferToEarnCodeObj(EarnCode transferToEarnCodeObj) {
+	public void setTransferToEarnCodeObj(EarnCodeBo transferToEarnCodeObj) {
 		this.transferToEarnCodeObj = transferToEarnCodeObj;
 	}
 
@@ -288,11 +288,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		this.premiumEarnCode = premiumEarnCode;
 	}
 
-	public EarnCode getPremiumEarnCodeObj() {
+	public EarnCodeBo getPremiumEarnCodeObj() {
 		return premiumEarnCodeObj;
 	}
 
-	public void setPremiumEarnCodeObj(EarnCode premiumEarnCodeObj) {
+	public void setPremiumEarnCodeObj(EarnCodeBo premiumEarnCodeObj) {
 		this.premiumEarnCodeObj = premiumEarnCodeObj;
 	}
 	

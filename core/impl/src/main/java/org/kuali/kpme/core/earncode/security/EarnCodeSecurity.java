@@ -15,14 +15,11 @@
  */
 package org.kuali.kpme.core.earncode.security;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.department.DepartmentBo;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
@@ -43,7 +40,7 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCodeSecurity";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(EarnCodeSecurity.CACHE_NAME)
-            .add(EarnCode.CACHE_NAME)
+            .add(EarnCodeBo.CACHE_NAME)
             .add(CalendarBlockPermissions.CACHE_NAME)
             .build();
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
@@ -65,8 +62,8 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	private String earnCodeType;
 	
 	private SalaryGroup  salaryGroupObj;
-	private Department departmentObj;
-	private EarnCode earnCodeObj;
+	private DepartmentBo departmentObj;
+	private EarnCodeBo earnCodeObj;
     private Job jobObj;
     private Location locationObj;
 
@@ -106,11 +103,11 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 		this.salaryGroupObj = salaryGroupObj;
 	}
 
-	public Department getDepartmentObj() {
+	public DepartmentBo getDepartmentObj() {
 		return departmentObj;
 	}
 
-	public void setDepartmentObj(Department departmentObj) {
+	public void setDepartmentObj(DepartmentBo departmentObj) {
 		this.departmentObj = departmentObj;
 	}
 	
@@ -138,11 +135,11 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 		this.payrollProcessor = payrollProcessor;
 	}
 
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
 
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 	

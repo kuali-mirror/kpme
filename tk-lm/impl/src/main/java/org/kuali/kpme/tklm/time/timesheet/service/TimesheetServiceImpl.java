@@ -29,6 +29,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
@@ -38,7 +39,7 @@ import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -366,7 +367,8 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
         return true;
 	}
-	
+
+    @Override
     public List<EarnCode> getEarnCodesForTime(AssignmentContract a, LocalDate asOfDate, boolean includeRegularEarnCode) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
@@ -393,7 +395,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());
 
         // Reg earn codes will typically not be defined in the earn code security table
-        EarnCode regularEarnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
+        EarnCode regularEarnCode = HrServiceLocator.getEarnCodeService().getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
         if (regularEarnCode == null) {
         	LOG.error("No regular earn code defined for job pay type.");
         	return null;
@@ -432,7 +434,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
                 //  allow types Time AND Both
                 if (earnTypeCode.equals(dec.getEarnCodeType()) || EarnCodeType.BOTH.getCode().equals(dec.getEarnCodeType())) {
-                    EarnCode ec = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(dec.getEarnCode(), asOfDate);
+                    EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(dec.getEarnCode(), asOfDate);
 
                     //  make sure we got something back from the earn code dao
                     if (ec != null) {

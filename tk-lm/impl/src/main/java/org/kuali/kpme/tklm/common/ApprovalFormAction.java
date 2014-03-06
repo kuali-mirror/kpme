@@ -82,7 +82,7 @@ public abstract class ApprovalFormAction extends KPMEAction {
 		}
 
 
-        //have depts in approvalForm.getDepartments
+        //have depts in approvalForm.getDepartmentsWithLocation
         //have workareas too...
 
 		approvalForm.getWorkAreaDescr().clear();

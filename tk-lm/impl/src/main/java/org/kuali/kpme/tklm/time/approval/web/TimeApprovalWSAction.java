@@ -45,6 +45,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
 import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
@@ -142,7 +143,7 @@ public class TimeApprovalWSAction extends KPMEAction {
     public ActionForward getTimeSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(taaf.getDocumentId());
-		TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
+		TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
 		
 		List<AssignmentContract> assignments = td.getAssignments();
 		List<String> assignmentKeys = new ArrayList<String>();

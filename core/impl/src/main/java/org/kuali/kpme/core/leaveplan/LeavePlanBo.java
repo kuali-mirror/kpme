@@ -16,8 +16,12 @@
 package org.kuali.kpme.core.leaveplan;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
@@ -25,7 +29,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class LeavePlan extends HrBusinessObject implements LeavePlanContract {
+public class LeavePlanBo extends HrBusinessObject implements LeavePlanContract {
 	
 	private static final String LEAVE_PLAN = "leavePlan";
 	
@@ -64,6 +68,10 @@ public class LeavePlan extends HrBusinessObject implements LeavePlanContract {
 	public Time getBatchPriorYearCarryOverStartTime() {
 		return batchPriorYearCarryOverStartTime;
 	}
+
+    public LocalTime getBatchPriorYearCarryOverStartLocalTime() {
+        return new LocalTime(batchPriorYearCarryOverStartTime);
+    }
 
 	public void setBatchPriorYearCarryOverStartTime(
 			Time batchPriorYearCarryOverStartTime) {
@@ -142,4 +150,34 @@ public class LeavePlan extends HrBusinessObject implements LeavePlanContract {
 		setLmLeavePlanId(id);
 	}
 
+    public static LeavePlanBo from(LeavePlan im) {
+        LeavePlanBo lp = new LeavePlanBo();
+
+        lp.setLmLeavePlanId(im.getLmLeavePlanId());
+        lp.setLeavePlan(im.getLeavePlan());
+        lp.setDescr(im.getDescr());
+        lp.setCalendarYearStart(im.getCalendarYearStart());
+        lp.setPlanningMonths(im.getPlanningMonths());
+        lp.setBatchPriorYearCarryOverStartDate(im.getBatchPriorYearCarryOverStartDate());
+        lp.setBatchPriorYearCarryOverStartTime(im.getBatchPriorYearCarryOverStartLocalTime() == null ? null : new Time(im.getBatchPriorYearCarryOverStartLocalTime().getMillisOfDay()));
+
+        lp.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        lp.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            lp.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        lp.setUserPrincipalId(im.getUserPrincipalId());
+        lp.setVersionNumber(im.getVersionNumber());
+        lp.setObjectId(im.getObjectId());
+
+        return lp;
+    }
+
+    public static LeavePlan to(LeavePlanBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return LeavePlan.Builder.create(bo).build();
+    }
 }

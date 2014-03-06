@@ -35,21 +35,18 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
@@ -165,7 +162,7 @@ public class TimeDetailWSAction extends TimesheetAction {
             			
             			for(EarnCode anEarnCode : aList) {
             				// kpme-2570, overtime earn codes should not show in adding/editing time block widget's earn code option list
-            				if(anEarnCode != null && !anEarnCode.getOvtEarnCode()) {
+            				if(anEarnCode != null && !anEarnCode.isOvtEarnCode()) {
             					earnCodes.add(anEarnCode);
             				}
             			}
@@ -220,12 +217,12 @@ public class TimeDetailWSAction extends TimesheetAction {
     			if (a.getJob() != null
     					&& a.getJob().getPayTypeObj() != null) {
     				PayTypeContract payType = a.getJob().getPayTypeObj();
-    				EarnCodeContract ec = payType.getRegEarnCodeObj();
+    				EarnCode ec = EarnCode.Builder.create(payType.getRegEarnCodeObj()).build();
     				if (ec == null
     						&& StringUtils.isNotEmpty(payType.getRegEarnCode()))  {
     					ec =  HrServiceLocator.getEarnCodeService().getEarnCode(payType.getRegEarnCode(), payType.getEffectiveLocalDate());
     				}
-    				regEarnCodes.put(a.getAssignmentKey(), (EarnCode)ec);
+    				regEarnCodes.put(a.getAssignmentKey(), ec);
 	    			}
     			}
     		}

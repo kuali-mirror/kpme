@@ -21,7 +21,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -58,7 +58,7 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 	private transient Calendar calendar;
 	private transient Calendar leaveCalObj;
 	private transient Person person;
-	private transient LeavePlan leavePlanObj;
+	private transient LeavePlanBo leavePlanObj;
 
 	
 	@Override
@@ -156,14 +156,14 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 		this.person = person;
 	}
 
-	public LeavePlan getLeavePlanObj() {
+	public LeavePlanBo getLeavePlanObj() {
         if (leavePlanObj == null) {
-            leavePlanObj = (LeavePlan) HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan,getEffectiveLocalDate());
+            leavePlanObj = LeavePlanBo.from(HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan,getEffectiveLocalDate()));
         }
 		return leavePlanObj;
 	}
 
-	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+	public void setLeavePlanObj(LeavePlanBo leavePlanObj) {
 		this.leavePlanObj = leavePlanObj;
 	}
 

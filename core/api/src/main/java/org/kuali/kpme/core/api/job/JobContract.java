@@ -233,7 +233,7 @@ public interface JobContract extends HrBusinessObjectContract {
 	 * 
 	 * @return deptObj for Job
 	 */
-	public DepartmentContract getDeptObj();
+	//public DepartmentContract getDeptObj();
 
 	/**
 	 * The PayType object associated with the Job
@@ -246,17 +246,6 @@ public interface JobContract extends HrBusinessObjectContract {
 	 */
 	public PayTypeContract getPayTypeObj();
 
-	/**
-	 * The employee that holds this job
-	 * 
-	 * <p>
-	 * principal of a Job
-	 * <p>
-	 * 
-	 * @return principal for Job
-	 */
-	public Person getPrincipal();
-	
 	/**
 	 * Indicates if the Job is the primary job for the employee
 	 * 
@@ -277,7 +266,7 @@ public interface JobContract extends HrBusinessObjectContract {
 	 * 
 	 * @return locationObj for Job
 	 */
-	public LocationContract getLocationObj();
+	//public LocationContract getLocationObj();
 
 	/**
 	 * The PayGrade object associated with the Job
@@ -288,7 +277,7 @@ public interface JobContract extends HrBusinessObjectContract {
 	 * 
 	 * @return payGradeObj for Job
 	 */
-	public PayGradeContract getPayGradeObj();
+	//public PayGradeContract getPayGradeObj();
 
 	/**
 	 * The SalaryGroup object associated with the Job
@@ -299,7 +288,7 @@ public interface JobContract extends HrBusinessObjectContract {
 	 * 
 	 * @return salaryGroupObj for Job
 	 */
-	public SalaryGroupContract getSalaryGroupObj();
+	//public SalaryGroupContract getSalaryGroupObj();
 	
 	/**
 	 * Position associated with the job. 
@@ -321,7 +310,7 @@ public interface JobContract extends HrBusinessObjectContract {
 	 * 
 	 * @return positionObj for Job
 	 */
-	public PositionBaseContract getPositionObj() ;
+	//public PositionBaseContract getPositionObj() ;
 
 	/**
 	 * Combination of multiple string fields to identify the job. 

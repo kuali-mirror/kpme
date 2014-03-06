@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kpme.core.kfs.coa.businessobject.ProjectCode;
@@ -51,7 +51,7 @@ public class AssignmentAccount extends HrBusinessObject implements AssignmentAcc
 	private ObjectCode objectCodeObj;
 	private SubObjectCode subObjectCodeObj;
 	private ProjectCode projectCodeObj;
-	private EarnCode earnCodeObj;
+	private EarnCodeBo earnCodeObj;
 	
 	// TODO returning an empty map for the time-being, until the BK is finalized
 	@Override
@@ -196,11 +196,11 @@ public class AssignmentAccount extends HrBusinessObject implements AssignmentAcc
 		this.projectCodeObj = projectCodeObj;
 	}
 
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
 
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 

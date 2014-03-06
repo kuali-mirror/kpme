@@ -287,11 +287,11 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="regEarnCode" >
         	<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
 	        		 p:fieldConversions="earnCode:regEarnCode"/>
 	   		</property>
 	   		<property name="inquiry">
-                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               p:inquiryParameters="regEarnCode:earnCode"/>
              </property>
         </bean>      
@@ -325,7 +325,7 @@
         <bean parent="Uif-DataField" p:propertyName="descr" />
         <bean parent="Uif-DataField" p:propertyName="regEarnCode">
          	<property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               p:inquiryParameters="regEarnCode:earnCode"/>
             </property>
         </bean>
@@ -404,7 +404,7 @@
 		        </bean>
 		         <bean parent="Uif-InputField" p:propertyName="regEarnCode" p:required="true" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
 		        			 p:fieldConversions="earnCode:regEarnCode"/>
 		   			</property>
 		        </bean>

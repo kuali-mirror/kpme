@@ -140,7 +140,7 @@
             			</bean>
             			<bean parent="Uif-DataField" p:propertyName="dept" >
             				<property name="inquiry">
-                        		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                        		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               			p:inquiryParameters="dept:dept"/>
                     		</property>
             			</bean>
@@ -152,7 +152,7 @@
             			</bean>
             			<bean parent="Uif-DataField" p:propertyName="earnCode" >
             				<property name="inquiry">
-                        		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                        		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               			p:inquiryParameters="earnCode:earnCode"/>
                     		</property>
             			</bean>
@@ -191,11 +191,11 @@
                 </bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
 					<property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               p:fieldConversions="dept:dept,location:location,effectiveDate:relativeEffectiveDate"/>
                     </property>
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               p:inquiryParameters="dept:dept"/>
                     </property>
 				</bean>
@@ -211,11 +211,11 @@
 				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode" >
 					<property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               p:fieldConversions="earnCode:earnCode,effectiveDate:relativeEffectiveDate"/>
                     </property>
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               p:inquiryParameters="earnCode:earnCode"/>
                     </property>
 				</bean>
@@ -235,7 +235,7 @@
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="dept" >
 					<property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               p:inquiryParameters="dept:dept"/>
                     </property>             
                 </bean>
@@ -247,7 +247,7 @@
 				</bean>
 				<bean parent="Uif-DataField" p:propertyName="earnCode" >
 					<property name="inquiry">
-                    	<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                    	<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                         	p:inquiryParameters="earnCode:earnCode"/>
                     </property>				
 				</bean>
@@ -285,11 +285,11 @@
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="dept" p:required="true" >
 								<property name="quickfinder">
-                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               			p:fieldConversions="dept:dept,effectiveDate:relativeEffectiveDate,location:location"/>
                     			</property>
                     			<property name="inquiry">
-                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               			p:inquiryParameters="dept:dept"/>
                     			</property>							
 							</bean>
@@ -305,11 +305,11 @@
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="earnCode" p:required="true" >
 								<property name="quickfinder">
-                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               			p:fieldConversions="earnCode:earnCode,effectiveDate:relativeEffectiveDate"/>
                     			</property>
                     			<property name="inquiry">
-                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               			p:inquiryParameters="earnCode:earnCode"/>
                     			</property>
 							</bean>

@@ -32,6 +32,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timesheet.TimesheetDocumentContract;
+import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
@@ -116,7 +117,7 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 
 	public TimeSummary getTimeSummary() {
         if (timeSummary == null) {
-            timeSummary = TkServiceLocator.getTimeSummaryService().getTimeSummary(this);
+            timeSummary = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(this);
         }
 		return timeSummary;
 	}

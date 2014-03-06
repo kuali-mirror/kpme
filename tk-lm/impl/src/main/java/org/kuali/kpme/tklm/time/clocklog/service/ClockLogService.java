@@ -59,7 +59,7 @@ public interface ClockLogService {
 	 * @param calendarEntry
 	 * @return
 	 */
-	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry);
+	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntryContract calendarEntry);
 
 	/**
 	 * Process clock log created
@@ -85,7 +85,8 @@ public interface ClockLogService {
 
     @CacheEvict(value={Assignment.CACHE_NAME}, allEntries = true)
     ClockLog processClockLog(DateTime clockDateTime, AssignmentContract assignment, CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId);
-    
+
+    @CacheEvict(value={Assignment.CACHE_NAME}, allEntries = true)
     public void deleteClockLogsForDocumentId(String documentId);
     
     /**

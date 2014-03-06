@@ -27,15 +27,13 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.util.KpmeUtils;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchContract;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.identity.Person;
@@ -65,7 +63,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
     private transient String personName;
 	private transient Job jobObj;
 	private transient WorkArea workAreaObj;
-    private transient Department departmentObj;
+    private transient DepartmentBo departmentObj;
 	private transient Task taskObj;
     private transient LocalDate localDate;
     private transient LocalTime localTime;
@@ -309,11 +307,11 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
         return null;
     }
 
-    public Department getDepartmentObj() {
+    public DepartmentBo getDepartmentObj() {
         return departmentObj;
     }
 
-    public void setDepartmentOjb(Department departmentObj) {
+    public void setDepartmentOjb(DepartmentBo departmentObj) {
         this.departmentObj = departmentObj;
     }
 

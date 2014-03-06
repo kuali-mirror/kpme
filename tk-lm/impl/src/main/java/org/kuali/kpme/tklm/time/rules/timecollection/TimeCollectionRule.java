@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.rules.timecollection;
 
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.paytype.PayType;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.rules.timecollection.TimeCollectionRuleContract;
@@ -54,7 +54,7 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 	private String tkWorkAreaId;
 	private String hrDeptId;
 
-	private Department departmentObj;
+	private DepartmentBo departmentObj;
 	private WorkArea workAreaObj;
 	
 	// chen, 11/07/11, KPME-1152
@@ -74,7 +74,7 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 	}
 
 	
-	public Department getDepartmentObj() {
+	public DepartmentBo getDepartmentObj() {
 		return departmentObj;
 	}
 
@@ -102,7 +102,7 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 		this.payTypeObj = payTypeObj;
 	}
 
-	public void setDepartmentObj(Department departmentObj) {
+	public void setDepartmentObj(DepartmentBo departmentObj) {
 		this.departmentObj = departmentObj;
 	}
 

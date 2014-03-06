@@ -23,7 +23,7 @@
 
 	<bean id="EarnCode" parent="EarnCode-parentBean" />
 	<bean id="EarnCode-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.earncode.EarnCode" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.earncode.EarnCodeBo" />
 		<property name="inquiryDefinition">
 			<ref bean="EarnCode-inquiryDefinition" />
 		</property>
@@ -520,7 +520,7 @@
 	
 	<bean id="EarnCode-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Earn Code Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCode"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCodeBo"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
         <property name="criteriaFields">
             <list>
@@ -528,11 +528,11 @@
             	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description"/>
             	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
             		<property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
                               p:fieldConversions="leavePlan:leavePlan"/>
                     </property>
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
                               p:inquiryParameters="leavePlan:leavePlan"/>
                     </property>
             	</bean>

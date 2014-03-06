@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.core.department.validation;
 
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
@@ -28,8 +29,8 @@ public class DepartmentEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromp
     protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
-        Department department = (Department) pbo;
-        DepartmentContract lastDepartment = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department.getDept(), TKUtils.END_OF_TIME);
+        DepartmentBo department = (DepartmentBo) pbo;
+        Department lastDepartment = HrServiceLocator.getDepartmentService().getDepartment(department.getDept(), TKUtils.END_OF_TIME);
         if (lastDepartment != null && lastDepartment.getEffectiveLocalDate() != null && department.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastDepartment.getEffectiveLocalDate().isAfter(department.getEffectiveLocalDate());
         }

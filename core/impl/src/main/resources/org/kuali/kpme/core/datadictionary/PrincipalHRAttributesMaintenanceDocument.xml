@@ -89,7 +89,7 @@
                             <bean parent="Uif-InputField" p:propertyName="leavePlan" p:required="false">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                                          p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
                                           p:fieldConversions="leavePlan:leavePlan"/>
                                 </property>
                             </bean>

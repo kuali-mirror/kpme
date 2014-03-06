@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,7 +36,7 @@ public interface EarnCodeService {
 	 * @return
 	 */
     @Cacheable(value=EarnCodeContract.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.kpme.core.util.HrContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.core.util.HrContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
-    public List<? extends EarnCodeContract> getEarnCodesForLeave(AssignmentContract a, LocalDate asOfDate, boolean isLeavePlanningCalendar);
+    public List<EarnCode> getEarnCodesForLeave(AssignmentContract a, LocalDate asOfDate, boolean isLeavePlanningCalendar);
 
     /**
      * Fetch a list of earn codes based on principal ID as of a particular date
@@ -45,7 +46,7 @@ public interface EarnCodeService {
      * @return
      */
     @Cacheable(value=EarnCodeContract.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
-    public List<? extends EarnCodeContract> getEarnCodesForPrincipal(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar);
+    public List<EarnCode> getEarnCodesForPrincipal(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar);
 
     /**
      * Fetch an EarnCode as of a particular date
@@ -54,7 +55,7 @@ public interface EarnCodeService {
      * @return
      */
     @Cacheable(value=EarnCodeContract.CACHE_NAME, key="'earnCode=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public EarnCodeContract getEarnCode(String earnCode, LocalDate asOfDate);
+	public EarnCode getEarnCode(String earnCode, LocalDate asOfDate);
 
     /**
      * Fetch the earn code type for a particular date
@@ -71,7 +72,7 @@ public interface EarnCodeService {
      * @return
      */
     @Cacheable(value=EarnCodeContract.CACHE_NAME, key="'earnCodeId=' + #p0")
-    public EarnCodeContract getEarnCodeById(String earnCodeId);
+    public EarnCode getEarnCodeById(String earnCodeId);
     
     /**
      * Fetch list of system defined overtime earn codes
@@ -79,7 +80,7 @@ public interface EarnCodeService {
      * @return
      */
     @Cacheable(value=EarnCodeContract.CACHE_NAME, key="'{getOvertimeEarnCodes}' + 'asOfDate=' + #p0")
-    public List<? extends EarnCodeContract> getOvertimeEarnCodes(LocalDate asOfDate);
+    public List<EarnCode> getOvertimeEarnCodes(LocalDate asOfDate);
 
 
     /**
@@ -129,7 +130,7 @@ public interface EarnCodeService {
     @Cacheable(value= EarnCodeContract.CACHE_NAME, key="'{getEarnCodesForDisplayWithEffectiveDate}' + 'principalId=' + #p0 + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
     public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar);
 
-    List<? extends EarnCodeContract> getEarnCodes(String earnCode, String ovtEarnCode, String leavePlan, String accrualCategory, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String leavePlan, String accrualCategory, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
     
     public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurityContract security, AssignmentContract a, LocalDate asOfDate);
 }

@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.leave.calendar.web;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,6 +50,7 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
@@ -72,7 +72,6 @@ import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.common.CalendarFormAction;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -323,7 +322,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 				 // if user is location admin, then the user can access this assignment
 					// use job to find the department, then use the location from Department to get the location roles
 				    // aJob.getDeptObj() does not reliably return a Department Object.
-					DepartmentContract aDept = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(aJob.getDept(), asOfDate.toLocalDate());
+					Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), asOfDate.toLocalDate());
 					if(aDept != null) {
 					    if(HrServiceLocator.getKPMERoleService()
 					    		.principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), asOfDate)

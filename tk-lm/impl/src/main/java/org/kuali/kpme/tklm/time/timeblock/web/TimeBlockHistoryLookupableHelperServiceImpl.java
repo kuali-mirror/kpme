@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.timeblock.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -73,7 +74,7 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
 			JobContract jobObj = HrServiceLocator.getJobService().getJob(timeBlockHistory.getPrincipalId(), timeBlockHistory.getJobNumber(), LocalDate.fromDateFields(timeBlockHistory.getBeginDate()), false);
 			String department = jobObj != null ? jobObj.getDept() : null;
 
-			DepartmentContract departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, LocalDate.fromDateFields(timeBlockHistory.getBeginDate())) : null;
+			Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(timeBlockHistory.getBeginDate())) : null;
 			String location = departmentObj != null ? departmentObj.getLocation() : null;
 
 			Map<String, String> roleQualification = new HashMap<String, String>();

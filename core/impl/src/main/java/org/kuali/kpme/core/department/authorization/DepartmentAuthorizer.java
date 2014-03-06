@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
 @SuppressWarnings("deprecation")
@@ -33,8 +33,8 @@ public class DepartmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase 
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
 		
-		if (dataObject instanceof Department) {
-			Department departmentObj = (Department) dataObject;
+		if (dataObject instanceof DepartmentBo) {
+			DepartmentBo departmentObj = (DepartmentBo) dataObject;
 			
 			if (department != null) {
 				department = departmentObj.getDept();

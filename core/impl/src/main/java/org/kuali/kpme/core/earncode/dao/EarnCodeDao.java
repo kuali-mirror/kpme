@@ -18,23 +18,23 @@ package org.kuali.kpme.core.earncode.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 
 public interface EarnCodeDao {
 
 	/** Get an earn code by "row id" explicitly */
-	public EarnCode getEarnCodeById(String earnCodeId);
+	public EarnCodeBo getEarnCodeById(String earnCodeId);
 	
 	/** Provides access to earn code by name, using effdt, timestamp and active as qualifiers */
-	public EarnCode getEarnCode(String earnCode, LocalDate asOfDate);
+	public EarnCodeBo getEarnCode(String earnCode, LocalDate asOfDate);
 	
-	public List<EarnCode> getOvertimeEarnCodes(LocalDate asOfDate);
+	public List<EarnCodeBo> getOvertimeEarnCodes(LocalDate asOfDate);
 
 	public int getEarnCodeCount(String earnCode);
 	
 	public int getNewerEarnCodeCount(String earnCode, LocalDate effdt);
 	
-	public List<EarnCode> getEarnCodes(String leavePlan, LocalDate asOfDate);
+	public List<EarnCodeBo> getEarnCodes(String leavePlan, LocalDate asOfDate);
 
-    List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    List<EarnCodeBo> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

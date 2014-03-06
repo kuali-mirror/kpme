@@ -17,8 +17,8 @@ package org.kuali.kpme.tklm.time.rules.overtime.daily;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.department.DepartmentBo;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paytype.PayType;
@@ -70,11 +70,11 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 	
 	private Task taskObj;
 	private WorkArea workAreaObj;
-	private Department departmentObj;
+	private DepartmentBo departmentObj;
 	private PayType payTypeObj;
 
 	private EarnCodeGroup fromEarnGroupObj;
-	private EarnCode earnCodeObj;
+	private EarnCodeBo earnCodeObj;
 	private Location locationObj;
 	
 	@Override
@@ -111,11 +111,11 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 		this.maxGap = maxGap;
 	}
 
-	public Department getDepartmentObj() {
+	public DepartmentBo getDepartmentObj() {
 		return departmentObj;
 	}
 
-	public void setDepartmentObj(Department departmentObj) {
+	public void setDepartmentObj(DepartmentBo departmentObj) {
 		this.departmentObj = departmentObj;
 	}
 
@@ -199,11 +199,11 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 		this.fromEarnGroupObj = fromEarnGroupObj;
 	}
 
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
 
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 

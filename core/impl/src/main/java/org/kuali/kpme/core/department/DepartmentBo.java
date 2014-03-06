@@ -15,11 +15,14 @@
  */
 package org.kuali.kpme.core.department;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
@@ -31,7 +34,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class Department extends HrBusinessObject implements DepartmentContract {
+public class DepartmentBo extends HrBusinessObject implements DepartmentContract {
 
 	private static final String DEPT = "dept";
 
@@ -207,4 +210,38 @@ public class Department extends HrBusinessObject implements DepartmentContract {
 	public void setPayrollApproval(boolean payrollApproval) {
 		this.payrollApproval = payrollApproval;
 	}
+
+    public static DepartmentBo from(Department im) {
+        DepartmentBo dept = new DepartmentBo();
+
+        dept.setHrDeptId(im.getHrDeptId());
+        dept.setDept(im.getDept());
+        dept.setDescription(im.getDescription());
+        dept.setLocation(im.getLocation());
+
+        dept.setInstitution(im.getInstitution());
+
+        dept.setChart(im.getChart());
+        dept.setOrg(im.getOrg());
+        dept.setPayrollApproval(im.isPayrollApproval());
+
+        dept.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        dept.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            dept.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        dept.setUserPrincipalId(im.getUserPrincipalId());
+        dept.setVersionNumber(im.getVersionNumber());
+        dept.setObjectId(im.getObjectId());
+
+        return dept;
+    }
+
+    public static Department to(DepartmentBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return Department.Builder.create(bo).build();
+    }
 }

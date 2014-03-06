@@ -201,7 +201,7 @@
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               p:fieldConversions="dept:primaryDepartment"
                               p:lookupParameters="location:location,institution:institution" />
                     </property>

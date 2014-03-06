@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.util.HrConstants;
 
@@ -55,7 +55,7 @@ public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract
 	//	relationship objects
 	private transient Institution institutionObj;
 	private transient Location locationObj;
-	private transient LeavePlan leavePlanObj;
+	private transient LeavePlanBo leavePlanObj;
 
 	public Institution getInstitutionObj() {
 		return institutionObj;
@@ -73,11 +73,11 @@ public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract
 		this.locationObj = locationObj;
 	}
 
-	public LeavePlan getLeavePlanObj() {
+	public LeavePlanBo getLeavePlanObj() {
 		return leavePlanObj;
 	}
 
-	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+	public void setLeavePlanObj(LeavePlanBo leavePlanObj) {
 		this.leavePlanObj = leavePlanObj;
 	}
 

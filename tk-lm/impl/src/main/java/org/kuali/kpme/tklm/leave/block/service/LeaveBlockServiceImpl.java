@@ -30,8 +30,8 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.api.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -232,7 +232,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	Interval firstDay = null;
     	DateTime currentDate = beginDate;
         
-    	EarnCode earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, endDate.toLocalDate()); 
+    	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, endDate.toLocalDate());
         for (Interval leaveBlockInt : leaveBlockIntervals) {
             if (calendarInterval.contains(leaveBlockInt)) {
             	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the leaveblock list
@@ -502,7 +502,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	return ModelObjectUtils.transform(leaveBlockDao.getABELeaveBlocksSinceTime(principalId, lastRanDateTime), toLeaveBlock);
     }
     
-    private BigDecimal applyInflateMinHoursAndFactor(EarnCode earnCodeObj, BigDecimal blockHours) {
+    protected BigDecimal applyInflateMinHoursAndFactor(EarnCode earnCodeObj, BigDecimal blockHours) {
     	if(earnCodeObj != null) {
 	    	//If earn code has an inflate min hours check if it is greater than zero
 	        //and compare if the hours specified is less than min hours awarded for this

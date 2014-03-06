@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.authorization.DepartmentalRule;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.rules.clocklocation.ClockLocationRuleContract;
@@ -55,7 +55,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 
 	private String tkClockLocationRuleId;
 
-	private Department department;
+	private DepartmentBo department;
 	private String dept;
 	private String hrDeptId;
 	
@@ -105,11 +105,11 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
 	}
-	public Department getDepartment() {
+	public DepartmentBo getDepartment() {
 	    return department;
 	}
 
-	public void setDepartment(Department department) {
+	public void setDepartment(DepartmentBo department) {
 	    this.department = department;
 	}
 

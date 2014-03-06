@@ -18,16 +18,16 @@ package org.kuali.kpme.core.department.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 
 public interface DepartmentDao {
-	public void saveOrUpdate(Department dept);
-	public Department getDepartment(String department,LocalDate asOfDate);
-    public List<Department> getDepartments(String location, LocalDate asOfDate);
-    public List<Department> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate);
-    public Department getDepartment(String hrDeptId);
+	public void saveOrUpdate(DepartmentBo dept);
+	public DepartmentBo getDepartment(String department,LocalDate asOfDate);
+    public List<DepartmentBo> getDepartments(String location, LocalDate asOfDate);
+    public List<DepartmentBo> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate);
+    public DepartmentBo getDepartment(String hrDeptId);
     public int getDepartmentCount(String department);
-    public List<Department> getDepartments(String department);
-    List<Department> getDepartments(String department, String location, String descr, String active, String showHistory, String payrollApproval);
-    public Department getDepartment(String department,String location,LocalDate asOfDate);
+    public List<DepartmentBo> getDepartments(String department);
+    List<DepartmentBo> getDepartments(String department, String location, String descr, String active, String showHistory, String payrollApproval);
+    public DepartmentBo getDepartment(String department,String location,LocalDate asOfDate);
 }

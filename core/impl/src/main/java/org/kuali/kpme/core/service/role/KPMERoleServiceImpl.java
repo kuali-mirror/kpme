@@ -32,7 +32,7 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.department.service.DepartmentService;
+import org.kuali.kpme.core.api.department.DepartmentService;
 import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
@@ -297,7 +297,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
         }
 
         List<String> locations = getLocationsForPrincipalInRoles(principalId, roleIds, asOfDate, isActiveOnly);
-        departments.addAll(getDepartmentService().getDepartmentsForLocations(locations, asOfDate.toLocalDate()));
+        departments.addAll(getDepartmentService().getDepartmentValuesWithLocations(locations, asOfDate.toLocalDate()));
 
         return new ArrayList<String>(departments);
     }
@@ -321,7 +321,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 		}
 		
 		List<String> locations = getLocationsForPrincipalInRole(principalId, namespaceCode, roleName, asOfDate, isActiveOnly);
-		departments.addAll(getDepartmentService().getDepartmentsForLocations(locations, asOfDate.toLocalDate()));
+		departments.addAll(getDepartmentService().getDepartmentValuesWithLocations(locations, asOfDate.toLocalDate()));
 
 		return new ArrayList<String>(departments);
 	}

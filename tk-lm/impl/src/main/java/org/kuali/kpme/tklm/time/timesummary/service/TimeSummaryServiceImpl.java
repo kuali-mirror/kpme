@@ -56,10 +56,9 @@ import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
-import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
-import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.api.time.timesheet.TimesheetDocumentContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -67,9 +66,6 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
 import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
@@ -82,7 +78,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final Logger LOG = Logger.getLogger(TimeSummaryServiceImpl.class);
 	
     @Override
-	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
+	public TimeSummary getTimeSummary(TimesheetDocumentContract timesheetDocument) {
 		TimeSummary timeSummary = new TimeSummary();
 
 		if(timesheetDocument == null || timesheetDocument.getTimeBlocks() == null) {
@@ -95,7 +91,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), (Calendar)HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
 
-        List<AssignmentContract> timeAssignments = timesheetDocument.getAssignments();
+        List<? extends AssignmentContract> timeAssignments = timesheetDocument.getAssignments();
         List<String> tAssignmentKeys = new ArrayList<String>();
         Set<String> regularEarnCodes = new HashSet<String>();
         for(AssignmentContract assign : timeAssignments) {
@@ -446,7 +442,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                 for (TimeBlock block : day.getAppliedTimeBlocks()) {
                     EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(block.getEarnCode(), block.getEndDateTime().toLocalDate());
                     if (ec != null
-                            && (ec.getOvtEarnCode()
+                            && (ec.isOvtEarnCode()
                             || regularEarnCodes.contains(ec.getEarnCode()) || ec.getCountsAsRegularPay().equals("Y"))) {
                         totalForDay = totalForDay.add(block.getHours(), HrConstants.MATH_CONTEXT);
                         weeklyTotal = weeklyTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
@@ -665,7 +661,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 					for (TimeBlock timeBlock : flsaDay.getAppliedTimeBlocks()) {
 	                    EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), timeBlock.getEndDateTime().toLocalDate());
 	                    if (ec != null
-	                            && (ec.getOvtEarnCode()
+	                            && (ec.isOvtEarnCode()
 	                            || regularEarnCodes.contains(ec.getEarnCode()) || ec.getCountsAsRegularPay().equals("Y"))) {
 								if (workArea != null) {
 									if (timeBlock.getWorkArea().compareTo(workArea) == 0) {

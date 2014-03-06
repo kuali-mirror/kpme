@@ -40,11 +40,12 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -601,10 +602,10 @@ public class AccrualServiceImpl implements AccrualService {
 		List<LeavePlan> activeLpList = new ArrayList<LeavePlan> ();
 		List<LeavePlan> inactiveLpList = new ArrayList<LeavePlan> ();
 		for(String lpString : phaLpSet) {
-			List<LeavePlan> aList = (List<LeavePlan>) HrServiceLocator.getLeavePlanService().getAllActiveLeavePlan(lpString, endDate.toLocalDate());
+			List<LeavePlan> aList = HrServiceLocator.getLeavePlanService().getAllActiveLeavePlan(lpString, endDate.toLocalDate());
 			activeLpList.addAll(aList);
 			
-			aList = (List<LeavePlan>) HrServiceLocator.getLeavePlanService().getAllInActiveLeavePlan(lpString, endDate.toLocalDate());
+			aList = HrServiceLocator.getLeavePlanService().getAllInActiveLeavePlan(lpString, endDate.toLocalDate());
 			inactiveLpList.addAll(aList);
 		}
 		
@@ -869,9 +870,9 @@ public class AccrualServiceImpl implements AccrualService {
 			int indexOfMaxEffDt = 0;
 			if(lpsForDay.size() > 1) {
 				for(int i = 1; i < lpsForDay.size(); i++) {
-					if( (lpsForDay.get(i).getEffectiveDate().after(lpsForDay.get(indexOfMaxEffDt).getEffectiveDate()))
-							||(lpsForDay.get(i).getEffectiveDate().equals(lpsForDay.get(indexOfMaxEffDt).getEffectiveDate())
-									&& lpsForDay.get(i).getTimestamp().after(lpsForDay.get(indexOfMaxEffDt).getTimestamp()))) {
+					if( (lpsForDay.get(i).getEffectiveLocalDate().isAfter(lpsForDay.get(indexOfMaxEffDt).getEffectiveLocalDate()))
+							||(lpsForDay.get(i).getEffectiveLocalDate().compareTo(lpsForDay.get(indexOfMaxEffDt).getEffectiveLocalDate()) == 0
+									&& lpsForDay.get(i).getCreateTime().isAfter(lpsForDay.get(indexOfMaxEffDt).getCreateTime()))) {
 						indexOfMaxEffDt = i;
 					}
 				}

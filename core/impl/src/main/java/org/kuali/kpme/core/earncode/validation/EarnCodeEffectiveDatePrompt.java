@@ -17,7 +17,7 @@ package org.kuali.kpme.core.earncode.validation;
 
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
@@ -28,7 +28,7 @@ public class EarnCodeEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptB
     protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
-        EarnCode earnCode = (EarnCode) pbo;
+        EarnCodeBo earnCode = (EarnCodeBo) pbo;
         EarnCodeContract lastEarnCode = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode.getEarnCode(), TKUtils.END_OF_TIME);
         if (lastEarnCode != null && lastEarnCode.getEffectiveLocalDate() != null && earnCode.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastEarnCode.getEffectiveLocalDate().isAfter(earnCode.getEffectiveLocalDate());

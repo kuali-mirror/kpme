@@ -224,6 +224,7 @@
     <bean id="timezoneService" class="org.kuali.kpme.core.service.timezone.TimezoneServiceImpl"/>
     
     <bean id="hrServiceLocator" class="org.kuali.kpme.core.service.HrServiceLocator"/>
+    <bean id="hrServiceLocatorInternal" class="org.kuali.kpme.core.service.HrServiceLocatorInternal"/>
 
     <bean id="leavePlanService" class="org.kuali.kpme.core.leaveplan.service.LeavePlanServiceImpl">
         <property name="leavePlanDao" ref="leavePlanDao"/>
@@ -256,6 +257,11 @@
 
     <bean id="departmentService" class="org.kuali.kpme.core.department.service.DepartmentServiceImpl">
         <property name="departmentDao" ref="departmentDao"/>
+    </bean>
+
+    <bean id="departmentInternalService" class="org.kuali.kpme.core.department.service.DepartmentInternalServiceImpl">
+        <property name="departmentDao" ref="departmentDao"/>
+        <property name="kpmeRoleService" ref="kpmeRoleService"/>
     </bean>
 
     <bean id="departmentAffiliationService" class="org.kuali.kpme.core.departmentaffiliation.service.DepartmentAffiliationServiceImpl">

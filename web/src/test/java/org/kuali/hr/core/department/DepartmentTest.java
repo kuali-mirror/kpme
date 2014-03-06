@@ -15,16 +15,9 @@
  */
 package org.kuali.hr.core.department;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
-import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.util.HrTestConstants;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 @FunctionalTest
 public class DepartmentTest extends KPMEWebTestCase {

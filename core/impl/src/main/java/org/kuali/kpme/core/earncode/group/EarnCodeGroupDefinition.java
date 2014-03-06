@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -36,7 +36,7 @@ public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase imple
 
 	private String hrEarnCodeGroupId;
 
-    private EarnCode earnCodeObj;
+    private EarnCodeBo earnCodeObj;
 
     // this is for the maintenance screen
     private String earnCodeDesc;
@@ -69,11 +69,11 @@ public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase imple
 		this.earnCodeDesc = earnCodeDesc;
 	}
 
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
 
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 	

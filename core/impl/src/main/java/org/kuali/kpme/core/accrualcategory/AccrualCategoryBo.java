@@ -25,8 +25,8 @@ import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.util.HrConstants;
 
 
@@ -54,10 +54,10 @@ public class AccrualCategoryBo extends HrBusinessObject implements AccrualCatego
 	private String unitOfTime;
 	private String hasRules;
     private String earnCode;
-    private EarnCode earnCodeObj;
+    private EarnCodeBo earnCodeObj;
     private BigDecimal minPercentWorked;
 
-	private LeavePlan leavePlanObj;
+	private LeavePlanBo leavePlanObj;
 	private List<AccrualCategoryRuleBo> accrualCategoryRules = new LinkedList<AccrualCategoryRuleBo>();
 
 	
@@ -84,11 +84,11 @@ public class AccrualCategoryBo extends HrBusinessObject implements AccrualCatego
 		this.minPercentWorked = minPercentWorked;
 	}
 
-	public LeavePlan getLeavePlanObj() {
+	public LeavePlanBo getLeavePlanObj() {
 		return leavePlanObj;
 	}
 
-	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+	public void setLeavePlanObj(LeavePlanBo leavePlanObj) {
 		this.leavePlanObj = leavePlanObj;
 	}
 
@@ -188,11 +188,11 @@ public class AccrualCategoryBo extends HrBusinessObject implements AccrualCatego
 		this.earnCode = earnCode;
 	}
 
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
 
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 
@@ -211,7 +211,11 @@ public class AccrualCategoryBo extends HrBusinessObject implements AccrualCatego
 	}
 
     public static AccrualCategoryBo from(org.kuali.kpme.core.api.accrualcategory.AccrualCategory im) {
+        if (im == null) {
+            return null;
+        }
         AccrualCategoryBo ac = new AccrualCategoryBo();
+
         ac.setAccrualCategory(im.getAccrualCategory());
         ac.setAccrualEarnInterval(im.getAccrualEarnInterval());
         ac.setDescr(im.getDescr());

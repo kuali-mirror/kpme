@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
@@ -81,7 +82,7 @@ public class WorkAreaServiceImpl implements WorkAreaService {
         //TODO - performance
         for (WorkArea workAreaObj : workAreaObjs) {
         	String department = workAreaObj.getDept();
-        	DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, workAreaObj.getEffectiveLocalDate());
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, workAreaObj.getEffectiveLocalDate());
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();

@@ -51,6 +51,7 @@ import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
+import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -272,7 +273,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			//KPME-2563
 			try{
 				if(td != null) {
-					TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
+					TimeSummaryContract ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
 					approvalSummaryRow.setTimeSummary(ts);					
 				}				
 			} catch (Exception ex){

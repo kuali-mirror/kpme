@@ -26,7 +26,7 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
@@ -47,13 +47,12 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 	private static final String EARN_CODE = "RGN";
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
 	
-	private static String hrEarnCodeId;
-	private static String timeBlockId;
-	
-	@Override
+	private String hrEarnCodeId;
+
+    @Override
 	public void setUp() throws Exception {
 		super.setUp();
-		EarnCode earnCode = new EarnCode();
+		EarnCodeBo earnCode = new EarnCodeBo();
 		earnCode.setActive(true);
 		earnCode.setEarnCode(EARN_CODE);
 		earnCode.setEffectiveLocalDate(TEST_DATE.toLocalDate());
@@ -94,12 +93,12 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		timeBlock.setDocumentId("10039");
 
 		KRADServiceLocator.getBusinessObjectService().save(timeBlock);
-		timeBlockId = timeBlock.getTkTimeBlockId();
+        String timeBlockId = timeBlock.getTkTimeBlockId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
+		EarnCodeBo earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCodeBo.class, hrEarnCodeId);
 		KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
 /*		TimeBlock timeBlockObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(TimeBlock.class, timeBlockId);
 		KRADServiceLocator.getBusinessObjectService().delete(timeBlockObj);*/

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.api.department.service;
+package org.kuali.kpme.core.api.department;
 
 import java.util.List;
 
@@ -29,9 +29,9 @@ public interface DepartmentService {
      * @return
      */
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'hrDeptId=' + #p0")
-    DepartmentContract getDepartment(String hrDeptId);
+    Department getDepartment(String hrDeptId);
     
-    List<? extends DepartmentContract> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory, String payrollApproval);
+    List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory, String payrollApproval);
     
     /**
 	 * get count of department with given department
@@ -46,8 +46,8 @@ public interface DepartmentService {
 	 * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-    DepartmentContract getDepartment(String department, LocalDate asOfDate);
+    //@Cacheable(value=DepartmentContract.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
+    //Department getDepartmentWithDeptAndLocation(String department, LocalDate asOfDate);
 
     /**
      * Fetch department by id without sub kim role member data
@@ -55,8 +55,8 @@ public interface DepartmentService {
      * @param asOfDate
      * @return Department
      */
-    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartmentWithoutRoles}' + 'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-    DepartmentContract getDepartmentWithoutRoles(String department, LocalDate asOfDate);
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartment}' + 'department=' + #p0 + '|' + 'asOfDate=' + #p1")
+    Department getDepartment(String department, LocalDate asOfDate);
 
     /**
      * Fetches a list of Department objects as of the specified date all of which
@@ -66,8 +66,8 @@ public interface DepartmentService {
      * @param asOfDate Effective date
      * @return A List<Department> object.
      */
-    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'chart=' + #p0 + '|' + 'asOfDate=' + #p1")
-    List<? extends DepartmentContract> getDepartments(String location, LocalDate asOfDate);
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'location=' + #p0 + '|' + 'asOfDate=' + #p1")
+    List<Department> getDepartmentsWithLocation(String location, LocalDate asOfDate);
 
     /**
      * Fetches a list of departments as of the specified date all of which
@@ -78,7 +78,7 @@ public interface DepartmentService {
      * @return A List<String> object.
      */
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartmentsForLocation}' + 'location=' + #p0 + '|' + 'asOfDate=' + #p1")
-    List<String> getDepartmentsForLocation(String location, LocalDate asOfDate);
+    List<String> getDepartmentValuesWithLocation(String location, LocalDate asOfDate);
 
     /**
      * Fetches a list of departments as of the specified date all of which
@@ -89,14 +89,14 @@ public interface DepartmentService {
      * @return A List<String> object.
      */
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartmentsForLocations}' + 'location=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
-    List<String> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate);
+    List<String> getDepartmentValuesWithLocations(List<String> locations, LocalDate asOfDate);
     
 	/**
 	 * get count of department with given department
 	 * @param department
 	 * @return int
 	 */
-	List<? extends DepartmentContract> getDepartments(String department);
+	List<Department> getDepartments(String department);
 	
 	/**
      * Fetch department by department, location and effective date
@@ -106,6 +106,6 @@ public interface DepartmentService {
      * @return Department
      */
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'department=' + #p0 + '|' + 'location=' + #p1 + '|' + 'asOfDate=' + #p2")
-    DepartmentContract getDepartment(String department, String location, LocalDate asOfDate);
+    Department getDepartmentWithDeptAndLocation(String department, String location, LocalDate asOfDate);
 
 }

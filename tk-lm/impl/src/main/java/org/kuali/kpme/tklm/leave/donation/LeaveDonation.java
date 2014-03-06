@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.tklm.api.leave.donation.LeaveDonationContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -59,7 +59,7 @@ public class LeaveDonation extends HrBusinessObject implements LeaveDonationCont
 	
 	private transient AccrualCategoryBo accrualCategoryObj;
 	private transient Person personObj;
-	private transient EarnCode earnCodeObj;
+	private transient EarnCodeBo earnCodeObj;
 	
 	private String donatedEarnCode;
 	private String recipientsEarnCode;
@@ -76,11 +76,11 @@ public class LeaveDonation extends HrBusinessObject implements LeaveDonationCont
 			.build();
 	}
 	
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
 
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 

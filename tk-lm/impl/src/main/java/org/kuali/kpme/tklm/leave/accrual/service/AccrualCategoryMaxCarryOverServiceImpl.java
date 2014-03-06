@@ -29,10 +29,11 @@ import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleService;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryService;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.job.service.JobService;
-import org.kuali.kpme.core.api.leaveplan.service.LeavePlanService;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.AccrualCategoryMaxCarryOverService;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
@@ -141,7 +142,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
-			LeavePlan leavePlan = (LeavePlan) getLeavePlanService().getLeavePlan(principalCalendar.getLeavePlan(), principalCalendar.getEffectiveLocalDate());
+			LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalCalendar.getLeavePlan(), principalCalendar.getEffectiveLocalDate());
 			
 			if (leavePlan != null) {
 				AccrualCategory accrualCategoryObj = getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);

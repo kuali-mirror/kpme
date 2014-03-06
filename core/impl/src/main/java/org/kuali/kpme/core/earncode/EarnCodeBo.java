@@ -16,22 +16,26 @@
 package org.kuali.kpme.core.earncode;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class EarnCode extends HrBusinessObject implements EarnCodeContract {
+public class EarnCodeBo extends HrBusinessObject implements EarnCodeContract {
 
 	private static final String EARN_CODE = "earnCode";
 
@@ -40,7 +44,7 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCode";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(EarnCodeSecurity.CACHE_NAME)
-            .add(EarnCode.CACHE_NAME)
+            .add(EarnCodeBo.CACHE_NAME)
             .build();
     //KPME-2273/1965 Primary Business Keys List.
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
@@ -60,8 +64,8 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 	private boolean history;
 
 	private AccrualCategoryBo accrualCategoryObj;
-	private EarnCode rollupToEarnCodeObj;
-	private LeavePlan leavePlanObj;
+	private EarnCodeBo rollupToEarnCodeObj;
+	private LeavePlanBo leavePlanObj;
 	
 	private String leavePlan;
 	private String accrualBalanceAction;
@@ -120,11 +124,11 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 		this.rollupToEarnCode = rollupToEarnCode;
 	}
 
-	public EarnCode getRollupToEarnCodeObj() {
+	public EarnCodeBo getRollupToEarnCodeObj() {
 		return rollupToEarnCodeObj;
 	}
 
-	public void setRollupToEarnCodeObj(EarnCode rollupToEarnCodeObj) {
+	public void setRollupToEarnCodeObj(EarnCodeBo rollupToEarnCodeObj) {
 		this.rollupToEarnCodeObj = rollupToEarnCodeObj;
 	}
 
@@ -263,18 +267,10 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 	}
 
 	public AccrualCategoryBo getAccrualCategoryObj() {
-		if(accrualCategoryObj == null && !this.getAccrualCategory().isEmpty()) {
-			this.assingAccrualCategoryObj();
+		if(accrualCategoryObj == null && StringUtils.isNotEmpty(this.getAccrualCategory())) {
+            accrualCategoryObj = AccrualCategoryBo.from(HrServiceLocator.getAccrualCategoryService().getAccrualCategory(getAccrualCategory(), getEffectiveLocalDate()));
 		}
 		return accrualCategoryObj;
-	}
-	public void assingAccrualCategoryObj() {
-		Map<String,Object> parameters = new HashMap<String,Object>();
-		parameters.put("accrualCategory", getAccrualCategory());
-		Collection<AccrualCategoryBo> c = KRADServiceLocator.getBusinessObjectService().findMatching(AccrualCategoryBo.class, parameters);
-		if(!c.isEmpty()) {
-			this.setAccrualCategoryObj((AccrualCategoryBo)c.toArray()[0]);
-		}
 	}
 
 	public void setAccrualCategoryObj(AccrualCategoryBo accrualCategoryObj) {
@@ -297,7 +293,7 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
 		this.inflateFactor = inflateFactor;
 	}
 
-    public Boolean getOvtEarnCode() {
+    public Boolean isOvtEarnCode() {
         return ovtEarnCode;
     }
 
@@ -356,12 +352,66 @@ public class EarnCode extends HrBusinessObject implements EarnCodeContract {
         return earnCode + " : " + description;
     }
 
-	public LeavePlan getLeavePlanObj() {
+	public LeavePlanBo getLeavePlanObj() {
 		return leavePlanObj;
 	}
 
-	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+	public void setLeavePlanObj(LeavePlanBo leavePlanObj) {
 		this.leavePlanObj = leavePlanObj;
-	}    
-    
+	}
+
+
+    public static EarnCodeBo from(EarnCode im) {
+        if (im == null) {
+            return null;
+        }
+        EarnCodeBo ec = new EarnCodeBo();
+
+        ec.setHrEarnCodeId(im.getHrEarnCodeId());
+        ec.setEarnCode(im.getEarnCode());
+        ec.setDescription(im.getDescription());
+
+        ec.setOvtEarnCode(im.isOvtEarnCode());
+        ec.setAccrualCategory(im.getAccrualCategory());
+        ec.setInflateMinHours(im.getInflateMinHours());
+        ec.setInflateFactor(im.getInflateFactor());
+
+        ec.setAccrualCategoryObj(im.getAccrualCategoryObj() == null ? null : AccrualCategoryBo.from(im.getAccrualCategoryObj()));
+        ec.setRollupToEarnCodeObj(im.getRollupToEarnCodeObj() == null ? null : EarnCodeBo.from(im.getRollupToEarnCodeObj()));
+
+        ec.setLeavePlan(im.getLeavePlan());
+        ec.setAccrualBalanceAction(im.getAccrualBalanceAction());
+        ec.setFractionalTimeAllowed(im.getFractionalTimeAllowed());
+        ec.setRoundingOption(im.getRoundingOption());
+        ec.setEligibleForAccrual(im.getEligibleForAccrual());
+        ec.setAffectPay(im.getAffectPay());
+        ec.setAllowScheduledLeave(im.getAllowScheduledLeave());
+        ec.setFmla(im.getFmla());
+        ec.setWorkmansComp(im.getWorkmansComp());
+        ec.setDefaultAmountofTime(im.getDefaultAmountofTime());
+        ec.setAllowNegativeAccrualBalance(im.getAllowNegativeAccrualBalance());
+        ec.setRollupToEarnCode(im.getRollupToEarnCode());
+        ec.setRecordMethod(im.getRecordMethod());
+        ec.setUsageLimit(im.getUsageLimit());
+        ec.setCountsAsRegularPay(im.getCountsAsRegularPay());
+
+        ec.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        ec.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            ec.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        ec.setUserPrincipalId(im.getUserPrincipalId());
+        ec.setVersionNumber(im.getVersionNumber());
+        ec.setObjectId(im.getObjectId());
+
+        return ec;
+    }
+
+    public static EarnCode to(EarnCodeBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return EarnCode.Builder.create(bo).build();
+    }
 }

@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -64,7 +64,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	boolean validateLeavePlan(EarnCode earnCode) {
+	boolean validateLeavePlan(EarnCodeBo earnCode) {
 		
 		boolean valid = true;
 		
@@ -94,8 +94,8 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-		EarnCode earnCode = (EarnCode)this.getNewBo();
-		EarnCode oldEarnCode = (EarnCode)this.getOldBo();
+		EarnCodeBo earnCode = (EarnCodeBo)this.getNewBo();
+		EarnCodeBo oldEarnCode = (EarnCodeBo)this.getOldBo();
 		if ((StringUtils.equals(oldEarnCode.getEarnCode(), HrConstants.LUNCH_EARN_CODE) 
 				|| StringUtils.equals(oldEarnCode.getEarnCode(), HrConstants.HOLIDAY_EARN_CODE))
 					&& !earnCode.isActive()) {

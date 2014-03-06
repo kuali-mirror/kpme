@@ -22,11 +22,12 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.calendar.CalendarParent;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.web.CalendarDay;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
@@ -34,7 +35,6 @@ import org.kuali.kpme.tklm.api.time.calendar.TkCalendarContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockRenderer;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
@@ -172,7 +172,7 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
         for (TimeBlockRenderer tbr : day.getBlockRenderers()) {
             for (TimeHourDetailRenderer thdr : tbr.getDetailRenderers()) {
                 if (thdr.getTitle().equals(HrConstants.LUNCH_EARN_CODE)) {
-                    ec = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDateTime().toLocalDate());
+                    ec = HrServiceLocator.getEarnCodeService().getEarnCode(thdr.getTitle(), tbr.getTimeBlock().getBeginDateTime().toLocalDate());
                     if (ec != null) {
                         label = ec.getDescription() + " : " + thdr.getHours() + " hours";
                         id = thdr.getTkTimeHourDetailId();

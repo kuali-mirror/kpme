@@ -374,7 +374,7 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript"
-                              p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                              p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
                               p:fieldConversions="leavePlan:leavePlan"/>
                     </property>
                 </bean>
@@ -393,7 +393,7 @@
                 <bean parent="Uif-DataField" p:propertyName="name"/>
                 <bean parent="Uif-DataField" p:propertyName="leavePlan">
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
                               p:inquiryParameters="leavePlanObj.lmLeavePlanId:lmLeavePlanId"/>
                     </property>
                 </bean>

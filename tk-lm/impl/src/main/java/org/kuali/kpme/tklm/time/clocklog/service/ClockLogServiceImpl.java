@@ -194,12 +194,12 @@ LOG.info("in ClockLogServiceImpl.processTimeBlock, after saving time blocks, the
         return clockLogDao.getLastClockLog(principalId, clockAction);
     }
 
-    public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry) {
+    @Override
+    public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntryContract calendarEntry) {
         TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
         if(tdh == null)
         	return null;
         return clockLogDao.getLastClockLog(principalId, jobNumber, workArea, task, tdh.getDocumentId());
-        //return clockLogDao.getLastClockLog(principalId, jobNumber, workArea, task, calendarEntry);
     }
 
     @Override

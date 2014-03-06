@@ -121,7 +121,7 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="department" >
         	 <property name="quickfinder">
-       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department"
+       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
         			 p:fieldConversions="dept:department"/>
    		 	 </property>
         </bean>
@@ -203,7 +203,7 @@
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="department" >
 		        	 <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.Department" 
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
 		        			 p:fieldConversions="dept:department"/>
 		   		 	 </property>
 		        </bean>

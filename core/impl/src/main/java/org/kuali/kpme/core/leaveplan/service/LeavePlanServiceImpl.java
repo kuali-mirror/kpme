@@ -20,15 +20,21 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.api.leaveplan.service.LeavePlanService;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
+import org.kuali.kpme.core.api.leaveplan.LeavePlanService;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.leaveplan.dao.LeavePlanDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class LeavePlanServiceImpl implements LeavePlanService {
 
 	private LeavePlanDao leavePlanDao;
- 
+    private static final ModelObjectUtils.Transformer<LeavePlanBo, LeavePlan> toLeavePlan =
+            new ModelObjectUtils.Transformer<LeavePlanBo, LeavePlan>() {
+                public LeavePlan transform(LeavePlanBo input) {
+                    return LeavePlanBo.to(input);
+                };
+            };
 	public LeavePlanDao getLeavePlanDao() {
 		return leavePlanDao;
 	}
@@ -41,16 +47,24 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 
 	@Override
 	public LeavePlan getLeavePlan(String lmLeavePlanId) {
-		return getLeavePlanDao().getLeavePlan(lmLeavePlanId);
+		return LeavePlanBo.to(getLeavePlanBo(lmLeavePlanId));
 	}
+
+    protected LeavePlanBo getLeavePlanBo(String lmLeavePlanId) {
+        return leavePlanDao.getLeavePlan(lmLeavePlanId);
+    }
+    protected LeavePlanBo getLeavePlanBo(String leavePlan, LocalDate asOfDate) {
+        return leavePlanDao.getLeavePlan(leavePlan, asOfDate);
+    }
+    
 	
 	@Override
 	public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate) {
-		return getLeavePlanDao().getLeavePlan(leavePlan, asOfDate);
+		return LeavePlanBo.to(getLeavePlanBo(leavePlan, asOfDate));
 	}
 
     public List<LeavePlan> getLeavePlans(List<String> leavePlans, LocalDate asOfDate) {
-        return getLeavePlanDao().getLeavePlans(leavePlans, asOfDate);
+        return ModelObjectUtils.transform(leavePlanDao.getLeavePlans(leavePlans, asOfDate), toLeavePlan);
     }
    
 	@Override
@@ -63,23 +77,24 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	
 	@Override
 	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
-		 return leavePlanDao.getAllActiveLeavePlan(leavePlan, asOfDate);
+		 return ModelObjectUtils.transform(leavePlanDao.getAllActiveLeavePlan(leavePlan, asOfDate), toLeavePlan);
 	 }
 	@Override
 	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate) {
-		 return leavePlanDao.getAllInActiveLeavePlan(leavePlan, asOfDate);
+		 return ModelObjectUtils.transform(leavePlanDao.getAllInActiveLeavePlan(leavePlan, asOfDate), toLeavePlan);
 	 }
 
     @Override
     public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-        return leavePlanDao.getLeavePlans(leavePlan, calendarYearStart, descr, planningMonths, fromEffdt, toEffdt, active, showHistory);
+        return ModelObjectUtils.transform(leavePlanDao.getLeavePlans(
+                leavePlan, calendarYearStart, descr, planningMonths, fromEffdt, toEffdt, active, showHistory), toLeavePlan);
     }
     
     @Override
 	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate) {
 		boolean isFirstCalendarPeriodOfLeavePlan = false;
     	
-    	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
+    	LeavePlanBo leavePlanObj = getLeavePlanBo(leavePlan, asOfDate);
 		
     	if (leavePlanObj != null) {
 			DateTime calendarEntryEndDate = calendarEntry.getBeginPeriodFullDateTime();
@@ -99,7 +114,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate) {
     	boolean isLastCalendarPeriodOfLeavePlan = false;
     	
-    	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
+    	LeavePlanBo leavePlanObj = getLeavePlanBo(leavePlan, asOfDate);
 		
     	if (leavePlanObj != null) {
 			DateTime calendarEntryEndDate = calendarEntry.getEndPeriodFullDateTime();
@@ -118,7 +133,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     @Override
     public DateTime getFirstDayOfLeavePlan(String leavePlan, LocalDate asOfDate) {
     	//The only thing this method does is tack on the year of the supplied asOfDate to the calendar year start date.
-        LeavePlan lp = getLeavePlan(leavePlan, asOfDate);
+        LeavePlanBo lp = getLeavePlanBo(leavePlan, asOfDate);
 
         int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
         int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
@@ -132,7 +147,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 
     @Override
     public DateTime getRolloverDayOfLeavePlan(String leavePlan, LocalDate asOfDate) {
-        LeavePlan lp = getLeavePlan(leavePlan, asOfDate);
+        LeavePlanBo lp = getLeavePlanBo(leavePlan, asOfDate);
 
         int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
         int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
@@ -149,7 +164,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	@Override
 	public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays,
                                                                 LocalDate asOfDate) {
-		return leavePlanDao.getLeavePlansNeedsScheduled(thresholdDays, asOfDate);
+		return ModelObjectUtils.transform(leavePlanDao.getLeavePlansNeedsScheduled(thresholdDays, asOfDate), toLeavePlan);
 	}
 	
 }

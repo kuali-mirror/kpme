@@ -17,6 +17,7 @@ package org.kuali.kpme.core.earncode.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 public class EarnCodeMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
@@ -28,7 +29,7 @@ public class EarnCodeMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) HrServiceLocator.getEarnCodeService().getEarnCodeById(id);
+		return EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCodeById(id));
 	}
 	
 }

@@ -18,7 +18,7 @@ package org.kuali.kpme.core.earncode.group.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 
 public interface EarnCodeGroupDao {
@@ -29,5 +29,5 @@ public interface EarnCodeGroupDao {
 	public EarnCodeGroup getEarnCodeGroup(String hrEarnGroupId);
 	public int getEarnCodeGroupCount(String earnGroup);
 	public int getNewerEarnCodeGroupCount(String earnGroup, LocalDate effdt);
-	public List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+	public List<EarnCodeBo> getEarnCodeGroups(String earnCodeGroup, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

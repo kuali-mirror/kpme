@@ -21,6 +21,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
@@ -29,10 +30,10 @@ public class DepartmentServiceImplTest extends CoreUnitTestCase {
 	
 	@Test
 	public void testSearchDepartments() throws Exception {
-		List<? extends DepartmentContract> allResults = HrServiceLocator.getDepartmentService().getDepartments("admin", null, null, null, "Y", "N", "");
+		List<Department> allResults = HrServiceLocator.getDepartmentService().getDepartments("admin", null, null, null, "Y", "N", "");
 		Assert.assertEquals("Search returned the wrong number of results.", 11, allResults.size());
 		
-		List<? extends DepartmentContract> restrictedResults = HrServiceLocator.getDepartmentService().getDepartments("testuser6", null, null, null, "Y", "N", "");
+		List<Department> restrictedResults = HrServiceLocator.getDepartmentService().getDepartments("testuser6", null, null, null, "Y", "N", "");
 		Assert.assertEquals("Search returned the wrong number of results.", 1, restrictedResults.size());
 	}
 

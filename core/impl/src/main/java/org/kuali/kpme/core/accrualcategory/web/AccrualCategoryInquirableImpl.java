@@ -27,8 +27,10 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class AccrualCategoryInquirableImpl extends KPMEInquirableImpl {
-	
-	@Override
+
+    private static final long serialVersionUID = -5835722240665963769L;
+
+    @Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
 		AccrualCategoryContract ac = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("lmAccrualCategoryId"))) {

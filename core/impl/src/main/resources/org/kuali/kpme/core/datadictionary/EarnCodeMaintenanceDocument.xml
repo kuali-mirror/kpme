@@ -27,7 +27,7 @@
 
   <bean id="EarnCodeMaintenanceDocument" parent="EarnCodeMaintenanceDocument-parentBean"/>
   <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.kpme.core.earncode.EarnCode"
+  		p:businessObjectClass="org.kuali.kpme.core.earncode.EarnCodeBo"
   		p:businessRulesClass="org.kuali.kpme.core.earncode.validation.EarnCodeValidation"
   		p:maintainableClass="org.kuali.kpme.core.earncode.web.EarnCodeMaintainableServiceImpl"
   		p:documentAuthorizerClass="org.kuali.kpme.core.earncode.authorization.EarnCodeAuthorizer">

@@ -20,7 +20,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -31,18 +31,18 @@ public class LeavePlanInquirableImpl extends KualiInquirableImpl {
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
 		
-		LeavePlanContract lp = null;
+		LeavePlanBo lp = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("lmLeavePlanId"))) {
-			lp = HrServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("lmLeavePlanId"));
+			lp = LeavePlanBo.from(HrServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("lmLeavePlanId")));
 			
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("leavePlan"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String leavePlan = (String)fieldValues.get("leavePlan");
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-			lp = HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, effectiveDate);
+			lp = LeavePlanBo.from(HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, effectiveDate));
 		} else {
-			lp = (LeavePlan) super.getBusinessObject(fieldValues);
+			lp = (LeavePlanBo) super.getBusinessObject(fieldValues);
 		}
 
 		return lp;

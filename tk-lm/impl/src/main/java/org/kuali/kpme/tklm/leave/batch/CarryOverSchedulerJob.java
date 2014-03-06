@@ -19,11 +19,9 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.common.BatchJobService;
 import org.quartz.JobExecutionContext;
@@ -41,7 +39,7 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		LocalDate asOfDate = LocalDate.now();
-		List<LeavePlan> leavePlans = (List<LeavePlan>) HrServiceLocator.getLeavePlanService().getLeavePlansNeedsCarryOverScheduled(getLeavePlanPollingWindow(), asOfDate);
+		List<LeavePlan> leavePlans = HrServiceLocator.getLeavePlanService().getLeavePlansNeedsCarryOverScheduled(getLeavePlanPollingWindow(), asOfDate);
         try {
         	if(CollectionUtils.isNotEmpty(leavePlans)) {
         		// schedule batch job for all LeavePlans who fall in leave polling window.

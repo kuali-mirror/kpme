@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.rules.overtime.weekly;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.tklm.api.time.rules.overtime.weekly.WeeklyOvertimeRuleContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -43,7 +43,7 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 	
 	private EarnCodeGroup maxHoursEarnGroupObj;
 	private EarnCodeGroup convertFromEarnGroupObj;
-	private EarnCode convertToEarnCodeObj;
+	private EarnCodeBo convertToEarnCodeObj;
 	
 	// TODO returning an empty map for the time-being, until the BK is finalized
 	@Override
@@ -125,11 +125,11 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 		this.convertFromEarnGroupObj = convertFromEarnGroupObj;
 	}
 
-	public EarnCode getConvertToEarnCodeObj() {
+	public EarnCodeBo getConvertToEarnCodeObj() {
 		return convertToEarnCodeObj;
 	}
 
-	public void setConvertToEarnCodeObj(EarnCode convertToEarnCodeObj) {
+	public void setConvertToEarnCodeObj(EarnCodeBo convertToEarnCodeObj) {
 		this.convertToEarnCodeObj = convertToEarnCodeObj;
 	}
 

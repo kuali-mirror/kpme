@@ -20,10 +20,9 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.department.DepartmentContract;
-import org.kuali.kpme.core.api.department.service.DepartmentService;
+import org.kuali.kpme.core.api.department.DepartmentService;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -239,7 +238,7 @@ public abstract class HrPermissionServiceBase {
     	WorkAreaContract workAreaObj = getWorkAreaService().getWorkAreaWithoutRoles(workArea, asOfDate.toLocalDate());
 
 		String department = workAreaObj != null ? workAreaObj.getDept() : null;
-    	DepartmentContract departmentObj = getDepartmentService().getDepartmentWithoutRoles(department, asOfDate.toLocalDate());
+    	DepartmentContract departmentObj = getDepartmentService().getDepartment(department, asOfDate.toLocalDate());
     	
     	String location = departmentObj != null ? departmentObj.getLocation() : null;
     	

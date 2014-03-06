@@ -20,13 +20,19 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.mo.Effective;
+import org.kuali.kpme.core.api.mo.UserModified;
 import org.kuali.kpme.core.api.util.HrApiConstants;
+import org.kuali.rice.core.api.mo.common.GloballyUnique;
+import org.kuali.rice.core.api.mo.common.Identifiable;
+import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>EarnCodeContract interface.</p>
  *
  */
-public interface EarnCodeContract extends HrBusinessObjectContract {
+public interface EarnCodeContract extends Versioned, GloballyUnique, Inactivatable, Identifiable, Effective, UserModified {
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCode";
 	/**
 	 * The flag that indicates if the worked hours under an EarnCode should be counted as regular pay
@@ -229,17 +235,6 @@ public interface EarnCodeContract extends HrBusinessObjectContract {
 	 * @return description for EarnCode
 	 */
 	public String getDescription() ;
-	
-	/**
-	 * The history flag of an EarnCode
-	 * 
-	 * <p>
-	 * history flag of EarnCode
-	 * <p>
-	 * 
-	 * @return history for EarnCode
-	 */
-	public boolean isHistory();
 
 	/**
 	 * The Primary Key of an EarnCode entry saved in a database
@@ -305,7 +300,7 @@ public interface EarnCodeContract extends HrBusinessObjectContract {
 	 * 
 	 * @return Y for Yes, N for No
 	 */	
-    public Boolean getOvtEarnCode() ;
+    public Boolean isOvtEarnCode() ;
 
     /**
 	 * 	The LeavePlan object associated with an EarnCode
@@ -316,7 +311,7 @@ public interface EarnCodeContract extends HrBusinessObjectContract {
 	 * 
 	 * @return leavePlanObj for EarnCode
 	 */	
-	public LeavePlanContract getLeavePlanObj();
+	//public LeavePlanContract getLeavePlanObj();
 	
 	/**
 	 * Indicates the record method time, hour or amount

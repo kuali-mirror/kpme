@@ -18,7 +18,7 @@ package org.kuali.kpme.core.leaveplan.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 
 public interface LeavePlanDao {
 
@@ -27,20 +27,20 @@ public interface LeavePlanDao {
 	 * @param lmLeavePlanId
 	 * @return LeavePlan
 	 */
-	public LeavePlan getLeavePlan(String lmLeavePlanId);
+	public LeavePlanBo getLeavePlan(String lmLeavePlanId);
 	
-	public LeavePlan getLeavePlan(String leavePlan, LocalDate asOfDate);
+	public LeavePlanBo getLeavePlan(String leavePlan, LocalDate asOfDate);
 
-    public List<LeavePlan> getLeavePlans(List<String> leavePlan, LocalDate asOfDate);
+    public List<LeavePlanBo> getLeavePlans(List<String> leavePlan, LocalDate asOfDate);
 	
 	public int getNumberLeavePlan(String leavePlan);
 	
-	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate);
+	public List<LeavePlanBo> getAllActiveLeavePlan(String leavePlan, LocalDate asOfDate);
 	
-	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate);
+	public List<LeavePlanBo> getAllInActiveLeavePlan(String leavePlan, LocalDate asOfDate);
 
-    List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    List<LeavePlanBo> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
-    public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays, LocalDate asOfDate);
+    public List<LeavePlanBo> getLeavePlansNeedsScheduled(int thresholdDays, LocalDate asOfDate);
 
 }

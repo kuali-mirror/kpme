@@ -15,12 +15,12 @@
  */
 package org.kuali.kpme.tklm.time.timesummary.service;
 
-import java.util.List;
-
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.tklm.api.time.timesheet.TimesheetDocumentContract;
+import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
+
+import java.util.List;
 
 public interface TimeSummaryService {
 	/**
@@ -28,7 +28,7 @@ public interface TimeSummaryService {
 	 * @param timesheetDocument
 	 * @return
 	 */
-	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument);
+	public TimeSummaryContract getTimeSummary(TimesheetDocumentContract timesheetDocument);
 
     List<String> getHeaderForSummary(CalendarEntryContract cal, List<Boolean> dayArrangements);
 }

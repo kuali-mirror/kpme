@@ -28,7 +28,7 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 @IntegrationTest
 public class AccrualCategoryInquirableImplTest extends CoreUnitTestCase {
 
-	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.leaveplan.LeavePlan&lmLeavePlanId=&methodToCall=start&effectiveDate=03%2F04%2F2012&leavePlan=testLeavePlan";
+	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.kpme.core.leaveplan.LeavePlanBo&lmLeavePlanId=&methodToCall=start&effectiveDate=03%2F04%2F2012&leavePlan=testLeavePlan";
 	@Test
 	public void testGetInquiryUrl() throws Exception {
 		AccrualCategoryBo ac = new AccrualCategoryBo();

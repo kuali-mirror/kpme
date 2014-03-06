@@ -20,7 +20,8 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.role.KPMERole;
@@ -43,8 +44,8 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		
-		if (pbo instanceof Department) {
-			Department department = (Department) pbo;
+		if (pbo instanceof DepartmentBo) {
+			DepartmentBo department = (DepartmentBo) pbo;
 			if(StringUtils.isBlank(department.getHrDeptId())) {
 				// do not need to validate existing department when editing an existing department 
 				valid &= validateDepartment(department);
@@ -58,11 +59,11 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
-	protected boolean validateDepartment(Department department) {
+	protected boolean validateDepartment(DepartmentBo department) {
 		boolean valid = true;
 		
 		if (StringUtils.isNotBlank(department.getDept()) && department.getEffectiveDate() != null) {
-			List<Department> depts = (List<Department>) HrServiceLocator.getDepartmentService().getDepartments(department.getDept());
+			List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept());
 			if (depts != null && depts.size() > 0) {
 				 this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
 				 valid = false;
@@ -178,7 +179,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
 		if(line instanceof DepartmentPrincipalRoleMemberBo) {
 			DepartmentPrincipalRoleMemberBo roleMember = (DepartmentPrincipalRoleMemberBo) line;
-			Department location = (Department) document.getNewMaintainableObject().getDataObject();
+			DepartmentBo location = (DepartmentBo) document.getNewMaintainableObject().getDataObject();
 			List<DepartmentPrincipalRoleMemberBo> existingRoleMembers = location.getRoleMembers();
 			for(ListIterator<DepartmentPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 				int index = iter.nextIndex();

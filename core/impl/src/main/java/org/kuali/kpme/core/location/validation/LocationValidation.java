@@ -17,14 +17,8 @@ package org.kuali.kpme.core.location.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.department.Department;
 import org.kuali.kpme.core.location.Location;
-import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;

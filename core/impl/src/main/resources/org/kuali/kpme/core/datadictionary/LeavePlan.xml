@@ -31,7 +31,7 @@
 	<bean name="LeavePlan" parent="LeavePlan-parentBean" />
 
 	<bean id="LeavePlan-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.leaveplan.LeavePlan" />
+		<property name="businessObjectClass" value="org.kuali.kpme.core.leaveplan.LeavePlanBo" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="leavePlan" />
 		<property name="inquiryDefinition">
@@ -178,7 +178,7 @@
     <!--KRAD Inquiry View-->
     <bean id="LeavePlan-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Leave Plan Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.leaveplan.LeavePlan"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.leaveplan.LeavePlanBo"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
             <list>
@@ -270,7 +270,7 @@
  
   <bean id="LeavePlan-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="LeavePlan Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.leaveplan.LeavePlan" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.leaveplan.LeavePlanBo" />
     <property name="criteriaFields">
       <list>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan" />

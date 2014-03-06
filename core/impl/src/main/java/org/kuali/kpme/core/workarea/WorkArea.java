@@ -23,8 +23,8 @@ import javax.persistence.Transient;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.department.DepartmentBo;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.task.Task;
@@ -56,8 +56,8 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
 	private boolean history;
 	private boolean hrsDistributionF;	
 	
-    private EarnCode defaultOvertimeEarnCodeObj;
-    private Department department;
+    private EarnCodeBo defaultOvertimeEarnCodeObj;
+    private DepartmentBo department;
     
     @Transient
     private List<Task> tasks = new ArrayList<Task>();
@@ -169,19 +169,19 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
 		this.history = history;
 	}
 
-    public EarnCode getDefaultOvertimeEarnCodeObj() {
+    public EarnCodeBo getDefaultOvertimeEarnCodeObj() {
         return defaultOvertimeEarnCodeObj;
     }
 
-    public void setDefaultOvertimeEarnCodeObj(EarnCode defaultOvertimeEarnCodeObj) {
+    public void setDefaultOvertimeEarnCodeObj(EarnCodeBo defaultOvertimeEarnCodeObj) {
         this.defaultOvertimeEarnCodeObj = defaultOvertimeEarnCodeObj;
     }
     
-	public Department getDepartment() {
+	public DepartmentBo getDepartment() {
 		return department;
 	}
 
-	public void setDepartment(Department department) {
+	public void setDepartment(DepartmentBo department) {
 		this.department = department;
 	}
 

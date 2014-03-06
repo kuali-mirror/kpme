@@ -20,7 +20,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
@@ -35,7 +35,7 @@ import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.kfs.coa.businessobject.*;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -152,7 +152,7 @@ public class ValidationUtils {
         } else {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("earnCode", earnCode);
-            int matches = KRADServiceLocator.getBusinessObjectService().countMatching(EarnCode.class, fieldValues);
+            int matches = KRADServiceLocator.getBusinessObjectService().countMatching(EarnCodeBo.class, fieldValues);
 
             valid = matches > 0;
         }
@@ -261,7 +261,7 @@ public class ValidationUtils {
 
         if (asOfDate != null) {
             EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
-            valid = (ec != null) && (otEarnCode ? ec.getOvtEarnCode().booleanValue() : true);
+            valid = (ec != null) && (otEarnCode ? ec.isOvtEarnCode().booleanValue() : true);
         }
 
         return valid;
@@ -277,7 +277,7 @@ public class ValidationUtils {
         if (StringUtils.isEmpty(department)) {
           // do nothing, let false be returned.
         } else if (asOfDate != null) {
-			DepartmentContract d = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(department, asOfDate);
+			Department d = HrServiceLocator.getDepartmentService().getDepartment(department, asOfDate);
 		    valid = (d != null);
 		} else {
 			int count = HrServiceLocator.getDepartmentService().getDepartmentCount(department);
@@ -417,7 +417,7 @@ public class ValidationUtils {
             	for(EarnCodeGroupDefinitionContract egd : eg.getEarnCodeGroups()) {
             		if(egd.getEarnCode() != null) {
             			EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(egd.getEarnCode(), asOfDate);
-            			if(ec != null && ec.getOvtEarnCode()) {
+            			if(ec != null && ec.isOvtEarnCode()) {
             				return true;
             			}
             		}

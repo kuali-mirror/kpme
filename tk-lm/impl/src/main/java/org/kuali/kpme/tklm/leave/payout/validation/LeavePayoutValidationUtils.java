@@ -19,11 +19,11 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -32,8 +32,6 @@ import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.payout.LeavePayout;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -71,7 +69,7 @@ public class LeavePayoutValidationUtils {
 		if(isValid) {
 			
 			AccrualCategory fromCat = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
-			EarnCode earnCode = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(payoutEarnCode, effectiveDate);
+			EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(payoutEarnCode, effectiveDate);
 			PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 			
 			if(ObjectUtils.isNotNull(pha)) {
@@ -84,13 +82,7 @@ public class LeavePayoutValidationUtils {
 								&& StringUtils.isNotEmpty(acr.getMaxBalFlag())
 								&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {
 							if(ObjectUtils.isNotNull(acr.getMaxPayoutEarnCode()) || StringUtils.equals(HrConstants.ACTION_AT_MAX_BALANCE.LOSE, acr.getActionAtMaxBalance())) {
-	/*							isValid &= validatePrincipal(pha,principalId);
-								isValid &= validateEffectiveDate(effectiveDate);
-								isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
-								isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
-								isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);
-	*/
-								isValid &= validateForfeitedAmount(leavePayout.getForfeitedAmount());
+								isValid = validateForfeitedAmount(leavePayout.getForfeitedAmount());
 								isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat, earnCode, principalId, effectiveDate, acr);
 							}
 							else {

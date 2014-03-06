@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -37,12 +37,12 @@ public class DepartmentLookupableHelper extends KpmeHrBusinessObjectLookupableHe
 	@Override
     public List<? extends HrBusinessObjectContract> getSearchResults(Map<String, String> fieldValues) {
     	// get the unfiltered list from the superclass
-    	List<Department> departmentObjs = (List<Department>) super.getSearchResults(fieldValues);
+    	List<DepartmentBo> departmentObjs = (List<DepartmentBo>) super.getSearchResults(fieldValues);
     	
     	//filter based on permissions for current logged in user
     	String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-    	List<Department> returnList = new ArrayList<Department>();    	
-    	for (Department departmentObj : departmentObjs) {
+    	List<DepartmentBo> returnList = new ArrayList<DepartmentBo>();
+    	for (DepartmentBo departmentObj : departmentObjs) {
         	Map<String, String> roleQualification = new HashMap<String, String>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
         	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), departmentObj.getDept());

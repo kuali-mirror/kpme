@@ -235,7 +235,7 @@
                 <bean parent="Uif-InputField" p:propertyName="earnCode">
                 	<property name="quickfinder">
                     		<bean parent="Uif-QuickFinder"
-                            	p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCode"
+                            	p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                                 p:fieldConversions="earnCode:earnCode" />
                   	</property>
                 </bean>

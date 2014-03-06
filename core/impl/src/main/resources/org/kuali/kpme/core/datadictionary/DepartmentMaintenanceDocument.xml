@@ -24,7 +24,7 @@
 
     <bean id="DepartmentMaintenanceDocument" parent="DepartmentMaintenanceDocument-parentBean" />
     <bean id="DepartmentMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
-  		  p:dataObjectClass="org.kuali.kpme.core.department.Department"
+  		  p:dataObjectClass="org.kuali.kpme.core.department.DepartmentBo"
   		  p:businessRulesClass="org.kuali.kpme.core.department.validation.DepartmentValidation"
   		  p:documentAuthorizerClass="org.kuali.kpme.core.department.authorization.DepartmentAuthorizer"
           p:maintainableClass="org.kuali.kpme.core.department.web.DepartmentMaintainableImpl">
@@ -42,7 +42,7 @@
         <property name="title" value="Department Maintenance"/>
         <property name="headerText" value="Department Maintenance"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.department.web.DepartmentMaintainableImpl" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.department.Department"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo"/>
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-MaintenanceGridSection">

@@ -35,7 +35,7 @@ public class LeavePlanInquirableImplTest extends CoreUnitTestCase {
 		Map fieldValues = new HashMap();
 		fieldValues.put("leavePlan", "TestLeavePlan");
 		fieldValues.put("effectiveDate", "02/01/2012");
-		LeavePlan lp = (LeavePlan) new LeavePlanInquirableImpl().getBusinessObject(fieldValues);
+		LeavePlanBo lp = (LeavePlanBo) new LeavePlanInquirableImpl().getBusinessObject(fieldValues);
 		Assert.assertNotNull("No leave plan found", lp);
 		String dateString =  new SimpleDateFormat("MM/dd/yyyy").format(lp.getEffectiveDate());
 		// in LeavePlanInquirableImplTest, 3 leave plans are added to database with 3 effectiveDate 12/01/2011, 01/01/2012

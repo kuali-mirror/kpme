@@ -41,7 +41,7 @@ import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -54,8 +54,6 @@ import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -366,14 +364,8 @@ public class ActionFormUtils {
     	return false;
     }
      
-    public static String getUnitOfTimeForEarnCode(EarnCode earnCode) {
-//    	AccrualCategory acObj = null;
-//    	if(earnCode.getAccrualCategory() != null) {
-//    		acObj = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
-//    	}
-//    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
-    	String unitTime = earnCode.getRecordMethod() ;
-    	return unitTime;
+    public static String getUnitOfTimeForEarnCode(EarnCodeContract earnCode) {
+    	return earnCode.getRecordMethod() ;
     }
     
     public static int getPlanningMonthsForEmployee(String principalid) {

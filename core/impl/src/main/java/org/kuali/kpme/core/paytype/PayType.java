@@ -21,7 +21,7 @@ import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.institution.Institution;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.location.Location;
@@ -51,7 +51,7 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 	private String regEarnCode;
     /** Used for lookup */
 	private String hrEarnCodeId;
-    private EarnCode regEarnCodeObj;
+    private EarnCodeBo regEarnCodeObj;
     private Boolean ovtEarnCode;
     
     // KPME-2252
@@ -74,11 +74,11 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 			.build();
 	}
 
-    public EarnCode getRegEarnCodeObj() {
+    public EarnCodeBo getRegEarnCodeObj() {
         return regEarnCodeObj;
     }
 
-    public void setRegEarnCodeObj(EarnCode regEarnCodeObj) {
+    public void setRegEarnCodeObj(EarnCodeBo regEarnCodeObj) {
         this.regEarnCodeObj = regEarnCodeObj;
     }
 

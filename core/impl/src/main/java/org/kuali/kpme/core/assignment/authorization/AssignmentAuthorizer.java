@@ -18,6 +18,7 @@ package org.kuali.kpme.core.assignment.authorization;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
@@ -38,7 +39,7 @@ public class AssignmentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer 
 			Assignment assignmentObj = (Assignment) dataObject;
 			
 			if (assignmentObj != null) {
-				DepartmentContract departmentObj = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(assignmentObj.getDept(), assignmentObj.getEffectiveLocalDate());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getEffectiveLocalDate());
 				
 				if (departmentObj != null) {
 					location = departmentObj.getLocation();

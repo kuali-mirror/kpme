@@ -22,7 +22,7 @@ import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.department.Department;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.location.Location;
 import org.kuali.kpme.core.paygrade.PayGrade;
 import org.kuali.kpme.core.paytype.PayType;
@@ -74,7 +74,7 @@ public class Job extends HrBusinessObject implements JobContract {
 	private boolean eligibleForLeave;
 	
 	private transient Person principal;
-	private transient Department deptObj;
+	private transient DepartmentBo deptObj;
 	private PayType payTypeObj;
 	private transient Location locationObj;
     private transient PayGrade payGradeObj;
@@ -237,15 +237,15 @@ public class Job extends HrBusinessObject implements JobContract {
         this.compRate = compRate;
 	}
 
-	public Department getDeptObj() {
+	public DepartmentBo getDeptObj() {
 		if(deptObj == null) {
-			this.setDeptObj((Department)HrServiceLocator.getDepartmentService().getDepartment(dept, getEffectiveLocalDate()));
+			this.setDeptObj(DepartmentBo.from(HrServiceLocator.getDepartmentService().getDepartment(dept, getEffectiveLocalDate())));
 		}
 		return deptObj;
 	}
 
 
-	public void setDeptObj(Department deptObj) {
+	public void setDeptObj(DepartmentBo deptObj) {
 		this.deptObj = deptObj;
 	}
 

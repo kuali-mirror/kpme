@@ -24,12 +24,13 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -37,7 +38,6 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -267,7 +267,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     @Override
     public TimeBlock createTimeBlock(String principalId, String documentId, DateTime beginDateTime, DateTime endDateTime, AssignmentContract assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId) {
         DateTimeZone timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
-        EarnCode earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, beginDateTime.toLocalDate());
+        EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, beginDateTime.toLocalDate());
 
         TimeBlockBo tb = new TimeBlockBo();
         tb.setDocumentId(documentId);
@@ -341,7 +341,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     	});
     	TimeBlockBo previousTimeBlock = null;
         for (TimeBlockBo tb : originalBos) {
-        	EarnCode earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
+        	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
             if (tb.getBeginTime() != null && tb.getEndTime() != null && StringUtils.equals(tb.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
                 BigDecimal hours = TKUtils.getHoursBetween(tb.getBeginTime().getMillisOfDay(), tb.getEndTime().getMillisOfDay());
 
@@ -633,7 +633,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	        }
             List<TimeBlockBo> bos = ModelObjectUtils.transform(timeBlockList, toTimeBlockBo);
 			for(TimeBlockBo tb : bos) {
-		        EarnCode earnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
+		        EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
                 AssignmentContract assignment = TKUtils.getAssignmentWithKey(timeAssignments, AssignmentDescriptionKey.get(tb.getAssignmentKey()));
 		        List<TimeHourDetailBo> timeHourDetails = new ArrayList<TimeHourDetailBo>();
 				if(earnCodeObj.getCountsAsRegularPay().equals("Y") || regularEarnCodes.contains(earnCodeObj.getEarnCode())) {
@@ -642,7 +642,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			    		if(principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
 			    			SystemScheduledTimeOff sstoHoliday = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(principalCalendar.getLeavePlan(), tb.getBeginDateTime().toLocalDate());
 			    			if(sstoHoliday != null && sstoHoliday.getPremiumHoliday().equalsIgnoreCase("Y") && StringUtils.isNotEmpty(sstoHoliday.getPremiumEarnCode())) {
-			    				EarnCode premiumEarnCodeObj = (EarnCode) HrServiceLocator.getEarnCodeService().getEarnCode(sstoHoliday.getPremiumEarnCode(), tb.getBeginDateTime().toLocalDate());
+			    				EarnCode premiumEarnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(sstoHoliday.getPremiumEarnCode(), tb.getBeginDateTime().toLocalDate());
 			    				if(premiumEarnCodeObj != null) {
 			    					timeHourDetails.addAll(this.createTimeHourDetails(earnCodeObj, BigDecimal.ZERO, tb.getAmount(), tb.getTkTimeBlockId(),true));
 			    					timeHourDetails.addAll(this.createTimeHourDetails(premiumEarnCodeObj, tb.getHours(), tb.getAmount(), tb.getTkTimeBlockId(),true));

@@ -15,34 +15,31 @@
  */
 package org.kuali.kpme.core.department.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
-import org.kuali.kpme.core.api.department.service.DepartmentService;
-import org.kuali.kpme.core.department.Department;
-import org.kuali.kpme.core.department.dao.DepartmentDao;
+import org.kuali.kpme.core.api.department.DepartmentService;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
-import org.kuali.kpme.core.role.KPMERole;
+import org.kuali.kpme.core.department.DepartmentBo;
+import org.kuali.kpme.core.department.dao.DepartmentDao;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
-import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.impl.role.RoleMemberBo;
+
+import java.util.*;
 
 public class DepartmentServiceImpl implements DepartmentService {
 
 	private DepartmentDao departmentDao;
+    private static final ModelObjectUtils.Transformer<DepartmentBo, Department> toDepartment =
+            new ModelObjectUtils.Transformer<DepartmentBo, Department>() {
+                public Department transform(DepartmentBo input) {
+                    return DepartmentBo.to(input);
+                };
+            };
 	
 	public DepartmentDao getDepartmentDao() {
 		return departmentDao;
@@ -53,23 +50,24 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 	
 	@Override
-	public Department getDepartment(String hrDeptId) {
-		Department departmentObj = departmentDao.getDepartment(hrDeptId);
-		
-		if (departmentObj != null) {
-			populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveLocalDate());
-		}
-		
+    public Department getDepartment(String hrDeptId) {
+        return DepartmentBo.to(getDepartmentBo(hrDeptId));
+    }
+
+
+	protected DepartmentBo getDepartmentBo(String hrDeptId) {
+		DepartmentBo departmentObj = departmentDao.getDepartment(hrDeptId);
+
 		return departmentObj;
 	}
 	
     @Override
     public List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory, String payrollApproval) {
-    	List<Department> results = new ArrayList<Department>();
+    	List<DepartmentBo> results = new ArrayList<DepartmentBo>();
     	
-    	List<Department> departmentObjs = departmentDao.getDepartments(department, location, descr, active, showHistory, payrollApproval);
+    	List<DepartmentBo> departmentObjs = departmentDao.getDepartments(department, location, descr, active, showHistory, payrollApproval);
         
-    	for (Department departmentObj : departmentObjs) {
+    	for (DepartmentBo departmentObj : departmentObjs) {
         	Map<String, String> roleQualification = new HashMap<String, String>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
         	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), departmentObj.getDept());
@@ -82,42 +80,29 @@ public class DepartmentServiceImpl implements DepartmentService {
         		results.add(departmentObj);
         	}
     	}
-
-        //this shouldn't be needed here
-        //for (Department result : results) {
-        //	populateDepartmentRoleMembers(result, result.getEffectiveLocalDate());
-        //}
         
-        return results;
+        return ModelObjectUtils.transform(results, toDepartment);
     }
     
 	@Override
 	public int getDepartmentCount(String department) {
 		return departmentDao.getDepartmentCount(department);
 	}
-	
-    @Override
-	public DepartmentContract getDepartment(String department, LocalDate asOfDate) {
-        Department departmentObj = departmentDao.getDepartment(department, asOfDate);
-        
-        if (departmentObj != null) {
-        	populateDepartmentRoleMembers(departmentObj, asOfDate);
-        }
-
-		return departmentObj;
-	}
 
     @Override
-    public DepartmentContract getDepartmentWithoutRoles(String department, LocalDate asOfDate) {
+    public Department getDepartment(String department, LocalDate asOfDate) {
+        return DepartmentBo.to(getDepartmentBo(department, asOfDate));
+    }
+
+    protected DepartmentBo getDepartmentBo(String department, LocalDate asOfDate) {
         return departmentDao.getDepartment(department, asOfDate);
     }
 
-
     @Override
-    public List<String> getDepartmentsForLocation(String location, LocalDate asOfDate) {
-        List<Department> departmentObjs = departmentDao.getDepartments(location, asOfDate);
+    public List<String> getDepartmentValuesWithLocation(String location, LocalDate asOfDate) {
+        List<DepartmentBo> departmentObjs = departmentDao.getDepartments(location, asOfDate);
         List<String> depts = new ArrayList<String>();
-        for (Department departmentObj : departmentObjs) {
+        for (DepartmentBo departmentObj : departmentObjs) {
             depts.add(departmentObj.getDept());
         }
 
@@ -125,13 +110,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<String> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate) {
+    public List<String> getDepartmentValuesWithLocations(List<String> locations, LocalDate asOfDate) {
         if (CollectionUtils.isEmpty(locations)) {
             return Collections.emptyList();
         }
-        List<Department> departmentObjs = departmentDao.getDepartmentsForLocations(locations, asOfDate);
+        List<DepartmentBo> departmentObjs = departmentDao.getDepartmentsForLocations(locations, asOfDate);
         List<String> depts = new ArrayList<String>();
-        for (Department departmentObj : departmentObjs) {
+        for (DepartmentBo departmentObj : departmentObjs) {
             depts.add(departmentObj.getDept());
         }
 
@@ -139,55 +124,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<Department> getDepartments(String location, LocalDate asOfDate) {
-        List<Department> departmentObjs = departmentDao.getDepartments(location, asOfDate);
-
-        for (Department departmentObj : departmentObjs) {
-        	populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveLocalDate());
-        }
-
-        return departmentObjs;
+    public List<Department> getDepartmentsWithLocation(String location, LocalDate asOfDate) {
+        return ModelObjectUtils.transform(departmentDao.getDepartments(location, asOfDate), toDepartment);
     }
     
     @Override
 	public List<Department> getDepartments(String department) {
-		return departmentDao.getDepartments(department);
+		return ModelObjectUtils.transform(departmentDao.getDepartments(department), toDepartment);
 	}
 
-    private void populateDepartmentRoleMembers(Department department, LocalDate asOfDate) {
-    	if (department != null && asOfDate != null 
-    			&& CollectionUtils.isEmpty(department.getRoleMembers()) && CollectionUtils.isEmpty(department.getInactiveRoleMembers())) {
-    		Set<RoleMember> roleMembers = new HashSet<RoleMember>();
 
-	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	
-	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-	
-	    	for (RoleMember roleMember : roleMembers) {
-	    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
-	    		
-	    		if (roleMemberBo.isActive()) {
-	    			department.addRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-	    		} else {
-	    			department.addInactiveRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
-	    		}
-	    	}
-    	}
-    }
     
     @Override
-    public DepartmentContract getDepartment(String department, String location, LocalDate asOfDate) {
-    	Department departmentObj = departmentDao.getDepartment(department, location, asOfDate);
-        
-        if (departmentObj != null) {
-        	populateDepartmentRoleMembers(departmentObj, asOfDate);
-        }
-
-		return departmentObj;
+    public Department getDepartmentWithDeptAndLocation(String department, String location, LocalDate asOfDate) {
+    	return DepartmentBo.to(departmentDao.getDepartment(department, location, asOfDate));
     }
 
 }

@@ -20,27 +20,29 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class EarnCodeInquirableImpl extends KualiInquirableImpl {
-	
-	@Override
+
+    private static final long serialVersionUID = -1039815105625650050L;
+
+    @Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		EarnCodeContract ec = null;
+		EarnCodeBo ec = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("hrEarnCodeId"))) {
-			ec = HrServiceLocator.getEarnCodeService().getEarnCodeById((String)fieldValues.get("hrEarnCodeId"));
+			ec = EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCodeById((String)fieldValues.get("hrEarnCodeId")));
 			
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCode"))) {
 			String earnCode = (String)fieldValues.get("earnCode");
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-			ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, effectiveDate);
+			ec = EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, effectiveDate));
 		} else {
-			ec = (EarnCode) super.getBusinessObject(fieldValues);
+			ec = (EarnCodeBo) super.getBusinessObject(fieldValues);
 		}
 
 		return ec;

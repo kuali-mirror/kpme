@@ -30,12 +30,13 @@ import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.service.CalendarService;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentHeaderContract;
+import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.leaveplan.LeavePlan;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.batch.CarryOverJob;
@@ -43,16 +44,11 @@ import org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.kpme.tklm.time.batch.*;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -331,7 +327,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 	@Override
 	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException {
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd");
-		DateTime scheduleDate = formatter.parseDateTime(leavePlan.getBatchPriorYearCarryOverStartDate()).plus(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
+		DateTime scheduleDate = formatter.parseDateTime(leavePlan.getBatchPriorYearCarryOverStartDate()).plus(leavePlan.getBatchPriorYearCarryOverStartLocalTime().getMillisOfDay());
 		scheduleLeaveCarryOverJob(leavePlan, scheduleDate);
 	}
 	
@@ -340,7 +336,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 		scheduleLeaveCarryOverJob(leavePlan, scheduleDate);
 	}
 
-	private void scheduleLeaveCarryOverJob(LeavePlan leavePlan, DateTime scheduleDate) throws SchedulerException {
+	protected void scheduleLeaveCarryOverJob(LeavePlan leavePlan, DateTime scheduleDate) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("date", BatchJobUtil.FORMAT.print(scheduleDate));
 		Map<String, String> jobDataMap = new HashMap<String, String>();

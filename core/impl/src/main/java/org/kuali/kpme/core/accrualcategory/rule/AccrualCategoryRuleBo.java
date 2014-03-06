@@ -18,13 +18,11 @@ package org.kuali.kpme.core.accrualcategory.rule;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import org.joda.time.DateTime;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
-import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.EarnCode;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -54,7 +52,7 @@ public class AccrualCategoryRuleBo extends HrBusinessObject implements AccrualCa
 	private Long maxCarryOver;
 	private String lmAccrualCategoryId;
 	
-	private EarnCode earnCodeObj;
+	private EarnCodeBo earnCodeObj;
 	
 	// TODO returning an empty map for the time-being, until the BK is finalized
 	@Override
@@ -63,11 +61,11 @@ public class AccrualCategoryRuleBo extends HrBusinessObject implements AccrualCa
 				.build();
 	}
 
-	public EarnCode getEarnCodeObj() {
+	public EarnCodeBo getEarnCodeObj() {
 		return earnCodeObj;
 	}
 
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
+	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
 	

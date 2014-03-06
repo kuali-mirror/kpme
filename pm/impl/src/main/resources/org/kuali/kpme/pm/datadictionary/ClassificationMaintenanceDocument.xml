@@ -135,7 +135,7 @@
 					         </bean>
 				        </property>
 				        <property name="quickfinder">
-			       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlan"
+			       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
 			        			 p:fieldConversions="leavePlan:leavePlan"/>
 			   		 	</property>
 			       </bean>

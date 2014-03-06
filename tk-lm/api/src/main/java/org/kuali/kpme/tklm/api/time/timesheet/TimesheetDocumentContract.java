@@ -21,6 +21,7 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
 
@@ -52,7 +53,7 @@ public interface TimesheetDocumentContract extends CalendarDocumentContract {
 	 * 
 	 * @return timeBlocks for TimesheetDocument
 	 */
-	public List<? extends TimeBlockContract> getTimeBlocks();
+	public List<TimeBlock> getTimeBlocks();
 	
 	/**
 	 * The TimeSummary object associated with the TimesheetDocument

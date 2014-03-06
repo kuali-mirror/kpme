@@ -38,8 +38,8 @@ public class ClockLog extends PersistableBusinessObjectBase implements ClockLogC
 		            .add("workArea")
 		            .add("jobNumber")
 		            .build();
-	
-	private String tkClockLogId;
+
+    private String tkClockLogId;
 	private String documentId;
     private String principalId;
     private Long jobNumber;

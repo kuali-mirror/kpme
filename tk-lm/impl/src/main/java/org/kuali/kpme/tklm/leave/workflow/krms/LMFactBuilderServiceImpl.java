@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
@@ -55,7 +56,7 @@ public class LMFactBuilderServiceImpl extends KpmeKrmsFactBuilderServiceHelper {
             for (AssignmentContract a : assignable.getAssignments()) {
                 workAreas.add(String.valueOf(a.getWorkArea()));
                 depts.add(a.getDept());
-                DepartmentContract department = HrServiceLocator.getDepartmentService().getDepartmentWithoutRoles(a.getDept(), a.getEffectiveLocalDate());
+                Department department = HrServiceLocator.getDepartmentService().getDepartment(a.getDept(), a.getEffectiveLocalDate());
                 if (department != null
                         && department.isPayrollApproval()) {
                     factsBuilder.addFact(new Term("payrollProcessorApproval"), Boolean.TRUE);
