@@ -27,7 +27,7 @@
 	<bean id="PayTypeMaintenanceDocument" parent="PayTypeMaintenanceDocument-parentBean" />
 
 	<bean id="PayTypeMaintenanceDocument-parentBean" abstract="true"
-		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.core.paytype.PayType"
+		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.core.paytype.PayTypeBo"
         p:businessRulesClass="org.kuali.kpme.core.paytype.validation.PayTypeRule"
 		p:maintainableClass="org.kuali.kpme.core.paytype.web.PayTypeMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.paytype.authorization.PayTypeAuthorizer">

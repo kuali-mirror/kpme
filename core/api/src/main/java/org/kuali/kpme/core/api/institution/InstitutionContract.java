@@ -15,13 +15,18 @@
  */
 package org.kuali.kpme.core.api.institution;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.Effective;
+import org.kuali.kpme.core.api.mo.UserModified;
+import org.kuali.rice.core.api.mo.common.GloballyUnique;
+import org.kuali.rice.core.api.mo.common.Identifiable;
+import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>InstitutionContract interface.</p>
  *
  */
-public interface InstitutionContract extends HrBusinessObjectContract {
+public interface InstitutionContract extends Versioned, GloballyUnique, Inactivatable, Identifiable, Effective, UserModified {
 	
 	/**
 	 * Text that identifies this Institution

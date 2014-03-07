@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.location.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.core.api.location.LocationContract;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -29,7 +30,7 @@ public interface LocationService {
 	 * @return
 	 */
     @Cacheable(value= LocationContract.CACHE_NAME, key="'hrLocationId=' + #p0")
-	public LocationContract getLocation(String hrLocationId);
+	public Location getLocation(String hrLocationId);
     
 	/**
 	 * Get location count by location and date
@@ -46,11 +47,10 @@ public interface LocationService {
 	 * @return {@link LocationContract}
 	 */
     @Cacheable(value= LocationContract.CACHE_NAME, key="'location=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public LocationContract getLocation(String location, LocalDate asOfDate);
+	public Location getLocation(String location, LocalDate asOfDate);
 
-    public List<? extends LocationContract> searchLocations(String userPrincipalId, String location, String locationDescr, String active, String showHistory);
+    public List<Location> searchLocations(String userPrincipalId, String location, String locationDescr, String active, String showHistory);
 
-    public List<? extends LocationContract> getNewerVersionLocation(String location, LocalDate asOfDate);
+    public List<Location> getNewerVersionLocation(String location, LocalDate asOfDate);
 
-    public List<? extends LocationContract> getLocations(String location);
 }

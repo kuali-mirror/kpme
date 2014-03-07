@@ -15,12 +15,9 @@
  */
 package org.kuali.kpme.core.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.institution.Institution;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -28,6 +25,9 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InstitutionKeyValueFinder extends UifKeyValuesFinderBase {
 
@@ -42,10 +42,10 @@ public class InstitutionKeyValueFinder extends UifKeyValuesFinderBase {
 			MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
 			HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
 			if (anHrObject.getEffectiveDate() != null) {
-				List<? extends InstitutionContract> intList = HrServiceLocator.getInstitutionService().getActiveInstitutionsAsOf(anHrObject.getEffectiveLocalDate());
+				List<Institution> intList = HrServiceLocator.getInstitutionService().getActiveInstitutionsAsOf(anHrObject.getEffectiveLocalDate());
 
 				if (CollectionUtils.isNotEmpty(intList)) {
-					for (InstitutionContract anInstitution : intList) {
+					for (Institution anInstitution : intList) {
 						keyValues.add(new ConcreteKeyValue((String) anInstitution.getInstitutionCode(), (String) anInstitution.getInstitutionCode()));
 					}
 				}

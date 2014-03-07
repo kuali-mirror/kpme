@@ -26,12 +26,12 @@ import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.job.service.JobService;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.core.job.dao.JobDao;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -66,9 +66,9 @@ public class JobServiceImpl implements JobService {
         List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
         for (Job job : jobs) {
-            PayType payType = (PayType) HrServiceLocator.getPayTypeService().getPayType(
+            PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), asOfDate);
-            job.setPayTypeObj(payType);
+            job.setPayTypeObj(PayTypeBo.from(payType));
         }
 
         return jobs;
@@ -99,8 +99,8 @@ public class JobServiceImpl implements JobService {
             	LOG.warn("No pay type for this job!");
                 return null;
             }
-            PayType payType = (PayType) HrServiceLocator.getPayTypeService().getPayType(
-                    hrPayType, asOfDate);
+            PayTypeBo payType = PayTypeBo.from(HrServiceLocator.getPayTypeService().getPayType(
+                    hrPayType, asOfDate));
             if (payType == null) {
 //                throw new RuntimeException("No paytypes defined for this job!");
             	LOG.warn("No paytypes defined for this job!");

@@ -24,7 +24,7 @@
 
     <bean id="Location" parent="Location-parentBean" />
 	<bean id="Location-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.location.Location" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.location.LocationBo" />
 		<property name="titleAttribute" value="location" />
 		<property name="objectLabel" value="Location" />
 		<property name="attributes">
@@ -109,7 +109,7 @@
 	<!-- KRAD Lookup View Definition -->
 	<bean id="Location-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
 	    <property name="headerText" value="Location Lookup" />
-	    <property name="dataObjectClassName" value="org.kuali.kpme.core.location.Location" />
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.location.LocationBo" />
 	    <property name="criteriaFields">
 		    <list>
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
@@ -139,7 +139,7 @@
 	<!-- KRAD Inquiry Definition -->
 	<bean id="Location-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Location Inquiry" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.location.Location" /> 
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.location.LocationBo" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.location.web.LocationInquirableImpl" />
         <property name="singlePageView" value="true" />
         <property name="items">

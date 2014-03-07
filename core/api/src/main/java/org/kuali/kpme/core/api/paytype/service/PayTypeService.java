@@ -20,6 +20,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,13 +31,13 @@ public interface PayTypeService {
 	 * @param payType
 	 */
     @CacheEvict(value={PayTypeContract.CACHE_NAME, AssignmentContract.CACHE_NAME, CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
-	public void saveOrUpdate(PayTypeContract payType);
+	public PayType saveOrUpdate(PayType payType);
 	/**
 	 * Save or Update a List of PayType objects
-	 * @param payTypeList
+	 * @param payTypes
 	 */
     @CacheEvict(value={PayTypeContract.CACHE_NAME, AssignmentContract.CACHE_NAME, CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
-	public void saveOrUpdate(List<? extends PayTypeContract> payTypeList);
+	public List<PayType> saveOrUpdate(List<PayType> payTypes);
 	
 	/**
 	 * Provides access to the PayType.   The PayCalendar will be loaded as well.
@@ -44,10 +45,10 @@ public interface PayTypeService {
 	 * @return A fully populated PayType.
 	 */
     @Cacheable(value= PayTypeContract.CACHE_NAME, key="'payType=' + #p0 + '|' + 'effectiveDate=' + #p1")
-	public PayTypeContract getPayType(String payType, LocalDate effectiveDate);
+	public PayType getPayType(String payType, LocalDate effectiveDate);
 
     @Cacheable(value= PayTypeContract.CACHE_NAME, key="'hrPayTypeId=' + #p0")
-	public PayTypeContract getPayType(String hrPayTypeId);
+	public PayType getPayType(String hrPayTypeId);
 	
 	/**
 	 * get count of pay type with give payType
@@ -56,6 +57,6 @@ public interface PayTypeService {
 	 */
 	public int getPayTypeCount(String payType);
 
-    List<? extends PayTypeContract> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
+    List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
     		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

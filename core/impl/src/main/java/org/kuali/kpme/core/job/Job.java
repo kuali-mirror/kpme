@@ -23,9 +23,9 @@ import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.paygrade.PayGrade;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -75,8 +75,8 @@ public class Job extends HrBusinessObject implements JobContract {
 	
 	private transient Person principal;
 	private transient DepartmentBo deptObj;
-	private PayType payTypeObj;
-	private transient Location locationObj;
+	private PayTypeBo payTypeObj;
+	private transient LocationBo locationObj;
     private transient PayGrade payGradeObj;
     private transient SalaryGroup salaryGroupObj;
     private transient PositionBase positionObj;
@@ -250,12 +250,12 @@ public class Job extends HrBusinessObject implements JobContract {
 	}
 
 
-	public PayType getPayTypeObj() {
+	public PayTypeBo getPayTypeObj() {
 		return payTypeObj;
 	}
 
 
-	public void setPayTypeObj(PayType payTypeObj) {
+	public void setPayTypeObj(PayTypeBo payTypeObj) {
 		this.payTypeObj = payTypeObj;
 	}
 
@@ -279,14 +279,14 @@ public class Job extends HrBusinessObject implements JobContract {
 		return primaryIndicator;
 	}
 
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
         if (locationObj == null) {
-            this.setLocationObj((Location)HrServiceLocator.getLocationService().getLocation(location,getEffectiveLocalDate()));
+            this.setLocationObj(LocationBo.from(HrServiceLocator.getLocationService().getLocation(location,getEffectiveLocalDate())));
         }
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 

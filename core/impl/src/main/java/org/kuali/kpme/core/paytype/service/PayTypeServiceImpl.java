@@ -15,26 +15,51 @@
  */
 package org.kuali.kpme.core.paytype.service;
 
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.paytype.service.PayTypeService;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.paytype.dao.PayTypeDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class PayTypeServiceImpl implements PayTypeService {
 
 	private PayTypeDao payTypeDao;
-
+    private static final ModelObjectUtils.Transformer<PayTypeBo, PayType> toPayType =
+            new ModelObjectUtils.Transformer<PayTypeBo, PayType>() {
+                public PayType transform(PayTypeBo input) {
+                    return PayTypeBo.to(input);
+                };
+            };
+    private static final ModelObjectUtils.Transformer<PayType, PayTypeBo> toPayTypeBo =
+            new ModelObjectUtils.Transformer<PayType, PayTypeBo>() {
+                public PayTypeBo transform(PayType input) {
+                    return PayTypeBo.from(input);
+                };
+            };
 	@Override
-	public void saveOrUpdate(PayTypeContract payType) {
-		payTypeDao.saveOrUpdate((PayType)payType);
+	public PayType saveOrUpdate(PayType payType) {
+        if (payType == null) {
+            return null;
+        }
+        PayTypeBo bo = KRADServiceLocator.getBusinessObjectService().save(PayTypeBo.from(payType));
+		return PayTypeBo.to(bo);
 	}
 
 	@Override
-	public void saveOrUpdate(List<? extends PayTypeContract> payTypeList) {
-		payTypeDao.saveOrUpdate((List<PayType>) payTypeList);
+	public List<PayType> saveOrUpdate(List<PayType> payTypeList) {
+        if (CollectionUtils.isEmpty(payTypeList)) {
+            return Collections.emptyList();
+        }
+        List<PayTypeBo> bos = ModelObjectUtils.transform(payTypeList, toPayTypeBo);
+		bos = (List<PayTypeBo>)KRADServiceLocator.getBusinessObjectService().save(bos);
+        return ModelObjectUtils.transform(bos, toPayType);
 	}
 
 	public void setPayTypeDao(PayTypeDao payTypeDao) {
@@ -43,12 +68,20 @@ public class PayTypeServiceImpl implements PayTypeService {
 
 	@Override
 	public PayType getPayType(String payType, LocalDate effectiveDate) {
-		return payTypeDao.getPayType(payType, effectiveDate);
+		return PayTypeBo.to(getPayTypeBo(payType, effectiveDate));
 	}
+
+    protected PayTypeBo getPayTypeBo(String payType, LocalDate effectiveDate) {
+        return payTypeDao.getPayType(payType, effectiveDate);
+    }
+
+    protected PayTypeBo getPayTypeBo(String hrPayTypeId) {
+        return payTypeDao.getPayType(hrPayTypeId);
+    }
 
 	@Override
 	public PayType getPayType(String hrPayTypeId) {
-		return payTypeDao.getPayType(hrPayTypeId);
+		return PayTypeBo.to(getPayTypeBo(hrPayTypeId));
 	}
 	
 	@Override
@@ -59,7 +92,7 @@ public class PayTypeServiceImpl implements PayTypeService {
     @Override
     public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
     		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
-        return payTypeDao.getPayTypes(payType, regEarnCode, descr, location, institution, flsaStatus, payFrequency, fromEffdt, toEffdt, active, showHist);
+        return ModelObjectUtils.transform(payTypeDao.getPayTypes(payType, regEarnCode, descr, location, institution, flsaStatus, payFrequency, fromEffdt, toEffdt, active, showHist), toPayType);
     }
 
 }

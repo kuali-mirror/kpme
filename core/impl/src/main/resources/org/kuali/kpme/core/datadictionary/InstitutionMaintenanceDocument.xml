@@ -28,7 +28,7 @@
   <bean id="InstitutionMaintenanceDocument" parent="InstitutionMaintenanceDocument-parentBean"/>
 
   <bean id="InstitutionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.kpme.core.institution.Institution"
+  		p:businessObjectClass="org.kuali.kpme.core.institution.InstitutionBo"
   		p:maintainableClass="org.kuali.kpme.core.institution.web.InstitutionMaintainableImpl">
   		<!-- p:businessRulesClass="org.kuali.kpme.core.institution.validation.InstitutionValidation" -->
     <property name="maintainableSections">

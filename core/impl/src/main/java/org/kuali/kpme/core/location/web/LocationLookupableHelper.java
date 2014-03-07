@@ -15,14 +15,12 @@
  */
 package org.kuali.kpme.core.location.web;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.api.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -30,17 +28,26 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 @SuppressWarnings("deprecation")
 public class LocationLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 1285833127534968764L;
-
+    private static final ModelObjectUtils.Transformer<Location, LocationBo> toLocationBo =
+            new ModelObjectUtils.Transformer<Location, LocationBo>() {
+                public LocationBo transform(Location input) {
+                    return LocationBo.from(input);
+                };
+            };
 	@Override
 	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		Location locationObj = (Location) businessObject;
+		LocationBo locationObj = (LocationBo) businessObject;
 		String hrLocationId = locationObj.getHrLocationId();
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
@@ -65,7 +72,7 @@ public class LocationLookupableHelper extends KPMELookupableHelper {
         	location = "";
 		}
 		
-        return HrServiceLocator.getLocationService().searchLocations(GlobalVariables.getUserSession().getPrincipalId(), location, descr, active, showHist);
+        return ModelObjectUtils.transform(HrServiceLocator.getLocationService().searchLocations(GlobalVariables.getUserSession().getPrincipalId(), location, descr, active, showHist), toLocationBo);
     }
     
     @Override

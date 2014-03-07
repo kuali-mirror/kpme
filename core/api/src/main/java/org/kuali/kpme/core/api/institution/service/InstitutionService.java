@@ -18,15 +18,15 @@ package org.kuali.kpme.core.api.institution.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.institution.Institution;
 
 public interface InstitutionService {
 
-	public InstitutionContract getInstitutionById(String institutionId);
+	public Institution getInstitutionById(String institutionId);
 	
-	public List<? extends InstitutionContract> getActiveInstitutionsAsOf(LocalDate asOfDate);
+	public List<Institution> getActiveInstitutionsAsOf(LocalDate asOfDate);
 	
-	public List<? extends InstitutionContract> getInstitutionsByCode(String code);
+	public List<Institution> getInstitutionsByCode(String code);
 	
 	/**
 	 * retrieve the institution with given code and exists before given date
@@ -34,7 +34,7 @@ public interface InstitutionService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public InstitutionContract getInstitution(String institutionCode, LocalDate asOfDate);
+	public Institution getInstitution(String institutionCode, LocalDate asOfDate);
 	
 	/**
 	 * Get the count of institutions that match the given institutionCode and eff date
@@ -44,6 +44,6 @@ public interface InstitutionService {
 	 */
 	public int getInstitutionCount(String institutionCode, LocalDate asOfDate);
 	
-	public List<? extends InstitutionContract> getInstitutions(LocalDate fromEffdt, LocalDate toEffdt, String institutionCode, String active, String showHistory);
+	public List<Institution> getInstitutions(LocalDate fromEffdt, LocalDate toEffdt, String institutionCode, String active, String showHistory);
 	
 }

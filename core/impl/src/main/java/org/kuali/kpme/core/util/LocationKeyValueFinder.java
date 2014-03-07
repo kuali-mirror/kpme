@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -36,7 +37,7 @@ public class LocationKeyValueFinder extends UifKeyValuesFinderBase {
 		
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		String userPrincipalId = GlobalVariables.getUserSession().getLoggedInUserPrincipalName();
-		List<? extends LocationContract> locList = HrServiceLocator.getLocationService().searchLocations(userPrincipalId, "", "", "Y", "N");
+		List<Location> locList = HrServiceLocator.getLocationService().searchLocations(userPrincipalId, "", "", "Y", "N");
 		
 		if(CollectionUtils.isNotEmpty(locList)) {
 			for(LocationContract aLocation : locList) {

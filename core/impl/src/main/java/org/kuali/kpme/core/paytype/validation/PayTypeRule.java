@@ -20,7 +20,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -90,8 +90,8 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
-		if (pbo instanceof PayType) {
-			PayType pt = (PayType) pbo;
+		if (pbo instanceof PayTypeBo) {
+			PayTypeBo pt = (PayTypeBo) pbo;
 
 			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveLocalDate());
 			valid &= validateInstitution(pt.getInstitution(), pt.getEffectiveLocalDate());

@@ -15,9 +15,10 @@
  */
 package org.kuali.kpme.core.location.validation;
 
+import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
@@ -28,8 +29,8 @@ public class LocationEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptB
     protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
-        Location location = (Location) pbo;
-        LocationContract lastLocation = HrServiceLocator.getLocationService().getLocation(location.getLocation(), TKUtils.END_OF_TIME);
+        LocationBo location = (LocationBo) pbo;
+        Location lastLocation = HrServiceLocator.getLocationService().getLocation(location.getLocation(), TKUtils.END_OF_TIME);
         if (lastLocation != null && lastLocation.getEffectiveLocalDate() != null && location.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastLocation.getEffectiveLocalDate().isAfter(location.getEffectiveLocalDate());
         }

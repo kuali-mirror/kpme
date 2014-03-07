@@ -24,11 +24,12 @@ import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
+import org.kuali.kpme.core.api.institution.Institution;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
-import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
-import org.kuali.kpme.core.api.paytype.PayTypeContract;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.api.task.TaskContract;
@@ -211,7 +212,7 @@ public class ValidationUtils {
 					int count = HrServiceLocator.getLocationService().getLocationCount(location, asOfDate);
 					valid = (count > 0);
 				} else {
-					LocationContract l = HrServiceLocator.getLocationService().getLocation(location, asOfDate);
+					Location l = HrServiceLocator.getLocationService().getLocation(location, asOfDate);
 					valid = (l != null);
 				}
 			}
@@ -224,7 +225,7 @@ public class ValidationUtils {
 		boolean valid = false;
 
 		if (asOfDate != null) {
-			PayTypeContract pt = HrServiceLocator.getPayTypeService().getPayType(payType, asOfDate);
+			PayType pt = HrServiceLocator.getPayTypeService().getPayType(payType, asOfDate);
 			valid = (pt != null);
 		} else {
 			int count = HrServiceLocator.getPayTypeService().getPayTypeCount(payType);
@@ -557,7 +558,7 @@ public class ValidationUtils {
 					int count =  HrServiceLocator.getInstitutionService().getInstitutionCount(institutionCode, asOfDate);
 					valid = (count > 0);
 				} else {
-					InstitutionContract inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
+					Institution inst = HrServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
 					valid = (inst != null);
 				}
 			}

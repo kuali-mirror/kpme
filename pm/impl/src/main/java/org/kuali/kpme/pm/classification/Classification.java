@@ -20,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
@@ -67,7 +67,7 @@ public class Classification extends HrBusinessObject implements ClassificationCo
 	
 	// list of position flags, need to add flag maint section to Position maint doc
 	
-	private Location locationObj;
+	private LocationBo locationObj;
 	
 	
 	@Override
@@ -232,11 +232,11 @@ public class Classification extends HrBusinessObject implements ClassificationCo
 		this.pmPositionClassId = pmPositionClassId;
 	}
 
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 

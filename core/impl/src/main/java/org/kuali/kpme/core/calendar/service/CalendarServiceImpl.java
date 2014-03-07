@@ -23,7 +23,7 @@ import org.kuali.kpme.core.api.calendar.service.CalendarService;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.dao.CalendarDao;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
@@ -57,7 +57,7 @@ public class CalendarServiceImpl implements CalendarService {
         if (principalId == null || job == null) {
             return pcal;
         } else {
-            PayType payType = job.getPayTypeObj();
+            PayTypeBo payType = job.getPayTypeObj();
             if (payType == null)  {
 //                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             	LOG.warn("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
@@ -100,7 +100,7 @@ public class CalendarServiceImpl implements CalendarService {
         if (principalId == null || job == null) {
             return pcal;
         } else {
-            PayType payType = job.getPayTypeObj();
+            PayTypeBo payType = job.getPayTypeObj();
             if (payType == null)  {
 //                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             	LOG.warn("No paytype setup for "+principalId + " job number: "+job.getJobNumber());

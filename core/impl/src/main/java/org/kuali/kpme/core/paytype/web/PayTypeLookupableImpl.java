@@ -19,14 +19,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PayTypeLookupableImpl extends KpmeHrBusinessObjectLookupableImpl {
 
 	private static final long serialVersionUID = 3694868213243393295L;
+    private static final ModelObjectUtils.Transformer<PayType, PayTypeBo> toPayTypeBo =
+            new ModelObjectUtils.Transformer<PayType, PayTypeBo>() {
+                public PayTypeBo transform(PayType input) {
+                    return PayTypeBo.from(input);
+                };
+            };
 
 	@Override
 	protected List<?> getSearchResults(LookupForm form,
@@ -55,8 +64,8 @@ public class PayTypeLookupableImpl extends KpmeHrBusinessObjectLookupableImpl {
         	institution = "";
         }
         
-        return HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, location, institution, flsaStatus, payFrequency,
-        		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
+        return ModelObjectUtils.transform(HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, location, institution, flsaStatus, payFrequency,
+                TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toPayTypeBo);
 	}
     
 }

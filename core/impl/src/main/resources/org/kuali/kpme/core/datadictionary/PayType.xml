@@ -23,7 +23,7 @@
 	<bean name="PayType" parent="PayType-parentBean" />
 
 	<bean id="PayType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.paytype.PayType" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.paytype.PayTypeBo" />
 		<property name="objectLabel" value="Pay Type" />
 		<property name="inquiryDefinition">
 			<ref bean="PayType-inquiryDefinition" />
@@ -279,7 +279,7 @@
  
   <bean id="PayType-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Pay Type Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayType" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayTypeBo" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
     <property name="criteriaFields">
       <list merge="true">
@@ -297,21 +297,21 @@
         </bean>      
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
        		<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
 	        		 p:fieldConversions="location:location" />
 	   		 </property>
 	   		 <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:inquiryParameters="location:location"/>
              </property>
         </bean> 
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	    	<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		</property>
 	   		<property name="inquiry">
-                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
                               p:inquiryParameters="institution:institutionCode"/>
              </property>
         </bean>
@@ -331,13 +331,13 @@
         </bean>
         <bean parent="Uif-DataField" p:propertyName="location" >
         	 <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:inquiryParameters="location:location"/>
              </property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="institution" >
         	<property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
                               p:inquiryParameters="institution:institutionCode"/>
             </property>
         </bean>
@@ -351,7 +351,7 @@
   
   <bean id="PayType-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Pay Type Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayTypeBo"/>
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paytype.web.PayTypeInquirableImpl" />
     <property name="singlePageView" value="true"/>
     <property name="items">
@@ -381,7 +381,7 @@
   <bean id="PayType-MaintenanceView" parent="PayType-MaintenanceView-parentBean"/>
   <bean id="PayType-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Pay Type Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayTypeBo"/>
     <property name="items">
       <list>
         <bean parent="Uif-MaintenanceGridSection">
@@ -392,13 +392,13 @@
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
 		        <bean parent="Uif-InputField" p:propertyName="location" p:required="true" >  
 				      <property name="quickfinder">
-			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
 			        		 p:fieldConversions="location:location" />
 			   		 </property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="institution"  p:required="true" >
 			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
 		        			 p:fieldConversions="institutionCode:institution"/>
 		   			</property>
 		        </bean>

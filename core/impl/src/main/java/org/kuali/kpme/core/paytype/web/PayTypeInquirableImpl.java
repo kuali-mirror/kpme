@@ -20,7 +20,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
@@ -31,17 +31,17 @@ public class PayTypeInquirableImpl extends InquirableImpl {
 
 	@Override
 	public Object retrieveDataObject(Map<String, String> parameters) {
-		PayTypeContract payTypeObj = null;
+		PayTypeBo payTypeObj = null;
 
         if (StringUtils.isNotBlank((String) parameters.get("hrPayTypeId"))) {
-            payTypeObj = HrServiceLocator.getPayTypeService().getPayType((String) parameters.get("hrPayTypeId"));
+            payTypeObj = PayTypeBo.from(HrServiceLocator.getPayTypeService().getPayType(parameters.get("hrPayTypeId")));
         } else if (parameters.containsKey("payType")) {
             String payType = (String) parameters.get("payType");
             String effDate = (String) parameters.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-            payTypeObj = HrServiceLocator.getPayTypeService().getPayType(payType, effectiveDate);
+            payTypeObj = PayTypeBo.from(HrServiceLocator.getPayTypeService().getPayType(payType, effectiveDate));
         } else {
-            payTypeObj = (PayType) super.retrieveDataObject(parameters);
+            payTypeObj = (PayTypeBo) super.retrieveDataObject(parameters);
         }
 
         return payTypeObj;

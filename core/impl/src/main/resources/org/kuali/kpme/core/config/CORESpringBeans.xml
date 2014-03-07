@@ -242,6 +242,11 @@
         <property name="locationDao" ref="locationDao"/>
     </bean>
 
+    <bean id="locationInternalService" class="org.kuali.kpme.core.location.service.LocationInternalServiceImpl">
+        <property name="locationDao" ref="locationDao"/>
+        <property name="kpmeRoleService" ref="kpmeRoleService"/>
+    </bean>
+
     <bean id="payGradeService" class="org.kuali.kpme.core.paygrade.service.PayGradeServiceImpl">
         <property name="payGradeDao" ref="payGradeDao"/>
     </bean>

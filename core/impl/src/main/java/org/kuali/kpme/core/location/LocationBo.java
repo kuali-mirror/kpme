@@ -15,20 +15,20 @@
  */
 package org.kuali.kpme.core.location;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Transient;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.kpme.core.util.HrConstants;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import javax.persistence.Transient;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Location extends HrBusinessObject implements LocationContract {
+public class LocationBo extends HrBusinessObject implements LocationContract {
 
 	private static final String LOCATION = "location";
 	
@@ -137,4 +137,34 @@ public class Location extends HrBusinessObject implements LocationContract {
 		this.inactiveRoleMembers = inactiveRoleMembers;
 	}
 
+    public static LocationBo from(Location im) {
+        if (im == null) {
+            return null;
+        }
+        LocationBo loc = new LocationBo();
+
+        loc.setLocation(im.getLocation());
+        loc.setHrLocationId(im.getHrLocationId());
+        loc.setTimezone(im.getTimezone());
+        loc.setDescription(im.getDescription());
+
+        loc.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        loc.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            loc.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        loc.setUserPrincipalId(im.getUserPrincipalId());
+        loc.setVersionNumber(im.getVersionNumber());
+        loc.setObjectId(im.getObjectId());
+
+        return loc;
+    }
+
+    public static Location to(LocationBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return Location.Builder.create(bo).build();
+    }
 }

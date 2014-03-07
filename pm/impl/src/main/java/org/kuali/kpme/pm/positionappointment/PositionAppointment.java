@@ -16,8 +16,8 @@
 package org.kuali.kpme.pm.positionappointment;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.institution.InstitutionBo;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 
 import com.google.common.collect.ImmutableList;
@@ -43,8 +43,8 @@ public class PositionAppointment extends HrBusinessObject implements PositionApp
 	private String institution;
 	private String location;
 	
-	private Location locationObj;
-	private Institution institutionObj;
+	private LocationBo locationObj;
+	private InstitutionBo institutionObj;
 	private boolean history;
 	
 	@Override
@@ -117,28 +117,28 @@ public class PositionAppointment extends HrBusinessObject implements PositionApp
 	/**
 	 * @return the locationObj
 	 */
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
 	/**
 	 * @param locationObj the locationObj to set
 	 */
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 
 	/**
 	 * @return the institutionObj
 	 */
-	public Institution getInstitutionObj() {
+	public InstitutionBo getInstitutionObj() {
 		return institutionObj;
 	}
 
 	/**
 	 * @param institutionObj the institutionObj to set
 	 */
-	public void setInstitutionObj(Institution institutionObj) {
+	public void setInstitutionObj(InstitutionBo institutionObj) {
 		this.institutionObj = institutionObj;
 	}
 

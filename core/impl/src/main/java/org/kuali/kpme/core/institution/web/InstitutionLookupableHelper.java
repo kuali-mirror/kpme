@@ -20,13 +20,12 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.institution.Institution;
 import org.kuali.kpme.core.bo.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -41,6 +40,13 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
 	 */
 	private static final long serialVersionUID = 5277378871669021091L;
 
+    private static final ModelObjectUtils.Transformer<Institution, InstitutionBo> toInstitutionBo =
+            new ModelObjectUtils.Transformer<Institution, InstitutionBo>() {
+                public InstitutionBo transform(Institution input) {
+                    return InstitutionBo.from(input);
+                };
+            };
+
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
@@ -54,7 +60,7 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
         String active = fieldValues.get("active");
         String showHistory = fieldValues.get("history");
         
-		return HrServiceLocator.getInstitutionService().getInstitutions(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), institutionCode, active, showHistory);
+		return ModelObjectUtils.transform(HrServiceLocator.getInstitutionService().getInstitutions(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), institutionCode, active, showHistory), toInstitutionBo);
 	}
 
 	@Override
@@ -62,7 +68,7 @@ public class InstitutionLookupableHelper extends HrEffectiveDateActiveLookupable
 			List pkNames) {
     	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		Institution institution = (Institution) businessObject;
+		InstitutionBo institution = (InstitutionBo) businessObject;
         String pmInstitutionId = institution.getPmInstitutionId();
 		
 		Properties params = new Properties();

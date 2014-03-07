@@ -822,13 +822,13 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
 							p:fieldConversions="institutionCode:institution" />
 					</property>
 				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:fieldConversions="location:location" />
                     </property>
                 </bean>

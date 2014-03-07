@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.core.institution.validation;
 
-import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -30,8 +30,8 @@ public class InstitutionValidation extends MaintenanceDocumentRuleBase {
 		
 		LOG.debug("entering custom validation for InstitutionRule");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
-		if (pbo instanceof Institution) {
-			Institution institution = (Institution) pbo;
+		if (pbo instanceof InstitutionBo) {
+			InstitutionBo institution = (InstitutionBo) pbo;
 			if (institution != null) {
 				valid = true;
 			}

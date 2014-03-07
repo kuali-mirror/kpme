@@ -18,20 +18,20 @@ package org.kuali.kpme.core.paytype.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 
 public interface PayTypeDao {
 
-	public void saveOrUpdate(PayType payType);
+	public void saveOrUpdate(PayTypeBo payType);
 
-	public void saveOrUpdate(List<PayType> payTypeList);
+	public void saveOrUpdate(List<PayTypeBo> payTypeList);
 
-	public PayType getPayType(String payType, LocalDate effectiveDate);
+	public PayTypeBo getPayType(String payType, LocalDate effectiveDate);
 	
-	public PayType getPayType(String hrPayTypeId);
+	public PayTypeBo getPayType(String hrPayTypeId);
 	
 	public int getPayTypeCount(String payType);
 
-    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
+    public List<PayTypeBo> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
     		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

@@ -23,62 +23,62 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PayTypeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PayTypeDao {
     
-	public void saveOrUpdate(PayType payType) {
+	public void saveOrUpdate(PayTypeBo payType) {
 		this.getPersistenceBrokerTemplate().store(payType);
 	}
 
-	public void saveOrUpdate(List<PayType> payTypeList) {
+	public void saveOrUpdate(List<PayTypeBo> payTypeList) {
 		if (payTypeList != null) {
-			for (PayType payType : payTypeList) {
+			for (PayTypeBo payType : payTypeList) {
 				this.getPersistenceBrokerTemplate().store(payType);
 			}
 		}
 	}
 
-	public PayType getPayType(String payType, LocalDate effectiveDate) {
+	public PayTypeBo getPayType(String payType, LocalDate effectiveDate) {
 		Criteria currentRecordCriteria = new Criteria();
 
 		currentRecordCriteria.addEqualTo("payType", payType);
-        currentRecordCriteria.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayType.class, effectiveDate, PayType.BUSINESS_KEYS, false));
-        currentRecordCriteria.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayType.class, PayType.BUSINESS_KEYS, false));
+        currentRecordCriteria.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayTypeBo.class, effectiveDate, PayTypeBo.BUSINESS_KEYS, false));
+        currentRecordCriteria.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayTypeBo.class, PayTypeBo.BUSINESS_KEYS, false));
 		
 //		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 //		activeFilter.addEqualTo("active", true);
 //		currentRecordCriteria.addAndCriteria(activeFilter);
 
-		Query query = QueryFactory.newQuery(PayType.class, currentRecordCriteria);
-		return (PayType)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(PayTypeBo.class, currentRecordCriteria);
+		return (PayTypeBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 
 	@Override
-	public PayType getPayType(String hrPayTypeId) {
+	public PayTypeBo getPayType(String hrPayTypeId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrPayTypeId", hrPayTypeId);
 		
-		Query query = QueryFactory.newQuery(PayType.class, crit);
-		return (PayType)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(PayTypeBo.class, crit);
+		return (PayTypeBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
 	@Override
 	public int getPayTypeCount(String payType) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("payType", payType);
-		Query query = QueryFactory.newQuery(PayType.class, crit);
+		Query query = QueryFactory.newQuery(PayTypeBo.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
+    public List<PayTypeBo> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
     		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-        List<PayType> results = new ArrayList<PayType>();
+        List<PayTypeBo> results = new ArrayList<PayTypeBo>();
         
         Criteria root = new Criteria();
 
@@ -134,11 +134,11 @@ public class PayTypeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PayTyp
         }
         
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PayType.class, effectiveDateFilter, PayType.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayType.class, PayType.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PayTypeBo.class, effectiveDateFilter, PayTypeBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayTypeBo.class, PayTypeBo.BUSINESS_KEYS, false));
         }
 
-        Query query = QueryFactory.newQuery(PayType.class, root);
+        Query query = QueryFactory.newQuery(PayTypeBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         
         return results;

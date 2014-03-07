@@ -25,6 +25,7 @@ import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
@@ -135,7 +136,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
                  HrContext.getTargetPrincipalId(), aTimeBlock.getJobNumber(),
                  aTimeBlock.getEndDateTime().toLocalDate());
     	
-        PayTypeContract payType = HrServiceLocator.getPayTypeService().getPayType(
+        PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                 job.getHrPayType(), aTimeBlock.getEndDateTime().toLocalDate()); 
         
         DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
@@ -317,7 +318,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             	 JobContract job = HrServiceLocator.getJobService().getJob(
                          HrContext.getTargetPrincipalId(), timeBlock.getJobNumber(),
                          timeBlock.getEndDateTime().toLocalDate());
-                 PayTypeContract payType = HrServiceLocator.getPayTypeService().getPayType(
+                 PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                          job.getHrPayType(), timeBlock.getEndDateTime().toLocalDate());
             	  if (principalId.equals(HrContext.getTargetPrincipalId())) {
             		  // if the user is working on his/her own timesheet and the time block is clock generated, user should not be able to delete the time block

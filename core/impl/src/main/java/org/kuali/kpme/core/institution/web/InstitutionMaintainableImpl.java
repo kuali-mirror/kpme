@@ -17,6 +17,7 @@ package org.kuali.kpme.core.institution.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 public class InstitutionMaintainableImpl extends HrBusinessObjectMaintainableImpl {
@@ -28,7 +29,7 @@ public class InstitutionMaintainableImpl extends HrBusinessObjectMaintainableImp
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) HrServiceLocator.getInstitutionService().getInstitutionById(id);
+		return InstitutionBo.from(HrServiceLocator.getInstitutionService().getInstitutionById(id));
 	}
 	
 }

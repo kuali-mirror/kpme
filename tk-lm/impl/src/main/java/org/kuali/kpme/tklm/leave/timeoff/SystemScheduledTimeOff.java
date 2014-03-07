@@ -24,7 +24,7 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.leaveplan.LeavePlanBo;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
@@ -74,7 +74,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 	private EarnCodeBo earnCodeObj;
 	private EarnCodeBo transferToEarnCodeObj;
 	private EarnCodeBo premiumEarnCodeObj;
-	private Location locationObj;
+	private LocationBo locationObj;
 	
 	
 	@Override
@@ -248,11 +248,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		this.earnCodeObj = earnCodeObj;
 	}
 
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 

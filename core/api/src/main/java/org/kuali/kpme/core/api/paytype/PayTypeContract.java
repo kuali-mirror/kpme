@@ -110,7 +110,7 @@ public interface PayTypeContract extends Versioned, GloballyUnique, Inactivatabl
 	 * 
 	 * @return true if is overtime, false if not
 	 */
-	public Boolean getOvtEarnCode();
+	public Boolean isOvtEarnCode();
 
 	/**
 	 * Name of the Institution object the PayType is associated with

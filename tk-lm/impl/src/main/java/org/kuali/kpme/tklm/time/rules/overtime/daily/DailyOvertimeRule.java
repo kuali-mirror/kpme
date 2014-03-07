@@ -20,8 +20,8 @@ import java.math.BigDecimal;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.location.Location;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.location.LocationBo;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.rules.overtime.daily.DailyOvertimeRuleContract;
@@ -71,11 +71,11 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 	private Task taskObj;
 	private WorkArea workAreaObj;
 	private DepartmentBo departmentObj;
-	private PayType payTypeObj;
+	private PayTypeBo payTypeObj;
 
 	private EarnCodeGroup fromEarnGroupObj;
 	private EarnCodeBo earnCodeObj;
-	private Location locationObj;
+	private LocationBo locationObj;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -159,11 +159,11 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 		return workArea;
 	}
 
-	public PayType getPayTypeObj() {
+	public PayTypeBo getPayTypeObj() {
 		return payTypeObj;
 	}
 
-	public void setPayTypeObj(PayType payTypeObj) {
+	public void setPayTypeObj(PayTypeBo payTypeObj) {
 		this.payTypeObj = payTypeObj;
 	}
 
@@ -207,11 +207,11 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 		this.earnCodeObj = earnCodeObj;
 	}
 
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 

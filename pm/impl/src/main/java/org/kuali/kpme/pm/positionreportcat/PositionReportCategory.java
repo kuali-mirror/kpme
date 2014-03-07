@@ -16,8 +16,8 @@
 package org.kuali.kpme.pm.positionreportcat;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.institution.InstitutionBo;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 
@@ -42,8 +42,8 @@ public class PositionReportCategory extends HrBusinessObject implements Position
 	private String institution;
 	private String location;
 	
-	private Location locationObj;
-	private Institution institutionObj;
+	private LocationBo locationObj;
+	private InstitutionBo institutionObj;
 	private PositionReportType prtObj;	
 	
 	@Override
@@ -92,11 +92,11 @@ public class PositionReportCategory extends HrBusinessObject implements Position
 		this.institution = institution;
 	}
 	
-	public Institution getInstitutionObj() {
+	public InstitutionBo getInstitutionObj() {
 		return institutionObj;
 	}
 
-	public void setInstitutionObj(Institution institutionObj) {
+	public void setInstitutionObj(InstitutionBo institutionObj) {
 		this.institutionObj = institutionObj;
 	}
 
@@ -108,11 +108,11 @@ public class PositionReportCategory extends HrBusinessObject implements Position
 		this.location = location;
 	}
 
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 

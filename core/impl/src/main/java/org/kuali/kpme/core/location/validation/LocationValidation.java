@@ -17,7 +17,7 @@ package org.kuali.kpme.core.location.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -36,8 +36,8 @@ public class LocationValidation extends MaintenanceDocumentRuleBase {
 
         PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 
-        if (pbo instanceof Location) {
-            Location location = (Location) pbo;
+        if (pbo instanceof LocationBo) {
+            LocationBo location = (LocationBo) pbo;
 //            valid &= validateLocation(location);
             valid &= validateRolePresent(location.getRoleMembers(), location.getEffectiveLocalDate());
         }
@@ -99,7 +99,7 @@ public class LocationValidation extends MaintenanceDocumentRuleBase {
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
 		if(line instanceof LocationPrincipalRoleMemberBo) {
 			LocationPrincipalRoleMemberBo roleMember = (LocationPrincipalRoleMemberBo) line;
-			Location location = (Location) document.getNewMaintainableObject().getDataObject();
+			LocationBo location = (LocationBo) document.getNewMaintainableObject().getDataObject();
 			List<LocationPrincipalRoleMemberBo> existingRoleMembers = location.getRoleMembers();
 			for(ListIterator<LocationPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 				int index = iter.nextIndex();

@@ -17,6 +17,7 @@ package org.kuali.kpme.core.paytype.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 public class PayTypeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
@@ -28,7 +29,7 @@ public class PayTypeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) HrServiceLocator.getPayTypeService().getPayType(id);
+		return PayTypeBo.from(HrServiceLocator.getPayTypeService().getPayType(id));
 	}
 
 }

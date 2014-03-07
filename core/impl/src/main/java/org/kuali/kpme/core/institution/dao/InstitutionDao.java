@@ -18,19 +18,19 @@ package org.kuali.kpme.core.institution.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.institution.InstitutionBo;
 
 public interface InstitutionDao {
 
-	public Institution getInstitution(String institution, LocalDate asOfDate);
+	public InstitutionBo getInstitution(String institution, LocalDate asOfDate);
 	
-	public List<Institution> getActiveInstitutions(LocalDate asOfDate);
+	public List<InstitutionBo> getActiveInstitutions(LocalDate asOfDate);
 	
-	public List<Institution> getInstitutionByCode(String code);
+	public List<InstitutionBo> getInstitutionByCode(String code);
 	
-	public Institution getInstitutionById(String institutionId);
+	public InstitutionBo getInstitutionById(String institutionId);
 	
 	public int getInstitutionCount(String institutionCode, LocalDate asOfDate);
 	
-	public List<Institution> getInstitutions(LocalDate fromEffdt, LocalDate toEffdt, String institutionCode, String active, String showHistory);
+	public List<InstitutionBo> getInstitutions(LocalDate fromEffdt, LocalDate toEffdt, String institutionCode, String active, String showHistory);
 }

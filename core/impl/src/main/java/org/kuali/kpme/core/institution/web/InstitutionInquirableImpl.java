@@ -20,7 +20,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
-import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -35,17 +35,17 @@ public class InstitutionInquirableImpl extends KualiInquirableImpl {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		InstitutionContract institutionObj = null;	
+		InstitutionBo institutionObj = null;
 		if (StringUtils.isNotBlank((String) fieldValues.get("pmInstitutionId"))) {
-			institutionObj = HrServiceLocator.getInstitutionService().getInstitutionById((String) fieldValues.get("pmInstitutionId"));
+			institutionObj = InstitutionBo.from(HrServiceLocator.getInstitutionService().getInstitutionById((String) fieldValues.get("pmInstitutionId")));
         } else if (fieldValues.containsKey("institutionCode") && fieldValues.containsKey("effectiveDate")) {
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
             
-            institutionObj = HrServiceLocator.getInstitutionService().getInstitution((String)fieldValues.get("institutionCode"), effectiveDate);
+            institutionObj = InstitutionBo.from(HrServiceLocator.getInstitutionService().getInstitution((String)fieldValues.get("institutionCode"), effectiveDate));
         } else {
        	 	if(fieldValues.get("institutionCode") != null && !ValidationUtils.isWildCard(fieldValues.get("institutionCode").toString())){
-       	 		institutionObj = (Institution) super.getBusinessObject(fieldValues);
+       	 		institutionObj = (InstitutionBo) super.getBusinessObject(fieldValues);
        	}
 }
 		return institutionObj;

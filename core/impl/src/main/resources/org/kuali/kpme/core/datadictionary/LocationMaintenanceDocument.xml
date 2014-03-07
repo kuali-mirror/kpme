@@ -31,7 +31,7 @@
 
 	<bean id="LocationMaintenanceDocument" parent="LocationMaintenanceDocument-parentBean" />
 	<bean id="LocationMaintenanceDocument-parentBean" abstract="true"
-		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.core.location.Location"
+		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.core.location.LocationBo"
 		p:businessRulesClass="org.kuali.kpme.core.location.validation.LocationValidation"
 		p:documentAuthorizerClass="org.kuali.kpme.core.location.authorization.LocationAuthorizer"
 		p:maintainableClass="org.kuali.kpme.core.location.web.LocationMaintainableImpl">
@@ -50,7 +50,7 @@
 	<bean id="Location-MaintenanceView-parentBean" abstract="true"
 		parent="KPMEEffectiveDateBO-MaintenanceView">
 		<property name="headerText" value="Location Maintenance" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.core.location.Location" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.location.LocationBo" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="Uif-MaintenanceGridSection">

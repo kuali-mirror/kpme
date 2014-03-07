@@ -23,7 +23,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -31,27 +31,27 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
    
 	@Override
-	public Location getLocation(String location, LocalDate asOfDate) {
+	public LocationBo getLocation(String location, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 		root.addEqualTo("location", location);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, Location.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LocationBo.class, asOfDate, LocationBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LocationBo.class, LocationBo.BUSINESS_KEYS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 
-		Query query = QueryFactory.newQuery(Location.class, root);
+		Query query = QueryFactory.newQuery(LocationBo.class, root);
 		
-		return (Location)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		return (LocationBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 	@Override
-	public Location getLocation(String hrLocationId) {
+	public LocationBo getLocation(String hrLocationId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrLocationId", hrLocationId);
 		
-		Query query = QueryFactory.newQuery(Location.class, crit);
-		return (Location)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(LocationBo.class, crit);
+		return (LocationBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
 	@Override
@@ -61,19 +61,19 @@ public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Locat
 		if(StringUtils.isNotEmpty(location) && !ValidationUtils.isWildCard(location)) {
 			crit.addEqualTo("location", location);
 		}
-		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, asOfDate, Location.BUSINESS_KEYS, false));
-		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.BUSINESS_KEYS, false));
+		crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LocationBo.class, asOfDate, LocationBo.BUSINESS_KEYS, false));
+		crit.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LocationBo.class, LocationBo.BUSINESS_KEYS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		crit.addAndCriteria(activeFilter);
-		Query query = QueryFactory.newQuery(Location.class, crit);
+		Query query = QueryFactory.newQuery(LocationBo.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<Location> searchLocations(String location, String locationDescr, String active, String showHistory) {
-        List<Location> results = new ArrayList<Location>();
+    public List<LocationBo> searchLocations(String location, String locationDescr, String active, String showHistory) {
+        List<LocationBo> results = new ArrayList<LocationBo>();
     	
         Criteria root = new Criteria();
         // ignore cases for location
@@ -96,18 +96,18 @@ public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Locat
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Location.class, Location.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, Location.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(LocationBo.class, LocationBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LocationBo.class, LocationBo.BUSINESS_KEYS, false));
         }
         
-        Query query = QueryFactory.newQuery(Location.class, root);
+        Query query = QueryFactory.newQuery(LocationBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         
         return results;
     }
 
     @Override
-    public List<Location> getNewerVersionLocation(String location, LocalDate asOfDate) {
+    public List<LocationBo> getNewerVersionLocation(String location, LocalDate asOfDate) {
         Criteria root = new Criteria();
         root.addEqualTo("location", location);
         root.addGreaterThan("effectiveDate", asOfDate.toDate());
@@ -116,10 +116,10 @@ public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Locat
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Location.class, root);
-        List<Location> locations = (List<Location>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Query query = QueryFactory.newQuery(LocationBo.class, root);
+        List<LocationBo> locations = (List<LocationBo>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if(locations == null) {
-            locations = new ArrayList<Location>();
+            locations = new ArrayList<LocationBo>();
         }
 
         return locations;
@@ -127,12 +127,12 @@ public class LocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Locat
     }
 
     @Override
-    public List<Location> getLocations(String location) {
-        List<Location> results = new ArrayList<Location>();
+    public List<LocationBo> getLocations(String location) {
+        List<LocationBo> results = new ArrayList<LocationBo>();
         Criteria crit = new Criteria();
         crit.addEqualTo("location", location);
         crit.addEqualTo("active", true);
-        Query query = QueryFactory.newQuery(Location.class, crit);
+        Query query = QueryFactory.newQuery(LocationBo.class, crit);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         return results;
     }

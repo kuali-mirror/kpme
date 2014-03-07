@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
 @SuppressWarnings("deprecation")
@@ -32,8 +32,8 @@ public class LocationAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
 
 		String location = StringUtils.EMPTY;
 		
-		if (dataObject instanceof Location) {
-			Location locationObj = (Location) dataObject;
+		if (dataObject instanceof LocationBo) {
+			LocationBo locationObj = (LocationBo) dataObject;
 			
 			if (locationObj != null) {
 				location = locationObj.getLocation();

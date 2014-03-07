@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.pstnrptgrpsubcat;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategoryContract;
 
 import com.google.common.collect.ImmutableList;
@@ -42,7 +42,7 @@ public class PositionReportGroupSubCategory extends HrBusinessObject implements 
 	private String institution;
 	private String location;
 
-	private Location locationObj;	
+	private LocationBo locationObj;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -123,11 +123,11 @@ public class PositionReportGroupSubCategory extends HrBusinessObject implements 
 		this.location = location;
 	}
 
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 

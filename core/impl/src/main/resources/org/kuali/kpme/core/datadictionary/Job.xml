@@ -555,7 +555,7 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrPayType">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript"
-                              p:dataObjectClassName="org.kuali.kpme.core.paytype.PayType"
+                              p:dataObjectClassName="org.kuali.kpme.core.paytype.PayTypeBo"
                               p:fieldConversions="payType:hrPayType"/>
                     </property>
                 </bean>
@@ -582,7 +582,7 @@
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="location">
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:inquiryParameters="locationObj.hrLocationId:hrLocationId"/>
                     </property>
                 </bean>

@@ -91,7 +91,7 @@
                             <bean parent="Uif-InputField" p:propertyName="location" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                                          p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                                           p:fieldConversions="location:location"/>
                                 </property>
                             </bean>
@@ -105,7 +105,7 @@
                             <bean parent="Uif-InputField" p:propertyName="hrPayType" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.paytype.PayType"
+                                          p:dataObjectClassName="org.kuali.kpme.core.paytype.PayTypeBo"
                                           p:fieldConversions="payType:hrPayType"/>
                                 </property>
                             </bean>

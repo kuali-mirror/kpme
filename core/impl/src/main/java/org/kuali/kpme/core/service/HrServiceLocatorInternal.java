@@ -17,6 +17,7 @@ package org.kuali.kpme.core.service;
 
 import org.kuali.kpme.core.api.department.DepartmentService;
 import org.kuali.kpme.core.department.service.DepartmentInternalService;
+import org.kuali.kpme.core.location.service.LocationInternalService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -26,6 +27,7 @@ public class HrServiceLocatorInternal implements ApplicationContextAware {
 
     public static ApplicationContext CONTEXT;
     public static final String HR_DEPARTMENT_SERVICE_INTERNAL = "departmentInternalService";
+    public static final String HR_LOCATION_SERVICE_INTERNAL = "locationInternalService";
 
     public static Object getBean(String beanName) {
         return CONTEXT.getBean(beanName);
@@ -33,6 +35,10 @@ public class HrServiceLocatorInternal implements ApplicationContextAware {
 
     public static DepartmentInternalService getDepartmentInternalService() {
         return (DepartmentInternalService) CONTEXT.getBean(HR_DEPARTMENT_SERVICE_INTERNAL);
+    }
+
+    public static LocationInternalService getLocationInternalService() {
+        return (LocationInternalService) CONTEXT.getBean(HR_DEPARTMENT_SERVICE_INTERNAL);
     }
 
     @Override

@@ -134,7 +134,7 @@
             			<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
             			<bean parent="Uif-DataField" p:propertyName="location" >
             				<property name="inquiry">
-                        		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               			p:inquiryParameters="location:location"/>
                     		</property>
             			</bean>
@@ -181,11 +181,11 @@
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
                 	<property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:fieldConversions="location:location,effectiveDate:relativeEffectiveDate"/>
                     </property>
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:inquiryParameters="location:location"/>
                     </property>
                 </bean>
@@ -229,7 +229,7 @@
 			<list>
                 <bean parent="Uif-DataField" p:propertyName="location" >
                 	<property name="inquiry">
-                    	<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                    	<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                         		p:inquiryParameters="location:location"/>
                     </property>
                 </bean>
@@ -275,11 +275,11 @@
 							<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
 							<bean parent="Uif-InputField" p:propertyName="location" p:required="true" >
 								<property name="quickfinder">
-                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               			p:fieldConversions="location:location,effectiveDate:relativeEffectiveDate"/>
                     			</property>
                     			<property name="inquiry">
-                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               			p:inquiryParameters="location:location"/>
                     			</property>
 							</bean>

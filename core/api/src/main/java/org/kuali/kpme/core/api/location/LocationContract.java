@@ -18,14 +18,20 @@ package org.kuali.kpme.core.api.location;
 import java.util.List;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.Effective;
+import org.kuali.kpme.core.api.mo.UserModified;
 import org.kuali.kpme.core.api.role.location.LocationPrincipalRoleMemberBoContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
+import org.kuali.rice.core.api.mo.common.GloballyUnique;
+import org.kuali.rice.core.api.mo.common.Identifiable;
+import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
 /**
  * <p>LocationContract interface.</p>
  *
  */
-public interface LocationContract extends HrBusinessObjectContract {
+public interface LocationContract extends Versioned, GloballyUnique, Inactivatable, Identifiable, Effective, UserModified {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Location";
 	
@@ -73,7 +79,6 @@ public interface LocationContract extends HrBusinessObjectContract {
 	 */
 	public String getDescription();	
 	
-	// TODO: not sure if this field is needed...
 	public String getUserPrincipalId();
 
 	
@@ -86,7 +91,7 @@ public interface LocationContract extends HrBusinessObjectContract {
 	 * 
 	 * @return roleMembers for Location
 	 */
-	public List<? extends LocationPrincipalRoleMemberBoContract> getRoleMembers();
+	//public List<? extends LocationPrincipalRoleMemberBoContract> getRoleMembers();
 	
 	/**
 	 * Inactive Role member list for the Location 
@@ -97,6 +102,6 @@ public interface LocationContract extends HrBusinessObjectContract {
 	 * 
 	 * @return roleMembers for Location
 	 */
-	public List<? extends LocationPrincipalRoleMemberBoContract> getInactiveRoleMembers();
+	//public List<? extends LocationPrincipalRoleMemberBoContract> getInactiveRoleMembers();
 	
 }

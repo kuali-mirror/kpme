@@ -301,7 +301,7 @@
 
     <!-- PayType -->
     <!-- Business Keys - [payType : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.paytype.PayType" table="HR_PAYTYPE_T">
+    <class-descriptor class="org.kuali.kpme.core.paytype.PayTypeBo" table="HR_PAYTYPE_T">
         <field-descriptor name="hrPayTypeId"    column="HR_PAYTYPE_ID"  jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_PAYTYPE_S" />
         <field-descriptor name="payType"        column="PAYTYPE"        jdbc-type="VARCHAR"     length="5" nullable="false" primarykey="false" />
         <field-descriptor name="descr"          column="DESCR"          jdbc-type="VARCHAR"     length="90" />
@@ -407,7 +407,7 @@
     
         <!--  Location -->
     <!-- Business Keys - [location : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.location.Location" table="HR_LOCATION_T">
+    <class-descriptor class="org.kuali.kpme.core.location.LocationBo" table="HR_LOCATION_T">
         <field-descriptor name="hrLocationId"       column="HR_LOCATION_ID"     jdbc-type="VARCHAR"     length="60" nullable="false" autoincrement="true" primarykey="true" sequence-name="HR_LOCATION_S" />
         <field-descriptor name="location"           column="LOCATION"           jdbc-type="VARCHAR"     length="20" />
         <field-descriptor name="timezone"           column="TIMEZONE"           jdbc-type="VARCHAR"     length="10" />
@@ -456,7 +456,7 @@
 
     <!-- Institution -->
     <!-- Business Keys - [institutionCode : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.institution.Institution" table="PM_INSTITUTION_T">
+    <class-descriptor class="org.kuali.kpme.core.institution.InstitutionBo" table="PM_INSTITUTION_T">
         <field-descriptor name="pmInstitutionId"      	column="PM_INSTITUTION_ID"  jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_INSTITUTION_S" />
         <field-descriptor name="institutionCode"        column="INSTITUTION_CODE"   jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     	jdbc-type="VARCHAR"     length="50"  		nullable="true" />

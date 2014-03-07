@@ -16,8 +16,8 @@
 package org.kuali.kpme.pm.pstncontracttype;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.institution.InstitutionBo;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.pstncontracttype.PstnContractTypeContract;
 
 import com.google.common.collect.ImmutableList;
@@ -40,8 +40,8 @@ public class PstnContractType extends HrBusinessObject implements PstnContractTy
 	private String institution;
 	private String location;
 		
-	private Location locationObj;
-	private Institution institutionObj;
+	private LocationBo locationObj;
+	private InstitutionBo institutionObj;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -107,19 +107,19 @@ public class PstnContractType extends HrBusinessObject implements PstnContractTy
 		this.location = location;
 	}
 	
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 
-	public Institution getInstitutionObj() {
+	public InstitutionBo getInstitutionObj() {
 		return institutionObj;
 	}
 
-	public void setInstitutionObj(Institution institutionObj) {
+	public void setInstitutionObj(InstitutionBo institutionObj) {
 		this.institutionObj = institutionObj;
 	}
 	

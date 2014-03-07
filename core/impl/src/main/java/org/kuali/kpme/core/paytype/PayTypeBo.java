@@ -18,23 +18,26 @@ package org.kuali.kpme.core.paytype;
 import javax.persistence.Transient;
 
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
-import org.kuali.kpme.core.institution.Institution;
+import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PayType extends HrBusinessObject implements PayTypeContract {
+import java.sql.Timestamp;
+
+public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
     private static final String PAY_TYPE = "payType";
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
-            .add(PayType.CACHE_NAME)
+            .add(PayTypeBo.CACHE_NAME)
             .add(Job.CACHE_NAME)
             .add(Assignment.CACHE_NAME)
             .add(CalendarBlockPermissions.CACHE_NAME)
@@ -64,8 +67,8 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 	private String flsaStatus;
 	private String payFrequency;
 	
-	private Location locationObj;
-	private Institution institutionObj;
+	private LocationBo locationObj;
+	private InstitutionBo institutionObj;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -126,9 +129,14 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 		return payType;
 	}
 
-	public Boolean getOvtEarnCode() {
+    @Override
+	public Boolean isOvtEarnCode() {
 		return ovtEarnCode;
 	}
+
+    public Boolean getOvtEarnCode() {
+        return isOvtEarnCode();
+    }
 
 	public void setOvtEarnCode(Boolean ovtEarnCode) {
 		this.ovtEarnCode = ovtEarnCode;
@@ -168,11 +176,11 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 		this.payFrequency = payFrequency;
 	}
 
-	public Institution getInstitutionObj() {
+	public InstitutionBo getInstitutionObj() {
 		return institutionObj;
 	}
 
-	public void setInstitutionObj(Institution institutionObj) {
+	public void setInstitutionObj(InstitutionBo institutionObj) {
 		this.institutionObj = institutionObj;
 	}
 
@@ -184,11 +192,11 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 		this.location = location;
 	}
 
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 
@@ -207,5 +215,47 @@ public class PayType extends HrBusinessObject implements PayTypeContract {
 	public void setPmInstitutionId(String pmInstitutionId) {
 		this.pmInstitutionId = pmInstitutionId;
 	}
-	
+
+    public static PayTypeBo from(PayType im) {
+        if (im == null) {
+            return null;
+        }
+        PayTypeBo pt = new PayTypeBo();
+
+        pt.setHrPayTypeId(im.getHrPayTypeId());
+        pt.setPayType(im.getPayType());
+        pt.setDescr(im.getDescr());
+        pt.setRegEarnCode(im.getRegEarnCode());
+        pt.setHrEarnCodeId(im.getHrEarnCodeId());
+        pt.setRegEarnCodeObj(im.getRegEarnCodeObj() == null ? null : EarnCodeBo.from(im.getRegEarnCodeObj()));
+        pt.setOvtEarnCode(im.isOvtEarnCode());
+
+        pt.setLocation(im.getLocation());
+        pt.setInstitution(im.getInstitution());
+        pt.setFlsaStatus(im.getFlsaStatus());
+        pt.setPayFrequency(im.getPayFrequency());
+
+        pt.setHrEarnCodeId(im.getHrEarnCodeId());
+
+        pt.setOvtEarnCode(im.isOvtEarnCode());
+
+        pt.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        pt.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            pt.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        pt.setUserPrincipalId(im.getUserPrincipalId());
+        pt.setVersionNumber(im.getVersionNumber());
+        pt.setObjectId(im.getObjectId());
+
+        return pt;
+    }
+
+    public static PayType to(PayTypeBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return PayType.Builder.create(bo).build();
+    }
 }

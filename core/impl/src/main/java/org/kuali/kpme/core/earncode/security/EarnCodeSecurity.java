@@ -21,7 +21,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.util.HrConstants;
 
@@ -65,7 +65,7 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	private DepartmentBo departmentObj;
 	private EarnCodeBo earnCodeObj;
     private Job jobObj;
-    private Location locationObj;
+    private LocationBo locationObj;
 
     
     @Override
@@ -175,11 +175,11 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 		this.jobObj = jobObj;
 	}
 	
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 	
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 	

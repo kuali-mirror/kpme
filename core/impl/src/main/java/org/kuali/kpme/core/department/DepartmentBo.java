@@ -21,13 +21,12 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.util.HrConstants;
 
@@ -58,7 +57,7 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
     private String org;
     private boolean payrollApproval;
 
-    private Location locationObj;
+    private LocationBo locationObj;
     private Chart chartObj;
     private Organization orgObj;
     
@@ -147,11 +146,11 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
         this.org = org;
     }
     
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 

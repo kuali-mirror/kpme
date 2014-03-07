@@ -59,14 +59,14 @@
                             <bean parent="Uif-InputField" p:propertyName="location" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.location.Location"
+                                          p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                                           p:fieldConversions="location:location"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="institution">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.institution.Institution"
+                                          p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
                                           p:fieldConversions="institutionCode:institution"/>
                                 </property>
                             </bean>

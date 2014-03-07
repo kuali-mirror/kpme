@@ -29,7 +29,7 @@ import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.paytype.PayType;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -83,7 +83,7 @@ public class JobTest extends CoreUnitTestCase {
 
 	@Test
 	public void testInsertPayType() throws Exception {
-		PayType payType = new PayType();
+		PayTypeBo payType = new PayTypeBo();
 		payType.setHrPayTypeId("1001");
 		payType.setPayType("BW");
 		payType.setRegEarnCode("RGN");
@@ -96,7 +96,7 @@ public class JobTest extends CoreUnitTestCase {
 		payType.setPayFrequency("M");
         payType.setUserPrincipalId("admin");
 
-		payType = (PayType) KRADServiceLocator.getBusinessObjectService().save(payType);
+		payType = (PayTypeBo) KRADServiceLocator.getBusinessObjectService().save(payType);
 		Assert.assertTrue(HrServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveLocalDate()) != null);
 		KRADServiceLocator.getBusinessObjectService().delete(payType);
 	}

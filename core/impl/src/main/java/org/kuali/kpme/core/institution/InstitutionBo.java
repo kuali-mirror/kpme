@@ -15,12 +15,17 @@
  */
 package org.kuali.kpme.core.institution;
 
+import org.kuali.kpme.core.api.institution.Institution;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.kuali.kpme.core.earncode.EarnCodeBo;
 
-public class Institution extends HrBusinessObject implements InstitutionContract {
+import java.sql.Timestamp;
+
+public class InstitutionBo extends HrBusinessObject implements InstitutionContract {
 
 	 private static final String INSTITUTION_CODE = "institutionCode";
 
@@ -84,4 +89,33 @@ public class Institution extends HrBusinessObject implements InstitutionContract
 	public void setPmInstitutionId(String pmInstitutionId) {
 		this.pmInstitutionId = pmInstitutionId;
 	}
+
+    public static InstitutionBo from(Institution im) {
+        if (im == null) {
+            return null;
+        }
+        InstitutionBo inst = new InstitutionBo();
+        inst.setPmInstitutionId(im.getPmInstitutionId());
+        inst.setInstitutionCode(im.getInstitutionCode());
+        inst.setDescription(im.getDescription());
+
+        inst.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        inst.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            inst.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        inst.setUserPrincipalId(im.getUserPrincipalId());
+        inst.setVersionNumber(im.getVersionNumber());
+        inst.setObjectId(im.getObjectId());
+
+        return inst;
+    }
+
+    public static Institution to(InstitutionBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return Institution.Builder.create(bo).build();
+    }
 }

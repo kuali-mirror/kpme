@@ -19,8 +19,8 @@ import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliati
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
-import org.kuali.kpme.core.institution.Institution;
-import org.kuali.kpme.core.location.Location;
+import org.kuali.kpme.core.institution.InstitutionBo;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 import org.springframework.util.StringUtils;
@@ -46,8 +46,8 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	private String deptAffl;
 
     private String hrPositionId;
-	private Location locationObj;
-	private Institution institutionObj;
+	private LocationBo locationObj;
+	private InstitutionBo institutionObj;
 	private DepartmentBo departmentObj;
 	private DepartmentAffiliation deptAfflObj;
 
@@ -171,14 +171,14 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	/**
 	 * @return the locationObj
 	 */
-	public Location getLocationObj() {
+	public LocationBo getLocationObj() {
 		return locationObj;
 	}
 
 	/**
 	 * @param locationObj the locationObj to set
 	 */
-	public void setLocationObj(Location locationObj) {
+	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
 	}
 
@@ -199,14 +199,14 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	/**
 	 * @return the institutionObj
 	 */
-	public Institution getInstitutionObj() {
+	public InstitutionBo getInstitutionObj() {
 		return institutionObj;
 	}
 
 	/**
 	 * @param institutionObj the institutionObj to set
 	 */
-	public void setInstitutionObj(Institution institutionObj) {
+	public void setInstitutionObj(InstitutionBo institutionObj) {
 		this.institutionObj = institutionObj;
 	}
 
