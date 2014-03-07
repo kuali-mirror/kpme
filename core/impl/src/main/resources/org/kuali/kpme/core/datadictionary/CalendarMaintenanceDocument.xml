@@ -27,34 +27,39 @@
 
   <bean id="CalendarMaintenanceDocument" parent="CalendarMaintenanceDocument-parentBean"/>
 
-  <bean id="CalendarMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.kpme.core.calendar.Calendar"
+  <bean id="CalendarMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
+  		p:dataObjectClass="org.kuali.kpme.core.calendar.Calendar"
   		p:businessRulesClass="org.kuali.kpme.core.calendar.validation.CalendarRule"
    		p:maintainableClass="org.kuali.kpme.core.calendar.web.CalendarMaintainableImpl"
    		p:documentAuthorizerClass="org.kuali.kpme.core.calendar.authorization.CalendarAuthorizer">
-    <property name="maintainableSections">
-      <list>
-        <ref bean="CalendarMaintenanceDocument-CalendarMaintenance"/>
-      </list>
-    </property>
     <property name="documentTypeName" value="PayCalendarDocumentType"/>
-    <!-- property name="additionalSectionsFile" value="/jsp/payCalendarDatesSection.jsp"/ -->
   </bean>
 
   <!-- Maintenance Section Definitions -->
 
   <bean id="CalendarMaintenanceDocument-CalendarMaintenance" parent="CalendarMaintenanceDocument-CalendarMaintenance-parentBean"/>
-  <bean id="CalendarMaintenanceDocument-CalendarMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Calendar Maintenance"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="calendarName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="calendarDescriptions" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="calendarTypes" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="flsaBeginDay"/>        
-        <bean parent="MaintainableFieldDefinition" p:name="flsaBeginTime"/>        
-      </list>
-    </property>
-  </bean>
+  <bean id="CalendarMaintenanceDocument-CalendarMaintenance-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+      <property name="headerText" value="Calendar Maintenance"/>
+      <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.Calendar"/>
+      <property name="title" value="Calendar Maintenance"/>
+      <property name="items">
+        <list>
+            <bean parent="Uif-MaintenanceGridSection">
+                <property name="items">
+                    <list>
+
+                        <bean parent="Uif-InputField" p:propertyName="calendarName" p:required="true"/>
+                        <bean parent="Uif-InputField" p:propertyName="calendarDescriptions" p:required="true"/>
+                        <bean parent="Uif-InputField" p:propertyName="calendarTypes" p:required="true"/>
+                        <bean parent="Uif-InputField" p:propertyName="flsaBeginDay" />
+                        <bean parent="Uif-InputField" p:propertyName="flsaBeginTime">
+
+                        </bean>
+                    </list>
+                 </property>
+             </bean>
+        </list>
+      </property>
+    </bean>
 
 </beans>

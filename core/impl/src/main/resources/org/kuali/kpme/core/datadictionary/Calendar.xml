@@ -144,7 +144,7 @@
         </property>
         <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
         <property name="propertyEditor">
-            <bean class="org.kuali.kpme.core.SqlTimeEditor"/>
+            <bean class="org.kuali.rice.krad.web.bind.UifTimeEditor"/>
         </property>
         <property name="name" value="flsaBeginTime"/>
         <property name="label" value="Flsa Begin Time (12:00 AM)"/>
