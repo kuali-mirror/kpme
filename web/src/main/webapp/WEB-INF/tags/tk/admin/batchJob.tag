@@ -13,44 +13,47 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
+<%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp" %>
 
-<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
+<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>'/>
+<c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>'/>
+<c:if test="${systemAdmin || locationAdmin}">
+    <div class="portlet">
+        <div class="header">Run Batch Job</div>
 
-<c:if test="${systemAdmin}">
-    <channel:portalChannelTop channelTitle="Run Batch Job" />
-    <html:form action="/batchJob.do">
-        <div class="body">
-            <div id="content">
-                <table>
-                    <tr>
-                        <td>Batch Job:</td>
-                        <td colspan="2">
-                            <select name="selectedBatchJob" id="selectedBatchJob">
-                                <c:forEach var="job" items="${BatchJobActionForm.batchJobNames}">
-                                    <option value="${job}">${job}</option>
-                                </c:forEach>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Pay calendar period:</td>
-                        <td>
-                            <html:text property="hrPyCalendarEntryId" />
-                        </td>
-                        <td>
-                        	<kul:lookup boClassName="org.kuali.kpme.core.calendar.entry.CalendarEntry" fieldConversions="hrCalendarEntryId:hrPyCalendarEntryId" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <html:submit property="methodToCall.runBatchJob" value="Run" />
-                        </td>
-                    </tr>
-                </table>
-                ${BatchJobActionForm.message}
+        <html:form action="/batchJob.do">
+            <div class="body">
+                <div id="content">
+                    <table>
+                        <tr>
+                            <td>Batch Job:</td>
+                            <td colspan="2">
+                                <select name="selectedBatchJob" id="selectedBatchJob">
+                                    <c:forEach var="job" items="${BatchJobActionForm.batchJobNames}">
+                                        <option value="${job}">${job}</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pay calendar period:</td>
+                            <td>
+                                <html:text property="hrPyCalendarEntryId"/>
+                            </td>
+                            <td>
+                                <kul:lookup boClassName="org.kuali.kpme.core.calendar.entry.CalendarEntry"
+                                            fieldConversions="hrCalendarEntryId:hrPyCalendarEntryId"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <html:submit property="methodToCall.runBatchJob" value="Run"/>
+                            </td>
+                        </tr>
+                    </table>
+                        ${BatchJobActionForm.message}
+                </div>
             </div>
-        </div>
-    </html:form>
-    <channel:portalChannelBottom />
+        </html:form>
+    </div>
 </c:if>

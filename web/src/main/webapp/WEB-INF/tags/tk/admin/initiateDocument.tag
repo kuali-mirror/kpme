@@ -13,44 +13,49 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
+<%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp" %>
 
-<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
+<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>'/>
+<c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
 
-<c:if test="${systemAdmin}">
-    <channel:portalChannelTop channelTitle="Initiate Timesheet / Leave Calendar" />
-    <html:form action="/initiateDocument.do">
-        <div class="body">
-            <div id="content">
-                <table>
-                    <tr>
-                        <td>Principal Id:</td>
-                        <td>
-                            <html:text property="principalId" />
-                        </td>
-                        <td>
-                        	<kul:lookup boClassName="org.kuali.rice.kim.impl.identity.PersonImpl" fieldConversions="principalId:principalId" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Calendar Entries Id:</td>
-                        <td>
-                            <html:text property="hrCalendarEntryId" />
-                        </td>
-                        <td>
-                            <kul:lookup boClassName="org.kuali.kpme.core.calendar.entry.CalendarEntry" fieldConversions="hrCalendarEntryId:hrCalendarEntryId" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <html:submit property="methodToCall.initiateDocument" value="Initiate" />
-                        </td>
-                    </tr>
-                </table>
-                ${InitiateDocumentForm.message}
+<c:if test="${systemAdmin || locationAdmin}">
+    <div class="portlet">
+        <div class="header">Initiate Timesheet / Leave Calendar</div>
+
+        <html:form action="/initiateDocument.do">
+            <div class="body">
+                <div id="content">
+                    <table>
+                        <tr>
+                            <td>Principal Id:</td>
+                            <td>
+                                <html:text property="principalId"/>
+                            </td>
+                            <td>
+                                <kul:lookup boClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
+                                            fieldConversions="principalId:principalId"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Calendar Entries Id:</td>
+                            <td>
+                                <html:text property="hrCalendarEntryId"/>
+                            </td>
+                            <td>
+                                <kul:lookup boClassName="org.kuali.kpme.core.calendar.entry.CalendarEntry"
+                                            fieldConversions="hrCalendarEntryId:hrCalendarEntryId"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <html:submit property="methodToCall.initiateDocument" value="Initiate"/>
+                            </td>
+                        </tr>
+                    </table>
+                        ${InitiateDocumentForm.message}
+                </div>
             </div>
-        </div>
-    </html:form>
-    
-    <channel:portalChannelBottom />
+        </html:form>
+
+    </div>
 </c:if>

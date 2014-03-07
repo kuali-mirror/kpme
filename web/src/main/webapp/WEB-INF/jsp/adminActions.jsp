@@ -26,7 +26,6 @@
         <table width="100%">
             <tr>
                 <td class="content" valign="top">
-                    <admin:changeTargetPerson />
                     <admin:calendarEntry />
                     <admin:initiateDocument />
                     <admin:deleteDocument />
