@@ -226,6 +226,7 @@
                                 WEB-INF/classes/,
                                 WEB-INF/lib/,
                                 WEB-INF/tags/rice-portal/mainTab.tag,
+                                WEB-INF/tags/rice-portal/administrationTab.tag,
                                 WEB-INF/tags/rice-portal/maintenanceTab.tag,
                                 WEB-INF/tags/rice-portal/portalBody.tag,
                                 WEB-INF/tags/rice-portal/portalTabs.tag,
@@ -298,7 +299,6 @@
                                     <include>WEB-INF/tags/kim/</include>
                                     <include>WEB-INF/tags/kr/</include>
                                     <include>WEB-INF/tags/krad/</include>
-                                    <include>WEB-INF/tags/rice-portal/administrationTab.tag</include>
                                     <include>WEB-INF/tags/rice-portal/iframePortletContainer.tag</include>
                                     <include>WEB-INF/tags/rice-portal/immutableBar.tag</include>
                                     <include>WEB-INF/tags/rice-portal/portalBottom.tag</include>

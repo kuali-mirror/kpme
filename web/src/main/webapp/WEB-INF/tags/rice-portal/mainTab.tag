@@ -21,10 +21,9 @@
 </td>
 
 <td class="content" valign="top">
-    <mainChannel:workflow />
-    <admin:krmsRules />
+    <admin:kohrChannel />
 </td>
 
 <td class="content" valign="top">
-    <mainChannel:notification />
+    <admin:kpmeProject />
 </td>

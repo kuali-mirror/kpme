@@ -31,6 +31,8 @@
     <admin:positionManagement />
     <admin:personManagement/>
 </td>
-<td>
+<td class="content" valign="top">
     <admin:financial />
+    <admin:workflow />
+    <admin:notification />
 </td>
