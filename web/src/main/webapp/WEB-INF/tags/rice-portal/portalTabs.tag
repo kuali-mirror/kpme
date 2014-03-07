@@ -30,20 +30,20 @@
 		<c:if test='${selectedTab == "main"}'>
 			<li class="red">
 				<a class="red" href="portal.do?selectedTab=main"
-					title="Main Menu">Main Menu</a>
+					title="Menu">Menu</a>
 			</li>
 		</c:if>
 		<c:if test='${selectedTab != "main"}'>
 			<c:if test="${empty selectedTab}">
 				<li class="red">
 					<a class="red" href="portal.do?selectedTab=main"
-						title="Main Menu">Main Menu</a>
+						title="Menu">Menu</a>
 				</li>
 			</c:if>
 			<c:if test="${!empty selectedTab}">
 				<li class="green">
 					<a class="green" href="portal.do?selectedTab=main"
-						title="Main Menu">Main Menu</a>
+						title="Menu">Menu</a>
 				</li>
 			</c:if>
 		</c:if>
