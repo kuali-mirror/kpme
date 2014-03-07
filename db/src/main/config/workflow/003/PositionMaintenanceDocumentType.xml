@@ -21,10 +21,29 @@
       xsi:schemaLocation="ns:workflow resource:WorkflowData">
     <documentTypes xmlns="ns:workflow/DocumentType"
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
-    	<documentType>
-    		<name>PositionMaintenanceDocumentType</name>
-    		<parent>KpmeEffectiveDateMaintenanceDocumentType</parent>
-    		<label>Position Document</label>
-    	</documentType>    
-     </documentTypes>
+        <documentType>
+            <name>PositionMaintenanceDocumentType</name>
+            <parent>KpmeEffectiveDateMaintenanceDocumentType</parent>
+            <label>Position Document</label>
+            <applicationId>KPME</applicationId>
+            <routingVersion>1</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="Initiated" nextNode="PeopleFlows"/>
+                    <requests name="PeopleFlows"/>
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="Initiated">
+                    <activationType>P</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kpme.pm.workflow.krms.PositionMaintDocRulesEngineExecutor"/>
+                </requests>
+            </routeNodes>
+        </documentType>
+    </documentTypes>
 </data>

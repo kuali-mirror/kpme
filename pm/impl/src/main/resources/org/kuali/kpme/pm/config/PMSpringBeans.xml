@@ -83,6 +83,11 @@
         <property name="serviceName" value="dataDictionaryService" />
     </bean>
 
+    <bean id="kpme.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/pm/v2_0" />
+        <property name="serviceBus" ref="rice.ksb.import.serviceBus" />
+    </bean>
+
     <bean id="kpme.pm.soap.service" parent="kpme.soap.service" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/pm/v2_0" />
     </bean>
@@ -237,6 +242,56 @@
         <property name="positionFundingDao" ref="positionFundingDao"/>
     </bean>
 
+    <bean id="positionPrimaryDepartmentPeopleFlowTypeService" class="org.kuali.kpme.pm.position.service.PositionPrimaryDepartmentPeopleFlowTypeServiceImpl" />
+    <bean id="positionPrimaryDepartmentPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionPrimaryDepartmentPeopleFlowTypeService"
+          p:localServiceName="positionPrimaryDepartmentPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="positionAdditionalDepartmentsPeopleFlowTypeService" class="org.kuali.kpme.pm.position.service.PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl" />
+    <bean id="positionAdditionalDepartmentsPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionAdditionalDepartmentsPeopleFlowTypeService"
+          p:localServiceName="positionAdditionalDepartmentsPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="positionPreviousDepartmentPeopleFlowTypeService" class="org.kuali.kpme.pm.position.service.PositionPreviousDepartmentPeopleFlowTypeServiceImpl" />
+    <bean id="positionPreviousDepartmentPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionPreviousDepartmentPeopleFlowTypeService"
+          p:localServiceName="positionPreviousDepartmentPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="positionOrganizationPeopleFlowTypeService" class="org.kuali.kpme.pm.position.service.PositionOrganizationPeopleFlowTypeServiceImpl" />
+    <bean id="positionOrganizationPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionOrganizationPeopleFlowTypeService"
+          p:localServiceName="positionOrganizationPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="positionAdditionalOrganizationsPeopleFlowTypeService" class="org.kuali.kpme.pm.position.service.PositionAdditionalOrganizationsPeopleFlowTypeServiceImpl" />
+    <bean id="positionAdditionalOrganizationsPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionAdditionalOrganizationsPeopleFlowTypeService"
+          p:localServiceName="positionAdditionalOrganizationsPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="positionLocationPeopleFlowTypeService" class="org.kuali.kpme.pm.position.service.PositionLocationPeopleFlowTypeServiceImpl" />
+    <bean id="positionLocationPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionLocationPeopleFlowTypeService"
+          p:localServiceName="positionLocationPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="positionInstitutionPeopleFlowTypeService" class="org.kuali.kpme.pm.position.service.PositionInstitutionPeopleFlowTypeServiceImpl" />
+    <bean id="positionInstitutionPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionInstitutionPeopleFlowTypeService"
+          p:localServiceName="positionInstitutionPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="positionInitiatorPeopleFlowTypeService" class="org.kuali.kpme.pm.position.service.PositionInitiatorPeopleFlowTypeServiceImpl" />
+    <bean id="positionInitiatorPeopleFlowTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionInitiatorPeopleFlowTypeService"
+          p:localServiceName="positionInitiatorPeopleFlowTypeService"
+          p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService" />
+
+    <bean id="pmFactBuilderService" class="org.kuali.kpme.pm.workflow.krms.PMFactBuilderServiceImpl"/>
+
     <!-- PM Lookupable Definitions -->
     
     <bean id="positionReportCatLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
@@ -274,6 +329,7 @@
                 <idref local="classificationFlagService"/>
                 <idref local="classificationQualificationService"/>
                 <idref local="positionFundingService"/>
+                <idref local="pmFactBuilderService"/>
             </list>
         </property>
     </bean>

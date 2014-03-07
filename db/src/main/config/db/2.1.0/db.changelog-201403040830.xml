@@ -1,0 +1,1591 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+
+	
+	<changeSet id="1" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Create the KPME Position Management Context</comment>
+
+        <insert tableName="KRMS_CNTXT_T">
+            <column name="CNTXT_ID" value="KPME-PM-CONTEXT" />
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="KPME Position Management Context"/>
+            <column name="TYP_ID" value="KPME0001" />
+            <column name="ACTV" value="Y" />
+            <column name="VER_NBR" value="0" />
+            <column name="DESC_TXT" value="KPME context for Position Management" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="2" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Create KRMS Categories of the KPME-PM name space</comment>
+
+        <insert tableName="KRMS_CTGRY_T">
+            <column name="CTGRY_ID" value="KPME0005" />
+            <column name="NM" value="Property"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRMS_CTGRY_T">
+            <column name="CTGRY_ID" value="KPME0006" />
+            <column name="NM" value="Function"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="VER_NBR" value="1" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="3" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Set Valid Actions for the KPME-PM name space</comment>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0013" />
+            <column name="CNTXT_ID" value="KPME-PM-CONTEXT"/>
+            <column name="ACTN_TYP_ID" value="1000"/>
+            <column name="VER_NBR" value="0" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0014" />
+            <column name="CNTXT_ID" value="KPME-PM-CONTEXT"/>
+            <column name="ACTN_TYP_ID" value="1001"/>
+            <column name="VER_NBR" value="0" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_ACTN_TYP_T">
+            <column name="CNTXT_VLD_ACTN_ID" value="KPME0015" />
+            <column name="CNTXT_ID" value="KPME-PM-CONTEXT"/>
+            <column name="ACTN_TYP_ID" value="1003"/>
+            <column name="VER_NBR" value="0" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="4" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Set term specification for the KPME-PM namespace</comment>
+
+        <insert tableName="KRMS_TERM_SPEC_T">
+            <column name="TERM_SPEC_ID" value="KPME0011" />
+            <column name="NM" value="academicFlag"/>
+            <column name="TYP" value="java.lang.Boolean"/>
+            <column name="ACTV" value="Y" />
+            <column name="VER_NBR" value="1" />
+            <column name="DESC_TXT" value="is the position type flagged as academic" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+        </insert>
+
+        <insert tableName="KRMS_TERM_SPEC_T">
+            <column name="TERM_SPEC_ID" value="KPME0012" />
+            <column name="NM" value="positionProcess"/>
+            <column name="TYP" value="java.lang.String"/>
+            <column name="ACTV" value="Y" />
+            <column name="VER_NBR" value="1" />
+            <column name="DESC_TXT" value="process used when editting the Position Document" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+        </insert>
+
+        <insert tableName="KRMS_TERM_SPEC_T">
+            <column name="TERM_SPEC_ID" value="KPME0013" />
+            <column name="NM" value="primaryDepartmentChanged"/>
+            <column name="TYP" value="java.lang.Boolean"/>
+            <column name="ACTV" value="Y" />
+            <column name="VER_NBR" value="1" />
+            <column name="DESC_TXT" value="did the Primary Department change" />
+            <column name="NMSPC_CD" value="KPME-PM" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="5" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Set the terms fro the KPME-PM namespace</comment>
+
+        <insert tableName="KRMS_TERM_T">
+            <column name="TERM_ID" value="KPME0003" />
+            <column name="TERM_SPEC_ID" value="KPME0011"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="DESC_TXT" value="Position Type is Flagged as Academic" />
+        </insert>
+
+        <insert tableName="KRMS_TERM_T">
+            <column name="TERM_ID" value="KPME0004" />
+            <column name="TERM_SPEC_ID" value="KPME0012"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="DESC_TXT" value="Which Process was used when editting the position Document" />
+        </insert>
+
+        <insert tableName="KRMS_TERM_T">
+            <column name="TERM_ID" value="KPME0005" />
+            <column name="TERM_SPEC_ID" value="KPME0013"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="DESC_TXT" value="Primary Department changed" />
+        </insert>
+
+    </changeSet>
+
+    <changeSet id="6" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Set the valid term specifications for the KPME-PM-CONTEXT</comment>
+
+        <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+            <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0021" />
+            <column name="CNTXT_ID" value="KPME-PM-CONTEXT"/>
+            <column name="TERM_SPEC_ID" value="KPME0011"/>
+            <column name="PREREQ" value="N" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+            <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0022" />
+            <column name="CNTXT_ID" value="KPME-PM-CONTEXT"/>
+            <column name="TERM_SPEC_ID" value="KPME0012"/>
+            <column name="PREREQ" value="N" />
+        </insert>
+
+        <insert tableName="KRMS_CNTXT_VLD_TERM_SPEC_T">
+            <column name="CNTXT_TERM_SPEC_PREREQ_ID" value="KPME0023" />
+            <column name="CNTXT_ID" value="KPME-PM-CONTEXT"/>
+            <column name="TERM_SPEC_ID" value="KPME0013"/>
+            <column name="PREREQ" value="N" />
+        </insert>
+    </changeSet>
+
+    <changeSet id="7" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Create Kew People Flow Types</comment>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0003"/>
+            <column name="NM" value="Position Primary Department Type"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/pm/v2_0}positionPrimaryDepartmentPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0004"/>
+            <column name="NM" value="Position Additional Departments Type"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/pm/v2_0}positionAdditionalDepartmentsPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0005"/>
+            <column name="NM" value="Position Previous Department Type"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/pm/v2_0}positionPreviousDepartmentPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0006"/>
+            <column name="NM" value="Postion Additional Organizations Type"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/pm/v2_0}positionAdditionalOrganizationsPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0007"/>
+            <column name="NM" value="Position Organizations Type"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/pm/v2_0}positionOrganizationPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0008"/>
+            <column name="NM" value="Position Location Type"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/pm/v2_0}positionLocationPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0009"/>
+            <column name="NM" value="Position Institution Type"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/pm/v2_0}positionInstitutionPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KREW_TYP_T">
+            <column name="TYP_ID" value="KPME0010"/>
+            <column name="NM" value="Position Initiator Type"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="SRVC_NM" value="{http://kpme.kuali.org/pm/v2_0}positionInitiatorPeopleFlowTypeService"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+    </changeSet>
+
+    <changeSet id="8" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Create PeopleFlows used by the Positon Management KRMS Agenda</comment>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0003" />
+            <column name="NM" value="Position Previous Hr Department Admin People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0005"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Previous Hr Department Admin People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0003" />
+            <column name="PPL_FLW_ID" value="KPME0003"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0031"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="A"/>
+            <column name="RSP_ID" value="KPME0005"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0004" />
+            <column name="NM" value="Position Additional Hr Department Admins People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0004"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Additional Hr Department Admins People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0004" />
+            <column name="PPL_FLW_ID" value="KPME0004"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0031"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="A"/>
+            <column name="RSP_ID" value="KPME0006"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0005" />
+            <column name="NM" value="Position Primary Hr Department Admin People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0003"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Primary Hr Department Admin People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0005" />
+            <column name="PPL_FLW_ID" value="KPME0005"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0031"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0007"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0006" />
+            <column name="NM" value="Position Previous Fiscal Department Approver People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0005"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Previous Fiscal Department Approver People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0006" />
+            <column name="PPL_FLW_ID" value="KPME0006"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0043"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="A"/>
+            <column name="RSP_ID" value="KPME0008"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0007" />
+            <column name="NM" value="Position Additional Fiscal Department Approvers People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0004"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Additional Fiscal Department Approvers People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0007" />
+            <column name="PPL_FLW_ID" value="KPME0007"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0043"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="A"/>
+            <column name="RSP_ID" value="KPME0009"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0008" />
+            <column name="NM" value="Position Primary Fiscal Department Approver People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0003"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Primary Fiscal Department Approver People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0008" />
+            <column name="PPL_FLW_ID" value="KPME0008"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0043"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="A"/>
+            <column name="RSP_ID" value="KPME0010"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0009" />
+            <column name="NM" value="Position Previous Department Approver People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0005"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Previous Department Approver People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0009" />
+            <column name="PPL_FLW_ID" value="KPME0009"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0042"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="A"/>
+            <column name="RSP_ID" value="KPME0011"/>
+        </insert>
+
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0010" />
+            <column name="NM" value="Position Primary Department Approver People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0003"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Primary Department Approver People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0010" />
+            <column name="PPL_FLW_ID" value="KPME0010"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0042"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0012"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0011" />
+            <column name="NM" value="Position Additional Organizations People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0006"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Additional Organizations People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0011" />
+            <column name="PPL_FLW_ID" value="KPME0011"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0040"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="A"/>
+            <column name="RSP_ID" value="KPME0013"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0012" />
+            <column name="NM" value="Position Organization People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0007"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Organization People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0012" />
+            <column name="PPL_FLW_ID" value="KPME0012"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0040"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0014"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0013" />
+            <column name="PPL_FLW_ID" value="KPME0012"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0041"/>
+            <column name="PRIO" value="2"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0015"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0013" />
+            <column name="NM" value="Position Academic Location People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0008"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Academic Location People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0014" />
+            <column name="PPL_FLW_ID" value="KPME0013"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0038"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0016"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0015" />
+            <column name="PPL_FLW_ID" value="KPME0013"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0039"/>
+            <column name="PRIO" value="2"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0017"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0014" />
+            <column name="NM" value="Position Academic Institution People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0009"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Academic Institution People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0016" />
+            <column name="PPL_FLW_ID" value="KPME0014"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0035"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0018"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0017" />
+            <column name="PPL_FLW_ID" value="KPME0014"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0036"/>
+            <column name="PRIO" value="2"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0019"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0018" />
+            <column name="PPL_FLW_ID" value="KPME0014"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0034"/>
+            <column name="PRIO" value="3"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0020"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0015" />
+            <column name="NM" value="Position Location People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0008"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Location People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0019" />
+            <column name="PPL_FLW_ID" value="KPME0015"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0037"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0021"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0020" />
+            <column name="PPL_FLW_ID" value="KPME0015"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0039"/>
+            <column name="PRIO" value="2"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0022"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0016" />
+            <column name="NM" value="Position Institution People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0009"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Position Institution People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0021" />
+            <column name="PPL_FLW_ID" value="KPME0016"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0035"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0023"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0022" />
+            <column name="PPL_FLW_ID" value="KPME0016"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0036"/>
+            <column name="PRIO" value="2"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0024"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0023" />
+            <column name="PPL_FLW_ID" value="KPME0016"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="KPME0033"/>
+            <column name="PRIO" value="3"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0025"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_T">
+            <column name="PPL_FLW_ID" value="KPME0017" />
+            <column name="NM" value="Initiator People Flow"/>
+            <column name="NMSPC_CD" value="KPME-WKFLW"/>
+            <column name="TYP_ID" value="KPME0010"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="DESC_TXT" value="Initiator People Flow"/>
+        </insert>
+
+        <insert tableName="KREW_PPL_FLW_MBR_T">
+            <column name="PPL_FLW_MBR_ID" value="KPME0024" />
+            <column name="PPL_FLW_ID" value="KPME0017"/>
+            <column name="MBR_TYP_CD" value="R"/>
+            <column name="MBR_ID" value="60"/>
+            <column name="PRIO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="ACTN_RQST_PLCY_CD" value="F"/>
+            <column name="RSP_ID" value="KPME0026"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="9" author="jwillia" context="kpme-server-bootstrap">
+        <comment>KPME-2462: Create KPME Position Management Agenda</comment>
+
+        <insert tableName="KRMS_AGENDA_T">
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="NM" value="KPME Position Management Agenda"/>
+            <column name="CNTXT_ID" value="KPME-PM-CONTEXT"/>
+            <column name="INIT_AGENDA_ITM_ID" value="KPME0008"/>
+            <column name="TYP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <comment>Create Notify Previous Department Admin Rule</comment>
+
+        <insert tableName="KRMS_PROP_T">
+            <column name="PROP_ID" value="KPME0004"/>
+            <column name="DESC_TXT" value="has the primary department changed?"/>
+            <column name="TYP_ID"/>
+            <column name="DSCRM_TYP_CD" value="S"/>
+            <column name="CMPND_OP_CD"/>
+            <column name="RULE_ID" value="KPME0008"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="CMPND_SEQ_NO"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0010"/>
+            <column name="PROP_ID" value="KPME0004"/>
+            <column name="PARM_VAL" value="KPME0005"/>
+            <column name="PARM_TYP_CD" value="T"/>
+            <column name="SEQ_NO" value="0"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0011"/>
+            <column name="PROP_ID" value="KPME0004"/>
+            <column name="PARM_VAL" value="="/>
+            <column name="PARM_TYP_CD" value="O"/>
+            <column name="SEQ_NO" value="2"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0012"/>
+            <column name="PROP_ID" value="KPME0004"/>
+            <column name="PARM_VAL" value="true"/>
+            <column name="PARM_TYP_CD" value="C"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0008"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Notify Previous Primary Department"/>
+            <column name="DESC_TXT" value="Notify Previous Primary Department"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID" value="KPME0004"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0008"/>
+            <column name="NM" value="Notify Previous Department Admin"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Notify Previous Primary Hr Department Admin"/>
+            <column name="TYP_ID" value="1000"/>
+            <column name="RULE_ID" value="KPME0008"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0015"/>
+            <column name="ACTN_ID" value="KPME0008"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0003"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0016"/>
+            <column name="ACTN_ID" value="KPME0008"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Previous Primary Hr Department Admin People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0008"/>
+            <column name="RULE_ID" value="KPME0008"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <comment>Create Notify Additional Department Admin Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0009"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Notify Additional Departments"/>
+            <column name="DESC_TXT" value="Notify Additional Departments"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0009"/>
+            <column name="NM" value="Notify Additional Departments"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Notify Additional Hr Department Admins"/>
+            <column name="TYP_ID" value="1000"/>
+            <column name="RULE_ID" value="KPME0009"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0017"/>
+            <column name="ACTN_ID" value="KPME0009"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0004"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0018"/>
+            <column name="ACTN_ID" value="KPME0009"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Additional Hr Department Admins People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0009"/>
+            <column name="RULE_ID" value="KPME0009"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0009"/>
+            <where>AGENDA_ITM_ID = "KPME0008"</where>
+        </update>
+
+        <comment>Create Route To Primary Department Admin Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0010"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Route To Primary Department"/>
+            <column name="DESC_TXT" value="Route To Primary Department Admin"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0010"/>
+            <column name="NM" value="Route To Primary Department"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Route To Primary Department Admin"/>
+            <column name="TYP_ID" value="1001"/>
+            <column name="RULE_ID" value="KPME0010"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0019"/>
+            <column name="ACTN_ID" value="KPME0010"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0005"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0020"/>
+            <column name="ACTN_ID" value="KPME0010"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Primary Hr Department Admin People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0010"/>
+            <column name="RULE_ID" value="KPME0010"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0010"/>
+            <where>AGENDA_ITM_ID = "KPME0009"</where>
+        </update>
+
+        <comment>Create Notify Previous Fiscal Department Approver Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0011"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Notify Previous Fiscal Approver"/>
+            <column name="DESC_TXT" value="Notify Previous Fiscal Approver"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID" value="KPME0004"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0011"/>
+            <column name="NM" value="Notify Previous Fiscal Approver"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Notify Previous Fiscal Approver"/>
+            <column name="TYP_ID" value="1000"/>
+            <column name="RULE_ID" value="KPME0011"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0021"/>
+            <column name="ACTN_ID" value="KPME0011"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0006"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0022"/>
+            <column name="ACTN_ID" value="KPME0011"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Previous Fiscal Department Approver People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0011"/>
+            <column name="RULE_ID" value="KPME0011"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0011"/>
+            <where>AGENDA_ITM_ID = "KPME0010"</where>
+        </update>
+
+        <comment>Create Notify Additional Fiscal Department Approvers Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0012"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Notify Additional Fiscal Approvers"/>
+            <column name="DESC_TXT" value="Notify Additional Fiscal Approvers"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0012"/>
+            <column name="NM" value="Notify Additional Fiscal Approvers"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Notify Additional Fiscal Approvers"/>
+            <column name="TYP_ID" value="1000"/>
+            <column name="RULE_ID" value="KPME0012"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0023"/>
+            <column name="ACTN_ID" value="KPME0012"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0007"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0024"/>
+            <column name="ACTN_ID" value="KPME0012"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Additional Fiscal Department Approvers People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0012"/>
+            <column name="RULE_ID" value="KPME0012"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0012"/>
+            <where>AGENDA_ITM_ID = "KPME0011"</where>
+        </update>
+
+        <comment>Create Route To Primary Fiscal Department Approver Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0013"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Route to Primary Fiscal Dept Approver"/>
+            <column name="DESC_TXT" value="Route to Primary Fiscal Dept Approver"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0013"/>
+            <column name="NM" value="Route to Primary Fiscal Dept Approver"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Route to Primary Fiscal Dept Approver"/>
+            <column name="TYP_ID" value="1001"/>
+            <column name="RULE_ID" value="KPME0013"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0025"/>
+            <column name="ACTN_ID" value="KPME0013"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0008"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0026"/>
+            <column name="ACTN_ID" value="KPME0013"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Primary Fiscal Department Approver People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0013"/>
+            <column name="RULE_ID" value="KPME0013"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0013"/>
+            <where>AGENDA_ITM_ID = "KPME0012"</where>
+        </update>
+
+        <comment>Create Previous Department Approver Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0014"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Notify Previous Department Approver"/>
+            <column name="DESC_TXT" value="Notify Previous Department Approver"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID" value="KPME0004"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0014"/>
+            <column name="NM" value="Notify Previous Department Approver"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Notify Previous Department Approver"/>
+            <column name="TYP_ID" value="1000"/>
+            <column name="RULE_ID" value="KPME0014"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0027"/>
+            <column name="ACTN_ID" value="KPME0014"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0009"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0028"/>
+            <column name="ACTN_ID" value="KPME0014"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Previous Department Approver People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0014"/>
+            <column name="RULE_ID" value="KPME0014"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0014"/>
+            <where>AGENDA_ITM_ID = "KPME0013"</where>
+        </update>
+
+        <comment>Create Primary Department Approver Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0015"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Route To Primary Department Approver"/>
+            <column name="DESC_TXT" value="Route To Primary Department Approver"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0015"/>
+            <column name="NM" value="Route To Primary Department Approver"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Route To Primary Department Approver"/>
+            <column name="TYP_ID" value="1001"/>
+            <column name="RULE_ID" value="KPME0015"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0029"/>
+            <column name="ACTN_ID" value="KPME0015"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0010"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0030"/>
+            <column name="ACTN_ID" value="KPME0015"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Primary Department Approver People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0015"/>
+            <column name="RULE_ID" value="KPME0015"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0015"/>
+            <where>AGENDA_ITM_ID = "KPME0014"</where>
+        </update>
+
+        <comment>Create Additional Organization HR Approvers Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0016"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Notify Additional Organization Approver"/>
+            <column name="DESC_TXT" value="Notify Additional Organization Approver"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0016"/>
+            <column name="NM" value="Notify Additional Organization Approver"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Notify Additional Organization Approver"/>
+            <column name="TYP_ID" value="1000"/>
+            <column name="RULE_ID" value="KPME0016"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0031"/>
+            <column name="ACTN_ID" value="KPME0016"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0011"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0032"/>
+            <column name="ACTN_ID" value="KPME0016"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Additional Organizations People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0016"/>
+            <column name="RULE_ID" value="KPME0016"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0016"/>
+            <where>AGENDA_ITM_ID = "KPME0015"</where>
+        </update>
+
+        <comment>Create Organization HR Approver Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0017"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Route To Organization"/>
+            <column name="DESC_TXT" value="Route To Organization"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0017"/>
+            <column name="NM" value="Route To Organization"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Route To Organization"/>
+            <column name="TYP_ID" value="1001"/>
+            <column name="RULE_ID" value="KPME0017"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0033"/>
+            <column name="ACTN_ID" value="KPME0017"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0012"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0034"/>
+            <column name="ACTN_ID" value="KPME0017"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Organization People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0017"/>
+            <column name="RULE_ID" value="KPME0017"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0017"/>
+            <where>AGENDA_ITM_ID = "KPME0016"</where>
+        </update>
+
+        <comment>Create Academic Location Rule</comment>
+        <insert tableName="KRMS_PROP_T">
+            <column name="PROP_ID" value="KPME0005"/>
+            <column name="DESC_TXT" value="The position is an academic position type"/>
+            <column name="TYP_ID"/>
+            <column name="DSCRM_TYP_CD" value="S"/>
+            <column name="CMPND_OP_CD"/>
+            <column name="RULE_ID" value="KPME0018"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="CMPND_SEQ_NO"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0013"/>
+            <column name="PROP_ID" value="KPME0005"/>
+            <column name="PARM_VAL" value="KPME0003"/>
+            <column name="PARM_TYP_CD" value="T"/>
+            <column name="SEQ_NO" value="0"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0014"/>
+            <column name="PROP_ID" value="KPME0005"/>
+            <column name="PARM_VAL" value="="/>
+            <column name="PARM_TYP_CD" value="O"/>
+            <column name="SEQ_NO" value="2"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0015"/>
+            <column name="PROP_ID" value="KPME0005"/>
+            <column name="PARM_VAL" value="true"/>
+            <column name="PARM_TYP_CD" value="C"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0018"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Route To Academic Location"/>
+            <column name="DESC_TXT" value="Route To Academic Location"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID" value="KPME0005"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0018"/>
+            <column name="NM" value="Route To Academic Location"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Route To Academic Location"/>
+            <column name="TYP_ID" value="1001"/>
+            <column name="RULE_ID" value="KPME0018"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0035"/>
+            <column name="ACTN_ID" value="KPME0018"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0013"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0036"/>
+            <column name="ACTN_ID" value="KPME0018"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Academic Location People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0018"/>
+            <column name="RULE_ID" value="KPME0018"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0018"/>
+            <where>AGENDA_ITM_ID = "KPME0017"</where>
+        </update>
+
+        <comment>Create Academic Institution Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0019"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Route To Academic Institution"/>
+            <column name="DESC_TXT" value="Route To Academic Institution"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID" value="KPME0005"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0019"/>
+            <column name="NM" value="Route To Academic Institution"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Route To Academic Institution"/>
+            <column name="TYP_ID" value="1001"/>
+            <column name="RULE_ID" value="KPME0019"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0037"/>
+            <column name="ACTN_ID" value="KPME0019"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0014"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0038"/>
+            <column name="ACTN_ID" value="KPME0019"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Academic Institution People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0019"/>
+            <column name="RULE_ID" value="KPME0019"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0019"/>
+            <where>AGENDA_ITM_ID = "KPME0018"</where>
+        </update>
+
+        <comment>Create Location Rule</comment>
+        <insert tableName="KRMS_PROP_T">
+            <column name="PROP_ID" value="KPME0006"/>
+            <column name="DESC_TXT" value="The position is not an academic position type"/>
+            <column name="TYP_ID"/>
+            <column name="DSCRM_TYP_CD" value="S"/>
+            <column name="CMPND_OP_CD"/>
+            <column name="RULE_ID" value="KPME0020"/>
+            <column name="VER_NBR" value="0"/>
+            <column name="CMPND_SEQ_NO"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0016"/>
+            <column name="PROP_ID" value="KPME0006"/>
+            <column name="PARM_VAL" value="KPME0003"/>
+            <column name="PARM_TYP_CD" value="T"/>
+            <column name="SEQ_NO" value="0"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0017"/>
+            <column name="PROP_ID" value="KPME0006"/>
+            <column name="PARM_VAL" value="="/>
+            <column name="PARM_TYP_CD" value="O"/>
+            <column name="SEQ_NO" value="2"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_PROP_PARM_T">
+            <column name="PROP_PARM_ID" value="KPME0018"/>
+            <column name="PROP_ID" value="KPME0006"/>
+            <column name="PARM_VAL" value="false"/>
+            <column name="PARM_TYP_CD" value="C"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0020"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Route To  Location"/>
+            <column name="DESC_TXT" value="Route To Location"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID" value="KPME0006"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0020"/>
+            <column name="NM" value="Route To Location"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Route To Location"/>
+            <column name="TYP_ID" value="1001"/>
+            <column name="RULE_ID" value="KPME0020"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0039"/>
+            <column name="ACTN_ID" value="KPME0020"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0015"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0040"/>
+            <column name="ACTN_ID" value="KPME0020"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Location People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0020"/>
+            <column name="RULE_ID" value="KPME0020"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0020"/>
+            <where>AGENDA_ITM_ID = "KPME0019"</where>
+        </update>
+
+        <comment>Create Institution Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0021"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Route To  Institution"/>
+            <column name="DESC_TXT" value="Route To Institution"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID" value="KPME0006"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0021"/>
+            <column name="NM" value="Route To Insitution"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Route To Institution"/>
+            <column name="TYP_ID" value="1001"/>
+            <column name="RULE_ID" value="KPME0021"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0041"/>
+            <column name="ACTN_ID" value="KPME0021"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0016"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0042"/>
+            <column name="ACTN_ID" value="KPME0021"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Position Institution People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0021"/>
+            <column name="RULE_ID" value="KPME0021"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0021"/>
+            <where>AGENDA_ITM_ID = "KPME0020"</where>
+        </update>
+
+        <comment>Create Initiator Rule</comment>
+        <insert tableName="KRMS_RULE_T">
+            <column name="RULE_ID" value="KPME0022"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="NM" value="Notify Initiator"/>
+            <column name="DESC_TXT" value="Notify Initiator"/>
+            <column name="TYP_ID"/>
+            <column name="PROP_ID"/>
+            <column name="ACTV" value="Y"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_T">
+            <column name="ACTN_ID" value="KPME0022"/>
+            <column name="NM" value="Notify Initiator"/>
+            <column name="NMSPC_CD" value="KPME-PM"/>
+            <column name="DESC_TXT" value="Notify Initiator"/>
+            <column name="TYP_ID" value="1000"/>
+            <column name="RULE_ID" value="KPME0022"/>
+            <column name="SEQ_NO" value="1"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0043"/>
+            <column name="ACTN_ID" value="KPME0022"/>
+            <column name="ATTR_DEFN_ID" value="1000"/>
+            <column name="ATTR_VAL" value="KPME0017"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_ACTN_ATTR_T">
+            <column name="ACTN_ATTR_DATA_ID" value="KPME0044"/>
+            <column name="ACTN_ID" value="KPME0022"/>
+            <column name="ATTR_DEFN_ID" value="1006"/>
+            <column name="ATTR_VAL" value="Initiator People Flow"/>
+            <column name="VER_NBR" value="0"/>
+        </insert>
+
+        <insert tableName="KRMS_AGENDA_ITM_T">
+            <column name="AGENDA_ITM_ID" value="KPME0022"/>
+            <column name="RULE_ID" value="KPME0022"/>
+            <column name="SUB_AGENDA_ID"/>
+            <column name="AGENDA_ID" value="KPME0005"/>
+            <column name="VER_NBR" value="1"/>
+            <column name="WHEN_TRUE"/>
+            <column name="WHEN_FALSE"/>
+            <column name="ALWAYS"/>
+        </insert>
+
+        <update tableName="KRMS_AGENDA_ITM_T">
+            <column name="ALWAYS" value = "KPME0022"/>
+            <where>AGENDA_ITM_ID = "KPME0021"</where>
+        </update>
+
+    </changeSet>
+
+</databaseChangeLog>
