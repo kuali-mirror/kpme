@@ -15,9 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.web;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.task.TaskContract;
@@ -25,14 +22,15 @@ import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.web.TimeBlockRendererContract;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Render helper to handle timeblock and time hour details display
@@ -134,5 +132,9 @@ public class TimeBlockRenderer implements TimeBlockRendererContract {
 
     public boolean isDeletable() {
         return TkServiceLocator.getTKPermissionService().canDeleteTimeBlock(HrContext.getPrincipalId(), timeBlock);
+    }
+
+    public boolean isOvertimeEditable() {
+        return TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(HrContext.getPrincipalId(), timeBlock);
     }
 }
