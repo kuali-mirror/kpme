@@ -27,16 +27,11 @@
 
   <bean id="CalendarEntryMaintenanceDocument" parent="CalendarEntryMaintenanceDocument-parentBean"/>
 
-  <bean id="CalendarEntryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.kpme.core.calendar.entry.CalendarEntry"
+  <bean id="CalendarEntryMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
+  		p:dataObjectClass="org.kuali.kpme.core.calendar.entry.CalendarEntry"
   		p:businessRulesClass="org.kuali.kpme.core.calendar.entry.validation.CalendarEntryRule"
    		p:maintainableClass="org.kuali.kpme.core.calendar.entry.web.CalendarEntryMaintainableImpl"
    		p:documentAuthorizerClass="org.kuali.kpme.core.calendar.entry.authorization.CalendarEntryAuthorizer">
-    <property name="maintainableSections">
-      <list>
-        <ref bean="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance"/>
-      </list>
-    </property>
 	<property name="lockingKeys">
 			<list>
 				<value>hrCalendarEntryId</value>
@@ -48,27 +43,36 @@
   <!-- Maintenance Section Definitions -->
 
   <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance" parent="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean"/>
-  <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Calendar Dates Maintenance"/>
-    <property name="maintainableItems">
-      <list>
-     	<bean parent="MaintainableFieldDefinition" p:name="calendarName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="beginPeriodDate" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="beginPeriodTime" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="endPeriodDate"    p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="endPeriodTime"    p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="batchInitiateDate" />
-        <bean parent="MaintainableFieldDefinition" p:name="batchInitiateTime" />
-        <bean parent="MaintainableFieldDefinition" p:name="batchEndPayPeriodDate" />
-        <bean parent="MaintainableFieldDefinition" p:name="batchEndPayPeriodTime" />
-        <bean parent="MaintainableFieldDefinition" p:name="batchEmployeeApprovalDate" />
-        <bean parent="MaintainableFieldDefinition" p:name="batchEmployeeApprovalTime" />
-        <bean parent="MaintainableFieldDefinition" p:name="batchSupervisorApprovalDate" />
-        <bean parent="MaintainableFieldDefinition" p:name="batchSupervisorApprovalTime" />    
-        <bean parent="MaintainableFieldDefinition" p:name="batchPayrollApprovalDate" />
-        <bean parent="MaintainableFieldDefinition" p:name="batchPayrollApprovalTime" />   
-      </list>
-    </property>
+  <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
+      <property name="title" value="Calendar Entry Maintenance"/>
+      <property name="headerText" value="Calendar Entry Maintenance"/>
+      <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntry"/>
+      <property name="items">
+          <list merge="true">
+              <bean parent="Uif-MaintenanceGridSection">
+                  <property name="headerText" value="Calendar Entry Maintenance"/>
+                  <property name="items">
+                      <list>
+                          <bean parent="Uif-InputField" p:propertyName="calendarName" p:required="true"/>
+                          <bean parent="Uif-InputField" p:propertyName="beginPeriodDate" p:required="true"/>
+                          <bean parent="Uif-InputField" p:propertyName="beginPeriodTime" p:required="true"/>
+                          <bean parent="Uif-InputField" p:propertyName="endPeriodDate"    p:required="true"/>
+                          <bean parent="Uif-InputField" p:propertyName="endPeriodTime"    p:required="true"/>
+                          <bean parent="Uif-InputField" p:propertyName="batchInitiateDate" />
+                          <bean parent="Uif-InputField" p:propertyName="batchInitiateTime" />
+                          <bean parent="Uif-InputField" p:propertyName="batchEndPayPeriodDate" />
+                          <bean parent="Uif-InputField" p:propertyName="batchEndPayPeriodTime" />
+                          <bean parent="Uif-InputField" p:propertyName="batchEmployeeApprovalDate" />
+                          <bean parent="Uif-InputField" p:propertyName="batchEmployeeApprovalTime" />
+                          <bean parent="Uif-InputField" p:propertyName="batchSupervisorApprovalDate" />
+                          <bean parent="Uif-InputField" p:propertyName="batchSupervisorApprovalTime" />
+                          <bean parent="Uif-InputField" p:propertyName="batchPayrollApprovalDate" />
+                          <bean parent="Uif-InputField" p:propertyName="batchPayrollApprovalTime" />
+                      </list>
+                  </property>
+              </bean>
+          </list>
+      </property>
   </bean>
 
 </beans>

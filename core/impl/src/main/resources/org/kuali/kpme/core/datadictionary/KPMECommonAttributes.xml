@@ -334,6 +334,9 @@
     <bean id="KpmeAttributeReference-datePicker-parentBean" abstract="true" parent="AttributeReference-genericDate">
         <property name="maxLength" value="10"/>
         <property name="description" value="date field"/>
+        <property name="controlField">
+            <bean parent="Uif-DateControl" />
+        </property>
         <!--<property name="validCharactersConstraint">
             <bean parent="BasicDatePatternConstraint" />
         </property>-->
@@ -349,6 +352,13 @@
         <property name="validationPattern">
             <bean parent="TimestampValidationPattern"/>
         </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30">
+                <property name="datePicker">
+                    <bean parent="Uif-DatePicker" />
+                </property>
+            </bean>
+        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
         </property>
@@ -362,6 +372,35 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="formatterClass" value="org.kuali.kpme.core.SqlTimeFormatter"/>
+        <property name="propertyEditor">
+            <bean class="org.kuali.rice.krad.web.bind.UifTimeEditor"/>
+        </property>
+    </bean>
+
+    <bean id="KpmeAttributeReference-dateTime" parent="KpmeAttributeReference-dateTime-parentBean"/>
+    <bean id="KpmeAttributeReference-dateTime-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="maxLength" value="30"/>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30">
+                <property name="datePicker">
+                    <bean parent="Uif-DatePicker" />
+                </property>
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="30" p:datePicker="true" />
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
+        <property name="propertyEditor">
+            <bean id = "customDateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+                <constructor-arg>
+                    <bean class="java.text.SimpleDateFormat">
+                        <constructor-arg value="MM/dd/yyyy hh:mm a" />
+                    </bean>
+                </constructor-arg>
+                <constructor-arg value="true" />
+            </bean>
+        </property>
     </bean>
 
     <bean id="KpmeAttributeReference-booleanYesNo" parent="KpmeAttributeReference-booleanYesNo-parentBean" />

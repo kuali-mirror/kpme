@@ -19,12 +19,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
   <bean id="CalendarEntry" parent="CalendarEntry-parentBean"/>
   <bean id="CalendarEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.kpme.core.calendar.entry.CalendarEntry"/>
+    <property name="dataObjectClass" value="org.kuali.kpme.core.calendar.entry.CalendarEntry"/>
     <property name="titleAttribute" value="hrCalendarEntryId"/>
     <property name="objectLabel" value="CalendarEntry"/>
     <property name="lookupDefinition">
@@ -97,6 +97,12 @@
   <bean id="CalendarEntry-hrCalendarEntryId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Calendar Entries Id"/>
     <property name="maxLength" value="60"/>
+      <property name="validCharactersConstraint">
+          <bean parent="NumericPatternConstraint"/>
+      </property>
+      <property name="controlField">
+          <bean parent="Uif-TextControl" p:size="60" />
+      </property>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
@@ -111,6 +117,12 @@
   <bean id="CalendarEntry-hrCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Calendar Id"/>
     <property name="maxLength" value="60"/>
+      <property name="validCharactersConstraint">
+          <bean parent="NumericPatternConstraint"/>
+      </property>
+      <property name="controlField">
+          <bean parent="Uif-TextControl" p:size="60" />
+      </property>
     <property name="validationPattern">
       <bean parent="NumericValidationPattern"/>
     </property>
@@ -126,6 +138,9 @@
     <property name="shortLabel" value="Calendar Name"/>
 	<!-- <property name="forceUppercase" value="true" /> -->
 	<property name="maxLength" value="30" />
+      <property name="controlField">
+          <bean parent="Uif-TextControl" p:size="30" />
+      </property>
 	<property name="control">
 	  <bean parent="TextControlDefinition" p:size="30" />
 	</property>
@@ -139,6 +154,12 @@
         <property name="shortLabel" value="Calendar Type"/>
         <property name="forceUppercase" value="false" />
         <property name="maxLength" value="10" />
+        <property name="controlField">
+            <bean parent="Uif-HorizontalRadioControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.calendar.CalendarTypesKeyValueFinder" p:addBlankOption="false"/>
+        </property>
         <property name="control">
             <bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.calendar.CalendarTypesKeyValue">
             </bean>
@@ -149,7 +170,7 @@
     </bean>
 
     <bean id="CalendarEntry-beginPeriodDateTime" parent="CalendarEntry-beginPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntry-beginPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
+  <bean id="CalendarEntry-beginPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-dateTime">
     <property name="shortLabel" value="Begin Period Date Time"/>
     <property name="name" value="beginPeriodDateTime"/>
     <property name="label" value="Begin Period Date Time"/>
@@ -171,7 +192,7 @@
   </bean>
 
   <bean id="CalendarEntry-endPeriodDateTime" parent="CalendarEntry-endPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntry-endPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
+  <bean id="CalendarEntry-endPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-dateTime">
     <property name="shortLabel" value="End Period Date Time"/>
     <property name="name" value="endPeriodDateTime"/>
     <property name="label" value="End Period Date Time"/>
@@ -192,7 +213,7 @@
   </bean>
   
   <bean id="CalendarEntry-batchInitiateDateTime" parent="CalendarEntry-batchInitiateDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchInitiateDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
+  <bean id="CalendarEntry-batchInitiateDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-dateTime">
     <property name="shortLabel" value="Batch Initiate Date Time"/>
     <property name="name" value="batchInitiateDateTime"/>
     <property name="label" value="Batch Initiate Date Time"/>
@@ -213,7 +234,7 @@
   </bean>
 
   <bean id="CalendarEntry-batchEndPayPeriodDateTime" parent="CalendarEntry-batchEndPayPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchEndPayPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
+  <bean id="CalendarEntry-batchEndPayPeriodDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-dateTime">
     <property name="shortLabel" value="Batch End Period Date Time"/>
     <property name="name" value="batchEndPayPeriodDateTime"/>
     <property name="label" value="Batch End Period Date Time"/>
@@ -234,7 +255,7 @@
   </bean>
 
   <bean id="CalendarEntry-batchEmployeeApprovalDateTime" parent="CalendarEntry-batchEmployeeApprovalDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchEmployeeApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
+  <bean id="CalendarEntry-batchEmployeeApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-dateTime">
     <property name="shortLabel" value="Batch Employee Approval Date Time"/>
     <property name="name" value="batchEmployeeApprovalDateTime"/>
     <property name="label" value="Batch Employee Approval Date Time"/>
@@ -255,7 +276,7 @@
   </bean>
 
   <bean id="CalendarEntry-batchSupervisorApprovalDateTime" parent="CalendarEntry-batchSupervisorApprovalDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchSupervisorApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
+  <bean id="CalendarEntry-batchSupervisorApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-dateTime">
     <property name="shortLabel" value="Batch Supervisor Approval Date Time"/>
     <property name="name" value="batchSupervisorApprovalDateTime"/>
     <property name="label" value="Batch Supervisor Approval Date Time"/>
@@ -276,7 +297,7 @@
   </bean>
   
   <bean id="CalendarEntry-batchPayrollApprovalDateTime" parent="CalendarEntry-batchPayrollApprovalDateTime-parentBean"/>
-  <bean id="CalendarEntry-batchPayrollApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-timestampPicker">
+  <bean id="CalendarEntry-batchPayrollApprovalDateTime-parentBean" abstract="true" parent="KpmeAttributeReference-dateTime">
     <property name="shortLabel" value="Batch Payroll Approval Date Time"/>
     <property name="name" value="batchPayrollApprovalDateTime"/>
     <property name="label" value="Batch Payroll Approval Date Time"/>
@@ -296,8 +317,89 @@
     <property name="label" value="Batch Payroll Approval Time (12:00 AM)"/>
   </bean>
 
-  <!-- Lookup definition -->
+    <!--***************************************************************************
+                                   Views
+        ***************************************************************************-->
+    
+   <!-- Calendar Entry Inquiry View-->
+    <bean id="CalendarEntry-InquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Calendar Entry Inquiry" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntry" />
+        <property name="singlePageView" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="calendarName"/>
+                            <bean parent="Uif-DataField" p:propertyName="beginPeriodDateTime" />
+                            <bean parent="Uif-DataField" p:propertyName="endPeriodDateTime" />
+                            <bean parent="Uif-DataField" p:propertyName="batchInitiateDateTime" />
+                            <bean parent="Uif-DataField" p:propertyName="batchEndPayPeriodDateTime" />
+                            <bean parent="Uif-DataField" p:propertyName="batchEmployeeApprovalDateTime" />
+                            <bean parent="Uif-DataField" p:propertyName="batchSupervisorApprovalDateTime" />
+                            <bean parent="Uif-DataField" p:propertyName="batchPayrollApprovalDateTime" />
+                        </list>
+                    </property>
+                    <property name="title" value="Calendar Entry Inquiry"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
+
+    <!-- KNS Inquiry Definition -->
+
+    <bean id="CalendarEntry-inquiryDefinition" parent="CalendarEntry-inquiryDefinition-parentBean" />
+    <bean id="CalendarEntry-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="FieldDefinition" p:attributeName="calendarName"/>
+                            <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime" p:useShortLabel="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime" p:useShortLabel="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="batchInitiateDateTime" p:useShortLabel="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="batchEndPayPeriodDateTime" p:useShortLabel="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="batchEmployeeApprovalDateTime" p:useShortLabel="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="batchSupervisorApprovalDateTime" p:useShortLabel="true"/>
+                            <bean parent="FieldDefinition" p:attributeName="batchPayrollApprovalDateTime" p:useShortLabel="true"/>
+                        </list>
+                    </property>
+                    <property name="title" value="Calendar Entry" />
+                </bean>
+            </list>
+        </property>
+        <property name="translateCodes" value="false"/>
+        <property name="title" value="Calendar Entry Inquiry" />
+    </bean>
+
+  <!--Calendar Entry Lookup View-->
+    <bean id="CalendarEntry-LookupView" parent="KPMEUif-ViewLinkLookupView">
+        <property name="headerText" value="Calendar Entry Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntry" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.calendar.entry.web.CalendarEntryLookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="calendarName"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="calendarTypes" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="beginPeriodDateTime" p:ranged="true"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="endPeriodDateTime" p:ranged="true"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="calendarName"/>
+                <bean parent="Uif-DataField" p:propertyName="beginPeriodDateTime" />
+                <bean parent="Uif-DataField" p:propertyName="endPeriodDateTime" />
+            </list>
+        </property>
+    </bean>
+
+  <!-- Lookup definition -->
   <bean id="CalendarEntry-lookupDefinition" parent="CalendarEntry-lookupDefinition-parentBean"/>
   <bean id="CalendarEntry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="lookupableID" value="calendarEntryLookupable"></property>
@@ -319,34 +421,7 @@
     </property>
     <property name="title" value="Calendar Entry Lookup"/>
   </bean>
-  
-   <!-- Inquiry Definition -->
-  
-	<bean id="CalendarEntry-inquiryDefinition" parent="CalendarEntry-inquiryDefinition-parentBean" />
-	<bean id="CalendarEntry-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="calendarName"/>
-					        <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime" p:useShortLabel="true"/>
-					        <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime" p:useShortLabel="true"/>
-					        <bean parent="FieldDefinition" p:attributeName="batchInitiateDateTime" p:useShortLabel="true"/>
-					        <bean parent="FieldDefinition" p:attributeName="batchEndPayPeriodDateTime" p:useShortLabel="true"/>
-					        <bean parent="FieldDefinition" p:attributeName="batchEmployeeApprovalDateTime" p:useShortLabel="true"/>
-					        <bean parent="FieldDefinition" p:attributeName="batchSupervisorApprovalDateTime" p:useShortLabel="true"/>
-					        <bean parent="FieldDefinition" p:attributeName="batchPayrollApprovalDateTime" p:useShortLabel="true"/>
-						</list>
-					</property>
-					<property name="title" value="Calendar Entry" />
-				</bean>
-			</list>
-		</property>
-		<property name="translateCodes" value="false"/>
-		<property name="title" value="Calendar Entry Inquiry" />
-	</bean>
+
   
   
    

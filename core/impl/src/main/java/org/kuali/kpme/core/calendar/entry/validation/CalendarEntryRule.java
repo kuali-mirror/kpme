@@ -17,15 +17,15 @@ package org.kuali.kpme.core.calendar.entry.validation;
 
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 public class CalendarEntryRule extends MaintenanceDocumentRuleBase {
     @Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = false;
 
-        CalendarEntry calendarEntry = (CalendarEntry) this.getNewBo();
+        CalendarEntry calendarEntry = (CalendarEntry) this.getNewDataObject();
 
         valid = validateCalendarGroup(calendarEntry.getCalendarName());
         return valid;
@@ -34,7 +34,7 @@ public class CalendarEntryRule extends MaintenanceDocumentRuleBase {
     protected boolean validateCalendarGroup(String pyCalendarGroup) {
     	boolean valid = ValidationUtils.validateCalendar(pyCalendarGroup);
         if (!valid) {
-            this.putFieldError("calendarName", "calendar.notfound");
+            this.putFieldError("dataObject.calendarName", "calendar.notfound");
         }
         return valid;
     }
