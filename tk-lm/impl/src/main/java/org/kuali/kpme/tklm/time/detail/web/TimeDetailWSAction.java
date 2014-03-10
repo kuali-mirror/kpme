@@ -217,15 +217,17 @@ public class TimeDetailWSAction extends TimesheetAction {
     			if (a.getJob() != null
     					&& a.getJob().getPayTypeObj() != null) {
     				PayTypeContract payType = a.getJob().getPayTypeObj();
+                    if (payType.getRegEarnCodeObj() != null) {
     				EarnCode ec = EarnCode.Builder.create(payType.getRegEarnCodeObj()).build();
     				if (ec == null
     						&& StringUtils.isNotEmpty(payType.getRegEarnCode()))  {
     					ec =  HrServiceLocator.getEarnCodeService().getEarnCode(payType.getRegEarnCode(), payType.getEffectiveLocalDate());
     				}
     				regEarnCodes.put(a.getAssignmentKey(), ec);
-	    			}
-    			}
-    		}
+                    }
+                }
+            }
+        }
     	return regEarnCodes;
 	}
 
