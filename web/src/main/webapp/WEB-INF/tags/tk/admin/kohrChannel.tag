@@ -34,7 +34,7 @@
         <ul class="chan">
             <li>
                 <portal:portalLink displayTitle="true" title="Create Person"
-                                   url="${ConfigProperties.application.url}/kim/identityManagementPersonDocument.do?returnLocation=${ConfigProperties.application.url}/portal.do&docTypeName=IdentityManagementPersonDocument&methodToCall=docHandler&command=initiate" />
+                                   url="${ConfigProperties.kim.url}/identityManagementPersonDocument.do?returnLocation=${ConfigProperties.application.url}/portal.do&docTypeName=IdentityManagementPersonDocument&methodToCall=docHandler&command=initiate" />
             </li>
             <li>
                 <portal:portalLink displayTitle="true" title="Edit Person" 
