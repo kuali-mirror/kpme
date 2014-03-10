@@ -79,7 +79,7 @@
 	</bean>
 	
 	<bean id="EarnCodeGroup-showSummary" parent="EarnCodeGroup-showSummary-parentBean"/>
-  	<bean id="EarnCodeGroup-showSummary-parentBean" abstract="true" parent="AttributeReference-genericBoolean">
+  	<bean id="EarnCodeGroup-showSummary-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
 	    <property name="shortLabel" value="Show On Summary"/>
 	    <property name="name" value="showSummary"/>
 	    <property name="label" value="Show On Time Summary"/>
@@ -202,8 +202,8 @@
 							<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" /> 
 							<bean parent="Uif-InputField" p:propertyName="earnCodeGroup" p:required="true"/> 
 							<bean parent="Uif-InputField" p:propertyName="descr" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="showSummary" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="active" p:required="true" p:defaultValue="true" />
+							<bean parent="Uif-InputField" p:propertyName="showSummary" />
+							<bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
 							<bean parent="Uif-InputField" p:propertyName="warningText" p:required="false" />
 						</list>
 					</property>
