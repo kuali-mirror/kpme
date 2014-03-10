@@ -580,12 +580,7 @@
                               p:inquiryParameters="deptObj.hrDeptId:hrDeptId"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="location">
-                    <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                              p:inquiryParameters="locationObj.hrLocationId:hrLocationId"/>
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField" p:propertyName="location"/>
                 <bean parent="Uif-DataField" p:propertyName="positionNumber">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
