@@ -21,8 +21,6 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.job.Job;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.Cacheable;

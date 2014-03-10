@@ -26,7 +26,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.util.HrConstants;
@@ -63,7 +63,7 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 	private String principalId;
 	private Long jobNumber;
 	private String hrJobId;
-	private transient Job job;
+	private transient JobBo job;
 	private Long workArea;
 	//private Long tkWorkAreaId;
 	private Long task;
@@ -117,14 +117,14 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 		return (principal != null) ? principal.getName() : "";
 	}
 
-	public Job getJob() {
+	public JobBo getJob() {
 		if(job == null && this.getJobNumber() != null) {
-			this.setJob((Job)HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate()));
+			this.setJob(JobBo.from(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate())));
 		}
 		return job;
 	}
 
-	public void setJob(Job job) {
+	public void setJob(JobBo job) {
 		this.job = job;
 	}
 
@@ -176,9 +176,9 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 		if(this.getJobNumber()!= null) {
 			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber())) {
 				if(this.getEffectiveDate()!=null){
-					this.setJob((Job) HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate(), false));
+					this.setJob(JobBo.from(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate(), false)));
 				}else{
-					this.setJob((Job) HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), LocalDate.now(), false));
+					this.setJob(JobBo.from(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), LocalDate.now(), false)));
 				}
 			}
 			setDept((this.getJob() != null) ? this.getJob().getDept() : "");

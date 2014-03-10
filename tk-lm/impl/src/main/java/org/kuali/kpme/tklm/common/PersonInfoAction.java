@@ -35,14 +35,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.accrualcategory.rule.AccrualCategoryRuleBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -76,7 +75,7 @@ public class PersonInfoAction extends KPMEAction {
             // set name
             personForm.setName(name.getDefaultName() != null ? name.getDefaultName().getCompositeName() : StringUtils.EMPTY);
         }
-		personForm.setJobs((List<Job>) HrServiceLocator.getJobService().getJobs(HrContext.getTargetPrincipalId(), LocalDate.now()));
+		personForm.setJobs(HrServiceLocator.getJobService().getJobs(HrContext.getTargetPrincipalId(), LocalDate.now()));
 		
 		//KPME-1441
 		PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), LocalDate.now());

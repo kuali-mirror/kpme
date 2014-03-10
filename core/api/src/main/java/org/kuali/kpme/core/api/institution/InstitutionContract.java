@@ -15,18 +15,13 @@
  */
 package org.kuali.kpme.core.api.institution;
 
-import org.kuali.kpme.core.api.mo.Effective;
-import org.kuali.kpme.core.api.mo.UserModified;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Identifiable;
-import org.kuali.rice.core.api.mo.common.Versioned;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 
 /**
  * <p>InstitutionContract interface.</p>
  *
  */
-public interface InstitutionContract extends Versioned, GloballyUnique, Inactivatable, Identifiable, Effective, UserModified {
+public interface InstitutionContract extends KpmeEffectiveDataTransferObject {
 	
 	/**
 	 * Text that identifies this Institution

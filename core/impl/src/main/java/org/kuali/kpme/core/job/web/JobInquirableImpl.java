@@ -21,7 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -32,19 +32,19 @@ public class JobInquirableImpl extends KualiInquirableImpl {
     @Override
     @SuppressWarnings("rawtypes")
     public BusinessObject getBusinessObject(Map fieldValues) {
-        JobContract jobObj = null;
+        JobBo jobObj = null;
 
         if (StringUtils.isNotBlank((String) fieldValues.get("hrJobId"))) {
-            jobObj = HrServiceLocator.getJobService().getJob((String) fieldValues.get("hrJobId"));
+            jobObj = JobBo.from(HrServiceLocator.getJobService().getJob((String) fieldValues.get("hrJobId")));
         } else if (fieldValues.containsKey("jobNumber") && fieldValues.containsKey("effectiveDate") && fieldValues.containsKey("principalId")) {
         	String jobNumberVal = (String) fieldValues.get("jobNumber");
         	Long jobNumber = jobNumberVal != null ? Long.valueOf(jobNumberVal) : null;
             String principalId = (String) fieldValues.get("principalId");
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-            jobObj = HrServiceLocator.getJobService().getJob(principalId, jobNumber, effectiveDate);
+            jobObj = JobBo.from(HrServiceLocator.getJobService().getJob(principalId, jobNumber, effectiveDate));
         } else {
-            jobObj = (Job) super.getBusinessObject(fieldValues);
+            jobObj = (JobBo) super.getBusinessObject(fieldValues);
         }
 
         return jobObj;

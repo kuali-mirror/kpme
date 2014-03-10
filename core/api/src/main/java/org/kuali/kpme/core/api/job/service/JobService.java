@@ -21,6 +21,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,14 +33,14 @@ public interface JobService {
 	 * @param job
 	 */
     @CacheEvict(value={JobContract.CACHE_NAME, AssignmentContract.CACHE_NAME, CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
-	public void saveOrUpdate(JobContract job);
+	public Job saveOrUpdate(Job job);
 	
 	/**
 	 * Updates or saves a list of jobs
 	 * @param jobList
 	 */
     @CacheEvict(value={JobContract.CACHE_NAME, AssignmentContract.CACHE_NAME, CalendarBlockPermissions.CACHE_NAME}, allEntries = true)
-	public void saveOrUpdate(List<? extends JobContract> jobList);
+	public List<Job> saveOrUpdate(List<Job> jobList);
 	
 	/**
 	 * Provides a list of current jobs that are valid relative to the provided effective date.  
@@ -54,19 +55,19 @@ public interface JobService {
 	 * @return
 	 */
     @Cacheable(value= JobContract.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<? extends JobContract> getJobs(String principalId, LocalDate asOfDate);
+	public List<Job> getJobs(String principalId, LocalDate asOfDate);
 	
 	/**
 	 * Provides a job by specific job number, principal ID and as of Date combination. 
 	 */
     @Cacheable(value= JobContract.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'asOfDate=' + #p2")
-	public JobContract getJob(String principalId, Long jobNumber, LocalDate asOfDate);
+	public Job getJob(String principalId, Long jobNumber, LocalDate asOfDate);
 	
 	/**
 	 * Provides a job by specific job number, principal ID and as of Date combination, and check details will throw error if required. 
 	 */
     @Cacheable(value= JobContract.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'asOfDate=' + #p2 + '|' + 'chkDetails=' + #p3")
-	public JobContract getJob(String principalId, Long jobNumber, LocalDate asOfDate, boolean chkDetails);
+	public Job getJob(String principalId, Long jobNumber, LocalDate asOfDate, boolean chkDetails);
 	
 	/**
 	 * For a given principal ID, the job that is marked "primary" is returned 
@@ -77,7 +78,7 @@ public interface JobService {
 	 * @return
 	 */
     @Cacheable(value= JobContract.CACHE_NAME, key="'{getPrimaryJob}' + 'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public JobContract getPrimaryJob(String principalId, LocalDate asOfDate);
+	public Job getPrimaryJob(String principalId, LocalDate asOfDate);
 	
 	/**
 	 * 
@@ -86,7 +87,7 @@ public interface JobService {
 	 * @return
 	 */
     @Cacheable(value= JobContract.CACHE_NAME, key="'hrPayType=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<? extends JobContract> getActiveJobsForPayType(String hrPayType, LocalDate asOfDate);
+	public List<Job> getActiveJobsForPayType(String hrPayType, LocalDate asOfDate);
 	
 	/**
 	 * Get job by the unique id
@@ -94,7 +95,7 @@ public interface JobService {
 	 * @return
 	 */
     @Cacheable(value= JobContract.CACHE_NAME, key="'hrJobId=' + #p0")
-	public JobContract getJob(String hrJobId);
+	public Job getJob(String hrJobId);
 	
 	/**
 	 * Get the max jobnumber job for this principal
@@ -102,9 +103,9 @@ public interface JobService {
 	 * @return
 	 */
     @Cacheable(value= JobContract.CACHE_NAME, key="'principalId=' + #p0")
-	public JobContract getMaxJob(String principalId);
+	public Job getMaxJob(String principalId);
 
-    List<? extends JobContract> getJobs(String userPrincipalId, String principalId, String firstName, String lastName, String jobNumber,
+    List<Job> getJobs(String userPrincipalId, String principalId, String firstName, String lastName, String jobNumber,
                       String dept, String positionNbr, String payType,
                       LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
@@ -116,7 +117,7 @@ public interface JobService {
 	 * @param asOfDate
 	 * @return
 	 */
-    public List<? extends JobContract> getActiveLeaveJobs(String principalId, LocalDate asOfDate);
+    public List<Job> getActiveLeaveJobs(String principalId, LocalDate asOfDate);
     
     /**
 	 * Get sum of fte of given jobs
@@ -144,16 +145,16 @@ public interface JobService {
 	 * @param asOfDate
 	 * @return
 	 */
-    public List<? extends JobContract> getAllActiveLeaveJobs(String principalId, LocalDate asOfDate);
+    public List<Job> getAllActiveLeaveJobs(String principalId, LocalDate asOfDate);
     
-    public List<? extends JobContract> getInactiveLeaveJobs(Long jobNumber, LocalDate endDate);
+    public List<Job> getInactiveLeaveJobs(Long jobNumber, LocalDate endDate);
     
-    public List<? extends JobContract> getAllInActiveLeaveJobsInRange(String principalId, LocalDate endDate);
+    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, LocalDate endDate);
     
     /*
      * Get the job entry with the max timestamp for given pricipalId
      */
-    public JobContract getMaxTimestampJob(String principalId);
+    public Job getMaxTimestampJob(String principalId);
     
 	
 	/**
@@ -164,6 +165,6 @@ public interface JobService {
 	 * @return
 	 */
     @Cacheable(value= JobContract.CACHE_NAME, key="'positionNumber=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<String> getPrincipalIdsInPosition(String positionNbr, LocalDate asOfDate);
+	public List<String> getPrincipalIdsInPosition(String positionNumber, LocalDate asOfDate);
     
 }

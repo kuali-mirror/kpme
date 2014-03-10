@@ -23,7 +23,7 @@
 
 	<bean id="Job" parent="Job-parentBean" />
 	<bean id="Job-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.job.Job" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.job.JobBo" />
 
 		<property name="titleAttribute" value="hrJobId" />
 		<property name="attributes">
@@ -446,7 +446,7 @@
     <!-- Job Inquiry View -->
     <bean id="Job-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Job Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.Job"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.JobBo"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
             <list>
@@ -523,7 +523,7 @@
     <!--Job Lookup View -->
     <bean id="Job-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Job Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.Job"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.JobBo"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobLookupableImpl"/>
         <property name="criteriaFields">
             <list>

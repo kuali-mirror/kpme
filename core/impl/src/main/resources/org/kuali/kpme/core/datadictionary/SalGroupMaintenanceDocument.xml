@@ -27,7 +27,7 @@
 
   <bean id="SalaryGroupMaintenanceDocument" parent="SalaryGroupMaintenanceDocument-parentBean"/>
   <bean id="SalaryGroupMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
+    <property name="dataObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo"/>
     <property name="maintainableClass" value="org.kuali.kpme.core.salarygroup.web.SalaryGroupMaintainableImpl"/>
     <property name="documentTypeName" value="SalaryGroupMaintenanceDocumentType"/>
     <property name="documentAuthorizerClass" value="org.kuali.kpme.core.salarygroup.authorization.SalaryGroupAuthorizer"/>

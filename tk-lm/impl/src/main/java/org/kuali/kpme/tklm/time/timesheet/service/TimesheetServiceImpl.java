@@ -39,9 +39,8 @@ import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -293,7 +292,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntryContract payCalEntry) {
     	tdoc.setAssignments((List<AssignmentContract>)HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry));
     	if (payCalEntry != null) {
-    		tdoc.setJobs((List<Job>) HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));
+    		tdoc.setJobs(HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));
     	}
     	tdoc.setTimeBlocks(TkServiceLocator.getTimeBlockService().getTimeBlocks(tdoc.getDocumentHeader().getDocumentId()));
     }

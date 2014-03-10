@@ -21,9 +21,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
@@ -93,7 +94,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
         DateTime asOfDate =  LocalDate.now().toDateTimeAtStartOfDay();
 
         if(principalId != null && StringUtils.isNotEmpty(principalId)) {
-            List<Job> targetUserJob = (List<Job>) HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, loggedInDay);
+            List<Job> targetUserJob = HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, loggedInDay);
 
             if(!targetUserJob.isEmpty()) {
             //the target user should have at least one job and not have more than one leave eligible dept

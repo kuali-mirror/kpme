@@ -27,7 +27,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.api.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
@@ -163,16 +164,17 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     @Test
     public void testClockLocationRuleProcessing() {
     	ClockLocationRule clr = this.createClr(IP_ADDRESS_ONE, 1234L, "1234", 0L);
-    	
-    	//Test for exact match
+    	Job.Builder tempJob = Job.Builder.create("12345", 0L);
+        tempJob.setDept("TEST");
+        //Test for exact match
     	ClockLog clockLog = new ClockLog();
     	clockLog.setDocumentId("1111");
-    	clockLog.setJob(new Job());
+    	clockLog.setJob(tempJob.build());
     	clockLog.setIpAddress(IP_ADDRESS_ONE);
     	clockLog.setWorkArea(1234L);
     	clockLog.setPrincipalId("12345");
     	clockLog.setJobNumber(0L);
-    	clockLog.getJob().setDept("TEST");
+    	//clockLog.getJob().setDept("TEST");
     	
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
     	
@@ -182,15 +184,14 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	boService.delete(clr);
     	
     	clr = this.createClr(IP_ADDRESS_ONE, 1234L, "1234", 0L);
-    	
     	clockLog = new ClockLog();
     	clockLog.setDocumentId("1111");
-    	clockLog.setJob(new Job());
+    	clockLog.setJob(tempJob.build());
     	clockLog.setIpAddress("127.127.127.127");
     	clockLog.setWorkArea(1234L);
     	clockLog.setPrincipalId("12345");
     	clockLog.setJobNumber(0L);
-    	clockLog.getJob().setDept("TEST");
+    	//clockLog.getJob().setDept("TEST");
     	
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
     	
@@ -204,12 +205,14 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	//Test for exact match
     	ClockLog clockLog = new ClockLog();
     	clockLog.setDocumentId("1111");
-    	clockLog.setJob(new Job());
+        Job.Builder tempJob = Job.Builder.create("12345", 0L);
+        tempJob.setDept("TEST");
+    	clockLog.setJob(tempJob.build());
     	clockLog.setIpAddress(IP_ADDRESS_ONE);
     	clockLog.setWorkArea(1234L);
     	clockLog.setPrincipalId("12345");
     	clockLog.setJobNumber(0L);
-    	clockLog.getJob().setDept("TEST");
+    	//clockLog.getJob().setDept("TEST");
     	
     	this.processRuleWithIPNoWarning(clockLog, "%");
     	this.processRuleWithIPNoWarning(clockLog, "127.%");

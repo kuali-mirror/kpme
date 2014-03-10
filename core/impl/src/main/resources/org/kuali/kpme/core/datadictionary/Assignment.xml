@@ -193,7 +193,7 @@
         </bean>       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobNumber" >
 			<property name="quickfinder">
-            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.Job"
+            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.JobBo"
                             p:fieldConversions="principalId:principalId,jobNumber:jobNumber" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
             </property>        
         </bean>

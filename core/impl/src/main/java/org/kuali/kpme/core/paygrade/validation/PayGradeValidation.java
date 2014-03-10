@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.core.paygrade.validation;
 
-import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
-import org.kuali.kpme.core.paygrade.PayGrade;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -29,16 +29,16 @@ public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = true;
 		LOG.debug("entering custom validation for Pay Grade");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
-		if (pbo != null && pbo instanceof PayGrade) {
-			PayGrade aPayGrade = (PayGrade) pbo;
+		if (pbo != null && pbo instanceof PayGradeBo) {
+			PayGradeBo aPayGrade = (PayGradeBo) pbo;
 			valid &= this.validateSalGroup(aPayGrade);
 			valid &= this.validateRateAttrubutes(aPayGrade);
 		}
 		return valid;
 	}
 	
-	private boolean validateSalGroup(PayGrade aPayGrade){
-		SalaryGroupContract aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(aPayGrade.getSalGroup(), aPayGrade.getEffectiveLocalDate()) ;
+	private boolean validateSalGroup(PayGradeBo aPayGrade){
+		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(aPayGrade.getSalGroup(), aPayGrade.getEffectiveLocalDate()) ;
 		String errorMes = "Salgroup '"+ aPayGrade.getSalGroup() + "'";
 		if(aSalGroup == null) {
 			this.putFieldError("dataObject.salGroup", "error.existence", errorMes);
@@ -64,7 +64,7 @@ public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	private boolean validateRateAttrubutes(PayGrade aPayGrade){
+	private boolean validateRateAttrubutes(PayGradeBo aPayGrade){
 		boolean isValid = true;
 		// check if one of the min, mid or max provided then Rate time should be required
 		if(aPayGrade.getMinRate() != null || aPayGrade.getMidPointRate() != null || aPayGrade.getMaxRate() != null ) {

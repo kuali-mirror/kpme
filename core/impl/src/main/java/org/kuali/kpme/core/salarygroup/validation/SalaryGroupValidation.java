@@ -17,7 +17,7 @@ package org.kuali.kpme.core.salarygroup.validation;
 
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -27,7 +27,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Salary Group");
-		SalaryGroup sg = (SalaryGroup) this.getNewDataObject();
+		SalaryGroupBo sg = (SalaryGroupBo) this.getNewDataObject();
 		
 		if (sg != null) {
 			valid = true;
@@ -38,7 +38,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	private boolean validateInstitution(SalaryGroup sg) {
+	private boolean validateInstitution(SalaryGroupBo sg) {
 		if (StringUtils.isNotEmpty(sg.getInstitution())
 				&& !ValidationUtils.validateInstitution(sg.getInstitution(), sg.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
@@ -49,7 +49,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 		}
 	}
 	
-	private boolean validateLocation(SalaryGroup sg) {
+	private boolean validateLocation(SalaryGroupBo sg) {
 		if (StringUtils.isNotEmpty(sg.getLocation())
 				&& !ValidationUtils.validateLocation(sg.getLocation(), sg.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.location", "error.existence", "Location '"
@@ -60,7 +60,7 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 		}
 	}
 	
-	private boolean validateLeavePlan(SalaryGroup sg) {
+	private boolean validateLeavePlan(SalaryGroupBo sg) {
 		if (StringUtils.isNotEmpty(sg.getLeavePlan())
 				&& !ValidationUtils.validateLeavePlan(sg.getLeavePlan(), sg.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.leavePlan", "error.existence", "Leave Plan '"

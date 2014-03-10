@@ -15,19 +15,20 @@
  */
 package org.kuali.kpme.core.job;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.location.LocationBo;
-import org.kuali.kpme.core.paygrade.PayGrade;
+import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.position.PositionBase;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -35,10 +36,11 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.Timestamp;
 
-public class Job extends HrBusinessObject implements JobContract {
+public class JobBo extends HrBusinessObject implements JobContract {
 
 	private static final String JOB_NUMBER = "jobNumber";
 	private static final String PRINCIPAL_ID = "principalId";
@@ -50,7 +52,7 @@ public class Job extends HrBusinessObject implements JobContract {
 	            .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
-            .add(Job.CACHE_NAME)
+            .add(JobBo.CACHE_NAME)
             .add(Assignment.CACHE_NAME)
             .add(CalendarBlockPermissions.CACHE_NAME)
             .build();
@@ -70,6 +72,8 @@ public class Job extends HrBusinessObject implements JobContract {
 	private Boolean primaryIndicator;
 	private KualiDecimal compRate = new KualiDecimal(0);
 	private String positionNumber;
+    private BigDecimal fte = new BigDecimal(0); //kpme1465, chen
+    private String flsaStatus;
 	
 	private boolean eligibleForLeave;
 	
@@ -77,12 +81,11 @@ public class Job extends HrBusinessObject implements JobContract {
 	private transient DepartmentBo deptObj;
 	private PayTypeBo payTypeObj;
 	private transient LocationBo locationObj;
-    private transient PayGrade payGradeObj;
-    private transient SalaryGroup salaryGroupObj;
+    private transient PayGradeBo payGradeObj;
+    private transient SalaryGroupBo salaryGroupObj;
     private transient PositionBase positionObj;
     
-    private BigDecimal fte = new BigDecimal(0); //kpme1465, chen
-    private String flsaStatus;
+
     
     
     @Override
@@ -274,8 +277,10 @@ public class Job extends HrBusinessObject implements JobContract {
 		this.primaryIndicator = primaryIndicator;
 	}
 
-
-	public Boolean getPrimaryIndicator() {
+    public Boolean getPrimaryIndicator() {
+        return primaryIndicator;
+    }
+	public Boolean isPrimaryJob() {
 		return primaryIndicator;
 	}
 
@@ -290,19 +295,19 @@ public class Job extends HrBusinessObject implements JobContract {
 		this.locationObj = locationObj;
 	}
 
-	public PayGrade getPayGradeObj() {
+	public PayGradeBo getPayGradeObj() {
 		return payGradeObj;
 	}
 
-	public void setPayGradeObj(PayGrade payGradeObj) {
+	public void setPayGradeObj(PayGradeBo payGradeObj) {
 		this.payGradeObj = payGradeObj;
 	}
 
-	public SalaryGroup getSalaryGroupObj() {
+	public SalaryGroupBo getSalaryGroupObj() {
 		return salaryGroupObj;
 	}
 
-	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
+	public void setSalaryGroupObj(SalaryGroupBo salaryGroupObj) {
 		this.salaryGroupObj = salaryGroupObj;
 	}
 
@@ -347,5 +352,59 @@ public class Job extends HrBusinessObject implements JobContract {
 	public void setEligibleForLeave(boolean eligibleForLeave) {
 		this.eligibleForLeave = eligibleForLeave;
 	}
-	
+
+    public static JobBo from(Job im) {
+        if (im == null) {
+            return null;
+        }
+        JobBo job = new JobBo();
+
+        job.setLocation(im.getLocation());
+        job.setHrPayType(im.getHrPayType());
+        job.setPayGrade(im.getPayGrade());
+        job.setStandardHours(im.getStandardHours());
+        job.setHrJobId(im.getHrJobId());
+        job.setPrincipalId(im.getPrincipalId());
+        job.setFirstName(im.getFirstName());
+        job.setLastName(im.getLastName());
+        job.setPrincipalName(im.getPrincipalName());
+        job.setJobNumber(im.getJobNumber());
+        job.setDept(im.getDept());
+        job.setHrSalGroup(im.getHrSalGroup());
+        job.setPrimaryIndicator(im.isPrimaryJob());
+        job.setCompRate(im.getCompRate());
+        job.setPositionNumber(im.getPositionNumber());
+        job.setFte();
+        job.setFlsaStatus(im.getFlsaStatus());
+        job.setPayGrade(im.getPayGrade());
+        job.setLocation(im.getLocation());
+        job.setEligibleForLeave(im.isEligibleForLeave());
+        if (im.getPayTypeObj() != null) {
+            job.setPayTypeObj(PayTypeBo.from(im.getPayTypeObj()));
+        } else {
+            if (StringUtils.isNotEmpty(job.getHrPayType())) {
+                job.setPayTypeObj(PayTypeBo.from(HrServiceLocator.getPayTypeService().getPayType(im.getHrPayType(), im.getEffectiveLocalDate())));
+            }
+        }
+
+
+        job.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        job.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            job.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        job.setUserPrincipalId(im.getUserPrincipalId());
+        job.setVersionNumber(im.getVersionNumber());
+        job.setObjectId(im.getObjectId());
+
+        return job;
+    }
+
+    public static Job to(JobBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return Job.Builder.create(bo).build();
+    }
 }

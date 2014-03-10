@@ -15,11 +15,12 @@
  */
 package org.kuali.kpme.core.api.paygrade.service;
 
-import java.util.List;
-
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.springframework.cache.annotation.Cacheable;
+
+import java.util.List;
 
 public interface PayGradeService {
 	/**
@@ -30,14 +31,14 @@ public interface PayGradeService {
 	 * @return
 	 */
     @Cacheable(value= PayGradeContract.CACHE_NAME, key="'payGrade=' + #p0 + '|' + 'salGroup=' + #p1 + '|' + 'asOfDate=' + #p2")
-	public PayGradeContract getPayGrade(String payGrade, String salGroup, LocalDate asOfDate);
+	public PayGrade getPayGrade(String payGrade, String salGroup, LocalDate asOfDate);
 	/**
 	 * Get pay grade by a unique id
 	 * @param hrPayGradeId
 	 * @return
 	 */
     @Cacheable(value= PayGradeContract.CACHE_NAME, key="'hrPayGradeId=' + #p0")
-	public PayGradeContract getPayGrade(String hrPayGradeId);
+	public PayGrade getPayGrade(String hrPayGradeId);
 	/**
 	 * get count of pay grade with given payGrade
 	 * @param payGrade
@@ -45,6 +46,6 @@ public interface PayGradeService {
 	 */
 	public int getPayGradeCount(String payGrade);
 	
-    List<? extends PayGradeContract> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String active, String showHistory);
+    List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String active, String showHistory);
 
 }

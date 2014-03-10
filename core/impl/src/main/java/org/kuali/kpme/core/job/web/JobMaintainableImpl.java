@@ -17,17 +17,14 @@ package org.kuali.kpme.core.job.web;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 /**
@@ -46,14 +43,14 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	public void processAfterCopy(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
 		super.processAfterCopy(document, parameters);
-		Job job = (Job) document.getNewMaintainableObject().getDataObject();
+		JobBo job = (JobBo) document.getNewMaintainableObject().getDataObject();
 		job.setPrincipalId(null);
 		job.setJobNumber(null);
 	}	
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject)HrServiceLocator.getJobService().getJob(id);
+		return JobBo.from(HrServiceLocator.getJobService().getJob(id));
 	}
 
     //attribute query, populates name when principalID is selected
@@ -62,8 +59,8 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     }
 
     //attribute query, populates name and job number when principalID is selected, for new jobs
-    public Job getNameAndJob(String principalId) {
-        Job aJob = new Job();
+    public JobBo getNameAndJob(String principalId) {
+        JobBo aJob = new JobBo();
 
         EntityNamePrincipalName p = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
         if (p != null && p.getDefaultName() != null) {

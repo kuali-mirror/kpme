@@ -21,6 +21,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
+import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -111,7 +112,7 @@ public class PmValidationUtils {
 	
 	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			PayGradeContract grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
+			PayGrade grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
 			if(grade != null && StringUtils.isNotBlank(grade.getSalGroup())) 
 				return StringUtils.equals(grade.getSalGroup(), salaryGroup);
 		}

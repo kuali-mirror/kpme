@@ -18,7 +18,8 @@ package org.kuali.kpme.tklm.time.clocklog;
 import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.api.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogContract;

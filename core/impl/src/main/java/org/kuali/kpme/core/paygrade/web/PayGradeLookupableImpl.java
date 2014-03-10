@@ -34,23 +34,32 @@ package org.kuali.kpme.core.paygrade.web;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
+import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PayGradeLookupableImpl extends KPMELookupableImpl {
 
 	private static final long serialVersionUID = 5424446452538063763L;
-
+    private static final ModelObjectUtils.Transformer<PayGrade, PayGradeBo> toPayGradeBo =
+            new ModelObjectUtils.Transformer<PayGrade, PayGradeBo>() {
+                public PayGradeBo transform(PayGrade input) {
+                    return PayGradeBo.from(input);
+                };
+            };
     @Override
-    public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    public List<? extends BusinessObject> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         String payGrade = searchCriteria.get("payGrade");
         String descr = searchCriteria.get("description");
         String active = searchCriteria.get("active");
         String showHistory = searchCriteria.get("history");
         String salGroup = searchCriteria.get("salGroup");  // KPME-2700
 
-        return HrServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, salGroup, active, showHistory);
+        return ModelObjectUtils.transform(HrServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, salGroup, active, showHistory), toPayGradeBo);
     }
     
 }

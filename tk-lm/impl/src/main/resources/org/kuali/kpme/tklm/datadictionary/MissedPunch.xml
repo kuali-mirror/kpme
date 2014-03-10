@@ -397,11 +397,11 @@
 		        <!-- Can be enabled once a principal id fetch is defined for principalName and
 		        	KRAD Views have been defined for jobNumber. -->
 <!-- 	  				<property name="quickfinder">
-	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.Job"
+	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.JobBo"
 	  						p:fieldConversions="jobNumber:jobNumber"/>
 	  				</property>
 	  				<property name="inquiry">
-	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.job.Job">
+	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.job.JobBo">
 	  						<property name="inquiryParameters">
 	  							<map>
 	  								<entry key="principalId" value="principalId"/>

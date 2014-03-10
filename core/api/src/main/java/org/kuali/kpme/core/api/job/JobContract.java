@@ -15,24 +15,18 @@
  */
 package org.kuali.kpme.core.api.job;
 
-import java.math.BigDecimal;
-
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.api.department.DepartmentContract;
-import org.kuali.kpme.core.api.location.LocationContract;
-import org.kuali.kpme.core.api.paygrade.PayGradeContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
-import org.kuali.kpme.core.api.position.PositionBaseContract;
-import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.identity.Person;
+
+import java.math.BigDecimal;
 
 /**
  * <p>JobContract interface.</p>
  *
  */
-public interface JobContract extends HrBusinessObjectContract {
+public interface JobContract extends KpmeEffectiveDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
 	
@@ -148,17 +142,6 @@ public interface JobContract extends HrBusinessObjectContract {
 	public Long getJobNumber();
 	
 	/**
-	 * History flag for Job lookups 
-	 * 
-	 * <p>
-	 * history of Job
-	 * </p>
-	 * 
-	 * @return true if want to show history, false if not
-	 */
-	public Boolean getHistory();
-	
-	/**
 	 * The location the job is associated with. 
 	 * 
 	 * <p>
@@ -255,7 +238,7 @@ public interface JobContract extends HrBusinessObjectContract {
 	 * 
 	 * @return true if is primary, false if not
 	 */
-	public Boolean getPrimaryIndicator();
+	public Boolean isPrimaryJob();
 	
 	/**
 	 * The Location object associated with the Job

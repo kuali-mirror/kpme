@@ -35,8 +35,7 @@ import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.leaveplan.LeavePlanBo;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.batch.CarryOverJob;
@@ -91,7 +90,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 				List<Assignment> assignments = (List<Assignment>) getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
 				
 				for (Assignment assignment : assignments) {
-					Job job = assignment.getJob();
+					JobBo job = assignment.getJob();
 					
 					if (StringUtils.equalsIgnoreCase(job.getFlsaStatus(), HrConstants.FLSA_STATUS_NON_EXEMPT)) {
 						TimesheetDocumentHeader timesheetDocumentHeader = getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
@@ -109,7 +108,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 				List<Assignment> assignments = (List<Assignment>) getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
 				
 				for (Assignment assignment : assignments) {
-					Job job = assignment.getJob();
+					JobBo job = assignment.getJob();
 					
 					if (job.isEligibleForLeave() && StringUtils.equalsIgnoreCase(job.getFlsaStatus(), HrConstants.FLSA_STATUS_EXEMPT)) {
 						LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);

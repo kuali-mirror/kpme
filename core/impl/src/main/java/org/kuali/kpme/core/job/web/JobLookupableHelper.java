@@ -19,10 +19,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.api.job.Job;
+import org.kuali.kpme.core.api.paytype.PayType;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -34,13 +38,20 @@ import org.kuali.rice.krad.util.UrlFactory;
 public class JobLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 3233495722838070429L;
+    private static final ModelObjectUtils.Transformer<Job, JobBo> toJobBo =
+            new ModelObjectUtils.Transformer<Job, JobBo>() {
+                public JobBo transform(Job input) {
+                    return JobBo.from(input);
+                };
+            };
 
-	@Override
+
+    @Override
 	@SuppressWarnings("rawtypes")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
     	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		Job job = (Job) businessObject;
+		JobBo job = (JobBo) businessObject;
         String hrJobId = job.getHrJobId();
 		
 		Properties params = new Properties();
@@ -74,8 +85,8 @@ public class JobLookupableHelper extends KPMELookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), principalId, firstName, lastName, jobNumber, dept, positionNumber, hrPayType, 
-        		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
+        return ModelObjectUtils.transform(HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), principalId, firstName, lastName, jobNumber, dept, positionNumber, hrPayType,
+                TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toJobBo);
     }
 
 }

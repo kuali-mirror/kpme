@@ -15,30 +15,19 @@
  */
 package org.kuali.kpme.core.api.salarygroup;
 
-import java.math.BigDecimal;
-
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
+
+import java.math.BigDecimal;
 
 /**
  * <p>SalaryGroupContract interface.</p>
  *
  */
-public interface SalaryGroupContract extends HrBusinessObjectContract {
+public interface SalaryGroupContract extends KpmeEffectiveDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "SalaryGroup";
-	
-	/**
-	 * History flag for SalaryGroup lookups 
-	 * 
-	 * <p>
-	 * history of SalaryGroup
-	 * </p>
-	 * 
-	 * @return true if want to show history, false if not
-	 */
-	public boolean isHistory();
-	
+
 	/**
 	 * The Primary Key of a SalaryGroup entry saved in a database
 	 * 

@@ -84,7 +84,7 @@
                             <td>${job.payTypeObj.descr}</td>
                             <td>${job.location }</td>
                             <td><fmt:formatNumber value="${job.compRate }" type="currency"/></td>
-                            <td>${job.effectiveDate }</td>
+                            <td>${job.effectiveLocalDate }</td>
                             
                             <c:if test="${job.eligibleForLeave == false}"> 
                             	<td>No</td>

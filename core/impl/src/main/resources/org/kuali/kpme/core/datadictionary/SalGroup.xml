@@ -24,7 +24,7 @@
 	
 	<bean id="SalaryGroup" parent="SalaryGroup-parentBean"/>
  	<bean id="SalaryGroup-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-	    <property name="dataObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo"/>
 	    <property name="lookupDefinition">
 			<ref bean="SalaryGroup-lookupDefinition" />
 		</property>
@@ -180,7 +180,7 @@
  
   <bean id="SalaryGroup-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Salary Group Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />       
@@ -205,7 +205,7 @@
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="hrSalGroup">
          	<property name="inquiry">
-	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
 	        	 p:inquiryParameters="hrSalGroupId:hrSalGroupId"/>
     		</property>
         </bean>
@@ -283,7 +283,7 @@
  <!-- Salary Group Inquiry View -->
   <bean id="SalaryGroup-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Salary Group Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -314,7 +314,7 @@
   <bean id="SalaryGroup-MaintenanceView" parent="SalaryGroup-MaintenanceView-parentBean"/>
   <bean id="SalaryGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Salary Group Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroup"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo"/>
     <property name="items">
       <list>
         <bean parent="Uif-MaintenanceGridSection">

@@ -146,7 +146,7 @@
             			</bean>
             			<bean parent="Uif-DataField" p:propertyName="hrSalGroup" >
             				<property name="inquiry">
-                        		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                        		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
                               			p:inquiryParameters="hrSalGroup:hrSalGroup"/>
                     		</property>
             			</bean>
@@ -201,11 +201,11 @@
 				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" >
 					<property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
                               p:fieldConversions="hrSalGroup:hrSalGroup,effectiveDate:relativeEffectiveDate"/>
                     </property>
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
                               p:inquiryParameters="hrSalGroup:hrSalGroup"/>
                     </property>
 				</bean>
@@ -241,7 +241,7 @@
                 </bean>
 				<bean parent="Uif-DataField" p:propertyName="hrSalGroup" >
 					<property name="inquiry">
-                    	<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                    	<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
                         	p:inquiryParameters="hrSalGroup:hrSalGroup"/>
                     </property>				
 				</bean>
@@ -295,11 +295,11 @@
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:required="true" >
 								<property name="quickfinder">
-                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                        			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
                               			p:fieldConversions="hrSalGroup:hrSalGroup,effectiveDate:relativeEffectiveDate"/>
                     			</property>
                     			<property name="inquiry">
-                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                        			<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
                               			p:inquiryParameters="hrSalGroup:hrSalGroup"/>
                     			</property>
 							</bean>

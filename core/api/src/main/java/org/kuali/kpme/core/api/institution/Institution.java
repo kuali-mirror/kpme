@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -30,6 +31,8 @@ import org.joda.time.LocalDate;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = Institution.Constants.ROOT_ELEMENT_NAME)
@@ -67,8 +70,10 @@ public final class Institution
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private final LocalDate effectiveLocalDate;
     @XmlElement(name = Elements.CREATE_TIME, required = false)
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;

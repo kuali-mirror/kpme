@@ -28,7 +28,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.department.DepartmentBo;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
@@ -61,7 +61,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	
 	private transient String principalName;
     private transient String personName;
-	private transient Job jobObj;
+	private transient JobBo jobObj;
 	private transient WorkArea workAreaObj;
     private transient DepartmentBo departmentObj;
 	private transient Task taskObj;
@@ -243,11 +243,11 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 		this.personName = personName;
 	}
 
-	public Job getJobObj() {
+	public JobBo getJobObj() {
 		return jobObj;
 	}
 
-	public void setJobObj(Job jobObj) {
+	public void setJobObj(JobBo jobObj) {
 		this.jobObj = jobObj;
 	}
 

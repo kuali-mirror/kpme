@@ -20,9 +20,9 @@ import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.location.LocationBo;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
@@ -61,10 +61,10 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	private String location;
 	private String earnCodeType;
 	
-	private SalaryGroup  salaryGroupObj;
+	private SalaryGroupBo salaryGroupObj;
 	private DepartmentBo departmentObj;
 	private EarnCodeBo earnCodeObj;
-    private Job jobObj;
+    private JobBo jobObj;
     private LocationBo locationObj;
 
     
@@ -95,11 +95,11 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 		this.earnCodeType = earnCodeType;
 	}
 
-	public SalaryGroup getSalaryGroupObj() {
+	public SalaryGroupBo getSalaryGroupObj() {
 		return salaryGroupObj;
 	}
 
-	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
+	public void setSalaryGroupObj(SalaryGroupBo salaryGroupObj) {
 		this.salaryGroupObj = salaryGroupObj;
 	}
 
@@ -167,11 +167,11 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 		this.earnCode = earnCode;
 	}
 
-	public Job getJobObj() {
+	public JobBo getJobObj() {
 		return jobObj;
 	}
 	
-	public void setJobObj(Job jobObj) {
+	public void setJobObj(JobBo jobObj) {
 		this.jobObj = jobObj;
 	}
 	

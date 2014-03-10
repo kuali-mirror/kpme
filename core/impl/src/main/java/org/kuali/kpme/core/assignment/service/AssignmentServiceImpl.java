@@ -26,13 +26,12 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.assignment.dao.AssignmentDao;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -271,7 +270,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     private void populateAssignment(Assignment assignment, LocalDate asOfDate) {
-        assignment.setJob((Job)HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate));
+        assignment.setJob(JobBo.from(HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate)));
         assignment.setWorkAreaObj((WorkArea)HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
     }
 

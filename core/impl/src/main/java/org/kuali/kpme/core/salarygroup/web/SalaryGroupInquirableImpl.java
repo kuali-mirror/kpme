@@ -20,7 +20,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -33,19 +33,19 @@ public class SalaryGroupInquirableImpl extends KualiInquirableImpl {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		SalaryGroupContract salaryGroup = null;
+		SalaryGroupBo salaryGroup = null;
 		
 		if (StringUtils.isNotBlank((String)fieldValues.get("hrSalGroupId"))) {
-			salaryGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup((String) fieldValues.get("hrSalGroupId"));
+			salaryGroup = SalaryGroupBo.from(HrServiceLocator.getSalaryGroupService().getSalaryGroup((String) fieldValues.get("hrSalGroupId")));
 		} else if (StringUtils.isNotBlank((String)fieldValues.get("hrSalGroup"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String hrSalGroup = (String) fieldValues.get("hrSalGroup");
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
 
-			salaryGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(hrSalGroup, effectiveDate);
+			salaryGroup = SalaryGroupBo.from(HrServiceLocator.getSalaryGroupService().getSalaryGroup(hrSalGroup, effectiveDate));
 		} else {
-			salaryGroup = (SalaryGroup) super.getBusinessObject(fieldValues);
+			salaryGroup = (SalaryGroupBo) super.getBusinessObject(fieldValues);
 		}
 
 		return salaryGroup;

@@ -15,24 +15,17 @@
  */
 package org.kuali.kpme.core.api.earncode;
 
-import java.math.BigDecimal;
-
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
-import org.kuali.kpme.core.api.mo.Effective;
-import org.kuali.kpme.core.api.mo.UserModified;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Identifiable;
-import org.kuali.rice.core.api.mo.common.Versioned;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+
+import java.math.BigDecimal;
 
 /**
  * <p>EarnCodeContract interface.</p>
  *
  */
-public interface EarnCodeContract extends Versioned, GloballyUnique, Inactivatable, Identifiable, Effective, UserModified {
+public interface EarnCodeContract extends KpmeEffectiveDataTransferObject {
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCode";
 	/**
 	 * The flag that indicates if the worked hours under an EarnCode should be counted as regular pay

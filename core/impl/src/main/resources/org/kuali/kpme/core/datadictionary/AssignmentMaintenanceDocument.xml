@@ -70,7 +70,7 @@
 			        <bean parent="Uif-InputField" p:propertyName="name" p:widgetInputOnly="true"/>
 			        <bean parent="Uif-InputField" p:propertyName="jobNumber" p:required="true">
 						<property name="quickfinder">
-			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.Job"
+			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.JobBo"
 			                            p:fieldConversions="principalId:principalId,jobNumber:jobNumber,dept:dept" p:lookupParameters="relativeEffectiveDate:effectiveDate,principalId:principalId"/>
 			            </property>        
 			        </bean>

@@ -23,10 +23,10 @@ import java.util.Properties;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -93,7 +93,7 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
 				BalanceTransfer transfer = (BalanceTransfer) iter.next();
 				LocalDate effectiveLocalDate = transfer.getEffectiveLocalDate();
 				DateTime effectiveDate = effectiveLocalDate.toDateTimeAtStartOfDay();
-				List<Job> principalsJobs = (List<Job>) HrServiceLocator.getJobService().getActiveLeaveJobs(transfer.getPrincipalId(), effectiveLocalDate);
+				List<Job> principalsJobs = HrServiceLocator.getJobService().getActiveLeaveJobs(transfer.getPrincipalId(), effectiveLocalDate);
 				String userPrincipalId = HrContext.getPrincipalId();
 				boolean canView = false;
 				for(Job job : principalsJobs) {

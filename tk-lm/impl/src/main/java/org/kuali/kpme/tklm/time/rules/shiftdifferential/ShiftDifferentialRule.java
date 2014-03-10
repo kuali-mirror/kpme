@@ -22,8 +22,8 @@ import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.location.LocationBo;
-import org.kuali.kpme.core.paygrade.PayGrade;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.paygrade.PayGradeBo;
+import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.tklm.api.time.rules.shiftdifferential.ShiftDifferentialRuleContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
@@ -95,11 +95,11 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 	private boolean history;
 	
 	private EarnCodeBo earnCodeObj;
-	private SalaryGroup salaryGroupObj;
+	private SalaryGroupBo salaryGroupObj;
     private EarnCodeGroup fromEarnGroupObj;
     private Calendar payCalendar;
     private LocationBo locationObj;
-    private PayGrade payGradeObj;
+    private PayGradeBo payGradeObj;
     
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -281,11 +281,11 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 		this.earnCodeObj = earnCodeObj;
 	}
 
-	public SalaryGroup getSalaryGroupObj() {
+	public SalaryGroupBo getSalaryGroupObj() {
 		return salaryGroupObj;
 	}
 
-	public void setSalaryGroupObj(SalaryGroup salaryGroupObj) {
+	public void setSalaryGroupObj(SalaryGroupBo salaryGroupObj) {
 		this.salaryGroupObj = salaryGroupObj;
 	}
 
@@ -313,11 +313,11 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 		this.locationObj = locationObj;
 	}
 
-	public PayGrade getPayGradeObj() {
+	public PayGradeBo getPayGradeObj() {
 		return payGradeObj;
 	}
 
-	public void setPayGradeObj(PayGrade payGradeObj) {
+	public void setPayGradeObj(PayGradeBo payGradeObj) {
 		this.payGradeObj = payGradeObj;
 	}
 

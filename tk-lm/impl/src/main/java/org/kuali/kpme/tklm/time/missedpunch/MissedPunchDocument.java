@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.kuali.kpme.core.department.DepartmentBo;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.task.Task;
 import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchDocumentContract;
@@ -33,7 +33,7 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
 	
 	private MissedPunch missedPunch = new MissedPunch();
 
-    private transient Job jobObj;
+    private transient JobBo jobObj;
     private transient WorkArea workAreaObj;
     private transient DepartmentBo departmentObj;
     private transient Task taskObj;
@@ -103,7 +103,7 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
         return taskObj;
     }
 
-    public Job getJobObj() {
+    public JobBo getJobObj() {
         return jobObj;
     }
 

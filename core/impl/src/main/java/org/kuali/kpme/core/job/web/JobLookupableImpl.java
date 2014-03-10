@@ -15,9 +15,12 @@
  */
 package org.kuali.kpme.core.job.web;
 
+import org.kuali.kpme.core.api.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
@@ -26,6 +29,12 @@ import java.util.List;
 import java.util.Map;
 
 public class JobLookupableImpl extends KPMELookupableImpl{
+    private static final ModelObjectUtils.Transformer<Job, JobBo> toJobBo =
+            new ModelObjectUtils.Transformer<Job, JobBo>() {
+                public JobBo transform(Job input) {
+                    return JobBo.from(input);
+                };
+            };
 
     @Override
     public List<? extends BusinessObject> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
@@ -41,8 +50,8 @@ public class JobLookupableImpl extends KPMELookupableImpl{
         String active = searchCriteria.get("active");
         String showHist = searchCriteria.get("history");
 
-        return HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), principalId, firstName, lastName, jobNumber, dept, positionNumber, hrPayType,
-                TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
+        return ModelObjectUtils.transform(HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), principalId, firstName, lastName, jobNumber, dept, positionNumber, hrPayType,
+                TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toJobBo);
     }
 
 

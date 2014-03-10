@@ -28,7 +28,7 @@
     <bean id="JobMaintenanceDocument" parent="JobMaintenanceDocument-parentBean"/>
 
     <bean id="JobMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
-          p:dataObjectClass="org.kuali.kpme.core.job.Job"
+          p:dataObjectClass="org.kuali.kpme.core.job.JobBo"
           p:businessRulesClass="org.kuali.kpme.core.job.validation.JobValidation"
           p:maintainableClass="org.kuali.kpme.core.job.web.JobMaintainableImpl"
           p:documentAuthorizerClass="org.kuali.kpme.core.job.authorization.JobAuthorizer">
@@ -42,7 +42,7 @@
           parent="KPMEEffectiveDateBO-MaintenanceView">
         <property name="title" value="Job Maintenance"/>
         <property name="headerText" value="Job Maintenance"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.Job"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.JobBo"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobMaintainableImpl"/>
         <property name="items">
             <list merge="true">
@@ -113,14 +113,14 @@
                             <bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+                                          p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
                                           p:fieldConversions="hrSalGroup:hrSalGroup"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="payGrade" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
+                                          p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGradeBo"
                                           p:fieldConversions="payGrade:payGrade"/>
                                 </property>
                             </bean>

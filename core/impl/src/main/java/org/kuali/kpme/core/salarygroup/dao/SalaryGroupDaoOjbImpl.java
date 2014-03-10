@@ -24,54 +24,54 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.api.util.Truth;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements SalaryGroupDao {
     @Override
-    public void saveOrUpdate(SalaryGroup salaryGroup) {
+    public void saveOrUpdate(SalaryGroupBo salaryGroup) {
         this.getPersistenceBrokerTemplate().store(salaryGroup);		
 	}
 
 	@Override
-	public SalaryGroup getSalaryGroup(String salGroup, LocalDate asOfDate) {
+	public SalaryGroupBo getSalaryGroup(String salGroup, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("hrSalGroup", salGroup);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(SalaryGroup.class, asOfDate, SalaryGroup.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SalaryGroup.class, SalaryGroup.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(SalaryGroupBo.class, asOfDate, SalaryGroupBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SalaryGroupBo.class, SalaryGroupBo.BUSINESS_KEYS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 		
-		Query query = QueryFactory.newQuery(SalaryGroup.class, root);
-		SalaryGroup s = (SalaryGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(SalaryGroupBo.class, root);
+		SalaryGroupBo s = (SalaryGroupBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 		
 		return s;
 	}
 
 	@Override
-	public SalaryGroup getSalaryGroup(String hrSalGroupId) {
+	public SalaryGroupBo getSalaryGroup(String hrSalGroupId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrSalGroupId", hrSalGroupId);
 		
-		Query query = QueryFactory.newQuery(SalaryGroup.class, crit);
-		return (SalaryGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(SalaryGroupBo.class, crit);
+		return (SalaryGroupBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	@Override
 	public int getSalGroupCount(String salGroup) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrSalGroup", salGroup);
-		Query query = QueryFactory.newQuery(SalaryGroup.class, crit);
+		Query query = QueryFactory.newQuery(SalaryGroupBo.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<SalaryGroup> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String benefitEligible, String leaveEligible, String percentTime) {
-        List<SalaryGroup> results = new ArrayList<SalaryGroup>();
+    public List<SalaryGroupBo> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String benefitEligible, String leaveEligible, String percentTime) {
+        List<SalaryGroupBo> results = new ArrayList<SalaryGroupBo>();
     	
     	Criteria root = new Criteria();
 
@@ -132,11 +132,11 @@ public class SalaryGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Sa
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(SalaryGroup.class, effectiveDateFilter, SalaryGroup.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SalaryGroup.class, SalaryGroup.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(SalaryGroupBo.class, effectiveDateFilter, SalaryGroupBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SalaryGroupBo.class, SalaryGroupBo.BUSINESS_KEYS, false));
         }
 
-        Query query = QueryFactory.newQuery(SalaryGroup.class, root);
+        Query query = QueryFactory.newQuery(SalaryGroupBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         
         return results;

@@ -28,7 +28,7 @@
   <bean id="PayGradeMaintenanceDocument" parent="PayGradeMaintenanceDocument-parentBean"/>
 
   <bean id="PayGradeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
-  		p:dataObjectClass="org.kuali.kpme.core.paygrade.PayGrade"
+  		p:dataObjectClass="org.kuali.kpme.core.paygrade.PayGradeBo"
         p:documentAuthorizerClass="org.kuali.kpme.core.paygrade.authorization.PayGradeAuthorizer"
   		p:businessRulesClass="org.kuali.kpme.core.paygrade.validation.PayGradeValidation"
   		p:maintainableClass="org.kuali.kpme.core.paygrade.web.PayGradeMaintainableServiceImpl"

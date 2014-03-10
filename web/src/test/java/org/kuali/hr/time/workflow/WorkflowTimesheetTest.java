@@ -24,8 +24,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -46,7 +47,7 @@ public class WorkflowTimesheetTest extends KPMEWebTestCase {
 
 		DateTime asOfDate = new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
-		List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate.toLocalDate());
+		List<Job> jobs = HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate.toLocalDate());
 		Assert.assertNotNull("No jobs", jobs);
 		Assert.assertTrue("Should only be two Jobs.", jobs.size() == 2);
 		CalendarEntry pcd = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(GlobalVariables.getUserSession().getPrincipalId(), asOfDate);

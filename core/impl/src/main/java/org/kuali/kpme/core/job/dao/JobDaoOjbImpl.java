@@ -29,7 +29,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -44,49 +44,49 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
     @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(JobDaoOjbImpl.class);
 
-    public void saveOrUpdate(Job job) {
+    public void saveOrUpdate(JobBo job) {
         this.getPersistenceBrokerTemplate().store(job);
     }
 
-    public void saveOrUpdate(List<Job> jobList) {
+    public void saveOrUpdate(List<JobBo> jobList) {
         if (jobList != null) {
-            for (Job job : jobList) {
+            for (JobBo job : jobList) {
                 this.saveOrUpdate(job);
             }
         }
     }
 
-    public Job getPrimaryJob(String principalId, LocalDate payPeriodEndDate) {
+    public JobBo getPrimaryJob(String principalId, LocalDate payPeriodEndDate) {
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, payPeriodEndDate, Job.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(JobBo.class, payPeriodEndDate, JobBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(JobBo.class, JobBo.BUSINESS_KEYS, false));
         root.addEqualTo("primaryIndicator", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Job.class, root);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
 
-        return (Job) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        return (JobBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public List<Job> getJobs(String principalId, LocalDate payPeriodEndDate) {
-        List<Job> jobs = new LinkedList<Job>();
+    public List<JobBo> getJobs(String principalId, LocalDate payPeriodEndDate) {
+        List<JobBo> jobs = new LinkedList<JobBo>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, payPeriodEndDate, Job.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(JobBo.class, payPeriodEndDate, JobBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(JobBo.class, JobBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
 
-        Query query = QueryFactory.newQuery(Job.class, root);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -97,67 +97,67 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
         return jobs;
     }
 
-    public Job getJob(String principalId, Long jobNumber, LocalDate asOfDate) {
+    public JobBo getJob(String principalId, Long jobNumber, LocalDate asOfDate) {
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("jobNumber", jobNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, Job.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(JobBo.class, asOfDate, JobBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(JobBo.class, JobBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Job.class, root);
-        Job job = (Job) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
+        JobBo job = (JobBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
         return job;
     }
 
     @SuppressWarnings("unchecked")
-    public List<Job> getActiveJobsForPayType(String hrPayType, LocalDate asOfDate) {
+    public List<JobBo> getActiveJobsForPayType(String hrPayType, LocalDate asOfDate) {
         Criteria root = new Criteria();
         root.addEqualTo("hrPayType", hrPayType);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, Job.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(JobBo.class, asOfDate, JobBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(JobBo.class, JobBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Job.class, root);
-        return (List<Job>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
+        return (List<JobBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
     @Override
-    public Job getJob(String hrJobId) {
+    public JobBo getJob(String hrJobId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("hrJobId", hrJobId);
 
-        Query query = QueryFactory.newQuery(Job.class, crit);
-        return (Job) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(JobBo.class, crit);
+        return (JobBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     @Override
-    public Job getMaxJob(String principalId) {
+    public JobBo getMaxJob(String principalId) {
         Criteria root = new Criteria();
         Criteria crit = new Criteria();
         crit.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria jobNumberSubQuery = QueryFactory.newReportQuery(Job.class, crit);
+        ReportQueryByCriteria jobNumberSubQuery = QueryFactory.newReportQuery(JobBo.class, crit);
         jobNumberSubQuery.setAttributes(new String[]{"max(jobNumber)"});
 
         crit.addEqualTo("principalId", principalId);
         root.addEqualTo("jobNumber", jobNumberSubQuery);
 
-        Query query = QueryFactory.newQuery(Job.class, root);
-        return (Job) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
+        return (JobBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNumber, String hrPayType, LocalDate fromEffdt, LocalDate toEffdt, 
+    public List<JobBo> getJobs(String principalId, String jobNumber, String dept, String positionNumber, String hrPayType, LocalDate fromEffdt, LocalDate toEffdt,
     						 String active, String showHistory) {
 
-        List<Job> results = new ArrayList<Job>();
+        List<JobBo> results = new ArrayList<JobBo>();
 
         Criteria root = new Criteria();
         
@@ -212,11 +212,11 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
                     .add("positionNumber")
                     .add("hrPayType")
                     .build();
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Job.class, effectiveDateFilter, Job.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(JobBo.class, effectiveDateFilter, JobBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(JobBo.class, JobBo.BUSINESS_KEYS, false));
         }
         
-        Query query = QueryFactory.newQuery(Job.class, root);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
@@ -232,29 +232,29 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
 		if(dept != null) {
 			crit.addEqualTo("dept", dept);
 		}
-		Query query = QueryFactory.newQuery(Job.class, crit);
+		Query query = QueryFactory.newQuery(JobBo.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
     }
     
     @SuppressWarnings("unchecked")
-	public List<Job> getActiveLeaveJobs(String principalId, LocalDate asOfDate) {
+	public List<JobBo> getActiveLeaveJobs(String principalId, LocalDate asOfDate) {
     	Criteria root = new Criteria();
 
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("eligibleForLeave", true);
         root.addEqualTo("active", true);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, Job.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(JobBo.class, asOfDate, JobBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(JobBo.class, JobBo.BUSINESS_KEYS, false));
         
-        Query query = QueryFactory.newQuery(Job.class, root);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         // remove jobs that has been inactive from the list
-        List<Job> jobList = new ArrayList<Job>();
+        List<JobBo> jobList = new ArrayList<JobBo>();
         jobList.addAll(c);
-        List<Job> aList = new ArrayList<Job>();
+        List<JobBo> aList = new ArrayList<JobBo>();
         aList.addAll(jobList);
-        for(Job aJob : aList) {
-        	List<Job> inactiveJobs = this.getInactiveLeaveJobs(aJob.getJobNumber(), aJob.getEffectiveLocalDate());
+        for(JobBo aJob : aList) {
+        	List<JobBo> inactiveJobs = this.getInactiveLeaveJobs(aJob.getJobNumber(), aJob.getEffectiveLocalDate());
         	if(!inactiveJobs.isEmpty()) {
         		jobList.remove(aJob);
         	}
@@ -264,7 +264,7 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
     
     @Override
     @SuppressWarnings("unchecked")
-	public List<Job> getInactiveLeaveJobs(Long jobNumber, LocalDate asOfDate) {
+	public List<JobBo> getInactiveLeaveJobs(Long jobNumber, LocalDate asOfDate) {
     	Criteria root = new Criteria();
         ImmutableList<String> fields = new ImmutableList.Builder<String>()
                 .add("jobNumber")
@@ -273,54 +273,54 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
         root.addEqualTo("jobNumber", jobNumber);
         root.addEqualTo("eligibleForLeave", true);
         root.addEqualTo("active", false);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(JobBo.class, asOfDate, fields, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(JobBo.class, fields, false));
         
-        Query query = QueryFactory.newQuery(Job.class, root);
-        return (List<Job>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);    	
+        Query query = QueryFactory.newQuery(JobBo.class, root);
+        return (List<JobBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
     @Override
-    public List<Job> getAllActiveLeaveJobs(String principalId, LocalDate asOfDate) {
+    public List<JobBo> getAllActiveLeaveJobs(String principalId, LocalDate asOfDate) {
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
         root.addEqualTo("active", true);
         root.addEqualTo("eligibleForLeave", true);
 
-        Query query = QueryFactory.newQuery(Job.class, root);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         
-        List<Job> jobs = new LinkedList<Job>();
+        List<JobBo> jobs = new LinkedList<JobBo>();
         if (c != null) {
             jobs.addAll(c);
         }
         return jobs;
     }
     
-    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, LocalDate endDate) {
+    public List<JobBo> getAllInActiveLeaveJobsInRange(String principalId, LocalDate endDate) {
     	Criteria root = new Criteria();    	
         root.addEqualTo("principalId", principalId);
         root.addLessOrEqualThan("effectiveDate", endDate.toDate());
         root.addEqualTo("active", false);
-        Query query = QueryFactory.newQuery(Job.class, root);
-        return (List<Job>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);    	
+        Query query = QueryFactory.newQuery(JobBo.class, root);
+        return (List<JobBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
     
     @Override
-    public Job getMaxTimestampJob(String principalId) {
+    public JobBo getMaxTimestampJob(String principalId) {
     	Criteria root = new Criteria();
         Criteria crit = new Criteria();
         
         crit.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, crit);
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(JobBo.class, crit);
         timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("timestamp", timestampSubQuery);
 
-        Query query = QueryFactory.newQuery(Job.class, root);
-        return (Job) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
+        return (JobBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
     
 
@@ -330,17 +330,17 @@ public class JobDaoOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
     	
     	Criteria root = new Criteria();
         root.addEqualTo("positionNumber", positionNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, asOfDate, Job.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, Job.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(JobBo.class, asOfDate, JobBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(JobBo.class, JobBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Job.class, root);
-        Collection<Job> jobs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        Query query = QueryFactory.newQuery(JobBo.class, root);
+        Collection<JobBo> jobs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         
-        for (Job job : jobs) {
+        for (JobBo job : jobs) {
         	principalIdsInPosition.add(job.getPrincipalId());
         }
         

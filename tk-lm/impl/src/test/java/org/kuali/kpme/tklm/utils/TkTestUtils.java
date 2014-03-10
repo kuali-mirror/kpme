@@ -29,9 +29,10 @@ import org.joda.time.Days;
 import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -175,7 +176,7 @@ public class TkTestUtils {
 	}
 
 	public static List<Job> getJobs(LocalDate calDate, String principalId){
-		return (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, calDate);
+		return HrServiceLocator.getJobService().getJobs(principalId, calDate);
 	}
 
 	@SuppressWarnings("serial")

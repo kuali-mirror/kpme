@@ -16,7 +16,9 @@
 package org.kuali.kpme.core.paygrade;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
+import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
@@ -24,7 +26,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PayGrade extends HrBusinessObject implements PayGradeContract {
+public class PayGradeBo extends HrBusinessObject implements PayGradeContract {
 
 	private static final String SAL_GROUP = "salGroup";
 	private static final String PAY_GRADE = "payGrade";
@@ -163,4 +165,42 @@ public class PayGrade extends HrBusinessObject implements PayGradeContract {
 		this.location = location;
 	}
 
+    public static PayGradeBo from(PayGrade im) {
+        if (im == null) {
+            return null;
+        }
+        PayGradeBo pg = new PayGradeBo();
+
+        pg.setHrPayGradeId(im.getHrPayGradeId());
+        pg.setPayGrade(im.getPayGrade());
+        pg.setDescription(im.getDescription());
+        pg.setSalGroup(im.getSalGroup());
+        pg.setRateType(im.getRateType());
+        pg.setMinRate(im.getMinRate());
+        pg.setMaxRate(im.getMaxRate());
+        pg.setMidPointRate(im.getMidPointRate());
+        pg.setMaxHiringRate(im.getMaxHiringRate());
+        pg.setInstitution(im.getInstitution());
+        pg.setLocation(im.getLocation());
+
+
+        pg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        pg.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            pg.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        pg.setUserPrincipalId(im.getUserPrincipalId());
+        pg.setVersionNumber(im.getVersionNumber());
+        pg.setObjectId(im.getObjectId());
+
+        return pg;
+    }
+
+    public static PayGrade to(PayGradeBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return PayGrade.Builder.create(bo).build();
+    }
 }

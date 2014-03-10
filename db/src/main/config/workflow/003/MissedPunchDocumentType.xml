@@ -127,7 +127,7 @@
                     <display>
                         <type>text</type>
                     </display>
-					<lookup businessObjectClass="org.kuali.kpme.core.job.Job">
+					<lookup businessObjectClass="org.kuali.kpme.core.job.JobBo">
 				      <fieldConversions>
 				        <fieldConversion lookupFieldName="jobNumber" localFieldName="jobNumber"/>
 				      </fieldConversions>

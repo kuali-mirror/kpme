@@ -570,7 +570,7 @@
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGradeBo"
 							p:fieldConversions="payGrade:payGrade" p:lookupParameters="salaryGroup:salGroup" />
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"

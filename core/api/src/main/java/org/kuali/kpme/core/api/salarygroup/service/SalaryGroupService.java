@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.salarygroup.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -29,12 +30,12 @@ public interface SalaryGroupService {
 	 * @return
 	 */
     @Cacheable(value= SalaryGroupContract.CACHE_NAME, key="'salGroup=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public SalaryGroupContract getSalaryGroup(String salGroup, LocalDate asOfDate);
+	public SalaryGroup getSalaryGroup(String salGroup, LocalDate asOfDate);
 
     @Cacheable(value= SalaryGroupContract.CACHE_NAME, key="'hrSalGroupId=' + #p0")
-	public SalaryGroupContract getSalaryGroup(String hrSalGroupId);
+	public SalaryGroup getSalaryGroup(String hrSalGroupId);
 	
 	public int getSalGroupCount(String salGroup);
 
-    List<? extends SalaryGroupContract> getSalaryGroups(String salGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist, String benefitEligible, String leaveEligible, String percentTime);
+    List<SalaryGroup> getSalaryGroups(String salGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist, String benefitEligible, String leaveEligible, String percentTime);
 }

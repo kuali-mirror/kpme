@@ -28,9 +28,11 @@ import org.kuali.kpme.core.api.institution.Institution;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.location.Location;
+import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
@@ -102,7 +104,7 @@ public class ValidationUtils {
 		if (StringUtils.equals(salGroup, HrConstants.WILDCARD_CHARACTER)) {
 			valid = true;
 		} else if (asOfDate != null) {
-			SalaryGroupContract sg = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salGroup, asOfDate);
+			SalaryGroup sg = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salGroup, asOfDate);
 			valid = (sg != null);
 		} else {
 			int count = HrServiceLocator.getSalaryGroupService().getSalGroupCount(salGroup);
@@ -240,7 +242,7 @@ public class ValidationUtils {
 		boolean valid = false;
 
 		if (asOfDate != null) {
-			PayGradeContract pg = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salGroup, asOfDate);
+			PayGrade pg = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salGroup, asOfDate);
 			valid = (pg != null);
 		} else {
 			int count = HrServiceLocator.getPayGradeService().getPayGradeCount(payGrade);
@@ -542,7 +544,7 @@ public class ValidationUtils {
 	
 	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			PayGradeContract grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
+			PayGrade grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
 			if(grade != null && StringUtils.isNotBlank(grade.getSalGroup())) 
 				return StringUtils.equals(grade.getSalGroup(), salaryGroup);
 		}
@@ -706,13 +708,9 @@ public class ValidationUtils {
 	 */
 	public static boolean validateLocationWithSalaryGroup(String salaryGroup, String location, LocalDate asOfDate) {
 		if (asOfDate != null) {
-			SalaryGroupContract salGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup, asOfDate);
+			SalaryGroup salGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup, asOfDate);
 			if (salGroup != null && StringUtils.isNotBlank(salGroup.getLocation())) {
-				if (ValidationUtils.isWildCard(salGroup.getLocation())) {
-					return true;
-				} else {
-					return StringUtils.equals(salGroup.getLocation(), location);	
-				}
+                return ValidationUtils.isWildCard(salGroup.getLocation()) || StringUtils.equals(salGroup.getLocation(), location);
 			}	
 		}
 		return false;

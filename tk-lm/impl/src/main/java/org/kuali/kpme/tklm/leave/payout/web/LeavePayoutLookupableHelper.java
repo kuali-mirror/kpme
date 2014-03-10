@@ -24,10 +24,9 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.department.DepartmentContract;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -92,7 +91,7 @@ public class LeavePayoutLookupableHelper extends KPMELookupableHelper {
 				LocalDate effectiveLocalDate = payout.getEffectiveLocalDate();
 				DateTime effectiveDate = effectiveLocalDate.toDateTimeAtStartOfDay();
 				String principalId = payout.getPrincipalId();
-				List<Job> principalsJobs = (List<Job>) HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, effectiveLocalDate);
+				List<Job> principalsJobs = HrServiceLocator.getJobService().getActiveLeaveJobs(principalId, effectiveLocalDate);
 				String userPrincipalId = HrContext.getPrincipalId();
 				boolean canView = false;
 

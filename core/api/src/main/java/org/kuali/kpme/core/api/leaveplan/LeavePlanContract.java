@@ -20,6 +20,7 @@ import java.sql.Time;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.mo.Effective;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.mo.UserModified;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.rice.core.api.mo.common.GloballyUnique;
@@ -31,7 +32,7 @@ import org.kuali.rice.core.api.mo.common.active.Inactivatable;
  * <p>LeavePlanContract interface.</p>
  *
  */
-public interface LeavePlanContract extends Versioned, GloballyUnique, Inactivatable, Identifiable, Effective, UserModified {
+public interface LeavePlanContract extends KpmeEffectiveDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "LeavePlan";
 	

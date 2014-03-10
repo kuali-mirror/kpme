@@ -96,13 +96,13 @@
 		        <list>
 			       <bean parent="Uif-InputField" p:propertyName="salaryGroup">
 				       <property name="quickfinder">
-				       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroup"
+				       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
 				        		 p:fieldConversions="hrSalGroup:salaryGroup"/>
 				   	   </property>
 			       </bean>
                    <bean parent="Uif-InputField" p:propertyName="payGrade">
                        <property name="quickfinder">
-                           <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGrade"
+                           <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGradeBo"
                                  p:fieldConversions="payGrade:payGrade"/>
                        </property>
                    </bean>

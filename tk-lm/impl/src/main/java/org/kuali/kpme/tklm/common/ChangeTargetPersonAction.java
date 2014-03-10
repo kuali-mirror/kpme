@@ -28,10 +28,10 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -123,7 +123,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
 
     private boolean isViewOnlyForPerson(String principalId) {
-        List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
+        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
         
         for (Job job : jobs) {
         	String department = job != null ? job.getDept() : null;
@@ -143,7 +143,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
     
     private boolean isAdministratorForPerson(String principalId) {
-        List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
+        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
         
         for (Job job : jobs) {
 			String department = job != null ? job.getDept() : null;

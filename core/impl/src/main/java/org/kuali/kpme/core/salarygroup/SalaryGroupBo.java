@@ -15,8 +15,9 @@
  */
 package org.kuali.kpme.core.salarygroup;
 
-import java.math.BigDecimal;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.InstitutionBo;
@@ -24,9 +25,9 @@ import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.util.HrConstants;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract {
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+public class SalaryGroupBo extends HrBusinessObject implements SalaryGroupContract {
 
 	private static final String HR_SAL_GROUP = "hrSalGroup";
 
@@ -183,4 +184,41 @@ public class SalaryGroup extends HrBusinessObject implements SalaryGroupContract
 		this.location = location;
 	}
 
+    public static SalaryGroupBo from(SalaryGroup im) {
+        if (im == null) {
+            return null;
+        }
+        SalaryGroupBo sg = new SalaryGroupBo();
+
+        sg.setHrSalGroupId(im.getHrSalGroupId());
+        sg.setHrSalGroup(im.getHrSalGroup());
+        sg.setDescr(im.getDescr());
+
+        sg.setInstitution(im.getInstitution());
+        sg.setLocation(im.getLocation());
+        sg.setPercentTime(im.getPercentTime());
+        sg.setBenefitsEligible(im.getBenefitsEligible());
+        sg.setLeaveEligible(im.getLeaveEligible());
+        sg.setLeavePlan(im.getLeavePlan());
+
+
+        sg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        sg.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            sg.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        sg.setUserPrincipalId(im.getUserPrincipalId());
+        sg.setVersionNumber(im.getVersionNumber());
+        sg.setObjectId(im.getObjectId());
+
+        return sg;
+    }
+
+    public static SalaryGroup to(SalaryGroupBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return SalaryGroup.Builder.create(bo).build();
+    }
 }

@@ -20,9 +20,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.service.CalendarService;
+import org.kuali.kpme.core.api.job.Job;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.dao.CalendarDao;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -49,7 +51,7 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
     public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate beginDate, LocalDate endDate, boolean findLeaveCal) {
         Calendar pcal = null;
-        List<Job> currentJobs = (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, endDate);
+        List<Job> currentJobs = HrServiceLocator.getJobService().getJobs(principalId, endDate);
         if(currentJobs.size() < 1){
             return pcal;
         }
@@ -57,7 +59,7 @@ public class CalendarServiceImpl implements CalendarService {
         if (principalId == null || job == null) {
             return pcal;
         } else {
-            PayTypeBo payType = job.getPayTypeObj();
+            PayType payType = job.getPayTypeObj();
             if (payType == null)  {
 //                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             	LOG.warn("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
@@ -92,7 +94,7 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate asOfDate, boolean findLeaveCal) {
 		Calendar pcal = null;
-        List<Job> currentJobs = (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, asOfDate);
+        List<Job> currentJobs = HrServiceLocator.getJobService().getJobs(principalId, asOfDate);
         if(currentJobs.size() < 1){
            return pcal;
         }
@@ -100,7 +102,7 @@ public class CalendarServiceImpl implements CalendarService {
         if (principalId == null || job == null) {
             return pcal;
         } else {
-            PayTypeBo payType = job.getPayTypeObj();
+            PayType payType = job.getPayTypeObj();
             if (payType == null)  {
 //                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             	LOG.warn("No paytype setup for "+principalId + " job number: "+job.getJobNumber());

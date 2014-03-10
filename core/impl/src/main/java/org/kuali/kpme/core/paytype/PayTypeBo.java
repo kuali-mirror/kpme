@@ -24,7 +24,7 @@ import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.institution.InstitutionBo;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.util.HrConstants;
 
@@ -38,7 +38,7 @@ public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(PayTypeBo.CACHE_NAME)
-            .add(Job.CACHE_NAME)
+            .add(JobBo.CACHE_NAME)
             .add(Assignment.CACHE_NAME)
             .add(CalendarBlockPermissions.CACHE_NAME)
             .build();

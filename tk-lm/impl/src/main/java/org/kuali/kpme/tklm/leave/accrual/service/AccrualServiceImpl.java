@@ -15,15 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -39,13 +30,12 @@ import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.job.Job;
-import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -64,6 +54,9 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class AccrualServiceImpl implements AccrualService {
     private static final Logger LOG = Logger.getLogger(AccrualServiceImpl.class);
@@ -580,8 +573,8 @@ public class AccrualServiceImpl implements AccrualService {
 		RateRangeAggregate rrAggregate = new RateRangeAggregate();
 		List<RateRange> rateRangeList = new ArrayList<RateRange>();	
 		// get all active jobs that are effective before the endDate
-		List<Job> activeJobs = (List<Job>) HrServiceLocator.getJobService().getAllActiveLeaveJobs(principalId, endDate.toLocalDate());
-		List<Job> inactiveJobs = (List<Job>) HrServiceLocator.getJobService().getAllInActiveLeaveJobsInRange(principalId, endDate.toLocalDate());
+		List<Job> activeJobs = HrServiceLocator.getJobService().getAllActiveLeaveJobs(principalId, endDate.toLocalDate());
+		List<Job> inactiveJobs = HrServiceLocator.getJobService().getAllInActiveLeaveJobsInRange(principalId, endDate.toLocalDate());
 		
 		List<PrincipalHRAttributes> phaList = (List<PrincipalHRAttributes>) HrServiceLocator.getPrincipalHRAttributeService().getAllActivePrincipalHrAttributesForPrincipalId(principalId, endDate.toLocalDate());
 		List<PrincipalHRAttributes> inactivePhaList = (List<PrincipalHRAttributes>) HrServiceLocator.getPrincipalHRAttributeService().getAllInActivePrincipalHrAttributesForPrincipalId(principalId, endDate.toLocalDate());
@@ -662,7 +655,7 @@ public class AccrualServiceImpl implements AccrualService {
 		List<LeaveCalendarDocumentHeader> lcDocList = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDocumentHeadersInRangeForPricipalId(principalId, startDate, endDate);
 		
 		BigDecimal previousFte = null;
-		List<Job> jobs = new ArrayList<Job>();
+		List<Job> jobs;
 
 		DateTime currentDate = startDate;
 	    while (!currentDate.isAfter(endDate)) {
@@ -715,7 +708,7 @@ public class AccrualServiceImpl implements AccrualService {
 						// figure out the primary leave assignment to use for ssto usage leave blocks
 						if(CollectionUtils.isNotEmpty(jobs) && StringUtils.isBlank(rateRange.getPrimaryLeaveAssignmentId())) {
 							for(Job aJob : jobs) {
-								if(aJob.isEligibleForLeave() && aJob.getPrimaryIndicator()) {
+								if(aJob.isEligibleForLeave() && aJob.isPrimaryJob()) {
 									List<? extends AssignmentContract> assignmentList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, aJob.getJobNumber(), currentDate.toLocalDate());
 									for(AssignmentContract anAssignment : assignmentList) {
 										if(anAssignment != null && anAssignment.isPrimaryAssign()) {
@@ -1159,7 +1152,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 		JobContract aJob = HrServiceLocator.getJobService().getMaxTimestampJob(principalId);
 		
-		if(aJob != null && aJob.getTimestamp().after(par.getLastRanTs())) {
+		if(aJob != null && aJob.getCreateTime().isAfter(new DateTime(par.getLastRanTs().getTime()))) {
 			return true;
 		}
 		

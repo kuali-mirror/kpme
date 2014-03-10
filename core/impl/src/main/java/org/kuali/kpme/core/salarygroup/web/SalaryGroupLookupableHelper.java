@@ -15,16 +15,25 @@
  */
 package org.kuali.kpme.core.salarygroup.web;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.bo.BusinessObject;
+
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.rice.krad.bo.BusinessObject;
-
 public class SalaryGroupLookupableHelper extends KPMELookupableHelper {
+    private static final ModelObjectUtils.Transformer<SalaryGroup, SalaryGroupBo> toSalaryGroupBo =
+            new ModelObjectUtils.Transformer<SalaryGroup, SalaryGroupBo>() {
+                public SalaryGroupBo transform(SalaryGroup input) {
+                    return SalaryGroupBo.from(input);
+                };
+            };
 
 	@Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
@@ -44,7 +53,7 @@ public class SalaryGroupLookupableHelper extends KPMELookupableHelper {
             hrSalGroup = "";
         }
         
-        return HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, institution, location, leavePlan, TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active, showHist, benefitsEligible, leaveEligible, percentTime);
+        return ModelObjectUtils.transform(HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, institution, location, leavePlan, TKUtils.formatDateString(fromEffdt),
+                TKUtils.formatDateString(toEffdt), active, showHist, benefitsEligible, leaveEligible, percentTime), toSalaryGroupBo);
 	}
 }

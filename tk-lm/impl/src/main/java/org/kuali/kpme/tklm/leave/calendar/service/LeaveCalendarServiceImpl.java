@@ -22,16 +22,16 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
-import org.kuali.kpme.core.job.Job;
+import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.dao.LeaveCalendarDao;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -39,7 +39,6 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -325,7 +324,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     public boolean isLeavePlanningCalendar(String principalId, LocalDate beginDate, LocalDate endDate) {
         LocalDate today = LocalDate.now();
 
-        List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(principalId, endDate);
+        List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, endDate);
         for (Job job : jobs) {
             //  Check for Leave eligibility.
             if (job.isEligibleForLeave()) {

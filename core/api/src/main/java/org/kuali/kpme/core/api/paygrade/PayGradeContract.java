@@ -15,16 +15,16 @@
  */
 package org.kuali.kpme.core.api.paygrade;
 
-import java.math.BigDecimal;
-
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
+
+import java.math.BigDecimal;
 
 /**
  * <p>PayGradeContract interface.</p>
  *
  */
-public interface PayGradeContract extends HrBusinessObjectContract {
+public interface PayGradeContract extends KpmeEffectiveDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "PayGrade";
 	
@@ -62,7 +62,6 @@ public interface PayGradeContract extends HrBusinessObjectContract {
 	public String getDescription();
 
 	/**
-	 *TODO: is this field needed?
 	 */
 	public String getUserPrincipalId() ;
 	

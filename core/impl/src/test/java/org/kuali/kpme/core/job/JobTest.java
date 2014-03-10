@@ -27,6 +27,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.paytype.PayTypeBo;
@@ -108,7 +109,7 @@ public class JobTest extends CoreUnitTestCase {
 		 * This test is conducted in JobServiceImplTest.java
 		 */
 		DateTime payPeriodEndDate = new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone());
-		List<Job> jobs = (List<Job>) HrServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate.toLocalDate());
+		List<Job> jobs = HrServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate.toLocalDate());
 		Assert.assertNotNull("Jobs was null", jobs);
 		Assert.assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}
