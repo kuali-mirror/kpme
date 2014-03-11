@@ -19,6 +19,11 @@ package org.kuali.kpme.tklm.api.common.krms;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 
 public class TklmKrmsConstants {
+	
+	public static final class MissedPunch {
+        public static final String KPME_MISSED_PUNCH_CONTEXT_NAME = "KPME Missed Punch Context";
+    }
+	
     public static final class Calendar {
         public static final String KPME_TIMESHEET_CONTEXT_NAME = "KPME Timesheet Context";
         public static final String KPME_LEAVE_CALENDAR_CONTEXT_NAME = "KPME Leave Calendar Context";
