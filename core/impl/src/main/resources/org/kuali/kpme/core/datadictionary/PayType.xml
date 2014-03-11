@@ -290,30 +290,36 @@
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
 	        		 p:fieldConversions="earnCode:regEarnCode"/>
 	   		</property>
-	   		<property name="inquiry">
+	   		<!-- 
+	   		  <property name="inquiry">
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               p:inquiryParameters="regEarnCode:earnCode"/>
              </property>
+              -->
         </bean>      
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
        		<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
 	        		 p:fieldConversions="location:location" />
 	   		 </property>
+	   		 <!--  
 	   		 <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:inquiryParameters="location:location"/>
              </property>
+              -->
         </bean> 
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	    	<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		</property>
+	   		<!-- 
 	   		<property name="inquiry">
                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
                               p:inquiryParameters="institution:institutionCode"/>
              </property>
+              -->
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
@@ -324,22 +330,28 @@
         <bean parent="Uif-DataField" p:propertyName="payType" />
         <bean parent="Uif-DataField" p:propertyName="descr" />
         <bean parent="Uif-DataField" p:propertyName="regEarnCode">
+         	<!-- 
          	<property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
                               p:inquiryParameters="regEarnCode:earnCode"/>
             </property>
+             -->
         </bean>
         <bean parent="Uif-DataField" p:propertyName="location" >
+        	<!-- 
         	 <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:inquiryParameters="location:location"/>
              </property>
+              -->
         </bean>
         <bean parent="Uif-DataField" p:propertyName="institution" >
+        	<!-- 
         	<property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
                               p:inquiryParameters="institution:institutionCode"/>
             </property>
+             -->
         </bean>
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
