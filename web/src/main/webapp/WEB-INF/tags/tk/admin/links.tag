@@ -67,13 +67,13 @@
         <c:if test="${systemAdmin || locationAdmin || departmentAdmin || globalViewOnly || locationViewOnly || departmentViewOnly}">
         	<strong> Administrative </strong>
             <li>
-                <a href="DepartmentAdmin.do">Department Admin</a>
+                <a href="DepartmentAdmin.do">Time & Leave Admin</a>
             </li>
         </c:if>
         <c:if test="${systemAdmin || locationAdmin}">
-        <li id="adminActions" class="ui-state-default ui-corner-top">
-        	<a href="AdminActions.do">Admin Actions</a>
-        </li>
+	        <li id="adminActions" class="ui-state-default ui-corner-top">
+	        	<a href="AdminActions.do">Admin Actions</a>
+	        </li>
     	</c:if>
 	</ul>
 </div>
