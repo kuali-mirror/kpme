@@ -67,13 +67,13 @@
 		
         <%-- Maintenance --%>
         <c:if test="${systemAdmin || globalViewOnly || locationAdmin || locationViewOnly}">
-            <c:if test='${selectedTab == "maintenance"}'>
+            <c:if test='${selectedTab == "kpmemaintenance"}'>
                 <li class="red">
-                    <a class="red" href="portal.do?selectedTab=maintenance"
+                    <a class="red" href="portal.do?selectedTab=kpmemaintenance"
                         title="Maintenance">KPME Maintenance</a>
                 </li>
             </c:if>
-            <c:if test='${selectedTab != "maintenance"}'>
+            <c:if test='${selectedTab != "kpmemaintenance"}'>
                 <li class="green">
                     <a class="green"
                         href="portal.do?selectedTab=kpmemaintenance"
