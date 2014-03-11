@@ -56,7 +56,7 @@ public class EarnCodeBo extends HrBusinessObject implements EarnCodeContract {
 	private String earnCode;
 	private String description;
 	
-    private Boolean ovtEarnCode;
+    private boolean ovtEarnCode;
 	private String accrualCategory;
 	private BigDecimal inflateMinHours;
 	private BigDecimal inflateFactor;
@@ -293,11 +293,11 @@ public class EarnCodeBo extends HrBusinessObject implements EarnCodeContract {
 		this.inflateFactor = inflateFactor;
 	}
 
-    public Boolean isOvtEarnCode() {
+    public boolean isOvtEarnCode() {
         return ovtEarnCode;
     }
 
-    public void setOvtEarnCode(Boolean ovtEarnCode) {
+    public void setOvtEarnCode(boolean ovtEarnCode) {
         this.ovtEarnCode = ovtEarnCode;
     }
 

@@ -41,7 +41,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
-@FunctionalTest
+//@FunctionalTest
+/**
 public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 	private static final DateTime TEST_DATE = new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 	private static final String EARN_CODE = "RGN";
@@ -101,7 +102,7 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		EarnCodeBo earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCodeBo.class, hrEarnCodeId);
 		KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
 /*		TimeBlock timeBlockObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(TimeBlock.class, timeBlockId);
-		KRADServiceLocator.getBusinessObjectService().delete(timeBlockObj);*/
+		KRADServiceLocator.getBusinessObjectService().delete(timeBlockObj);
 		super.tearDown();
 	}
 	
@@ -229,3 +230,4 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 	}
 	
 }
+*/

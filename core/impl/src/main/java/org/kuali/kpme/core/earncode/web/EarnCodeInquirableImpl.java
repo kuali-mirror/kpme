@@ -23,29 +23,28 @@ import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.inquiry.InquirableImpl;
 
-public class EarnCodeInquirableImpl extends KualiInquirableImpl {
+public class EarnCodeInquirableImpl extends InquirableImpl {
+
 
     private static final long serialVersionUID = -1039815105625650050L;
 
     @Override
-	public BusinessObject getBusinessObject(Map fieldValues) {
+	public Object retrieveDataObject(Map<String, String> parameters) {
 		EarnCodeBo ec = null;
-		if(StringUtils.isNotBlank((String)fieldValues.get("hrEarnCodeId"))) {
-			ec = EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCodeById((String)fieldValues.get("hrEarnCodeId")));
-			
-		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCode"))) {
-			String earnCode = (String)fieldValues.get("earnCode");
-            String effDate = (String) fieldValues.get("effectiveDate");
+		if(StringUtils.isNotBlank((String)parameters.get("hrEarnCodeId"))) {
+			ec = EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCodeById((String)parameters.get("hrEarnCodeId")));
+		} else if(StringUtils.isNotBlank((String)parameters.get("earnCode"))) {
+			String earnCode = (String)parameters.get("earnCode");
+            String effDate = (String) parameters.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
 			ec = EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, effectiveDate));
 		} else {
-			ec = (EarnCodeBo) super.getBusinessObject(fieldValues);
+			ec = (EarnCodeBo) super.retrieveDataObject(parameters);
 		}
 
 		return ec;
 	}
-
+	
 }

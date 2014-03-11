@@ -22,22 +22,22 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="EarnCode" parent="EarnCode-parentBean" />
-	<bean id="EarnCode-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.core.earncode.EarnCodeBo" />
+	<bean id="EarnCode-parentBean" abstract="true"
+		parent="KPMEHrBusinessObjectParent">
+		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.EarnCodeBo" />
+		<property name="objectLabel" value="Earn Code" />
 		<property name="inquiryDefinition">
 			<ref bean="EarnCode-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
 			<ref bean="EarnCode-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="hrEarnCodeId" />
+		<property name="titleAttribute" value="earnCode" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="EarnCode-hrEarnCodeId" />
 				<ref bean="EarnCode-earnCode" />
 				<ref bean="EarnCode-ovtEarnCode" />
-				<!-- <ref bean="EarnCode-recordTime" /> <ref bean="EarnCode-recordHours" 
-					/> <ref bean="EarnCode-recordAmount" /> -->
 				<ref bean="EarnCode-accrualCategory" />
 				<ref bean="EarnCode-description" />
 				<ref bean="EarnCode-inflateMinHours" />
@@ -76,12 +76,12 @@
 								p:targetName="leavePlan" />
 						</list>
 					</property>
-	               <property name="supportAttributes">
-	                   <list>
-	                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-	                             p:targetName="effectiveDate" />
-	                   </list>
-	               </property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
+						</list>
+					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="leavePlanObj" />
@@ -91,12 +91,12 @@
 								p:targetName="leavePlan" />
 						</list>
 					</property>
-	               <property name="supportAttributes">
-	                   <list>
-	                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-	                             p:targetName="effectiveDate" />
-	                   </list>
-	               </property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
+						</list>
+					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="rollupToEarnCodeObj" />
@@ -106,16 +106,15 @@
 								p:targetName="earnCode" />
 						</list>
 					</property>
-	               <property name="supportAttributes">
-	                   <list>
-	                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-	                             p:targetName="effectiveDate" />
-	                   </list>
-	               </property>
+					<property name="supportAttributes">
+						<list>
+							<bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+								p:targetName="effectiveDate" />
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>
-		<property name="objectLabel" value="earnCode" />
 	</bean>
 
 
@@ -129,18 +128,20 @@
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="60" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
 		<property name="name" value="hrEarnCodeId" />
 		<property name="label" value="Earn Code Id" />
 	</bean>
 
 	<bean id="EarnCode-earnCode" parent="EarnCode-earnCode-parentBean" />
-	<bean id="EarnCode-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode"/>
+	<bean id="EarnCode-earnCode-parentBean" abstract="true"
+		parent="KpmeAttributeReference-earnCode" />
 
 	<bean id="EarnCode-ovtEarnCode" parent="EarnCode-ovtEarnCode-parentBean" />
-	<bean id="EarnCode-ovtEarnCode-parentBean" abstract="true" parent="KpmeAttributeReference-booleanYesNo">
+	<bean id="EarnCode-ovtEarnCode-parentBean" abstract="true"
+		parent="KpmeAttributeReference-booleanYesNo">
 		<property name="shortLabel" value="Overtime Earn Code" />
 		<property name="name" value="ovtEarnCode" />
 		<property name="label" value="Overtime Earn Code" />
@@ -156,8 +157,8 @@
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="15" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
 		<property name="name" value="accrualCategory" />
 		<property name="label" value="Accrual Category" />
@@ -171,8 +172,8 @@
 		<property name="validationPattern">
 			<bean parent="FloatingPointValidationPattern" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="6" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="6" />
 		</property>
 		<property name="name" value="inflateMinHours" />
 		<property name="label" value="Inflate Min Hours" />
@@ -187,8 +188,8 @@
 			<bean parent="FixedPointValidationPattern" p:precision="3"
 				p:scale="2" />
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="6" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="6" />
 		</property>
 		<property name="name" value="inflateFactor" />
 		<property name="label" value="Inflate Factor" />
@@ -204,8 +205,8 @@
 				<property name="allowWhitespace" value="true" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="25" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="25" />
 		</property>
 		<property name="name" value="description" />
 		<property name="label" value="Description" />
@@ -220,14 +221,14 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Leave Plan" />
 		<property name="maxLength" value="15" />
-        <property name="validationPattern">
-            <bean parent="AnyCharacterValidationPattern">
-                <property name="allowWhitespace" value="false" />
-            </bean>
-        </property>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10" />
-        </property>
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />
 	</bean>
@@ -237,10 +238,12 @@
 	<bean id="EarnCode-accrualBalanceAction-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Accrual Balance Action" />
-		<property name="control">
-			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.kpme.core.earncode.valuesfinder.AccrualBalanceActionKeyValueFinder">
-			</bean>
+		<property name="optionsFinder">
+			<bean
+				class="org.kuali.kpme.core.earncode.valuesfinder.AccrualBalanceActionKeyValueFinder" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="name" value="accrualBalanceAction" />
 		<property name="label" value="Accrual Balance Action" />
@@ -251,10 +254,12 @@
 	<bean id="EarnCode-fractionalTimeAllowed-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Fractional time allowed" />
-		<property name="control">
-			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.kpme.core.earncode.valuesfinder.FractionOptionsKeyValueFinder">
-			</bean>
+		<property name="optionsFinder">
+			<bean
+				class="org.kuali.kpme.core.earncode.valuesfinder.FractionOptionsKeyValueFinder" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="name" value="fractionalTimeAllowed" />
 		<property name="label" value="Fractional time allowed" />
@@ -265,10 +270,12 @@
 	<bean id="EarnCode-roundingOption-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Rounding Option" />
-		<property name="control">
-			<bean parent="RadioControlDefinition"
-				p:valuesFinderClass="org.kuali.kpme.core.earncode.valuesfinder.RoundingOptionsKeyValueFinder">
-			</bean>
+		<property name="optionsFinder">
+			<bean
+				class="org.kuali.kpme.core.earncode.valuesfinder.RoundingOptionsKeyValueFinder" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="name" value="roundingOption" />
 		<property name="label" value="Rounding Option" />
@@ -297,9 +304,11 @@
 	<bean id="EarnCode-allowScheduledLeave-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Allow Scheduled Leave" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.SwitchKeyValueFinder">
-			</bean>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.core.web.SwitchKeyValueFinder" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="name" value="allowScheduledLeave" />
 		<property name="label" value="Allow Scheduled Leave" />
@@ -309,9 +318,11 @@
 	<bean id="EarnCode-fmla" parent="EarnCode-fmla-parentBean" />
 	<bean id="EarnCode-fmla-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="FMLA" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.SwitchKeyValueFinder">
-			</bean>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.core.web.SwitchKeyValueFinder" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="name" value="fmla" />
 		<property name="label" value="FMLA" />
@@ -322,9 +333,11 @@
 	<bean id="EarnCode-workmansComp-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Workman's Comp" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.SwitchKeyValueFinder">
-			</bean>
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.core.web.SwitchKeyValueFinder" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="name" value="workmansComp" />
 		<property name="label" value="Workman's Comp" />
@@ -336,8 +349,8 @@
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Default Amount of Time" />
 		<property name="maxLength" value="10" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
 		</property>
 		<property name="name" value="defaultAmountofTime" />
 		<property name="label" value="Default Amount of Time" />
@@ -348,8 +361,11 @@
 	<bean id="EarnCode-allowNegativeAccrualBalance-parentBean"
 		abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Allow Negative Accrual Balance" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.web.SwitchKeyValueFinder" />
+		<property name="optionsFinder">
+			<bean class="org.kuali.kpme.core.web.SwitchKeyValueFinder" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="name" value="allowNegativeAccrualBalance" />
 		<property name="label" value="Allow Negative Accrual Balance" />
@@ -365,8 +381,8 @@
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="15" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="15" />
 		</property>
 		<property name="name" value="rollupToEarnCode" />
 		<property name="label" value="Roll up to Earncode" />
@@ -378,25 +394,33 @@
 	<bean id="EarnCode-recordMethod-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Record Method" />
-		<property name="control">
-			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.earncode.valuesfinder.RecordMethodKeyValueFinder" />
+		<property name="controlField">
+			<bean parent="Uif-DropdownControl" />
+		</property>
+		<property name="optionsFinder">
+			<bean
+				class="org.kuali.kpme.core.earncode.valuesfinder.RecordMethodKeyValueFinder" />
 		</property>
 		<property name="name" value="recordMethod" />
 		<property name="label" value="Record Method" />
 	</bean>
-	
-	<!--  Usage Limit -->
+
+	<!-- Usage Limit -->
 	<bean id="EarnCode-usageLimit" parent="EarnCode-usageLimit-parentBean" />
 	<bean id="EarnCode-usageLimit-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Usage Limit" />
-		<property name="control">
-			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.kpme.core.earncode.valuesfinder.UsageLimitKeyValueFinder" />
+		<property name="optionsFinder">
+			<bean
+				class="org.kuali.kpme.core.earncode.valuesfinder.UsageLimitKeyValueFinder" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-HorizontalRadioControl" />
 		</property>
 		<property name="name" value="usageLimit" />
 		<property name="label" value="Usage Limit" />
 	</bean>
-	
+
 	<bean id="EarnCode-countsAsRegularPay" parent="EarnCode-countsAsRegularPay-parentBean" />
 	<bean id="EarnCode-countsAsRegularPay-parentBean" abstract="true"
 		parent="KpmeAttributeReference-booleanYesNo">
@@ -424,11 +448,10 @@
 							<bean parent="FieldDefinition" p:attributeName="rollupToEarnCode" />
 							<bean parent="FieldDefinition" p:attributeName="recordMethod" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-							<!-- Commented for KPME-1624 
-							<bean parent="FieldDefinition" p:attributeName="recordTime" />
-							<bean parent="FieldDefinition" p:attributeName="recordHours" />
-							<bean parent="FieldDefinition" p:attributeName="recordAmount" /> -->
+							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+							<!-- Commented for KPME-1624 <bean parent="FieldDefinition" p:attributeName="recordTime" 
+								/> <bean parent="FieldDefinition" p:attributeName="recordHours" /> <bean 
+								parent="FieldDefinition" p:attributeName="recordAmount" /> -->
 						</list>
 					</property>
 					<property name="title" value="Earn Code" />
@@ -443,7 +466,7 @@
 							<bean parent="FieldDefinition" p:attributeName="inflateFactor" />
 						</list>
 					</property>
-					<property name="title" value="Time Keeping Attributes"/>
+					<property name="title" value="Time Keeping Attributes" />
 				</bean>
 				<bean parent="InquirySectionDefinition">
 					<property name="numberOfColumns" value="1" />
@@ -463,11 +486,12 @@
 							<bean parent="FieldDefinition" p:attributeName="defaultAmountofTime" />
 							<bean parent="FieldDefinition" p:attributeName="allowNegativeAccrualBalance" />
 							<bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
-								p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+								p:noInquiry="true" p:noLookup="true" p:hidden="true"
+								p:defaultValue=" " />
 
 						</list>
 					</property>
-					<property name="title" value="Leave Management Attributes"/>
+					<property name="title" value="Leave Management Attributes" />
 				</bean>
 			</list>
 		</property>
@@ -500,7 +524,8 @@
 				<bean parent="FieldDefinition" p:attributeName="history"
 					p:defaultValue="N" />
 				<bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
-					p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+					p:noInquiry="true" p:noLookup="true" p:hidden="true"
+					p:defaultValue=" " />
 			</list>
 		</property>
 		<property name="resultFields">
@@ -508,7 +533,7 @@
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
-                <bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
@@ -517,55 +542,134 @@
 		</property>
 		<property name="title" value="Earn Code Lookup" />
 	</bean>
-	
-	<bean id="EarnCode-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
-        <property name="headerText" value="Earn Code Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCodeBo"/>
-        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
-        <property name="criteriaFields">
-            <list>
-            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode"/>
-            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description"/>
-            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
-            		<property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
-                              p:fieldConversions="leavePlan:leavePlan"/>
-                    </property>
-                    <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
-                              p:inquiryParameters="leavePlan:leavePlan"/>
-                    </property>
-            	</bean>
-            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="accrualCategory">
-            		<property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"
-                              p:fieldConversions="accrualCategory:accrualCategory,leavePlan:leavePlan"/>
-                    </property>
-                    <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"
-                              p:inquiryParameters="accrualCategory:accrualCategory"/>
-                    </property>
-            	</bean>
-            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="ovtEarnCode"/>
-            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/>
-            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>        
-            	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
-            	<!-- <bean parent="Uif-LookupCriteriaInputField" p:propertyName="relativeEffectiveDate" p:hidden="true" p:defaultValue=" "/> -->
-            </list>
-        </property>
-        <property name="resultFields">
-            <list>
-                <bean parent="Uif-DataField" p:propertyName="earnCode"/>
-                <bean parent="Uif-DataField" p:propertyName="description"/>
-                <bean parent="Uif-DataField" p:propertyName="leavePlan"/>
-                <bean parent="Uif-DataField" p:propertyName="accrualCategory"/>
-                <bean parent="Uif-DataField" p:propertyName="ovtEarnCode"/>
-                <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
-                <!-- <bean parent="Uif-DataField" p:propertyName="timeStamp"/> -->
-                <bean parent="Uif-DataField" p:propertyName="active"/>
-            </list>
-        </property>
-    </bean>
-	
-	
+
+	<!-- Assignment Inquiry View -->
+	<bean id="EarnCode-InquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="EarnCode Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCode" />
+		<property name="viewHelperServiceClass"
+			value="org.kuali.kpme.core.earncode.web.EarnCodeInquirableImpl" />
+		<property name="singlePageView" value="true" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-Disclosure-GridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list>
+							<ref bean="EarnCode-earnCodeFieldsInquiry" />
+							<ref bean="EarnCode-timeKeepingFieldsInquiry" />
+							<ref bean="EarnCode-leaveManagementFieldsInquiry" />
+						</list>
+					</property>
+					<property name="title" value="EarnCode Inquiry" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="EarnCode-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+		<property name="headerText" value="Earn Code Lookup" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCodeBo" />
+		<property name="criteriaFields">
+			<list>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
+							p:fieldConversions="leavePlan:leavePlan" />
+					</property>
+					<!-- <property name="inquiry"> <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo" 
+						p:inquiryParameters="leavePlan:leavePlan"/> </property> -->
+				</bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="accrualCategory">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript"
+							p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"
+							p:fieldConversions="accrualCategory:accrualCategory,leavePlan:leavePlan" />
+					</property>
+					<!-- <property name="inquiry"> <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo" 
+						p:inquiryParameters="accrualCategory:accrualCategory"/> </property> -->
+				</bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="ovtEarnCode" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate"
+					p:ranged="true" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"
+					p:defaultValue="Y" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history"
+					p:defaultValue="N" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="earnCode" />
+				<bean parent="Uif-DataField" p:propertyName="description" />
+				<bean parent="Uif-DataField" p:propertyName="leavePlan">
+					<!-- <property name="inquiry"> <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo" 
+						p:inquiryParameters="leavePlan:leavePlan,relativeEffectiveDate:effectiveDate"/> 
+						</property> -->
+				</bean>
+				<bean parent="Uif-DataField" p:propertyName="accrualCategory">
+					<!-- <property name="inquiry"> <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo" 
+						p:inquiryParameters="accrualCategory:accrualCategory"/> </property> -->
+				</bean>
+				<bean parent="Uif-DataField" p:propertyName="ovtEarnCode" />
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+				<!-- <bean parent="Uif-DataField" p:propertyName="timeStamp"/> -->
+				<bean parent="Uif-DataField" p:propertyName="active" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="EarnCode-earnCodeFieldsInquiry" parent="Uif-VerticalBoxSection"
+		p:layoutManager.numberOfColumns="4">
+		<property name="headerText" value="Earn Code" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-DataField" p:propertyName="earnCode" />
+				<bean parent="Uif-DataField" p:propertyName="description" />
+				<bean parent="Uif-DataField" p:propertyName="rollupToEarnCode" />
+				<bean parent="Uif-DataField" p:propertyName="recordMethod" />
+				<bean parent="Uif-DataField" p:propertyName="active" />
+				<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="EarnCode-timeKeepingFieldsInquiry" parent="Uif-VerticalBoxSection"
+		p:layoutManager.numberOfColumns="4">
+		<property name="headerText" value="Time Keeping Attributes" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="ovtEarnCode" />
+				<bean parent="Uif-InputField" p:propertyName="countsAsRegularPay" />
+				<bean parent="Uif-InputField" p:propertyName="inflateMinHours" />
+				<bean parent="Uif-InputField" p:propertyName="inflateFactor" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="EarnCode-leaveManagementFieldsInquiry" parent="Uif-VerticalBoxSection"
+		p:layoutManager.numberOfColumns="4">
+		<property name="headerText" value="Leave Management Attributes" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="leavePlan" />
+				<bean parent="Uif-InputField" p:propertyName="accrualCategory" />
+				<bean parent="Uif-InputField" p:propertyName="accrualBalanceAction" />
+				<bean parent="Uif-InputField" p:propertyName="roundingOption" />
+				<bean parent="Uif-InputField" p:propertyName="fractionalTimeAllowed" />
+				<bean parent="Uif-InputField" p:propertyName="usageLimit" />
+				<bean parent="Uif-InputField" p:propertyName="eligibleForAccrual" />
+				<bean parent="Uif-InputField" p:propertyName="affectPay" />
+				<bean parent="Uif-InputField" p:propertyName="allowScheduledLeave" />
+				<bean parent="Uif-InputField" p:propertyName="fmla" />
+				<bean parent="Uif-InputField" p:propertyName="workmansComp" />
+				<bean parent="Uif-InputField" p:propertyName="defaultAmountofTime" />
+				<bean parent="Uif-InputField" p:propertyName="allowNegativeAccrualBalance" />
+			</list>
+		</property>
+	</bean>
+
 </beans>

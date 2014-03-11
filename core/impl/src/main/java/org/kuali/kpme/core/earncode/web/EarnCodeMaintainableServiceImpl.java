@@ -16,11 +16,12 @@
 package org.kuali.kpme.core.earncode.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
+
 import org.kuali.kpme.core.service.HrServiceLocator;
 
-public class EarnCodeMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
+public class EarnCodeMaintainableServiceImpl extends HrDataObjectMaintainableImpl{
 
 	/**
 	 * 

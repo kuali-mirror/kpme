@@ -37,7 +37,7 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 	private String convertToEarnCode;
 	private BigDecimal step;
 	private BigDecimal maxHours;
-	private Boolean ovtEarnCode;
+	private boolean ovtEarnCode;
 	
 	private Long tkWeeklyOvertimeRuleGroupId = 1L;
 	
@@ -101,11 +101,11 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 		this.maxHours = maxHours;
 	}
 
-	public Boolean getOvtEarnCode() {
+	public boolean isOvtEarnCode() {
 		return ovtEarnCode;
 	}
 
-	public void setOvtEarnCode(Boolean ovtEarnCode) {
+	public void setOvtEarnCode(boolean ovtEarnCode) {
 		this.ovtEarnCode = ovtEarnCode;
 	}
 

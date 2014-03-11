@@ -35,7 +35,7 @@ public class EarnCodeInquirableImplTest extends CoreUnitTestCase {
 		Map fieldValues = new HashMap();
 		fieldValues.put("earnCode", "TestEarnCode");
 		fieldValues.put("effectiveDate", "02/01/2012");
-		EarnCodeBo ec = (EarnCodeBo) new EarnCodeInquirableImpl().getBusinessObject(fieldValues);
+		EarnCodeBo ec = (EarnCodeBo) new EarnCodeInquirableImpl().retrieveDataObject(fieldValues);
 		Assert.assertNotNull("No Earn Code found", ec);
 		String dateString =  new SimpleDateFormat("MM/dd/yyyy").format(ec.getEffectiveDate());
 		// in this Test, 3 earn codes are added to database with 3 effectiveDate 12/01/2011, 01/01/2012

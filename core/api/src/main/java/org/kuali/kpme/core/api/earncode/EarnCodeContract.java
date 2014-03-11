@@ -293,7 +293,7 @@ public interface EarnCodeContract extends KpmeEffectiveDataTransferObject {
 	 * 
 	 * @return Y for Yes, N for No
 	 */	
-    public Boolean isOvtEarnCode() ;
+    public boolean isOvtEarnCode() ;
 
     /**
 	 * 	The LeavePlan object associated with an EarnCode

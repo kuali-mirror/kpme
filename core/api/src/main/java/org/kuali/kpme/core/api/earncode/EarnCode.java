@@ -121,7 +121,7 @@ public final class EarnCode
     @XmlElement(name = Elements.INFLATE_FACTOR, required = false)
     private final BigDecimal inflateFactor;
     @XmlElement(name = Elements.OVT_EARN_CODE, required = false)
-    private final Boolean ovtEarnCode;
+    private final boolean ovtEarnCode;
     @XmlElement(name = Elements.EARN_CODE_TYPE, required = false)
     private final String earnCodeType;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -172,7 +172,7 @@ public final class EarnCode
         this.usageLimit = null;
         this.recordMethod = null;
         this.inflateFactor = null;
-        this.ovtEarnCode = null;
+        this.ovtEarnCode = false;
         this.earnCodeType = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -334,7 +334,7 @@ public final class EarnCode
     }
 
     @Override
-    public Boolean isOvtEarnCode() {
+    public boolean isOvtEarnCode() {
         return this.ovtEarnCode;
     }
 
@@ -410,7 +410,7 @@ public final class EarnCode
         private String usageLimit;
         private String recordMethod;
         private BigDecimal inflateFactor;
-        private Boolean ovtEarnCode;
+        private boolean ovtEarnCode;
         private String earnCodeType;
         private Long versionNumber;
         private String objectId;
@@ -590,7 +590,7 @@ public final class EarnCode
         }
 
         @Override
-        public Boolean isOvtEarnCode() {
+        public boolean isOvtEarnCode() {
             return this.ovtEarnCode;
         }
 
@@ -749,7 +749,7 @@ public final class EarnCode
             this.inflateFactor = inflateFactor;
         }
 
-        public void setOvtEarnCode(Boolean ovtEarnCode) {
+        public void setOvtEarnCode(boolean ovtEarnCode) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.ovtEarnCode = ovtEarnCode;
         }

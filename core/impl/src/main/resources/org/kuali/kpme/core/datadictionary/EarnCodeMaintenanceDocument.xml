@@ -26,22 +26,14 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="EarnCodeMaintenanceDocument" parent="EarnCodeMaintenanceDocument-parentBean"/>
-  <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.kpme.core.earncode.EarnCodeBo"
+  <bean id="EarnCodeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
+  		p:dataObjectClass="org.kuali.kpme.core.earncode.EarnCodeBo"
   		p:businessRulesClass="org.kuali.kpme.core.earncode.validation.EarnCodeValidation"
-  		p:maintainableClass="org.kuali.kpme.core.earncode.web.EarnCodeMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.kpme.core.earncode.authorization.EarnCodeAuthorizer">
-    <property name="maintainableSections">
-      <list>
-        <ref bean="EarnCodeMaintenanceDocument-EarnCodeMaintenance"/>
-        <ref bean="EarnCodeMaintenanceDocument-TimeKeepingMaintenance"/>
-        <ref bean="EarnCodeMaintenanceDocument-LeaveManagementMaintenance"/>
-        <ref bean="EarnCodeMaintenanceDocument-HiddenSection" />
-      </list>
-    </property>
-    <property name="lockingKeys">
+  		p:documentAuthorizerClass="org.kuali.kpme.core.earncode.authorization.EarnCodeAuthorizer"
+  		p:maintainableClass="org.kuali.kpme.core.earncode.web.EarnCodeMaintainableServiceImpl">
+	    <property name="lockingKeys">
 			<list>
-				<value>hrEarnCodeId</value>
+				<value>earnCode</value>
 			</list>
 		</property>
     <property name="documentTypeName" value="EarnCodeMaintenanceDocumentType"/>
@@ -50,58 +42,92 @@
 
   <!-- Maintenance Section Definitions -->
 
-    <bean id="EarnCodeMaintenanceDocument-HiddenSection"
-          parent="MaintDoc-HiddenFields-parentBean" />
-
-  <bean id="EarnCodeMaintenanceDocument-EarnCodeMaintenance" parent="EarnCodeMaintenanceDocument-EarnCodeMaintenance-parentBean"/>
-  <bean id="EarnCodeMaintenanceDocument-EarnCodeMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Earn Code Maintenance"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"     		p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="earnCode" 				p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="description"     		p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="rollupToEarnCode" 		p:required="false"/>
-        <bean parent="MaintainableFieldDefinition" p:name="recordMethod" 			p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="active"   				p:required="true" p:defaultValue="true"/>		
-      </list>
-    </property>
-  </bean>
-  
-  <bean id="EarnCodeMaintenanceDocument-TimeKeepingMaintenance" parent="EarnCodeMaintenanceDocument-TimeKeepingMaintenance-parentBean"/>
-  <bean id="EarnCodeMaintenanceDocument-TimeKeepingMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-  	<property name="title" value="Time Keeping Attributes"/>
-  	<property name="maintainableItems">
-  		<list>
-	        <bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode"   	p:required="false" p:defaultValue="false"/>
-	        <bean parent="MaintainableFieldDefinition" p:name="countsAsRegularPay" p:defaultValue="N" p:required="true"/>
-	        <bean parent="MaintainableFieldDefinition" p:name="inflateMinHours" p:required="true" p:defaultValue="0"/>
-	        <bean parent="MaintainableFieldDefinition" p:name="inflateFactor" p:required="true" p:defaultValue="1.0"/>
-  		</list>
-  	</property>
-  </bean>
-  
-  <bean id="EarnCodeMaintenanceDocument-LeaveManagementMaintenance" parent="EarnCodeMaintenanceDocument-LeaveManagementMaintenance-parentBean"/>
-  <bean id="EarnCodeMaintenanceDocument-LeaveManagementMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-  	<property name="title" value="Leave Management Attributes"/>
-  	<property name="maintainableItems">
-  		<list>
-        <bean parent="MaintainableFieldDefinition" p:name="leavePlan"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="false"/>
-        <bean parent="MaintainableFieldDefinition" p:name="accrualBalanceAction"  p:defaultValue="N"/>
-        <bean parent="MaintainableFieldDefinition" p:name="roundingOption" p:defaultValue="T" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="fractionalTimeAllowed" 	p:required="true" p:defaultValue="99.99"/>
-        <bean parent="MaintainableFieldDefinition" p:name="usageLimit" 	p:required="true" p:defaultValue="I"/>
-        <!--  KPME 1624 -->
-        <bean parent="MaintainableFieldDefinition" p:name="eligibleForAccrual" p:defaultValue="Y" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="affectPay" p:defaultValue="N" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="allowScheduledLeave" p:defaultValue="Y" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="fmla" p:defaultValue="N" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="workmansComp" p:defaultValue="N" p:required="true"/>
-		<!--  KPME 2056 -->
-		<bean parent="MaintainableFieldDefinition" p:name="defaultAmountofTime"/>
-		<bean parent="MaintainableFieldDefinition" p:name="allowNegativeAccrualBalance" p:defaultValue="N" p:required="true"/>
-		</list>
-	</property>
-  </bean>
+   	  <bean id="EarnCode-MaintenanceView" parent="EarnCode-MaintenanceView-parentBean"/>
+	  <bean id="EarnCode-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+	    <property name="headerText" value="Earncode Maintenance"/>
+	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.earncode.web.EarnCodeMaintainableServiceImpl" />
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCodeBo"/>
+	    <property name="items">
+	      <list>
+	        <bean parent="Uif-MaintenanceGridSection">
+	          <property name="headerText" value="Earn Code Maintenance" />
+	          <property name="items">
+	            <list>
+	               <bean parent="Uif-InputField" p:propertyName="effectiveDate"     	p:required="true"/>
+       			   <bean parent="Uif-InputField" p:propertyName="earnCode" 				p:required="true"/>
+ 			       <bean parent="Uif-InputField" p:propertyName="description"     		p:required="true"/>
+       			   <bean parent="Uif-InputField" p:propertyName="rollupToEarnCode" 		p:required="false">
+	            		<property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
+	                              p:fieldConversions="earnCode:rollupToEarnCode" p:lookupParameters="rollupToEarnCode:earnCode"/>
+	                    </property>
+	                    <!-- <property name="inquiry">
+	                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
+	                              p:inquiryParameters="rollupToEarnCode:earnCode,effectiveDate:effectiveDate" />
+	                    </property>
+	                     -->
+       			   </bean>
+   				   <bean parent="Uif-InputField" p:propertyName="recordMethod" 			p:required="true"/>
+				   <bean parent="Uif-InputField" p:propertyName="active"   				p:required="true" p:defaultValue="true"/>		
+	            </list>
+	          </property>
+	        </bean>
+	        <bean parent="Uif-MaintenanceGridSection">
+				<property name="headerText" value="Time Keeping Attributes" />
+				<property name="items">
+					<list>
+				        <bean parent="Uif-InputField" p:propertyName="ovtEarnCode"   	p:required="false" p:defaultValue="false"/>
+				        <bean parent="Uif-InputField" p:propertyName="countsAsRegularPay" p:defaultValue="N" p:required="true"/>
+				        <bean parent="Uif-InputField" p:propertyName="inflateMinHours" p:required="true" p:defaultValue="0"/>
+				        <bean parent="Uif-InputField" p:propertyName="inflateFactor" p:required="true" p:defaultValue="1.0"/>
+	        		</list>
+	        	</property>
+	        </bean>
+	        <bean parent="Uif-MaintenanceGridSection">
+				<property name="headerText" value="Leave Management Attributes" />
+				<property name="items">
+					<list>
+     				    <bean parent="Uif-InputField" p:propertyName="leavePlan">
+		            		<property name="quickfinder">
+		                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
+		                              p:fieldConversions="leavePlan:leavePlan" p:lookupParameters="leavePlan:leavePlan"/>
+		                    </property>
+		                    <!-- 
+		                    <property name="inquiry">
+		                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
+		                              p:inquiryParameters="leavePlan:leavePlan" />
+		                    </property>
+		                     -->
+     				    </bean>
+    				    <bean parent="Uif-InputField" p:propertyName="accrualCategory" p:required="false">
+		            		<property name="quickfinder">
+		                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"
+		                              p:fieldConversions="accrualCategory:accrualCategory,leavePlan:leavePlan" p:lookupParameters="leavePlan:leavePlan,accrualCategory:accrualCategory"/>
+		                    </property>
+		                    <!-- 
+		                    <property name="inquiry">
+		                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"
+		                              p:inquiryParameters="accrualCategory:accrualCategory"/>
+		                    </property>
+		                     -->
+    				    </bean>
+  				        <bean parent="Uif-InputField" p:propertyName="accrualBalanceAction"  p:defaultValue="N"/>
+				        <bean parent="Uif-InputField" p:propertyName="roundingOption" p:defaultValue="T" p:required="true"/>
+				        <bean parent="Uif-InputField" p:propertyName="fractionalTimeAllowed" 	p:required="true" p:defaultValue="99.99"/>
+				        <bean parent="Uif-InputField" p:propertyName="usageLimit" 	p:required="true" p:defaultValue="I"/>
+				        <!--  KPME 1624 -->
+				        <bean parent="Uif-InputField" p:propertyName="eligibleForAccrual" p:defaultValue="Y" p:required="true"/>
+						<bean parent="Uif-InputField" p:propertyName="affectPay" p:defaultValue="N" p:required="true"/>
+				        <bean parent="Uif-InputField" p:propertyName="allowScheduledLeave" p:defaultValue="Y" p:required="true"/>
+						<bean parent="Uif-InputField" p:propertyName="fmla" p:defaultValue="N" p:required="true"/>
+						<bean parent="Uif-InputField" p:propertyName="workmansComp" p:defaultValue="N" p:required="true"/>
+						<!--  KPME 2056 -->
+						<bean parent="Uif-InputField" p:propertyName="defaultAmountofTime"/>
+						<bean parent="Uif-InputField" p:propertyName="allowNegativeAccrualBalance" p:defaultValue="N" p:required="true"/>
+	        		</list>
+	        	</property>
+	        </bean>
+	      </list>
+	    </property>
+	  </bean> 
 </beans>

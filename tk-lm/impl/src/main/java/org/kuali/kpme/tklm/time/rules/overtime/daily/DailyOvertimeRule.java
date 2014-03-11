@@ -62,7 +62,7 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 	private BigDecimal maxGap;
 	private BigDecimal minHours;
 	private boolean history;
-	private Boolean ovtEarnCode;
+	private boolean ovtEarnCode;
 
 	private String tkWorkAreaId;
 	private String hrDeptId;
@@ -223,11 +223,11 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 		this.history = history;
 	}
 
-	public Boolean getOvtEarnCode() {
+	public boolean isOvtEarnCode() {
 		return ovtEarnCode;
 	}
 
-	public void setOvtEarnCode(Boolean ovtEarnCode) {
+	public void setOvtEarnCode(boolean ovtEarnCode) {
 		this.ovtEarnCode = ovtEarnCode;
 	}
 

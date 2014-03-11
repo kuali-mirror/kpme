@@ -264,7 +264,7 @@ public class ValidationUtils {
 
         if (asOfDate != null) {
             EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
-            valid = (ec != null) && (otEarnCode ? ec.isOvtEarnCode().booleanValue() : true);
+            valid = (ec != null) && (otEarnCode ? ec.isOvtEarnCode() : true);
         }
 
         return valid;

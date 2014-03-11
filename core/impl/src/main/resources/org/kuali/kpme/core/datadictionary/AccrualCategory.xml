@@ -352,4 +352,38 @@
 		<property name="title" value="Accrual Category Lookup" />
 	</bean>
 
+	<!--  KRAD Lookup View -->
+	
+	
+
+	<bean id="AccrualCategory-LookupView" parent="KPMEUif-EffectiveDateBOLookupView" >
+		<property name="headerText" value="Accrual Category Lookup"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.accrualcategory.AccrualCategoryBo"/>
+        <property name="criteriaFields">
+			<list>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="accrualCategory" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="accrualEarnInterval"/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="unitOfTime" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="minPercentWorked" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="leavePlan" />
+				<bean parent="Uif-DataField" p:propertyName="accrualCategory" />
+				<bean parent="Uif-DataField" p:propertyName="descr" />
+				<bean parent="Uif-DataField" p:propertyName="accrualEarnInterval" />
+				<bean parent="Uif-DataField" p:propertyName="unitOfTime" />
+				<bean parent="Uif-DataField" p:propertyName="minPercentWorked" />
+				<bean parent="Uif-DataField" p:propertyName="active" />
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+			</list>
+		</property>
+		<property name="title" value="Accrual Category Lookup" />
+	</bean>
 </beans>

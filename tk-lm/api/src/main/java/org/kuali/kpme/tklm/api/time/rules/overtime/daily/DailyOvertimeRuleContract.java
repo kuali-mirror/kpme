@@ -243,7 +243,7 @@ public interface DailyOvertimeRuleContract extends TkRuleContract {
 	 * 
 	 * @return Y if used for overtime, N if not
 	 */	
-	public Boolean getOvtEarnCode();	
+	public boolean isOvtEarnCode();	
 
 	/**
 	 * The id of the WorkArea object associated wtih the DailyOvertimeRule
