@@ -46,38 +46,6 @@
 				<ref bean="PayType-payFrequency" />
 			</list>
 		</property>
-        <property name="relationships">
-          <list>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="regEarnCodeObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="regEarnCode" p:targetName="earnCode"/>
-                </list>
-              </property>
-               <property name="supportAttributes">
-                   <list>
-                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-                             p:targetName="effectiveDate" />
-                   </list>
-               </property>
-            </bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="institutionObj" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution" p:targetName="institutionCode" />
-                    </list>
-				</property>
-               <property name="supportAttributes">
-                   <list>
-                       <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-                             p:targetName="effectiveDate" />
-                   </list>
-               </property>
-			</bean>				
-          </list>
-        </property>
 	</bean>
 
 	<bean id="PayType-hrPayTypeId" parent="PayType-hrPayTypeId-parentBean" />
