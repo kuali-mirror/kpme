@@ -182,7 +182,7 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
                 	<property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                              p:fieldConversions="location:location,effectiveDate:relativeEffectiveDate"/>
+                              p:fieldConversions="location:location" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     </property>
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
@@ -192,7 +192,7 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
 					<property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                              p:fieldConversions="dept:dept,location:location,effectiveDate:relativeEffectiveDate"/>
+                              p:fieldConversions="dept:dept,location:location" p:lookupParameters="location:location,relativeEffectiveDate:effectiveDate"/>
                     </property>
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
@@ -202,7 +202,7 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" >
 					<property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
-                              p:fieldConversions="hrSalGroup:hrSalGroup,effectiveDate:relativeEffectiveDate"/>
+                              p:fieldConversions="hrSalGroup:hrSalGroup" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     </property>
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
@@ -212,7 +212,7 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode" >
 					<property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
-                              p:fieldConversions="earnCode:earnCode,effectiveDate:relativeEffectiveDate"/>
+                              p:fieldConversions="earnCode:earnCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     </property>
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
@@ -276,25 +276,25 @@
 							<bean parent="Uif-InputField" p:propertyName="location" p:required="true" >
 								<property name="quickfinder">
                         			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                              			p:fieldConversions="location:location,effectiveDate:relativeEffectiveDate"/>
+                              			p:fieldConversions="location:location" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     			</property>
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="dept" p:required="true" >
 								<property name="quickfinder">
                         			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                              			p:fieldConversions="dept:dept,effectiveDate:relativeEffectiveDate,location:location"/>
+                              			p:fieldConversions="dept:dept,location:location" p:lookupParameters="location:location,relativeEffectiveDate:effectiveDate"/>
                     			</property>
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:required="true" >
 								<property name="quickfinder">
                         			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
-                              			p:fieldConversions="hrSalGroup:hrSalGroup,effectiveDate:relativeEffectiveDate"/>
+                              			p:fieldConversions="hrSalGroup:hrSalGroup" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     			</property>
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="earnCode" p:required="true" >
 								<property name="quickfinder">
                         			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
-                              			p:fieldConversions="earnCode:earnCode,effectiveDate:relativeEffectiveDate"/>
+                              			p:fieldConversions="earnCode:earnCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     			</property>
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="earnCodeType" p:required="true" />
