@@ -100,7 +100,7 @@
         <property name="shortLabel" value="Description" />
 		<property name="maxLength" value="30" />
         <property name="validCharactersConstraint">
-            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="false"/>
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
         </property>
         <property name="controlField">
         	<bean parent="Uif-TextControl" p:size="30" />
@@ -123,10 +123,20 @@
 	</bean>
 
 	<bean id="WorkArea-defaultOvertimeEarnCode" parent="WorkArea-defaultOvertimeEarnCode-parentBean" />
-	<bean id="WorkArea-defaultOvertimeEarnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode">
-		<property name="name" value="defaultOvertimeEarnCode" />
-        <property name="label" value="Default Overtime Earn Code" />
+	<bean id="WorkArea-defaultOvertimeEarnCode-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Default Overtime Earn Code" />
+        <property name="maxLength" value="15" />
+        <property name="forceUppercase" value="true" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="15" />
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="name" value="defaultOvertimeEarnCode" />
+        <property name="label" value="Default Overtime Earn Code" />
 	</bean>
 	
     <bean id="WorkArea-ovtEarnCode" parent="WorkArea-ovtEarnCode-parentBean" />
@@ -195,7 +205,12 @@
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="workArea" />
                 <bean parent="Uif-DataField" p:propertyName="description" />
-                <bean parent="Uif-DataField" p:propertyName="defaultOvertimeEarnCode" />
+                <bean parent="Uif-DataField" p:propertyName="defaultOvertimeEarnCode" >	
+            		<!-- <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
+                              p:inquiryParameters="defaultOvertimeEarnCode:earnCode,ovtEarnCode:ovtEarnCode,effectiveDate:effectiveDate"/>
+                    </property> -->
+                </bean>
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
                 <bean parent="Uif-DataField" p:propertyName="active" />
             </list>
@@ -220,12 +235,16 @@
 							<bean parent="Uif-InputField" p:propertyName="overtimeEditRole" p:required="true" />
 							<bean parent="Uif-InputField" p:propertyName="defaultOvertimeEarnCode" p:required="false" >
 								<property name="quickfinder">
-                    				<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName=""
-                        				p:fieldConversions="defaultOvertimeEarnCode:ovtEarnCode,ovtEarnCode:ovtEarnCode,effectiveDate:effectiveDate"/>
+                    				<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
+                        				p:fieldConversions="earnCode:defaultOvertimeEarnCode,ovtEarnCode:ovtEarnCode,effectiveDate:effectiveDate"/>
             					</property>
 							</bean>
-							<bean parent="Uif-InputField" p:propertyName="ovtEarnCode" p:defaultValue="true" />
-							<bean parent="Uif-InputField" p:propertyName="dept" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="dept" p:required="true" >
+								<property name="quickfinder">
+									<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
+                        				p:fieldConversions="dept:dept"/>
+								</property>
+							</bean>
 							<bean parent="Uif-InputField" p:propertyName="adminDescr" p:required="true" />
 							<bean parent="Uif-InputField" p:propertyName="hrsDistributionF" p:required="false" p:defaultValue="N" />
 							<bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"  />
