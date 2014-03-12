@@ -60,63 +60,8 @@
 				<ref bean="EarnCode-usageLimit"/>
 				<ref bean="EarnCode-countsAsRegularPay" />
 			</list>
-
-
-		</property>
-
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="accrualCategoryObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory"
-								p:targetName="accrualCategory" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
-								p:targetName="leavePlan" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-								p:targetName="effectiveDate" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leavePlanObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
-								p:targetName="leavePlan" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-								p:targetName="effectiveDate" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="rollupToEarnCodeObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="rollupToEarnCode"
-								p:targetName="earnCode" />
-						</list>
-					</property>
-					<property name="supportAttributes">
-						<list>
-							<bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-								p:targetName="effectiveDate" />
-						</list>
-					</property>
-				</bean>
-			</list>
 		</property>
 	</bean>
-
 
 	<bean id="EarnCode-hrEarnCodeId" parent="EarnCode-hrEarnCodeId-parentBean" />
 	<bean id="EarnCode-hrEarnCodeId-parentBean" abstract="true"
@@ -546,14 +491,14 @@
 	<!-- Assignment Inquiry View -->
 	<bean id="EarnCode-InquiryView" parent="Uif-InquiryView">
 		<property name="headerText" value="EarnCode Inquiry" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCode" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCodeBo" />
 		<property name="viewHelperServiceClass"
 			value="org.kuali.kpme.core.earncode.web.EarnCodeInquirableImpl" />
 		<property name="singlePageView" value="true" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-Disclosure-GridSection">
-					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="layoutManager.numberOfColumns" value="1" />
 					<property name="items">
 						<list>
 							<ref bean="EarnCode-earnCodeFieldsInquiry" />
@@ -572,7 +517,11 @@
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.EarnCodeBo" />
 		<property name="criteriaFields">
 			<list>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode" >
+                               <property name="inquiry">
+                                    <bean parent="Uif-Inquiry" p:render="false"/>
+                                </property>
+				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
 					<property name="quickfinder">
@@ -621,9 +570,9 @@
 		</property>
 	</bean>
 
-	<bean id="EarnCode-earnCodeFieldsInquiry" parent="Uif-VerticalBoxSection"
-		p:layoutManager.numberOfColumns="4">
+	<bean id="EarnCode-earnCodeFieldsInquiry" parent="Uif-Disclosure-GridSection">
 		<property name="headerText" value="Earn Code" />
+		<property name="layoutManager.numberOfColumns" value="2" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
@@ -637,9 +586,9 @@
 		</property>
 	</bean>
 
-	<bean id="EarnCode-timeKeepingFieldsInquiry" parent="Uif-VerticalBoxSection"
-		p:layoutManager.numberOfColumns="4">
+	<bean id="EarnCode-timeKeepingFieldsInquiry" parent="Uif-Disclosure-GridSection">
 		<property name="headerText" value="Time Keeping Attributes" />
+		<property name="layoutManager.numberOfColumns" value="2" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="ovtEarnCode" />
@@ -650,9 +599,9 @@
 		</property>
 	</bean>
 
-	<bean id="EarnCode-leaveManagementFieldsInquiry" parent="Uif-VerticalBoxSection"
-		p:layoutManager.numberOfColumns="4">
+	<bean id="EarnCode-leaveManagementFieldsInquiry" parent="Uif-Disclosure-GridSection">
 		<property name="headerText" value="Leave Management Attributes" />
+		<property name="layoutManager.numberOfColumns" value="2" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="leavePlan" />

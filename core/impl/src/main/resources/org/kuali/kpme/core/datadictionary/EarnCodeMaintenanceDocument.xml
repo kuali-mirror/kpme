@@ -53,8 +53,12 @@
 	          <property name="headerText" value="Earn Code Maintenance" />
 	          <property name="items">
 	            <list>
-	               <bean parent="Uif-InputField" p:propertyName="effectiveDate"     	p:required="true"/>
-       			   <bean parent="Uif-InputField" p:propertyName="earnCode" 				p:required="true"/>
+	               <bean parent="Uif-InputField" p:propertyName="effectiveDate"     	p:required="true" />
+       			   <bean parent="Uif-InputField" p:propertyName="earnCode" 				p:required="true">
+                               <property name="inquiry">
+                                    <bean parent="Uif-Inquiry" p:render="false"/>
+                                </property>
+       			   </bean>
  			       <bean parent="Uif-InputField" p:propertyName="description"     		p:required="true"/>
        			   <bean parent="Uif-InputField" p:propertyName="rollupToEarnCode" 		p:required="false">
 	            		<property name="quickfinder">
@@ -76,7 +80,7 @@
 				<property name="headerText" value="Time Keeping Attributes" />
 				<property name="items">
 					<list>
-				        <bean parent="Uif-InputField" p:propertyName="ovtEarnCode"   	p:required="false" p:defaultValue="false"/>
+				        <bean parent="Uif-InputField" p:propertyName="ovtEarnCode"   	p:required="false" p:defaultValue="N"/>
 				        <bean parent="Uif-InputField" p:propertyName="countsAsRegularPay" p:defaultValue="N" p:required="true"/>
 				        <bean parent="Uif-InputField" p:propertyName="inflateMinHours" p:required="true" p:defaultValue="0"/>
 				        <bean parent="Uif-InputField" p:propertyName="inflateFactor" p:required="true" p:defaultValue="1.0"/>
