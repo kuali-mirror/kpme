@@ -17,6 +17,7 @@ package org.kuali.kpme.core.job.web;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
@@ -78,5 +79,25 @@ public class JobMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
         return aJob;
     }
-	
+
+    @Override
+    public void prepareForSave() {
+        JobBo aJob = (JobBo) this.getDataObject();
+
+        //KPME-3238 - fill in job number if it is still null when its time to save.
+        if ((StringUtils.equals(getMaintenanceAction(), "New") || StringUtils.equals(getMaintenanceAction(), "Copy")) && aJob.getJobNumber()==null) {
+
+            JobContract maxJob = HrServiceLocator.getJobService().getMaxJob(aJob.getPrincipalId());
+
+            if(maxJob != null) {
+                aJob.setJobNumber(maxJob.getJobNumber() +1);
+            } else {
+                aJob.setJobNumber(0L);
+            }
+
+        }
+
+        super.prepareForSave();
+    }
+
 }
