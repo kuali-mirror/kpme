@@ -122,7 +122,7 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
 				return valid;
 			}
 		} 
-		if(assignmentAccount.getSubAcctNbr() != null) {
+		if(assignmentAccount.getSubAcctNbr() != null && StringUtils.isNotEmpty(assignmentAccount.getSubAcctNbr())) {
 			valid = ValidationUtils.validateSubAccount(assignmentAccount.getSubAcctNbr(),assignmentAccount.getAccountNbr(), assignmentAccount.getFinCoaCd());
 			if (!valid) {
 				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.assignmentAccounts'].subAcctNbr", "error.existence", "Sub-Account Number '"+ assignmentAccount.getSubAcctNbr() + "'");

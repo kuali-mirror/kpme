@@ -360,7 +360,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 					valid &= this.validateAccount(assignmentAccount);
 					valid &= this.validateObjectCode(assignmentAccount, assignment.getEffectiveLocalDate());
 					valid &= this.validateSubObjectCode(assignmentAccount, assignment.getEffectiveLocalDate());
-					if(assignmentAccount.getSubAcctNbr() != null) {
+					if(assignmentAccount.getSubAcctNbr() != null && !assignmentAccount.getSubAcctNbr().isEmpty()) {
 						valid &= this.validateSubAccount(assignmentAccount);
 					}
 				}

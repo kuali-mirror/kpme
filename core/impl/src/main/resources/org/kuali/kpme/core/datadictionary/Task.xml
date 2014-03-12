@@ -23,7 +23,7 @@
 
     <bean id="Task" parent="Task-parentBean" />
     <bean id="Task-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-        <property name="businessObjectClass" value="org.kuali.kpme.core.task.Task" />
+        <property name="dataObjectClass" value="org.kuali.kpme.core.task.Task" />
         <property name="inquiryDefinition">
             <ref bean="Task-inquiryDefinition" />
         </property>
@@ -41,21 +41,6 @@
                 <ref bean="Task-administrativeDescription" />
             </list>
         </property>
-        <property name="relationships">
-            <bean parent="RelationshipDefinition">
-                <property name="objectAttributeName" value="workAreaObj" />
-                <property name="primitiveAttributes">
-                    <list>
-                        <bean parent="PrimitiveAttributeDefinition" 
-                              p:sourceName="workArea"
-                              p:targetName="workArea" />
-                        <bean parent="PrimitiveAttributeDefinition" 
-                              p:sourceName="effectiveDate"
-                              p:targetName="effectiveDate" />
-                    </list>
-                </property>
-            </bean>
-        </property>
     </bean>
 
     <!-- Attribute Definitions -->
@@ -71,6 +56,9 @@
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
         <property name="shortLabel" value="Task Id" />
         <property name="label" value="Task Id" />
@@ -91,6 +79,9 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="45" />
         </property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="45" />
+		</property>
         <property name="label" value="Description" />
         <property name="shortLabel" value="Description" />
         <property name="description" value="Description" />
@@ -104,6 +95,9 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="45" />
         </property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="45" />
+		</property>
         <property name="label" value="Administrative Description" />
         <property name="shortLabel" value="Administrative Description" />
         <property name="description" value="Administrative Description" />
@@ -160,4 +154,45 @@
         <property name="title" value="Task Lookup" />
     </bean>
     
+    
+   <bean id="Task-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+	    <property name="headerText" value="Task Lookup" />
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.task.Task" />
+	    <property name="criteriaFields">
+	    	<list merge="true">
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="task" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workArea" />    	
+	    	</list>
+	 	</property>
+	 	<property name="resultFields" >
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="task" />
+                <bean parent="Uif-DataField" p:propertyName="description" />
+                <bean parent="Uif-DataField" p:propertyName="workArea" />
+            </list>
+        </property>
+	</bean>
+	
+	<bean id="Task-InquiryView" parent="Uif-InquiryView">
+	    <property name="headerText" value="Task Inquiry"/>
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.task.Task"/>
+	    <property name="singlePageView" value="true"/>
+	    <property name="items">
+      		<list>
+	  			<bean parent="Uif-Disclosure-GridSection">
+			      <property name="layoutManager.numberOfColumns" value="2"/>
+			      <property name="items">
+		       	 	<list>
+                            <bean parent="Uif-DataField" p:propertyName="tkTaskId" />
+                            <bean parent="Uif-DataField" p:propertyName="workArea" />
+                            <bean parent="Uif-DataField" p:propertyName="description" />
+                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+		        	</list>
+		     	 </property>
+		     	 <property name="title" value="Task Inquiry"/>
+		   	   </bean>
+      		</list>
+	 	 </property>
+ 	 </bean>
 </beans>
