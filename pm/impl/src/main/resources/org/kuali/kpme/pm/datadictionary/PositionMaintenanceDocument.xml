@@ -807,7 +807,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="classificationTitle"/>
-				<bean parent="Uif-InputField" p:propertyName="process"/>
+				<bean parent="Uif-InputField" p:propertyName="process" p:refreshWhenChangedPropertyNames="#dp.process"/>
 				<bean parent="Uif-InputField" p:propertyName="primaryDepartment" />
 				<bean parent="Uif-InputField" p:propertyName="location" />
 				<bean parent="Uif-InputField" p:propertyName="positionType" />
