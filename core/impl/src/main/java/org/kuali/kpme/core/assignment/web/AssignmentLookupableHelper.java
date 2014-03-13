@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;

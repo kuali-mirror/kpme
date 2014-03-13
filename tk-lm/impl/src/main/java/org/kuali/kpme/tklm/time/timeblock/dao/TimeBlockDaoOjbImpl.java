@@ -15,11 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -28,10 +23,14 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TimeBlockDao {
 
@@ -67,7 +66,7 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
     }
 
     @SuppressWarnings("unchecked")
-    public List<TimeBlockBo> getTimeBlocksForAssignment(AssignmentContract assign) {
+    public List<TimeBlockBo> getTimeBlocksForAssignment(Assignment assign) {
         Criteria rootCriteria = new Criteria();
         rootCriteria.addEqualTo("principalId", assign.getPrincipalId());
         rootCriteria.addEqualTo("jobNumber", assign.getJobNumber());

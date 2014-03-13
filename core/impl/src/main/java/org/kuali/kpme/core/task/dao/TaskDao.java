@@ -19,16 +19,16 @@ package org.kuali.kpme.core.task.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.task.TaskBo;
 
 public interface TaskDao {
-	public Task getTask(String tkTaskId);
-    public Task getTask(Long task, LocalDate asOfDate);
+	public TaskBo getTask(String tkTaskId);
+    public TaskBo getTask(Long task, LocalDate asOfDate);
 
-    public void saveOrUpdate(Task task);
-    public void saveOrUpdate(List<Task> tasks);
-    public Task getMaxTask();
+    public void saveOrUpdate(TaskBo task);
+    public void saveOrUpdate(List<TaskBo> tasks);
+    public TaskBo getMaxTask();
 
-    List<Task> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt);
+    List<TaskBo> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt);
     public int getTaskCount(Long task);
 }

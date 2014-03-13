@@ -20,7 +20,8 @@ import javax.persistence.Transient;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.institution.InstitutionBo;
@@ -39,7 +40,7 @@ public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(PayTypeBo.CACHE_NAME)
             .add(JobBo.CACHE_NAME)
-            .add(Assignment.CACHE_NAME)
+            .add(AssignmentBo.CACHE_NAME)
             .add(CalendarBlockPermissions.CACHE_NAME)
             .build();
     //KPME-2273/1965 Primary Business Keys List.	

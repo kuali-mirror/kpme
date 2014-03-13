@@ -19,24 +19,21 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
+import org.kuali.kpme.core.api.authorization.DepartmentalRule;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
 import org.kuali.kpme.core.api.institution.Institution;
-import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.core.api.paygrade.PayGrade;
-import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
-import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.authorization.DepartmentalRule;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
@@ -326,14 +323,12 @@ public class ValidationUtils {
 		} else if (workArea.equals(HrConstants.WILDCARD_LONG)) {
 			valid = true;
 		} else if (asOfDate != null) {
-			WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea, asOfDate);
+			WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
             if (wa != null && dept != null) {
                 valid = StringUtils.equalsIgnoreCase(dept, wa.getDept());
             } else {
 			    valid = (wa != null);
             }
-		} else {
-            // Not valid if no date is passed.
 		}
 
 		return valid;

@@ -18,8 +18,10 @@ package org.kuali.kpme.tklm.time.util;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -84,7 +86,7 @@ public class TkContext {
 	public static boolean isSynchronous() {
     	boolean isSynchronous = false;
     	
-    	List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), LocalDate.now());
+    	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), LocalDate.now());
     	
     	for (Assignment assignment : assignments) {
     		TimeCollectionRule tcr = null;
@@ -102,7 +104,7 @@ public class TkContext {
     public static boolean isTargetSynchronous() {
     	boolean isSynchronous = false;
     	
-    	List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now());
+    	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(getTargetPrincipalId(), LocalDate.now());
     	
     	for (Assignment assignment : assignments) {
     		TimeCollectionRule tcr = null;

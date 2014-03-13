@@ -15,26 +15,24 @@
  */
 package org.kuali.hr.lm.leaveCalendar;
 
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveCalendarWSForm;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
 
 public class LeaveCalendarTestUtils {
 

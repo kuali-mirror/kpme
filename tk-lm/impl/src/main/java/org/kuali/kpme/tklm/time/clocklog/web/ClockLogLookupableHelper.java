@@ -15,19 +15,12 @@
  */
 package org.kuali.kpme.tklm.time.clocklog.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
@@ -41,6 +34,8 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class ClockLogLookupableHelper extends KPMELookupableHelper {

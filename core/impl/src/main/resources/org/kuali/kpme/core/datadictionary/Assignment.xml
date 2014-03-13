@@ -23,7 +23,7 @@
 	<bean id="Assignment" parent="Assignment-parentBean" />
 
 	<bean id="Assignment-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.assignment.Assignment" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.assignment.AssignmentBo" />
 		<property name="objectLabel" value="Assignment" />
 		<property name="attributes">
 			<list merge="true">
@@ -43,7 +43,7 @@
 			<list>
 				<bean parent="CollectionDefinition">
 					<property name="dataObjectClass"
-						value="org.kuali.kpme.core.assignment.account.AssignmentAccount" />
+						value="org.kuali.kpme.core.assignment.account.AssignmentAccountBo" />
 					<property name="name" value="assignmentAccounts" />
 					<property name="shortLabel" value="Assignment Accounts" />
 					<property name="label" value="Assignment Accounts" />
@@ -128,7 +128,7 @@
     <!--  Assignment Inquiry View -->
    <bean id="Assignment-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Assignment Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.Assignment"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.AssignmentBo"/>
     
     <property name="singlePageView" value="true"/>
     <property name="items">
@@ -159,7 +159,7 @@
   <bean id="Assignment-assignmentAccountsInquiry" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
     <property name="headerText" value="Assignment Accounts"/>
-    <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.account.AssignmentAccount"/>
+    <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.account.AssignmentAccountBo"/>
     <property name="propertyName" value="assignmentAccounts"/>
     <property name="layoutManager.renderSequenceField" value="false"/>
     <property name="layoutManager.separateAddLine" value="true"/>
@@ -181,7 +181,7 @@
   <!--  Assignment Lookup View -->
   <bean id="Assignment-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Assignment Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.Assignment" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.AssignmentBo" />
     <property name="viewHelperServiceClass" value="org.kuali.kpme.core.assignment.web.AssignmentLookupableHelper" />
     <property name="criteriaFields">
       <list merge="true">
@@ -205,7 +205,7 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workArea" >
 			<property name="quickfinder">
-  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkArea"
+  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkAreaBo"
                     p:fieldConversions="workArea:workArea,effectiveDate:relativeEffectiveDate"/>
             </property>        
         </bean>

@@ -18,7 +18,7 @@ package org.kuali.kpme.core.api.permission;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
 import org.springframework.cache.annotation.CachePut;
@@ -177,7 +177,7 @@ public interface HRPermissionService {
 	 * 
 	 * @return true if {@code principalId} can view the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}, false otherwise.
 	 */
-	boolean canViewCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, AssignmentContract assignment);
+	boolean canViewCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, Assignment assignment);
 
 	/**
 	 * Checks whether the given {@code principalId} can edit the LeaveCalendar specified by {@code documentId}.
@@ -198,7 +198,7 @@ public interface HRPermissionService {
 	 * 
 	 * @return true if {@code principalId} can edit the given {@code assignment} attached to the LeaveCalendar specified by {@code documentId}, false otherwise.
 	 */
-	boolean canEditCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, AssignmentContract assignment);
+	boolean canEditCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, Assignment assignment);
 
 	/**
 	 * Checks whether the given {@code principalId} can submit the LeaveCalendar specified by {@code documentId}.

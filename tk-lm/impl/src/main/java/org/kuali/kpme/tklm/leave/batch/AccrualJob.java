@@ -20,12 +20,14 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.tklm.api.leave.accrual.AccrualService;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarServiceImpl;
@@ -47,7 +49,7 @@ public class AccrualJob extends BatchJob {
         
         if (batchUserPrincipalId != null) {
     		LocalDate asOfDate = LocalDate.now();
-			List<Assignment> assignments = (List<Assignment>) getAssignmentService().getActiveAssignments(asOfDate);
+			List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
 			
 			for (Assignment assignment : assignments) {
 				if (assignment.getJob().isEligibleForLeave()) {

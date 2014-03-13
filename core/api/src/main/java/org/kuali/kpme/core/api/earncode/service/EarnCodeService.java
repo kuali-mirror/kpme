@@ -15,16 +15,16 @@
  */
 package org.kuali.kpme.core.api.earncode.service;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.springframework.cache.annotation.Cacheable;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 public interface EarnCodeService {
 
@@ -36,7 +36,7 @@ public interface EarnCodeService {
 	 * @return
 	 */
     @Cacheable(value=EarnCodeContract.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.kpme.core.util.HrContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.core.util.HrContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
-    public List<EarnCode> getEarnCodesForLeave(AssignmentContract a, LocalDate asOfDate, boolean isLeavePlanningCalendar);
+    public List<EarnCode> getEarnCodesForLeave(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar);
 
     /**
      * Fetch a list of earn codes based on principal ID as of a particular date
@@ -132,5 +132,5 @@ public interface EarnCodeService {
 
     List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String leavePlan, String accrualCategory, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
     
-    public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurityContract security, AssignmentContract a, LocalDate asOfDate);
+    public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurityContract security, Assignment a, LocalDate asOfDate);
 }

@@ -17,23 +17,22 @@ package org.kuali.kpme.tklm.time.detail.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.*;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.common.CalendarValidationUtil;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
@@ -224,7 +223,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
 
         //Check that assignment is valid within the timeblock span. 
         AssignmentDescriptionKey assignKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
-        AssignmentContract assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
+        Assignment assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
         if (assign == null) errors.add("Assignment is not valid for start date " + TKUtils.formatDate(new LocalDate(startTime)));
         assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, endTemp.toLocalDate());
         if (assign == null) errors.add("Assignment is not valid for end date " + TKUtils.formatDate(new LocalDate(endTime)));

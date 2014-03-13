@@ -15,19 +15,19 @@
  */
 package org.kuali.kpme.core.job.validation;
 
-import java.util.List;
-
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.util.List;
 
 public class JobValidation extends MaintenanceDocumentRuleBase {
 
@@ -141,7 +141,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 		// If the list is not null, there are active assignments and the job can't be inactivated, so return false, otherwise true
 		if(!job.isActive()) {
 			//this has to use the effective date of the job passed in
-			List<AssignmentContract> aList = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveLocalDate());
+			List<Assignment> aList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(job.getPrincipalId(), job.getJobNumber(), job.getEffectiveLocalDate());
 			if (aList != null && aList.size() > 0) {
 				// error.job.inactivate=Can not inactivate job number {0}.  It is used in active assignments.
 				this.putFieldError("active", "error.job.inactivate", job.getJobNumber().toString());

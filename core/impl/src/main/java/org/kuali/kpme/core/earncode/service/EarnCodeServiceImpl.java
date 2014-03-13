@@ -20,7 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
@@ -29,7 +29,7 @@ import org.kuali.kpme.core.api.earncode.service.EarnCodeService;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.dao.EarnCodeDao;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
@@ -61,12 +61,12 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	}
 
     @Override
-    public List<EarnCode> getEarnCodesForLeave(AssignmentContract a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
+    public List<EarnCode> getEarnCodesForLeave(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         return ModelObjectUtils.transform(getEarnCodeBosForLeave(a, asOfDate, isLeavePlanningCalendar), toEarnCode);
     }
 
 	//Move to LeaveCalendarDocumentService
-    protected List<EarnCodeBo> getEarnCodeBosForLeave(AssignmentContract a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
+    protected List<EarnCodeBo> getEarnCodeBosForLeave(Assignment a, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
         if (a == null){
@@ -165,7 +165,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         return earnCodes;
     }
 
-    public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurityContract security, AssignmentContract a, LocalDate asOfDate) {
+    public boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurityContract security, Assignment a, LocalDate asOfDate) {
         boolean addEarnCode = false;
         if (security.isEmployee() &&
                 (StringUtils.equals(HrContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
@@ -183,9 +183,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
             roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName()));
             List<Long> workAreas = HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRoles(principalId, roleIds, asOfDate.toDateTimeAtStartOfDay(), true);
 
-            for (Long wa : workAreas) {
-                WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(wa, asOfDate);
-                if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
+            List<WorkArea> workAreaList = HrServiceLocator.getWorkAreaService().getWorkAreasForList(workAreas, asOfDate);
+            for (WorkArea workArea : workAreaList) {
+                if (a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
                     addEarnCode = true;
                     break;
                 }
@@ -201,9 +201,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
             roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName()));
             List<Long> workAreas = HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRoles(principalId, roleIds, asOfDate.toDateTimeAtStartOfDay(), true);
 
-            for (Long wa : workAreas) {
-                WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(wa, asOfDate);
-                if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
+            List<WorkArea> workAreaList = HrServiceLocator.getWorkAreaService().getWorkAreasForList(workAreas, asOfDate);
+            for (WorkArea workArea : workAreaList) {
+                if (a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
                     addEarnCode = true;
                     break;
                 }
@@ -233,8 +233,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     @Override
     public List<EarnCode> getEarnCodesForPrincipal(String principalId, LocalDate asOfDate, boolean isLeavePlanningCalendar) {
         Set<EarnCodeBo> earnCodes = new HashSet<EarnCodeBo>();
-        List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
-        for (AssignmentContract assignment : assignments) {
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+        for (Assignment assignment : assignments) {
             List<EarnCodeBo> assignmentEarnCodes = getEarnCodeBosForLeave(assignment, asOfDate, isLeavePlanningCalendar);
             //  the following list processing does work as hoped, comparing the objects' data, rather than their references to memory structures.
             earnCodes.addAll(assignmentEarnCodes);

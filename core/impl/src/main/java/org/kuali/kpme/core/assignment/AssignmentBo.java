@@ -15,30 +15,45 @@
  */
 package org.kuali.kpme.core.assignment;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.assignment.account.AssignmentAccount;
+import org.kuali.kpme.core.assignment.account.AssignmentAccountBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-public class Assignment extends HrBusinessObject implements AssignmentContract {
-
+public class AssignmentBo extends HrBusinessObject implements AssignmentContract {
+    public static final ModelObjectUtils.Transformer<AssignmentBo, Assignment> toAssignment =
+            new ModelObjectUtils.Transformer<AssignmentBo, Assignment>() {
+                public Assignment transform(AssignmentBo input) {
+                    return AssignmentBo.to(input);
+                };
+            };
+    public static final ModelObjectUtils.Transformer<Assignment, AssignmentBo> toAssignmentBo =
+            new ModelObjectUtils.Transformer<Assignment, AssignmentBo>() {
+                public AssignmentBo transform(Assignment input) {
+                    return AssignmentBo.from(input);
+                };
+            };
 	private static final String PRINCIPAL_ID = "principalId";
 	private static final String TASK = "task";
 	private static final String WORK_AREA = "workArea";
@@ -54,7 +69,7 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
             .build();
 
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
-            .add(Assignment.CACHE_NAME)
+            .add(AssignmentBo.CACHE_NAME)
             .add(CalendarBlockPermissions.CACHE_NAME)
             .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Assignment";
@@ -65,21 +80,17 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 	private String hrJobId;
 	private transient JobBo job;
 	private Long workArea;
-	//private Long tkWorkAreaId;
 	private Long task;
 	private String dept;
 	private boolean primaryAssign;
-
-	private transient WorkArea workAreaObj;
-    private String assignmentKey;
-
-	private transient Person principal;
-
-	private transient Task taskObj;
-
     private String calGroup;
 
-	private List<AssignmentAccount> assignmentAccounts = new LinkedList<AssignmentAccount>();
+	private transient WorkAreaBo workAreaObj;
+	private transient Person principal;
+	private transient TaskBo taskObj;
+
+
+	private List<AssignmentAccountBo> assignmentAccounts = new LinkedList<AssignmentAccountBo>();
 
 	
 	@Override
@@ -93,11 +104,11 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 	}
 	
 	
-	public List<AssignmentAccount> getAssignmentAccounts() {
+	public List<AssignmentAccountBo> getAssignmentAccounts() {
 		return assignmentAccounts;
 	}
 
-	public void setAssignmentAccounts(List<AssignmentAccount> assignmentAccounts) {
+	public void setAssignmentAccounts(List<AssignmentAccountBo> assignmentAccounts) {
 		this.assignmentAccounts = assignmentAccounts;
 	}
 
@@ -190,14 +201,14 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 		this.dept = dept;
 	}
 
-	public WorkArea getWorkAreaObj() {
+	public WorkAreaBo getWorkAreaObj() {
 		if(workAreaObj == null && workArea != null) {
-			this.setWorkAreaObj((WorkArea) HrServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveLocalDate()));
+			this.setWorkAreaObj(WorkAreaBo.from(HrServiceLocator.getWorkAreaService().getWorkArea(this.getWorkArea(), this.getEffectiveLocalDate())));
 		}
 		return workAreaObj;
 	}
 
-	public void setWorkAreaObj(WorkArea workAreaObj) {
+	public void setWorkAreaObj(WorkAreaBo workAreaObj) {
 		this.workAreaObj = workAreaObj;
 	}
 
@@ -224,11 +235,11 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 		this.principal = principal;
 	}
 
-	public Task getTaskObj() {
+	public TaskBo getTaskObj() {
 		return taskObj;
 	}
 
-	public void setTaskObj(Task taskObj) {
+	public void setTaskObj(TaskBo taskObj) {
 		this.taskObj = taskObj;
 	}
 
@@ -267,7 +278,7 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
         if (obj.getClass() != getClass())
             return false;
 
-        Assignment rhs = (Assignment)obj;
+        AssignmentBo rhs = (AssignmentBo)obj;
         return new EqualsBuilder().append(principalId, rhs.principalId).append(jobNumber, rhs.jobNumber)
                 .append(workArea, rhs.workArea).append(task, rhs.task).isEquals();
     }
@@ -289,6 +300,10 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
         return new AssignmentDescriptionKey(this).toAssignmentKeyString();
     }
 
+    public AssignmentDescriptionKey getAssignmentDescriptionKey() {
+        return new AssignmentDescriptionKey(this);
+    }
+
 
 	public boolean isPrimaryAssign() {
 		return primaryAssign;
@@ -298,7 +313,48 @@ public class Assignment extends HrBusinessObject implements AssignmentContract {
 	public void setPrimaryAssign(boolean primaryAssign) {
 		this.primaryAssign = primaryAssign;
 	}
-    
-	
+
+    public static AssignmentBo from(Assignment im) {
+        if (im == null) {
+            return null;
+        }
+        AssignmentBo assign = new AssignmentBo();
+
+        assign.setTkAssignmentId(im.getTkAssignmentId());
+        assign.setPrincipalId(im.getPrincipalId());
+        assign.setJobNumber(im.getJobNumber());
+        assign.setWorkArea(im.getWorkArea());
+        assign.setTask(im.getTask());
+        assign.setDept(im.getDept());
+        assign.setPrimaryAssign(im.isPrimaryAssign());
+        assign.setCalGroup(im.getCalGroup());
+        assign.setJob(JobBo.from(im.getJob()));
+        assign.setWorkAreaObj(WorkAreaBo.from(im.getWorkAreaObj()));
+        assign.setTaskObj(TaskBo.from(im.getTaskObj()));
+        if (CollectionUtils.isEmpty(im.getAssignmentAccounts())) {
+            assign.setAssignmentAccounts(Collections.<AssignmentAccountBo>emptyList());
+        } else {
+            assign.setAssignmentAccounts(ModelObjectUtils.transform(im.getAssignmentAccounts(), AssignmentAccountBo.toAssignmentAccountBo));
+        }
+
+        assign.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        assign.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            assign.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        assign.setUserPrincipalId(im.getUserPrincipalId());
+        assign.setVersionNumber(im.getVersionNumber());
+        assign.setObjectId(im.getObjectId());
+
+        return assign;
+    }
+
+    public static Assignment to(AssignmentBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return Assignment.Builder.create(bo).build();
+    }
 
 }

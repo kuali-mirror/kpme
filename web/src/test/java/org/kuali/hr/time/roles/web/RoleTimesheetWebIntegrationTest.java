@@ -15,11 +15,9 @@
  */
 package org.kuali.hr.time.roles.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.gargoylesoftware.htmlunit.html.DomElement;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -32,19 +30,19 @@ import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.workflow.TimesheetWebTestBase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
-import com.gargoylesoftware.htmlunit.html.DomElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * See: https://wiki.kuali.org/display/KPME/Role+Security+Grid
@@ -92,7 +90,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(userId, JAN_AS_OF_DATE.toLocalDate());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(userId, JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
         List<EarnCode> earnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
@@ -177,7 +175,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
         List<EarnCode> earnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());
@@ -232,7 +230,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
         List<EarnCode> earnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());

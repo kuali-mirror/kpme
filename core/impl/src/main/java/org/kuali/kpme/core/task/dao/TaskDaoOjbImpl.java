@@ -24,65 +24,64 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
     
 	@Override
-	public Task getTask(String tkTaskId) {
+	public TaskBo getTask(String tkTaskId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkTaskId", tkTaskId);
 		
-		Query query = QueryFactory.newQuery(Task.class, crit);
-		return (Task)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(TaskBo.class, crit);
+		return (TaskBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
     @Override
-    public Task getMaxTask() {
+    public TaskBo getMaxTask() {
         Criteria root = new Criteria();
         Criteria crit = new Criteria();
 
-        ReportQueryByCriteria taskNumberSubQuery = QueryFactory.newReportQuery(Task.class, crit);
+        ReportQueryByCriteria taskNumberSubQuery = QueryFactory.newReportQuery(TaskBo.class, crit);
         taskNumberSubQuery.setAttributes(new String[]{"max(task)"});
 
         root.addEqualTo("task", taskNumberSubQuery);
 
-        Query query = QueryFactory.newQuery(Task.class, root);
-        return (Task) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(TaskBo.class, root);
+        return (TaskBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     @Override
-    public Task getTask(Long task, LocalDate asOfDate) {
+    public TaskBo getTask(Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("task", task);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Task.class, asOfDate, Task.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Task.class, Task.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TaskBo.class, asOfDate, TaskBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TaskBo.class, TaskBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Task t = null;
-        Query query = QueryFactory.newQuery(Task.class, root);
+        TaskBo t = null;
+        Query query = QueryFactory.newQuery(TaskBo.class, root);
         Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-        if (obj instanceof Task)
-            t = (Task) obj;
+        if (obj instanceof TaskBo)
+            t = (TaskBo) obj;
 
         return t;
     }
 
     @Override
-    public void saveOrUpdate(Task task) {
+    public void saveOrUpdate(TaskBo task) {
         this.getPersistenceBrokerTemplate().store(task);
     }
 
     @Override
-    public void saveOrUpdate(List<Task> tasks) {
-        for (Task task : tasks)
+    public void saveOrUpdate(List<TaskBo> tasks) {
+        for (TaskBo task : tasks)
             this.getPersistenceBrokerTemplate().store(task);
     }
     
@@ -90,10 +89,10 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
     
     @SuppressWarnings("unchecked")
 	@Override
-    public List<Task> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt) {
+    public List<TaskBo> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt) {
         Criteria root = new Criteria();
 
-        List<Task> results = new ArrayList<Task>();
+        List<TaskBo> results = new ArrayList<TaskBo>();
 
         if (task != null) {
         	root.addLike("task", task);
@@ -123,10 +122,10 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Task.class, effectiveDateFilter, Task.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Task.class, Task.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(TaskBo.class, effectiveDateFilter, TaskBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TaskBo.class, TaskBo.BUSINESS_KEYS, false));
 
-        Query query = QueryFactory.newQuery(Task.class, root);
+        Query query = QueryFactory.newQuery(TaskBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
@@ -136,7 +135,7 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
     public int getTaskCount(Long task) {
     	Criteria crit = new Criteria();
 		crit.addEqualTo("task",task);
-		Query query = QueryFactory.newQuery(Task.class, crit);
+		Query query = QueryFactory.newQuery(TaskBo.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
     }
 

@@ -19,9 +19,8 @@ import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.job.JobBo;
-import org.kuali.kpme.core.task.Task;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.task.TaskBo;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -57,8 +56,8 @@ public class ClockLog extends PersistableBusinessObjectBase implements ClockLogC
     private boolean clockedByMissedPunch;
 
     private transient Job job;
-    private transient WorkArea workAreaObj;
-    private transient Task taskObj;
+    private transient WorkAreaBo workAreaObj;
+    private transient TaskBo taskObj;
 
     private transient Person principal;
     
@@ -180,19 +179,19 @@ public class ClockLog extends PersistableBusinessObjectBase implements ClockLogC
 		this.job = job;
 	}
 
-	public WorkArea getWorkAreaObj() {
+	public WorkAreaBo getWorkAreaObj() {
 		return workAreaObj;
 	}
 
-	public void setWorkAreaObj(WorkArea workAreaObj) {
+	public void setWorkAreaObj(WorkAreaBo workAreaObj) {
 		this.workAreaObj = workAreaObj;
 	}
 
-	public Task getTaskObj() {
+	public TaskBo getTaskObj() {
 		return taskObj;
 	}
 
-	public void setTaskObj(Task taskObj) {
+	public void setTaskObj(TaskBo taskObj) {
 		this.taskObj = taskObj;
 	}
 

@@ -20,13 +20,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
-import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -76,8 +74,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         lcd.setLeaveBlocks(leaveBlocks);
 
         // Fetching assignments
-        List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
-        lcd.setAssignments((List<AssignmentContract>)assignments);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
+        lcd.setAssignments(assignments);
         
         return lcd;
     }
@@ -119,8 +117,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     		return false;
     	}
         
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
-    	List<Assignment> results = (List<Assignment>) HrServiceLocator.getAssignmentService().filterAssignments(assignments, HrConstants.FLSA_STATUS_EXEMPT, true);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
+    	List<Assignment> results = HrServiceLocator.getAssignmentService().filterAssignments(assignments, HrConstants.FLSA_STATUS_EXEMPT, true);
     	return CollectionUtils.isNotEmpty(results);
     }
     
@@ -205,7 +203,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntryContract calEntry) {
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
-        List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
         ldoc.setAssignments(assignments);
     }
 
@@ -226,7 +224,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 		lcdh.setEndDate(calendarEntry.getEndPeriodDateTime());
 		leaveCalendarDocument.setDocumentHeader(lcdh);
 		// Fetching assignments
-        List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
         leaveCalendarDocument.setAssignments(assignments);
 		return leaveCalendarDocument;
 	}

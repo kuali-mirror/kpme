@@ -18,17 +18,17 @@ package org.kuali.kpme.core.workarea.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 
 public interface WorkAreaDao {
 
-    WorkArea getWorkArea(Long workArea, LocalDate asOfDate);
-    List<WorkArea> getWorkArea(String department, LocalDate asOfDate);
-    List<WorkArea> getWorkAreaForDepartments(List<String> department, LocalDate asOfDate);
-    void saveOrUpdate(WorkArea workArea);
-    WorkArea getWorkArea(String tkWorkAreaId);
+    WorkAreaBo getWorkArea(Long workArea, LocalDate asOfDate);
+    List<WorkAreaBo> getWorkArea(String department, LocalDate asOfDate);
+    List<WorkAreaBo> getWorkAreaForDepartments(List<String> department, LocalDate asOfDate);
+    void saveOrUpdate(WorkAreaBo workArea);
+    WorkAreaBo getWorkArea(String tkWorkAreaId);
     Long getNextWorkAreaKey();
-    List<WorkArea> getWorkAreas(String dept, String workArea, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    List<WorkAreaBo> getWorkAreas(String dept, String workArea, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     int getWorkAreaCount(String dept, Long workArea);
-    List<WorkArea> getWorkAreas(List<Long> workAreas, LocalDate asOfDate);
+    List<WorkAreaBo> getWorkAreas(List<Long> workAreas, LocalDate asOfDate);
 }

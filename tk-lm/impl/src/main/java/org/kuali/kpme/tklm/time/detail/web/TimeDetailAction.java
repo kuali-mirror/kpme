@@ -15,20 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.detail.web;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
@@ -44,21 +30,20 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
@@ -67,7 +52,6 @@ import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -80,11 +64,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
-import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
-import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
-import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
-import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
-import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
+import org.kuali.kpme.tklm.time.timesummary.*;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -96,6 +76,12 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -126,7 +112,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         if (calendarEntry != null && timesheetDocument != null) {
 			List<String> assignmentKeys = new ArrayList<String>();
-	        for (AssignmentContract assignment : timesheetDocument.getAssignments()) {
+	        for (Assignment assignment : timesheetDocument.getAssignments()) {
 	        	assignmentKeys.add(assignment.getAssignmentKey());
 	        }
 
@@ -389,9 +375,9 @@ public class TimeDetailAction extends TimesheetAction {
         tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 
-        List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
             assignmentKeys.add(assignment.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
@@ -516,14 +502,14 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
-        AssignmentContract currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+        Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getCalendarEntry(), selectedEarnCode, leaveAmount, desc, currentAssignment,
                 spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, HrContext.getTargetPrincipalId());
 
-        List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
           	assignmentKeys.add(assignment.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
@@ -575,7 +561,7 @@ public class TimeDetailAction extends TimesheetAction {
             }
         }
 
-        AssignmentContract currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+        Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
         DateTime startTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
@@ -673,9 +659,9 @@ public class TimeDetailAction extends TimesheetAction {
 	        }
         }
 
-		List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
+		List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
             	assignmentKeys.add(assignment.getAssignmentKey());
         }
 
@@ -737,7 +723,7 @@ public class TimeDetailAction extends TimesheetAction {
             LeaveBlock.Builder builder = LeaveBlock.Builder.create(updatedLeaveBlock);
             if (!updatedLeaveBlock.getLeaveAmount().equals(tdaf.getLeaveAmount())) {
                 builder.setLeaveAmount(tdaf.getLeaveAmount());
-                AssignmentContract assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+                Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
                 builder.setAssignmentKey(tdaf.getSelectedAssignment());
                 builder.setJobNumber(assignment.getJobNumber());
                 builder.setWorkArea(assignment.getWorkArea());
@@ -772,9 +758,9 @@ public class TimeDetailAction extends TimesheetAction {
             LmServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
         }
         
-        List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
             assignmentKeys.add(assignment.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(targetPrincipalId, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
@@ -798,7 +784,7 @@ public class TimeDetailAction extends TimesheetAction {
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        AssignmentContract assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         //Grab timeblock to be updated from form
         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
@@ -824,7 +810,7 @@ public class TimeDetailAction extends TimesheetAction {
         }
         
         AssignmentDescriptionKey assignKey = AssignmentDescriptionKey.get(oldAssignmenString);
-        Assignment oldAssignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(updatedTimeBlock.getPrincipalId(), assignKey, updatedTimeBlock.getBeginDateTime().toLocalDate());
+        Assignment oldAssignment = HrServiceLocator.getAssignmentService().getAssignment(updatedTimeBlock.getPrincipalId(), assignKey, updatedTimeBlock.getBeginDateTime().toLocalDate());
         String oldRegEarnCode = oldAssignment.getJob().getPayTypeObj().getRegEarnCode();
         
         List<TimeHourDetail.Builder> tempList = new ArrayList<TimeHourDetail.Builder>();
@@ -846,9 +832,9 @@ public class TimeDetailAction extends TimesheetAction {
 
         if (updatedTimeBlock != null
         		&& earnCodes.contains(updatedTimeBlock.getEarnCode())) {
-        	List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
+        	List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
             List<String> assignmentKeys = new ArrayList<String>();
-            for (AssignmentContract assign : assignments) {
+            for (Assignment assign : assignments) {
                 	assignmentKeys.add(assign.getAssignmentKey());
             }        	
             List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
@@ -887,9 +873,9 @@ public class TimeDetailAction extends TimesheetAction {
        // remove the related time hour detail row with the lunch deduction
        TkServiceLocator.getTimeHourDetailService().removeTimeHourDetail(thd.getTkTimeHourDetailId());
         
-       List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
+       List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
        List<String> assignmentKeys = new ArrayList<String>();
-       for (AssignmentContract assignment : assignments) {
+       for (Assignment assignment : assignments) {
            	assignmentKeys.add(assignment.getAssignmentKey());
        }
        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(HrContext.getTargetPrincipalId(), tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);
@@ -925,9 +911,9 @@ public class TimeDetailAction extends TimesheetAction {
           for (TimeBlock tb : newTimeBlocks) {
               referenceTimeBlocks.add(TimeBlock.copy(tb));
           }
-          List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
+          List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
           List<String> assignmentKeys = new ArrayList<String>();
-          for (AssignmentContract assignment : assignments) {
+          for (Assignment assignment : assignments) {
               assignmentKeys.add(assignment.getAssignmentKey());
           }
           List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, tdaf.getTimesheetDocument().getAsOfDate(), tdaf.getTimesheetDocument().getDocEndDate(), assignmentKeys);

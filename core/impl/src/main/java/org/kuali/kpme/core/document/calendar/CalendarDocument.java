@@ -15,33 +15,31 @@
  */
 package org.kuali.kpme.core.document.calendar;
 
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
+
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKUtils;
-
 public abstract class CalendarDocument implements Serializable, CalendarDocumentContract{
 	private static final long serialVersionUID = 6074564807962995821L;
 	protected CalendarDocumentHeader documentHeader;
-	protected List<AssignmentContract> assignments = new LinkedList<AssignmentContract>();
+	protected List<Assignment> assignments = new LinkedList<Assignment>();
 	protected CalendarEntryContract calendarEntry = null;
 	protected LocalDate asOfDate;
 	protected String calendarType;
 	
 	public abstract CalendarDocumentHeader getDocumentHeader();
 
-	public abstract List<AssignmentContract> getAssignments();
+	public abstract List<Assignment> getAssignments();
 
 	public abstract CalendarEntryContract getCalendarEntry();
 
@@ -71,15 +69,15 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
     
     public Map<String, String> getAssignmentDescriptions() {
    	 Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-     for (AssignmentContract assignment : assignments) {
+     for (Assignment assignment : assignments) {
              assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
      }
      return assignmentDescriptions;
     }
     
-    public AssignmentContract getAssignment(AssignmentDescriptionKey assignmentDescriptionKey) {
+    public Assignment getAssignment(AssignmentDescriptionKey assignmentDescriptionKey) {
 
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
             if (assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
                     assignment.getWorkArea().compareTo(assignmentDescriptionKey.getWorkArea()) == 0 &&
                     assignment.getTask().compareTo(assignmentDescriptionKey.getTask()) == 0) {
@@ -88,7 +86,7 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
         }
 
         //No assignment found so fetch the inactive ones for this payBeginDate
-        Assignment foundAssign = (Assignment)HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignmentDescriptionKey, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+        Assignment foundAssign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignmentDescriptionKey, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
         if (foundAssign != null) {
             return foundAssign;
         }

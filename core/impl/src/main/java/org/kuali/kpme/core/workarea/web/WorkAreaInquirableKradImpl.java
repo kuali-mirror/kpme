@@ -21,8 +21,9 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocatorInternal;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 
 @SuppressWarnings("deprecation")
@@ -32,19 +33,19 @@ public class WorkAreaInquirableKradImpl extends InquirableImpl {
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public WorkAreaContract retrieveDataObject(Map fieldValues) {
-        WorkAreaContract workAreaObj = null;
+	public WorkAreaBo retrieveDataObject(Map fieldValues) {
+        WorkAreaBo workAreaObj = null;
         
         if (StringUtils.isNotBlank((String) fieldValues.get("tkWorkAreaId"))) {
-            workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea((String) fieldValues.get("tkWorkAreaId"));
+            workAreaObj = HrServiceLocatorInternal.getWorkAreaInternalService().getWorkArea((String) fieldValues.get("tkWorkAreaId"));
         } else if (fieldValues.containsKey("workArea") && fieldValues.containsKey("effectiveDate")) {
             String workAreaVal = (String) fieldValues.get("workArea");
             Long workArea = workAreaVal != null ? Long.valueOf(workAreaVal) : null;
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-            workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, effectiveDate);
+            workAreaObj = HrServiceLocatorInternal.getWorkAreaInternalService().getWorkArea(workArea, effectiveDate);
         } else {
-	    	 workAreaObj = (WorkArea) super.retrieveDataObject(fieldValues);
+	    	 workAreaObj = (WorkAreaBo) super.retrieveDataObject(fieldValues);
         }
 
 		return workAreaObj;

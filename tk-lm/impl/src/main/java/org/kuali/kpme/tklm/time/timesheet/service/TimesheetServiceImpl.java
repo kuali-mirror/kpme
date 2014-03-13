@@ -15,9 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.timesheet.service;
 
-import java.math.BigDecimal;
-import java.util.*;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -27,28 +24,26 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.permission.HRPermissionService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
-import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.common.WorkflowTagSupport;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -69,6 +64,9 @@ import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
@@ -157,7 +155,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         TimesheetDocumentHeader header = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, begin, end);
 
         if (header == null) {
-            List<Assignment> activeAssignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarDates);
+            List<Assignment> activeAssignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarDates);
             //HrServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payCalendarDates.getEndPeriodDate()));
             if (activeAssignments.size() == 0) {
                 LOG.warn("No active assignments for " + principalId + " for " + calendarDates.getEndPeriodDate());
@@ -194,7 +192,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         if (principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
         	List<SystemScheduledTimeOff> sstoList = LmServiceLocator.getSysSchTimeOffService()
         		.getSystemScheduledTimeOffForPayPeriod(principalCalendar.getLeavePlan(), beginDate, endDate);
-        	AssignmentContract sstoAssign = getAssignmentToApplyScheduledTimeOff(timesheetDocument.getPrincipalId(), timesheetDocument.getAssignments(), endDate);
+            Assignment sstoAssign = getAssignmentToApplyScheduledTimeOff(timesheetDocument.getPrincipalId(), timesheetDocument.getAssignments(), endDate);
         	if (sstoAssign != null) {
         		for(SystemScheduledTimeOff ssto : sstoList) {
                   BigDecimal sstoCalcHours = LmServiceLocator.getSysSchTimeOffService().calculateSysSchTimeOffHours(sstoAssign.getJob(), ssto.getAmountofTime());
@@ -210,9 +208,9 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
     }
 
-    private AssignmentContract getAssignmentToApplyScheduledTimeOff(String principalId, List<AssignmentContract> assignments, LocalDate endDate) {
+    private Assignment getAssignmentToApplyScheduledTimeOff(String principalId, List<Assignment> assignments, LocalDate endDate) {
 		JobContract primaryJob = HrServiceLocator.getJobService().getPrimaryJob(principalId, endDate);
-		for(AssignmentContract assign : assignments){
+		for(Assignment assign : assignments){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;
 			}
@@ -290,7 +288,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntryContract payCalEntry) {
-    	tdoc.setAssignments((List<AssignmentContract>)HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry));
+    	tdoc.setAssignments(HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry));
     	if (payCalEntry != null) {
     		tdoc.setJobs(HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));
     	}
@@ -298,9 +296,9 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public boolean isSynchronousUser() {
-        List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
         boolean isSynchronousUser = true;
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
         	if(assignment.getJob() != null) {
 	        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
 	            isSynchronousUser &= tcr == null || tcr.isClockUserFl();
@@ -368,7 +366,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	}
 
     @Override
-    public List<EarnCode> getEarnCodesForTime(AssignmentContract a, LocalDate asOfDate, boolean includeRegularEarnCode) {
+    public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate, boolean includeRegularEarnCode) {
         //getEarnCodesForTime and getEarnCodesForLeave have some overlapping logic, but they were separated so that they could follow their own distinct logic, so consolidation of logic is not desirable.
 
         if (a == null) {
@@ -534,7 +532,7 @@ public class TimesheetServiceImpl implements TimesheetService {
             List<String> assignmentKeyList = new ArrayList<String>();
 
 
-            for (AssignmentContract assignment : td.getAssignments()) {
+            for (Assignment assignment : td.getAssignments()) {
                 assignmentKeyList.add(assignment.getAssignmentKey());
             }
 
@@ -589,7 +587,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         if (timesheetDocument != null && WorkflowTagSupport.isTimesheetApprovalButtonsDisplaying(timesheetDocument.getDocumentId())) {
 
             String assignmentDesc = "";
-            for (AssignmentContract assignment : timesheetDocument.getAssignments()) {
+            for (Assignment assignment : timesheetDocument.getAssignments()) {
                 //get standard hours for job on assignment
                 BigDecimal standardHours = assignment.getJob().getStandardHours();
                 LocalDate jobStartDate = assignment.getJob().getEffectiveLocalDate();

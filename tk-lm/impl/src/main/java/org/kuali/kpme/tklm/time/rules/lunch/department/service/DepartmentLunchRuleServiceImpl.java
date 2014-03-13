@@ -15,17 +15,10 @@
  */
 package org.kuali.kpme.tklm.time.rules.lunch.department.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -39,6 +32,12 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleService {
 	public DepartmentLunchRuleDao deptLunchRuleDao;

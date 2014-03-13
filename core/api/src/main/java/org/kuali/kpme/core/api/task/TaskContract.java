@@ -15,15 +15,14 @@
  */
 package org.kuali.kpme.core.api.task;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 
 /**
  * <p>TaskContract interface.</p>
  *
  */
-public interface TaskContract extends HrBusinessObjectContract {
+public interface TaskContract extends KpmeEffectiveDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Task";
 	
@@ -99,5 +98,5 @@ public interface TaskContract extends HrBusinessObjectContract {
 	 * 
 	 * @return workAreaObj for Task
 	 */
-	public WorkAreaContract getWorkAreaObj();	
+	//public WorkAreaContract getWorkAreaObj();
 }

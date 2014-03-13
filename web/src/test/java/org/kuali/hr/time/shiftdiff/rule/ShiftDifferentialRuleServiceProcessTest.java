@@ -15,12 +15,6 @@
  */
 package org.kuali.hr.time.shiftdiff.rule;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
@@ -29,8 +23,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -42,6 +36,12 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
+
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -160,7 +160,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
-		Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO, "admin"));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, (Calendar) HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 		tdoc.setTimeBlocks(blocks);
@@ -247,7 +247,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
-		Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), endOfAugust.getBeginPeriodFullDateTime().toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), endOfAugust.getBeginPeriodFullDateTime().toLocalDate());
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO, "admin"));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, (Calendar) HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 

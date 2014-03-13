@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.timeblock.web;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -72,7 +72,7 @@ public class TimeBlockRenderer implements TimeBlockRendererContract {
     public String getTitle() {
         StringBuilder b = new StringBuilder();
 
-        WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(timeBlock.getWorkArea(), LocalDate.now());
+        WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), LocalDate.now());
         if(wa != null) {
         	b.append(wa.getDescription());
         }

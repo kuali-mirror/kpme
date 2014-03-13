@@ -16,18 +16,15 @@
 package org.kuali.kpme.tklm.api.time.timeblock;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 
 import javax.jws.WebMethod;
 import javax.jws.WebResult;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import java.math.BigDecimal;
@@ -77,7 +74,7 @@ public interface TimeBlockService {
     //@XmlElementWrapper(name = "timeBlocks", required = true)
     //@XmlElement(name = "timeBlock", required = false)
     @WebResult(name = "timeBlocks")
-	public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntryContract calendarEntry, AssignmentContract assignment, String earnCode, String documentId,
+	public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntryContract calendarEntry, Assignment assignment, String earnCode, String documentId,
 											DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
                                             Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId,
                                             String clockLogBeginId, String clockLogEndId);
@@ -151,7 +148,7 @@ public interface TimeBlockService {
     //@XmlElementWrapper(name = "timeBlocks", required = true)
     //@XmlElement(name = "timeBlock", required = false)
     //@WebResult(name = "timeBlocks")
-	public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntryContract calendarEntry, AssignmentContract assignment, String earnCode,
+	public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntryContract calendarEntry, Assignment assignment, String earnCode,
                                                     String documentId, DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
                                                     Boolean clockLogCreated, Boolean lunchDeleted, String spanningWeeks, String userPrincipalId,
                                                     String clockLogBeginId, String clockLogEndId);
@@ -172,7 +169,7 @@ public interface TimeBlockService {
     //@WebMethod(operationName = "createTimeBlock")
     //@WebResult(name = "timeBlock")
 	public TimeBlock createTimeBlock(String principalId, String documentId, DateTime beginDateTime, DateTime endDateTime,
-										AssignmentContract assignment, String earnCode, BigDecimal hours, BigDecimal amount,
+                                     Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
                                         Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId);
 
     //@WebMethod(operationName = "deleteTimeBlocksAssociatedWithDocumentId")
@@ -252,5 +249,5 @@ public interface TimeBlockService {
     //@XmlElementWrapper(name = "timeBlocks", required = true)
     //@XmlElement(name = "timeBlock", required = false)
     //@WebResult(name = "timeBlocks")
-	public List<TimeBlock> applyHolidayPremiumEarnCode(String principalId, List<AssignmentContract> timeAssignments, List<TimeBlock> appliedTimeBlocks);
+	public List<TimeBlock> applyHolidayPremiumEarnCode(String principalId, List<Assignment> timeAssignments, List<TimeBlock> appliedTimeBlocks);
 }

@@ -15,15 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.detail.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -33,14 +24,13 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -50,6 +40,10 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 public class TimeDetailWSAction extends TimesheetAction {
 
@@ -135,10 +129,10 @@ public class TimeDetailWSAction extends TimesheetAction {
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
         if (StringUtils.isNotBlank(tdaf.getSelectedAssignment())) {
-            List<AssignmentContract> assignments = tdaf.getTimesheetDocument().getAssignments();
+            List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
             AssignmentDescriptionKey key = AssignmentDescriptionKey.get(tdaf.getSelectedAssignment());
             Map<String, EarnCode> regEarnCodes = getRegularEarnCodes(tdaf.getTimesheetDocument());
-            for (AssignmentContract assignment : assignments) {
+            for (Assignment assignment : assignments) {
             	if (assignment.getJobNumber().equals(key.getJobNumber()) &&
             			assignment.getWorkArea().equals(key.getWorkArea()) &&
             			assignment.getTask().equals(key.getTask())) {
@@ -213,17 +207,17 @@ public class TimeDetailWSAction extends TimesheetAction {
     private Map<String, EarnCode> getRegularEarnCodes(TimesheetDocument td) {
     	Map<String, EarnCode> regEarnCodes = new HashMap<String, EarnCode>();
     	if (td != null) {
-    		for (AssignmentContract a : td.getAssignments()) {
+    		for (Assignment a : td.getAssignments()) {
     			if (a.getJob() != null
     					&& a.getJob().getPayTypeObj() != null) {
     				PayTypeContract payType = a.getJob().getPayTypeObj();
                     if (payType.getRegEarnCodeObj() != null) {
-    				EarnCode ec = EarnCode.Builder.create(payType.getRegEarnCodeObj()).build();
-    				if (ec == null
-    						&& StringUtils.isNotEmpty(payType.getRegEarnCode()))  {
-    					ec =  HrServiceLocator.getEarnCodeService().getEarnCode(payType.getRegEarnCode(), payType.getEffectiveLocalDate());
-    				}
-    				regEarnCodes.put(a.getAssignmentKey(), ec);
+                        EarnCode ec = EarnCode.Builder.create(payType.getRegEarnCodeObj()).build();
+                        if (ec == null
+                                && StringUtils.isNotEmpty(payType.getRegEarnCode()))  {
+                            ec =  HrServiceLocator.getEarnCodeService().getEarnCode(payType.getRegEarnCode(), payType.getEffectiveLocalDate());
+                        }
+                        regEarnCodes.put(a.getAssignmentKey(), ec);
                     }
                 }
             }
@@ -234,7 +228,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 	private List<Map<String, Object>> getAssignmentsForRegEarnCode(TimesheetDocument td, String earnCode) {
 		List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
 		if (td != null) {
-			for (AssignmentContract a : td.getAssignments()) {
+			for (Assignment a : td.getAssignments()) {
 				Map<String, Object> assignment = new HashMap<String, Object>();
 				if (earnCode.equals(a.getJob().getPayTypeObj().getRegEarnCode())) {
 					assignment.put("assignment", a.getAssignmentKey());

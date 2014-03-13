@@ -15,15 +15,13 @@
  */
 package org.kuali.hr.lm.workflow;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.workarea.WorkArea;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -39,6 +37,10 @@ import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Deprecated
 public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
@@ -63,7 +65,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 		}
 		
         if (leavePayout != null) {
-            List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveLocalDate());
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
                 String roleStr = roleName + "_" + assignment.getWorkArea();
                 if (!roles.contains(roleStr)) {
@@ -110,7 +112,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
         }
         
         if (leavePayout != null) {
-	        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workAreaNumber, leavePayout.getEffectiveLocalDate());
+	        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leavePayout.getEffectiveLocalDate());
 	
 	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	        

@@ -17,38 +17,30 @@ package org.kuali.kpme.core.workarea.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
-import org.kuali.kpme.core.KPMEAttributes;
 import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.core.api.uif.RemotableAttributeError;
-import org.kuali.rice.core.api.uif.RemotableAttributeField;
-import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.jws.WebParam;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTypeServiceImpl {
     private static final Logger LOG = Logger.getLogger(WorkAreaPeopleFlowTypeServiceImpl.class);
@@ -75,8 +67,8 @@ public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowT
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof Assignable) {
                         Assignable assignable = (Assignable)(md.getNewMaintainableObject().getDataObject());
-                        List<? extends AssignmentContract> assignments = assignable.getAssignments();
-                        for (AssignmentContract ac : assignments) {
+                        List<Assignment> assignments = assignable.getAssignments();
+                        for (Assignment ac : assignments) {
                             workAreaQualifiers.add(
                                     Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(ac.getWorkArea()))
                             );

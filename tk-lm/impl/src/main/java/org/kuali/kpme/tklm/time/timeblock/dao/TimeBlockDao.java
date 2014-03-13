@@ -15,13 +15,12 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.dao;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
+
+import java.util.List;
 
 public interface TimeBlockDao {
 
@@ -35,7 +34,7 @@ public interface TimeBlockDao {
 	
 	public List<TimeBlockBo> getTimeBlocks(String documentId);
 	
-	public List<TimeBlockBo> getTimeBlocksForAssignment(AssignmentContract assign);
+	public List<TimeBlockBo> getTimeBlocksForAssignment(Assignment assign);
 	
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 	

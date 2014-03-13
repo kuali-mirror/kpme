@@ -24,7 +24,7 @@
 
 	<bean id="AssignmentAccount-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass"
-			value="org.kuali.kpme.core.assignment.account.AssignmentAccount" />
+			value="org.kuali.kpme.core.assignment.account.AssignmentAccountBo" />
 		<property name="objectLabel" value="Assignment Account" />
 		<property name="attributes">
 			<list>

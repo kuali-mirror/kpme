@@ -21,7 +21,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.service.HrServiceLocatorInternal;
 
 
 @IntegrationTest
@@ -29,10 +31,10 @@ public class WorkAreaServiceImplTest extends CoreUnitTestCase {
 	
 	@Test
 	public void testSearchWorkAreas() throws Exception {
-		List<WorkArea> allResults = (List<WorkArea>) HrServiceLocator.getWorkAreaService().getWorkAreas("admin", null, null, null, null, null, "Y", "N");
+		List<WorkAreaBo> allResults = HrServiceLocatorInternal.getWorkAreaInternalService().getWorkAreas("admin", null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 8, allResults.size());
 		
-		List<WorkArea> restrictedResults = (List<WorkArea>) HrServiceLocator.getWorkAreaService().getWorkAreas("testuser6", null, null, null, null, null, "Y", "N");
+		List<WorkAreaBo> restrictedResults = HrServiceLocatorInternal.getWorkAreaInternalService().getWorkAreas("testuser6", null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 2, restrictedResults.size());
 	}
 

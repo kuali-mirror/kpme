@@ -15,23 +15,27 @@
  */
 package org.kuali.kpme.core.assignment.account;
 
-import java.math.BigDecimal;
-
+import org.kuali.kpme.core.api.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.api.workarea.WorkArea;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
-import org.kuali.kpme.core.kfs.coa.businessobject.Account;
-import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kpme.core.kfs.coa.businessobject.ProjectCode;
-import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
-import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kpme.core.kfs.coa.businessobject.*;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import com.google.common.collect.ImmutableMap;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-public class AssignmentAccount extends HrBusinessObject implements AssignmentAccountContract {
+public class AssignmentAccountBo extends PersistableBusinessObjectBase implements AssignmentAccountContract {
 
 	private static final long serialVersionUID = 2414818440020234952L;
+    public static final ModelObjectUtils.Transformer<AssignmentAccount, AssignmentAccountBo> toAssignmentAccountBo =
+            new ModelObjectUtils.Transformer<AssignmentAccount, AssignmentAccountBo>() {
+                public AssignmentAccountBo transform(AssignmentAccount input) {
+                    return AssignmentAccountBo.from(input);
+                };
+            };
 	
 	private String tkAssignAcctId;
 	private String finCoaCd;
@@ -44,7 +48,9 @@ public class AssignmentAccount extends HrBusinessObject implements AssignmentAcc
 	private BigDecimal percent;
 	private String earnCode;
 	private String tkAssignmentId;
-	private Assignment assignmentObj;
+    private String userPrincipalId;
+    private boolean active=true;
+	private AssignmentBo assignmentObj;
 	
 	private Account accountObj;
 	private SubAccount subAccountObj;
@@ -54,17 +60,17 @@ public class AssignmentAccount extends HrBusinessObject implements AssignmentAcc
 	private EarnCodeBo earnCodeObj;
 	
 	// TODO returning an empty map for the time-being, until the BK is finalized
-	@Override
+	/*@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.build();
-	}
+	}*/
 	
-	public Assignment getAssignmentObj() {
+	public AssignmentBo getAssignmentObj() {
 		return assignmentObj;
 	}
 
-	public void setAssignmentObj(Assignment assignmentObj) {
+	public void setAssignmentObj(AssignmentBo assignmentObj) {
 		this.assignmentObj = assignmentObj;
 	}
 
@@ -204,7 +210,7 @@ public class AssignmentAccount extends HrBusinessObject implements AssignmentAcc
 		this.earnCodeObj = earnCodeObj;
 	}
 
-	@Override
+	//@Override
 	public String getUniqueKey() {
 		return earnCode +"_"+accountNbr+"_"+subAcctNbr;
 	}
@@ -214,9 +220,58 @@ public class AssignmentAccount extends HrBusinessObject implements AssignmentAcc
 		return tkAssignAcctId;
 	}
 
-	@Override
 	public void setId(String id) {
 		setTkAssignAcctId(id);
 	}
-	
+
+    public String getUserPrincipalId() {
+        return userPrincipalId;
+    }
+
+    public void setUserPrincipalId(String userPrincipalId) {
+        this.userPrincipalId = userPrincipalId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public static AssignmentAccountBo from(AssignmentAccount im) {
+        if (im == null) {
+            return null;
+        }
+        AssignmentAccountBo acct = new AssignmentAccountBo();
+
+        acct.setTkAssignAcctId(im.getTkAssignAcctId());
+        acct.setFinCoaCd(im.getFinCoaCd());
+        acct.setAccountNbr(im.getAccountNbr());
+        acct.setSubAcctNbr(im.getSubAcctNbr());
+        acct.setFinObjectCd(im.getFinObjectCd());
+        acct.setFinSubObjCd(im.getFinSubObjCd());
+        acct.setProjectCd(im.getProjectCd());
+        acct.setOrgRefId(im.getOrgRefId());
+        acct.setEarnCode(im.getEarnCode());
+        acct.setTkAssignmentId(im.getTkAssignmentId());
+        acct.setUserPrincipalId(im.getUserPrincipalId());
+        acct.setPercent(im.getPercent());
+        acct.setActive(im.isActive());
+
+        acct.setUserPrincipalId(im.getUserPrincipalId());
+        acct.setVersionNumber(im.getVersionNumber());
+        acct.setObjectId(im.getObjectId());
+
+        return acct;
+    }
+
+    public static AssignmentAccount to(AssignmentAccountBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return AssignmentAccount.Builder.create(bo).build();
+    }
 }

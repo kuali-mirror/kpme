@@ -29,19 +29,19 @@ public class AssignmentDescriptionKey {
 	private Long task;
 	
 	public static AssignmentDescriptionKey get(String assignmentDescriptionKeyString) {
-		AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey();
+		//AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey();
 		
 		Pattern keyPattern = Pattern.compile("^\\d{1,}_\\d{1,}_\\d{1,}");
 		Matcher match = keyPattern.matcher(assignmentDescriptionKeyString);
 		if (match.matches()) {
 			String[] key = StringUtils.split(assignmentDescriptionKeyString, HrApiConstants.ASSIGNMENT_KEY_DELIMITER);
-			
-			assignmentDescriptionKey.setJobNumber(Long.parseLong(key[0]));
-			assignmentDescriptionKey.setWorkArea(Long.parseLong(key[1]));
-			assignmentDescriptionKey.setTask(Long.parseLong(key[2]));
+			Long jobNumber = Long.parseLong(key[0]);
+			Long workArea = Long.parseLong(key[1]);
+			Long task = Long.parseLong(key[2]);
+            return new AssignmentDescriptionKey(jobNumber, workArea, task);
 		}
 		
-		return assignmentDescriptionKey;
+		return new AssignmentDescriptionKey();
 	}
 	
 	public AssignmentDescriptionKey() {
@@ -65,25 +65,25 @@ public class AssignmentDescriptionKey {
 		return jobNumber;
 	}
 	
-	public void setJobNumber(Long jobNumber) {
+	/*private void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
-	}
+	}*/
 	
 	public Long getWorkArea() {
 		return workArea;
 	}
 	
-	public void setWorkArea(Long workArea) {
+	/*public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
-	}
+	}*/
 	
 	public Long getTask() {
 		return task;
 	}
 	
-	public void setTask(Long task) {
+	/*public void setTask(Long task) {
 		this.task = task;
-	}
+	}*/
 
     public String toAssignmentKeyString() {
         return KpmeUtils.formatAssignmentKey(jobNumber, workArea, task);

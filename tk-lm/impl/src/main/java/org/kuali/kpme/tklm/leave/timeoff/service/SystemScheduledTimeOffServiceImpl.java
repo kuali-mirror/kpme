@@ -15,17 +15,11 @@
  */
 package org.kuali.kpme.tklm.leave.timeoff.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -35,6 +29,12 @@ import org.kuali.kpme.tklm.leave.timeoff.dao.SystemScheduledTimeOffDao;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOffService {
 
@@ -67,9 +67,9 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 		return getSystemScheduledTimeOffDao().getSystemScheduledTimeOffByDate(leavePlan, startDate);
 	}	
 	@Override
-	public AssignmentContract getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
+	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
 		JobContract primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
-		for(AssignmentContract assign : timesheetDocument.getAssignments()){
+		for(Assignment assign : timesheetDocument.getAssignments()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;
 			}

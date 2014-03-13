@@ -23,7 +23,9 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignable;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -298,7 +300,7 @@ public class BalanceTransfer extends HrBusinessObject implements Assignable, Bal
 
     @Override
     public List<Assignment> getAssignments() {
-        return (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), getEffectiveLocalDate());
+        return HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), getEffectiveLocalDate());
     }
 
     //Comparable for order handling of more than one transfer occurring during the same

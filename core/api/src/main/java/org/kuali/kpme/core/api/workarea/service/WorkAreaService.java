@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.workarea.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,11 +26,9 @@ import org.springframework.cache.annotation.Cacheable;
 public interface WorkAreaService {
 	
     @Cacheable(value= WorkAreaContract.CACHE_NAME, key="'tkWorkAreaId=' + #p0")
-    WorkAreaContract getWorkArea(String tkWorkAreaId);
+    WorkArea getWorkArea(String tkWorkAreaId);
     
     Long getNextWorkAreaKey();
-    
-    List<? extends WorkAreaContract> getWorkAreas(String userPrincipalId, String dept, String workArea, String workAreaDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
     /**
      * Fetch the count of the work areas with the given department and workarea
@@ -46,16 +45,7 @@ public interface WorkAreaService {
      * @return
      */
     @Cacheable(value= WorkAreaContract.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
-    WorkAreaContract getWorkArea(Long workArea, LocalDate asOfDate);
-
-    /**
-     * Fetch WorkArea as of a particular date without role sub object data
-     * @param workArea
-     * @param asOfDate
-     * @return
-     */
-    @Cacheable(value= WorkAreaContract.CACHE_NAME, key="'{getWorkAreasWithoutRoles}' + 'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
-    WorkAreaContract getWorkAreaWithoutRoles(Long workArea, LocalDate asOfDate);
+    WorkArea getWorkArea(Long workArea, LocalDate asOfDate);
 
     /**
      * Fetch WorkArea as of a particular date.
@@ -66,7 +56,7 @@ public interface WorkAreaService {
      * @return
      */
     @Cacheable(value= WorkAreaContract.CACHE_NAME, key="'{getWorkAreasWithoutRoles}' + 'workAreas=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
-    List<? extends WorkAreaContract> getWorkAreasWithoutRoles(List<Long> workArea, LocalDate asOfDate);
+    List<WorkArea> getWorkAreasForList(List<Long> workArea, LocalDate asOfDate);
 
     /**
      * Fetch a List of WorkArea objects for a given department as of the
@@ -77,7 +67,7 @@ public interface WorkAreaService {
      * @return A List<WorkArea> that matches the provided params.
      */
     @Cacheable(value= WorkAreaContract.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-    List<? extends WorkAreaContract> getWorkAreas(String department, LocalDate asOfDate);
+    List<WorkArea> getWorkAreas(String department, LocalDate asOfDate);
 
     /**
      * Fetch a List of WorkArea Long objects for a given department as of the
@@ -106,6 +96,6 @@ public interface WorkAreaService {
      * @param workArea
      */
     @CacheEvict(value={WorkAreaContract.CACHE_NAME}, allEntries = true)
-    void saveOrUpdate(WorkAreaContract workArea);
+    WorkArea saveOrUpdate(WorkArea workArea);
 
 }

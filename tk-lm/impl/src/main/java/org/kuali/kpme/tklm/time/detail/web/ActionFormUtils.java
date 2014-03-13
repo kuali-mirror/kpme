@@ -15,17 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.detail.web;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -33,29 +22,31 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ActionFormUtils {
 
@@ -178,7 +169,7 @@ public class ActionFormUtils {
         for (TimeBlockContract timeBlock : timeBlocks) {
             Map<String, Object> timeBlockMap = new LinkedHashMap<String, Object>();
 
-            WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
+            WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
             String workAreaDesc = workArea.getDescription();
 
             timeBlockMap.put("isApprover", isAnyApprover);

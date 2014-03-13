@@ -20,7 +20,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.KPMEConstants;
-import org.kuali.kpme.core.authorization.DepartmentalRule;
+import org.kuali.kpme.core.api.authorization.DepartmentalRule;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;

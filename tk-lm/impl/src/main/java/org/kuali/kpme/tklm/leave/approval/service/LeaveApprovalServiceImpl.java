@@ -15,34 +15,19 @@
  */
 package org.kuali.kpme.tklm.leave.approval.service;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeFieldType;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
+import org.joda.time.*;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.leave.approval.LeaveApprovalService;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
@@ -51,13 +36,10 @@ import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.leave.workflow.LeaveCalendarDocumentHeaderContract;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
@@ -65,6 +47,11 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 	
@@ -575,9 +562,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			idList.addAll(principalIds);
 	     	for(String principalId: idList) {
 	     		boolean leaveFlag = false;
-	     		List<? extends AssignmentContract> activeAssignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+	     		List<Assignment> activeAssignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 	     		if(CollectionUtils.isNotEmpty(activeAssignments)) {
-	         		for(AssignmentContract assignment : activeAssignments) {
+	         		for(Assignment assignment : activeAssignments) {
 	         			if(assignment != null && assignment.getJob() != null && assignment.getJob().isEligibleForLeave()) {
 	         				leaveFlag = true;
 	         				break;
@@ -630,9 +617,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			String flsaStatus, boolean chkForLeaveEligible) {
 		boolean isActiveAssFound = false;
 		LocalDate asOfDate = LocalDate.now();
-		List<? extends AssignmentContract> activeAssignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+		List<Assignment> activeAssignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 		if (activeAssignments != null && !activeAssignments.isEmpty()) {
-			for (AssignmentContract assignment : activeAssignments) {
+			for (Assignment assignment : activeAssignments) {
 				if (assignment != null
 						&& assignment.getJob() != null
 						&& assignment.getJob().getFlsaStatus() != null

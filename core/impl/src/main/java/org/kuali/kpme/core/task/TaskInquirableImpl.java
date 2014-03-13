@@ -29,17 +29,17 @@ public class TaskInquirableImpl extends KualiInquirableImpl {
 	
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
-        TaskContract task = null;
+        TaskBo task = null;
         if (StringUtils.isNotBlank((String)fieldValues.get("tkTaskId"))) {
-        	task = HrServiceLocator.getTaskService().getTask((String) fieldValues.get("tkTaskId"));
+        	task = TaskBo.from(HrServiceLocator.getTaskService().getTask((String) fieldValues.get("tkTaskId")));
         } else if (fieldValues.containsKey("task")) {
             String taskString = (String)fieldValues.get("task");
             Long taskNumber = taskString != null ? Long.parseLong(taskString) : null;
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-            task = HrServiceLocator.getTaskService().getTask(taskNumber, effectiveDate);
+            task = TaskBo.from(HrServiceLocator.getTaskService().getTask(taskNumber, effectiveDate));
         } else {
-        	task = (Task) super.getBusinessObject(fieldValues);
+        	task = (TaskBo) super.getBusinessObject(fieldValues);
         }
 
 		return task;

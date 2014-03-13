@@ -111,6 +111,6 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
     }
 
     public DateTime getCreateTime() {
-        return new DateTime(getTimestamp().getTime());
+        return getTimestamp() == null ? null : new DateTime(getTimestamp().getTime());
     }
 }

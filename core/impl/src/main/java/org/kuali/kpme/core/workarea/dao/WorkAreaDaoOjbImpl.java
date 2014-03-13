@@ -25,97 +25,97 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkAreaDao {
    
     @Override
-    public WorkArea getWorkArea(Long workArea, LocalDate asOfDate) {
+    public WorkAreaBo getWorkArea(Long workArea, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("workArea", workArea);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkArea.class, asOfDate, WorkArea.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, WorkArea.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkAreaBo.class, asOfDate, WorkAreaBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkAreaBo.class, WorkAreaBo.BUSINESS_KEYS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 
-		Query query = QueryFactory.newQuery(WorkArea.class, root);
-		return (WorkArea) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(WorkAreaBo.class, root);
+		return (WorkAreaBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     @Override
-    public List<WorkArea> getWorkAreas(List<Long> workAreas, LocalDate asOfDate) {
+    public List<WorkAreaBo> getWorkAreas(List<Long> workAreas, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addIn("workArea", workAreas);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkArea.class, asOfDate, WorkArea.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, WorkArea.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkAreaBo.class, asOfDate, WorkAreaBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkAreaBo.class, WorkAreaBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(WorkArea.class, root);
+        Query query = QueryFactory.newQuery(WorkAreaBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        List<WorkArea> wal = new ArrayList<WorkArea>(c.size());
+        List<WorkAreaBo> wal = new ArrayList<WorkAreaBo>(c.size());
         wal.addAll(c);
         return wal;
     }
 
     @Override
-    public List<WorkArea> getWorkAreaForDepartments(List<String> departments, LocalDate asOfDate) {
+    public List<WorkAreaBo> getWorkAreaForDepartments(List<String> departments, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addIn("dept", departments);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkArea.class, asOfDate, WorkArea.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, WorkArea.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkAreaBo.class, asOfDate, WorkAreaBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkAreaBo.class, WorkAreaBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(WorkArea.class, root);
+        Query query = QueryFactory.newQuery(WorkAreaBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        List<WorkArea> wal = new ArrayList<WorkArea>(c.size());
+        List<WorkAreaBo> wal = new ArrayList<WorkAreaBo>(c.size());
         wal.addAll(c);
         return wal;
     }
 
     @Override
-     public List<WorkArea> getWorkArea(String department, LocalDate asOfDate) {
+     public List<WorkAreaBo> getWorkArea(String department, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("dept", department);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkArea.class, asOfDate, WorkArea.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, WorkArea.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkAreaBo.class, asOfDate, WorkAreaBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkAreaBo.class, WorkAreaBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(WorkArea.class, root);
+        Query query = QueryFactory.newQuery(WorkAreaBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        List<WorkArea> wal = new ArrayList<WorkArea>(c.size());
+        List<WorkAreaBo> wal = new ArrayList<WorkAreaBo>(c.size());
         wal.addAll(c);
         return wal;
     }
 
     @Override
-    public void saveOrUpdate(WorkArea workArea) {
+    public void saveOrUpdate(WorkAreaBo workArea) {
     	this.getPersistenceBrokerTemplate().store(workArea);
     }
 
 	@Override
-	public WorkArea getWorkArea(String tkWorkAreaId) {
+	public WorkAreaBo getWorkArea(String tkWorkAreaId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("tkWorkAreaId", tkWorkAreaId);
 		
-		Query query = QueryFactory.newQuery(WorkArea.class, crit);
-		return (WorkArea)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(WorkAreaBo.class, crit);
+		return (WorkAreaBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
 	public Long getNextWorkAreaKey(){
@@ -124,8 +124,8 @@ public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkA
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<WorkArea> getWorkAreas(String dept, String workArea, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-		List<WorkArea> results = new ArrayList<WorkArea>();
+	public List<WorkAreaBo> getWorkAreas(String dept, String workArea, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+		List<WorkAreaBo> results = new ArrayList<WorkAreaBo>();
 		
 		Criteria root = new Criteria();
 
@@ -164,11 +164,11 @@ public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkA
         }
 		
 		if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(WorkArea.class, effectiveDateFilter, WorkArea.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, WorkArea.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(WorkAreaBo.class, effectiveDateFilter, WorkAreaBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkAreaBo.class, WorkAreaBo.BUSINESS_KEYS, false));
 		}
 		
-        Query query = QueryFactory.newQuery(WorkArea.class, root);
+        Query query = QueryFactory.newQuery(WorkAreaBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 		
 		return results;
@@ -181,7 +181,7 @@ public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkA
 			crit.addEqualTo("dept", dept);
 		}
 		crit.addEqualTo("workArea", workArea);
-		Query query = QueryFactory.newQuery(WorkArea.class, crit);
+		Query query = QueryFactory.newQuery(WorkAreaBo.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query); 
 	}
 

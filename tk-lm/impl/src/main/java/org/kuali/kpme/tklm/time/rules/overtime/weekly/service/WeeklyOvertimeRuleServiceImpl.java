@@ -18,10 +18,13 @@ package org.kuali.kpme.tklm.time.rules.overtime.weekly.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.*;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -139,7 +142,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) {
                     TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
                     List<String> assignmentKeys = new ArrayList<String>();
-                    for(AssignmentContract assignment : timesheetDocument.getAssignments()) {
+                    for(Assignment assignment : timesheetDocument.getAssignments()) {
                         assignmentKeys.add(assignment.getAssignmentKey());
                     }
 
@@ -163,7 +166,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) {
                     TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
                     List<String> assignmentKeys = new ArrayList<String>();
-                    for(AssignmentContract assignment : timesheetDocument.getAssignments()) {
+                    for(Assignment assignment : timesheetDocument.getAssignments()) {
                         assignmentKeys.add(assignment.getAssignmentKey());
                     }
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
@@ -230,7 +233,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
         String overtimeEarnCode = weeklyOvertimeRule.getConvertToEarnCode();
 
         // KPME-2554 use time block end date instead of passed in asOfDate
-        WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
+        WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), timeBlock.getEndDateTime().toLocalDate());
 		if (StringUtils.isNotBlank(workArea.getDefaultOvertimeEarnCode())){
 			overtimeEarnCode = workArea.getDefaultOvertimeEarnCode();
 		}

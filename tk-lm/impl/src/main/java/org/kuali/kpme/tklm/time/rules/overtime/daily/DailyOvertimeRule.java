@@ -22,8 +22,8 @@ import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.paytype.PayTypeBo;
-import org.kuali.kpme.core.task.Task;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.task.TaskBo;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.kpme.tklm.api.time.rules.overtime.daily.DailyOvertimeRuleContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
@@ -68,8 +68,8 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 	private String hrDeptId;
 	private String hrLocationId;
 	
-	private Task taskObj;
-	private WorkArea workAreaObj;
+	private TaskBo taskObj;
+	private WorkAreaBo workAreaObj;
 	private DepartmentBo departmentObj;
 	private PayTypeBo payTypeObj;
 
@@ -135,19 +135,19 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 		this.dept = dept;
 	}
 
-	public Task getTaskObj() {
+	public TaskBo getTaskObj() {
 		return taskObj;
 	}
 
-	public void setTaskObj(Task taskObj) {
+	public void setTaskObj(TaskBo taskObj) {
 		this.taskObj = taskObj;
 	}
 
-	public WorkArea getWorkAreaObj() {
+	public WorkAreaBo getWorkAreaObj() {
 		return workAreaObj;
 	}
 
-	public void setWorkAreaObj(WorkArea workAreaObj) {
+	public void setWorkAreaObj(WorkAreaBo workAreaObj) {
 		this.workAreaObj = workAreaObj;
 	}
 

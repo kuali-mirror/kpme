@@ -15,28 +15,24 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
@@ -45,7 +41,6 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDao;
 import org.kuali.kpme.tklm.time.rules.TkRuleControllerService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -53,6 +48,10 @@ import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MissedPunchServiceImpl implements MissedPunchService {
 	
@@ -95,7 +94,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     public void addClockLog(MissedPunch missedPunch, String ipAddress) {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
-        Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
         CalendarEntryContract calendarEntry = timesheetDocument.getCalendarEntry();
         
         // use the actual date and time from the document to build the date time with user zone, then apply system time zone to it
@@ -162,7 +161,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     private void addClockLogAndTimeBlocks(MissedPunch missedPunch, String ipAddress, String logEndId, String logBeginId) {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
-        Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
         CalendarEntryContract calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
         DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
@@ -242,9 +241,9 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 	        newTimeBlocks.addAll(blocks);
         }
         
-        List<AssignmentContract> assignments = tdoc.getAssignments();
+        List<Assignment> assignments = tdoc.getAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
         	assignmentKeys.add(assignment.getAssignmentKey());
         }
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(tdoc.getPrincipalId(), tdoc.getAsOfDate(), tdoc.getDocEndDate(), assignmentKeys);

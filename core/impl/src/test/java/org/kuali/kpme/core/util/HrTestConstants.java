@@ -37,13 +37,13 @@ public class HrTestConstants {
 		 * 
 		 */
 
-		public static final String DEPT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.department.Department&returnLocation="+
+		public static final String DEPT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.department.DepartmentBo&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 	
-		public static final String ASSIGNMENT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.assignment.Assignment&returnLocation="+
+		public static final String ASSIGNMENT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.assignment.AssignmentBo&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
-		public static final String ASSIGNMENT_ACCOUNT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.assignment.account.AssignmentAccount&returnLocation="+
+		public static final String ASSIGNMENT_ACCOUNT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.assignment.account.AssignmentAccountBo&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 	
 		public static final String EARN_CODE_SECURITY_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.earncode.security.EarnCodeSecurity&returnLocation="+
@@ -73,7 +73,7 @@ public class HrTestConstants {
 		public static final String WORK_AREA_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.workarea.WorkArea&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 	
-		public static final String TASK_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.task.Task&returnLocation="+
+		public static final String TASK_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.task.TaskBo&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
 		public static final String INSTITUTION_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.institution.InstitutionBo&returnLocation="+
@@ -118,9 +118,9 @@ public class HrTestConstants {
 
 		public static final String PAY_STEP_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.paystep.PayStep&methodToCall=start";
 		
-		public static final String ASSIGNMENT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.assignment.Assignment&methodToCall=start";
+		public static final String ASSIGNMENT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.assignment.AssignmentBo&methodToCall=start";
 	
-		public static final String WORK_AREA_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.workarea.WorkArea&methodToCall=start";
+		public static final String WORK_AREA_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.workarea.WorkAreaBo&methodToCall=start";
 		
 		public static final String ACCURAL_CATEGORY_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.accrualcategory.AccrualCategoryBo&methodToCall=start";
 		

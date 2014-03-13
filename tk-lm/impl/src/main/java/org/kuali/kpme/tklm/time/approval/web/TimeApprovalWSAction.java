@@ -15,18 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.approval.web;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.common.collect.Lists;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -35,33 +24,28 @@ import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
 import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
-import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
-import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
-import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
-import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
+import org.kuali.kpme.tklm.time.timesummary.*;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import com.google.common.collect.Lists;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 public class TimeApprovalWSAction extends KPMEAction {
 
@@ -145,9 +129,9 @@ public class TimeApprovalWSAction extends KPMEAction {
         TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(taaf.getDocumentId());
 		TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
 		
-		List<AssignmentContract> assignments = td.getAssignments();
+		List<Assignment> assignments = td.getAssignments();
 		List<String> assignmentKeys = new ArrayList<String>();
-		for(AssignmentContract assignment : assignments) {
+		for(Assignment assignment : assignments) {
 			assignmentKeys.add(assignment.getAssignmentKey());
 		}
 		List<TimeBlock> timeBlocks = td.getTimeBlocks();

@@ -18,9 +18,12 @@ package org.kuali.kpme.core.task.web;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kpme.core.api.task.Task;
 import org.kuali.kpme.core.bo.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -38,7 +41,7 @@ public class TaskLookupableHelper extends HrEffectiveDateActiveLookupableHelper 
         String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 
-        return HrServiceLocator.getTaskService().getTasks(task, description, workArea, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
+        return ModelObjectUtils.transform(HrServiceLocator.getTaskService().getTasks(task, description, workArea, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt)), TaskBo.toTaskBo);
     }
 
     @Override

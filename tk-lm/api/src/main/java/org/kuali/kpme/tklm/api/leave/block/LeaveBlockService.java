@@ -17,10 +17,9 @@ package org.kuali.kpme.tklm.api.leave.block;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -76,7 +75,7 @@ public interface LeaveBlockService {
 
     @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true)
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntryContract ce, String selectedEarnCode,
-    		BigDecimal hours, String description, AssignmentContract selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId);
+    		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId);
     
     @Caching(evict = {
             @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true),

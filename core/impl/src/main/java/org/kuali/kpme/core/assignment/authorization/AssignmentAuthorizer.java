@@ -15,15 +15,15 @@
  */
 package org.kuali.kpme.core.assignment.authorization;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.department.DepartmentContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
+
+import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class AssignmentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
@@ -35,8 +35,8 @@ public class AssignmentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer 
 
 		String location = StringUtils.EMPTY;
 		
-		if (dataObject instanceof Assignment) {
-			Assignment assignmentObj = (Assignment) dataObject;
+		if (dataObject instanceof AssignmentBo) {
+			AssignmentBo assignmentObj = (AssignmentBo) dataObject;
 			
 			if (assignmentObj != null) {
 				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getEffectiveLocalDate());

@@ -28,7 +28,7 @@
 
 	<bean id="AssignmentMaintenanceDocument-parentBean" abstract="true"
 		parent="uifMaintenanceDocumentEntry" 
-		p:dataObjectClass="org.kuali.kpme.core.assignment.Assignment"
+		p:dataObjectClass="org.kuali.kpme.core.assignment.AssignmentBo"
 		p:businessRulesClass="org.kuali.kpme.core.assignment.validation.AssignmentRule"
 		p:maintainableClass="org.kuali.kpme.core.assignment.web.AssignmentMaintainableServiceImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.assignment.authorization.AssignmentAuthorizer">
@@ -54,7 +54,7 @@
 	  <bean id="Assignment-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
 	  	<property name="viewHelperServiceClass" value="org.kuali.kpme.core.assignment.web.AssignmentMaintainableServiceImpl" />
 	    <property name="headerText" value="Assignment Maintenance"/>
-	    <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.Assignment"/>
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.AssignmentBo"/>
 	    <property name="items">
 	      <list>
 	        <bean parent="Uif-MaintenanceGridSection">
@@ -82,13 +82,13 @@
 			        </bean>
 			        <bean parent="Uif-InputField" p:propertyName="workArea">
 						<property name="quickfinder">
-			  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkArea"
+			  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkAreaBo"
 			                    p:fieldConversions="workArea:workArea,effectiveDate:relativeEffectiveDate" p:lookupParameters="dept:dept"/>
 			            </property>        
 			        </bean>
 			        <bean parent="Uif-InputField" p:propertyName="task" >
 						<property name="quickfinder">
-			  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.task.Task"
+			  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.task.TaskBo"
 			                    p:fieldConversions="workArea:workArea,task:task"/>
 			            </property>        
 			        </bean>
@@ -113,7 +113,7 @@
 	<!-- AssignmentAccounts maintenance section -->
 	<bean id="Assignment-assignmentAccounts" parent="Uif-StackedCollectionGroup">
 	  <property name="headerText" value="Assignment Account"/>
-	  <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.account.AssignmentAccount" />
+	  <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.account.AssignmentAccountBo" />
 	  <property name="propertyName" value="assignmentAccounts" />
       <property name="renderInactiveToggleButton" value="false"/>
 	  <property name="lineActions">

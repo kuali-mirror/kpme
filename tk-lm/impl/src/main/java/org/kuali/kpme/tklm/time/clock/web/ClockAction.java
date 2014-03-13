@@ -26,13 +26,12 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.role.KPMERole;
@@ -40,10 +39,10 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -141,7 +140,7 @@ public class ClockAction extends TimesheetAction {
 		            // if the current clock action is clock out, displays only the clocked-in assignment
 		            String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
 		            clockActionForm.setSelectedAssignment(selectedAssignment);
-		            AssignmentContract assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
+		            Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
 		            Map<String, String> assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
 		            clockActionForm.setAssignmentDescriptions(assignmentDesc);
 		        }
@@ -169,7 +168,7 @@ public class ClockAction extends TimesheetAction {
 		        	}
 		        	
 		        	if(StringUtils.isNotBlank(selectedAssignment)) {
-		        		Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
+		        		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
 		        		if (assignment != null) {
 		        			Long workArea = assignment.getWorkArea();
                             String dept = assignment.getJob().getDept();
@@ -201,7 +200,7 @@ public class ClockAction extends TimesheetAction {
 		
 		            // Check for presence of department lunch rule.
 		            Map<String, Boolean> assignmentDeptLunchRuleMap = new HashMap<String, Boolean>();
-		            for (AssignmentContract a : timesheetDocument.getAssignments()) {
+		            for (Assignment a : timesheetDocument.getAssignments()) {
 	                    String key = AssignmentDescriptionKey.getAssignmentKeyString(a);
 	                    DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(a.getDept(), a.getWorkArea(), clockActionForm.getPrincipalId(), a.getJobNumber(), LocalDate.now());
 	                    assignmentDeptLunchRuleMap.put(key, deptLunchRule != null);
@@ -222,8 +221,8 @@ public class ClockAction extends TimesheetAction {
     	TimesheetDocument timesheetDocument = caf.getTimesheetDocument();
         if (timesheetDocument != null) {
             int eligibleAssignmentCount = 0;
-            for (AssignmentContract a : timesheetDocument.getAssignments()) {
-                WorkAreaContract aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(a.getWorkArea(), timesheetDocument.getDocEndDate());
+            for (Assignment a : timesheetDocument.getAssignments()) {
+                WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(a.getWorkArea(), timesheetDocument.getDocEndDate());
                 if(aWorkArea != null && aWorkArea.isHrsDistributionF()) {
                     eligibleAssignmentCount++;
                 }
@@ -253,8 +252,8 @@ public class ClockAction extends TimesheetAction {
             return mapping.findForward("basic");
         }
         String ip = TKUtils.getIPAddressFromRequest(request);
-        
-        AssignmentContract assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(caf.getSelectedAssignment()));
+
+        Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(caf.getSelectedAssignment()));
         
         // check if User takes action from Valid location.
         String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
@@ -266,9 +265,9 @@ public class ClockAction extends TimesheetAction {
 	        }
         }
         
-        List<? extends AssignmentContract> lstAssingmentAsOfToday = HrServiceLocator.getAssignmentService().getAssignments(pId, LocalDate.now());
+        List<Assignment> lstAssingmentAsOfToday = HrServiceLocator.getAssignmentService().getAssignments(pId, LocalDate.now());
         boolean foundValidAssignment = false;
-        for(AssignmentContract assign : lstAssingmentAsOfToday){
+        for(Assignment assign : lstAssingmentAsOfToday){
         	if((assign.getJobNumber().compareTo(assignment.getJobNumber()) ==0) &&
         		(assign.getWorkArea().compareTo(assignment.getWorkArea()) == 0) &&
         		(assign.getTask().compareTo(assignment.getTask()) == 0)){
@@ -418,7 +417,7 @@ public class ClockAction extends TimesheetAction {
         
     }
 
-    public boolean validateOverlapping(LocalDate asOfDate, List<TimeBlock> tbList, DateTime beginDateTime, DateTime endDateTime, AssignmentContract assignment) {
+    public boolean validateOverlapping(LocalDate asOfDate, List<TimeBlock> tbList, DateTime beginDateTime, DateTime endDateTime, Assignment assignment) {
     	Interval clockInterval = new Interval(beginDateTime, endDateTime);
     	if(clockInterval != null) {
 	    	for(TimeBlock tb : tbList) {
@@ -496,7 +495,7 @@ public class ClockAction extends TimesheetAction {
 			DateTime beginDateTime = TKUtils.convertDateStringToDateTime(beginDates[i], beginTimes[i]);
 			DateTime endDateTime = TKUtils.convertDateStringToDateTime(endDates[i], endTimes[i]);
 			String assignString = assignments[i];
-			Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(assignString);
+			Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(assignString);
 			
 			TimeBlock tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc.getPrincipalId(), tsDoc.getDocumentId(), beginDateTime, endDateTime, assignment, earnCode, hours,BigDecimal.ZERO, false, false, HrContext.getPrincipalId());
 			newTbList.add(tb);
@@ -596,18 +595,17 @@ public class ClockAction extends TimesheetAction {
  	}
 	
 	 private Boolean isPrincipalAnyProcessorInWorkArea(String principalId, Long tbWorkArea, LocalDate asOfDate) {
-	    	Boolean flag = false;
-	        Set<Long> workAreas = new HashSet<Long>();
-	    	workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
-	        workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(),  KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
-	        for (Long wa : workAreas) {
-	            WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
-	            if (workArea!= null && tbWorkArea.compareTo(wa)==0) {
-	                flag = true;
-	                break;
-	            }
-	        }
-	        return flag;
-	    }
-    
+	    Boolean flag = false;
+	    Set<Long> workAreas = new HashSet<Long>();
+	    workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
+	    workAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(),  KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay(), true));
+
+        List<WorkArea> workAreaList = HrServiceLocator.getWorkAreaService().getWorkAreasForList(new ArrayList<Long>(workAreas), asOfDate);
+        for (WorkArea wa : workAreaList) {
+            if (wa.getWorkArea().compareTo(tbWorkArea) == 0) {
+                return true;
+            }
+        }
+        return false;
+     }
 }

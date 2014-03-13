@@ -22,11 +22,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -399,7 +400,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 						}
 			        	else {
 			        		//do NOT block approvers, processors, delegates from approving the document.
-							List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), LocalDate.fromDateFields(effectiveDate));
+							List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), LocalDate.fromDateFields(effectiveDate));
 							for(Assignment assignment : assignments) {
 								if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
 										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))

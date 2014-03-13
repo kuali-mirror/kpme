@@ -15,34 +15,14 @@
  */
 package org.kuali.kpme.core.util;
 
-import java.math.BigDecimal;
-import java.net.UnknownHostException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeFieldType;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.Period;
+import org.joda.time.*;
 import org.kuali.kpme.core.api.KPMEConstants;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.util.KpmeUtils;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -52,6 +32,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.net.UnknownHostException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TKUtils {
 
@@ -112,7 +98,7 @@ public class TKUtils {
     }
 
 
-    public static Map<String, String> formatAssignmentDescription(AssignmentContract assignment) {
+    public static Map<String, String> formatAssignmentDescription(Assignment assignment) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
         String assignmentDescKey = KpmeUtils.formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
         String assignmentDescValue = HrServiceLocator.getAssignmentService().getAssignmentDescription(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), assignment.getEffectiveLocalDate());
@@ -594,9 +580,9 @@ public class TKUtils {
 		return toTime;
 	}
 
-    public static AssignmentContract getAssignmentWithKey(List<AssignmentContract> assignments, AssignmentDescriptionKey assignmentDescriptionKey) {
+    public static Assignment getAssignmentWithKey(List<Assignment> assignments, AssignmentDescriptionKey assignmentDescriptionKey) {
 
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
             if (assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
                     assignment.getWorkArea().compareTo(assignmentDescriptionKey.getWorkArea()) == 0 &&
                     assignment.getTask().compareTo(assignmentDescriptionKey.getTask()) == 0) {

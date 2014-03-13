@@ -29,32 +29,32 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
 
     private static final Logger LOG = Logger.getLogger(AssignmentDaoOjbImpl.class);
      @Override
-    public void saveOrUpdate(Assignment assignment) {
+    public void saveOrUpdate(AssignmentBo assignment) {
         this.getPersistenceBrokerTemplate().store(assignment);
     }
 
     @Override
-    public void saveOrUpdate(List<Assignment> assignments) {
+    public void saveOrUpdate(List<AssignmentBo> assignments) {
         if (assignments != null) {
-            for (Assignment assign : assignments) {
+            for (AssignmentBo assign : assignments) {
                 this.getPersistenceBrokerTemplate().store(assign);
             }
         }
     }
 
     @Override
-    public void delete(Assignment assignment) {
+    public void delete(AssignmentBo assignment) {
         if (assignment != null) {
             LOG.debug("Deleting assignment:" + assignment.getTkAssignmentId());
             this.getPersistenceBrokerTemplate().delete(assignment);
@@ -63,37 +63,37 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         }
     }
 
-    public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
+    public AssignmentBo getAssignment(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("jobNumber", jobNumber);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("task", task);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AssignmentBo.class, asOfDate, AssignmentBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, false));
         //root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         Object o = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
-        return (Assignment) o;
+        return (AssignmentBo) o;
     }
 
 
     @Override
-    public Assignment getAssignmentForTargetPrincipal(Long job, Long workArea, Long task, LocalDate asOfDate) {
+    public AssignmentBo getAssignmentForTargetPrincipal(Long job, Long workArea, Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("jobNumber", job);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("task", task);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AssignmentBo.class, asOfDate, AssignmentBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, false));
         root.addEqualTo("principalId", HrContext.getTargetPrincipalId());
         //root.addEqualTo("active", true);
 
@@ -101,28 +101,28 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         Object o = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
-        return (Assignment) o;
+        return (AssignmentBo) o;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public List<Assignment> findAssignments(String principalId, LocalDate asOfDate) {
-        List<Assignment> assignments = new ArrayList<Assignment>();
+    public List<AssignmentBo> findAssignments(String principalId, LocalDate asOfDate) {
+        List<AssignmentBo> assignments = new ArrayList<AssignmentBo>();
         Criteria root = new Criteria();
 
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AssignmentBo.class, asOfDate, AssignmentBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, false));
         //root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -134,8 +134,8 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public List<Assignment> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate) {
-        List<Assignment> assignments = new ArrayList<Assignment>();
+    public List<AssignmentBo> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate) {
+        List<AssignmentBo> assignments = new ArrayList<AssignmentBo>();
         Criteria root = new Criteria();
 
         root.addGreaterOrEqualThan("effectiveDate", startDate.toDate());
@@ -143,7 +143,7 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("active", true);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -154,20 +154,20 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, LocalDate asOfDate) {
-        List<Assignment> assignments = new ArrayList<Assignment>();
+    public List<AssignmentBo> getActiveAssignmentsInWorkArea(Long workArea, LocalDate asOfDate) {
+        List<AssignmentBo> assignments = new ArrayList<AssignmentBo>();
         Criteria root = new Criteria();
 
         root.addEqualTo("workArea", workArea);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.BUSINESS_KEYS, true));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, true));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AssignmentBo.class, asOfDate, AssignmentBo.BUSINESS_KEYS, true));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, true));
         root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -178,20 +178,20 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
     }
 
     @Override
-    public List<Assignment> getActiveAssignmentsInWorkAreas(List<Long> workAreas, LocalDate asOfDate) {
-        List<Assignment> assignments = new ArrayList<Assignment>();
+    public List<AssignmentBo> getActiveAssignmentsInWorkAreas(List<Long> workAreas, LocalDate asOfDate) {
+        List<AssignmentBo> assignments = new ArrayList<AssignmentBo>();
         Criteria root = new Criteria();
 
         root.addIn("workArea", workAreas);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.BUSINESS_KEYS, true));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, true));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AssignmentBo.class, asOfDate, AssignmentBo.BUSINESS_KEYS, true));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, true));
         root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -201,20 +201,20 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         return assignments;
     }
 
-    public List<Assignment> getActiveAssignments(LocalDate asOfDate) {
-        List<Assignment> assignments = new ArrayList<Assignment>();
+    public List<AssignmentBo> getActiveAssignments(LocalDate asOfDate) {
+        List<AssignmentBo> assignments = new ArrayList<AssignmentBo>();
         
         Criteria root = new Criteria();
         root.addLessOrEqualThan("effectiveDate", asOfDate.toDate());
 
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.BUSINESS_KEYS, true));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, true));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AssignmentBo.class, asOfDate, AssignmentBo.BUSINESS_KEYS, true));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, true));
 
 		Criteria activeFilter = new Criteria();
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -224,30 +224,30 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         return assignments;
     }
 
-    public Assignment getAssignment(String tkAssignmentId) {
+    public AssignmentBo getAssignment(String tkAssignmentId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("tkAssignmentId", tkAssignmentId);
-        Query query = QueryFactory.newQuery(Assignment.class, crit);
-        return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, crit);
+        return (AssignmentBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     // KPME-1129 Kagata
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate) {
-        List<Assignment> assignments = new ArrayList<Assignment>();
+    public List<AssignmentBo> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate) {
+        List<AssignmentBo> assignments = new ArrayList<AssignmentBo>();
         Criteria root = new Criteria();
 
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("jobNumber", jobNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, Assignment.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(AssignmentBo.class, asOfDate, AssignmentBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, false));
         root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {
@@ -259,10 +259,10 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<Assignment> searchAssignments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber, String dept, String workArea, 
+    public List<AssignmentBo> searchAssignments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber, String dept, String workArea,
     										  String active, String showHistory) {
 
-        List<Assignment> results = new ArrayList<Assignment>();
+        List<AssignmentBo> results = new ArrayList<AssignmentBo>();
         
         Criteria root = new Criteria();
 
@@ -315,36 +315,36 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Assignment.class, effectiveDateFilter, Assignment.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(AssignmentBo.class, effectiveDateFilter, AssignmentBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, false));
         }
         
-        Query query = QueryFactory.newQuery(Assignment.class, root);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         
         return results;
     }
     
     @Override
-    public Assignment getMaxTimestampAssignment(String principalId) {
+    public AssignmentBo getMaxTimestampAssignment(String principalId) {
     	Criteria root = new Criteria();
         Criteria crit = new Criteria();
         
         crit.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, crit);
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(AssignmentBo.class, crit);
         timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("timestamp", timestampSubQuery);
 
-        Query query = QueryFactory.newQuery(Assignment.class, root);
-        return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
+        return (AssignmentBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
-    	List<Assignment> results = this.getAssignments(workAreaList, effdt, startDate, endDate);
+    	List<AssignmentBo> results = this.getAssignments(workAreaList, effdt, startDate, endDate);
         Set<String> pids = new HashSet<String>();
-        for(Assignment anAssignment : results) {
+        for(AssignmentBo anAssignment : results) {
         	if(anAssignment != null) {
         		pids.add(anAssignment.getPrincipalId());
         	}
@@ -354,15 +354,15 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
      	return ids;
     }
     
-    public List<Assignment> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
-    	List<Assignment> results = new ArrayList<Assignment>();
+    public List<AssignmentBo> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
+    	List<AssignmentBo> results = new ArrayList<AssignmentBo>();
 		 
 		Criteria activeRoot = new Criteria();
      	Criteria inactiveRoot = new Criteria();
 
-        ReportQueryByCriteria effdtSubQuery = OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Assignment.class, Assignment.BUSINESS_KEYS, false);
-        ReportQueryByCriteria activeEffdtSubQuery = OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, effdt, Assignment.BUSINESS_KEYS, false);
-        ReportQueryByCriteria timestampSubQuery = OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, Assignment.BUSINESS_KEYS, false);
+        ReportQueryByCriteria effdtSubQuery = OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, false);
+        ReportQueryByCriteria activeEffdtSubQuery = OjbSubQueryUtil.getEffectiveDateSubQuery(AssignmentBo.class, effdt, AssignmentBo.BUSINESS_KEYS, false);
+        ReportQueryByCriteria timestampSubQuery = OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, false);
 
         inactiveRoot.addEqualTo("active", "N");
         inactiveRoot.addIn("workArea", workAreaList);
@@ -377,7 +377,7 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         activeRoot.addEqualTo("timestamp", timestampSubQuery);
         activeRoot.addOrCriteria(inactiveRoot);
          
-        Query query = QueryFactory.newQuery(Assignment.class, activeRoot);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, activeRoot);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {
         	results.addAll(c);

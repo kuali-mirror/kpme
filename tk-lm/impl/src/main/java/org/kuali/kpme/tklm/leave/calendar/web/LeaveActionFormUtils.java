@@ -15,23 +15,23 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.web;
 
+import org.joda.time.DateTime;
+import org.json.simple.JSONValue;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.workarea.WorkArea;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.leave.request.approval.web.LeaveRequestApprovalRow;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.joda.time.DateTime;
-import org.json.simple.JSONValue;
-import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
-import org.kuali.kpme.tklm.api.common.TkConstants;
-import org.kuali.kpme.tklm.leave.request.approval.web.LeaveRequestApprovalRow;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 public class LeaveActionFormUtils {
 
@@ -63,7 +63,7 @@ public class LeaveActionFormUtils {
 	            LeaveBlockMap.put("endTime", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
             }
         		
-            WorkAreaContract workArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(leaveBlock.getWorkArea(), leaveBlock.getLeaveLocalDate());
+            WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(leaveBlock.getWorkArea(), leaveBlock.getLeaveLocalDate());
             String workAreaDesc = workArea == null ? "" : workArea.getDescription();
             // Roles
             Boolean getAnyApprover = HrContext.isAnyApprover();

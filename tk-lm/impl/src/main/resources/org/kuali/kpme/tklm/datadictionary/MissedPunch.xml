@@ -414,22 +414,22 @@
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workArea">
 		        <!-- can be enabled once KRAD Views have been defined for task -->
 <!-- 	  				<property name="quickfinder">
-	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkArea"
+	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkAreaBo"
 	  						p:fieldConversions="workArea:workArea"/>
 	  				</property>
 	  				<property name="inquiry">
-	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkArea"
+	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkAreaBo"
 	  						p:inquiryParameters="workArea:workArea"/>
 	  				</property> -->
 				</bean>
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="task">
 		        <!-- can be re-enabled once KRAD Views have been defined for task. -->
 <!-- 	  				<property name="quickfinder">
-	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.task.Task"
+	  					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.task.TaskBo"
 	  						p:fieldConversions="task:task"/>
 	  				</property>
 	  				<property name="inquiry">
-	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.task.Task">
+	  					<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.task.TaskBo">
 	  						<property name="inquiryParameters">
 	  							<map>
 	  								<entry key="workArea" value="workArea"/>

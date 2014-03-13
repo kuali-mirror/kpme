@@ -15,15 +15,20 @@
  */
 package org.kuali.kpme.core.task;
 
+import org.kuali.kpme.core.api.paygrade.PayGrade;
+import org.kuali.kpme.core.api.task.Task;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
-public class Task extends HrBusinessObject implements TaskContract {
+import java.sql.Timestamp;
+
+public class TaskBo extends HrBusinessObject implements TaskContract {
 
 	private static final String TASK = "task";
 
@@ -35,13 +40,26 @@ public class Task extends HrBusinessObject implements TaskContract {
             .add(TASK)
             .build();
 
+    public static final ModelObjectUtils.Transformer<TaskBo, Task> toTask =
+            new ModelObjectUtils.Transformer<TaskBo, Task>() {
+                public Task transform(TaskBo input) {
+                    return TaskBo.to(input);
+                };
+            };
+    public static final ModelObjectUtils.Transformer<Task, TaskBo> toTaskBo =
+            new ModelObjectUtils.Transformer<Task, TaskBo>() {
+                public TaskBo transform(Task input) {
+                    return TaskBo.from(input);
+                };
+            };
+
     private String tkTaskId;
     private Long task;
     private Long workArea;
     private String description;
     private String administrativeDescription;
     
-    private WorkArea workAreaObj;
+    private WorkAreaBo workAreaObj;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -90,11 +108,11 @@ public class Task extends HrBusinessObject implements TaskContract {
     	this.administrativeDescription = administrativeDescription;
     }
 
-	public WorkArea getWorkAreaObj() {
+	public WorkAreaBo getWorkAreaObj() {
 		return workAreaObj;
 	}
 
-	public void setWorkAreaObj(WorkArea workAreaObj) {
+	public void setWorkAreaObj(WorkAreaBo workAreaObj) {
 		this.workAreaObj = workAreaObj;
 	}
 
@@ -112,5 +130,38 @@ public class Task extends HrBusinessObject implements TaskContract {
 	public void setId(String id) {
 		setTkTaskId(id);
 	}
+
+    public static TaskBo from(Task im) {
+        if (im == null) {
+            return null;
+        }
+        TaskBo task = new TaskBo();
+
+        task.setTkTaskId(im.getTkTaskId());
+        task.setTask(im.getTask());
+        task.setDescription(im.getDescription());
+        task.setWorkArea(im.getWorkArea());
+        task.setDescription(im.getDescription());
+        task.setAdministrativeDescription(im.getAdministrativeDescription());
+
+        task.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        task.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            task.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        task.setUserPrincipalId(im.getUserPrincipalId());
+        task.setVersionNumber(im.getVersionNumber());
+        task.setObjectId(im.getObjectId());
+
+        return task;
+    }
+
+    public static Task to(TaskBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return Task.Builder.create(bo).build();
+    }
 
 }

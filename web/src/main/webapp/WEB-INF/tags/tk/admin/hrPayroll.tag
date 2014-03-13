@@ -22,7 +22,7 @@
     <ul class="chan">
         <li>
             <portal:portalLink displayTitle="true" title="Assignment"
-                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.assignment.Assignment&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.assignment.AssignmentBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
         <li>
             <portal:portalLink displayTitle="true" title="Job"
@@ -64,7 +64,7 @@
     <ul class="chan">
         <li>
             <portal:portalLink displayTitle="true" title="Work Area"
-                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.workarea.WorkArea&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.workarea.WorkAreaBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
         <li>
             <portal:portalLink displayTitle="true" title="Department"

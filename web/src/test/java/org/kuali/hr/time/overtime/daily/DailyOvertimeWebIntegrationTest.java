@@ -15,11 +15,8 @@
  */
 package org.kuali.hr.time.overtime.daily;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,11 +26,10 @@ import org.junit.Test;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.workflow.TimesheetWebTestBase;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -41,8 +37,10 @@ import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @FunctionalTest
 public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
@@ -71,7 +69,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         Assert.assertNotNull(form);
 
         // 1. Obtain User Data
-        Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
         Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 

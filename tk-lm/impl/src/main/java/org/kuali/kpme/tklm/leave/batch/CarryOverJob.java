@@ -24,13 +24,15 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryService;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -71,7 +73,7 @@ public class CarryOverJob extends BatchJob {
 
             	LocalDate asOfDate = LocalDate.now();
                 LeavePlanContract leavePlanObj = getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
-                List<Assignment> assignments = (List<Assignment>) getAssignmentService().getActiveAssignments(asOfDate);
+                List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
 
                 //holds a list of principalIds so this isn't run multiple time for the same person
                 Set<String> principalIds = new HashSet<String>();

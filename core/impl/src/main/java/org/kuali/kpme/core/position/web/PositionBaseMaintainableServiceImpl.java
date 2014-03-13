@@ -15,10 +15,7 @@
  */
 package org.kuali.kpme.core.position.web;
 
-import java.sql.Timestamp;
-import java.util.Map;
-
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.cache.CacheUtils;
@@ -30,6 +27,9 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.sql.Timestamp;
+import java.util.Map;
 
 public class PositionBaseMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -82,7 +82,7 @@ public class PositionBaseMaintainableServiceImpl extends HrBusinessObjectMaintai
             	Map<String, String> attributes = roleMember.getAttributes();
             	if (attributes.containsKey(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName())) {
     				Long workArea = Long.valueOf(attributes.get(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName()));
-    				WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, roleMember.getActiveFromDate().toLocalDate());
+    				WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, roleMember.getActiveFromDate().toLocalDate());
     			
     				if (workAreaObj == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 

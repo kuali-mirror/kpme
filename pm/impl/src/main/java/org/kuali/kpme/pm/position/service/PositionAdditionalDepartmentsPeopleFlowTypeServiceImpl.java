@@ -15,33 +15,18 @@
  */
 package org.kuali.kpme.pm.position.service;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 import org.kuali.kpme.pm.position.Position;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import javax.jws.WebParam;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -24,8 +24,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.util.KpmeUtils;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -106,14 +107,10 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
 
     @Test
     public void testFormatAssignmentDescription() throws Exception {
-        Assignment testAssignment = new Assignment();
-        testAssignment.setJobNumber(30L);
-        testAssignment.setWorkArea(30L);
-        testAssignment.setTask(30L);
-        testAssignment.setPrincipalId("admin");
+        Assignment.Builder testAssignment = Assignment.Builder.create("admin", 30L, 30L, 30L);
         testAssignment.setEffectiveLocalDate(new LocalDate(2010,1,1));
 
-        Map<String,String> formattedAssignmentDescription = TKUtils.formatAssignmentDescription(testAssignment);
+        Map<String,String> formattedAssignmentDescription = TKUtils.formatAssignmentDescription(testAssignment.build());
 
         assertTrue(formattedAssignmentDescription.containsKey("30_30_30"));
         Assert.assertEquals("Description is not correct","SDR1 Work Area : $20.00 Rcd 30 TEST-DEPT SDR1 task",formattedAssignmentDescription.get("30_30_30"));
@@ -124,7 +121,7 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
         testAssignment.setPrincipalId("principalId");
         testAssignment.setEffectiveLocalDate(new LocalDate(2013,1,1));
 
-        formattedAssignmentDescription = TKUtils.formatAssignmentDescription(testAssignment);
+        formattedAssignmentDescription = TKUtils.formatAssignmentDescription(testAssignment.build());
         assertTrue(formattedAssignmentDescription.containsKey("999_999_999"));
         Assert.assertEquals("Description is not correct"," : $0.00 Rcd 999 ",formattedAssignmentDescription.get("999_999_999"));
     }

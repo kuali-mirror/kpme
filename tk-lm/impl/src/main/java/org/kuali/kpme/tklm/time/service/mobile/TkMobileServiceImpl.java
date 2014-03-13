@@ -23,8 +23,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
@@ -47,7 +49,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 		if(lastClockLog != null){
 			clockEntryInfo.setLastClockLogDescription(getLastClockLogDescription(principalId));
 		}
-		List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
 		for(Assignment assignment : assignments){
 			if(assignment.getJob() != null) {
@@ -68,7 +70,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 	public Map<String,List<String>> addClockAction(String principalId, String assignmentKey, String clockAction, String ipAddress) {
 		HashMap<String,List<String>> errorWarningMap = new HashMap<String,List<String>>();
 
-		Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(assignmentKey), LocalDate.now());
+		Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(assignmentKey), LocalDate.now());
         // Set person on the context
         // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
         HrContext.setTargetPrincipalId(principalId);

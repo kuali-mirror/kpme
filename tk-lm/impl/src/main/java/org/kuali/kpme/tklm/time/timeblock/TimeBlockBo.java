@@ -23,7 +23,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.block.CalendarBlockBase;
@@ -540,7 +540,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
     public String getAssignmentDescription() {
         if (getJobNumber() != null && getWorkArea() != null && getTask() != null && getBeginDateTime() != null) {
             AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
-            AssignmentContract anAssignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, adk, this.getBeginDateTime().toLocalDate());
+            Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, adk, this.getBeginDateTime().toLocalDate());
             return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
         } else {
             return null;

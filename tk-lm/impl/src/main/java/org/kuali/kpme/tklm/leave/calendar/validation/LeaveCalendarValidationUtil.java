@@ -15,29 +15,13 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.validation;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Hours;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
+import org.joda.time.*;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCode;
@@ -45,7 +29,6 @@ import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -63,6 +46,9 @@ import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
     
@@ -164,7 +150,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
         
         //Check that assignment is valid for both days
         AssignmentDescriptionKey assignKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
-        AssignmentContract assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
+        Assignment assign = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(assignKey, startTemp.toLocalDate());
         
         if ((startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0)) {
             errors.add("The time or date is not valid.");
@@ -567,9 +553,9 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
         String viewPrincipal = HrContext.getTargetPrincipalId();
         
         dayInt.add(addedTimeblockInterval);
-        List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
 		List<String> assignmentKeys = new ArrayList<String>();
-        for(AssignmentContract assign : assignments) {
+        for(Assignment assign : assignments) {
         	assignmentKeys.add(assign.getAssignmentKey());
         }
         

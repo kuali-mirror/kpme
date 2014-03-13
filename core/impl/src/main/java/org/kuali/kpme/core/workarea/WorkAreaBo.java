@@ -15,25 +15,28 @@
  */
 package org.kuali.kpme.core.workarea;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.kuali.kpme.core.api.paytype.PayType;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.authorization.DepartmentalRule;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
-import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
-public class WorkArea extends HrBusinessObject implements DepartmentalRule, WorkAreaContract {
+public class WorkAreaBo extends HrBusinessObject implements WorkAreaContract {
 
 	private static final String WORK_AREA = "workArea";
 
@@ -44,6 +47,18 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 	            .add(WORK_AREA)
 	            .build();
+    public static final ModelObjectUtils.Transformer<WorkAreaBo, WorkArea> toWorkArea =
+            new ModelObjectUtils.Transformer<WorkAreaBo, WorkArea>() {
+                public WorkArea transform(WorkAreaBo input) {
+                    return WorkAreaBo.to(input);
+                };
+            };
+    public static final ModelObjectUtils.Transformer<WorkArea, WorkAreaBo> toWorkAreaBo =
+            new ModelObjectUtils.Transformer<WorkArea, WorkAreaBo>() {
+                public WorkAreaBo transform(WorkArea input) {
+                    return WorkAreaBo.from(input);
+                };
+            };
 
     private String tkWorkAreaId;
     private Long workArea;
@@ -60,7 +75,7 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
     private DepartmentBo department;
     
     @Transient
-    private List<Task> tasks = new ArrayList<Task>();
+    private List<TaskBo> tasks = new ArrayList<TaskBo>();
 
     @Transient
     private List<WorkAreaPrincipalRoleMemberBo> principalRoleMembers = new ArrayList<WorkAreaPrincipalRoleMemberBo>();
@@ -138,8 +153,11 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
     }
     
 	public Boolean getOvtEarnCode() {
-		return ovtEarnCode;
+		return isOvtEarnCode();
 	}
+    public Boolean isOvtEarnCode() {
+        return ovtEarnCode;
+    }
 
 	public void setOvtEarnCode(Boolean ovtEarnCode) {
 		this.ovtEarnCode = ovtEarnCode;
@@ -185,11 +203,11 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
 		this.department = department;
 	}
 
-	public List<Task> getTasks() {
+	public List<TaskBo> getTasks() {
 	    return tasks;
 	}
 
-	public void setTasks(List<Task> tasks) {
+	public void setTasks(List<TaskBo> tasks) {
 	    this.tasks = tasks;
 	}
 	
@@ -264,5 +282,42 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule, Work
 	public void setHrsDistributionF(boolean hrsDistributionF) {
 		this.hrsDistributionF = hrsDistributionF;
 	}
-	
+
+    public static WorkAreaBo from(WorkArea im) {
+        if (im == null) {
+            return null;
+        }
+        WorkAreaBo wa = new WorkAreaBo();
+
+        wa.setTkWorkAreaId(im.getTkWorkAreaId());
+        wa.setWorkArea(im.getWorkArea());
+        wa.setDescription(im.getDescription());
+        wa.setOvertimeEditRole(im.getOvertimeEditRole());
+        wa.setDefaultOvertimeEarnCode(im.getDefaultOvertimeEarnCode());
+        wa.setOvtEarnCode(im.isOvtEarnCode());
+        wa.setDept(im.getDept());
+        wa.setAdminDescr(im.getAdminDescr());
+        wa.setHrsDistributionF(im.isHrsDistributionF());
+        wa.setDefaultOvertimeEarnCodeObj(im.getDefaultOvertimeEarnCodeObj() == null ? null : EarnCodeBo.from(im.getDefaultOvertimeEarnCodeObj()));
+        wa.setDepartment(im.getDepartment() == null ? null : DepartmentBo.from(im.getDepartment()));
+
+        wa.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        wa.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            wa.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        wa.setUserPrincipalId(im.getUserPrincipalId());
+        wa.setVersionNumber(im.getVersionNumber());
+        wa.setObjectId(im.getObjectId());
+
+        return wa;
+    }
+
+    public static WorkArea to(WorkAreaBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return WorkArea.Builder.create(bo).build();
+    }
 }

@@ -23,7 +23,7 @@
 
 	<bean id="WorkArea" parent="WorkArea-parentBean" />
 	<bean id="WorkArea-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.workarea.WorkArea" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.workarea.WorkAreaBo" />
 		<property name="objectLabel" value="Work Area" />
 		<property name="attributes">
 			<list merge="true">
@@ -41,7 +41,7 @@
         <property name="collections">
 	      <list>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.core.task.Task" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.core.task.TaskBo" />
 	          <property name="name" value="tasks" />
 	          <property name="shortLabel" value="Tasks" />
 	          <property name="label" value="Tasks" />
@@ -179,7 +179,7 @@
         
         <bean id="WorkArea-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Work Area Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkArea"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkAreaBo"/>
         <property name="criteriaFields">
         	<list>
          		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
@@ -222,7 +222,7 @@
    	<bean id="WorkArea-MaintenanceView" parent="WorkArea-MaintenanceView-parentBean"/>
 	<bean id="WorkArea-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
 		<property name="headerText" value="Work Area Maintenance" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkArea" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkAreaBo" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="Uif-MaintenanceGridSection">
@@ -262,7 +262,7 @@
 	
 	<bean id="WorkArea-Tasks" parent="Uif-Disclosure-TableCollectionSection">
         <property name="headerText" value="Tasks"/>
-        <property name="collectionObjectClass" value="org.kuali.kpme.core.task.Task"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.task.TaskBo"/>
         <property name="propertyName" value="tasks"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
@@ -401,7 +401,7 @@
     <bean id="WorkArea-InquiryView" parent="Uif-InquiryView" >
         <property name="headerText" value="Work Area Inquiry" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.workarea.web.WorkAreaInquirableKradImpl"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkArea" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkAreaBo" />
         <property name="singlePageView" value="true" />
         <property name="items">
             <list>
@@ -437,7 +437,7 @@
     
     <bean id="WorkArea-tasksInquiry" parent="Uif-Disclosure-TableCollectionSection">
         <property name="headerText" value="Tasks"/>
-        <property name="collectionObjectClass" value="org.kuali.kpme.core.task.Task"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.task.TaskBo"/>
         <property name="propertyName" value="tasks"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="header"> <!-- Without this, active/inactive button shows up -->

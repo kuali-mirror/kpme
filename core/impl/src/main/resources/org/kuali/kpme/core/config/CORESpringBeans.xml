@@ -289,6 +289,11 @@
         <property name="workAreaDao" ref="workAreaDao"/>
     </bean>
 
+    <bean id="workAreaInternalService" class="org.kuali.kpme.core.workarea.service.WorkAreaInternalServiceImpl">
+        <property name="workAreaDao" ref="workAreaDao"/>
+        <property name="kpmeRoleService" ref="kpmeRoleService"/>
+    </bean>
+
     <bean id="jobService" class="org.kuali.kpme.core.job.service.JobServiceImpl">
         <property name="jobDao" ref="jobDao"/>
     </bean>

@@ -27,7 +27,7 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.Job;
@@ -456,7 +456,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setDocumentId(leaveDocId);
 		
 		if(StringUtils.isNotBlank(primaryAssignmentId)) {
-			AssignmentContract primAssignment = HrServiceLocator.getAssignmentService().getAssignment(primaryAssignmentId);
+            Assignment primAssignment = HrServiceLocator.getAssignmentService().getAssignment(primaryAssignmentId);
 			if(primAssignment != null) {
 				aLeaveBlock.setWorkArea(primAssignment.getWorkArea());
 				aLeaveBlock.setJobNumber(primAssignment.getJobNumber());
@@ -709,8 +709,8 @@ public class AccrualServiceImpl implements AccrualService {
 						if(CollectionUtils.isNotEmpty(jobs) && StringUtils.isBlank(rateRange.getPrimaryLeaveAssignmentId())) {
 							for(Job aJob : jobs) {
 								if(aJob.isEligibleForLeave() && aJob.isPrimaryJob()) {
-									List<? extends AssignmentContract> assignmentList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, aJob.getJobNumber(), currentDate.toLocalDate());
-									for(AssignmentContract anAssignment : assignmentList) {
+									List<Assignment> assignmentList = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, aJob.getJobNumber(), currentDate.toLocalDate());
+									for(Assignment anAssignment : assignmentList) {
 										if(anAssignment != null && anAssignment.isPrimaryAssign()) {
 											rateRange.setPrimaryLeaveAssignmentId(anAssignment.getTkAssignmentId());
 											break;
@@ -1155,9 +1155,9 @@ public class AccrualServiceImpl implements AccrualService {
 		if(aJob != null && aJob.getCreateTime().isAfter(new DateTime(par.getLastRanTs().getTime()))) {
 			return true;
 		}
-		
-		AssignmentContract anAssign = HrServiceLocator.getAssignmentService().getMaxTimestampAssignment(principalId);
-		if(anAssign != null && anAssign.getTimestamp().after(par.getLastRanTs())) {
+
+        Assignment anAssign = HrServiceLocator.getAssignmentService().getMaxTimestampAssignment(principalId);
+		if(anAssign != null && anAssign.getCreateTime().isAfter(new DateTime(par.getLastRanTs().getTime()))) {
 			return true;
 		}
 		

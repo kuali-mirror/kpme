@@ -17,9 +17,7 @@ package org.kuali.kpme.core.krms;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kpme.core.api.assignment.Assignable;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.krms.KpmeKrmsJavaFunctionTermServiceBase;
+import org.kuali.kpme.core.api.assignment.Assignment;
 
 import java.util.HashSet;
 import java.util.List;
@@ -47,9 +45,9 @@ public class KpmeJavaFunctionTermService extends KpmeKrmsJavaFunctionTermService
 
     private Set<String> getDepartmentsFromAssignments(Assignable assignable) {
         Set<String> depts = new HashSet<String>();
-        List<? extends AssignmentContract> assignments = assignable.getAssignments();
+        List<Assignment> assignments = assignable.getAssignments();
         if (CollectionUtils.isNotEmpty(assignments)) {
-            for (AssignmentContract contract : assignments) {
+            for (Assignment contract : assignments) {
                 depts.add(contract.getDept());
             }
         }
@@ -58,9 +56,9 @@ public class KpmeJavaFunctionTermService extends KpmeKrmsJavaFunctionTermService
 
     private Set<Long> getWorkAreasFromAssignments(Assignable assignable) {
         Set<Long> was = new HashSet<Long>();
-        List<? extends AssignmentContract> assignments = assignable.getAssignments();
+        List<Assignment> assignments = assignable.getAssignments();
         if (CollectionUtils.isNotEmpty(assignments)) {
-            for (AssignmentContract contract : assignments) {
+            for (Assignment contract : assignments) {
                 was.add(contract.getWorkArea());
             }
         }
@@ -69,9 +67,9 @@ public class KpmeJavaFunctionTermService extends KpmeKrmsJavaFunctionTermService
 
     private Set<Long> getTasksFromAssignments(Assignable assignable) {
         Set<Long> tasks = new HashSet<Long>();
-        List<? extends AssignmentContract> assignments = assignable.getAssignments();
+        List<Assignment> assignments = assignable.getAssignments();
         if (CollectionUtils.isNotEmpty(assignments)) {
-            for (AssignmentContract contract : assignments) {
+            for (Assignment contract : assignments) {
                 tasks.add(contract.getTask());
             }
         }
@@ -80,9 +78,9 @@ public class KpmeJavaFunctionTermService extends KpmeKrmsJavaFunctionTermService
 
     private Set<Long> getJobNumbersFromAssignments(Assignable assignable) {
         Set<Long> jobs = new HashSet<Long>();
-        List<? extends AssignmentContract> assignments = assignable.getAssignments();
+        List<Assignment> assignments = assignable.getAssignments();
         if (CollectionUtils.isNotEmpty(assignments)) {
-            for (AssignmentContract contract : assignments) {
+            for (Assignment contract : assignments) {
                 jobs.add(contract.getJobNumber());
             }
         }

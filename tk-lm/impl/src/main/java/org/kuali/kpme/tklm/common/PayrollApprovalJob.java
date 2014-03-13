@@ -15,21 +15,14 @@
  */
 package org.kuali.kpme.tklm.common;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.Calendar;
@@ -47,13 +40,11 @@ import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.role.RoleMember;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
+import org.quartz.*;
+
+import java.util.*;
+
+import org.kuali.kpme.core.calendar.Calendar;
 
 public class PayrollApprovalJob extends BatchJob {
 
@@ -122,10 +113,10 @@ public class PayrollApprovalJob extends BatchJob {
 	}
 	
     private List<RoleMember> getRoleMembersInDepartment(
-			List<AssignmentContract> assignments, final KPMENamespace namespace) {
+			List<Assignment> assignments, final KPMENamespace namespace) {
 		Set<String> departments = new HashSet<String>();
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
-		for(AssignmentContract assignment : assignments) {
+		for(Assignment assignment : assignments) {
 			departments.add(assignment.getDept());
 		}
 		for(String dept : departments) {

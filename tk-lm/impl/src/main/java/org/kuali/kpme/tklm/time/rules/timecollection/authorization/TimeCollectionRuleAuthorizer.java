@@ -15,15 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection.authorization;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
+
+import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class TimeCollectionRuleAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {

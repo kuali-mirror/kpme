@@ -15,19 +15,11 @@
  */
 package org.kuali.kpme.tklm.time.timesheet;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
-import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -37,6 +29,8 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.*;
 
 
 public class TimesheetDocument extends CalendarDocument implements TimesheetDocumentContract {
@@ -70,11 +64,11 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 	}
 
     @Override
-	public List<AssignmentContract> getAssignments() {
+	public List<Assignment> getAssignments() {
 		return assignments;
 	}
 
-	public void setAssignments(List<AssignmentContract> assignments) {
+	public void setAssignments(List<Assignment> assignments) {
 		this.assignments = assignments;
 	}
 
@@ -158,7 +152,7 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
     public Map<String, String> getAssignmentDescriptions(boolean clockOnlyAssignments) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
         
-        for (AssignmentContract assignment : assignments) {
+        for (Assignment assignment : assignments) {
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
 
         	if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {

@@ -15,12 +15,12 @@
  */
 package org.kuali.kpme.core.workarea.validation;
 
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 
 public class WorkAreaEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptBase {
 	
@@ -28,8 +28,8 @@ public class WorkAreaEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromptB
     protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
-        WorkArea workArea = (WorkArea) pbo;
-        WorkAreaContract lastWorkArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea.getWorkArea(), TKUtils.END_OF_TIME);
+        WorkAreaBo workArea = (WorkAreaBo) pbo;
+        WorkArea lastWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(workArea.getWorkArea(), TKUtils.END_OF_TIME);
         if (lastWorkArea != null && lastWorkArea.getEffectiveLocalDate() != null && workArea.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastWorkArea.getEffectiveLocalDate().isAfter(workArea.getEffectiveLocalDate());
         }

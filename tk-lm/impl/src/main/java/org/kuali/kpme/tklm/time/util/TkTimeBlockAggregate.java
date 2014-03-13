@@ -17,11 +17,10 @@ package org.kuali.kpme.tklm.time.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.*;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -36,14 +35,11 @@ import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 
 import java.math.BigDecimal;
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
@@ -369,7 +365,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 					if (timesheetDocumentHeader != null) { 
 		                TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 		                List<String> assignmentKeys = new ArrayList<String>();
-		                for(AssignmentContract assignment : timesheetDocument.getAssignments()) {
+		                for(Assignment assignment : timesheetDocument.getAssignments()) {
 		                	assignmentKeys.add(assignment.getAssignmentKey());
 		                }
 		                
@@ -395,7 +391,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 					if (timesheetDocumentHeader != null) {
 		                TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 		                List<String> assignmentKeys = new ArrayList<String>();
-		                for(AssignmentContract assignment : timesheetDocument.getAssignments()) {
+		                for(Assignment assignment : timesheetDocument.getAssignments()) {
 		                	assignmentKeys.add(assignment.getAssignmentKey());
 		                }
 		                

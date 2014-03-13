@@ -18,7 +18,6 @@ package org.kuali.kpme.core.department.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.department.DepartmentService;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;

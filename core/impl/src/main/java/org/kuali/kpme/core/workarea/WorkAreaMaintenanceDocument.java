@@ -26,13 +26,13 @@ public class WorkAreaMaintenanceDocument extends TransactionalDocumentBase imple
     private static final long serialVersionUID = 1L;
     
 
-    private WorkArea workArea;
+    private WorkAreaBo workArea;
 
-    public WorkArea getWorkArea() {
+    public WorkAreaBo getWorkArea() {
         return workArea;
     }
 
-    public void setWorkArea(WorkArea workArea) {
+    public void setWorkArea(WorkAreaBo workArea) {
         this.workArea = workArea;
     }
     

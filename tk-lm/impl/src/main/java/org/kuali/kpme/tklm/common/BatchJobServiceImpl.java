@@ -26,13 +26,16 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.service.CalendarService;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentHeaderContract;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.job.JobBo;
@@ -87,10 +90,10 @@ public class BatchJobServiceImpl implements BatchJobService {
 			
 			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 				String principalId = principalHRAttribute.getPrincipalId();
-				List<Assignment> assignments = (List<Assignment>) getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
+				List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
 				
 				for (Assignment assignment : assignments) {
-					JobBo job = assignment.getJob();
+					Job job = assignment.getJob();
 					
 					if (StringUtils.equalsIgnoreCase(job.getFlsaStatus(), HrConstants.FLSA_STATUS_NON_EXEMPT)) {
 						TimesheetDocumentHeader timesheetDocumentHeader = getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
@@ -105,10 +108,10 @@ public class BatchJobServiceImpl implements BatchJobService {
 			
 			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 				String principalId = principalHRAttribute.getPrincipalId();
-				List<Assignment> assignments = (List<Assignment>) getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+				List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
 				
 				for (Assignment assignment : assignments) {
-					JobBo job = assignment.getJob();
+					Job job = assignment.getJob();
 					
 					if (job.isEligibleForLeave() && StringUtils.equalsIgnoreCase(job.getFlsaStatus(), HrConstants.FLSA_STATUS_EXEMPT)) {
 						LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);

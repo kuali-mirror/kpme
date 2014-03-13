@@ -26,6 +26,7 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
@@ -33,17 +34,18 @@ import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.util.KpmeUtils;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.workarea.WorkArea;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.LeaveRequestDocument;
@@ -366,14 +368,14 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
     public List<Assignment> getAssignments() {
         AssignmentDescriptionKey key = AssignmentDescriptionKey.get(getAssignmentKey());
         return Collections.singletonList(
-                (Assignment)HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), key, getLeaveLocalDate()));
+                HrServiceLocator.getAssignmentService().getAssignment(getPrincipalId(), key, getLeaveLocalDate()));
     }
 	public String getAssignmentTitle() {
 		StringBuilder b = new StringBuilder();
 
 		if (this.workArea != null) {
-			WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(
-					this.workArea, LocalDate.now());
+			WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(
+                    this.workArea, LocalDate.now());
 			if (wa != null) {
 				b.append(wa.getDescription());
 			}

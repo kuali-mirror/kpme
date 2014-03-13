@@ -20,7 +20,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.*;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
@@ -29,9 +29,7 @@ import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.paytype.PayType;
-import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -79,7 +77,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     //This function is used to build timeblocks that span days
     @Override
-    public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntryContract calendarEntry, AssignmentContract assignment, String earnCode, String documentId,
+    public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntryContract calendarEntry, Assignment assignment, String earnCode, String documentId,
                                                     DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount, 
                                                     Boolean getClockLogCreated, Boolean getLunchDeleted, String spanningWeeks, String userPrincipalId,
                                                     String clockLogBeginId, String clockLogEndId) {
@@ -138,7 +136,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     }
 
 
-    public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntryContract calendarEntry, AssignmentContract assignment, String earnCode, String documentId,
+    public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntryContract calendarEntry, Assignment assignment, String earnCode, String documentId,
     									   DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount, 
                                            Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId,
                                            String clockLogBeginId, String clockLogEndId) {
@@ -266,7 +264,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 
     @Override
-    public TimeBlock createTimeBlock(String principalId, String documentId, DateTime beginDateTime, DateTime endDateTime, AssignmentContract assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId) {
+    public TimeBlock createTimeBlock(String principalId, String documentId, DateTime beginDateTime, DateTime endDateTime, Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount, Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId) {
         DateTimeZone timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, beginDateTime.toLocalDate());
 
@@ -303,7 +301,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     }
 
     protected TimeBlock createTimeBlock(String principalId, String documentId, DateTime beginDateTime, DateTime endDateTime,
-                                     AssignmentContract assignment, String earnCode, BigDecimal hours, BigDecimal amount,
+                                        Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
                                      Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId,
                                      String clockLogBeginId, String clockLogEndId) {
         TimeBlock.Builder tb = TimeBlock.Builder.create(createTimeBlock(principalId, documentId, beginDateTime, endDateTime, assignment, earnCode, hours, amount, clockLogCreated,
@@ -625,17 +623,17 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	}*/
 	
 	@Override
-	public List<TimeBlock> applyHolidayPremiumEarnCode(String principalId, List<AssignmentContract> timeAssignments, List<TimeBlock> timeBlockList) {
+	public List<TimeBlock> applyHolidayPremiumEarnCode(String principalId, List<Assignment> timeAssignments, List<TimeBlock> timeBlockList) {
 
 		if(CollectionUtils.isNotEmpty(timeBlockList)) {
 			Set<String> regularEarnCodes = new HashSet<String>();
-	        for(AssignmentContract assign : timeAssignments) {
+	        for(Assignment assign : timeAssignments) {
 	            regularEarnCodes.add(assign.getJob().getPayTypeObj().getRegEarnCode());
 	        }
             List<TimeBlockBo> bos = ModelObjectUtils.transform(timeBlockList, toTimeBlockBo);
 			for(TimeBlockBo tb : bos) {
 		        EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
-                AssignmentContract assignment = TKUtils.getAssignmentWithKey(timeAssignments, AssignmentDescriptionKey.get(tb.getAssignmentKey()));
+                Assignment assignment = TKUtils.getAssignmentWithKey(timeAssignments, AssignmentDescriptionKey.get(tb.getAssignmentKey()));
 		        List<TimeHourDetailBo> timeHourDetails = new ArrayList<TimeHourDetailBo>();
 				if(earnCodeObj.getCountsAsRegularPay().equals("Y") || regularEarnCodes.contains(earnCodeObj.getEarnCode())) {
 			        if(assignment != null && assignment.getJob() != null && assignment.getJob().isEligibleForLeave()) {

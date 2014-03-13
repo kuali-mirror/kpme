@@ -37,10 +37,12 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -125,7 +127,7 @@ public class PersonInfoAction extends KPMEAction {
 		
 		setupRolesOnForm(personForm);
 
-		List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
+		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getTargetPrincipalId(), LocalDate.now());
 		
 		Map<Long, Set<Assignment>> jobNumberToListAssignments = new HashMap<Long,Set<Assignment>>();
 		Map<Long, Set<Person>> workAreaToApproverPerson = new HashMap<Long, Set<Person>>();

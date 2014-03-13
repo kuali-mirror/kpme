@@ -15,25 +15,22 @@
  */
 package org.kuali.kpme.core.api.assignment.account;
 
-import java.math.BigDecimal;
+import org.kuali.kpme.core.api.mo.UserModified;
+import org.kuali.rice.core.api.mo.common.GloballyUnique;
+import org.kuali.rice.core.api.mo.common.Identifiable;
+import org.kuali.rice.core.api.mo.common.Versioned;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.kfs.coa.businessobject.AccountContract;
-import org.kuali.kpme.core.api.kfs.coa.businessobject.ObjectCodeContract;
-import org.kuali.kpme.core.api.kfs.coa.businessobject.ProjectCodeContract;
-import org.kuali.kpme.core.api.kfs.coa.businessobject.SubAccountContract;
-import org.kuali.kpme.core.api.kfs.coa.businessobject.SubObjectCodeContract;
+import java.math.BigDecimal;
 
 /**
  * <p>AssignmentAccountContract interface.</p>
  *
  */
-public interface AssignmentAccountContract extends HrBusinessObjectContract {
+public interface AssignmentAccountContract extends Versioned, GloballyUnique, Identifiable, Inactivatable, UserModified {
 	
 	/**
-	 * Assignment object this AssignmentAccoutn is associated with
+	 * Assignment object this AssignmentAccount is associated with
 	 *  
 	 * <p>
 	 * assignmentObj of AssignmentAccount
@@ -41,7 +38,7 @@ public interface AssignmentAccountContract extends HrBusinessObjectContract {
 	 * 
 	 * @return assignmentObj for AssignmentAccount
 	 */
-	public AssignmentContract getAssignmentObj();
+	//public AssignmentContract getAssignmentObj();
 	
 	/**
 	 *  Chart component of the chart of accounts (COA) to be charged when time recorded against this work area and task. 
@@ -186,7 +183,7 @@ public interface AssignmentAccountContract extends HrBusinessObjectContract {
 	 * 
 	 * @return accountObj for AssignmentAccount
 	 */
-	public AccountContract getAccountObj();
+	//public AccountContract getAccountObj();
 	
 	/**
 	 * Optional - sub-account component of the chart of accounts to be charged when time recorded 
@@ -199,7 +196,7 @@ public interface AssignmentAccountContract extends HrBusinessObjectContract {
 	 * 
 	 * @return subAccountObj for AssignmentAccount
 	 */
-	public SubAccountContract getSubAccountObj();	
+	//public SubAccountContract getSubAccountObj();
 
 	/**
 	 * Object code component of the chart of accounts to be charged when time recorded against
@@ -211,7 +208,7 @@ public interface AssignmentAccountContract extends HrBusinessObjectContract {
 	 * 
 	 * @return objectCodeObj for AssignmentAccount
 	 */
-	public ObjectCodeContract getObjectCodeObj();
+	//public ObjectCodeContract getObjectCodeObj();
 	
 	/**
 	 * Optional - sub-object component of the chart of accounts to be charged when time recorded 
@@ -223,7 +220,7 @@ public interface AssignmentAccountContract extends HrBusinessObjectContract {
 	 * 
 	 * @return subObjectCodeObj for AssignmentAccount
 	 */
-	public SubObjectCodeContract getSubObjectCodeObj();
+	//public SubObjectCodeContract getSubObjectCodeObj();
 	
 	/**
 	 * Optional project code component of the chart of accounts to be charged when time recorded
@@ -235,7 +232,7 @@ public interface AssignmentAccountContract extends HrBusinessObjectContract {
 	 * 
 	 * @return projectCodeObj for AssignmentAccount
 	 */
-	public ProjectCodeContract getProjectCodeObj();
+	//public ProjectCodeContract getProjectCodeObj();
 	
 	/**
 	 * The earn code for which earnings will be charged to the account identified. 
@@ -249,5 +246,5 @@ public interface AssignmentAccountContract extends HrBusinessObjectContract {
 	 * 
 	 * @return earnCodeObj of AssignmentAccount
 	 */
-	public EarnCodeContract getEarnCodeObj();
+	//public EarnCodeContract getEarnCodeObj();
 }

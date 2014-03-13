@@ -19,16 +19,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.workarea.WorkArea;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
@@ -229,7 +229,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
     
     private boolean userHasMoreThanOneClockAssignment(String principalId, LocalDate aLocalDate) {
-    	 List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, aLocalDate);
+    	 List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, aLocalDate);
          int clockAssignNumber = 0;
          for(Assignment anAssign : assignments) {
         	 JobContract aJob = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), anAssign.getJobNumber(), aLocalDate);
@@ -362,7 +362,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             	return updateCanEditOvtPerm(principalId, perms, true);
             
             Long workArea = timeBlock.getWorkArea();
-            WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea, timeBlock.getEndDateTime().toLocalDate());
+            WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, timeBlock.getEndDateTime().toLocalDate());
             String department = workAreaObj.getDept();
             DateTime tbDateTime = timeBlock.getBeginDateTime();	// datetime used to retrieve user roles
             

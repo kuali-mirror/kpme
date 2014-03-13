@@ -15,22 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.web;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
@@ -48,17 +32,16 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
@@ -95,6 +78,14 @@ import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class LeaveCalendarAction extends CalendarFormAction {
 
@@ -238,7 +229,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
         if (calendarEntry != null) {
-			List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
 			List<String> assignmentKeys = new ArrayList<String>();
 	        for (Assignment assignment : assignments) {
 	        	assignmentKeys.add(assignment.getAssignmentKey());
@@ -246,7 +237,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        
 	        // use the logged in user's id to retrieve assignments so that approver can only see assignments they have permission to edit
         	String loggedInUserId = HrContext.getPrincipalId();
-        	new ArrayList<Assignment>();
+        	new ArrayList<AssignmentBo>();
         	DateTime asOfDate = calendarEntry.getBeginPeriodFullDateTime();
         	// if user is working on his/her own calendar, use the original assignment list,
         	// otherwise, call the method to make sure the user has permission for the assignments
@@ -259,8 +250,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        if (leaveCalendarDocument != null) {
 	        	leaveCalendarForm.setLeaveCalendarDocument(leaveCalendarDocument);
 	        	leaveCalendarForm.setDocumentId(leaveCalendarDocument.getDocumentId());
-	        	List<AssignmentContract> docAssignments = new ArrayList<AssignmentContract>();
-	        	for(AssignmentContract anAssignment : leaveCalendarDocument.getAssignments()) {
+	        	List<Assignment> docAssignments = new ArrayList<Assignment>();
+	        	for(Assignment anAssignment : leaveCalendarDocument.getAssignments()) {
 	        		if(loggedInUserAssignmentKeys.contains(anAssignment.getAssignmentKey()))
 	        			docAssignments.add(anAssignment);
 	        	}
@@ -379,14 +370,14 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		String approval = lcf.getApproval(); // KPME-2540
 		
 		String documentId = lcd != null ? lcd.getDocumentId() : "";
-		
-		AssignmentContract assignment = null;
+
+        Assignment assignment = null;
 		if(lcd != null) {
 			assignment = lcd.getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
 			if(assignment == null)
 				LOG.warn("No matched assignment found");
 		} else {
-			List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
+			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
 			assignment = HrServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 		}
 		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 

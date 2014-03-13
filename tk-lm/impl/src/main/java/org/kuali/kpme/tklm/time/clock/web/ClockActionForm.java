@@ -15,21 +15,10 @@
  */
 package org.kuali.kpme.tklm.time.clock.web;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -40,8 +29,10 @@ import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetActionForm;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class ClockActionForm extends TimesheetActionForm {
 
@@ -214,7 +205,7 @@ public class ClockActionForm extends TimesheetActionForm {
     public String getCurrentAssignmentDescription() {
     	if(currentAssignmentDescription == null && this.getCurrentTimeBlock() != null) {
     		AssignmentDescriptionKey adk = AssignmentDescriptionKey.get(this.getCurrentTimeBlock().getAssignmentKey());
-    		AssignmentContract assignment = this.getTimesheetDocument().getAssignment(adk);
+            Assignment assignment = this.getTimesheetDocument().getAssignment(adk);
     		if(assignment != null) {
     			this.setCurrentAssignmentDescription(assignment.getAssignmentDescription());
     		}
@@ -310,9 +301,9 @@ public class ClockActionForm extends TimesheetActionForm {
 			Map<String, List<TimeBlock>> timeBlocksMap = new HashMap<String, List<TimeBlock>>();
 			for (TimeBlock timeBlock : getTimesheetDocument().getTimeBlocks()) {
 				if (timeBlock.isClockLogCreated()) {
-					AssignmentContract assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(timeBlock.getAssignmentKey()), timeBlock.getBeginDateTime().toLocalDate());
+                    Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(timeBlock.getAssignmentKey()), timeBlock.getBeginDateTime().toLocalDate());
 					if (assignment != null) {
-						WorkAreaContract aWorkArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(assignment.getWorkArea(), timeBlock.getBeginDateTime().toLocalDate());
+						WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), timeBlock.getBeginDateTime().toLocalDate());
 						if(assignment.getJob() != null) {
 							TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), timeBlock.getBeginDateTime().toLocalDate());
 							if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
@@ -344,8 +335,8 @@ public class ClockActionForm extends TimesheetActionForm {
 	
 			LinkedHashMap<String, String> desList = new LinkedHashMap<String, String>();
 			List<String> distributeAssignList = new ArrayList<String>();
-			for (AssignmentContract assignment : getTimesheetDocument().getAssignments()) {
-				WorkAreaContract aWorkArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(assignment.getWorkArea(), tb.getBeginDateTime().toLocalDate());
+			for (Assignment assignment : getTimesheetDocument().getAssignments()) {
+				WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), tb.getBeginDateTime().toLocalDate());
 				if(assignment.getJob() != null) {
 					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), tb.getBeginDateTime().toLocalDate());
 					if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {

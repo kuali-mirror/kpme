@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.task.Task;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.task.TaskBo;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchDocumentContract;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
 
@@ -39,9 +39,9 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
 	private MissedPunch missedPunch = new MissedPunch();
 
     private transient JobBo jobObj;
-    private transient WorkArea workAreaObj;
+    private transient WorkAreaBo workAreaObj;
     private transient DepartmentBo departmentObj;
-    private transient Task taskObj;
+    private transient TaskBo taskObj;
 	public String getTkMissedPunchId() {
 		return tkMissedPunchId;
 	}
@@ -104,7 +104,7 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
         return missedPunch.getRelativeEffectiveDate();
     }*/
 
-    public Task getTaskObj() {
+    public TaskBo getTaskObj() {
         return taskObj;
     }
 
@@ -112,7 +112,7 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
         return jobObj;
     }
 
-    public WorkArea getWorkAreaObj() {
+    public WorkAreaBo getWorkAreaObj() {
         return workAreaObj;
     }
 
@@ -121,8 +121,8 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
     }
     
     @Override
-    public List<? extends AssignmentContract> getAssignments() {
-    	List<? extends AssignmentContract> assignments = new ArrayList<AssignmentContract>();
+    public List<Assignment> getAssignments() {
+    	List<Assignment> assignments = new ArrayList<Assignment>();
     	if( (getMissedPunch() != null) && (getMissedPunch().getActionFullDateTime() != null) ){
     		assignments =  HrServiceLocator.getAssignmentService().getAssignments(getPrincipalId(), 
     													getMissedPunch().getActionFullDateTime().toLocalDate());

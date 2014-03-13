@@ -16,7 +16,6 @@
 package org.kuali.kpme.tklm.time.rules.lunch.department.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -27,7 +26,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
-import org.kuali.kpme.core.workarea.WorkArea;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 

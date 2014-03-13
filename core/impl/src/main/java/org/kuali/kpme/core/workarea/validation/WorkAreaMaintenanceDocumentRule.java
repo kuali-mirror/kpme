@@ -15,13 +15,9 @@
  */
 package org.kuali.kpme.core.workarea.validation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberBo;
@@ -30,14 +26,18 @@ import org.kuali.kpme.core.role.PrincipalRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.task.Task;
+import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("deprecation")
 public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
@@ -48,8 +48,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		
-		if (pbo instanceof WorkArea) {
-			WorkArea workArea = (WorkArea) pbo;
+		if (pbo instanceof WorkAreaBo) {
+			WorkAreaBo workArea = (WorkAreaBo) pbo;
 			
 			valid &= validateDefaultOvertimeEarnCode(workArea.getDefaultOvertimeEarnCode(), workArea.getEffectiveLocalDate());
 			
@@ -76,9 +76,9 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		PersistableBusinessObject pboWorkArea = (PersistableBusinessObject)document.getDocumentDataObject();
 		PersistableBusinessObject pboTask = line;
 		
-		if (pboWorkArea instanceof WorkArea && pboTask instanceof Task) {
-			WorkArea workArea = (WorkArea) pboWorkArea;
-			Task task = (Task) pboTask;
+		if (pboWorkArea instanceof WorkAreaBo && pboTask instanceof TaskBo) {
+			WorkAreaBo workArea = (WorkAreaBo) pboWorkArea;
+			TaskBo task = (TaskBo) pboTask;
 			
 			valid &= validateTask(task, workArea);
 			
@@ -104,7 +104,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
 		if(line instanceof WorkAreaPrincipalRoleMemberBo) {
 			WorkAreaPrincipalRoleMemberBo roleMember = (WorkAreaPrincipalRoleMemberBo) line;
-			WorkArea location = (WorkArea) document.getDocumentDataObject();
+			WorkAreaBo location = (WorkAreaBo) document.getDocumentDataObject();
 			List<WorkAreaPrincipalRoleMemberBo> existingRoleMembers = location.getPrincipalRoleMembers();
 			for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 				int index = iter.nextIndex();
@@ -154,7 +154,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
 		if(line instanceof WorkAreaPositionRoleMemberBo) {
 			WorkAreaPositionRoleMemberBo roleMember = (WorkAreaPositionRoleMemberBo) line;
-			WorkArea location = (WorkArea) document.getDocumentDataObject();
+			WorkAreaBo location = (WorkAreaBo) document.getDocumentDataObject();
 			List<WorkAreaPositionRoleMemberBo> existingRoleMembers = location.getPositionRoleMembers();
 			for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 				int index = iter.nextIndex();
@@ -288,12 +288,12 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 	
-	boolean validateActive(WorkArea workArea) {
+	boolean validateActive(WorkAreaBo workArea) {
 		boolean valid = true;
 		
 		if(!workArea.isActive()){
-			List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
-			for(AssignmentContract assignment: assignments){
+			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+			for(Assignment assignment: assignments){
 				if(assignment.getWorkArea().equals(workArea.getWorkArea())){
 					this.putGlobalError("workarea.active.required");
 					valid = false;
@@ -302,15 +302,15 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			}
 		} else{
 			List<Long> inactiveTasks = new ArrayList<Long>();
-			for (Task task : workArea.getTasks()) {
+			for (TaskBo task : workArea.getTasks()) {
 				if(!task.isActive()){
 					inactiveTasks.add(task.getTask());
 				}
 			}
 			
 			if(!inactiveTasks.isEmpty()){
-				List<AssignmentContract> assignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
-				for(AssignmentContract assignment : assignments){
+				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+				for(Assignment assignment : assignments){
 					for(Long inactiveTask : inactiveTasks){
 						if(inactiveTask.equals(assignment.getTask())){
 							this.putGlobalError("task.active.required", inactiveTask.toString());
@@ -325,7 +325,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 	
-	boolean validateTask(Task task, WorkArea workArea) {
+	boolean validateTask(TaskBo task, WorkAreaBo workArea) {
 
 
 		boolean valid = true;
@@ -344,15 +344,15 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 
          //before commit check against tasks common to different work areas and assignments
          List<Long> inactiveTasks = new ArrayList<Long>();
-            for (Task inactiveTask : workArea.getTasks()) {
+            for (TaskBo inactiveTask : workArea.getTasks()) {
                 if(!inactiveTask.isActive()){
                     inactiveTasks.add(inactiveTask.getTask());
                 }
             }
 
             if(!inactiveTasks.isEmpty()){
-                List<AssignmentContract> assignments = (List<AssignmentContract>)HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
-                for(AssignmentContract assignment : assignments){
+                List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveLocalDate());
+                for(Assignment assignment : assignments){
                     for(Long inactiveTask : inactiveTasks){
                         if(inactiveTask.equals(assignment.getTask())){
                             this.putGlobalError("task.active.inactivate", inactiveTask.toString());
@@ -367,7 +367,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 
-	private Long getMaxTaskNumber(WorkArea workArea) {
+	private Long getMaxTaskNumber(WorkAreaBo workArea) {
 		Long task = new Long("100");
 		
 		TaskContract maxTask = HrServiceLocator.getTaskService().getMaxTask();

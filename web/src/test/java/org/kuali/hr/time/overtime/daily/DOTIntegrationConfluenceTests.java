@@ -15,12 +15,8 @@
  */
 package org.kuali.hr.time.overtime.daily;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.joda.time.DateTime;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -30,10 +26,9 @@ import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.workflow.TimesheetWebTestBase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.HrTestConstants;
@@ -44,8 +39,11 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * https://wiki.kuali.org/display/KPME/Test+Cases+-+Business+Logic+Daily+Overtime
@@ -153,7 +151,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
 
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(HrContext.getPrincipalId(), JAN_AS_OF_DATE.toLocalDate());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(HrContext.getPrincipalId(), JAN_AS_OF_DATE.toLocalDate());
         Assignment assignment = assignments.get(0);
 
         List<EarnCode> earnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE.toLocalDate());

@@ -15,48 +15,24 @@
  */
 package org.kuali.kpme.tklm.time.timesummary.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeFieldType;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
+import org.joda.time.*;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
-import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timesheet.TimesheetDocumentContract;
@@ -67,12 +43,11 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
-import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
-import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
-import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
-import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
-import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
+import org.kuali.kpme.tklm.time.timesummary.*;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
@@ -92,10 +67,10 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), (Calendar)HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
 
-        List<? extends AssignmentContract> timeAssignments = timesheetDocument.getAssignments();
+        List<Assignment> timeAssignments = timesheetDocument.getAssignments();
         List<String> tAssignmentKeys = new ArrayList<String>();
         Set<String> regularEarnCodes = new HashSet<String>();
-        for(AssignmentContract assign : timeAssignments) {
+        for(Assignment assign : timeAssignments) {
             tAssignmentKeys.add(assign.getAssignmentKey());
             regularEarnCodes.add(assign.getJob().getPayTypeObj().getRegEarnCode());
         }
@@ -301,21 +276,12 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								assignRow = new AssignmentRow();
 								assignRow.setAssignmentKey(assignKey);
 								AssignmentDescriptionKey assignmentKey = HrServiceLocator.getAssignmentService().getAssignmentDescriptionKey(assignKey);
-								Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
+								Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
 								// some assignment may not be effective at the beginning of the pay period, use the end date of the period to find it
 								if(assignment == null) {
-									assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
+									assignment = HrServiceLocator.getAssignmentService().getAssignment(timeBlock.getPrincipalId(), assignmentKey, asOfDate);
 								}
-								//TODO push this up to the assignment fetch/fully populated instead of like this
 								if(assignment != null){
-									if(assignment.getJob() == null){
-										Job aJob = HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(),assignment.getJobNumber(), assignment.getEffectiveLocalDate());
-										assignment.setJob(JobBo.from(aJob));
-									}
-									if(assignment.getWorkAreaObj() == null){
-										WorkAreaContract aWorkArea = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
-										assignment.setWorkAreaObj((WorkArea)aWorkArea);
-									}
 									assignRow.setDescr(assignment.getAssignmentDescription());
 								}
 								assignRow.setEarnCodeSection(earnCodeSection);

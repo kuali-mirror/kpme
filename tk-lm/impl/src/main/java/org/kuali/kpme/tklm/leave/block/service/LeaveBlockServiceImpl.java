@@ -15,23 +15,15 @@
  */
 package org.kuali.kpme.tklm.leave.block.service;
 
-import java.math.BigDecimal;
-import java.util.*;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.joda.time.*;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -47,6 +39,9 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class LeaveBlockServiceImpl implements LeaveBlockService {
 
@@ -199,7 +194,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
     @Override
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntryContract ce, String selectedEarnCode,
-    		BigDecimal hours, String description, AssignmentContract selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId) {
+    		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId) {
     	
     	DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime calBeginDateTime = beginDate;
@@ -348,7 +343,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     
     
     public LeaveBlockBo buildLeaveBlock(LocalDate leaveDate, String docId, String principalId, String selectedEarnCode,
-    		BigDecimal hours, String description, String accrualCategory, AssignmentContract selectedAssignment, String requestStatus, String leaveBlockType, DateTime beginDateTime, DateTime endDateTime) {
+    		BigDecimal hours, String description, String accrualCategory, Assignment selectedAssignment, String requestStatus, String leaveBlockType, DateTime beginDateTime, DateTime endDateTime) {
     	
     	LeaveBlockBo leaveBlock = new LeaveBlockBo.Builder(leaveDate, docId, principalId, selectedEarnCode, hours)
         .description(description)

@@ -34,7 +34,9 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -436,7 +438,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 			
 			while(!itor.getEndPeriodDate().before(otherCalendarEntry.getEndPeriodDate())) {
 				//need to iterate over calendars to gather assignment keys
-				List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
+				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
 		        for (Assignment assignment : assignments) {
 		        	assignmentKeys.add(assignment.getAssignmentKey());
 		        }
@@ -455,7 +457,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 			CalendarEntry itor = viewingCalendarEntry;
 			while(!itor.getEndPeriodDate().after(otherCalendarEntry.getEndPeriodDate())) {
 				
-				List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
+				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
 		        for (Assignment assignment : assignments) {
 		        	assignmentKeys.add(assignment.getAssignmentKey());
 		        }

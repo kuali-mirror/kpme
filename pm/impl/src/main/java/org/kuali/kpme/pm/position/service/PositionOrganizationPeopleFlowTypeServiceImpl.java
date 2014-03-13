@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.position.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -56,7 +57,7 @@ public class PositionOrganizationPeopleFlowTypeServiceImpl extends DataDictionar
         String effectiveDate = getElementValue(documentContent.getApplicationContent(), "//document/newMaintainableObject/businessObject/effectiveDate/@value");
         if (StringUtils.isNotEmpty(departmentString)) {
             LocalDate asOfDate = new LocalDate(effectiveDate);
-            DepartmentContract department =  HrServiceLocator.getDepartmentService().getDepartment(departmentString,asOfDate);
+            Department department =  HrServiceLocator.getDepartmentService().getDepartment(departmentString,asOfDate);
 
                 orgQualifiers.add(
                         Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(),
@@ -70,7 +71,7 @@ public class PositionOrganizationPeopleFlowTypeServiceImpl extends DataDictionar
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof Position) {
                         Position position = (Position)(md.getNewMaintainableObject().getDataObject());
-                        DepartmentContract department = HrServiceLocator.getDepartmentService().getDepartment(position.getPrimaryDepartment(),position.getEffectiveLocalDate());
+                        Department department = HrServiceLocator.getDepartmentService().getDepartment(position.getPrimaryDepartment(),position.getEffectiveLocalDate());
                         orgQualifiers.add(
                             Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), String.valueOf(department.getOrg())));
 
@@ -78,7 +79,7 @@ public class PositionOrganizationPeopleFlowTypeServiceImpl extends DataDictionar
                 } else {
                     // If doc itself is instance of Position
                     if (doc instanceof Position) {
-                        DepartmentContract department = HrServiceLocator.getDepartmentService().getDepartment(((Position)doc).getPrimaryDepartment(),((Position)doc).getEffectiveLocalDate());
+                        Department department = HrServiceLocator.getDepartmentService().getDepartment(((Position)doc).getPrimaryDepartment(),((Position)doc).getEffectiveLocalDate());
                         orgQualifiers.add(
                                 Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), String.valueOf(department.getOrg())));
                     }

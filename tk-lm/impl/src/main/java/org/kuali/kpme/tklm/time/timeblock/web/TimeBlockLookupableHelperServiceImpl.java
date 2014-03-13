@@ -15,18 +15,15 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.web;
 
-import java.util.*;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.lookup.KPMELookupableImpl;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -47,6 +44,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.LookupForm;
+
+import java.util.*;
 
 public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
 

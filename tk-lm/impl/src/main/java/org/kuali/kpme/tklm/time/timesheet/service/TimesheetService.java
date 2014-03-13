@@ -17,11 +17,10 @@ package org.kuali.kpme.tklm.time.timesheet.service;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -107,7 +106,7 @@ public interface TimesheetService {
 	 * @return
 	 */
 	@Cacheable(value= EarnCodeContract.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.kpme.tklm.time.util.TkContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.kpme.tklm.time.util.TkContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'includeRegularEarnCode=' + #p2")
-	public List<EarnCode> getEarnCodesForTime(AssignmentContract a, LocalDate asOfDate, boolean includeRegularEarnCode);
+	public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate, boolean includeRegularEarnCode);
 
 
     public List<String> validateTimeBlock(TimesheetDocument td);

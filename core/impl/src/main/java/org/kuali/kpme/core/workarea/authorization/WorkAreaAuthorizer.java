@@ -19,11 +19,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 
 @SuppressWarnings("deprecation")
 public class WorkAreaAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
@@ -36,8 +35,8 @@ public class WorkAreaAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
 		
-		if (dataObject instanceof WorkArea) {
-			WorkArea workAreaObj = (WorkArea) dataObject;
+		if (dataObject instanceof WorkAreaBo) {
+			WorkAreaBo workAreaObj = (WorkAreaBo) dataObject;
 			
 			if (workAreaObj != null) {
 				department = cleanAttributeValue(workAreaObj.getDept());

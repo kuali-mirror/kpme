@@ -16,9 +16,9 @@
 package org.kuali.kpme.core.assignment.web;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.assignment.account.AssignmentAccount;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.account.AssignmentAccountBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -43,13 +43,13 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject)HrServiceLocator.getAssignmentService().getAssignment(id);
+		return AssignmentBo.from(HrServiceLocator.getAssignmentService().getAssignment(id));
 	}
 
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj) {
-		Assignment assignment = (Assignment)hrObj;
-		for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
+		AssignmentBo assignment = (AssignmentBo)hrObj;
+		for (AssignmentAccountBo assignAcct : assignment.getAssignmentAccounts()) {
 			if(!isOldDataObjectInDocument()){ //prevents duplicate object on edit
 				assignAcct.setTkAssignAcctId(null);
 			}
@@ -61,8 +61,8 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
     //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
     @Override
     public void prepareForSave() {
-    Assignment assignment = (Assignment)this.getDataObject();
-        for (AssignmentAccount assignAcct : assignment.getAssignmentAccounts()) {
+    AssignmentBo assignment = (AssignmentBo)this.getDataObject();
+        for (AssignmentAccountBo assignAcct : assignment.getAssignmentAccounts()) {
             assignAcct.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         }
         super.prepareForSave();
@@ -75,11 +75,11 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
         if (model instanceof MaintenanceDocumentForm) {
 	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
 	        MaintenanceDocument document = maintenanceForm.getDocument();
-	        if (document.getNewMaintainableObject().getDataObject() instanceof Assignment) {
-	        	Assignment assignment = (Assignment) document.getNewMaintainableObject().getDataObject();
+	        if (document.getNewMaintainableObject().getDataObject() instanceof AssignmentBo) {
+	        	AssignmentBo assignment = (AssignmentBo) document.getNewMaintainableObject().getDataObject();
 	        	// Duty line validation
-		        if (addLine instanceof AssignmentAccount) {
-		        	AssignmentAccount assignmentAccount = (AssignmentAccount) addLine;
+		        if (addLine instanceof AssignmentAccountBo) {
+		        	AssignmentAccountBo assignmentAccount = (AssignmentAccountBo) addLine;
 		        	boolean results = this.validateAssignmentAccount(assignmentAccount, assignment);
 		        	if(!results) {
 		        		return false;
@@ -90,7 +90,7 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
 		return isValid;
 	}
 	
-	private boolean validateAssignmentAccount(AssignmentAccount assignmentAccount, Assignment assignmentObj) {
+	private boolean validateAssignmentAccount(AssignmentAccountBo assignmentAccount, AssignmentBo assignmentObj) {
 		boolean valid = false;
 		
 		if(StringUtils.isNotEmpty(assignmentAccount.getEarnCode())) {

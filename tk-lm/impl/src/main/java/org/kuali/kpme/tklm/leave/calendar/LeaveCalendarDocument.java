@@ -15,19 +15,17 @@
  */
 package org.kuali.kpme.tklm.leave.calendar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignable;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.calendar.LeaveCalendarDocumentContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeaveCalendarDocument extends CalendarDocument implements Assignable, LeaveCalendarDocumentContract {
 	private static final long serialVersionUID = -5029062030186479210L;
@@ -92,11 +90,11 @@ public class LeaveCalendarDocument extends CalendarDocument implements Assignabl
 	}
 
     @Override
-	public List<AssignmentContract> getAssignments() {
+	public List<Assignment> getAssignments() {
 		return assignments;
 	}
 
-	public void setAssignments(List<AssignmentContract> assignments) {
+	public void setAssignments(List<Assignment> assignments) {
 		this.assignments = assignments;
 	}
 

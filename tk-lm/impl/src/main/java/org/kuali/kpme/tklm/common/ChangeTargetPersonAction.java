@@ -27,10 +27,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -86,7 +88,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
     
     private boolean isReviewerForPerson(String principalId) {
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
             if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay())) {
@@ -97,7 +99,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
 
     private boolean isApproverForPerson(String principalId) {
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
         	if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay())
@@ -110,7 +112,7 @@ public class ChangeTargetPersonAction extends KPMEAction {
     }
 
     private boolean isPayrollProcessorForPerson(String principalId) {
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
 
         for (Assignment assignment : assignments) {
             if (HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getDept(), LocalDate.now().toDateTimeAtStartOfDay())

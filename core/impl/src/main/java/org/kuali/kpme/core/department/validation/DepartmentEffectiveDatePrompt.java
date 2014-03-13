@@ -16,7 +16,6 @@
 package org.kuali.kpme.core.department.validation;
 
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.service.HrServiceLocator;

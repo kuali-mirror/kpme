@@ -17,7 +17,6 @@ package org.kuali.kpme.core.department.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.department.dao.DepartmentDao;

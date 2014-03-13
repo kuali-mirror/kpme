@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
@@ -32,7 +33,7 @@ public interface AssignmentService {
 	 * @return
 	 */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public List<? extends AssignmentContract> getAssignments(String principalId, LocalDate asOfDate);
+    public List<Assignment> getAssignments(String principalId, LocalDate asOfDate);
 
     /**
      * Reverse lookup of an assignment based on the assignment id
@@ -40,7 +41,7 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'tkAssignmentId=' + #p0")
-    public AssignmentContract getAssignment(String tkAssignmentId);
+    public Assignment getAssignment(String tkAssignmentId);
     /**
      * Get Assignment Description key based off of description
      * @param assignmentDesc
@@ -52,7 +53,7 @@ public interface AssignmentService {
      * @param assignment
      * @return
      */
-	public Map<String,String> getAssignmentDescriptions(AssignmentContract assignment);
+	public Map<String,String> getAssignmentDescriptions(Assignment assignment);
 	/**
 	 * Get all active assignments for a work area
 	 * @param workArea
@@ -60,7 +61,7 @@ public interface AssignmentService {
 	 * @return
 	 */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<? extends AssignmentContract> getActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate);
+	public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate);
 
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getPrincipalIdsInActiveAssigmentsForWorkArea}' + 'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
     public List<String> getPrincipalIdsInActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate);
@@ -76,7 +77,7 @@ public interface AssignmentService {
 	 * @return
 	 */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'asOfDate=' + #p0")
-	public List<? extends AssignmentContract> getActiveAssignments(LocalDate asOfDate);
+	public List<Assignment> getActiveAssignments(LocalDate asOfDate);
 
 
     /**
@@ -84,7 +85,7 @@ public interface AssignmentService {
      * @param key
      * @return
      */
-    public AssignmentContract getAssignmentForTargetPrincipal(AssignmentDescriptionKey key, LocalDate asOfDate);
+    public Assignment getAssignmentForTargetPrincipal(AssignmentDescriptionKey key, LocalDate asOfDate);
 
     
     /**
@@ -94,7 +95,7 @@ public interface AssignmentService {
      * @param asOfDate
      * @return
      */
-    public AssignmentContract getAssignment(String principalId, AssignmentDescriptionKey key, LocalDate asOfDate);
+    public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, LocalDate asOfDate);
     
     /**
      * Get assignments by pay calendar entry
@@ -103,7 +104,7 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentsByPayEntry}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
-    public List<? extends AssignmentContract> getAssignmentsByPayEntry(String principalId, CalendarEntryContract payCalendarEntry);
+    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntryContract payCalendarEntry);
     /**
      * Get assignments for Time Calendar by calendar entry
      * @param principalId
@@ -111,7 +112,7 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentsByCalEntryForTimeCalendar}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
-    public List<? extends AssignmentContract> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntryContract calendarEntry);
+    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntryContract calendarEntry);
     /**
      * Get assignments for Leave Calendar by calendar entry
      * @param principalId
@@ -119,7 +120,7 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentsByCalEntryForLeaveCalendar}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
-    public List<? extends AssignmentContract> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntryContract calendarEntry);
+    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntryContract calendarEntry);
     
     /**
 	 * KPME-1129 Kagata
@@ -130,9 +131,9 @@ public interface AssignmentService {
 	 * @return
 	 */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'asOfDate=' + #p2")
-    public List<? extends AssignmentContract> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate);
+    public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate);
 
-    List<? extends AssignmentContract> searchAssignments(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
+    List<Assignment> searchAssignments(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                     String dept, String workArea, String active, String showHistory);
     
     
@@ -141,11 +142,11 @@ public interface AssignmentService {
      * @param assignments
      * @return
      */
-    public Map<String, String> getAssignmentDescriptionsForAssignments(List<? extends AssignmentContract>  assignments);
+    public Map<String, String> getAssignmentDescriptionsForAssignments(List<Assignment>  assignments);
     
-    public AssignmentContract getAssignment(List<? extends AssignmentContract> assignments, String assignmentKey, LocalDate beginDate);
+    public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, LocalDate beginDate);
     
-    public AssignmentContract getMaxTimestampAssignment(String principalId);
+    public Assignment getMaxTimestampAssignment(String principalId);
     
     /**
      * Filter the given list of assignments with given criteria
@@ -154,7 +155,7 @@ public interface AssignmentService {
      * @param chkForLeaveEligible
      * @return List<Assignment>
      */
-    public List<? extends AssignmentContract> filterAssignments(List<? extends AssignmentContract> assignments, String flsaStatus, boolean chkForLeaveEligible);
+    public List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible);
     
 	/**
 	 * Get list of unique principalIds with given workarea list and dates
@@ -166,7 +167,7 @@ public interface AssignmentService {
 	 */
 	public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
 	
-	public List<? extends AssignmentContract> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
+	public List<Assignment> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
 
     public String getAssignmentDescription(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate);
 }

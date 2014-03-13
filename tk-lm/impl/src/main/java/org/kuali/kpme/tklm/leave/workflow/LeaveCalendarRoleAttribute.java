@@ -15,19 +15,12 @@
  */
 package org.kuali.kpme.tklm.leave.workflow;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -40,6 +33,8 @@ import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.GenericRoleAttribute;
 import org.kuali.rice.kew.rule.QualifiedRoleName;
 import org.kuali.rice.kim.api.role.RoleMember;
+
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class LeaveCalendarRoleAttribute extends GenericRoleAttribute {
@@ -66,8 +61,8 @@ public class LeaveCalendarRoleAttribute extends GenericRoleAttribute {
 		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId.toString());
 
 		if (leaveCalendarDocument != null) {
-			List<AssignmentContract> assignments = leaveCalendarDocument.getAssignments();
-			for (AssignmentContract assignment : assignments) {
+			List<Assignment> assignments = leaveCalendarDocument.getAssignments();
+			for (Assignment assignment : assignments) {
 				roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
 			}
 		}

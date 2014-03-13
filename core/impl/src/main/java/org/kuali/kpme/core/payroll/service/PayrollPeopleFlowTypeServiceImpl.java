@@ -18,6 +18,7 @@ package org.kuali.kpme.core.payroll.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.assignment.Assignable;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
@@ -66,8 +67,8 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof Assignable) {
                         Assignable assignable = (Assignable)(md.getNewMaintainableObject().getDataObject());
-                        List<? extends AssignmentContract> assignments = assignable.getAssignments();
-                        for (AssignmentContract ac : assignments) {
+                        List<Assignment> assignments = assignable.getAssignments();
+                        for (Assignment ac : assignments) {
                             deptQualifiers.add(
                                     Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(ac.getDept()))
                             );
@@ -76,8 +77,8 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
                 } else {
                     // If doc itself is instance of Assignable
                     if (doc instanceof Assignable) {
-                        List<? extends AssignmentContract> assignments = ((Assignable)doc).getAssignments();
-                        for (AssignmentContract ac : assignments) {
+                        List<Assignment> assignments = ((Assignable)doc).getAssignments();
+                        for (Assignment ac : assignments) {
                             deptQualifiers.add(
                                     Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(ac.getDept()))
                             );

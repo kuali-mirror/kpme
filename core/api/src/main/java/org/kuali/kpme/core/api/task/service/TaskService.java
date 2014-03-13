@@ -16,12 +16,13 @@
 package org.kuali.kpme.core.api.task.service;
 
 
-import java.util.List;
-
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.task.Task;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+
+import java.util.List;
 
 public interface TaskService {
 	/**
@@ -30,7 +31,7 @@ public interface TaskService {
 	 * @return
 	 */
     @Cacheable(value= TaskContract.CACHE_NAME, key="'tkTaskId=' + #p0")
-	public TaskContract getTask(String tkTaskId);
+	public Task getTask(String tkTaskId);
 	/**
 	 * Fetch Task of a particular date
 	 * @param task
@@ -38,23 +39,23 @@ public interface TaskService {
 	 * @return
 	 */
     @Cacheable(value= TaskContract.CACHE_NAME, key="'task=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public TaskContract getTask(Long task, LocalDate asOfDate);
+    public Task getTask(Long task, LocalDate asOfDate);
     /**
      * Save a given Task
      * @param task
      */
     @CacheEvict(value={TaskContract.CACHE_NAME}, allEntries = true)
-    public void saveTask(TaskContract task);
+    public Task saveTask(Task task);
     /**
      * Save a List of Tasks
      * @param tasks
      */
     @CacheEvict(value={TaskContract.CACHE_NAME}, allEntries = true)
-    public void saveTasks(List<? extends TaskContract> tasks);
+    public List<Task> saveTasks(List<Task> tasks);
     
-	public TaskContract getMaxTask();
+	public Task getMaxTask();
 
-    List<? extends TaskContract> getTasks(String task, String description, String workArea, LocalDate fromEffdt, LocalDate toEffdt);
+    List<Task> getTasks(String task, String description, String workArea, LocalDate fromEffdt, LocalDate toEffdt);
     
     /**
      * get the count of Tasks by given task

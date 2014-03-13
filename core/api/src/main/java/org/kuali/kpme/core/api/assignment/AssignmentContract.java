@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.assignment;
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
@@ -28,7 +29,7 @@ import java.util.List;
  * <p>AssignmentContract interface.</p>
  *
  */
-public interface AssignmentContract extends HrBusinessObjectContract {
+public interface AssignmentContract extends KpmeEffectiveDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Assignment";
 	
@@ -87,16 +88,6 @@ public interface AssignmentContract extends HrBusinessObjectContract {
 	 */
 	public Long getJobNumber();
 
-	/**
-	 * Primary key of Job object associated with this Assignment
-	 * 
-	 * <p>
-	 * hrJobId of Assignment
-	 * </p>
-	 * 
-	 * @return hrJobId for Assignment
-	 */
-	public String getHrJobId();
 
 	/**
 	 * Provides us with the text to display to the user for clock actions on
@@ -188,17 +179,6 @@ public interface AssignmentContract extends HrBusinessObjectContract {
 	 * @return taskObj for Assignment
 	 */
 	public TaskContract getTaskObj();
-	
-	/**
-	 * History flag for Assignment lookups 
-	 * 
-	 * <p>
-	 * history of Assignment
-	 * </p>
-	 * 
-	 * @return true if want to show history, false if not
-	 */
-	public Boolean getHistory();
 	
 	/**
 	 * CalendarGroup associated with the Assignment

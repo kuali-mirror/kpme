@@ -15,16 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch.validation;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -36,13 +34,14 @@ import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.List;
 
 public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	
@@ -142,7 +141,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
             //Make sure user should be able to route!!
             String userPrincipalId = HrContext.getPrincipalId();
             if (!StringUtils.equals(userPrincipalId, missedPunch.getPrincipalId())) {
-                AssignmentContract assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(missedPunch.getAssignmentKey()), actionDateTime.toLocalDate());
+                Assignment assignment = HrServiceLocator.getAssignmentService().getAssignmentForTargetPrincipal(AssignmentDescriptionKey.get(missedPunch.getAssignmentKey()), actionDateTime.toLocalDate());
 
                 if (assignment != null) {
                     Long workArea = assignment.getWorkArea();

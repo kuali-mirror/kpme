@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.authorization;
+package org.kuali.kpme.core.api.authorization;
 
 /**
  * A contract designating the DepartmentalRule status of the implementing

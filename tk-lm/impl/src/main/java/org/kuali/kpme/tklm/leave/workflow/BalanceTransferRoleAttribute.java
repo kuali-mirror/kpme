@@ -25,8 +25,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
@@ -77,7 +79,7 @@ public class BalanceTransferRoleAttribute extends GenericRoleAttribute {
 		}
 		
         if (balanceTransfer != null) {
-            List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveLocalDate());
             for (Assignment assignment : assignments) {
             	roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
             }

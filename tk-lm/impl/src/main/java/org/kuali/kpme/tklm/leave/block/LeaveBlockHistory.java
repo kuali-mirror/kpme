@@ -15,16 +15,16 @@
  */
 package org.kuali.kpme.tklm.leave.block;
 
-import java.sql.Timestamp;
-
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockHistoryContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+
+import java.sql.Timestamp;
 
 public class LeaveBlockHistory extends LeaveBlockBo implements LeaveBlockHistoryContract {
 
@@ -100,8 +100,8 @@ public class LeaveBlockHistory extends LeaveBlockBo implements LeaveBlockHistory
 		LeaveBlock lb = LmServiceLocator.getLeaveBlockService().getLeaveBlock(super.getLmLeaveBlockId());
 		if(lb != null){
 			if (lb.getWorkArea() != null) {
-				WorkAreaContract wa = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(
-					lb.getWorkArea(), LocalDate.now());
+				WorkArea wa = HrServiceLocator.getWorkAreaService().getWorkArea(
+                        lb.getWorkArea(), LocalDate.now());
 				if (wa != null) {
 					b.append(wa.getDescription());
 				}

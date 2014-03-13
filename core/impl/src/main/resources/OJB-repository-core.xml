@@ -89,7 +89,7 @@
 
     <!-- Assignment -->
     <!-- Business Keys - [principalId : jobNumber : workArea : task : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.assignment.Assignment" table="TK_ASSIGNMENT_T">
+    <class-descriptor class="org.kuali.kpme.core.assignment.AssignmentBo" table="TK_ASSIGNMENT_T">
         <field-descriptor name="tkAssignmentId" column="TK_ASSIGNMENT_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_ASSIGNMENT_S" />
         <field-descriptor name="principalId"    column="PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" primarykey="false" />
         <field-descriptor name="jobNumber"      column="JOB_NUMBER"         jdbc-type="BIGINT"      nullable="false" primarykey="false" />
@@ -103,7 +103,7 @@
         <field-descriptor name="timestamp"      column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="userPrincipalId"  column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
 
-        <collection-descriptor name="assignmentAccounts" element-class-ref="org.kuali.kpme.core.assignment.account.AssignmentAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="assignmentAccounts" element-class-ref="org.kuali.kpme.core.assignment.account.AssignmentAccountBo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="tkAssignmentId" />
         </collection-descriptor>
     </class-descriptor>
@@ -161,7 +161,7 @@
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" nullable="false" />
     </class-descriptor>
     <!--  Added for Work Area Table -->
-    <class-descriptor class="org.kuali.kpme.core.workarea.WorkArea" table="TK_WORK_AREA_T">
+    <class-descriptor class="org.kuali.kpme.core.workarea.WorkAreaBo" table="TK_WORK_AREA_T">
         <field-descriptor name="tkWorkAreaId"               column="TK_WORK_AREA_ID"            jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_WORK_AREA_S" />
         <field-descriptor name="workArea"                   column="WORK_AREA"                  jdbc-type="BIGINT"      autoincrement="true" sequence-name="TK_WORK_AREA_KEY_S" primarykey="false" />
         <field-descriptor name="effectiveDate"              column="EFFDT"                      jdbc-type="DATE"        nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
@@ -265,7 +265,7 @@
 
     <!-- Task -->
     <!-- Business Keys - [task : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.task.Task" table="TK_TASK_T">
+    <class-descriptor class="org.kuali.kpme.core.task.TaskBo" table="TK_TASK_T">
         <field-descriptor name="tkTaskId"                   column="TK_TASK_ID"         jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_TASK_S" />
         <field-descriptor name="task"                       column="TASK"               jdbc-type="BIGINT" />
         <field-descriptor name="workArea"                   column="WORK_AREA"          jdbc-type="BIGINT" />
@@ -319,7 +319,7 @@
     </class-descriptor>
 
     <!-- Assignment Account -->
-    <class-descriptor class="org.kuali.kpme.core.assignment.account.AssignmentAccount" table="TK_ASSIGN_ACCT_T">
+    <class-descriptor class="org.kuali.kpme.core.assignment.account.AssignmentAccountBo" table="TK_ASSIGN_ACCT_T">
         <field-descriptor name="tkAssignAcctId" column="TK_ASSIGN_ACCT_ID"  jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_ASSIGN_ACCT_S" />
         <field-descriptor name="finCoaCd"       column="FIN_COA_CD"         jdbc-type="VARCHAR" length="2" />
         <field-descriptor name="accountNbr"     column="ACCOUNT_NBR"        jdbc-type="VARCHAR" length="7" />

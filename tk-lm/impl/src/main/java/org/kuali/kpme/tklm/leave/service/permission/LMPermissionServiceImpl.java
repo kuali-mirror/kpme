@@ -15,21 +15,15 @@
  */
 package org.kuali.kpme.tklm.leave.service.permission;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
@@ -52,6 +46,11 @@ import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LMPermissionServiceImpl extends HrPermissionServiceBase implements LMPermissionService {
 	

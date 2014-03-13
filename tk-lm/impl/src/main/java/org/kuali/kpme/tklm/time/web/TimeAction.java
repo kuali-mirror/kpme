@@ -26,9 +26,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -83,7 +85,7 @@ public class TimeAction extends KPMEAction {
         JobContract job = HrServiceLocator.getJobService().getPrimaryJob(principalId, LocalDate.now());
 
         if (job != null) {
-            List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), LocalDate.now());
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(principalId, job.getJobNumber(), LocalDate.now());
             for (Assignment asmnt : assignments) {
                 if (asmnt.isActive()) {
                     if (job.getFlsaStatus().equals(HrConstants.FLSA_STATUS_NON_EXEMPT)) {

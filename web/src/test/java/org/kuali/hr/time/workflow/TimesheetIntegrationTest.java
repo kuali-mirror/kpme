@@ -15,11 +15,8 @@
  */
 package org.kuali.hr.time.workflow;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
@@ -31,13 +28,12 @@ import org.junit.Test;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.service.EarnCodeService;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
@@ -45,8 +41,10 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //@Ignore
 @FunctionalTest
@@ -72,14 +70,14 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 	@Test
 	public void getEarnCodes() throws Exception {
         LocalDate asOfDate = LocalDate.now();
-		List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(TEST_USER, asOfDate);
+		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(TEST_USER, asOfDate);
 		Assert.assertNotNull(assignments);
 		Assert.assertTrue("Emtpy assignment list", !assignments.isEmpty());
 
-		Assignment assignment1 = null;
-		Assignment assignment2 = null;
-		Assignment assignment3 = null;
-		Assignment assignment4 = null;
+        Assignment assignment1 = null;
+        Assignment assignment2 = null;
+        Assignment assignment3 = null;
+        Assignment assignment4 = null;
 		for (Assignment a : assignments) {
 			if (a.getJobNumber().equals(TEST_ASSIGNMENT_JOB_NUMBER)) {
 				assignment1 = a;
@@ -140,7 +138,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				tdocId, true);
 		Assert.assertNotNull(page);
 
-		assignmentsOfUser = (List<Assignment>) HrServiceLocator.getAssignmentService()
+		assignmentsOfUser = HrServiceLocator.getAssignmentService()
 				.getAssignments(USER_PRINCIPAL_ID, TIME_SHEET_DATE.toLocalDate());
 		Assert.assertNotNull("No Assignments found for the user ", assignmentsOfUser);
 
@@ -163,7 +161,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 	public void testAddTimeBlock() throws Exception {
 		HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), USER_PRINCIPAL_ID, tdocId, true);
 
-		Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("4_1234_1"), TIME_SHEET_DATE.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("4_1234_1"), TIME_SHEET_DATE.toLocalDate());
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
 		Assert.assertNotNull(form);
 
@@ -227,7 +225,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 	public void testEditTimeBlock() throws Exception {
 		HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), USER_PRINCIPAL_ID, tdocId, true);
 
-		Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("4_1234_1"), TIME_SHEET_DATE.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("4_1234_1"), TIME_SHEET_DATE.toLocalDate());
 		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("RGN", TIME_SHEET_DATE.toLocalDate());
 
 		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -255,7 +253,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		String createdTBId = timeDoc.getTimeBlocks().get(0).getTkTimeBlockId();
 
-		Assignment newAssignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("1_1234_1"), TIME_SHEET_DATE.toLocalDate());
+        Assignment newAssignment = HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("1_1234_1"), TIME_SHEET_DATE.toLocalDate());
 		HtmlUnitUtil.createTempFile(page);
 
 
@@ -285,7 +283,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 	public void testDeleteTimeBlock() throws Exception {
 		HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), USER_PRINCIPAL_ID,tdocId, true);
 
-		Assignment assignment = (Assignment) HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("4_1234_1"), TIME_SHEET_DATE.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, AssignmentDescriptionKey.get("4_1234_1"), TIME_SHEET_DATE.toLocalDate());
 		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("RGN", TIME_SHEET_DATE.toLocalDate());
 
 		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -342,7 +340,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertNotNull(form);
 
 		// Assignment of user
-		Assignment assToBeSelected = assignmentsOfUser.get(4);
+        Assignment assToBeSelected = assignmentsOfUser.get(4);
 
         // retrieving earncode for the assignment
 		List<EarnCode> earnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE.toLocalDate());

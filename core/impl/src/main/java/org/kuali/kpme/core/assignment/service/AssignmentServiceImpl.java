@@ -20,24 +20,26 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.api.workarea.WorkArea;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.assignment.dao.AssignmentDao;
 import org.kuali.kpme.core.job.JobBo;
-import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -57,10 +59,14 @@ public class AssignmentServiceImpl implements AssignmentService {
         this.assignmentDao = assignmentDao;
     }
 
+    protected List<Assignment> convertToImmutable(List<AssignmentBo> bos) {
+        return ModelObjectUtils.transform(bos, AssignmentBo.toAssignment);
+    }
+
 
     @Override
     public List<Assignment> getAssignments(String principalId, LocalDate asOfDate) {
-        List<Assignment> assignments;
+        List<AssignmentBo> assignments;
 
         if (asOfDate == null) {
             asOfDate = LocalDate.now();
@@ -68,34 +74,35 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         assignments = assignmentDao.findAssignments(principalId, asOfDate);
 
-        for (Assignment assignment : assignments) {
-            populateAssignment(assignment, asOfDate);
+        for (AssignmentBo assignment : assignments) {
+            assignment = populateAssignment(assignment, asOfDate);
         }
 
-        return assignments;
+        return convertToImmutable(assignments);
     }
 
+    //@Override
     public List<Assignment> getAssignments(String principalId, LocalDate beginDate, LocalDate endDate) {
-        List<Assignment> assignments;
+        List<AssignmentBo> assignments;
 
         assignments = assignmentDao.findAssignmentsWithinPeriod(principalId, beginDate, endDate);
 
-        for (Assignment assignment : assignments) {
-            populateAssignment(assignment, assignment.getEffectiveLocalDate());
+        for (AssignmentBo assignment : assignments) {
+            assignment = populateAssignment(assignment, assignment.getEffectiveLocalDate());
         }
 
-        return assignments;
+        return convertToImmutable(assignments);
     }
 
 
     @Override
     public List<Assignment> searchAssignments(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                            String dept, String workArea, String active, String showHistory) {
-        List<Assignment> results = new ArrayList<Assignment>();
+        List<AssignmentBo> results = new ArrayList<AssignmentBo>();
         
-    	List<Assignment> assignmentObjs = assignmentDao.searchAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
+    	List<AssignmentBo> assignmentObjs = assignmentDao.searchAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
     	
-    	for (Assignment assignmentObj : assignmentObjs) {
+    	for (AssignmentBo assignmentObj : assignmentObjs) {
         	String department = assignmentObj.getDept();
         	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, assignmentObj.getEffectiveLocalDate());
         	String location = departmentObj != null ? departmentObj.getLocation() : null;
@@ -113,7 +120,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         	}
     	}
     	
-    	return results;
+    	return convertToImmutable(results);
     }
 
     public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntryContract payCalendarEntry) {
@@ -157,8 +164,8 @@ public class AssignmentServiceImpl implements AssignmentService {
                 || payCalendarEntry == null) {
             return Collections.emptyList();
         }	
-        List<Assignment> assignments = (List<Assignment>)HrServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
-    	List<Assignment> results =(List<Assignment>) HrServiceLocator.getAssignmentService().filterAssignments(assignments, HrConstants.FLSA_STATUS_NON_EXEMPT, false);
+        List<Assignment> assignments = getAssignmentsByPayEntry(principalId, payCalendarEntry);
+    	List<Assignment> results = filterAssignments(assignments, HrConstants.FLSA_STATUS_NON_EXEMPT, false);
     	return results;
     }
     
@@ -172,9 +179,9 @@ public class AssignmentServiceImpl implements AssignmentService {
     	return results;
     }
 
-    public List<Assignment> filterAssignments(List<? extends AssignmentContract> assignments, String flsaStatus, boolean chkForLeaveEligible) {
+    public List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible) {
     	List<Assignment> results = new ArrayList<Assignment>();
-    	for(AssignmentContract assignment : assignments) {
+    	for(Assignment assignment : assignments) {
     		boolean flag = false;
     		if(StringUtils.isNotEmpty(flsaStatus)) {
     			if(assignment != null 
@@ -200,7 +207,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     		}
     		
 			if(flag) {
-				results.add((Assignment)assignment);
+				results.add(assignment);
 			}
     	}
     	
@@ -214,13 +221,13 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Map<String, String> getAssignmentDescriptions(AssignmentContract assignment) {
+    public Map<String, String> getAssignmentDescriptions(Assignment assignment) {
     	Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
         if (assignment == null) {
         	LOG.warn("Assignment is null");
 //            throw new RuntimeException("Assignment is null");
         } else { 
-	        assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription((Assignment) assignment));
+	        assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
         }	
         return assignmentDescriptions;
 
@@ -228,24 +235,24 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public Assignment getAssignment(String tkAssignmentId) {
-        return getAssignmentDao().getAssignment(tkAssignmentId);
+        return AssignmentBo.to(assignmentDao.getAssignment(tkAssignmentId));
     }
 
 
     @Override
     public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate) {
-        List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
-        for (Assignment assignment : assignments) {
-            populateAssignment(assignment, asOfDate);
+        List<AssignmentBo> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
+        for (AssignmentBo assignment : assignments) {
+            assignment = populateAssignment(assignment, asOfDate);
         }
-        return assignments;
+        return convertToImmutable(assignments);
     }
 
     @Override
     public List<String> getPrincipalIdsInActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate) {
-        List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
+        List<AssignmentBo> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
         Set<String> principalIds = new HashSet<String>();
-        for (Assignment assignment : assignments) {
+        for (AssignmentBo assignment : assignments) {
             principalIds.add(assignment.getPrincipalId());
         }
         return new ArrayList<String>(principalIds);
@@ -256,9 +263,9 @@ public class AssignmentServiceImpl implements AssignmentService {
         if (org.springframework.util.CollectionUtils.isEmpty(workAreas)) {
             return Collections.emptyList();
         }
-        List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkAreas(workAreas, asOfDate);
+        List<AssignmentBo> assignments = assignmentDao.getActiveAssignmentsInWorkAreas(workAreas, asOfDate);
         Set<String> principalIds = new HashSet<String>();
-        for (Assignment assignment : assignments) {
+        for (AssignmentBo assignment : assignments) {
             principalIds.add(assignment.getPrincipalId());
         }
         return new ArrayList<String>(principalIds);
@@ -266,33 +273,38 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<Assignment> getActiveAssignments(LocalDate asOfDate) {
-        return assignmentDao.getActiveAssignments(asOfDate);
+        return convertToImmutable(assignmentDao.getActiveAssignments(asOfDate));
     }
 
-    private void populateAssignment(Assignment assignment, LocalDate asOfDate) {
+    protected AssignmentBo populateAssignment(AssignmentBo assignment, LocalDate asOfDate) {
         assignment.setJob(JobBo.from(HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate)));
-        assignment.setWorkAreaObj((WorkArea)HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate));
+        assignment.setWorkAreaObj(WorkAreaBo.from(HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate)));
+        assignment.setTaskObj(TaskBo.from(HrServiceLocator.getTaskService().getTask(assignment.getTask(), asOfDate)));
+        return assignment;
     }
 
     public Assignment getAssignment(String principalId, AssignmentDescriptionKey key, LocalDate asOfDate) {
-        Assignment a = null;
+        AssignmentBo a = null;
 
         if (key != null) {
             a = assignmentDao.getAssignment(principalId, key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
         }
+        if (a != null) {
+            a = populateAssignment(a, asOfDate);
+        }
 
-        return a;
+        return AssignmentBo.to(a);
     }
 
     @Override
     public Assignment getAssignmentForTargetPrincipal(AssignmentDescriptionKey key, LocalDate asOfDate) {
-        Assignment a = null;
+        AssignmentBo a = null;
 
         if (key != null) {
             a = assignmentDao.getAssignmentForTargetPrincipal(key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
         }
 
-        return a;
+        return AssignmentBo.to(a);
     }
 
     /**
@@ -301,28 +313,29 @@ public class AssignmentServiceImpl implements AssignmentService {
      */
     @Override
     public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate) {
-        List<Assignment> assignments = assignmentDao.getActiveAssignmentsForJob(principalId, jobNumber, asOfDate);
+        List<AssignmentBo> assignments = assignmentDao.getActiveAssignmentsForJob(principalId, jobNumber, asOfDate);
 
-        return assignments;
+        return convertToImmutable(assignments);
     }
     
     @Override
-    public Map<String, String> getAssignmentDescriptionsForAssignments(List<? extends AssignmentContract> assignments) {
+    public Map<String, String> getAssignmentDescriptionsForAssignments(List<Assignment> assignments) {
     	 Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-         for (AssignmentContract assignment : assignments) {
+         for (Assignment assignment : assignments) {
                  assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
          }
          return assignmentDescriptions;
     }
-    
-    public Assignment getAssignment(List<? extends AssignmentContract> assignments, String assignmentKey, LocalDate beginDate) {
+
+    @Override
+    public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, LocalDate beginDate) {
         AssignmentDescriptionKey desc = getAssignmentDescriptionKey(assignmentKey);
     	if (CollectionUtils.isNotEmpty(assignments)) {
-            for (AssignmentContract assignment : assignments) {
+            for (Assignment assignment : assignments) {
                 if (assignment.getJobNumber().compareTo(desc.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(desc.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(desc.getTask()) == 0) {
-                    return (Assignment)assignment;
+                    return assignment;
                 }
             }
         }
@@ -334,12 +347,12 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         LOG.warn("no matched assignment found");
-        return new Assignment();
+        return null;
     }
     
     @Override
     public Assignment getMaxTimestampAssignment(String principalId) {
-    	return assignmentDao.getMaxTimestampAssignment(principalId);
+    	return AssignmentBo.to(assignmentDao.getMaxTimestampAssignment(principalId));
     }
 	
 	public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
@@ -351,9 +364,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 	
 	 public List<Assignment> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate) {
 		if (CollectionUtils.isEmpty(workAreaList)) {
-			return new ArrayList<Assignment>();
+			return Collections.emptyList();
 		}	
-		return assignmentDao.getAssignments(workAreaList, effdt, startDate, endDate);
+		return convertToImmutable(assignmentDao.getAssignments(workAreaList, effdt, startDate, endDate));
 	}
 
     @Override
@@ -362,7 +375,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         if (jobNumber != null && workArea != null && task != null) {
             JobContract jobObj = HrServiceLocator.getJobService().getJob(principalId, jobNumber, asOfDate);
-            WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea, asOfDate);
+            WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, asOfDate);
             TaskContract taskObj = HrServiceLocator.getTaskService().getTask(task, asOfDate);
 
             String workAreaDescription = workAreaObj != null ? workAreaObj.getDescription() : StringUtils.EMPTY;

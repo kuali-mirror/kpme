@@ -21,13 +21,15 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentContract;
 import org.kuali.kpme.core.api.permission.HRPermissionService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -85,9 +87,9 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
     
     @Override
-    public boolean canViewCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, AssignmentContract assignment) {
+    public boolean canViewCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, Assignment assignment) {
     	return canSuperUserAdministerCalendarDocument(principalId, (CalendarDocument)calendarDocument)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, (CalendarDocument)calendarDocument, (Assignment)assignment);
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, (CalendarDocument)calendarDocument, assignment);
     }
     
     @Override
@@ -97,9 +99,9 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
     
     @Override
-    public boolean canEditCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, AssignmentContract assignment) {
+    public boolean canEditCalendarDocumentAssignment(String principalId, CalendarDocumentContract calendarDocument, Assignment assignment) {
     	return canSuperUserAdministerCalendarDocument(principalId, (CalendarDocument)calendarDocument)
-    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, (CalendarDocument)calendarDocument, (Assignment)assignment);
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, (CalendarDocument)calendarDocument, assignment);
     }
     
     @Override
@@ -119,7 +121,7 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     	if (calendarDocument != null) {
     		String documentTypeName = calendarDocument.getCalendarType();
         	DocumentStatus documentStatus = DocumentStatus.fromCode(calendarDocument.getDocumentHeader().getDocumentStatus());
-    		List<AssignmentContract> assignments = calendarDocument.getAssignments();
+    		List<Assignment> assignments = calendarDocument.getAssignments();
         	
         	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, calendarDocument.getDocumentId(), documentStatus, assignments, calendarDocument.getCalendarEntry().getEndPeriodFullDateTime());
     	}
@@ -157,9 +159,9 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
     private boolean isActiveAssignmentFoundOnJobFlsaStatus(String principalId, String flsaStatus, boolean chkForLeaveEligible) {
     	boolean isActiveAssFound = false;
     	LocalDate asOfDate = LocalDate.now();
-     	List<AssignmentContract> activeAssignments = (List<AssignmentContract>) HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+     	List<Assignment> activeAssignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
      	if(activeAssignments != null && !activeAssignments.isEmpty()) {
-     		for(AssignmentContract assignment : activeAssignments) {
+     		for(Assignment assignment : activeAssignments) {
      			if(assignment != null && assignment.getJob() != null && assignment.getJob().getFlsaStatus() != null && assignment.getJob().getFlsaStatus().equalsIgnoreCase(flsaStatus)) {
      				if(chkForLeaveEligible) {
      					isActiveAssFound = assignment.getJob().isEligibleForLeave();

@@ -22,10 +22,12 @@ import java.util.Properties;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.role.KPMERole;
@@ -111,7 +113,7 @@ public class BalanceTransferLookupableHelper extends KPMELookupableHelper {
 						}
 			        	else {
 			        		//do NOT block approvers, processors, delegates from viewing the object.
-							List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(transfer.getPrincipalId(), job.getJobNumber(), effectiveLocalDate);
+							List<Assignment> assignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForJob(transfer.getPrincipalId(), job.getJobNumber(), effectiveLocalDate);
 							for(Assignment assignment : assignments) {
 								if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
 										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))

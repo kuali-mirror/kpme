@@ -15,29 +15,27 @@
  */
 package org.kuali.hr.time.util;
 
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.util.List;
-
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlButton;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.TestAutoLoginFilter;
 import org.kuali.hr.util.HtmlUnitUtil;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.assignment.Assignment;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlButton;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.util.List;
 
 public class TimeDetailTestUtils {
 

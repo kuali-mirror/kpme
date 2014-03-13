@@ -23,7 +23,7 @@
 
     <bean id="Task" parent="Task-parentBean" />
     <bean id="Task-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-        <property name="dataObjectClass" value="org.kuali.kpme.core.task.Task" />
+        <property name="dataObjectClass" value="org.kuali.kpme.core.task.TaskBo" />
         <property name="inquiryDefinition">
             <ref bean="Task-inquiryDefinition" />
         </property>

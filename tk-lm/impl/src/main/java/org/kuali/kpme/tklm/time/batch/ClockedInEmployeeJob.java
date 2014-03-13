@@ -20,8 +20,10 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.Calendar;
@@ -75,7 +77,7 @@ public class ClockedInEmployeeJob extends BatchJob {
 
                 for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
                     String principalId = timesheetDocumentHeader.getPrincipalId();
-                    List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
+                    List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
                     for (Assignment assignment : assignments) {
                         String jobNumber = String.valueOf(assignment.getJobNumber());
                         String workArea = String.valueOf(assignment.getWorkArea());

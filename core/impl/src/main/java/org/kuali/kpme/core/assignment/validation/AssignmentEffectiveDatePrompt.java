@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.core.assignment.validation;
 
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.assignment.Assignment;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -29,9 +29,9 @@ public class AssignmentEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromp
     protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
     	boolean futureEffectiveDateExists = false;
     	
-        Assignment assignment = (Assignment) pbo;
+        AssignmentBo assignment = (AssignmentBo) pbo;
         AssignmentDescriptionKey key = new AssignmentDescriptionKey(assignment);
-        AssignmentContract lastAssignment = HrServiceLocator.getAssignmentService().getAssignment(assignment.getPrincipalId(), key, TKUtils.END_OF_TIME);
+        Assignment lastAssignment = HrServiceLocator.getAssignmentService().getAssignment(assignment.getPrincipalId(), key, TKUtils.END_OF_TIME);
         if (lastAssignment != null && lastAssignment.getEffectiveLocalDate() != null && assignment.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastAssignment.getEffectiveLocalDate().isAfter(assignment.getEffectiveLocalDate());
         }

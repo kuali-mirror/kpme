@@ -15,23 +15,13 @@
  */
 package org.kuali.kpme.tklm.time.rules.overtime.daily.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -48,6 +38,9 @@ import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
@@ -167,10 +160,10 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		this.dailyOvertimeRuleDao = dailyOvertimeRuleDao;
 	}
 
-	private AssignmentContract getIdentifyingKey(TimeBlockContract block, LocalDate asOfDate, String principalId) {
-		List<? extends AssignmentContract> lstAssign = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+	private Assignment getIdentifyingKey(TimeBlockContract block, LocalDate asOfDate, String principalId) {
+		List<Assignment> lstAssign = HrServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 
-		for(AssignmentContract assign : lstAssign){
+		for(Assignment assign : lstAssign){
 			if((assign.getJobNumber().compareTo(block.getJobNumber()) == 0) && (assign.getWorkArea().compareTo(block.getWorkArea()) == 0)){
 				return assign;
 			}
@@ -180,19 +173,19 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 
 	public void processDailyOvertimeRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate timeBlockAggregate){
-		Map<DailyOvertimeRule, List<AssignmentContract>> mapDailyOvtRulesToAssignment = new HashMap<DailyOvertimeRule, List<AssignmentContract>>();
+		Map<DailyOvertimeRule, List<Assignment>> mapDailyOvtRulesToAssignment = new HashMap<DailyOvertimeRule, List<Assignment>>();
 
-		for(AssignmentContract assignment : timesheetDocument.getAssignments()) {
+		for(Assignment assignment : timesheetDocument.getAssignments()) {
 			JobContract job = assignment.getJob();
 			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getDocEndDate());
 
 			if(dailyOvertimeRule !=null) {
 				if(mapDailyOvtRulesToAssignment.containsKey(dailyOvertimeRule)){
-					List<AssignmentContract> lstAssign = mapDailyOvtRulesToAssignment.get(dailyOvertimeRule);
+					List<Assignment> lstAssign = mapDailyOvtRulesToAssignment.get(dailyOvertimeRule);
 					lstAssign.add(assignment);
 					mapDailyOvtRulesToAssignment.put(dailyOvertimeRule, lstAssign);
 				}  else {
-					List<AssignmentContract> lstAssign = new ArrayList<AssignmentContract>();
+					List<Assignment> lstAssign = new ArrayList<Assignment>();
 					lstAssign.add(assignment);
 					mapDailyOvtRulesToAssignment.put(dailyOvertimeRule, lstAssign);
 				}
@@ -219,9 +212,9 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			// 1: ... bucketing by (DailyOvertimeRule -> List<TimeBlock>)
 			Map<DailyOvertimeRule,List<TimeBlockBo>> dailyOvtRuleToDayTotals = new HashMap<DailyOvertimeRule,List<TimeBlockBo>>();
 			for(TimeBlockBo timeBlock : dayTimeBlocks) {
-				AssignmentContract assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
-				for(Map.Entry<DailyOvertimeRule, List<AssignmentContract>> entry : mapDailyOvtRulesToAssignment.entrySet()){
-					List<AssignmentContract> lstAssign = entry.getValue();
+                Assignment assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
+				for(Map.Entry<DailyOvertimeRule, List<Assignment>> entry : mapDailyOvtRulesToAssignment.entrySet()){
+					List<Assignment> lstAssign = entry.getValue();
 
                     // for this kind of operation to work, equals() and hashCode() need to
                     // be over ridden for the object of comparison.

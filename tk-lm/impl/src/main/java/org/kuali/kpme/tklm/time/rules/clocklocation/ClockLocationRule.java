@@ -18,10 +18,10 @@ package org.kuali.kpme.tklm.time.rules.clocklocation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kpme.core.authorization.DepartmentalRule;
+import org.kuali.kpme.core.api.authorization.DepartmentalRule;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.job.JobBo;
-import org.kuali.kpme.core.workarea.WorkArea;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.kpme.tklm.api.time.rules.clocklocation.ClockLocationRuleContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
@@ -67,7 +67,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 
 	private List<ClockLocationRuleIpAddress> ipAddresses = new ArrayList<ClockLocationRuleIpAddress>();
 
-	private WorkArea workAreaObj;
+	private WorkAreaBo workAreaObj;
 	private JobBo job;
 	private transient Person principal;
 
@@ -113,11 +113,11 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 	    this.department = department;
 	}
 
-	public WorkArea getWorkAreaObj() {
+	public WorkAreaBo getWorkAreaObj() {
 	    return workAreaObj;
 	}
 
-	public void setWorkAreaObj(WorkArea workAreaObj) {
+	public void setWorkAreaObj(WorkAreaBo workAreaObj) {
 	    this.workAreaObj = workAreaObj;
 	}
 

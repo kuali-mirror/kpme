@@ -17,7 +17,6 @@ package org.kuali.kpme.pm.positiondepartment.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;

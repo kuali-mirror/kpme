@@ -15,15 +15,15 @@
  */
 package org.kuali.kpme.tklm.leave.timeoff.service;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.Cacheable;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public interface SystemScheduledTimeOffService {
     
@@ -40,7 +40,7 @@ public interface SystemScheduledTimeOffService {
 
 	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, LocalDate startDate);
 
-	AssignmentContract getAssignmentToApplyHolidays(
+    Assignment getAssignmentToApplyHolidays(
 			TimesheetDocument timesheetDocument, LocalDate payEndDate);
 
 	/**

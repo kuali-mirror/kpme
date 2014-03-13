@@ -15,30 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.approval.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Hours;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
+import org.joda.time.*;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.web.CalendarDay;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
@@ -46,9 +30,9 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
@@ -63,12 +47,9 @@ import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
-import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -77,6 +58,10 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -137,7 +122,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 //timeBlocks = TkServiceLocator.getTimeBlockService()
                 //              .getTimeBlocks(documentId);
                 List<String> assignKeys = new ArrayList<String>();
-                for(AssignmentContract a : td.getAssignments()) {
+                for(Assignment a : td.getAssignments()) {
                 	assignKeys.add(a.getAssignmentKey());
                 }
                 leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId,
@@ -290,7 +275,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 
     private boolean isSynchronousUser(String principalId) {
-        List<Assignment> assignments = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignments(principalId, LocalDate.now());
         boolean isSynchronousUser = false;
         if (CollectionUtils.isNotEmpty(assignments)) {
             for (Assignment assignment : assignments) {
@@ -490,7 +475,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
     	if (CollectionUtils.isEmpty(workAreaList)) {
     		return new ArrayList<String>();
   	    }
-  		List<Assignment> assignmentList = (List<Assignment>) HrServiceLocator.getAssignmentService().getAssignments(workAreaList, effdt, beginDate, endDate);
+  		List<Assignment> assignmentList = HrServiceLocator.getAssignmentService().getAssignments(workAreaList, effdt, beginDate, endDate);
   		List<Assignment> tempList = this.removeNoTimeAssignment(assignmentList);
   		Set<String> pids = new HashSet<String>();
         for(Assignment anAssignment : tempList) {

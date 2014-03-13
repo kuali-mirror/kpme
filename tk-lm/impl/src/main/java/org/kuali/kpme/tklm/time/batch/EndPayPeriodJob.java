@@ -15,17 +15,13 @@
  */
 package org.kuali.kpme.tklm.time.batch;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.Assignment;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -38,6 +34,9 @@ import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 public class EndPayPeriodJob extends BatchJob {
 	
@@ -67,8 +66,8 @@ public class EndPayPeriodJob extends BatchJob {
 	    	for (PrincipalHRAttributesContract principalHRAttribute : principalHRAttributes) {
 	    		String pId = principalHRAttribute.getPrincipalId();
 	    	    
-	    		List<? extends AssignmentContract> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(pId, calendarEntry);
-	    		for (AssignmentContract assignment : assignments) {
+	    		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(pId, calendarEntry);
+	    		for (Assignment assignment : assignments) {
 	    			String jobNumber = String.valueOf(assignment.getJobNumber());
 	    			String workArea = String.valueOf(assignment.getWorkArea());
 	    			String task = String.valueOf(assignment.getTask());
@@ -106,7 +105,7 @@ LOG.info("EndOfPayPeiodJob started for user " + principalId + " and clockLog " +
 	    if (timesheetDocumentHeader != null) {
 	        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 	        AssignmentDescriptionKey assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask());
-	        AssignmentContract assignment = timesheetDocument.getAssignment(assignmentKey);
+            Assignment assignment = timesheetDocument.getAssignment(assignmentKey);
 	        ClockLog clockOutLog = TkServiceLocator.getClockLogService().processClockLog(coLogDateTime, assignment, calendarEntry, ipAddress,
 	            		endPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_OUT, false, principalId, batchUserPrincipalId);
 
