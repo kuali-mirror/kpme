@@ -53,7 +53,7 @@
                             <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
                             <bean parent="Uif-InputField" p:propertyName="principalId" p:required="true">
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder"
+                                    <bean parent="Uif-QuickFinderByScript"
                                           p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
                                           p:fieldConversions="principalId:principalId"/>
                                 </property>
