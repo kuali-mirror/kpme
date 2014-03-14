@@ -42,7 +42,9 @@ public class ProcessKeyValueFinder extends UifKeyValuesFinderBase {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("",""));
 		for(String aString : PMConstants.PSTN_PROCESS_LIST) { 
-			keyValues.add(new ConcreteKeyValue(aString, aString));
+			if(!aString.equals(PMConstants.PSTN_PROCESS_NEW)){
+				keyValues.add(new ConcreteKeyValue(aString, aString));
+			}	
 		}
 		return keyValues;
 	}
@@ -52,12 +54,11 @@ public class ProcessKeyValueFinder extends UifKeyValuesFinderBase {
 		List<KeyValue> options = new ArrayList<KeyValue>();
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model; 
 		Position aPosition = (Position) docForm.getDocument().getNewMaintainableObject().getDataObject();
-		
+
 		if(aPosition.getPositionNumber() != null) {
 			options = this.getKeyValues();
-
 		} else {
-			options.add(new ConcreteKeyValue(PMConstants.PSTN_PROCESS_NEW, PMConstants.PSTN_PROCESS_NEW));			
+			options.add(new ConcreteKeyValue(PMConstants.PSTN_PROCESS_NEW, PMConstants.PSTN_PROCESS_NEW));
 		}
 
         return options;
