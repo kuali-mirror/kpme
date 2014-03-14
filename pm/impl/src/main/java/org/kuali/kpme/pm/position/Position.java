@@ -38,6 +38,7 @@ import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import com.google.common.collect.ImmutableList;
+import org.kuali.rice.core.api.util.Truth;
 
 public class Position extends PositionBase implements PositionContract {
 	private static final long serialVersionUID = 1L;
@@ -93,12 +94,12 @@ public class Position extends PositionBase implements PositionContract {
     private String reportsToWorkingTitle; // KPME-3269
     
     private List<ClassificationQualification> requiredQualList = new ArrayList<ClassificationQualification>(); 	// read only required qualifications that comes from assiciated Classification
-    private transient boolean displayQualifications;
+    /*private transient boolean displayQualifications;
     private transient boolean displayDuties;
     private transient boolean displayFlags;
     private transient boolean displayResponsibility;
     private transient boolean displayFunding;
-    private transient boolean displayAdHocRecipients;
+    private transient boolean displayAdHocRecipients;*/
    
     public List<PositionDuty> getDutyList() {
     	if(CollectionUtils.isEmpty(dutyList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
@@ -470,75 +471,35 @@ public class Position extends PositionBase implements PositionContract {
 	}
 
 	public boolean isDisplayQualifications() {
-		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.qualifications");
-    	if(StringUtils.equals(status, "true")) {
-    		displayQualifications = true;
-    	} 
-    	return displayQualifications;
+        String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.qualifications");
+        return Truth.strToBooleanIgnoreCase(status, Boolean.FALSE);
 	}
 
-	public void setDisplayQualifications(boolean displayQualifications) {
-		this.displayQualifications = displayQualifications;
-	}
 
 	public boolean isDisplayDuties() {
-		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.duties");
-    	if(StringUtils.equals(status, "true")) {
-    		displayDuties = true;
-    	} 
-    	return displayDuties;
-	}
-
-	public void setDisplayDuties(boolean displayDuties) {
-		this.displayDuties = displayDuties;
+        String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.duties");
+        return Truth.strToBooleanIgnoreCase(status, Boolean.FALSE);
 	}
 
 	public boolean isDisplayFlags() {
-		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.flags");
-    	if(StringUtils.equals(status, "true")) {
-    		displayFlags = true;
-    	} 
-    	return displayFlags;
+        String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.flags");
+        return Truth.strToBooleanIgnoreCase(status, Boolean.FALSE);
 	}
 
-	public void setDisplayFlags(boolean displayFlags) {
-		this.displayFlags = displayFlags;
-	}
 
 	public boolean isDisplayResponsibility() {
-		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.responsibility");
-    	if(StringUtils.equals(status, "true")) {
-    		displayResponsibility = true;
-    	}
-    	return displayResponsibility;
-	}
-
-	public void setDisplayResponsibility(boolean displayResponsibility) {
-		this.displayResponsibility = displayResponsibility;
+        String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.responsibility");
+        return Truth.strToBooleanIgnoreCase(status, Boolean.FALSE);
 	}
 
 	public boolean isDisplayFunding() {
-		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.funding");
-    	if(StringUtils.equals(status, "true")) {
-    		displayFunding = true;
-    	} 
-    	return displayFunding;
+        String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.funding");
+        return Truth.strToBooleanIgnoreCase(status, Boolean.FALSE);
 	}
 
-	public void setDisplayFunding(boolean displayFunding) {
-		this.displayFunding = displayFunding;
-	}
 
 	public boolean isDisplayAdHocRecipients() {
-		String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.adhocrecipients");
-    	if(StringUtils.equals(status, "true")) {
-    		displayAdHocRecipients = true;
-    	}
-    	return displayAdHocRecipients;
+        String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.adhocrecipients");
+        return Truth.strToBooleanIgnoreCase(status, Boolean.FALSE);
 	}
-
-	public void setDisplayAdHocRecipients(boolean displayAdHocRecipients) {
-		this.displayAdHocRecipients = displayAdHocRecipients;
-	}
-
 }

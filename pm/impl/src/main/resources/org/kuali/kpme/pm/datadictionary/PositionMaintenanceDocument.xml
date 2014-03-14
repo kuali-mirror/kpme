@@ -17,14 +17,15 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:dd="http://rice.kuali.org/dd"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                           http://rice.kuali.org/dd
-                           http://rice.kuali.org/dd/dd.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-	<bean id="PositionMaintenanceDocument" parent="PositionMaintenanceDocument-parentBean" />
+<bean id="PositionMaintenanceDocument" parent="PositionMaintenanceDocument-parentBean" />
 	<bean id="PositionMaintenanceDocument-parentBean" abstract="true"
 		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.pm.position.Position"
 		p:businessRulesClass="org.kuali.kpme.pm.position.validation.PositionValidation">
@@ -81,27 +82,27 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-HeaderTwo" p:headerText="Position Details" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-Overview-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Overview" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-Classification-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-Department-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-Qualification-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications" p:render="@{#dp.displayQualifications}"/>
-				<bean parent="Uif-NavigationActionLink" id="Pos-Duty-Actionlink"
-					p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" p:render="@{#dp.displayDuties}"/>
-				<bean parent="Uif-NavigationActionLink" id="Pos-Flag-Actionlink"
-					p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" p:render="@{#dp.displayFlags}" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-Responsibility-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
+					p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" p:render="@{#dp.displayDuties}"/> <!--@{#dp.displayDuties}-->
+				<bean parent="Uif-NavigationActionLink"
+					p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" p:render="@{#dp.displayFlags}" /> <!--@{#dp.displayFlags}-->
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility" p:render="@{#dp.displayResponsibility}" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-Funding-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding"  p:render="@{#dp.displayFunding}" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-NoteAttachment-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-NoteAttachmentPage" p:actionLabel="Notes @{#DocumentEntry.allowsNoteAttachments ? 'and Attachments' : ''} (@{document.notes.size()})" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-AdHoc-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-AdHocPage" p:actionLabel="Ad Hoc Recipients" p:render="@{#dp.displayAdHocRecipients}" />
-				<bean parent="Uif-NavigationActionLink" id="Pos-RouteLog-Actionlink"
+				<bean parent="Uif-NavigationActionLink"
 					p:navigateToPageId="Pos-RouteLogPage" p:actionLabel="Route Log" />
 			</list>
 		</property>
