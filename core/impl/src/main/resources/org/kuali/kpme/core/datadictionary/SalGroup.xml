@@ -45,28 +45,6 @@
 		 </list>
 	    </property>
 	    <property name="objectLabel" value="SalaryGroup"/>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="institutionObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution"
-								p:targetName="institutionCode" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leavePlanObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
-								p:targetName="leavePlan" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
   	</bean>
 
 <!-- Attribute Definitions -->  
