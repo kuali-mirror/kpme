@@ -107,7 +107,7 @@
 	</bean>
 
 	<!-- KRAD Lookup View Definition -->
-	<bean id="Location-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+	<bean id="Location-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
 	    <property name="headerText" value="Location Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.core.location.LocationBo" />
 	    <property name="criteriaFields">
