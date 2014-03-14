@@ -184,14 +184,15 @@
                         if (options.length == 2) {
                             jQuery('#position_location_control').val(options[1].value);
                          }"
-                      p:required="true">
+                      p:required="true"
+                      p:refreshWhenChangedPropertyNames="#dp.institution" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"
                               p:disabled="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}"
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.kpme.core.util.LocationKeyValueFinder" />
+                        <bean class="org.kuali.kpme.pm.util.LocationKeyValueFinder" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="primaryDepartment"

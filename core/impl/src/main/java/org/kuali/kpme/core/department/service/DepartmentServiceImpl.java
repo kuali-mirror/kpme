@@ -132,11 +132,22 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return ModelObjectUtils.transform(departmentDao.getDepartments(department), toDepartment);
 	}
 
-
-    
     @Override
     public Department getDepartmentWithDeptAndLocation(String department, String location, LocalDate asOfDate) {
     	return DepartmentBo.to(departmentDao.getDepartment(department, location, asOfDate));
+    }
+    
+    @Override
+    public List<String> getLocationsValuesWithInstitution(String institution, LocalDate asOfDate) {
+        List<DepartmentBo> departmentObjs = departmentDao.getDepartmentsForInstitution(institution, asOfDate);
+        List<String> locations = new ArrayList<String>();
+        for (DepartmentBo departmentObj : departmentObjs) {
+        	if (!locations.contains(departmentObj.getLocation())) {
+            	locations.add(departmentObj.getLocation());        		
+        	}
+        }
+
+        return locations;
     }
 
 }

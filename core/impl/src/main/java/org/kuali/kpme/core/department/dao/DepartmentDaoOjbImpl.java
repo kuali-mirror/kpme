@@ -189,4 +189,26 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 
 		return d;
 	}
+	
+	@Override
+	public List<DepartmentBo> getDepartmentsForInstitution(String institution, LocalDate asOfDate) {
+		Criteria root = new Criteria();
+
+		root.addEqualTo("institution", institution);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentBo.class, asOfDate, DepartmentBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentBo.class, DepartmentBo.BUSINESS_KEYS, false));
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+
+
+		Query query = QueryFactory.newQuery(DepartmentBo.class, root);
+
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		List<DepartmentBo> d = new ArrayList<DepartmentBo>(c.size());
+        d.addAll(c);
+
+		return d;
+	}
 }

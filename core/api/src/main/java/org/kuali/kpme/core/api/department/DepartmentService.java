@@ -108,4 +108,14 @@ public interface DepartmentService {
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'department=' + #p0 + '|' + 'location=' + #p1 + '|' + 'asOfDate=' + #p2")
     Department getDepartmentWithDeptAndLocation(String department, String location, LocalDate asOfDate);
 
+    /**
+     * Fetches a list of locations as of the specified date all of which
+     * belong to the indicated institution.
+     *
+     * @param institution The search criteria
+     * @param asOfDate Effective date
+     * @return A List<String> object.
+     */
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartmentsForInstitution}' + 'institution=' + #p0 + '|' + 'asOfDate=' + #p1")
+    List<String> getLocationsValuesWithInstitution(String institution, LocalDate asOfDate);
 }

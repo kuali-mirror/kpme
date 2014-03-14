@@ -30,4 +30,5 @@ public interface DepartmentDao {
     public List<DepartmentBo> getDepartments(String department);
     List<DepartmentBo> getDepartments(String department, String location, String descr, String active, String showHistory, String payrollApproval);
     public DepartmentBo getDepartment(String department,String location,LocalDate asOfDate);
+    public List<DepartmentBo> getDepartmentsForInstitution(String institution, LocalDate asOfDate);
 }
