@@ -17,6 +17,8 @@ package org.kuali.kpme.pm.position;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.pm.api.position.PositionDutyContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -59,6 +61,25 @@ private static final long serialVersionUID = 1L;
 	public void setHrPositionId(String hrPositionId) {
 		this.hrPositionId = hrPositionId;
 	}
-	
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != getClass())
+            return false;
+
+        PositionDuty rhs = (PositionDuty)obj;
+        return new EqualsBuilder()
+                .append(pmDutyId, rhs.getPmDutyId())
+                .append(name, rhs.getName())
+                .append(description, rhs.getDescription())
+                .append(percentage, rhs.getPercentage())
+                .append(hrPositionId, rhs.getHrPositionId())
+                .isEquals();
+
+    }
 	
 }

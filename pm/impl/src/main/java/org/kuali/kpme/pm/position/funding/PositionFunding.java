@@ -17,6 +17,8 @@ package org.kuali.kpme.pm.position.funding;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 
@@ -170,5 +172,31 @@ public class PositionFunding extends HrBusinessObject implements PositionFunding
 		this.priorityFlag = priorityFlag;
 	}
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != getClass())
+            return false;
+
+        PositionFunding rhs = (PositionFunding) obj;
+        return new EqualsBuilder()
+                .append(pmPositionFunctionId,rhs.getPmPositionFunctionId())
+                .append(hrPositionId, rhs.getHrPositionId())
+                .append(chart, rhs.getChart())
+                .append(org, rhs.getOrg())
+                .append(account, rhs.getAccount())
+                .append(subAccount, rhs.getSubAccount())
+                .append(objectCode, rhs.getObjectCode())
+                .append(subObjectCode, rhs.getSubObjectCode())
+                .append(orgRefCode, rhs.getOrgRefCode())
+                .append(percent, rhs.getPercent())
+                .append(amount, rhs.getAmount())
+                .append(priorityFlag, rhs.isPriorityFlag())
+                .isEquals();
+
+    }
 	
 }

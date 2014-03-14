@@ -16,6 +16,8 @@
 package org.kuali.kpme.pm.position;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.pm.api.position.PositionQualificationContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
@@ -85,5 +87,25 @@ public class PositionQualification extends PersistableBusinessObjectBase impleme
 	public void setHrPositionId(String hrPositionId) {
 		this.hrPositionId = hrPositionId;
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != getClass())
+            return false;
+
+        PositionQualification rhs = (PositionQualification)obj;
+        return new EqualsBuilder()
+                .append(pmQualificationId, rhs.getPmQualificationId())
+                .append(qualificationType, rhs.getQualificationType())
+                .append(qualifier, rhs.getQualifier())
+                .append(qualificationValue, rhs.getQualificationValue())
+                .append(hrPositionId, rhs.getHrPositionId())
+                .isEquals();
+
+    }
 
 }

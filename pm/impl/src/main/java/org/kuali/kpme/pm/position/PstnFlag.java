@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.pm.position;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.pm.api.position.PstnFlagContract;
 import org.kuali.kpme.pm.flag.Flag;
 
@@ -30,5 +32,23 @@ public class PstnFlag extends Flag implements PstnFlagContract {
 	public void setHrPositionId(String hrPositionId) {
 		this.hrPositionId = hrPositionId;
 	}
-	
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != getClass())
+            return false;
+
+        PstnFlag rhs = (PstnFlag)obj;
+        return new EqualsBuilder()
+                .append(this.getPmFlagId(), rhs.getPmFlagId())
+                .append(this.getCategory(), rhs.getCategory())
+                .append(this.getNames(), rhs.getNames())
+                .append(hrPositionId, rhs.getHrPositionId())
+                .isEquals();
+
+    }
 }

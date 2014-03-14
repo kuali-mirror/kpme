@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.pm.positionresponsibility;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.location.api.campus.Campus;
@@ -83,6 +85,24 @@ public class PositionResponsibility extends PersistableBusinessObjectBase implem
 		this.setPositionResponsibilityId(id);
 		
 	}
-	
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != getClass())
+            return false;
+
+        PositionResponsibility rhs = (PositionResponsibility)obj;
+        return new EqualsBuilder()
+                .append(positionResponsibilityId, rhs.getPositionResponsibilityId())
+                .append(positionResponsibilityOption, rhs.getPositionResponsibilityOption())
+                .append(percentTime, rhs.getPercentTime())
+                .append(hrPositionId, rhs.getHrPositionId())
+                .isEquals();
+
+    }
 	
 }

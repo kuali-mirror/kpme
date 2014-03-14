@@ -15,16 +15,17 @@
  */
 package org.kuali.kpme.pm.position.web;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
-import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.position.Position;
@@ -37,6 +38,9 @@ import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -320,7 +324,64 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
             position.getDepartmentList().add(primaryDepartment);
         }
 
+        //add note if enroute change occurs
+
+            try {
+                MaintenanceDocument maintenanceDocument = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(this.getDocumentNumber());
+                if (maintenanceDocument != null && maintenanceDocument.getNewMaintainableObject().getDataObject() instanceof Position) {
+                    Position previousPosition = (Position) maintenanceDocument.getNewMaintainableObject().getDataObject();
+                    recordEnrouteChanges(previousPosition,maintenanceDocument.getNoteTarget().getObjectId());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         super.prepareForSave();
 
+
+    }
+
+    private void recordEnrouteChanges(Position previousPosition, String noteTarget) {
+        //List of fields on the position class not to compare
+        List<String> noCompareFields = new ArrayList<String>();
+        noCompareFields.add("process");
+        noCompareFields.add("requiredQualList");
+
+        List<Note> noteList = new ArrayList<Note>();
+        Position currentPosition = (Position) this.getDataObject();
+
+        EntityNamePrincipalName approver = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(currentPosition.getUserPrincipalId());
+
+        //compare all fields on position
+        try {
+            for (PropertyDescriptor pd : Introspector.getBeanInfo(Position.class).getPropertyDescriptors()) {
+
+                if (pd.getReadMethod() != null && !noCompareFields.contains(pd.getName())) {
+                    try {
+                        Object currentObject = pd.getReadMethod().invoke(currentPosition);
+                        Object previousObject = pd.getReadMethod().invoke(previousPosition);
+
+
+                            if (!currentObject.equals(previousObject)){
+                                    String noteText = approver.getPrincipalName() + " changed " + pd.getDisplayName() + " from '" + previousObject.toString() + "' to '" + currentObject.toString() + "'";
+
+                                    Note note = new Note();
+                                    note.setRemoteObjectIdentifier(noteTarget);
+                                    note.setNoteText(StringUtils.abbreviate(noteText,800));
+                                    note.setAuthorUniversalIdentifier(currentPosition.getUserPrincipalId());
+                                    note.setNotePostedTimestampToCurrent();
+                                    noteList.add(note);
+                            }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (IntrospectionException e) {
+            e.printStackTrace();
+        }
+
+        KRADServiceLocator.getNoteService().saveNoteList(noteList);
     }
 }

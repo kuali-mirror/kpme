@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.pm.positiondepartment;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
@@ -23,6 +25,7 @@ import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
+import org.kuali.kpme.pm.position.Position;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.ImmutableList;
@@ -223,5 +226,26 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	public void setDepartmentObj(DepartmentBo departmentObj) {
 		this.departmentObj = departmentObj;
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (obj.getClass() != getClass())
+            return false;
+
+        PositionDepartment rhs = (PositionDepartment)obj;
+        return new EqualsBuilder()
+                .append(pmPositionDeptId,rhs.getPmPositionDeptId())
+                .append(institution, rhs.getInstitution())
+                .append(location, rhs.getLocation())
+                .append(department, rhs.getDepartment())
+                .append(deptAffl, rhs.getDeptAffl())
+                .append(hrPositionId, rhs.getHrPositionId())
+                .isEquals();
+
+    }
 
 }
