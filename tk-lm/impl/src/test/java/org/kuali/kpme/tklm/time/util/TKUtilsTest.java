@@ -350,10 +350,6 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
         }
         Assert.assertEquals("Session Time Out is Incorrect",timeOut,TKUtils.getSessionTimeoutTime());
     }
-    @Test
-    public void testGetCurrentTimestamp() {
-        Assert.assertEquals("Timestamp is wrong",new Timestamp(System.currentTimeMillis()),TKUtils.getCurrentTimestamp());
-    }
 
     @Test
     public void testCreateDaySpan() throws Exception {
