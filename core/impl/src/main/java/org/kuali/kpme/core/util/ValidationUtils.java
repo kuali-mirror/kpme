@@ -275,7 +275,7 @@ public class ValidationUtils {
 		boolean valid = false;
 
         if (StringUtils.isEmpty(department)) {
-          // do nothing, let false be returned.
+          return false;
         } else if (asOfDate != null) {
 			Department d = HrServiceLocator.getDepartmentService().getDepartment(department, asOfDate);
 		    valid = (d != null);

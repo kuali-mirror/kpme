@@ -253,9 +253,8 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 
 	@Override
 	public String getUniqueKey() {
-		String jobKey = getPrincipalId()+"_"+getJobNumber()+"_"+getWorkArea()+"_"+
+		return getPrincipalId()+"_"+getJobNumber()+"_"+getWorkArea()+"_"+
 			(getTask() != null ? getTask().toString() : "");
-		return jobKey;
 
 	}
 
@@ -271,12 +270,15 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return false;
-        if (obj == this)
+        }
+        if (obj == this) {
             return true;
-        if (obj.getClass() != getClass())
+        }
+        if (obj.getClass() != getClass()) {
             return false;
+        }
 
         AssignmentBo rhs = (AssignmentBo)obj;
         return new EqualsBuilder().append(principalId, rhs.principalId).append(jobNumber, rhs.jobNumber)

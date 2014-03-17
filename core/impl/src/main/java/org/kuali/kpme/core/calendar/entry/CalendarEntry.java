@@ -19,6 +19,7 @@ import java.sql.Time;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -330,11 +331,9 @@ public class CalendarEntry extends PersistableBusinessObjectBase implements Cale
 	public boolean equals(Object obj) {
 		if(obj instanceof CalendarEntry) {
 			CalendarEntry other = (CalendarEntry) obj;
-			if(other != null) {
-				return this.hrCalendarId == other.hrCalendarId
-					&& this.hrCalendarEntryId == other.hrCalendarEntryId;
-			}
-		}
+            return this.hrCalendarId.equals(other.hrCalendarId)
+                && this.hrCalendarEntryId.equals(other.hrCalendarEntryId);
+        }
 		return super.equals(obj);
 	}
 

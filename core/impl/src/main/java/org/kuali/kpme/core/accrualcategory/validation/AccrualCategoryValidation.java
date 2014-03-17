@@ -55,14 +55,14 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 					this.putGlobalError("error.accrualCategoryRule.notExpected",count.toString());
 					valid = false;
 				}
-				
-				if (accrualCategory.getHasRules().equals("Y") && accrualCategoryRules.size() > 0) {
-					//normal case rules expected by other validations on this page
-				}else if (accrualCategory.getHasRules().equals("Y")&& accrualCategoryRules.size() == 0) {
-					this.putGlobalError("error.accrualCategoryRule.required");
-					valid = false;
-				}
-			}
+
+                if (!accrualCategory.getHasRules().equals("Y") || accrualCategoryRules.size() <= 0) {
+                    if (accrualCategory.getHasRules().equals("Y")&& accrualCategoryRules.size() == 0) {
+                        this.putGlobalError("error.accrualCategoryRule.required");
+                        valid = false;
+                    }
+                }
+            }
 		}
 		return valid;
 	}
@@ -347,17 +347,15 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	}
 
     boolean isAccrualCategoryUnique(String newAccrualCategory, String oldAccrualCategory, LocalDate asOfDate) {
-        boolean valid = true;
         if (oldAccrualCategory != null && oldAccrualCategory.equals(newAccrualCategory)) {
-            //do nothing, let true be returned
+            return true;
         } else {
             if (HrServiceLocator.getAccrualCategoryService().getAccrualCategory(newAccrualCategory, asOfDate) != null) {
                 this.putFieldError("accrualCategory","error.accrualCategory.unique");
-                valid = false;
+                return false;
             }
-        };
-
-       return valid;
+        }
+        return true;
     }
 
 	static final Comparator<AccrualCategoryRuleBo> SENIORITY_ORDER = new Comparator<AccrualCategoryRuleBo>() {

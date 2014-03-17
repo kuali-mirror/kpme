@@ -24,7 +24,6 @@ import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
 import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectExtension;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
@@ -32,8 +31,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
 
 @XmlRootElement(name = AccrualCategory.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
@@ -49,14 +46,12 @@ import java.util.Map;
         AccrualCategory.Elements.DONATION,
         AccrualCategory.Elements.SHOW_ON_GRID,
         AccrualCategory.Elements.UNIT_OF_TIME,
-        AccrualCategory.Elements.HISTORY,
         AccrualCategory.Elements.EARN_CODE,
         AccrualCategory.Elements.EARN_CODE_OBJ,
         AccrualCategory.Elements.ID,
         AccrualCategory.Elements.EFFECTIVE_DATE,
         AccrualCategory.Elements.EFFECTIVE_LOCAL_DATE,
         AccrualCategory.Elements.RELATIVE_EFFECTIVE_DATE,
-        AccrualCategory.Elements.BUSINESS_KEY_VALUES_MAP,
         AccrualCategory.Elements.USER_PRINCIPAL_ID,
         AccrualCategory.Elements.CREATE_TIME,
         AccrualCategory.Elements.EXTENSION,
@@ -288,18 +283,12 @@ public final class AccrualCategory
         private String donation;
         private String showOnGrid;
         private String unitOfTime;
-        private Boolean history;
         private String earnCode;
         private EarnCodeContract earnCodeObj;
         private String id;
-        private Date effectiveDate;
         private LocalDate effectiveLocalDate;
-        private Date relativeEffectiveDate;
-        private Map businessKeyValuesMap;
         private String userPrincipalId;
         private DateTime createTime;
-        private PersistableBusinessObjectExtension extension;
-        private boolean newCollectionRecord;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -501,11 +490,6 @@ public final class AccrualCategory
             this.unitOfTime = unitOfTime;
         }
 
-        public void setHistory(Boolean history) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.history = history;
-        }
-
         public void setEarnCode(String earnCode) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.earnCode = earnCode;
@@ -521,24 +505,9 @@ public final class AccrualCategory
             this.id = id;
         }
 
-        public void setEffectiveDate(Date effectiveDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.effectiveDate = effectiveDate;
-        }
-
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.effectiveLocalDate = effectiveLocalDate;
-        }
-
-        public void setRelativeEffectiveDate(Date relativeEffectiveDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.relativeEffectiveDate = relativeEffectiveDate;
-        }
-
-        public void setBusinessKeyValuesMap(Map businessKeyValuesMap) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.businessKeyValuesMap = businessKeyValuesMap;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
@@ -549,16 +518,6 @@ public final class AccrualCategory
         public void setCreateTime(DateTime createTime) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.createTime = createTime;
-        }
-
-        public void setExtension(PersistableBusinessObjectExtension extension) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.extension = extension;
-        }
-
-        public void setNewCollectionRecord(boolean newCollectionRecord) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.newCollectionRecord = newCollectionRecord;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -608,7 +567,6 @@ public final class AccrualCategory
         final static String DONATION = "donation";
         final static String SHOW_ON_GRID = "showOnGrid";
         final static String UNIT_OF_TIME = "unitOfTime";
-        final static String HISTORY = "history";
         final static String EARN_CODE = "earnCode";
         final static String EARN_CODE_OBJ = "earnCodeObj";
         final static String ID = "id";

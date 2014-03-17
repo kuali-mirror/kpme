@@ -16,7 +16,7 @@
 package org.kuali.kpme.core.api;
 
 
-public class KPMEConstants {
+public final class KPMEConstants {
 
     public static class ConfigSettings {
         public static final String SESSION_TIMEOUT = "session.timeout";
@@ -36,5 +36,9 @@ public class KPMEConstants {
         public static final String UNSPECIFIED = "unspecifiedVersion";
 
         public static final String VERSION_2_1 = "v2_1";
+    }
+
+    private KPMEConstants() {
+        throw new UnsupportedOperationException("do not call");
     }
 }

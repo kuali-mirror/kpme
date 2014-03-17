@@ -38,9 +38,6 @@ public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase imple
 
     private EarnCodeBo earnCodeObj;
 
-    // this is for the maintenance screen
-    private String earnCodeDesc;
-
 	public String getEarnCode() {
 		return earnCode;
 	}
@@ -63,10 +60,6 @@ public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase imple
 
 	public void setHrEarnCodeGroupId(String hrEarnCodeGroupId) {
 		this.hrEarnCodeGroupId = hrEarnCodeGroupId;
-	}
-
-	public void setEarnCodeDesc(String earnCodeDesc) {
-		this.earnCodeDesc = earnCodeDesc;
 	}
 
 	public EarnCodeBo getEarnCodeObj() {

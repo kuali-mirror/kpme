@@ -49,17 +49,6 @@ public interface LeaveSummaryRowContract {
     public String getAccrualCategoryId();
    
     /**
-	 * The AccrualCategoryRule id associated with the LeaveSummaryRow
-	 * 
-	 * <p>
-	 * accrualCategoryRuleId of a LeaveSummaryRow 
-	 * <p>
-	 * 
-	 * @return accrualCategoryRuleId for LeaveSummaryRow
-	 */
-    public String getAccrualCategoryRuleId();
-
-    /**
      * TODO: Make sure this comment is right
    	 * The amount user can carry over to next year associated with the LeaveSummaryRow
    	 * 
