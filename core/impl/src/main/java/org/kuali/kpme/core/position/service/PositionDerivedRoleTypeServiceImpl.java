@@ -15,9 +15,7 @@
  */
 package org.kuali.kpme.core.position.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -25,6 +23,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.job.service.JobService;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -128,5 +128,39 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
 	public void setJobService(JobService jobService) {
 		this.jobService = jobService;
 	}
+
+
+    @Override
+    public Map<String, String> convertQualificationForMemberRolesAndMemberAttributes(
+             String namespaceCode, String roleName,
+            String memberRoleNamespaceCode,
+            String memberRoleName, Map<String, String> qualification,
+            Map<String, String> memberQualification) throws RiceIllegalArgumentException {
+        if (StringUtils.isBlank(namespaceCode)) {
+            throw new RiceIllegalArgumentException("namespaceCode was null or blank");
+        }
+
+        if (StringUtils.isBlank(roleName)) {
+            throw new RiceIllegalArgumentException("roleName was null or blank");
+        }
+
+        if (StringUtils.isBlank(memberRoleNamespaceCode)) {
+            throw new RiceIllegalArgumentException("memberRoleNamespaceCode was null or blank");
+        }
+
+        if (StringUtils.isBlank(memberRoleName)) {
+            throw new RiceIllegalArgumentException("memberRoleName was null or blank");
+        }
+
+        if (qualification == null) {
+            throw new RiceIllegalArgumentException("qualification was null");
+        }
+
+        if (memberQualification == null) {
+            throw new RiceIllegalArgumentException("memberQualification was null");
+        }
+
+        return Collections.unmodifiableMap(new HashMap<String, String>(memberQualification));
+    }
 
 }

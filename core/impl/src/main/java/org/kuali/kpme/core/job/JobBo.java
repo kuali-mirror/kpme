@@ -55,6 +55,7 @@ public class JobBo extends HrBusinessObject implements JobContract {
             .add(JobBo.CACHE_NAME)
             .add(AssignmentBo.CACHE_NAME)
             .add(CalendarBlockPermissions.CACHE_NAME)
+            .add(RoleMember.Cache.NAME)
             .build();
 	
 	private String location;
