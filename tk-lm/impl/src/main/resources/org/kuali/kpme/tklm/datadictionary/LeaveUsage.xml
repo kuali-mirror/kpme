@@ -18,11 +18,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	 <bean id="LeaveBlock-SubmitView" parent="Uif-FormView">
+	<bean id="LeaveBlock-SubmitView" parent="Uif-FormView">
   		<property name="id" value="leaveUsageView" />
 		<property name="headerText" value="Download Leave Usage" />
+		<property name="breadcrumbs.render" value="false"/>
 		<property name="formClass"	value="org.kuali.kpme.tklm.leave.block.web.LeaveBlockForm" />
 		<property name="formPostUrl" value="leaveBlock" />
 		<property name="items">
@@ -47,7 +48,7 @@
 		     		<property name="layoutManager.numberOfColumns" value="2"/>
 	                <property name="layoutManager.applyDefaultCellWidths" value="false" />
             	    <property name="items">
-            	     <list>
+            	    	<list>		
 							<bean parent="Uif-InputField" p:labelPlacement="LEFT" p:fieldLabel.renderColon="true" p:style="align: right;"
 								p:propertyName="fromDate" p:label="From Date" p:required="true" p:defaultValue="@{fromDate}">
 									<property name="validCharactersConstraint">
@@ -56,7 +57,7 @@
 									<property name="control">
             							<bean parent="Uif-DateControl"/>
           							</property>
-							</bean>
+    						</bean>
 							<bean parent="Uif-InputField" p:labelPlacement="LEFT" p:fieldLabel.renderColon="true" p:style="align: right;"
 								p:propertyName="toDate" p:label="To Date" p:required="true" p:defaultValue="@{toDate}">
 									<property name="validCharactersConstraint">
@@ -65,7 +66,7 @@
 									<property name="control">
             							<bean parent="Uif-DateControl"/>
           							</property>
-							</bean> 
+    						</bean>
 						</list>
 					</property>
 				</bean>	

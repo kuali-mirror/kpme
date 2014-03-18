@@ -38,6 +38,7 @@ import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.exportCalendar.CalendarEvent;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
@@ -67,6 +68,7 @@ public class LeaveBlockController extends UifControllerBase {
 	
 	@RequestMapping(params = "methodToCall=submit")
     public ModelAndView submit(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+		LeaveBlockForm leaveBlockForm = (LeaveBlockForm)form;
 		String fromDate = request.getParameter("fromDate");
 		String toDate = request.getParameter("toDate");
 		if (fromDate != null && !fromDate.equals("") && toDate != null && !toDate.equals("")) {
@@ -106,8 +108,15 @@ public class LeaveBlockController extends UifControllerBase {
 					}
 				}
 			}
+		}else{
+			if(fromDate == null || fromDate.equals("")){
+				GlobalVariables.getMessageMap().putError("fromDate","error.required","From Date");
+			}
+			if(toDate == null || toDate.equals("")){
+				GlobalVariables.getMessageMap().putError("toDate","error.required", "To Date");
+			}
 		}
-		return null;
+		return getUIFModelAndView(form);
     }
 	
 	public StringBuffer exportApprovedLeaves(LocalDate beginDate,LocalDate endDate){
