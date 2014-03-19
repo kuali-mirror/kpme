@@ -44,7 +44,7 @@
 	<bean id="PositionMaintenanceDocument-MaintenanceView"
 		parent="PositionMaintenanceDocument-PositionMaintenance-parentBean" />
 	<bean id="PositionMaintenanceDocument-PositionMaintenance-parentBean"
-		abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+		abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView" >
 		<property name="headerText" value="Position Maintenance" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
 		<property name="items">
@@ -77,36 +77,188 @@
 		<property name="applyDirtyCheck" value="false" />
 	</bean> <!-- maintenance -->
 
-	<!-- Navigation -->
-	<bean id="positionMenuNavigation" parent="Uif-MenuNavigationGroup">
-		<property name="items">
-			<list>
-				<bean parent="Uif-HeaderTwo" p:headerText="Position Details" />
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Overview" />
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification" />
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments" />
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications" p:render="@{#dp.displayQualifications}"/>
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" p:render="@{#dp.displayDuties}"/> <!--@{#dp.displayDuties}-->
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" p:render="@{#dp.displayFlags}" /> <!--@{#dp.displayFlags}-->
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility" p:render="@{#dp.displayResponsibility}" />
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding"  p:render="@{#dp.displayFunding}" />
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-NoteAttachmentPage" p:actionLabel="Notes @{#DocumentEntry.allowsNoteAttachments ? 'and Attachments' : ''} (@{document.notes.size()})" />
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-AdHocPage" p:actionLabel="Ad Hoc Recipients" p:render="@{#dp.displayAdHocRecipients}" />
-				<bean parent="Uif-NavigationActionLink"
-					p:navigateToPageId="Pos-RouteLogPage" p:actionLabel="Route Log" />
-			</list>
-		</property>
-	</bean>
+    <!-- Navigation -->
+    <bean id="positionMenuNavigation" parent="Uif-MenuNavigationGroup" >
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderTwo" p:headerText="Position Details"/>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-OverviewPage" p:actionLabel="Overview">
+                    <property name="actionImagePlacement" value="RIGHT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="actionImage"
+                                  p:condition="!(document.newMaintainableObject.dataObject.effectiveDate == null ? '' :document.newMaintainableObject.dataObject.effectiveDate).equals(document.oldMaintainableObject.dataObject.effectiveDate == null ? '' :document.oldMaintainableObject.dataObject.effectiveDate) ||
+                                   !(document.newMaintainableObject.dataObject.institution == null ? '' :document.newMaintainableObject.dataObject.institution).equals(document.oldMaintainableObject.dataObject.institution == null ? '' :document.oldMaintainableObject.dataObject.institution) ||
+                                   !(document.newMaintainableObject.dataObject.location == null ? '' :document.newMaintainableObject.dataObject.location).equals(document.oldMaintainableObject.dataObject.location == null ? '' :document.oldMaintainableObject.dataObject.location) ||
+                                   !(document.newMaintainableObject.dataObject.primaryDepartment == null ? '' :document.newMaintainableObject.dataObject.primaryDepartment).equals(document.oldMaintainableObject.dataObject.primaryDepartment == null ? '' :document.oldMaintainableObject.dataObject.primaryDepartment) ||
+                                   !(document.newMaintainableObject.dataObject.positionClass == null ? '' :document.newMaintainableObject.dataObject.positionClass).equals(document.oldMaintainableObject.dataObject.positionClass == null ? '' :document.oldMaintainableObject.dataObject.positionClass) ||
+                                   !(document.newMaintainableObject.dataObject.description == null ? '' :document.newMaintainableObject.dataObject.description).equals(document.oldMaintainableObject.dataObject.description == null ? '' :document.oldMaintainableObject.dataObject.description) ||
+                                   !(document.newMaintainableObject.dataObject.positionStatus == null ? '' :document.newMaintainableObject.dataObject.positionStatus).equals(document.oldMaintainableObject.dataObject.positionStatus == null ? '' :document.oldMaintainableObject.dataObject.positionStatus) ||
+                                   !(document.newMaintainableObject.dataObject.appointmentType == null ? '' :document.newMaintainableObject.dataObject.appointmentType).equals(document.oldMaintainableObject.dataObject.appointmentType == null ? '' :document.oldMaintainableObject.dataObject.appointmentType) ||
+                                   !(document.newMaintainableObject.dataObject.temporary == null ? 'N' :document.newMaintainableObject.dataObject.temporary).equals(document.oldMaintainableObject.dataObject.temporary == null ? 'N' :document.oldMaintainableObject.dataObject.temporary) ||
+                                   !(document.newMaintainableObject.dataObject.contract == null ? 'N' :document.newMaintainableObject.dataObject.contract).equals(document.oldMaintainableObject.dataObject.contract == null ? 'N' :document.oldMaintainableObject.dataObject.contract) ||
+                                   !(document.newMaintainableObject.dataObject.contractType == null ? '' :document.newMaintainableObject.dataObject.contractType).equals(document.oldMaintainableObject.dataObject.contractType == null ? '' :document.oldMaintainableObject.dataObject.contractType) ||
+                                   !(document.newMaintainableObject.dataObject.reportsToPositionId == null ? '' :document.newMaintainableObject.dataObject.reportsToPositionId).equals(document.oldMaintainableObject.dataObject.reportsToPositionId == null ? '' :document.oldMaintainableObject.dataObject.reportsToPositionId) ||
+                                   !(document.newMaintainableObject.dataObject.effectiveDate == null ? '' :document.newMaintainableObject.dataObject.effectiveDate).equals(document.oldMaintainableObject.dataObject.effectiveDate == null ? '' :document.oldMaintainableObject.dataObject.effectiveDate) ||
+                                   !(document.newMaintainableObject.dataObject.renewEligible == null ? '' :document.newMaintainableObject.dataObject.renewEligible).equals(document.oldMaintainableObject.dataObject.renewEligible == null ? '' :document.oldMaintainableObject.dataObject.renewEligible)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Image"
+                                          p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
+                                          p:altText="Next"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-ClassificationPage" p:actionLabel="Classification">
+                    <property name="actionImagePlacement" value="RIGHT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="actionImage"
+                                  p:condition="!(document.newMaintainableObject.dataObject.positionClass == null ? '' :document.newMaintainableObject.dataObject.positionClass).equals(document.oldMaintainableObject.dataObject.positionClass == null ? '' :document.oldMaintainableObject.dataObject.positionClass) ||
+                                   !(document.newMaintainableObject.dataObject.positionReportGroup == null ? '' :document.newMaintainableObject.dataObject.positionReportGroup).equals(document.oldMaintainableObject.dataObject.positionReportGroup == null ? '' :document.oldMaintainableObject.dataObject.positionReportGroup) ||
+                                   !(document.newMaintainableObject.dataObject.positionType == null ? '' :document.newMaintainableObject.dataObject.positionType).equals(document.oldMaintainableObject.dataObject.positionType == null ? '' :document.oldMaintainableObject.dataObject.positionType) ||
+                                   !(document.newMaintainableObject.dataObject.poolEligible == null ? 'N' :document.newMaintainableObject.dataObject.poolEligible).equals(document.oldMaintainableObject.dataObject.poolEligible == null ? 'N' :document.oldMaintainableObject.dataObject.poolEligible) ||
+                                   !(document.newMaintainableObject.dataObject.maxPoolHeadCount == null ? '' :document.newMaintainableObject.dataObject.maxPoolHeadCount).equals(document.oldMaintainableObject.dataObject.maxPoolHeadCount == null ? '' :document.oldMaintainableObject.dataObject.maxPoolHeadCount) ||
+                                   !(document.newMaintainableObject.dataObject.tenureEligible == null ? 'N' :document.newMaintainableObject.dataObject.tenureEligible).equals(document.oldMaintainableObject.dataObject.tenureEligible == null ? 'N' :document.oldMaintainableObject.dataObject.tenureEligible) ||
+                                   !(document.newMaintainableObject.dataObject.salaryGroup == null ? '' :document.newMaintainableObject.dataObject.salaryGroup).equals(document.oldMaintainableObject.dataObject.salaryGroup == null ? '' :document.oldMaintainableObject.dataObject.salaryGroup) ||
+                                   !(document.newMaintainableObject.dataObject.percentTime == null ? '' :document.newMaintainableObject.dataObject.percentTime).equals(document.oldMaintainableObject.dataObject.percentTime == null ? '' :document.oldMaintainableObject.dataObject.percentTime) ||
+                                   !(document.newMaintainableObject.dataObject.workMonths == null ? '' :document.newMaintainableObject.dataObject.workMonths).equals(document.oldMaintainableObject.dataObject.workMonths == null ? '' :document.oldMaintainableObject.dataObject.workMonths) ||
+                                   !(document.newMaintainableObject.dataObject.benefitsEligible == null ? 'N' :document.newMaintainableObject.dataObject.benefitsEligible).equals(document.oldMaintainableObject.dataObject.benefitsEligible == null ? 'N' :document.oldMaintainableObject.dataObject.benefitsEligible) ||
+                                   !(document.newMaintainableObject.dataObject.leaveEligible == null ? 'N' :document.newMaintainableObject.dataObject.leaveEligible).equals(document.oldMaintainableObject.dataObject.leaveEligible == null ? 'N' :document.oldMaintainableObject.dataObject.leaveEligible) ||
+                                   !(document.newMaintainableObject.dataObject.leavePlan == null ? '' :document.newMaintainableObject.dataObject.leavePlan).equals(document.oldMaintainableObject.dataObject.leavePlan == null ? '' :document.oldMaintainableObject.dataObject.leavePlan) ||
+                                   !(document.newMaintainableObject.dataObject.payGrade == null ? '' :document.newMaintainableObject.dataObject.payGrade).equals(document.oldMaintainableObject.dataObject.payGrade == null ? '' :document.oldMaintainableObject.dataObject.payGrade) ||
+                                   !(document.newMaintainableObject.dataObject.payStep == null ? '' :document.newMaintainableObject.dataObject.payStep).equals(document.oldMaintainableObject.dataObject.payStep == null ? '' :document.oldMaintainableObject.dataObject.payStep)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Image"
+                                          p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
+                                          p:altText="Next"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-DepartmentPage" p:actionLabel="Additional Departments">
+                    <property name="actionImagePlacement" value="RIGHT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="actionImage"
+                                  p:condition="!document.newMaintainableObject.dataObject.departmentList.equals(document.oldMaintainableObject.dataObject.departmentList)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Image"
+                                          p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
+                                          p:altText="Next"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-QualificationPage" p:actionLabel="Qualifications"
+                      p:render="@{#dp.displayQualifications}">
+                    <property name="actionImagePlacement" value="RIGHT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="actionImage"
+                                  p:condition="!document.newMaintainableObject.dataObject.qualificationList.equals(document.oldMaintainableObject.dataObject.qualificationList)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Image"
+                                          p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
+                                          p:altText="Next"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-DutyPage" p:actionLabel="Duties" p:render="@{#dp.displayDuties}">
+                    <property name="actionImagePlacement" value="RIGHT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="actionImage"
+                                  p:condition="!document.newMaintainableObject.dataObject.dutyList.equals(document.oldMaintainableObject.dataObject.dutyList)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Image"
+                                          p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
+                                          p:altText="Next"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!--@{#dp.displayDuties}-->
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-FlagPage" p:actionLabel="Position Flags" p:render="@{#dp.displayFlags}">
+                    <property name="actionImagePlacement" value="RIGHT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="actionImage"
+                                  p:condition="!document.newMaintainableObject.dataObject.flagList.equals(document.oldMaintainableObject.dataObject.flagList)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Image"
+                                          p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
+                                          p:altText="Next"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!--@{#dp.displayFlags}-->
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-ResponsibilityPage" p:actionLabel="Responsibility"
+                      p:render="@{#dp.displayResponsibility}">
+                    <property name="actionImagePlacement" value="RIGHT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="actionImage"
+                                  p:condition="!document.newMaintainableObject.dataObject.positionResponsibilityList.equals(document.oldMaintainableObject.dataObject.positionResponsibilityList)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Image"
+                                          p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
+                                          p:altText="Next"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-FundingPage" p:actionLabel="Funding" p:render="@{#dp.displayFunding}">
+                    <property name="actionImagePlacement" value="RIGHT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                  p:propertyName="actionImage"
+                                  p:condition="!document.newMaintainableObject.dataObject.fundingList.equals(document.oldMaintainableObject.dataObject.fundingList)">
+                                <property name="replacement">
+                                    <bean parent="Uif-Image"
+                                          p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
+                                          p:altText="Next"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-NoteAttachmentPage"
+                      p:actionLabel="Notes @{#DocumentEntry.allowsNoteAttachments ? 'and Attachments' : ''} (@{document.notes.size()})"/>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-AdHocPage" p:actionLabel="Ad Hoc Recipients"
+                      p:render="@{#dp.displayAdHocRecipients}"/>
+                <bean parent="Uif-NavigationActionLink"
+                      p:navigateToPageId="Pos-RouteLogPage" p:actionLabel="Route Log"/>
+            </list>
+        </property>
+    </bean>
 
 	<!-- Overview Section -->
 	<bean id="Pos-OverviewPage" parent="Uif-MaintenancePage" >
