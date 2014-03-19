@@ -469,8 +469,13 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 						//conveniently, we only really need the hours amount
 						TimeBlock.Builder timeBlock = TimeBlock.Builder.create();
 						timeBlock.setHours(lb.getLeaveAmount().negate());
-						timeBlock.setBeginDateTime(lb.getBeginDateTime());
-						timeBlock.setEndDateTime(lb.getBeginDateTime().plusHours(timeBlock.getHours().intValue()));
+                        if (lb.getBeginDateTime() != null) {
+                            timeBlock.setBeginDateTime(lb.getBeginDateTime());
+                            timeBlock.setEndDateTime(lb.getBeginDateTime().plusHours(timeBlock.getHours().intValue()));
+                        } else {
+                            timeBlock.setBeginDateTime(lb.getLeaveDateTime());
+                            timeBlock.setEndDateTime(lb.getLeaveDateTime().plusHours(timeBlock.getHours().intValue()));
+                        }
 						timeBlock.setAssignmentKey(lb.getAssignmentKey());
 						timeBlock.setJobNumber(lb.getJobNumber());
 						timeBlock.setWorkArea(lb.getWorkArea());
