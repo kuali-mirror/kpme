@@ -15,14 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.web;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -32,11 +24,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -44,6 +33,13 @@ import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.calendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class LeaveCalendarWSAction extends LeaveCalendarAction {
 
@@ -67,7 +63,7 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
 
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
-        CalendarEntryContract calendarEntry = lcf.getCalendarEntry();
+        CalendarEntry calendarEntry = lcf.getCalendarEntry();
         if (StringUtils.isNotBlank(lcf.getSelectedAssignment())) {
         	List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(HrContext.getTargetPrincipalId(), lcf.getCalendarEntry());
         	boolean leavePlanningCalendar = LmServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(HrContext.getTargetPrincipalId(), calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());

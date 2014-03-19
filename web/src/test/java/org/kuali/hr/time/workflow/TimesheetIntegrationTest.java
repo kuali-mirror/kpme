@@ -30,10 +30,10 @@ import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.service.EarnCodeService;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
@@ -124,7 +124,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		super.setUp();
 
-		payCal = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(
+		payCal =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(
 				USER_PRINCIPAL_ID, TIME_SHEET_DATE);
 		Assert.assertNotNull("Pay calendar entries not found for admin", payCal);
 

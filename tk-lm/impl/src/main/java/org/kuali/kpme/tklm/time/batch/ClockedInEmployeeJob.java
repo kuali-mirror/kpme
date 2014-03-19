@@ -21,13 +21,12 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -65,7 +64,7 @@ public class ClockedInEmployeeJob extends BatchJob {
         // Map<String, Map<String, String>> notificationMap = new HashMap<String, Map<String, String>>();
 
         DateTime asOfDate = new LocalDate().toDateTimeAtStartOfDay();
-        List<CalendarEntry> calendarEntries = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(30, asOfDate);
+        List<CalendarEntry> calendarEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(30, asOfDate);
 
         for (CalendarEntry calendarEntry : calendarEntries) {
             Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());

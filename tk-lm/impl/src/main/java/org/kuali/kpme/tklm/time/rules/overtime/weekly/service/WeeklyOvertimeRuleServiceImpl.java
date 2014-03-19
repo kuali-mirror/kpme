@@ -23,9 +23,11 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.CalendarContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
@@ -149,8 +151,9 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
                     List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
                     List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), timesheetDocumentHeader.getEndDateTime().toLocalDate(), assignmentKeys);
                     if (CollectionUtils.isNotEmpty(timeBlocks)) {
-						CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
-						TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
+						CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
+						CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+                        TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, calendarEntry, calendar, true);
 						List<FlsaWeek> previousWeek = previousAggregate.getFlsaWeeks(zone, 0, false);
 						if (CollectionUtils.isNotEmpty(previousWeek)) {
 							flsaWeek.add(previousWeek.get(previousWeek.size() - 1));
@@ -172,8 +175,9 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
                     List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, timesheetDocumentHeader.getBeginDateTime().toLocalDate(), timesheetDocumentHeader.getEndDateTime().toLocalDate(), assignmentKeys);
 					if (CollectionUtils.isNotEmpty(timeBlocks)) {
-						CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
-						TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
+						CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
+                        CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+						TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, calendarEntry, calendar, true);
 						List<FlsaWeek> nextWeek = nextAggregate.getFlsaWeeks(zone, 0 , false);
 						if (CollectionUtils.isNotEmpty(nextWeek)) {
 							flsaWeek.add(nextWeek.get(0));

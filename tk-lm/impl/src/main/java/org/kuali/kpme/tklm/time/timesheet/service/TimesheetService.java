@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.timesheet.service;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -36,7 +36,7 @@ public interface TimesheetService {
 	 * @param principalId
 	 * @return
 	 */
-	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntryContract payCalendarDates) throws WorkflowException;
+	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntry payCalendarDates) throws WorkflowException;
 	/**
 	 * Route the given timesheet
 	 * @param principalId

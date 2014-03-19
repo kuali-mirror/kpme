@@ -118,7 +118,7 @@ public class HtmlUnitUtil {
 					try {
 						select = (HtmlSelect) lookupForm.getSelectByName(formFieldPrefix  + entry.getKey());
 					} catch (Exception e) {
-						select = (HtmlSelect) lookupForm.getElementById(formFieldPrefix  + entry.getKey());
+						select = (HtmlSelect) page.getHtmlElementById(formFieldPrefix  + entry.getKey());
 					}
                    //  try to get a useful option, other than the typical blank default, by getting the last option
                    //  if the size of the options list is zero, then there is a problem. might as well error here with an array out of bounds.

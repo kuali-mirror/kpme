@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.api.leave.approval;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.workflow.LeaveCalendarDocumentHeaderContract;
 import org.kuali.rice.kew.api.note.Note;
@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface LeaveApprovalService {
-	public List<ApprovalLeaveSummaryRowContract> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntryContract payCalendarEntry, List<LocalDateTime> leaveSummaryDates, String docIdSearchTerm);
+	public List<ApprovalLeaveSummaryRowContract> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntry payCalendarEntry, List<LocalDateTime> leaveSummaryDates, String docIdSearchTerm);
 	
 	public Map<LocalDateTime, Map<String, BigDecimal>> getEarnCodeLeaveHours(List<LeaveBlock> leaveBlocks, List<LocalDateTime> leaveSummaryDates);
 	

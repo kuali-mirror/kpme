@@ -20,7 +20,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -37,23 +38,23 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		DateTime asOfDate = new LocalDate().toDateTimeAtStartOfDay();
-        List<CalendarEntry> calendarEntries = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
+        List<CalendarEntry> calendarEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 
         try {
 	        for (CalendarEntry calendarEntry : calendarEntries) {
-	            if (calendarEntry.getEndPeriodDateTime() != null) {
+	            if (calendarEntry.getEndPeriodFullDateTime() != null) {
 	            	getBatchJobService().scheduleEndReportingPeriodJobs(calendarEntry);
 	            }
 	        	
-	            if (calendarEntry.getBatchInitiateDateTime() != null) {
+	            if (calendarEntry.getBatchInitiateFullDateTime() != null) {
 	            	getBatchJobService().scheduleInitiateJobs(calendarEntry);
 	            }
 	            
-	            if (calendarEntry.getBatchEndPayPeriodDateTime() != null) {
+	            if (calendarEntry.getBatchEndPayPeriodFullDateTime() != null) {
 	            	getBatchJobService().scheduleEndPayPeriodJobs(calendarEntry);
 	            }
 	            
-	            if (calendarEntry.getBatchEmployeeApprovalDateTime() != null) {
+	            if (calendarEntry.getBatchEmployeeApprovalFullDateTime() != null) {
 	            	getBatchJobService().scheduleEmployeeApprovalJobs(calendarEntry);
 	            }
 	            
@@ -61,7 +62,7 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 //	            	getBatchJobService().scheduleMissedPunchApprovalJobs(calendarEntry);
 //	            }
 	            
-	            if (calendarEntry.getBatchSupervisorApprovalDateTime() != null) {
+	            if (calendarEntry.getBatchSupervisorApprovalFullDateTime() != null) {
 	            	getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry);
 	            }
 	        }

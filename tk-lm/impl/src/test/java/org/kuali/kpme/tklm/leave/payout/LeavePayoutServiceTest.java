@@ -15,31 +15,26 @@
  */
 package org.kuali.kpme.tklm.leave.payout;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.math.BigDecimal;
-
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.math.BigDecimal;
+
+import static org.junit.Assert.*;
 
 @IntegrationTest
 public class LeavePayoutServiceTest extends TKLMIntegrationTestCase {
@@ -50,9 +45,9 @@ public class LeavePayoutServiceTest extends TKLMIntegrationTestCase {
 	private final String USER_ID = "testUser1";
 	
 	private LeaveCalendarDocument janLCD;
-	private CalendarEntryContract janEntry;
+	private CalendarEntry janEntry;
 	private LeaveCalendarDocument decLCD;
-	private CalendarEntryContract decEntry;
+	private CalendarEntry decEntry;
 	
 	private LocalDate janStart;
 	private LocalDate decStart;
@@ -67,13 +62,13 @@ public class LeavePayoutServiceTest extends TKLMIntegrationTestCase {
 	private final String TS_USER_ID = "testUser2";	
 	
 	private TimesheetDocument endJanTSD;
-	private CalendarEntry endJanTSDEntry;
+	private CalendarEntryBo endJanTSDEntry;
 	private TimesheetDocument midJanTSD;
-	private CalendarEntry midJanTSDEntry;
+	private CalendarEntryBo midJanTSDEntry;
 	private TimesheetDocument endDecTSD;
-	private CalendarEntry endDecTSDEntry;
+	private CalendarEntryBo endDecTSDEntry;
 	private TimesheetDocument midDecTSD;
-	private CalendarEntry midDecTSDEntry;
+	private CalendarEntryBo midDecTSDEntry;
 	
 	private final String TSD_MID_DEC_PERIOD_ID = "5000";
 	private final String TSD_END_DEC_PERIOD_ID = "5001";

@@ -21,9 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryPeriodType;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -48,7 +49,7 @@ public class CalendarEntryAction extends KPMEAction {
                                                 CalendarEntryPeriodType.BI_WEEKLY :
                                                 CalendarEntryPeriodType.fromCode(ceaf.getCalendarEntryPeriodType());
         CalendarEntryService calendarEntryService = HrServiceLocator.getCalendarEntryService();
-		CalendarEntry calendarEntry = (CalendarEntry)calendarEntryService.getCalendarEntry(
+		CalendarEntry calendarEntry = calendarEntryService.getCalendarEntry(
                 ceaf.getHrPyCalendarEntryId().toString());
 		if (calendarEntry == null) {
 			GlobalVariables.getMessageMap().putError(
@@ -56,10 +57,10 @@ public class CalendarEntryAction extends KPMEAction {
 					"error.calendar.not.available");
 		} else {
 				for (int i = 0; i < ceaf.getNoOfPeriods(); i++) {
-					CalendarEntry nextCalendarEntry = (CalendarEntry) calendarEntryService.getNextCalendarEntryByCalendarId(
+					CalendarEntry nextCalendarEntry = calendarEntryService.getNextCalendarEntryByCalendarId(
                             calendarEntry.getHrCalendarId(), calendarEntry);
 					if (nextCalendarEntry == null) {
-                        calendarEntry = (CalendarEntry) calendarEntryService.createNextCalendarEntry(calendarEntry, periodType);
+                        calendarEntry = calendarEntryService.createNextCalendarEntry(calendarEntry, periodType);
 					}
 				}
 				ceaf.setMessage("Calendar entry sucessfully created.");

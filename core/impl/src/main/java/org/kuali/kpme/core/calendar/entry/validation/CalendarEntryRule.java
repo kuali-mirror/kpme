@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.core.calendar.entry.validation;
 
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -25,7 +25,7 @@ public class CalendarEntryRule extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = false;
 
-        CalendarEntry calendarEntry = (CalendarEntry) this.getNewDataObject();
+        CalendarEntryBo calendarEntry = (CalendarEntryBo) this.getNewDataObject();
 
         valid = validateCalendarGroup(calendarEntry.getCalendarName());
         return valid;

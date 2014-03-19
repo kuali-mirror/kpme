@@ -28,7 +28,7 @@
   <bean id="CalendarEntryMaintenanceDocument" parent="CalendarEntryMaintenanceDocument-parentBean"/>
 
   <bean id="CalendarEntryMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
-  		p:dataObjectClass="org.kuali.kpme.core.calendar.entry.CalendarEntry"
+  		p:dataObjectClass="org.kuali.kpme.core.calendar.entry.CalendarEntryBo"
   		p:businessRulesClass="org.kuali.kpme.core.calendar.entry.validation.CalendarEntryRule"
    		p:maintainableClass="org.kuali.kpme.core.calendar.entry.web.CalendarEntryMaintainableImpl"
    		p:documentAuthorizerClass="org.kuali.kpme.core.calendar.entry.authorization.CalendarEntryAuthorizer">
@@ -46,7 +46,7 @@
   <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
       <property name="title" value="Calendar Entry Maintenance"/>
       <property name="headerText" value="Calendar Entry Maintenance"/>
-      <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntry"/>
+      <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntryBo"/>
       <property name="items">
           <list merge="true">
               <bean parent="Uif-MaintenanceGridSection">

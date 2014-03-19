@@ -15,15 +15,15 @@
  */
 package org.kuali.kpme.core.api.assignment.service;
 
-import java.util.List;
-import java.util.Map;
-
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.springframework.cache.annotation.Cacheable;
+
+import java.util.List;
+import java.util.Map;
 
 public interface AssignmentService {
 	/**
@@ -104,7 +104,7 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentsByPayEntry}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
-    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntryContract payCalendarEntry);
+    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntry payCalendarEntry);
     /**
      * Get assignments for Time Calendar by calendar entry
      * @param principalId
@@ -112,7 +112,7 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentsByCalEntryForTimeCalendar}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
-    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntryContract calendarEntry);
+    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry calendarEntry);
     /**
      * Get assignments for Leave Calendar by calendar entry
      * @param principalId
@@ -120,7 +120,7 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentsByCalEntryForLeaveCalendar}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
-    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntryContract calendarEntry);
+    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry calendarEntry);
     
     /**
 	 * KPME-1129 Kagata

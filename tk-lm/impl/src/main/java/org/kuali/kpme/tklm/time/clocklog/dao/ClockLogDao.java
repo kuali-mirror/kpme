@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.clocklog.dao;
 
 import java.util.List;
 
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 
 public interface ClockLogDao {
@@ -55,7 +55,7 @@ public interface ClockLogDao {
 	 * @param calendarEntry
 	 * @return
 	 */
-	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry payCalendarEntry);
+	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntryBo payCalendarEntry);
 	
 	/**
 	 * Fetch clock log by id

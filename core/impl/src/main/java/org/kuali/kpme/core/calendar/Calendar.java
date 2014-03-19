@@ -24,7 +24,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTimeConstants;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -48,7 +49,7 @@ public class Calendar extends PersistableBusinessObjectBase implements CalendarC
 	private int flsaBeginDayConstant = -1;
 
 //	private List<CalendarEntry> calendarEntries = new ArrayList<CalendarEntry>();
-    private List<CalendarEntry> calendarEntries = new ArrayList<CalendarEntry>();
+    private List<CalendarEntryBo> calendarEntries = new ArrayList<CalendarEntryBo>();
 	public Calendar() {
 
 	}
@@ -89,13 +90,13 @@ public class Calendar extends PersistableBusinessObjectBase implements CalendarC
 
 
 
-	public List<CalendarEntry> getCalendarEntries() {
+	public List<CalendarEntryBo> getCalendarEntries() {
 		return calendarEntries;
 	}
 
 
 
-	public void setCalendarEntries(List<CalendarEntry> calendarEntries) {
+	public void setCalendarEntries(List<CalendarEntryBo> calendarEntries) {
 		this.calendarEntries = calendarEntries;
 	}
 

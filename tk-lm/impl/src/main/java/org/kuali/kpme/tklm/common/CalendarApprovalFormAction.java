@@ -20,7 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -60,9 +60,9 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 	
     protected void setCalendarFields(CalendarApprovalForm calendarApprovalForm) {
 		Set<String> calendarYears = new TreeSet<String>(Collections.reverseOrder());
-		List<CalendarEntryContract> calendarEntries = getCalendarEntries(calendarApprovalForm.getCalendarEntry());
+		List<CalendarEntry> calendarEntries = getCalendarEntries(calendarApprovalForm.getCalendarEntry());
 		
-	    for (CalendarEntryContract calendarEntry : calendarEntries) {
+	    for (CalendarEntry calendarEntry : calendarEntries) {
 	    	String calendarEntryYear = calendarEntry.getBeginPeriodFullDateTime().toString("yyyy");
 	    	calendarYears.add(calendarEntryYear);
 	    }
@@ -77,9 +77,9 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
         calendarApprovalForm.setSelectedPayPeriod(calendarApprovalForm.getCalendarEntry().getHrCalendarEntryId());
 	}
 
-    protected List<CalendarEntryContract> getCalendarEntries(CalendarEntryContract currentCalendarEntry) {
-		List<? extends CalendarEntryContract> contracts =  HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(currentCalendarEntry.getHrCalendarId());
-        List<CalendarEntryContract> cecs = new ArrayList<CalendarEntryContract>();
+    protected List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry) {
+		List<CalendarEntry> contracts =  HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(currentCalendarEntry.getHrCalendarId());
+        List<CalendarEntry> cecs = new ArrayList<CalendarEntry>();
         cecs.addAll(contracts);
         return cecs;
 	}

@@ -30,14 +30,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.request.service.LeaveRequestDocumentService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -66,17 +66,17 @@ public class LeaveRequestAction extends KPMEAction {
         LocalDate endDate = new LocalDate(leaveForm.getYear(), 12, 31);
 
 //        CalendarEntry calendarEntry = HrServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, currentDate);
-        CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDatesForLeaveCalendar(principalId, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
+        CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDatesForLeaveCalendar(principalId, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
 
         //  If the current pay period ends before the current leave calendar ends, then we need to include any planned leave blocks that occur
         //  in this window between the current pay end and the beginning of the leave planning calendar (the next future leave period).
         //  The most common scenario occurs when a non-monthly pay period ends before the current leave calendar ends.
 
-        CalendarEntry payCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(principalId, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(principalId, beginDate.toDateTimeAtStartOfDay(), endDate.toDateTimeAtStartOfDay());
         Boolean checkLeaveEligible = true;
         Boolean nonExemptLeaveEligible = LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
         if(nonExemptLeaveEligible && calendarEntry != null && payCalendarEntry != null) {
-            if ( payCalendarEntry.getEndPeriodDate().before(calendarEntry.getEndPeriodDate()) ) {
+            if ( payCalendarEntry.getEndPeriodFullDateTime().isBefore(calendarEntry.getEndPeriodFullDateTime()) ) {
                 calendarEntry = payCalendarEntry;
             }
         }

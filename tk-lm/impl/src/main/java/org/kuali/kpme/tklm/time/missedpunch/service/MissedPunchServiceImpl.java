@@ -23,7 +23,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.timezone.TimezoneService;
@@ -95,7 +95,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
-        CalendarEntryContract calendarEntry = timesheetDocument.getCalendarEntry();
+        CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         
         // use the actual date and time from the document to build the date time with user zone, then apply system time zone to it
         String dateString = TKUtils.formatDateTimeShort(missedPunch.getActionFullDateTime());
@@ -162,7 +162,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
-        CalendarEntryContract calendarEntry = timesheetDocument.getCalendarEntry();
+        CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
         DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZone(TKUtils.getSystemDateTimeZone());

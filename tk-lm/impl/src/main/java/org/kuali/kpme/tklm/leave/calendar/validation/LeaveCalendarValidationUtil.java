@@ -23,12 +23,12 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -57,7 +57,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 	public static List<String> validateLeaveEntry(LeaveCalendarForm lcf) {
 
     	List<String> errorMsgList = new ArrayList<String>();
-        CalendarEntryContract leaveCalendarEntry = lcf.getCalendarEntry();
+        CalendarEntry leaveCalendarEntry = lcf.getCalendarEntry();
     	
     	if(leaveCalendarEntry != null) {
 	    	// validates the selected earn code exists on every day within the date range
@@ -85,7 +85,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
     	if (StringUtils.isNotBlank(lcf.getSelectedEarnCode()) &&  lcf.getCalendarEntry() != null) {
     		//earn code is validate through the span of the leave entry, could the earn code's record method change between then and the leave period end date?
     		//Why not use endDateS to retrieve the earn code?
-            CalendarEntryContract calendarEntry = lcf.getCalendarEntry();
+            CalendarEntry calendarEntry = lcf.getCalendarEntry();
     		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
     		if(earnCode != null) {
     			if(earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
@@ -106,7 +106,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
     	return errors;
     }
 	
-    public static List<String> validateTimeParametersForLeaveEntry(EarnCode selectedEarnCode, CalendarEntryContract leaveCalEntry, String startDateS, String endDateS, String startTimeS, String endTimeS, String selectedAssignment, String leaveBlockId, String spanningWeeks) {
+    public static List<String> validateTimeParametersForLeaveEntry(EarnCode selectedEarnCode, CalendarEntry leaveCalEntry, String startDateS, String endDateS, String startTimeS, String endTimeS, String selectedAssignment, String leaveBlockId, String spanningWeeks) {
     	/**
     	 * Cannot pull this method up to super until validateOverlap is refactored.
     	 */
@@ -327,7 +327,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 	}
 	
     // get warning messages associated with earn codes of leave blocks
-    public static Map<String, Set<String>> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks, Date beginDate, Date endDate) {
+    public static Map<String, Set<String>> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks, DateTime beginDate, DateTime endDate) {
 //        List<String> warningMessages = new ArrayList<String>();
         Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
         
@@ -337,7 +337,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 
         if (CollectionUtils.isNotEmpty(leaveBlocks)) {
             for(LeaveBlockContract lb : leaveBlocks) {
-            	if(lb.getLeaveDateTime().toDate().compareTo(beginDate) >= 0 && lb.getLeaveDateTime().toDate().compareTo(endDate) < 0) {
+            	if(lb.getLeaveDateTime().compareTo(beginDate) >= 0 && lb.getLeaveDateTime().compareTo(endDate) < 0) {
 	                EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
 	                if(ec != null) {
 	                	// KPME-2529
@@ -528,7 +528,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 	 * Moving to CalendarValidationUtil
 	 */
 	@Deprecated
-    public static List<String> validateInterval(CalendarEntry payCalEntry, Long startTime, Long endTime) {
+    public static List<String> validateInterval(CalendarEntryBo payCalEntry, Long startTime, Long endTime) {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginPeriodLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndPeriodLocalDateTime();
@@ -546,7 +546,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
         return errors;
     }
     
-    public static List<String> validateOverlap(Long startTime, Long endTime, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, CalendarEntryContract calendarEntry, String lmLeaveBlockId, boolean isRegularEarnCode, String earnCodeType) {
+    public static List<String> validateOverlap(Long startTime, Long endTime, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, CalendarEntry calendarEntry, String lmLeaveBlockId, boolean isRegularEarnCode, String earnCodeType) {
         List<String> errors = new ArrayList<String>();
         Interval addedTimeblockInterval = new Interval(startTime, endTime);
         List<Interval> dayInt = new ArrayList<Interval>();

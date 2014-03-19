@@ -27,9 +27,7 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.joda.time.DateTime;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements CalendarDao {

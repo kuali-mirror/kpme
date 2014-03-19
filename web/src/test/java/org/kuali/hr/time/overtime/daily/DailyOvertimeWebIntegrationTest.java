@@ -28,8 +28,9 @@ import org.kuali.hr.time.workflow.TimesheetWebTestBase;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -58,7 +59,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
     public void testSimpleDOTCalculationIntegration() throws Exception {
         DateTime asOfDate = new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
-        CalendarEntry pcd = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
+        CalendarEntry pcd =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);

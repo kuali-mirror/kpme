@@ -15,17 +15,15 @@
  */
 package org.kuali.kpme.tklm.time.batch;
 
-import java.text.DateFormat;
-
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.batch.BatchJob;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import java.text.DateFormat;
 
 public class EndReportingPeriodJob extends BatchJob {
 
@@ -34,8 +32,8 @@ public class EndReportingPeriodJob extends BatchJob {
 		
 		String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 		String principalId = jobDataMap.getString("principalId");
-		
-		CalendarEntryContract calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 		DateTime endPeriodDateTime = calendarEntry.getEndPeriodFullDateTime();
 		
 		String subject = "End of Reporting Period Reminder";

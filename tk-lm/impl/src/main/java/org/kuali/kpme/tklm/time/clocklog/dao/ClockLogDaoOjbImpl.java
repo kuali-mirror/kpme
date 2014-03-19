@@ -22,7 +22,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -133,7 +133,7 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
     }
 
     @Override
-	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry) {
+	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntryBo calendarEntry) {
     	Criteria criteria = new Criteria();
     	criteria.addEqualTo("principalId", principalId);
     	criteria.addEqualTo("jobNumber", jobNumber);

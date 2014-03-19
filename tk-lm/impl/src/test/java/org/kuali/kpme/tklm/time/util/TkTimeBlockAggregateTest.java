@@ -15,23 +15,23 @@
  */
 package org.kuali.kpme.tklm.time.util;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
+
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 @IntegrationTest
 public class TkTimeBlockAggregateTest extends TKLMIntegrationTestCase {
@@ -43,12 +43,12 @@ public class TkTimeBlockAggregateTest extends TKLMIntegrationTestCase {
 		cal.setFlsaBeginDay("mo");
 		cal.setFlsaBeginTime(new Time((new DateTime(2012, 3, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis())));
 
-		CalendarEntry pcd = new CalendarEntry();
+		CalendarEntry.Builder pcd =  CalendarEntry.Builder.create();
 		pcd.setBeginPeriodFullDateTime(new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 		pcd.setEndPeriodFullDateTime(new DateTime(2010, 1, 6, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
 
 		List<TimeBlock> blocks = getSomeTimeBlocks();
-		TkTimeBlockAggregate tba = new TkTimeBlockAggregate(blocks, pcd, cal);
+		TkTimeBlockAggregate tba = new TkTimeBlockAggregate(blocks, pcd.build(), cal);
 		List<FlsaWeek> weeks = tba.getFlsaWeeks(DateTimeZone.UTC, 0, false);
 	}
 

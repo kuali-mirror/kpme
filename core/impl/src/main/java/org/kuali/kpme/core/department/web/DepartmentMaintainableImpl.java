@@ -61,8 +61,8 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         	oldDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(oldMaintainableObject.getDept(), oldMaintainableObject.getEffectiveLocalDate());
         }
         
-        oldMaintainableObject.setRoleMembers((List<DepartmentPrincipalRoleMemberBo>) oldDepartment.getRoleMembers());
-        oldMaintainableObject.setInactiveRoleMembers((List<DepartmentPrincipalRoleMemberBo>) oldDepartment.getInactiveRoleMembers());
+        oldMaintainableObject.setRoleMembers(oldDepartment.getRoleMembers());
+        oldMaintainableObject.setInactiveRoleMembers(oldDepartment.getInactiveRoleMembers());
         
         DepartmentBo newDepartment = newMaintainableObject;
         if(StringUtils.isNotBlank(newMaintainableObject.getHrDeptId())) {

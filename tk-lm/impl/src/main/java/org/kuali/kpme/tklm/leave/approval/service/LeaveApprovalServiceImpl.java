@@ -22,7 +22,7 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -58,7 +58,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 	public static final int DAYS_WINDOW_DELTA = 31;
 
 	@Override
-	public List<ApprovalLeaveSummaryRowContract> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntryContract payCalendarEntry, List<LocalDateTime> leaveSummaryDates, String docIdSearchTerm) {
+	public List<ApprovalLeaveSummaryRowContract> getLeaveApprovalSummaryRows(List<String> principalIds, CalendarEntry payCalendarEntry, List<LocalDateTime> leaveSummaryDates, String docIdSearchTerm) {
 
 		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
 		DateTime payEndDate = payCalendarEntry.getEndPeriodFullDateTime();
@@ -183,7 +183,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		
 		return rowList;
 	}
-	private Calendar getPayCalendarForEntry(CalendarEntryContract calEntry) {
+	private Calendar getPayCalendarForEntry(CalendarEntry calEntry) {
         Calendar cal = null;
 
         if (calEntry != null) {
@@ -194,7 +194,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
     }
 
 	private Map<Integer, String> getWeekHeadersForSummary(String principalId,LeaveCalendarDocumentHeader lcdh,
-                                                          CalendarEntryContract cal, Map<String, String> weekDates,
+                                                          CalendarEntry cal, Map<String, String> weekDates,
                                                           Map<String, Set<LocalDateTime>> weekDateList, Map<String,List<Map<String, Object>>> weekDetailMap, Map<String,Boolean> enableWeekDetails) {
         
 		Map<Integer, String> header = new LinkedHashMap<Integer,String>();                
@@ -326,7 +326,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
     }
 	
     private Map<String,Set<String>> findTransactionsWithinPeriod(LeaveCalendarDocumentHeader aDoc,
-			CalendarEntryContract payCalendarEntry) {
+                                                                 CalendarEntry payCalendarEntry) {
 		Map<String,Set<String>> allMessages = new HashMap<String,Set<String>>();
 		
 		allMessages.put("actionMessages", new HashSet<String>());
@@ -338,9 +338,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		return allMessages;
 	}
 
-	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntryContract calendarEntry, List<LeaveBlock> leaveBlocks) {
+	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntry calendarEntry, List<LeaveBlock> leaveBlocks) {
 //        List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
-        Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+        Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
         //get LeaveSummary and check for warnings
     	Map<String, Set<LeaveBlockContract>> eligibilities;
     	try {
@@ -411,8 +411,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 		}
 		
 		String principalId = lcdh.getPrincipalId();
-        CalendarEntryContract calendarEntry = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
-		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
+        CalendarEntry calendarEntry = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
 		if(calendarEntry != null) {
 			DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
 			DateTime endDate = calendarEntry.getEndPeriodFullDateTime();

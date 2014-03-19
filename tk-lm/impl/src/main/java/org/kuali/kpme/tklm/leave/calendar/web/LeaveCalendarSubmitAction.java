@@ -77,7 +77,7 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
 				
 				List<LeaveBlockContract> eligibleTransfers = new ArrayList<LeaveBlockContract>();
 				List<LeaveBlockContract> eligiblePayouts = new ArrayList<LeaveBlockContract>();
-        		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
+        		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodFullDateTime(), document.getCalendarEntry().getEndPeriodFullDateTime());
         		for(Entry<String,Set<LeaveBlockContract>> entry : eligibilities.entrySet()) {
         			
             		for(LeaveBlockContract lb : entry.getValue()) {

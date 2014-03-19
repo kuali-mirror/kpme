@@ -319,7 +319,7 @@ public class LeaveCalendarValidationServiceTest extends KPMEWebTestCase {
 		lbC.setLeaveDate(LocalDate.now().toDate());
 		leaveBlocks.add(LeaveBlockBo.to(lbC));
 
-		Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, LocalDate.now().toDateTimeAtStartOfDay().toDate(), new DateTime().plusDays(1).toDate());
+		Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, LocalDate.now().toDateTimeAtStartOfDay(), new DateTime().plusDays(1));
         int numberOfMessages = 0;
         for (Set<String> msgs : allMessages.values()){
             numberOfMessages += msgs.size();

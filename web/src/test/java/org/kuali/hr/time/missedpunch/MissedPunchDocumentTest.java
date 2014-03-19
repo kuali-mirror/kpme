@@ -58,8 +58,8 @@ public class MissedPunchDocumentTest extends KPMEWebTestCase {
 
 	public void updateWebClient() {
         WebClient webClient = getWebClient();
-		webClient.setJavaScriptEnabled(true);
-		webClient.setThrowExceptionOnScriptError(true);
+		webClient.getOptions().setJavaScriptEnabled(true);
+		webClient.getOptions().setThrowExceptionOnScriptError(true);
 		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
 		webClient.waitForBackgroundJavaScript(10000);
 	}

@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.batch.BatchJobUtil;
@@ -63,7 +64,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         if (lcdh != null) {
             lcd = new LeaveCalendarDocument(lcdh);
-            CalendarEntryContract pce = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDateTime(), HrConstants.LEAVE_CALENDAR_TYPE);
+            CalendarEntry pce = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDateTime(), HrConstants.LEAVE_CALENDAR_TYPE);
             lcd.setCalendarEntry(pce);
         } else {
         	LOG.error("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);
@@ -81,7 +82,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
 
     @Override
-    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntryContract calEntry) throws WorkflowException {
+    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntry calEntry) throws WorkflowException {
         LeaveCalendarDocument doc;
 
         DateTime begin = calEntry.getBeginPeriodFullDateTime();
@@ -107,7 +108,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
     
     //Should only create leave calendar document if active jobs were found with flsa elig = no and ben elg = yes
-    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntryContract calEntry){
+    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntry calEntry){
         if (StringUtils.isEmpty(principalId) || calEntry == null) {
             return false;
         }
@@ -122,7 +123,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     	return CollectionUtils.isNotEmpty(results);
     }
     
-    protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate, DateTime payEndDate, CalendarEntryContract calendarEntry, String documentType, String title) throws WorkflowException {
+    protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate, DateTime payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
         LeaveCalendarDocument leaveCalendarDocument = null;
         WorkflowDocument workflowDocument = null;
 
@@ -200,7 +201,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
      * @param principalId
      * @param calEntry
      */
-    protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntryContract calEntry) {
+    protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntry calEntry) {
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
@@ -217,11 +218,11 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
 	@Override
 	public LeaveCalendarDocument getLeaveCalendarDocument(
-			String principalId, CalendarEntryContract calendarEntry) {
+			String principalId, CalendarEntry calendarEntry) {
 		LeaveCalendarDocument leaveCalendarDocument = new LeaveCalendarDocument(calendarEntry);
 		LeaveCalendarDocumentHeader lcdh = new LeaveCalendarDocumentHeader();
-		lcdh.setBeginDate(calendarEntry.getBeginPeriodDateTime());
-		lcdh.setEndDate(calendarEntry.getEndPeriodDateTime());
+		lcdh.setBeginDate(calendarEntry.getBeginPeriodFullDateTime().toDate());
+		lcdh.setEndDate(calendarEntry.getEndPeriodFullDateTime().toDate());
 		leaveCalendarDocument.setDocumentHeader(lcdh);
 		// Fetching assignments
         List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);

@@ -25,19 +25,17 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
-import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryService;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -61,7 +59,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     }
 
     @Override
-    public LeaveSummary getLeaveSummary(String principalId, CalendarEntryContract calendarEntry) {
+    public LeaveSummary getLeaveSummary(String principalId, CalendarEntry calendarEntry) {
         return getLeaveSummary(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), null, true);
     }
 
@@ -542,7 +540,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	}
 	
 	@Override
-	public List<LocalDateTime> getLeaveSummaryDates(CalendarEntryContract calendarEntry) {
+	public List<LocalDateTime> getLeaveSummaryDates(CalendarEntry calendarEntry) {
 		List<LocalDateTime> leaveSummaryDates = new ArrayList<LocalDateTime>();
 
 		DateTime start = calendarEntry.getBeginPeriodLocalDateTime().toDateTime();

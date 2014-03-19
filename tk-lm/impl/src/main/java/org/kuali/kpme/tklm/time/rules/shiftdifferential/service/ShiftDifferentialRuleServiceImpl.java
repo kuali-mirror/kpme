@@ -33,11 +33,12 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.calendar.CalendarContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.JobBo;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -92,8 +93,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		if (prevBlocks.size() > 0) {
 			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDateTime().toDateTime());
 			if (prevTdh != null) {
-				CalendarEntry prevPayCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), prevTdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
-				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getCalendarObj(), true);
+				CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), prevTdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
+                CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendar(prevPayCalendarEntry.getHrCalendarId());
+				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, calendar, true);
 				List<List<TimeBlock>> dayBlocks = prevTimeAggregate.getDayTimeBlockList();
 				List<TimeBlock> previousPeriodLastDayBlocks = dayBlocks.get(dayBlocks.size() - 1);
 				// Set back to null if there is nothing in the list.

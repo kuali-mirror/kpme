@@ -20,7 +20,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 
@@ -61,7 +61,7 @@ public class CalendarMaintainableImpl extends KualiMaintainableImpl {
 		Calendar calendar = (Calendar) this.getBusinessObject();
 		LOG.info("Saved pay calendar: " + calendar.getHrCalendarId());
         CacheUtils.flushCache(Calendar.CACHE_NAME);
-        CacheUtils.flushCache(CalendarEntry.CACHE_NAME);
+        CacheUtils.flushCache(CalendarEntryBo.CACHE_NAME);
 	}
 
 }

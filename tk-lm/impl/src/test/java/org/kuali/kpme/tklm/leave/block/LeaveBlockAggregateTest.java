@@ -23,12 +23,12 @@ import junit.framework.Assert;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 @IntegrationTest
@@ -40,7 +40,7 @@ public class LeaveBlockAggregateTest extends TKLMIntegrationTestCase {
 		// 03/01/2012 to 03/15/2012
 		LocalDate beginDate = new LocalDate(2012, 3, 1);
 		LocalDate endDate = beginDate.plusDays(14);
-		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce =  HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocks(TEST_USER, beginDate, endDate));
 		

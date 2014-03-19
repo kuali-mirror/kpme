@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.*;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -193,7 +193,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntryContract ce, String selectedEarnCode,
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId) {
     	
     	DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
@@ -240,7 +240,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             		 // Currently, we store the accrual category value in the leave code table, but store accrual category id in the leaveBlock.
                     // That's why there is a two step server call to get the id. This might be changed in the future.
 
-                    CalendarEntryContract calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), new LocalDate().toDateTimeAtStartOfDay());
+                    CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), new LocalDate().toDateTimeAtStartOfDay());
                     DateTime leaveBlockDate = leaveBlockInt.getStart();
                     String requestStatus = HrConstants.REQUEST_STATUS.USAGE;
                     if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
@@ -253,7 +253,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
      	            	  requestStatus = HrConstants.REQUEST_STATUS.PLANNED;
      	               }
                     } else {
-                    	if (DateUtils.isSameDay(leaveBlockDate.toDate(), calendarEntry.getEndPeriodDateTime()) || leaveBlockDate.isAfter(calendarEntry.getEndPeriodFullDateTime())) {
+                    	if (DateUtils.isSameDay(leaveBlockDate.toDate(), calendarEntry.getEndPeriodFullDateTime().toDate()) || leaveBlockDate.isAfter(calendarEntry.getEndPeriodFullDateTime())) {
                     		requestStatus = HrConstants.REQUEST_STATUS.PLANNED;
                     	}
                     }

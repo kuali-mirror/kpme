@@ -15,14 +15,14 @@
  */
 package org.kuali.kpme.tklm.api.time.util;
 
-import java.util.List;
-
 import org.joda.time.DateTimeZone;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.time.flsa.FlsaWeekContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
+
+import java.util.List;
 
 /**
  * <p>TkTimeBlockAggregateContract interface</p>
@@ -156,7 +156,7 @@ public interface TkTimeBlockAggregateContract {
 	 * 
 	 * @return payCalendarEntry for TkTimeBlockAggregate
 	 */
-	public CalendarEntryContract getPayCalendarEntry();
+	public CalendarEntry getPayCalendarEntry();
 	
 	/**
 	 * The Calendar object associated with the TkTimeBlockAggregate

@@ -15,16 +15,16 @@
  */
 package org.kuali.kpme.core.leaveplan.service;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanService;
 import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.leaveplan.dao.LeavePlanDao;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+
+import java.util.List;
 
 public class LeavePlanServiceImpl implements LeavePlanService {
 
@@ -91,7 +91,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     }
     
     @Override
-	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate) {
+	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate) {
 		boolean isFirstCalendarPeriodOfLeavePlan = false;
     	
     	LeavePlanBo leavePlanObj = getLeavePlanBo(leavePlan, asOfDate);
@@ -111,7 +111,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	}
     
     @Override
-	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate) {
+	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate) {
     	boolean isLastCalendarPeriodOfLeavePlan = false;
     	
     	LeavePlanBo leavePlanObj = getLeavePlanBo(leavePlan, asOfDate);

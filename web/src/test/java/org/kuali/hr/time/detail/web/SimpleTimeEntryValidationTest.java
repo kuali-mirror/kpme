@@ -26,8 +26,8 @@ import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
@@ -49,7 +49,7 @@ public class SimpleTimeEntryValidationTest extends KPMEWebTestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, CALENDAR_ENTRY_DATE);
+        CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(USER_PRINCIPAL_ID, CALENDAR_ENTRY_DATE);
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, calendarEntry);
         documentId = timesheetDocument.getDocumentId();
     }

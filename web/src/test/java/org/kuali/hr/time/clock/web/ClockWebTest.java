@@ -163,8 +163,8 @@ public class ClockWebTest extends KPMEWebTestCase {
 
     public void updateWebClient() {
         WebClient webClient = getWebClient();
-        webClient.setJavaScriptEnabled(true);
-        webClient.setThrowExceptionOnScriptError(false);
+        webClient.getOptions().setJavaScriptEnabled(true);
+        webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());
         webClient.waitForBackgroundJavaScript(10000);
     }

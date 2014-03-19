@@ -20,7 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
@@ -329,7 +329,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
 			   String viewPrincipal = HrContext.getTargetPrincipalId();
-			   CalendarEntryContract ce = HrServiceLocator.getCalendarEntryService()
+               CalendarEntry ce = HrServiceLocator.getCalendarEntryService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 			   if(ce != null) {
 				   if(!lb.getLeaveDateTime().isBefore(ce.getBeginPeriodFullDateTime()) && !lb.getLeaveDateTime().isAfter(ce.getEndPeriodFullDateTime())) {
@@ -350,7 +350,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && LMConstants.UNUSED_TIME.TRANSFER.equals(ssto.getUnusedTime())) {
 			   String viewPrincipal = HrContext.getTargetPrincipalId();
-			   CalendarEntryContract ce = HrServiceLocator.getCalendarEntryService()
+               CalendarEntry ce = HrServiceLocator.getCalendarEntryService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 			   if(ce != null) {
 				   if(!lb.getLeaveDateTime().isBefore(ce.getBeginPeriodFullDateTime()) && !lb.getLeaveDateTime().isAfter(ce.getEndPeriodFullDateTime())) {

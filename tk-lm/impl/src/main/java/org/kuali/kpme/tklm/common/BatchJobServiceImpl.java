@@ -15,10 +15,6 @@
  */
 package org.kuali.kpme.tklm.common;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.exec.util.MapUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -29,16 +25,13 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.service.CalendarService;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.batch.CarryOverJob;
@@ -51,12 +44,11 @@ import org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
+import org.quartz.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BatchJobServiceImpl implements BatchJobService {
 	

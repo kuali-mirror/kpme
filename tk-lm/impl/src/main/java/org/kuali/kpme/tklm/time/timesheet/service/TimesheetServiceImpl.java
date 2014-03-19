@@ -26,7 +26,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
@@ -34,7 +34,6 @@ import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.permission.HRPermissionService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -146,7 +145,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     @Override
-    public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntryContract calendarDates) throws WorkflowException {
+    public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntry calendarDates) throws WorkflowException {
         TimesheetDocument timesheetDocument = null;
 
         DateTime begin = calendarDates.getBeginPeriodFullDateTime();
@@ -158,7 +157,7 @@ public class TimesheetServiceImpl implements TimesheetService {
             List<Assignment> activeAssignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarDates);
             //HrServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getTimelessDate(payCalendarDates.getEndPeriodDate()));
             if (activeAssignments.size() == 0) {
-                LOG.warn("No active assignments for " + principalId + " for " + calendarDates.getEndPeriodDate());
+                LOG.warn("No active assignments for " + principalId + " for " + calendarDates.getEndPeriodFullDateTime());
                 return null;
                 //throw new RuntimeException("No active assignments for " + principalId + " for " + calendarDates.getEndPeriodDate());
             }
@@ -218,7 +217,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 		return null;
 	}
 
-	protected TimesheetDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate,  DateTime payEndDate, CalendarEntryContract calendarEntry, String documentType, String title) throws WorkflowException {
+	protected TimesheetDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate,  DateTime payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
         TimesheetDocument timesheetDocument = null;
         WorkflowDocument workflowDocument = null;
 
@@ -278,7 +277,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         if (tdh != null) {
             timesheetDocument = new TimesheetDocument(tdh);
-            CalendarEntry pce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
+            CalendarEntry pce =  HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
             loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
 
             timesheetDocument.setCalendarEntry(pce);
@@ -287,7 +286,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         return timesheetDocument;
     }
 
-    protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntryContract payCalEntry) {
+    protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntry payCalEntry) {
     	tdoc.setAssignments(HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry));
     	if (payCalEntry != null) {
     		tdoc.setJobs(HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));

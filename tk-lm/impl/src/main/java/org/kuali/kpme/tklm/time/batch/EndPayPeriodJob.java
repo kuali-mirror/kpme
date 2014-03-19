@@ -21,9 +21,10 @@ import org.joda.time.DateTimeZone;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.batch.BatchJob;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -54,7 +55,7 @@ public class EndPayPeriodJob extends BatchJob {
 		    DateTime currentDateTime =  new DateTime();
 			LOG.info("EndOfPayPeiodJob is running at " + currentDateTime.toString() + " for hrCalendarEntryId " + hrCalendarEntryId);
 		    
-	        CalendarEntry calendarEntry = (CalendarEntry)HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+	        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 	        CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 	        //calendarEntry.setCalendarObj(calendar);
 	        
@@ -95,7 +96,7 @@ LOG.info("EndOfPayPeiodJob started for user " + principalId + " and clockLog " +
 		// time to use to create the CO clock log
         DateTime coLogDateTime = TKUtils.convertTimeForDifferentTimeZone(endPeriodDateTime,systemTimeZone,userTimezone);
 	        
-        CalendarEntry nextCalendarEntry = (CalendarEntry)HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+        CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
         DateTime beginNextPeriodDateTime = nextCalendarEntry.getBeginPeriodFullDateTime();
         // time to use to create the CI clock log
         DateTime ciLogDateTime = TKUtils.convertTimeForDifferentTimeZone(beginNextPeriodDateTime,systemTimeZone,userTimezone);

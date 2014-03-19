@@ -15,11 +15,11 @@
  */
 package org.kuali.kpme.tklm.api.leave.accrual;
 
+import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+
 import java.util.List;
 import java.util.Map;
-
-import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 
 /**
  * <p>RateRangeAggregateContract interface</p>
@@ -92,6 +92,6 @@ public interface RateRangeAggregateContract {
 	 * 
 	 * @return calEntryMap for RateRangeAggregate
 	 */
-	public Map<String, List<? extends CalendarEntryContract>> getCalEntryMap();
+	public Map<String, List<CalendarEntry>> getCalEntryMap();
 
 }

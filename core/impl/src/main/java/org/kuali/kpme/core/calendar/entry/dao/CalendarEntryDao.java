@@ -19,33 +19,34 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 
 public interface CalendarEntryDao {
 
-	public void saveOrUpdate(CalendarEntry calendarEntry);
-	public CalendarEntry getCalendarEntry(String hrCalendarEntryId);
+	public void saveOrUpdate(CalendarEntryBo calendarEntry);
+	public CalendarEntryBo getCalendarEntry(String hrCalendarEntryId);
 
-    public CalendarEntry getCalendarEntryByIdAndPeriodEndDate(String hrPyCalendarId, DateTime endPeriodDate);
-	public CalendarEntry getCurrentCalendarEntryByCalendarId(String hrPyCalendarId, DateTime currentDate);
-    public CalendarEntry getNextCalendarEntryByCalendarId(String hrPyCalendarId, CalendarEntry calendarEntry);
-    public CalendarEntry getPreviousCalendarEntryByCalendarId(String hrPyCalendarId, CalendarEntry calendarEntry);
+    public CalendarEntryBo getCalendarEntryByIdAndPeriodEndDate(String hrPyCalendarId, DateTime endPeriodDate);
+	public CalendarEntryBo getCurrentCalendarEntryByCalendarId(String hrPyCalendarId, DateTime currentDate);
+    public CalendarEntryBo getNextCalendarEntryByCalendarId(String hrPyCalendarId, CalendarEntryContract calendarEntry);
+    public CalendarEntryBo getPreviousCalendarEntryByCalendarId(String hrPyCalendarId, CalendarEntryContract calendarEntry);
 
 
-	public List<CalendarEntry> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, DateTime asOfDate);
-	public List<CalendarEntry> getFutureCalendarEntries(String hrCalendarId, DateTime currentDate, int numberOfEntries);
+	public List<CalendarEntryBo> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, DateTime asOfDate);
+	public List<CalendarEntryBo> getFutureCalendarEntries(String hrCalendarId, DateTime currentDate, int numberOfEntries);
     
-	public List<CalendarEntry> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, DateTime beginDate, DateTime endDate);
+	public List<CalendarEntryBo> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, DateTime beginDate, DateTime endDate);
 
-    public List<CalendarEntry> getAllCalendarEntriesForCalendarId(String hrCalendarId);
+    public List<CalendarEntryBo> getAllCalendarEntriesForCalendarId(String hrCalendarId);
     
-    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
+    public List<CalendarEntryBo> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
     
-    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, DateTime cutOffTime);
+    public List<CalendarEntryBo> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, DateTime cutOffTime);
 
-    public CalendarEntry getCalendarEntryByCalendarIdAndDateRange(String hrCalendarId, DateTime beginDate, DateTime endDate);
+    public CalendarEntryBo getCalendarEntryByCalendarIdAndDateRange(String hrCalendarId, DateTime beginDate, DateTime endDate);
     
-    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdWithinLeavePlanYear(String hrCalendarId, String leavePlan, LocalDate dateWithinYear);
+    public List<CalendarEntryBo> getAllCalendarEntriesForCalendarIdWithinLeavePlanYear(String hrCalendarId, String leavePlan, LocalDate dateWithinYear);
 
-    public List<CalendarEntry> getSearchResults(String calendarName, String calendarTypes, LocalDate fromBeginDate, LocalDate toBeginDate, LocalDate fromendDate, LocalDate toEndDate);
+    public List<CalendarEntryBo> getSearchResults(String calendarName, String calendarTypes, LocalDate fromBeginDate, LocalDate toBeginDate, LocalDate fromendDate, LocalDate toEndDate);
 }

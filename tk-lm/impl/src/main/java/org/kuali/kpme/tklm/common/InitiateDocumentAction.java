@@ -22,8 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -41,7 +42,7 @@ public class InitiateDocumentAction extends KPMEAction {
     	
     	if (StringUtils.isNotBlank(principalId) && StringUtils.isNotBlank(hrCalendarEntryId)) {
     		Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
-    		CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+    		CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
     		
     		if (principal != null && calendarEntry != null) {
     			Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());

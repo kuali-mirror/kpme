@@ -15,20 +15,19 @@
  */
 package org.kuali.kpme.tklm.leave.accrual;
 
+import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.tklm.api.leave.accrual.RateRangeAggregateContract;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.api.leave.accrual.RateRangeAggregateContract;
 
 public class RateRangeAggregate implements RateRangeAggregateContract {
 	private List<RateRange> rateRanges = new ArrayList<RateRange>();
 	private RateRange currentRate;
 	private boolean rateRangeChanged;
-	private Map<String, List<? extends CalendarEntryContract>> calEntryMap;
+	private Map<String, List<CalendarEntry>> calEntryMap;
 	
 	public RateRange getRate(DateTime date) {		
 		rateRangeChanged = false;
@@ -77,11 +76,11 @@ public class RateRangeAggregate implements RateRangeAggregateContract {
 		return null;
 	}
 
-	public Map<String, List<? extends CalendarEntryContract>> getCalEntryMap() {
+	public Map<String, List<CalendarEntry>> getCalEntryMap() {
 		return calEntryMap;
 	}
 
-	public void setCalEntryMap(Map<String, List<? extends CalendarEntryContract>> calEntryMap) {
+	public void setCalEntryMap(Map<String, List<CalendarEntry>> calEntryMap) {
 		this.calEntryMap = calEntryMap;
 	}
 	

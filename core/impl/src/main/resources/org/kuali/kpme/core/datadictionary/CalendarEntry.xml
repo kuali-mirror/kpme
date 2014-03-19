@@ -24,7 +24,7 @@
 
   <bean id="CalendarEntry" parent="CalendarEntry-parentBean"/>
   <bean id="CalendarEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="dataObjectClass" value="org.kuali.kpme.core.calendar.entry.CalendarEntry"/>
+    <property name="dataObjectClass" value="org.kuali.kpme.core.calendar.entry.CalendarEntryBo"/>
     <property name="titleAttribute" value="hrCalendarEntryId"/>
     <property name="objectLabel" value="CalendarEntry"/>
     <property name="lookupDefinition">
@@ -324,7 +324,7 @@
    <!-- Calendar Entry Inquiry View-->
     <bean id="CalendarEntry-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Calendar Entry Inquiry" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntry" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntryBo" />
         <property name="singlePageView" value="true" />
         <property name="items">
             <list>
@@ -380,7 +380,7 @@
   <!--Calendar Entry Lookup View-->
     <bean id="CalendarEntry-LookupView" parent="KPMEUif-ViewLinkLookupView">
         <property name="headerText" value="Calendar Entry Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntry" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntryBo" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.calendar.entry.web.CalendarEntryLookupableImpl" />
         <property name="criteriaFields">
             <list>

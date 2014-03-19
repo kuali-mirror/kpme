@@ -19,7 +19,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -74,7 +74,7 @@ public interface LeaveBlockService {
 
 
     @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true)
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntryContract ce, String selectedEarnCode,
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId);
     
     @Caching(evict = {

@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.api.time.timeblock;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -74,7 +74,7 @@ public interface TimeBlockService {
     //@XmlElementWrapper(name = "timeBlocks", required = true)
     //@XmlElement(name = "timeBlock", required = false)
     @WebResult(name = "timeBlocks")
-	public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntryContract calendarEntry, Assignment assignment, String earnCode, String documentId,
+	public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntry calendarEntry, Assignment assignment, String earnCode, String documentId,
 											DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
                                             Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId,
                                             String clockLogBeginId, String clockLogEndId);
@@ -148,7 +148,7 @@ public interface TimeBlockService {
     //@XmlElementWrapper(name = "timeBlocks", required = true)
     //@XmlElement(name = "timeBlock", required = false)
     //@WebResult(name = "timeBlocks")
-	public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntryContract calendarEntry, Assignment assignment, String earnCode,
+	public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntry calendarEntry, Assignment assignment, String earnCode,
                                                     String documentId, DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
                                                     Boolean clockLogCreated, Boolean lunchDeleted, String spanningWeeks, String userPrincipalId,
                                                     String clockLogBeginId, String clockLogEndId);

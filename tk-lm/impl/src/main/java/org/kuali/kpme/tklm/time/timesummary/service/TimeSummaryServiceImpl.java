@@ -23,11 +23,11 @@ import org.joda.time.*;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -161,7 +161,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	}
 	
     private List<LeaveSummaryRow> getMaxedLeaveRows(
-			CalendarEntryContract calendarEntry, String principalId) throws Exception {
+            CalendarEntry calendarEntry, String principalId) throws Exception {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
     	
     	if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
@@ -169,7 +169,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         	Map<String,Set<LeaveBlockContract>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
         	Set<? extends LeaveBlockContract> onDemandTransfers = eligibilities.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
 
-        	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
+        	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodFullDateTime(),calendarEntry.getEndPeriodFullDateTime());
         	
         	//use the current date if on the current calendar? yes -> no warning given until accrual is reached. If accrual occurs on last day of period or last day of service interval
         	//change, no warning given to the employee of balance limits being exceeded except on or after that day.
@@ -352,7 +352,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	 * @param payCalEntry
 	 * @return
 	 */
-	protected List<String> getSummaryHeader(CalendarEntry payCalEntry){
+	protected List<String> getSummaryHeader(CalendarEntryBo payCalEntry){
 		List<String> summaryHeader = new ArrayList<String>();
 		int dayCount = 0;
 		DateTime beginDateTime = payCalEntry.getBeginPeriodFullDateTime();
@@ -441,7 +441,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * for FLSA week boundaries in the pay period.
      */
     @Override
-    public List<String> getHeaderForSummary(CalendarEntryContract cal, List<Boolean> dayArrangements) {
+    public List<String> getHeaderForSummary(CalendarEntry cal, List<Boolean> dayArrangements) {
  		List<String> header = new ArrayList<String>();
         if (cal == null) {
             return Collections.emptyList();
@@ -493,7 +493,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         return header;
     }
 
-    public Map<Integer, String> getHeaderForSummary(CalendarEntryContract cal, TimeSummary timeSummary) {
+    public Map<Integer, String> getHeaderForSummary(CalendarEntry cal, TimeSummary timeSummary) {
         Map<Integer, String> header = new LinkedHashMap<Integer,String>();
         Map<String, String> weekDates = new LinkedHashMap<String,String>();
         
@@ -602,7 +602,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @param calEntry Calendar entry we are using for lookup.
      * @return The PayCalendar that owns the provided entry.
      */
-    private Calendar getPayCalendarForEntry(CalendarEntryContract calEntry) {
+    private Calendar getPayCalendarForEntry(CalendarEntry calEntry) {
         Calendar cal = null;
 
         if (calEntry != null) {

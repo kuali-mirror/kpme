@@ -15,20 +15,17 @@
  */
 package org.kuali.kpme.core.api.calendar.entry;
 
-import java.sql.Time;
-import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
-import org.kuali.kpme.core.api.calendar.CalendarContract;
+import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * <p>CalendarEntryContract interface</p>
  *
  */
-public interface CalendarEntryContract extends PersistableBusinessObject, Comparable<CalendarEntryContract> {
+public interface CalendarEntryContract extends KpmeDataTransferObject, Comparable<CalendarEntryContract> {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "CalendarEntry";
 	
@@ -74,7 +71,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return beginPeriodDateTime for CalendarEntry
 	 */
-	public Date getBeginPeriodDateTime();
+	//public DateTime getBeginPeriodFullDateTime();
 
 	/**
 	 * The beginPeriodDateTime (Date with no time zone) the CalendarEntry is associated with
@@ -85,7 +82,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return beginPeriodDateTime with no time zone wrapped in a Date object
 	 */
-    public Date getBeginPeriodDate();
+    //public Date getBeginPeriodDate();
   
     /**
 	 * The beginPeriodDateTime (Time) the CalendarEntry is associated with
@@ -96,7 +93,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return beginPeriodDateTime wrapped in a Time object
 	 */
-    public Time getBeginPeriodTime() ;
+    public LocalTime getBeginPeriodLocalTime() ;
    
     /**
 	 * The beginPeriodDateTime (DateTime) the CalendarEntry is associated with
@@ -129,7 +126,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return endPeriodDateTime for CalendarEntry
 	 */
-    public Date getEndPeriodDateTime();
+    //public Date getEndPeriodDateTime();
 
     /**
 	 * The endPeriodDateTime (Date with no time zone) the CalendarEntry is associated with
@@ -140,7 +137,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return  endPeriodDateTime with no time zone wrapped in a Date object
 	 */
-    public Date getEndPeriodDate();
+    //public Date getEndPeriodDate();
    
     /**
 	 * The endPeriodDateTime (Time) the CalendarEntry is associated with
@@ -151,7 +148,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return endPeriodDateTime wrapped in a Time object
 	 */
-    public Time getEndPeriodTime();
+    public LocalTime getEndPeriodLocalTime();
     
     /**
    	 * The endPeriodDateTime (DateTime) the CalendarEntry is associated with
@@ -184,7 +181,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return batchInitiateDateTime for CalendarEntry
 	 */
-    public Date getBatchInitiateDateTime();
+    //public Date getBatchInitiateDateTime();
     
     /**
 	 * The batchInitiateDateTime (Date with no time zone) the CalendarEntry is associated with
@@ -195,7 +192,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return batchInitiateDateTime with no time zone wrapped in a Date object
 	 */
-    public Date getBatchInitiateDate();
+    //public Date getBatchInitiateDate();
    
     /**
    	 * The batchInitiateDateTime (Time) the CalendarEntry is associated with
@@ -206,7 +203,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchInitiateDateTime wrapped in a Time object
    	 */
-    public Time getBatchInitiateTime();
+    public LocalTime getBatchInitiateLocalTime();
     
     /**
    	 * The batchInitiateDateTime (DateTime) the CalendarEntry is associated with
@@ -228,7 +225,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return batchEndPayPeriodDateTime for CalendarEntry
 	 */
-    public Date getBatchEndPayPeriodDateTime();
+   // public Date getBatchEndPayPeriodDateTime();
    
     /**
    	 * The batchEndPayPeriodDateTime (Date with no time zone) the CalendarEntry is associated with
@@ -239,7 +236,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchEndPayPeriodDateTime with no time zone wrapped in a Date object
    	 */
-    public Date getBatchEndPayPeriodDate();
+    //public Date getBatchEndPayPeriodDate();
     
     /**
    	 * The batchEndPayPeriodDateTime (Time) the CalendarEntry is associated with
@@ -250,7 +247,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchEndPayPeriodDateTime wrapped in a Time object
    	 */
-    public Time getBatchEndPayPeriodTime();
+    public LocalTime getBatchEndPayPeriodLocalTime();
     
     /**
    	 * The batchEndPayPeriodDateTime (DateTime) the CalendarEntry is associated with
@@ -272,7 +269,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return batchEmployeeApprovalDateTime for CalendarEntry
 	 */
-    public Date getBatchEmployeeApprovalDateTime();
+    //public Date getBatchEmployeeApprovalDateTime();
    
     /**
    	 * The batchEmployeeApprovalDateTime (Date with no time zone) the CalendarEntry is associated with
@@ -283,7 +280,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchEmployeeApprovalDateTime with no time zone wrapped in a Date object
    	 */
-    public Date getBatchEmployeeApprovalDate();
+    //public Date getBatchEmployeeApprovalDate();
    
     /**
    	 * The batchEmployeeApprovalDateTime (Time) the CalendarEntry is associated with
@@ -294,7 +291,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchEmployeeApprovalDateTime wrapped in a Time object
    	 */
-    public Time getBatchEmployeeApprovalTime();
+    public LocalTime getBatchEmployeeApprovalLocalTime();
     
     /**
    	 * The batchEmployeeApprovalDateTime (DateTime) the CalendarEntry is associated with
@@ -316,7 +313,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return batchSupervisorApprovalDateTime for CalendarEntry
 	 */
-    public Date getBatchSupervisorApprovalDateTime();
+   // public Date getBatchSupervisorApprovalDateTime();
   
     /**
    	 * The batchSupervisorApprovalDateTime (Date with no time zone) the CalendarEntry is associated with
@@ -327,7 +324,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchSupervisorApprovalDateTime with no time zone wrapped in a Date object
    	 */
-    public Date getBatchSupervisorApprovalDate();
+    //public Date getBatchSupervisorApprovalDate();
     
     /**
    	 * The batchSupervisorApprovalDateTime (Time) the CalendarEntry is associated with
@@ -338,7 +335,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchSupervisorApprovalDateTime wrapped in a Time object
    	 */
-    public Time getBatchSupervisorApprovalTime();
+    public LocalTime getBatchSupervisorApprovalLocalTime();
   
     /**
    	 * The batchSupervisorApprovalDateTime (DateTime) the CalendarEntry is associated with
@@ -360,10 +357,9 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return calendarObj for CalendarEntry
 	 */
-	public CalendarContract getCalendarObj();
+	//public CalendarContract getCalendarObj();
 
 	/**
-	 * TODO:  Is this field needed???  
 	 * The batchPayrollApprovalDateTime the CalendarEntry is associated with
 	 * 
 	 * <p>
@@ -372,7 +368,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
 	 * 
 	 * @return batchPayrollApprovalDateTime for CalendarEntry
 	 */
-	public Date getBatchPayrollApprovalDateTime();
+	//public Date getBatchPayrollApprovalDateTime();
 	
 	/**
    	 * The batchPayrollApprovalDateTime (Date with no time zone) the CalendarEntry is associated with
@@ -383,7 +379,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchPayrollApprovalDateTime with no time zone wrapped in a Date object
    	 */
-    public Date getBatchPayrollApprovalDate();
+    //public Date getBatchPayrollApprovalDate();
   
     /**
    	 * The batchPayrollApprovalDateTime (Time) the CalendarEntry is associated with
@@ -394,7 +390,7 @@ public interface CalendarEntryContract extends PersistableBusinessObject, Compar
    	 * 
    	 * @return batchPayrollApprovalDateTime wrapped in a Time object
    	 */
-    public Time getBatchPayrollApprovalTime();
+    public LocalTime getBatchPayrollApprovalLocalTime();
     
     /**
    	 * The batchPayrollApprovalDateTime (DateTime) the CalendarEntry is associated with

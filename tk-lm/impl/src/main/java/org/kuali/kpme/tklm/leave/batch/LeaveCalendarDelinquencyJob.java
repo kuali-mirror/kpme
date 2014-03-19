@@ -15,26 +15,24 @@
  */
 package org.kuali.kpme.tklm.leave.batch;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.batch.BatchJob;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.notification.KPMENotificationService;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
-import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class LeaveCalendarDelinquencyJob extends BatchJob {
 	
@@ -50,14 +48,14 @@ public class LeaveCalendarDelinquencyJob extends BatchJob {
 		Set<String> principalIds = new HashSet<String>();
 		
 		DateTime asOfDate = new LocalDate().toDateTimeAtStartOfDay();
-		List<CalendarEntry> calendarEntries = (List<CalendarEntry>) getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
+		List<CalendarEntry> calendarEntries = getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 		
 		for (CalendarEntry calendarEntry : calendarEntries) {
 			String hrCalendarId = calendarEntry.getHrCalendarId();
 			DateTime currentBeginDate = calendarEntry.getBeginPeriodFullDateTime();
 			
 			if (currentBeginDate.isBefore(asOfDate) || DateUtils.isSameDay(currentBeginDate.toDate(), asOfDate.toDate())) {
-				CalendarEntryContract previousCalendarEntry = getCalendarEntryService().getPreviousCalendarEntryByCalendarId(hrCalendarId, calendarEntry);
+				CalendarEntry previousCalendarEntry = getCalendarEntryService().getPreviousCalendarEntryByCalendarId(hrCalendarId, calendarEntry);
 				
 				if (previousCalendarEntry != null) {
 					String calendarName = previousCalendarEntry.getCalendarName();

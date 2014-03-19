@@ -23,7 +23,7 @@ import org.joda.time.*;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
@@ -77,7 +77,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     //This function is used to build timeblocks that span days
     @Override
-    public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntryContract calendarEntry, Assignment assignment, String earnCode, String documentId,
+    public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntry calendarEntry, Assignment assignment, String earnCode, String documentId,
                                                     DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount, 
                                                     Boolean getClockLogCreated, Boolean getLunchDeleted, String spanningWeeks, String userPrincipalId,
                                                     String clockLogBeginId, String clockLogEndId) {
@@ -136,7 +136,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     }
 
 
-    public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntryContract calendarEntry, Assignment assignment, String earnCode, String documentId,
+    public List<TimeBlock> buildTimeBlocks(String principalId, CalendarEntry calendarEntry, Assignment assignment, String earnCode, String documentId,
     									   DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount, 
                                            Boolean getClockLogCreated, Boolean getLunchDeleted, String userPrincipalId,
                                            String clockLogBeginId, String clockLogEndId) {

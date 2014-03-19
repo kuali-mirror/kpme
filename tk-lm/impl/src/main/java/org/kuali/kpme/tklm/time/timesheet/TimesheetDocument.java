@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.timesheet;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -95,11 +95,11 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 	}
 
     @Override
-	public CalendarEntryContract getCalendarEntry() {
+	public CalendarEntry getCalendarEntry() {
 		return calendarEntry;
 	}
 
-	public void setCalendarEntry(CalendarEntryContract calendarEntry) {
+	public void setCalendarEntry(CalendarEntry calendarEntry) {
 		this.calendarEntry = calendarEntry;
 	}
 

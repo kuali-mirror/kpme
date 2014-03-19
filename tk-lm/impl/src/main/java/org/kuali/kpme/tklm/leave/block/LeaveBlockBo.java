@@ -29,14 +29,12 @@ import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -406,7 +404,7 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
                 //pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
                 pcal = principalHRAttributes.getLeaveCalObj() != null ? principalHRAttributes.getLeaveCalObj() : principalHRAttributes.getCalendar();
                 if(pcal!= null) {
-                    CalendarEntryContract calEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), getLeaveLocalDate().toDateTimeAtStartOfDay());
+                    CalendarEntry calEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), getLeaveLocalDate().toDateTimeAtStartOfDay());
                     if(calEntries != null) {
                         this.calendarId = calEntries.getHrCalendarEntryId();
                     }

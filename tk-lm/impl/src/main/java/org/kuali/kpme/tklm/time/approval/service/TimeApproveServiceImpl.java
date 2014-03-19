@@ -22,7 +22,7 @@ import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.web.CalendarDay;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
@@ -66,7 +66,7 @@ import java.util.Map.Entry;
 public class TimeApproveServiceImpl implements TimeApproveService {
 
 	@Override
-	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntryContract payCalendarEntry, String docIdSearchTerm) {
+	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(String calGroup, List<String> principalIds, List<String> payCalendarLabels, CalendarEntry payCalendarEntry, String docIdSearchTerm) {
 		DateTime payBeginDate = payCalendarEntry.getBeginPeriodFullDateTime();
 		DateTime payEndDate = payCalendarEntry.getEndPeriodFullDateTime();
 		
@@ -288,7 +288,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         return isSynchronousUser;
     }
 
-	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntryContract calendarEntry) {
+	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntry calendarEntry) {
 		Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
 		allMessages.put("warningMessages", new HashSet<String>());
 
@@ -361,7 +361,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public Map<String, BigDecimal> getHoursToPayDayMap(String principalId,
 			DateTime payEndDate, List<String> payCalendarLabels,
 			List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks, Long workArea,
-			CalendarEntryContract payCalendarEntry, Calendar payCalendar,
+			CalendarEntry payCalendarEntry, Calendar payCalendar,
 			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
 		Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
 		List<BigDecimal> dayTotals = new ArrayList<BigDecimal>();
@@ -418,7 +418,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 	
     private TkTimeBlockAggregate buildAndMergeAggregates(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks,
-                                                         CalendarEntryContract calendarEntries, Calendar calendar, List<Interval> dayIntervals) {
+                                                         CalendarEntry calendarEntries, Calendar calendar, List<Interval> dayIntervals) {
         TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntries, calendar, true, dayIntervals);
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntries);
         return TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
@@ -431,7 +431,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public Map<String, BigDecimal> getHoursToFlsaWeekMap(String principalId, 
 			DateTime payEndDate, List<String> payCalendarLabels, 
 			List<TimeBlock> lstTimeBlocks, List<LeaveBlock> leaveBlocks,
-            Long workArea, CalendarEntryContract payCalendarEntry, Calendar payCalendar,
+            Long workArea, CalendarEntry payCalendarEntry, Calendar payCalendar,
 			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
 		
 		Map<String, BigDecimal> hoursToFlsaWeekMap = new LinkedHashMap<String, BigDecimal>();

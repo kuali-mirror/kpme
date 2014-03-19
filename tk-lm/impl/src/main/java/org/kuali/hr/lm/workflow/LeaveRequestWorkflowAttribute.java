@@ -18,11 +18,10 @@ package org.kuali.hr.lm.workflow;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -122,6 +121,6 @@ public class LeaveRequestWorkflowAttribute extends AbstractRoleAttribute {
     }
 
     private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
-        return (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
+        return  HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
     }
 }

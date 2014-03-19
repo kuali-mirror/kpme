@@ -15,9 +15,11 @@
  */
 package org.kuali.kpme.core.calendar.entry.web;
 
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.web.form.LookupForm;
 
@@ -35,7 +37,7 @@ public class CalendarEntryLookupableImpl extends KPMELookupableImpl {
         String fromEndPeriodDateTime = TKUtils.getFromDateString(searchCriteria.get("endPeriodDateTime"));
         String toEndPeriodDateTime = TKUtils.getToDateString(searchCriteria.get("endPeriodDateTime"));
 
-        return  HrServiceLocator.getCalendarEntryService().getSearchResults(calendarName, calendarTypes, TKUtils.formatDateString(fromBeginPeriodDateTime),
-                TKUtils.formatDateString(toBeginPeriodDateTime), TKUtils.formatDateString(fromEndPeriodDateTime), TKUtils.formatDateString(toEndPeriodDateTime));
+        return ModelObjectUtils.transform(HrServiceLocator.getCalendarEntryService().getSearchResults(calendarName, calendarTypes, TKUtils.formatDateString(fromBeginPeriodDateTime),
+                TKUtils.formatDateString(toBeginPeriodDateTime), TKUtils.formatDateString(fromEndPeriodDateTime), TKUtils.formatDateString(toEndPeriodDateTime)), CalendarEntryBo.toCalendarEntryBo);
     }
 }

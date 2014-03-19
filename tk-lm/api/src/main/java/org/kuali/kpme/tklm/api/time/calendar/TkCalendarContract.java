@@ -15,11 +15,11 @@
  */
 package org.kuali.kpme.tklm.api.time.calendar;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.calendar.CalendarParentContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+
+import java.util.List;
 
 
 /**
@@ -37,7 +37,7 @@ public interface TkCalendarContract extends CalendarParentContract {
 	 * 
 	 * @return payCalEntry for TkCalendar
 	 */
-    public CalendarEntryContract getPayCalEntry();
+    public CalendarEntry getPayCalEntry();
 
     /**
 	 * The beginDateTime associated with the TkCalendar

@@ -33,11 +33,10 @@ import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -107,7 +106,7 @@ public class TimeDetailAction extends TimesheetAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         TimeDetailActionForm timeDetailActionForm = (TimeDetailActionForm) form;
 
-        CalendarEntryContract calendarEntry = timeDetailActionForm.getCalendarEntry();
+        CalendarEntry calendarEntry = timeDetailActionForm.getCalendarEntry();
         TimesheetDocument timesheetDocument = timeDetailActionForm.getTimesheetDocument();
 
         if (calendarEntry != null && timesheetDocument != null) {
@@ -213,19 +212,19 @@ public class TimeDetailAction extends TimesheetAction {
 	protected void setMessages(TimeDetailActionForm timeDetailActionForm) {
         String principalId = HrContext.getTargetPrincipalId();
 		TimesheetDocument timesheetDocument = timeDetailActionForm.getTimesheetDocument();
-		CalendarEntryContract calendarEntry = timeDetailActionForm.getCalendarEntry();
+        CalendarEntry calendarEntry = timeDetailActionForm.getCalendarEntry();
 		
         List<LeaveBlock> balanceTransferLeaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(timesheetDocument.getPrincipalId(),
                 calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
        
-        Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+        Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
        
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
         List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
         if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
         	PrincipalHRAttributes principalCalendar = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 
-        	Interval calendarInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(), calendarEntry.getEndPeriodDate().getTime());
+        	Interval calendarInterval = new Interval(calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
         	Map<String,Set<LeaveBlockContract>> maxBalInfractions = new HashMap<String,Set<LeaveBlockContract>>();
 	        
         	if (principalCalendar != null) {
@@ -242,11 +241,11 @@ public class TimeDetailAction extends TimesheetAction {
 				        			aDate = HrServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveLocalDate());
 				        		} else {
 					        		Calendar cal = (Calendar) HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, lb.getLeaveLocalDate(), true);
-					        		CalendarEntry leaveEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), new DateTime(lb.getLeaveDateTime()));
-					        		aDate = new DateTime(leaveEntry.getEndPeriodDate());
+					        		CalendarEntry leaveEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), new DateTime(lb.getLeaveDateTime()));
+					        		aDate = leaveEntry.getEndPeriodFullDateTime();
 				        		}
 				        		aDate = aDate.minusDays(1);
-				        		if (calendarInterval.contains(aDate.getMillis()) && aDate.toDate().compareTo(calendarEntry.getEndPeriodDate()) <= 0) {
+				        		if (calendarInterval.contains(aDate.getMillis()) && aDate.compareTo(calendarEntry.getEndPeriodFullDateTime()) <= 0) {
 					        		//may want to calculate summary for all rows, displayable or not, and determine displayability via tags.
 					    			AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 					    			BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, lb.getLeaveLocalDate());
@@ -294,7 +293,7 @@ public class TimeDetailAction extends TimesheetAction {
         	   CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate(), true);
 					
 				if (calendar != null) {
-					List<CalendarEntry> leaveCalendarEntries = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
+					List<CalendarEntry> leaveCalendarEntries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
 					
 					List<AccrualCategory> accrualCategories = HrServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 					for (AccrualCategory accrualCategory : accrualCategories) {
@@ -928,7 +927,7 @@ public class TimeDetailAction extends TimesheetAction {
       // if the leave block is NOT eligible for accrual, rerun accrual service for the leave calendar the leave block is on
       EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(blockToDelete.getEarnCode(), blockToDelete.getLeaveLocalDate());
       if(ec != null && ec.getEligibleForAccrual().equals("N")) {
-    	  CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService()
+    	  CalendarEntry ce = HrServiceLocator.getCalendarEntryService()
 					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), blockToDelete.getLeaveDateTime());
     	  if(ce != null) {
     		  LmServiceLocator.getLeaveAccrualService().runAccrual(blockToDelete.getPrincipalId(), ce.getBeginPeriodFullDateTime().toDateTime(), ce.getEndPeriodFullDateTime().toDateTime(), false);

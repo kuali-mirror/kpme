@@ -36,8 +36,9 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -96,8 +97,7 @@ public class TimesheetSubmitAction extends KPMEAction {
                     }
     				List<LeaveBlockContract> eligibleTransfers = new ArrayList<LeaveBlockContract>();
     				List<LeaveBlockContract> eligiblePayouts = new ArrayList<LeaveBlockContract>();
-            		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
-
+            		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodFullDateTime(), document.getCalendarEntry().getEndPeriodFullDateTime());
 	        		for(Entry<String,Set<LeaveBlockContract>> entry : eligibilities.entrySet()) {
 	        			
 	            		for(LeaveBlockContract lb : entry.getValue()) {
@@ -126,11 +126,11 @@ public class TimesheetSubmitAction extends KPMEAction {
 		            				}
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 		            					//a leave period should end within the time period.
-		            					CalendarEntry leaveEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveDateTime());
+		            					CalendarEntry leaveEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveDateTime());
 		            					if(ObjectUtils.isNotNull(leaveEntry)) {
 		            						//only leave blocks belonging to the calendar entry being submitted may reach this point.
 		            						//if the infraction occurs before the end of the leave calendar entry, then action will be executed.
-			            					if(interval.contains(DateUtils.addDays(leaveEntry.getEndPeriodDate(),-1).getTime())) {
+			            					if(interval.contains(leaveEntry.getEndPeriodFullDateTime().minusDays(1))) {
 
 						            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),HrConstants.ACTION_AT_MAX_BALANCE.PAYOUT)) {
 						            				eligiblePayouts.add(lb);

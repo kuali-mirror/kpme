@@ -15,33 +15,27 @@
  */
 package org.kuali.kpme.tklm.leave.transfer;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.math.BigDecimal;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.math.BigDecimal;
+
+import static org.junit.Assert.*;
 
 @IntegrationTest
 public class BalanceTransferServiceTest extends TKLMIntegrationTestCase {
@@ -52,9 +46,9 @@ public class BalanceTransferServiceTest extends TKLMIntegrationTestCase {
 	private final String USER_ID = "testUser1";
 	
 	private LeaveCalendarDocument janLCD;
-	private CalendarEntryContract janEntry;
+	private CalendarEntry janEntry;
 	private LeaveCalendarDocument decLCD;
-	private CalendarEntryContract decEntry;
+	private CalendarEntry decEntry;
 	
 	private LocalDate janStart;
 	private LocalDate decStart;

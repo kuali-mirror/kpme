@@ -19,10 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.*;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -51,7 +51,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
     	// This validator could be shared between LeaveCalendarValidationUtil and TimeDetailValidationUtil
     	// if the common parameters required by both are moved to a shared parent of TimeDetailActionFormBase and LeaveCalendarForm.
     	List<String> errorMsgList = new ArrayList<String>();
-        CalendarEntryContract payCalendarEntry = tdaf.getCalendarEntry();
+        CalendarEntry payCalendarEntry = tdaf.getCalendarEntry();
     	if(ObjectUtils.isNotNull(payCalendarEntry)) {
 			LeaveBlock lb = null;
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
@@ -93,7 +93,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
     	if (StringUtils.isNotBlank(lcf.getSelectedEarnCode()) &&  lcf.getCalendarEntry() != null) {
     		//earn code is validate through the span of the leave entry, could the earn code's record method change between then and the leave period end date?
     		//Why not use endDateS to retrieve the earn code?
-            CalendarEntryContract calendarEntry = lcf.getCalendarEntry();
+            CalendarEntry calendarEntry = lcf.getCalendarEntry();
     		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
     		if(earnCode != null) {
     			if(earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
@@ -171,7 +171,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         }
         if (errors.size() > 0) return errors;
 
-        CalendarEntryContract payCalEntry = timesheetDocument.getCalendarEntry();
+        CalendarEntry payCalEntry = timesheetDocument.getCalendarEntry();
         EarnCode earnCode = null;
         if (StringUtils.isNotBlank(selectedEarnCode)) {
             earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, TKUtils.formatDateTimeStringNoTimezone(endDateS).toLocalDate());
@@ -509,7 +509,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
      * @return
      */
     @Deprecated
-    public static List<String> validateInterval(CalendarEntry payCalEntry, Long startTime, Long endTime) {
+    public static List<String> validateInterval(CalendarEntryBo payCalEntry, Long startTime, Long endTime) {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginPeriodLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndPeriodLocalDateTime();

@@ -28,11 +28,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -321,7 +320,7 @@ public class ClockAction extends TimesheetAction {
         	
         	TimesheetDocument previousTimeDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(previousClockLog.getDocumentId());
         	if(previousTimeDoc != null) {
-                CalendarEntryContract previousCalEntry = previousTimeDoc.getCalendarEntry();
+                CalendarEntry previousCalEntry = previousTimeDoc.getCalendarEntry();
 	        	DateTime previousEndPeriodDateTime = previousCalEntry.getEndPeriodFullDateTime();
 	        	// if current time is after the end time of previous calendar entry, it means the clock action covers two calendar entries
 	        	if(currentDateTime.isAfter(previousEndPeriodDateTime.getMillis())) {
@@ -333,7 +332,7 @@ public class ClockAction extends TimesheetAction {
 	        		// time to use to create the out clock log
 	                DateTime outLogDateTime = TKUtils.convertTimeForDifferentTimeZone(previousEndPeriodDateTime, systemTimeZone, userTimezone);
 	        	        
-	                CalendarEntry nextCalendarEntry = (CalendarEntry)HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(previousCalEntry.getHrCalendarId(), previousCalEntry);
+	                CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(previousCalEntry.getHrCalendarId(), previousCalEntry);
 	                DateTime beginNextPeriodDateTime = nextCalendarEntry.getBeginPeriodFullDateTime();
 	                // time to use to create the CI clock log
 	                DateTime inLogDateTime = TKUtils.convertTimeForDifferentTimeZone(beginNextPeriodDateTime, systemTimeZone, userTimezone);

@@ -15,16 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.accrual;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -32,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -45,11 +35,17 @@ import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
-import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.*;
 
 @IntegrationTest
 public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCase {
@@ -61,9 +57,9 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 	private final String USER_ID = "testUser1";
 	
 	private LeaveCalendarDocument janLCD;
-	private CalendarEntryContract janEntry;
+	private CalendarEntry janEntry;
 	private LeaveCalendarDocument decLCD;
-	private CalendarEntryContract decEntry;
+	private CalendarEntry decEntry;
 	
 	private final String JAN_ID = "5001";
 	private final String DEC_ID = "5000";
@@ -75,13 +71,13 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 	private final String TS_USER_ID = "testUser2";	
 	
 	private TimesheetDocument endJanTSD;
-	private CalendarEntryContract endJanTSDEntry;
+	private CalendarEntry endJanTSDEntry;
 	private TimesheetDocument midJanTSD;
-	private CalendarEntryContract midJanTSDEntry;
+	private CalendarEntry midJanTSDEntry;
 	private TimesheetDocument endDecTSD;
-	private CalendarEntryContract endDecTSDEntry;
+	private CalendarEntry endDecTSDEntry;
 	private TimesheetDocument midDecTSD;
-	private CalendarEntryContract midDecTSDEntry;
+	private CalendarEntry midDecTSDEntry;
 	
 	private final String TSD_MID_DEC_PERIOD_ID = "5000";
 	private final String TSD_END_DEC_PERIOD_ID = "5001";
@@ -129,7 +125,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 	public void testGetMaxBalanceViolationsLeaveApprove() throws Exception {
 		Map<String, Set<LeaveBlockContract>> maxBalanceViolations = eligibilityTestHelper(janEntry, USER_ID);
 		List<LeaveBlockContract> eligibleTransfers = new ArrayList<LeaveBlockContract>();
-		Interval interval = new Interval(janEntry.getBeginPeriodDate().getTime(),janEntry.getEndPeriodDate().getTime());
+		Interval interval = new Interval(janEntry.getBeginPeriodFullDateTime(),janEntry.getEndPeriodFullDateTime());
 		
 		for(LeaveBlockContract violation : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 			if(interval.contains(violation.getLeaveDateTime()))
@@ -267,10 +263,10 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		assertEquals(12, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		//Assert correct number of transfer eligible for frequency
 		List<LeaveBlockContract> eligibleLeaveApproveActions = new ArrayList<LeaveBlockContract>();
-		Interval interval = new Interval(midDecTSDEntry.getBeginPeriodDate().getTime(),midDecTSDEntry.getEndPeriodDate().getTime());
-		List<? extends CalendarEntryContract> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
+		Interval interval = new Interval(midDecTSDEntry.getBeginPeriodFullDateTime(),midDecTSDEntry.getEndPeriodFullDateTime());
+		List<CalendarEntry> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertEquals("There should be one leave entry ending within this timesheet", 1, entries.size());
-		Interval leaveInterval = new Interval(midDecTSDEntry.getBeginPeriodDate().getTime(),entries.get(0).getEndPeriodDate().getTime());
+		Interval leaveInterval = new Interval(midDecTSDEntry.getBeginPeriodFullDateTime(),entries.get(0).getEndPeriodFullDateTime());
 		for(LeaveBlockContract violation : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 			if(leaveInterval.contains(violation.getLeaveDateTime())) {
 				eligibleLeaveApproveActions.add(violation);
@@ -291,10 +287,10 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		//Assert correct number of transfer eligible for frequency
 		assertEquals(8, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		List<LeaveBlockContract> eligibleYearEndActions = new ArrayList<LeaveBlockContract>();
-		Interval interval = new Interval(midDecTSDEntry.getBeginPeriodDate().getTime(),midDecTSDEntry.getEndPeriodDate().getTime());
-		List<? extends CalendarEntryContract> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
+		Interval interval = new Interval(midDecTSDEntry.getBeginPeriodFullDateTime(),midDecTSDEntry.getEndPeriodFullDateTime());
+		List<CalendarEntry> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertEquals("There should be one leave entry ending within this timesheet", 1, entries.size());
-		Interval leaveInterval = new Interval(midDecTSDEntry.getBeginPeriodDate().getTime(),entries.get(0).getEndPeriodDate().getTime());
+		Interval leaveInterval = new Interval(midDecTSDEntry.getBeginPeriodFullDateTime(),entries.get(0).getEndPeriodFullDateTime());
 		for(LeaveBlockContract violation : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 			if(leaveInterval.contains(violation.getLeaveDateTime())
 				&& HrServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(entries.get(0), "testLP", TK_TO)) {
@@ -328,11 +324,11 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		assertEquals("Incorrect number of max balance violations", 18, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		//Assert correct base number of transfer eligible for frequency
 		List<LeaveBlockContract> eligibleLeaveApproveActions = new ArrayList<LeaveBlockContract>();
-		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),endDecTSDEntry.getEndPeriodDate().getTime());
-		List<? extends CalendarEntryContract> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
+		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodFullDateTime(),endDecTSDEntry.getEndPeriodFullDateTime());
+		List<CalendarEntry> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertTrue("There should only be one leave period that ends within any given time calendar", entries.size() == 1);
-		CalendarEntryContract leaveEntry = entries.get(0);
-		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),leaveEntry.getEndPeriodDate().getTime());
+		CalendarEntry leaveEntry = entries.get(0);
+		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodFullDateTime(),leaveEntry.getEndPeriodFullDateTime());
 		for(LeaveBlockContract violation : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 			if(leaveInterval.contains(violation.getLeaveDateTime())) {
 				eligibleLeaveApproveActions.add(violation);
@@ -415,11 +411,11 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		assertEquals("Incorrect number of leave approve violations", 18, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 
 		List<LeaveBlockContract> eligibleTransfers = new ArrayList<LeaveBlockContract>();
-		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),endDecTSDEntry.getEndPeriodDate().getTime());
-		List<? extends CalendarEntryContract> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
+		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodFullDateTime(),endDecTSDEntry.getEndPeriodFullDateTime());
+		List<CalendarEntry> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertTrue("There should only be one leave period that ends within any given time calendar", entries.size() == 1);
-		CalendarEntryContract leaveEntry = entries.get(0);
-		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),leaveEntry.getEndPeriodDate().getTime());
+		CalendarEntry leaveEntry = entries.get(0);
+		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodFullDateTime(),leaveEntry.getEndPeriodFullDateTime());
 		for(LeaveBlockContract violation : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 			if(leaveInterval.contains(violation.getLeaveDateTime())) {
 				eligibleTransfers.add(violation);
@@ -441,11 +437,11 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		assertEquals(8, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
 		List<LeaveBlockContract> eligibleTransfers = new ArrayList<LeaveBlockContract>();
-		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),endDecTSDEntry.getEndPeriodDate().getTime());
-		List<? extends CalendarEntryContract> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
+		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodFullDateTime(),endDecTSDEntry.getEndPeriodFullDateTime());
+		List<CalendarEntry> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertTrue("There should only be one leave period that ends within any given time calendar", entries.size() == 1);
-		CalendarEntryContract leaveEntry = entries.get(0);
-		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),leaveEntry.getEndPeriodDate().getTime());
+		CalendarEntry leaveEntry = entries.get(0);
+		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodFullDateTime(),leaveEntry.getEndPeriodFullDateTime());
 		for(LeaveBlockContract violation : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 			if(leaveInterval.contains(violation.getLeaveDateTime())) {
 				eligibleTransfers.add(violation);
@@ -468,11 +464,11 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 
 		//Assert correct number of transfer eligible for frequency
 		List<LeaveBlockContract> eligibleTransfers = new ArrayList<LeaveBlockContract>();
-		Interval interval = new Interval(endJanTSDEntry.getBeginPeriodDate().getTime(),endJanTSDEntry.getEndPeriodDate().getTime());
-		List<? extends CalendarEntryContract> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
+		Interval interval = new Interval(endJanTSDEntry.getBeginPeriodFullDateTime(),endJanTSDEntry.getEndPeriodFullDateTime());
+		List<CalendarEntry> entries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertTrue("There should only be one leave period that ends within any given time calendar", entries.size() == 1);
-		CalendarEntryContract leaveEntry = entries.get(0);
-		Interval leaveInterval = new Interval(endJanTSDEntry.getBeginPeriodDate().getTime(),leaveEntry.getEndPeriodDate().getTime());
+		CalendarEntry leaveEntry = entries.get(0);
+		Interval leaveInterval = new Interval(endJanTSDEntry.getBeginPeriodFullDateTime(),leaveEntry.getEndPeriodFullDateTime());
 		for(LeaveBlockContract violation : maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 			if(leaveInterval.contains(violation.getLeaveDateTime())) {
 				eligibleTransfers.add(violation);
@@ -484,7 +480,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 	
 	
 	private Map<String, Set<LeaveBlockContract>> eligibilityTestHelper(
-			CalendarEntryContract entry, String principalId) throws Exception {
+			CalendarEntry entry, String principalId) throws Exception {
 		return LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(entry, principalId);
 	}
 }

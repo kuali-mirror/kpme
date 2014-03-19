@@ -19,10 +19,10 @@ package org.kuali.kpme.tklm.leave.request.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
@@ -292,7 +292,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     }
 
     private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
-        return (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
+        return  HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
     }
     
     public List<String> getApproverIdList(String documentId) {

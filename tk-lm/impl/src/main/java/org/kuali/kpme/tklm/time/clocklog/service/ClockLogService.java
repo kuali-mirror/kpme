@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.clocklog.service;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.clocklog.ClockLog;
@@ -57,7 +57,7 @@ public interface ClockLogService {
 	 * @param calendarEntry
 	 * @return
 	 */
-	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntryContract calendarEntry);
+	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry);
 
 	/**
 	 * Process clock log created
@@ -72,7 +72,7 @@ public interface ClockLogService {
 	 * @return
 	 */
 	@CacheEvict(value={AssignmentBo.CACHE_NAME}, allEntries = true)
-    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId);
+    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId);
     
     /**
      * Fetch clock log by id
@@ -82,7 +82,7 @@ public interface ClockLogService {
     public ClockLog getClockLog(String tkClockLogId);
 
     @CacheEvict(value={AssignmentBo.CACHE_NAME}, allEntries = true)
-    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntryContract pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId);
+    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId);
 
     @CacheEvict(value={AssignmentBo.CACHE_NAME}, allEntries = true)
     public void deleteClockLogsForDocumentId(String documentId);

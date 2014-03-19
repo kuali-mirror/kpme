@@ -22,7 +22,8 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -42,14 +43,14 @@ public class LeaveCalendarWebTest extends KPMEWebTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		CalendarEntry firstCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("202");
+		CalendarEntry firstCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry("202");
         LeaveCalendarDocument firstLeaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", firstCalendarEntry);
         documentId = firstLeaveCalendarDocument.getDocumentId();
-        
-        CalendarEntry secondCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("203");
+
+        CalendarEntry secondCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry("203");
         LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", secondCalendarEntry);
         
-        CalendarEntry thirdCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("204");
+        CalendarEntry thirdCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry("204");
         LmServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", thirdCalendarEntry);
 	}
 

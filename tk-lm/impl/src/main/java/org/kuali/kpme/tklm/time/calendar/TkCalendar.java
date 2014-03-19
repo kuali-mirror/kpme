@@ -15,19 +15,13 @@
  */
 package org.kuali.kpme.tklm.time.calendar;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.calendar.CalendarParent;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.web.CalendarDay;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
-import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
@@ -39,11 +33,15 @@ import org.kuali.kpme.tklm.time.timeblock.web.TimeBlockRenderer;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailRenderer;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class TkCalendar extends CalendarParent implements TkCalendarContract {
 
 	private static final long serialVersionUID = -5393478597803080619L;
 	private static final Logger LOG = Logger.getLogger(TkCalendar.class);
-    private CalendarEntryContract payCalEntry;
+    private CalendarEntry payCalEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
 
@@ -211,11 +209,11 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
         }
     }
 
-    public CalendarEntryContract getPayCalEntry() {
+    public CalendarEntry getPayCalEntry() {
         return payCalEntry;
     }
 
-    public void setPayCalEntry(CalendarEntryContract payCalEntry) {
+    public void setPayCalEntry(CalendarEntry payCalEntry) {
         this.payCalEntry = payCalEntry;
         // Relative time, with time zone added.
         this.beginDateTime = payCalEntry.getBeginPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());

@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.api.leave.accrual;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 
 import java.math.BigDecimal;
@@ -116,5 +116,5 @@ public interface AccrualService {
 	
 	public BigDecimal getApprovedBalanceForPrincipal(String principalId, AccrualCategoryContract accrualCategory, LocalDate asOfDate);
 
-    DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName, Map<String, List<? extends CalendarEntryContract>> aMap);
+    DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName, Map<String, List<CalendarEntry>> aMap);
 }

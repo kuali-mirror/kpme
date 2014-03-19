@@ -17,9 +17,7 @@ package org.kuali.kpme.core.calendar.dao;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 
 public interface CalendarDao {
 

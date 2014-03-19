@@ -23,7 +23,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.web.KPMEAction;
@@ -35,7 +36,7 @@ public class BatchJobAction extends KPMEAction {
         BatchJobActionForm bjaf = (BatchJobActionForm) form;
         String batchJobName = bjaf.getSelectedBatchJob();
 
-        CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(bjaf.getHrPyCalendarEntryId());
+        CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry(bjaf.getHrPyCalendarEntryId());
         DateTime scheduleDate = new DateTime();
         if(calendarEntry != null) {
 

@@ -30,14 +30,6 @@
  */
 package org.kuali.kpme.tklm.leave.payout.web;
 
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -48,8 +40,8 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.web.KPMEAction;
@@ -67,6 +59,13 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class LeavePayoutAction extends KPMEAction {
 	
@@ -92,7 +91,7 @@ public class LeavePayoutAction extends KPMEAction {
 			String documentId = leavePayout.getLeaveCalendarDocumentId();
 			TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
 			LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
-			CalendarEntryContract calendarEntry = null;
+            CalendarEntry calendarEntry = null;
 			String strutsActionForward = "";
 			String methodToCall = "approveLeaveCalendar";
 			if(ObjectUtils.isNull(tsdh) && ObjectUtils.isNull(lcdh)) {
@@ -234,7 +233,7 @@ public class LeavePayoutAction extends KPMEAction {
 					TimesheetDocument tsd = null;
 					LeaveCalendarDocument lcd = null;
 					String principalId = null;
-					CalendarEntry calendarEntry = null;
+					CalendarEntryBo calendarEntry = null;
 
 					if(isTimesheet) {
 						tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);

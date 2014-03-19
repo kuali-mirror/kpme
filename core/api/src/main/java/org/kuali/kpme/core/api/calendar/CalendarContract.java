@@ -15,12 +15,13 @@
  */
 package org.kuali.kpme.core.api.calendar;
 
-import java.sql.Time;
-import java.util.List;
-
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.sql.Time;
+import java.util.List;
 
 /**
  * <p>CalendarContract interface</p>

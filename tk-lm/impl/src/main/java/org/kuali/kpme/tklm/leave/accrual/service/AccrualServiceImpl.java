@@ -28,7 +28,7 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.job.JobContract;
@@ -507,7 +507,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private boolean isDateAnIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
+	private boolean isDateAnIntervalDate(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return isDateAtPayCalInterval(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -515,13 +515,13 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private boolean isDateAtPayCalInterval(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
+	private boolean isDateAtPayCalInterval(LocalDate aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
-			List<? extends CalendarEntryContract> entryList = aMap.get(payCalName);
+			List<CalendarEntry> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
-				for(CalendarEntryContract anEntry : entryList) {
+				for(CalendarEntry anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
 					LocalDate endDate = anEntry.getEndPeriodFullDateTime().toLocalDate().minusDays(1);
 					if(aDate.compareTo(endDate) == 0) {
@@ -603,11 +603,11 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 		
 		// get all pay calendar entries for this employee. used to determine interval dates
-		Map<String, List<? extends CalendarEntryContract>> calEntryMap = new HashMap<String, List<? extends CalendarEntryContract>>();
+		Map<String, List<CalendarEntry>> calEntryMap = new HashMap<String, List<CalendarEntry>>();
 		for(String calName : calNameSet) {
 			Calendar aCal = (Calendar) HrServiceLocator.getCalendarService().getCalendarByGroup(calName);
 			if(aCal != null) {
-				List<? extends CalendarEntryContract> aList = HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(aCal.getHrCalendarId());
+				List<CalendarEntry> aList = HrServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarId(aCal.getHrCalendarId());
 				Collections.sort(aList);
 				calEntryMap.put(calName, aList);
 			}
@@ -935,7 +935,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, int workDays, DateTime intervalDate, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
+	private boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, int workDays, DateTime intervalDate, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(min == null || min.compareTo(BigDecimal.ZERO) == 0) {
 			return true;
 		}
@@ -951,7 +951,7 @@ public class AccrualServiceImpl implements AccrualService {
 		return false;	
 	}
 
-	private DateTime getPrevIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
+	private DateTime getPrevIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getPrevPayCalIntervalDate(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -987,13 +987,13 @@ public class AccrualServiceImpl implements AccrualService {
 		return previousAccrualIntervalDate;
 	}
 	
-	private DateTime getPrevPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
+	private DateTime getPrevPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
-			List<? extends CalendarEntryContract> entryList = aMap.get(payCalName);
+			List<CalendarEntry> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
-				for(CalendarEntryContract anEntry : entryList) {
+				for(CalendarEntry anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
 					DateTime endDate = anEntry.getEndPeriodFullDateTime().minusDays(1);
 					if(anEntry.getBeginPeriodFullDateTime().compareTo(aDate) <= 0 && endDate.compareTo(aDate) >= 0) {
@@ -1008,7 +1008,7 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 
     @Override
-	public DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName, Map<String, List<? extends CalendarEntryContract>> aMap) {
+	public DateTime getNextIntervalDate(DateTime aDate, String earnInterval, String payCalName, Map<String, List<CalendarEntry>> aMap) {
 		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getNextPayCalIntervalDate(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -1016,13 +1016,13 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private DateTime getNextPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
+	private DateTime getNextPayCalIntervalDate(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
-			List<? extends CalendarEntryContract> entryList = aMap.get(payCalName);
+			List<CalendarEntry> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
-				for(CalendarEntryContract anEntry : entryList) {
+				for(CalendarEntry anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
 					DateTime endDate = anEntry.getEndPeriodFullDateTime().minusDays(1);
 					if(anEntry.getBeginPeriodFullDateTime().compareTo(aDate) <= 0 && endDate.compareTo(aDate) >= 0) {
@@ -1067,7 +1067,7 @@ public class AccrualServiceImpl implements AccrualService {
 		return nextAccrualIntervalDate;
 	}
 
-	private int getWorkDaysInInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
+	private int getWorkDaysInInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {
 			return this.getWorkDaysInPayCalInterval(aDate, earnInterval, payCalName, aMap);
 		} else {
@@ -1075,13 +1075,13 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 	}
 	
-	private int getWorkDaysInPayCalInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<? extends CalendarEntryContract>> aMap) {
+	private int getWorkDaysInPayCalInterval(DateTime aDate, String earnInterval, String payCalName,  Map<String, List<CalendarEntry>> aMap) {
 		if(StringUtils.isNotEmpty(payCalName) 
 				&& !aMap.isEmpty()
 				&& earnInterval.equals(AccrualEarnInterval.PAY_CAL.getCode())) {	// only used for ac earn interval == pay calendar
-			List<? extends CalendarEntryContract> entryList = aMap.get(payCalName);
+			List<CalendarEntry> entryList = aMap.get(payCalName);
 			if(CollectionUtils.isNotEmpty(entryList)) {
-				for(CalendarEntryContract anEntry : entryList) {
+				for(CalendarEntry anEntry : entryList) {
 					// endPeriodDate of calendar entry is the beginning hour of the next day, so we need to substract one day from it to get the real end date
 					DateTime endDate = anEntry.getEndPeriodFullDateTime().minusDays(1);
 					if(anEntry.getBeginPeriodFullDateTime().compareTo(aDate) <= 0 && endDate.compareTo(aDate) >= 0) {

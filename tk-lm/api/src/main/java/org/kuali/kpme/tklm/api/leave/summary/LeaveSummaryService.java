@@ -17,15 +17,15 @@ package org.kuali.kpme.tklm.api.leave.summary;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface LeaveSummaryService {
-	public LeaveSummaryContract getLeaveSummary(String principalId, CalendarEntryContract calendarEntry) throws Exception;
+	public LeaveSummaryContract getLeaveSummary(String principalId, CalendarEntry calendarEntry) throws Exception;
 
-	public List<LocalDateTime> getLeaveSummaryDates(CalendarEntryContract cal);
+	public List<LocalDateTime> getLeaveSummaryDates(CalendarEntry cal);
 
     public LeaveSummaryContract getLeaveSummaryAsOfDate(String principalId, LocalDate asOfDate);
 

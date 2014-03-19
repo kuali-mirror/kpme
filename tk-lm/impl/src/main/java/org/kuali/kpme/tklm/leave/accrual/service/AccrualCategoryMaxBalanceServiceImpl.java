@@ -15,17 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.accrual.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
@@ -34,9 +23,8 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.AccrualCategoryMaxBalanceService;
@@ -47,10 +35,14 @@ import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.Map.Entry;
+
 public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxBalanceService {
 
 	@Override
-	public Map<String, Set<LeaveBlockContract>> getMaxBalanceViolations(CalendarEntryContract entry, String principalId) {
+	public Map<String, Set<LeaveBlockContract>> getMaxBalanceViolations(CalendarEntry entry, String principalId) {
 
 		Map<String, Set<LeaveBlockContract>> maxBalanceViolations = new HashMap<String,Set<LeaveBlockContract>>();
 		
@@ -60,7 +52,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		eligibilities.put(HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END, new HashSet<LeaveBlockContract>());
 		eligibilities.put(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, new HashSet<LeaveBlockContract>());
 		
-		Interval thisEntryInterval = new Interval(entry.getBeginPeriodDate().getTime(),entry.getEndPeriodDate().getTime());
+		Interval thisEntryInterval = new Interval(entry.getBeginPeriodFullDateTime(),entry.getEndPeriodFullDateTime());
 
 		LocalDate asOfDate = LocalDate.now();
 		
@@ -78,13 +70,13 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 			return eligibilities;
 		
 		//Consider time sheet intervals that stagger a leave period end date...
-		List<CalendarEntry> leaveCalEntries = (List<CalendarEntry>) HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodFullDateTime(), entry.getEndPeriodFullDateTime());
-		CalendarEntry yearEndLeaveEntry = null;
-		CalendarEntry leaveLeaveEntry = null;
+		List<CalendarEntry> leaveCalEntries = HrServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodFullDateTime(), entry.getEndPeriodFullDateTime());
+        CalendarEntry yearEndLeaveEntry = null;
+        CalendarEntry leaveLeaveEntry = null;
 		if(!leaveCalEntries.isEmpty()) {
 			for(CalendarEntry leaveEntry : leaveCalEntries) {
 				if(StringUtils.equals(cal.getCalendarName(), leaveEntry.getCalendarName())) {
-					if(leaveEntry.getEndPeriodDate().compareTo(entry.getBeginPeriodDate()) > 0)
+					if(leaveEntry.getEndPeriodFullDateTime().compareTo(entry.getBeginPeriodFullDateTime()) > 0)
 						leaveLeaveEntry = leaveEntry;
 				}
 			}
@@ -93,7 +85,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		Interval leavePeriodInterval = null;
 		Interval yearEndPeriodInterval = null;
 		if(leaveLeaveEntry != null) {
-			leavePeriodInterval = new Interval(entry.getBeginPeriodDate().getTime(),leaveLeaveEntry.getEndPeriodDate().getTime());
+			leavePeriodInterval = new Interval(entry.getBeginPeriodFullDateTime(),leaveLeaveEntry.getEndPeriodFullDateTime());
 			if(HrServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(leaveLeaveEntry, pha.getLeavePlan(), asOfDate))
 				yearEndPeriodInterval = leavePeriodInterval;
 		}

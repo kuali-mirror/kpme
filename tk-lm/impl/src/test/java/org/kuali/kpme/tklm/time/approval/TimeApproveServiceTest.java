@@ -15,20 +15,20 @@
  */
 package org.kuali.kpme.tklm.time.approval;
 
+import org.joda.time.LocalDate;
+import org.junit.Assert;
+import org.junit.Test;
+import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.joda.time.LocalDate;
-import org.junit.Assert;
-import org.junit.Test;
-import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
 @IntegrationTest
 public class TimeApproveServiceTest extends TKLMIntegrationTestCase {
@@ -80,7 +80,7 @@ public class TimeApproveServiceTest extends TKLMIntegrationTestCase {
         List<String> principalIds = new ArrayList<String>();
         principalIds.add("admin");
         List<String> payCalendarLabels = new ArrayList<String>();
-        CalendarEntryContract pce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+        CalendarEntry pce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 
     }
 }

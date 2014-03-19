@@ -15,25 +15,24 @@
  */
 package org.kuali.kpme.tklm.leave.block;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockAggregateContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class LeaveBlockAggregate implements LeaveBlockAggregateContract {
 	public List<List<LeaveBlock>> dayLeaveBlockList = new ArrayList<List<LeaveBlock>>();
-	private CalendarEntryContract leaveCalendarEntry;
+	private CalendarEntry leaveCalendarEntry;
 	private LeaveCalendar leaveCalendar;
 
     
@@ -44,7 +43,7 @@ public class LeaveBlockAggregate implements LeaveBlockAggregateContract {
      * @param leaveCalendarEntry
      * @param leaveCalendar
      */
-    public LeaveBlockAggregate(List<LeaveBlock> leaveBlocks, CalendarEntryContract leaveCalendarEntry, LeaveCalendar leaveCalendar) {
+    public LeaveBlockAggregate(List<LeaveBlock> leaveBlocks, CalendarEntry leaveCalendarEntry, LeaveCalendar leaveCalendar) {
 		this.leaveCalendarEntry = leaveCalendarEntry;
 		this.leaveCalendar = leaveCalendar;
 		List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(leaveCalendarEntry);
@@ -61,7 +60,7 @@ public class LeaveBlockAggregate implements LeaveBlockAggregateContract {
 		} 
 	}
     
-    public LeaveBlockAggregate(List<LeaveBlock> leaveBlocks, CalendarEntryContract leaveCalendarEntry) {
+    public LeaveBlockAggregate(List<LeaveBlock> leaveBlocks, CalendarEntry leaveCalendarEntry) {
 		this.leaveCalendarEntry = leaveCalendarEntry;
 		List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(leaveCalendarEntry);
 		for(Interval dayInt : dayIntervals){
@@ -84,7 +83,7 @@ public class LeaveBlockAggregate implements LeaveBlockAggregateContract {
      * @param leaveCalendarEntry
      * @param dayIntervals
      */ 
-    public LeaveBlockAggregate(List<LeaveBlock> leaveBlocks, CalendarEntryContract leaveCalendarEntry, List<Interval> dayIntervals) {
+    public LeaveBlockAggregate(List<LeaveBlock> leaveBlocks, CalendarEntry leaveCalendarEntry, List<Interval> dayIntervals) {
     	this.leaveCalendarEntry = leaveCalendarEntry;
 		for(Interval dayInt : dayIntervals){
 			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
@@ -193,11 +192,11 @@ public class LeaveBlockAggregate implements LeaveBlockAggregateContract {
 		return dayLeaveBlockList;
 	}
 
-	public CalendarEntryContract getleaveCalendarEntry() {
+	public CalendarEntry getleaveCalendarEntry() {
 		return leaveCalendarEntry;
 	}
 
-	public void setleaveCalendarEntry(CalendarEntryContract leaveCalendarEntry) {
+	public void setleaveCalendarEntry(CalendarEntry leaveCalendarEntry) {
 		this.leaveCalendarEntry = leaveCalendarEntry;
 	}
 

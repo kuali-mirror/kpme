@@ -17,19 +17,17 @@ package org.kuali.kpme.tklm.time.detail.web;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -305,7 +303,7 @@ public class ActionFormUtils {
     	return JSONValue.toJSONString(leaveBlockList);
     }
     
-    public static Map<String, String> getPayPeriodsMap(List<CalendarEntryContract> payPeriods, String viewPrincipal) {
+    public static Map<String, String> getPayPeriodsMap(List<CalendarEntry> payPeriods, String viewPrincipal) {
     	// use linked map to keep the order of the pay periods
     	Map<String, String> pMap = Collections.synchronizedMap(new LinkedHashMap<String, String>());
     	if (payPeriods == null || payPeriods.isEmpty()) {
@@ -315,27 +313,30 @@ public class ActionFormUtils {
     	Collections.sort(payPeriods);  // sort the pay period list by getBeginPeriodDate
     	Collections.reverse(payPeriods);  // newest on top
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        for (CalendarEntryContract pce : payPeriods) {
+        for (CalendarEntry pce : payPeriods) {
         	// Check if service date of user is after the Calendar entry
             DateTime asOfDate = pce.getEndPeriodFullDateTime().minusDays(1);
     		PrincipalHRAttributesContract principalHRAttributes = null;
-    		
+    		String formattedBeginDate = HrConstants.DT_BASIC_DATE_FORMAT.print(pce.getBeginPeriodFullDateTime());
+            String formattedEndDate = HrConstants.DT_BASIC_DATE_FORMAT.print(pce.getEndPeriodFullDateTime().minusMillis(1));
+            String formattedRange = formattedBeginDate + " - " + formattedEndDate;
+
     		if(viewPrincipal != null) {
     			principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate.toLocalDate());
     		} else {
-    			pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
+                pMap.put(pce.getHrCalendarEntryId(), formattedRange);
     		}
     		
-    		if(principalHRAttributes != null && pce != null && pce.getHrCalendarEntryId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null ) {
+    		if(principalHRAttributes != null && pce != null && pce.getHrCalendarEntryId()!= null && pce.getBeginPeriodFullDateTime() != null && pce.getEndPeriodFullDateTime() != null ) {
     			LocalDate startCalDate = principalHRAttributes.getServiceLocalDate();
     			if(startCalDate != null) {
     				if(!(pce.getBeginPeriodFullDateTime().compareTo(startCalDate.toDateTimeAtStartOfDay()) < 0)) {
     	        		//pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
     	                //getting one millisecond of the endperioddate to match the actual pay period. i.e. pay period end at the 11:59:59:59...PM of that day
-    	                pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
+    	                pMap.put(pce.getHrCalendarEntryId(), formattedRange);
             		} 
             	} else {
-            		pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));    			
+            		pMap.put(pce.getHrCalendarEntryId(), formattedRange);
             	}
     		} 
     		
@@ -347,12 +348,9 @@ public class ActionFormUtils {
     // detect if the passed-in calendar entry is the current one
     public static boolean isOnCurrentPeriodFlag(CalendarEntry pce) {
     	String viewPrincipal = HrContext.getTargetPrincipalId();
-        CalendarEntryContract calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 
-        if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {
-    		return true;
-    	}
-    	return false;
+        return pce != null && calendarEntry != null && calendarEntry.equals(pce);
     }
      
     public static String getUnitOfTimeForEarnCode(EarnCodeContract earnCode) {
@@ -376,10 +374,10 @@ public class ActionFormUtils {
 		return plannningMonths;
     }
     
-    public static List<CalendarEntryContract> getAllCalendarEntriesForYear(List<CalendarEntryContract> calendarEntries, String year) {
-    	List<CalendarEntryContract> allCalendarEntriesForYear = new ArrayList<CalendarEntryContract>();
+    public static List<CalendarEntry> getAllCalendarEntriesForYear(List<CalendarEntry> calendarEntries, String year) {
+    	List<CalendarEntry> allCalendarEntriesForYear = new ArrayList<CalendarEntry>();
     	
-	    for (CalendarEntryContract calendarEntry : calendarEntries) {
+	    for (CalendarEntry calendarEntry : calendarEntries) {
 	    	String calendarEntryYear = calendarEntry.getBeginPeriodFullDateTime().toString("yyyy");
 	    	if (StringUtils.equals(calendarEntryYear, year)) {
 	    		allCalendarEntriesForYear.add(calendarEntry);

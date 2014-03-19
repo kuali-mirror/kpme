@@ -17,10 +17,8 @@ package org.kuali.kpme.tklm.leave.request.approval.web;
 
 import java.util.List;
 
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.tklm.common.ApprovalForm;
-import org.kuali.kpme.tklm.leave.calendar.LeaveCalendar;
 import org.kuali.kpme.tklm.leave.calendar.LeaveRequestCalendar;
 
 public class LeaveRequestApprovalActionForm extends ApprovalForm {
@@ -28,7 +26,7 @@ public class LeaveRequestApprovalActionForm extends ApprovalForm {
 	private static final long serialVersionUID = 1L;
 	
 	private String principalId;
-	private CalendarEntry calendarEntry;
+	private CalendarEntryBo calendarEntry;
 	private LeaveRequestCalendar leaveRequestCalendar;
 	private String prevDocumentId;
 	private String nextDocumentId;
@@ -88,10 +86,10 @@ public class LeaveRequestApprovalActionForm extends ApprovalForm {
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
 	}
-	public CalendarEntry getCalendarEntry() {
+	public CalendarEntryBo getCalendarEntry() {
 		return calendarEntry;
 	}
-	public void setCalendarEntry(CalendarEntry calendarEntry) {
+	public void setCalendarEntry(CalendarEntryBo calendarEntry) {
 		this.calendarEntry = calendarEntry;
 	}
 	public LeaveRequestCalendar getLeaveRequestCalendar() {

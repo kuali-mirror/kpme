@@ -27,13 +27,13 @@ import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.leave.workflow.LeaveCalendarDocumentHeaderContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
@@ -44,7 +44,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetLeaveApprovalSummaryRows() {
-		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce =  HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<LocalDateTime> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> testPrincipalIds = new ArrayList<String>();
 		testPrincipalIds.add("admin");
@@ -59,7 +59,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetPrincipalDocumentHeader() {
-		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce =  HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<String> testPrincipalIds = new ArrayList<String>();
 		testPrincipalIds.add("admin");
 		Map<String, LeaveCalendarDocumentHeaderContract> lvCalHdr = LmServiceLocator.getLeaveApprovalService().getPrincipalDocumentHeader(testPrincipalIds, ce.getBeginPeriodFullDateTime(), ce.getEndPeriodFullDateTime());
@@ -69,7 +69,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetEarnCodeLeaveHours() throws Exception {
-		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce =  HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<LocalDateTime> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());
@@ -84,7 +84,7 @@ public class LeaveApprovalServiceTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testGetAccrualCategoryLeaveHours() throws Exception {
-		CalendarEntry ce = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+		CalendarEntry ce =  HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<LocalDateTime> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodFullDateTime().toLocalDate(), ce.getEndPeriodFullDateTime().toLocalDate());

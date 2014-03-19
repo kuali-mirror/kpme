@@ -15,25 +15,10 @@
  */
 package org.kuali.kpme.tklm.leave.approval.web;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -45,9 +30,8 @@ import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONValue;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -56,6 +40,11 @@ import org.kuali.kpme.tklm.api.leave.approval.ApprovalLeaveSummaryRowContract;
 import org.kuali.kpme.tklm.common.CalendarApprovalFormAction;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.*;
 
 public class LeaveApprovalAction extends CalendarApprovalFormAction {
 	
@@ -68,7 +57,7 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
         
         setSearchFields(leaveApprovalActionForm);
         
-        CalendarEntryContract calendarEntry = null;
+        CalendarEntry calendarEntry = null;
         if (StringUtils.isNotBlank(documentId)) {
         	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 
@@ -77,26 +66,26 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 				leaveApprovalActionForm.setCalendarDocument(leaveCalendarDocument);
 			}
         } else if (StringUtils.isNotBlank(leaveApprovalActionForm.getHrCalendarEntryId())) {
-        	calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveApprovalActionForm.getHrCalendarEntryId());
+        	calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveApprovalActionForm.getHrCalendarEntryId());
         } else if (StringUtils.isNotBlank(leaveApprovalActionForm.getSelectedPayPeriod())) {
-        	calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveApprovalActionForm.getSelectedPayPeriod());
+        	calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveApprovalActionForm.getSelectedPayPeriod());
         } else {
         	Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendarByGroup(leaveApprovalActionForm.getSelectedPayCalendarGroup());
             if (calendar != null) {
-                calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
+                calendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
             }
         }
         
         if (calendarEntry != null) {
         	leaveApprovalActionForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
         	leaveApprovalActionForm.setCalendarEntry(calendarEntry);
-        	leaveApprovalActionForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
-        	leaveApprovalActionForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(), -1));
+        	leaveApprovalActionForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodFullDateTime().toDate());
+        	leaveApprovalActionForm.setEndCalendarEntryDate(calendarEntry.getEndPeriodFullDateTime().minusMillis(1).toDate());
 		
-			CalendarEntry prevCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+			CalendarEntry prevCalendarEntry =  HrServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
 			leaveApprovalActionForm.setPrevHrCalendarEntryId(prevCalendarEntry != null ? prevCalendarEntry.getHrCalendarEntryId() : null);
 			
-			CalendarEntry nextCalendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
+			CalendarEntry nextCalendarEntry =  HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
 			leaveApprovalActionForm.setNextHrCalendarEntryId(nextCalendarEntry != null ? nextCalendarEntry.getHrCalendarEntryId() : null);
 			
 	        setCalendarFields(leaveApprovalActionForm);
@@ -143,12 +132,12 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendarByGroup(leaveApprovalActionForm.getSelectedPayCalendarGroup());
         
 		if (calendar != null) {
-            calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
+            calendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), LocalDate.now().toDateTimeAtStartOfDay());
         }
         
         if (calendarEntry != null) {
-        	leaveApprovalActionForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodDateTime());
-        	leaveApprovalActionForm.setEndCalendarEntryDate(DateUtils.addMilliseconds(calendarEntry.getEndPeriodDateTime(), -1));
+        	leaveApprovalActionForm.setBeginCalendarEntryDate(calendarEntry.getBeginPeriodFullDateTime().toDate());
+        	leaveApprovalActionForm.setEndCalendarEntryDate(calendarEntry.getEndPeriodFullDateTime().minusMillis(1).toDate());
         	leaveApprovalActionForm.setHrCalendarEntryId(calendarEntry.getHrCalendarEntryId());
         	leaveApprovalActionForm.setCalendarEntry(calendarEntry);
         	// change pay period map 

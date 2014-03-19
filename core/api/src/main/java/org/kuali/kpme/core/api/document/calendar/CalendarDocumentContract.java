@@ -17,7 +17,7 @@ package org.kuali.kpme.core.api.document.calendar;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public interface CalendarDocumentContract {
 	 * 
 	 * @return calendarEntry of CalendarDocument
 	 */
-    CalendarEntryContract getCalendarEntry();
+    CalendarEntry getCalendarEntry();
 
     /**
 	 * The beginning date of the calendar entry the CalendarDocument is associated with

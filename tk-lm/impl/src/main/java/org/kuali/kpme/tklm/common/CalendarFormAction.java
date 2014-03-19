@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.common;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.web.KPMEAction;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -43,9 +43,9 @@ public abstract class CalendarFormAction extends KPMEAction {
 
     protected void setCalendarFields(HttpServletRequest request, CalendarForm calendarForm) {
 		Set<String> calendarYears = new TreeSet<String>(Collections.reverseOrder());
-		List<CalendarEntryContract> calendarEntries = getCalendarEntries(calendarForm.getCalendarEntry());
+		List<CalendarEntry> calendarEntries = getCalendarEntries(calendarForm.getCalendarEntry());
 		
-	    for (CalendarEntryContract calendarEntry : calendarEntries) {
+	    for (CalendarEntry calendarEntry : calendarEntries) {
 	    	String calendarEntryYear = calendarEntry.getBeginPeriodFullDateTime().toString("yyyy");
 	    	calendarYears.add(calendarEntryYear);
 	    }
@@ -60,6 +60,6 @@ public abstract class CalendarFormAction extends KPMEAction {
 	    calendarForm.setSelectedPayPeriod(calendarForm.getCalendarEntry().getHrCalendarEntryId());
 	}
     
-    protected abstract List<CalendarEntryContract> getCalendarEntries(CalendarEntryContract currentCalendarEntry);
+    protected abstract List<CalendarEntry> getCalendarEntries(CalendarEntry currentCalendarEntry);
 
 }

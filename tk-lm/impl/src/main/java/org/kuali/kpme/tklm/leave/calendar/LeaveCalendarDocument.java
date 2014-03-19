@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.leave.calendar;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.calendar.LeaveCalendarDocumentContract;
@@ -40,7 +40,7 @@ public class LeaveCalendarDocument extends CalendarDocument implements Assignabl
 
 	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 
-	public LeaveCalendarDocument(CalendarEntryContract calendarEntry) {
+	public LeaveCalendarDocument(CalendarEntry calendarEntry) {
 		this.calendarEntry = calendarEntry;
 	}
 
@@ -69,11 +69,11 @@ public class LeaveCalendarDocument extends CalendarDocument implements Assignabl
 	}
 
     @Override
-	public CalendarEntryContract getCalendarEntry() {
+	public CalendarEntry getCalendarEntry() {
 		return calendarEntry;
 	}
 
-	public void setCalendarEntry(CalendarEntryContract calendarEntry) {
+	public void setCalendarEntry(CalendarEntry calendarEntry) {
 		this.calendarEntry = calendarEntry;
 	}
 

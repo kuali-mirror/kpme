@@ -15,18 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.approval.web;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -34,8 +22,8 @@ import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEAction;
@@ -46,6 +34,10 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 public class LeaveApprovalWSAction extends KPMEAction {
 
@@ -89,7 +81,7 @@ public class LeaveApprovalWSAction extends KPMEAction {
 		  }
 		  
 	        if(StringUtils.isNotBlank(laaf.getSelectedPayPeriod())) {
-	        	CalendarEntryContract currentCE = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getSelectedPayPeriod());
+                CalendarEntry currentCE = HrServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getSelectedPayPeriod());
 	        	if(currentCE != null) {
 				  LocalDate endDate = currentCE.getEndPeriodFullDateTime().toLocalDate();
 				  LocalDate beginDate = currentCE.getBeginPeriodFullDateTime().toLocalDate();

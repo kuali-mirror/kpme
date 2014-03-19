@@ -29,7 +29,7 @@ import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -66,7 +66,7 @@ public class JobTest extends CoreUnitTestCase {
 
 	@Test
 	public void testInsertPayCalendarDates() throws Exception {
-		CalendarEntry payCalendarDates = new CalendarEntry();
+		CalendarEntryBo payCalendarDates = new CalendarEntryBo();
 		payCalendarDates.setHrCalendarEntryId("1001");
 		payCalendarDates.setHrCalendarId("1001");
 

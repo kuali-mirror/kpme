@@ -24,7 +24,8 @@ import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -47,7 +48,7 @@ public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
     public void setUp() throws Exception {
         super.setUp();
 
-        CalendarEntry calendarEntry = (CalendarEntry) HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+        CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", calendarEntry);
         documentId = timesheetDocument.getDocumentId();
     }

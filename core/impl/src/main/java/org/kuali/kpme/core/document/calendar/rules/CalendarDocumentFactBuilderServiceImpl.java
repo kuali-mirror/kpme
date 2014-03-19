@@ -19,8 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.krms.KpmeKrmsFactBuilderServiceHelper;
@@ -57,7 +56,7 @@ public class CalendarDocumentFactBuilderServiceImpl extends KpmeKrmsFactBuilderS
         addObjectMembersAsFacts(factsBuilder, document, contextId, namespace);
         factsBuilder.addFact(new Term("payrollProcessorApproval"), Boolean.FALSE);
         if (document != null) {
-            CalendarEntryContract ce = document.getCalendarEntry();
+            CalendarEntry ce = document.getCalendarEntry();
             LocalDate asOfDate = ce != null ? ce.getEndPeriodLocalDateTime().toLocalDate() : LocalDate.now();
             Set<String> workAreas = new HashSet<String>();
             Set<String> depts = new HashSet<String>();

@@ -15,14 +15,12 @@
  */
 package org.kuali.kpme.core.api.leaveplan;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.api.leaveplan.LeavePlan;
-import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.springframework.cache.annotation.Cacheable;
+
+import java.util.List;
 
 public interface LeavePlanService {
     
@@ -49,9 +47,9 @@ public interface LeavePlanService {
     List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths,
                                   LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
-    boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate);
+    boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate);
     
-    boolean isLastCalendarPeriodOfLeavePlan(CalendarEntryContract calendarEntry, String leavePlan, LocalDate asOfDate);
+    boolean isLastCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, LocalDate asOfDate);
     
     public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, LocalDate asOfDate);
 

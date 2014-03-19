@@ -24,7 +24,7 @@ import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
@@ -56,7 +56,7 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
 	}
 	@Test
 	public void testGetAssignmentsByCalEntryForLeaveCalendar() throws Exception {
-		CalendarEntryContract ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+        CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Assignment> assignments = assignmentService.getAssignmentsByCalEntryForLeaveCalendar("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		
@@ -69,7 +69,7 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
 	
 	@Test
 	public void testGetAssignmentsByCalEntryForTimeCalendar() throws Exception {
-		CalendarEntryContract ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+        CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Assignment> assignments = assignmentService.getAssignmentsByCalEntryForTimeCalendar("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		
@@ -82,7 +82,7 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
 	}
 	@Test
 	public void testGetAssignmentsByPayEntry() throws Exception {
-		CalendarEntryContract ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
+        CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Assignment> assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 3, not " + assignments.size(), assignments.size() == 3);
