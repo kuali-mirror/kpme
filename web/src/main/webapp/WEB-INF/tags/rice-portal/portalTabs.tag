@@ -48,23 +48,6 @@
 			</c:if>
 		</c:if>
 		
-		<%-- Time Keeping and Leave Management --%>
-		<c:if test="${systemAdmin || globalViewOnly || locationAdmin || locationViewOnly}">
-			<c:if test='${selectedTab == "tkandlm"}'>
-				<li class="red">
-					<a class="red" href="portal.do?selectedTab=tkandlm"
-						title="Time Keeping and Leave Management">Time Keeping and Leave Management</a>
-				</li>
-			</c:if>
-			<c:if test='${selectedTab != "tkandlm"}'>
-				<li class="green">
-					<a class="green"
-						href="portal.do?selectedTab=tkandlm"
-						title="Time Keeping and Leave Management">Time Keeping and Leave Management</a>
-				</li>
-			</c:if>
-		</c:if>
-		
         <%-- Maintenance --%>
         <c:if test="${systemAdmin || globalViewOnly || locationAdmin || locationViewOnly}">
             <c:if test='${selectedTab == "kpmemaintenance"}'>
