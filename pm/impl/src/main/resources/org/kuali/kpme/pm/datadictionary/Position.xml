@@ -816,6 +816,7 @@
 		<!-- p:maintenanceUrlMapping="positionMaintenance"> -->
 		<property name="headerText" value="Position Lookup" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
+		<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionLookupableImpl"/>
 		<property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
