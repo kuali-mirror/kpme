@@ -19,12 +19,14 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -40,8 +42,8 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -50,7 +52,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
-public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
+public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImpl {
 
 	private static final long serialVersionUID = 1L;
 
@@ -123,27 +125,13 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 		        	}
 		        }
 	        	// Funding line validation
-		        /*if (addLine instanceof PositionFunding) {
+		        if (addLine instanceof PositionFunding) {
 		        	PositionFunding pf = (PositionFunding) addLine;
 		        	boolean results = this.validateAddFundingLine(pf, aPosition);
 		        	if(!results) {
 		        		return false;
 		        	}
-		        }*/
-
-                /*
-
-                PositionDepartment -- if needed
-
-                // Department line validation
-                if (addLine instanceof PositionDepartment) {
-                    //PositionDepartment pdpt = (PositionDepartment) addLine;
-                    boolean results = this.validateAddDepartmentLine(aPosition);
-                    if(!results) {
-                        return false;
-                    }
-                }
-                                 */
+		        }
 	        }
         }
 
@@ -159,7 +147,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 				}
 			}
 			if(sum.compareTo(new BigDecimal(100)) > 0) {
-				GlobalVariables.getMessageMap().putError("Position-duties", "duty.percentage.exceedsMaximum", sum.toString());
+				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.dutyList'].percentage", "duty.percentage.exceedsMaximum", sum.toString());
 				return false;
 			}
 		}		
@@ -167,71 +155,42 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	}
 	
 	protected boolean validateAddFundingLine(PositionFunding pf, Position aPosition) {
-    	/*if(pf.getEffectiveDate() != null && aPosition.getEffectiveDate() != null) {
-    		if(pf.getEffectiveDate().compareTo(aPosition.getEffectiveDate()) < 0) {
-    			String[] parameters = new String[2];
-    			parameters[0] = pf.getEffectiveDate().toString();
-    			parameters[1] = aPosition.getEffectiveDate().toString();
-    			// using section id as the error key because KRAD does not support error matching on property names for collections as in 2.3M2
-    			GlobalVariables.getMessageMap().putError("Position-fundings","error.funding.effdt.invalid", parameters);
-   			 	return false;
-    		}
-    	}*/
     	if(StringUtils.isNotEmpty(pf.getAccount())) {
     		boolean results = ValidationUtils.validateAccount(pf.getChart(), pf.getAccount());
     		if(!results) {
-    			GlobalVariables.getMessageMap().putError("Position-fundings", "error.existence", "Account '" + pf.getAccount() + "'");
+    			GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.fundingList'].account","error.existence", "Account '" + pf.getAccount() + "'");
     			return results;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getSubAccount())) {
     		boolean results = ValidationUtils.validateSubAccount(pf.getSubAccount(), pf.getAccount(), pf.getChart());
     		if(!results) {
-	   			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "SubAccount '" + pf.getSubAccount() + "'");
+	   			 GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.fundingList'].subAccount","error.existence", "Sub Account '" + pf.getSubAccount() + "'");
 	   			 return results;
     		}
     	}
-    /*	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
-    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), Integer.valueOf(pf.getEffectiveLocalDate().getYear()));
+    	if(StringUtils.isNotEmpty(pf.getObjectCode()) && aPosition.getEffectiveDate() != null) {
+    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), Integer.valueOf(aPosition.getEffectiveLocalDate().getYear()));
     		if(!results) {
-      			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "Objecpublic PositionDepartment getPositionDepartmentById(String pmPositionDeptId);tCode '" + pf.getObjectCode() + "'");
+    			 GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.fundingList'].objectCode","error.existence", "Object Code '" + pf.getObjectCode() + "'");
       			 return results;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getSubObjectCode())) {
-    		boolean results = ValidationUtils.validateSubObjectCode(String.valueOf(pf.getEffectiveLocalDate().getYear()),
+    		boolean results = ValidationUtils.validateSubObjectCode(String.valueOf(aPosition.getEffectiveLocalDate().getYear()),
     				pf.getChart(),
     				pf.getAccount(),
     				pf.getObjectCode(),
     				pf.getSubObjectCode());
     		if(!results) {
-      			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "SubObjectCode '" + pf.getSubObjectCode() + "'");
+    			 GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.fundingList'].subObjectCode","error.existence", "Sub Object Code '" + pf.getSubObjectCode() + "'");
       			 return results;
     		}
-    	}*/
+    	}
     	return true;
     
 	}
 
-     /*
-
-     PositionDepartment -- if needed
-
-    private boolean validateAddDepartmentLine(Position aPosition)  {
-        if(CollectionUtils.isNotEmpty(aPosition.getDepartmentList())) {
-
-            for(PositionDepartment aPosDept : aPosition.getDepartmentList()) {
-                if(aPosDept != null && aPosDept.getEffectiveDate() != null) {
-                      if(aPosDept.getHrPositionId() == null) {
-                          return false;
-                      }
-                }
-            }
-        }
-        return true;
-     }
-         */
-	
 	
 	// KPME-3016
 	//set document description here so it passes validation.  It will get overriden in doRouteStatusChange method
@@ -295,20 +254,15 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
     @Override
     public void prepareForSave() {
-    	/*        Position position = (Position)this.getDataObject();
+    	Position position = (Position)this.getDataObject();
         boolean hasPrimaryDepartment = false;
-        for (PositionFunding positionFunding : position.getFundingList()) {
-            positionFunding.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        }
         for (PositionDepartment positionDepartment : position.getDepartmentList()) {
-            positionDepartment.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
             if (positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                 hasPrimaryDepartment=true;
                 positionDepartment.setDepartment(position.getPrimaryDepartment());
                 positionDepartment.setLocation(position.getLocation());
                 positionDepartment.setInstitution(position.getInstitution());
                 positionDepartment.setDeptAffl(HrServiceLocator.getDepartmentAffiliationService().getPrimaryAffiliation().getDeptAfflType());
-                positionDepartment.setEffectiveDate(position.getEffectiveDate());
             }
         }
 
@@ -319,13 +273,10 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
             primaryDepartment.setLocation(position.getLocation());
             primaryDepartment.setInstitution(position.getInstitution());
             primaryDepartment.setDeptAffl(HrServiceLocator.getDepartmentAffiliationService().getPrimaryAffiliation().getDeptAfflType());
-            primaryDepartment.setEffectiveDate(position.getEffectiveDate());
-            primaryDepartment.setActive(true);
             position.getDepartmentList().add(primaryDepartment);
-        }*/
+        }
 
         //add note if enroute change occurs
-
             try {
                 MaintenanceDocument maintenanceDocument = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(this.getDocumentNumber());
                 if (maintenanceDocument != null && maintenanceDocument.getNewMaintainableObject().getDataObject() instanceof Position) {

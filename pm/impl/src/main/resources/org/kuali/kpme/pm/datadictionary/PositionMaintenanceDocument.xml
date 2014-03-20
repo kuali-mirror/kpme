@@ -47,6 +47,7 @@
 		abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView" >
 		<property name="headerText" value="Position Maintenance" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
+		<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl" />
 		<property name="items">
 			<list>
 				<ref bean="Pos-OverviewPage" />
