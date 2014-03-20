@@ -86,7 +86,7 @@
 
 	<bean id="EarnCode-ovtEarnCode" parent="EarnCode-ovtEarnCode-parentBean" />
 	<bean id="EarnCode-ovtEarnCode-parentBean" abstract="true"
-		parent="KpmeAttributeReference-booleanYesNo">
+		parent="KpmeAttributeReference-genericCheckbox">
 		<property name="shortLabel" value="Overtime Earn Code" />
 		<property name="name" value="ovtEarnCode" />
 		<property name="label" value="Overtime Earn Code" />
@@ -344,7 +344,7 @@
 		</property>
 		<property name="optionsFinder">
 			<bean
-				class="org.kuali.kpme.core.earncode.valuesfinder.RecordMethodKeyValueFinder" />
+				class="org.kuali.kpme.core.earncode.valuesfinder.RecordMethodKeyValueFinder" p:addBlankOption="true"/>
 		</property>
 		<property name="name" value="recordMethod" />
 		<property name="label" value="Record Method" />
