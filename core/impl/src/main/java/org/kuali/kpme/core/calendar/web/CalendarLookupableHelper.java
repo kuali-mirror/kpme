@@ -19,9 +19,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -37,8 +38,8 @@ public class CalendarLookupableHelper extends KPMELookupableHelper {
 	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
-		Calendar calendar = (Calendar) businessObject;
+
+        CalendarBo calendar = (CalendarBo) businessObject;
 		String hrCalendarId = calendar.getHrCalendarId();
 		
 		Properties params = new Properties();
@@ -60,7 +61,7 @@ public class CalendarLookupableHelper extends KPMELookupableHelper {
         String flsaBeginDay = fieldValues.get("flsaBeginDay");
         String flsaBeginTime = fieldValues.get("flsaBeginTime");
 
-        return HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, flsaBeginDay, flsaBeginTime);
+        return ModelObjectUtils.transform(HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, flsaBeginDay, flsaBeginTime), CalendarBo.toCalendarBo);
 	}
 
 }

@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -51,7 +51,7 @@ public class JobTest extends CoreUnitTestCase {
 
 	@Test
 	public void testInsertPayCalendar() throws Exception {
-		Calendar payCalendar = new Calendar();
+        CalendarBo payCalendar = new CalendarBo();
 		payCalendar.setHrCalendarId("1001");
 		payCalendar.setCalendarName(CALENDAR_GROUP);
 

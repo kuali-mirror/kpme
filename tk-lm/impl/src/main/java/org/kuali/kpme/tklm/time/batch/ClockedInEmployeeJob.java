@@ -21,11 +21,12 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -67,7 +68,7 @@ public class ClockedInEmployeeJob extends BatchJob {
         List<CalendarEntry> calendarEntries = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(30, asOfDate);
 
         for (CalendarEntry calendarEntry : calendarEntries) {
-            Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+            Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
             if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
                 DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
                 DateTime endDate = calendarEntry.getEndPeriodFullDateTime();

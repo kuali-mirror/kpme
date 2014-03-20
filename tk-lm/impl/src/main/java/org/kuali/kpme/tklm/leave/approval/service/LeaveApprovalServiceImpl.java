@@ -17,14 +17,18 @@ package org.kuali.kpme.tklm.leave.approval.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeFieldType;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -50,8 +54,15 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 	
@@ -187,7 +198,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
         Calendar cal = null;
 
         if (calEntry != null) {
-            cal = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
+            cal = HrServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
         }
 
         return cal;

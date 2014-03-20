@@ -19,14 +19,20 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeFieldType;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
-import org.kuali.kpme.core.calendar.Calendar;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -43,11 +49,25 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
-import org.kuali.kpme.tklm.time.timesummary.*;
+import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
+import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
+import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
+import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
+import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
@@ -65,7 +85,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
 		timeSummary.setTimeSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), timeSummary));
 		
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), (Calendar)HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
 
         List<Assignment> timeAssignments = timesheetDocument.getAssignments();
         List<String> tAssignmentKeys = new ArrayList<String>();
@@ -606,7 +626,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         Calendar cal = null;
 
         if (calEntry != null) {
-            cal = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
+            cal = HrServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
         }
 
         return cal;

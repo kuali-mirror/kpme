@@ -75,14 +75,14 @@
                             <bean parent="Uif-InputField" p:propertyName="payCalendar">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.calendar.Calendar"
+                                          p:dataObjectClassName="org.kuali.kpme.core.calendar.CalendarBo"
                                           p:fieldConversions="calendarName:payCalendar"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="leaveCalendar">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.calendar.Calendar"
+                                          p:dataObjectClassName="org.kuali.kpme.core.calendar.CalendarBo"
                                           p:fieldConversions="calendarName:leaveCalendar"/>
                                 </property>
                             </bean>

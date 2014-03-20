@@ -15,15 +15,13 @@
  */
 package org.kuali.kpme.tklm.time.batch;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.batch.BatchJob;
-import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -38,6 +36,8 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.util.List;
+
 public class EmployeeApprovalJob extends BatchJob {
 
 	public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -47,7 +47,7 @@ public class EmployeeApprovalJob extends BatchJob {
 //		String documentId = jobDataMap.getString("documentId");
 
 		CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
-		Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 		
 		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
     	DateTime endDate = calendarEntry.getEndPeriodFullDateTime();

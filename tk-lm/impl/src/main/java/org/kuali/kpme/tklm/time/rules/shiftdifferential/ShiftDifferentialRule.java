@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.rules.shiftdifferential;
 import java.math.BigDecimal;
 import java.sql.Time;
 
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.location.LocationBo;
@@ -97,7 +97,7 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 	private EarnCodeBo earnCodeObj;
 	private SalaryGroupBo salaryGroupObj;
     private EarnCodeGroup fromEarnGroupObj;
-    private Calendar payCalendar;
+    private CalendarBo payCalendar;
     private LocationBo locationObj;
     private PayGradeBo payGradeObj;
     
@@ -297,11 +297,11 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
         this.fromEarnGroupObj = fromEarnGroupObj;
     }
 
-    public Calendar getPayCalendar() {
+    public CalendarBo getPayCalendar() {
         return payCalendar;
     }
 
-    public void setPayCalendar(Calendar payCalendar) {
+    public void setPayCalendar(CalendarBo payCalendar) {
         this.payCalendar = payCalendar;
     }
 

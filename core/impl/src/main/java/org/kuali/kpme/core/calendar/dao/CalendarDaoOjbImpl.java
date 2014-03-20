@@ -27,20 +27,20 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements CalendarDao {
 
 	private static final Logger LOG = Logger.getLogger(CalendarDaoOjbImpl.class);
 
-	public void saveOrUpdate(Calendar calendar) {
+	public void saveOrUpdate(CalendarBo calendar) {
 		this.getPersistenceBrokerTemplate().store(calendar);
 	}
 
-	public void saveOrUpdate(List<Calendar> calendarList) {
+	public void saveOrUpdate(List<CalendarBo> calendarList) {
 		if (calendarList != null) {
-			for (Calendar calendar : calendarList) {
+			for (CalendarBo calendar : calendarList) {
 				this.getPersistenceBrokerTemplate().store(calendar);
 			}
 		}
@@ -48,34 +48,34 @@ public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements Cale
 	
 	// KPME-2992
 	@Override
-	public Calendar getCalendarByName(String calendarName) {
+	public CalendarBo getCalendarByName(String calendarName) {
 		Criteria currentRecordCriteria = new Criteria();
 		if(StringUtils.isNotBlank(calendarName) && StringUtils.isNotEmpty(calendarName)){
             currentRecordCriteria.addLike("UPPER(calendarName)", calendarName.toUpperCase());
         }
-		return (Calendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Calendar.class, currentRecordCriteria));
+		return (CalendarBo) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CalendarBo.class, currentRecordCriteria));
 	}
 	
-	public Calendar getCalendar(String hrPyCalendarId) {
+	public CalendarBo getCalendar(String hrPyCalendarId) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("hrCalendarId", hrPyCalendarId);
 
-		return (Calendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Calendar.class, currentRecordCriteria));
+		return (CalendarBo) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CalendarBo.class, currentRecordCriteria));
 	}
 
 	// Is pay clendar groups alwasy unique?
-	public Calendar getCalendarByGroup(String pyCalendarGroup) {
+	public CalendarBo getCalendarByGroup(String pyCalendarGroup) {
 		Criteria currentRecordCriteria = new Criteria();
 		currentRecordCriteria.addEqualTo("calendarName", pyCalendarGroup);
 
-		return (Calendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Calendar.class, currentRecordCriteria));
+		return (CalendarBo) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CalendarBo.class, currentRecordCriteria));
 	}
 
     @Override
-    public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime) {
+    public List<CalendarBo> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime) {
         Criteria crit = new Criteria();
 
-        List<Calendar> results = new ArrayList<Calendar>();
+        List<CalendarBo> results = new ArrayList<CalendarBo>();
 
         if(StringUtils.isNotBlank(calendarName) && StringUtils.isNotEmpty(calendarName)){
             crit.addLike("UPPER(calendarName)", calendarName.toUpperCase()); // KPME-2695
@@ -95,7 +95,7 @@ public class CalendarDaoOjbImpl extends PlatformAwareDaoBaseOjb  implements Cale
 
             }
         }
-        Query query = QueryFactory.newQuery(Calendar.class, crit);
+        Query query = QueryFactory.newQuery(CalendarBo.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         results.addAll(c);
 

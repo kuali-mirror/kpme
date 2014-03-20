@@ -20,6 +20,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.authorization.DepartmentalRule;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
@@ -34,7 +35,7 @@ import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.kfs.coa.businessobject.*;
@@ -431,12 +432,8 @@ public class ValidationUtils {
 	 * Checks for row presence of a pay calendar
 	 */
 	public static boolean validateCalendar(String calendarName) {
-		CalendarContract calendar = HrServiceLocator.getCalendarService().getCalendarByName(calendarName);
-		if(calendar!=null){
-			return true;
-		}else{
-			return false;
-		}
+		Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByName(calendarName);
+        return calendar != null;
 	}
 
    public static boolean duplicateDeptEarnCodeExists(EarnCodeSecurity deptEarnCode) {
@@ -497,7 +494,7 @@ public class ValidationUtils {
 		Map<String, String> fieldValues = new HashMap<String, String>();
 		fieldValues.put("calendarName", calendarName);
 		fieldValues.put("calendarTypes", calendarType);
-		int matches = KRADServiceLocator.getBusinessObjectService().countMatching(Calendar.class, fieldValues);
+		int matches = KRADServiceLocator.getBusinessObjectService().countMatching(CalendarBo.class, fieldValues);
 		
 		return matches > 0;
 	}

@@ -20,7 +20,7 @@ import java.util.Date;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -55,8 +55,8 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 //	private String recordTime;
 //	private String recordLeave;
 	
-	private transient Calendar calendar;
-	private transient Calendar leaveCalObj;
+	private transient CalendarBo calendar;
+	private transient CalendarBo leaveCalObj;
 	private transient Person person;
 	private transient LeavePlanBo leavePlanObj;
 
@@ -140,11 +140,11 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 		this.timezone = timezone;
 	}
 
-	public Calendar getCalendar() {
+	public CalendarBo getCalendar() {
 		return calendar;
 	}
 
-	public void setCalendar(Calendar calendar) {
+	public void setCalendar(CalendarBo calendar) {
 		this.calendar = calendar;
 	}
 
@@ -190,11 +190,11 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 		setHrPrincipalAttributeId(id);
 	}
 
-	public Calendar getLeaveCalObj() {
+	public CalendarBo getLeaveCalObj() {
 		return leaveCalObj;
 	}
 
-	public void setLeaveCalObj(Calendar leaveCalObj) {
+	public void setLeaveCalObj(CalendarBo leaveCalObj) {
 		this.leaveCalObj = leaveCalObj;
 	}
 

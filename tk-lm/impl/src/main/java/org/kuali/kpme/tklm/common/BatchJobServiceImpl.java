@@ -24,7 +24,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
-import org.kuali.kpme.core.api.calendar.CalendarContract;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.service.CalendarService;
 import org.kuali.kpme.core.api.document.calendar.CalendarDocumentHeaderContract;
@@ -38,13 +38,24 @@ import org.kuali.kpme.tklm.leave.batch.CarryOverJob;
 import org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
-import org.kuali.kpme.tklm.time.batch.*;
+import org.kuali.kpme.tklm.time.batch.ClockedInEmployeeJob;
+import org.kuali.kpme.tklm.time.batch.EmployeeApprovalJob;
+import org.kuali.kpme.tklm.time.batch.EndPayPeriodJob;
+import org.kuali.kpme.tklm.time.batch.EndReportingPeriodJob;
+import org.kuali.kpme.tklm.time.batch.InitiateJob;
+import org.kuali.kpme.tklm.time.batch.MissedPunchApprovalJob;
+import org.kuali.kpme.tklm.time.batch.SupervisorApprovalJob;
 import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
 import org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
-import org.quartz.*;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +82,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 
     @Override
     public void scheduleInitiateJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
-		CalendarContract calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+		Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 		String calendarTypes = calendar.getCalendarTypes();
 		String calendarName = calendar.getCalendarName();
 		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
@@ -133,7 +144,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleEndReportingPeriodJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
-    	CalendarContract calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
     	String calendarTypes = calendar.getCalendarTypes();
     	String calendarName = calendar.getCalendarName();
     	DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
@@ -389,7 +400,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 	public void scheduleLeaveCalendarDelinquencyJobs(CalendarEntry calendarEntry, DateTime scheduleDate) throws SchedulerException {
 		DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
 		DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
-    	CalendarContract calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 
     	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
 	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);

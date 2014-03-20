@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.calendar.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -28,7 +29,7 @@ public interface CalendarService {
 	 * @return
 	 */
     @Cacheable(value= CalendarContract.CACHE_NAME, key="'hrCalendarId=' + #p0")
-	public CalendarContract getCalendar(String hrCalendarId);
+	public Calendar getCalendar(String hrCalendarId);
 
 	/**
 	 * Fetch a pay calendar by group
@@ -36,7 +37,7 @@ public interface CalendarService {
 	 * @return
 	 */
     @Cacheable(value= CalendarContract.CACHE_NAME, key="'calendarName=' + #p0")
-	public CalendarContract getCalendarByGroup(String calendarName);
+	public Calendar getCalendarByGroup(String calendarName);
 
 	
 	/**
@@ -45,7 +46,7 @@ public interface CalendarService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public CalendarContract getCalendarByPrincipalIdAndDate(String principalId, LocalDate asOfDate, boolean findLeaveCal);
+	public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate asOfDate, boolean findLeaveCal);
 
     /**
      * Fetch a pay calendar with the given principalId, begin and end date, returns null if none found
@@ -54,11 +55,11 @@ public interface CalendarService {
      * @param endDate
      * @return
      */
-    public CalendarContract getCalendarByPrincipalIdAndDate(String principalId, LocalDate beginDate, LocalDate endDate, boolean findLeaveCal);
+    public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate beginDate, LocalDate endDate, boolean findLeaveCal);
 
-    public CalendarContract getCalendarByName(String calendarName);
+    public Calendar getCalendarByName(String calendarName);
 
 
-    public List<? extends CalendarContract> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime);
+    public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime);
 
 }

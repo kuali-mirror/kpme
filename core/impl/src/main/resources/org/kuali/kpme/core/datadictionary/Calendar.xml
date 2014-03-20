@@ -25,7 +25,7 @@
 
     <bean id="Calendar" parent="Calendar-parentBean"/>
     <bean id="Calendar-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.kpme.core.calendar.Calendar"/>
+        <property name="dataObjectClass" value="org.kuali.kpme.core.calendar.CalendarBo"/>
         <property name="titleAttribute" value="hrCalendarId"/>
         <property name="objectLabel" value="Calendar"/>
         <property name="lookupDefinition">
@@ -44,12 +44,12 @@
                 <ref bean="Calendar-calendarTypes"/>
             </list>
         </property>
-        <property name="collections">
+        <!--<property name="collections">
             <list>
                 <bean parent="CollectionDefinition" p:name="calendarEntries" p:label="Calendar Entries"
                       p:shortLabel="Calendar Entries" p:summary="Calendar Entries" p:description="Calendar Entries"/>
             </list>
-        </property>
+        </property>-->
     </bean>
 
     <!-- Attribute Definitions -->
@@ -176,7 +176,7 @@
 
     <bean id="Calendar-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Calendar Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.Calendar"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.CalendarBo"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.inquirable.KPMEInquirableImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
@@ -224,7 +224,7 @@
     <!-- Calenadar Lookup View -->
     <bean id="Calendar-LookupView" parent="KPMEUif-ViewLinkLookupView">
         <property name="headerText" value="Calendar Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.Calendar"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.CalendarBo"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.calendar.web.CalendarLookupableImpl"/>
         <property name="criteriaFields">
             <list>

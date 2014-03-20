@@ -20,10 +20,9 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
-import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -62,12 +61,14 @@ public class CalendarEntryBo extends PersistableBusinessObjectBase implements Ca
     private Date batchPayrollApprovalDateTime;
 
     private transient String calendarTypes;
-    private transient CalendarContract calendarObj;
+    private transient CalendarBo calendarObj;
 
     public String getHrCalendarId() {
-        calendarObj = (Calendar)HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
-        if (calendarObj != null) {
-            this.setHrCalendarId(calendarObj.getHrCalendarId());
+        if (StringUtils.isEmpty(hrCalendarId)) {
+            calendarObj = CalendarBo.from(HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName()));
+            if (calendarObj != null) {
+                this.setHrCalendarId(calendarObj.getHrCalendarId());
+            }
         }
         return hrCalendarId;
     }
@@ -354,14 +355,14 @@ public class CalendarEntryBo extends PersistableBusinessObjectBase implements Ca
     	batchSupervisorApprovalDateTime = batchSupervisorApprovalFullDateTime != null ? batchSupervisorApprovalFullDateTime.toDate() : null;
     }
 
-	public CalendarContract getCalendarObj() {
+	public CalendarBo getCalendarObj() {
 		if(calendarObj == null && StringUtils.isNotBlank(this.getCalendarName())) {
-			this.setCalendarObj(HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName()));
+			this.setCalendarObj(CalendarBo.from(HrServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName())));
 		}		
 		return calendarObj;
 	}
 
-	public void setCalendarObj(CalendarContract calendarObj) {
+	public void setCalendarObj(CalendarBo calendarObj) {
 		this.calendarObj = calendarObj;
 	}
 

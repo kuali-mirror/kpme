@@ -18,7 +18,7 @@ package org.kuali.kpme.core.calendar.validation;
 import java.sql.Time;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
@@ -28,7 +28,7 @@ public class CalendarRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = true;
 
-		Calendar calendar = (Calendar) this.getNewDataObject();
+        CalendarBo calendar = (CalendarBo) this.getNewDataObject();
 		if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")){
 			valid = validateFLSABeginDay(calendar.getFlsaBeginDay());
 			valid = validateFLSABeginTime(calendar.getFlsaBeginTime());

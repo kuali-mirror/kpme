@@ -34,6 +34,7 @@ import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.permission.HRPermissionService;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.batch.BatchJobUtil;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -603,7 +604,7 @@ public class TimesheetServiceImpl implements TimesheetService {
                     }
                 }
 
-                TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(assignmentTimeBlocks, timesheetDocument.getCalendarEntry(), (org.kuali.kpme.core.calendar.Calendar)HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
+                TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(assignmentTimeBlocks, timesheetDocument.getCalendarEntry(), HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
 
                 //create an aggregate of leaveblocks for current assignment in the loop
                 List<String> assigmentKeyList = new ArrayList<String>();

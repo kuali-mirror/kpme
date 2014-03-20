@@ -25,8 +25,9 @@ import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
@@ -159,15 +160,15 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 	public void testTimeBlockAggregate() throws Exception {
 		DateTime beginTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		DateTime endTime = new DateTime(2010, 1, 16, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		
-		Calendar payCalendar = new Calendar();
+
+        Calendar.Builder payCalendar = Calendar.Builder.create();
 		
 		CalendarEntry.Builder payCalendarEntry = CalendarEntry.Builder.create();
 		payCalendarEntry.setBeginPeriodFullDateTime(beginTime);
 		payCalendarEntry.setEndPeriodFullDateTime(endTime);
 		
 		List<TimeBlock> lstTimeBlocks = setupTimeBlocks(beginTime, endTime, payCalendarEntry.build());
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry.build(), payCalendar);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry.build(), payCalendar.build());
 		Assert.assertTrue("Aggregate built correctly ", tkTimeBlockAggregate!= null && tkTimeBlockAggregate.getWeekTimeBlocks(0).size() == 7);
 		Assert.assertTrue("Total number of days is correct",tkTimeBlockAggregate.getDayTimeBlockList().size()==15);
 	}

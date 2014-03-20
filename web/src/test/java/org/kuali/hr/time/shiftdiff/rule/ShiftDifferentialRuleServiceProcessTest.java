@@ -26,7 +26,7 @@ import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -162,7 +162,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO, "admin"));
-		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, (Calendar) HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 		TkTestUtils.verifyAggregateHourSumsFlatList("August Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(2));}},aggregate);
@@ -182,7 +182,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1).plusHours(17), 1, new BigDecimal("6"), "RGN", jobNumber, workArea));
 		blocks = setDocumentIdOnBlocks(blocks, tdoc.getDocumentId());
         
-		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry, (Calendar) HrServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()), true);
+		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry, HrServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()), true);
 		
 		TkTestUtils.verifyAggregateHourSumsFlatList("September Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(20));}},aggregate);
 
@@ -249,7 +249,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), endOfAugust.getBeginPeriodFullDateTime().toLocalDate());
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO, "admin"));
-		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, (Calendar) HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
+		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 
 
 
@@ -265,7 +265,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", payCalendarEntry);
 		blocks = new ArrayList<TimeBlock>();
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 1, new BigDecimal("5"), "RGN", jobNumber, workArea));
-		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry, (Calendar) HrServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()), true);
+		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry, HrServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()), true);
 		TkTestUtils.verifyAggregateHourSumsFlatList("September Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(5));}},aggregate);
 
 		// Verify carry over and applied PRM bucket

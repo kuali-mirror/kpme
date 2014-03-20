@@ -18,12 +18,13 @@ package org.kuali.kpme.core.calendar.entry.service;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryPeriodType;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.calendar.dao.CalendarDao;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.calendar.entry.dao.CalendarEntryDao;
@@ -216,7 +217,7 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     @Override
 	public CalendarEntry getCurrentCalendarDates(String principalId, DateTime currentDate) {
 		CalendarEntry pcd = null;
-        Calendar calendar = (Calendar)HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, currentDate.toLocalDate(), false);
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, currentDate.toLocalDate(), false);
         if(calendar != null) {
 		    pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), currentDate);
         }
@@ -226,7 +227,7 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     @Override
     public CalendarEntry getCurrentCalendarDates(String principalId, DateTime beginDate, DateTime endDate) {
         CalendarEntry pcd = null;
-        Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), false);
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), false);
         if(calendar != null) {
             pcd = HrServiceLocator.getCalendarEntryService().getCalendarEntryByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
         }
@@ -236,15 +237,15 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     @Override
     public CalendarEntry getCalendarDatesByPayEndDate(String principalId, DateTime payEndDate, String calendarType) {
         PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toLocalDate());
-        
+
         Calendar calendar = null;
         if(ObjectUtils.isNull(principalCalendar)) {
         	return null;
         }
         if (StringUtils.equalsIgnoreCase(calendarType, HrConstants.PAY_CALENDAR_TYPE)) {
-        	calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendarByGroup(principalCalendar.getPayCalendar());
+        	calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(principalCalendar.getPayCalendar());
         } else if (StringUtils.equalsIgnoreCase(calendarType, HrConstants.LEAVE_CALENDAR_TYPE)) {
-        	calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendarByGroup(principalCalendar.getLeaveCalendar());
+        	calendar = HrServiceLocator.getCalendarService().getCalendarByGroup(principalCalendar.getLeaveCalendar());
         }
         
         if (calendar == null) {
@@ -256,7 +257,7 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     @Override
     public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(String principalId, DateTime beginDate, DateTime endDate) {
         CalendarEntry pcd = null;
-        Calendar calendar = (Calendar)HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), true);
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, beginDate.toLocalDate(), endDate.toLocalDate(), true);
         if(calendar != null) {
             pcd = HrServiceLocator.getCalendarEntryService().getCalendarEntryByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
         }
@@ -267,7 +268,7 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
 	public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(
 			String principalId, DateTime currentDate) {
 		CalendarEntry pcd = null;
-        Calendar calendar = (Calendar)HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, currentDate.toLocalDate(), true);
+        Calendar calendar = HrServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, currentDate.toLocalDate(), true);
         if(calendar != null) {
 		    pcd = HrServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(calendar.getHrCalendarId(), currentDate);
         }

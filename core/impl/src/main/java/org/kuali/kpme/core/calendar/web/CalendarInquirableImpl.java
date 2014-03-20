@@ -17,8 +17,9 @@ package org.kuali.kpme.core.calendar.web;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -30,17 +31,14 @@ public class CalendarInquirableImpl extends KualiInquirableImpl {
     @Override
     @SuppressWarnings("rawtypes")
     public BusinessObject getBusinessObject(Map fieldValues) {
-        CalendarContract calObj = null;
-
         if (StringUtils.isNotBlank((String) fieldValues.get("hrCalendarId"))) {
-            calObj = HrServiceLocator.getCalendarService().getCalendar((String) fieldValues.get("hrCalendarId"));
+            return CalendarBo.from(HrServiceLocator.getCalendarService().getCalendar((String) fieldValues.get("hrCalendarId")));
         } else if (fieldValues.containsKey("calendarName")) {
         	String calName = (String) fieldValues.get("calendarName");
-            calObj = HrServiceLocator.getCalendarService().getCalendarByGroup(calName);
+            return CalendarBo.from(HrServiceLocator.getCalendarService().getCalendarByGroup(calName));
         } else {
-            calObj = (Calendar) super.getBusinessObject(fieldValues);
+            return (CalendarBo) super.getBusinessObject(fieldValues);
         }
 
-        return calObj;
     }
 }

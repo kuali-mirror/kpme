@@ -21,13 +21,13 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.core.calendar.Calendar;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -59,12 +59,12 @@ public class PayrollApprovalJob extends BatchJob {
 			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 	
 			CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
-			Calendar calendar = (Calendar) HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+            Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 			DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
 	    	DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
 	    	
 			List<RoleMember> roleMembers = new ArrayList<RoleMember>();
-			String subject = new String();
+			String subject = "";
 			List<Long> workAreas = new ArrayList<Long>();
 			
 			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {

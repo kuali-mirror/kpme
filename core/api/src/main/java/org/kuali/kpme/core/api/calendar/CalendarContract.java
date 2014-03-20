@@ -15,19 +15,15 @@
  */
 package org.kuali.kpme.core.api.calendar;
 
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
+import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-
-import java.sql.Time;
-import java.util.List;
 
 /**
  * <p>CalendarContract interface</p>
  *
  */
-public interface CalendarContract extends PersistableBusinessObject {
+public interface CalendarContract extends KpmeDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Calendar";
 
@@ -73,7 +69,7 @@ public interface CalendarContract extends PersistableBusinessObject {
 	 * 
 	 * @return calendarEntries of Calendar
 	 */
-	public List<? extends CalendarEntryContract> getCalendarEntries();
+	//public List<? extends CalendarEntryContract> getCalendarEntries();
 
 	/**
 	 * The Text field used to describe the calendar
@@ -106,7 +102,7 @@ public interface CalendarContract extends PersistableBusinessObject {
 	 * 
 	 * @return flsaBeginTime for Calendar
 	 */
-	public Time getFlsaBeginTime();
+	public LocalTime getFlsaBeginLocalTime();
 
 	/**
 	 * The FLSA start day the Calendar is associated with

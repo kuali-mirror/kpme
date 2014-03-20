@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.permission.service;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
@@ -23,11 +22,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -41,7 +39,7 @@ public class LMPermissionServiceTest extends KPMEWebTestCase {
 	    //HrContext.setTargetPrincipalId("eric");
 	    PrincipalHRAttributes phra = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2");
 	    phra.setLeaveCalendar("BWS-LM");
-	    phra.setLeaveCalObj((Calendar) HrServiceLocator.getCalendarService().getCalendarByGroup("BWS-LM"));
+	    phra.setLeaveCalObj(CalendarBo.from(HrServiceLocator.getCalendarService().getCalendarByGroup("BWS-LM")));
 	    KRADServiceLocator.getBusinessObjectService().save(phra);
 	}
 

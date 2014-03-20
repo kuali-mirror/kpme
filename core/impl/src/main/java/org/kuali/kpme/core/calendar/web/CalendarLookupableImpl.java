@@ -15,8 +15,10 @@
  */
 package org.kuali.kpme.core.calendar.web;
 
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.web.form.LookupForm;
 
@@ -33,6 +35,6 @@ public class CalendarLookupableImpl extends KPMELookupableImpl {
         String flsaBeginDay = searchCriteria.get("flsaBeginDay");
         String flsaBeginTime = searchCriteria.get("flsaBeginTime");
 
-        return HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, flsaBeginDay, flsaBeginTime);
+        return ModelObjectUtils.transform(HrServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, flsaBeginDay, flsaBeginTime), CalendarBo.toCalendarBo);
     }
 }

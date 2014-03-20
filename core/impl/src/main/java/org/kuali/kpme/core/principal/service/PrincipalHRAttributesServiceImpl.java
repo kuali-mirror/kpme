@@ -21,7 +21,7 @@ import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -44,8 +44,8 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, LocalDate asOfDate){
 		PrincipalHRAttributes pc =  this.principalHRAttributesDao.getPrincipalCalendar(principalId, asOfDate);
 		if(pc != null) {
-			pc.setCalendar((Calendar)HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getPayCalendar()));
-			pc.setLeaveCalObj((Calendar)HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getLeaveCalendar()));
+			pc.setCalendar(CalendarBo.from(HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getPayCalendar())));
+			pc.setLeaveCalObj(CalendarBo.from(HrServiceLocator.getCalendarService().getCalendarByGroup(pc.getLeaveCalendar())));
 		}
 		return pc;
 	}

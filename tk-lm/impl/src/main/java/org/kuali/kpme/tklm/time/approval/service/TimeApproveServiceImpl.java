@@ -17,13 +17,18 @@ package org.kuali.kpme.tklm.time.approval.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.Calendar;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.calendar.web.CalendarDay;
 import org.kuali.kpme.core.calendar.web.CalendarWeek;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -60,8 +65,15 @@ import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -75,7 +87,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumentHeader(
                 principalIds, payBeginDate, payEndDate, docIdSearchTerm);
 
-		Calendar payCalendar = (Calendar) HrServiceLocator.getCalendarService()
+		Calendar payCalendar = HrServiceLocator.getCalendarService()
 				.getCalendar(payCalendarEntry.getHrCalendarId());
 		DateTimeZone dateTimeZone = HrServiceLocator.getTimezoneService()
 				.getUserTimezoneWithFallback();

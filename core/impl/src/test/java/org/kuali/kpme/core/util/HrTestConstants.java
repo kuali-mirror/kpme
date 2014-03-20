@@ -101,7 +101,7 @@ public class HrTestConstants {
 
 		public static final String POSITION_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.position.Position&returnLocation="+BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
-		public static final String CALENDAR_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.calendar.Calendar&returnLocation="+BASE_URL+"/portal.do&hideReturnLink=true&docFormKey=88888888";
+		public static final String CALENDAR_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.calendar.CalendarBo&returnLocation="+BASE_URL+"/portal.do&hideReturnLink=true&docFormKey=88888888";
 
 		public static final String SUB_ACCOUNT_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.kfs.coa.businessobject.SubAccount&returnLocation="+
 				BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
@@ -132,9 +132,9 @@ public class HrTestConstants {
 		
 		public static final String PAY_GRADE_MAINT_NEW_URL = BASE_URL + "/kr-krad/maintenance.do?dataObjectClassName=org.kuali.kpme.core.paygrade.PayGradeBo&methodToCall=start";
 		
-		public static final String CALENDAR_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.calendar.Calendar&methodToCall=start";
+		public static final String CALENDAR_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.calendar.CalendarBo&methodToCall=start";
 		
-		public static final String PAY_CALENDAR_ENTRY_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.calendar.CalendarEntry&methodToCall=start";
+		public static final String PAY_CALENDAR_ENTRY_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.calendar.CalendarEntryBo&methodToCall=start";
 		
 		public static final String ACCOUNT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.kfs.coa.businessobject.Account&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
