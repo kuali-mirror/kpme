@@ -38,7 +38,7 @@
   <!-- Maintenance Section Definitions -->
 
   <bean id="CalendarMaintenanceDocument-CalendarMaintenance" parent="CalendarMaintenanceDocument-CalendarMaintenance-parentBean"/>
-  <bean id="CalendarMaintenanceDocument-CalendarMaintenance-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+  <bean id="CalendarMaintenanceDocument-CalendarMaintenance-parentBean" abstract="true" parent="KPMEUif-MaintenanceView">
       <property name="headerText" value="Calendar Maintenance"/>
       <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.Calendar"/>
       <property name="title" value="Calendar Maintenance"/>

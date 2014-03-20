@@ -43,7 +43,7 @@
   <!-- Maintenance Section Definitions -->
 
   <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance" parent="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean"/>
-  <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
+  <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean" abstract="true" parent="KPMEUif-MaintenanceView">
       <property name="title" value="Calendar Entry Maintenance"/>
       <property name="headerText" value="Calendar Entry Maintenance"/>
       <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntryBo"/>
@@ -53,7 +53,12 @@
                   <property name="headerText" value="Calendar Entry Maintenance"/>
                   <property name="items">
                       <list>
-                          <bean parent="Uif-InputField" p:propertyName="calendarName" p:required="true"/>
+                          <bean parent="Uif-InputField" p:propertyName="calendarName" p:required="true">
+                              <property name="quickfinder">
+                                  <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.calendar.Calendar"
+                                        p:fieldConversions="calendarName:calendarName" />
+                              </property>
+                          </bean>
                           <bean parent="Uif-InputField" p:propertyName="beginPeriodDate" p:required="true"/>
                           <bean parent="Uif-InputField" p:propertyName="beginPeriodTime" p:required="true"/>
                           <bean parent="Uif-InputField" p:propertyName="endPeriodDate"    p:required="true"/>

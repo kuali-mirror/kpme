@@ -384,7 +384,12 @@
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.calendar.entry.web.CalendarEntryLookupableImpl" />
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="calendarName"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="calendarName">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.calendar.Calendar"
+                              p:fieldConversions="calendarName:calendarName" />
+                    </property>
+                </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="calendarTypes" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="beginPeriodDateTime" p:ranged="true"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="endPeriodDateTime" p:ranged="true"/>
