@@ -220,14 +220,14 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="renderInactiveToggleButton" value="false"/>
+        <property name="lineActions">
+        	<list>
+	    		<bean parent="Uif-DeleteLineAction" p:render="@{isAddedCollectionItem(#line)}"/>
+           	</list>
+      	</property>
         <property name="addLineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <!--remove delete action-->
             </list>
         </property>
         <property name="items">
