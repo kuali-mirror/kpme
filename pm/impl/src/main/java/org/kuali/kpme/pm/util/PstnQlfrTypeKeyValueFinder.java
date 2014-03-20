@@ -52,7 +52,7 @@ public class PstnQlfrTypeKeyValueFinder extends UifKeyValuesFinderBase{
 	@Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
-		Classification anHrObject = (Classification) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
 		LocalDate asOfDate = LocalDate.now();
 		if(anHrObject.getEffectiveLocalDate() != null) {
 			asOfDate = anHrObject.getEffectiveLocalDate();
