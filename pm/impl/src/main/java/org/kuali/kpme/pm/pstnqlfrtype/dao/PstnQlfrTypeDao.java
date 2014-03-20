@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.pstnqlfrtype.dao;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 
 public interface PstnQlfrTypeDao {
@@ -25,5 +26,5 @@ public interface PstnQlfrTypeDao {
 	
 	public PstnQlfrType getPstnQlfrTypeByType(String pmPstnQlfrType);
 	
-	public List<PstnQlfrType> getAllActivePstnQlfrTypes();
+	public List<PstnQlfrType> getAllActivePstnQlfrTypes(LocalDate asOfDate);
 }

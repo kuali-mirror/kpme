@@ -49,6 +49,7 @@ package org.kuali.kpme.pm.api.pstnqlfrtype.service;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 
 
@@ -82,7 +83,7 @@ public interface PstnQlfrTypeService {
 
 	 */
 
-	public List<? extends PstnQlfrTypeContract> getAllActivePstnQlfrTypes();
+	public List<? extends PstnQlfrTypeContract> getAllActivePstnQlfrTypes(LocalDate asOfDate);
 
 }
 

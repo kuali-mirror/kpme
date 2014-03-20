@@ -22,6 +22,9 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -46,12 +49,17 @@ public class PstnQlfrTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 	}
 
 	@Override
-	public List<PstnQlfrType> getAllActivePstnQlfrTypes() {
+	public List<PstnQlfrType> getAllActivePstnQlfrTypes(LocalDate asOfDate) {
 		List<PstnQlfrType> aList = new ArrayList<PstnQlfrType>();
 		Criteria root = new Criteria();
+		if(asOfDate == null) {
+			asOfDate = LocalDate.now();
+		}
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnQlfrType.class, asOfDate, PstnQlfrType.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PstnQlfrType.class, PstnQlfrType.BUSINESS_KEYS, false));
 		root.addEqualTo("active", true);
 		Query query = QueryFactory.newQuery(PstnQlfrType.class, root);
-		
+
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		if(!c.isEmpty())
 			aList.addAll(c);

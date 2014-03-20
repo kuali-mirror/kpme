@@ -19,20 +19,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
+import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
-public class PstnQlfrTypeKeyValueFinder extends KeyValuesBase{
+public class PstnQlfrTypeKeyValueFinder extends UifKeyValuesFinderBase{
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
-		List<? extends PstnQlfrTypeContract> typeList = PmServiceLocator.getPstnQlfrTypeService().getAllActivePstnQlfrTypes();
+		List<? extends PstnQlfrTypeContract> typeList = PmServiceLocator.getPstnQlfrTypeService().getAllActivePstnQlfrTypes(LocalDate.now());
 		keyValues.add(new ConcreteKeyValue("", ""));
 		if(CollectionUtils.isNotEmpty(typeList)) {
 			for(PstnQlfrTypeContract aType : typeList) {
@@ -42,4 +48,24 @@ public class PstnQlfrTypeKeyValueFinder extends KeyValuesBase{
 		return keyValues;
 	}
 
+	
+	@Override
+    public List<KeyValue> getKeyValues(ViewModel model) {
+		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
+		Classification anHrObject = (Classification) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		LocalDate asOfDate = LocalDate.now();
+		if(anHrObject.getEffectiveLocalDate() != null) {
+			asOfDate = anHrObject.getEffectiveLocalDate();
+		}
+		List<KeyValue> keyValues = new ArrayList<KeyValue>();
+		List<? extends PstnQlfrTypeContract> typeList = PmServiceLocator.getPstnQlfrTypeService().getAllActivePstnQlfrTypes(asOfDate);
+		keyValues.add(new ConcreteKeyValue("", ""));
+		if(CollectionUtils.isNotEmpty(typeList)) {
+			for(PstnQlfrTypeContract aType : typeList) {
+				keyValues.add(new ConcreteKeyValue((String) aType.getPmPstnQlfrTypeId(), (String) aType.getType()));
+			}
+		}         
+		return keyValues;
+	}
+	
 }

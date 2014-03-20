@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.pstnqlfrtype.service;
 
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.api.pstnqlfrtype.service.PstnQlfrTypeService;
 import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.pstnqlfrtype.dao.PstnQlfrTypeDao;
@@ -44,8 +45,8 @@ public class PstnQlfrTypeServiceImpl implements PstnQlfrTypeService {
 	}
 	
 	@Override
-	public List<PstnQlfrType> getAllActivePstnQlfrTypes() {
-		return pstnQlfrTypeDao.getAllActivePstnQlfrTypes();
+	public List<PstnQlfrType> getAllActivePstnQlfrTypes(LocalDate asOfDate) {
+		return pstnQlfrTypeDao.getAllActivePstnQlfrTypes(asOfDate);
 	}
 
 }
