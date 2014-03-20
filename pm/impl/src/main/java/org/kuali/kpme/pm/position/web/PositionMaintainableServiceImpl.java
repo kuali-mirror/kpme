@@ -123,13 +123,13 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 		        	}
 		        }
 	        	// Funding line validation
-		        if (addLine instanceof PositionFunding) {
+		        /*if (addLine instanceof PositionFunding) {
 		        	PositionFunding pf = (PositionFunding) addLine;
 		        	boolean results = this.validateAddFundingLine(pf, aPosition);
 		        	if(!results) {
 		        		return false;
 		        	}
-		        }
+		        }*/
 
                 /*
 
@@ -167,7 +167,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	}
 	
 	protected boolean validateAddFundingLine(PositionFunding pf, Position aPosition) {
-    	if(pf.getEffectiveDate() != null && aPosition.getEffectiveDate() != null) {
+    	/*if(pf.getEffectiveDate() != null && aPosition.getEffectiveDate() != null) {
     		if(pf.getEffectiveDate().compareTo(aPosition.getEffectiveDate()) < 0) {
     			String[] parameters = new String[2];
     			parameters[0] = pf.getEffectiveDate().toString();
@@ -176,7 +176,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     			GlobalVariables.getMessageMap().putError("Position-fundings","error.funding.effdt.invalid", parameters);
    			 	return false;
     		}
-    	}
+    	}*/
     	if(StringUtils.isNotEmpty(pf.getAccount())) {
     		boolean results = ValidationUtils.validateAccount(pf.getChart(), pf.getAccount());
     		if(!results) {
@@ -191,7 +191,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
 	   			 return results;
     		}
     	}
-    	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
+    /*	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
     		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), Integer.valueOf(pf.getEffectiveLocalDate().getYear()));
     		if(!results) {
       			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "Objecpublic PositionDepartment getPositionDepartmentById(String pmPositionDeptId);tCode '" + pf.getObjectCode() + "'");
@@ -208,7 +208,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
       			 GlobalVariables.getMessageMap().putError("Position-fundings","error.existence", "SubObjectCode '" + pf.getSubObjectCode() + "'");
       			 return results;
     		}
-    	}
+    	}*/
     	return true;
     
 	}
@@ -295,7 +295,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
     @Override
     public void prepareForSave() {
-        Position position = (Position)this.getDataObject();
+    	/*        Position position = (Position)this.getDataObject();
         boolean hasPrimaryDepartment = false;
         for (PositionFunding positionFunding : position.getFundingList()) {
             positionFunding.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
@@ -322,7 +322,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
             primaryDepartment.setEffectiveDate(position.getEffectiveDate());
             primaryDepartment.setActive(true);
             position.getDepartmentList().add(primaryDepartment);
-        }
+        }*/
 
         //add note if enroute change occurs
 

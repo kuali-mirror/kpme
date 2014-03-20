@@ -645,8 +645,6 @@
                 <bean parent="Uif-DataField" p:propertyName="location"/>
                 <bean parent="Uif-DataField" p:propertyName="department"/>
                 <bean parent="Uif-DataField" p:propertyName="deptAffl"/>
-                <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
-                <bean parent="Uif-DataField" p:propertyName="active"/>
             </list>
         </property>
     </bean>
@@ -794,7 +792,6 @@
         <property name="renderInactiveToggleButton" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
                 <bean parent="Uif-DataField" p:propertyName="chart"/>
                 <bean parent="Uif-DataField" p:propertyName="org"/>
                 <bean parent="Uif-DataField" p:propertyName="account"/>
@@ -805,7 +802,6 @@
                 <bean parent="Uif-DataField" p:propertyName="percent"/>
                 <bean parent="Uif-DataField" p:propertyName="amount"/>
                 <bean parent="Uif-DataField" p:propertyName="priorityFlag"/>
-                <bean parent="Uif-DataField" p:propertyName="active"/>
             </list>
         </property>
     </bean>
@@ -1128,7 +1124,6 @@
 		<property name="layoutManager.numberOfColumns" value="7" />   -->
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 				<bean parent="Uif-InputField" p:propertyName="chart" />
 				<bean parent="Uif-InputField" p:propertyName="org" />
 				<bean parent="Uif-InputField" p:propertyName="account">
@@ -1176,8 +1171,6 @@
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="priorityFlag" />
-				<bean parent="Uif-InputField" p:propertyName="active"
-					p:defaultValue="true" />
 			</list>
 		</property>
 	</bean>
@@ -1233,14 +1226,6 @@
 						<bean class="org.kuali.kpme.pm.util.DepartmentAffiliationKeyValueFinder" />
 					</property>
                 </bean>
-				<bean parent="Uif-InputField" p:propertyName="effectiveDate" id="position_department_effectiveDate"
-                      p:onDocumentReadyScript="var date = '@{#dp.effectiveDate}';
-                            var dateString = date.length == 10 ? date.substr(5,2) + '/' + date.substr(8,2) + '/' + date.substr(0,4) : '';
-                            jQuery('#position_department_effectiveDate_add_control').val(dateString);">
-
-                </bean>
-				<bean parent="Uif-InputField" p:propertyName="active"
-					p:defaultValue="true" />
 			</list>
 		</property>
 	</bean>

@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.api.positiondepartment;
 
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.api.location.LocationContract;
@@ -24,7 +24,7 @@ import org.kuali.kpme.core.api.location.LocationContract;
 
 
 
-public interface PositionDepartmentContract extends HrBusinessObjectContract {
+public interface PositionDepartmentContract extends PersistableBusinessObject {
 
 
     /**

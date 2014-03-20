@@ -18,13 +18,10 @@ package org.kuali.kpme.pm.position.funding;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import com.google.common.collect.ImmutableMap;
-
-public class PositionFunding extends HrBusinessObject implements PositionFundingContract {
+public class PositionFunding extends PersistableBusinessObjectBase implements PositionFundingContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPositionFunctionId;
@@ -44,30 +41,7 @@ public class PositionFunding extends HrBusinessObject implements PositionFunding
 	// indicates where the funding information comes from, it could be from maint document, Institution batch imports, etc..
 	// we use source on the maint document to determine which funding information is readonly
 	private String source;		
-	
-	// TODO returning an empty map for the time-being, until the BK is finalized
-	@Override
-	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-		return new ImmutableMap.Builder<String, Object>()
-				.build();
-	}
-	
-
-	@Override
-	public String getId() {
-		return getPmPositionFunctionId();
-	}
-
-	@Override
-	public void setId(String id) {
-		setPmPositionFunctionId(id);
-	}
-
-	@Override
-	protected String getUniqueKey() {
-		return getPmPositionFunctionId() + "_" + getHrPositionId();
-	}
-	
+			
 	public String getPmPositionFunctionId() {
 		return pmPositionFunctionId;
 	}

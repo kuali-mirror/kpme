@@ -16,21 +16,18 @@
 package org.kuali.kpme.pm.positiondepartment;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-public class PositionDepartment extends HrBusinessObject implements PositionDepartmentContract {
+public class PositionDepartment extends PersistableBusinessObjectBase implements PositionDepartmentContract {
 	
     private static final String DEPARTMENT = "department";
 
@@ -53,28 +50,6 @@ public class PositionDepartment extends HrBusinessObject implements PositionDepa
 	private InstitutionBo institutionObj;
 	private DepartmentBo departmentObj;
 	private DepartmentAffiliation deptAfflObj;
-
-	@Override
-	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-		return new ImmutableMap.Builder<String, Object>()
-				.put(DEPARTMENT, this.getDepartment())
-				.build();
-	}	
-	
-	@Override
-	public String getId() {
-		return this.getPmPositionDeptId();
-	}
-
-	@Override
-	public void setId(String id) {
-		setPmPositionDeptId(id);
-	}
-
-	@Override
-	protected String getUniqueKey() {
-		return  getInstitution() + "_" + getLocation() + "_" + getDepartment() + "_" + getDeptAffl()	;
-	}
 
 	/**
 	 * @return the DeptAffl
