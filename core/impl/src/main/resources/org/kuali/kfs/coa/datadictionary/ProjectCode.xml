@@ -114,7 +114,28 @@
   </bean>
 
 <!-- Business Object Lookup Definition -->
-
+   <bean id="ProjectCode-LookupView" parent="Uif-LookupView">
+	    <property name="headerText" value="Project Code Lookup" />
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.kfs.coa.businessobject.ProjectCode" />
+	    <property name="criteriaFields">
+	    	<list merge="true">
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="chartOfAccountsCode" />    	
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="organizationCode" />    	
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />    	
+	    	</list>
+	 	</property>
+	 	<property name="resultFields" >
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="code" />
+                <bean parent="Uif-DataField" p:propertyName="name" />
+                <bean parent="Uif-DataField" p:propertyName="chartOfAccountsCode" />
+                <bean parent="Uif-DataField" p:propertyName="organizationCode" />
+                <bean parent="Uif-DataField" p:propertyName="active" />
+            </list>
+        </property>
+	</bean>
 
   <bean id="ProjectCode-lookupDefinition" parent="ProjectCode-lookupDefinition-parentBean"/>
   <bean id="ProjectCode-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">

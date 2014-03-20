@@ -19,23 +19,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelper;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
+import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 @SuppressWarnings("deprecation")
-public class AssignmentLookupableHelper extends KPMELookupableImpl {
+public class AssignmentLookupableHelper extends KpmeHrBusinessObjectLookupableImpl {
 
 	private static final long serialVersionUID = 774015772672806415L;
+	private static final ModelObjectUtils.Transformer<Assignment, AssignmentBo> toAssignmentBo =
+            new ModelObjectUtils.Transformer<Assignment, AssignmentBo>() {
+                public AssignmentBo transform(Assignment input) {
+                    return AssignmentBo.from(input);
+                };
+            };
 
 	
 //	@Override
@@ -74,10 +87,8 @@ public class AssignmentLookupableHelper extends KPMELookupableImpl {
         String active = searchCriteria.get("active");
         String showHist = searchCriteria.get("history");
 
-        return HrServiceLocator.getAssignmentService().searchAssignments(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId, 
-        		jobNumber, dept, workArea, active, showHist);
+        return ModelObjectUtils.transform(HrServiceLocator.getAssignmentService().searchAssignments(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId, 
+        		jobNumber, dept, workArea, active, showHist), toAssignmentBo);
 	}
-    
-    
-
+	
 }

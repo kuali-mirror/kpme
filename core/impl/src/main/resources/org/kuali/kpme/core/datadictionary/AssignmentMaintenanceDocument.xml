@@ -92,91 +92,81 @@
 			                    p:fieldConversions="workArea:workArea,task:task"/>
 			            </property>        
 			        </bean>
-			       	<bean parent="Uif-InputField" p:propertyName="primaryAssign" p:required="true"  />
+			       	<bean parent="Uif-InputField" p:propertyName="primaryAssign" p:defaultValue="false" />
 			        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true" />
 	            </list>
 	          </property>
 	        </bean>
 	        
-	        <bean parent="Uif-MaintenanceGridSection">
-				<property name="headerText" value="Assignment Accounts" />
-				<property name="items">
-					<list>
-	        			<bean parent="Assignment-assignmentAccounts"/>
-	        		</list>
-	        	</property>
+	        <bean parent="Uif-MaintenanceStackedCollectionSection">
+			  <property name="headerText" value="Assignment Accounts"/>
+			  <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.account.AssignmentAccountBo" />
+			  <property name="propertyName" value="assignmentAccounts" />
+		      <property name="renderInactiveToggleButton" value="false"/>
+			  <property name="lineActions">
+		            <list>
+		              <bean parent="Uif-DeleteLineAction" p:render="@{isAddedCollectionItem(#line)}"/>
+		            </list>
+		      </property>	  
+			  <property name="items">
+			    <list>
+		           	<bean parent="Uif-InputField" p:propertyName="finCoaCd" p:widgetInputOnly="true"/>
+				 	<bean parent="Uif-InputField" p:propertyName="accountNbr" p:required="true">
+						<property name="quickfinder">
+			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.Account"
+			                            p:fieldConversions="chartOfAccountsCode:finCoaCd,accountNumber:accountNbr"/>
+			            </property>        
+				 	</bean>
+				 	<bean parent="Uif-InputField" p:propertyName="earnCode" p:required="true" p:uppercaseValue="true" >
+						<property name="quickfinder">
+			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
+			                            p:fieldConversions="earnCode:earnCode" />
+			            </property>        
+				 	</bean>
+				 	<bean parent="Uif-InputField" p:propertyName="subAcctNbr" >
+						<property name="quickfinder">
+			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubAccount"
+			                            p:fieldConversions="subAccountNumber:subAcctNbr" />
+			            </property>        
+				 	</bean>
+				 	<bean parent="Uif-InputField" p:propertyName="finObjectCd" p:required="true" >
+						<property name="quickfinder">
+			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode"
+			                            p:fieldConversions="financialObjectCode:finObjectCd"/>
+			            </property>        
+				 	</bean>
+				 	<bean parent="Uif-InputField" p:propertyName="finSubObjCd" >
+						<property name="quickfinder">
+			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode"
+			                            p:fieldConversions="financialSubObjectCode:finSubObjCd" />
+			            </property>        
+				 	</bean>
+				 	<bean parent="Uif-InputField" p:propertyName="projectCd" >
+						<property name="quickfinder">
+			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.ProjectCode"
+			                            p:fieldConversions="code:projectCd" />
+			            </property>        
+				 	</bean>
+				 	<bean parent="Uif-InputField" p:propertyName="orgRefId" />
+				 	<bean parent="Uif-InputField" p:propertyName="percent" p:exclusiveMin="0" p:inclusiveMax="100"
+					        	 p:constraintText="Must be a number between 0 and 100." p:required="true">
+					        	<property name="validCharactersConstraint">
+						        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
+								</property>
+				    </bean>            		
+		           	<bean parent="Uif-InputField" p:propertyName="active" />           
+			    </list>
+        	  </property>
+		      <property name="layoutManager.summaryTitle" value="Assignment Account"/>
+		      <property name="layoutManager.summaryFields">
+		        <list>
+		          <value>accountNbr</value>
+		        </list>
+     		  </property>	  
+        	  
 	        </bean>
 	      </list>
 	    </property>
 	  </bean> 
-
-	<!-- AssignmentAccounts maintenance section -->
-	<bean id="Assignment-assignmentAccounts" parent="Uif-StackedCollectionGroup">
-	  <property name="headerText" value="Assignment Account"/>
-	  <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.account.AssignmentAccountBo" />
-	  <property name="propertyName" value="assignmentAccounts" />
-      <property name="renderInactiveToggleButton" value="false"/>
-	  <property name="lineActions">
-            <list>
-              <bean parent="Uif-DeleteLineAction" p:render="@{isAddedCollectionItem(#line)}"/>
-            </list>
-      </property>	  
-	  <property name="items">
-	    <list>
-           	<bean parent="Uif-InputField" p:propertyName="finCoaCd" p:widgetInputOnly="true"/>
-		 	<bean parent="Uif-InputField" p:propertyName="accountNbr" p:required="true">
-				<property name="quickfinder">
-	            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.Account"
-	                            p:fieldConversions="chartOfAccountsCode:finCoaCd,accountNumber:accountNbr"/>
-	            </property>        
-		 	</bean>
-		 	<bean parent="Uif-InputField" p:propertyName="earnCode" p:required="true" p:uppercaseValue="true" >
-				<property name="quickfinder">
-	            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
-	                            p:fieldConversions="earnCode:earnCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
-	            </property>        
-		 	</bean>
-		 	<bean parent="Uif-InputField" p:propertyName="subAcctNbr" >
-				<property name="quickfinder">
-	            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubAccount"
-	                            p:fieldConversions="subAccountNumber:subAcctNbr" />
-	            </property>        
-		 	</bean>
-		 	<bean parent="Uif-InputField" p:propertyName="finObjectCd" p:required="true" >
-				<property name="quickfinder">
-	            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode"
-	                            p:fieldConversions="financialObjectCode:finObjectCd"/>
-	            </property>        
-		 	</bean>
-		 	<bean parent="Uif-InputField" p:propertyName="finSubObjCd" >
-				<property name="quickfinder">
-	            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode"
-	                            p:fieldConversions="financialSubObjectCode:finSubObjCd" />
-	            </property>        
-		 	</bean>
-		 	<bean parent="Uif-InputField" p:propertyName="projectCd" >
-				<property name="quickfinder">
-	            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.ProjectCode"
-	                            p:fieldConversions="code:projectCd" />
-	            </property>        
-		 	</bean>
-		 	<bean parent="Uif-InputField" p:propertyName="orgRefId" />
-		 	<bean parent="Uif-InputField" p:propertyName="percent" p:exclusiveMin="0" p:inclusiveMax="100"
-			        	 p:constraintText="Must be a number between 0 and 100." p:required="true">
-			        	<property name="validCharactersConstraint">
-				        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
-						</property>
-		    </bean>            		
-           	<bean parent="Uif-InputField" p:propertyName="active" />           
-	    </list>
-	  </property>
-      <property name="layoutManager.summaryTitle" value="Assignment Account"/>
-      <property name="layoutManager.summaryFields">
-        <list>
-          <value>accountNbr</value>
-        </list>
-      </property>	  
-	</bean>
-
 
 </beans>

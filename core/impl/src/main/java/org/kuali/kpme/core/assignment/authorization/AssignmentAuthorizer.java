@@ -18,7 +18,6 @@ package org.kuali.kpme.core.assignment.authorization;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;

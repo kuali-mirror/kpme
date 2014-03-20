@@ -157,7 +157,7 @@
     
    <bean id="Task-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
 	    <property name="headerText" value="Task Lookup" />
-	    <property name="dataObjectClassName" value="org.kuali.kpme.core.task.Task" />
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.task.TaskBo" />
 	    <property name="criteriaFields">
 	    	<list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="task" />
@@ -176,7 +176,7 @@
 	
 	<bean id="Task-InquiryView" parent="Uif-InquiryView">
 	    <property name="headerText" value="Task Inquiry"/>
-	    <property name="dataObjectClassName" value="org.kuali.kpme.core.task.Task"/>
+	    <property name="dataObjectClassName" value="org.kuali.kpme.core.task.TaskBo"/>
 	    <property name="singlePageView" value="true"/>
 	    <property name="items">
       		<list>

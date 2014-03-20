@@ -163,6 +163,7 @@
     <property name="propertyName" value="assignmentAccounts"/>
     <property name="layoutManager.renderSequenceField" value="false"/>
     <property name="layoutManager.separateAddLine" value="true"/>
+    <property name="renderInactiveToggleButton" value="false"/>
     <property name="layoutManager.richTable.render" value="false"/>
     <property name="items">
       <list>
