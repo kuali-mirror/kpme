@@ -274,9 +274,10 @@
         </property>
         <property name="lineActions">
             <list>
-                <!--remove delete action-->
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.tkTaskId eq null}"/>
             </list>
         </property>
+        <property name="addLinePlacement" value="BOTTOM" />
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
@@ -295,6 +296,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="renderInactiveToggleButton" value="false"/>
+        <property name="addLinePlacement" value="BOTTOM" />
         <property name="addLineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
@@ -302,7 +304,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <!--remove delete action-->
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
             </list>
         </property>
         <property name="items">
@@ -350,6 +352,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="renderInactiveToggleButton" value="false"/>
+        <property name="addLinePlacement" value="BOTTOM" />
         <property name="addLineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
@@ -357,12 +360,12 @@
         </property>
         <property name="lineActions">
             <list>
-                <!--remove delete action-->
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
             </list>
         </property>
         <property name="items">
             <list>
-            	<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/> 
+            	<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 				<bean parent="Uif-InputField" p:propertyName="positionNumber" p:required="true">
 				     <property name="quickfinder">
                          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.position.Position"

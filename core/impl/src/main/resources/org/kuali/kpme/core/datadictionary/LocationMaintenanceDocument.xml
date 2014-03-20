@@ -91,9 +91,15 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="renderInactiveToggleButton" value="false"/>
+        <property name="addLinePlacement" value="BOTTOM" />
         <property name="addLineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
             </list>
         </property>
         <property name="items">

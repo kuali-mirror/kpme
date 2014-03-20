@@ -63,9 +63,15 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         } else {
         	oldLocation = HrServiceLocatorInternal.getLocationInternalService().getLocationWithRoleData(oldMaintainableObject.getLocation(), oldMaintainableObject.getEffectiveLocalDate());
         }
-        
-        oldMaintainableObject.setRoleMembers(oldLocation.getRoleMembers());
-        oldMaintainableObject.setInactiveRoleMembers(oldLocation.getInactiveRoleMembers());        
+
+        //KPME-3312: reinitiate all collection lists so old and new collections are unique
+        List<LocationPrincipalRoleMemberBo> oldRoleMembers = new ArrayList<LocationPrincipalRoleMemberBo>();
+        oldRoleMembers.addAll(oldLocation.getRoleMembers());
+        oldMaintainableObject.setRoleMembers(oldRoleMembers);
+
+        List<LocationPrincipalRoleMemberBo> oldInactiveRoleMembers = new ArrayList<LocationPrincipalRoleMemberBo>();
+        oldInactiveRoleMembers.addAll(oldLocation.getInactiveRoleMembers());
+        oldMaintainableObject.setInactiveRoleMembers(oldInactiveRoleMembers);        
         
         LocationBo newLocation = newMaintainableObject;
         if(StringUtils.isNotBlank(newMaintainableObject.getHrLocationId())) {
@@ -73,9 +79,14 @@ public class LocationMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         } else {
         	newLocation = HrServiceLocatorInternal.getLocationInternalService().getLocationWithRoleData(newMaintainableObject.getLocation(), newMaintainableObject.getEffectiveLocalDate());
         }
-        
-        newMaintainableObject.setRoleMembers(newLocation.getRoleMembers());
-        newMaintainableObject.setInactiveRoleMembers(newLocation.getInactiveRoleMembers());
+
+        List<LocationPrincipalRoleMemberBo> newRoleMembers = new ArrayList<LocationPrincipalRoleMemberBo>();
+        newRoleMembers.addAll(newLocation.getRoleMembers());
+        newMaintainableObject.setRoleMembers(newRoleMembers);
+
+        List<LocationPrincipalRoleMemberBo> newInactiveRoleMembers = new ArrayList<LocationPrincipalRoleMemberBo>();
+        newInactiveRoleMembers.addAll(newLocation.getInactiveRoleMembers());
+        newMaintainableObject.setInactiveRoleMembers(newInactiveRoleMembers);
 
         List<Location> locationList = HrServiceLocator.getLocationService().getNewerVersionLocation(newLocation.getLocation(), newLocation.getEffectiveLocalDate());
         if (locationList.size() > 0) {

@@ -100,12 +100,26 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         } else {
         	oldWorkArea = HrServiceLocatorInternal.getWorkAreaInternalService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveLocalDate());
         }
+        //KPME-3312: reinitiate all collection lists so old and new collections are unique
+        List<TaskBo> oldTasks = new ArrayList<TaskBo>();
+        oldTasks.addAll(oldWorkArea.getTasks());
+        oldMaintainableObject.setTasks(oldTasks);
+
+        List<WorkAreaPrincipalRoleMemberBo> oldPrinicipalMembers = new ArrayList<WorkAreaPrincipalRoleMemberBo>();
+        oldPrinicipalMembers.addAll(oldWorkArea.getPrincipalRoleMembers());
+        oldMaintainableObject.setPrincipalRoleMembers(oldPrinicipalMembers);
+
+        List<WorkAreaPrincipalRoleMemberBo> oldInactivePrincipalMembers = new ArrayList<WorkAreaPrincipalRoleMemberBo>();
+        oldInactivePrincipalMembers.addAll(oldWorkArea.getInactivePrincipalRoleMembers());
+        oldMaintainableObject.setInactivePrincipalRoleMembers(oldInactivePrincipalMembers);
         
-        oldMaintainableObject.setTasks(oldWorkArea.getTasks());
-        oldMaintainableObject.setPrincipalRoleMembers(oldWorkArea.getPrincipalRoleMembers());
-        oldMaintainableObject.setInactivePrincipalRoleMembers(oldWorkArea.getInactivePrincipalRoleMembers());
-        oldMaintainableObject.setPositionRoleMembers(oldWorkArea.getPositionRoleMembers());
-        oldMaintainableObject.setInactivePositionRoleMembers(oldWorkArea.getInactivePositionRoleMembers());
+        List<WorkAreaPositionRoleMemberBo> oldPositionMembers = new ArrayList<WorkAreaPositionRoleMemberBo>();
+        oldPositionMembers.addAll(oldWorkArea.getPositionRoleMembers());
+        oldMaintainableObject.setPositionRoleMembers(oldPositionMembers);
+        
+        List<WorkAreaPositionRoleMemberBo> oldInactivePositionMembers = new ArrayList<WorkAreaPositionRoleMemberBo>();
+        oldInactivePositionMembers.addAll(oldWorkArea.getInactivePositionRoleMembers());
+        oldMaintainableObject.setInactivePositionRoleMembers(oldInactivePositionMembers);
         
         WorkAreaBo newWorkArea = newMaintainableObject;
         if(StringUtils.isNotBlank(newMaintainableObject.getTkWorkAreaId())) {
@@ -113,11 +127,25 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         } else {
         	newWorkArea = HrServiceLocatorInternal.getWorkAreaInternalService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveLocalDate());
         }
-        newMaintainableObject.setTasks(newWorkArea.getTasks());
-        newMaintainableObject.setPrincipalRoleMembers(newWorkArea.getPrincipalRoleMembers());
-        newMaintainableObject.setInactivePrincipalRoleMembers(newWorkArea.getInactivePrincipalRoleMembers());
-        newMaintainableObject.setPositionRoleMembers(newWorkArea.getPositionRoleMembers());
-        newMaintainableObject.setInactivePositionRoleMembers(newWorkArea.getInactivePositionRoleMembers());
+        List<TaskBo> newTasks = new ArrayList<TaskBo>();
+        newTasks.addAll(newWorkArea.getTasks());
+        newMaintainableObject.setTasks(newTasks);
+
+        List<WorkAreaPrincipalRoleMemberBo> newPrinicipalMembers = new ArrayList<WorkAreaPrincipalRoleMemberBo>();
+        newPrinicipalMembers.addAll(newWorkArea.getPrincipalRoleMembers());
+        newMaintainableObject.setPrincipalRoleMembers(newPrinicipalMembers);
+
+        List<WorkAreaPrincipalRoleMemberBo> newInactivePrincipalMembers = new ArrayList<WorkAreaPrincipalRoleMemberBo>();
+        newInactivePrincipalMembers.addAll(newWorkArea.getInactivePrincipalRoleMembers());
+        newMaintainableObject.setInactivePrincipalRoleMembers(newInactivePrincipalMembers);
+
+        List<WorkAreaPositionRoleMemberBo> newPositionMembers = new ArrayList<WorkAreaPositionRoleMemberBo>();
+        newPositionMembers.addAll(newWorkArea.getPositionRoleMembers());
+        newMaintainableObject.setPositionRoleMembers(newPositionMembers);
+
+        List<WorkAreaPositionRoleMemberBo> newInactivePositionMembers = new ArrayList<WorkAreaPositionRoleMemberBo>();
+        newInactivePositionMembers.addAll(newWorkArea.getInactivePositionRoleMembers());
+        newMaintainableObject.setInactivePositionRoleMembers(newInactivePositionMembers);
         
         super.processAfterEdit(document, requestParameters);
     }

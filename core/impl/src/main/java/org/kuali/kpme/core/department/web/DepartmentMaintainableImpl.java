@@ -30,6 +30,7 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.HrServiceLocatorInternal;
+import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -60,9 +61,15 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         } else {
         	oldDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(oldMaintainableObject.getDept(), oldMaintainableObject.getEffectiveLocalDate());
         }
+
+        //KPME-3312: reinitiate all collection lists so old and new collections are unique
+        List<DepartmentPrincipalRoleMemberBo> oldRoleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();
+        oldRoleMembers.addAll(oldDepartment.getRoleMembers());
+        oldMaintainableObject.setRoleMembers(oldRoleMembers);
         
-        oldMaintainableObject.setRoleMembers(oldDepartment.getRoleMembers());
-        oldMaintainableObject.setInactiveRoleMembers(oldDepartment.getInactiveRoleMembers());
+        List<DepartmentPrincipalRoleMemberBo> oldInactiveRoleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();
+        oldInactiveRoleMembers.addAll(oldDepartment.getInactiveRoleMembers());
+        oldMaintainableObject.setInactiveRoleMembers(oldInactiveRoleMembers);
         
         DepartmentBo newDepartment = newMaintainableObject;
         if(StringUtils.isNotBlank(newMaintainableObject.getHrDeptId())) {
@@ -71,9 +78,14 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         	newDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(newMaintainableObject.getDept(), newMaintainableObject.getEffectiveLocalDate());
         }
         
-        newMaintainableObject.setRoleMembers(newDepartment.getRoleMembers());
-        newMaintainableObject.setInactiveRoleMembers(newDepartment.getInactiveRoleMembers());
-        
+        List<DepartmentPrincipalRoleMemberBo> newRoleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();
+        newRoleMembers.addAll(newDepartment.getRoleMembers());
+        newMaintainableObject.setRoleMembers(newRoleMembers);
+
+        List<DepartmentPrincipalRoleMemberBo> newInactiveRoleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();
+        newInactiveRoleMembers.addAll(newDepartment.getInactiveRoleMembers());
+        newMaintainableObject.setInactiveRoleMembers(newInactiveRoleMembers);
+
         super.processAfterEdit(document, requestParameters);
     }
 
