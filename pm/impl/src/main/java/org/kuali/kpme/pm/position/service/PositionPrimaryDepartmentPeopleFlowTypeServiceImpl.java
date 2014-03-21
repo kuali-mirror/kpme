@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.position.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.document.Document;
@@ -62,8 +62,8 @@ public class PositionPrimaryDepartmentPeopleFlowTypeServiceImpl extends DataDict
                 org.kuali.rice.krad.document.Document doc = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
                 if (doc instanceof MaintenanceDocument) {
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
-                    if (md.getNewMaintainableObject().getDataObject() instanceof Position) {
-                        Position position = (Position)(md.getNewMaintainableObject().getDataObject());
+                    if (md.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
+                        PositionBo position = (PositionBo)(md.getNewMaintainableObject().getDataObject());
 
                         deptQualifiers.add(
                             Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(position.getPrimaryDepartment())));
@@ -71,9 +71,9 @@ public class PositionPrimaryDepartmentPeopleFlowTypeServiceImpl extends DataDict
                     }
                 } else {
                     // If doc itself is instance of Position
-                    if (doc instanceof Position) {
+                    if (doc instanceof PositionBo) {
                             deptQualifiers.add(
-                                    Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ((Position)doc).getPrimaryDepartment())
+                                    Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ((PositionBo)doc).getPrimaryDepartment())
                             );
                     }
                 }

@@ -24,26 +24,26 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionDao {
 
 	@Override
-	public Position getPosition(String id) {
+	public PositionBo getPosition(String id) {
 		 Criteria crit = new Criteria();
         crit.addEqualTo("hrPositionId", id);
 
-        Query query = QueryFactory.newQuery(Position.class, crit);
-        return (Position) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionBo.class, crit);
+        return (PositionBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 	@Override
-	public List<Position> getPositions(String positionNum, String description, String location,
+	public List<PositionBo> getPositions(String positionNum, String description, String location,
             String institution, String classificationTitle, String positionType, String poolEligible, String positionStatus,
 			LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {
-		List<Position> results = new ArrayList<Position>();
+		List<PositionBo> results = new ArrayList<PositionBo>();
 	        
     	Criteria root = new Criteria();
 
@@ -103,12 +103,12 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Position.class, effectiveDateFilter, Position.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Position.class, Position.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PositionBo.class, effectiveDateFilter, PositionBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBo.class, PositionBo.BUSINESS_KEYS, false));
         }
 
 
-        Query query = QueryFactory.newQuery(Position.class, root);
+        Query query = QueryFactory.newQuery(PositionBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;

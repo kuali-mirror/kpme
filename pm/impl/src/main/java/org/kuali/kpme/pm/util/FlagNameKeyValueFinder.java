@@ -26,7 +26,7 @@ import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.flag.Flag;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -106,7 +106,7 @@ public class FlagNameKeyValueFinder extends UifKeyValuesFinderBase {
 				ClassificationFlag classFlag = (ClassificationFlag)flagList.get(index);
 				category = classFlag.getCategory();
 			} else {
-				Position aPosition = (Position)anHrObject;
+				PositionBo aPosition = (PositionBo)anHrObject;
 				List<PstnFlag> flagList = aPosition.getFlagList(); // holds "added" lines
 				PstnFlag posFlag = (PstnFlag)flagList.get(index);
 				category = posFlag.getCategory();

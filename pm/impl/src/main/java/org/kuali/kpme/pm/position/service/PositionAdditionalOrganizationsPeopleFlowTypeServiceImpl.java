@@ -20,7 +20,7 @@ import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
@@ -49,8 +49,8 @@ public class PositionAdditionalOrganizationsPeopleFlowTypeServiceImpl extends Da
                 org.kuali.rice.krad.document.Document doc = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
                 if (doc instanceof MaintenanceDocument) {
                     MaintenanceDocument md = (MaintenanceDocument) doc;
-                    if (md.getNewMaintainableObject().getDataObject() instanceof Position) {
-                        Position position = (Position) (md.getNewMaintainableObject().getDataObject());
+                    if (md.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
+                        PositionBo position = (PositionBo) (md.getNewMaintainableObject().getDataObject());
 
                         for (PositionDepartment positionDepartment : position.getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
@@ -62,10 +62,10 @@ public class PositionAdditionalOrganizationsPeopleFlowTypeServiceImpl extends Da
                     }
                 } else {
                     // If doc itself is instance of Position
-                    if (doc instanceof Position) {
-                        for (PositionDepartment positionDepartment : ((Position)doc).getDepartmentList()) {
+                    if (doc instanceof PositionBo) {
+                        for (PositionDepartment positionDepartment : ((PositionBo)doc).getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
-                                Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(),((Position)doc).getEffectiveLocalDate());
+                                Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(),((PositionBo)doc).getEffectiveLocalDate());
                                 orgQualifiers.add(
                                         Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), String.valueOf(deptObj.getOrg())));
                             }

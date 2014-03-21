@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -50,8 +50,8 @@ public class PositionController extends MaintenanceDocumentController {
     	
     	if(KRADConstants.MAINTENANCE_EDIT_ACTION.equals(maintenanceAction)) {
     		 MaintenanceDocument document = form.getDocument();
-			 Position oldPosition = (Position) document.getOldMaintainableObject().getDataObject();
-			 Position newPosition = (Position) document.getNewMaintainableObject().getDataObject();
+			 PositionBo oldPosition = (PositionBo) document.getOldMaintainableObject().getDataObject();
+			 PositionBo newPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
 			 
     		 Map<String, String[]> aMap = request.getParameterMap();
     		 String[] aStringCol = aMap.get("category");

@@ -24,9 +24,9 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.position.PositionBase;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
@@ -41,13 +41,12 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import com.google.common.collect.ImmutableList;
 import org.kuali.rice.core.api.util.Truth;
 
-public class Position extends PositionBase implements PositionContract {
+public class PositionBo extends PositionBase implements PositionContract {
 	private static final long serialVersionUID = 1L;
 	
-    public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Position";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
-            .add(PositionBase.CACHE_NAME)
-            .add(Position.CACHE_NAME)
+            .add(PositionBaseContract.CACHE_NAME)
+            .add(PositionContract.CACHE_NAME)
             .build();
 	
 	private List<PositionQualification> qualificationList = new LinkedList<PositionQualification>();

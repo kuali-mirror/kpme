@@ -31,7 +31,6 @@ public class PositionBase extends HrBusinessObject implements PositionBaseContra
             .add(POSITION_NUMBER)
             .build();
 
-	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PositionBase";
 	
 	private String hrPositionId;
 	private String positionNumber;

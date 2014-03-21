@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.api.position.service.PositionService;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.dao.PositionDao;
 
 public class PositionServiceImpl implements PositionService {
@@ -27,11 +27,11 @@ public class PositionServiceImpl implements PositionService {
 	private PositionDao positionDao;
 	
 	@Override
-	public Position getPosition(String id) {
+	public PositionBo getPosition(String id) {
 		return positionDao.getPosition(id);
 	}
 	@Override
-	public List<Position> getPositions(String positionNum, String description,
+	public List<PositionBo> getPositions(String positionNum, String description,
             String location, String institution, String classificationTitle, String positionType,
             String poolEligible, String positionStatus, LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {

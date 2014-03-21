@@ -24,7 +24,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -120,7 +120,7 @@ public class FlagCategoryKeyValueFinder extends UifKeyValuesFinderBase {
 				}	
 				
 			} else {
-				Position aClass = (Position)anHrObject;		
+				PositionBo aClass = (PositionBo)anHrObject;		
 				List<PstnFlag> existingFlagList = aClass.getFlagList(); // holds a list of flags that exist on the document 		
 				if (CollectionUtils.isNotEmpty(existingFlagList)) {
 					for (PstnFlag aFlag : existingFlagList) {

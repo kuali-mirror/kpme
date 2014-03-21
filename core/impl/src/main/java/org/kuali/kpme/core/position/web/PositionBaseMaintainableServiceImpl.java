@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.position.web;
 
+import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
@@ -59,7 +60,7 @@ public class PositionBaseMaintainableServiceImpl extends HrBusinessObjectMaintai
         }
         
         KRADServiceLocator.getBusinessObjectService().save(position);
-        CacheUtils.flushCache(PositionBase.CACHE_NAME);
+        CacheUtils.flushCache(PositionBaseContract.CACHE_NAME);
     }
     
     @Override

@@ -82,7 +82,7 @@ public class PositionQualifierKeyValueFinder extends UifKeyValuesFinderBase{
 			int line_index = fieldId.indexOf("line");
 			int index = Integer.parseInt(fieldId.substring(line_index+4));
 			
-			Position aPosition = (Position)anHrObject;
+			PositionBo aPosition = (PositionBo)anHrObject;
 			List<PositionQualification> qualificationList = aPosition.getQualificationList(); // holds "added" lines
 			PositionQualification posQualification = (PositionQualification)qualificationList.get(index);
 			String aTypeId = posQualification.getQualificationType();

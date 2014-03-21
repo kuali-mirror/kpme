@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.position.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.document.Document;
@@ -62,8 +62,8 @@ public class PositionPreviousDepartmentPeopleFlowTypeServiceImpl extends DataDic
                 org.kuali.rice.krad.document.Document doc = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
                 if (doc instanceof MaintenanceDocument) {
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
-                    if (md.getOldMaintainableObject().getDataObject() instanceof Position) {
-                        Position position = (Position)(md.getOldMaintainableObject().getDataObject());
+                    if (md.getOldMaintainableObject().getDataObject() instanceof PositionBo) {
+                        PositionBo position = (PositionBo)(md.getOldMaintainableObject().getDataObject());
 
                         deptQualifiers.add(
                             Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(position.getPrimaryDepartment())));

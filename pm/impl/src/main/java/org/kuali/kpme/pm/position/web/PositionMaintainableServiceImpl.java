@@ -30,7 +30,7 @@ import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDuty;
 import org.kuali.kpme.pm.position.PositionQualification;
 import org.kuali.kpme.pm.position.PstnFlag;
@@ -63,7 +63,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj){
-		Position aPosition = (Position) hrObj;
+		PositionBo aPosition = (PositionBo) hrObj;
 		for(PositionQualification aQual : aPosition.getQualificationList()) {
 			aQual.setHrPositionId(aPosition.getHrPositionId());
 			aQual.setPmQualificationId(null);
@@ -114,8 +114,8 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         if (model instanceof MaintenanceDocumentForm) {
 	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
 	        MaintenanceDocument document = maintenanceForm.getDocument();
-	        if (document.getNewMaintainableObject().getDataObject() instanceof Position) {
-	        	Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
+	        if (document.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
+	        	PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
 	        	// Duty line validation
 		        if (addLine instanceof PositionDuty) {
 		        	PositionDuty pd = (PositionDuty) addLine;
@@ -138,7 +138,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         return isValid;
     }
 	
-	private boolean validateDutyListPercentage(PositionDuty pd, Position aPosition) {
+	private boolean validateDutyListPercentage(PositionDuty pd, PositionBo aPosition) {
 		if(CollectionUtils.isNotEmpty(aPosition.getDutyList()) && pd.getPercentage() != null) {
 			BigDecimal sum = pd.getPercentage();
 			for(PositionDuty aDuty : aPosition.getDutyList()) {
@@ -154,7 +154,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 		return true;
 	}
 	
-	protected boolean validateAddFundingLine(PositionFunding pf, Position aPosition) {
+	protected boolean validateAddFundingLine(PositionFunding pf, PositionBo aPosition) {
     	if(StringUtils.isNotEmpty(pf.getAccount())) {
     		boolean results = ValidationUtils.validateAccount(pf.getChart(), pf.getAccount());
     		if(!results) {
@@ -201,7 +201,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
     }
 	@Override 
 	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
+        PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
         aPosition.setProcess("New");
 
         document.getDocumentHeader().setDocumentDescription("New Position");
@@ -210,7 +210,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	
 	@Override
 	public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-        Position aPosition = (Position) document.getNewMaintainableObject().getDataObject();
+        PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
         aPosition.setProcess("New");
         aPosition.setPositionNumber(null);
 
@@ -228,7 +228,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
     public void doRouteStatusChange(DocumentHeader documentHeader) {
 
 		String docDescription = null;
-		Position position = (Position)this.getDataObject();
+		PositionBo position = (PositionBo)this.getDataObject();
 		DocumentStatus documentStatus = documentHeader.getWorkflowDocument().getStatus();
 	
 		//Set document description for real here
@@ -254,7 +254,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
     //KPME-2624 added logic to save current logged in user to UserPrincipal id for collections
     @Override
     public void prepareForSave() {
-    	Position position = (Position)this.getDataObject();
+    	PositionBo position = (PositionBo)this.getDataObject();
         boolean hasPrimaryDepartment = false;
         for (PositionDepartment positionDepartment : position.getDepartmentList()) {
             if (positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
@@ -279,8 +279,8 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         //add note if enroute change occurs
             try {
                 MaintenanceDocument maintenanceDocument = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(this.getDocumentNumber());
-                if (maintenanceDocument != null && maintenanceDocument.getNewMaintainableObject().getDataObject() instanceof Position) {
-                    Position previousPosition = (Position) maintenanceDocument.getNewMaintainableObject().getDataObject();
+                if (maintenanceDocument != null && maintenanceDocument.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
+                    PositionBo previousPosition = (PositionBo) maintenanceDocument.getNewMaintainableObject().getDataObject();
                     recordEnrouteChanges(previousPosition,maintenanceDocument.getNoteTarget().getObjectId());
                 }
             } catch (Exception e) {
@@ -292,20 +292,20 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 
     }
 
-    private void recordEnrouteChanges(Position previousPosition, String noteTarget) {
+    private void recordEnrouteChanges(PositionBo previousPosition, String noteTarget) {
         //List of fields on the position class not to compare
         List<String> noCompareFields = new ArrayList<String>();
         noCompareFields.add("process");
         noCompareFields.add("requiredQualList");
 
         List<Note> noteList = new ArrayList<Note>();
-        Position currentPosition = (Position) this.getDataObject();
+        PositionBo currentPosition = (PositionBo) this.getDataObject();
 
         EntityNamePrincipalName approver = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(currentPosition.getUserPrincipalId());
 
         //compare all fields on position
         try {
-            for (PropertyDescriptor pd : Introspector.getBeanInfo(Position.class).getPropertyDescriptors()) {
+            for (PropertyDescriptor pd : Introspector.getBeanInfo(PositionBo.class).getPropertyDescriptors()) {
 
                 if (pd.getReadMethod() != null && !noCompareFields.contains(pd.getName())) {
                     try {

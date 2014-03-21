@@ -22,7 +22,7 @@
 
 	<bean id="Position" parent="Position-parentBean" />
 	<bean id="Position-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.Position" />
+		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionBo" />
 		<property name="objectLabel" value="Position" />
 		<property name="lookupDefinition">
 			<ref bean="Position-lookupDefinition" />
@@ -482,7 +482,7 @@
     <!-- Position Inquiry View -->
     <bean id="Position-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Position Maintenance"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.position.PositionBo"/>
         <property name="items">
             <list>
                 <ref bean="Position-OverviewInquiryPage"/>
@@ -817,7 +817,7 @@
 	<bean id="Position-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
 		<!-- p:maintenanceUrlMapping="positionMaintenance"> -->
 		<property name="headerText" value="Position Lookup" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.PositionBo" />
 		<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionLookupableImpl"/>
 		<property name="criteriaFields">
 			<list>
@@ -870,7 +870,7 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="positionNumber">
 					<property name="inquiry">
-						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.position.Position"
+						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.position.PositionBo"
 							p:inquiryParameters="hrPositionId:hrPositionId" />
 					</property>
 				</bean>

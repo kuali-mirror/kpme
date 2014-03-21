@@ -24,7 +24,7 @@ import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -53,7 +53,7 @@ public class ProcessKeyValueFinder extends UifKeyValuesFinderBase {
 	public List<KeyValue> getKeyValues(ViewModel model) {
 		List<KeyValue> options = new ArrayList<KeyValue>();
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model; 
-		Position aPosition = (Position) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		PositionBo aPosition = (PositionBo) docForm.getDocument().getNewMaintainableObject().getDataObject();
 
 		if(aPosition.getPositionNumber() != null) {
 			options = this.getKeyValues();

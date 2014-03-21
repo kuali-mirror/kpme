@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.workflow.krms;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.krms.KpmeKrmsFactBuilderServiceHelper;
 import org.kuali.kpme.pm.api.common.krms.PmKrmsConstants;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -46,8 +46,8 @@ public class PMFactBuilderServiceImpl extends KpmeKrmsFactBuilderServiceHelper {
         if (factObject != null && factObject instanceof MaintenanceDocument) {
             MaintenanceDocument document = (MaintenanceDocument) factObject;
 
-            if (document.getNewMaintainableObject().getDataObject() != null && document.getNewMaintainableObject().getDataObject() instanceof Position) {
-                Position newPosition = (Position) document.getNewMaintainableObject().getDataObject();
+            if (document.getNewMaintainableObject().getDataObject() != null && document.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
+                PositionBo newPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
 
                 PositionType positionType = (PositionType) PmServiceLocator.getPositionTypeService().getPositionType(newPosition.getPositionType(),newPosition.getEffectiveLocalDate());
 
@@ -55,7 +55,7 @@ public class PMFactBuilderServiceImpl extends KpmeKrmsFactBuilderServiceHelper {
                 factsBuilder.addFact(new Term("positionProcess"), newPosition.getProcess());
 
                 if (document.isOldDataObjectInDocument()) {
-                    Position oldPosition = (Position) document.getOldMaintainableObject().getDataObject();
+                    PositionBo oldPosition = (PositionBo) document.getOldMaintainableObject().getDataObject();
                     if (newPosition.getPrimaryDepartment().equals(oldPosition.getPrimaryDepartment())) {
                         factsBuilder.addFact(new Term("primaryDepartmentChanged"), Boolean.FALSE);
                     } else {

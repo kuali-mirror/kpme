@@ -22,7 +22,7 @@ import org.apache.cxf.common.util.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -46,7 +46,7 @@ public class LocationKeyValueFinder extends UifKeyValuesFinderBase {
 		
 		if (aDate != null) {
 			String institution = null;
-			Position aClass = (Position)anHrObject;
+			PositionBo aClass = (PositionBo)anHrObject;
 			if (field.getId().contains("add") || field.getId().contains("line")) {  // gets called on Additinal Departments Page
 				
 				if (field.getId().contains("add")) {

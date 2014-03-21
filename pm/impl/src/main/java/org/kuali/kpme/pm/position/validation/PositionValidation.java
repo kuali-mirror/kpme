@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.PMConstants;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDuty;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
@@ -35,8 +35,8 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position");
-		Position aPosition = (Position) this.getNewDataObject();
-        Position oldPosition = (Position) this.getOldDataObject();
+		PositionBo aPosition = (PositionBo) this.getNewDataObject();
+        PositionBo oldPosition = (PositionBo) this.getOldDataObject();
 
 		if (aPosition != null) {
 			valid = true;
@@ -49,7 +49,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	private boolean validateDutyListPercentage(Position aPosition) {
+	private boolean validateDutyListPercentage(PositionBo aPosition) {
 		if (CollectionUtils.isNotEmpty(aPosition.getDutyList())) {
 			BigDecimal sum = BigDecimal.ZERO;
 			for (PositionDuty aDuty : aPosition.getDutyList()) {
@@ -70,7 +70,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 	// KPME-3016  
 	// Now each section is its own page that if you want to show errors globally, you have to catch them globally
-	private boolean validateOverviewPage(Position aPosition) {
+	private boolean validateOverviewPage(PositionBo aPosition) {
 
 		// required fields
 		if (aPosition.getEffectiveDate() == null
@@ -130,7 +130,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	private boolean validateClassificationPage(Position aPosition) {
+	private boolean validateClassificationPage(PositionBo aPosition) {
 
 		if (StringUtils.isEmpty(aPosition.getPmPositionClassId())
 				|| StringUtils.isEmpty(aPosition.getTenureEligible())
@@ -151,7 +151,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	private boolean validatePrimaryDepartment(Position aPosition) {
+	private boolean validatePrimaryDepartment(PositionBo aPosition) {
 
 		if (CollectionUtils.isNotEmpty(aPosition.getDepartmentList())) {
 			for (PositionDepartment aDepartment : aPosition.getDepartmentList()) {
@@ -168,7 +168,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return false;
 	}
 
-    private boolean validateProcess(Position newPosition, Position oldPosition) {
+    private boolean validateProcess(PositionBo newPosition, PositionBo oldPosition) {
         String process = newPosition.getProcess();
             if (StringUtils.equals(process, PMConstants.PSTN_PROCESS_REORG)) {
 

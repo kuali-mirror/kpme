@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
@@ -28,7 +29,9 @@ import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContra
 
 public interface PositionContract extends PositionBaseContract {
 
-    /**
+    public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Position";
+
+	/**
      * The Position Duty List
      *
      * <p>

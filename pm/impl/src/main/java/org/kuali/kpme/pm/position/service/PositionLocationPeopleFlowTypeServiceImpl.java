@@ -21,7 +21,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.document.Document;
@@ -64,17 +64,17 @@ public class PositionLocationPeopleFlowTypeServiceImpl extends DataDictionaryPeo
                 org.kuali.rice.krad.document.Document doc = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
                 if (doc instanceof MaintenanceDocument) {
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
-                    if (md.getNewMaintainableObject().getDataObject() instanceof Position) {
-                        Position position = (Position)(md.getNewMaintainableObject().getDataObject());
+                    if (md.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
+                        PositionBo position = (PositionBo)(md.getNewMaintainableObject().getDataObject());
                         locationQualifiers.add(
                             Collections.singletonMap(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), String.valueOf(position.getLocation())));
 
                     }
                 } else {
                     // If doc itself is instance of position
-                    if (doc instanceof Position) {
+                    if (doc instanceof PositionBo) {
                         locationQualifiers.add(
-                                Collections.singletonMap(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), String.valueOf(((Position)doc).getLocation())));
+                                Collections.singletonMap(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), String.valueOf(((PositionBo)doc).getLocation())));
                     }
                 }
             } catch (WorkflowException e) {

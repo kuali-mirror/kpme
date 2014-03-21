@@ -27,7 +27,7 @@
 
 <bean id="PositionMaintenanceDocument" parent="PositionMaintenanceDocument-parentBean" />
 	<bean id="PositionMaintenanceDocument-parentBean" abstract="true"
-		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.pm.position.Position"
+		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.pm.position.PositionBo"
 		p:businessRulesClass="org.kuali.kpme.pm.position.validation.PositionValidation">
 		<property name="maintainableClass"
 			value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl" />
@@ -46,7 +46,7 @@
 	<bean id="PositionMaintenanceDocument-PositionMaintenance-parentBean"
 		abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView" >
 		<property name="headerText" value="Position Maintenance" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.Position" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.PositionBo" />
 		<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl" />
 		<property name="items">
 			<list>
@@ -458,7 +458,7 @@
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.position.Position" 
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.position.PositionBo" 
 						      p:fieldConversions="positionNumber:reportsToPositionId" 
 						      p:lookupParameters="location:location,institution:institution" />
 					</property>
@@ -466,7 +466,7 @@
                               value="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
                     </property>
                     <property name="attributeQuery">
-	            		<bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.kpme.pm.position.Position"
+	            		<bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.kpme.pm.position.PositionBo"
 	                  		p:queryFieldMapping="reportsToPositionId:positionNumber" p:returnFieldMapping="description:reportsToWorkingTitle"/>
 	        		</property>
 				</bean>

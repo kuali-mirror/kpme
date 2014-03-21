@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.position.service;
 
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.pm.position.Position;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
@@ -47,8 +47,8 @@ public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends Data
                 org.kuali.rice.krad.document.Document doc = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
                 if (doc instanceof MaintenanceDocument) {
                     MaintenanceDocument md = (MaintenanceDocument) doc;
-                    if (md.getNewMaintainableObject().getDataObject() instanceof Position) {
-                        Position position = (Position) (md.getNewMaintainableObject().getDataObject());
+                    if (md.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
+                        PositionBo position = (PositionBo) (md.getNewMaintainableObject().getDataObject());
 
                         for (PositionDepartment positionDepartment : position.getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
@@ -59,8 +59,8 @@ public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends Data
                     }
                 } else {
                     // If doc itself is instance of Position
-                    if (doc instanceof Position) {
-                        for (PositionDepartment positionDepartment : ((Position)doc).getDepartmentList()) {
+                    if (doc instanceof PositionBo) {
+                        for (PositionDepartment positionDepartment : ((PositionBo)doc).getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                                 deptQualifiers.add(
                                         Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getDepartment())));
