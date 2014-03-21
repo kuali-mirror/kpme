@@ -74,16 +74,20 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 		// required fields
 		if (aPosition.getEffectiveDate() == null
-				|| StringUtils.isEmpty(aPosition.getDescription())
+                || StringUtils.isEmpty(aPosition.getInstitution())
+                || StringUtils.isEmpty(aPosition.getLocation())
+                || StringUtils.isEmpty(aPosition.getPrimaryDepartment())
+                || StringUtils.isEmpty(aPosition.getPositionClass())
+                || StringUtils.isEmpty(aPosition.getDescription())
 				|| StringUtils.isEmpty(aPosition.getPositionStatus())
 				|| StringUtils.isEmpty(aPosition.getAppointmentType())
 				|| StringUtils.isEmpty(aPosition.getTemporary())
 				|| StringUtils.isEmpty(aPosition.getContract())) {
 
-			this.putFieldError("dataObject.positionNumber", "error.overview.fields.required");
+			this.putGlobalError("error.overview.fields.required");
 			return false;
 		}
-		
+
 		// validate appointment type
 		if (!StringUtils.isEmpty(aPosition.getAppointmentType())) {
 			List <PositionDepartment> depts = aPosition.getDepartmentList();

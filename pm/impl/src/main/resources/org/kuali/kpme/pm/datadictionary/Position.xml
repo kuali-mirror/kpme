@@ -117,6 +117,12 @@
 
 	<!-- Attribute Definitions -->
 
+    <!--KPME-3315: Overriding effective date attribute definition to turn off server side required validation of the
+    effective date and let the business rules class handle required validation, client side effective date validation will still occur.-->
+    <bean id="KPMEHrBusinessObjectParent-effectiveDate" parent="KPMEHrBusinessObjectParent-effectiveDate-parentBean">
+        <property name="required" value="false"/>
+    </bean>
+
 	<bean id="Position-hrPositionId" parent="Position-hrPositionId-parentBean" />
 	<bean id="Position-hrPositionId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -1192,7 +1198,7 @@
         </property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="institution" id="position_department_institution"
+				<bean parent="Uif-InputField" p:required="true" p:propertyName="institution" id="position_department_institution"
                         p:onDocumentReadyScript="jQuery('#position_department_institution_add_control').val('@{#dp.institution}');">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
@@ -1201,7 +1207,7 @@
 						<bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:propertyName="location" id="position_department_location"
+				<bean parent="Uif-InputField" p:required="true" p:propertyName="location" id="position_department_location"
                       p:onDocumentReadyScript="jQuery('#position_department_location_add_control').val('@{#dp.location}');"
                       p:refreshWhenChangedPropertyNames="#lp.institution" >
 					<property name="control">

@@ -267,7 +267,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         }
 
         //create primary department
-        if (!hasPrimaryDepartment) {
+        if (!hasPrimaryDepartment && StringUtils.isNotEmpty(position.getPrimaryDepartment())) {
             PositionDepartment primaryDepartment = new PositionDepartment();
             primaryDepartment.setDepartment(position.getPrimaryDepartment());
             primaryDepartment.setLocation(position.getLocation());

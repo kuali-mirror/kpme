@@ -52,12 +52,12 @@
 	 
 	<bean id="PositionDepartment-institution" parent="PositionDepartment-institution-parentBean" />
 	<bean id="PositionDepartment-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
-		<property name="required" value="true" />
+		<property name="required" value="false" /><!-- KPME-3315: set to false to turn of server side required validation -->
 	</bean>
 	
 	<bean id="PositionDepartment-location" parent="PositionDepartment-location-parentBean" />
 	<bean id="PositionDepartment-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
-		<property name="required" value="true" />
+        <property name="required" value="false" /> <!--KPME-3315: set to false to turn of server side required validation -->
 	</bean>
 	
 	<bean id="PositionDepartment-department" parent="PositionDepartment-department-parentBean" />
