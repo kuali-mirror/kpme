@@ -93,7 +93,7 @@
 			            </property>        
 			        </bean>
 			       	<bean parent="Uif-InputField" p:propertyName="primaryAssign" p:defaultValue="false" />
-			        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true" />
+			        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
 	            </list>
 	          </property>
 	        </bean>

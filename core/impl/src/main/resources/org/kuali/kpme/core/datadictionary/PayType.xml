@@ -390,7 +390,7 @@
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="flsaStatus" p:defaultValue="NE" p:required="true" />
 		       	<bean parent="Uif-InputField" p:propertyName="payFrequency" p:defaultValue="M" p:required="true"  />
-		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true" />
+		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
             </list>
           </property>
         </bean>

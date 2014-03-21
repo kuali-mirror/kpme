@@ -130,8 +130,7 @@
                             <bean parent="Uif-InputField" p:propertyName="eligibleForLeave" />
                             <bean parent="Uif-InputField" p:propertyName="primaryIndicator" />
                             <bean parent="Uif-InputField" p:propertyName="flsaStatus" p:required="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"
-                                  p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
                         </list>
                     </property>
                 </bean>

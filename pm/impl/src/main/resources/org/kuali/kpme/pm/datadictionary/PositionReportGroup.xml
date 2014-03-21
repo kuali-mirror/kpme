@@ -191,7 +191,7 @@
                       <bean parent="Uif-InputField" p:propertyName="positionReportGroup" p:required="true"/>
                       <bean parent="Uif-InputField" p:propertyName="institution" p:required="true"/>
                       <bean parent="Uif-InputField" p:propertyName="location" p:required="true" />
-                      <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true"/>
+                      <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
                   </list>
                  </property>
               </bean>

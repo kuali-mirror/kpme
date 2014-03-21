@@ -72,7 +72,7 @@
 	                     -->
        			   </bean>
    				   <bean parent="Uif-InputField" p:propertyName="recordMethod" 			p:required="true"/>
-				   <bean parent="Uif-InputField" p:propertyName="active"   				p:required="true" p:defaultValue="true"/>		
+				   <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>		
 	            </list>
 	          </property>
 	        </bean>

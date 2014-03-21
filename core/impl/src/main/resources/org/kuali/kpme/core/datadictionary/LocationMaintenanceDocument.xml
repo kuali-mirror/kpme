@@ -74,7 +74,7 @@
 								</property>
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="description" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
 						</list>
 					</property>
 				</bean>
