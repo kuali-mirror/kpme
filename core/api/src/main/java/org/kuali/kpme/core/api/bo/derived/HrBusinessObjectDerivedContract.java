@@ -19,8 +19,9 @@ import java.util.Date;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDerivedDataTransferObject;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public interface HrBusinessObjectDerivedContract extends KpmeEffectiveDerivedDataTransferObject {
+public interface HrBusinessObjectDerivedContract extends PersistableBusinessObject, KpmeEffectiveDerivedDataTransferObject {
 	
 	Date getEffectiveDateOfOwner();
 
