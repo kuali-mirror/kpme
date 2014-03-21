@@ -114,7 +114,19 @@
                                                 - ${thdr.hours} hours</a></div>
                                         </c:if>
                                         <c:if test="${thdr.title ne HrConstants.HOLIDAY_EARN_CODE}">
+                                        
+                                         <c:choose>
+                                           <c:when test="${thdr.overtimeEarnCode}">
+                                                <fmt:parseNumber var="ovtHours" type="number" value="${thdr.hours}" />
+                                                <c:if test="${ovtHours > 0}">
+                                                	${title} - ${thdr.hours} hours
+                                                </c:if>
+                                           </c:when>
+                                           <c:otherwise>
                                             ${title} - ${thdr.hours} hours
+                                           </c:otherwise>
+                                         </c:choose>  
+                                         
                                         </c:if>
                                     </c:when>
                                     <c:otherwise>

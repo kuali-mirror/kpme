@@ -150,13 +150,13 @@ LOG.info("in ClockLogServiceImpl.processTimeBlock");
 	        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, td.getAsOfDate(), td.getDocEndDate(), assignmentKeys);
 	
 	        //reset time block
-	        TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, td.getAsOfDate());
+	        List<TimeBlock> newTbs = TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, td.getAsOfDate());
 	
 	        //apply any rules for this action
-	        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, leaveBlocks, pe, td, principalId);
+	        newTbs = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTbs, leaveBlocks, pe, td, principalId);
 	
 	        //call persist method that only saves added/deleted/changed timeblocks
-	        TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, newTimeBlocks, userPrincipalId);
+	        TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, newTbs, userPrincipalId);
 	        
 LOG.info("in ClockLogServiceImpl.processTimeBlock, after saving time blocks, the size of the time blocks is " + newTimeBlocks.size()); 
     	}
