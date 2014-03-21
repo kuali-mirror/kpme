@@ -19,13 +19,13 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+@SuppressWarnings("deprecation")
 public class PositionBaseInquirableImpl extends KualiInquirableImpl {
 
 	private static final long serialVersionUID = 6232629850941402875L;
@@ -33,16 +33,16 @@ public class PositionBaseInquirableImpl extends KualiInquirableImpl {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		PositionBaseContract position = null;
+		PositionBase position = null;
 		
 		if (StringUtils.isNotBlank((String)fieldValues.get("hrPositionId"))) {
-            position = HrServiceLocator.getPositionService().getPosition((String) fieldValues.get("hrPositionId"));
+            position = (PositionBase) HrServiceLocator.getPositionService().getPosition((String) fieldValues.get("hrPositionId"));
 
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("positionNumber")) && StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String positionNumber = (String) fieldValues.get("positionNumber");
 			String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-		    position = HrServiceLocator.getPositionService().getPosition(positionNumber, effectiveDate);
+		    position = (PositionBase) HrServiceLocator.getPositionService().getPosition(positionNumber, effectiveDate);
 		} else {
 			position = (PositionBase) super.getBusinessObject(fieldValues);
 		}
