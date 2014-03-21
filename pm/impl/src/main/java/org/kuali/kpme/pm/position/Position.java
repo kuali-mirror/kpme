@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.position.PositionBase;
 import org.kuali.kpme.core.util.HrConstants;
@@ -501,5 +502,14 @@ public class Position extends PositionBase implements PositionContract {
 	public boolean isDisplayAdHocRecipients() {
         String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.position.display.adhocrecipients");
         return Truth.strToBooleanIgnoreCase(status, Boolean.FALSE);
+	}
+
+	@Override
+	public DateTime getExpectedEndDateTime() {
+		DateTime retVal = null;
+		if(getExpectedEndDate() != null) {
+			retVal = new DateTime(getExpectedEndDate());
+		}
+		return retVal;
 	}
 }

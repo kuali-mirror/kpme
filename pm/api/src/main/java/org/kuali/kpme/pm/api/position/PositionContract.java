@@ -17,9 +17,9 @@ package org.kuali.kpme.pm.api.position;
 
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
@@ -340,7 +340,7 @@ public interface PositionContract extends PositionBaseContract {
      *
      * @return expectedEndDate for Position
      */
-    public Date getExpectedEndDate();
+    public DateTime getExpectedEndDateTime();
     
     /**
      * The flag to indicate if a contract position or position with an expected end date is eligible for renewal 

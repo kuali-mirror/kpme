@@ -15,14 +15,14 @@
  */
 package org.kuali.kpme.core.api.position;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>PositionBaseContract interface.</p>
  *
  */
-public interface PositionBaseContract extends HrBusinessObjectContract {
+public interface PositionBaseContract extends KpmeEffectiveDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "PositionBase";
 	
