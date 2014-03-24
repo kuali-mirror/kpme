@@ -68,26 +68,6 @@
         <ref bean="CalendarEntry-batchPayrollApprovalDate"/>
         <ref bean="CalendarEntry-batchPayrollApprovalTime"/>
       </list>
-    </property>   
-    
-    <property name="relationships">
-  		<list>
-             <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="calendarObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                    <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarName" p:targetName="calendarName"/>
-                </list>
-              </property>
-              <!--<property name="supportAttributes">
-                <list>
-                    <bean parent="SupportAttributeDefinition" p:sourceName="hrCalendarId" p:targetName="hrCalendarId"/>
-                    <bean parent="SupportAttributeDefinition" p:sourceName="calendarTypes" p:targetName="calendarTypes"/>
-                </list>
-              </property>-->
-            </bean>
-
-    	</list>
     </property>
   </bean>
 
