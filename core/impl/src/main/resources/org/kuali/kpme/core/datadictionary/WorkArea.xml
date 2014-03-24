@@ -223,6 +223,7 @@
 	<bean id="WorkArea-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
 		<property name="headerText" value="Work Area Maintenance" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkAreaBo" />
+		<property name="viewHelperServiceClass" value="org.kuali.kpme.core.workarea.web.WorkAreaMaintainableImpl"/>
 		<property name="items">
 			<list merge="true">
 				<bean parent="Uif-MaintenanceGridSection">
@@ -260,24 +261,18 @@
 		</property>
 	</bean>
 	
-	<bean id="WorkArea-Tasks" parent="Uif-Disclosure-TableCollectionSection">
+	<bean id="WorkArea-Tasks" parent="Uif-MaintenanceStackedCollectionSection">
         <property name="headerText" value="Tasks"/>
         <property name="collectionObjectClass" value="org.kuali.kpme.core.task.TaskBo"/>
         <property name="propertyName" value="tasks"/>
-        <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="renderInactiveToggleButton" value="false"/>
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
-            </list>
-        </property>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.tkTaskId eq null}"/>
             </list>
         </property>
-        <property name="addLinePlacement" value="BOTTOM" />
+        <!-- <property name="addLinePlacement" value="BOTTOM" /> -->
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
@@ -289,19 +284,12 @@
         </property>
     </bean>
 	
-	<bean id="WorkArea-PrincipalRoleMembers" parent="Uif-Disclosure-TableCollectionSection">
+	<bean id="WorkArea-PrincipalRoleMembers" parent="Uif-MaintenanceStackedCollectionSection">
         <property name="headerText" value="Work Area Principal Role Members"/>
         <property name="collectionObjectClass" value="org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo"/>
         <property name="propertyName" value="principalRoleMembers"/>
-        <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="renderInactiveToggleButton" value="false"/>
-        <property name="addLinePlacement" value="BOTTOM" />
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
-            </list>
-        </property>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
@@ -323,13 +311,12 @@
         </property>
     </bean>
 
-    <bean id="WorkArea-InactivePrincipalRoleMembers" parent="Uif-Disclosure-TableCollectionSection" p:disclosure.defaultOpen="false" >
+    <bean id="WorkArea-InactivePrincipalRoleMembers" parent="Uif-MaintenanceStackedCollectionSection" p:disclosure.defaultOpen="false" >
         <property name="headerText" value="Inactive Principal Role Members"/>
         <property name="collectionObjectClass" value="org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo"/>
         <property name="propertyName" value="inactivePrincipalRoleMembers"/>
         <property name="renderLineActions" value="false"/>
         <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="header">
             <bean parent="Uif-SectionHeader" />
@@ -345,19 +332,12 @@
         </property>
     </bean>
     
-    <bean id="WorkArea-PositionRoleMembers" parent="Uif-Disclosure-TableCollectionSection">
+    <bean id="WorkArea-PositionRoleMembers" parent="Uif-MaintenanceStackedCollectionSection">
         <property name="headerText" value="Work Area Position Role Members"/>
         <property name="collectionObjectClass" value="org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo"/>
         <property name="propertyName" value="positionRoleMembers"/>
-        <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="renderInactiveToggleButton" value="false"/>
-        <property name="addLinePlacement" value="BOTTOM" />
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
-            </list>
-        </property>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
@@ -368,7 +348,7 @@
             	<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 				<bean parent="Uif-InputField" p:propertyName="positionNumber" p:required="true">
 				     <property name="quickfinder">
-                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.position.Position"
+                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.position.PositionBo"
                             p:fieldConversions="positionNumber:positionNumber"/>
                      </property>
                 </bean>  
@@ -378,13 +358,12 @@
         </property>
     </bean>
 
-    <bean id="WorkArea-InactivePositionRoleMembers" parent="Uif-Disclosure-TableCollectionSection" p:disclosure.defaultOpen="false" >
+    <bean id="WorkArea-InactivePositionRoleMembers" parent="Uif-MaintenanceStackedCollectionSection" p:disclosure.defaultOpen="false" >
         <property name="headerText" value="Inactive Position Role Members"/>
         <property name="collectionObjectClass" value="org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo"/>
         <property name="propertyName" value="inactivePositionRoleMembers"/>
         <property name="renderLineActions" value="false"/>
         <property name="renderAddLine" value="false"/>
-        <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>
         <property name="header">
             <bean parent="Uif-SectionHeader" />

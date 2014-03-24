@@ -207,7 +207,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 	protected boolean validateDefaultOvertimeEarnCode(String defaultOvertimeEarnCode, LocalDate asOfDate) {
 		boolean valid = true;
 		
-		if (defaultOvertimeEarnCode != null) {
+		if (defaultOvertimeEarnCode != null && !StringUtils.isEmpty(defaultOvertimeEarnCode)) {
 			if (!ValidationUtils.validateEarnCode(defaultOvertimeEarnCode, asOfDate)) {
 				this.putFieldError("defaultOvertimeEarnCode", "error.existence", "earnCode '" + defaultOvertimeEarnCode + "'");
 				valid = false;
