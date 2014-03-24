@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.classification.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
@@ -27,9 +28,12 @@ import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
-import org.kuali.kpme.pm.positionflag.PositionFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -103,5 +107,44 @@ public class ClassificationMaintainableImpl extends HrDataObjectMaintainableImpl
         }
         return isValid;
 	}
+	
+	@Override
+	public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        document.getDocumentHeader().setDocumentDescription("Edit Classifcation");
+        super.processAfterEdit(document, requestParameters);
+    }
+	@Override 
+	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        document.getDocumentHeader().setDocumentDescription("New Classifcation");
+		super.processAfterNew(document, requestParameters);
+	}
+	
+	@Override
+	public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
+        document.getDocumentHeader().setDocumentDescription("New Classifcation");
+		super.processAfterCopy(document, parameters);
+	}
+	
+	@Override
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+
+		Classification classification = (Classification)this.getDataObject();
+		DocumentStatus documentStatus = documentHeader.getWorkflowDocument().getStatus();
+	
+		//Set document description for real here
+		String docDescription = classification.getPositionClass() + ": " + classification.getClassificationTitle();
+
+		if (DocumentStatus.ENROUTE.equals(documentStatus)) {
+			try {
+				MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentHeader.getDocumentNumber());
+		        md.getDocumentHeader().setDocumentDescription(docDescription);
+		        md.getNewMaintainableObject().setDataObject(classification);
+		        KRADServiceLocatorWeb.getDocumentService().saveDocument(md);
+			} catch (WorkflowException e) {
+	            LOG.error("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+	            throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+	        }
+		}
+    }
 	
 }

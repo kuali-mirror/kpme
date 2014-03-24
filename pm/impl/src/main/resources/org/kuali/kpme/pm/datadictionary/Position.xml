@@ -64,10 +64,6 @@
 				<ref bean="Position-payStep" />
 			</list>
 		</property>
-		<property name="relationships">
-			<list>
-			</list>
-		</property>
 		<property name="collections">
 			<list>
 				<bean parent="CollectionDefinition">

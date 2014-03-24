@@ -22,6 +22,7 @@ import org.apache.cxf.common.util.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -46,28 +47,36 @@ public class LocationKeyValueFinder extends UifKeyValuesFinderBase {
 		
 		if (aDate != null) {
 			String institution = null;
-			PositionBo aClass = (PositionBo)anHrObject;
-			if (field.getId().contains("add") || field.getId().contains("line")) {  // gets called on Additinal Departments Page
-				
-				if (field.getId().contains("add")) {
-					PositionDepartment dept = (PositionDepartment) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.departmentList");
-					if (StringUtils.isEmpty(dept.getInstitution())) {
-						institution = aClass.getInstitution();
-					} else {
-						institution = dept.getInstitution();						
-					}
-				} else {
-					String fieldId = field.getId();
-					int line_index = fieldId.indexOf("line");
-					int index = Integer.parseInt(fieldId.substring(line_index+4));
-					List<PositionDepartment> deptList = aClass.getDepartmentList(); // holds "added" lines
-					PositionDepartment aDepartment = (PositionDepartment)deptList.get(index);
-					institution = aDepartment.getInstitution();
-				}
-				
-			} else { // gets called on Position Overview Page
+			
+			if (anHrObject instanceof Classification) {
+				Classification aClass = (Classification)anHrObject;
 				institution = aClass.getInstitution();
+			} else {
+				
+				PositionBo aClass = (PositionBo)anHrObject;		
+				if (field.getId().contains("add") || field.getId().contains("line")) {  // gets called on Additinal Departments Page
+					
+					if (field.getId().contains("add")) {
+						PositionDepartment dept = (PositionDepartment) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.departmentList");
+						if (StringUtils.isEmpty(dept.getInstitution())) {
+							institution = aClass.getInstitution();
+						} else {
+							institution = dept.getInstitution();						
+						}
+					} else {
+						String fieldId = field.getId();
+						int line_index = fieldId.indexOf("line");
+						int index = Integer.parseInt(fieldId.substring(line_index+4));
+						List<PositionDepartment> deptList = aClass.getDepartmentList(); // holds "added" lines
+						PositionDepartment aDepartment = (PositionDepartment)deptList.get(index);
+						institution = aDepartment.getInstitution();
+					}
+					
+				} else { // gets called on Position Overview Page
+					institution = aClass.getInstitution();
+				}
 			}
+
 			
 			List<String> locations = HrServiceLocator.getDepartmentService().getLocationsValuesWithInstitution(institution, aDate);
 			if(locations != null && locations.size() > 0) {

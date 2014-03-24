@@ -311,45 +311,164 @@
  
  <!-- Position Classification Inquiry View -->
   <bean id="Classification-InquiryView" parent="Uif-InquiryView">
-    <property name="headerText" value="Position Classification Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification"/>
-    <property name="singlePageView" value="true"/>
-    <property name="items">
-      <list>
-  			<bean parent="Uif-Disclosure-GridSection">
-		      <property name="layoutManager.numberOfColumns" value="2"/>
-		      <property name="items">
-	       	 	<list>
-		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-			        <bean parent="Uif-DataField" p:propertyName="positionClass" />
-			        <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
-			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="location" />
-			        <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
-                    <bean parent="Uif-DataField" p:propertyName="payGrade" />
-			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
-			        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
-			        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
-			        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
-			        <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
-			        <bean parent="Uif-DataField" p:propertyName="positionType" />
-			        <bean parent="Uif-DataField" p:propertyName="poolEligible" />
-			        <bean parent="Uif-DataField" p:propertyName="tenureEligible" />			        
-			        <bean parent="Uif-LinkField" p:label="External Reference" 
- 						p:href="@{#root.dataObject.externalReference}" p:linkText="@{#root.dataObject.externalReference}" p:target="_blank" />
-			        <bean parent="Uif-DataField" p:propertyName="active"/>
-                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
-	        	</list>
-	     	 </property>
-	     	 <property name="title" value="Position Classification Inquiry"/>
-	   	   </bean>
-	   	   <bean parent="Classification-qualificationListInquiry"/>
-	       <bean parent="Classification-dutyListInquiry"/>
-	       <bean parent="Classification-flagListInquiry"/>
-      </list>
-    </property>
-  </bean> 
+        <property name="headerText" value="Position Classification Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification"/>
+        <property name="items">
+            <list>
+                <ref bean="Cls-ClassificationInquiryPage"/>
+                <ref bean="Cls-QualificationsInquiryPage"/>
+                <ref bean="Cls-DutyInquiryPage"/>
+                <ref bean="Cls-FlagInquiryPage"/>
+            </list>
+        </property>
+        <property name="navigation">
+            <ref bean="ClassificationInquiryMenuNavigation"/>
+        </property>
+        <property name="singlePageView" value="false"/>
+        <property name="header">
+            <bean parent="KPME-Uif-Cls-InquiryViewHeader"/>
+        </property>
+        <property name="stickyHeader" value="true"/>
+        <property name="applyDirtyCheck" value="false"/>
+    </bean>
+ 
+    <!-- Classification Inquiry Navigation-->
+    <bean id="ClassificationInquiryMenuNavigation" parent="Uif-MenuNavigationGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderTwo" p:headerText="Classification Details"/>
+                <bean parent="Uif-NavigationActionLink" id="Cls-Classification-Actionlink"
+                      p:navigateToPageId="Cls-ClassificationInquiryPage" p:actionLabel="Classification"/>
+                <bean parent="Uif-NavigationActionLink" id="Cls-Qualifications-Actionlink"
+                      p:navigateToPageId="Cls-QualificationsInquiryPage" p:actionLabel="Required Qualifications"/>
+                <bean parent="Uif-NavigationActionLink" id="Cls-Duty-Actionlink"
+                      p:navigateToPageId="Cls-DutyInquiryPage" p:actionLabel="Duties"/>
+                <bean parent="Uif-NavigationActionLink" id="Cls-Flag-Actionlink"
+                      p:navigateToPageId="Cls-FlagInquiryPage" p:actionLabel="Position Flags"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="KPME-Uif-Cls-InquiryViewHeader" abstract="true" parent="Uif-ViewHeader">
+        <property name="lowerGroup">
+            <bean parent="Uif-Cls-OverviewSection"/>
+        </property>
+    </bean>
+    
+    <!-- Classification Inquiry Section-->
+    <bean id="Cls-ClassificationInquiryPage" parent="PositionInquiryPage">
+        <property name="items">
+            <list>
+                <ref bean="Cls-ClassificationInquiryPage-Section"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="Cls-QualificationsInquiryPage" p:actionLabel="Required Qualifications"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="Cls-ClassificationInquiryPage-Section" parent="Uif-GridSection">
+        <property name="headerText" value="Overview"/>
+        <property name="layoutManager.numberOfColumns" value="2"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-DataField" p:propertyName="positionClass"/>
+                <bean parent="Uif-DataField" p:propertyName="classificationTitle"/>
+                <bean parent="Uif-DataField" p:propertyName="institution"/>
+                <bean parent="Uif-DataField" p:propertyName="location"/>
+				<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
+                <bean parent="Uif-DataField" p:propertyName="payGrade" />
+		        <bean parent="Uif-DataField" p:propertyName="percentTime" />
+		        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
+		        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
+		        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
+		        <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
+		        <bean parent="Uif-DataField" p:propertyName="positionType" />
+		        <bean parent="Uif-DataField" p:propertyName="poolEligible" />
+		        <bean parent="Uif-DataField" p:propertyName="tenureEligible" />			        
+		        <bean parent="Uif-LinkField" p:label="External Reference" 
+						p:href="@{#root.dataObject.externalReference}" p:linkText="@{#root.dataObject.externalReference}" p:target="_blank" />
+		        <bean parent="Uif-DataField" p:propertyName="active"/>
+                <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!--Qualification Inquiry Section-->
+    <bean id="Cls-QualificationsInquiryPage" parent="PositionInquiryPage">
+        <property name="items">
+            <list>
+                <ref bean="Cls-QualificationsInquiryPage-Section"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="Cls-DutyInquiryPage" p:actionLabel="Duties"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="Cls-QualificationsInquiryPage-Section" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
+        <property name="propertyName" value="qualificationList"/>
+        <property name="headerText" value="Required Qualification"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+	    <property name="layoutManager.separateAddLine" value="true"/>
+	    <property name="layoutManager.richTable.render" value="false"/>
+	    <property name="items">
+	      <list>
+	        <bean parent="Uif-InputField" p:propertyName="qualificationType"/>
+	        <bean parent="Uif-InputField" p:propertyName="qualifier" />
+	        <bean parent="Uif-InputField" p:propertyName="qualificationValue"/>
+	      </list>
+	    </property>
+    </bean>
+    
+    <!--Duty Inquiry Section-->
+    <bean id="Cls-DutyInquiryPage" parent="PositionInquiryPage">
+        <property name="items">
+            <list>
+                <ref bean="Cls-DutyInquiryPage-Section"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="Cls-FlagInquiryPage" p:actionLabel="Position Flags"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="Cls-DutyInquiryPage-Section" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty"/>
+        <property name="propertyName" value="dutyList"/>
+        <property name="headerText" value="Duties"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="name"/>
+                <bean parent="Uif-DataField" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:propertyName="percentage"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Flag Inquiry Section-->
+    <bean id="Cls-FlagInquiryPage" parent="PositionInquiryPage">
+        <property name="items">
+            <list>
+                <ref bean="Cls-FlagInquiryPage-Section"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="Cls-ClassificationInquiryPage" p:actionLabel="Back to Classification"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="Cls-FlagInquiryPage-Section" parent="Uif-TableCollectionSection"
+          p:layoutManager.numberOfColumns="4">
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag"/>
+        <property name="propertyName" value="flagList"/>
+        <property name="headerText" value="Position Flags"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="category"/>
+                <bean parent="Uif-DataField" p:propertyName="names"/>
+            </list>
+        </property>
+    </bean>
   
+   <!--*************************************************************************** 
+		Views used by Maintenance View *************************************************************************** -->
    <!-- Required Qualification List, used by maintenance view -->
    <bean id="Classification-qualifications" parent="Uif-TableCollectionGroup">
 	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
