@@ -395,11 +395,8 @@
                             <bean parent="Uif-DataField" p:propertyName="workArea" />
                             <bean parent="Uif-DataField" p:propertyName="description" />
                             <bean parent="Uif-DataField" p:propertyName="overtimeEditRole" />
-                            <bean parent="Uif-DataField" p:propertyName="defaultOvertimeEarnCode" >
-                            </bean>
-                            <bean parent="Uif-DataField" p:propertyName="ovtEarnCode" />
-                            <bean parent="Uif-DataField" p:propertyName="dept" >
-                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="defaultOvertimeEarnCode" />
+                            <bean parent="Uif-DataField" p:propertyName="dept" />
                             <bean parent="Uif-DataField" p:propertyName="adminDescr" />
                             <bean parent="Uif-DataField" p:propertyName="hrsDistributionF" />
                             <bean parent="Uif-DataField" p:propertyName="active" />
