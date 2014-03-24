@@ -23,42 +23,42 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PositionBaseDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PositionBaseDao {
     
     @Override
-    public PositionBase getPosition(String hrPositionId) {
+    public PositionBaseBo getPosition(String hrPositionId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("hrPositionId", hrPositionId);
 
-        Query query = QueryFactory.newQuery(PositionBase.class, crit);
-        return (PositionBase) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionBaseBo.class, crit);
+        return (PositionBaseBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
 
     @Override
-    public PositionBase getPosition(String positionNumber, LocalDate effectiveDate) {
+    public PositionBaseBo getPosition(String positionNumber, LocalDate effectiveDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("positionNumber", positionNumber);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionBase.class, effectiveDate, PositionBase.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBase.class, PositionBase.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionBaseBo.class, effectiveDate, PositionBaseBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBaseBo.class, PositionBaseBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(PositionBase.class, root);
-        return (PositionBase) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionBaseBo.class, root);
+        return (PositionBaseBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PositionBase> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-        List<PositionBase> results = new ArrayList<PositionBase>();
+    public List<PositionBaseBo> getPositions(String positionNum, String description, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+        List<PositionBaseBo> results = new ArrayList<PositionBaseBo>();
         
     	Criteria root = new Criteria();
 
@@ -93,11 +93,11 @@ public class PositionBaseDaoOjbImpl extends PlatformAwareDaoBaseOjb implements P
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PositionBase.class, effectiveDateFilter, PositionBase.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBase.class, PositionBase.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PositionBaseBo.class, effectiveDateFilter, PositionBaseBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionBaseBo.class, PositionBaseBo.BUSINESS_KEYS, false));
         }
         
-        Query query = QueryFactory.newQuery(PositionBase.class, root);
+        Query query = QueryFactory.newQuery(PositionBaseBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;

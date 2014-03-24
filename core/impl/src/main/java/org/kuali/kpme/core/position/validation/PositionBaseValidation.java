@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.core.position.validation;
 
-import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -28,19 +28,19 @@ public class PositionBaseValidation extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position");
 		
-		PositionBase position = (PositionBase)this.getNewDataObject();
+		PositionBaseBo position = (PositionBaseBo)this.getNewDataObject();
 
 		if (position != null) {
 			valid = true;
 		}
 		
 		if (valid && document.isNew()) {
-			String positionNumber = KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("hr_position_s", PositionBase.class).toString();
+			String positionNumber = KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("hr_position_s", PositionBaseBo.class).toString();
 	    	position.setPositionNumber(positionNumber);		
 		}
 		
 		if (valid && document.isNew()) {
-			String positionNumber = KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("hr_position_s", PositionBase.class).toString();
+			String positionNumber = KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("hr_position_s", PositionBaseBo.class).toString();
 	    	position.setPositionNumber(positionNumber);		
 		}
 		return valid;

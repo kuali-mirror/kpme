@@ -17,12 +17,10 @@ package org.kuali.kpme.core.position;
 
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.util.HrConstants;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionBase extends HrBusinessObject implements PositionBaseContract {
+public class PositionBaseBo extends HrBusinessObject implements PositionBaseContract {
 
 	private static final String POSITION_NUMBER = "positionNumber";
 	private static final long serialVersionUID = -3258249005786874634L;

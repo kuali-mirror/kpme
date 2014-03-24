@@ -19,13 +19,13 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.kpme.pm.position.PositionDerived;
 
-public class PositionFunding extends PersistableBusinessObjectBase implements PositionFundingContract {
+public class PositionFunding extends PositionDerived implements PositionFundingContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPositionFunctionId;
-	private String hrPositionId;
+	
 	
 	private String chart;
 	private String org;
@@ -50,13 +50,7 @@ public class PositionFunding extends PersistableBusinessObjectBase implements Po
 		this.pmPositionFunctionId = pmPositionFunctionId;
 	}
 	
-	public String getHrPositionId() {
-		return hrPositionId;
-	}
-
-	public void setHrPositionId(String hrPositionId) {
-		this.hrPositionId = hrPositionId;
-	}
+	
 
 	public String getSource() {
 		return source;

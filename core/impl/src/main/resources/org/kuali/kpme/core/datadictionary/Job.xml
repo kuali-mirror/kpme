@@ -548,7 +548,7 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript"
-                              p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+                              p:dataObjectClassName="org.kuali.kpme.core.position.PositionBaseBo"
                               p:fieldConversions="positionNumber:positionNumber"/>
                     </property>
                 </bean>
@@ -583,7 +583,7 @@
                 <bean parent="Uif-DataField" p:propertyName="location"/>
                 <bean parent="Uif-DataField" p:propertyName="positionNumber">
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBaseBo"
                               p:inquiryParameters="positionObj.hrPositionId:hrPositionId"/>
                     </property>
                 </bean>

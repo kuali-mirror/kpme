@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -33,18 +33,18 @@ public class PositionBaseInquirableImpl extends KualiInquirableImpl {
 	@Override
 	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		PositionBase position = null;
+		PositionBaseBo position = null;
 		
 		if (StringUtils.isNotBlank((String)fieldValues.get("hrPositionId"))) {
-            position = (PositionBase) HrServiceLocator.getPositionService().getPosition((String) fieldValues.get("hrPositionId"));
+            position = (PositionBaseBo) HrServiceLocator.getPositionService().getPosition((String) fieldValues.get("hrPositionId"));
 
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("positionNumber")) && StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String positionNumber = (String) fieldValues.get("positionNumber");
 			String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-		    position = (PositionBase) HrServiceLocator.getPositionService().getPosition(positionNumber, effectiveDate);
+		    position = (PositionBaseBo) HrServiceLocator.getPositionService().getPosition(positionNumber, effectiveDate);
 		} else {
-			position = (PositionBase) super.getBusinessObject(fieldValues);
+			position = (PositionBaseBo) super.getBusinessObject(fieldValues);
 		}
 
 		return position;

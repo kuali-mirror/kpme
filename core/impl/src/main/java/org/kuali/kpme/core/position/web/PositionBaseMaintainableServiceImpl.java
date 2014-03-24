@@ -20,7 +20,7 @@ import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.cache.CacheUtils;
-import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -47,7 +47,7 @@ public class PositionBaseMaintainableServiceImpl extends HrBusinessObjectMaintai
 
     @Override
     public void saveBusinessObject() {
-        PositionBase position = (PositionBase) this.getBusinessObject();
+        PositionBaseBo position = (PositionBaseBo) this.getBusinessObject();
         //String nextUniqueNumber = HrServiceLocator.getPositionService().getNextUniquePositionNumber();
         //position.setPositionNumber(nextUniqueNumber);
         
@@ -65,7 +65,7 @@ public class PositionBaseMaintainableServiceImpl extends HrBusinessObjectMaintai
     
     @Override
     protected void setNewCollectionLineDefaultValues(String collectionName, PersistableBusinessObject addLine) {
-        PositionBase position = (PositionBase) getBusinessObject();
+        PositionBaseBo position = (PositionBaseBo) getBusinessObject();
         
         if (addLine instanceof RoleMemberBo) {
         	RoleMemberBo roleMember = (RoleMemberBo) addLine;

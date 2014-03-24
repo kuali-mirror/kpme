@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
-import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
@@ -41,7 +41,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import com.google.common.collect.ImmutableList;
 import org.kuali.rice.core.api.util.Truth;
 
-public class PositionBo extends PositionBase implements PositionContract {
+public class PositionBo extends PositionBaseBo implements PositionContract {
 	private static final long serialVersionUID = 1L;
 	
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()

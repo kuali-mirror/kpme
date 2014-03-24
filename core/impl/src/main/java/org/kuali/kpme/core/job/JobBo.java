@@ -27,7 +27,7 @@ import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.paytype.PayTypeBo;
-import org.kuali.kpme.core.position.PositionBase;
+import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -85,7 +85,7 @@ public class JobBo extends HrBusinessObject implements JobContract {
 	private transient LocationBo locationObj;
     private transient PayGradeBo payGradeObj;
     private transient SalaryGroupBo salaryGroupObj;
-    private transient PositionBase positionObj;
+    private transient PositionBaseBo positionObj;
     
 
     
@@ -321,13 +321,13 @@ public class JobBo extends HrBusinessObject implements JobContract {
 		return positionNumber;
 	}
 
-	public void setPositionObj(PositionBase positionObj) {
+	public void setPositionObj(PositionBaseBo positionObj) {
 		this.positionObj = positionObj;
 	}
 
-	public PositionBase getPositionObj() {
+	public PositionBaseBo getPositionObj() {
         if (positionObj == null) {
-            this.setPositionObj((PositionBase)HrServiceLocator.getPositionService().getPosition(positionNumber, getEffectiveLocalDate()));
+            this.setPositionObj((PositionBaseBo)HrServiceLocator.getPositionService().getPosition(positionNumber, getEffectiveLocalDate()));
         }
         return positionObj;
 

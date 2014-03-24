@@ -27,7 +27,7 @@
 
   <bean id="PositionBaseMaintenanceDocument" parent="PositionBaseMaintenanceDocument-parentBean"/>
   <bean id="PositionBaseMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
-  		p:dataObjectClass="org.kuali.kpme.core.position.PositionBase"
+  		p:dataObjectClass="org.kuali.kpme.core.position.PositionBaseBo"
   		p:businessRulesClass="org.kuali.kpme.core.position.validation.PositionBaseValidation"
   		p:maintainableClass="org.kuali.kpme.core.position.web.PositionBaseMaintainableServiceImpl"
   		p:documentAuthorizerClass="org.kuali.kpme.core.position.authorization.PositionBaseAuthorizer">
@@ -50,7 +50,7 @@
   <bean id="PositionBaseMaintenanceDocument-MaintenanceView" parent="PositionBaseMaintenanceDocument-PositionBaseMaintenance-parentBean"/>
   <bean id="PositionBaseMaintenanceDocument-PositionBaseMaintenance-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBase"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBaseBo"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">

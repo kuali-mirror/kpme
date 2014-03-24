@@ -98,7 +98,7 @@
                             <bean parent="Uif-InputField" p:propertyName="positionNumber" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.position.PositionBase"
+                                          p:dataObjectClassName="org.kuali.kpme.core.position.PositionBaseBo"
                                           p:fieldConversions="positionNumber:positionNumber"/>
                                 </property>
                             </bean>
