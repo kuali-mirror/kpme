@@ -419,6 +419,11 @@
        	<field-descriptor name="priorityFlag"      				column="PRIORITY_FLG"         			jdbc-type="VARCHAR"     length="1" 			conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="objectId"               		column="OBJ_ID"                	        jdbc-type="VARCHAR"     index="true" />
        	<field-descriptor name="versionNumber"          		column="VER_NBR"               	 		jdbc-type="BIGINT"      locking="true" />
+       	
+       	<reference-descriptor name="protocolBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="hrPositionId"/>
+        </reference-descriptor>
+        
     </class-descriptor>
 
 </descriptor-repository>
