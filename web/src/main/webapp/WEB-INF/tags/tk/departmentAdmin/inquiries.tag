@@ -5,7 +5,7 @@
     <div class="body">
         <ul>
             <li>
-                <a href="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.tklm.time.clocklog.ClockLog&returnLocation=${ConfigProperties.application.url}/DepartmentAdmin.do&hideReturnLink=true&docFormKey=88888888&active=Y">Clock Log</a>
+                <a href="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.time.clocklog.ClockLog&showMaintenanceLinks=true&returnLocation=${ConfigProperties.application.url}/DepartmentAdmin.do&hideReturnLink=true&docFormKey=88888888&active=Y">Clock Log</a>
             </li>
 	        <li>
 	            <a href="${ConfigProperties.kew.url}/DocumentSearch.do?documentTypeName=MissedPunchDocumentType&returnLocation=${ConfigProperties.application.url}/DepartmentAdmin.do&hideReturnLink=true&docFormKey=88888888&active=Y">Missed Punch</a>

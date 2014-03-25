@@ -24,7 +24,7 @@
 	   <documentType>
 			<name>ClockLogDocumentType</name>
 			<parent>KpmeDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.tklm.time.clocklog.ClockLog</docHandler>
 			<label>Clock Log Document</label>
 	   </documentType>
 	</documentTypes>

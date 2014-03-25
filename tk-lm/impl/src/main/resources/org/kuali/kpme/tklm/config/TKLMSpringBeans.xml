@@ -500,11 +500,6 @@
             <bean class="org.kuali.kpme.tklm.time.rules.timecollection.web.TimeCollectionRuleLookupableHelper"/>
         </property>
     </bean>
-    <bean id="clockLogLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.tklm.time.clocklog.web.ClockLogLookupableHelper"/>
-        </property>
-    </bean>
     <bean id="systemScheduledTimeOffLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.tklm.leave.timeoff.web.SystemScheduledTimeOffLookupableHelper"/>
