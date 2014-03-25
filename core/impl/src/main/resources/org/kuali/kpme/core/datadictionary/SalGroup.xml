@@ -299,7 +299,7 @@
           <property name="items">
             <list>
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-		        <bean parent="Uif-InputField" p:propertyName="hrSalGroup" />
+		        <bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:readOnly="@{document.newMaintainableObject.dataObject.hrSalGroupId ne NULL}" />
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
