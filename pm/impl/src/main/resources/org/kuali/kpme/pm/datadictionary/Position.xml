@@ -491,6 +491,11 @@
                 <ref bean="Position-FundingInquiryPage"/>
             </list>
         </property>
+	    <property name="additionalScriptFiles">
+	      <list merge="true">
+	        <value>js/krad-ui.js</value>
+	      </list>
+	    </property>
         <property name="navigation">
             <ref bean="positionInquiryMenuNavigation"/>
         </property>
@@ -514,15 +519,15 @@
                 <bean parent="Uif-NavigationActionLink" id="Pos-Department-Actionlink"
                       p:navigateToPageId="Position-DepartmentInquiryPage" p:actionLabel="Additional Departments"/>
                 <bean parent="Uif-NavigationActionLink" id="Pos-Qualifications-Actionlink"
-                      p:navigateToPageId="Position-QualificationsInquiryPage" p:actionLabel="Qualifications"/>
+                      p:navigateToPageId="Position-QualificationsInquiryPage" p:actionLabel="Qualifications" p:render="@{#dp.displayQualifications}"/>
                 <bean parent="Uif-NavigationActionLink" id="Pos-Duty-Actionlink"
-                      p:navigateToPageId="Position-DutyInquiryPage" p:actionLabel="Duties"/>
+                      p:navigateToPageId="Position-DutyInquiryPage" p:actionLabel="Duties" p:render="@{#dp.displayDuties}"/>
                 <bean parent="Uif-NavigationActionLink" id="Pos-Flag-Actionlink"
-                      p:navigateToPageId="Position-FlagInquiryPage" p:actionLabel="Position Flags"/>
+                      p:navigateToPageId="Position-FlagInquiryPage" p:actionLabel="Position Flags" p:render="@{#dp.displayFlags}"/>
                 <bean parent="Uif-NavigationActionLink" id="Pos-Responsibility-Actionlink"
-                      p:navigateToPageId="Position-ResponsibilityInquiryPage" p:actionLabel="Responsibility"/>
+                      p:navigateToPageId="Position-ResponsibilityInquiryPage" p:actionLabel="Responsibility" p:render="@{#dp.displayResponsibility}"/>
                 <bean parent="Uif-NavigationActionLink" id="Pos-Funding-Actionlink"
-                      p:navigateToPageId="Position-FundingInquiryPage" p:actionLabel="Funding"/>
+                      p:navigateToPageId="Position-FundingInquiryPage" p:actionLabel="Funding" p:render="@{#dp.displayFunding}"/>
             </list>
         </property>
     </bean>
@@ -621,7 +626,12 @@
         <property name="items">
             <list>
                 <ref bean="Position-DepartmentInquiryPage-Section"/>
-                <bean parent="PositionNavigationButton" p:navigateToPageId="Position-QualificationsInquiryPage" p:actionLabel="Qualifications"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayQualifications ? 'Position-QualificationsInquiryPage' : 
+				(#dp.displayDuties ? 'Position-DutyInquiryPage' : (#dp.displayFlags ? 'Position-FlagInquiryPage' : (#dp.displayResponsibility ? 'Position-ResponsibilityInquiryPage' :
+				 (#dp.displayFunding ? 'Position-FundingInquiryPage' : 'Position-OverviewInquiryPage'))))}"  
+				p:actionLabel="@{#dp.displayQualifications ? 'Qualifications' : 
+				(#dp.displayDuties ? 'Duties' : (#dp.displayFlags ? 'Position Flags' : (#dp.displayResponsibility ? 'Responsibility' :
+				 (#dp.displayFunding ? 'Funding' : 'Back to Overview'))))}"/>
             </list>
         </property>
     </bean>
@@ -657,7 +667,10 @@
             <list>
                 <ref bean="Position-QualificationsInquiryPage-Required-Section"/>
                 <ref bean="Position-QualificationsInquiryPage-Preferred-Section"/>
-                <bean parent="PositionNavigationButton" p:navigateToPageId="Position-DutyInquiryPage" p:actionLabel="Duties"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayDuties ? 'Position-DutyInquiryPage' : (#dp.displayFlags ? 'Position-FlagInquiryPage' : (#dp.displayResponsibility ? 'Position-ResponsibilityInquiryPage' :
+				 (#dp.displayFunding ? 'Position-FundingInquiryPage' : 'Position-OverviewInquiryPage')))}" 
+				  p:actionLabel="@{#dp.displayDuties ? 'Duties' : (#dp.displayFlags ? 'Position Flags' : (#dp.displayResponsibility ? 'Responsibility' :
+				 (#dp.displayFunding ? 'Funding' : 'Back to Overview')))}"/>
             </list>
         </property>
     </bean>
@@ -703,7 +716,10 @@
         <property name="items">
             <list>
                 <ref bean="Position-DutyInquiryPage-Section"/>
-                <bean parent="PositionNavigationButton" p:navigateToPageId="Position-FlagInquiryPage" p:actionLabel="Position Flags"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayFlags ? 'Position-FlagInquiryPage' : (#dp.displayResponsibility ? 'Position-ResponsibilityInquiryPage' :
+				 (#dp.displayFunding ? 'Position-FundingInquiryPage' : 'Position-OverviewInquiryPage'))}" 
+				  p:actionLabel="@{#dp.displayFlags ? 'Position Flags' : (#dp.displayResponsibility ? 'Responsibility' :
+				 (#dp.displayFunding ? 'Funding' : 'Back to Overview'))}"/>
             </list>
         </property>
     </bean>
@@ -729,7 +745,10 @@
         <property name="items">
             <list>
                 <ref bean="Position-FlagInquiryPage-Section"/>
-                <bean parent="PositionNavigationButton" p:navigateToPageId="Position-ResponsibilityInquiryPage" p:actionLabel="Responsibility"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayResponsibility ? 'Position-ResponsibilityInquiryPage' :
+				 (#dp.displayFunding ? 'Position-FundingInquiryPage' : 'Position-OverviewInquiryPage')}" 
+				  p:actionLabel="@{#dp.displayResponsibility ? 'Responsibility' :
+				 (#dp.displayFunding ? 'Funding' : 'Back to Overview')}" />
             </list>
         </property>
     </bean>
@@ -755,7 +774,8 @@
         <property name="items">
             <list>
                 <ref bean="Position-ResponsibilityInquiryPage-Section"/>
-                <bean parent="PositionNavigationButton" p:navigateToPageId="Position-FundingInquiryPage" p:actionLabel="Funding"/>
+                <bean parent="PositionNavigationButton" p:navigateToPageId="@{#dp.displayFunding ? 'Position-FundingInquiryPage' : 'Position-OverviewInquiryPage'}" 
+				  p:actionLabel="@{#dp.displayFunding ? 'Funding' : 'Back to Overview'}" />
             </list>
         </property>
     </bean>

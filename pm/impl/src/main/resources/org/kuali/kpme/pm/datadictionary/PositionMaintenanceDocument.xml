@@ -47,6 +47,11 @@
 		abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView" >
 		<property name="headerText" value="Position Maintenance" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.PositionBo" />
+	    <property name="additionalScriptFiles">
+	      <list merge="true">
+	        <value>js/krad-ui.js</value>
+	      </list>
+	    </property>
 		<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl" />
 		<property name="items">
 			<list>
