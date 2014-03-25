@@ -212,7 +212,12 @@
         <field-descriptor name="deptAffl"       column="DEPT_AFFL_TYP"		 jdbc-type="VARCHAR"     length="60" 	  nullable="false" />
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+        
+        <reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="hrPositionId"/>
+        </reference-descriptor>        
     </class-descriptor>
+    
     
     <!-- Position Classification Qualification -->
     <class-descriptor class="org.kuali.kpme.pm.classification.qual.ClassificationQualification" table="PM_PSTN_CL_QLFCTN_T">
@@ -369,6 +374,10 @@
        	<field-descriptor name="percentTime"      				column="PRCT_TM"         				jdbc-type="DECIMAL"     length="10" 		nullable="true" />
         <field-descriptor name="objectId"               		column="OBJ_ID"                	        jdbc-type="VARCHAR"     index="true" />
        	<field-descriptor name="versionNumber"          		column="VER_NBR"               	 		jdbc-type="BIGINT"      locking="true" />
+       	
+       	<reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="hrPositionId"/>
+        </reference-descriptor>        
     </class-descriptor>
 
     <!-- Position Qualification -->
@@ -380,6 +389,10 @@
         <field-descriptor name="hrPositionId"   					column="HR_PSTN_ID"    			jdbc-type="VARCHAR"     length="60"  		nullable="false" />
         <field-descriptor name="objectId"      						column="OBJ_ID"             	jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 						column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
+        
+        <reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="hrPositionId"/>
+        </reference-descriptor>        
     </class-descriptor>
 
     <!-- Position Duty -->
@@ -391,6 +404,10 @@
         <field-descriptor name="hrPositionId"   			column="HR_PSTN_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
     	<field-descriptor name="objectId"      				column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 				column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+        
+        <reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="hrPositionId"/>
+        </reference-descriptor>        
     </class-descriptor>
 
     <!-- Position  Flag -->
@@ -401,6 +418,10 @@
         <field-descriptor name="hrPositionId"   			column="HR_PSTN_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+        
+        <reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="hrPositionId"/>
+        </reference-descriptor>
     </class-descriptor>
 
 	<!-- Position Funding  -->
@@ -420,10 +441,9 @@
         <field-descriptor name="objectId"               		column="OBJ_ID"                	        jdbc-type="VARCHAR"     index="true" />
        	<field-descriptor name="versionNumber"          		column="VER_NBR"               	 		jdbc-type="BIGINT"      locking="true" />
        	
-       	<reference-descriptor name="protocolBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+       	<reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="hrPositionId"/>
-        </reference-descriptor>
-        
+        </reference-descriptor>        
     </class-descriptor>
 
 </descriptor-repository>
