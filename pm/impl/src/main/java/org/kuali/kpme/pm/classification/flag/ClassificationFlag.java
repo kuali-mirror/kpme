@@ -15,13 +15,37 @@
  */
 package org.kuali.kpme.pm.classification.flag;
 
-import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
-import org.kuali.kpme.pm.flag.Flag;
+import java.util.List;
 
-public class ClassificationFlag extends Flag implements ClassificationFlagContract {
-	private static final long serialVersionUID = 1L;
+import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
+
+public class ClassificationFlag implements ClassificationFlagContract {
+	
 	
 	private String pmPositionClassId;
+	private String pmFlagId;
+	private String category;
+	//private String names;
+	private List<String> names; // KPME-2360/2958
+	
+	public String getPmFlagId() {
+		return pmFlagId;
+	}
+	public void setPmFlagId(String pmFlagId) {
+		this.pmFlagId = pmFlagId;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public List<String> getNames() {
+		return names;
+	}
+	public void setNames(List<String> names) {
+		this.names = names;
+	}
 	
 	public String getPmPositionClassId() {
 		return pmPositionClassId;

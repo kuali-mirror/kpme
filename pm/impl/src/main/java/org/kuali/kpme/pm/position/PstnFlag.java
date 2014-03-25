@@ -15,23 +15,39 @@
  */
 package org.kuali.kpme.pm.position;
 
+import java.util.List;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.pm.api.position.PstnFlagContract;
-import org.kuali.kpme.pm.flag.Flag;
 
 
-public class PstnFlag extends Flag implements PstnFlagContract {
+public class PstnFlag extends PositionDerived implements PstnFlagContract {
 	private static final long serialVersionUID = 1L;
-
-	private String hrPositionId;
 	
-	public String getHrPositionId() {
-		return hrPositionId;
+	private String pmFlagId;
+	private String category;
+	//private String names;
+	private List<String> names; // KPME-2360/2958
+	
+	public String getPmFlagId() {
+		return pmFlagId;
 	}
-	public void setHrPositionId(String hrPositionId) {
-		this.hrPositionId = hrPositionId;
+	public void setPmFlagId(String pmFlagId) {
+		this.pmFlagId = pmFlagId;
 	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public List<String> getNames() {
+		return names;
+	}
+	public void setNames(List<String> names) {
+		this.names = names;
+	}
+	
 
     @Override
     public boolean equals(Object obj) {

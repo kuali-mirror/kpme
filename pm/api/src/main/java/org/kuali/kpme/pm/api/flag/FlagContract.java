@@ -18,13 +18,11 @@ package org.kuali.kpme.pm.api.flag;
 
 import java.util.List;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-
 /**
  * <p>FlagContract interface</p>
  *
  */
-public interface FlagContract extends PersistableBusinessObject {
+public interface FlagContract {
 	
 	/**
 	 * The ID for the Flag object which Classification Flag and pstnFlag extend

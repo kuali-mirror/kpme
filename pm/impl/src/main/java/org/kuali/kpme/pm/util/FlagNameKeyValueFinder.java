@@ -22,10 +22,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.pm.api.flag.FlagContract;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
-import org.kuali.kpme.pm.flag.Flag;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PstnFlag;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -46,7 +46,7 @@ public class FlagNameKeyValueFinder extends UifKeyValuesFinderBase {
 		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
 		LocalDate aDate = anHrObject.getEffectiveLocalDate() != null ? anHrObject.getEffectiveLocalDate() : null;
 
-		Flag aFlagObj = (Flag) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.flagList");
+		FlagContract aFlagObj = (FlagContract) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.flagList");
 		String category = null;
 		if(aFlagObj != null && StringUtils.isNotEmpty(aFlagObj.getCategory())) {
 			category = aFlagObj.getCategory();
