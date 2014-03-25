@@ -55,7 +55,7 @@
                       <list>
                           <bean parent="Uif-InputField" p:propertyName="calendarName" p:required="true">
                               <property name="quickfinder">
-                                  <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.calendar.Calendar"
+                                  <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.calendar.CalendarBo"
                                         p:fieldConversions="calendarName:calendarName" />
                               </property>
                           </bean>
