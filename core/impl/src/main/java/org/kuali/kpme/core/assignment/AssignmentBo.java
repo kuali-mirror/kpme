@@ -185,7 +185,7 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 
 	public String getDept() {
 		if(this.getJobNumber()!= null) {
-			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber())) {
+			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber()) || !this.getPrincipalId().equals(this.getJob().getPrincipalId())) {
 				if(this.getEffectiveDate()!=null){
 					this.setJob(JobBo.from(HrServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveLocalDate(), false)));
 				}else{
