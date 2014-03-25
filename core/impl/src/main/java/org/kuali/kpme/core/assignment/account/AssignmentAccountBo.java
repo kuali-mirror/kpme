@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.assignment.account;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
@@ -23,9 +24,12 @@ import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.*;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AssignmentAccountBo extends PersistableBusinessObjectBase implements AssignmentAccountContract {
 
@@ -75,6 +79,15 @@ public class AssignmentAccountBo extends PersistableBusinessObjectBase implement
 	}
 
 	public String getFinCoaCd() {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("accountNumber", this.accountNbr);
+		fields.put("active", "true");
+		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, fields);
+		if(account != null && !account.isClosed()) {
+			this.setFinCoaCd(account.getChartOfAccountsCode());
+		} else {
+			this.setFinCoaCd(null);
+		}
 		return finCoaCd;
 	}
 

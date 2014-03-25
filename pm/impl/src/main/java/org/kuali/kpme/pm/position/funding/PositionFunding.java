@@ -16,10 +16,14 @@
 package org.kuali.kpme.pm.position.funding;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 import org.kuali.kpme.pm.position.PositionDerived;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class PositionFunding extends PositionDerived implements PositionFundingContract {
 	private static final long serialVersionUID = 1L;
@@ -61,6 +65,15 @@ public class PositionFunding extends PositionDerived implements PositionFundingC
 	}
 
 	public String getChart() {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("accountNumber", this.account);
+		fields.put("active", "true");
+		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, fields);
+		if(account != null && !account.isClosed()) {
+			this.setChart(account.getChartOfAccountsCode());
+		} else {
+			this.setChart(null);
+		}
 		return chart;
 	}
 

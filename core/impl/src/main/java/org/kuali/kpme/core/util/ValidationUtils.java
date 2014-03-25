@@ -593,7 +593,10 @@ public class ValidationUtils {
 	public static boolean validateAccount(String chartOfAccountsCode, String accountNumber) {
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("accountNumber", accountNumber);
-		fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		if(StringUtils.isNotEmpty(chartOfAccountsCode)) {
+			fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		}
+		fields.put("active", "true");
 		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, fields);
 		if(account != null) {
 			return !account.isClosed();
@@ -627,7 +630,9 @@ public class ValidationUtils {
 		Map<String, String> fields = new HashMap<String, String>();
 
 		fields.put("financialObjectCode", financialObjectCode);
-		fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		if(StringUtils.isNotEmpty(chartOfAccountsCode)) {
+			fields.put("chartOfAccountsCode", chartOfAccountsCode);
+		}
 		if(universityFiscalYear != null) {
 			fields.put("universityFiscalYear", universityFiscalYear.toString());
 		}
