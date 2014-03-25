@@ -123,7 +123,7 @@
     
     <!-- Position Flag -->
     <!-- Business Keys - [positionFlagName : category : effectiveDate : timestamp] -->	
-    <class-descriptor class="org.kuali.kpme.pm.positionflag.PositionFlagBo" table="PM_PSTN_FLG_T">
+    <class-descriptor class="org.kuali.kpme.pm.positionflag.PositionFlag" table="PM_PSTN_FLG_T">
         <field-descriptor name="pmPositionFlagId" 		column="PM_PSTN_FLG_ID" 		 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_FLG_S" />
         <field-descriptor name="category"     			column="CTGRY"					 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="positionFlagName"  		column="PSTN_FLG_NM"     		 jdbc-type="VARCHAR"     length="50"  		nullable="true" />

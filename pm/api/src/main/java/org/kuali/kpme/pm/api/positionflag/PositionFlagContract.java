@@ -15,13 +15,13 @@
  */
 package org.kuali.kpme.pm.api.positionflag;
 
-import org.kuali.kpme.pm.api.position.PositionDerivedContract;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 
 /**
  * <p>PositionFlagContract interface</p>
  *
  */
-public interface PositionFlagContract extends PositionDerivedContract {
+public interface PositionFlagContract extends HrBusinessObjectContract {
 
 	/**
 	 * THe Primary Key that a PositionFlag record will be saved to a database with
