@@ -80,7 +80,7 @@
 					<property name="label" value="Position Duties" />
 				</bean>
 				<bean parent="CollectionDefinition">
-					<property name="dataObjectClass" value="org.kuali.kpme.pm.position.PstnFlag" />
+					<property name="dataObjectClass" value="org.kuali.kpme.pm.position.PstnFlagBo" />
 					<property name="name" value="flagList" />
 					<property name="shortLabel" value="Flags" />
 					<property name="label" value="Position Flags" />
@@ -755,7 +755,7 @@
 
     <bean id="Position-FlagInquiryPage-Section" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="4">
-        <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PstnFlag"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PstnFlagBo"/>
         <property name="propertyName" value="flagList"/>
         <property name="headerText" value="Position Flags"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -1053,7 +1053,7 @@
 
 	<!-- Flags List, used by maintenance views -->
 	<bean id="Position-flags" abstract="true" parent="Uif-TableCollectionGroup">
-		<property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PstnFlag" />
+		<property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PstnFlagBo" />
 		<property name="propertyName" value="flagList" />
 		<property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" />
 		<property name="addLinePlacement" value="BOTTOM" />

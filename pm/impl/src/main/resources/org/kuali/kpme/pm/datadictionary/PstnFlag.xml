@@ -23,7 +23,7 @@
 	
 	<bean id="PstnFlag" parent="PstnFlag-parentBean"/>
  	<bean id="PstnFlag-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PstnFlag"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PstnFlagBo"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="PstnFlag-pmFlagId"/>

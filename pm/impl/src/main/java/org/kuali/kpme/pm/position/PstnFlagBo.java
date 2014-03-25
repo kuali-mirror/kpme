@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.pm.api.position.PstnFlagContract;
 
 
-public class PstnFlag extends PositionDerived implements PstnFlagContract {
+public class PstnFlagBo extends PositionDerived implements PstnFlagContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmFlagId;
@@ -58,7 +58,7 @@ public class PstnFlag extends PositionDerived implements PstnFlagContract {
         if (obj.getClass() != getClass())
             return false;
 
-        PstnFlag rhs = (PstnFlag)obj;
+        PstnFlagBo rhs = (PstnFlagBo)obj;
         return new EqualsBuilder()
                 .append(this.getPmFlagId(), rhs.getPmFlagId())
                 .append(this.getCategory(), rhs.getCategory())

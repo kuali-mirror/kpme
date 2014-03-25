@@ -348,7 +348,7 @@
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>    
-    	<collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.position.PstnFlag"
+    	<collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.position.PstnFlagBo"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
@@ -411,7 +411,7 @@
     </class-descriptor>
 
     <!-- Position  Flag -->
-    <class-descriptor class="org.kuali.kpme.pm.position.PstnFlag" table="PM_PSTN_FLAG_T">
+    <class-descriptor class="org.kuali.kpme.pm.position.PstnFlagBo" table="PM_PSTN_FLAG_T">
         <field-descriptor name="pmFlagId"   				column="PM_FLAG_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_FLAG_S" />
         <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="names"    					column="NAMES"      		jdbc-type="VARCHAR"     length="100" 		nullable="false" conversion="org.kuali.kpme.core.ListConverter" />

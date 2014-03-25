@@ -33,7 +33,7 @@ import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDutyBo;
 import org.kuali.kpme.pm.position.PositionQualificationBo;
-import org.kuali.kpme.pm.position.PstnFlag;
+import org.kuali.kpme.pm.position.PstnFlagBo;
 import org.kuali.kpme.pm.position.funding.PositionFundingBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
@@ -72,7 +72,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 			aDuty.setHrPositionId(aPosition.getHrPositionId());
 			aDuty.setPmDutyId(null);
 		}
-		for(PstnFlag aFlag : aPosition.getFlagList()) {
+		for(PstnFlagBo aFlag : aPosition.getFlagList()) {
 			aFlag.setHrPositionId(aPosition.getHrPositionId());
 			aFlag.setPmFlagId(null);
 		}

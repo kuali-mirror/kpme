@@ -51,7 +51,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 	
 	private List<PositionQualificationBo> qualificationList = new LinkedList<PositionQualificationBo>();
     private List<PositionDutyBo> dutyList = new LinkedList<PositionDutyBo>();
-    private List<PstnFlag> flagList = new LinkedList<PstnFlag>();
+    private List<PstnFlagBo> flagList = new LinkedList<PstnFlagBo>();
     private List<PositionResponsibilityBo> positionResponsibilityList = new LinkedList<PositionResponsibilityBo>();
     private List<PositionFundingBo> fundingList = new ArrayList<PositionFundingBo>();
     private List<PositionDepartmentBo> departmentList = new ArrayList<PositionDepartmentBo>();
@@ -142,14 +142,14 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.qualificationList = qualificationList;
 	}
 
-	public List<PstnFlag> getFlagList() {
+	public List<PstnFlagBo> getFlagList() {
 		if(CollectionUtils.isEmpty(flagList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
     		List<? extends ClassificationFlagContract> aList = PmServiceLocator.getClassificationFlagService().getFlagListForClassification(this.getPmPositionClassId());
     		if(CollectionUtils.isNotEmpty(aList)) {
-    			List<PstnFlag> pFlagList = new ArrayList<PstnFlag>();
+    			List<PstnFlagBo> pFlagList = new ArrayList<PstnFlagBo>();
     			// copy basic information from classificaton flag list
     			for(ClassificationFlagContract aFlag : aList) {
-    				PstnFlag pFlag = new PstnFlag();
+    				PstnFlagBo pFlag = new PstnFlagBo();
     				pFlag.setCategory(aFlag.getCategory());
     				pFlag.setNames(aFlag.getNames());
     				pFlag.setPmFlagId(null);
@@ -162,7 +162,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		return flagList;
 	}
 
-	public void setFlagList(List<PstnFlag> flagList) {
+	public void setFlagList(List<PstnFlagBo> flagList) {
 		this.flagList = flagList;
 	}
 	
