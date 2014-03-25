@@ -25,7 +25,7 @@ import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 import org.kuali.kpme.pm.position.PositionDerived;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class PositionFunding extends PositionDerived implements PositionFundingContract {
+public class PositionFundingBo extends PositionDerived implements PositionFundingContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPositionFunctionId;
@@ -162,7 +162,7 @@ public class PositionFunding extends PositionDerived implements PositionFundingC
         if (obj.getClass() != getClass())
             return false;
 
-        PositionFunding rhs = (PositionFunding) obj;
+        PositionFundingBo rhs = (PositionFundingBo) obj;
         return new EqualsBuilder()
                 .append(pmPositionFunctionId,rhs.getPmPositionFunctionId())
                 .append(hrPositionId, rhs.getHrPositionId())

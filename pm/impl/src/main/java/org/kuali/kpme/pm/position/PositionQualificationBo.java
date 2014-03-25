@@ -17,22 +17,19 @@ package org.kuali.kpme.pm.position;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.pm.api.position.PositionQualificationContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
-import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class PositionQualification extends PersistableBusinessObjectBase implements PositionQualificationContract {
+public class PositionQualificationBo extends PositionDerived implements PositionQualificationContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmQualificationId;
 	private String qualificationType;
+	@SuppressWarnings("unused")
 	private String typeValue;		// for GUI only
 	private String qualifier;
 	private String qualificationValue;
-	private String hrPositionId;
 		
 	public String getQualificationType() {
 		return qualificationType;
@@ -80,14 +77,6 @@ public class PositionQualification extends PersistableBusinessObjectBase impleme
 		this.pmQualificationId = pmQualificationId;
 	}
 
-	public String getHrPositionId() {
-		return hrPositionId;
-	}
-
-	public void setHrPositionId(String hrPositionId) {
-		this.hrPositionId = hrPositionId;
-	}
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null)
@@ -97,7 +86,7 @@ public class PositionQualification extends PersistableBusinessObjectBase impleme
         if (obj.getClass() != getClass())
             return false;
 
-        PositionQualification rhs = (PositionQualification)obj;
+        PositionQualificationBo rhs = (PositionQualificationBo)obj;
         return new EqualsBuilder()
                 .append(pmQualificationId, rhs.getPmQualificationId())
                 .append(qualificationType, rhs.getQualificationType())

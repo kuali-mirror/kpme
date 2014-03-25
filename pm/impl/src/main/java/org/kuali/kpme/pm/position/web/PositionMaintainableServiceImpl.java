@@ -31,12 +31,12 @@ import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.position.PositionBo;
-import org.kuali.kpme.pm.position.PositionDuty;
-import org.kuali.kpme.pm.position.PositionQualification;
+import org.kuali.kpme.pm.position.PositionDutyBo;
+import org.kuali.kpme.pm.position.PositionQualificationBo;
 import org.kuali.kpme.pm.position.PstnFlag;
-import org.kuali.kpme.pm.position.funding.PositionFunding;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
-import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
+import org.kuali.kpme.pm.position.funding.PositionFundingBo;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
+import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -64,11 +64,11 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj){
 		PositionBo aPosition = (PositionBo) hrObj;
-		for(PositionQualification aQual : aPosition.getQualificationList()) {
+		for(PositionQualificationBo aQual : aPosition.getQualificationList()) {
 			aQual.setHrPositionId(aPosition.getHrPositionId());
 			aQual.setPmQualificationId(null);
 		}
-		for(PositionDuty aDuty : aPosition.getDutyList()) {
+		for(PositionDutyBo aDuty : aPosition.getDutyList()) {
 			aDuty.setHrPositionId(aPosition.getHrPositionId());
 			aDuty.setPmDutyId(null);
 		}
@@ -76,15 +76,15 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 			aFlag.setHrPositionId(aPosition.getHrPositionId());
 			aFlag.setPmFlagId(null);
 		}
-		for(PositionFunding aFunding : aPosition.getFundingList()) {
+		for(PositionFundingBo aFunding : aPosition.getFundingList()) {
 			aFunding.setHrPositionId(aPosition.getHrPositionId());
 			aFunding.setPmPositionFunctionId(null);
 		}
-        for(PositionDepartment aDepartment : aPosition.getDepartmentList()) {
+        for(PositionDepartmentBo aDepartment : aPosition.getDepartmentList()) {
             aDepartment.setHrPositionId(aPosition.getHrPositionId());
             aDepartment.setPmPositionDeptId(null);
         }
-        for(PositionResponsibility aResponsibility : aPosition.getPositionResponsibilityList()) {
+        for(PositionResponsibilityBo aResponsibility : aPosition.getPositionResponsibilityList()) {
         	aResponsibility.setHrPositionId(aPosition.getHrPositionId());
         	aResponsibility.setPositionResponsibilityId(null);
         }
@@ -93,7 +93,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         // We should be able to do this in addNewLineToCollection, but all the components are in "pages" now with the layout change, 
         // not on the form, and addNewLineToCollection doesn't get called. 
         if (aPosition.getDepartmentList() != null) {
-        	for(PositionDepartment aPositionDepartment : aPosition.getDepartmentList()) {
+        	for(PositionDepartmentBo aPositionDepartment : aPosition.getDepartmentList()) {
         		if(aPositionDepartment != null && aPositionDepartment.getDeptAffl() != null) {
         			DepartmentAffiliation pda = (DepartmentAffiliation)aPositionDepartment.getDeptAfflObj();
         			if (pda.isPrimaryIndicator()) {
@@ -117,16 +117,16 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	        if (document.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
 	        	PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
 	        	// Duty line validation
-		        if (addLine instanceof PositionDuty) {
-		        	PositionDuty pd = (PositionDuty) addLine;
+		        if (addLine instanceof PositionDutyBo) {
+		        	PositionDutyBo pd = (PositionDutyBo) addLine;
 		        	boolean results = this.validateDutyListPercentage(pd, aPosition);
 		        	if(!results) {
 		        		return false;
 		        	}
 		        }
 	        	// Funding line validation
-		        if (addLine instanceof PositionFunding) {
-		        	PositionFunding pf = (PositionFunding) addLine;
+		        if (addLine instanceof PositionFundingBo) {
+		        	PositionFundingBo pf = (PositionFundingBo) addLine;
 		        	boolean results = this.validateAddFundingLine(pf, aPosition);
 		        	if(!results) {
 		        		return false;
@@ -138,10 +138,10 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         return isValid;
     }
 	
-	private boolean validateDutyListPercentage(PositionDuty pd, PositionBo aPosition) {
+	private boolean validateDutyListPercentage(PositionDutyBo pd, PositionBo aPosition) {
 		if(CollectionUtils.isNotEmpty(aPosition.getDutyList()) && pd.getPercentage() != null) {
 			BigDecimal sum = pd.getPercentage();
-			for(PositionDuty aDuty : aPosition.getDutyList()) {
+			for(PositionDutyBo aDuty : aPosition.getDutyList()) {
 				if(aDuty != null && aDuty.getPercentage() != null) {
 					sum = sum.add(aDuty.getPercentage());
 				}
@@ -154,7 +154,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 		return true;
 	}
 	
-	protected boolean validateAddFundingLine(PositionFunding pf, PositionBo aPosition) {
+	protected boolean validateAddFundingLine(PositionFundingBo pf, PositionBo aPosition) {
     	if(StringUtils.isNotEmpty(pf.getAccount())) {
     		boolean results = ValidationUtils.validateAccount(pf.getChart(), pf.getAccount());
     		if(!results) {
@@ -256,7 +256,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
     public void prepareForSave() {
     	PositionBo position = (PositionBo)this.getDataObject();
         boolean hasPrimaryDepartment = false;
-        for (PositionDepartment positionDepartment : position.getDepartmentList()) {
+        for (PositionDepartmentBo positionDepartment : position.getDepartmentList()) {
             if (positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                 hasPrimaryDepartment=true;
                 positionDepartment.setDepartment(position.getPrimaryDepartment());
@@ -268,7 +268,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 
         //create primary department
         if (!hasPrimaryDepartment && StringUtils.isNotEmpty(position.getPrimaryDepartment())) {
-            PositionDepartment primaryDepartment = new PositionDepartment();
+            PositionDepartmentBo primaryDepartment = new PositionDepartmentBo();
             primaryDepartment.setDepartment(position.getPrimaryDepartment());
             primaryDepartment.setLocation(position.getLocation());
             primaryDepartment.setInstitution(position.getInstitution());

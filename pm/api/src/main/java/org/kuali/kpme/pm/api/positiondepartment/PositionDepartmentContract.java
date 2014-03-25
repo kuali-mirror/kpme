@@ -16,15 +16,15 @@
 package org.kuali.kpme.pm.api.positiondepartment;
 
 
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.pm.api.position.PositionDerivedContract;
 
 
 
 
-public interface PositionDepartmentContract extends PersistableBusinessObject {
+public interface PositionDepartmentContract extends PositionDerivedContract {
 
 
     /**
@@ -126,20 +126,6 @@ public interface PositionDepartmentContract extends PersistableBusinessObject {
      */
     //public Department getDepartmentObj();
     //TODO find correct contract
-
-
-
-    /**
-     * Position Department HrPositionId
-     *
-     * <p>
-     * hrPositionId for the Position Department collection in Position.
-     * <p>
-     *
-     * @return hrPositionId for Position Department
-     */
-    public String getHrPositionId();
-
 
 
 }

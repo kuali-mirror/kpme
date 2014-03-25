@@ -22,8 +22,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.position.PositionBo;
-import org.kuali.kpme.pm.position.PositionDuty;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.position.PositionDutyBo;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -52,7 +52,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateDutyListPercentage(PositionBo aPosition) {
 		if (CollectionUtils.isNotEmpty(aPosition.getDutyList())) {
 			BigDecimal sum = BigDecimal.ZERO;
-			for (PositionDuty aDuty : aPosition.getDutyList()) {
+			for (PositionDutyBo aDuty : aPosition.getDutyList()) {
 				if (aDuty != null && aDuty.getPercentage() != null) {
 					sum = sum.add(aDuty.getPercentage());
 				}
@@ -90,10 +90,10 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 		// validate appointment type
 		if (!StringUtils.isEmpty(aPosition.getAppointmentType())) {
-			List <PositionDepartment> depts = aPosition.getDepartmentList();
+			List <PositionDepartmentBo> depts = aPosition.getDepartmentList();
 			if (depts != null && depts.size() > 0) {
 				boolean found = false;
-				for (PositionDepartment aPos : depts) {
+				for (PositionDepartmentBo aPos : depts) {
 					if (PmValidationUtils.validatePositionAppointmentType(aPosition.getAppointmentType(), aPos.getInstitution(), aPos.getLocation(), aPosition.getEffectiveLocalDate())) {
 						found = true;
 						break;
@@ -154,7 +154,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 	private boolean validatePrimaryDepartment(PositionBo aPosition) {
 
 		if (CollectionUtils.isNotEmpty(aPosition.getDepartmentList())) {
-			for (PositionDepartment aDepartment : aPosition.getDepartmentList()) {
+			for (PositionDepartmentBo aDepartment : aPosition.getDepartmentList()) {
 				if(aDepartment != null && aDepartment.getDeptAfflObj() != null) {
 					DepartmentAffiliation pda = (DepartmentAffiliation)aDepartment.getDeptAfflObj();
 					if (pda.isPrimaryIndicator()) {

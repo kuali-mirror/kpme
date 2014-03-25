@@ -22,7 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionresponsibilityoption.PositionResponsibilityOptionContract;
 import org.kuali.kpme.pm.position.PositionBo;
-import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
+import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -69,8 +69,8 @@ public class PstnRspOptionKeyValueFinder extends UifKeyValuesFinderBase {
 			int index = Integer.parseInt(fieldId.substring(line_index+4));
 
 			PositionBo aClass = (PositionBo)anHrObject;
-			List<PositionResponsibility> posRresponsibilityList = aClass.getPositionResponsibilityList(); // holds "added" lines
-			PositionResponsibility posResponsibility = (PositionResponsibility)posRresponsibilityList.get(index);
+			List<PositionResponsibilityBo> posRresponsibilityList = aClass.getPositionResponsibilityList(); // holds "added" lines
+			PositionResponsibilityBo posResponsibility = (PositionResponsibilityBo)posRresponsibilityList.get(index);
 			
 			List<? extends PositionResponsibilityOptionContract> typeList = PmServiceLocator.getPositionResponsibilityOptionService().getAllActivePstnRspOptions();
 			options.add(new ConcreteKeyValue("", ""));

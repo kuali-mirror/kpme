@@ -16,24 +16,19 @@
 package org.kuali.kpme.pm.positionresponsibility;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.kpme.pm.position.PositionDerived;
 import org.kuali.rice.location.api.campus.Campus;
 
 import java.math.BigDecimal;
 
-public class PositionResponsibility extends PersistableBusinessObjectBase implements PositionResponsibilityContract {
+public class PositionResponsibilityBo extends PositionDerived implements PositionResponsibilityContract {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1631206606795253956L;
 	
 	private String positionResponsibilityId;
 	private String positionResponsibilityOption;
 	private BigDecimal percentTime;
-	private String hrPositionId;
 	private Campus campusObj;
 
 	public String getPositionResponsibilityId() {
@@ -69,14 +64,6 @@ public class PositionResponsibility extends PersistableBusinessObjectBase implem
 		this.campusObj = campusObj;
 	}
 
-	public String getHrPositionId() {
-		return hrPositionId;
-	}
-
-	public void setHrPositionId(String hrPositionId) {
-		this.hrPositionId = hrPositionId;
-	}
-
 	public String getId() {
 		return this.getPositionResponsibilityId();
 	}
@@ -95,7 +82,7 @@ public class PositionResponsibility extends PersistableBusinessObjectBase implem
         if (obj.getClass() != getClass())
             return false;
 
-        PositionResponsibility rhs = (PositionResponsibility)obj;
+        PositionResponsibilityBo rhs = (PositionResponsibilityBo)obj;
         return new EqualsBuilder()
                 .append(positionResponsibilityId, rhs.getPositionResponsibilityId())
                 .append(positionResponsibilityOption, rhs.getPositionResponsibilityOption())

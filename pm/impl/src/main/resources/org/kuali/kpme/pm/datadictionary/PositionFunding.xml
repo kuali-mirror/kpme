@@ -23,7 +23,7 @@
 	<bean id="PositionFunding" parent="PositionFunding-parentBean" />
 	<bean id="PositionFunding-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.funding.PositionFunding" />
+		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.funding.PositionFundingBo" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="PositionFunding-pmPositionFunctionId" />

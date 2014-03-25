@@ -24,7 +24,7 @@
 	<bean id="PositionResponsibility-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="dataObjectClass"
-			value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" />
+			value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo" />
 		<property name="attributes">
 			<list>
 				<ref bean="PositionResponsibility-positionResponsibilityId" />
@@ -127,7 +127,7 @@
 	<bean id="PositionResponsibility-LookupView" parent="Uif-LookupView">
 		<property name="headerText" value="Position Type Lookup" />
 		<property name="dataObjectClassName"
-			value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" />
+			value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo" />
 		<property name="criteriaFields">
 			<list>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
@@ -135,7 +135,7 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility"
+							p:dataObjectClassName="org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo"
 							p:fieldConversions="institutionCode:institution" />
 					</property>
 				</bean>

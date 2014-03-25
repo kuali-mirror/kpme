@@ -23,7 +23,7 @@
 	
 	<bean id="PositionQualification" parent="PositionQualification-parentBean"/>
  	<bean id="PositionQualification-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionQualification"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionQualificationBo"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="PositionQualification-pmQualificationId"/>

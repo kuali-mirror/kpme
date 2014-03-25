@@ -15,10 +15,10 @@
  */
 package org.kuali.kpme.pm.positionresponsibility.dao;
 
-import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
+import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 
 public interface PositionResponsibilityDao {
-	public PositionResponsibility getPositionResponsibilityById(String positionResponsibilityId);
+	public PositionResponsibilityBo getPositionResponsibilityById(String positionResponsibilityId);
 
 
 }

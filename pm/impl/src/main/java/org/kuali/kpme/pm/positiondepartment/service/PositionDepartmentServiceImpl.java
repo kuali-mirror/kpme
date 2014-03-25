@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.positiondepartment.service;
 
 import org.kuali.kpme.pm.api.positiondepartment.service.PositionDepartmentService;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.kpme.pm.positiondepartment.dao.PositionDepartmentDao;
 
 public class PositionDepartmentServiceImpl implements PositionDepartmentService {
@@ -41,7 +41,7 @@ public class PositionDepartmentServiceImpl implements PositionDepartmentService 
 	 * @see org.kuali.hr.pm.positiondepartment.service.PositionDepartmentService#getPositionDepartmentById(java.lang.String)
 	 */
 	@Override
-	public PositionDepartment getPositionDepartmentById(String pmPositionDeptId) {
+	public PositionDepartmentBo getPositionDepartmentById(String pmPositionDeptId) {
 		return positionDepartmentDao.getPositionDepartmentById(pmPositionDeptId);
 	}
 	

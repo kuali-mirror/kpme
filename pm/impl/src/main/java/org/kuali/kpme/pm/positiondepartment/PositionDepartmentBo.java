@@ -23,11 +23,11 @@ import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.kpme.pm.position.PositionDerived;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.ImmutableList;
-public class PositionDepartment extends PersistableBusinessObjectBase implements PositionDepartmentContract {
+public class PositionDepartmentBo extends PositionDerived implements PositionDepartmentContract {
 	
     private static final String DEPARTMENT = "department";
 
@@ -45,7 +45,6 @@ public class PositionDepartment extends PersistableBusinessObjectBase implements
 	private String department;
 	private String deptAffl;
 
-    private String hrPositionId;
 	private LocationBo locationObj;
 	private InstitutionBo institutionObj;
 	private DepartmentBo departmentObj;
@@ -87,20 +86,6 @@ public class PositionDepartment extends PersistableBusinessObjectBase implements
 			DepartmentAffiliation deptAfflObj) {
 		this.deptAfflObj = deptAfflObj;
 	}
-
-    /**
-     * @return the hrPositionId
-     */
-    public String getHrPositionId() {
-        return hrPositionId;
-    }
-    /**
-     * @param hrPositionId the hrPositionId to set
-     */
-    public void setHrPositionId(String hrPositionId) {
-        this.hrPositionId = hrPositionId;
-    }
-
 
     /**
 	 * @return the pmPositionDeptId
@@ -211,7 +196,7 @@ public class PositionDepartment extends PersistableBusinessObjectBase implements
         if (obj.getClass() != getClass())
             return false;
 
-        PositionDepartment rhs = (PositionDepartment)obj;
+        PositionDepartmentBo rhs = (PositionDepartmentBo)obj;
         return new EqualsBuilder()
                 .append(pmPositionDeptId,rhs.getPmPositionDeptId())
                 .append(institution, rhs.getInstitution())

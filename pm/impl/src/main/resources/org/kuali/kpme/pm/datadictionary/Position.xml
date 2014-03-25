@@ -68,13 +68,13 @@
 			<list>
 				<bean parent="CollectionDefinition">
 					<property name="dataObjectClass"
-						value="org.kuali.kpme.pm.position.PositionQualification" />
+						value="org.kuali.kpme.pm.position.PositionQualificationBo" />
 					<property name="name" value="qualificationList" />
 					<property name="shortLabel" value="Qualifications" />
 					<property name="label" value="Position Qualifications" />
 				</bean>
 				<bean parent="CollectionDefinition">
-					<property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionDuty" />
+					<property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionDutyBo" />
 					<property name="name" value="dutyList" />
 					<property name="shortLabel" value="Duties" />
 					<property name="label" value="Position Duties" />
@@ -94,14 +94,14 @@
 				</bean>
 				<bean parent="CollectionDefinition">
 					<property name="dataObjectClass"
-						value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" />
+						value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo" />
 					<property name="name" value="positionResponsibilityList" />
 					<property name="shortLabel" value="Responsibilities" />
 					<property name="label" value="Position Responsibilities" />
 				</bean>
 				<bean parent="CollectionDefinition">
 					<property name="dataObjectClass"
-						value="org.kuali.kpme.pm.positiondepartment.PositionDepartment" />
+						value="org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo" />
 					<property name="name" value="departmentList" />
 					<property name="shortLabel" value="Departments" />
 					<property name="label" value="Position Departments" />
@@ -638,7 +638,7 @@
 
     <bean id="Position-DepartmentInquiryPage-Section" parent="Uif-TableCollectionSection">
         <property name="collectionObjectClass"
-                  value="org.kuali.kpme.pm.positiondepartment.PositionDepartment"/>
+                  value="org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo"/>
         <property name="propertyName" value="departmentList"/>
         <property name="headerText" value="Additional Departments"/>
         <property name="renderInactiveToggleButton" value="false"/>
@@ -697,7 +697,7 @@
           p:layoutManager.numberOfColumns="4">
         <property name="headerText" value="Preferred Qualification"/>
         <property name="collectionObjectClass"
-                  value="org.kuali.kpme.pm.position.PositionQualification"/>
+                  value="org.kuali.kpme.pm.position.PositionQualificationBo"/>
         <property name="propertyName" value="qualificationList"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.separateAddLine" value="true"/>
@@ -725,7 +725,7 @@
     </bean>
 
     <bean id="Position-DutyInquiryPage-Section" parent="Uif-TableCollectionSection">
-        <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionDuty"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionDutyBo"/>
         <property name="propertyName" value="dutyList"/>
         <property name="headerText" value="Duties"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -782,7 +782,7 @@
 
     <bean id="Position-ResponsibilityInquiryPage-Section" parent="Uif-TableCollectionSection">
         <property name="collectionObjectClass"
-                  value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility"/>
+                  value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo"/>
         <property name="propertyName" value="positionResponsibilityList"/>
         <property name="headerText" value="Responsibility"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -808,7 +808,7 @@
 
     <bean id="Position-FundingInquiryPage-Section" parent="Uif-StackedCollectionSection">
         <property name="collectionObjectClass"
-                  value="org.kuali.kpme.pm.position.funding.PositionFunding"/>
+                  value="org.kuali.kpme.pm.position.funding.PositionFundingBo"/>
         <property name="propertyName" value="fundingList"/>
         <property name="headerText" value="Funding"/>
         <property name="renderInactiveToggleButton" value="false"/>
@@ -943,7 +943,7 @@
 	<bean id="Position-qualifications" abstract="true"
 		parent="Uif-TableCollectionGroup">
 		<property name="collectionObjectClass"
-			value="org.kuali.kpme.pm.position.PositionQualification" />
+			value="org.kuali.kpme.pm.position.PositionQualificationBo" />
 		<property name="propertyName" value="qualificationList" />
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="layoutManager.generateAutoSequence" value="true" />
@@ -1015,7 +1015,7 @@
 	<!-- Duties List, used by maintenance views -->
 	<bean id="Position-duties" parent="Uif-TableCollectionGroup"
 		p:align="left">
-		<property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionDuty" />
+		<property name="collectionObjectClass" value="org.kuali.kpme.pm.position.PositionDutyBo" />
 		<property name="propertyName" value="dutyList" />
 		<property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" />
 		<property name="addLinePlacement" value="BOTTOM" />
@@ -1102,7 +1102,7 @@
 	<bean id="Position-responsibilities" abstract="true"
 		parent="Uif-TableCollectionGroup">
 		<property name="collectionObjectClass"
-			value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" />
+			value="org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo" />
 		<property name="propertyName" value="positionResponsibilityList" />
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="layoutManager.richTable.render" value="false" />
@@ -1137,7 +1137,7 @@
 	<!-- Funding List, used by maintenance views -->
 	<bean id="Position-fundings" parent="Uif-StackedCollectionGroup">
 		<property name="collectionObjectClass"
-			value="org.kuali.kpme.pm.position.funding.PositionFunding" />
+			value="org.kuali.kpme.pm.position.funding.PositionFundingBo" />
 		<property name="propertyName" value="fundingList" />
 		<!-- 
 		<property name="addLinePlacement" value="BOTTOM" />
@@ -1201,7 +1201,7 @@
 	<bean id="Position-departments" parent="Uif-TableCollectionGroup"
 		p:align="left">
 		<property name="collectionObjectClass"
-			value="org.kuali.kpme.pm.positiondepartment.PositionDepartment" />
+			value="org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo" />
 		<property name="propertyName" value="departmentList" />
 		<property name="refreshWhenChangedPropertyNames" value="pmPositionClassId" />
 		<property name="addLinePlacement" value="BOTTOM" />

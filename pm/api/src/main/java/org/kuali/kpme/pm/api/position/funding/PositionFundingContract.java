@@ -35,16 +35,6 @@ public interface PositionFundingContract extends PositionDerivedContract {
      */
 	public String getPmPositionFunctionId();
 
-    /**
-     * The HR position id associated with the PositionFunding
-     *
-     * <p>
-     * hrPositionId of a PositionFunding.
-     * <p>
-     *
-     * @return hrPositionId for PositionFunding
-     */
-	public String getHrPositionId();
 
     /**
      * The source associated with the PositionFunding

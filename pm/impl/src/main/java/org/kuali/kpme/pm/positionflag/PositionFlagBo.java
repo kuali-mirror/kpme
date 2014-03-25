@@ -15,12 +15,12 @@
  */
 package org.kuali.kpme.pm.positionflag;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
+import org.kuali.kpme.pm.position.PositionDerived;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-public class PositionFlag extends HrBusinessObject implements PositionFlagContract {
+
+public class PositionFlagBo extends PositionDerived implements PositionFlagContract {
 	
 	private static final String POSITION_FLAG_NAME = "positionFlagName";
 	private static final String CATEGORY = "category";
@@ -36,13 +36,13 @@ public class PositionFlag extends HrBusinessObject implements PositionFlagContra
 	private String category;
 	private String positionFlagName;
 	
-	@Override
-	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-		return new ImmutableMap.Builder<String, Object>()
-				.put(CATEGORY, this.getCategory())
-				.put(POSITION_FLAG_NAME, this.getPositionFlagName())
-				.build();
-	}
+//	@Override
+//	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+//		return new ImmutableMap.Builder<String, Object>()
+//				.put(CATEGORY, this.getCategory())
+//				.put(POSITION_FLAG_NAME, this.getPositionFlagName())
+//				.build();
+//	}
 	
 	public String getPmPositionFlagId() {
 		return pmPositionFlagId;
@@ -63,18 +63,18 @@ public class PositionFlag extends HrBusinessObject implements PositionFlagContra
 		this.positionFlagName = positionFlagName;
 	}
 	
-	@Override
-	public String getId() {
-		return this.getPmPositionFlagId();
-	}
-	@Override
-	public void setId(String id) {
-		this.setPmPositionFlagId(id);
-		
-	}
-	@Override
-	protected String getUniqueKey() {
-		return this.getCategory() + "_" + this.getPositionFlagName();
-	}
+//	@Override
+//	public String getId() {
+//		return this.getPmPositionFlagId();
+//	}
+//	@Override
+//	public void setId(String id) {
+//		this.setPmPositionFlagId(id);
+//		
+//	}
+//	@Override
+//	protected String getUniqueKey() {
+//		return this.getCategory() + "_" + this.getPositionFlagName();
+//	}
 	
 }

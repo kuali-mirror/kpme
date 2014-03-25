@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.position.service;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.pm.position.PositionBo;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -50,7 +50,7 @@ public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends Data
                     if (md.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
                         PositionBo position = (PositionBo) (md.getNewMaintainableObject().getDataObject());
 
-                        for (PositionDepartment positionDepartment : position.getDepartmentList()) {
+                        for (PositionDepartmentBo positionDepartment : position.getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                                 deptQualifiers.add(
                                         Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getDepartment())));
@@ -60,7 +60,7 @@ public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends Data
                 } else {
                     // If doc itself is instance of Position
                     if (doc instanceof PositionBo) {
-                        for (PositionDepartment positionDepartment : ((PositionBo)doc).getDepartmentList()) {
+                        for (PositionDepartmentBo positionDepartment : ((PositionBo)doc).getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                                 deptQualifiers.add(
                                         Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getDepartment())));

@@ -47,7 +47,7 @@ public class PositionQualifierKeyValueFinder extends UifKeyValuesFinderBase{
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
 		List<KeyValue> options = new ArrayList<KeyValue>();
 
-		PositionQualification aQualification = (PositionQualification) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.qualificationList");
+		PositionQualificationBo aQualification = (PositionQualificationBo) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.qualificationList");
 		if(aQualification != null) {
 			String aTypeId = aQualification.getQualificationType();
 			PstnQlfrTypeContract aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);
@@ -83,8 +83,8 @@ public class PositionQualifierKeyValueFinder extends UifKeyValuesFinderBase{
 			int index = Integer.parseInt(fieldId.substring(line_index+4));
 			
 			PositionBo aPosition = (PositionBo)anHrObject;
-			List<PositionQualification> qualificationList = aPosition.getQualificationList(); // holds "added" lines
-			PositionQualification posQualification = (PositionQualification)qualificationList.get(index);
+			List<PositionQualificationBo> qualificationList = aPosition.getQualificationList(); // holds "added" lines
+			PositionQualificationBo posQualification = (PositionQualificationBo)qualificationList.get(index);
 			String aTypeId = posQualification.getQualificationType();
 
 			PstnQlfrTypeContract aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);;

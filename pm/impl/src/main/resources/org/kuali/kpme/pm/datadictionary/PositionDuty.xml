@@ -23,7 +23,7 @@
 	
 	<bean id="PositionDuty" parent="PositionDuty-parentBean"/>
  	<bean id="PositionDuty-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionDuty"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionDutyBo"/>
 	    <property name="attributes">
 	      <list>
 	        <ref bean="PositionDuty-pmDutyId"/>

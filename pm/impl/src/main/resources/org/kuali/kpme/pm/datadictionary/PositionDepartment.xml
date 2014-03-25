@@ -23,7 +23,7 @@
 	
 	<bean id="PositionDepartment" parent="PositionDepartment-parentBean"/>
  	<bean id="PositionDepartment-parentBean" abstract="true" parent="BusinessObjectEntry">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positiondepartment.PositionDepartment"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PositionDepartment-pmPositionDeptId"/>

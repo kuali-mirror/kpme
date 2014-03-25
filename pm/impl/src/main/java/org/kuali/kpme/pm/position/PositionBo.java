@@ -32,9 +32,9 @@ import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
-import org.kuali.kpme.pm.position.funding.PositionFunding;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
-import org.kuali.kpme.pm.positionresponsibility.PositionResponsibility;
+import org.kuali.kpme.pm.position.funding.PositionFundingBo;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
+import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 
@@ -49,12 +49,12 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
             .add(PositionContract.CACHE_NAME)
             .build();
 	
-	private List<PositionQualification> qualificationList = new LinkedList<PositionQualification>();
-    private List<PositionDuty> dutyList = new LinkedList<PositionDuty>();
+	private List<PositionQualificationBo> qualificationList = new LinkedList<PositionQualificationBo>();
+    private List<PositionDutyBo> dutyList = new LinkedList<PositionDutyBo>();
     private List<PstnFlag> flagList = new LinkedList<PstnFlag>();
-    private List<PositionResponsibility> positionResponsibilityList = new LinkedList<PositionResponsibility>();
-    private List<PositionFunding> fundingList = new ArrayList<PositionFunding>();
-    private List<PositionDepartment> departmentList = new ArrayList<PositionDepartment>();
+    private List<PositionResponsibilityBo> positionResponsibilityList = new LinkedList<PositionResponsibilityBo>();
+    private List<PositionFundingBo> fundingList = new ArrayList<PositionFundingBo>();
+    private List<PositionDepartmentBo> departmentList = new ArrayList<PositionDepartmentBo>();
 
     private String institution;
     private String salaryGroup;
@@ -101,14 +101,14 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
     private transient boolean displayFunding;
     private transient boolean displayAdHocRecipients;*/
    
-    public List<PositionDuty> getDutyList() {
+    public List<PositionDutyBo> getDutyList() {
     	if(CollectionUtils.isEmpty(dutyList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
     		List<? extends ClassificationDutyContract> aList = PmServiceLocator.getClassificationDutyService().getDutyListForClassification(this.getPmPositionClassId());
     		if(CollectionUtils.isNotEmpty(aList)) {
-    			List<PositionDuty> pDutyList = new ArrayList<PositionDuty>();
+    			List<PositionDutyBo> pDutyList = new ArrayList<PositionDutyBo>();
     			// copy basic information from classificaton duty list
     			for(ClassificationDutyContract aDuty : aList) {
-    				PositionDuty pDuty = new PositionDuty();
+    				PositionDutyBo pDuty = new PositionDutyBo();
     				pDuty.setName(aDuty.getName());
     				pDuty.setDescription(aDuty.getDescription());
     				pDuty.setPercentage(aDuty.getPercentage());
@@ -122,23 +122,23 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		return dutyList;
 	}
 
-	public List<PositionResponsibility> getPositionResponsibilityList() {
+	public List<PositionResponsibilityBo> getPositionResponsibilityList() {
 		return positionResponsibilityList;
 	}
 
 	public void setPositionResponsibilityList(
-			List<PositionResponsibility> positionResponsibilityList) {
+			List<PositionResponsibilityBo> positionResponsibilityList) {
 		this.positionResponsibilityList = positionResponsibilityList;
 	}
-	public void setDutyList(List<PositionDuty> dutyList) {
+	public void setDutyList(List<PositionDutyBo> dutyList) {
 		this.dutyList = dutyList;
 	}
 
-	public List<PositionQualification> getQualificationList() {
+	public List<PositionQualificationBo> getQualificationList() {
 		return qualificationList;
 	}
 
-	public void setQualificationList(List<PositionQualification> qualificationList) {
+	public void setQualificationList(List<PositionQualificationBo> qualificationList) {
 		this.qualificationList = qualificationList;
 	}
 
@@ -208,11 +208,11 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 			requiredQualList = aList;
 	}
 
-	public List<PositionFunding> getFundingList() {
+	public List<PositionFundingBo> getFundingList() {
 		return fundingList;
 	}
 
-	public void setFundingList(List<PositionFunding> fundingList) {
+	public void setFundingList(List<PositionFundingBo> fundingList) {
 		this.fundingList = fundingList;
 	}
 
@@ -328,11 +328,11 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.workMonths = workMonths;
     }
 
-    public List<PositionDepartment> getDepartmentList() {
+    public List<PositionDepartmentBo> getDepartmentList() {
         return departmentList;
     }
 
-    public void setDepartmentList(List<PositionDepartment> departmentList) {
+    public void setDepartmentList(List<PositionDepartmentBo> departmentList) {
         this.departmentList = departmentList;
     }
 
@@ -358,7 +358,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 	public String getPrimaryDepartment() {
 
 		if (this.primaryDepartment == null && this.departmentList != null && this.departmentList.size() > 0) {
-			for (PositionDepartment department: this.departmentList) {
+			for (PositionDepartmentBo department: this.departmentList) {
 				DepartmentAffiliation pda = department.getDeptAfflObj();
 				if (pda.isPrimaryIndicator()) {
 					primaryDepartment = department.getDepartment();

@@ -24,7 +24,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.classification.Classification;
 import org.kuali.kpme.pm.position.PositionBo;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -57,7 +57,7 @@ public class LocationKeyValueFinder extends UifKeyValuesFinderBase {
 				if (field.getId().contains("add") || field.getId().contains("line")) {  // gets called on Additinal Departments Page
 					
 					if (field.getId().contains("add")) {
-						PositionDepartment dept = (PositionDepartment) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.departmentList");
+						PositionDepartmentBo dept = (PositionDepartmentBo) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.departmentList");
 						if (StringUtils.isEmpty(dept.getInstitution())) {
 							institution = aClass.getInstitution();
 						} else {
@@ -67,8 +67,8 @@ public class LocationKeyValueFinder extends UifKeyValuesFinderBase {
 						String fieldId = field.getId();
 						int line_index = fieldId.indexOf("line");
 						int index = Integer.parseInt(fieldId.substring(line_index+4));
-						List<PositionDepartment> deptList = aClass.getDepartmentList(); // holds "added" lines
-						PositionDepartment aDepartment = (PositionDepartment)deptList.get(index);
+						List<PositionDepartmentBo> deptList = aClass.getDepartmentList(); // holds "added" lines
+						PositionDepartmentBo aDepartment = (PositionDepartmentBo)deptList.get(index);
 						institution = aDepartment.getInstitution();
 					}
 					

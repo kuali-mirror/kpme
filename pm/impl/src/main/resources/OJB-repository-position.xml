@@ -123,7 +123,7 @@
     
     <!-- Position Flag -->
     <!-- Business Keys - [positionFlagName : category : effectiveDate : timestamp] -->	
-    <class-descriptor class="org.kuali.kpme.pm.positionflag.PositionFlag" table="PM_PSTN_FLG_T">
+    <class-descriptor class="org.kuali.kpme.pm.positionflag.PositionFlagBo" table="PM_PSTN_FLG_T">
         <field-descriptor name="pmPositionFlagId" 		column="PM_PSTN_FLG_ID" 		 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_FLG_S" />
         <field-descriptor name="category"     			column="CTGRY"					 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="positionFlagName"  		column="PSTN_FLG_NM"     		 jdbc-type="VARCHAR"     length="50"  		nullable="true" />
@@ -203,7 +203,7 @@
 
     <!-- Position Department-->
     <!-- Business Keys - [department : effectiveDate : timestamp] -->	
-    <class-descriptor class="org.kuali.kpme.pm.positiondepartment.PositionDepartment" table="PM_PSTN_DEPT_T">
+    <class-descriptor class="org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo" table="PM_PSTN_DEPT_T">
         <field-descriptor name="pmPositionDeptId"       column="PM_PSTN_DEPT_ID"  	     jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_DEPT_S" />
         <field-descriptor name="hrPositionId"   			column="HR_PSTN_ID"    		jdbc-type="VARCHAR"     length="60"  		nullable="false" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
@@ -335,11 +335,11 @@
         <field-descriptor name="contract"         		column="CONT"    		jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="contractType"         	column="CONT_TYP"    	jdbc-type="VARCHAR"     length="10" 	nullable="true" />
 
- 		<collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.position.PositionQualification"
+ 		<collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.position.PositionQualificationBo"
          		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
              <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
-        <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.position.PositionDuty"
+        <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.position.PositionDutyBo"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>    
@@ -347,22 +347,22 @@
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
-        <collection-descriptor name="positionResponsibilityList" element-class-ref="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility"
+        <collection-descriptor name="positionResponsibilityList" element-class-ref="org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
-        <collection-descriptor name="fundingList" element-class-ref="org.kuali.kpme.pm.position.funding.PositionFunding"
+        <collection-descriptor name="fundingList" element-class-ref="org.kuali.kpme.pm.position.funding.PositionFundingBo"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
-        <collection-descriptor name="departmentList" element-class-ref="org.kuali.kpme.pm.positiondepartment.PositionDepartment"
+        <collection-descriptor name="departmentList" element-class-ref="org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo"
                 collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="hrPositionId" />
         </collection-descriptor>
     </class-descriptor>
 
     <!-- Position Responsibilty  -->
-    <class-descriptor class="org.kuali.kpme.pm.positionresponsibility.PositionResponsibility" table="PM_PSTN_RPS_T">
+    <class-descriptor class="org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo" table="PM_PSTN_RPS_T">
         <field-descriptor name="positionResponsibilityId" 		column="PM_PSTN_RPS_ID" 		 		jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PSTN_RPS_OPT_S" />
         <field-descriptor name="positionResponsibilityOption"   column="PM_RPS_OPTION"      		 	jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="hrPositionId"   				column="HR_PSTN_ID"    					jdbc-type="VARCHAR"     length="60"  		nullable="false" />
@@ -372,7 +372,7 @@
     </class-descriptor>
 
     <!-- Position Qualification -->
-    <class-descriptor class="org.kuali.kpme.pm.position.PositionQualification" table="PM_PSTN_QLFCTN_T">
+    <class-descriptor class="org.kuali.kpme.pm.position.PositionQualificationBo" table="PM_PSTN_QLFCTN_T">
         <field-descriptor name="pmQualificationId"   				column="PM_PSTN_QLFCTN_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_QLFCTN_S" />
         <field-descriptor name="qualificationType"    				column="QLFCTN_TP"      		 jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="qualifier"    						column="QUALIFIER"             	 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
@@ -383,7 +383,7 @@
     </class-descriptor>
 
     <!-- Position Duty -->
-    <class-descriptor class="org.kuali.kpme.pm.position.PositionDuty" table="PM_PSTN_DUTY_T">
+    <class-descriptor class="org.kuali.kpme.pm.position.PositionDutyBo" table="PM_PSTN_DUTY_T">
         <field-descriptor name="pmDutyId"   				column="PM_DUTY_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_DUTY_S" />
         <field-descriptor name="name"    					column="NAME"      			jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"    			column="DESCR"             	jdbc-type="VARCHAR"     length="300" 		nullable="false" />
@@ -404,7 +404,7 @@
     </class-descriptor>
 
 	<!-- Position Funding  -->
-    <class-descriptor class="org.kuali.kpme.pm.position.funding.PositionFunding" table="PM_PSTN_FNDNG_T">
+    <class-descriptor class="org.kuali.kpme.pm.position.funding.PositionFundingBo" table="PM_PSTN_FNDNG_T">
         <field-descriptor name="pmPositionFunctionId" 		    column="PM_PSTN_FNDNG_ID" 		 		jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_FNDNG_S" />
         <field-descriptor name="hrPositionId"   				column="HR_PSTN_ID"    					jdbc-type="VARCHAR"     length="60"  		nullable="false" />
         <field-descriptor name="chart"     		  				column="CHART"			 				jdbc-type="VARCHAR"     length="50" />

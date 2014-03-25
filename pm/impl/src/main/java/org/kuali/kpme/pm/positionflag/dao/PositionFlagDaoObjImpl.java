@@ -26,23 +26,23 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.positionflag.PositionFlag;
+import org.kuali.kpme.pm.positionflag.PositionFlagBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionFlagDao {
 
 	@Override
-	public PositionFlag getPositionFlagById(String pmPositionFlagId) {
+	public PositionFlagBo getPositionFlagById(String pmPositionFlagId) {
 		Criteria crit = new Criteria();
         crit.addEqualTo("pmPositionFlagId", pmPositionFlagId);
 
-        Query query = QueryFactory.newQuery(PositionFlag.class, crit);
-        return (PositionFlag) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionFlagBo.class, crit);
+        return (PositionFlagBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
 	@Override
-	public List<PositionFlag> getAllActivePositionFlags(String category, String name, LocalDate effDate) {
-		List<PositionFlag> pfList = new ArrayList<PositionFlag>();
+	public List<PositionFlagBo> getAllActivePositionFlags(String category, String name, LocalDate effDate) {
+		List<PositionFlagBo> pfList = new ArrayList<PositionFlagBo>();
 		Criteria root = new Criteria();
 
 		if(StringUtils.isNotEmpty(category) 
@@ -54,14 +54,14 @@ public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 			root.addEqualTo("positionFlagName", name); 
 		}
         
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlag.class, effDate, PositionFlag.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionFlag.class, PositionFlag.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlagBo.class, effDate, PositionFlagBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionFlagBo.class, PositionFlagBo.BUSINESS_KEYS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(PositionFlag.class, root);
+        Query query = QueryFactory.newQuery(PositionFlagBo.class, root);
         
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		if(!c.isEmpty())
@@ -75,14 +75,14 @@ public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 		List<String> categoryList = new ArrayList<String>();
 		Criteria root = new Criteria();
 		root.addEqualTo("active", true); 
-		Query query = QueryFactory.newQuery(PositionFlag.class, root);
+		Query query = QueryFactory.newQuery(PositionFlagBo.class, root);
         
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        List<PositionFlag> pfList = new ArrayList<PositionFlag>();
+        List<PositionFlagBo> pfList = new ArrayList<PositionFlagBo>();
         if(!c.isEmpty())
 			pfList.addAll(c);
        
-        for(PositionFlag aFlag : pfList) {
+        for(PositionFlagBo aFlag : pfList) {
         	if(aFlag != null && StringUtils.isNotEmpty(aFlag.getCategory())
         			&& !categoryList.contains(aFlag.getCategory())) {
         		categoryList.add(aFlag.getCategory());
@@ -92,8 +92,8 @@ public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 	}
 	
 	@Override
-	public List<PositionFlag> getAllActivePositionFlagsWithCategory(String category, LocalDate effDate) {
-		List<PositionFlag> pfList = new ArrayList<PositionFlag>();
+	public List<PositionFlagBo> getAllActivePositionFlagsWithCategory(String category, LocalDate effDate) {
+		List<PositionFlagBo> pfList = new ArrayList<PositionFlagBo>();
 		Criteria root = new Criteria();
 		if(StringUtils.isEmpty(category)) {
 			return pfList;
@@ -102,13 +102,13 @@ public class PositionFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 		
 		if(effDate != null) {
 			root.addLessOrEqualThan("effectiveDate", effDate.toDate());
-			root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlag.class, effDate, PositionFlag.BUSINESS_KEYS, false));
+			root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionFlagBo.class, effDate, PositionFlagBo.BUSINESS_KEYS, false));
 		}
 		Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(PositionFlag.class, root);
+        Query query = QueryFactory.newQuery(PositionFlagBo.class, root);
         
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		if(!c.isEmpty())

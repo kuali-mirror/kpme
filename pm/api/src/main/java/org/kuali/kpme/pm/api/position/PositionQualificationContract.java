@@ -15,14 +15,11 @@
  */
 package org.kuali.kpme.pm.api.position;
 
-
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-
 /**
  * <p>PositionQualificationContract interface</p>
  *
  */
-public interface PositionQualificationContract extends PersistableBusinessObject {
+public interface PositionQualificationContract extends PositionDerivedContract {
 
     /**
      * The qualification type associated with the PositionQualification
@@ -78,16 +75,5 @@ public interface PositionQualificationContract extends PersistableBusinessObject
      * @return pmQualificationId for PositionQualification
      */
 	public String getPmQualificationId();
-
-    /**
-     * The HR position id associated with the PositionQualification
-     *
-     * <p>
-     * hrPositionId of a PositionQualification.
-     * <p>
-     *
-     * @return hrPositionId for PositionQualification
-     */
-	public String getHrPositionId();
 
 }

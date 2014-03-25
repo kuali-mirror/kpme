@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.positiondepartment.dao;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.util.ArrayList;
@@ -28,22 +28,22 @@ import java.util.List;
 public class PositionDepartmentDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionDepartmentDao {
 
 	@Override
-	public PositionDepartment getPositionDepartmentById(
+	public PositionDepartmentBo getPositionDepartmentById(
 			String pmPositionDeptId) {
 		Criteria crit = new Criteria();
         crit.addEqualTo("pmPositionDeptId", pmPositionDeptId);
 
-        Query query = QueryFactory.newQuery(PositionDepartment.class, crit);
-        return (PositionDepartment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionDepartmentBo.class, crit);
+        return (PositionDepartmentBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 
-    public List<PositionDepartment> getDepartmentListForPosition(String hrPositionId) {
-        List<PositionDepartment> departmentList = new ArrayList<PositionDepartment>();
+    public List<PositionDepartmentBo> getDepartmentListForPosition(String hrPositionId) {
+        List<PositionDepartmentBo> departmentList = new ArrayList<PositionDepartmentBo>();
         Criteria crit = new Criteria();
         crit.addEqualTo("hrPositionId", hrPositionId);
 
-        Query query = QueryFactory.newQuery(PositionDepartment.class, crit);
+        Query query = QueryFactory.newQuery(PositionDepartmentBo.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {

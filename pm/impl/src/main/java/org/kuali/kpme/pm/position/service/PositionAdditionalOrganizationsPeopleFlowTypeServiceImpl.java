@@ -21,7 +21,7 @@ import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.position.PositionBo;
-import org.kuali.kpme.pm.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -52,7 +52,7 @@ public class PositionAdditionalOrganizationsPeopleFlowTypeServiceImpl extends Da
                     if (md.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
                         PositionBo position = (PositionBo) (md.getNewMaintainableObject().getDataObject());
 
-                        for (PositionDepartment positionDepartment : position.getDepartmentList()) {
+                        for (PositionDepartmentBo positionDepartment : position.getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                                 Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(),position.getEffectiveLocalDate());
                                 orgQualifiers.add(
@@ -63,7 +63,7 @@ public class PositionAdditionalOrganizationsPeopleFlowTypeServiceImpl extends Da
                 } else {
                     // If doc itself is instance of Position
                     if (doc instanceof PositionBo) {
-                        for (PositionDepartment positionDepartment : ((PositionBo)doc).getDepartmentList()) {
+                        for (PositionDepartmentBo positionDepartment : ((PositionBo)doc).getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                                 Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(),((PositionBo)doc).getEffectiveLocalDate());
                                 orgQualifiers.add(
