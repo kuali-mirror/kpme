@@ -23,7 +23,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionFlag" parent="PositionFlag-parentBean"/>
- 	<bean id="PositionFlag-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+ 	<bean id="PositionFlag-parentBean" abstract="true" parent="BusinessObjectEntry">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionflag.PositionFlagBo"/>
 	    <property name="attributes">
 	      <list merge="true">
