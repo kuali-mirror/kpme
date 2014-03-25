@@ -111,7 +111,7 @@
 
     <!-- ClockLog -->
     <!-- Business Keys - [effectiveDate : timestamp : task : workArea : principalId : jobNumber] -->
-    <class-descriptor class="org.kuali.kpme.tklm.time.clocklog.ClockLog" table="TK_CLOCK_LOG_T">
+    <class-descriptor class="org.kuali.kpme.tklm.time.clocklog.ClockLogBo" table="TK_CLOCK_LOG_T">
         <field-descriptor name="tkClockLogId"           column="TK_CLOCK_LOG_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_CLOCK_LOG_S" />
         <field-descriptor name="documentId"             column="DOCUMENT_ID"        jdbc-type="VARCHAR"     length="14" nullable="false" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />

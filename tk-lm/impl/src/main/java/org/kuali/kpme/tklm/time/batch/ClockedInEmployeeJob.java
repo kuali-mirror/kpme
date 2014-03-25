@@ -26,13 +26,12 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.core.calendar.CalendarBo;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -102,7 +101,7 @@ public class ClockedInEmployeeJob extends BatchJob {
                                         StringBuilder approverNotification = new StringBuilder();
                                         approverNotification.append(employee.getPrincipalName() + " (" + principalId + ") has been clocked in since ");
                                         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, MMMM d yyyy HH:mm a");
-                                        String dateTime = sdf.format(new java.sql.Date(lastClockLog.getClockTimestamp().getTime()));
+                                        String dateTime = sdf.format(new java.sql.Date(lastClockLog.getClockDateTime().getMillis()));
                                         approverNotification.append(dateTime);
                                         approverNotification.append(" for work area " + assignment.getWorkAreaObj().getDescription());
                                         HrServiceLocator.getKPMENotificationService().sendNotification(approverSubject, approverNotification.toString(), approver.getPrincipalId());
@@ -120,22 +119,22 @@ public class ClockedInEmployeeJob extends BatchJob {
                                 } */
                                 } else if (jobAction.equals("CLOCK_OUT")) {
                                     //Clock User Out
-                                    ClockLog clockOut = TkServiceLocator.getClockLogService().processClockLog(currentDate, assignment, calendarEntry, TKUtils.getIPNumber(),
-                                            currentDate.toLocalDate(), TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId()), "CO", true, principalId, batchJobPrincipalId);
+                                    ClockLog clockOut = TkServiceLocator.getClockLogService().processClockLog(principalId, timesheetDocumentHeader.getDocumentId(), currentDate, assignment, calendarEntry, TKUtils.getIPNumber(),
+                                            currentDate.toLocalDate(), "CO", true, batchJobPrincipalId);
 
                                     TkServiceLocator.getClockLogService().saveClockLog(clockOut);
 
                                     // Notify User
                                     String employeeSubject = "You have been clocked out of " + assignment.getAssignmentDescription();
                                     StringBuilder employeeNotification = new StringBuilder();
-                                    employeeNotification.append("You have been Clocked out of " + assignment.getAssignmentDescription() + " on " + clockOut.getClockTimestamp());
+                                    employeeNotification.append("You have been Clocked out of " + assignment.getAssignmentDescription() + " on " + clockOut.getClockDateTime());
                                     HrServiceLocator.getKPMENotificationService().sendNotification(employeeSubject, employeeNotification.toString(), principalId);
 
 
                                     //add Note to time sheet
                                     Note.Builder builder = Note.Builder.create(timesheetDocumentHeader.getDocumentId(), batchJobPrincipalId);
                                     builder.setCreateDate(new DateTime());
-                                    builder.setText("Clock out from " + assignment.getAssignmentDescription() + " on " + clockOut.getClockTimestamp() + " was initiated by the Clocked In Employee Batch Job");
+                                    builder.setText("Clock out from " + assignment.getAssignmentDescription() + " on " + clockOut.getClockDateTime() + " was initiated by the Clocked In Employee Batch Job");
                                     KewApiServiceLocator.getNoteService().createNote(builder.build());
                                 }
 

@@ -149,6 +149,10 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
     public DateTime getActionFullDateTime() {
     	return actionDateTime != null ? new DateTime(actionDateTime) : null;
     }
+
+    public LocalDate getActionLocalDate() {
+        return actionDateTime != null ? new LocalDate(actionDateTime) : null;
+    }
     
     public void setActionFullDateTime(DateTime actionFullDateTime) {
     	this.actionDateTime = actionFullDateTime != null ? actionFullDateTime.toDate() : null;
@@ -212,6 +216,10 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	public Timestamp getTimestamp() {
 		return new Timestamp(timestamp.getTime());
 	}
+
+    public DateTime getCreateTime() {
+        return getTimestamp() == null ? null : new DateTime(getTimestamp().getTime());
+    }
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = new Timestamp(timestamp.getTime());
@@ -333,7 +341,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 
 	public String getMissedPunchDocId() {
 		if(StringUtils.isBlank(missedPunchDocId)) {
-			MissedPunchDocument aDoc = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentByMissedPunchId(this.getTkMissedPunchId());
+			MissedPunchDocument aDoc = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentByMissedPunchId(this.getTkMissedPunchId());
 			if(aDoc != null) {
 				this.setMissedPunchDocId(aDoc.getDocumentNumber());
 			}
@@ -348,7 +356,7 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 
 	public String getMissedPunchDocStatus() {
 		if(StringUtils.isBlank(missedPunchDocStatus)) {
-			MissedPunchDocument aDoc = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentByMissedPunchId(this.getTkMissedPunchId());
+			MissedPunchDocument aDoc = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentByMissedPunchId(this.getTkMissedPunchId());
 			if(aDoc != null) {
 				DocumentStatus aStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(aDoc.getDocumentNumber());
 				if(aStatus != null) {

@@ -46,7 +46,6 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 
 	private List<Job> jobs = new LinkedList<Job>();
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
-	private TimeSummary timeSummary = new TimeSummary();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
 
 	public TimesheetDocument(TimesheetDocumentHeader documentHeader) {
@@ -103,15 +102,8 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 		this.calendarEntry = calendarEntry;
 	}
 
-	public void setTimeSummary(TimeSummary timeSummary) {
-		this.timeSummary = timeSummary;
-	}
-
 	public TimeSummary getTimeSummary() {
-        if (timeSummary == null) {
-            timeSummary = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(this);
-        }
-		return timeSummary;
+        return (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(getPrincipalId(), getTimeBlocks(), getCalendarEntry(), getAssignments());
 	}
 
 	public String getPrincipalId(){

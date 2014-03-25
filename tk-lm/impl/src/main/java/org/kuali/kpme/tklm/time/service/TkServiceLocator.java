@@ -19,9 +19,10 @@ package org.kuali.kpme.tklm.time.service;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.tklm.common.BatchJobService;
 import org.kuali.kpme.tklm.time.approval.service.TimeApproveService;
-import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
 import org.kuali.kpme.tklm.time.docsearch.TkSearchableAttributeService;
-import org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchService;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchService;
+import org.kuali.kpme.tklm.time.missedpunch.document.MissedPunchDocumentService;
 import org.kuali.kpme.tklm.time.rules.TkRuleControllerService;
 import org.kuali.kpme.tklm.time.rules.clocklocation.service.ClockLocationRuleService;
 import org.kuali.kpme.tklm.time.rules.graceperiod.service.GracePeriodService;
@@ -37,7 +38,7 @@ import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryService;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailService;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
-import org.kuali.kpme.tklm.time.timesummary.service.TimeSummaryService;
+import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryService;
 import org.kuali.kpme.tklm.time.user.pref.service.UserPreferenceService;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -71,12 +72,17 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_USER_PREF_SERVICE = "userPrefService";
     public static final String TK_APPROVE_SERVICE = "timeApproveService";
     public static final String TK_MISSED_PUNCH_SERVICE = "missedPunchService";
+    public static final String TK_MISSED_PUNCH_DOC_SERVICE = "missedPunchDocumentService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
 
     public static final String TK_PERMISSION_SERVICE = "tkPermissionService";
 
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
+    }
+
+    public static MissedPunchDocumentService getMissedPunchDocumentService() {
+        return (MissedPunchDocumentService) CONTEXT.getBean(TK_MISSED_PUNCH_DOC_SERVICE);
     }
     
 	public static BatchJobService getBatchJobService(){

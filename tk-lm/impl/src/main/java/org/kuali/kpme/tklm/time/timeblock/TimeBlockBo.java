@@ -32,10 +32,11 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
@@ -423,7 +424,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
     */
     public String getBeginTimeDisplayDateOnlyString() {
     	DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
-        return getBeginDateTime() != null ? getBeginDateTime().withZone(zone).toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
+        return getBeginDateTime() != null ? getBeginDateTime().withZone(zone).toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT) : null;
     }
 
     public String getBeginTimeDisplayTimeOnlyString() {
@@ -433,7 +434,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
 
     public String getEndTimeDisplayDateOnlyString() {
     	DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
-        return getEndDateTime() != null ? getEndDateTime().withZone(zone).toString(HrConstants.DT_BASIC_DATE_FORMAT) : null;
+        return getEndDateTime() != null ? getEndDateTime().withZone(zone).toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT) : null;
     }
 
     public String getEndTimeDisplayTimeOnlyString() {
@@ -686,7 +687,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
              } else {
                  ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogBeginId());
                  if (cl != null) {
-                     return new DateTime(cl.getTimestamp()).withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+                     return cl.getCreateTime().withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
                  }
              }
         }
@@ -701,7 +702,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
             } else {
                 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(this.getClockLogEndId());
                 if (cl != null) {
-                    return new DateTime(cl.getTimestamp()).withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
+                    return cl.getCreateTime().withZone(dtz).toString(TkConstants.DT_FULL_DATE_TIME_FORMAT);
                 }
             }
 

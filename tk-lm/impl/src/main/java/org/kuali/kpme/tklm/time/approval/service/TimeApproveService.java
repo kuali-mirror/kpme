@@ -26,7 +26,6 @@ import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.note.Note;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -64,8 +63,6 @@ public interface TimeApproveService {
      */
     Map<String, TimesheetDocumentHeader> getPrincipalDocumentHeader(List<String> principalIds, DateTime payBeginDate, DateTime payEndDate, String docIdSearchTerm);
 
-    public DocumentRouteHeaderValue getRouteHeader(String documentId);
-    
     /**
      * Get a list of unique principal ids with given criteria
      * used to populate tables in Time approval page 

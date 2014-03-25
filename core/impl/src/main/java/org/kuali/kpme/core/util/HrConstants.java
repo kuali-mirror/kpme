@@ -161,7 +161,10 @@ public class HrConstants {
 	public static final String WILDCARD_CHARACTER = "%";
 	public static final Long WILDCARD_LONG = -1L;
 
-	public static final DateTimeFormatter DT_BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
+	public static final class DateTimeFormats {
+        public static final DateTimeFormatter BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
+        public static final DateTimeFormatter FULL_DATE_TIME_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss.SSS");
+    }
 
 	public static final String FLSA_STATUS_NON_EXEMPT ="NE";
     public static final String FLSA_STATUS_EXEMPT ="E";

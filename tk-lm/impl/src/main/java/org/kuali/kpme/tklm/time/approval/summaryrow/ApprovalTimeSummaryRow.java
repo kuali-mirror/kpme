@@ -192,10 +192,9 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
     			String approverPrincipalId = HrContext.getPrincipalId();
 
     			if (!StringUtils.equals(timesheetPrincipalId, approverPrincipalId) && TkServiceLocator.getTimesheetService().isReadyToApprove(timesheetDocument) && TkServiceLocator.getTimesheetService().isTimesheetValid(timesheetDocument)) {
-    				DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(getDocumentId());
-    				boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(approverPrincipalId, routeHeader, new SecuritySession(approverPrincipalId));
-    				if (authorized) {
-    					List<String> approverPrincipalIds = KEWServiceLocator.getActionRequestService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, getDocumentId());
+                    boolean authorized = KewApiServiceLocator.getWorkflowDocumentActionsService().isUserInRouteLog(getDocumentId(), approverPrincipalId, false);
+                    if (authorized) {
+                        List<String> approverPrincipalIds = KewApiServiceLocator.getWorkflowDocumentService().getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, getDocumentId());
     					if (approverPrincipalIds.contains(approverPrincipalId)) {
     						isApprovable = true;
     					}

@@ -276,7 +276,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	
 	private List<MissedPunch> getMissedPunches(String documentId) {
 		List<MissedPunch> missedPunchList = new ArrayList<MissedPunch>();
-		List<MissedPunchDocument> mpDoc = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentsByTimesheetDocumentId(documentId);
+		List<MissedPunchDocument> mpDoc = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentsByTimesheetDocumentId(documentId);
 		if(mpDoc!=null){
 			for (MissedPunchDocument mpd : mpDoc) {
 				missedPunchList.add(mpd.getMissedPunch());
@@ -286,7 +286,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	}
 	
 	protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm timeApprovalActionForm, List<String> assignmentPrincipalIds, String docIdSearchTerm) {
-    	return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(timeApprovalActionForm.getSelectedPayCalendarGroup(), assignmentPrincipalIds, timeApprovalActionForm.getPayCalendarLabels(), timeApprovalActionForm.getCalendarEntry(), docIdSearchTerm);
+    	return (List<ApprovalTimeSummaryRow>)TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(timeApprovalActionForm.getSelectedPayCalendarGroup(), assignmentPrincipalIds, timeApprovalActionForm.getPayCalendarLabels(), timeApprovalActionForm.getCalendarEntry(), docIdSearchTerm);
     }
 	
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

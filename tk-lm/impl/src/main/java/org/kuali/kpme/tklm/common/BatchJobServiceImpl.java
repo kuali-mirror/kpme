@@ -45,8 +45,8 @@ import org.kuali.kpme.tklm.time.batch.EndReportingPeriodJob;
 import org.kuali.kpme.tklm.time.batch.InitiateJob;
 import org.kuali.kpme.tklm.time.batch.MissedPunchApprovalJob;
 import org.kuali.kpme.tklm.time.batch.SupervisorApprovalJob;
-import org.kuali.kpme.tklm.time.clocklog.service.ClockLogService;
-import org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchService;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
+import org.kuali.kpme.tklm.time.missedpunch.document.MissedPunchDocumentService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
@@ -71,7 +71,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 	private CalendarService calendarService;
 	private ClockLogService clockLogService;
 	private LeaveCalendarDocumentHeaderService leaveCalendarDocumentHeaderService;
-	private MissedPunchService missedPunchService;
+	private MissedPunchDocumentService missedPunchDocumentService;
 	private PrincipalHRAttributesService principalHRAttributesService;
 	private TimesheetDocumentHeaderService timesheetDocumentHeaderService;
 	
@@ -499,12 +499,12 @@ public class BatchJobServiceImpl implements BatchJobService {
 		this.leaveCalendarDocumentHeaderService = leaveCalendarDocumentHeaderService;
 	}
 
-	public MissedPunchService getMissedPunchService() {
-		return missedPunchService;
+	public MissedPunchDocumentService getMissedPunchDocumentService() {
+		return missedPunchDocumentService;
 	}
 
-	public void setMissedPunchService(MissedPunchService missedPunchService) {
-		this.missedPunchService = missedPunchService;
+	public void setMissedPunchDocumentService(MissedPunchDocumentService missedPunchDocumentService) {
+		this.missedPunchDocumentService = missedPunchDocumentService;
 	}
 
 	public PrincipalHRAttributesService getPrincipalHRAttributesService() {

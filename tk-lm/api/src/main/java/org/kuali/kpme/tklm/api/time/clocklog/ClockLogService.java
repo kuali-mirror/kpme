@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.clocklog.service;
+package org.kuali.kpme.tklm.api.time.clocklog;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.CacheEvict;
 
 import java.util.List;
@@ -33,6 +31,26 @@ public interface ClockLogService {
 	 * @param clockLog
 	 */
     public ClockLog saveClockLog(ClockLog clockLog);
+
+    /**
+     * Process clock log created
+     * @param principalId
+     * @param documentId
+     * @param clockDateTime
+     * @param assignment
+     * @param pe
+     * @param ip
+     * @param asOfDate
+     * @param clockAction
+     * @param principalId
+     * @return
+     */
+    @CacheEvict(value={AssignmentContract.CACHE_NAME}, allEntries = true)
+    ClockLog processClockLog(String principalId, String documentId, DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, String clockAction, boolean runRules);
+
+    @CacheEvict(value={AssignmentContract.CACHE_NAME}, allEntries = true)
+    ClockLog processClockLog(String principalId, String documentId, DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, String clockAction, boolean runRules, String userPrincipalId);
+
     /**
      * Fetch last clock log for principal id
      * @param principalId
@@ -59,20 +77,7 @@ public interface ClockLogService {
 	 */
 	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry);
 
-	/**
-	 * Process clock log created
-	 * @param clockDateTime
-	 * @param assignment
-	 * @param pe
-	 * @param ip
-	 * @param asOfDate
-	 * @param td
-	 * @param clockAction
-	 * @param principalId
-	 * @return
-	 */
-	@CacheEvict(value={AssignmentBo.CACHE_NAME}, allEntries = true)
-    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId);
+
     
     /**
      * Fetch clock log by id
@@ -81,10 +86,8 @@ public interface ClockLogService {
      */
     public ClockLog getClockLog(String tkClockLogId);
 
-    @CacheEvict(value={AssignmentBo.CACHE_NAME}, allEntries = true)
-    ClockLog processClockLog(DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, TimesheetDocument td, String clockAction, boolean runRules, String principalId, String userPrincipalId);
 
-    @CacheEvict(value={AssignmentBo.CACHE_NAME}, allEntries = true)
+    @CacheEvict(value={AssignmentContract.CACHE_NAME}, allEntries = true)
     public void deleteClockLogsForDocumentId(String documentId);
     
     /**

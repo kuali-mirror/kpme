@@ -15,22 +15,16 @@
  */
 package org.kuali.kpme.tklm.api.time.clocklog;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 
 
 /**
  * <p>ClockLogContract interface</p>
  *
  */
-public interface ClockLogContract extends PersistableBusinessObject {
+public interface ClockLogContract extends KpmeDataTransferObject {
 	
 	/**
 	 * The primary key of a ClockLog entry saved in a database
@@ -77,16 +71,17 @@ public interface ClockLogContract extends PersistableBusinessObject {
     public Long getJobNumber();
 
     /**
-	 * The clockTimestamp associated with the ClockLog
-	 * 
-	 * <p>
-	 * clockTimestamp of a ClockLog
-	 * <p>
-	 * 
-	 * @return clockTimestamp for ClockLog
-	 */
-    public Timestamp getClockTimestamp();
-   
+     * The dept associated with the ClockLog's job record
+     *
+     * <p>
+     * dept of a ClockLog
+     * <p>
+     *
+     * @return jobNumber for ClockLog
+     */
+    public String getDept();
+
+
     /**
 	 * The clockTimestamp associated with the ClockLog
 	 * 
@@ -121,7 +116,6 @@ public interface ClockLogContract extends PersistableBusinessObject {
     public String getIpAddress();
    
     /**
-     * TODO: Is this field needed??
 	 * The userPrincipalId associated with the ClockLog
 	 * 
 	 * <p>
@@ -133,7 +127,7 @@ public interface ClockLogContract extends PersistableBusinessObject {
     public String getUserPrincipalId();
    
     /**
-	 * The timestamp associated with the ClockLog
+	 * The creation date associated with the ClockLog
 	 * 
 	 * <p>
 	 * timestamp of a ClockLog
@@ -141,7 +135,7 @@ public interface ClockLogContract extends PersistableBusinessObject {
 	 * 
 	 * @return timestamp for ClockLog
 	 */
-    public Timestamp getTimestamp();
+    public DateTime getCreateTime();
 
     /**
 	 * The clockTimestampTimezone associated with the ClockLog
@@ -188,7 +182,7 @@ public interface ClockLogContract extends PersistableBusinessObject {
 	 * 
 	 * @return workAreaObj for ClockLog
 	 */
-	public WorkAreaContract getWorkAreaObj();
+	//public WorkAreaContract getWorkAreaObj();
 	
 	/**
 	 * The Task object associated with the ClockLog
@@ -199,7 +193,7 @@ public interface ClockLogContract extends PersistableBusinessObject {
 	 * 
 	 * @return taskObj for ClockLog
 	 */
-	public TaskContract getTaskObj();
+	//public TaskContract getTaskObj();
 
 	/**
 	 * The workArea associated with the ClockLog
@@ -224,17 +218,6 @@ public interface ClockLogContract extends PersistableBusinessObject {
 	public Long getTask();
 
 	/**
-	 * The Person object associated with the ClockLog
-	 * 
-	 * <p>
-	 * principal of a ClockLog
-	 * <p>
-	 * 
-	 * @return principal for ClockLog
-	 */
-	public Person getPrincipal();
-
-	/**
 	 * The clockedByMissedPunch flag of the MissedPunch
 	 * 
 	 * <p>
@@ -246,14 +229,21 @@ public interface ClockLogContract extends PersistableBusinessObject {
 	public boolean isClockedByMissedPunch();
 
 	/**
-	 * The unapprovedIP flag of the MissedPunch
+	 * The unapprovedIP flag of the ClockLog
 	 * 
 	 * <p>
-	 * unapprovedIP flag of a MissedPunch
+	 * unapprovedIP flag of a ClockLog
 	 * <p>
 	 * 
 	 * @return Y if it's an approved ip, N if not
 	 */
 	public boolean isUnapprovedIP();
+
+    /**
+     * The string representation of the Assignment of the ClockLog
+     *
+     * @return assignmentDesriptionKey
+     */
+    public String getAssignmentDescriptionKey();
 
 }

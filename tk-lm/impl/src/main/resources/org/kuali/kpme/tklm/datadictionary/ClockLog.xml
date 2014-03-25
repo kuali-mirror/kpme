@@ -23,7 +23,7 @@
 	<bean name="ClockLog" parent="ClockLog-parentBean" />
 
 	<bean id="ClockLog-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="dataObjectClass" value="org.kuali.kpme.tklm.time.clocklog.ClockLog" />
+		<property name="dataObjectClass" value="org.kuali.kpme.tklm.time.clocklog.ClockLogBo" />
 		<property name="titleAttribute" value="tkClockLogId" />
 		<property name="objectLabel" value="Clock Log" />
 		<property name="attributes">

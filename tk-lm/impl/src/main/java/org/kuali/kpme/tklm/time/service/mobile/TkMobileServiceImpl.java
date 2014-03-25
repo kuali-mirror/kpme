@@ -26,12 +26,12 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -84,8 +84,8 @@ public class TkMobileServiceImpl implements TkMobileService {
         
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
         // buildClockLog just creates a clock log object.
-        TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, td.getCalendarEntry(), ipAddress,
-                LocalDate.now(), td, getCurrentClockAction(), true, principalId);
+        TkServiceLocator.getClockLogService().processClockLog(principalId, td.getDocumentId(), new DateTime(), assignment, td.getCalendarEntry(), ipAddress,
+                LocalDate.now(), getCurrentClockAction(), true);
 
         // TODO: not sure what we want to return for the errorWarningMap
 

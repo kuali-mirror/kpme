@@ -29,8 +29,9 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -54,7 +55,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(document.getDocumentNumber());
         
         if (DocumentStatus.INITIATED.equals(documentStatus) || DocumentStatus.SAVED.equals(documentStatus)) {
-        	valid &= validateTimesheet(missedPunch);
+        	valid = validateTimesheet(missedPunch);
         	valid &= validateClockAction(missedPunch);
         	valid &= validateClockTime(missedPunch);
         	valid &= validateOverLappingTimeBlocks(missedPunch, missedPunch.getTimesheetDocumentId());
@@ -136,7 +137,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTime(dateString, timeString);
 	        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
 
-            ClockLog lastClockIn = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId(),TkConstants.CLOCK_IN);
+            //ClockLog lastClockIn = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId(),TkConstants.CLOCK_IN);
 
             //Make sure user should be able to route!!
             String userPrincipalId = HrContext.getPrincipalId();

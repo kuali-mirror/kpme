@@ -72,7 +72,7 @@ public class LeaveActionFormUtils {
             LeaveBlockMap.put("documentId", leaveBlock.getDocumentId());
             LeaveBlockMap.put("title", workAreaDesc);
             DateTime dtLeaveDate = leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay();
-            LeaveBlockMap.put("leaveDate", dtLeaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+            LeaveBlockMap.put("leaveDate", dtLeaveDate.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
         		
             LeaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
             LeaveBlockMap.put("timezone", timezone);

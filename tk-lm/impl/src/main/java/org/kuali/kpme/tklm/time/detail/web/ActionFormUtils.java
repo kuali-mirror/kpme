@@ -211,8 +211,8 @@ public class ActionFormUtils {
             // The ones which are used by the javascript are startDate, endDate, startTime, endTime, startTimeHourMinute, and endTimeHourMinute
             timeBlockMap.put("start", start.toString(ISODateTimeFormat.dateTimeNoMillis()));
             timeBlockMap.put("end", end.toString(ISODateTimeFormat.dateTimeNoMillis()));
-            timeBlockMap.put("startDate", start.toString(HrConstants.DT_BASIC_DATE_FORMAT));
-            timeBlockMap.put("endDate", end.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+            timeBlockMap.put("startDate", start.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
+            timeBlockMap.put("endDate", end.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
             timeBlockMap.put("startNoTz", start.toString(ISODateTimeFormat.dateHourMinuteSecond()));
             timeBlockMap.put("endNoTz", end.toString(ISODateTimeFormat.dateHourMinuteSecond()));
             // start / endTimeHourMinute fields are for only for the display purpose
@@ -281,11 +281,11 @@ public class ActionFormUtils {
         	leaveBlockMap.put("lmLeaveBlockId", leaveBlock.getLmLeaveBlockId());
         	leaveBlockMap.put("leaveAmount", leaveBlock.getLeaveAmount().toString());
         	DateTime leaveDate = leaveBlock.getLeaveLocalDate().toDateTimeAtStartOfDay();
-        	leaveBlockMap.put("leaveDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("leaveDate", leaveDate.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
         	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
         	leaveBlockMap.put("canTransfer", LmServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
-        	leaveBlockMap.put("startDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
-        	leaveBlockMap.put("endDate", leaveDate.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("startDate", leaveDate.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("endDate", leaveDate.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
         	
         	if(leaveBlock.getBeginDateTime() != null && leaveBlock.getEndDateTime() != null) {
 	            DateTime start = leaveBlock.getBeginDateTime();
@@ -294,8 +294,8 @@ public class ActionFormUtils {
 	        	leaveBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
 	        	leaveBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
 	        	leaveBlockMap.put("endTime", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
-	        	leaveBlockMap.put("startDate", start.toString(HrConstants.DT_BASIC_DATE_FORMAT));
-	        	leaveBlockMap.put("endDate", end.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+	        	leaveBlockMap.put("startDate", start.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
+	        	leaveBlockMap.put("endDate", end.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
             }
         	
         	leaveBlockList.add(leaveBlockMap);
@@ -317,8 +317,8 @@ public class ActionFormUtils {
         	// Check if service date of user is after the Calendar entry
             DateTime asOfDate = pce.getEndPeriodFullDateTime().minusDays(1);
     		PrincipalHRAttributesContract principalHRAttributes = null;
-    		String formattedBeginDate = HrConstants.DT_BASIC_DATE_FORMAT.print(pce.getBeginPeriodFullDateTime());
-            String formattedEndDate = HrConstants.DT_BASIC_DATE_FORMAT.print(pce.getEndPeriodFullDateTime().minusMillis(1));
+    		String formattedBeginDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.print(pce.getBeginPeriodFullDateTime());
+            String formattedEndDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.print(pce.getEndPeriodFullDateTime().minusMillis(1));
             String formattedRange = formattedBeginDate + " - " + formattedEndDate;
 
     		if(viewPrincipal != null) {

@@ -78,11 +78,11 @@ public class SupervisorApprovalJob extends BatchJob {
 							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
 							if(phraRecord != null && StringUtils.isNotBlank(phraRecord.getPayCalendar()) && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {
 								// before approve the enroute timesheet doc, we need to find all enroute missed punch docs associated with this timesheet and approve them first
-								List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentsByTimesheetDocumentId(docId);
+								List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentsByTimesheetDocumentId(docId);
 								for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {
 									if(missedPunchDocument != null 
 											&& DocumentStatus.ENROUTE.equals(KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(missedPunchDocument.getDocumentNumber())) ){
-										TkServiceLocator.getMissedPunchService().approveMissedPunchDocument(missedPunchDocument);
+										TkServiceLocator.getMissedPunchDocumentService().approveMissedPunchDocument(missedPunchDocument);
 									}
 								}
 								
@@ -117,7 +117,7 @@ public class SupervisorApprovalJob extends BatchJob {
 	private boolean missedPunchDocumentsEnroute(String documentId) {
 		boolean missedPunchDocumentsEnroute = false;
 		
-		List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentsByTimesheetDocumentId(documentId);
+		List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentsByTimesheetDocumentId(documentId);
 		for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {
 			DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(missedPunchDocument.getDocumentNumber());
 			if (DocumentStatus.ENROUTE.equals(documentStatus)) {

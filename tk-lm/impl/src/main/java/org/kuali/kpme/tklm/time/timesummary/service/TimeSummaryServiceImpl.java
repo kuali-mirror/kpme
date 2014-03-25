@@ -41,7 +41,7 @@ import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
-import org.kuali.kpme.tklm.api.time.timesheet.TimesheetDocumentContract;
+import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryService;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockAggregate;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
@@ -49,6 +49,8 @@ import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
 import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.flsa.FlsaDay;
 import org.kuali.kpme.tklm.time.flsa.FlsaWeek;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
 import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
 import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
@@ -72,42 +74,47 @@ import java.util.TreeMap;
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
 	private static final Logger LOG = Logger.getLogger(TimeSummaryServiceImpl.class);
-	
+
     @Override
-	public TimeSummary getTimeSummary(TimesheetDocumentContract timesheetDocument) {
+    public TimeSummary getTimeSummaryForDocument(String timesheetDocumentId) {
+        TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
+        return getTimeSummary(doc.getPrincipalId(), doc.getTimeBlocks(), doc.getCalendarEntry(), doc.getAssignments());
+    }
+
+    @Override
+    public TimeSummary getTimeSummary(String principalId, List<TimeBlock> timeBlocks, CalendarEntry calendarEntry, List<Assignment> assignments) {
 		TimeSummary timeSummary = new TimeSummary();
 
-		if(timesheetDocument == null || timesheetDocument.getTimeBlocks() == null) {
+		if(principalId == null || CollectionUtils.isEmpty(timeBlocks)) {
 			return timeSummary;
 		}
 
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
-		timeSummary.setTimeSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), timeSummary));
+		timeSummary.setTimeSummaryHeader(getHeaderForSummary(calendarEntry, timeSummary));
 		
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), HrServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId()), true);
 
-        List<Assignment> timeAssignments = timesheetDocument.getAssignments();
         List<String> tAssignmentKeys = new ArrayList<String>();
         Set<String> regularEarnCodes = new HashSet<String>();
-        for(Assignment assign : timeAssignments) {
+        for(Assignment assign : assignments) {
             tAssignmentKeys.add(assign.getAssignmentKey());
             regularEarnCodes.add(assign.getJob().getPayTypeObj().getRegEarnCode());
         }
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
-        leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
-                timesheetDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate(), timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate(), tAssignmentKeys));
-        LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, timesheetDocument.getCalendarEntry());
+        leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId,
+                calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), tAssignmentKeys));
+        LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry);
         tkTimeBlockAggregate = TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate, regularEarnCodes, timeSummary));
 		
 		// Set Flsa week total map
-		Map<String, BigDecimal> flsaWeekTotal = getHoursToFlsaWeekMap(tkTimeBlockAggregate, timesheetDocument.getPrincipalId(), null, regularEarnCodes);
+		Map<String, BigDecimal> flsaWeekTotal = getHoursToFlsaWeekMap(tkTimeBlockAggregate, principalId, null, regularEarnCodes);
 		timeSummary.setFlsaWeekTotalMap(flsaWeekTotal);
 
         Map<String,List<EarnGroupSection>> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getTimeSummaryHeader().size()+1, 
-        			dayArrangements, timesheetDocument.getAsOfDate(), timesheetDocument.getDocEndDate());
+        			dayArrangements, calendarEntry.getEndPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         timeSummary.setWeeklySections(earnGroupSections);
         
         for (String key : timeSummary.getWeeklySections().keySet()) {
@@ -117,7 +124,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 //        timeSummary.setSections(sortEarnGroupSections(earnGroupSections, regularEarnCodes));
         
         
-        Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(timesheetDocument.getTimeBlocks(), leaveBlocks);
+        Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(timeBlocks, leaveBlocks);
 		// set css classes for each assignment row
         for(String week : timeSummary.getWeeklySections().keySet()) {
 			for (EarnGroupSection earnGroupSection : timeSummary.getWeeklySections().get(week)) {
@@ -133,7 +140,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			}
         }
         try {
-			List<LeaveSummaryRow> maxedLeaveRows = getMaxedLeaveRows(timesheetDocument.getCalendarEntry(),timesheetDocument.getPrincipalId());
+			List<LeaveSummaryRow> maxedLeaveRows = getMaxedLeaveRows(calendarEntry,principalId);
 			timeSummary.setMaxedLeaveRows(maxedLeaveRows);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

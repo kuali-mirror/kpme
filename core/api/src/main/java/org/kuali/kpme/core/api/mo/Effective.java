@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 
-public interface Effective {
+public interface Effective extends CreateTime {
     /**
      * The localDate format of the effective date of the HrBusinessObject
      *
@@ -32,15 +32,6 @@ public interface Effective {
      */
     public LocalDate getEffectiveLocalDate();
 
-    /**
-     * The timestamp of when this HrBusinessObject was last created/updated
-     *
-     * <p>
-     * timestamp of HrBusinessObject
-     * <p>
-     *
-     * @return timestamp of HrBusinessObject
-     */
-    public DateTime getCreateTime();
+
 
 }

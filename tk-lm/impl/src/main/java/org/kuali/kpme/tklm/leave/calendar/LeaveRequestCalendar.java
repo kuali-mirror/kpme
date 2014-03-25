@@ -137,7 +137,7 @@ public class LeaveRequestCalendar extends CalendarParent {
             }
             
             leaveReqCalendarDay.setDayNumberString(currentDisplayDateTime.dayOfMonth().getAsShortText());
-            leaveReqCalendarDay.setDateString(currentDisplayDateTime.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+            leaveReqCalendarDay.setDateString(currentDisplayDateTime.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
 
             leaveReqCalendarWeek.getDays().add(leaveReqCalendarDay);
             

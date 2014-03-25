@@ -57,11 +57,11 @@ public class MissedPunchApprovalJob extends BatchJob {
         				&& TkConstants.MISSEDPUNCH_APPROVAL_TIME_DOC_STATUS.contains(KEWServiceLocator.getRouteHeaderService().getDocumentStatus(timeDocId))) {
         			PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
 					if(phraRecord != null && StringUtils.isNotBlank(phraRecord.getPayCalendar()) && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {	
-						List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentsByTimesheetDocumentId(timeDocId);
+						List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentsByTimesheetDocumentId(timeDocId);
 						for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {
 							if(missedPunchDocument != null 
 									&& DocumentStatus.ENROUTE.equals(KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(missedPunchDocument.getDocumentNumber())) ){
-								TkServiceLocator.getMissedPunchService().approveMissedPunchDocument(missedPunchDocument);
+								TkServiceLocator.getMissedPunchDocumentService().approveMissedPunchDocument(missedPunchDocument);
 							}
 						}
 					}

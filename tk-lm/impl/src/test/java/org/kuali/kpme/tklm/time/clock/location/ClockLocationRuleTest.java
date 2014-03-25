@@ -28,10 +28,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -167,7 +166,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	Job.Builder tempJob = Job.Builder.create("12345", 0L);
         tempJob.setDept("TEST");
         //Test for exact match
-    	ClockLog clockLog = new ClockLog();
+    	ClockLogBo clockLog = new ClockLogBo();
     	clockLog.setDocumentId("1111");
     	clockLog.setJob(tempJob.build());
     	clockLog.setIpAddress(IP_ADDRESS_ONE);
@@ -184,7 +183,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	boService.delete(clr);
     	
     	clr = this.createClr(IP_ADDRESS_ONE, 1234L, "1234", 0L);
-    	clockLog = new ClockLog();
+    	clockLog = new ClockLogBo();
     	clockLog.setDocumentId("1111");
     	clockLog.setJob(tempJob.build());
     	clockLog.setIpAddress("127.127.127.127");
@@ -203,7 +202,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     @Test
     public void testClockLocationIPAddress() {
     	//Test for exact match
-    	ClockLog clockLog = new ClockLog();
+    	ClockLogBo clockLog = new ClockLogBo();
     	clockLog.setDocumentId("1111");
         Job.Builder tempJob = Job.Builder.create("12345", 0L);
         tempJob.setDept("TEST");
@@ -224,14 +223,14 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	this.processRuleWithIPWithWarning(clockLog, "128.%");
     }
     
-    public void processRuleWithIPNoWarning(ClockLog clockLog, String ipAddress) {
+    public void processRuleWithIPNoWarning(ClockLogBo clockLog, String ipAddress) {
     	ClockLocationRule clr = this.createClr(ipAddress, 1234L, "1234", 0L);
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
     	Assert.assertTrue("clock location rule no warning message",GlobalVariables.getMessageMap().hasNoWarnings());
     	Assert.assertFalse("clock log should have 'false' as unapprovedIP.", clockLog.isUnapprovedIP());
     }
     
-    public void processRuleWithIPWithWarning(ClockLog clockLog, String ipAddress) {
+    public void processRuleWithIPWithWarning(ClockLogBo clockLog, String ipAddress) {
     	clearBusinessObjects(ClockLocationRule.class);
     	ClockLocationRule clr = this.createClr(ipAddress, 1234L, "12345", 0L);
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());

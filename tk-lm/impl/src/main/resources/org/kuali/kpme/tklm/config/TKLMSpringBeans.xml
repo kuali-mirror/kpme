@@ -266,7 +266,7 @@
         <property name="roleService" ref="kimRoleService" />
     </bean>
     
-    <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchServiceImpl">
+    <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao" />
         <property name="assignmentService" ref="kpme.core.assignmentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -279,7 +279,11 @@
         <property name="tkRuleControllerService" ref="tkRuleControllerService" />
     </bean>
 
-    <bean id="missedPunchDocSearchCustomizer" class="org.kuali.kpme.tklm.time.missedpunch.service.MissedPunchDocSearchCustomizer"/>
+    <bean id="missedPunchDocumentService" class="org.kuali.kpme.tklm.time.missedpunch.document.MissedPunchDocumentServiceImpl">
+        <property name="missedPunchDao" ref="missedPunchDao" />
+    </bean>
+
+    <bean id="missedPunchDocSearchCustomizer" class="org.kuali.kpme.tklm.time.missedpunch.document.MissedPunchDocSearchCustomizer"/>
     <bean id="missedPunchDocSearchCustomizer.exporter" parent="kpme.tklm.callback.service"
           p:callbackService-ref="missedPunchDocSearchCustomizer"
           p:localServiceName="missedPunchDocSearchCustomizer"
@@ -530,7 +534,7 @@
         <property name="calendarService" ref="kpme.core.calendarService" />
         <property name="clockLogService" ref="clockLogService" />
         <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
-        <property name="missedPunchService" ref="missedPunchService" />
+        <property name="missedPunchDocumentService" ref="missedPunchDocumentService" />
         <property name="principalHRAttributesService" ref="kpme.core.principalHRAttributesService" />
         <property name="timesheetDocumentHeaderService" ref="timesheetDocumentHeaderService" />
     </bean>
@@ -681,6 +685,7 @@
                 <!--<idref local="tkPermissionService"/>
                 <idref local="lmPermissionService"/>-->
                 <idref local="missedPunchService"/>
+                <idref local="missedPunchDocumentService"/>
                 <idref local="deptLunchRuleService"/>
                 <idref local="systemLunchRuleService"/>
                 <idref local="gracePeriodService"/>

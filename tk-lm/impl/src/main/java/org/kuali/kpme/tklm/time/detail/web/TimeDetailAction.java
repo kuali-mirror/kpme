@@ -167,7 +167,7 @@ public class TimeDetailAction extends TimesheetAction {
 
 
 	        timeDetailActionForm.getTimesheetDocument().setTimeBlocks(timeBlocks);
-	        assignStypeClassMapForTimeSummary(timeDetailActionForm,timeBlocks, leaveBlocks);
+	        assignStyleClassMapForTimeSummary(timeDetailActionForm, timeBlocks, leaveBlocks);
 
             Calendar payCalendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry != null ? calendarEntry.getHrCalendarId() : null);
 
@@ -196,8 +196,11 @@ public class TimeDetailAction extends TimesheetAction {
     }
 
     // use lists of time blocks and leave blocks to build the style class map and assign css class to associated summary rows
-	private void assignStypeClassMapForTimeSummary(TimeDetailActionForm tdaf, List<? extends TimeBlockContract> timeBlocks, List<? extends LeaveBlockContract> leaveBlocks) throws Exception {
-		TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(tdaf.getTimesheetDocument());
+	private void assignStyleClassMapForTimeSummary(TimeDetailActionForm tdaf, List<? extends TimeBlockContract> timeBlocks, List<? extends LeaveBlockContract> leaveBlocks) throws Exception {
+        TimesheetDocument td = tdaf.getTimesheetDocument();
+        TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService()
+                .getTimeSummary(td.getPrincipalId(), td.getTimeBlocks(), td.getCalendarEntry(), td.getAssignments());
+
         tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(timeBlocks, leaveBlocks));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
         // set css classes for each assignment row

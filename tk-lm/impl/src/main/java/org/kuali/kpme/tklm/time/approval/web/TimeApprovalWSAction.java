@@ -127,7 +127,8 @@ public class TimeApprovalWSAction extends KPMEAction {
     public ActionForward getTimeSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(taaf.getDocumentId());
-		TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(td);
+        TimeSummary ts = td.getTimeSummary();
+		//TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummaryForDocument(taaf.getDocumentId());
 		
 		List<Assignment> assignments = td.getAssignments();
 		List<String> assignmentKeys = new ArrayList<String>();

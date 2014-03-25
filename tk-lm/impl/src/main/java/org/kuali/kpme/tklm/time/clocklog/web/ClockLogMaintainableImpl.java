@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.clocklog.web;
 
 import java.util.Map;
 
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -38,7 +38,7 @@ public class ClockLogMaintainableImpl extends org.kuali.rice.kns.maintenance.Kua
 	@Override
 	public void processAfterPost(MaintenanceDocument document,
 			Map<String, String[]> parameters) {		
-		ClockLog clockLog = (ClockLog) document.getDocumentBusinessObject();
+		ClockLogBo clockLog = (ClockLogBo) document.getDocumentBusinessObject();
 		clockLog.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
 		super.processAfterPost(document, parameters);
 	}
@@ -46,14 +46,14 @@ public class ClockLogMaintainableImpl extends org.kuali.rice.kns.maintenance.Kua
 	@Override
 	public void processAfterEdit(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
-		ClockLog clockLog = (ClockLog) document.getDocumentBusinessObject();
+		ClockLogBo clockLog = (ClockLogBo) document.getDocumentBusinessObject();
 		clockLog.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
 		super.processAfterEdit(document, parameters);
 	}
 	
 	@Override
 	public void saveBusinessObject() {
-		ClockLog clockLog = (ClockLog) this.getBusinessObject();
+		ClockLogBo clockLog = (ClockLogBo) this.getBusinessObject();
 		clockLog.setTkClockLogId(null);
 		clockLog.setTimestamp(null);
 		KRADServiceLocator.getBusinessObjectService().save(clockLog);

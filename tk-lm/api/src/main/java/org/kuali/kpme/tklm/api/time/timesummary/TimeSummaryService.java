@@ -13,21 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.timesummary.service;
+package org.kuali.kpme.tklm.api.time.timesummary;
 
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.tklm.api.time.timesheet.TimesheetDocumentContract;
-import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryContract;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 
 import java.util.List;
 
 public interface TimeSummaryService {
 	/**
 	 * Fetch TimeSummary
-	 * @param timesheetDocument
+	 * @param timesheetDocumentId
 	 * @return
 	 */
-	TimeSummaryContract getTimeSummary(TimesheetDocumentContract timesheetDocument);
+	TimeSummaryContract getTimeSummaryForDocument(String timesheetDocumentId);
+
+    TimeSummaryContract getTimeSummary(String principalId, List<TimeBlock> timeBlocks, CalendarEntry calendarEntry, List<Assignment> assignments);
 
     List<String> getHeaderForSummary(CalendarEntry cal, List<Boolean> dayArrangements);
 }

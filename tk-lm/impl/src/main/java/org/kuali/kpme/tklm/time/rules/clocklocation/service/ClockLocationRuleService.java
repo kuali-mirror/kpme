@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.rules.clocklocation.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -45,7 +45,7 @@ public interface ClockLocationRuleService {
 	 * @param clockLog
 	 * @param asOfDate
 	 */
-	public void processClockLocationRule(ClockLog clockLog, LocalDate asOfDate);
+	public void processClockLocationRule(ClockLogBo clockLog, LocalDate asOfDate);
 	
 	/**
 	 * 

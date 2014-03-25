@@ -41,8 +41,8 @@ public class ClockLogServiceTest extends TKLMIntegrationTestCase {
 		List<String> warningList = TkServiceLocator.getClockLogService().getUnapprovedIPWarning(tbLists);
 		Assert.assertTrue("There should be 1 warning message ", warningList.size()== 1);
 		String warning = warningList.get(0);
-		Assert.assertTrue("Warning message should be 'Warning: Action 'Clock Out' taken at 2012-03-01 08:08:08.0 was from an unapproved IP address - TEST', not " + warning, 
-				warning.equals("Warning: Action 'Clock Out' taken at 2012-03-01 08:08:08.0 was from an unapproved IP address - TEST"));
+		Assert.assertTrue("Warning message should be 'Warning: Action 'Clock Out' taken at 03/01/2012 08:08:08.000 was from an unapproved IP address - TEST', not " + warning,
+				warning.equals("Warning: Action 'Clock Out' taken at 03/01/2012 08:08:08.000 was from an unapproved IP address - TEST"));
 		
 	}
 }

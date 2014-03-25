@@ -19,7 +19,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.mo.CreateTime;
+import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -29,7 +32,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
  * <p>MissedPunchContract interface</p>
  *
  */
-public interface MissedPunchContract extends PersistableBusinessObject {
+public interface MissedPunchContract extends KpmeDataTransferObject, CreateTime {
 	
 	/**
 	 * The primary key of a MissedPunch entry saved in a database
@@ -139,18 +142,18 @@ public interface MissedPunchContract extends PersistableBusinessObject {
 	 * 
 	 * @return actionDateTime for MissedPunch
 	 */
-	public Date getActionDateTime();
+	//public Date getActionDateTime();
 	
 	/**
 	 * The action date (Date) associated with the MissedPunch
 	 * 
 	 * <p>
-	 * actionDateTime.toDate() of a MissedPunch
+	 * actionFullDateTime.toLocalDate() of a MissedPunch
 	 * <p>
 	 * 
 	 * @return actionDateTime.toDate() for MissedPunch
 	 */
-    public Date getActionDate() ;
+    public LocalDate getActionLocalDate() ;
    
     /**
 	 * The action time (String) associated with the MissedPunch
@@ -184,17 +187,6 @@ public interface MissedPunchContract extends PersistableBusinessObject {
 	 * @return tkClockLogId for MissedPunch
 	 */
 	public String getTkClockLogId();
-	
-	/**
-	 * The timestamp associated with the MissedPunch
-	 * 
-	 * <p>
-	 * timestamp of a MissedPunch
-	 * <p>
-	 * 
-	 * @return timestamp for MissedPunch
-	 */
-	public Timestamp getTimestamp();
 
 	/**
 	 * The principal name associated with the MissedPunch
@@ -227,7 +219,7 @@ public interface MissedPunchContract extends PersistableBusinessObject {
 	 * 
 	 * @return jobObj for MissedPunch
 	 */
-	public JobContract getJobObj();
+	//public JobContract getJobObj();
 	
 	/**
 	 * The WorkArea object associated with the MissedPunch
@@ -238,7 +230,7 @@ public interface MissedPunchContract extends PersistableBusinessObject {
 	 * 
 	 * @return workAreaObj for MissedPunch
 	 */
-	public WorkAreaContract getWorkAreaObj();
+	//public WorkAreaContract getWorkAreaObj();
 	
 	/**
 	 * The Task object associated with the MissedPunch
@@ -249,7 +241,7 @@ public interface MissedPunchContract extends PersistableBusinessObject {
 	 * 
 	 * @return taskObj for MissedPunch
 	 */
-	public TaskContract getTaskObj();
+	//public TaskContract getTaskObj();
 	
 	/**
 	 * The isAssignmentReadOnly flag of the MissedPunch

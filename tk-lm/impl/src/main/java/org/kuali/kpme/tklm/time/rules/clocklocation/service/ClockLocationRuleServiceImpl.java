@@ -22,7 +22,7 @@ import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRuleIpAddress;
 import org.kuali.kpme.tklm.time.rules.clocklocation.dao.ClockLocationDao;
@@ -46,8 +46,8 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 		this.clockLocationDao = clockLocationDao;
 	}
 
-	public void processClockLocationRule(ClockLog clockLog, LocalDate asOfDate){
-		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(clockLog.getJob().getDept(),
+	public void processClockLocationRule(ClockLogBo clockLog, LocalDate asOfDate){
+		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(clockLog.getDept(),
 										clockLog.getWorkArea(), clockLog.getPrincipalId(), clockLog.getJobNumber(), asOfDate);
 		if(lstClockLocationRules.isEmpty()){
 			return;

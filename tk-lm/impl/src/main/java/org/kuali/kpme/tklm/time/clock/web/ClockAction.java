@@ -40,9 +40,10 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -370,25 +371,21 @@ public class ClockAction extends TimesheetAction {
 		            } 
 	                
 	                // clock out employee at the end of the previous pay period
-	                ClockLog outLog = TkServiceLocator.getClockLogService().processClockLog(outLogDateTime, assignment, previousCalEntry, ip,
-	                		previousEndPeriodDateTime.toLocalDate(), previousTimeDoc, outAction, true, pId);
+	                ClockLog outLog = TkServiceLocator.getClockLogService().processClockLog(pId, previousTimeDoc.getDocumentId(), outLogDateTime, assignment, previousCalEntry, ip,
+	                		previousEndPeriodDateTime.toLocalDate(), outAction, true);
 	                
 	                // clock in employee at the begin of the next pay period
-	                ClockLog inLog = TkServiceLocator.getClockLogService().processClockLog(inLogDateTime, assignment, nextCalendarEntry, ip,
-	                		beginNextPeriodDateTime.toLocalDate(), nextTimeDoc, inAction, true, pId);
+	                ClockLog inLog = TkServiceLocator.getClockLogService().processClockLog(pId, nextTimeDoc.getDocumentId(), inLogDateTime, assignment, nextCalendarEntry, ip,
+	                		beginNextPeriodDateTime.toLocalDate(), inAction, true);
 	                
 	                // finally clock out employee at current time
-	                ClockLog finalOutLog = TkServiceLocator.getClockLogService().processClockLog(currentDateTime, assignment, nextCalendarEntry, ip,
-	                		currentDateTime.toLocalDate(), nextTimeDoc, caf.getCurrentClockAction(), true, pId);
+	                ClockLog finalOutLog = TkServiceLocator.getClockLogService().processClockLog(pId, nextTimeDoc.getDocumentId(), currentDateTime, assignment, nextCalendarEntry, ip,
+	                		currentDateTime.toLocalDate(), caf.getCurrentClockAction(), true);
 	                
 	                // add 5 seconds to clock out log's timestamp so it will be found as the latest clock action
-	                Timestamp ts= finalOutLog.getTimestamp();
-	                java.util.Calendar cal = java.util.Calendar.getInstance();
-	                cal.setTimeInMillis(ts.getTime());
-	                cal.add(java.util.Calendar.SECOND, 5);
-	                Timestamp later = new Timestamp(cal.getTime().getTime());
-	                finalOutLog.setTimestamp(later);
-	                TkServiceLocator.getClockLogService().saveClockLog(finalOutLog);
+                    ClockLog.Builder clBuilder = ClockLog.Builder.create(finalOutLog);
+                    clBuilder.setCreateTime(finalOutLog.getCreateTime().plusSeconds(5));
+	                finalOutLog = TkServiceLocator.getClockLogService().saveClockLog(clBuilder.build());
 	                
 	                caf.setClockLog(finalOutLog);  
 	                return mapping.findForward("basic");
@@ -408,8 +405,8 @@ public class ClockAction extends TimesheetAction {
     		}
     	} 
         // create clock log 
-        ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new DateTime(), assignment, caf.getCalendarEntry(), ip,
-        		beginDate, caf.getTimesheetDocument(), caf.getCurrentClockAction(), true, pId);
+        ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(pId, caf.getTimesheetDocument().getDocumentId(), new DateTime(), assignment, caf.getCalendarEntry(), ip,
+        		beginDate, caf.getCurrentClockAction(), true);
 
         caf.setClockLog(clockLog);  
         return mapping.findForward("basic"); 

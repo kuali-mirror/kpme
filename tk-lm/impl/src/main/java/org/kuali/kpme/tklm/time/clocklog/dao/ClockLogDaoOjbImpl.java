@@ -23,40 +23,40 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements ClockLogDao {
 
     private static final Logger LOG = Logger.getLogger(ClockLogDaoOjbImpl.class);
     
-    public void saveOrUpdate(ClockLog clockLog) {
+    public void saveOrUpdate(ClockLogBo clockLog) {
 	this.getPersistenceBrokerTemplate().store(clockLog);
     }
     
-    public void saveOrUpdate(List<ClockLog> clockLogList) {
+    public void saveOrUpdate(List<ClockLogBo> clockLogList) {
     	if (clockLogList != null) {
-	    	for (ClockLog clockLog : clockLogList) {
+	    	for (ClockLogBo clockLog : clockLogList) {
 	    		this.getPersistenceBrokerTemplate().store(clockLog);
 	    	}
 		}
     }
     
-    public ClockLog getClockLog(String tkClockLogId){
+    public ClockLogBo getClockLog(String tkClockLogId){
     	Criteria crit = new Criteria();
     	crit.addEqualTo("tkClockLogId", tkClockLogId);
-    	Query query = QueryFactory.newQuery(ClockLog.class, crit);
-    	return (ClockLog)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    	Query query = QueryFactory.newQuery(ClockLogBo.class, crit);
+    	return (ClockLogBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
     
-    public ClockLog getLastClockLog(String principalId){
+    public ClockLogBo getLastClockLog(String principalId){
         Criteria currentRecordCriteria = new Criteria();
         currentRecordCriteria.addEqualTo("principalId", principalId);
 
         Criteria clockTimeJoinCriteria = new Criteria();
         clockTimeJoinCriteria.addEqualToField("principalId",Criteria.PARENT_QUERY_PREFIX +"principalId");
 
-        ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimeJoinCriteria);
+        ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLogBo.class, clockTimeJoinCriteria);
         clockTimeSubQuery.setAttributes(new String[]{"max(clockTimestamp)"});
 
         currentRecordCriteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
@@ -65,16 +65,16 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
         timestampJoinCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
         timestampJoinCriteria.addEqualToField("clockTimestamp", Criteria.PARENT_QUERY_PREFIX + "clockTimestamp");
 	
-		ReportQueryByCriteria timeStampSubQuery = QueryFactory.newReportQuery(ClockLog.class, timestampJoinCriteria);
+		ReportQueryByCriteria timeStampSubQuery = QueryFactory.newReportQuery(ClockLogBo.class, timestampJoinCriteria);
 		timeStampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 	
 		currentRecordCriteria.addEqualTo("timestamp", timeStampSubQuery);
 	
-		return (ClockLog)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLog.class,currentRecordCriteria));
+		return (ClockLogBo)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLogBo.class,currentRecordCriteria));
     }
     
     @Override
-	public ClockLog getLastClockLog(String principalId, String clockAction){
+	public ClockLogBo getLastClockLog(String principalId, String clockAction){
     	Criteria currentRecordCriteria = new Criteria();
     	currentRecordCriteria.addEqualTo("principalId", principalId);
     	currentRecordCriteria.addEqualTo("clockAction", clockAction);
@@ -83,7 +83,7 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
     	clockTimeJoinCriteria.addEqualToField("principalId",Criteria.PARENT_QUERY_PREFIX +"principalId");
     	clockTimeJoinCriteria.addEqualToField("clockAction",Criteria.PARENT_QUERY_PREFIX +"clockAction");
     	
-    	ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimeJoinCriteria);
+    	ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLogBo.class, clockTimeJoinCriteria);
     	clockTimeSubQuery.setAttributes(new String[]{"max(clockTimestamp)"});
     	
     	currentRecordCriteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
@@ -93,16 +93,16 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
     	timestampJoinCriteria.addEqualToField("clockAction", Criteria.PARENT_QUERY_PREFIX + "clockAction");
     	timestampJoinCriteria.addEqualToField("clockTimestamp", Criteria.PARENT_QUERY_PREFIX + "clockTimestamp");
     	
-    	ReportQueryByCriteria timeStampSubQuery = QueryFactory.newReportQuery(ClockLog.class, timestampJoinCriteria);
+    	ReportQueryByCriteria timeStampSubQuery = QueryFactory.newReportQuery(ClockLogBo.class, timestampJoinCriteria);
     	timeStampSubQuery.setAttributes(new String[]{"max(timestamp)"});
     	
     	currentRecordCriteria.addEqualTo("timestamp", timeStampSubQuery);
     	
-    	return (ClockLog)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLog.class,currentRecordCriteria));
+    	return (ClockLogBo)this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLogBo.class,currentRecordCriteria));
     }
 
     @Override
-    public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, String timesheetId) {
+    public ClockLogBo getLastClockLog(String principalId, String jobNumber, String workArea, String task, String timesheetId) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("principalId", principalId);
         criteria.addEqualTo("jobNumber", jobNumber);
@@ -115,7 +115,7 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
         clockTimeJoinCriteria.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
         clockTimeJoinCriteria.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
         clockTimeJoinCriteria.addEqualToField("documentId", Criteria.PARENT_QUERY_PREFIX + "documentId");
-        ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimeJoinCriteria);
+        ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLogBo.class, clockTimeJoinCriteria);
         clockTimeSubQuery.setAttributes(new String[]{"max(clockTimestamp)"});
         criteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
 
@@ -125,15 +125,15 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
         timestampJoinCriteria.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
         timestampJoinCriteria.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
         timestampJoinCriteria.addEqualToField("documentId", Criteria.PARENT_QUERY_PREFIX + "documentId");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ClockLog.class, timestampJoinCriteria);
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ClockLogBo.class, timestampJoinCriteria);
         timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
         criteria.addEqualTo("timestamp", timestampSubQuery);
 
-        return (ClockLog) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLog.class, criteria));
+        return (ClockLogBo) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLogBo.class, criteria));
     }
 
     @Override
-	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntryBo calendarEntry) {
+	public ClockLogBo getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntryBo calendarEntry) {
     	Criteria criteria = new Criteria();
     	criteria.addEqualTo("principalId", principalId);
     	criteria.addEqualTo("jobNumber", jobNumber);
@@ -146,7 +146,7 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
     	clockTimeJoinCriteria.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
     	clockTimeJoinCriteria.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
     	clockTimeJoinCriteria.addBetween("clockTimestamp", calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
-    	ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLog.class, clockTimeJoinCriteria);
+    	ReportQueryByCriteria clockTimeSubQuery = QueryFactory.newReportQuery(ClockLogBo.class, clockTimeJoinCriteria);
     	clockTimeSubQuery.setAttributes(new String[]{"max(clockTimestamp)"});
     	criteria.addEqualTo("clockTimestamp", clockTimeSubQuery);
     	
@@ -156,18 +156,18 @@ public class ClockLogDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Clock
     	timestampJoinCriteria.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
     	timestampJoinCriteria.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
     	timestampJoinCriteria.addBetween("clockTimestamp", calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
-    	ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ClockLog.class, timestampJoinCriteria);
+    	ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ClockLogBo.class, timestampJoinCriteria);
     	timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
     	criteria.addEqualTo("timestamp", timestampSubQuery);
     	
-    	return (ClockLog) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLog.class, criteria));
+    	return (ClockLogBo) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ClockLogBo.class, criteria));
     }
     
     @Override
 	public void deleteClockLogsForDocumentId(String documentId) {
     	Criteria crit = new Criteria();
     	crit.addEqualTo("documentId", documentId);
-    	this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(ClockLog.class, crit));
+    	this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(ClockLogBo.class, crit));
     }
 
 }

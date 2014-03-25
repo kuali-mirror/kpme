@@ -37,8 +37,9 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.rules.graceperiod.GracePeriodRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
@@ -191,20 +192,20 @@ public class ClockWebTest extends KPMEWebTestCase {
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         // Make sure both timestamps preserve seconds
         Assert.assertTrue("The seconds on clock timestamp should be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() != 0);
-        Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on timestamp should be preserved", lastClockLog.getCreateTime().getSecondOfMinute() != 0);
 
         // Clock out
         clockOut();
         // Make sure both timestamps preserve seconds
         lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         Assert.assertTrue("The seconds on clock timestamp should be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() != 0);
-        Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on timestamp should be preserved", lastClockLog.getCreateTime().getSecondOfMinute() != 0);
     }
 
     @Test
     public void testClockActionWithGracePeriodRule() throws Exception {
         //clean clock logs
-        KRADServiceLocator.getBusinessObjectService().deleteMatching(ClockLog.class, Collections.singletonMap("principalId", "admin"));
+        KRADServiceLocator.getBusinessObjectService().deleteMatching(ClockLogBo.class, Collections.singletonMap("principalId", "admin"));
         GracePeriodRule gpr = new GracePeriodRule();
         //gpr.setTkGracePeriodRuleId("1");
         gpr.setEffectiveLocalDate(new LocalDate(2010, 1, 1));
@@ -220,14 +221,14 @@ public class ClockWebTest extends KPMEWebTestCase {
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         // Make sure both timestamps preserve seconds
         Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() == 0);
-        Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on timestamp should be preserved", lastClockLog.getCreateTime().getSecondOfMinute() != 0);
 
         // Clock out
         clockOut();
         // Make sure both timestamps preserve seconds
         lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() == 0);
-        Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on timestamp should be preserved", lastClockLog.getCreateTime().getSecondOfMinute() != 0);
 
 
     }

@@ -18,9 +18,16 @@ package org.kuali.kpme.tklm.time.clocklog;
 import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.job.Job;
+import org.kuali.kpme.core.api.task.Task;
+import org.kuali.kpme.core.api.workarea.WorkArea;
+import org.kuali.kpme.core.job.JobBo;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -28,7 +35,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import com.google.common.collect.ImmutableList;
 
-public class ClockLog extends PersistableBusinessObjectBase implements ClockLogContract {
+public class ClockLogBo extends PersistableBusinessObjectBase implements ClockLogContract {
 
 	private static final long serialVersionUID = -6928657854016622568L;
 	//KPME-2273/1965 Primary Business Keys List.	
@@ -137,6 +144,11 @@ public class ClockLog extends PersistableBusinessObjectBase implements ClockLogC
         return timestamp;
     }
 
+    @Override
+    public DateTime getCreateTime() {
+        return getTimestamp() == null ? null : new DateTime(getTimestamp().getTime());
+    }
+
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
@@ -170,7 +182,18 @@ public class ClockLog extends PersistableBusinessObjectBase implements ClockLogC
 
 	return ret;
     }
-	
+
+    public String getAssignmentDescriptionKey() {
+        return new AssignmentDescriptionKey(getJobNumber(), getWorkArea(), getTask()).toAssignmentKeyString();
+    }
+
+    public String getDept() {
+        if (job == null) {
+            setJob(HrServiceLocator.getJobService().getJob(getPrincipalId(), getJobNumber(), getClockDateTime().toLocalDate()));
+        }
+        return job == null ? null : job.getDept();
+    }
+
 	public Job getJob() {
 		return job;
 	}
@@ -232,5 +255,42 @@ public class ClockLog extends PersistableBusinessObjectBase implements ClockLogC
 	public void setUnapprovedIP(boolean unapprovedIP) {
 		this.unapprovedIP = unapprovedIP;
 	}
-	
+
+    public static ClockLogBo from(ClockLog im) {
+        if (im == null) {
+            return null;
+        }
+        ClockLogBo cl = new ClockLogBo();
+        cl.setTkClockLogId(im.getTkClockLogId());
+        cl.setDocumentId(im.getDocumentId());
+        cl.setPrincipalId(im.getPrincipalId());
+        cl.setJobNumber(im.getJobNumber());
+        cl.setWorkArea(im.getWorkArea());
+        cl.setTask(im.getTask());
+        cl.setClockTimestamp(im.getClockDateTime() == null ? null : new Timestamp(im.getClockDateTime().getMillis()));
+        cl.setClockTimestampTimezone(im.getClockTimestampTimezone());
+        cl.setClockAction(im.getClockAction());
+        cl.setIpAddress(im.getIpAddress());
+        cl.setUserPrincipalId(im.getUserPrincipalId());
+        cl.setTimestamp(im.getCreateTime() == null ? null : new Timestamp(im.getCreateTime().getMillis()));
+        cl.setUnapprovedIP(im.isUnapprovedIP());
+        cl.setClockedByMissedPunch(im.isClockedByMissedPunch());
+
+        cl.setJob(im.getJob());
+        //cl.setWorkAreaObj(im.getWorkAreaObj());
+        //cl.setTaskObj(im.getTaskObj());
+
+        cl.setVersionNumber(im.getVersionNumber());
+        cl.setObjectId(im.getObjectId());
+
+        return cl;
+    }
+
+    public static ClockLog to(ClockLogBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return ClockLog.Builder.create(bo).build();
+    }
 }

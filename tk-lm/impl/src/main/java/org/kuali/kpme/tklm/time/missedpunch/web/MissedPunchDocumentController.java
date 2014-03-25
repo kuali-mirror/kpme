@@ -15,19 +15,12 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch.web;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -52,6 +45,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/missedPunch")
@@ -163,7 +162,7 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
     @RequestMapping(params = "methodToCall=approve")
     public ModelAndView approve(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MissedPunchDocument missedPunchDocument = (MissedPunchDocument) form.getDocument();
-        MissedPunch missedPunch = (MissedPunch) missedPunchDocument.getMissedPunch();
+        MissedPunch missedPunch = missedPunchDocument.getMissedPunch();
     	TkServiceLocator.getMissedPunchService().updateClockLog(missedPunch, TKUtils.getIPAddressFromRequest(request));
         
     	return super.approve(form, result, request, response);

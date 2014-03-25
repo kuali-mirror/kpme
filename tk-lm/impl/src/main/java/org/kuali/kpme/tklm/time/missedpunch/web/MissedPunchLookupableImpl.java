@@ -237,7 +237,7 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 			Properties urlParameters = new Properties();
 
 	        MissedPunch mp = (MissedPunch) dataObject;
-	        MissedPunchDocument mpDoc = TkServiceLocator.getMissedPunchService().getMissedPunchDocumentByMissedPunchId(mp.getTkMissedPunchId());
+	        MissedPunchDocument mpDoc = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentByMissedPunchId(mp.getTkMissedPunchId());
 
 	        urlParameters.setProperty("command", "displayDocSearchView");
 	        

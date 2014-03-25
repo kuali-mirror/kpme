@@ -27,9 +27,9 @@ import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
-import org.kuali.kpme.tklm.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -86,7 +86,7 @@ public class EndPayPeriodJob extends BatchJob {
 	
 	
 	protected void runEndPayPeriodJobForUser(CalendarEntry calendarEntry, String principalId, ClockLog openClockLog, String batchUserPrincipalId) {
-LOG.info("EndOfPayPeiodJob started for user " + principalId + " and clockLog " + openClockLog.getTkClockLogId());
+        LOG.debug("EndOfPayPeiodJob started for user " + principalId + " and clockLog " + openClockLog.getTkClockLogId());
 		DateTime endPeriodDateTime = calendarEntry.getEndPeriodFullDateTime();
 	        
         // need to use the user's time zone and the system time zone to figure out the system time of endPeriodDatTime in the user's timezone
@@ -103,32 +103,27 @@ LOG.info("EndOfPayPeiodJob started for user " + principalId + " and clockLog " +
         String ipAddress = openClockLog.getIpAddress();
 	    TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, calendarEntry.getBeginPeriodFullDateTime(), endPeriodDateTime);
 	    if (timesheetDocumentHeader != null) {
-	        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 	        AssignmentDescriptionKey assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask());
-            Assignment assignment = timesheetDocument.getAssignment(assignmentKey);
-	        ClockLog clockOutLog = TkServiceLocator.getClockLogService().processClockLog(coLogDateTime, assignment, calendarEntry, ipAddress,
-	            		endPeriodDateTime.toLocalDate(), timesheetDocument, TkConstants.CLOCK_OUT, false, principalId, batchUserPrincipalId);
+            Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, assignmentKey, coLogDateTime.toLocalDate());
+	        ClockLog clockOutLog = TkServiceLocator.getClockLogService().processClockLog(principalId, timesheetDocumentHeader.getDocumentId(), coLogDateTime, assignment, calendarEntry, ipAddress,
+	            		endPeriodDateTime.toLocalDate(), TkConstants.CLOCK_OUT, false, batchUserPrincipalId);
 
             TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService()
             		.getDocumentHeader(principalId, nextCalendarEntry.getBeginPeriodFullDateTime(), nextCalendarEntry.getEndPeriodFullDateTime());
-            TimesheetDocument nextTimeDoc = null;
-            if(nextTdh != null) {
-            	nextTimeDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(nextTdh.getDocumentId());
-            }
-            ClockLog clockInLog = TkServiceLocator.getClockLogService().processClockLog(ciLogDateTime, assignment, nextCalendarEntry, ipAddress,
-            		beginNextPeriodDateTime.toLocalDate(), nextTimeDoc, TkConstants.CLOCK_IN, false, principalId, batchUserPrincipalId);
+            //TimesheetDocument nextTimeDoc = null;
+            //if(nextTdh != null) {
+            //	nextTimeDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(nextTdh.getDocumentId());
+            //}
+            ClockLog clockInLog = TkServiceLocator.getClockLogService().processClockLog(principalId, nextTdh == null ? null : nextTdh.getDocumentId(), ciLogDateTime, assignment, nextCalendarEntry, ipAddress,
+            		beginNextPeriodDateTime.toLocalDate(), TkConstants.CLOCK_IN, false, batchUserPrincipalId);
 
             // add 5 seconds to clock in log's timestamp so it will be found as the latest clock action
-            Timestamp ts= clockInLog.getTimestamp();
-            java.util.Calendar cal = java.util.Calendar.getInstance();
-            cal.setTimeInMillis(ts.getTime());
-            cal.add(java.util.Calendar.SECOND, 5);
-            Timestamp later = new Timestamp(cal.getTime().getTime());
-            clockInLog.setTimestamp(later);
-            TkServiceLocator.getClockLogService().saveClockLog(clockInLog);
-LOG.info("Clock Out log created is  " + clockOutLog.getTkClockLogId() + ",  Clock In Log created is " + clockInLog.getTkClockLogId());  
+            ClockLog.Builder ciBuilder = ClockLog.Builder.create(clockInLog);
+            ciBuilder.setCreateTime(clockInLog.getCreateTime().plusSeconds(5));
+            clockInLog = TkServiceLocator.getClockLogService().saveClockLog(ciBuilder.build());
+            LOG.debug("Clock Out log created is  " + clockOutLog.getTkClockLogId() + ",  Clock In Log created is " + clockInLog.getTkClockLogId());
 	    }
-LOG.info("EndOfPayPeiodJob is finished for user " + principalId + " and clockLog " + openClockLog.getTkClockLogId());
+        LOG.debug("EndOfPayPeiodJob is finished for user " + principalId + " and clockLog " + openClockLog.getTkClockLogId());
 	}
 	
 

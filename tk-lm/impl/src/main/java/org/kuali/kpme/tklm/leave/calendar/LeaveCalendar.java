@@ -122,7 +122,7 @@ public class LeaveCalendar extends CalendarParent implements LeaveCalendarContra
                dayNumber++;
             }
             leaveCalendarDay.setDayNumberString(currentDisplayDateTime.dayOfMonth().getAsShortText());
-            leaveCalendarDay.setDateString(currentDisplayDateTime.toString(HrConstants.DT_BASIC_DATE_FORMAT));
+            leaveCalendarDay.setDateString(currentDisplayDateTime.toString(HrConstants.DateTimeFormats.BASIC_DATE_FORMAT));
 
             leaveCalendarWeek.getDays().add(leaveCalendarDay);
             
