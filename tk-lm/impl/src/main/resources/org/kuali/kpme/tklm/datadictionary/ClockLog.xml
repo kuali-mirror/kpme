@@ -308,7 +308,7 @@
 				</property>
 			</bean>
 			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="ipAddress" />
-			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="clockTimestamp" />
+			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="clockTimestamp" p:ranged="true"/>
 		</list>
 	</property>
 	<property name="resultFields">
