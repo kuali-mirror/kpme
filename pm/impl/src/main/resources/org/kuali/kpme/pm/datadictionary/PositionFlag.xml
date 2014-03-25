@@ -101,7 +101,7 @@
        			 	p:inquiryParameters="pmPositionFlagId:pmPositionFlagId"/>
   			</property>
         </bean>
-       	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+<!--        	<bean parent="Uif-DataField" p:propertyName="effectiveDate" /> -->
         <bean parent="Uif-DataField" p:propertyName="category" />
         
         <bean parent="Uif-DataField" p:propertyName="active"/>
@@ -122,7 +122,7 @@
 	       	 	<list>
 	       	 		
 	        			
-		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+<!-- 		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" /> -->
 			       	<bean parent="Uif-DataField" p:propertyName="category" />
 			       	<bean parent="Uif-DataField" p:propertyName="positionFlagName" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
@@ -145,7 +145,7 @@
         <bean parent="Uif-MaintenanceGridSection">
           <property name="items">
             <list>
-	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+<!-- 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" /> -->
 		       	<bean parent="Uif-InputField" p:propertyName="category" />
         		<bean parent="Uif-InputField" p:propertyName="positionFlagName" />
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
