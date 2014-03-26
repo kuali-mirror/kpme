@@ -18,6 +18,7 @@ package org.kuali.kpme.core.assignment.validation;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,8 +29,8 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.paytype.PayType;
+import org.kuali.kpme.core.api.task.Task;
 import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.assignment.account.AssignmentAccountBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -37,6 +38,7 @@ import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
 public class AssignmentRule extends MaintenanceDocumentRuleBase {
@@ -61,17 +63,26 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	}
 	
 	protected boolean validateTask(AssignmentBo assignment) {
-		boolean valid = true;
+		boolean valid = false;
 		//task by default is zero so if non zero validate against existing taskss
 		if (assignment.getTask() != null && !assignment.getTask().equals(0L)) {
-			TaskContract task = HrServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
-			if(task != null) {
-				if(task.getWorkArea() == null || !task.getWorkArea().equals(assignment.getWorkArea())) {
-					this.putFieldError("dataObject.task", "task.workarea.invalid.sync");
-					valid = false;
+//			TaskContract task = HrServiceLocator.getTaskService().getTask(assignment.getTask(), assignment.getEffectiveLocalDate());
+			String workarea = "";
+			if(assignment.getWorkArea() != null) {
+				workarea = assignment.getWorkArea().toString();
+			}
+			List<Task> tasks = HrServiceLocator.getTaskService().getTasks(assignment.getTask().toString(), null, workarea, null, assignment.getEffectiveLocalDate());
+			for(Task task : tasks) {
+				if(workarea.equals(task.getWorkArea().toString())) {
+					valid = true;
+					return valid;
 				}
-			} 
+			}
+		} else {
+			valid = true;
+			return valid;
 		}
+		this.putFieldError("dataObject.task", "task.workarea.invalid.sync");
 		return valid;
 	}
 
@@ -330,7 +341,13 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				//valid &= this.validateActiveFlag(assignment);
 				if(!assignment.getAssignmentAccounts().isEmpty()) {
 					valid &= this.validateRegPayEarnCode(assignment);
-					valid &= this.validateAccounts(assignment); // KPME-2780
+//					valid &= this.validateAccounts(assignment); // KPME-2780
+					// Validate Assignment Accounts
+					for (ListIterator<? extends AssignmentAccountBo> iterator =  assignment.getAssignmentAccounts().listIterator() ; iterator.hasNext();){
+						int index = iterator.nextIndex();
+						AssignmentAccountBo assignmentAccountBo = iterator.next();
+						valid &= this.validateAssignmentAccount(assignmentAccountBo, assignment, index);
+					}
 				}
 				// only allow one primary assignment for the leave eligible job
 				if(assignment.isPrimaryAssign()) {
@@ -369,6 +386,52 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
+	
+	
+	private boolean validateAssignmentAccount(AssignmentAccountBo assignmentAccount, AssignmentBo assignmentObj, int index) {
+		boolean isValid = true;
+		String prefix = "assignmentAccounts";
+		String propertyNamePrefix = prefix + "[" + index + "].";
+		if(StringUtils.isNotEmpty(assignmentAccount.getEarnCode())) {
+			boolean valid = ValidationUtils.validateEarnCode(assignmentAccount.getEarnCode(), assignmentObj.getEffectiveLocalDate());
+			if(!valid) {
+				this.putFieldError(propertyNamePrefix + "earnCode","error.existence", "earn code '"+ assignmentAccount.getEarnCode() + "'");
+				isValid = false;
+			}
+		}
+		if(StringUtils.isNotEmpty(assignmentAccount.getAccountNbr())) {
+			boolean valid = ValidationUtils.validateAccount(assignmentAccount.getFinCoaCd(),assignmentAccount.getAccountNbr());
+			if(!valid) {
+				this.putFieldError(propertyNamePrefix + "accountNbr","error.existence", "Account Number '"+ assignmentAccount.getAccountNbr() + "'");
+				isValid = false;
+			}
+		}
+		if(StringUtils.isNotEmpty(assignmentAccount.getFinObjectCd())) {
+			boolean valid = ValidationUtils.validateObjectCode(assignmentAccount.getFinObjectCd(),assignmentAccount.getFinCoaCd(),null);
+			if (!valid) {
+				this.putFieldError(propertyNamePrefix + "finObjectCd","error.existence", "Object Code '"+ assignmentAccount.getFinObjectCd() + "'");
+				isValid = false;
+			}			
+		}
+		if (StringUtils.isNotEmpty(assignmentAccount.getFinSubObjCd())) {
+			boolean valid = ValidationUtils.validateSubObjectCode(String.valueOf(assignmentObj.getEffectiveLocalDate().getYear()),assignmentAccount.getFinCoaCd(),
+					assignmentAccount.getAccountNbr(), assignmentAccount.getFinObjectCd(), assignmentAccount.getFinSubObjCd());
+			if (!valid) {
+				this.putFieldError(propertyNamePrefix + "finSubObjCd","error.existence", "SubObject Code '"+ assignmentAccount.getFinSubObjCd() + "'");
+				isValid = false;
+			}
+		} 
+		if(assignmentAccount.getSubAcctNbr() != null && StringUtils.isNotEmpty(assignmentAccount.getSubAcctNbr())) {
+			boolean valid = ValidationUtils.validateSubAccount(assignmentAccount.getSubAcctNbr(),assignmentAccount.getAccountNbr(), assignmentAccount.getFinCoaCd());
+			if (!valid) {
+				this.putFieldError(propertyNamePrefix + "subAcctNbr", "error.existence", "Sub-Account Number '"+ assignmentAccount.getSubAcctNbr() + "'");
+				isValid = false;
+			}
+		}
+		
+		return isValid;
+	}
+    
 
 	
 }

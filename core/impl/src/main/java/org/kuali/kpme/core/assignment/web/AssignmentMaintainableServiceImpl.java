@@ -118,7 +118,7 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
 			valid = ValidationUtils.validateSubObjectCode(String.valueOf(assignmentObj.getEffectiveLocalDate().getYear()),assignmentAccount.getFinCoaCd(),
 					assignmentAccount.getAccountNbr(), assignmentAccount.getFinObjectCd(), assignmentAccount.getFinSubObjCd());
 			if (!valid) {
-				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.assignmentAccounts'].finSubObjectCd","error.existence", "SubObject Code '"+ assignmentAccount.getFinSubObjCd() + "'");
+				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.assignmentAccounts'].finSubObjCd","error.existence", "SubObject Code '"+ assignmentAccount.getFinSubObjCd() + "'");
 				return valid;
 			}
 		} 

@@ -176,7 +176,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
       			 return results;
     		}
     	}
-    	if(StringUtils.isNotEmpty(pf.getSubObjectCode())) {
+    	if(StringUtils.isNotEmpty(pf.getSubObjectCode()) && aPosition.getEffectiveDate() != null) {
     		boolean results = ValidationUtils.validateSubObjectCode(String.valueOf(aPosition.getEffectiveLocalDate().getYear()),
     				pf.getChart(),
     				pf.getAccount(),

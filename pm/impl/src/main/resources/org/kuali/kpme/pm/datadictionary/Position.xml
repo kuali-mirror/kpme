@@ -1152,7 +1152,7 @@
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.Account"
-							p:fieldConversions="accountNumber:account" />
+							p:fieldConversions="accountNumber:account,chartOfAccountsCode:chart" />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="subAccount">

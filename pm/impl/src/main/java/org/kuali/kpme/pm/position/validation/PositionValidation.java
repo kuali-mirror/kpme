@@ -17,17 +17,21 @@ package org.kuali.kpme.pm.position.validation;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDutyBo;
+import org.kuali.kpme.pm.position.funding.PositionFundingBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PositionValidation extends MaintenanceDocumentRuleBase {
 	@Override
@@ -45,6 +49,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			valid &= this.validateDutyListPercentage(aPosition);
 			valid &= this.validatePrimaryDepartment(aPosition);
             valid &= this.validateProcess(aPosition, oldPosition);
+            valid &= this.validateFundingLines(aPosition);
 		}
 		return valid;
 	}
@@ -191,6 +196,58 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
         return true;
     }
+
+    protected boolean validateFundingLines(PositionBo aPosition) {
+    	boolean valid = true;
+    	String prefix = "fundingList";
+    	if(CollectionUtils.isNotEmpty(aPosition.getFundingList())) {
+	    	for (ListIterator<? extends PositionFundingBo> iterator = aPosition.getFundingList().listIterator(); iterator.hasNext(); ) {
+				int index = iterator.nextIndex();
+				PositionFundingBo pf = iterator.next();
+				valid &= validateAddFundingLine(pf, aPosition, prefix, index);
+			}
+    	}
+    	return valid;
+    }
+    
+	protected boolean validateAddFundingLine(PositionFundingBo pf, PositionBo aPosition,String prefix, int index) {
+		boolean valid = true;
+		String propertyNamePrefix = prefix + "[" + index + "].";
+    	if(StringUtils.isNotEmpty(pf.getAccount())) {
+    		boolean results = ValidationUtils.validateAccount(pf.getChart(), pf.getAccount());
+    		if(!results) {
+    			this.putFieldError(propertyNamePrefix + "account","error.existence", "Account '" + pf.getAccount() + "'");
+    			valid = false;
+    		}
+    	}
+    	if(StringUtils.isNotEmpty(pf.getSubAccount())) {
+    		boolean results = ValidationUtils.validateSubAccount(pf.getSubAccount(), pf.getAccount(), pf.getChart());
+    		if(!results) {
+	   			 this.putFieldError(propertyNamePrefix + "subAccount","error.existence", "Sub Account '" + pf.getSubAccount() + "'");
+	   			 valid = false;
+    		}
+    	}
+    	if(StringUtils.isNotEmpty(pf.getObjectCode()) && aPosition.getEffectiveDate() != null) {
+    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), Integer.valueOf(aPosition.getEffectiveLocalDate().getYear()));
+    		if(!results) {
+    			 this.putFieldError(propertyNamePrefix + "objectCode","error.existence", "Object Code '" + pf.getObjectCode() + "'");
+    			 valid = false;
+    		}
+    	}
+    	if(StringUtils.isNotEmpty(pf.getSubObjectCode())) {
+    		boolean results = ValidationUtils.validateSubObjectCode(String.valueOf(aPosition.getEffectiveLocalDate().getYear()),
+    				pf.getChart(),
+    				pf.getAccount(),
+    				pf.getObjectCode(),
+    				pf.getSubObjectCode());
+    		if(!results) {
+    			 this.putFieldError(propertyNamePrefix + "subObjectCode","error.existence", "Sub Object Code '" + pf.getSubObjectCode() + "'");
+    			 valid= false;
+    		}
+    	}
+    	return valid;
+    
+	}
 
 
 }
