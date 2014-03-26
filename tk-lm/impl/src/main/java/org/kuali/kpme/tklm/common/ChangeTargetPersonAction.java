@@ -49,9 +49,8 @@ public class ChangeTargetPersonAction extends KPMEAction {
 	
     public ActionForward changeTargetPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = mapping.findForward("basic");
-    	
     	ChangeTargetPersonForm changeTargetPersonForm = (ChangeTargetPersonForm) form;
-
+    	changeTargetPersonForm.setMessage(null);
         if (StringUtils.isNotBlank(changeTargetPersonForm.getPrincipalName())) {
         	Principal targetPerson = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(changeTargetPersonForm.getPrincipalName());
         	
@@ -81,7 +80,18 @@ public class ChangeTargetPersonAction extends KPMEAction {
 	                LOG.warn("Non-Admin user attempting to change target person.");
 	                return mapping.findForward("unauthorized");
 	            }
+	        } else {
+	        	if(changeTargetPersonForm.getFromAction() != null && !changeTargetPersonForm.getFromAction().isEmpty()) {
+	        		forward = new ActionRedirect(changeTargetPersonForm.getFromAction());
+	        		changeTargetPersonForm.setMessage("Could not locate a person for this principal name.");
+	        		
+	        	}
 	        }
+        } else {
+        	if(changeTargetPersonForm.getFromAction() != null && !changeTargetPersonForm.getFromAction().isEmpty()) {
+        		forward = new ActionRedirect(changeTargetPersonForm.getFromAction());
+        		changeTargetPersonForm.setMessage("Please provide principal name.");
+        	}
         }
 
         return forward;
