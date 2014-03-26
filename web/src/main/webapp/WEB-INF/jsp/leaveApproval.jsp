@@ -37,7 +37,6 @@
 
 
 <div class="approvals">
-<!-- NICHE -->
 	<table class="navigation" style="width:100%">
 		<tbody>
 			<tr>
@@ -88,7 +87,6 @@
 		</tbody>
 	</table>
     
-<!-- UPAR -->
     <lm:leaveApproval />
 
     <c:if test="${fn:length(Form.leaveApprovalRows) != 0}">
