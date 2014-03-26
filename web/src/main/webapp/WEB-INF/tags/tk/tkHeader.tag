@@ -69,13 +69,21 @@
 						<c:if test="${systemAdmin || locationAdmin}">
 							<table align="left" width="100%">
 								<tr>
-									<td width="10%"></td>
+									<td width="10%"></td>	
 									<td><select id="goToPortal" name="goToPortal"
 										ONCHANGE="location = this.options[this.selectedIndex].value;"
 										style="width: 150px">
 											<option value="" selected="selected">Go To...</option>
-											<option value="<%=request.getContextPath()%>/portal.do">
-												KPME Home</option>
+											<option value="${ConfigProperties.application.url}/portal.do?selectedTab=main">
+												KHR Menu</option>
+											<option value="${ConfigProperties.application.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.application.url}/kew/ActionList.do">
+												Action List</option>	
+											<option value="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.application.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do">
+												Doc Search</option>
+											<option value="${ConfigProperties.application.url}/portal.do?selectedTab=kpmemaintenance">
+												KHR Maintenance</option>
+											<option value="${ConfigProperties.application.url}/portal.do?selectedTab=riceadministration">
+												Rice Administration</option>
 									</select></td>
 								</tr>
 							</table>
