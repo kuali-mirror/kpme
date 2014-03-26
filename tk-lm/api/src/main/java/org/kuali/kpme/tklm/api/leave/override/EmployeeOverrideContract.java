@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.api.leave.override;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 
 /**
@@ -25,7 +26,7 @@ import org.kuali.rice.kim.api.identity.Person;
  *
  */
 public interface EmployeeOverrideContract extends HrBusinessObjectContract {
-	
+    public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "EmployeeOverride";
 	/**
 	 * The primary key of an EmployeeOverride entry saved in a database
 	 * 

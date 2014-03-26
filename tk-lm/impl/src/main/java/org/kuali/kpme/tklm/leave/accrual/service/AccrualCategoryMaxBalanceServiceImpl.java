@@ -30,6 +30,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.AccrualCategoryMaxBalanceService;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -201,8 +202,8 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 									adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
 								}
 
-								List<EmployeeOverride> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, lb.getLeaveLocalDate());
-								for(EmployeeOverride override : overrides) {
+								List<? extends EmployeeOverrideContract> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, lb.getLeaveLocalDate());
+								for(EmployeeOverrideContract override : overrides) {
 									if(StringUtils.equals(override.getAccrualCategory(),lb.getAccrualCategory())) {
 										//Do not pro-rate override values for FTE.
 										if(StringUtils.equals(override.getOverrideType(),"MB"))

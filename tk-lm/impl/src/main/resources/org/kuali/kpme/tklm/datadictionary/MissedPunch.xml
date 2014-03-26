@@ -24,7 +24,7 @@
 
     <bean id="MissedPunch" parent="MissedPunch-parentBean" />
 	<bean id="MissedPunch-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunch" />
+		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo" />
 		<property name="titleAttribute" value="tkMissedPunchId" />
 		<property name="objectLabel" value="Missed Punch" />
 		<property name="attributes">
@@ -322,7 +322,7 @@
     <bean id="MissedPunch-InquiryView" parent="MissedPunch-InquiryView-parentBean" />
     <bean id="MissedPunch-InquiryView-parentBean" abstract="true" parent="Uif-InquiryView">
         <property name="headerText" value="Missed Punch Inquiry" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunch" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo" />
         <property name="singlePageView" value="true" />
         <property name="items">
             <list>
@@ -376,7 +376,7 @@
     <bean id="MissedPunch-LookupView" parent="MissedPunch-LookupView-parentBean" />
     <bean id="MissedPunch-LookupView-parentBean" abstract="true" parent="KPMEUif-ViewLinkLookupView">
         <property name="headerText" value="Missed Punch Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunch" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchLookupableImpl" />
         <property name="criteriaFields">
             <list>

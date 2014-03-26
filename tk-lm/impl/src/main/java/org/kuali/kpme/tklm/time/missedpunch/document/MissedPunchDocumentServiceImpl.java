@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.time.missedpunch.document;
 
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDao;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -36,8 +36,8 @@ public class MissedPunchDocumentServiceImpl implements MissedPunchDocumentServic
 	public List<MissedPunchDocument> getMissedPunchDocumentsByTimesheetDocumentId(String timesheetDocumentId) {
 		List<MissedPunchDocument> missedPunchDocuments = new ArrayList<MissedPunchDocument>();
 		
-		List<MissedPunch> missedPunches = getMissedPunchDao().getMissedPunchesByTimesheetDocumentId(timesheetDocumentId);
-		for (MissedPunch missedPunch : missedPunches) {
+		List<MissedPunchBo> missedPunches = getMissedPunchDao().getMissedPunchesByTimesheetDocumentId(timesheetDocumentId);
+		for (MissedPunchBo missedPunch : missedPunches) {
 			MissedPunchDocument missedPunchDocument = getMissedPunchDao().getMissedPunchDocument(missedPunch.getTkMissedPunchId());
 			
 			if (missedPunchDocument != null) {

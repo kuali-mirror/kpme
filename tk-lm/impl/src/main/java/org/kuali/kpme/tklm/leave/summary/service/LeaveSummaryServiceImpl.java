@@ -34,6 +34,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryService;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
@@ -104,7 +105,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
             }
             // get all leave blocks from the requested date to the usageEndDate
             List<LeaveBlock> futureLeaveBlocks = getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, endDate, usageEndDate, accrualCategory);
-            EmployeeOverride maxUsageOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), accrualCategory, "MU", usageEndDate);
+            EmployeeOverrideContract maxUsageOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), accrualCategory, "MU", usageEndDate);
 
             //get max balances
             AccrualCategoryRuleContract acRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, LocalDate.now(), pha.getServiceLocalDate());
@@ -245,7 +246,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             AccrualCategoryRuleContract acRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, endDate, pha.getServiceLocalDate());
                             //accrual category rule id set on a leave summary row will be useful in generating a relevant balance transfer
                             //document from the leave calendar display. Could put this id in the request for balance transfer document.
-                            EmployeeOverride maxUsageOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MU", endDate);
+                            EmployeeOverrideContract maxUsageOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MU", endDate);
 
                             lsr.setAccrualCategoryRuleId(acRule == null ? null : acRule.getLmAccrualCategoryRuleId());
                             if(acRule != null &&
@@ -292,7 +293,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             Set<String> keyset = new HashSet<String>();
                             keyset.addAll(lsr.getPriorYearsUsage().keySet());
                             keyset.addAll(lsr.getPriorYearsTotalAccrued().keySet());
-                            EmployeeOverride carryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MAC", endDate);
+                            EmployeeOverrideContract carryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MAC", endDate);
 
                             for (String key : keyset) {
                                 BigDecimal value = lsr.getPriorYearsTotalAccrued().get(key);

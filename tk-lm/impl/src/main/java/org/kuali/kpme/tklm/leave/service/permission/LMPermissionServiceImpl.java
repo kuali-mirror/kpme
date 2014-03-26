@@ -30,6 +30,7 @@ import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.api.permission.LMPermissionService;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarService;
@@ -197,7 +198,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
             	if(HrContext.isSystemAdmin()) {
                     return updateCanEditLeavePerm(principalId, perms, true);
             	}
-            	SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(leaveBlock.getScheduleTimeOffId());
+                SystemScheduledTimeOffContract ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(leaveBlock.getScheduleTimeOffId());
             	if(ssto != null && !StringUtils.equals(LMConstants.UNUSED_TIME.NO_UNUSED, ssto.getUnusedTime())) {
                     return updateCanEditLeavePerm(principalId, perms, true);
             	}
@@ -326,7 +327,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
  	   if(lb.isAccrualGenerated()
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
-		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
+           SystemScheduledTimeOffContract ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
 			   String viewPrincipal = HrContext.getTargetPrincipalId();
                CalendarEntry ce = HrServiceLocator.getCalendarEntryService()
@@ -347,7 +348,7 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 	   if(lb.isAccrualGenerated()
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
-		   SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
+           SystemScheduledTimeOffContract ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && LMConstants.UNUSED_TIME.TRANSFER.equals(ssto.getUnusedTime())) {
 			   String viewPrincipal = HrContext.getTargetPrincipalId();
                CalendarEntry ce = HrServiceLocator.getCalendarEntryService()

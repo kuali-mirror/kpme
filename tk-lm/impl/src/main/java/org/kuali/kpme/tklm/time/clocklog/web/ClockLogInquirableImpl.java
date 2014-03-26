@@ -15,14 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.clocklog.web;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.Map;
 
 public class ClockLogInquirableImpl extends KualiInquirableImpl {
 	/**
@@ -37,7 +37,7 @@ public class ClockLogInquirableImpl extends KualiInquirableImpl {
 		
 		if(StringUtils.isNotBlank((String)fieldValues.get("tkClockLogId"))) {
 		clocklog = ClockLogBo.from(TkServiceLocator.getClockLogService().getClockLog((String)fieldValues.get("tkClockLogId")));
-		MissedPunch missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId((String)fieldValues.get("tkClockLogId"));
+		MissedPunch missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId((String) fieldValues.get("tkClockLogId"));
 		if (missedPunch != null) {
 			clocklog.setClockedByMissedPunch(true);
         	}

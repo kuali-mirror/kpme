@@ -24,6 +24,7 @@ import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffService;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.timeoff.dao.SystemScheduledTimeOffDao;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -66,7 +67,7 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 			String leavePlan, LocalDate startDate) {
 		return getSystemScheduledTimeOffDao().getSystemScheduledTimeOffByDate(leavePlan, startDate);
 	}	
-	@Override
+	/*@Override
 	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
 		JobContract primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
 		for(Assignment assign : timesheetDocument.getAssignments()){
@@ -75,7 +76,7 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 			}
 		}
 		return null;
-	}
+	}*/
 
     @Override
     public BigDecimal calculateSysSchTimeOffHours(JobContract job, BigDecimal sstoHours) {

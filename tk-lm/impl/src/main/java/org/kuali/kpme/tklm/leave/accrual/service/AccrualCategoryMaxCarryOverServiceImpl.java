@@ -33,9 +33,9 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.AccrualCategoryMaxCarryOverService;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
-import org.kuali.kpme.tklm.leave.override.service.EmployeeOverrideService;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideService;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -203,8 +203,8 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	
 	private Long getEmployeeOverrideMaxCarryOverValue(String principalId, LeavePlan leavePlan, AccrualCategory accrualCategory, LocalDate asOfDate) {
 		Long employeeOverrideMaxCarryOverValue = null;
-		
-		EmployeeOverride employeeOverride = getEmployeeOverrideService().getEmployeeOverride(principalId, leavePlan.getLeavePlan(), accrualCategory.getAccrualCategory(), "MAC", asOfDate);
+
+        EmployeeOverrideContract employeeOverride = getEmployeeOverrideService().getEmployeeOverride(principalId, leavePlan.getLeavePlan(), accrualCategory.getAccrualCategory(), "MAC", asOfDate);
 		
 		if (employeeOverride != null) {
 			employeeOverrideMaxCarryOverValue = employeeOverride.getOverrideValue();

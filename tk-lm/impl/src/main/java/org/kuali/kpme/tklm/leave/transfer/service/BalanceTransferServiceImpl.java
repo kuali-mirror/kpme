@@ -32,6 +32,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
@@ -122,8 +123,8 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				adjustedMaxCarryOver = maxCarryOver;
 			}
 
-			List<EmployeeOverride> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
-			for(EmployeeOverride override : overrides) {
+			List<? extends EmployeeOverrideContract> overrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
+			for(EmployeeOverrideContract override : overrides) {
 				if(StringUtils.equals(override.getAccrualCategory(),fromAccrualCategory.getAccrualCategory())) {
 					//Do not pro-rate override values for FTE.
 					if(StringUtils.equals(override.getOverrideType(),"MB"))

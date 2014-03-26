@@ -31,9 +31,10 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.common.CalendarApprovalFormAction;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -275,20 +276,13 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	}
 	
 	private List<MissedPunch> getMissedPunches(String documentId) {
-		List<MissedPunch> missedPunchList = new ArrayList<MissedPunch>();
-		List<MissedPunchDocument> mpDoc = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentsByTimesheetDocumentId(documentId);
-		if(mpDoc!=null){
-			for (MissedPunchDocument mpd : mpDoc) {
-				missedPunchList.add(mpd.getMissedPunch());
-			}
-		}
-		return missedPunchList;
+		return TkServiceLocator.getMissedPunchService().getMissedPunchByTimesheetDocumentId(documentId);
 	}
 	
 	protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm timeApprovalActionForm, List<String> assignmentPrincipalIds, String docIdSearchTerm) {
     	return (List<ApprovalTimeSummaryRow>)TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(timeApprovalActionForm.getSelectedPayCalendarGroup(), assignmentPrincipalIds, timeApprovalActionForm.getPayCalendarLabels(), timeApprovalActionForm.getCalendarEntry(), docIdSearchTerm);
     }
-	
+
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         List<ApprovalTimeSummaryRow> lstApprovalRows = taaf.getApprovalRows();

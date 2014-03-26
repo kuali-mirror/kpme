@@ -626,9 +626,9 @@ public class AccrualServiceImpl implements AccrualService {
 				lpStringSet.add(lp.getLeavePlan());
 			}
 		}
-		List<SystemScheduledTimeOff> sstoList = new ArrayList<SystemScheduledTimeOff>();
+		List<SystemScheduledTimeOffContract> sstoList = new ArrayList<SystemScheduledTimeOffContract>();
 		for(String lpString : lpStringSet) {
-			List<SystemScheduledTimeOff> aList =LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffsForLeavePlan(startDate.toLocalDate(), endDate.toLocalDate(), lpString);
+			List<? extends SystemScheduledTimeOffContract> aList =LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffsForLeavePlan(startDate.toLocalDate(), endDate.toLocalDate(), lpString);
 			if(CollectionUtils.isNotEmpty(aList)) {
 				sstoList.addAll(aList);
 			}
@@ -707,7 +707,7 @@ public class AccrualServiceImpl implements AccrualService {
 				rateRange.setAcList(acsForDay);
 				
 				// get System scheduled time off for this day
-				for(SystemScheduledTimeOff ssto : sstoList) {
+				for(SystemScheduledTimeOffContract ssto : sstoList) {
 					if(ssto.getAccruedLocalDate().equals(currentDate.toLocalDate())
 							&& ssto.getLeavePlan().equals(rateRange.getLeavePlan().getLeavePlan())) {
 						

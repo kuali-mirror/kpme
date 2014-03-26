@@ -33,11 +33,11 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
-import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -179,12 +179,13 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
     }
 
     private void generateMissedPunchDetails( MissedPunch missedPunch){
-    		actionDateTime = missedPunch.getActionFullDateTime();
-			clockAction = missedPunch.getClockAction();
-			missedPunchDocId = missedPunch.getMissedPunchDocId();
-			missedPunchDocStatus = missedPunch.getMissedPunchDocStatus();
-			assignmentValue = missedPunch.getAssignmentValue();
-			this.setClockedByMissedPunch(Boolean.TRUE);
+        MissedPunchBo bo = MissedPunchBo.from(missedPunch);
+    	actionDateTime = missedPunch.getActionFullDateTime();
+		clockAction = missedPunch.getClockAction();
+		missedPunchDocId = bo.getMissedPunchDocId();
+		missedPunchDocStatus = bo.getMissedPunchDocStatus();
+		assignmentValue = missedPunch.getAssignmentValue();
+		this.setClockedByMissedPunch(Boolean.TRUE);
     }
     
 	public void setClockedByMissedPunch(Boolean clockedByMissedPunch) {

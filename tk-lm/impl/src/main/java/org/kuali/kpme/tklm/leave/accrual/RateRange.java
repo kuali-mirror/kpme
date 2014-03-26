@@ -27,6 +27,7 @@ import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.tklm.api.leave.accrual.RateRangeContract;
+import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 
 public class RateRange implements RateRangeContract {
@@ -39,7 +40,7 @@ public class RateRange implements RateRangeContract {
 	private LeavePlan leavePlan;
 	private List<AccrualCategory> acList = new ArrayList<AccrualCategory>();
 	private List<AccrualCategoryRule> acRuleList = new ArrayList<AccrualCategoryRule>();
-	private SystemScheduledTimeOff sysScheTimeOff;
+	private SystemScheduledTimeOffContract sysScheTimeOff;
 	private String leaveCalendarDocumentId;
 	private String primaryLeaveAssignmentId;
 	
@@ -108,10 +109,10 @@ public class RateRange implements RateRangeContract {
 		this.acRuleList = acRuleList;
 	}
 	
-	public SystemScheduledTimeOff getSysScheTimeOff() {
+	public SystemScheduledTimeOffContract getSysScheTimeOff() {
 		return sysScheTimeOff;
 	}
-	public void setSysScheTimeOff(SystemScheduledTimeOff sysScheTimeOff) {
+	public void setSysScheTimeOff(SystemScheduledTimeOffContract sysScheTimeOff) {
 		this.sysScheTimeOff = sysScheTimeOff;
 	}
 	public String getLeaveCalendarDocumentId() {

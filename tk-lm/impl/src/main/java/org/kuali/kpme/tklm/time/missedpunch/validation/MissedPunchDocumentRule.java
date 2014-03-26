@@ -30,9 +30,9 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -51,7 +51,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         boolean valid = true;
         
         MissedPunchDocument missedPunchDocument = (MissedPunchDocument) document;
-        MissedPunch missedPunch = missedPunchDocument.getMissedPunch();
+        MissedPunchBo missedPunch = missedPunchDocument.getMissedPunch();
         DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(document.getDocumentNumber());
         
         if (DocumentStatus.INITIATED.equals(documentStatus) || DocumentStatus.SAVED.equals(documentStatus)) {
@@ -71,7 +71,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	 * 
 	 * @return true if the Timesheet associated with the Missed Punch is not ENROUTE or FINAL, false otherwise
 	 */
-    protected boolean validateTimesheet(MissedPunch missedPunch) {
+    protected boolean validateTimesheet(MissedPunchBo missedPunch) {
     	boolean valid = true;
     	
     	if (missedPunch.getTimesheetDocumentId() != null) {
@@ -93,7 +93,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
      *
      * @return true if the Clock Action associated with the Missed Punch correctly transitions from the applicable last Clock Logs, false otherwise
      */
-	boolean validateClockAction(MissedPunch missedPunch) {
+	boolean validateClockAction(MissedPunchBo missedPunch) {
         boolean valid = true;
         
         if (TkConstants.CLOCK_OUT.equals(missedPunch.getClockAction()) || TkConstants.LUNCH_OUT.equals(missedPunch.getClockAction())) {
@@ -125,7 +125,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
      *
      * @return true if the MissedPunch has a valid time relative to the last Clock Log, false otherwise
      */
-    protected boolean validateClockTime(MissedPunch missedPunch) {
+    protected boolean validateClockTime(MissedPunchBo missedPunch) {
         boolean valid = true;
 
         if (missedPunch.getActionFullDateTime() != null) {
@@ -203,7 +203,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
      * @param missedPunch
      * @return
      */
-    boolean validateOverLappingTimeBlocks(MissedPunch missedPunch, String documentId) {
+    boolean validateOverLappingTimeBlocks(MissedPunchBo missedPunch, String documentId) {
         boolean valid = true;
         if (missedPunch.getActionFullDateTime() != null) {
 	       // convert the action time to system time zone since we will be comparing it with system time

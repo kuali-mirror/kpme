@@ -280,6 +280,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject implements SystemSc
 		this.transferToEarnCodeObj = transferToEarnCodeObj;
 	}
 
+    @Override
 	public String getPremiumEarnCode() {
 		return premiumEarnCode;
 	}

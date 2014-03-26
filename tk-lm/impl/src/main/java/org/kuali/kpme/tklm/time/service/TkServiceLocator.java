@@ -21,7 +21,7 @@ import org.kuali.kpme.tklm.common.BatchJobService;
 import org.kuali.kpme.tklm.time.approval.service.TimeApproveService;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
 import org.kuali.kpme.tklm.time.docsearch.TkSearchableAttributeService;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunchService;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchService;
 import org.kuali.kpme.tklm.time.missedpunch.document.MissedPunchDocumentService;
 import org.kuali.kpme.tklm.time.rules.TkRuleControllerService;
 import org.kuali.kpme.tklm.time.rules.clocklocation.service.ClockLocationRuleService;

@@ -24,13 +24,14 @@ import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.tklm.api.common.TkConstants;
 
 /**
  * <p>SystemScheduledTimeOffContract interface</p>
  *
  */
 public interface SystemScheduledTimeOffContract extends HrBusinessObjectContract {
-	
+    public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "SystemScheduledTimeOff";
 	/**
 	 * The primary key of a SystemScheduledTimeOff entry saved in a database
 	 * 
@@ -241,15 +242,6 @@ public interface SystemScheduledTimeOffContract extends HrBusinessObjectContract
 	 */
 	public LocationContract getLocationObj();
 
-	/**
-	 * The history flag of the SystemScheduledTimeOff
-	 * 
-	 * <p>
-	 * history flag of a SystemScheduledTimeOff
-	 * <p>
-	 * 
-	 * @return Y if on, N if not
-	 */
-	public Boolean getHistory();
+    public String getPremiumEarnCode();
 
 }

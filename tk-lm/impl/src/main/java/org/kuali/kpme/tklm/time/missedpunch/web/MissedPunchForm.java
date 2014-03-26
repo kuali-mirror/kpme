@@ -15,14 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch.web;
 
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.rice.krad.web.form.TransactionalDocumentFormBase;
 
 public class MissedPunchForm extends TransactionalDocumentFormBase {
 
 	private static final long serialVersionUID = -5511083730204963887L;
 	
-	private MissedPunch missedPunch = new MissedPunch();
+	private MissedPunchBo missedPunch = new MissedPunchBo();
 	
 	private boolean assignmentReadOnly;
 	
@@ -33,11 +33,11 @@ public class MissedPunchForm extends TransactionalDocumentFormBase {
 		return "MissedPunchDocumentType";
 	}
 
-	public MissedPunch getMissedPunch() {
+	public MissedPunchBo getMissedPunch() {
 		return missedPunch;
 	}
 
-	public void setMissedPunch(MissedPunch missedPunch) {
+	public void setMissedPunch(MissedPunchBo missedPunch) {
 		this.missedPunch = missedPunch;
 	}
 

@@ -29,8 +29,10 @@ import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchContract;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.identity.Person;
@@ -42,10 +44,21 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class MissedPunch extends PersistableBusinessObjectBase implements MissedPunchContract {
+public class MissedPunchBo extends PersistableBusinessObjectBase implements MissedPunchContract {
 
 	private static final long serialVersionUID = 4494739150619504989L;
-	
+    public static final ModelObjectUtils.Transformer<MissedPunchBo, MissedPunch> toMissedPunch =
+            new ModelObjectUtils.Transformer<MissedPunchBo, MissedPunch>() {
+                public MissedPunch transform(MissedPunchBo input) {
+                    return MissedPunchBo.to(input);
+                };
+            };
+    public static final ModelObjectUtils.Transformer<MissedPunch, MissedPunchBo> toMissedPunchBo =
+            new ModelObjectUtils.Transformer<MissedPunch, MissedPunchBo>() {
+                public MissedPunchBo transform(MissedPunch input) {
+                    return MissedPunchBo.from(input);
+                };
+            };
 	private static final DateTimeFormatter FORMATTER = DateTimeFormat.forPattern("hh:mm aa");
 	
 	private String tkMissedPunchId;
@@ -356,9 +369,9 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 
 	public String getMissedPunchDocStatus() {
 		if(StringUtils.isBlank(missedPunchDocStatus)) {
-			MissedPunchDocument aDoc = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentByMissedPunchId(this.getTkMissedPunchId());
-			if(aDoc != null) {
-				DocumentStatus aStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(aDoc.getDocumentNumber());
+            String docId = getMissedPunchDocId();
+			if(StringUtils.isNotEmpty(docId)) {
+				DocumentStatus aStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(docId);
 				if(aStatus != null) {
 					this.setMissedPunchDocStatus(aStatus.getLabel());
 				}
@@ -371,4 +384,41 @@ public class MissedPunch extends PersistableBusinessObjectBase implements Missed
 	public void setMissedPunchDocStatus(String missedPunchDocStatus) {
 		this.missedPunchDocStatus = missedPunchDocStatus;
 	}
+
+    public static MissedPunchBo from(MissedPunch im) {
+        if (im == null) {
+            return null;
+        }
+        MissedPunchBo mp = new MissedPunchBo();
+
+
+        mp.setTkMissedPunchId(im.getTkMissedPunchId());
+        mp.setPrincipalId(im.getPrincipalId());
+        mp.setTimesheetDocumentId(im.getTimesheetDocumentId());
+        mp.setJobNumber(im.getJobNumber());
+        mp.setWorkArea(im.getWorkArea());
+        mp.setTask(im.getTask());
+        mp.setActionDateTime(im.getActionFullDateTime() == null ? null : im.getActionFullDateTime().toDate());
+        mp.setClockAction(im.getClockAction());
+        mp.setTkClockLogId(im.getTkClockLogId());
+
+        mp.setPrincipalName(im.getPrincipalName());
+        mp.setPersonName(im.getPersonName());
+
+        mp.setAssignmentReadOnly(im.isAssignmentReadOnly());
+
+        mp.setTimestamp(im.getCreateTime() == null ? null : new Timestamp(im.getCreateTime().getMillis()));
+        mp.setVersionNumber(im.getVersionNumber());
+        mp.setObjectId(im.getObjectId());
+
+        return mp;
+    }
+
+    public static MissedPunch to(MissedPunchBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return MissedPunch.Builder.create(bo).build();
+    }
 }

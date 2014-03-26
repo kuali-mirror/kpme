@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.service.mobile;
+package org.kuali.kpme.tklm.api.time.mobile;
 
 import java.util.List;
 import java.util.Map;

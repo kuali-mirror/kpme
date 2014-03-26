@@ -30,6 +30,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
@@ -127,10 +128,10 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 				maxCarryOver = new BigDecimal(Long.MAX_VALUE);
 				adjustedMaxCarryOver = maxCarryOver;
 			}
-			
-			EmployeeOverride maxBalanceOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MB", effectiveDate);
-			EmployeeOverride maxPayoutAmountOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MPA", effectiveDate);
-			EmployeeOverride maxAnnualCarryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MAC", effectiveDate);
+
+            EmployeeOverrideContract maxBalanceOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MB", effectiveDate);
+            EmployeeOverrideContract maxPayoutAmountOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MPA", effectiveDate);
+            EmployeeOverrideContract maxAnnualCarryOverOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MAC", effectiveDate);
 			//Do not pro-rate override values for FTE.
 			if(maxBalanceOverride != null)
 				adjustedMaxBalance = new BigDecimal(maxBalanceOverride.getOverrideValue());

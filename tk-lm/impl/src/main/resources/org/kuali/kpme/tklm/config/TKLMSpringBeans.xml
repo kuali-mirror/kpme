@@ -268,14 +268,10 @@
     
     <bean id="missedPunchService" class="org.kuali.kpme.tklm.time.missedpunch.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao" />
-        <property name="assignmentService" ref="kpme.core.assignmentService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="clockLogService" ref="clockLogService" />
-        <property name="documentService" ref="documentService" />
-        <property name="identityService" ref="kimIdentityService" />
         <property name="timeBlockService" ref="timeBlockService" />
         <property name="timesheetService" ref="timesheetService" />
-        <property name="timezoneService" ref="kpme.core.timezoneService" />
         <property name="tkRuleControllerService" ref="tkRuleControllerService" />
     </bean>
 

@@ -25,6 +25,7 @@ import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class SystemScheduledTimeOffMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
@@ -36,7 +37,7 @@ public class SystemScheduledTimeOffMaintainableServiceImpl extends HrBusinessObj
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(id);
+		return (SystemScheduledTimeOff)LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(id);
 	}
 	
 	// KPME-2763/2787

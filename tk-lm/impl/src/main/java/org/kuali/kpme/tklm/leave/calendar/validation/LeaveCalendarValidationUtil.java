@@ -36,6 +36,7 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.accrual.RateRangeAggregateContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.common.CalendarValidationUtil;
@@ -204,10 +205,10 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 	    			for(LeaveSummaryRowContract aRow : rows) {
 	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
 	    					//Does employee have overrides in place?
-	    					List<EmployeeOverride> employeeOverrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.formatDateString(leaveEndDateString));
+	    					List<? extends EmployeeOverrideContract> employeeOverrides = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.formatDateString(leaveEndDateString));
 	    					String leavePlan = accrualCategory.getLeavePlan();
 	    					BigDecimal maxUsage = aRow.getUsageLimit();
-	    					for(EmployeeOverride eo : employeeOverrides) {
+	    					for(EmployeeOverrideContract eo : employeeOverrides) {
 	    						if(eo.getLeavePlan().equals(leavePlan) && eo.getAccrualCategory().equals(aRow.getAccrualCategory())) {
 	    							if(eo.getOverrideType().equals("MU") && eo.isActive()) {
 	    								if(eo.getOverrideValue()!=null) {

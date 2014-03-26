@@ -25,6 +25,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.AccruedLeaveBalanceContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaxCarryoverException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.NegativeBalanceException;
@@ -110,8 +111,8 @@ public class AccruedLeaveBalance extends LeaveBalance implements AccruedLeaveBal
 							BigDecimal maxBalance = accrualRule.getMaxBalance();
 							BigDecimal fteSum = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(leaveBlock.getPrincipalId(), leaveBlock.getLeaveLocalDate());
 							maxBalance = maxBalance.multiply(fteSum).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
-							
-							EmployeeOverride employeeOverride = getEmployeeOverride(leaveBlock, "MB");
+
+                            EmployeeOverrideContract employeeOverride = getEmployeeOverride(leaveBlock, "MB");
 							if(employeeOverride != null)
 								maxBalance = new BigDecimal(employeeOverride.getOverrideValue());
 							
@@ -180,8 +181,8 @@ public class AccruedLeaveBalance extends LeaveBalance implements AccruedLeaveBal
 							BigDecimal maxBalance = accrualRule.getMaxBalance();
 							BigDecimal fteSum = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(leaveBlock.getPrincipalId(), leaveBlock.getLeaveLocalDate());
 							maxBalance = maxBalance.multiply(fteSum).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
-							
-							EmployeeOverride employeeOverride = getEmployeeOverride(leaveBlock, "MB");
+
+                            EmployeeOverrideContract employeeOverride = getEmployeeOverride(leaveBlock, "MB");
 							if(employeeOverride != null)
 								maxBalance = new BigDecimal(employeeOverride.getOverrideValue());
 							

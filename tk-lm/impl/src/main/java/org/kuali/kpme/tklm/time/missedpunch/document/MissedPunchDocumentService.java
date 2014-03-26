@@ -17,7 +17,6 @@ package org.kuali.kpme.tklm.time.missedpunch.document;
 
 import java.util.List;
 
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 
 public interface MissedPunchDocumentService {

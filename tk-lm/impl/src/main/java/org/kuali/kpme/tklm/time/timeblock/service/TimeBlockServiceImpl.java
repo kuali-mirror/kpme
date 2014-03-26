@@ -36,6 +36,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
@@ -639,7 +640,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			        if(assignment != null && assignment.getJob() != null && assignment.getJob().isEligibleForLeave()) {
 			        	PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, tb.getBeginDateTime().toLocalDate());
 			    		if(principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
-			    			SystemScheduledTimeOff sstoHoliday = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(principalCalendar.getLeavePlan(), tb.getBeginDateTime().toLocalDate());
+                            SystemScheduledTimeOffContract sstoHoliday = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(principalCalendar.getLeavePlan(), tb.getBeginDateTime().toLocalDate());
 			    			if(sstoHoliday != null && sstoHoliday.getPremiumHoliday().equalsIgnoreCase("Y") && StringUtils.isNotEmpty(sstoHoliday.getPremiumEarnCode())) {
 			    				EarnCode premiumEarnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(sstoHoliday.getPremiumEarnCode(), tb.getBeginDateTime().toLocalDate());
 			    				if(premiumEarnCodeObj != null) {

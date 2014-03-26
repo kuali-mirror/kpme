@@ -28,6 +28,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryRowContract;
 import org.kuali.kpme.tklm.common.LMConstants;
@@ -155,7 +156,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		for(AccrualCategoryRuleContract aRule : rules) {
 			LeaveSummaryRowContract row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
 			BigDecimal maxBalance = aRule.getMaxBalance();
-			EmployeeOverride mbOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(USER_ID,
+            EmployeeOverrideContract mbOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(USER_ID,
 					"testLP",
 					row.getAccrualCategory(),
 					"MB",

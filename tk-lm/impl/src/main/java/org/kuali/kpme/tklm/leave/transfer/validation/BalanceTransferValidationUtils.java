@@ -26,6 +26,8 @@ import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
+import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
@@ -188,7 +190,7 @@ public class BalanceTransferValidationUtils {
 		}
 		
 		//use override if one exists.
-		EmployeeOverride maxTransferAmountOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MTA", effectiveDate);
+        EmployeeOverrideContract maxTransferAmountOverride = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MTA", effectiveDate);
 		if(ObjectUtils.isNotNull(maxTransferAmountOverride))
 			adjustedMaxTransferAmount = new BigDecimal(maxTransferAmountOverride.getOverrideValue());
 				
@@ -215,7 +217,7 @@ public class BalanceTransferValidationUtils {
 	
 	public static boolean validateSstoTranser(BalanceTransfer bt) {
 		// make sure from accrual category is consistent with the ssto's
-		SystemScheduledTimeOff ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(bt.getSstoId());
+		SystemScheduledTimeOffContract ssto = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(bt.getSstoId());
 		if(ssto == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.sstoDoesNotExis", bt.getSstoId());
 			return false;

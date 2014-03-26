@@ -22,7 +22,7 @@ import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.common.TkConstants;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -63,7 +63,7 @@ public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
 			String documentId = routeContext.getDocument().getDocumentId();
 			Document document = (MissedPunchDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderIdSessionless(documentId);
 	        MissedPunchDocument missedPunchDocument = (MissedPunchDocument) document;
-	        MissedPunch missedPunch = missedPunchDocument.getMissedPunch();
+	        MissedPunchBo missedPunch = missedPunchDocument.getMissedPunch();
 	
 	        AssignmentDescriptionKey assignKey = AssignmentDescriptionKey.get(missedPunch.getAssignmentKey());
 	        String tsDocIdString = missedPunch.getTimesheetDocumentId();

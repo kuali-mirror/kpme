@@ -28,7 +28,7 @@ import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.identity.Id;
@@ -65,7 +65,7 @@ public class MissedPunchRoleAttribute extends GenericRoleAttribute {
 		try {
 			String documentId = documentContent.getRouteContext().getDocument().getDocumentId();
 			MissedPunchDocument missedPunchDocument = (MissedPunchDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
-			MissedPunch missedPunch = missedPunchDocument.getMissedPunch();
+			MissedPunchBo missedPunch = missedPunchDocument.getMissedPunch();
 	        roleNameQualifiers.add(String.valueOf(missedPunch.getWorkArea()));
 		} catch (WorkflowException we) {
 			we.printStackTrace();

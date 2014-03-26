@@ -232,7 +232,7 @@
                     <property name="searchingAttribute">
                         <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
                               p:showAttributeInResultSet="true">
-                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunch"/>
+                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo"/>
                             <property name="attributeName" value="timesheetDocumentId"/>
                         </bean>
                     </property>

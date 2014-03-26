@@ -320,12 +320,12 @@
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
         
-        <reference-descriptor name="missedPunch" class-ref="org.kuali.kpme.tklm.time.missedpunch.MissedPunch" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <reference-descriptor name="missedPunch" class-ref="org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="tkMissedPunchId" />
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kpme.tklm.time.missedpunch.MissedPunch" table="TK_MISSED_PUNCH_T">
+    <class-descriptor class="org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo" table="TK_MISSED_PUNCH_T">
         <field-descriptor name="tkMissedPunchId"        column="TK_MISSED_PUNCH_ID"     jdbc-type="VARCHAR"     length="60" nullable="false" autoincrement="true" primarykey="true" sequence-name="TK_MISSED_PUNCH_S" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="timesheetDocumentId"    column="TIMESHEET_DOCUMENT_ID"	jdbc-type="VARCHAR"     length="14" nullable="false" />

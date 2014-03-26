@@ -22,28 +22,26 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.service.timezone.TimezoneService;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchService;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDao;
 import org.kuali.kpme.tklm.time.rules.TkRuleControllerService;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
-import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -53,31 +51,28 @@ import java.util.List;
 public class MissedPunchServiceImpl implements MissedPunchService {
     private MissedPunchDao missedPunchDao;
 
-    private AssignmentService assignmentService;
     private BusinessObjectService businessObjectService;
     private ClockLogService clockLogService;
-    private DocumentService documentService;
-    private IdentityService identityService;
     private TimeBlockService timeBlockService;
     private TimesheetService timesheetService;
-    private TimezoneService timezoneService;
     private TkRuleControllerService tkRuleControllerService;
     
     @Override
     public List<MissedPunch> getMissedPunchByTimesheetDocumentId(String timesheetDocumentId) {
-        return missedPunchDao.getMissedPunchesByTimesheetDocumentId(timesheetDocumentId);
+        return ModelObjectUtils.transform(missedPunchDao.getMissedPunchesByTimesheetDocumentId(timesheetDocumentId), MissedPunchBo.toMissedPunch);
     }
 
     @Override
     public MissedPunch getMissedPunchByClockLogId(String clockLogId) {
-        return missedPunchDao.getMissedPunchByClockLogId(clockLogId);
+        return MissedPunchBo.to(missedPunchDao.getMissedPunchByClockLogId(clockLogId));
     }
 
     @Override
     public MissedPunch addClockLog(MissedPunch missedPunch, String ipAddress) {
+        MissedPunch.Builder builder = MissedPunch.Builder.create(missedPunch);
         TimesheetDocument timesheetDocument = timesheetService.getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, missedPunch.getActionLocalDate());
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
 
         // use the actual date and time from the document to build the date time with user zone, then apply system time zone to it
@@ -94,7 +89,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         ClockLog clockLog = clockLogService.processClockLog(principalId, timesheetDocument.getDocumentId(), actionDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), clockAction, false);
 
         clockLog = clockLogService.saveClockLog(clockLog);
-        missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
+        builder.setTkClockLogId(clockLog.getTkClockLogId());
 
         if (StringUtils.equals(clockLog.getClockAction(), TkConstants.CLOCK_OUT) ||
                 StringUtils.equals(clockLog.getClockAction(), TkConstants.LUNCH_OUT)) {
@@ -106,7 +101,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 buildTimeBlockRunRules(lastClockLog, clockLog, timesheetDocument, assignment, earnCode, lastClockLog.getClockDateTime(), clockLog.getClockDateTime());
             }
         }
-        return missedPunch;
+        return builder.build();
     }
 
     @Override
@@ -130,7 +125,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
             deleteClockLogAndTimeBlocks(clockLog, timeBlocks);
 
-            addClockLogAndTimeBlocks(missedPunch, ipAddress, clockLogEndId, clockLogBeginId);
+            missedPunch = addClockLogAndTimeBlocks(missedPunch, ipAddress, clockLogEndId, clockLogBeginId);
         }
         return missedPunch;
     }
@@ -148,10 +143,11 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         }
     }
 
-    protected void addClockLogAndTimeBlocks(MissedPunch missedPunch, String ipAddress, String logEndId, String logBeginId) {
+    protected MissedPunch addClockLogAndTimeBlocks(MissedPunch missedPunch, String ipAddress, String logEndId, String logBeginId) {
+        MissedPunch.Builder builder = MissedPunch.Builder.create(missedPunch);
         TimesheetDocument timesheetDocument = timesheetService.getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, LocalDate.fromDateFields(missedPunch.getActionDate()));
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, missedPunch.getActionLocalDate());
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
         DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
@@ -162,8 +158,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         ClockLog clockLog = clockLogService.processClockLog(principalId, timesheetDocument.getDocumentId(), actionDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), clockAction, false);
 
         clockLogService.saveClockLog(clockLog);
-        missedPunch.setActionFullDateTime(clockLog.getClockDateTime());
-        missedPunch.setTkClockLogId(clockLog.getTkClockLogId());
+        builder.setActionFullDateTime(clockLog.getClockDateTime());
+        builder.setTkClockLogId(clockLog.getTkClockLogId());
 
         if (logEndId != null || logBeginId != null) {
             ClockLog endLog = null;
@@ -186,6 +182,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
                 buildTimeBlockRunRules(beginLog, endLog, timesheetDocument, assignment, earnCode, beginLog.getClockDateTime(), endLog.getClockDateTime());
             }
         }
+        return builder.build();
     }
 
     /**
@@ -240,9 +237,6 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         this.missedPunchDao = missedPunchDao;
     }
 
-    public void setAssignmentService(AssignmentService assignmentService) {
-        this.assignmentService = assignmentService;
-    }
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -252,24 +246,12 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         this.clockLogService = clockLogService;
     }
 
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    public void setIdentityService(IdentityService identityService) {
-        this.identityService = identityService;
-    }
-
     public void setTimeBlockService(TimeBlockService timeBlockService) {
         this.timeBlockService = timeBlockService;
     }
 
     public void setTimesheetService(TimesheetService timesheetService) {
         this.timesheetService = timesheetService;
-    }
-
-    public void setTimezoneService(TimezoneService timezoneService) {
-        this.timezoneService = timezoneService;
     }
 
     public void setTkRuleControllerService(TkRuleControllerService tkRuleControllerService) {

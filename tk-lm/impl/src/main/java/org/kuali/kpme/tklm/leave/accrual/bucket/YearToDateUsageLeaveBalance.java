@@ -25,6 +25,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.YearToDateUsageLeaveBalanceContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.NegativeBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.UsageLimitException;
@@ -68,8 +69,8 @@ public class YearToDateUsageLeaveBalance extends LeaveBalance implements YearToD
 							BigDecimal maxUsage = new BigDecimal(accrualRule.getMaxUsage());
 							BigDecimal fteSum = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(leaveBlock.getPrincipalId(), leaveBlock.getLeaveLocalDate());
 							maxUsage = maxUsage.multiply(fteSum).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
-							
-							EmployeeOverride employeeOverride = getEmployeeOverride(leaveBlock, "MU");
+
+                            EmployeeOverrideContract employeeOverride = getEmployeeOverride(leaveBlock, "MU");
 							if(employeeOverride != null)
 								maxUsage = new BigDecimal(employeeOverride.getOverrideValue());
 							
@@ -125,8 +126,8 @@ public class YearToDateUsageLeaveBalance extends LeaveBalance implements YearToD
 							BigDecimal maxUsage = new BigDecimal(accrualRule.getMaxUsage());
 							BigDecimal fteSum = HrServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(leaveBlock.getPrincipalId(), leaveBlock.getLeaveLocalDate());
 							maxUsage = maxUsage.multiply(fteSum).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);
-							
-							EmployeeOverride employeeOverride = getEmployeeOverride(leaveBlock, "MU");
+
+                            EmployeeOverrideContract employeeOverride = getEmployeeOverride(leaveBlock, "MU");
 							if(employeeOverride != null)
 								maxUsage = new BigDecimal(employeeOverride.getOverrideValue());
 							

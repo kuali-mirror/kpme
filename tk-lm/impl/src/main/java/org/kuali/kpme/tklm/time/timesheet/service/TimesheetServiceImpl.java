@@ -42,6 +42,7 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.common.WorkflowTagSupport;
@@ -190,11 +191,11 @@ public class TimesheetServiceImpl implements TimesheetService {
     public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, LocalDate beginDate, LocalDate endDate) {
         PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
         if (principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
-        	List<SystemScheduledTimeOff> sstoList = LmServiceLocator.getSysSchTimeOffService()
+        	List<? extends SystemScheduledTimeOffContract> sstoList = LmServiceLocator.getSysSchTimeOffService()
         		.getSystemScheduledTimeOffForPayPeriod(principalCalendar.getLeavePlan(), beginDate, endDate);
             Assignment sstoAssign = getAssignmentToApplyScheduledTimeOff(timesheetDocument.getPrincipalId(), timesheetDocument.getAssignments(), endDate);
         	if (sstoAssign != null) {
-        		for(SystemScheduledTimeOff ssto : sstoList) {
+        		for(SystemScheduledTimeOffContract ssto : sstoList) {
                   BigDecimal sstoCalcHours = LmServiceLocator.getSysSchTimeOffService().calculateSysSchTimeOffHours(sstoAssign.getJob(), ssto.getAmountofTime());
                   TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().createTimeBlock(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentId(), ssto.getScheduledTimeOffLocalDate().toDateTimeAtStartOfDay(),
                           ssto.getScheduledTimeOffLocalDate().toDateTimeAtStartOfDay(), sstoAssign, HrConstants.HOLIDAY_EARN_CODE, sstoCalcHours, BigDecimal.ZERO, false, false, HrContext.getPrincipalId());

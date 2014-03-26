@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.leave.override.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideService;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.override.dao.EmployeeOverrideDao;
 

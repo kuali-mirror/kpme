@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.tklm.time.missedpunch.MissedPunch;
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -37,23 +37,23 @@ public class MissedPunchDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Mi
 	
 	@Override
 	@SuppressWarnings("unchecked")
-    public List<MissedPunch> getMissedPunchesByTimesheetDocumentId(String timesheetDocumentId) {
-        List<MissedPunch> missedPunches = new ArrayList<MissedPunch>();
+    public List<MissedPunchBo> getMissedPunchesByTimesheetDocumentId(String timesheetDocumentId) {
+        List<MissedPunchBo> missedPunches = new ArrayList<MissedPunchBo>();
         
 		Criteria root = new Criteria();
         root.addEqualTo("timesheetDocumentId", timesheetDocumentId);
-        Query query = QueryFactory.newQuery(MissedPunch.class, root);
+        Query query = QueryFactory.newQuery(MissedPunchBo.class, root);
         missedPunches.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         
         return missedPunches;
 	}
 	
 	@Override
-    public MissedPunch getMissedPunchByClockLogId(String tkClockLogId) {
+    public MissedPunchBo getMissedPunchByClockLogId(String tkClockLogId) {
         Criteria root = new Criteria();
         root.addEqualTo("tkClockLogId", tkClockLogId);
-        Query query = QueryFactory.newQuery(MissedPunch.class, root);
-        return (MissedPunch) getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(MissedPunchBo.class, root);
+        return (MissedPunchBo) getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
     
 }

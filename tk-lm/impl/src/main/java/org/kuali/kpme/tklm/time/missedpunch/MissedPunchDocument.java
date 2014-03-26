@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -36,7 +35,7 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
 	
 	private String tkMissedPunchId;
 	
-	private MissedPunch missedPunch = new MissedPunch();
+	private MissedPunchBo missedPunch = new MissedPunchBo();
 
     private transient JobBo jobObj;
     private transient WorkAreaBo workAreaObj;
@@ -50,11 +49,11 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
 		this.tkMissedPunchId = tkMissedPunchId;
 	}
 
-	public MissedPunch getMissedPunch() {
+	public MissedPunchBo getMissedPunch() {
 		return missedPunch;
 	}
 
-	public void setMissedPunch(MissedPunch missedPunch) {
+	public void setMissedPunch(MissedPunchBo missedPunch) {
 		this.missedPunch = missedPunch;
 	}
 

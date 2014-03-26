@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.leave.timeoff.service;
+package org.kuali.kpme.tklm.api.leave.timeoff;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.math.BigDecimal;
@@ -32,16 +29,16 @@ public interface SystemScheduledTimeOffService {
      * @param lmSystemScheduledTimeOffId
      * @return
      */
-    @Cacheable(value= SystemScheduledTimeOff.CACHE_NAME, key="'lmSystemScheduledTimeOffId=' + #p0")
-    public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId);
+    @Cacheable(value= SystemScheduledTimeOffContract.CACHE_NAME, key="'lmSystemScheduledTimeOffId=' + #p0")
+    public SystemScheduledTimeOffContract getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId);
     
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(
+    public List<? extends SystemScheduledTimeOffContract> getSystemScheduledTimeOffForPayPeriod(
 			String leavePlan, LocalDate startDate, LocalDate endDate);
 
-	public SystemScheduledTimeOff getSystemScheduledTimeOffByDate(String leavePlan, LocalDate startDate);
+	public SystemScheduledTimeOffContract getSystemScheduledTimeOffByDate(String leavePlan, LocalDate startDate);
 
-    Assignment getAssignmentToApplyHolidays(
-			TimesheetDocument timesheetDocument, LocalDate payEndDate);
+    //Assignment getAssignmentToApplyHolidays(
+	//		TimesheetDocument timesheetDocument, LocalDate payEndDate);
 
 	/**
 	 * Calculate System Scheduled Time Off hours based on given hours and fte of job
@@ -51,7 +48,7 @@ public interface SystemScheduledTimeOffService {
 	 */
     public BigDecimal calculateSysSchTimeOffHours(JobContract job, BigDecimal sstoHours);
 
-    List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate, 
+    List<? extends SystemScheduledTimeOffContract> getSystemScheduledTimeOffs(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String earnCode, LocalDate fromAccruedDate, LocalDate toAccruedDate,
     		LocalDate fromSchTimeOffDate, LocalDate toSchTimeOffDate, String premiumEarnCode, String active, String showHist);
     /**
      * Get the list of all active system scheduled time off for the given leave plan and dates
@@ -60,7 +57,7 @@ public interface SystemScheduledTimeOffService {
      * @param leavePlan
      * @return
      */
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(LocalDate fromAccruedDate,LocalDate toAccruedDate, String leavePlan);
+    public List<? extends SystemScheduledTimeOffContract> getSystemScheduledTimeOffsForLeavePlan(LocalDate fromAccruedDate,LocalDate toAccruedDate, String leavePlan);
 
     /**
      * 

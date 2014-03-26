@@ -23,6 +23,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.LeaveBalanceContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
+import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
@@ -88,8 +89,8 @@ public abstract class LeaveBalance implements LeaveBalanceContract {
 		return HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leaveLocalDate, principalCalendar.getServiceLocalDate());
 	}
 
-	protected EmployeeOverride getEmployeeOverride(LeaveBlock leaveBlock, String overrideType) {
-		EmployeeOverride eo = null;
+	protected EmployeeOverrideContract getEmployeeOverride(LeaveBlock leaveBlock, String overrideType) {
+        EmployeeOverrideContract eo = null;
 		eo = LmServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalCalendar.getPrincipalId(),
 				principalCalendar.getLeavePlan(), accrualCategory.getAccrualCategory(), overrideType, leaveBlock.getLeaveLocalDate());
 		return eo;
