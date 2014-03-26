@@ -37,24 +37,58 @@
 
 
 <div class="approvals">
-    <table class="navigation">
-       	<tbody>
-       	<tr>
-       		<td align="left">
-				<%-- pay calendar group, department and work area filters --%>
-				<tk:approvalFilter />
-			</td>
+<!-- NICHE -->
+	<table class="navigation" style="width:100%">
+		<tbody>
+			<tr>
+       			<td align="right"  colspan="2">
+					<%-- Leave Request Approval page --%>
+					<a href="LeaveRequestApproval.do" target="_self" id="lraLink">Leave Request Approval</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" style="width:80%">
+					<%-- pay calendar group, department and work area filters --%>
+					<tk:approvalFilter calType="leaveCalendar"/>
+				</td>
+				<td rowspan="2" style="width: 100%;height: 100%;vertical-align:top;">
+					<tk:leaveReqStatus calType="leaveCalendar" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<tk:approvalSearch calType="leaveCalendar" searchId="leaveSearchValue" />	
+				</td>
+			</tr>
 			
-			<td align="right">
-				<%-- Leave Request Approval page --%>
-				<a href="LeaveRequestApproval.do" target="_self" id="lraLink">Leave Request Approval</a>
-			</td>
-		</tr>
+			<tr>
+        	<td  colspan="2" align="center">
+                <div style="text-align: center">
+                    <c:if test="${Form.prevHrCalendarEntryId ne null}">
+                        <button id="nav_prev_ac" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" title="Previous">
+                            <span class="ui-button-text">Previous</span>
+                        </button>
+                    </c:if>
+                    <span id="beginCalendarEntryDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
+                            value="${Form.beginCalendarEntryDate}" pattern="MM/dd/yyyy"/></span> -
+                    <span id="endCalendarEntryDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
+                            value="${Form.endCalendarEntryDate}" pattern="MM/dd/yyyy"/></span>
+                    <c:if test="${Form.nextHrCalendarEntryId ne null}">
+                        <button id="nav_next_ac" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only" role="button" title="Next">
+                            <span class="ui-button-text">Next</span>
+                        </button>
+                   </c:if>
+                </div>
+        		<c:if test="${!Form.onCurrentPeriod}" >
+	                <a href="${calendarLocation}?methodToCall=goToCurrentPeriod" target="_self" id="cppLink">Go to Current Period</a>
+        		</c:if>
+            </td>
+        </tr>
+			
 		</tbody>
-     </table>
-
-    <tk:approvalSearch calType="leaveCalendar" searchId="leaveSearchValue" />
-
+	</table>
+    
+<!-- UPAR -->
     <lm:leaveApproval />
 
     <c:if test="${fn:length(Form.leaveApprovalRows) != 0}">

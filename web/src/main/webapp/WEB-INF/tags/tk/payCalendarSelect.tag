@@ -4,29 +4,10 @@
 
 <div id="calendar-payPeriod">
 
-    <table class="cal-header">
+    <table class="cal-header" style="width:75%;">
 		<tbody>
 			<tr>
-				<td align="left">
-					<span class="header-title-left">Year</span>
-                </td>
-                <td align="left">
-	                <select id="selectedCalendarYear" name="selectedCalendarYear">
-	                    <c:forEach var="calendarYear" items="${Form.calendarYears}">
-	                        <c:choose>
-	                            <c:when test="${Form.selectedCalendarYear eq calendarYear}">
-	                                <option value="${calendarYear}" selected="selected">${calendarYear}</option>
-	                            </c:when>
-	                            <c:otherwise>
-	                                <option value="${calendarYear}">${calendarYear}</option>
-	                            </c:otherwise>
-	                        </c:choose>
-	                    </c:forEach>
-	                </select>
-                </td>
-            </tr>
-            <tr>
-                <td align="left">
+			<td align="left" style="width:auto;">
           			<span class="header-title-left">
                         <c:choose>
                             <c:when test="${calType eq 'payCalendar'}">
@@ -37,8 +18,6 @@
                             </c:when>
                         </c:choose>
                     </span>
-                </td>
-                <td align="left">
                     <select id="selectedPayPeriod" name="selectedPayPeriod">
                          <option value=''>-- select a pay period --</option>
                          <c:forEach var="payPeriod" items="${Form.payPeriodsMap}">
@@ -53,6 +32,24 @@
                  		 </c:forEach>
                     </select>
 		        </td>
+				<td align="left">
+					<span class="header-title-left">Year</span>
+                <!-- </td>
+                <td align="left"> -->
+	                <select id="selectedCalendarYear" name="selectedCalendarYear">
+	                    <c:forEach var="calendarYear" items="${Form.calendarYears}">
+	                        <c:choose>
+	                            <c:when test="${Form.selectedCalendarYear eq calendarYear}">
+	                                <option value="${calendarYear}" selected="selected">${calendarYear}</option>
+	                            </c:when>
+	                            <c:otherwise>
+	                                <option value="${calendarYear}">${calendarYear}</option>
+	                            </c:otherwise>
+	                        </c:choose>
+	                    </c:forEach>
+	                </select>
+                </td>
+                
 			</tr>
 		</tbody>
 	</table>
