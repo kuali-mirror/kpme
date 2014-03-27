@@ -47,9 +47,15 @@
 		abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView" >
 		<property name="headerText" value="Position Maintenance" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.PositionBo" />
+        <property name="dialogs">
+            <list>
+                <bean id="ProcessChangeWarning-Dialog" parent="ProcessChangeWarning-Dialog-parentBean"/>
+            </list>
+        </property>
 	    <property name="additionalScriptFiles">
 	      <list merge="true">
 	        <value>js/krad-ui.js</value>
+              <value>js/pm.js</value>
 	      </list>
 	    </property>
 		<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl" />
@@ -230,43 +236,21 @@
 		p:headerText="Overview">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="process"
-					p:required="true" id="position_process">
-                    <property name="onChangeScript">
-                        <value>
-                            if (jQuery('#position_process_control').val() == '') {jQuery('.ui-datepicker-trigger').hide();} else {jQuery('.ui-datepicker-trigger').show();}
-                            if (jQuery("#position_process_control").val() == "Reorganization") {
-                            jQuery("input[name='document.newMaintainableObject.dataObject.primaryDepartment']").css("border","2px solid orange");
-                            jQuery("input[name='document.newMaintainableObject.dataObject.reportsToPositionId']").css("border","2px solid orange");
-                            } else {
-                            jQuery("input[name='document.newMaintainableObject.dataObject.primaryDepartment']").css("border","");
-                            jQuery("input[name='document.newMaintainableObject.dataObject.reportsToPositionId']").css("border","");}
-                            if (jQuery("#position_process_control").val() == "Reclassification") {jQuery("input[name='document.newMaintainableObject.dataObject.positionClass']").css("border","2px solid orange") } else {jQuery("input[name='document.newMaintainableObject.dataObject.positionClass']").css("border","")}
-                            if (jQuery("#position_process_control").val() == "Change Status") {jQuery("select[name='document.newMaintainableObject.dataObject.positionStatus']").css("border","2px solid orange") } else {jQuery("select[name='document.newMaintainableObject.dataObject.positionStatus']").css("border","")}
-
-                        </value>
+                <bean parent="Uif-InputField" p:propertyName="process"
+                    p:required="true" id="position_process">
+                    <property name="onChangeScript" value="processChangeSubmitForm('changeProcess');
+                            highlightProcessRequiredChanges();
+                            if (jQuery('#position_process_control').val() == '') {jQuery('.ui-datepicker-trigger').hide();} else {jQuery('.ui-datepicker-trigger').show();}"/>
+                    <property name="onDocumentReadyScript" value="highlightProcessRequiredChanges();
+                            jQuery('#position_process_control').data('oldProcess',jQuery('#position_process_control').val());"/>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
                     </property>
-                    <property name="onDocumentReadyScript">
-                        <value>
-                            if (jQuery("#position_process_control").val() == "Reorganization") {
-                            jQuery("input[name='document.newMaintainableObject.dataObject.primaryDepartment']").css("border","2px solid orange");
-                            jQuery("input[name='document.newMaintainableObject.dataObject.reportsToPositionId']").css("border","2px solid orange");
-                            } else {
-                            jQuery("input[name='document.newMaintainableObject.dataObject.primaryDepartment']").css("border","");
-                            jQuery("input[name='document.newMaintainableObject.dataObject.reportsToPositionId']").css("border","");}
-                            if (jQuery("#position_process_control").val() == "Reclassification") {jQuery("input[name='document.newMaintainableObject.dataObject.positionClass']").css("border","2px solid orange") } else {jQuery("input[name='document.newMaintainableObject.dataObject.positionClass']").css("border","")}
-                            if (jQuery("#position_process_control").val() == "Change Status") {jQuery("select[name='document.newMaintainableObject.dataObject.positionStatus']").css("border","2px solid orange") } else {jQuery("select[name='document.newMaintainableObject.dataObject.positionStatus']").css("border","")}
-
-                        </value>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.kpme.pm.util.ProcessKeyValueFinder"
+                            p:addBlankOption="false" />
                     </property>
-					<property name="control">
-						<bean parent="Uif-DropdownControl" />
-					</property>
-					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.pm.util.ProcessKeyValueFinder"
-							p:addBlankOption="false" />
-					</property>
-				</bean>
+                </bean>
 				<ref bean="Pos-OverviewPage-Section" />
 			</list>
 		</property>
@@ -950,5 +934,11 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="ProcessChangeWarning-Dialog-parentBean" parent="Uif-Yes-No-DialogGroup">
+        <property name="headerText" value="Process change warning!"/>
+        <property name="promptText" value="All changes will be lost if the process is changed.  Are you sure you want to continue?"/>
+        <property name="onDialogResponseScript" value="processChangeSubmitForm(kradVariables.RETURN_FROM_LIGHTBOX_METHOD_TO_CALL)"/>
+    </bean>
 
 </beans>
