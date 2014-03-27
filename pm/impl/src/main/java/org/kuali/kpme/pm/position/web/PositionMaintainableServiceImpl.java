@@ -19,14 +19,13 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.derived.HrBusinessObjectDerived;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -311,17 +310,16 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
                     try {
                         Object currentObject = pd.getReadMethod().invoke(currentPosition);
                         Object previousObject = pd.getReadMethod().invoke(previousPosition);
-
-
-                            if (!currentObject.equals(previousObject)){
+                            if (currentObject instanceof Collection) {
+                                if (!compareCollections(currentObject,previousObject)) {
                                     String noteText = approver.getPrincipalName() + " changed " + pd.getDisplayName() + " from '" + previousObject.toString() + "' to '" + currentObject.toString() + "'";
-
-                                    Note note = new Note();
-                                    note.setRemoteObjectIdentifier(noteTarget);
-                                    note.setNoteText(StringUtils.abbreviate(noteText,800));
-                                    note.setAuthorUniversalIdentifier(currentPosition.getUserPrincipalId());
-                                    note.setNotePostedTimestampToCurrent();
-                                    noteList.add(note);
+                                    noteList.add(createNote(noteText,noteTarget,currentPosition.getUserPrincipalId()));
+                                }
+                            } else {
+                                if (!(currentObject == null ? previousObject == null : currentObject.equals(previousObject))){
+                                        String noteText = approver.getPrincipalName() + " changed " + pd.getDisplayName() + " from '" + previousObject.toString() + "' to '" + currentObject.toString() + "'";
+                                        noteList.add(createNote(noteText,noteTarget,currentPosition.getUserPrincipalId()));
+                                }
                             }
 
                     } catch (Exception e) {
@@ -335,4 +333,43 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 
         KRADServiceLocator.getNoteService().saveNoteList(noteList);
     }
+
+    public boolean compareCollections(Object coll1, Object coll2) {
+        if (coll1 == coll2)
+            return true;
+
+        if (coll1 instanceof List && coll2 instanceof List) {
+            ListIterator list1 = ((List) coll1).listIterator();
+            ListIterator list2 = ((List) coll2).listIterator();
+            while (list1.hasNext() && list2.hasNext()) {
+                Object o1 = list1.next();
+                Object o2 = list2.next();
+
+                if (o1 instanceof HrBusinessObjectDerived && o1 instanceof HrBusinessObjectDerived) {
+                    HrBusinessObjectDerived hrObj1 = (HrBusinessObjectDerived) o1;
+                    HrBusinessObjectDerived hrObj2 = (HrBusinessObjectDerived) o2;
+                    if (!(hrObj1 == null ? hrObj2 == null : hrObj1.isEquivalentTo(hrObj2)))
+                        return false;
+                } else {
+                    if (!(o1 == null ? o2 == null : o1.equals(o2)))
+                        return false;
+                }
+            }
+
+            return !(list1.hasNext() || list2.hasNext());
+        } else {
+            //need to add logic if other collection types are added to position
+            return coll1.equals(coll2);
+        }
+    }
+
+    private Note createNote(String noteText, String noteTarget, String principalId) {
+        Note note = new Note();
+        note.setRemoteObjectIdentifier(noteTarget);
+        note.setNoteText(StringUtils.abbreviate(noteText,800));
+        note.setAuthorUniversalIdentifier(principalId);
+        note.setNotePostedTimestampToCurrent();
+        return note;
+    }
+
 }
