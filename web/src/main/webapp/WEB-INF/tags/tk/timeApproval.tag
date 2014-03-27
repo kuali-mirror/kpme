@@ -4,7 +4,15 @@
 
 
 <br/>
-<table width="100%"><tr>
+<table width="100%">
+<tr>
+	<td align="right">
+		<c:if test="${fn:length(Form.approvalRows) != 0}">
+			<tk:approveSelectedButton refreshId="leaveRefresh" approvable="${Form.anyApprovalRowApprovable}" />
+		</c:if>
+	</td>
+</tr>
+<tr>
 <div id="time-approval">
 	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*"
 	               pagesize="20" id="row"
@@ -167,7 +175,7 @@
 	    <display:column title="Action" style="width:5%;">
 	        <tk:tkApprovalRowButtons appRow="${row}" dept="${Form.selectedDept}" workArea="${Form.selectedWorkArea}" payPeriod="${Form.selectedPayPeriod}" payCalendarGroup="${Form.selectedPayCalendarGroup}"/>
 	    </display:column>
-	    <display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
+	    <display:column title=" <input type='checkbox' name='Select' id='checkAllAuto'></input>"
 	                    class="last_column_${row_rowNum}" style="width:5%;">
 	        <html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"
 	                       styleClass="selectedEmpl"/>
