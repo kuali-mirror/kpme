@@ -43,6 +43,7 @@ public abstract class PositionDerived extends HrBusinessObjectDerived implements
 		return getPositionBo();
 	}
 	
+	@Override
 	public String getHrPositionId() {
 		return hrPositionId;
 	}

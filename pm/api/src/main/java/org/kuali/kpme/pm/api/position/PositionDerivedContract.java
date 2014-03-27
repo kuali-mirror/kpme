@@ -20,5 +20,7 @@ import org.kuali.kpme.core.api.mo.KpmeEffectiveDerivedDataTransferObject;
 public interface PositionDerivedContract extends KpmeEffectiveDerivedDataTransferObject {
 	
 	PositionContract getOwner();
+	
+	String getHrPositionId();
 
 }
