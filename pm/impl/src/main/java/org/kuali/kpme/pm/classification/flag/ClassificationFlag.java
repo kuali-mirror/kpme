@@ -18,9 +18,11 @@ package org.kuali.kpme.pm.classification.flag;
 import java.util.List;
 
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class ClassificationFlag implements ClassificationFlagContract {
+public class ClassificationFlag extends PersistableBusinessObjectBase implements ClassificationFlagContract {
 	
+	private static final long serialVersionUID = -6195340711898188423L;
 	
 	private String pmPositionClassId;
 	private String pmFlagId;
