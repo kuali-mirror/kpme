@@ -53,6 +53,8 @@ import org.w3c.dom.Element;
         MissedPunch.Elements.PRINCIPAL_ID,
         MissedPunch.Elements.ASSIGNMENT_KEY,
         MissedPunch.Elements.ASSIGNMENT_VALUE,
+        MissedPunch.Elements.MISSED_PUNCH_DOC_ID,
+        MissedPunch.Elements.MISSED_PUNCH_DOC_STATUS,
         MissedPunch.Elements.CREATE_TIME,
         CoreConstants.CommonElements.VERSION_NUMBER,
         CoreConstants.CommonElements.OBJECT_ID,
@@ -98,6 +100,10 @@ public final class MissedPunch
     private final String assignmentKey;
     @XmlElement(name = Elements.ASSIGNMENT_VALUE, required = false)
     private final String assignmentValue;
+    @XmlElement(name = Elements.MISSED_PUNCH_DOC_ID, required = false)
+    private final String missedPunchDocId;
+    @XmlElement(name = Elements.MISSED_PUNCH_DOC_STATUS, required = false)
+    private final String missedPunchDocStatus;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -133,6 +139,8 @@ public final class MissedPunch
         this.versionNumber = null;
         this.objectId = null;
         this.createTime = null;
+        this.missedPunchDocId = null;
+        this.missedPunchDocStatus = null;
     }
 
     private MissedPunch(Builder builder) {
@@ -155,6 +163,8 @@ public final class MissedPunch
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.createTime = builder.getCreateTime();
+        this.missedPunchDocId = builder.getMissedPunchDocId();
+        this.missedPunchDocStatus = builder.getMissedPunchDocStatus();
     }
 
     @Override
@@ -252,6 +262,15 @@ public final class MissedPunch
         return this.createTime;
     }
 
+    @Override
+    public String getMissedPunchDocId() {
+        return missedPunchDocId;
+    }
+
+    @Override
+    public String getMissedPunchDocStatus() {
+        return missedPunchDocStatus;
+    }
 
     /**
      * A builder which can be used to construct {@link MissedPunch} instances.  Enforces the constraints of the {@link MissedPunchContract}.
@@ -279,6 +298,8 @@ public final class MissedPunch
         private Long versionNumber;
         private String objectId;
         private DateTime createTime;
+        private String missedPunchDocId;
+        private String missedPunchDocStatus;
 
         private Builder() {
         }
@@ -310,6 +331,8 @@ public final class MissedPunch
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setCreateTime(contract.getCreateTime());
+            builder.setMissedPunchDocId(contract.getMissedPunchDocId());
+            builder.setMissedPunchDocStatus(contract.getMissedPunchDocStatus());
             return builder;
         }
 
@@ -410,6 +433,24 @@ public final class MissedPunch
         @Override
         public DateTime getCreateTime() {
             return this.createTime;
+        }
+
+        @Override
+        public String getMissedPunchDocId() {
+            return missedPunchDocId;
+        }
+
+        @Override
+        public String getMissedPunchDocStatus() {
+            return missedPunchDocStatus;
+        }
+
+        public void setMissedPunchDocId(String missedPunchDocId) {
+            this.missedPunchDocId = missedPunchDocId;
+        }
+
+        public void setMissedPunchDocStatus(String missedPunchDocStatus) {
+            this.missedPunchDocStatus = missedPunchDocStatus;
         }
 
         public void setTask(Long task) {
@@ -522,6 +563,8 @@ public final class MissedPunch
         final static String ASSIGNMENT_KEY = "assignmentKey";
         final static String ASSIGNMENT_VALUE = "assignmentValue";
         final static String CREATE_TIME = "createTime";
+        final static String MISSED_PUNCH_DOC_ID = "missedPunchDocId";
+        final static String MISSED_PUNCH_DOC_STATUS = "missedPunchDocStatus";
 
     }
 

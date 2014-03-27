@@ -227,15 +227,15 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
 	}
 
 	public Timestamp getTimestamp() {
-		return new Timestamp(timestamp.getTime());
+		return timestamp == null ?  null : new Timestamp(timestamp.getTime());
 	}
 
     public DateTime getCreateTime() {
-        return getTimestamp() == null ? null : new DateTime(getTimestamp().getTime());
+        return timestamp == null ? null : new DateTime(timestamp.getTime());
     }
 
 	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = new Timestamp(timestamp.getTime());
+		this.timestamp = timestamp;
 	}
 
 	public String getPrincipalName() {
@@ -406,6 +406,8 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
         mp.setPersonName(im.getPersonName());
 
         mp.setAssignmentReadOnly(im.isAssignmentReadOnly());
+        mp.setMissedPunchDocId(im.getMissedPunchDocId());
+        mp.setMissedPunchDocStatus(im.getMissedPunchDocStatus());
 
         mp.setTimestamp(im.getCreateTime() == null ? null : new Timestamp(im.getCreateTime().getMillis()));
         mp.setVersionNumber(im.getVersionNumber());

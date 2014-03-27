@@ -15,17 +15,10 @@
  */
 package org.kuali.kpme.tklm.api.time.missedpunch;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.mo.CreateTime;
 import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
-import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 
 /**
@@ -253,5 +246,9 @@ public interface MissedPunchContract extends KpmeDataTransferObject, CreateTime 
 	 * @return Y if it's assignment read only, N if not
 	 */
 	public boolean isAssignmentReadOnly();
+
+    String getMissedPunchDocStatus();
+
+    String getMissedPunchDocId();
 
 }
