@@ -144,10 +144,15 @@
 		        <bean parent="Uif-InputField" p:propertyName="tenureEligible" />
         	    <bean parent="Uif-InputField" p:propertyName="salaryGroup">
 		        	<property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
+		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
 		        		 	p:fieldConversions="hrSalGroup:salaryGroup,percentTime:percentTime,benefitsEligible:benefitsEligible,leaveEligible:leaveEligible,leavePlan:leavePlan"
 		        		 	p:lookupParameters="location:location,institution:institution"/>
 		   	   		</property>
+		   	   		<property name="attributeQuery">
+	            		<bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
+	                  		p:queryFieldMapping="salaryGroup:hrSalGroup" 
+	                  		p:returnFieldMapping="percentTime:percentTime,benefitsEligible:benefitsEligible,leaveEligible:leaveEligible,leavePlan:leavePlan"/>
+	        		</property>
 			    </bean>
 			    <bean parent="Uif-InputField" p:propertyName="benefitsEligible" />
 			    <bean parent="Uif-InputField" p:propertyName="leaveEligible" />
