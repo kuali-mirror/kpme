@@ -11,7 +11,7 @@
 	<c:set var="lbDivId" value="${dayNumberId}_noEditLeave"/>
 	<div id="${lbDivId}" class="leaveBlock ${leaveReqRow.requestStatus}" >
 	    <c:if test="${not empty leaveReqRow.leaveRequestDocId}">
-	    	<div id="leaveRequest_${leaveReqRow.leaveRequestDocId}" class="${editableClass}">
+	    	<div id="leaveRequestSingle_${leaveReqRow.leaveRequestDocId}" class="${editableClass}">
 	    		<input type="checkbox" name="leaveReqDoc_${leaveReqRow.leaveRequestDocId}" id="leaveReqDoc_${leaveReqRow.leaveRequestDocId}" value="${leaveReqRow.selected}" class="selectedEmpl"/>
 	    		${leaveReqRow.employeeName} (${leaveReqRow.principalId})
 		    </div>  

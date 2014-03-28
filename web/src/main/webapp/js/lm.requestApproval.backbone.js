@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-    
+var FORM0 = "leaveRequestApproval";
+var FORM1 = "leaveRequestApproval-form";
+var FORM2 = "multiLeaveRequestApproval-form";
 $(function () {
 	
 	 /**
@@ -42,7 +44,7 @@ $(function () {
     	 events : {
 	    	 "click input[id^=actionOn_]" : "takeAction",
 	    	 "click input[id^=leaveReqDoc_]" : "doNothing",
-	    	 "click div[id^=leaveRequest]" : "showLeaveRequestApprovalDialog",
+	    	 "click div[id^=leaveRequestSingle]" : "showLeaveRequestApprovalDialog",
 	         "click input[id=checkAllApprove]" : "checkAllApprove"
          },
          initialize : function () {
@@ -67,10 +69,11 @@ $(function () {
         	var checkboxCells = $("input:checkbox[id^=leaveReqDoc_]");
         	var docSeparator = "----";  // seperater doc actions
         	var errors = "";
-        	var formId = document.forms[0].id;
+        	var formId = FORM0;
         	// reset all error fields
         	this.resetErrorFields('#'+formId);
-        	this.resetErrorFields('#'+document.forms[1].id);
+        	this.resetErrorFields('#'+FORM1);
+        	this.resetErrorFields('#'+FORM2);
         	// client side validation for checkbox
         	checkboxCells.each(function() {
         		if($(this).is(':checked')) {
@@ -79,29 +82,41 @@ $(function () {
         			actionList += docId + docSeparator;
         		}
         	});
+        	var isValid = true;
+        	if(actionVar == 'Defer' || actionVar == 'Disapprove') {
+            	isValid = (isValid && actionList.length > 0) ? true : false;
+            	if(!isValid) 
+            		this.displayErrorMessages("#"+formId, "Please choose any request to approve.");
+            	else {
+            		this.showMultiLeaveRequestApprovalDialog(e, actionVar, actionList);
+            	}
+        		return false;
+    		}
+        	else {
         	
         	// Validate Leave Request.
-        	var isValid = true;
+        	
         	isValid = this.validateLeaveRequest(formId, actionVar, actionList);
         	if(isValid) {
-        		var params = {};
-        		params['actionList'] = actionList;
-        		params['action'] = actionVar;
-            	$.ajax({
-                    url: "LeaveRequestApproval.do?methodToCall=takeAction",
-                    data: params,
-                    cache: false,
-                    async : false,
-                    success : function(data) {
-                        // successful
-                        return;
-                    },
-                    error : function() {
-                    	errorMsgs += "Error occurred. Please try again.";
-                        return false;
-                    }
-              }); 
+            		var params = {};
+            		params['actionList'] = actionList;
+            		params['action'] = actionVar;
+                	$.ajax({
+                        url: "LeaveRequestApproval.do?methodToCall=takeAction",
+                        data: params,
+                        cache: false,
+                        async : false,
+                        success : function(data) {
+                            // successful
+                            return;
+                        },
+                        error : function() {
+                        	errorMsgs += "Error occurred. Please try again.";
+                            return false;
+                        }
+                  }); 
 
+        		}
         	}
         	return isValid;
 	     },
@@ -130,15 +145,16 @@ $(function () {
 	                width : 'inherit',
 	                modal : true,
 	                open : function () {
-	                	self.resetErrorFields("#"+document.forms[1].id);
-	                	self.resetErrorFields("#"+document.forms[0].id);
+	                	self.resetErrorFields("#"+FORM2);
+	                	self.resetErrorFields("#"+FORM1);
+	                	self.resetErrorFields("#"+FORM0);
 	                	var dfd = $.Deferred();
 	                    dfd.done(_(leaveRequest).fillInForm());
 	                },
 	                close : function () {
 	                    //reset values on the form
-	                    self.resetLeaveRequestDialog($("#timesheet-panel"));
-	                    self.resetErrorFields("#"+document.forms[1].id);
+	                    self.resetLeaveRequestDialog();
+	                    self.resetErrorFields("#"+FORM1);
 	                },
 	                buttons : {
 	                    "Submit" : function () {
@@ -150,7 +166,7 @@ $(function () {
 	                    		}
 	                    	});
 	                    	var actionValue = $('input[name="action"]:checked').val();
-	                    	var formId = document.forms[1].id;
+	                    	var formId = FORM1;
 	                    	var isValid = self.validateLeaveRequest(formId, actionValue, actionList);
 	                    	if(isValid && actionList.length > 0 ) {
 	                        	$('#'+formId+' #actionList').val(actionList);
@@ -163,16 +179,61 @@ $(function () {
 	                    },
 	                    "Cancel" : function () {
 	                    	//reset values on the form
-	                        self.resetLeaveRequestDialog($("#timesheet-panel"));
-	                        self.resetErrorFields("#"+document.forms[0].id);
-	                    	self.resetErrorFields("#"+document.forms[1].id);
+	                        self.resetLeaveRequestDialog();
+	                        self.resetErrorFields("#"+FORM0);
+	                    	self.resetErrorFields("#"+FORM1);
+	                    	self.resetErrorFields("#"+FORM2);
 	                    	$(this).dialog("close");
 	                    }
 	                }
 	    	 }).height("auto"); 
 	     },
 	     
-        validateLeaveRequest : function (formId, action, actionList) {
+	     showMultiLeaveRequestApprovalDialog : function (e, actionVar, actionList) {
+	    	 var self = this;
+	    	 $("#multirequestdialog-form").dialog({
+	                title : "Take Action on Leave Requests",
+	                closeOnEscape : true,
+	                autoOpen : true,
+	                width : 'inherit',
+	                modal : true,
+	                open : function () {
+	                	self.resetErrorFields("#"+FORM2);
+	                	self.resetErrorFields("#"+FORM1);
+	                	self.resetErrorFields("#"+FORM0);
+	                },
+	                close : function () {
+	                    //reset values on the form
+	                    self.resetLeaveRequestDialog();
+	                    self.resetErrorFields("#"+FORM2);
+	                },
+	                buttons : {
+	                    "Submit" : function () {
+	                    	var docSeparator = "----";  // seperater doc actions
+	                    	var formId = FORM2;
+	                    	var isValid = self.validateLeaveRequest(formId, actionVar, actionList);
+	                    	if(isValid && actionList.length > 0 ) {
+	                        	$('#'+formId+' #actionList').val(actionList);
+	                        	$('#'+formId+' #navigationString').val(actionList);
+		                        if (isValid) {
+		                            $("#multiLeaveRequestApproval-form").submit();
+		                            $(this).dialog("close");
+		                        }
+	                    	}
+	                    },
+	                    "Cancel" : function () {
+	                    	//reset values on the form
+	                        self.resetLeaveRequestDialog();
+	                        self.resetErrorFields("#"+FORM0);
+	                    	self.resetErrorFields("#"+FORM1);
+	                    	self.resetErrorFields("#"+FORM2);
+	                    	$(this).dialog("close");
+	                    }
+	                }
+	    	 }).height("auto"); 
+	     },
+
+	     validateLeaveRequest : function (formId, action, actionList) {
             var isValid = true;
             var checkrequest = true;
             if(action == undefined) {
@@ -187,7 +248,7 @@ $(function () {
             		this.displayErrorMessages("#"+formId, "Please choose any request to approve.");
             }
             if(isValid && action != 'Approve')
-            	isValid = isValid  && this.checkEmptyField("#"+formId, $("#reason"), "Reason");
+            	isValid = isValid  && this.checkEmptyField("#"+formId, $("#"+formId+" #reason"), "Reason");
             	
             if(isValid) {
             	var params = {};
@@ -268,8 +329,9 @@ $(function () {
           * Reset the values on the leaveblock entry form.
           * @param fields
           */
-         resetLeaveRequestDialog : function (leaveRequestDiv) {
+         resetLeaveRequestDialog : function () {
         	 document.getElementById('leaveRequestApproval-form').reset();
+        	 document.getElementById('multiLeaveRequestApproval-form').reset();
          },
          
          /**
@@ -278,7 +340,7 @@ $(function () {
           */
          resetErrorFields : function(formId) {
         	 $(formId +" #validation")
-		            .text('')
+		            .text('All form fields are .')
 		            .removeClass('ui-state-error').removeClass('error-messages');
         	 var reasonCells = $('input:text[id^="reason"]');
         	 reasonCells.each(function() {

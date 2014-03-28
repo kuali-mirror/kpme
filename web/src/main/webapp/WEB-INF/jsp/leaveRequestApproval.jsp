@@ -101,12 +101,15 @@
         <div>
     	    <tk:calendar cal="${Form.leaveRequestCalendar}" docId="" calType="leaveCalendar" calledFrom="LeaveRequestApproval"/>
         </div>
+        <br/>
        <div id="leave-req-app" align="right">
 	        Select All <input type="checkbox" name="checkAllApprove" id="checkAllApprove"></input>
         </div>
-        <br/><br/>
+        <br/>
         <div align="center">
-       		 <input type="submit" id="actionOn_Approve" class="approve" value="Approve" name="actionOn_Approve" />
+       		 <input type="submit" id="actionOn_Approve" class="approve" value="Approve Selected" name="actionOn_Approve" />&nbsp;&nbsp;
+       		 <input type="submit" id="actionOn_Disapprove" class="approve" value="Disapprove Selected" name="actionOn_Disapprove" />&nbsp;&nbsp;
+       		 <input type="submit" id="actionOn_Defer" class="approve" value="Defer Selected" name="actionOn_Defer" />
         </div>
         
         <html:textarea property="leaveRequestString" styleId="leaveRequestString" value="${Form.leaveRequestString}"/>
@@ -117,10 +120,8 @@
 <div id="cal">
     <div id="dialog-form" class="dialog-form" title="Add Ledgers:">
         <html:form action="/LeaveRequestApproval.do" styleId="leaveRequestApproval-form" >
-        
         	<html:hidden property="methodToCall" value="takeAction" styleId="methodToCall"/>
             <html:hidden property="actionList" value="" styleId="actionList"/>
-            
             <p id="validation" class="validation" title="Validation">All form fields are .</p>
              <div class="ui-widget timesheet-panel" id="timesheet-panel">
                 <table>
@@ -171,4 +172,22 @@
              </div>
         </html:form>
     </div>
+    
+    <div id="multirequestdialog-form" class="dialog-form" >
+        <html:form action="/LeaveRequestApproval.do" styleId="multiLeaveRequestApproval-form" >
+        	<html:hidden property="methodToCall" value="takeAction" styleId="methodToCall"/>
+            <html:hidden property="actionList" value="" styleId="actionList"/>
+            <p id="validation" class="validation" title="Validation">All form fields are .</p>
+             <div class="ui-widget timesheet-panel" id="timesheet-panel">
+                <table>
+                     <tr>
+                        <td><label for="reason">Reason:</label></td>
+                        <td> 
+                        	<input type="text" name="reason" id="reason" size="50"/>
+                        </td>
+                    </tr>
+                </table>
+             </div>
+        </html:form>
+    </div>    
 </div>
