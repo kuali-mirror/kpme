@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.rules.lunch.sys.web;
+package org.kuali.kpme.tklm.leave.donation.web;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.rules.lunch.sys.SystemLunchRule;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.leave.donation.LeaveDonation;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -30,22 +30,22 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class SystemLunchRuleLookupableHelper extends KPMELookupableHelper {
+public class LeaveDonationLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
 
-	private static final long serialVersionUID = 6752606867867978501L;
+	private static final long serialVersionUID = 4181583515349590532L;
 
 	@Override
 	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		SystemLunchRule systemLunchRule = (SystemLunchRule) businessObject;
-		String tkSystemLunchRuleId = systemLunchRule.getTkSystemLunchRuleId();
+		LeaveDonation leaveDonation = (LeaveDonation) businessObject;
+		String lmLeaveDonationId = leaveDonation.getLmLeaveDonationId();
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("tkSystemLunchRuleId", tkSystemLunchRuleId);
+		params.put("lmLeaveDonationId", lmLeaveDonationId);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -53,16 +53,22 @@ public class SystemLunchRuleLookupableHelper extends KPMELookupableHelper {
 		
 		return customActionUrls;
 	}
-
+	
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+    	String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+    	String donorsPrincipalId = fieldValues.get("donorsPrincipalID");
+        String donatedAccrualCategory = fieldValues.get("donatedAccrualCategory");
+        String amountDonated = fieldValues.get("amountDonated");
+        String recipientsPrincipalId = fieldValues.get("recipientsPrincipalID");
+        String recipientsAccrualCategory = fieldValues.get("recipientsAccrualCategory");
+        String amountReceived = fieldValues.get("amountReceived");
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
-
-        return TkServiceLocator.getSystemLunchRuleService().getSystemLunchRules(TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active, showHist);
+        
+        return LmServiceLocator.getLeaveDonationService().getLeaveDonations(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        		donorsPrincipalId, donatedAccrualCategory, amountDonated, recipientsPrincipalId, recipientsAccrualCategory, amountReceived, active, showHist);
     }
-    
+
 }

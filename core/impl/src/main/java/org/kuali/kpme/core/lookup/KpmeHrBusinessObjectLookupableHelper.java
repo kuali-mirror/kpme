@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class KpmeHrBusinessObjectLookupableHelper extends KPMELookupableHelper {
+public class KpmeHrBusinessObjectLookupableHelper extends KPMELookupableHelperServiceImpl {
 
 	private static final long serialVersionUID = 5042375373803175373L;
 	

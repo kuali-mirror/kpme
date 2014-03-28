@@ -26,12 +26,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 
-public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupableHelper {
+public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupableHelperServiceImpl {
 
 	/**
 	 * 

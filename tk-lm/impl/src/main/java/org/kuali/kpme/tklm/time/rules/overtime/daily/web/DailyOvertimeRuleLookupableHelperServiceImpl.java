@@ -13,39 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.leave.donation.web;
+package org.kuali.kpme.tklm.time.rules.overtime.daily.web;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.leave.donation.LeaveDonation;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
+import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class LeaveDonationLookupableHelper extends KPMELookupableHelper {
+public class DailyOvertimeRuleLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
 
-	private static final long serialVersionUID = 4181583515349590532L;
+	private static final long serialVersionUID = 2720495398967391250L;
 
 	@Override
 	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		LeaveDonation leaveDonation = (LeaveDonation) businessObject;
-		String lmLeaveDonationId = leaveDonation.getLmLeaveDonationId();
+		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) businessObject;
+		String tkDailyOvertimeRuleId = dailyOvertimeRule.getTkDailyOvertimeRuleId();
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("lmLeaveDonationId", lmLeaveDonationId);
+		params.put("tkDailyOvertimeRuleId", tkDailyOvertimeRuleId);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -53,22 +55,32 @@ public class LeaveDonationLookupableHelper extends KPMELookupableHelper {
 		
 		return customActionUrls;
 	}
-	
-    @Override
+
+
+	@Override
+	protected void validateSearchParameterWildcardAndOperators(
+			String attributeName, String attributeValue) {
+		if (!StringUtils.equals(attributeValue, "%")) {
+			super.validateSearchParameterWildcardAndOperators(attributeName,
+					attributeValue);
+		}
+	}
+
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    	String dept = fieldValues.get("dept");
+    	String workArea = fieldValues.get("workArea");
+    	String location = fieldValues.get("location");
     	String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-    	String donorsPrincipalId = fieldValues.get("donorsPrincipalID");
-        String donatedAccrualCategory = fieldValues.get("donatedAccrualCategory");
-        String amountDonated = fieldValues.get("amountDonated");
-        String recipientsPrincipalId = fieldValues.get("recipientsPrincipalID");
-        String recipientsAccrualCategory = fieldValues.get("recipientsAccrualCategory");
-        String amountReceived = fieldValues.get("amountReceived");
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
-        
-        return LmServiceLocator.getLeaveDonationService().getLeaveDonations(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
-        		donorsPrincipalId, donatedAccrualCategory, amountDonated, recipientsPrincipalId, recipientsAccrualCategory, amountReceived, active, showHist);
-    }
 
+        if (StringUtils.contains(workArea, "%")) {
+			workArea = "";
+		}
+
+        return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, location, TKUtils.formatDateString(fromEffdt), 
+        		TKUtils.formatDateString(toEffdt), active, showHist);
+    }
+    
 }

@@ -13,41 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.rules.lunch.department.web;
+package org.kuali.kpme.tklm.leave.override.web;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.bo.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
-import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
+import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-@SuppressWarnings("deprecation")
-public class DepartmentLunchRuleLookupableHelper extends KPMELookupableHelper {
-	
-	private static final long serialVersionUID = -6171434403261481651L;
-    
+public class EmployeeOverrideLookupableHelperServiceImpl extends HrEffectiveDateActiveLookupableHelper  {
+
+	private static final long serialVersionUID = -2208016099188014844L;
+
 	@Override
-	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-
-		DeptLunchRule deptLunchRule = (DeptLunchRule) businessObject;
-		String tkDeptLunchRuleId = deptLunchRule.getTkDeptLunchRuleId();
+		
+		EmployeeOverride employeeOverride = (EmployeeOverride) businessObject;
+		String lmEmployeeOverrideId = employeeOverride.getLmEmployeeOverrideId();
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("tkDeptLunchRuleId", tkDeptLunchRuleId);
+		params.put("lmEmployeeOverrideId", lmEmployeeOverrideId);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -56,40 +52,18 @@ public class DepartmentLunchRuleLookupableHelper extends KPMELookupableHelper {
 		return customActionUrls;
 	}
 
-	@Override
-	protected void validateSearchParameterWildcardAndOperators(
-			String attributeName, String attributeValue) {
-		if (!StringUtils.equals(attributeValue, "%")) {
-			super.validateSearchParameterWildcardAndOperators(attributeName,
-					attributeValue);
-		}
-	}
-
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String principalId = fieldValues.get("principalId");
-        String jobNumber = fieldValues.get("jobNumber");
-        String dept = fieldValues.get("dept");
-        String workArea = fieldValues.get("workArea");
-        String active = fieldValues.get("active");
-        String history = fieldValues.get("history");
+        String leavePlan = fieldValues.get("leavePlan");
+        String accrualCategory = fieldValues.get("accrualCategory");
+        String overrideType = fieldValues.get("overrideType");
         String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
 
-        if (StringUtils.equals(workArea,"%") || StringUtils.equals(workArea,"*")){
-            workArea = "";
-        }
-        
-        if (StringUtils.equals(jobNumber,"%") || StringUtils.equals(jobNumber,"*")){
-        	jobNumber = "";
-        }
-        
-        //KPME-2688
-        if (StringUtils.equals(dept,"%") || StringUtils.equals(dept,"*")){
-        	dept = "";
-        }
-        
-        return TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules(GlobalVariables.getUserSession().getPrincipalId(), dept,
-                workArea, principalId, jobNumber, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, history);
+        return LmServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, leavePlan, accrualCategory, overrideType, 
+        		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active);
     }
+	
 }

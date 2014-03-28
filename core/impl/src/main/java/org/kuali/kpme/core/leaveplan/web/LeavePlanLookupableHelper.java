@@ -21,7 +21,7 @@ import java.util.Properties;
 
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.leaveplan.LeavePlanBo;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class LeavePlanLookupableHelper extends KPMELookupableHelper {
+public class LeavePlanLookupableHelper extends KPMELookupableHelperServiceImpl {
 
 	private static final long serialVersionUID = 3382815973444543931L;
     private static final ModelObjectUtils.Transformer<LeavePlan, LeavePlanBo> toLeavePlanBo =

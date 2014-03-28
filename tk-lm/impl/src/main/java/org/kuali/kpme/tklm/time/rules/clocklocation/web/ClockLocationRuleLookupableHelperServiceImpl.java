@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.leave.timeoff.web;
+package org.kuali.kpme.tklm.time.rules.clocklocation.web;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
+import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -31,22 +32,22 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class SystemScheduledTimeOffLookupableHelper extends KPMELookupableHelper {
+public class ClockLocationRuleLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
 
-	private static final long serialVersionUID = -1285064132683716221L;
-
+	private static final long serialVersionUID = 7261054962204557586L;
+    
 	@Override
 	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+    	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		SystemScheduledTimeOff systemScheduledTimeOff = (SystemScheduledTimeOff) businessObject;
-		String lmSystemScheduledTimeOffId = systemScheduledTimeOff.getLmSystemScheduledTimeOffId();
-		
+		ClockLocationRule clockLocationRule = (ClockLocationRule) businessObject;
+		String tkClockLocationRuleId = clockLocationRule.getTkClockLocationRuleId();
+
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("lmSystemScheduledTimeOffId", lmSystemScheduledTimeOffId);
+		params.put("tkClockLocationRuleId", tkClockLocationRuleId);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -55,22 +56,36 @@ public class SystemScheduledTimeOffLookupableHelper extends KPMELookupableHelper
 		return customActionUrls;
 	}
 
-    @Override
+	@Override
+	protected void validateSearchParameterWildcardAndOperators(
+			String attributeName, String attributeValue) {
+		if (!StringUtils.equals(attributeValue, "%")) {
+			super.validateSearchParameterWildcardAndOperators(attributeName,
+					attributeValue);
+		}
+	}
+
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-        String earnCode = fieldValues.get("earnCode");
-        String premiumEarnCode = fieldValues.get("premiumEarnCode");
-        String fromAccruedDate = TKUtils.getFromDateString(fieldValues.get("accruedDate"));
-        String toAccruedDate = TKUtils.getToDateString(fieldValues.get("accruedDate"));
-        String fromSchTimeOffDate = TKUtils.getFromDateString(fieldValues.get("scheduledTimeOffDate"));
-        String toSchTimeOffDate = TKUtils.getToDateString(fieldValues.get("scheduledTimeOffDate"));
+        String principalId = fieldValues.get("principalId");
+        String jobNumber = fieldValues.get("jobNumber");
+        String dept = fieldValues.get("dept");
+        String workArea = fieldValues.get("workArea");
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
+        
+        if (StringUtils.contains(workArea, "%")) {
+			workArea = "";
+		}
+        
+        if (StringUtils.contains(jobNumber, "%")) {
+        	jobNumber = "";
+		}
+        
 
-        return LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
-        		earnCode, TKUtils.formatDateString(fromAccruedDate), TKUtils.formatDateString(toAccruedDate), TKUtils.formatDateString(fromSchTimeOffDate), 
-        		TKUtils.formatDateString(toSchTimeOffDate), premiumEarnCode, active, showHist);
+        return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
+        		principalId, jobNumber, dept, workArea, active, showHist);
     }
     
 }

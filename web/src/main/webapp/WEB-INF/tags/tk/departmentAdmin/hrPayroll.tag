@@ -47,7 +47,7 @@
          		<a href="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.salarygroup.SalaryGroupBo&returnLocation=${ConfigProperties.application.url}/DepartmentAdmin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Salary Group</a>
             </li>
     		<li>
-                <a href="${ConfigProperties.application.url}/kr-krad/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kpme.core.calendar.entry.CalendarEntryBo&returnLocation=${ConfigProperties.application.url}/DepartmentAdmin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Calendar Entry</a>
+                <a href="${ConfigProperties.application.url}/kr-krad/lookup.do?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.calendar.entry.CalendarEntryBo&returnLocation=${ConfigProperties.application.url}/DepartmentAdmin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">Calendar Entry</a>
             </li>
        		 <li>
             	<a href="${ConfigProperties.application.url}/kr-krad/lookup.do?methodToCall=start&dataObjectClassName=org.kuali.kpme.core.calendar.CalendarBo&returnLocation=${ConfigProperties.application.url}/DepartmentAdmin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" >Calendar</a>

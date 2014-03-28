@@ -22,7 +22,7 @@ import java.util.Properties;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.job.JobBo;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
 import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
@@ -35,7 +35,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class JobLookupableHelper extends KPMELookupableHelper {
+public class JobLookupableHelper extends KPMELookupableHelperServiceImpl {
 
 	private static final long serialVersionUID = 3233495722838070429L;
     private static final ModelObjectUtils.Transformer<Job, JobBo> toJobBo =

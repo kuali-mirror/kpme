@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.core.location.web;
+package org.kuali.kpme.tklm.time.rules.timecollection.web;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.location.Location;
-import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -28,31 +33,25 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 @SuppressWarnings("deprecation")
-public class LocationLookupableHelper extends KPMELookupableHelperServiceImpl {
+public class TimeCollectionRuleLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
 
-	private static final long serialVersionUID = 1285833127534968764L;
-    private static final ModelObjectUtils.Transformer<Location, LocationBo> toLocationBo =
-            new ModelObjectUtils.Transformer<Location, LocationBo>() {
-                public LocationBo transform(Location input) {
-                    return LocationBo.from(input);
-                };
-            };
+	private static final long serialVersionUID = -1690980961895784168L;
+    
 	@Override
 	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		LocationBo locationObj = (LocationBo) businessObject;
-		String hrLocationId = locationObj.getHrLocationId();
+		TimeCollectionRule timeCollectionRule = (TimeCollectionRule) businessObject;
+		String tkTimeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
+		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("hrLocationId", hrLocationId);
+		
+		params.put("tkTimeCollectionRuleId", tkTimeCollectionRuleId);
+		
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -61,27 +60,37 @@ public class LocationLookupableHelper extends KPMELookupableHelperServiceImpl {
 		return customActionUrls;
 	}
 
-    @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String location = fieldValues.get("location");
-        String descr = fieldValues.get("description");
+	@Override
+	public List<? extends BusinessObject> getSearchResults( Map<String, String> fieldValues) {
+        String workArea = fieldValues.get("workArea");
+        String dept = fieldValues.get("dept");
+        String payType = fieldValues.get("payType");
         String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
+        String history = fieldValues.get("history");
 
-        if (StringUtils.contains(location, "*")) {
-        	location = "";
-		}
-		
-        return ModelObjectUtils.transform(HrServiceLocator.getLocationService().searchLocations(GlobalVariables.getUserSession().getPrincipalId(), location, descr, active, showHist), toLocationBo);
-    }
-    
-    @Override
+        String workAreaValue = null;
+        if (StringUtils.equals(workArea,"%") || StringUtils.equals(workArea,"*")){
+            workArea = "";
+        } else {
+        	if(workArea != null && StringUtils.isNotBlank(workArea)) {
+	        	BigDecimal value = TKUtils.cleanNumeric(workArea);
+	        	if(value != null) {
+	        		workAreaValue = value.toString(); 
+	        	} else {
+	        		return new ArrayList<TimeCollectionRule>();
+	        	}
+        	}
+        }
+        
+        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workAreaValue, payType, active, history);
+	}
+
+	@Override
 	protected void validateSearchParameterWildcardAndOperators(
 			String attributeName, String attributeValue) {
-		if (!StringUtils.equals(attributeValue, "*")) {
+		if (!StringUtils.equals(attributeValue, "%")) {
 			super.validateSearchParameterWildcardAndOperators(attributeName,
 					attributeValue);
 		}
 	}
-    
 }

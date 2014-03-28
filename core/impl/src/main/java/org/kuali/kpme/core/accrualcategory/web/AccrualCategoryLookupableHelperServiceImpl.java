@@ -23,7 +23,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.lookup.KPMELookupableHelper;
+import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -36,7 +36,7 @@ import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
 import org.kuali.rice.krms.impl.repository.FunctionBo;
 
 @SuppressWarnings("deprecation")
-public class AccrualCategoryLookupableHelper extends KPMELookupableHelper {
+public class AccrualCategoryLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
 
 	private static final long serialVersionUID = 878982834891191463L;
     private static final ModelObjectUtils.Transformer<AccrualCategory, AccrualCategoryBo> toBo =
