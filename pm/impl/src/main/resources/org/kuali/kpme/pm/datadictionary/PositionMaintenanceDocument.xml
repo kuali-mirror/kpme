@@ -55,9 +55,10 @@
 	    <property name="additionalScriptFiles">
 	      <list merge="true">
 	        <value>js/krad-ui.js</value>
-              <value>js/pm.js</value>
+            <value>js/pm.js</value>
 	      </list>
 	    </property>
+        <property name="style" value="min-height:550px"/>
 		<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionMaintainableServiceImpl" />
 		<property name="items">
 			<list>
