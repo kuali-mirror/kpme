@@ -88,7 +88,9 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2"><tk:payCalendarSelect calType="${calType}" /></td>
+			<c:if test="${empty calledFrom}">
+				<td colspan="2"><tk:payCalendarSelect calType="${calType}" /></td>
+			</c:if>
 			<td />
 		</tr>
 
