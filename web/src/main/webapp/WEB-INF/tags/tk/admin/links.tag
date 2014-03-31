@@ -49,10 +49,11 @@
                 <a href="LeaveCalendar.do">Leave Calendar</a>
             </li>
         </c:if>
-
-        <!-- <li>
-            <a href="PersonInfo.do">Person Info</a>
-        </li>                         -->
+		<c:if test="${form.timeEnabled || form.leaveEnabled}">
+        	<li>
+            	<a href="PersonInfo.do">Person Info</a>
+        	</li>                        
+        </c:if>
     </ul>
     <ul class="chan">
         <c:if test="${approver || reviewer || payrollProcessor}">
