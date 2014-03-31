@@ -6,7 +6,7 @@
 <%@ attribute name="calType" required="false" type="java.lang.String"%>
 <fieldset style="width: 97%;">
 	<legend>Filters</legend>
-	<table id="approvals-filter" style="width: 100%">
+	<table id="approvals-filter" style="width: 100%;">
 		<tr>
 			<c:if test="${empty calledFrom}">
 				<td style="white-space: nowrap;">Calendar: <%--<label for="selectedPayCalendarGroup">--%>
@@ -89,9 +89,8 @@
 		</tr>
 		<tr>
 			<c:if test="${empty calledFrom}">
-				<td colspan="2"><tk:payCalendarSelect calType="${calType}" /></td>
+				<td colspan="3"><tk:payCalendarSelect calType="${calType}" /></td>
 			</c:if>
-			<td />
 		</tr>
 
 	</table>

@@ -701,7 +701,7 @@ label.error {
 }
 
 #approvals-filter {
-    margin-top: 10px;
+    margin-top: 5px;
     /*width: 100%;*/
 }
 
@@ -735,7 +735,7 @@ label.error {
 
 .approvals .navigation {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .approvals .navigation td {

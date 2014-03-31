@@ -21,7 +21,7 @@ the id is used in approval.js--%>
 	<legend>Search</legend>
 	<table class="navigation">
 		<tr>
-			<td class="left">Search By : <label for="search field">
+			<td style="white-space: nowrap;" class="left">Search By : <label for="search field">
 					<select id="searchField" name="searchField">
 						<c:choose>
 							<c:when test="${Form.searchField eq 'principalName'}">
@@ -44,15 +44,14 @@ the id is used in approval.js--%>
 				</select>
 			</label>
 			</td>
-			<td align="left">Value : <label for="search value"> <input
+			<td style="white-space: nowrap;" class="left">Value : <label for="search value"> <input
 					id="${searchId}" name="${searchId}" type="text"
 					value="${Form.searchTerm}" placeholder="enter at least 3 chars" />
 					<span id='loading-value' style="display: none;"><img
 						src='images/ajax-loader.gif'></span>
-
 			</label>
 			</td>
-			<td><input type="button" id='search' value="Search"
+			<td style="white-space: nowrap;" class="left"><input type="button" id='search' value="Search"
 				class="ui-button ui-widget ui-state-default ui-corner-all"
 				onclick="this.form.methodToCall.value='searchResult'; this.form.submit();"
 				name="searchResult" /> <input type="button" id='reset'
@@ -61,6 +60,5 @@ the id is used in approval.js--%>
 				onclick="this.form.methodToCall.value='resetSearch'; this.form.submit();"
 				name="resetSearch" /></td>
 		</tr>
-
 	</table>
 </fieldset>

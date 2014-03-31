@@ -6,11 +6,11 @@
 	<tr>
 		<td align="center"><c:choose>
 				<c:when test="${calType == 'payCalendar'}">
-					<fieldset style="width: 75%; min-height: 150px">
+					<fieldset style="width: 75%; min-height: 100px">
 						<legend>Weekly Status</legend>
 						<div>
 							Pay Period Week Total: <span style="font-weight: bold;">bold</span>
-							<br /><br /><br />
+							<br /><br />
 						</div>
 						<div>
 							FLSA Week Total: <span style="font-style: italic;">italics</span>
@@ -18,11 +18,11 @@
 					</fieldset>
 				</c:when>
 				<c:when test="${calType == 'leaveCalendar'}">
-					<fieldset style="width: 75%; min-height: 150px">
+					<fieldset style="width: 75%; min-height: 100px">
 						<legend>Leave Request Status</legend>
 						<div>
 							Approved/Usage: <span class="approvals-approved">bold</span> 
-							<br /><br /><br />
+							<br /><br />
 						</div>
 						<div>
 							Planned/Deferred: <span class="approvals-requested">italics</span>
@@ -30,5 +30,12 @@
 					</fieldset>
 				</c:when>
 			</c:choose>
+			<br/>
+		</td>
 	</tr>
+	<tr>
+		<td align="center">
+					<%-- Leave Request Approval page --%>
+					<a href="LeaveRequestApproval.do" target="_self" id="lraLink">Leave Request Approval</a>
+				</td>
 </table>

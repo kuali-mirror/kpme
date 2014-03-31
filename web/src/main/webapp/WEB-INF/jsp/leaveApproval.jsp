@@ -39,12 +39,12 @@
 <div class="approvals">
 	<table class="navigation" style="width:100%">
 		<tbody>
-			<tr>
+			<%-- <tr>
        			<td align="right"  colspan="2">
-					<%-- Leave Request Approval page --%>
+					Leave Request Approval page
 					<a href="LeaveRequestApproval.do" target="_self" id="lraLink">Leave Request Approval</a>
 				</td>
-			</tr>
+			</tr> --%>
 			<tr>
 				<td align="left" style="width:80%">
 					<%-- pay calendar group, department and work area filters --%>
@@ -59,7 +59,6 @@
 					<tk:approvalSearch calType="leaveCalendar" searchId="leaveSearchValue" />	
 				</td>
 			</tr>
-			
 			<tr>
         	<td  colspan="2" align="center">
                 <div style="text-align: center">
@@ -83,7 +82,6 @@
         		</c:if>
             </td>
         </tr>
-			
 		</tbody>
 	</table>
     

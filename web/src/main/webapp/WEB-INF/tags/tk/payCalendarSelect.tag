@@ -4,17 +4,17 @@
 
 <div id="calendar-payPeriod">
 
-    <table class="cal-header" style="width:75%;">
+    <table class="cal-header" style="width:100%;">
 		<tbody>
 			<tr>
-			<td align="left" style="width:auto;">
+				<td style="white-space: nowrap;">
           			<span class="header-title-left">
                         <c:choose>
                             <c:when test="${calType eq 'payCalendar'}">
-                                Current Pay Period
+                                Current Pay Period:
                             </c:when>
                             <c:when test="${calType eq 'leaveCalendar'}">
-                                Current Leave Period
+                                Current Leave Period:
                             </c:when>
                         </c:choose>
                     </span>
@@ -31,11 +31,10 @@
 		                      </c:choose>
                  		 </c:forEach>
                     </select>
-		        </td>
-				<td align="left">
-					<span class="header-title-left">Year</span>
-                <!-- </td>
-                <td align="left"> -->
+		        <!-- </td>
+				<td style="white-space: nowrap;"> -->
+				&nbsp;&nbsp;&nbsp;
+					<span class="header-title-left">Year:</span>
 	                <select id="selectedCalendarYear" name="selectedCalendarYear">
 	                    <c:forEach var="calendarYear" items="${Form.calendarYears}">
 	                        <c:choose>
@@ -49,7 +48,6 @@
 	                    </c:forEach>
 	                </select>
                 </td>
-                
 			</tr>
 		</tbody>
 	</table>
