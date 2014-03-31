@@ -39,12 +39,6 @@
 <div class="approvals">
 	<table class="navigation" style="width:100%">
 		<tbody>
-			<%-- <tr>
-       			<td align="right"  colspan="2">
-					Leave Request Approval page
-					<a href="LeaveRequestApproval.do" target="_self" id="lraLink">Leave Request Approval</a>
-				</td>
-			</tr> --%>
 			<tr>
 				<td align="left" style="width:80%">
 					<%-- pay calendar group, department and work area filters --%>
