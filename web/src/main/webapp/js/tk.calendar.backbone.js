@@ -120,17 +120,24 @@ $(function () {
     // Create a collecton for overtime earn codes
     OvertimeEarnCodeCollection = Backbone.Collection.extend({
         model : OvertimeEarnCode,
-        url : "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes"
+        url : "TimeDetailWS.do?methodToCall=getOvertimeEarnCodes&documentId=" + $('#documentId').val()
     });
 
     var OvertimeEarnCodes = new OvertimeEarnCodeCollection;
 
     // Create a collecton for overtime earn codes
     RegEarnCodeAssignmentCollection = Backbone.Collection.extend({
-        url : "TimeDetailWS.do?methodToCall=getValidAssignments"
+        url : "TimeDetailWS.do?methodToCall=getValidAssignments&documentId=" + $('#documentId').val()
     });
 
     var assignmentsForRegEarnCode = new RegEarnCodeAssignmentCollection;
+
+    AssignmentCollection = Backbone.Collection.extend({
+        url : "TimeDetailWS.do?methodToCall=getAssignmentJson&documentId=" + $('#documentId').val()
+    });
+
+    var assignmentsForStartDay = new AssignmentCollection;
+
     /**
      * ====================
      * Views
@@ -171,7 +178,8 @@ $(function () {
             "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
             "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
             "click #ts-route-button" : "forfeitBalanceOnSubmit",
-            "click span[id^=weekSummary]" : "showWeekSummary"
+            "click span[id^=weekSummary]" : "showWeekSummary",
+            "change #startDate" : "updateAssignmentsEarnCodesForDate"
         },
 
         initialize : function () {
@@ -401,9 +409,10 @@ $(function () {
             // the user should be able to _see_ the RGH earn code.
             var isTimeBlockReadOnly = timeBlock.get("canEditTBAssgOnly") ? true : false;
 
-            dfd.done(this.fetchEarnCode(timeBlock.get("assignment"), isTimeBlockReadOnly))
+            dfd.done(this.fetchEarnCode(timeBlock.get("assignment"), isTimeBlockReadOnly, timeBlock.get('startDate'), timeBlock.get('earnCode')))
                     .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
+                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment")))
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
         },
@@ -508,6 +517,7 @@ $(function () {
 
 			$("#startDate").val(leaveBlock.get("leaveDate"));
 			$("#endDate").val(leaveBlock.get("leaveDate"));
+            this.fetchAssignmentsForDay();
             var startSpanDate = Date.parse($("#startDate").val()).clearTime();
             var endSpanDate = Date.parse($("#endDate").val()).clearTime();
             var spanningWeeks = false;
@@ -571,7 +581,7 @@ $(function () {
                 //get a list of valid assignments for the earn code set
                 //we only allow changing of assignment if it contains the same
                 //earn code as the current.
-                this.filterAssignments();
+                this.filterAssignments($("#startDate"));
 
                 // Unbind the change events.
                 // The events will be bound again when resetState() is called.
@@ -706,8 +716,10 @@ $(function () {
 
             app.showTimeEntryDialog(startDay, endDay,null);
 
+            this.fetchAssignmentsForDay(startDay);
             // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
-            if ($("#selectedAssignment").is("input")) {
+            if ($("#selectedAssignment").is("input")
+                || $("#selectedAssignment").find(":selected").text() != '') {
                 app.fetchEarnCodeAndLoadFields();
             }
             mouseDownIndex = null;
@@ -715,20 +727,47 @@ $(function () {
 
         },
         
+        fetchAssignmentsForDay : function(e, assignValue) {
+            var assignment = assignValue;
+            if (assignment == null) {
+                assignment = this.$('#selectedAssignment option:selected').val();
+            }
+            var asOfDate = _.isString(e) ? e : $('#startDate').val();
+            assignmentsForStartDay.fetch({
+                // Make the ajax call not async to be able to filter the assignments
+                async : false,
+                data : {
+                    startDate : asOfDate
+                }
+            });
+
+            var view = new AssignmentView({collection : assignmentsForStartDay});
+            // Append the earn code to <select>
+            $("#assignment-section")
+                .find('option')
+                .remove()
+                .end()
+                .append(view.render().el)
+                .val($("#selectedAssignment option:first").val());
+
+            if (assignment != null) {
+                $("#selectedAssignment option[value='" + assignment + "']").prop("selected", "selected");
+            }
+        },
+
         filterAssignments : function(e) {
             var earnCode = this.$('#selectedEarnCode option:selected').val();
+            var asOfDate =  _.isString(e) ? e : $("#startDate").val();
             assignmentsForRegEarnCode.fetch({
                 // Make the ajax call not async to be able to filter the assignments
                 async : false,
                 data : {
+                    startDate : asOfDate,
                     selectedEarnCode : earnCode
                 }
             });
 
-            //assignmentsForRegEarnCode.each(function(i) {
 
-            //});
-            //$("#selectedAssignment option").
             var keys = new Array();
             assignmentsForRegEarnCode.each(function(i) {
                 keys.push(i.get("assignment"));
@@ -740,19 +779,17 @@ $(function () {
             });
         },
 
-        fetchEarnCode : function (e, isTimeBlockReadOnly) {
+        fetchEarnCode : function (e, isTimeBlockReadOnly, startDate, timeBlockEarnCode) {
 
             isTimeBlockReadOnly = _.isUndefined(isTimeBlockReadOnly) ? false : isTimeBlockReadOnly;
+            timeBlockEarnCode = _.isUndefined(timeBlockEarnCode) ? '' : timeBlockEarnCode;
+            var docId = $('#documentId').val();
 
             // When the method is called with a passed in value, the assignment is whatever that value is;
             // If the method is called WITHOUT a passed in value, the assignment is an event.
             // We want to be able to use this method in creating and editing timeblocks.
             // If assignment is not a string, we'll grab the selected assignment on the form.
             var assignment = _.isString(e) ? e : this.$("#selectedAssignment option:selected").val();
-  
-            var start = this.$("#startDate").val();
-            var end = this.$("#endDate").val();
-            
             // We want to remember what the previous selected earn code was.
 			var earnCode = this.$('#selectedEarnCode option:selected').val();
             // Fetch earn codes based on the selected assignment
@@ -764,20 +801,25 @@ $(function () {
                 data : {
                     selectedAssignment : assignment,
                     timeBlockReadOnly : isTimeBlockReadOnly,
-                    startDate : start,
-                    endDate : end
+                    startDate : startDate,
+                    documentId : docId,
+                    selectedEarnCode : timeBlockEarnCode
                 }
             });
             // If there is an earn code in the newly created collection that matches the old
             // earn code, keep the earn code selected.
-            if(_.contains(EarnCodes.pluck('earnCode'),earnCode)) {
+            if(_.contains(EarnCodes.pluck('earnCode'),earnCode) || _.contains(EarnCodes.pluck('earnCode'), timeBlockEarnCode)) {
             	//usage of prop should be restricted to dom element manipulations; tagName, nodeName, defaultChecked
             	//ref http://www.w3schools.com/jquery/html_prop.asp
             	$("#selectedEarnCode option:selected").removeAttr("selected");
             	$("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
             }
-            else {
-            	$("#selectedEarnCode option:first").attr("selected", "selected");
+        },
+
+        updateAssignmentsEarnCodesForDate : function() {
+            this.fetchAssignmentsForDay();
+            if (_.getSelectedAssignmentValue() != '') {
+                this.fetchEarnCodeAndLoadFields();
             }
         },
 
@@ -849,13 +891,6 @@ $(function () {
                 // Currently, the fields variable contains a list of the entry field classes.
                 // The Underscore.js _.without function returns an array except the ones you speficied.
                 if (earnCodeType == CONSTANTS.EARNCODE_TYPE.HOUR) {
-                	//var oldStartTimeValue = document.getElementById('startTimeHourMinute').value;
-                	//var oldEndTimeValue = document.getElementById('endTimeHourMinute').value;
-                	//	if previously selected earn code was different and if components are being changed, we'll clear the hours field
-                	//if ((oldStartTimeValue != "" && oldStartTimeValue != null)
-                	//		|| (oldEndTimeValue != "" && oldEndTimeValue != null)){
-                	//	$('#hours').val("");
-                	//}
                     $(_.without(fieldSections, ".hourSection").join(",")).hide();
                     $(fieldSections[2]).show();
                     // TODO: figure out why we had to do something crazy like below...
@@ -872,11 +907,6 @@ $(function () {
                     // KPME-1793 do not blank amount
                     $('#startTimeHourMinute, #endTimeHourMinute, #hours').val("");
                 } else {
-                	//var oldHourValue = document.getElementById('hours').value;
-                	//	if previously selected earn code was different and if components are being changed, we'll clear the start and end time fields
-                	//if (oldHourValue != "" && oldHourValue != null) {
-                	//	$('#startTimeHourMinute, #endTimeHourMinute').val("");
-                	//}
                 	// earnCodeType == CONSTANTS.EARNCODE_TYPE.TIME
                     $(_.without(fieldSections, ".clockInSection", ".clockOutSection").join(",")).hide();
                     $(fieldSections[0] + "," + fieldSections[1]).show();
@@ -1054,11 +1084,7 @@ $(function () {
 	        		}		           
 	            }
            }
-//           else {
-//               this.displayErrorMessages("A leave plan is not available for this earn code.");
-//               isValid = false;
-//           }
-            
+
             return isValid;
         },
         
@@ -1251,6 +1277,41 @@ $(function () {
 
 
     });
+    var AssignmentView = Backbone.View.extend({
+        el : $("#selectedAssignment"),
+
+        template : _.template($('#assignment-template').html()),
+
+        initialize : function () {
+            _.bindAll(this, "render");
+        },
+
+        render : function () {
+            var self = this;
+            $("#selectedAssignmenbt").html("");
+            this.collection.each(function (assignment) {
+                $(self.el).append(self.template(assignment.toJSON()));
+            });
+
+            if($("#selectedAssignment option").size() == 0) {
+                $("#selectedEarnCode").html("<option value=''> -- no assignments available --");
+            }
+
+            return this;
+        }
+    });
+
+    function disableApproveButton()  {
+        var approveBtn = $("input[name=approve]");
+        if (approveBtn != null) {
+            approveBtn.attr('aria-disabled', true);
+            approveBtn.attr('disabled', 'disabled');
+            approveBtn.addClass('ui-button-disabled');
+            approveBtn.addClass('ui-state-disabled');
+            approveBtn.addClass('ui-state-default');
+            approveBtn.addClass('ui-corner-all');
+        }
+    };
 
     var EarnCodeView = Backbone.View.extend({
         el : $("#selectedEarnCode"),
@@ -1435,7 +1496,7 @@ $(function () {
 			//thus populating earn codes for a single selected non-editable assignment.
             if (e.keyCode == 65 && isCtrl && isAlt) {
                 app.showTimeEntryDialog(startDate,endDate,null);
-                
+                app.fetchAssignmentsForDay();
                 // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
                 if ($("#selectedAssignment").is("input")) {
                     app.fetchEarnCodeAndLoadFields();

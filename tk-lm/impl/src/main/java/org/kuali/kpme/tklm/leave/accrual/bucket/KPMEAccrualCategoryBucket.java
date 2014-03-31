@@ -437,7 +437,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 			
 			while(!itor.getEndPeriodFullDateTime().isBefore(otherCalendarEntry.getEndPeriodFullDateTime())) {
 				//need to iterate over calendars to gather assignment keys
-				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
+				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
 		        for (Assignment assignment : assignments) {
 		        	assignmentKeys.add(assignment.getAssignmentKey());
 		        }
@@ -456,7 +456,7 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 			CalendarEntry itor = viewingCalendarEntry;
 			while(!itor.getEndPeriodFullDateTime().isAfter(otherCalendarEntry.getEndPeriodFullDateTime())) {
 				
-				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
+				List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(principalCalendar.getPrincipalId(), itor);
 		        for (Assignment assignment : assignments) {
 		        	assignmentKeys.add(assignment.getAssignmentKey());
 		        }

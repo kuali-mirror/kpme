@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.timesheet;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
@@ -63,11 +64,11 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 	}
 
     @Override
-	public List<Assignment> getAssignments() {
+	public Map<LocalDate, List<Assignment>> getAssignmentMap() {
 		return assignments;
 	}
 
-	public void setAssignments(List<Assignment> assignments) {
+	public void setAssignments(Map<LocalDate, List<Assignment>> assignments) {
 		this.assignments = assignments;
 	}
 
@@ -103,7 +104,7 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 	}
 
 	public TimeSummary getTimeSummary() {
-        return (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(getPrincipalId(), getTimeBlocks(), getCalendarEntry(), getAssignments());
+        return (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(getPrincipalId(), getTimeBlocks(), getCalendarEntry(), getAssignmentMap());
 	}
 
 	public String getPrincipalId(){
@@ -141,21 +142,23 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
         return earnCodeMap;
     }
 	
-    public Map<String, String> getAssignmentDescriptions(boolean clockOnlyAssignments) {
+    public Map<String, String> getAssignmentDescriptions(boolean clockOnlyAssignments, LocalDate date) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-        
-        for (Assignment assignment : assignments) {
-        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        List<Assignment> dayAssignments = getAssignmentMap().get(date);
+        if (CollectionUtils.isNotEmpty(dayAssignments)) {
+            for (Assignment assignment : dayAssignments) {
+                String principalId = GlobalVariables.getUserSession().getPrincipalId();
 
-        	if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {
-        		TimeCollectionRule tcr = null;
-        		if(assignment.getJob() != null)
-        			tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
-        		boolean isSynchronous = tcr == null || tcr.isClockUserFl();
-                if (!clockOnlyAssignments || isSynchronous) {
-                    assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+                if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {
+                    TimeCollectionRule tcr = null;
+                    if (assignment.getJob() != null)
+                        tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+                    boolean isSynchronous = tcr == null || tcr.isClockUserFl();
+                    if (!clockOnlyAssignments || isSynchronous) {
+                        assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+                    }
                 }
-        	}
+            }
         }
         
         return assignmentDescriptions;

@@ -93,7 +93,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 			
 			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 				String principalId = principalHRAttribute.getPrincipalId();
-				List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
+				List<Assignment> assignments = getAssignmentService().getAllAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
 				
 				for (Assignment assignment : assignments) {
 					Job job = assignment.getJob();
@@ -111,7 +111,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 			
 			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 				String principalId = principalHRAttribute.getPrincipalId();
-				List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+				List<Assignment> assignments = getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
 				
 				for (Assignment assignment : assignments) {
 					Job job = assignment.getJob();

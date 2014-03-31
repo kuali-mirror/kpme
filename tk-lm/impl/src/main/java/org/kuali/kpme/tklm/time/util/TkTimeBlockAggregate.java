@@ -370,7 +370,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 					if (timesheetDocumentHeader != null) { 
 		                TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 		                List<String> assignmentKeys = new ArrayList<String>();
-		                for(Assignment assignment : timesheetDocument.getAssignments()) {
+		                for(Assignment assignment : timesheetDocument.getAllAssignments()) {
 		                	assignmentKeys.add(assignment.getAssignmentKey());
 		                }
 		                
@@ -396,7 +396,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 					if (timesheetDocumentHeader != null) {
 		                TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
 		                List<String> assignmentKeys = new ArrayList<String>();
-		                for(Assignment assignment : timesheetDocument.getAssignments()) {
+		                for(Assignment assignment : timesheetDocument.getAllAssignments()) {
 		                	assignmentKeys.add(assignment.getAssignmentKey());
 		                }
 		                

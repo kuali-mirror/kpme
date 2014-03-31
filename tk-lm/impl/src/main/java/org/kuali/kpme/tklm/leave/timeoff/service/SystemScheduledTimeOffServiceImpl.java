@@ -70,7 +70,7 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 	/*@Override
 	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, LocalDate payEndDate) {
 		JobContract primaryJob = HrServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
-		for(Assignment assign : timesheetDocument.getAssignments()){
+		for(Assignment assign : timesheetDocument.getAssignmentMap()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;
 			}

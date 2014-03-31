@@ -75,7 +75,7 @@ public class TkSearchableAttributeServiceImpl implements
 		Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
 		List<String> salGroups = new ArrayList<String>();
 
-		for(Assignment assign: document.getAssignments()){
+		for(Assignment assign: document.getAllAssignments()){
 			if(!workAreas.contains(assign.getWorkArea())){
 				workAreas.add(assign.getWorkArea());
 			}

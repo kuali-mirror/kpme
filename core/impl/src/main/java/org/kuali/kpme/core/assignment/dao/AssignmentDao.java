@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.assignment.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -87,4 +88,8 @@ public interface AssignmentDao {
     public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
     
     public List<AssignmentBo> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
+
+    public List<AssignmentBo> findAssignmentsHistoryForPeriod(String principalId, LocalDate startDate, LocalDate endDate);
+
+    public List<AssignmentBo> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate, boolean requireActive);
 }

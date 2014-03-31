@@ -63,10 +63,10 @@ public class EndPayPeriodJob extends BatchJob {
 	    	DateTime scheduleDate = calendarEntry.getBatchEndPayPeriodFullDateTime();
 	    	
 	    	List<? extends PrincipalHRAttributesContract> principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate.toLocalDate());
-	    	for (PrincipalHRAttributesContract principalHRAttribute : principalHRAttributes) {
+            for (PrincipalHRAttributesContract principalHRAttribute : principalHRAttributes) {
 	    		String pId = principalHRAttribute.getPrincipalId();
 	    	    
-	    		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(pId, calendarEntry);
+	    		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForTimeCalendar(pId, calendarEntry);
 	    		for (Assignment assignment : assignments) {
 	    			String jobNumber = String.valueOf(assignment.getJobNumber());
 	    			String workArea = String.valueOf(assignment.getWorkArea());

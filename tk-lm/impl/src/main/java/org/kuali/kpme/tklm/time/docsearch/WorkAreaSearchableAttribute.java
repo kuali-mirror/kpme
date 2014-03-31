@@ -43,7 +43,7 @@ public class WorkAreaSearchableAttribute extends StandardGenericXMLSearchableAtt
 		String documentId = StringUtils.substringBetween(documentWithContent.getDocumentContent().toString(), "<string>", "</string>");
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 		List<Long> workAreasIncluded = new ArrayList<Long>();
-		for(Assignment assign : timesheetDocument.getAssignments()){
+		for(Assignment assign : timesheetDocument.getAllAssignments()){
 			if(!workAreasIncluded.contains(assign.getWorkArea())){
 				SearchableAttributeValue attValue = new SearchableAttributeLongValue();
 				attValue.setSearchableAttributeKey(WORK_AREA);

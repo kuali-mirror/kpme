@@ -52,7 +52,7 @@ public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 
 		if (timesheetDocument != null) {
-			List<Assignment> assignments = timesheetDocument.getAssignments();
+			List<Assignment> assignments = timesheetDocument.getAllAssignments();
 			for (Assignment assignment : assignments) {
 				String roleStr = roleName + "_" + assignment.getWorkArea();
 				if (!roles.contains(roleStr)) {

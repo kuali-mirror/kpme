@@ -22,7 +22,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.api.calendar.entry.CalendarEntryContract;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
@@ -50,6 +49,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	
@@ -59,7 +59,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
     @Override
     public LeaveCalendarDocument getLeaveCalendarDocument(String documentId) {
-        LeaveCalendarDocument lcd = null;
+        LeaveCalendarDocument lcd;
         LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
 
         if (lcdh != null) {
@@ -75,7 +75,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         lcd.setLeaveBlocks(leaveBlocks);
 
         // Fetching assignments
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
+        Map<LocalDate, List<Assignment>> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
         lcd.setAssignments(assignments);
         
         return lcd;
@@ -124,8 +124,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
     
     protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, DateTime payBeginDate, DateTime payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
-        LeaveCalendarDocument leaveCalendarDocument = null;
-        WorkflowDocument workflowDocument = null;
+        LeaveCalendarDocument leaveCalendarDocument;
+        WorkflowDocument workflowDocument;
 
         workflowDocument =  WorkflowDocumentFactory.createDocument(principalId, documentType, title);
 
@@ -204,7 +204,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntry calEntry) {
         List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
+        Map<LocalDate, List<Assignment>> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
         ldoc.setAssignments(assignments);
     }
 
@@ -225,7 +225,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 		lcdh.setEndDate(calendarEntry.getEndPeriodFullDateTime().toDate());
 		leaveCalendarDocument.setDocumentHeader(lcdh);
 		// Fetching assignments
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+        Map<LocalDate, List<Assignment>> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
         leaveCalendarDocument.setAssignments(assignments);
 		return leaveCalendarDocument;
 	}
@@ -281,7 +281,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
 
     protected void leaveCalendarDocumentAction(String action, String principalId, LeaveCalendarDocument leaveCalendarDocument) {
-        WorkflowDocument wd = null;
+        WorkflowDocument wd;
         if (leaveCalendarDocument != null) {
             String rhid = leaveCalendarDocument.getDocumentId();
             wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);

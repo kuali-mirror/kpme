@@ -64,7 +64,7 @@ public class LeaveRequestRoleAttribute extends GenericRoleAttribute {
         if (leaveRequestDocument != null) {
             LeaveBlock leaveBlock = leaveRequestDocument.getLeaveBlock();
             CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), calendarEntry);
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), calendarEntry);
             for (Assignment assignment : assignments) {
             	roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
             }

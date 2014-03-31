@@ -214,7 +214,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
             newTimeBlocks.addAll(blocks);
         }
 
-        List<Assignment> assignments = tdoc.getAssignments();
+        List<Assignment> assignments = tdoc.getAllAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
         for (Assignment assignment : assignments) {
             assignmentKeys.add(assignment.getAssignmentKey());

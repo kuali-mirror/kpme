@@ -15,11 +15,13 @@
  */
 package org.kuali.kpme.tklm.api.time.timesummary;
 
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TimeSummaryService {
 	/**
@@ -29,7 +31,7 @@ public interface TimeSummaryService {
 	 */
 	TimeSummaryContract getTimeSummaryForDocument(String timesheetDocumentId);
 
-    TimeSummaryContract getTimeSummary(String principalId, List<TimeBlock> timeBlocks, CalendarEntry calendarEntry, List<Assignment> assignments);
+    TimeSummaryContract getTimeSummary(String principalId, List<TimeBlock> timeBlocks, CalendarEntry calendarEntry, Map<LocalDate, List<Assignment>> assignments);
 
     List<String> getHeaderForSummary(CalendarEntry cal, List<Boolean> dayArrangements);
 }

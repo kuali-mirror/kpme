@@ -121,11 +121,11 @@ public class TimeDetailAction extends TimesheetAction {
 
         if (calendarEntry != null && timesheetDocument != null) {
 			List<String> assignmentKeys = new ArrayList<String>();
-	        for (Assignment assignment : timesheetDocument.getAssignments()) {
+	        for (Assignment assignment : timesheetDocument.getAllAssignments()) {
 	        	assignmentKeys.add(assignment.getAssignmentKey());
 	        }
 
-	        timeDetailActionForm.setAssignmentDescriptions(timeDetailActionForm.getTimesheetDocument().getAssignmentDescriptions(false));
+	        //timeDetailActionForm.setAssignmentDescriptions(timeDetailActionForm.getTimesheetDocument().getAssignmentDescriptions(false));
 
 	        timeDetailActionForm.setDocEditable("false");
 	        if (HrContext.isSystemAdmin()) {
@@ -199,7 +199,7 @@ public class TimeDetailAction extends TimesheetAction {
 	private void assignStyleClassMapForTimeSummary(TimeDetailActionForm tdaf, List<? extends TimeBlockContract> timeBlocks, List<? extends LeaveBlockContract> leaveBlocks) throws Exception {
         TimesheetDocument td = tdaf.getTimesheetDocument();
         TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService()
-                .getTimeSummary(td.getPrincipalId(), td.getTimeBlocks(), td.getCalendarEntry(), td.getAssignments());
+                .getTimeSummary(td.getPrincipalId(), td.getTimeBlocks(), td.getCalendarEntry(), td.getAssignmentMap());
 
         tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(timeBlocks, leaveBlocks));
         Map<String, String> aMap = tdaf.getAssignStyleClassMap();
@@ -387,7 +387,7 @@ public class TimeDetailAction extends TimesheetAction {
         tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 
-        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<Assignment> assignments = tdaf.getTimesheetDocument().getAllAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
         for (Assignment assignment : assignments) {
             assignmentKeys.add(assignment.getAssignmentKey());
@@ -514,12 +514,12 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
-        Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+        Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()), beginDate.toLocalDate());
 
         LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getCalendarEntry(), selectedEarnCode, leaveAmount, desc, currentAssignment,
                 spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, HrContext.getTargetPrincipalId());
 
-        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<Assignment> assignments = tdaf.getTimesheetDocument().getAllAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
         for (Assignment assignment : assignments) {
           	assignmentKeys.add(assignment.getAssignmentKey());
@@ -573,11 +573,10 @@ public class TimeDetailAction extends TimesheetAction {
             }
         }
 
-        Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         // Surgery point - Need to construct a Date/Time with Appropriate Timezone.
-        DateTime startTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
-        DateTime endTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
+        DateTime startTime;
+        DateTime endTime;
         if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
             startTime = TKUtils.convertDateStringToDateTime(tdaf.getStartDate(), tdaf.getStartTime());
             endTime = TKUtils.convertDateStringToDateTime(tdaf.getEndDate(), tdaf.getEndTime());
@@ -593,6 +592,8 @@ public class TimeDetailAction extends TimesheetAction {
             startTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
             endTime = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
         }
+        Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()), startTime.toLocalDate());
+
 
         // This is just a reference, for code clarity, the below list is actually
         // separate at the object level.
@@ -671,7 +672,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        }
         }
 
-		List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+		List<Assignment> assignments = tdaf.getTimesheetDocument().getAllAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
         for (Assignment assignment : assignments) {
             	assignmentKeys.add(assignment.getAssignmentKey());
@@ -733,35 +734,36 @@ public class TimeDetailAction extends TimesheetAction {
 
         if (LmServiceLocator.getLMPermissionService().canEditLeaveBlock(HrContext.getPrincipalId(), updatedLeaveBlock)) {
             LeaveBlock.Builder builder = LeaveBlock.Builder.create(updatedLeaveBlock);
+            DateTime beginDate = null;
+            DateTime endDate = null;
+
+            beginDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
+            endDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
+            builder.setLeaveDateTime(beginDate);
+
+            EarnCode earnCode =  HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveLocalDate()); // selectedEarnCode = hrEarnCodeId
+            if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
+                if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
+                    beginDate = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getStartDate(), tdaf.getStartTime());
+                    endDate   = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getEndDate(), tdaf.getEndTime());
+                }  else {
+                    beginDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
+                    endDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
+                }
+                builder.setBeginDateTime(beginDate);
+                builder.setEndDateTime(endDate);
+                builder.setLeaveAmount(TKUtils.getHoursBetween(beginDate.getMillis(), endDate.getMillis()));
+            }
             if (!updatedLeaveBlock.getLeaveAmount().equals(tdaf.getLeaveAmount())) {
                 builder.setLeaveAmount(tdaf.getLeaveAmount());
-                Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
+                Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()), beginDate.toLocalDate());
                 builder.setAssignmentKey(tdaf.getSelectedAssignment());
                 builder.setJobNumber(assignment.getJobNumber());
                 builder.setWorkArea(assignment.getWorkArea());
                 builder.setTask(assignment.getTask());
             }
 
-            DateTime beginDate = null;
-    		DateTime endDate = null;
 
-    		beginDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
-			endDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
-            builder.setLeaveDateTime(beginDate);
-            
-            EarnCode earnCode =  HrServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveLocalDate()); // selectedEarnCode = hrEarnCodeId
-            if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
-            	if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
-        			beginDate = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getStartDate(), tdaf.getStartTime());
-        			endDate   = TKUtils.convertDateStringToDateTimeWithoutZone(tdaf.getEndDate(), tdaf.getEndTime());
-        		}  else {
-        			beginDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getStartDate());
-        			endDate = TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate());
-        		}
-            	builder.setBeginDateTime(beginDate);
-            	builder.setEndDateTime(endDate);
-            	builder.setLeaveAmount(TKUtils.getHoursBetween(beginDate.getMillis(), endDate.getMillis()));
-            }
             
             if (earnCode != null && !StringUtils.equals(updatedLeaveBlock.getEarnCode(), earnCode.getEarnCode())) {
                 builder.setEarnCode(earnCode.getEarnCode());
@@ -770,7 +772,7 @@ public class TimeDetailAction extends TimesheetAction {
             LmServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
         }
         
-        List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        List<Assignment> assignments = tdaf.getTimesheetDocument().getAllAssignments();
         List<String> assignmentKeys = new ArrayList<String>();
         for (Assignment assignment : assignments) {
             assignmentKeys.add(assignment.getAssignmentKey());
@@ -796,7 +798,6 @@ public class TimeDetailAction extends TimesheetAction {
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()));
 
         //Grab timeblock to be updated from form
         List<TimeBlock> timeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
@@ -809,14 +810,15 @@ public class TimeDetailAction extends TimesheetAction {
         TimeBlock.Builder updatedTimeBlock = null;
         List<TimeHourDetail.Builder> oldDetailList = new ArrayList<TimeHourDetail.Builder>();
         String oldAssignmenString = "";
+        AssignmentDescriptionKey assignmentKey = AssignmentDescriptionKey.get(tdaf.getSelectedAssignment());
         for (TimeBlock tb : timeBlocks) {
             if (tb.getTkTimeBlockId().compareTo(tdaf.getTkTimeBlockId()) == 0) {
                 updatedTimeBlock = TimeBlock.Builder.create(tb);
             	oldDetailList = updatedTimeBlock.getTimeHourDetails();
             	oldAssignmenString = updatedTimeBlock.getAssignmentKey();
-                updatedTimeBlock.setJobNumber(assignment.getJobNumber());
-                updatedTimeBlock.setWorkArea(assignment.getWorkArea());
-                updatedTimeBlock.setTask(assignment.getTask());
+                updatedTimeBlock.setJobNumber(assignmentKey.getJobNumber());
+                updatedTimeBlock.setWorkArea(assignmentKey.getWorkArea());
+                updatedTimeBlock.setTask(assignmentKey.getTask());
                 break;
             }
         }
@@ -836,6 +838,8 @@ public class TimeDetailAction extends TimesheetAction {
         
         Set<String> earnCodes = new HashSet<String>();
         if (updatedTimeBlock != null) {
+            Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(updatedTimeBlock.getAssignmentDescription()), updatedTimeBlock.getBeginDateTime().toLocalDate());
+
             List<EarnCode> validEarnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assignment, updatedTimeBlock.getBeginDateTime().toLocalDate(), true);
             for (EarnCode e : validEarnCodes) {
                 earnCodes.add(e.getEarnCode());
@@ -844,7 +848,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         if (updatedTimeBlock != null
         		&& earnCodes.contains(updatedTimeBlock.getEarnCode())) {
-        	List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+        	List<Assignment> assignments = tdaf.getTimesheetDocument().getAllAssignments();
             List<String> assignmentKeys = new ArrayList<String>();
             for (Assignment assign : assignments) {
                 	assignmentKeys.add(assign.getAssignmentKey());
@@ -885,7 +889,7 @@ public class TimeDetailAction extends TimesheetAction {
        // remove the related time hour detail row with the lunch deduction
        TkServiceLocator.getTimeHourDetailService().removeTimeHourDetail(thd.getTkTimeHourDetailId());
         
-       List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+       List<Assignment> assignments = tdaf.getTimesheetDocument().getAllAssignments();
        List<String> assignmentKeys = new ArrayList<String>();
        for (Assignment assignment : assignments) {
            	assignmentKeys.add(assignment.getAssignmentKey());
@@ -923,7 +927,7 @@ public class TimeDetailAction extends TimesheetAction {
           for (TimeBlock tb : newTimeBlocks) {
               referenceTimeBlocks.add(TimeBlock.copy(tb));
           }
-          List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+          List<Assignment> assignments = tdaf.getTimesheetDocument().getAllAssignments();
           List<String> assignmentKeys = new ArrayList<String>();
           for (Assignment assignment : assignments) {
               assignmentKeys.add(assignment.getAssignmentKey());

@@ -20,6 +20,7 @@ import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>CalendarDocumentContract interface</p>
@@ -47,7 +48,9 @@ public interface CalendarDocumentContract {
 	 * 
 	 * @return assignments of CalendarDocument
 	 */
-    List<Assignment> getAssignments();
+    Map<LocalDate, List<Assignment>> getAssignmentMap();
+
+    List<Assignment> getAllAssignments();
 
     /**
 	 * The CalendarEntry object the CalendarDocument is associated with

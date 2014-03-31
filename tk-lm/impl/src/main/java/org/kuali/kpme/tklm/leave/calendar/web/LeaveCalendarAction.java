@@ -230,7 +230,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
         if (calendarEntry != null) {
-			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
 			List<String> assignmentKeys = new ArrayList<String>();
 	        for (Assignment assignment : assignments) {
 	        	assignmentKeys.add(assignment.getAssignmentKey());
@@ -252,7 +252,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        	leaveCalendarForm.setLeaveCalendarDocument(leaveCalendarDocument);
 	        	leaveCalendarForm.setDocumentId(leaveCalendarDocument.getDocumentId());
 	        	List<Assignment> docAssignments = new ArrayList<Assignment>();
-	        	for(Assignment anAssignment : leaveCalendarDocument.getAssignments()) {
+	        	for(Assignment anAssignment : leaveCalendarDocument.getAllAssignments()) {
 	        		if(loggedInUserAssignmentKeys.contains(anAssignment.getAssignmentKey()))
 	        			docAssignments.add(anAssignment);
 	        	}
@@ -374,11 +374,11 @@ public class LeaveCalendarAction extends CalendarFormAction {
 
         Assignment assignment = null;
 		if(lcd != null) {
-			assignment = lcd.getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
+			assignment = lcd.getAssignment(AssignmentDescriptionKey.get(selectedAssignment), beginDate.toLocalDate());
 			if(assignment == null)
 				LOG.warn("No matched assignment found");
 		} else {
-			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
+			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
 			assignment = HrServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 		}
 		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 

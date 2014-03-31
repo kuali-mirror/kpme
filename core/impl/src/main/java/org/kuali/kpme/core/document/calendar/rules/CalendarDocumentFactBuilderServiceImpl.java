@@ -61,7 +61,7 @@ public class CalendarDocumentFactBuilderServiceImpl extends KpmeKrmsFactBuilderS
             Set<String> workAreas = new HashSet<String>();
             Set<String> depts = new HashSet<String>();
 
-            for (Assignment a : document.getAssignments()) {
+            for (Assignment a : document.getAllAssignments()) {
                 workAreas.add(String.valueOf(a.getWorkArea()));
                 depts.add(a.getDept());
                 Department department = HrServiceLocator.getDepartmentService().getDepartment(a.getDept(), asOfDate);

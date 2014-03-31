@@ -48,7 +48,7 @@ public interface JobService {
 	 * have the same effective date.
 	 * 
 	 * Assignments are NOT populated on this object.  We may want to consider removing 
-	 * getAssignments().
+	 * getAssignmentMap().
 	 * 
 	 * @param principalId
 	 * @param asOfDate

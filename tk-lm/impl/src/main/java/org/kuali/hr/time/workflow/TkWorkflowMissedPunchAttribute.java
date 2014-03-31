@@ -71,7 +71,7 @@ public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
 	        if (tsDocIdString != null && assignKey != null) {
 	            TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsDocIdString);
 	            if (tdoc != null) {
-                    Assignment assignment = tdoc.getAssignment(assignKey);
+                    Assignment assignment = tdoc.getAssignment(assignKey, missedPunch.getActionLocalDate());
 	                if (assignment != null) {
 	            		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 	            		

@@ -18,6 +18,7 @@ package org.kuali.kpme.core.assignment;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.LocalDate;
@@ -88,6 +89,7 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 	private transient WorkAreaBo workAreaObj;
 	private transient Person principal;
 	private transient TaskBo taskObj;
+    private transient String assignmentDescription;
 
 
 	private List<AssignmentAccountBo> assignmentAccounts = new LinkedList<AssignmentAccountBo>();
@@ -224,8 +226,19 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 	}
 
 	public String getAssignmentDescription() {
-        return HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getEffectiveLocalDate());
+        if (StringUtils.isBlank(assignmentDescription)) {
+            setAssignmentDescription(HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getEffectiveLocalDate()));
+        }
+        return assignmentDescription;
 	}
+
+    public void populateAssignmentDescription(LocalDate asOfDate) {
+        setAssignmentDescription(HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), asOfDate));
+    }
+
+    public void setAssignmentDescription(String assignmentDescription) {
+        this.assignmentDescription = assignmentDescription;
+    }
 
 	public Person getPrincipal() {
 		return principal;

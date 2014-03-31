@@ -43,7 +43,6 @@ import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -56,7 +55,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -105,7 +103,7 @@ public class ClockAction extends TimesheetAction {
 		        if (targetPrincipalId != null) {
 		            clockActionForm.setPrincipalId(targetPrincipalId);
 		        }
-		        clockActionForm.setAssignmentDescriptions(timesheetDocument.getAssignmentDescriptions(true));
+		        clockActionForm.setAssignmentDescriptions(timesheetDocument.getAssignmentDescriptions(true, LocalDate.now()));
 		        
 		        if (clockActionForm.getEditTimeBlockId() != null) {
 		            clockActionForm.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(clockActionForm.getEditTimeBlockId()));
@@ -140,7 +138,7 @@ public class ClockAction extends TimesheetAction {
 		            // if the current clock action is clock out, displays only the clocked-in assignment
 		            String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
 		            clockActionForm.setSelectedAssignment(selectedAssignment);
-		            Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(selectedAssignment));
+		            Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
 		            Map<String, String> assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);
 		            clockActionForm.setAssignmentDescriptions(assignmentDesc);
 		        }
@@ -200,7 +198,7 @@ public class ClockAction extends TimesheetAction {
 		
 		            // Check for presence of department lunch rule.
 		            Map<String, Boolean> assignmentDeptLunchRuleMap = new HashMap<String, Boolean>();
-		            for (Assignment a : timesheetDocument.getAssignments()) {
+		            for (Assignment a : timesheetDocument.getAssignmentMap().get(LocalDate.now())) {
 	                    String key = AssignmentDescriptionKey.getAssignmentKeyString(a);
 	                    DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(a.getDept(), a.getWorkArea(), clockActionForm.getPrincipalId(), a.getJobNumber(), LocalDate.now());
 	                    assignmentDeptLunchRuleMap.put(key, deptLunchRule != null);
@@ -221,7 +219,7 @@ public class ClockAction extends TimesheetAction {
     	TimesheetDocument timesheetDocument = caf.getTimesheetDocument();
         if (timesheetDocument != null) {
             int eligibleAssignmentCount = 0;
-            for (Assignment a : timesheetDocument.getAssignments()) {
+            for (Assignment a : timesheetDocument.getAssignmentMap().get(LocalDate.now())) {
                 WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(a.getWorkArea(), timesheetDocument.getDocEndDate());
                 if(aWorkArea != null && aWorkArea.isHrsDistributionF()) {
                     eligibleAssignmentCount++;
@@ -253,7 +251,7 @@ public class ClockAction extends TimesheetAction {
         }
         String ip = TKUtils.getIPAddressFromRequest(request);
 
-        Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(caf.getSelectedAssignment()));
+        Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(caf.getSelectedAssignment()), LocalDate.now());
         
         // check if User takes action from Valid location.
         String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);

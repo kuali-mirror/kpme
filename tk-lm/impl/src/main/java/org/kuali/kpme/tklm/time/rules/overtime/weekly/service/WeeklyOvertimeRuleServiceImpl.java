@@ -149,7 +149,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) {
                     TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
                     List<String> assignmentKeys = new ArrayList<String>();
-                    for(Assignment assignment : timesheetDocument.getAssignments()) {
+                    for(Assignment assignment : timesheetDocument.getAllAssignments()) {
                         assignmentKeys.add(assignment.getAssignmentKey());
                     }
 
@@ -174,7 +174,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) {
                     TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
                     List<String> assignmentKeys = new ArrayList<String>();
-                    for(Assignment assignment : timesheetDocument.getAssignments()) {
+                    for(Assignment assignment : timesheetDocument.getAllAssignments()) {
                         assignmentKeys.add(assignment.getAssignmentKey());
                     }
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());

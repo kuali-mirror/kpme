@@ -117,7 +117,12 @@
                     <tr>
                         <td><label for="selectedAssignment">Assignment:</label></td>
                         <td>
-                            <tk:assignment assignments="${Form.assignmentDescriptions}"/>
+                            <div id="assignment-section">
+                                <%--<tk:assignment assignments="${Form.assignmentDescriptions}"/>--%>
+                                <select id="selectedAssignment" name="selectedAssignment">
+                                    <option value="" selected="selected">-- select an assignment --</option>
+                                </select>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -213,6 +218,11 @@
 <%-- Overtime template --%>
 <script type="text/template" id="overtime-template">
     <option value="<@= earnCode @>"><@= earnCode + " : " + desc @></option>
+</script>
+
+<%-- Assignment template --%>
+<script type="text/template" id="assignment-template">
+    <option value="<@= assignment @>"><@= desc @></option>
 </script>
 
 <div id="lm-transfer-dialog" title="Balance Transfer" style="display:none;">

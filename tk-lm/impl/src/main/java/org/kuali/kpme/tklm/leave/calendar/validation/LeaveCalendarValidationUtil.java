@@ -554,7 +554,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
         String viewPrincipal = HrContext.getTargetPrincipalId();
         
         dayInt.add(addedTimeblockInterval);
-        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+        List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
 		List<String> assignmentKeys = new ArrayList<String>();
         for(Assignment assign : assignments) {
         	assignmentKeys.add(assign.getAssignmentKey());

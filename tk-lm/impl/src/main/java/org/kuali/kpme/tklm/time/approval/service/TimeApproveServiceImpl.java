@@ -131,7 +131,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 //timeBlocks = TkServiceLocator.getTimeBlockService()
                 //              .getTimeBlocks(documentId);
                 List<String> assignKeys = new ArrayList<String>();
-                for(Assignment a : td.getAssignments()) {
+                for(Assignment a : td.getAllAssignments()) {
                 	assignKeys.add(a.getAssignmentKey());
                 }
                 leaveBlocks.addAll(LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId,
@@ -268,7 +268,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			try{
 				if(td != null) {
 					TimeSummaryContract ts = TkServiceLocator.getTimeSummaryService()
-                            .getTimeSummary(td.getPrincipalId(), td.getTimeBlocks(), td.getCalendarEntry(), td.getAssignments());
+                            .getTimeSummary(td.getPrincipalId(), td.getTimeBlocks(), td.getCalendarEntry(), td.getAssignmentMap());
 					approvalSummaryRow.setTimeSummary(ts);					
 				}				
 			} catch (Exception ex){

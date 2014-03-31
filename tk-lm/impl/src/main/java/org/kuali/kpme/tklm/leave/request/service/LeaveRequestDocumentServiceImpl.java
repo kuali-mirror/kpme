@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
@@ -245,14 +246,13 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         List<String> salGroups = new ArrayList<String>();
         CalendarEntry ce = getCalendarEntry(leaveBlock);
         if (ce != null) {
-            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
+            List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
 
             for(Assignment assign: assignments){
                 if(!workAreas.contains(assign.getWorkArea())){
                     workAreas.add(assign.getWorkArea());
                 }
-                JobContract job = HrServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), leaveBlock.getLeaveLocalDate());
-
+                Job job = HrServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), leaveBlock.getLeaveLocalDate());
                 if(!salGroups.contains(job.getHrSalGroup())){
                     salGroups.add(job.getHrSalGroup());
                 }

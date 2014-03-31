@@ -130,7 +130,7 @@ public class TimeApprovalWSAction extends KPMEAction {
         TimeSummary ts = td.getTimeSummary();
 		//TimeSummary ts = (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummaryForDocument(taaf.getDocumentId());
 		
-		List<Assignment> assignments = td.getAssignments();
+		List<Assignment> assignments = td.getAllAssignments();
 		List<String> assignmentKeys = new ArrayList<String>();
 		for(Assignment assignment : assignments) {
 			assignmentKeys.add(assignment.getAssignmentKey());

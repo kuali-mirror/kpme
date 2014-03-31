@@ -146,7 +146,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 
 	        newTimeBlocks.addAll(aList);
 	        
-	        List<Assignment> assignments = td.getAssignments();
+	        List<Assignment> assignments = td.getAssignmentMap().get(beginDateTime.toLocalDate());
 	        List<String> assignmentKeys = new ArrayList<String>();
 	        for (Assignment assignment : assignments) {
 	        	assignmentKeys.add(assignment.getAssignmentKey());

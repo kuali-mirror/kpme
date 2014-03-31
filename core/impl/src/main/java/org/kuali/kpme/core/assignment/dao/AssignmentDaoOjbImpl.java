@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.assignment.dao;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -386,4 +387,83 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         return results;
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    public List<AssignmentBo> findAssignmentsHistoryForPeriod(String principalId, LocalDate startDate, LocalDate endDate) {
+        List<AssignmentBo> assignments = new ArrayList<AssignmentBo>();
+        Criteria root = new Criteria();
+
+        Date start = new java.sql.Date(startDate.toDate().getTime());
+        Date end = new java.sql.Date(endDate.toDate().getTime());
+        root.addGreaterOrEqualThan("effectiveDate", start);
+        root.addLessThan("effectiveDate", end);
+        root.addEqualTo("principalId", principalId);
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(AssignmentBo.class, root);
+        query.addOrderByAscending("effectiveDate");
+        query.addOrderByAscending("timestamp");
+        //query.setAttributes(new String[] {"/*+ no_query_transformation */ A0.tk_assignment_id", "principalId", "jobNumber", "effectiveDate",
+        //        "workArea", "task", "active", "timestamp"});
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            assignments.addAll(c);
+        }
+
+        return assignments;
+    }
+
+    @Override
+    public List<AssignmentBo> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate, boolean requireActive) {
+        if (requireActive) {
+            return findAssignmentsWithinPeriod(principalId, startDate, endDate);
+        } else {
+            List<AssignmentBo> assignments = new ArrayList<AssignmentBo>();
+            Criteria root = new Criteria();
+
+            root.addEqualTo("principalId", principalId);
+
+            //Active criteria
+            Criteria activeSubCriteria = new Criteria();
+            activeSubCriteria.addEqualTo("active", true);
+            Criteria activeEffdtSubCriteria = new Criteria();
+            activeEffdtSubCriteria.addEqualTo("active", false);
+            activeEffdtSubCriteria.addGreaterThan("effectiveDate", startDate);
+            activeSubCriteria.addOrCriteria(activeEffdtSubCriteria);
+            root.addAndCriteria(activeSubCriteria);
+
+            //Effective date
+            Criteria effDateSubCriteria = new Criteria();
+            effDateSubCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+            effDateSubCriteria.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+            effDateSubCriteria.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+            effDateSubCriteria.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+            effDateSubCriteria.addLessOrEqualThan("effectiveDate", endDate);
+            ReportQueryByCriteria effectiveDateSubQuery = QueryFactory.newReportQuery(AssignmentBo.class, effDateSubCriteria);
+            effectiveDateSubQuery.setAttributes(new String[] { new StringBuffer("max(effectiveDate)").toString() });
+            root.addEqualTo("effectiveDate", effectiveDateSubQuery);
+
+            //Effective timestamp
+            Criteria effTimestampSubCriteria = new Criteria();
+            effTimestampSubCriteria.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+            effTimestampSubCriteria.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+            effTimestampSubCriteria.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+            effTimestampSubCriteria.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+            effTimestampSubCriteria.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            ReportQueryByCriteria effectiveTimestampSubQuery = QueryFactory.newReportQuery(AssignmentBo.class, effTimestampSubCriteria);
+            effectiveTimestampSubQuery.setAttributes(new String[] { new StringBuffer("max(timestamp)").toString() });
+            root.addEqualTo("timestamp", effectiveTimestampSubQuery);
+
+            ReportQueryByCriteria query = QueryFactory.newReportQuery(AssignmentBo.class, root);
+            query.setAttributes(new String[] {"/*+ no_query_transformation */ A0.tk_assignment_id", "principalId", "jobNumber", "effectiveDate",
+                    "workArea", "task", "active", "timestamp"});
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+            if (c != null) {
+                assignments.addAll(c);
+            }
+
+            return assignments;
+        }
+    }
 }

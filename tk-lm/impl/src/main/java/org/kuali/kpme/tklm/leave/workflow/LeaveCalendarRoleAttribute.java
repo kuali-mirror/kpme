@@ -61,7 +61,7 @@ public class LeaveCalendarRoleAttribute extends GenericRoleAttribute {
 		LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId.toString());
 
 		if (leaveCalendarDocument != null) {
-			List<Assignment> assignments = leaveCalendarDocument.getAssignments();
+			List<Assignment> assignments = leaveCalendarDocument.getAllAssignments();
 			for (Assignment assignment : assignments) {
 				roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
 			}

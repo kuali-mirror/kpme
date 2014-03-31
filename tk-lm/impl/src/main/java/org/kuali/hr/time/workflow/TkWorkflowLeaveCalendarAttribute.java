@@ -52,7 +52,7 @@ public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
 		LeaveCalendarDocument leaveDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
 
 		if (leaveDocument != null) {
-			for (Assignment assignment : leaveDocument.getAssignments()) {
+			for (Assignment assignment : leaveDocument.getAllAssignments()) {
 				String roleStr = roleName + "_" + assignment.getWorkArea();
 				if (!roles.contains(roleStr)) {
 					roles.add(roleStr);

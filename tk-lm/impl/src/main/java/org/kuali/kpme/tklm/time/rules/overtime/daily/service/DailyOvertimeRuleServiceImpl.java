@@ -18,7 +18,6 @@ package org.kuali.kpme.tklm.time.rules.overtime.daily.service;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
@@ -175,7 +174,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	public void processDailyOvertimeRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate timeBlockAggregate){
 		Map<DailyOvertimeRule, List<Assignment>> mapDailyOvtRulesToAssignment = new HashMap<DailyOvertimeRule, List<Assignment>>();
 
-		for(Assignment assignment : timesheetDocument.getAssignments()) {
+		for(Assignment assignment : timesheetDocument.getAllAssignments()) {
 			JobContract job = assignment.getJob();
 			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getDocEndDate());
 

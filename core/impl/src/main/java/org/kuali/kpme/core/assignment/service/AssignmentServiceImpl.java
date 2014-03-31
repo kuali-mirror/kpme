@@ -16,9 +16,12 @@
 package org.kuali.kpme.core.assignment.service;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
@@ -33,27 +36,35 @@ import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.assignment.dao.AssignmentDao;
 import org.kuali.kpme.core.job.JobBo;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
 
 public class AssignmentServiceImpl implements AssignmentService {
 
     private static final Logger LOG = Logger.getLogger(AssignmentServiceImpl.class);
     private AssignmentDao assignmentDao;
-
-    public AssignmentDao getAssignmentDao() {
-        return assignmentDao;
-    }
 
     public void setAssignmentDao(AssignmentDao assignmentDao) {
         this.assignmentDao = assignmentDao;
@@ -66,32 +77,29 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<Assignment> getAssignments(String principalId, LocalDate asOfDate) {
-        List<AssignmentBo> assignments;
-
+        List<Assignment> assigns = new ArrayList<Assignment>();
         if (asOfDate == null) {
             asOfDate = LocalDate.now();
         }
 
-        assignments = assignmentDao.findAssignments(principalId, asOfDate);
+        List<AssignmentBo> assignments = assignmentDao.findAssignments(principalId, asOfDate);
 
         for (AssignmentBo assignment : assignments) {
-            assignment = populateAssignment(assignment, asOfDate);
+            assigns.add(AssignmentBo.to(populateAssignment(assignment, asOfDate)));
         }
 
-        return convertToImmutable(assignments);
+        return assigns;
     }
 
     //@Override
     public List<Assignment> getAssignments(String principalId, LocalDate beginDate, LocalDate endDate) {
-        List<AssignmentBo> assignments;
-
-        assignments = assignmentDao.findAssignmentsWithinPeriod(principalId, beginDate, endDate);
-
+        List<AssignmentBo> assignments = assignmentDao.findAssignmentsWithinPeriod(principalId, beginDate, endDate);
+        List<Assignment> assigns = new ArrayList<Assignment>();
         for (AssignmentBo assignment : assignments) {
-            assignment = populateAssignment(assignment, assignment.getEffectiveLocalDate());
+            assigns.add(AssignmentBo.to(populateAssignment(assignment, assignment.getEffectiveLocalDate())));
         }
 
-        return convertToImmutable(assignments);
+        return assigns;
     }
 
 
@@ -159,24 +167,42 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     }
 
-    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry payCalendarEntry){
+    public Map<LocalDate, List<Assignment>> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry payCalendarEntry){
         if (StringUtils.isEmpty(principalId)
                 || payCalendarEntry == null) {
-            return Collections.emptyList();
-        }	
-        List<Assignment> assignments = getAssignmentsByPayEntry(principalId, payCalendarEntry);
-    	List<Assignment> results = filterAssignments(assignments, HrConstants.FLSA_STATUS_NON_EXEMPT, false);
-    	return results;
+            return Collections.emptyMap();
+        }
+
+        return getAssignmentHistoryBetweenDaysInternal(principalId, payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate(), HrConstants.FLSA_STATUS_NON_EXEMPT, false);
+    }
+
+    public List<Assignment> getAllAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry payCalendarEntry){
+        Map<LocalDate, List<Assignment>> history = getAssignmentsByCalEntryForTimeCalendar(principalId, payCalendarEntry);
+        return getUniqueAssignments(history);
     }
     
-    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry payCalendarEntry){
+    public Map<LocalDate, List<Assignment>> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry payCalendarEntry){
         if (StringUtils.isEmpty(principalId)
                 || payCalendarEntry == null) {
+            return Collections.emptyMap();
+        }
+        return getAssignmentHistoryBetweenDaysInternal(principalId, payCalendarEntry.getBeginPeriodFullDateTime().toLocalDate(), payCalendarEntry.getEndPeriodFullDateTime().toLocalDate(), null, true);
+    }
+
+    public List<Assignment> getAllAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry payCalendarEntry){
+        Map<LocalDate, List<Assignment>> history = getAssignmentsByCalEntryForLeaveCalendar(principalId, payCalendarEntry);
+        return getUniqueAssignments(history);
+    }
+
+    protected List<Assignment> getUniqueAssignments(Map<LocalDate, List<Assignment>> history) {
+        if (MapUtils.isEmpty(history)) {
             return Collections.emptyList();
         }
-    	List<Assignment> assignments = getAssignmentsByPayEntry(principalId, payCalendarEntry);
-    	List<Assignment> results = filterAssignments(assignments, null, true);
-    	return results;
+        Set<Assignment> allAssignments = new HashSet<Assignment>();
+        for (List<Assignment> assignList : history.values()) {
+            allAssignments.addAll(assignList);
+        }
+        return new ArrayList<Assignment>(allAssignments);
     }
 
     public List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible) {
@@ -242,10 +268,11 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, LocalDate asOfDate) {
         List<AssignmentBo> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
+        List<Assignment> assigns = new ArrayList<Assignment>(assignments.size());
         for (AssignmentBo assignment : assignments) {
-            assignment = populateAssignment(assignment, asOfDate);
+            assigns.add(AssignmentBo.to(populateAssignment(assignment, asOfDate)));
         }
-        return convertToImmutable(assignments);
+        return assigns;
     }
 
     @Override
@@ -280,6 +307,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignment.setJob(JobBo.from(HrServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), asOfDate)));
         assignment.setWorkAreaObj(WorkAreaBo.from(HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), asOfDate)));
         assignment.setTaskObj(TaskBo.from(HrServiceLocator.getTaskService().getTask(assignment.getTask(), asOfDate)));
+        assignment.populateAssignmentDescription(asOfDate);
         return assignment;
     }
 
@@ -392,4 +420,194 @@ public class AssignmentServiceImpl implements AssignmentService {
         return builder.toString();
     }
 
+    @Override
+    public String getAssignmentDescriptionForAssignment(Assignment assignment, LocalDate asOfDate) {
+        return getAssignmentDescription(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), asOfDate);
+    }
+
+
+
+    /*@Override
+    public Map<String, String> getAssignmentDescriptionsForDay(String principalId, boolean clockOnlyAssignments, LocalDate asOfDate ) {
+        Map<LocalDate, List<Assignment>> history = getAssignmentHistoryBetweenDays(principalId, asOfDate, asOfDate);
+        List<Assignment> assignments = history.get(asOfDate);
+        if (CollectionUtils.isEmpty(assignments)) {
+            return Collections.emptyMap();
+        }
+        return filterAssignmentKeys(assignments, clockOnlyAssignments, asOfDate);
+    }*/
+
+    @Override
+    public Map<LocalDate, List<Assignment>> getAssignmentHistoryBetweenDays(String principalId, LocalDate beginDate, LocalDate endDate) {
+        return getAssignmentHistoryBetweenDaysInternal(principalId, beginDate, endDate, HrConstants.FLSA_STATUS_NON_EXEMPT, false);
+    }
+
+    @Override
+    public List<Assignment> filterAssignmentListForUser(String userPrincipalId, List<Assignment> assignments) {
+        List<Assignment> filteredAssignments = new ArrayList<Assignment>();
+        //TkUserRoles roles = TkUserRoles.getUserRoles(TKContext.getPrincipalId());
+        //boolean systemAdmin = HrContext.isSystemAdmin();
+        boolean systemAdmin = HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(userPrincipalId, LocalDate.now().toDateTimeAtStartOfDay());
+
+        List<String> roleIds = new ArrayList<String>();
+        RoleService roleService = KimApiServiceLocator.getRoleService();
+        roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName()));
+        roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName()));
+        roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName()));
+        roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName()));
+        roleIds.add(roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName()));
+        List<Long> reportingWorkAreas = HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRoles(userPrincipalId, roleIds, LocalDate.now().toDateTimeAtStartOfDay(), true);
+        for (Assignment assignment : assignments) {
+            //if the user is not the same as the timesheet and does not have approver access for the assignment
+            //do not add to the display
+            if (!StringUtils.equals(userPrincipalId, assignment.getPrincipalId())) {
+                if (!systemAdmin && !reportingWorkAreas.contains(assignment.getWorkArea())) {
+                    continue;
+                }
+            }
+
+            filteredAssignments.add(assignment);
+        }
+
+        return filteredAssignments;
+    }
+
+
+    @Override
+    public Map<LocalDate, List<Assignment>> getAssignmentHistoryForCalendarEntry(String principalId, CalendarEntry calendarEntry) {
+        return getAssignmentHistoryBetweenDaysInternal(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate(), HrConstants.FLSA_STATUS_NON_EXEMPT, false);
+    }
+
+    protected Map<LocalDate, List<Assignment>> getAssignmentHistoryBetweenDaysInternal(String principalId, LocalDate beginDate, LocalDate endDate, String flsaStatus, boolean checkLeaveEligible) {
+        Map<LocalDate, List<Assignment>> history = new HashMap<LocalDate, List<Assignment>>();
+
+        //get active assignments for period begin date
+        List<Assignment> beginAssignments = getAssignments(principalId, beginDate);
+
+        //might as well set the first day, since we have it already
+        history.put(beginDate, filterAssignments(new ArrayList<Assignment>(beginAssignments), flsaStatus, checkLeaveEligible));
+
+        if(beginDate.equals(endDate)) {
+            return history;
+        }
+        //get all assignment activity between start and end dates
+        List<AssignmentBo> assignmentChanges = assignmentDao.findAssignmentsHistoryForPeriod(principalId, beginDate, endDate);
+
+        //let's put this in a map for easier access!!!
+        Map<LocalDate, List<Assignment>> assignmentChangeMap = new HashMap<LocalDate, List<Assignment>>();
+        for (AssignmentBo change : assignmentChanges) {
+            LocalDate key = change.getEffectiveLocalDate();
+            if (assignmentChangeMap.containsKey(key)) {
+                assignmentChangeMap.get(key).add(AssignmentBo.to(change));
+            } else {
+                List<Assignment> changeList = new ArrayList<Assignment>();
+                changeList.add(AssignmentBo.to(change));
+                assignmentChangeMap.put(key, changeList);
+            }
+        }
+
+        //we now have a list, in order of the active at the start, and all changes between... now lets try to map it out per day....
+        List<LocalDate> localDates = new ArrayList<LocalDate>();
+        int days = Days.daysBetween(beginDate, endDate).getDays()+1;
+        for (int i=0; i < days; i++) {
+            LocalDate d = beginDate.withFieldAdded(DurationFieldType.days(), i);
+            localDates.add(d);
+        }
+
+        LocalDate previousDay = beginDate;
+        for (LocalDate ldate : localDates) {
+            if (!ldate.equals(beginDate)) {
+                List<Assignment> previousAssignments = history.get(previousDay);
+                List<Assignment> todaysAssignments = new ArrayList<Assignment>(previousAssignments);
+
+                if (assignmentChangeMap.containsKey(ldate)) {
+                    //what changed??? Figure it out and filter
+                    for (Assignment a : assignmentChangeMap.get(ldate)) {
+                        if (!a.isActive()) {
+                            // try to remove from list
+                            Iterator<Assignment> iter = todaysAssignments.iterator();
+                            while (iter.hasNext()) {
+                                Assignment iterAssign = iter.next();
+                                if (iterAssign.getAssignmentKey().equals(a.getAssignmentKey())) {
+                                    iter.remove();
+                                }
+                            }
+                        } else {
+                            //if it already exists, remove before adding new
+                            ListIterator<Assignment> iter = todaysAssignments.listIterator();
+                            boolean replaced = false;
+                            while (iter.hasNext()) {
+                                Assignment iterAssign = iter.next();
+                                if (iterAssign.getAssignmentKey().equals(a.getAssignmentKey())) {
+                                    iter.set(a);
+                                    replaced = true;
+                                }
+                            }
+
+                            //add to list if not already replaced
+                            if (!replaced) {
+                                todaysAssignments.add(a);
+                            }
+                        }
+                    }
+                    todaysAssignments = filterAssignments(todaysAssignments, flsaStatus, checkLeaveEligible);
+                }
+
+                history.put(ldate, todaysAssignments);
+                previousDay = ldate;
+            }
+        }
+
+        return history;
+    }
+
+/*    protected Map<String, String> filterAssignmentKeys(List<Assignment> assignments, boolean clockOnlyAssignments, LocalDate asOfDate) {
+        String principalId = "";
+        if (CollectionUtils.isEmpty(assignments)) {
+            return Collections.emptyMap();
+        } else {
+            principalId = assignments.get(0).getPrincipalId();
+        }
+        //sorting the assignment list
+        Collections.sort(assignments, new Comparator<Assignment>() {
+            @Override
+            public int compare(Assignment a1, Assignment a2) {
+                int sComp = a1.getJobNumber().compareTo(a2.getJobNumber());
+
+                if (sComp != 0 ) {
+                    return sComp;
+                } else {                 //comparing workarea descriptions   TK-1945
+                    String w1 = a1.getWorkAreaObj() == null ? "" : a1.getWorkAreaObj().getDescription();
+                    String w2 = a2.getWorkAreaObj() == null ? "" : a2.getWorkAreaObj().getDescription();
+                    return w1.compareTo(w2);
+                }
+            }
+        });
+
+        Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
+        //TkUserRoles roles = TkUserRoles.getUserRoles(TKContext.getPrincipalId());
+        boolean systemAdmin = HrContext.isSystemAdmin();
+        Set<Long> reportingWorkAreas = new HashSet<Long>();
+        reportingWorkAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), asOfDate.toDateTimeAtStartOfDay(), true));
+        reportingWorkAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), asOfDate.toDateTimeAtStartOfDay(), true));
+        reportingWorkAreas.addAll(HrServiceLocator.getKPMERoleService().getWorkAreasForPrincipalInRole(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), asOfDate.toDateTimeAtStartOfDay(), true));
+
+        for (Assignment assignment : assignments) {
+            //if the user is not the same as the timesheet and does not have approver access for the assignment
+            //do not add to the display
+            if (!StringUtils.equals(HrContext.getTargetPrincipalId(), HrContext.getPrincipalId())) {
+                if (!systemAdmin && !reportingWorkAreas.contains(assignment.getWorkArea())) {
+                    continue;
+                }
+            }
+
+            //only add to the assignment list if they are synchronous assignments
+            //or clock only assignments is false
+            if (!clockOnlyAssignments || assignment.isSynchronous()) {
+                assignmentDescriptions.putAll(getAssignmentDescriptions(assignment));
+            }
+        }
+
+        return assignmentDescriptions;
+    }*/
 }

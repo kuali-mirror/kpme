@@ -84,7 +84,7 @@ public interface TimesheetDocumentContract extends CalendarDocumentContract {
 	 * job associated with the jobNumber
 	 * <p>
 	 * 
-	 * @param job number to retrieve Job object from jobNumberToJobMap
+	 * @param jobNumber number to retrieve Job object from jobNumberToJobMap
 	 * @return Job object associated with the jobNumber
 	 */
 	public JobContract getJob(Long jobNumber);
@@ -133,6 +133,6 @@ public interface TimesheetDocumentContract extends CalendarDocumentContract {
 	 * @param clockOnlyAssignments
 	 * @return assignmentDescriptions
 	 */
-    public Map<String, String> getAssignmentDescriptions(boolean clockOnlyAssignments);
+    public Map<String, String> getAssignmentDescriptions(boolean clockOnlyAssignments, LocalDate date);
 
 }

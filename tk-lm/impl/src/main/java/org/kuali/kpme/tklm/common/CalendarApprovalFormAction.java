@@ -48,7 +48,7 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
 
 		if (calendarApprovalForm.getCalendarDocument() != null) {
 			calendarApprovalForm.setSelectedPayCalendarGroup(calendarApprovalForm.getCalendarDocument().getCalendarEntry().getCalendarName());
-			for (Assignment assignment : calendarApprovalForm.getCalendarDocument().getAssignments()) {
+			for (Assignment assignment : calendarApprovalForm.getCalendarDocument().getAllAssignments()) {
 				WorkArea workArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), assignment.getEffectiveLocalDate());
 				if (calendarApprovalForm.getDepartments().contains(workArea.getDept())) {
 					calendarApprovalForm.setSelectedDept(workArea.getDept());

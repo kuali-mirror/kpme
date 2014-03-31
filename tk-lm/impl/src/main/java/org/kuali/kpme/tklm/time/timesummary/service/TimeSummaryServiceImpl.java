@@ -78,11 +78,11 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     @Override
     public TimeSummary getTimeSummaryForDocument(String timesheetDocumentId) {
         TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
-        return getTimeSummary(doc.getPrincipalId(), doc.getTimeBlocks(), doc.getCalendarEntry(), doc.getAssignments());
+        return getTimeSummary(doc.getPrincipalId(), doc.getTimeBlocks(), doc.getCalendarEntry(), doc.getAssignmentMap());
     }
 
     @Override
-    public TimeSummary getTimeSummary(String principalId, List<TimeBlock> timeBlocks, CalendarEntry calendarEntry, List<Assignment> assignments) {
+    public TimeSummary getTimeSummary(String principalId, List<TimeBlock> timeBlocks, CalendarEntry calendarEntry, Map<LocalDate, List<Assignment>> assignments) {
 		TimeSummary timeSummary = new TimeSummary();
 
 		if(principalId == null || CollectionUtils.isEmpty(timeBlocks)) {
@@ -96,8 +96,12 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId()), true);
 
         List<String> tAssignmentKeys = new ArrayList<String>();
+        Set<Assignment> allAssignments = new HashSet<Assignment>();
+        for (List<Assignment> assignmentList: assignments.values()) {
+            allAssignments.addAll(assignmentList);
+        }
         Set<String> regularEarnCodes = new HashSet<String>();
-        for(Assignment assign : assignments) {
+        for(Assignment assign : allAssignments) {
             tAssignmentKeys.add(assign.getAssignmentKey());
             regularEarnCodes.add(assign.getJob().getPayTypeObj().getRegEarnCode());
         }

@@ -76,7 +76,7 @@ public class ClockedInEmployeeJob extends BatchJob {
 
                 for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
                     String principalId = timesheetDocumentHeader.getPrincipalId();
-                    List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
+                    List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
                     for (Assignment assignment : assignments) {
                         String jobNumber = String.valueOf(assignment.getJobNumber());
                         String workArea = String.valueOf(assignment.getWorkArea());

@@ -61,7 +61,7 @@ public class TimesheetRoleAttribute extends GenericRoleAttribute {
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 
 		if (timesheetDocument != null) {
-			List<Assignment> assignments = timesheetDocument.getAssignments();
+			List<Assignment> assignments = timesheetDocument.getAllAssignments();
 			for (Assignment assignment : assignments) {
 				roleNameQualifiers.add(String.valueOf(assignment.getWorkArea()));
 			}

@@ -57,7 +57,7 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
 	@Test
 	public void testGetAssignmentsByCalEntryForLeaveCalendar() throws Exception {
         CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Assignment> assignments = assignmentService.getAssignmentsByCalEntryForLeaveCalendar("testUser", ce);
+		List<Assignment> assignments = assignmentService.getAllAssignmentsByCalEntryForLeaveCalendar("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		
 		Assert.assertTrue("Assignments size for Leave calendar should be 2, not " + assignments.size(), assignments.size() == 2);
@@ -70,7 +70,7 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
 	@Test
 	public void testGetAssignmentsByCalEntryForTimeCalendar() throws Exception {
         CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Assignment> assignments = assignmentService.getAssignmentsByCalEntryForTimeCalendar("testUser", ce);
+		List<Assignment> assignments = assignmentService.getAllAssignmentsByCalEntryForTimeCalendar("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		
 		Assert.assertTrue("Assignments size for Time calendar should be 2, not " + assignments.size(), assignments.size() == 2);

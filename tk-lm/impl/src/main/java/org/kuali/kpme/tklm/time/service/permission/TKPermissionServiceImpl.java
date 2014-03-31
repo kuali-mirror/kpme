@@ -153,7 +153,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         		 if (tcr == null || tcr.isClockUserFl()) {
                      //if there is only 1 assignment here, it isn't editable.
                      TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(aTimeBlock.getDocumentId());
-                     Map<String, String> assignments = td.getAssignmentDescriptions(true);
+                     Map<String, String> assignments = td.getAssignmentDescriptions(true, aTimeBlock.getBeginDateTime().toLocalDate());
                      if (assignments.size() <= 1) {
                          return false;
                      } else {

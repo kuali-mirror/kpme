@@ -112,7 +112,10 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentsByCalEntryForTimeCalendar}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
-    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry calendarEntry);
+    public Map<LocalDate, List<Assignment>> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry calendarEntry);
+
+    @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAllAssignmentsByCalEntryForTimeCalendar}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
+    public List<Assignment> getAllAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry calendarEntry);
     /**
      * Get assignments for Leave Calendar by calendar entry
      * @param principalId
@@ -120,8 +123,11 @@ public interface AssignmentService {
      * @return
      */
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentsByCalEntryForLeaveCalendar}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
-    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry calendarEntry);
-    
+    public Map<LocalDate, List<Assignment>> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry calendarEntry);
+
+    @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAllAssignmentsByCalEntryForLeaveCalendar}' + 'principalId=' + #p0 + '|' + 'payCalendarEntry=' + #p1.getHrCalendarEntryId()")
+    public List<Assignment> getAllAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry calendarEntry);
+
     /**
 	 * KPME-1129 Kagata
 	 * Get a list of active assignments based on principalId and jobNumber as of a particular date 
@@ -169,5 +175,20 @@ public interface AssignmentService {
 	
 	public List<Assignment> getAssignments(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
 
+    @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentDescription}' + 'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'workArea=' + #p2 + '|' + 'task=' + #p3 + '|' + 'asOfDate=' + #p4")
     public String getAssignmentDescription(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate);
+
+    @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentDescriptionForAssignment}' + 'assignmentId=' + #p0.getId() + '|' + 'asOfDate=' + #p4")
+    public String getAssignmentDescriptionForAssignment(Assignment assignment, LocalDate asOfDate);
+
+    //@Cacheable(value= Assignment.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'clockOnlyAssignments=' + #p1 + '|' + 'asOfDate=' + #p2 + '|' + 'userPrincipalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId()")
+    //public Map<String, String> getAssignmentDescriptionsForDay(String principalId, boolean clockOnlyAssignments, LocalDate asOfDate );
+
+    @Cacheable(value= Assignment.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'calendarEntry=' + #p1.getHrCalendarEntryId()")
+    public Map<LocalDate, List<Assignment>> getAssignmentHistoryForCalendarEntry(String principalId, CalendarEntry calendarEntry);
+
+    @Cacheable(value= Assignment.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2")
+    public Map<LocalDate, List<Assignment>> getAssignmentHistoryBetweenDays(String principalId, LocalDate beginDate, LocalDate endDate);
+
+    public List<Assignment> filterAssignmentListForUser(String userPrincipalId, List<Assignment> assignments);
 }

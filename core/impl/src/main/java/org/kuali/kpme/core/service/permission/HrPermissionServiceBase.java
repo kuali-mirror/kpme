@@ -17,6 +17,7 @@ package org.kuali.kpme.core.service.permission;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentService;
@@ -202,13 +203,13 @@ public abstract class HrPermissionServiceBase {
 	 * 
 	 * @return true if {@code principalId} is authorized to perform any permission templated by {@code permissionTemplateName} for the given document information, false otherwise.
 	 */
-    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentTypeName, String documentId, DocumentStatus documentStatus, List<? extends AssignmentContract> assignments, DateTime asOfDate) {
+    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentTypeName, String documentId, DocumentStatus documentStatus, List<Assignment> assignments, DateTime asOfDate) {
     	boolean isAuthorized = false;
         if (asOfDate == null) {
             asOfDate = DateTime.now();
         }
     	
-    	for (AssignmentContract assignment : assignments) {
+    	for (Assignment assignment : assignments) {
             if (isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignment, asOfDate)) {
             	isAuthorized = true;
             	break;
@@ -231,11 +232,14 @@ public abstract class HrPermissionServiceBase {
 	 * 
 	 * @return true if {@code principalId} is authorized to perform any permission templated by {@code permissionTemplateName} for the given document information, false otherwise.
 	 */
-    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentTypeName, String documentId, DocumentStatus documentStatus, AssignmentContract assignment, DateTime asOfDate) {
+    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentTypeName, String documentId, DocumentStatus documentStatus, Assignment assignment, DateTime asOfDate) {
     	boolean isAuthorized = false;
     	
 		Long workArea = assignment.getWorkArea();
-    	WorkArea workAreaObj = getWorkAreaService().getWorkArea(workArea, asOfDate.toLocalDate());
+        WorkArea workAreaObj = assignment.getWorkAreaObj();
+    	if (workAreaObj == null) {
+            getWorkAreaService().getWorkArea(workArea, asOfDate.toLocalDate());
+        }
 
 		String department = workAreaObj != null ? workAreaObj.getDept() : null;
     	Department departmentObj = getDepartmentService().getDepartment(department, asOfDate.toLocalDate());

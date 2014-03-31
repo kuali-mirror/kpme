@@ -27,7 +27,6 @@ import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
-import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -79,7 +78,7 @@ public class PayrollApprovalJob extends BatchJob {
 							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
 							if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {	
 								TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-								roleMembers = getRoleMembersInDepartment(timesheetDocument.getAssignments(), KPMENamespace.KPME_TK);
+								roleMembers = getRoleMembersInDepartment(timesheetDocument.getAllAssignments(), KPMENamespace.KPME_TK);
 								subject = "Payroll Batch Approved Timesheet Document " + docId;
 							}
 		        		}
@@ -97,7 +96,7 @@ public class PayrollApprovalJob extends BatchJob {
 							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(leaveCalendarDocument.getPrincipalId(), endDate.toLocalDate());
 							if(phraRecord != null && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {	
 								LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-								roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAssignments(), KPMENamespace.KPME_LM);
+								roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAllAssignments(), KPMENamespace.KPME_LM);
 								subject = "Payroll Batch Approved Leave Calendar Document " + docId;
 							}
 						}

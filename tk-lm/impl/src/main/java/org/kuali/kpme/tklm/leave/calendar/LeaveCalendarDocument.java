@@ -26,6 +26,7 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LeaveCalendarDocument extends CalendarDocument implements Assignable, LeaveCalendarDocumentContract {
 	private static final long serialVersionUID = -5029062030186479210L;
@@ -90,13 +91,18 @@ public class LeaveCalendarDocument extends CalendarDocument implements Assignabl
 	}
 
     @Override
-	public List<Assignment> getAssignments() {
+	public Map<LocalDate, List<Assignment>> getAssignmentMap() {
 		return assignments;
 	}
 
-	public void setAssignments(List<Assignment> assignments) {
+	public void setAssignments(Map<LocalDate, List<Assignment>> assignments) {
 		this.assignments = assignments;
 	}
+
+    @Override
+    public List<Assignment> getAssignments() {
+        return getAllAssignments();
+    }
 
     @Override
     public LocalDate getAsOfDate(){

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
@@ -39,11 +41,12 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
         if (model instanceof MissedPunchForm) {
 	        MissedPunchForm missedPunchForm = (MissedPunchForm) model;
 	        MissedPunchDocument missedPunchDocument = (MissedPunchDocument) missedPunchForm.getDocument();
-	        
-	        String timesheetDocumentId = missedPunchDocument != null ? missedPunchDocument.getMissedPunch().getTimesheetDocumentId() : missedPunchForm.getMissedPunch().getTimesheetDocumentId();
+            MissedPunchBo mp = missedPunchDocument == null ? missedPunchForm.getMissedPunch() : missedPunchDocument.getMissedPunch();
+            LocalDate mpDate = mp.getLocalDate();
+            String timesheetDocumentId = missedPunchDocument != null ? missedPunchDocument.getMissedPunch().getTimesheetDocumentId() : missedPunchForm.getMissedPunch().getTimesheetDocumentId();
 	        if (StringUtils.isNotBlank(timesheetDocumentId)) {
 	            TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
-	            Map<String, String> assignmentDescriptions = timesheetDocument.getAssignmentDescriptions(true);
+	            Map<String, String> assignmentDescriptions = timesheetDocument.getAssignmentDescriptions(true, mpDate);
 
 	            if (assignmentDescriptions.size() > 1) {
 	            	labels.add(new ConcreteKeyValue("", ""));

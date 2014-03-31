@@ -42,7 +42,7 @@ public class TimeBlockHistoryTest extends TKLMIntegrationTestCase {
     @Test
     public void testTimeBlockHistory() throws Exception {
         TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT, "admin");
-        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getPrincipalId(), td.getCalendarEntry(), td.getAssignments().get(0), "RGH",
+        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getPrincipalId(), td.getCalendarEntry(), td.getAllAssignments().get(0), "RGH",
                 td.getDocumentId(), beginDateTime, endDateTime, new BigDecimal("8"), BigDecimal.ZERO, true, false, "admin", null, null);
         TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(td.getTimeBlocks(), tbs, "admin");
 

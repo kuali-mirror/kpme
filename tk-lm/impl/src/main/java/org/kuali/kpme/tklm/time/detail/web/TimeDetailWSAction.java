@@ -21,23 +21,25 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 
@@ -129,9 +131,19 @@ public class TimeDetailWSAction extends TimesheetAction {
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
         if (StringUtils.isNotBlank(tdaf.getSelectedAssignment())) {
-            List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignments();
+            LocalDate asOfDate = tdaf.getTimesheetDocument().getAsOfDate();
+
+            if (tdaf.getStartDate() != null) {
+                try {
+                    DateTime utilDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(tdaf.getStartDate());
+                    asOfDate = utilDate.toLocalDate();
+                } catch (Exception ex) {
+                    //ignore and use the timesheet as of date.
+                }
+            }
+            List<Assignment> assignments = tdaf.getTimesheetDocument().getAssignmentMap().get(asOfDate);
             AssignmentDescriptionKey key = AssignmentDescriptionKey.get(tdaf.getSelectedAssignment());
-            Map<String, EarnCode> regEarnCodes = getRegularEarnCodes(tdaf.getTimesheetDocument());
+            Map<String, EarnCode> regEarnCodes = getRegularEarnCodes(assignments);
             for (Assignment assignment : assignments) {
             	if (assignment.getJobNumber().equals(key.getJobNumber()) &&
             			assignment.getWorkArea().equals(key.getWorkArea()) &&
@@ -204,10 +216,10 @@ public class TimeDetailWSAction extends TimesheetAction {
         return mapping.findForward("ws");
     }
     
-    private Map<String, EarnCode> getRegularEarnCodes(TimesheetDocument td) {
+    protected Map<String, EarnCode> getRegularEarnCodes(List<Assignment> assignments) {
     	Map<String, EarnCode> regEarnCodes = new HashMap<String, EarnCode>();
-    	if (td != null) {
-    		for (Assignment a : td.getAssignments()) {
+    	if (CollectionUtils.isNotEmpty(assignments)) {
+    		for (Assignment a : assignments) {
     			if (a.getJob() != null
     					&& a.getJob().getPayTypeObj() != null) {
     				PayTypeContract payType = a.getJob().getPayTypeObj();
@@ -225,14 +237,15 @@ public class TimeDetailWSAction extends TimesheetAction {
     	return regEarnCodes;
 	}
 
-	private List<Map<String, Object>> getAssignmentsForRegEarnCode(TimesheetDocument td, String earnCode) {
-		List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
-		if (td != null) {
-			for (Assignment a : td.getAssignments()) {
+	protected List<Map<String, Object>> getAssignmentsForRegEarnCode(List<Assignment> assigns, String earnCode, LocalDate asOfDate) {
+        List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
+        if (CollectionUtils.isNotEmpty(assigns)) {
+			for (Assignment a : assigns) {
 				Map<String, Object> assignment = new HashMap<String, Object>();
 				if (earnCode.equals(a.getJob().getPayTypeObj().getRegEarnCode())) {
 					assignment.put("assignment", a.getAssignmentKey());
-					assignments.add(assignment);
+                    assignment.put("desc", a.getAssignmentDescription());
+                    assignments.add(assignment);
 				}
 			}
 		}
@@ -242,11 +255,22 @@ public class TimeDetailWSAction extends TimesheetAction {
 	public ActionForward getValidAssignments(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
 
+        //need an asOfDate here
+        LocalDate asOfDate = tdaf.getTimesheetDocument().getAsOfDate();
+
+        if (tdaf.getStartDate() != null) {
+            try {
+                DateTime utilDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(tdaf.getStartDate());
+                asOfDate = utilDate.toLocalDate();
+            } catch (Exception ex) {
+                //ignore and use the timesheet as of date.
+            }
+        }
 		String earnCode = tdaf.getSelectedEarnCode();
 
 		List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
 		if (tdaf.getTimesheetDocument() != null && StringUtils.isNotEmpty(earnCode)) {
-			assignments = getAssignmentsForRegEarnCode(tdaf.getTimesheetDocument(), earnCode);
+			assignments = getAssignmentsForRegEarnCode(tdaf.getTimesheetDocument().getAssignmentMap().get(asOfDate), earnCode, asOfDate);
 		}
 		tdaf.setOutputString(JSONValue.toJSONString(assignments));
 		return mapping.findForward("ws");
@@ -285,4 +309,45 @@ public class TimeDetailWSAction extends TimesheetAction {
         return mapping.findForward("ws");
     }
 
+    public ActionForward getAssignmentJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
+
+        String earnCode = tdaf.getSelectedEarnCode();
+        LocalDate asOfDate = null;
+        if (tdaf.getStartDate() != null) {
+            try {
+                DateTime utilDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(tdaf.getStartDate());
+                asOfDate = utilDate.toLocalDate();
+            } catch (Exception ex) {
+                //ignore and use the timesheet as of date.
+            }
+        }
+        List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
+        if (tdaf.getTimesheetDocument() != null
+                && asOfDate != null) {
+            //check date to see if assignment is active
+            String principalId = tdaf.getTimesheetDocument().getPrincipalId();
+            CalendarEntry ce = tdaf.getTimesheetDocument().getCalendarEntry();
+            Map<LocalDate, List<Assignment>> history = tdaf.getTimesheetDocument().getAssignmentMap();
+            List<Assignment> dayAssignments = history.get(asOfDate);
+            dayAssignments = HrServiceLocator.getAssignmentService().filterAssignmentListForUser(HrContext.getPrincipalId(), dayAssignments);
+            if (CollectionUtils.isNotEmpty(dayAssignments)) {
+                if (dayAssignments.size() > 1) {
+                    Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
+                    assignmentMap.put("assignment", "");
+                    assignmentMap.put("desc", "-- select an assignment --");
+                    assignments.add(assignmentMap);
+                }
+                for (Assignment a : dayAssignments) {
+                    Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
+                    assignmentMap.put("assignment", a.getAssignmentKey());
+                    assignmentMap.put("desc", HrServiceLocator.getAssignmentService().getAssignmentDescriptionForAssignment(a, asOfDate));
+                    assignments.add(assignmentMap);
+                }
+            }
+        }
+
+        tdaf.setOutputString(JSONValue.toJSONString(assignments));
+        return mapping.findForward("ws");
+    }
 }
