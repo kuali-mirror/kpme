@@ -69,12 +69,15 @@ public class PositionMaintenanceController extends EffectiveDateMaintenanceContr
             dm.setCurrentDialogId(null);
         }
 
+
+        PositionBo aPositionBo = (PositionBo) ((MaintenanceDocumentForm) form).getDocument().getNewMaintainableObject().getDataObject();
         // call intended controller method
         Properties props = new Properties();
         props.put(UifParameters.METHOD_TO_CALL, newMethodToCall);
         props.put(UifParameters.VIEW_ID, form.getViewId());
         props.put(UifParameters.FORM_KEY, form.getFormKey());
         props.put(UifParameters.AJAX_REQUEST, "false");
+        props.put("hrPositionId",aPositionBo.getHrPositionId());
         props.put("oldProcess",request.getParameter("oldProcess"));
         props.put("newProcess",request.getParameter("newProcess"));
         return performRedirect(form, form.getFormPostUrl(), props);
