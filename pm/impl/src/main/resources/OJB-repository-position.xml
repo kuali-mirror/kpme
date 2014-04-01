@@ -229,6 +229,10 @@
 <!--         <field-descriptor name="timestamp"     						column="TIMESTAMP"          	jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" /> -->
         <field-descriptor name="objectId"      						column="OBJ_ID"             	jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 						column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
+        
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.classification.ClassificationBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="pmPositionClassId"/>
+        </reference-descriptor>  
     </class-descriptor>
     
    <!-- Position Classification Duty -->
@@ -240,6 +244,10 @@
         <field-descriptor name="pmPositionClassId"   		column="PM_PSTN_CL_ID"    	jdbc-type="VARCHAR"     length="60"  		nullable="false" />
 		<field-descriptor name="objectId"      				column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 				column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+        
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.classification.ClassificationBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="pmPositionClassId"/>
+        </reference-descriptor>
     </class-descriptor>
     
     <!-- Position Classification Flag -->
@@ -250,6 +258,10 @@
         <field-descriptor name="pmPositionClassId"   		column="PM_PSTN_CL_ID"    	jdbc-type="VARCHAR"     length="60"  		nullable="false" />
 		<field-descriptor name="objectId"      				column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 				column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+        
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.classification.ClassificationBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="pmPositionClassId"/>
+        </reference-descriptor>
     </class-descriptor>
 
     <!-- Position Appointment -->
