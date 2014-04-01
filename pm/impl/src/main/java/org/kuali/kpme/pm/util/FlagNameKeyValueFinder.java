@@ -24,8 +24,8 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.flag.FlagContract;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.ClassificationBo;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PstnFlagBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -100,10 +100,10 @@ public class FlagNameKeyValueFinder extends UifKeyValuesFinderBase {
 			int index = Integer.parseInt(fieldId.substring(line_index+4));
 			
 			String category = null;
-			if (anHrObject instanceof Classification) {
-				Classification aClass = (Classification)anHrObject;
-				List<ClassificationFlag> flagList = aClass.getFlagList(); // holds "added" lines
-				ClassificationFlag classFlag = (ClassificationFlag)flagList.get(index);
+			if (anHrObject instanceof ClassificationBo) {
+				ClassificationBo aClass = (ClassificationBo)anHrObject;
+				List<ClassificationFlagBo> flagList = aClass.getFlagList(); // holds "added" lines
+				ClassificationFlagBo classFlag = (ClassificationFlagBo)flagList.get(index);
 				category = classFlag.getCategory();
 			} else {
 				PositionBo aPosition = (PositionBo)anHrObject;

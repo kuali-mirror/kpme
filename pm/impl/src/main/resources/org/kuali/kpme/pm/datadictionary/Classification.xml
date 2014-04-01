@@ -24,7 +24,7 @@
 	
 	<bean id="Classification" parent="Classification-parentBean"/>
  	<bean id="Classification-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.Classification"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="Classification-pmPositionClassId"/>
@@ -49,19 +49,19 @@
 		<property name="collections">
 	      <list>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo" />
 	          <property name="name" value="qualificationList" />
 	          <property name="shortLabel" value="Qualifications" />
 	          <property name="label" value="Classification Qualifications" />
 	        </bean>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDutyBo" />
 	          <property name="name" value="dutyList" />
 	          <property name="shortLabel" value="Duties" />
 	          <property name="label" value="Classification Duties" />
 	        </bean>
 	        <bean parent="CollectionDefinition">
-	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag" />
+	          <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlagBo" />
 	          <property name="name" value="flagList" />
 	          <property name="shortLabel" value="Flags" />
 	          <property name="label" value="Classification Flags" />
@@ -234,7 +234,7 @@
   <!-- Position Classification Lookup View -->
   <bean id="Classification-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Classification Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationBo" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionClass" />
@@ -288,7 +288,7 @@
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="positionClass">
          	<property name="inquiry">
-	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification"
+	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.classification.ClassificationBo"
 	        	 	p:inquiryParameters="pmPositionClassId:pmPositionClassId"/>
     		</property>
         </bean>
@@ -309,7 +309,7 @@
  <!-- Position Classification Inquiry View -->
   <bean id="Classification-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Position Classification Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationBo"/>
         <property name="items">
             <list>
                 <ref bean="Cls-ClassificationInquiryPage"/>
@@ -399,7 +399,7 @@
         </property>
     </bean>
     <bean id="Cls-QualificationsInquiryPage-Section" parent="Uif-TableCollectionSection">
-        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo"/>
         <property name="propertyName" value="qualificationList"/>
         <property name="headerText" value="Required Qualification"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -424,7 +424,7 @@
         </property>
     </bean>
     <bean id="Cls-DutyInquiryPage-Section" parent="Uif-TableCollectionSection">
-        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDutyBo"/>
         <property name="propertyName" value="dutyList"/>
         <property name="headerText" value="Duties"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -450,7 +450,7 @@
     </bean>
     <bean id="Cls-FlagInquiryPage-Section" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="4">
-        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlagBo"/>
         <property name="propertyName" value="flagList"/>
         <property name="headerText" value="Position Flags"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -468,7 +468,7 @@
 		Views used by Maintenance View *************************************************************************** -->
    <!-- Required Qualification List, used by maintenance view -->
    <bean id="Classification-qualifications" parent="Uif-TableCollectionGroup">
-	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
+	  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo" />
 	  <property name="propertyName" value="qualificationList" />
 	  <property name="addLinePlacement" value="BOTTOM" />
 	  <property name="layoutManager.generateAutoSequence" value="true" />
@@ -530,7 +530,7 @@
 	<bean id="Classification-qualificationListInquiry" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
     <property name="headerText" value="Required Qualification"/>
-    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
+    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo"/>
     <property name="propertyName" value="qualificationList"/>
     <property name="layoutManager.renderSequenceField" value="false"/>
     <property name="layoutManager.separateAddLine" value="true"/>
@@ -546,7 +546,7 @@
   
 <!-- Duties List, used by maintenance views -->
    <bean id="Classification-duties" parent="Uif-TableCollectionGroup" p:align="left">
-		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty" />
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDutyBo" />
 		  <property name="propertyName" value="dutyList" />
 		  <property name="addLinePlacement" value="BOTTOM" />
 		  <property name="layoutManager.generateAutoSequence" value="true" />
@@ -581,7 +581,7 @@
 	
 	<!-- Duties List, used by inquiry views -->
    <bean id="Classification-dutyListInquiry" parent="Uif-Disclosure-TableCollectionSection" >
-		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDuty" />
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.duty.ClassificationDutyBo" />
 		  <property name="headerText" value="Duties"/>
 		  <property name="propertyName" value="dutyList" />
 		  <property name="layoutManager.renderSequenceField" value="false"/>
@@ -598,7 +598,7 @@
 	
 	<!-- Flags List, used by maintenance views -->
 	<bean id="Classification-flags" parent="Uif-TableCollectionGroup">
-		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag" />
+		  <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlagBo" />
 		  <property name="propertyName" value="flagList" />
 		  <property name="addLinePlacement" value="BOTTOM" />
 		  <property name="layoutManager.richTable.render" value="false" />
@@ -631,7 +631,7 @@
 	<bean id="Classification-flagListInquiry" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
 	    <property name="headerText" value="Flags"/>
-	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlag"/>
+	    <property name="collectionObjectClass" value="org.kuali.kpme.pm.classification.flag.ClassificationFlagBo"/>
 	    <property name="propertyName" value="flagList"/>
 	    <property name="layoutManager.renderSequenceField" value="false"/>
 	    <property name="layoutManager.separateAddLine" value="true"/>

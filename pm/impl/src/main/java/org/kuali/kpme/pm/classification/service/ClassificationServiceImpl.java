@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.classification.service;
 
 import org.kuali.kpme.pm.api.classification.service.ClassificationService;
-import org.kuali.kpme.pm.classification.Classification;
+import org.kuali.kpme.pm.classification.ClassificationBo;
 import org.kuali.kpme.pm.classification.dao.ClassificationDao;
 
 public class ClassificationServiceImpl implements ClassificationService {
@@ -24,7 +24,7 @@ public class ClassificationServiceImpl implements ClassificationService {
 	private ClassificationDao classificationDao;
 	
 	@Override
-	public Classification getClassificationById(String pmClassificationId) {
+	public ClassificationBo getClassificationById(String pmClassificationId) {
 		return classificationDao. getClassificationById(pmClassificationId);
 	}
 

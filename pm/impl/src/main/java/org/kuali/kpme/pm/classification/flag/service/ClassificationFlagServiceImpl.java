@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.classification.flag.service.ClassificationFlagService;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
 import org.kuali.kpme.pm.classification.flag.dao.ClassificationFlagDao;
 
 public class ClassificationFlagServiceImpl implements ClassificationFlagService{

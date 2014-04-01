@@ -31,7 +31,7 @@ import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.position.PositionContract;
-import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
+import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
 import org.kuali.kpme.pm.position.funding.PositionFundingBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
@@ -93,7 +93,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
     
     private String reportsToWorkingTitle; // KPME-3269
     
-    private List<ClassificationQualification> requiredQualList = new ArrayList<ClassificationQualification>(); 	// read only required qualifications that comes from assiciated Classification
+    private List<ClassificationQualificationBo> requiredQualList = new ArrayList<ClassificationQualificationBo>(); 	// read only required qualifications that comes from assiciated Classification
     /*private transient boolean displayQualifications;
     private transient boolean displayDuties;
     private transient boolean displayFlags;
@@ -187,13 +187,13 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.positionClass = positionClass;
     }
 
-    public List<ClassificationQualification> getRequiredQualList() {
+    public List<ClassificationQualificationBo> getRequiredQualList() {
 		if(StringUtils.isNotEmpty(this.getPmPositionClassId())) {
 			// when Position Classification Id is changed, change the requiredQualList with it
 			if(CollectionUtils.isEmpty(requiredQualList) ||
 					(CollectionUtils.isNotEmpty(requiredQualList) 
 							&& !requiredQualList.get(0).getPmPositionClassId().equals(this.getPmPositionClassId()))) {
-				List<ClassificationQualification> aList = (List<ClassificationQualification>)PmServiceLocator.getClassificationQualService()
+				List<ClassificationQualificationBo> aList = (List<ClassificationQualificationBo>)PmServiceLocator.getClassificationQualService()
 						.getQualListForClassification(this.getPmPositionClassId());
 				if(CollectionUtils.isNotEmpty(aList))
 					this.setRequiredQualList(aList);
@@ -204,7 +204,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
  		return requiredQualList;
 	}
 	
-	public void setRequiredQualList(List<ClassificationQualification> aList) {
+	public void setRequiredQualList(List<ClassificationQualificationBo> aList) {
 			requiredQualList = aList;
 	}
 

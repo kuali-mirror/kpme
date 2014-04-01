@@ -23,7 +23,7 @@ public class ClassificationDerived extends HrBusinessObjectDerived implements Cl
 	private static final long serialVersionUID = -7394015906298684406L;
 
 	protected String pmPositionClassId;
-	private Classification owner;
+	private ClassificationBo owner;
 	private static final String OWNER = "owner";
 	
 	@Override
@@ -36,14 +36,14 @@ public class ClassificationDerived extends HrBusinessObjectDerived implements Cl
 	}
 
 	@Override
-	public Classification getOwner() {
+	public ClassificationBo getOwner() {
 		if(this.owner == null) {
 			refreshReferenceObject(OWNER);
 		}
 		return this.owner;
 	}
 
-	public void setOwner(Classification owner) {
+	public void setOwner(ClassificationBo owner) {
 		this.owner = owner;
 	}
 

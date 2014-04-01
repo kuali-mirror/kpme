@@ -22,8 +22,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.ClassificationBo;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PstnFlagBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
@@ -107,11 +107,11 @@ public class FlagCategoryKeyValueFinder extends UifKeyValuesFinderBase {
 			}
 
 			// Only show available categories by removing the existing ones from options list
-			if (anHrObject instanceof Classification) {
-				Classification aClass = (Classification)anHrObject;
-				List<ClassificationFlag> existingFlagList = aClass.getFlagList();
+			if (anHrObject instanceof ClassificationBo) {
+				ClassificationBo aClass = (ClassificationBo)anHrObject;
+				List<ClassificationFlagBo> existingFlagList = aClass.getFlagList();
 				if (CollectionUtils.isNotEmpty(existingFlagList)) {
-					for (ClassificationFlag aFlag : existingFlagList) {
+					for (ClassificationFlagBo aFlag : existingFlagList) {
 						KeyValue aFlagKeyVale = new ConcreteKeyValue((String)aFlag.getCategory(), (String)aFlag.getCategory());
 						if (options.contains(aFlagKeyVale)) {
 							options.remove(aFlagKeyVale);

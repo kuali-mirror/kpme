@@ -22,7 +22,7 @@
 
   <bean id="ClassificationMaintenanceDocument" parent="ClassificationMaintenanceDocument-parentBean"/>
   <bean id="ClassificationMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.Classification"/>
+    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationBo"/>
     <property name="documentTypeName" value="ClassificationMaintenanceDocumentType" />
     <property name="businessRulesClass" value="org.kuali.kpme.pm.classification.validation.ClassificationValidation"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.classification.web.ClassificationMaintainableImpl"/>
@@ -34,7 +34,7 @@
   	<bean id="Classification-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     	<property name="headerText" value="Position Classification Maintenance"/>
     	<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.classification.web.ClassificationMaintainableImpl" />
-    	<property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.Classification"/>
+    	<property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationBo"/>
     	<property name="items">
       		<list>   
 				<ref bean="Cls-ClassificationPage" />

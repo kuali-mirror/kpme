@@ -23,7 +23,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
-import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
+import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

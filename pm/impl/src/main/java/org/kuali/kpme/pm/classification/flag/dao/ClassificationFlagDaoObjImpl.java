@@ -22,18 +22,18 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class ClassificationFlagDaoObjImpl extends PlatformAwareDaoBaseOjb implements ClassificationFlagDao {
 
 	@Override
-	public List<ClassificationFlag> getFlagListForClassification(String pmClassificationId) {
-		List<ClassificationFlag> flagList = new ArrayList<ClassificationFlag>();
+	public List<ClassificationFlagBo> getFlagListForClassification(String pmClassificationId) {
+		List<ClassificationFlagBo> flagList = new ArrayList<ClassificationFlagBo>();
 		Criteria crit = new Criteria();
         crit.addEqualTo("pmPositionClassId", pmClassificationId);
 
-        Query query = QueryFactory.newQuery(ClassificationFlag.class, crit);
+        Query query = QueryFactory.newQuery(ClassificationFlagBo.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null) {

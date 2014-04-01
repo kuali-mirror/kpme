@@ -162,7 +162,7 @@
 
     <!-- Position Classification -->
     <!-- Business Keys - [positionClass : salaryGroup : leavePlan : effectiveDate : timestamp] -->	
-    <class-descriptor class="org.kuali.kpme.pm.classification.Classification" table="PM_PSTN_CL_T">
+    <class-descriptor class="org.kuali.kpme.pm.classification.ClassificationBo" table="PM_PSTN_CL_T">
         <field-descriptor name="pmPositionClassId"   	column="PM_PSTN_CL_ID"    			jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_S" />
         <field-descriptor name="positionClass"    		column="PSTN_CL"      				jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="classificationTitle"    column="CL_TTL"             	jdbc-type="VARCHAR"     length="100" 		nullable="false" />
@@ -186,15 +186,15 @@
         <field-descriptor name="versionNumber" 			column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" nullable="false" />
         
-        <collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.classification.qual.ClassificationQualification"
+        <collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="pmPositionClassId" />
         </collection-descriptor>
-        <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.classification.duty.ClassificationDuty"
+        <collection-descriptor name="dutyList" element-class-ref="org.kuali.kpme.pm.classification.duty.ClassificationDutyBo"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="pmPositionClassId" />
         </collection-descriptor>
-        <collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.classification.flag.ClassificationFlag"
+        <collection-descriptor name="flagList" element-class-ref="org.kuali.kpme.pm.classification.flag.ClassificationFlagBo"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="pmPositionClassId" />
         </collection-descriptor>
@@ -220,7 +220,7 @@
     
     
     <!-- Position Classification Qualification -->
-    <class-descriptor class="org.kuali.kpme.pm.classification.qual.ClassificationQualification" table="PM_PSTN_CL_QLFCTN_T">
+    <class-descriptor class="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo" table="PM_PSTN_CL_QLFCTN_T">
         <field-descriptor name="pmClassificationQualificationId"   	column="PM_PSTN_CL_QLFCTN_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_QLFCTN_S" />
         <field-descriptor name="qualificationType"    				column="QLFCTN_TP"      		 jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="qualifier"    						column="QUALIFIER"             	 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
@@ -232,7 +232,7 @@
     </class-descriptor>
     
    <!-- Position Classification Duty -->
-    <class-descriptor class="org.kuali.kpme.pm.classification.duty.ClassificationDuty" table="PM_PSTN_CL_DUTY_T">
+    <class-descriptor class="org.kuali.kpme.pm.classification.duty.ClassificationDutyBo" table="PM_PSTN_CL_DUTY_T">
         <field-descriptor name="pmDutyId"   				column="PM_DUTY_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_DUTY_S" />
         <field-descriptor name="name"    					column="NAME"      			jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"    			column="DESCR"             	jdbc-type="VARCHAR"     length="300" 		nullable="false" />
@@ -243,7 +243,7 @@
     </class-descriptor>
     
     <!-- Position Classification Flag -->
-    <class-descriptor class="org.kuali.kpme.pm.classification.flag.ClassificationFlag" table="PM_PSTN_CL_FLAG_T">
+    <class-descriptor class="org.kuali.kpme.pm.classification.flag.ClassificationFlagBo" table="PM_PSTN_CL_FLAG_T">
         <field-descriptor name="pmFlagId"   				column="PM_FLAG_ID"    		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_FLAG_S" />
         <field-descriptor name="category"    				column="CATEGORY"           jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="names"    					column="NAMES"      		jdbc-type="VARCHAR"     length="100" 		nullable="false" conversion="org.kuali.kpme.core.ListConverter" />

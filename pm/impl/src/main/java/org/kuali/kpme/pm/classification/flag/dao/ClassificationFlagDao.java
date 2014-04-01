@@ -17,8 +17,8 @@ package org.kuali.kpme.pm.classification.flag.dao;
 
 import java.util.List;
 
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
 
 public interface ClassificationFlagDao {
-	public List<ClassificationFlag> getFlagListForClassification(String pmClassificationId);
+	public List<ClassificationFlagBo> getFlagListForClassification(String pmClassificationId);
 }

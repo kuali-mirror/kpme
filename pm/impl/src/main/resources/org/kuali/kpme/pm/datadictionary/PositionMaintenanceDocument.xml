@@ -338,7 +338,7 @@
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
-                              p:dataObjectClassName="org.kuali.kpme.pm.classification.Classification"
+                              p:dataObjectClassName="org.kuali.kpme.pm.classification.ClassificationBo"
                               p:lookupParameters="location:location,institution:institution"/>
                     </property>
                     <property name="quickfinder.quickfinderAction.disabled"

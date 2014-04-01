@@ -17,8 +17,8 @@ package org.kuali.kpme.pm.classification.duty.dao;
 
 import java.util.List;
 
-import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
+import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
 
 public interface ClassificationDutyDao {
-	public List<ClassificationDuty> getDutyListForClassification(String pmClassificationId);
+	public List<ClassificationDutyBo> getDutyListForClassification(String pmClassificationId);
 }

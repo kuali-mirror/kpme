@@ -24,10 +24,10 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
-import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
+import org.kuali.kpme.pm.classification.ClassificationBo;
+import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
+import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -51,16 +51,16 @@ public class ClassificationMaintainableImpl extends HrDataObjectMaintainableImpl
 	
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj){
-		Classification aClss = (Classification) hrObj;
-		for(ClassificationQualification aQual : aClss.getQualificationList()) {
+		ClassificationBo aClss = (ClassificationBo) hrObj;
+		for(ClassificationQualificationBo aQual : aClss.getQualificationList()) {
 			aQual.setPmPositionClassId(aClss.getPmPositionClassId());
 			aQual.setPmClassificationQualificationId(null);
 		}
-		for(ClassificationDuty aDuty : aClss.getDutyList()) {
+		for(ClassificationDutyBo aDuty : aClss.getDutyList()) {
 			aDuty.setPmPositionClassId(aClss.getPmPositionClassId());
 			aDuty.setPmDutyId(null);
 		}
-		for(ClassificationFlag aFlag : aClss.getFlagList()) {
+		for(ClassificationFlagBo aFlag : aClss.getFlagList()) {
 			aFlag.setPmPositionClassId(aClss.getPmPositionClassId());
 			aFlag.setPmFlagId(null);
 		}
@@ -76,21 +76,21 @@ public class ClassificationMaintainableImpl extends HrDataObjectMaintainableImpl
 	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
 	        MaintenanceDocument document = maintenanceForm.getDocument();
 	        LocalDate asOfDate = LocalDate.now();
-	        if (document.getNewMaintainableObject().getDataObject() instanceof Classification) {
-	        	Classification classificationObj = (Classification) document.getNewMaintainableObject().getDataObject();
+	        if (document.getNewMaintainableObject().getDataObject() instanceof ClassificationBo) {
+	        	ClassificationBo classificationObj = (ClassificationBo) document.getNewMaintainableObject().getDataObject();
 	        	if(classificationObj.getEffectiveDate() != null) {
 	        		asOfDate = classificationObj.getEffectiveLocalDate();
 	        	}
-	        	if(addLine instanceof ClassificationQualification) {
-		        	ClassificationQualification cQualification = (ClassificationQualification) addLine;
+	        	if(addLine instanceof ClassificationQualificationBo) {
+		        	ClassificationQualificationBo cQualification = (ClassificationQualificationBo) addLine;
 		        	PstnQlfrTypeContract qType = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(cQualification.getQualificationType());
 		        	if(qType == null || !qType.isActive()) {
 		        		GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.qualificationList'].qualificationType","error.existence", "Qualification Type '"+ cQualification.getQualificationValue() + "'");
 		        		isValid = false;
 		        		return isValid;
 		        	}
-	        	} else if (addLine instanceof ClassificationFlag) {
-	        		ClassificationFlag classificationFlag = (ClassificationFlag) addLine;
+	        	} else if (addLine instanceof ClassificationFlagBo) {
+	        		ClassificationFlagBo classificationFlag = (ClassificationFlagBo) addLine;
 	        		List<String> flagNames = classificationFlag.getNames();
 	        		String categoryNm = classificationFlag.getCategory();
 	        		for(String flagName : flagNames) {
@@ -128,7 +128,7 @@ public class ClassificationMaintainableImpl extends HrDataObjectMaintainableImpl
 	@Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
 
-		Classification classification = (Classification)this.getDataObject();
+		ClassificationBo classification = (ClassificationBo)this.getDataObject();
 		DocumentStatus documentStatus = documentHeader.getWorkflowDocument().getStatus();
 	
 		//Set document description for real here

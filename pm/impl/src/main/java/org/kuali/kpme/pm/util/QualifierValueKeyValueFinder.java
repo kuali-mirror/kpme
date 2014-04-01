@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
+import org.kuali.kpme.pm.classification.ClassificationBo;
+import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -42,7 +42,7 @@ public class QualifierValueKeyValueFinder extends UifKeyValuesFinderBase {
 
 		List<KeyValue> options = new ArrayList<KeyValue>();
 
-		ClassificationQualification aQualification = (ClassificationQualification) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.qualificationList");
+		ClassificationQualificationBo aQualification = (ClassificationQualificationBo) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.qualificationList");
 		if(aQualification != null) {
 			String aTypeId = aQualification.getQualificationType();
 			PstnQlfrTypeContract aTypeObj = PmServiceLocator.getPstnQlfrTypeService().getPstnQlfrTypeById(aTypeId);
@@ -78,9 +78,9 @@ public class QualifierValueKeyValueFinder extends UifKeyValuesFinderBase {
 			int line_index = fieldId.indexOf("line");
 			int index = Integer.parseInt(fieldId.substring(line_index+4));
 
-			Classification aClass = (Classification)anHrObject;
-			List<ClassificationQualification> qualificationList = aClass.getQualificationList(); // holds "added" lines
-			ClassificationQualification aQualification = (ClassificationQualification)qualificationList.get(index);
+			ClassificationBo aClass = (ClassificationBo)anHrObject;
+			List<ClassificationQualificationBo> qualificationList = aClass.getQualificationList(); // holds "added" lines
+			ClassificationQualificationBo aQualification = (ClassificationQualificationBo)qualificationList.get(index);
 			
 			if(aQualification != null) {
 				String aTypeId = aQualification.getQualificationType();

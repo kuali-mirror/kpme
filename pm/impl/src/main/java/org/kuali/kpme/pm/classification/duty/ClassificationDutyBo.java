@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.classification.ClassificationDerived;
 
-public class ClassificationDuty extends ClassificationDerived implements ClassificationDutyContract {
+public class ClassificationDutyBo extends ClassificationDerived implements ClassificationDutyContract {
 	
 	private static final long serialVersionUID = -3553603419139534148L;
 	

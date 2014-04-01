@@ -22,14 +22,14 @@ import java.util.List;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
-import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
-import org.kuali.kpme.pm.classification.flag.ClassificationFlag;
-import org.kuali.kpme.pm.classification.qual.ClassificationQualification;
+import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
+import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
+import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class Classification extends HrBusinessObject implements ClassificationContract {
+public class ClassificationBo extends HrBusinessObject implements ClassificationContract {
 
 	private static final String LOCATION = "location";
 	private static final String INSTITUTION = "institution";
@@ -61,9 +61,9 @@ public class Classification extends HrBusinessObject implements ClassificationCo
 	private String tenureEligible;
 	private String externalReference;
 	
-	private List<ClassificationQualification> qualificationList = new LinkedList<ClassificationQualification>(); 
-	private List<ClassificationDuty> dutyList = new LinkedList<ClassificationDuty>(); 
-	private List<ClassificationFlag> flagList = new LinkedList<ClassificationFlag>(); 
+	private List<ClassificationQualificationBo> qualificationList = new LinkedList<ClassificationQualificationBo>(); 
+	private List<ClassificationDutyBo> dutyList = new LinkedList<ClassificationDutyBo>(); 
+	private List<ClassificationFlagBo> flagList = new LinkedList<ClassificationFlagBo>(); 
 	
 	// list of position flags, need to add flag maint section to Position maint doc
 	
@@ -215,12 +215,12 @@ public class Classification extends HrBusinessObject implements ClassificationCo
 		this.externalReference = externalReference;
 	}
 
-	public List<ClassificationQualification> getQualificationList() {
+	public List<ClassificationQualificationBo> getQualificationList() {
 		return qualificationList;
 	}
 
 	public void setQualificationList(
-			List<ClassificationQualification> qualificationList) {
+			List<ClassificationQualificationBo> qualificationList) {
 		this.qualificationList = qualificationList;
 	}
 
@@ -240,19 +240,19 @@ public class Classification extends HrBusinessObject implements ClassificationCo
 		this.locationObj = locationObj;
 	}
 
-	public List<ClassificationDuty> getDutyList() {
+	public List<ClassificationDutyBo> getDutyList() {
 		return dutyList;
 	}
 
-	public void setDutyList(List<ClassificationDuty> dutyList) {
+	public void setDutyList(List<ClassificationDutyBo> dutyList) {
 		this.dutyList = dutyList;
 	}
 
-	public List<ClassificationFlag> getFlagList() {
+	public List<ClassificationFlagBo> getFlagList() {
 		return flagList;
 	}
 
-	public void setFlagList(List<ClassificationFlag> flagList) {
+	public void setFlagList(List<ClassificationFlagBo> flagList) {
 		this.flagList = flagList;
 	}
 

@@ -87,7 +87,7 @@
 				</bean>
 				<bean parent="CollectionDefinition">
 					<property name="dataObjectClass"
-						value="org.kuali.kpme.pm.classification.qual.ClassificationQualification" />
+						value="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo" />
 					<property name="name" value="requiredQualList" />
 					<property name="shortLabel" value="Required Qualifications" />
 					<property name="label" value="Required Qualifications" />
@@ -677,7 +677,7 @@
 
     <bean id="Position-QualificationsInquiryPage-Required-Section" parent="Uif-TableCollectionSection">
         <property name="collectionObjectClass"
-                  value="org.kuali.kpme.pm.classification.qual.ClassificationQualification"/>
+                  value="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo"/>
         <property name="propertyName" value="requiredQualList"/>
         <property name="headerText" value="Required Qualification"/>
         <property name="layoutManager.groupingPropertyNames">

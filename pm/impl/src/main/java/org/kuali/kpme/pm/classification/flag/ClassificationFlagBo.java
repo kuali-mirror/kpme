@@ -20,7 +20,7 @@ import java.util.List;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.classification.ClassificationDerived;
 
-public class ClassificationFlag extends ClassificationDerived implements ClassificationFlagContract {
+public class ClassificationFlagBo extends ClassificationDerived implements ClassificationFlagContract {
 	
 	private static final long serialVersionUID = -6195340711898188423L;
 	

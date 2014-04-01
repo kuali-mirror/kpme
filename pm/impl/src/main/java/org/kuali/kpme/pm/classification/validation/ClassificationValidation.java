@@ -25,8 +25,8 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
-import org.kuali.kpme.pm.classification.Classification;
-import org.kuali.kpme.pm.classification.duty.ClassificationDuty;
+import org.kuali.kpme.pm.classification.ClassificationBo;
+import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -36,7 +36,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Classification");
-		Classification clss = (Classification) this.getNewDataObject();
+		ClassificationBo clss = (ClassificationBo) this.getNewDataObject();
 		
 		if (clss != null) {
 			valid = true;
@@ -52,7 +52,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	private boolean validateInstitution(Classification clss) {
+	private boolean validateInstitution(ClassificationBo clss) {
 		if (StringUtils.isNotEmpty(clss.getInstitution())
 				&& !ValidationUtils.validateInstitution(clss.getInstitution(), clss.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
@@ -63,7 +63,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		}
 	}
 	
-	private boolean validateLocation(Classification clss) {
+	private boolean validateLocation(ClassificationBo clss) {
 		if (StringUtils.isNotEmpty(clss.getLocation())
 				&& !ValidationUtils.validateLocation(clss.getLocation(), clss.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.location", "error.existence", "Location '"
@@ -74,7 +74,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		}
 	}
 	
-	private boolean validateLeavePlan(Classification clss) {
+	private boolean validateLeavePlan(ClassificationBo clss) {
 		if (StringUtils.isNotEmpty(clss.getLeavePlan())
 				&& !ValidationUtils.validateLeavePlan(clss.getLeavePlan(), clss.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.leavePlan", "error.existence", "Leave Plan '"
@@ -85,7 +85,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		}
 	}
 	
-	private boolean validateSalGroup(Classification clss) {
+	private boolean validateSalGroup(ClassificationBo clss) {
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(clss.getSalaryGroup(), clss.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + clss.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
@@ -113,7 +113,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		return true;
 	}
 	
-	private boolean validateReportingGroup(Classification clss) {
+	private boolean validateReportingGroup(ClassificationBo clss) {
 		if(StringUtils.isNotBlank(clss.getPositionReportGroup())) {
 			PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getEffectiveLocalDate());
 			String errorMes = "PositionReportGroup '" + clss.getPositionReportGroup() + "'";
@@ -142,7 +142,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		return true;
 	}
 	
-	private boolean validatePositionType(Classification clss) {
+	private boolean validatePositionType(ClassificationBo clss) {
 		PositionTypeContract aPType = PmServiceLocator.getPositionTypeService().getPositionType(clss.getPositionType(),  clss.getEffectiveLocalDate());
 		String errorMes = "PositionType '" + clss.getPositionType() + "'";
 		if(aPType == null) {
@@ -170,10 +170,10 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		return true;
 	}
 	
-	private boolean validatePercentTime(Classification clss) {
+	private boolean validatePercentTime(ClassificationBo clss) {
 		if(CollectionUtils.isNotEmpty(clss.getDutyList())) {
 			BigDecimal sum = BigDecimal.ZERO;
-			for(ClassificationDuty aDuty : clss.getDutyList()) {
+			for(ClassificationDutyBo aDuty : clss.getDutyList()) {
 				if(aDuty != null && aDuty.getPercentage() != null) {
 					sum = sum.add(aDuty.getPercentage());
 				}
@@ -189,7 +189,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		return true;
 	}
 
-    private boolean validatePayGrade(Classification clss) {
+    private boolean validatePayGrade(ClassificationBo clss) {
         if (StringUtils.isNotEmpty(clss.getPayGrade()) && !ValidationUtils.validatePayGrade(clss.getPayGrade(), clss.getSalaryGroup(), clss.getEffectiveLocalDate())) {
             String[] params = new String[2];
             params[0] = clss.getPayGrade();

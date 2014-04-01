@@ -24,7 +24,7 @@ import org.kuali.kpme.pm.classification.ClassificationDerived;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class ClassificationQualification extends ClassificationDerived implements ClassificationQualificationContract {
+public class ClassificationQualificationBo extends ClassificationDerived implements ClassificationQualificationContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmClassificationQualificationId;
