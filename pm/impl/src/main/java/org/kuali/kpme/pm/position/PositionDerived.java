@@ -23,25 +23,8 @@ public abstract class PositionDerived extends HrBusinessObjectDerived implements
 	private static final long serialVersionUID = -4500160649209884023L;
 	
 	protected String hrPositionId;
-	private PositionBo positionBo;
-	private static final String POSITION_BO = "positionBo";
-	
-	
-	public PositionBo getPositionBo() {
-		if(this.positionBo == null) {
-			refreshReferenceObject(POSITION_BO);
-		}
-		return this.positionBo;
-	}
-
-	public void setPositionBo(PositionBo positionBo) {
-		this.positionBo = positionBo;
-	}
-
-	@Override
-	public PositionBo getOwner() {
-		return getPositionBo();
-	}
+	private PositionBo owner;
+	private static final String OWNER = "owner";
 	
 	@Override
 	public String getHrPositionId() {
@@ -52,5 +35,16 @@ public abstract class PositionDerived extends HrBusinessObjectDerived implements
 		this.hrPositionId = hrPositionId;
 	}
 	
-
+	@Override
+	public PositionBo getOwner() {
+		if(this.owner == null) {
+			refreshReferenceObject(OWNER);
+		}
+		return this.owner;
+	}
+	
+	public void setOwner(PositionBo owner) {
+		this.owner = owner;
+	}
+	
 }

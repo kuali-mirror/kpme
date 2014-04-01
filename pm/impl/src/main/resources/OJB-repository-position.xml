@@ -213,7 +213,7 @@
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
         
-        <reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="hrPositionId"/>
         </reference-descriptor>        
     </class-descriptor>
@@ -387,7 +387,7 @@
         <field-descriptor name="objectId"               		column="OBJ_ID"                	        jdbc-type="VARCHAR"     index="true" />
        	<field-descriptor name="versionNumber"          		column="VER_NBR"               	 		jdbc-type="BIGINT"      locking="true" />
        	
-       	<reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+       	<reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="hrPositionId"/>
         </reference-descriptor>        
     </class-descriptor>
@@ -402,7 +402,7 @@
         <field-descriptor name="objectId"      						column="OBJ_ID"             	jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 						column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
         
-        <reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="hrPositionId"/>
         </reference-descriptor>        
     </class-descriptor>
@@ -417,7 +417,7 @@
     	<field-descriptor name="objectId"      				column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 				column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
         
-        <reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="hrPositionId"/>
         </reference-descriptor>        
     </class-descriptor>
@@ -431,7 +431,7 @@
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
         
-        <reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="hrPositionId"/>
         </reference-descriptor>
     </class-descriptor>
@@ -453,7 +453,7 @@
         <field-descriptor name="objectId"               		column="OBJ_ID"                	        jdbc-type="VARCHAR"     index="true" />
        	<field-descriptor name="versionNumber"          		column="VER_NBR"               	 		jdbc-type="BIGINT"      locking="true" />
        	
-       	<reference-descriptor name="positionBo" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+       	<reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.position.PositionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="hrPositionId"/>
         </reference-descriptor>        
     </class-descriptor>
