@@ -15,23 +15,15 @@
  */
 package org.kuali.kpme.pm.api.classification.flag;
 
+import org.kuali.kpme.pm.api.classification.ClassificationDerivedContract;
 import org.kuali.kpme.pm.api.flag.FlagContract;
 
 /**
  * <p>ClassificationFlagContract interface</p>
  *
  */
-public interface ClassificationFlagContract extends FlagContract {
+public interface ClassificationFlagContract extends FlagContract, ClassificationDerivedContract {
 	
-	/**
-	 * THe Position class that the ClassificationFlag is associated with
-	 * 
-	 * <p>
-	 * pmPositionClassId of a ClassificationFlag.
-	 * <p>
-	 * 
-	 * @return pmPositionClassId for ClassificationFlag
-	 */
-	public String getPmPositionClassId();
-
+	// Currently this empty interface is a placeholder for future additions (all of the current contract is expressed in the FlagContract interface).
+	
 }

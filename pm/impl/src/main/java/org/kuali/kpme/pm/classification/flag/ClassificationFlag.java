@@ -18,13 +18,12 @@ package org.kuali.kpme.pm.classification.flag;
 import java.util.List;
 
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.kpme.pm.classification.ClassificationDerived;
 
-public class ClassificationFlag extends PersistableBusinessObjectBase implements ClassificationFlagContract {
+public class ClassificationFlag extends ClassificationDerived implements ClassificationFlagContract {
 	
 	private static final long serialVersionUID = -6195340711898188423L;
 	
-	private String pmPositionClassId;
 	private String pmFlagId;
 	private String category;
 	//private String names;
@@ -49,10 +48,4 @@ public class ClassificationFlag extends PersistableBusinessObjectBase implements
 		this.names = names;
 	}
 	
-	public String getPmPositionClassId() {
-		return pmPositionClassId;
-	}
-	public void setPmPositionClassId(String pmPositionClassId) {
-		this.pmPositionClassId = pmPositionClassId;
-	}
 }

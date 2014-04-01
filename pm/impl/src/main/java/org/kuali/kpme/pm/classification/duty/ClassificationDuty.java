@@ -18,16 +18,17 @@ package org.kuali.kpme.pm.classification.duty;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.kpme.pm.classification.ClassificationDerived;
 
-public class ClassificationDuty extends PersistableBusinessObjectBase implements ClassificationDutyContract {
-	private static final long serialVersionUID = 1L;
+public class ClassificationDuty extends ClassificationDerived implements ClassificationDutyContract {
+	
+	private static final long serialVersionUID = -3553603419139534148L;
 	
 	private String pmDutyId;
 	private String name;
 	private String description;
 	private BigDecimal percentage;
-	private String pmPositionClassId;
+	
 	
 	public String getPmDutyId() {
 		return pmDutyId;
@@ -52,12 +53,6 @@ public class ClassificationDuty extends PersistableBusinessObjectBase implements
 	}
 	public void setPercentage(BigDecimal percentage) {
 		this.percentage = percentage;
-	}
-	public String getPmPositionClassId() {
-		return pmPositionClassId;
-	}
-	public void setPmPositionClassId(String pmPositionClassId) {
-		this.pmPositionClassId = pmPositionClassId;
 	}
 	
 }

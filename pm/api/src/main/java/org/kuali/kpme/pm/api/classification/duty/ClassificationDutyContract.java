@@ -17,13 +17,13 @@ package org.kuali.kpme.pm.api.classification.duty;
 
 import java.math.BigDecimal;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.kpme.pm.api.classification.ClassificationDerivedContract;
 
 /**
  * <p>ClassificationDutyContract interface</p>
  *
  */
-public interface ClassificationDutyContract extends PersistableBusinessObject {
+public interface ClassificationDutyContract extends ClassificationDerivedContract {
 
 	/**
 	 * The Primary Key that a ClassificationDuty record will be saved to a database with
@@ -68,16 +68,5 @@ public interface ClassificationDutyContract extends PersistableBusinessObject {
 	 * @return percentage for ClassificationDuty
 	 */
 	public BigDecimal getPercentage();
-	
-	/**
-	 * The position class id associated with the ClassificationDuty
-	 * 
-	 * <p>
-	 * pmPositionClassId of a ClassificationDuty.
-	 * <p>
-	 * 
-	 * @return pmPositionClassId for ClassificationDuty
-	 */
-	public String getPmPositionClassId();
 
 }

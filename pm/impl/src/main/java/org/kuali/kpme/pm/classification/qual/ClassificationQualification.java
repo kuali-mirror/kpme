@@ -20,12 +20,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
-import org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType;
+import org.kuali.kpme.pm.classification.ClassificationDerived;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
-import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class ClassificationQualification extends PersistableBusinessObjectBase implements ClassificationQualificationContract {
+public class ClassificationQualification extends ClassificationDerived implements ClassificationQualificationContract {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmClassificationQualificationId;
@@ -33,7 +32,6 @@ public class ClassificationQualification extends PersistableBusinessObjectBase i
 	private String typeValue;		// for GUI only
 	private String qualifier;
 	private String qualificationValue;
-	private String pmPositionClassId;
 	private String displayOrder;
 	private transient String qualifierString;
 	
@@ -88,14 +86,6 @@ public class ClassificationQualification extends PersistableBusinessObjectBase i
 
 	public void setQualificationValue(String qualificationValue) {
 		this.qualificationValue = qualificationValue;
-	}
-
-	public String getPmPositionClassId() {
-		return pmPositionClassId;
-	}
-
-	public void setPmPositionClassId(String pmPositionClassId) {
-		this.pmPositionClassId = pmPositionClassId;
 	}
 
 	public String getDisplayOrder() {

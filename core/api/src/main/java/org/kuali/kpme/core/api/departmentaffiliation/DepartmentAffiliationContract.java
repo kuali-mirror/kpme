@@ -15,13 +15,13 @@
  */
 package org.kuali.kpme.core.api.departmentaffiliation;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 
 /**
  * <p>DepartmentAffiliationContract interface</p>
  *
  */
-public interface DepartmentAffiliationContract extends HrBusinessObjectContract {
+public interface DepartmentAffiliationContract extends KpmeEffectiveDataTransferObject {
 
     /**
      * The primary key for a DepartmentAffiliation entry saved in the database
