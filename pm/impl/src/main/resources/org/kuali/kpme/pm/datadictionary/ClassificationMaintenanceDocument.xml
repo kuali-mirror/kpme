@@ -45,7 +45,8 @@
 				<ref bean="Cls-AdHocPage" />
 				<ref bean="Cls-RouteLogPage" /> 
 		    </list>
-    	</property> 
+    	</property>
+    	<property name="style" value="min-height:550px"/> 
 	    <property name="navigation">
 			<ref bean="classificationMenuNavigation" />
 		</property>   

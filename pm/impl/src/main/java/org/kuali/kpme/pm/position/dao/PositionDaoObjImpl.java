@@ -57,7 +57,7 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
         }
 
         if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(workingPositionTitle)", location.toUpperCase());
+            root.addLike("UPPER(location)", location.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(institution)) {
