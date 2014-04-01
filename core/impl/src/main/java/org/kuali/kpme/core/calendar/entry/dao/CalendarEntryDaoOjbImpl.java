@@ -274,7 +274,7 @@ public class CalendarEntryDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
             }
         }
         if (!StringUtils.equals(calendarName,"")){
-            crit.addLike("calendarName", calendarName);
+            crit.addLike("UPPER(calendarName)", calendarName.toUpperCase());
         }
         if (fromBeginDate != null) {
             crit.addGreaterOrEqualThan("beginPeriodDateTime", fromBeginDate.toDate());
