@@ -66,13 +66,9 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			valid &= validateActive(workArea);
 			
 			if(workArea.getTasks()!=null && !workArea.getTasks().isEmpty()){
-				System.out.println("Inside if:::::::::" + workArea.getWorkArea());
 				for(TaskBo task : workArea.getTasks()){
-					System.out.println("Inside for:" + task.getTask());
 					valid &= validateTask(task,workArea);
 				}
-			}else{
-				System.out.println("Inside else:::::::::");
 			}
 		}
 		
