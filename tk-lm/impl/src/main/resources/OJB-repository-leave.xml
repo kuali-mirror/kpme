@@ -32,6 +32,8 @@
         <field-descriptor name="sstoId"     			column="SSTO_ID"   						jdbc-type="VARCHAR"     length="60" />
         <field-descriptor name="status"					column="STATUS"							jdbc-type="VARCHAR"		length="1" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"              jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <!-- Leave Payout -->
@@ -46,6 +48,8 @@
         <field-descriptor name="forfeitedAmount"        column="FORFEITED_AMOUNT"          		jdbc-type="DECIMAL"   	length="20" />
         <field-descriptor name="status"					column="STATUS"							jdbc-type="VARCHAR"		length="1" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"              jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <!-- System Scheduled Time Off -->
@@ -226,7 +230,9 @@
     
     <class-descriptor class="org.kuali.kpme.tklm.leave.accrual.PrincipalAccrualRan" table="LM_PRIN_ACCR_RAN_T">
         <field-descriptor name="principalId" column="PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" primarykey="true" />
-        <field-descriptor name="lastRanTs"  column="LAST_RAN_TS"    jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />        
+        <field-descriptor name="lastRanTs"  column="LAST_RAN_TS"    jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
 </descriptor-repository>

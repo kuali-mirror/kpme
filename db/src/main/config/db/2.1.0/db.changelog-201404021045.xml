@@ -1,0 +1,71 @@
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1" author="jwillia" context="kpme-client-bootstrap">
+        <addColumn tableName="HR_DEPT_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="HR_CALENDAR_ENTRIES_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="HR_CALENDAR_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="HR_PAY_GRADE_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="LM_BALANCE_TRANSFER_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="LM_LEAVE_PAYOUT_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="LM_PRIN_ACCR_RAN_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="TK_CLOCK_LOC_RL_IP_ADDR_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="TK_SHIFT_DIFFERENTIAL_RL_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="TK_DAILY_OVERTIME_RL_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="TK_USER_PREF_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+        <addColumn tableName="TK_WEEKLY_OVT_GROUP_T">
+            <column name="VER_NBR" type="bigint(20)" />
+            <column name="OBJ_ID" type="varchar(36)" />
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

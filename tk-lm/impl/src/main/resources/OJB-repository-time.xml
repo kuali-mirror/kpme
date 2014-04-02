@@ -155,6 +155,8 @@
         <field-descriptor name="tkClockLocationRuleIpId"    column="TK_CLOCK_LOC_RULE_IP_ID"    jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_CLOCK_LOC_RL_IP_ADDR_S" />
         <field-descriptor name="tkClockLocationRuleId"      column="TK_CLOCK_LOC_RULE_ID"       jdbc-type="VARCHAR" length="60" />
         <field-descriptor name="ipAddress"                  column="IP_ADDRESS"                 jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <!-- add grace period rule -->
@@ -250,6 +252,8 @@
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" />
         <field-descriptor name="timestamp"          column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false"    conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <!-- Weekly Overtime Rule -->
@@ -285,6 +289,8 @@
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"          jdbc-type="VARCHAR"     length="40" />
         <field-descriptor name="timestamp"              column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"                 column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo" table="TK_HOUR_DETAIL_T">
@@ -300,11 +306,15 @@
     <class-descriptor class="org.kuali.kpme.tklm.time.user.pref.UserPreferences" table="TK_USER_PREF_T">
         <field-descriptor name="principalId"    column="PRINCIPAL_ID"   jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
         <field-descriptor name="timezone"       column="TIME_ZONE"      jdbc-type="VARCHAR" length="30" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRuleGroup" table="TK_WEEKLY_OVT_GROUP_T">
         <field-descriptor name="tkWeeklyOvertimeRuleGroupId" column="TK_WEEKLY_OVERTIME_GROUP_ID" jdbc-type="BIGINT" primarykey="true" />
-        
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+
         <collection-descriptor name="lstWeeklyOvertimeRules" element-class-ref="org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="tkWeeklyOvertimeRuleGroupId" />
         </collection-descriptor>

@@ -144,6 +144,8 @@
         <field-descriptor name="timestamp"      	column="TIMESTAMP"   	jdbc-type="TIMESTAMP"  nullable="false" primarykey="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"         	column="ACTIVE"      	jdbc-type="VARCHAR"    length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
 
@@ -388,6 +390,8 @@
         <field-descriptor name="batchEmployeeApprovalDateTime"      column="BATCH_EMPLOYEE_APPROVAL_DATE"   jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="batchSupervisorApprovalDateTime"    column="BATCH_SUPERVISOR_APPROVAL_DATE" jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="batchPayrollApprovalDateTime"    	column="BATCH_PAYROLL_APPROVAL_DATE" 	jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <!--  Calendar -->
@@ -399,7 +403,9 @@
         <field-descriptor name="flsaBeginDay"           column="FLSA_BEGIN_DAY"         jdbc-type="VARCHAR" length="9" />
         <field-descriptor name="flsaBeginTime"          column="FLSA_BEGIN_TIME"        jdbc-type="TIME" />
         <field-descriptor name="calendarTypes"          column="CALENDAR_TYPES"         jdbc-type="VARCHAR" length="9" />
-        
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+
         <!--<collection-descriptor name="calendarEntries" element-class-ref="org.kuali.kpme.core.calendar.entry.CalendarEntryBo" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="hrCalendarId" />
         </collection-descriptor>-->
@@ -438,6 +444,8 @@
         <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <!--  Position -->
