@@ -16,16 +16,12 @@
 package org.kuali.rice.krad.kpme.pm.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.bo.service.HrBusinessObjectService;
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.krad.kpme.controller.EffectiveDateMaintenanceController;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -37,7 +33,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 
@@ -46,7 +41,7 @@ import java.util.concurrent.Callable;
 @RequestMapping(value = "/kpme/positionMaintenance")
 public class PositionMaintenanceController extends EffectiveDateMaintenanceController {
 
-    private static final String KPME_PROCRESS_CHANGE_WARNING_DIALOG = "ProcessChangeWarning-Dialog";
+    private static final String KPME_PROCESS_CHANGE_WARNING_DIALOG = "ProcessChangeWarning-Dialog";
 
     @Override
     @RequestMapping(params = "methodToCall=returnFromLightbox")
@@ -91,8 +86,6 @@ public class PositionMaintenanceController extends EffectiveDateMaintenanceContr
             public ModelAndView call() throws Exception {
                 // register the superclass method as the handler
                 setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
-
-                Map<String,String[]> parameterMap = request.getParameterMap();
                 String newProcess = request.getParameter("newProcess");
 
                 MaintenanceDocument maintenanceDocument = (MaintenanceDocument) form.getDocument();
@@ -105,7 +98,7 @@ public class PositionMaintenanceController extends EffectiveDateMaintenanceContr
 
 
 
-    // This method containes the common pre-handler logic to show the process change warning dialog for any particular handler action that we wish to 'intercept'.
+    // This method contains the common pre-handler logic to show the process change warning dialog for any particular handler action that we wish to 'intercept'.
     // The callable parameter encapsulates the actual super class handler method to be invoked in case of either an absence of warning or user's confirmation on the warning.
     protected ModelAndView showProcessChangeWarningIfNeeded(@ModelAttribute("KualiForm") DocumentFormBase form,
                                                             BindingResult result,
@@ -114,18 +107,17 @@ public class PositionMaintenanceController extends EffectiveDateMaintenanceContr
                                                             Callable<ModelAndView> callable) throws Exception {
 
         ModelAndView retVal = null;
-        Map<String,String[]> parameterMap = request.getParameterMap();
         String oldProcess = request.getParameter("oldProcess");
 
-            if (!hasDialogBeenAnswered(KPME_PROCRESS_CHANGE_WARNING_DIALOG, form)) {
+            if (!hasDialogBeenAnswered(KPME_PROCESS_CHANGE_WARNING_DIALOG, form)) {
                 if (StringUtils.isEmpty(oldProcess)) {
                     retVal = getUIFModelAndView(form);
                 } else {
                     // redirect back to client to display lightbox
-                    retVal = showDialog(KPME_PROCRESS_CHANGE_WARNING_DIALOG, form, request, response);
+                    retVal = showDialog(KPME_PROCESS_CHANGE_WARNING_DIALOG, form, request, response);
                 }
             } else {
-                 boolean areYouSure = getBooleanDialogResponse(KPME_PROCRESS_CHANGE_WARNING_DIALOG, form, request, response);
+                 boolean areYouSure = getBooleanDialogResponse(KPME_PROCESS_CHANGE_WARNING_DIALOG, form, request, response);
                 // clear all dialogs in order to display warning again
                 form.getDialogManager().removeAllDialogs();
                 if (areYouSure) {
