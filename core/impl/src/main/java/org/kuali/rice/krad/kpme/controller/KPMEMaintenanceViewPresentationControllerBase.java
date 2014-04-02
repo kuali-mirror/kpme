@@ -22,9 +22,18 @@ import org.kuali.rice.krad.maintenance.MaintenanceViewPresentationControllerBase
 
 public class KPMEMaintenanceViewPresentationControllerBase extends MaintenanceViewPresentationControllerBase {
 
-    @Override
+	private static final long serialVersionUID = 5427336063416427262L;
+
+	@Override
     public boolean canCancel(Document document) {
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        return workflowDocument.isValidAction(ActionType.CANCEL);
+        // check if workflow allows it and invoke hook to allow subclasses to run authorization checks
+        return (workflowDocument.isValidAction(ActionType.CANCEL) && isAllowedToCancel(document));
     }
+	
+	// default implementation returns true; subclasses can override this to check if user has permissions to cancel
+	protected boolean isAllowedToCancel(Document docuemnt) {
+		return true;
+	}
+	
 }

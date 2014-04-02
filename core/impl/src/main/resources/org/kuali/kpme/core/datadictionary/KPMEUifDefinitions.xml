@@ -92,8 +92,8 @@
 
     <!-- maintenance view to hide cancel button upon submit -->
 	<bean id="KPMEUif-MaintenanceView" parent="Uif-MaintenanceView">
-        <property name="presentationControllerClass"
-                  value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceViewPresentationControllerBase"/>
+        <property name="presentationControllerClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceViewPresentationControllerBase"/>
+        <property name="formClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceDocumentForm"/>
 	</bean>
 
 	<bean id="KPMEEffectiveDateBO-MaintenanceView" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView-parentBean"/>

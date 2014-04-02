@@ -24,7 +24,6 @@ import org.kuali.kpme.core.api.bo.service.HrBusinessObjectService;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,7 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/kpme/effectiveDateMaintenance")
-public class EffectiveDateMaintenanceController extends MaintenanceDocumentController {
+public class EffectiveDateMaintenanceController extends KPMEMaintenanceDocumentController {
 	
 	private static final String KPME_EFFECTIVE_DATE_WARNING_DIALOG = "KPMEEffectiveDateWarning-Dialog";
 	private static final String HR_BUSINESS_OBJECT_SERVICE_NAME = "hrBusinessObjectService";
