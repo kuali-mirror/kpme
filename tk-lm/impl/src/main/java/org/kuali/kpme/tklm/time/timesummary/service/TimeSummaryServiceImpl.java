@@ -85,7 +85,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     public TimeSummary getTimeSummary(String principalId, List<TimeBlock> timeBlocks, CalendarEntry calendarEntry, Map<LocalDate, List<Assignment>> assignments) {
 		TimeSummary timeSummary = new TimeSummary();
 
-		if(principalId == null || CollectionUtils.isEmpty(timeBlocks)) {
+		//if(principalId == null || CollectionUtils.isEmpty(timeBlocks)) { KPME-3340
+		if(principalId == null || timeBlocks == null) {
 			return timeSummary;
 		}
 
