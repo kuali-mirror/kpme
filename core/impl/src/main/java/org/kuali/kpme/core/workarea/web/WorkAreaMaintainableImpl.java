@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.assignment.Assignment;
@@ -63,7 +65,18 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 
 	private static final long serialVersionUID = -624127817308880466L;
+	
+	@Transient
+	private Long taskCount;
+	
+	public Long getTaskCount() {
+		return taskCount;
+	}
 
+	public void setTaskCount(Long taskCount) {
+		this.taskCount = taskCount;
+	}
+	
 	@Override
 	public HrBusinessObject getObjectById(String id) {
 		return HrServiceLocatorInternal.getWorkAreaInternalService().getWorkArea(id);
@@ -91,12 +104,12 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 		if (workArea.getWorkArea() == null) {
 			workArea.setWorkArea(HrServiceLocator.getWorkAreaService().getNextWorkAreaKey());
 		}
-
+		
 		super.processAfterNew(document, parameters);
 	}
 
 	@Override
-	public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {    	
+	public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {   
 		WorkAreaBo oldMaintainableObject = (WorkAreaBo) document.getOldMaintainableObject().getDataObject();
 		WorkAreaBo newMaintainableObject = (WorkAreaBo) document.getNewMaintainableObject().getDataObject();
 
@@ -162,7 +175,6 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 	public void applyDefaultValuesForCollectionLine(View view, Object model,
 			CollectionGroup collectionGroup, Object line) {
 		// TODO Auto-generated method stub
-
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
 		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
 		if (anHrObject.getEffectiveDate() != null && !StringUtils.isEmpty(anHrObject.getEffectiveDate().toString())) {
@@ -211,7 +223,6 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 					}
 				}
 			}
-
 			
 			if(document.getNewMaintainableObject().getDataObject() instanceof WorkAreaBo && addLine instanceof TaskBo){
 				WorkAreaBo workArea = (WorkAreaBo) document.getNewMaintainableObject().getDataObject();
@@ -220,24 +231,14 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 
 				if (valid) {
 					if (task.getTask() == null) {
-						Long maxTaskNumberInTable = this.getMaxTaskNumber(workArea);
-						Long maxTaskNumberOnPage = 0L;
-						if (!workArea.getTasks().isEmpty()) {
-							maxTaskNumberOnPage = workArea.getTasks().get(workArea.getTasks().size() - 1).getTask();
+						if(this.getTaskCount()==null){
+							this.setTaskCount(this.getMaxTaskNumber(workArea));
 						}
-
-						if (maxTaskNumberOnPage.compareTo(maxTaskNumberInTable) >= 0) {
-							task.setTask(maxTaskNumberOnPage + 1);
-						} else {
-							task.setTask(maxTaskNumberInTable);
-						}
-
+						task.setTask(this.getTaskCount());
+						this.setTaskCount(this.getTaskCount()+1);
 						task.setWorkArea(workArea.getWorkArea());
 					}
-				}
-
-
-				
+				}				
 			}
 
 			//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
@@ -350,10 +351,10 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 						}
 					}
 				}
-			}
-		}    
-		
+			}    
+		}
 		return valid;
+		
 	}
 
 
@@ -401,16 +402,19 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 
 	private Long getMaxTaskNumber(WorkAreaBo workArea) {
 		Long task = new Long("100");
-
-		TaskContract maxTask = HrServiceLocator.getTaskService().getMaxTask();
-
+		TaskContract maxTask = HrServiceLocator.getTaskService().getMaxTask(workArea.getWorkArea());
 		if (maxTask != null) {
 			task = maxTask.getTask() + 1;
 		}
-
 		return task;
 	}
-
+	
+	@Override
+	public void saveDataObject() {
+		// TODO Auto-generated method stub
+		super.saveDataObject();
+	}
+	
 	@Override
 	public void customSaveLogic(HrBusinessObject hrObj) {
 		WorkAreaBo workArea = (WorkAreaBo) hrObj;
@@ -428,7 +432,6 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 			task.setWorkArea(workArea.getWorkArea());
 		}
 		workArea.setTasks(tasks);
-
 
 		HrServiceLocator.getTaskService().saveTasks(ModelObjectUtils.transform(tasks, TaskBo.toTask));
 	}

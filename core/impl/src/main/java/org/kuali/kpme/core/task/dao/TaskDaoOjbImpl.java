@@ -40,15 +40,14 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
 	}
 
     @Override
-    public TaskBo getMaxTask() {
+    public TaskBo getMaxTask(Long workArea) {
         Criteria root = new Criteria();
         Criteria crit = new Criteria();
-
+        crit.addEqualTo("workArea",workArea);
         ReportQueryByCriteria taskNumberSubQuery = QueryFactory.newReportQuery(TaskBo.class, crit);
         taskNumberSubQuery.setAttributes(new String[]{"max(task)"});
-
+        
         root.addEqualTo("task", taskNumberSubQuery);
-
         Query query = QueryFactory.newQuery(TaskBo.class, root);
         return (TaskBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
@@ -90,7 +89,8 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
     @SuppressWarnings("unchecked")
 	@Override
     public List<TaskBo> getTasks(Long task, String description, Long workArea, LocalDate fromEffdt, LocalDate toEffdt) {
-        Criteria root = new Criteria();
+
+    	Criteria root = new Criteria();
 
         List<TaskBo> results = new ArrayList<TaskBo>();
 
@@ -117,17 +117,17 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
             effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
         }
         root.addAndCriteria(effectiveDateFilter);
-
+        
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
-
+        
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(TaskBo.class, effectiveDateFilter, TaskBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TaskBo.class, TaskBo.BUSINESS_KEYS, false));
-
+        
         Query query = QueryFactory.newQuery(TaskBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
-
+        
         return results;
     }
    

@@ -70,8 +70,8 @@ public class TaskServiceImpl implements TaskService {
     } 
 
 	@Override
-	public Task getMaxTask(){
-		return TaskBo.to(taskDao.getMaxTask());
+	public Task getMaxTask(Long workArea){
+		return TaskBo.to(taskDao.getMaxTask(workArea));
 	}
 
     @Override

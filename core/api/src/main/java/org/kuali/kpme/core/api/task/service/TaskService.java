@@ -53,7 +53,7 @@ public interface TaskService {
     @CacheEvict(value={TaskContract.CACHE_NAME}, allEntries = true)
     public List<Task> saveTasks(List<Task> tasks);
     
-	public Task getMaxTask();
+	public Task getMaxTask(Long workArea);
 
     List<Task> getTasks(String task, String description, String workArea, LocalDate fromEffdt, LocalDate toEffdt);
     
