@@ -246,7 +246,7 @@
 
 	<bean id="ClockLog-InquiryView" parent="Uif-InquiryView">
 		<property name="headerText" value="Clock Log Inquiry" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.clocklog.ClockLog" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.clocklog.ClockLogBo" />
 		<property name="singlePageView" value="true" />
 		<property name="items">
 			<list>
@@ -279,7 +279,7 @@
 	
 	<bean id="ClockLog-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
 	<property name="headerText" value="Clock Log Lookup" />
-	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.clocklog.ClockLog" />
+	<property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.clocklog.ClockLogBo" />
 	<property name="viewHelperServiceClass"
 		value="org.kuali.kpme.tklm.time.clocklog.web.ClockLogLookupableImpl" />
 	<property name="criteriaFields">
