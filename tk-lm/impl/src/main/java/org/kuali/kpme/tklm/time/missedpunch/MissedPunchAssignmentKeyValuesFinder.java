@@ -43,6 +43,9 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 	        MissedPunchDocument missedPunchDocument = (MissedPunchDocument) missedPunchForm.getDocument();
             MissedPunchBo mp = missedPunchDocument == null ? missedPunchForm.getMissedPunch() : missedPunchDocument.getMissedPunch();
             LocalDate mpDate = mp.getLocalDate();
+            if(mpDate == null) {
+            	mpDate = LocalDate.now();
+            }
             String timesheetDocumentId = missedPunchDocument != null ? missedPunchDocument.getMissedPunch().getTimesheetDocumentId() : missedPunchForm.getMissedPunch().getTimesheetDocumentId();
 	        if (StringUtils.isNotBlank(timesheetDocumentId)) {
 	            TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
