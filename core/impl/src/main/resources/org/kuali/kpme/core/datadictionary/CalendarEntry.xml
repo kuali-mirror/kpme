@@ -358,7 +358,7 @@
     </bean>
 
   <!--Calendar Entry Lookup View-->
-    <bean id="CalendarEntry-LookupView" parent="KPMEUif-ViewLinkLookupView">
+    <bean id="CalendarEntry-LookupView" parent="KPMEUif-NonEffectiveBoViewLinkLookupView">
         <property name="headerText" value="Calendar Entry Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.entry.CalendarEntryBo" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.calendar.entry.web.CalendarEntryLookupableImpl" />

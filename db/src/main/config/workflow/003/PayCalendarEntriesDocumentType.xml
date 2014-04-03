@@ -24,7 +24,7 @@
 		<documentType>
 			<name>PayCalendarEntriesDocumentType</name>
 			<parent>KpmeDocument</parent>
-            <docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.kpme.core.calendar.CalendarBo</docHandler>
+            <docHandler>${kuali.docHandler.url.prefix}/kr-krad/kpme/nonEffectiveMaintenance?methodToCall=docHandler</docHandler>
 			<label>Calendar Entry Document</label>
 		</documentType>
 	</documentTypes>

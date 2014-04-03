@@ -222,7 +222,7 @@
     </bean>
 
     <!-- Calenadar Lookup View -->
-    <bean id="Calendar-LookupView" parent="KPMEUif-ViewLinkLookupView">
+    <bean id="Calendar-LookupView" parent="KPMEUif-NonEffectiveBoViewLinkLookupView">
         <property name="headerText" value="Calendar Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.calendar.CalendarBo"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.calendar.web.CalendarLookupableImpl"/>

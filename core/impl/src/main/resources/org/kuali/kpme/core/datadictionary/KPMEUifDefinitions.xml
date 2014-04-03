@@ -56,7 +56,11 @@
 		    </list>
 		</property>
 	</bean>
-    
+
+    <bean id="KPMEUif-NonEffectiveBoViewLinkLookupView" parent="KPMEUif-ViewLinkLookupView">
+        <property name="maintenanceUrlMapping" value="kpme/nonEffectiveMaintenance"/>
+    </bean>
+
      <!-- lookup view for BO's that use effective date (but no view link from lookup); maintainance for such BOs is performed via a special controller specified by the overriden property. -->
     <bean id="KPMEUif-EffectiveDateBONoViewLinkLookupView" parent="KPME-ChangedPageSizeLookupView" abstract="true">
     	 <property name="maintenanceUrlMapping" value="kpme/effectiveDateMaintenance"/>
@@ -90,12 +94,6 @@
         </property>
     </bean>
 
-    <!-- maintenance view to hide cancel button upon submit -->
-	<bean id="KPMEUif-MaintenanceView" parent="Uif-MaintenanceView">
-        <property name="presentationControllerClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceViewPresentationControllerBase"/>
-        <property name="formClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceDocumentForm"/>
-	</bean>
-
 	<bean id="KPMEEffectiveDateBO-MaintenanceView" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView-parentBean"/>
   	<bean id="KPMEEffectiveDateBO-MaintenanceView-parentBean" abstract="true" parent="KPMEUif-MaintenanceView">
   		<property name="dialogs">
@@ -109,6 +107,54 @@
   		<property name="headerText" value="Effective date warning!"/>
 		<property name="promptText" value="A record for this object exists with a later effective date, if you continue with submission, this record will be overwritten when the future effective date takes effect.  Are you sure you want to continue?"/>
 	</bean>
+
+    <!-- maintenance view to hide cancel button upon submit -->
+    <bean id="KPMEUif-MaintenanceView" parent="Uif-MaintenanceView">
+        <property name="presentationControllerClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceViewPresentationControllerBase"/>
+        <property name="formClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceDocumentForm"/>
+        <property name="page">
+            <bean parent="KPMEUif-MaintenancePage"/>
+        </property>
+    </bean>
+
+    <!--maintenance page with KPME document footer-->
+    <bean id="KPMEUif-MaintenancePage" abstract="true" parent="Uif-MaintenancePage">
+        <property name="footer">
+            <bean parent="KPMEUif-DocumentPageFooter"/>
+        </property>
+    </bean>
+
+    <!--maintenance page footer with close button added-->
+    <bean id="KPMEUif-DocumentPageFooter" parent="Uif-DocumentPageFooter">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="performRouteReport" p:actionLabel="route report"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="sendAdHocRequests" p:actionLabel="send adhoc"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-SaveAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="reload" p:actionLabel="reload"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="blanketApprove" p:actionLabel="blanket approve" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="approve" p:actionLabel="approve"  p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="disapprove" p:actionLabel="disapprove"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="fyi" p:actionLabel="fyi"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="acknowledge" p:actionLabel="acknowledge"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                <bean parent="Uif-CancelAction" p:ajaxSubmit="false" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="copy" p:actionLabel="copy"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="close" p:actionLabel="close"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KPMEUif-DocumentNotesSection" parent="Uif-DocumentNotesSection"
           p:layoutManager.suppressLineWrapping="true">

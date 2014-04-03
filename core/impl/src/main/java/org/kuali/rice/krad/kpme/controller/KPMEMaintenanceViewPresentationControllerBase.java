@@ -30,10 +30,16 @@ public class KPMEMaintenanceViewPresentationControllerBase extends MaintenanceVi
         // check if workflow allows it and invoke hook to allow subclasses to run authorization checks
         return (workflowDocument.isValidAction(ActionType.CANCEL) && isAllowedToCancel(document));
     }
-	
+
+    @Override
+    public boolean canClose(Document document) {
+        WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
+        return (workflowDocument.isEnroute() || workflowDocument.isFinal());
+    }
+
 	// default implementation returns true; subclasses can override this to check if user has permissions to cancel
 	protected boolean isAllowedToCancel(Document docuemnt) {
 		return true;
 	}
-	
+
 }

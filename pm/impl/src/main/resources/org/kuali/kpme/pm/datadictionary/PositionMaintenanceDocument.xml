@@ -83,10 +83,10 @@
 			<bean parent="KPME-Uif-DocumentViewHeader" />
 		</property>
 		<property name="stickyHeader" value="true" />
-		<!-- 
+		<!--
 		<property name="footer">
 			<bean parent="KPME-Uif-FooterBase" />
-		</property>  --> 
+		</property>  -->
 		<property name="applyDirtyCheck" value="false" />
 	</bean> <!-- maintenance -->
 
@@ -224,7 +224,7 @@
     </bean>
 
 	<!-- Overview Section -->
-	<bean id="Pos-OverviewPage" parent="Uif-MaintenancePage" >
+	<bean id="Pos-OverviewPage" parent="KPMEUif-MaintenancePage" >
 		<property name="items">
 			<list>
 				<ref bean="Pos-OverviewPage-Widgets" />
@@ -520,7 +520,7 @@
 	</bean>
 
 	<!-- Classification Section -->
-	<bean id="Pos-ClassificationPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-ClassificationPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<ref bean="Pos-ClassificationPage-Widgets" />
@@ -716,7 +716,7 @@
 	</bean>
 
 	<!-- Position Department Section -->
-	<bean id="Pos-DepartmentPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-DepartmentPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxSection" p:headerText="Additional Departments" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}" >
@@ -737,7 +737,7 @@
 	</bean>
 
 	<!-- Position Qualification Section -->
-	<bean id="Pos-QualificationPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-QualificationPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxSection" p:readOnly="true">
@@ -763,7 +763,7 @@
 	</bean>
 
 	<!-- Position Duty Section -->
-	<bean id="Pos-DutyPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-DutyPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxSection" p:headerText="Duties" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
@@ -782,7 +782,7 @@
 	</bean>
 
 	<!-- Position Flag Section -->
-	<bean id="Pos-FlagPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-FlagPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxSection" p:headerText="Position Flags" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
@@ -801,7 +801,7 @@
 	</bean>
 
 	<!-- Responsibility Section -->
-	<bean id="Pos-ResponsibilityPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-ResponsibilityPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxSection" p:headerText="Responsibility" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
@@ -818,7 +818,7 @@
 	</bean>
 
 	<!-- Funding Section -->
-	<bean id="Pos-FundingPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-FundingPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-VerticalBoxSection" p:headerText="Funding" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Change Status' or #parent.readOnly}">
@@ -834,7 +834,7 @@
 	</bean>
 
 	<!-- Notes and Attachment Section -->
-	<bean id="Pos-NoteAttachmentPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-NoteAttachmentPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="KPMEUif-DocumentNotesSection"
@@ -844,7 +844,7 @@
 	</bean>
 
 	<!-- Ad Hoc Recipients Section -->
-	<bean id="Pos-AdHocPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-AdHocPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DocumentAdHocRecipientsSection"
@@ -854,7 +854,7 @@
 	</bean>
 
 	<!-- Route Log Section -->
-	<bean id="Pos-RouteLogPage" parent="Uif-MaintenancePage">
+	<bean id="Pos-RouteLogPage" parent="KPMEUif-MaintenancePage">
 		<property name="items">
 			<list>
 				<bean parent="Uif-DocumentRouteLogSection"
