@@ -20,51 +20,75 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     <changeSet id="1" author="jwillia" context="kpme-client-bootstrap">
         <addColumn tableName="HR_DEPT_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                    <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="HR_CALENDAR_ENTRIES_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="HR_CALENDAR_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="HR_PAY_GRADE_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="LM_BALANCE_TRANSFER_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="LM_LEAVE_PAYOUT_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="LM_PRIN_ACCR_RAN_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="TK_CLOCK_LOC_RL_IP_ADDR_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="TK_SHIFT_DIFFERENTIAL_RL_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="TK_DAILY_OVERTIME_RL_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="TK_USER_PREF_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
         <addColumn tableName="TK_WEEKLY_OVT_GROUP_T">
-            <column name="VER_NBR" type="bigint(20)" />
+            <column name="VER_NBR" type="bigint(20)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
             <column name="OBJ_ID" type="varchar(36)" />
         </addColumn>
     </changeSet>
