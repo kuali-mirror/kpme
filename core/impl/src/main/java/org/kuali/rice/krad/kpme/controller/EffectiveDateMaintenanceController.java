@@ -108,7 +108,7 @@ public class EffectiveDateMaintenanceController extends KPMEMaintenanceDocumentC
 	}
 	
 	
-	// This method containes the common pre-handler logic to show the effective date warning dialog (if needed) for any particular handler action that we wish to 'intercept'. 
+	// This method contains the common pre-handler logic to show the effective date warning dialog (if needed) for any particular handler action that we wish to 'intercept'. 
 	// Currently this set of actions includes 'save', 'route' 'approve', 'complete' and 'blanket approve'. 
 	// The callable parameter encapsulates the actual super class handler method to be invoked in case of either an absence of warning or user's confirmation on the warning.
 	protected ModelAndView showEffectiveDateWarningIfNeeded(@ModelAttribute("KualiForm") DocumentFormBase form, 
@@ -130,7 +130,7 @@ public class EffectiveDateMaintenanceController extends KPMEMaintenanceDocumentC
 				// just call the registered handler method; no warning is to be shown
 				retVal = callable.call();
 			}
-		} 
+		}
 		else {
 			// get the response entered by the user
 			boolean areYouSure = getBooleanDialogResponse(KPME_EFFECTIVE_DATE_WARNING_DIALOG, form, request, response);
@@ -139,9 +139,9 @@ public class EffectiveDateMaintenanceController extends KPMEMaintenanceDocumentC
 			if (areYouSure) {
 				// call the registered handler method; user has confirmed
 				retVal = callable.call();
-			} 
+			}
 			else {
-				// do nothing, just show the form
+				// just show the form; user does not wish to execute whichever method that triggered this dialog
 				retVal = getUIFModelAndView(form);
 			}
 		}

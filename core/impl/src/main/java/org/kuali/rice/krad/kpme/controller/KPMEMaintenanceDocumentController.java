@@ -40,11 +40,42 @@ import java.util.Properties;
  */
 public abstract class KPMEMaintenanceDocumentController extends MaintenanceDocumentController {
 	
+	private static final String KPME_DISAPPROVAL_NOTE_DIALOG = "KPMEDisapprovalNote-Dialog";	
+	
+	
 	// this method will intercept all disapprove requests and show the dialog asking for user explanantion for the disapproval.
+	// TODO: once the rice team implements the same functionality this method can be removed 
 	@Override
 	public ModelAndView disapprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// todo add dialog logic here
-		return super.disapprove(form, result, request, response);		
+		ModelAndView retVal = null;		
+		
+		// check if the dialog has not yet been answered by the user
+		if (!hasDialogBeenAnswered(KPME_DISAPPROVAL_NOTE_DIALOG, form)) {
+			// redirect back to client to display lightbox
+			retVal = showDialog(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response);
+		}
+		else {
+			// get the OK-CANCEL response entered by the user
+			boolean clickedOK = getBooleanDialogResponse(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response);
+			// clear all dialogs in order to display warning again
+			form.getDialogManager().removeAllDialogs();
+			if (clickedOK) {
+				// check if reason for disapproval is given, if so allow the disapproval to go thru,
+				// but if not then display dialog again
+				if(StringUtils.isEmpty(((KPMEMaintenanceDocumentForm) form).getDisapprovalNoteText())) {
+					retVal = showDialog(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response);
+				}
+				else {
+					retVal = super.disapprove(form, result, request, response);
+				}
+			}
+			else {
+				// just show the form again since they dont wish to disapprove
+				retVal = getUIFModelAndView(form);
+			}
+		}
+        
+        return retVal;
 	}
 
     /**
@@ -68,4 +99,17 @@ public abstract class KPMEMaintenanceDocumentController extends MaintenanceDocum
         return performRedirect(form, returnUrl, props);
     }
 	
+	
+	@Override
+    protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
+        return new KPMEMaintenanceDocumentForm();
+    }
+	
+	
+	@Override
+	protected String generateDisapprovalNote(DocumentFormBase form, boolean checkSensitiveData) {
+		return ((KPMEMaintenanceDocumentForm) form).getDisapprovalNoteText();
+    }
+	
+
 }

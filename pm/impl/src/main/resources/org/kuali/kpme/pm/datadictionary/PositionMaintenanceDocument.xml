@@ -48,7 +48,7 @@
 		<property name="headerText" value="Position Maintenance" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.PositionBo" />
         <property name="dialogs">
-            <list>
+            <list merge="true">
                 <bean id="ProcessChangeWarning-Dialog" parent="ProcessChangeWarning-Dialog-parentBean"/>
             </list>
         </property>

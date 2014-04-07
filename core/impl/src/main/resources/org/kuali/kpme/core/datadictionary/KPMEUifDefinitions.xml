@@ -94,10 +94,39 @@
         </property>
     </bean>
 
+	
+
+    <!-- maintenance view to hide cancel button upon submit -->
+    <bean id="KPMEUif-MaintenanceView" parent="Uif-MaintenanceView">
+		<property name="presentationControllerClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceViewPresentationControllerBase" />
+		<property name="formClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceDocumentForm" />
+		<property name="dialogs">
+			<list>
+				<bean id="KPMEDisapprovalNote-Dialog" parent="KPMEDisapprovalNote-Dialog-parentBean" />
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+	     	<list merge="true">
+	        	<value>js/disapprovalNoteExtractor.js</value>
+	      	</list>
+	    </property>
+	</bean>
+
+	<bean id="KPMEDisapprovalNote-Dialog-parentBean" parent="Uif-OK-Cancel-DialogGroup" p:readOnly="false">
+		<property name="headerText" value="Disapproval Reason" />
+		<property name="promptText" value="Please enter a reason for the disapproval, or cancel to return." />
+		<property name="displayExplanation" value="true" />
+		<property name="explanation">
+      		<bean parent="Uif-DialogExplanation" p:propertyName="disapprovalNoteText" />
+    	</property>
+<!--     	<property name="onDialogResponseScript" value="extractDisapprovalNoteTextFromDialog()"/> -->
+	</bean>
+	
+	
 	<bean id="KPMEEffectiveDateBO-MaintenanceView" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView-parentBean"/>
   	<bean id="KPMEEffectiveDateBO-MaintenanceView-parentBean" abstract="true" parent="KPMEUif-MaintenanceView">
   		<property name="dialogs">
-    		<list>
+    		<list  merge="true">
         		<bean id="KPMEEffectiveDateWarning-Dialog" parent="KPMEEffectiveDateWarning-Dialog-parentBean"/>
     		</list>
   		</property>
@@ -107,15 +136,7 @@
   		<property name="headerText" value="Effective date warning!"/>
 		<property name="promptText" value="A record for this object exists with a later effective date, if you continue with submission, this record will be overwritten when the future effective date takes effect.  Are you sure you want to continue?"/>
 	</bean>
-
-    <!-- maintenance view to hide cancel button upon submit -->
-    <bean id="KPMEUif-MaintenanceView" parent="Uif-MaintenanceView">
-        <property name="presentationControllerClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceViewPresentationControllerBase"/>
-        <property name="formClass" value="org.kuali.rice.krad.kpme.controller.KPMEMaintenanceDocumentForm"/>
-        <property name="page">
-            <bean parent="KPMEUif-MaintenancePage"/>
-        </property>
-    </bean>
+	
 
     <!--maintenance page with KPME document footer-->
     <bean id="KPMEUif-MaintenancePage" abstract="true" parent="Uif-MaintenancePage">
