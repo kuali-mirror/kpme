@@ -343,7 +343,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         for (TimeBlockBo tb : originalBos) {
         	EarnCode earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
             if (tb.getBeginTime() != null && tb.getEndTime() != null && StringUtils.equals(tb.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
-                BigDecimal hours = TKUtils.getHoursBetween(tb.getBeginTime().getMillisOfDay(), tb.getEndTime().getMillisOfDay());
+                BigDecimal hours = TKUtils.getHoursBetween(tb.getBeginDateTime().getMillis(), tb.getEndDateTime().getMillis());
 
                 //If earn code has an inflate min hours check if it is greater than zero
                 //and compare if the hours specified is less than min hours awarded for this
@@ -351,7 +351,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                 if(previousTimeBlock != null && StringUtils.equals(earnCodeObj.getEarnCode(),previousTimeBlock.getEarnCode()) &&
                 		(tb.getBeginTime().getMillisOfDay() - previousTimeBlock.getEndTime().getMillisOfDay() == 0L)) {
                 	List<TimeHourDetailBo> newDetails = new ArrayList<TimeHourDetailBo>();
-        			BigDecimal prevTimeBlockHours = TKUtils.getHoursBetween(previousTimeBlock.getBeginTime().getMillisOfDay(), previousTimeBlock.getEndTime().getMillisOfDay());
+        			BigDecimal prevTimeBlockHours = TKUtils.getHoursBetween(previousTimeBlock.getBeginDateTime().getMillis(), previousTimeBlock.getEndDateTime().getMillis());
         			previousTimeBlock.setHours(prevTimeBlockHours);
         			BigDecimal cummulativeHours = prevTimeBlockHours.add(hours, HrConstants.MATH_CONTEXT);
         			//remove any inflation done when resetting the previous time block's hours.

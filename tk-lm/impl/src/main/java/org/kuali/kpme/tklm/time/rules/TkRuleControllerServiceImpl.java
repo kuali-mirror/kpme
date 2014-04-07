@@ -49,7 +49,7 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
             if (GlobalVariables.getUserSession() != null && TkContext.isTargetSynchronous()) {
 			    lunchBlocks = TkServiceLocator.getDepartmentLunchRuleService().applyDepartmentLunchRule(timeBlockAggregate.getFlattenedTimeBlockList());
                 //update aggregate with lunch blocks :(   ---- HACK!!! until we can stop passing everything through this aggregate!!!!
-                TkTimeBlockAggregate tempAggregate = new TkTimeBlockAggregate(lunchBlocks, timeBlockAggregate.getPayCalendarEntry());
+                TkTimeBlockAggregate tempAggregate = new TkTimeBlockAggregate(lunchBlocks, timeBlockAggregate.getPayCalendarEntry(), timeBlockAggregate.getPayCalendar(),true);
                 timeBlockAggregate.setDayTimeBlockList(tempAggregate.getDayTimeBlockList());
             }
 

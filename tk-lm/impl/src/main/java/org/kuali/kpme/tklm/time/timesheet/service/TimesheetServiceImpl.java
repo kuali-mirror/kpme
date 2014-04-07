@@ -116,10 +116,10 @@ public class TimesheetServiceImpl implements TimesheetService {
                 builder.setCreateDate(new DateTime());
                 builder.setText("Routed via Employee Approval batch job");
             	KewApiServiceLocator.getNoteService().createNote(builder.build());
-            	
+
             	wd.route("Batch job routing timesheet");
             } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument) 
+                if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument)
                 		&& !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
@@ -130,10 +130,10 @@ public class TimesheetServiceImpl implements TimesheetService {
            	 	builder.setCreateDate(new DateTime());
            	 	builder.setText("Approved via Supervisor Approval batch job");
            	 	KewApiServiceLocator.getNoteService().createNote(builder.build());
-            	
+
             	wd.superUserBlanketApprove("Batch job approving timesheet.");
             } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument) 
+                if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument)
                 		&& !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument)) {
                     wd.superUserDisapprove("Superuser disapproving timesheet.");
                 } else {
@@ -161,12 +161,12 @@ public class TimesheetServiceImpl implements TimesheetService {
                 return null;
                 //throw new RuntimeException("No active assignments for " + principalId + " for " + calendarDates.getEndPeriodDate());
             }
-            
+
             EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
             String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
             String endDateString = TKUtils.formatDate(end.toLocalDate());
             String timesheetDocumentTitle = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE + " - " + principalName + " (" + principalId + ") - " + endDateString;
-            
+
             timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, calendarDates, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, timesheetDocumentTitle);
             //timesheetDocument.setPayCalendarEntry(calendarDates);
             //this.loadTimesheetDocumentData(timesheetDocument, principalId, calendarDates);
@@ -182,7 +182,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         //if (timesheetDocument != null) {
         //	timesheetDocument.setTimeSummary(TkServiceLocator.getTimeSummaryService().getTimeSummary(timesheetDocument));
         //}
-        
+
         return timesheetDocument;
     }
 
@@ -238,16 +238,16 @@ public class TimesheetServiceImpl implements TimesheetService {
         if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
         	deleteNonApprovedLeaveBlocks(principalId, calendarEntry.getBeginPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         }
-        
+
         return timesheetDocument;
     }
-    
+
     private void deleteNonApprovedLeaveBlocks(String principalId, LocalDate beginDate, LocalDate endDate) {
     	String batchUserPrincipalId = BatchJobUtil.getBatchUserPrincipalId();
-        
+
         if (batchUserPrincipalId != null) {
 	    	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
-	
+
 	    	for (LeaveBlock leaveBlock : leaveBlocks) {
 	    		if (!StringUtils.equals(leaveBlock.getRequestStatus(), HrConstants.REQUEST_STATUS.APPROVED)) {
                     LmServiceLocator.getLeaveRequestDocumentService().suCancelLeave(
@@ -282,7 +282,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
             timesheetDocument.setCalendarEntry(pce);
         }
-        
+
         return timesheetDocument;
     }
 
@@ -316,7 +316,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     protected void resetWorkedHours(TimeBlock.Builder previousTimeBlock, TimeBlock.Builder timeBlock, LocalDate asOfDate) {
     	EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(timeBlock.getEarnCode(), asOfDate);
         if (timeBlock.getBeginTime() != null && timeBlock.getEndTime() != null && StringUtils.equals(timeBlock.getEarnCodeType(), HrConstants.EARN_CODE_TIME)) {
-            BigDecimal hours = TKUtils.getHoursBetween(timeBlock.getBeginTime().getMillisOfDay(), timeBlock.getEndTime().getMillisOfDay());
+            BigDecimal hours = TKUtils.getHoursBetween(timeBlock.getBeginDateTime().getMillis(), timeBlock.getEndDateTime().getMillis());
 
             //If earn code has an inflate min hours check if it is greater than zero
             //and compare if the hours specified is less than min hours awarded for this
@@ -326,13 +326,13 @@ public class TimesheetServiceImpl implements TimesheetService {
             			earnCodeObj.getInflateMinHours().compareTo(hours) > 0) {
                     //if previous timeblock has no gap then assume its one block if the same earn code and divide inflated hours accordingly
                     if(previousTimeBlock != null && StringUtils.equals(earnCodeObj.getEarnCode(),previousTimeBlock.getEarnCode()) &&
-                            (timeBlock.getBeginTime().getMillisOfDay() - previousTimeBlock.getEndTime().getMillisOfDay() == 0L)) {
-                        BigDecimal prevTimeBlockHours = TKUtils.getHoursBetween(previousTimeBlock.getBeginTime().getMillisOfDay(), previousTimeBlock.getEndTime().getMillisOfDay());
+                            (timeBlock.getBeginDateTime().getMillis() - previousTimeBlock.getEndDateTime().getMillis() == 0L)) {
+                        BigDecimal prevTimeBlockHours = TKUtils.getHoursBetween(previousTimeBlock.getBeginDateTime().getMillis(), previousTimeBlock.getEndDateTime().getMillis());
                         previousTimeBlock.setHours(prevTimeBlockHours);
                     }
                 }
             }
-            
+
             timeBlock.setHours(hours);
         }
     }
@@ -387,7 +387,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         TimeCollectionRule tcr = null;
         if(a.getJob() != null)
         	tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(a.getDept(), a.getWorkArea(), a.getJob().getHrPayType(), asOfDate);
-        
+
         boolean isClockUser = tcr == null || tcr.isClockUserFl();
         boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());
 
@@ -440,7 +440,7 @@ public class TimesheetServiceImpl implements TimesheetService {
                     	// if user doe not have a leave plan, we show earn codes that don't have a leave plan
                     	if( (StringUtils.isNotBlank(leavePlan) && StringUtils.isBlank(ec.getLeavePlan()))
                     			|| (StringUtils.isNotBlank(leavePlan) && StringUtils.isNotBlank(ec.getLeavePlan()) && StringUtils.equals(leavePlan, ec.getLeavePlan()))
-    							|| (StringUtils.isBlank(leavePlan) && StringUtils.isBlank(ec.getLeavePlan()))) {                    	
+    							|| (StringUtils.isBlank(leavePlan) && StringUtils.isBlank(ec.getLeavePlan()))) {
 	                        //  if the user's fmla flag is Yes, that means we are not restricting codes based on this flag, so any code is shown.
 	                        //    if the fmla flag on a code is yes they can see it.    (allow)
 	                        //    if the fmla flag on a code is no they should see it.  (allow)
@@ -454,11 +454,11 @@ public class TimesheetServiceImpl implements TimesheetService {
 	                        		|| (listAccrualCategories.contains(ec.getAccrualCategory())
 	                         	 		&& HrConstants.ACCRUAL_BALANCE_ACTION.USAGE.equals(ec.getAccrualBalanceAction()))) {
 	                            // go on, we are allowing these three combinations: YY, YN, NN
-	
+
 	                                //  apply the same logic as FMLA to the Worker Compensation flags.
 	                                if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ) {
 	                                    // go on, we are allowing these three combinations: YY, YN, NN.
-	
+
 	                                    //  determine if the holiday earn code should be displayed.
 	                                    if ( showEarnCodeIfHoliday(ec, dec) ) {
 	                                        //  non-Holiday earn code will go on, Holiday earn code must meet some requirements in the method.
@@ -480,7 +480,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         return earnCodes;
     }
-    
+
     public List<EarnCode> getEarnCodesForTime(Assignment a, LocalDate asOfDate) {
     	return getEarnCodesForTime(a, asOfDate, false);
 	}
