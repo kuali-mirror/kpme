@@ -104,31 +104,31 @@
         <!-- Rice content End -->
         
         <action path="/changeTargetPerson" name="ChangeTargetPersonForm" type="org.kuali.kpme.tklm.common.ChangeTargetPersonAction">
-            <forward name="basic" path="/portal.jsp"/>
+            <forward name="basic" path="/WEB-INF/jsp/departmentAdmin.jsp"/>
         </action>
         
         <action path="/initiateDocument" name="InitiateDocumentForm" type="org.kuali.kpme.tklm.common.InitiateDocumentAction">
-            <forward name="basic" path="/portal.jsp"/>
+            <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
         </action>
         
         <action path="/deleteDocument" name="DeleteDocumentForm" type="org.kuali.kpme.tklm.common.DeleteDocumentAction">
-            <forward name="basic" path="/portal.jsp"/>
+            <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
         </action>
         
         <action path="/calculateLeaveAccruals" name="CalculateLeaveAccrualsForm" type="org.kuali.kpme.tklm.common.CalculateLeaveAccrualsAction">
-            <forward name="basic" path="/portal.jsp"/>
+            <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
         </action>
         
         <action path="/batchJob" name="BatchJobActionForm" type="org.kuali.kpme.tklm.common.BatchJobAction">
-            <forward name="basic" path="/portal.jsp"/>
+            <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
         </action>
         
         <action path="/carryOverBatchJob" name="CarryOverBatchJobActionForm" type="org.kuali.kpme.tklm.leave.batch.web.CarryOverBatchJobAction">
-            <forward name="basic" path="/portal.jsp"/>
+            <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
         </action>
         
         <action path="/calendarEntry" name="CalendarEntryActionForm" type="org.kuali.kpme.core.calendar.entry.web.CalendarEntryAction">
-            <forward name="basic" path="/portal.jsp"/>
+            <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
         </action>
 
         <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.kpme.core.web.KPMEAction">
