@@ -68,6 +68,10 @@ public class PositionServiceTest extends PMIntegrationTestCase {
 				positionType, poolEligible, positionStatus, null, null, active, showHistory);
 			
 		assertTrue(positionContracts.size() == 1);
+		
+		if ( positionContracts.size() == 1) {
+			assertEquals("1", positionContracts.get(0).getPositionNumber());
+		}
 	}
 	
 }
