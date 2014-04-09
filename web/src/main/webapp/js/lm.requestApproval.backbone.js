@@ -189,8 +189,14 @@ $(function () {
 	    	 }).height("auto"); 
 	     },
 	     
+	     prepareLeaveRequestString : function(leaveRequest) {
+	    	 $('#actionMsg').append("<tr><td><b>"+leaveRequest.get("principalName") + "</b> </td><td> : </td><td> " +leaveRequest.get("leaveHours") + " on "+leaveRequest.get("leaveDate") + " " + leaveRequest.get("description") + "</td></tr>");
+	     },
+	     
 	     showMultiLeaveRequestApprovalDialog : function (e, actionVar, actionList) {
 	    	 var self = this;
+	    	 var docSeparator = "----";  // seperater doc actions
+	    	 var divInnerHtml = "";
 	    	 $("#multirequestdialog-form").dialog({
 	                title : "Take Action on Leave Requests",
 	                closeOnEscape : true,
@@ -201,15 +207,24 @@ $(function () {
 	                	self.resetErrorFields("#"+FORM2);
 	                	self.resetErrorFields("#"+FORM1);
 	                	self.resetErrorFields("#"+FORM0);
+	                	var actionIds = actionList.split(docSeparator);
+	                	$("#"+FORM2+" #actionMsg").text('');
+	                	$("#"+FORM2+" #actionMsg").append("<font color='#993333'><b> "+actionVar+" action will be performed on the following leave requests:</b></font><br/><br/>");
+	                	for(var i=0;i<actionIds.length;i++) {
+	                		if(actionIds[i] != '') {
+	                			var leaveRequest = leaveRequestCollection.get(actionIds[i]);
+	                			self.prepareLeaveRequestString(leaveRequest);
+	                		}
+	                	}
 	                },
 	                close : function () {
 	                    //reset values on the form
 	                    self.resetLeaveRequestDialog();
 	                    self.resetErrorFields("#"+FORM2);
+	                    $("#"+FORM2+" #actionMsg").text('');
 	                },
 	                buttons : {
 	                    "Submit" : function () {
-	                    	var docSeparator = "----";  // seperater doc actions
 	                    	var formId = FORM2;
 	                    	var isValid = self.validateLeaveRequest(formId, actionVar, actionList);
 	                    	if(isValid && actionList.length > 0 ) {
@@ -224,6 +239,7 @@ $(function () {
 	                    "Cancel" : function () {
 	                    	//reset values on the form
 	                        self.resetLeaveRequestDialog();
+	                        $("#"+FORM2+" #actionMsg").text('');
 	                        self.resetErrorFields("#"+FORM0);
 	                    	self.resetErrorFields("#"+FORM1);
 	                    	self.resetErrorFields("#"+FORM2);
@@ -299,6 +315,7 @@ $(function () {
         },
         
 	    displayErrorMessages : function (formId, t, object) {
+	    	$(formId +" #validation").show();
 	        // add the error class ane messages
 	        $(formId+' #validation').html(t)
 	                .addClass('error-messages');
@@ -313,7 +330,8 @@ $(function () {
 	    checkAllApprove : function(e) {
 			var checkboxCells = $("input:checkbox[id^=leaveReqDoc_]");
 			// when checkbox is checked, select approve for all radio buttons of employee
-			if($('#checkAllApprove').is(':checked')){
+			if($('#checkAllApprove').val().indexOf('Select') >= 0){
+				$('#checkAllApprove').val("Deselect All");
 				checkboxCells.each(function() {
 						$(this).attr("checked", "checked");
 				});
@@ -321,6 +339,7 @@ $(function () {
 				checkboxCells.each(function() {
 					$(this).removeAttr('checked');
 				});
+				$('#checkAllApprove').val("Select All");
 			}
 	     },
          
@@ -340,8 +359,9 @@ $(function () {
           */
          resetErrorFields : function(formId) {
         	 $(formId +" #validation")
-		            .text('All form fields are .')
+		            .text('')
 		            .removeClass('ui-state-error').removeClass('error-messages');
+        	 $(formId +" #validation").hide();
         	 var reasonCells = $('input:text[id^="reason"]');
         	 reasonCells.each(function() {
         		 $(this).removeClass('ui-state-error');

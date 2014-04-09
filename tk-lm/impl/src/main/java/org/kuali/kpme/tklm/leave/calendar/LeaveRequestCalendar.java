@@ -102,7 +102,7 @@ public class LeaveRequestCalendar extends CalendarParent {
 		       			aRow.setLeaveCode(lb.getEarnCode());
 		       			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveLocalDate()));
 		       			aRow.setRequestedHours(lb.getLeaveAmount().toString());
-		       			aRow.setDescription(lrd.getDescription());
+		       			aRow.setDescription(lrd.getDescription() == null ? lb.getDescription() : lrd.getDescription());
 		       			aRow.setAssignmentTitle(lb.getAssignmentTitle());
 		       			aRow.setRequestStatus(lb.getRequestStatusString().toLowerCase());
 		       			rowList.add(aRow);

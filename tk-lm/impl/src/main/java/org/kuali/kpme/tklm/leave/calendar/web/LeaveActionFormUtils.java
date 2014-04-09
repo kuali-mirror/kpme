@@ -112,6 +112,7 @@ public class LeaveActionFormUtils {
             leaveRequestMap.put("principalId", requestRow.getPrincipalId());
             leaveRequestMap.put("principalName", requestRow.getEmployeeName());
             leaveRequestMap.put("leaveCode", requestRow.getLeaveCode());
+            leaveRequestMap.put("description", requestRow.getDescription() != null ? requestRow.getDescription() : "");
             leaveRequestList.add(leaveRequestMap);
         }
         

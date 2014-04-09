@@ -119,9 +119,9 @@
 				calType="leaveCalendar" calledFrom="LeaveRequestApproval" />
 		</div>
 		<br />
-		<div id="leave-req-app" align="right">
-			Select All <input type="checkbox" name="checkAllApprove"
-				id="checkAllApprove"></input>
+		<div  align="center">
+			<input type="button" name="checkAllApprove" class="approve"
+				id="checkAllApprove" value="Select All"></input>
 		</div>
 		<br />
 		<div align="center">
@@ -189,11 +189,10 @@
 	<div id="multirequestdialog-form" class="dialog-form">
 		<html:form action="/LeaveRequestApproval.do"
 			styleId="multiLeaveRequestApproval-form">
-			<html:hidden property="methodToCall" value="takeAction"
-				styleId="methodToCall" />
-			<html:hidden property="actionList" value="" styleId="actionList" />
-			<p id="validation" class="validation" title="Validation">All form
-				fields are .</p>
+			
+			<p id="validation" class="validation" title="Validation"></p>
+			<div id="actionMsg" ></div>
+			<br/>
 			<div class="ui-widget timesheet-panel" id="timesheet-panel">
 				<table>
 					<tr>
@@ -203,6 +202,9 @@
 					</tr>
 				</table>
 			</div>
+			<html:hidden property="methodToCall" value="takeAction"
+				styleId="methodToCall" />
+			<html:hidden property="actionList" value="" styleId="actionList" />
 		</html:form>
 	</div>
 </div>
