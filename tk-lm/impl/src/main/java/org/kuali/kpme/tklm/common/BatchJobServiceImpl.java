@@ -31,6 +31,7 @@ import org.kuali.kpme.core.api.document.calendar.CalendarDocumentHeaderContract;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
+import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.util.HrConstants;
@@ -38,6 +39,7 @@ import org.kuali.kpme.tklm.leave.batch.CarryOverJob;
 import org.kuali.kpme.tklm.leave.batch.LeaveCalendarDelinquencyJob;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.leave.workflow.service.LeaveCalendarDocumentHeaderService;
+import org.kuali.kpme.tklm.time.batch.BatchJobStatus;
 import org.kuali.kpme.tklm.time.batch.ClockedInEmployeeJob;
 import org.kuali.kpme.tklm.time.batch.EmployeeApprovalJob;
 import org.kuali.kpme.tklm.time.batch.EndPayPeriodJob;
@@ -52,11 +54,17 @@ import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +72,9 @@ import java.util.Map;
 public class BatchJobServiceImpl implements BatchJobService {
 	
 	private static final Logger LOG = Logger.getLogger(BatchJobServiceImpl.class);
-
+    protected static final String SCHEDULE_JOB_NAME = "scheduleJob";
+    public static final String JOB_STATUS_PARAMETER = "status";
+	
 	private Scheduler scheduler;
 	
 	private AssignmentService assignmentService;
@@ -75,6 +85,20 @@ public class BatchJobServiceImpl implements BatchJobService {
 	private PrincipalHRAttributesService principalHRAttributesService;
 	private TimesheetDocumentHeaderService timesheetDocumentHeaderService;
 	
+    protected static final List<String> jobStatuses = new ArrayList<String>();
+
+    static {
+        jobStatuses.add(SCHEDULED_JOB_STATUS_CODE);
+        jobStatuses.add(SUCCEEDED_JOB_STATUS_CODE);
+        jobStatuses.add(CANCELLED_JOB_STATUS_CODE);
+        jobStatuses.add(RUNNING_JOB_STATUS_CODE);
+        jobStatuses.add(FAILED_JOB_STATUS_CODE);
+    }
+	
+    public List<String> getJobStatuses() {
+        return jobStatuses;
+    }
+    
 	@Override
 	public void scheduleInitiateJobs(CalendarEntry calendarEntry) throws SchedulerException {
 		scheduleInitiateJobs(calendarEntry, calendarEntry.getBatchInitiateFullDateTime());
@@ -216,7 +240,7 @@ public class BatchJobServiceImpl implements BatchJobService {
         jobGroupDataMap.put("hrCalendarEntryId", calendarEntry.getHrCalendarEntryId());
   		
   		Map<String, String> jobDataMap = new HashMap<String, String>();
-          jobDataMap.put("hrCalendarEntryId",  calendarEntry.getHrCalendarEntryId());
+        jobDataMap.put("hrCalendarEntryId",  calendarEntry.getHrCalendarEntryId());
   		
         scheduleJob(EmployeeApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
     	
@@ -438,12 +462,13 @@ public class BatchJobServiceImpl implements BatchJobService {
 		if(jobDate == null) {
 			return;
 		}
+		
 		String jobGroupName = BatchJobUtil.getJobGroupName(jobClass, jobGroupDataMap);
 		String jobName = BatchJobUtil.getJobName(jobClass, jobDataMap);
     	String[] jobNames = getScheduler().getJobNames(jobGroupName);
     	if (!ArrayUtils.contains(jobNames, jobName)) {
+    		jobDataMap.put("date", jobDate.toString());
     		Map<String, String> mergedDataMap = MapUtils.merge(jobGroupDataMap, jobDataMap);
-    		
     		JobDetail jobDetail = new JobDetail(jobName, jobGroupName, jobClass, false, true, false);
     		jobDetail.setJobDataMap(new JobDataMap(mergedDataMap));
     		
@@ -454,7 +479,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 	        trigger.setJobName(jobName);
 
 	        LOG.info("Scheduing " + jobDetail.getFullName() + " to be run on " + jobDate);
-	        
+	        this.updateStatus(jobDetail, BatchJobService.SCHEDULED_JOB_STATUS_CODE);
 	        getScheduler().scheduleJob(jobDetail, trigger);
     	}
 	}
@@ -523,4 +548,96 @@ public class BatchJobServiceImpl implements BatchJobService {
 		this.timesheetDocumentHeaderService = timesheetDocumentHeaderService;
 	}
 
+	public List<BatchJobStatus> getJobs(String jobNm, String jobStatus, String hrCalendarId, Date startDate, Date endDate) throws SchedulerException {
+		ArrayList<BatchJobStatus> jobs = new ArrayList<BatchJobStatus>();
+		boolean isConsiderJobNm = (jobNm != null && !jobNm.trim().isEmpty()) ? true : false;
+		boolean isConsiderJobStatus = (jobStatus != null && !jobStatus.trim().isEmpty()) ? true : false;
+		boolean isConsiderCalId = (hrCalendarId != null && !hrCalendarId.trim().isEmpty()) ? true : false;
+		for (String jobGroup : scheduler.getJobGroupNames()) {
+            for (String jobName : scheduler.getJobNames(jobGroup)) {
+                try {
+                	if(isConsiderJobNm) {
+                		if(!jobName.toLowerCase().contains(jobNm.toLowerCase())) {
+                			continue;
+                		}
+                	}
+                	JobDetail jobDetail = scheduler.getJobDetail(jobName, jobGroup);
+                	if(isConsiderJobStatus) {
+                		String statusString = jobDetail.getJobDataMap().getString("status");
+                		if(statusString == null || !statusString.equalsIgnoreCase(jobStatus)) {
+                			continue;
+                		}
+                	}
+                	if(isConsiderCalId) {
+                		String calendarString = jobDetail.getJobDataMap().getString("hrCalendarEntryId");
+                		if(calendarString == null || !calendarString.equalsIgnoreCase(hrCalendarId)) {
+                			continue;
+                		}
+                	}
+                    String dateString = jobDetail.getJobDataMap().getString("date");
+                    if(dateString != null) {
+                    	DateTimeFormatter dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                    	//dateFormat.setLenient(false);
+                        DateTime date = dateFormat.parseDateTime(dateString);
+                    	if(startDate != null && endDate != null) {
+	                    	if(date.toDate().compareTo(startDate) >=0 && date.toDate().compareTo(endDate) <= 0) {
+	                    		BatchJobStatus batchJobStatus = new BatchJobStatus(jobDetail);
+	                    		batchJobStatus.setScheduledDate(date.toDate());
+	                    		jobs.add(batchJobStatus);
+	                    	}
+                    	} else {
+                    		BatchJobStatus batchJobStatus = new BatchJobStatus(jobDetail);
+                    		batchJobStatus.setScheduledDate(date.toDate());
+                    		jobs.add(batchJobStatus);
+                    	}
+                    } else {
+                		BatchJobStatus batchJobStatus = new BatchJobStatus(jobDetail);
+                		jobs.add(batchJobStatus);
+                    }
+                }
+                catch (Exception ex) {
+                    // do nothing, ignore jobs not defined in spring
+                	ex.printStackTrace();
+                    LOG.warn("Attempt to find bean " + jobGroup + "." + jobName + " failed - not in Spring context");
+                }
+            }
+        }
+		return jobs;
+	}
+	
+    public void updateStatus(JobDetail jobDetail, String jobStatus) {
+        if ( LOG.isInfoEnabled() ) {
+            LOG.info("Updating status of job: "+jobDetail.getName()+"="+jobStatus);
+        }
+        jobDetail.getJobDataMap().put("status", jobStatus);
+    }
+    
+    public boolean isJobRunning(String jobName) {
+        List<JobExecutionContext> runningJobs = getRunningJobs();
+        for (JobExecutionContext jobCtx : runningJobs) {
+            if (jobCtx.getJobDetail().getName().equals(jobName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public List<JobExecutionContext> getRunningJobs() {
+        try {
+            List<JobExecutionContext> jobContexts = scheduler.getCurrentlyExecutingJobs();
+            return jobContexts;
+        }
+        catch (SchedulerException ex) {
+            throw new RuntimeException("Unable to get list of running jobs.", ex);
+        }
+    }
+    
+    public String getStatus(JobDetail jobDetail) {
+        if ( jobDetail == null ) {
+            return FAILED_JOB_STATUS_CODE;
+        }
+        //get status from job detail data map 
+        return jobDetail.getJobDataMap().getString("status");
+    }
+    
 }

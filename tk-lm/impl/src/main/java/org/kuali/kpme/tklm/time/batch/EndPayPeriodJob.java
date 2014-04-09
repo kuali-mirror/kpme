@@ -28,6 +28,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
+import org.kuali.kpme.tklm.common.BatchJobService;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
@@ -50,7 +51,8 @@ public class EndPayPeriodJob extends BatchJob {
 			JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 	
 			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
-			
+			TkServiceLocator.getBatchJobService().updateStatus(context.getJobDetail(), BatchJobService.RUNNING_JOB_STATUS_CODE);
+
 		    DateTime currentDateTime =  new DateTime();
 			LOG.info("EndOfPayPeiodJob is running at " + currentDateTime.toString() + " for hrCalendarEntryId " + hrCalendarEntryId);
 		    
@@ -80,8 +82,10 @@ public class EndPayPeriodJob extends BatchJob {
 	    	}
         } else {
         	String principalName = getBatchUserPrincipalName();
+        	TkServiceLocator.getBatchJobService().updateStatus(context.getJobDetail(), BatchJobService.CANCELLED_JOB_STATUS_CODE);
         	LOG.error("Could not run batch jobs due to missing batch user " + principalName);
         }
+		TkServiceLocator.getBatchJobService().updateStatus(context.getJobDetail(), BatchJobService.SUCCEEDED_JOB_STATUS_CODE);
 	}
 	
 	

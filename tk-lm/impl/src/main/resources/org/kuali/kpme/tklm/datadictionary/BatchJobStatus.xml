@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+  <bean id="BatchJobStatus" parent="BatchJobStatus-parentBean"/>
+
+  <bean id="BatchJobStatus-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.kpme.tklm.time.batch.BatchJobStatus"/>
+    <property name="titleAttribute" value="name"/>
+    <property name="objectLabel" value="Batch Job Status"/>
+    <property name="attributes">
+      <list>
+        <ref bean="BatchJobStatus-startDate"/>
+        <ref bean="BatchJobStatus-endDate"/>
+        <ref bean="BatchJobStatus-name"/>
+        <ref bean="BatchJobStatus-group"/>
+        <ref bean="BatchJobStatus-status"/>
+        <ref bean="BatchJobStatus-scheduledDate"/>
+        <ref bean="BatchJobStatus-hrCalendarEntryId"/>
+      </list>
+    </property>
+  </bean>
+
+	<!-- Attribute Definitions -->
+
+  <bean id="BatchJobStatus-hrCalendarEntryId" parent="BatchJobStatus-hrCalendarEntryId-parentBean"/>
+  <bean id="BatchJobStatus-hrCalendarEntryId-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Calendar Entries Id"/>
+    <property name="maxLength" value="60"/>
+      <property name="validCharactersConstraint">
+          <bean parent="NumericPatternConstraint"/>
+      </property>
+      <property name="controlField">
+          <bean parent="Uif-TextControl" p:size="10" />
+      </property>
+    <property name="validationPattern">
+      <bean parent="NumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="10"/>
+    </property>
+    <property name="name" value="hrCalendarEntryId"/>
+    <property name="label" value="Calendar Entries Id"/>
+  </bean>
+
+  <bean id="BatchJobStatus-name" parent="BatchJobStatus-name-parentBean"/>
+
+  <bean id="BatchJobStatus-name-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="name"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Job Name"/>
+    <property name="shortLabel" value="Name"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+    <property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
+	</property>
+    
+  </bean>
+  
+  <bean id="BatchJobStatus-group" parent="BatchJobStatus-group-parentBean"/>
+
+  <bean id="BatchJobStatus-group-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="group"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Job Group"/>
+    <property name="shortLabel" value="Group"/>
+    <property name="maxLength" value="40"/>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="50"/>
+    </property>
+   	<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
+	</property>
+   
+  </bean>
+
+ <bean id="BatchJobStatus-endDate"  parent="BatchJobStatus-endDate-parentBean"/>
+ <bean id="BatchJobStatus-endDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="endDate" />
+        <property name="label" value="To Date" />
+        <property name="shortLabel" value="To Date" />
+        <property name="required" value="true" />
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY" />
+        </property>
+ </bean>
+
+ <bean id="BatchJobStatus-startDate"  parent="BatchJobStatus-startDate-parentBean"/>
+ <bean id="BatchJobStatus-startDate-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="startDate" />
+        <property name="label" value="From Date" />
+        <property name="shortLabel" value="From Date" />
+        <property name="required" value="true" />
+        <property name="controlField">
+            <bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY" />
+        </property>
+ </bean>
+ 
+ <bean id="BatchJobStatus-scheduledDate"  parent="BatchJobStatus-scheduledDate-parentBean"/>
+ <bean id="BatchJobStatus-scheduledDate-parentBean" abstract="true" parent="KpmeAttributeReference-dateTime">
+        <property name="name" value="scheduledDate" />
+        <property name="label" value="Schedule Date" />
+        <property name="shortLabel" value="Schedule Date" />
+        <property name="required" value="true" />
+ </bean>
+
+  <bean id="BatchJobStatus-status" parent="BatchJobStatus-status-parentBean"/>
+  <bean id="BatchJobStatus-status-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="status"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Job Status"/>
+    <property name="shortLabel" value="Status"/>
+    <property name="maxLength" value="40"/>
+    <property name="controlField">
+		<bean parent="Uif-DropdownControl" />
+	</property>
+	<property name="optionsFinder">
+		<bean class="org.kuali.kpme.tklm.time.batch.ScheduledJobStatusValuesFinder" p:addBlankOption="true"/>
+	</property>
+  </bean>
+
+
+<!-- Business Object Lookup Definition -->
+
+
+  <bean id="BatchJobStatus-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="View Batch Jobs" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.batch.BatchJobStatus" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.tklm.time.batch.BatchJobLookupableImpl" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="endDate"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="status"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrCalendarEntryId">
+	        <property name="quickfinder">
+	  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.calendar.entry.CalendarEntryBo"
+	                    p:fieldConversions="hrCalendarEntryId:hrCalendarEntryId"/>
+	        </property>     
+        </bean>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-DataField" p:propertyName="name"/>
+        <bean parent="Uif-DataField" p:propertyName="group"/>
+        <bean parent="Uif-DataField" p:propertyName="status"/>
+        <bean parent="Uif-DataField" p:propertyName="scheduledDate"/>
+      </list>
+    </property>
+  </bean>
+</beans>

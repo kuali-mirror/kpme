@@ -24,7 +24,7 @@
         <html:form action="/batchJob.do">
             <div class="body">
                 <div id="content">
-                    <table>
+                    <table width="100%">
                         <tr>
                             <td>Batch Job:</td>
                             <td colspan="2">
@@ -39,15 +39,19 @@
                             <td>Pay calendar period:</td>
                             <td>
                                 <html:text property="hrPyCalendarEntryId"/>
-                            </td>
-                            <td>
                                 <kul:lookup boClassName="org.kuali.kpme.core.calendar.entry.CalendarEntryBo"
                                             fieldConversions="hrCalendarEntryId:hrPyCalendarEntryId"/>
+                            </td>
+                            <td>
+                               
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <html:submit property="methodToCall.runBatchJob" value="Run"/>
+                            </td>
+                            <td colspan="2" align="right"> 
+                              	<a href="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.time.batch.BatchJobStatus&returnLocation=${ConfigProperties.application.url}/AdminActions.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" >View Batch Jobs</a>
                             </td>
                         </tr>
                     </table>
