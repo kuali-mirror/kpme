@@ -1138,66 +1138,76 @@
 	</bean>
 
 	<!-- Funding List, used by maintenance views -->
-	<bean id="Position-fundings" parent="Uif-StackedCollectionGroup">
+	<bean id="Position-fundings" parent="Uif-TableCollectionGroup">
 		<property name="collectionObjectClass"
 			value="org.kuali.kpme.pm.position.funding.PositionFundingBo" />
 		<property name="propertyName" value="fundingList" />
-		<!-- 
 		<property name="addLinePlacement" value="BOTTOM" />
-		<property name="layoutManager.richTable.render" value="false" />
 		<property name="layoutManager.generateAutoSequence" value="true" />
-		<property name="layoutManager.numberOfColumns" value="7" />   -->
-		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:propertyName="chart" />
-				<bean parent="Uif-InputField" p:propertyName="org" />
-				<bean parent="Uif-InputField" p:propertyName="account">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.Account"
-							p:fieldConversions="accountNumber:account,chartOfAccountsCode:chart" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="subAccount">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubAccount"
-							p:fieldConversions="subAccountNumber:subAccount" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="objectCode">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode"
-							p:fieldConversions="financialObjectCode:objectCode" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="subObjectCode">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode"
-							p:fieldConversions="financialSubObjectCode:subObjectCode" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="orgRefCode" />
-				<bean parent="Uif-InputField" p:propertyName="percent"
-					p:exclusiveMin="0" p:inclusiveMax="100"
-					p:constraintText="Must be a number between 0 and 100.">
-					<property name="validCharactersConstraint">
-						<bean parent="FixedPointPatternConstraint" p:allowNegative="false"
-							p:precision="5" p:scale="2" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="amount"
-					p:exclusiveMin="0">
-					<property name="validCharactersConstraint">
-						<bean parent="FixedPointPatternConstraint" p:allowNegative="false"
-							p:precision="5" p:scale="2" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:propertyName="priorityFlag" />
-			</list>
-		</property>
+		<property name="layoutManager.numberOfColumns" value="4" />
+        <property name="layoutManager.rowDetailsOpen" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="account">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript"
+                              p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.Account"
+                              p:fieldConversions="accountNumber:account,chartOfAccountsCode:chart" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="objectCode">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript"
+                              p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode"
+                              p:fieldConversions="financialObjectCode:objectCode" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="percent"
+                      p:exclusiveMin="0" p:inclusiveMax="100"
+                      p:constraintText="Must be a number between 0 and 100.">
+                    <property name="validCharactersConstraint">
+                        <bean parent="FixedPointPatternConstraint" p:allowNegative="false"
+                              p:precision="5" p:scale="2" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="amount"
+                      p:exclusiveMin="0">
+                    <property name="validCharactersConstraint">
+                        <bean parent="FixedPointPatternConstraint" p:allowNegative="false"
+                              p:precision="5" p:scale="2" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="priorityFlag" />
+            </list>
+        </property>
+        <property name="layoutManager.rowDetailsGroup">
+            <bean parent="Uif-HorizontalBoxSection">
+                <property name="items">
+                    <list>
+                    <bean parent="Uif-InputField" p:propertyName="chart" />
+                    <bean parent="Uif-InputField" p:propertyName="org"  />
+
+                    <bean parent="Uif-InputField" p:propertyName="subAccount" >
+                        <property name="quickfinder">
+                            <bean parent="Uif-QuickFinderByScript"
+                                  p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubAccount"
+                                  p:fieldConversions="subAccountNumber:subAccount" />
+                        </property>
+                    </bean>
+
+                    <bean parent="Uif-InputField" p:propertyName="subObjectCode" >
+                        <property name="quickfinder">
+                            <bean parent="Uif-QuickFinderByScript"
+                                  p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode"
+                                  p:fieldConversions="financialSubObjectCode:subObjectCode" />
+                        </property>
+                    </bean>
+                    <bean parent="Uif-InputField" p:propertyName="orgRefCode" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+
 	</bean>
 
 	<!-- Departments List, used by maintenance views -->
