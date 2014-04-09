@@ -575,6 +575,7 @@
                 <bean parent="Uif-DataField" p:propertyName="primaryDepartment"/>
                 <bean parent="Uif-DataField" p:propertyName="positionClass"/>
                 <bean parent="Uif-DataField" p:propertyName="classificationTitle"/>
+                <bean parent="Uif-DataField" p:propertyName="description"/>
                 <bean parent="Uif-DataField" p:propertyName="positionStatus"/>
                 <bean parent="Uif-DataField" p:propertyName="appointmentType"/>
                 <bean parent="Uif-DataField" p:propertyName="temporary"/>
@@ -615,6 +616,7 @@
                 <bean parent="Uif-DataField" p:propertyName="workMonths"/>
                 <bean parent="Uif-DataField" p:propertyName="benefitsEligible"/>
                 <bean parent="Uif-DataField" p:propertyName="leaveEligible"/>
+                <bean parent="Uif-DataField" p:propertyName="leavePlan"/>
                 <bean parent="Uif-DataField" p:propertyName="payGrade"/>
                 <bean parent="Uif-DataField" p:propertyName="payStep"/>
             </list>
