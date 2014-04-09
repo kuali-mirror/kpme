@@ -168,15 +168,15 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	   			 return results;
     		}
     	}
-    	if(StringUtils.isNotEmpty(pf.getObjectCode()) && aPosition.getEffectiveDate() != null) {
-    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), Integer.valueOf(aPosition.getEffectiveLocalDate().getYear()));
+    	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
+    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), null);
     		if(!results) {
     			 GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.fundingList'].objectCode","error.existence", "Object Code '" + pf.getObjectCode() + "'");
       			 return results;
     		}
     	}
-    	if(StringUtils.isNotEmpty(pf.getSubObjectCode()) && aPosition.getEffectiveDate() != null) {
-    		boolean results = ValidationUtils.validateSubObjectCode(String.valueOf(aPosition.getEffectiveLocalDate().getYear()),
+    	if(StringUtils.isNotEmpty(pf.getSubObjectCode())) {
+    		boolean results = ValidationUtils.validateSubObjectCode(null,
     				pf.getChart(),
     				pf.getAccount(),
     				pf.getObjectCode(),

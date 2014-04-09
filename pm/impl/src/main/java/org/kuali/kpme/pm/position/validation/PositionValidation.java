@@ -227,15 +227,15 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 	   			 valid = false;
     		}
     	}
-    	if(StringUtils.isNotEmpty(pf.getObjectCode()) && aPosition.getEffectiveDate() != null) {
-    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), Integer.valueOf(aPosition.getEffectiveLocalDate().getYear()));
+    	if(StringUtils.isNotEmpty(pf.getObjectCode())) {
+    		boolean results = ValidationUtils.validateObjectCode(pf.getObjectCode(), pf.getChart(), null);
     		if(!results) {
     			 this.putFieldError(propertyNamePrefix + "objectCode","error.existence", "Object Code '" + pf.getObjectCode() + "'");
     			 valid = false;
     		}
     	}
     	if(StringUtils.isNotEmpty(pf.getSubObjectCode())) {
-    		boolean results = ValidationUtils.validateSubObjectCode(String.valueOf(aPosition.getEffectiveLocalDate().getYear()),
+    		boolean results = ValidationUtils.validateSubObjectCode(null,
     				pf.getChart(),
     				pf.getAccount(),
     				pf.getObjectCode(),
