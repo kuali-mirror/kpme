@@ -112,6 +112,9 @@
 	    </property>
 	</bean>
 
+<!-- The readOnly property for the dailog below has been expliclitly set to false to overcome a KRAD feature  -->
+<!-- where the dialog seems to inherit the user's edit permission for the underlying maintenance document. -->
+<!-- This would make the dialog un-editable for users that can disapprove the doc but could not edit it.  -->
 	<bean id="KPMEDisapprovalNote-Dialog-parentBean" parent="Uif-OK-Cancel-DialogGroup" p:readOnly="false">
 		<property name="headerText" value="Disapproval Reason" />
 		<property name="promptText" value="Please enter a reason for the disapproval, or cancel to return." />
@@ -119,7 +122,6 @@
 		<property name="explanation">
       		<bean parent="Uif-DialogExplanation" p:propertyName="disapprovalNoteText" />
     	</property>
-<!--     	<property name="onDialogResponseScript" value="extractDisapprovalNoteTextFromDialog()"/> -->
 	</bean>
 	
 	

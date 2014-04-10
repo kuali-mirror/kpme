@@ -40,7 +40,8 @@ import java.util.Properties;
  */
 public abstract class KPMEMaintenanceDocumentController extends MaintenanceDocumentController {
 	
-	private static final String KPME_DISAPPROVAL_NOTE_DIALOG = "KPMEDisapprovalNote-Dialog";	
+	private static final String KPME_DISAPPROVAL_NOTE_DIALOG = "KPMEDisapprovalNote-Dialog";
+	private static final String KPME_DISAPPROVAL_NOTE_REASON_WARNING_DIALOG = "KPMEDisapprovalNoteReasonWarning-Dialog";
 	
 	
 	// this method will intercept all disapprove requests and show the dialog asking for user explanantion for the disapproval.
@@ -49,28 +50,27 @@ public abstract class KPMEMaintenanceDocumentController extends MaintenanceDocum
 	public ModelAndView disapprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView retVal = null;		
 		
-		// check if the dialog has not yet been answered by the user
+		// check if the dialog has not yet been answered by the user or if the user  clicked OK but did not enter a reason for disapproval
 		if (!hasDialogBeenAnswered(KPME_DISAPPROVAL_NOTE_DIALOG, form)) {
 			// redirect back to client to display lightbox
+			form.getDialogManager().removeDialog(KPME_DISAPPROVAL_NOTE_DIALOG);
 			retVal = showDialog(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response);
 		}
 		else {
-			// get the OK-CANCEL response entered by the user
-			boolean clickedOK = getBooleanDialogResponse(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response);
-			// clear all dialogs in order to display warning again
-			form.getDialogManager().removeAllDialogs();
-			if (clickedOK) {
-				// check if reason for disapproval is given, if so allow the disapproval to go thru,
-				// but if not then display dialog again
-				if(StringUtils.isEmpty(((KPMEMaintenanceDocumentForm) form).getDisapprovalNoteText())) {
-					retVal = showDialog(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response);
-				}
-				else {
-					retVal = super.disapprove(form, result, request, response);
-				}
+			if (getBooleanDialogResponse(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response) &&
+				StringUtils.isNotBlank(((KPMEMaintenanceDocumentForm) form).getDisapprovalNoteText())) {
+				// actually disapprove this doc
+				retVal = super.disapprove(form, result, request, response);
+			}
+			else if((getBooleanDialogResponse(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response) &&
+					 StringUtils.isBlank(((KPMEMaintenanceDocumentForm) form).getDisapprovalNoteText()))) {
+				// remove the dialog
+				form.getDialogManager().removeDialog(KPME_DISAPPROVAL_NOTE_DIALOG);
+				retVal = showDialog(KPME_DISAPPROVAL_NOTE_DIALOG, form, request, response);
 			}
 			else {
-				// just show the form again since they dont wish to disapprove
+				// just show the form again since they clicked cancel
+				form.getDialogManager().removeDialog(KPME_DISAPPROVAL_NOTE_DIALOG);
 				retVal = getUIFModelAndView(form);
 			}
 		}
