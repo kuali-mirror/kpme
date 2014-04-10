@@ -54,7 +54,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	private boolean validateDutyListPercentage(PositionBo aPosition) {
+	protected boolean validateDutyListPercentage(PositionBo aPosition) {
 		if (CollectionUtils.isNotEmpty(aPosition.getDutyList())) {
 			BigDecimal sum = BigDecimal.ZERO;
 			for (PositionDutyBo aDuty : aPosition.getDutyList()) {
@@ -75,7 +75,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 	// KPME-3016  
 	// Now each section is its own page that if you want to show errors globally, you have to catch them globally
-	private boolean validateOverviewPage(PositionBo aPosition) {
+	protected boolean validateOverviewPage(PositionBo aPosition) {
 
 		// required fields
 		if (aPosition.getEffectiveDate() == null
@@ -135,7 +135,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	private boolean validateClassificationPage(PositionBo aPosition) {
+	protected boolean validateClassificationPage(PositionBo aPosition) {
 
 		if (StringUtils.isEmpty(aPosition.getPmPositionClassId())
 				|| StringUtils.isEmpty(aPosition.getTenureEligible())
@@ -156,7 +156,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	private boolean validatePrimaryDepartment(PositionBo aPosition) {
+	protected boolean validatePrimaryDepartment(PositionBo aPosition) {
 
 		if (CollectionUtils.isNotEmpty(aPosition.getDepartmentList())) {
 			for (PositionDepartmentBo aDepartment : aPosition.getDepartmentList()) {
@@ -173,7 +173,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return false;
 	}
 
-    private boolean validateProcess(PositionBo newPosition, PositionBo oldPosition) {
+	protected boolean validateProcess(PositionBo newPosition, PositionBo oldPosition) {
         String process = newPosition.getProcess();
             if (StringUtils.equals(process, PMConstants.PSTN_PROCESS_REORG)) {
 
@@ -197,7 +197,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    protected boolean validateFundingLines(PositionBo aPosition) {
+	protected boolean validateFundingLines(PositionBo aPosition) {
     	boolean valid = true;
     	String prefix = "fundingList";
     	if(CollectionUtils.isNotEmpty(aPosition.getFundingList())) {
