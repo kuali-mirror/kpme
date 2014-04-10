@@ -107,7 +107,7 @@
 		</property>
 		<property name="additionalScriptFiles">
 	     	<list merge="true">
-	        	<value>js/disapprovalNoteExtractor.js</value>
+	        	<value>js/maintview.js</value>
 	      	</list>
 	    </property>
 	</bean>
