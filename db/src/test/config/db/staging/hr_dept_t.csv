@@ -22,7 +22,7 @@ HR_DEPT_ID,DEPT,DESCRIPTION,LOCATION,PYRLL_APPRVL,EFFDT,ACTIVE,USER_PRINCIPAL_ID
 21,IN-SFDF,Shift Diff Dept,IN,N,2010-01-01,Y,admin,IU
 22,IN-TCOLL,Time Collection Dept,IN,N,2010-01-01,Y,admin,IU
 23,IN-TIME,Indiana Time Dept,IN,N,2010-01-01,Y,admin,IU
-24,IT-HR,UT Human Resources,UT,N,2010-01-01,Y,admin,UTAH
+24,IT-HR,UT Human Resources,UT,N,2010-01-01,Y,admin,Utah
 25,MU-DEPT1,MU Test Department,MU,Y,2010-01-01,Y,admin,MU
 26,MU-DEPT2,MU Test Department,MU,Y,2010-01-01,Y,admin,MU
 27,MU-DEPT3,MU Test Department 3,MU,N,2010-01-01,Y,admin,MU
