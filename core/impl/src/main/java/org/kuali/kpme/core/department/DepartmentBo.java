@@ -81,7 +81,7 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.DEPT, this.getDept())
-                .put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
+                //.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
     
