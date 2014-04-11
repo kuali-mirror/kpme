@@ -34,19 +34,6 @@
 				<ref bean="PositionReportType-location" />
 			</list>
 		</property>
-		<property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="institutionObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution"
-								p:targetName="institutionCode" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
 		<property name="objectLabel" value="Position Report Type" />
 	</bean>
 
@@ -132,7 +119,12 @@
         <property name="criteriaFields">
             <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
+                	<property name="quickfinder">
+				    	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
+				              p:fieldConversions="institutionCode:institution"/>
+				    </property>
+                </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
@@ -177,7 +169,7 @@
 <!--  Position Reporting Type Maintenance View -->
     <bean id="PositionReportType-MaintenanceView" parent="PositionReportType-MaintenanceView-parentBean"/>
     <bean id="PositionReportType-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
-      <property name="headerText" value="Position Report Type Inquiry"/>
+      <property name="headerText" value="Position Report Type Maintenance"/>
       <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
       <property name="items">
           <list merge="true">
@@ -191,8 +183,18 @@
                       </bean>
                       <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
                       <bean parent="Uif-InputField" p:propertyName="positionReportType" p:required="true"/>
-                      <bean parent="Uif-InputField" p:propertyName="institution" p:required="true"/>
-                      <bean parent="Uif-InputField" p:propertyName="location" p:required="true" />
+                      <bean parent="Uif-InputField" p:propertyName="institution" p:required="true">
+	                  	<property name="quickfinder">
+				            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
+				                  p:fieldConversions="institutionCode:institution"/>
+				      	</property>
+                      </bean>
+                      <bean parent="Uif-InputField" p:propertyName="location" p:required="true">
+                      	<property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
+								p:fieldConversions="location:location" />
+						</property>
+                      </bean>
                       <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
                   </list>
                  </property>

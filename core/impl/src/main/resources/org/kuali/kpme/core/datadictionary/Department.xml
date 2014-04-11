@@ -38,28 +38,6 @@
 		        <ref bean="Department-payrollApproval" />
             </list>
         </property>
-        <property name="relationships">
-            <list>
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="chartObj" />
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="chart" p:targetName="chartOfAccountsCode" />
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="RelationshipDefinition">
-                    <property name="objectAttributeName" value="orgObj" />
-                    <property name="primitiveAttributes">
-                        <list>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="org" p:targetName="organizationCode" />
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="chart" p:targetName="chartOfAccountsCode" />
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
         <property name="collections">
             <list>
 		        <bean parent="CollectionDefinition">
