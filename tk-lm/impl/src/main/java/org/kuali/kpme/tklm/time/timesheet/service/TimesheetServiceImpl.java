@@ -549,9 +549,11 @@ public class TimesheetServiceImpl implements TimesheetService {
                 if (earnCodeType != null && HrConstants.EARN_CODE_TIME.equals(earnCodeType)) {
                     String timeBlockDesc = "TimeBlock (" + timeBlock.getTkTimeBlockId() + ") on " + DateTimeFormat.forPattern("EEE MMM d").print(timeBlock.getBeginDateTime()) + " from " + timeBlock.getBeginTimeDisplayTimeOnlyString() + " - " + timeBlock.getEndTimeDisplayTimeOnlyString();
                     for (TimeBlock compareTimeBlock : td.getTimeBlocks()) {
-                        if (compareTimeBlock.getTkTimeBlockId().equals(timeBlock.getTkTimeBlockId())) {
-                            continue;
-                        }
+                    	if(compareTimeBlock.getTkTimeBlockId()!=null && timeBlock.getTkTimeBlockId()!=null){
+                    		if (compareTimeBlock.getTkTimeBlockId().equals(timeBlock.getTkTimeBlockId())) {
+                    			continue;
+                    		}
+                    	}
                         String compareEarnCodeType = earnCodeTypeMap.get(compareTimeBlock.getEarnCode());
                         if (compareEarnCodeType != null && HrConstants.EARN_CODE_TIME.equals(compareEarnCodeType)) {
                             String compareTimeBlockDesc = "TimeBlock (" + compareTimeBlock.getTkTimeBlockId() + ") on " + DateTimeFormat.forPattern("EEE MMM d").print(compareTimeBlock.getBeginDateTime()) + " from " + compareTimeBlock.getBeginTimeDisplayTimeOnlyString() + " - " + compareTimeBlock.getEndTimeDisplayTimeOnlyString();

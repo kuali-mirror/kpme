@@ -70,6 +70,19 @@ $(function () {
     var EarnCodes = new EarnCodeCollection;
 
     var earnCodeObj = new EarnCode;
+    
+    RegEarnCodeAssignmentCollection = Backbone.Collection.extend({
+        url : "LeaveCalendarWS.do?methodToCall=getValidAssignments&documentId=" + $('#documentId').val()
+    });
+
+    var assignmentsForRegEarnCode = new RegEarnCodeAssignmentCollection;
+    
+    AssignmentCollection = Backbone.Collection.extend({
+        url : "LeaveCalendarWS.do?methodToCall=getAssignmentJson&documentId=" + $('#documentId').val()
+    });
+
+    var assignmentsForStartDay = new AssignmentCollection;
+
 
     /**
      * ====================
@@ -99,7 +112,8 @@ $(function () {
             "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
             "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
             "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
-            "click #ts-route-button" : "forfeitBalanceOnSubmit"
+            "click #ts-route-button" : "forfeitBalanceOnSubmit",
+            "change #startDate" : "updateAssignmentsEarnCodesForDate"
         },
 
         initialize : function () {
@@ -284,10 +298,13 @@ $(function () {
             // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
             dfd.done(_(leaveBlock).fillInForm())
-               .done(this.fetchEarnCode(_.getSelectedAssignmentValue()))
+               .done(this.fetchEarnCode(_.getSelectedAssignmentValue(), null, leaveBlock.get('startDate'), leaveBlock.get('earnCode')))
                .done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
                .done(this.showFieldByEarnCodeType())
+               .done(this.fetchAssignmentsForDay(leaveBlock.get('startDate'), leaveBlock.get("assignment")))
                .done($("#leaveAmount").attr("value", leaveBlock.get("leaveAmount")));
+			
+			this.fetchAssignmentsForDay();
         },
         
         deleteLeaveBlock : function (e) {
@@ -483,14 +500,41 @@ $(function () {
             endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
 
             app.showLeaveBlockEntryDialog(startDay, endDay,null);
-
+            this.fetchAssignmentsForDay(startDay);
             // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
-            if ($("#selectedAssignment").is("input")) {
+            if ($("#selectedAssignment").is("input")
+                    || $("#selectedAssignment").find(":selected").text() != '') {
                 app.fetchEarnCodeAndLoadFields();
             }
             mouseDownIndex = null;
             currentMouseIndex = null;
 
+        },
+        
+        fetchAssignmentsForDay : function(e, assignValue) {
+            var assignment = assignValue;
+            if (assignment == null) {
+                assignment = this.$('#selectedAssignment option:selected').val();
+            }
+            var asOfDate = _.isString(e) ? e : $('#startDate').val();
+            assignmentsForStartDay.fetch({
+                // Make the ajax call not async to be able to filter the assignments
+                async : false,
+                data : {
+                    startDate : asOfDate
+                }
+            });
+            var view = new AssignmentView({collection : assignmentsForStartDay});
+            // Append the earn code to <select>
+            $("#assignment-section")
+                .find('option')
+                .remove()
+                .end()
+                .append(view.render().el)
+                .val($("#selectedAssignment option:first").val());
+            if (assignment != null) {
+                $("#selectedAssignment option[value='" + assignment + "']").prop("selected", "selected");
+            }
         },
         
         /**
@@ -597,10 +641,11 @@ $(function () {
             return isValid;
         },
 
-        fetchEarnCode : function (e, isTimeBlockReadOnly) {
+        fetchEarnCode : function (e, isTimeBlockReadOnly, startDate, leaveBlockEarnCode) {
 
             isTimeBlockReadOnly = _.isUndefined(isTimeBlockReadOnly) ? false : isTimeBlockReadOnly;
-
+            leaveBlockEarnCode = _.isUndefined(leaveBlockEarnCode) ? '' : leaveBlockEarnCode;
+            var docId = $('#documentId').val();
             // When the method is called with a passed in value, the assignment is whatever that value is;
             // If the method is called WITHOUT a passed in value, the assignment is an event.
             // We want to be able to use this method in creating and editing timeblocks.
@@ -608,8 +653,10 @@ $(function () {
             var assignment = _.isString(e) ? e : this.$("#selectedAssignment option:selected").val();
             // We want to remember what the previous selected earn code was.
             var earnCode = this.$('#selectedEarnCode option:selected').val();
-            var startDate = this.$("#startDate").val();
-            var endDate = this.$("#endDate").val();
+            
+            /*var startDate = this.$("#startDate").val();
+            var endDate = this.$("#endDate").val();*/
+            
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
             // For more information: http://documentcloud.github.com/backbone/#Collection-fetch
@@ -619,19 +666,24 @@ $(function () {
                 data : {
                     selectedAssignment : assignment,
                     startDate : startDate,
-                    endDate : endDate,
+                    documentId : docId,
+                    selectedEarnCode : leaveBlockEarnCode,
                     timeBlockReadOnly : isTimeBlockReadOnly
                 }
             });
             // If there is an earn code in the newly created collection that matches the old
             // earn code, keep the earn code selected.
-            if(_.contains(EarnCodes.pluck('earnCode'),earnCode)) {
+            if(_.contains(EarnCodes.pluck('earnCode'),earnCode) || _.contains(EarnCodes.pluck('earnCode'), leaveBlockEarnCode)) {
                 $("#selectedEarnCode option:selected").removeAttr("selected");
                 $("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
             }
-            else {
-                $("#selectedEarnCode option:first").attr("selected", "selected");
-            }
+        },
+        
+        updateAssignmentsEarnCodesForDate : function() {
+        	this.fetchAssignmentsForDay();
+        	if (_.getSelectedAssignmentValue() != '') {
+        		this.fetchEarnCodeAndLoadFields();
+        	}
         },
 
 
@@ -892,6 +944,36 @@ $(function () {
 
     });
 
+    var AssignmentView = Backbone.View.extend({
+        el : $("#selectedAssignment"),
+        template : _.template($('#assignment-template').html()),
+        initialize : function () {
+            _.bindAll(this, "render");
+        },
+        render : function () {
+            var self = this;
+            $("#selectedAssignmenbt").html("");
+            this.collection.each(function (assignment) {
+                $(self.el).append(self.template(assignment.toJSON()));
+            });
+            if($("#selectedAssignment option").size() == 0) {
+                $("#selectedEarnCode").html("<option value=''> -- no assignments available --");
+            }
+            return this;
+        }
+    });
+    function disableApproveButton()  {
+        var approveBtn = $("input[name=approve]");
+        if (approveBtn != null) {
+            approveBtn.attr('aria-disabled', true);
+            approveBtn.attr('disabled', 'disabled');
+            approveBtn.addClass('ui-button-disabled');
+            approveBtn.addClass('ui-state-disabled');
+            approveBtn.addClass('ui-state-default');
+            approveBtn.addClass('ui-corner-all');
+        }
+    };
+    
     var EarnCodeView = Backbone.View.extend({
         el : $("#selectedEarnCode"),
 
@@ -1021,6 +1103,7 @@ $(function () {
 			
             if (e.keyCode == 65 && isCtrl && isAlt) {
                 app.showLeaveBlockEntryDialog(startDate,endDate);
+                app.fetchAssignmentsForDay();
             }
 
         }).keyup(function(e) {

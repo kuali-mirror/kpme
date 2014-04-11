@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -49,14 +50,16 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
             String timesheetDocumentId = missedPunchDocument != null ? missedPunchDocument.getMissedPunch().getTimesheetDocumentId() : missedPunchForm.getMissedPunch().getTimesheetDocumentId();
 	        if (StringUtils.isNotBlank(timesheetDocumentId)) {
 	            TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
-	            Map<String, String> assignmentDescriptions = timesheetDocument.getAssignmentDescriptions(true, mpDate);
-
-	            if (assignmentDescriptions.size() > 1) {
+	                   
+	            Map<LocalDate, List<Assignment>> assignmentMap = timesheetDocument.getAssignmentMap();
+	            List<Assignment> assignments = assignmentMap.get(mpDate);
+	            
+	            if (assignments.size() > 1) {
 	            	labels.add(new ConcreteKeyValue("", ""));
 	            }
-	            for (Map.Entry<String, String> entry : assignmentDescriptions.entrySet()) {
-	                labels.add(new ConcreteKeyValue(entry.getKey(), entry.getValue()));
-	            }
+	            for (Assignment assignment : assignments) {
+					labels.add(new ConcreteKeyValue(assignment.getAssignmentKey(),assignment.getAssignmentDescription()));
+				}
 	        }
         }
 

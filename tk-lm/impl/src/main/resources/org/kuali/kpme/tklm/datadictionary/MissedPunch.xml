@@ -481,7 +481,7 @@
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.timesheetDocumentId"
                                          p:readOnly="@{!#empty(#dp.missedPunch.timesheetDocumentId)}" />
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.assignmentKey"
-                                         p:readOnly="@{#dp.assignmentReadOnly  or #dp.missedPunchSubmitted}" p:refreshWhenChangedPropertyNames="#dp.missedPunch.timesheetDocumentId" />
+                                         p:readOnly="@{#dp.assignmentReadOnly  or #dp.missedPunchSubmitted}" p:refreshWhenChangedPropertyNames="#dp.missedPunch.timesheetDocumentId,#dp.missedPunch.actionDate" />
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.actionDate"
                                           p:readOnly="@{#dp.missedPunchSubmitted}"/>
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.actionTime"

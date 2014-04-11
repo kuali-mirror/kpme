@@ -157,7 +157,6 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		LeaveCalendarDocument leaveCalendarDocument = null;
 		if (StringUtils.isNotBlank(documentId)) {
 			leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-			
 			if (leaveCalendarDocument != null) {
 				calendarEntry = leaveCalendarDocument.getCalendarEntry();
 			}
