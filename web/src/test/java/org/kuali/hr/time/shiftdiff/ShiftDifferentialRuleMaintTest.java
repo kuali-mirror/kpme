@@ -131,6 +131,7 @@ public class ShiftDifferentialRuleMaintTest extends KPMEWebTestCase{
 		shiftDifferentialRule.setFriday(true);
 		shiftDifferentialRule.setSaturday(true);
 		shiftDifferentialRule.setPyCalendarGroup("TEST");
+        shiftDifferentialRule.setUserPrincipalId("admin");
 		
 		ShiftDifferentialRule rule = KRADServiceLocator.getBusinessObjectService().save(shiftDifferentialRule);
 		shiftDifferentialRuleId = rule.getTkShiftDiffRuleId();

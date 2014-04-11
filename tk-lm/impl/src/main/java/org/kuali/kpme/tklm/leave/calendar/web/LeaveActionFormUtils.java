@@ -76,7 +76,7 @@ public class LeaveActionFormUtils {
         		
             LeaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
             LeaveBlockMap.put("timezone", timezone);
-            LeaveBlockMap.put("assignment", new AssignmentDescriptionKey(leaveBlock.getJobNumber(), leaveBlock.getWorkArea(), leaveBlock.getTask()).toAssignmentKeyString());
+            LeaveBlockMap.put("assignment", new AssignmentDescriptionKey(leaveBlock.getGroupKeyCode(), leaveBlock.getJobNumber(), leaveBlock.getWorkArea(), leaveBlock.getTask()).toAssignmentKeyString());
             LeaveBlockMap.put("lmLeaveBlockId", leaveBlock.getLmLeaveBlockId() != null ? leaveBlock.getLmLeaveBlockId() : "");
             LeaveBlockMap.put("earnCode", leaveBlock.getEarnCode());
             LeaveBlockMap.put("leaveAmount", leaveBlock.getLeaveAmount());

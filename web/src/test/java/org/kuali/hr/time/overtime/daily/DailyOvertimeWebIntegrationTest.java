@@ -70,7 +70,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         Assert.assertNotNull(form);
 
         // 1. Obtain User Data
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("30_30_30"), JAN_AS_OF_DATE.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(HrContext.getPrincipalId(), AssignmentDescriptionKey.get("IU-BL_30_30_30"), JAN_AS_OF_DATE.toLocalDate());
         EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE.toLocalDate());
         Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 
@@ -119,7 +119,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
                     put("startNoTz", "2011-03-02T08:00:00");
                     put("endNoTz", "2011-03-02T18:00:00");
                     put("title", "SDR1 Work Area");
-                    put("assignment", "30_30_30");
+                    put("assignment", "IU-BL_30_30_30");
                 }}
         ));
 /*        final JSONObject jsonDataObject2 = (JSONObject) jsonData.get(1);
@@ -139,7 +139,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
                     put("startNoTz", "2011-03-03T08:00:00");
                     put("endNoTz", "2011-03-03T18:00:00");
                     put("title", "SDR1 Work Area");
-                    put("assignment", "30_30_30");
+                    put("assignment", "IU-BL_30_30_30");
                 }}
         ));*/
 

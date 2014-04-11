@@ -530,7 +530,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
     }
 
     public String getAssignmentKey() {
-        AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
+        AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getGroupKeyCode(), this.getJobNumber(), this.getWorkArea(), this.getTask());
         this.setAssignmentKey(adk.toAssignmentKeyString());
         return assignmentKey;
     }
@@ -541,7 +541,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
 
     public String getAssignmentDescription() {
         if (getJobNumber() != null && getWorkArea() != null && getTask() != null && getBeginDateTime() != null) {
-            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber(), this.getWorkArea(), this.getTask());
+            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getGroupKeyCode(), this.getJobNumber(), this.getWorkArea(), this.getTask());
             Assignment anAssignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, adk, this.getBeginDateTime().toLocalDate());
             return anAssignment == null ? this.getAssignmentKey() : anAssignment.getAssignmentDescription();
         } else {
@@ -907,7 +907,8 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
         tb.setConcreteBlockId(im.getConcreteBlockId());
         tb.setPrincipalIdModified(im.getUserPrincipalId());
         tb.setBeginDate(im.getBeginDateTime() == null ? null : im.getBeginDateTime().toDate());
-
+        tb.setGroupKeyCode(im.getGroupKeyCode());
+        tb.setGroupKey(im.getGroupKey());
         tb.setAssignmentKey(im.getAssignmentKey());
 
 

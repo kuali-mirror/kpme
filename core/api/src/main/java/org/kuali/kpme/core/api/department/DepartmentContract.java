@@ -15,14 +15,14 @@
  */
 package org.kuali.kpme.core.api.department;
 
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>DepartmentContract interface.</p>
  *
  */
-public interface DepartmentContract extends KpmeEffectiveDataTransferObject {
+public interface DepartmentContract extends KpmeEffectiveKeyedDataTransferObject {
 
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Department";
 	
@@ -47,7 +47,7 @@ public interface DepartmentContract extends KpmeEffectiveDataTransferObject {
 	 * @return dept for Department
 	 */
 	public String getDept();
-	
+
 	/**
 	 * Text which describes the department value 
 	 * 

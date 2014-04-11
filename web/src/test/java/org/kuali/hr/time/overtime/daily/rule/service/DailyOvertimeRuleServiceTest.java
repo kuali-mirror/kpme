@@ -58,6 +58,7 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 		rule.setMaxGap(maxGap);
 		rule.setMinHours(minHours);
 		rule.setActive(true);
+        rule.setUserPrincipalId("admin");
 
 		service.saveOrUpdate(rule);
 	}

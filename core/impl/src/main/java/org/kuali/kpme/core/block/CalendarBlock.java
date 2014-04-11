@@ -17,17 +17,18 @@ package org.kuali.kpme.core.block;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.service.HrServiceLocator;
 
 public class CalendarBlock extends CalendarBlockBase {
 
 	private static final long serialVersionUID = -4680437059186586309L;
 	private static final Logger LOG = Logger.getLogger(CalendarBlock.class);
+    protected String groupKeyCode;
+    protected HrGroupKey groupKey;
 	
 	public CalendarBlock() {
 		this.concreteBlockType = this.getClass().getName();
@@ -181,4 +182,26 @@ public class CalendarBlock extends CalendarBlockBase {
 		return lunchDeleted;
 	}
 
+    @Override
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
+
+    public void setGroupKeyCode(String groupKeyCode) {
+        this.groupKeyCode = groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        if (groupKey == null
+                && getGroupKeyCode() != null
+                && getBeginDateTime() != null) {
+            setGroupKey(HrServiceLocator.getHrGroupKeyService().getHrGroupKey(getGroupKeyCode(), this.getBeginDateTime().toLocalDate()));
+        }
+        return groupKey;
+    }
+
+    public void setGroupKey(HrGroupKey groupKey) {
+        this.groupKey = groupKey;
+    }
 }

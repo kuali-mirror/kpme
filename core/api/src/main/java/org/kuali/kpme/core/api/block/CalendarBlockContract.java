@@ -16,84 +16,46 @@
 package org.kuali.kpme.core.api.block;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.mo.UserModified;
+import org.kuali.kpme.core.api.mo.KeyedData;
 import org.kuali.rice.core.api.mo.common.GloballyUnique;
 import org.kuali.rice.core.api.mo.common.Versioned;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * <p>CalendarBlockContract interface</p>
  *
  */
-public interface CalendarBlockContract extends GloballyUnique, Versioned {
+public interface CalendarBlockContract extends GloballyUnique, Versioned, KeyedData {
 
 	public String getHrCalendarBlockId();
 	
-	//public void setHrCalendarBlockId(String hrCalendarBlockId);
-	
 	public Long getWorkArea();
 	
-	//public void setWorkArea(Long workArea);
-	
 	public Long getJobNumber();
-	
-	//public void setJobNumber(Long jobNumber);
 	
 	public Long getTask();
 	
 	public String getEarnCode();
 	
-	//public void setEarnCode(String earnCode);
-	
 	public String getConcreteBlockType();
-	
-	//public void setConcreteBlockType(String concreteBlockType);
 	
 	public String getConcreteBlockId();
 	
-	//public void setConcreteBlockId(String concreteBlockId);
-	
-	//public void setTask(Long task);
-	
 	public String getDocumentId();
-
-	//public void setDocumentId(String documentId);
 
 	public String getPrincipalId();
 
-	//public void setPrincipalId(String principalId);
-
-	//public Timestamp getTimestamp();
-
-	//public void setTimestamp(Timestamp timestamp);
-
-	//public Timestamp getBeginTimestamp();
     public DateTime getBeginDateTime();
 
-	//public void setBeginTimestamp(Timestamp beginTimestamp);
-
-	//public Timestamp getEndTimestamp();
     public DateTime getEndDateTime();
 
-	//public void setEndTimestamp(Timestamp endTimestamp);
-	
 	public BigDecimal getAmount();
 
-	//public void setAmount(BigDecimal amount);
-	
 	public BigDecimal getHours();
-	
-	//public void setHours(BigDecimal hours);
 	
 	public String getOvertimePref();
 	
-	//public void setOvertimePref(String overtimePref);
-
 	public boolean isLunchDeleted();
 	
-	//public void setLunchDeleted(boolean lunchDeleted);
-
 }

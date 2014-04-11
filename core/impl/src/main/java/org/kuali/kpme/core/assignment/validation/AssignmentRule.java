@@ -105,9 +105,6 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		JobContract job = HrServiceLocator.getJobService().getJob(
 				assignment.getPrincipalId(), assignment.getJobNumber(),
 				assignment.getEffectiveLocalDate(), false);
-		// Job job =
-		// KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Job.class,
-		// assignment.getJob().getHrJobId());
 		if (job != null) {
 			valid = true;
 

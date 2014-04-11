@@ -16,6 +16,8 @@
 package org.kuali.kpme.tklm.api.time.clocklog;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
@@ -37,6 +39,8 @@ import java.util.Collection;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = ClockLog.Constants.TYPE_NAME, propOrder = {
         ClockLog.Elements.TK_CLOCK_LOG_ID,
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
         ClockLog.Elements.TASK,
         ClockLog.Elements.CLOCKED_BY_MISSED_PUNCH,
         ClockLog.Elements.UNAPPROVED_I_P,
@@ -53,8 +57,6 @@ import java.util.Collection;
         ClockLog.Elements.CLOCK_TIMESTAMP_TIMEZONE,
         ClockLog.Elements.NEXT_VALID_CLOCK_ACTION,
         ClockLog.Elements.JOB,
-        //ClockLog.Elements.WORK_AREA_OBJ,
-        //ClockLog.Elements.TASK_OBJ,
         ClockLog.Elements.WORK_AREA,
         CoreConstants.CommonElements.VERSION_NUMBER,
         CoreConstants.CommonElements.OBJECT_ID,
@@ -68,6 +70,12 @@ public final class ClockLog
     private static final long serialVersionUID = 7754198231707731234L;
     @XmlElement(name = Elements.TK_CLOCK_LOG_ID, required = false)
     private final String tkClockLogId;
+
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
+
     @XmlElement(name = Elements.TASK, required = false)
     private final Long task;
     @XmlElement(name = Elements.CLOCKED_BY_MISSED_PUNCH, required = false)
@@ -102,10 +110,6 @@ public final class ClockLog
     private final String nextValidClockAction;
     @XmlElement(name = Elements.JOB, required = false)
     private final Job job;
-    //@XmlElement(name = Elements.WORK_AREA_OBJ, required = false)
-    //private final WorkArea workAreaObj;
-    //@XmlElement(name = Elements.TASK_OBJ, required = false)
-    //private final Task taskObj;
     @XmlElement(name = Elements.WORK_AREA, required = false)
     private final Long workArea;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -123,6 +127,8 @@ public final class ClockLog
     private ClockLog() {
         this.tkClockLogId = null;
         this.task = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
         this.clockedByMissedPunch = false;
         this.unapprovedIP = false;
         this.assignmentDescriptionKey = null;
@@ -163,8 +169,8 @@ public final class ClockLog
         this.clockTimestampTimezone = builder.getClockTimestampTimezone();
         this.nextValidClockAction = builder.getNextValidClockAction();
         this.job = builder.getJob() == null ? null : builder.getJob().build();
-        //this.workAreaObj = builder.getWorkAreaObj() == null ? null : builder.getWorkAreaObj().build();
-        //this.taskObj = builder.getTaskObj() == null ? null : builder.getTaskObj().build();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
         this.workArea = builder.getWorkArea();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -255,15 +261,15 @@ public final class ClockLog
         return this.job;
     }
 
-    /*@Override
-    public WorkArea getWorkAreaObj() {
-        return this.workAreaObj;
+    @Override
+    public HrGroupKey getGroupKey() {
+        return groupKey;
     }
 
     @Override
-    public Task getTaskObj() {
-        return this.taskObj;
-    }*/
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
 
     @Override
     public Long getWorkArea() {
@@ -291,6 +297,8 @@ public final class ClockLog
 
         private static final long serialVersionUID = -5655909845940279134L;
         private String tkClockLogId;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
         private Long task;
         private boolean clockedByMissedPunch;
         private boolean unapprovedIP;
@@ -324,6 +332,8 @@ public final class ClockLog
                 throw new IllegalArgumentException("contract was null");
             }
             Builder builder = create();
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setTkClockLogId(contract.getTkClockLogId());
             builder.setTask(contract.getTask());
             builder.setClockedByMissedPunch(contract.isClockedByMissedPunch());
@@ -438,15 +448,15 @@ public final class ClockLog
             return this.job;
         }
 
-        /*@Override
-        public WorkArea.Builder getWorkAreaObj() {
-            return this.workAreaObj;
+        @Override
+        public String getGroupKeyCode() {
+            return groupKeyCode;
         }
 
         @Override
-        public Task.Builder getTaskObj() {
-            return this.taskObj;
-        }*/
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
+        }
 
         @Override
         public Long getWorkArea() {
@@ -465,6 +475,14 @@ public final class ClockLog
 
         public void setTkClockLogId(String tkClockLogId) {
             this.tkClockLogId = tkClockLogId;
+        }
+
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
         }
 
         public void setTask(Long task) {

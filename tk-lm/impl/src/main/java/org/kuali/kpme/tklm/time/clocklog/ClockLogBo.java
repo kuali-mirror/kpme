@@ -17,13 +17,12 @@ package org.kuali.kpme.tklm.time.clocklog;
 
 import java.sql.Timestamp;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.Calendar;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.api.task.Task;
-import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
@@ -41,6 +40,7 @@ public class ClockLogBo extends PersistableBusinessObjectBase implements ClockLo
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		            .add("task")
+                    .add("groupKeyCode")
 		            .add("principalId")
 		            .add("workArea")
 		            .add("jobNumber")
@@ -48,6 +48,7 @@ public class ClockLogBo extends PersistableBusinessObjectBase implements ClockLo
 
     private String tkClockLogId;
 	private String documentId;
+    private String groupKeyCode;
     private String principalId;
     private Long jobNumber;
     private Long workArea;
@@ -62,6 +63,7 @@ public class ClockLogBo extends PersistableBusinessObjectBase implements ClockLo
 
     private boolean clockedByMissedPunch;
 
+    private transient HrGroupKey groupKey;
     private transient Job job;
     private transient WorkAreaBo workAreaObj;
     private transient TaskBo taskObj;
@@ -157,6 +159,13 @@ public class ClockLogBo extends PersistableBusinessObjectBase implements ClockLo
         return clockTimestampTimezone;
     }
 
+    public String getShortClockTimezone() {
+        if (StringUtils.isEmpty(clockTimestampTimezone)) {
+            return StringUtils.EMPTY;
+        }
+        return DateTimeZone.forID(clockTimestampTimezone).getShortName(getTimestamp().getTime());
+    }
+
     public void setClockTimestampTimezone(String clockTimestampTimezone) {
         this.clockTimestampTimezone = clockTimestampTimezone;
     }
@@ -166,25 +175,25 @@ public class ClockLogBo extends PersistableBusinessObjectBase implements ClockLo
      * @return
      */
     public String getNextValidClockAction() {
-	String ret;
+        String ret;
 
-	if (this.getClockAction().equals(TkConstants.CLOCK_IN)) {
-	    ret = TkConstants.CLOCK_OUT;
-	} else if (this.getClockAction().equals(TkConstants.CLOCK_OUT)) {
-	    ret = TkConstants.CLOCK_IN;
-	} else if (this.getClockAction().equals(TkConstants.LUNCH_IN)) {
-	    ret = TkConstants.LUNCH_OUT;
-	} else if (this.getClockAction().equals(TkConstants.LUNCH_OUT)) {
-	    ret = TkConstants.LUNCH_IN;
-	} else {
-	    ret = TkConstants.CLOCK_IN;
-	}
+        if (this.getClockAction().equals(TkConstants.CLOCK_IN)) {
+            ret = TkConstants.CLOCK_OUT;
+        } else if (this.getClockAction().equals(TkConstants.CLOCK_OUT)) {
+            ret = TkConstants.CLOCK_IN;
+        } else if (this.getClockAction().equals(TkConstants.LUNCH_IN)) {
+            ret = TkConstants.LUNCH_OUT;
+        } else if (this.getClockAction().equals(TkConstants.LUNCH_OUT)) {
+            ret = TkConstants.LUNCH_IN;
+        } else {
+            ret = TkConstants.CLOCK_IN;
+        }
 
-	return ret;
+        return ret;
     }
 
     public String getAssignmentDescriptionKey() {
-        return new AssignmentDescriptionKey(getJobNumber(), getWorkArea(), getTask()).toAssignmentKeyString();
+        return new AssignmentDescriptionKey(getGroupKeyCode(), getJobNumber(), getWorkArea(), getTask()).toAssignmentKeyString();
     }
 
     public String getDept() {
@@ -194,7 +203,28 @@ public class ClockLogBo extends PersistableBusinessObjectBase implements ClockLo
         return job == null ? null : job.getDept();
     }
 
-	public Job getJob() {
+    @Override
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
+
+    public void setGroupKeyCode(String groupKeyCode) {
+        this.groupKeyCode = groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        if (groupKey == null) {
+            setGroupKey(HrServiceLocator.getHrGroupKeyService().getHrGroupKey(getGroupKeyCode(), getClockDateTime().toLocalDate()));
+        }
+        return groupKey;
+    }
+
+    public void setGroupKey(HrGroupKey groupKey) {
+        this.groupKey = groupKey;
+    }
+
+    public Job getJob() {
 		return job;
 	}
 
@@ -277,8 +307,8 @@ public class ClockLogBo extends PersistableBusinessObjectBase implements ClockLo
         cl.setClockedByMissedPunch(im.isClockedByMissedPunch());
 
         cl.setJob(im.getJob());
-        //cl.setWorkAreaObj(im.getWorkAreaObj());
-        //cl.setTaskObj(im.getTaskObj());
+        cl.setGroupKeyCode(im.getGroupKeyCode());
+        cl.setGroupKey(im.getGroupKey());
 
         cl.setVersionNumber(im.getVersionNumber());
         cl.setObjectId(im.getObjectId());

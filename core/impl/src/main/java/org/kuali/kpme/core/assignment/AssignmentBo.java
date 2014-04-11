@@ -28,6 +28,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.assignment.account.AssignmentAccountBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
@@ -55,18 +56,23 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
                     return AssignmentBo.from(input);
                 };
             };
-	private static final String PRINCIPAL_ID = "principalId";
-	private static final String TASK = "task";
-	private static final String WORK_AREA = "workArea";
-	private static final String JOB_NUMBER = "jobNumber";
+
+    static class KeyFields {
+        private static final String PRINCIPAL_ID = "principalId";
+        private static final String TASK = "task";
+        private static final String WORK_AREA = "workArea";
+        private static final String JOB_NUMBER = "jobNumber";
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+    }
 	
 	private static final long serialVersionUID = 6347435053054442195L;
 	//KPME-2273/1965 Primary Business Keys List. 
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(JOB_NUMBER)
-            .add(WORK_AREA)
-            .add(TASK)
-            .add(PRINCIPAL_ID)
+            .add(KeyFields.JOB_NUMBER)
+            .add(KeyFields.WORK_AREA)
+            .add(KeyFields.TASK)
+            .add(KeyFields.PRINCIPAL_ID)
+            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
@@ -77,6 +83,7 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 
 	private String tkAssignmentId;
 	private String principalId;
+    private String groupKeyCode;
 	private Long jobNumber;
 	private String hrJobId;
 	private transient JobBo job;
@@ -86,6 +93,7 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 	private boolean primaryAssign;
     private String calGroup;
 
+    private transient HrGroupKeyBo groupKey;
 	private transient WorkAreaBo workAreaObj;
 	private transient Person principal;
 	private transient TaskBo taskObj;
@@ -98,10 +106,11 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
-				.put(JOB_NUMBER, this.getJobNumber())
-				.put(WORK_AREA, this.getWorkArea())
-				.put(TASK, this.getTask())
-				.put(PRINCIPAL_ID, this.getPrincipalId())
+				.put(KeyFields.JOB_NUMBER, this.getJobNumber())
+				.put(KeyFields.WORK_AREA, this.getWorkArea())
+				.put(KeyFields.TASK, this.getTask())
+				.put(KeyFields.PRINCIPAL_ID, this.getPrincipalId())
+                .put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 	
@@ -227,13 +236,13 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 
 	public String getAssignmentDescription() {
         if (StringUtils.isBlank(assignmentDescription)) {
-            setAssignmentDescription(HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getEffectiveLocalDate()));
+            setAssignmentDescription(HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getGroupKeyCode(), getJobNumber(), getWorkArea(), getTask(), getEffectiveLocalDate()));
         }
         return assignmentDescription;
 	}
 
     public void populateAssignmentDescription(LocalDate asOfDate) {
-        setAssignmentDescription(HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), asOfDate));
+        setAssignmentDescription(HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getGroupKeyCode(), getJobNumber(), getWorkArea(), getTask(), asOfDate));
     }
 
     public void setAssignmentDescription(String assignmentDescription) {
@@ -329,6 +338,27 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 		this.primaryAssign = primaryAssign;
 	}
 
+    @Override
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
+
+    public void setGroupKeyCode(String groupKeyCode) {
+        this.groupKeyCode = groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKeyBo getGroupKey() {
+        if (groupKey == null) {
+            groupKey = HrGroupKeyBo.from(HrServiceLocator.getHrGroupKeyService().getHrGroupKey(getGroupKeyCode(), getEffectiveLocalDate()));
+        }
+        return groupKey;
+    }
+
+    public void setGroupKey(HrGroupKeyBo groupKey) {
+        this.groupKey = groupKey;
+    }
+
     public static AssignmentBo from(Assignment im) {
         if (im == null) {
             return null;
@@ -337,6 +367,7 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 
         assign.setTkAssignmentId(im.getTkAssignmentId());
         assign.setPrincipalId(im.getPrincipalId());
+        assign.setGroupKeyCode(im.getGroupKeyCode());
         assign.setJobNumber(im.getJobNumber());
         assign.setWorkArea(im.getWorkArea());
         assign.setTask(im.getTask());
@@ -357,6 +388,7 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
         if (im.getCreateTime() != null) {
             assign.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
         }
+        assign.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
         assign.setUserPrincipalId(im.getUserPrincipalId());
         assign.setVersionNumber(im.getVersionNumber());
         assign.setObjectId(im.getObjectId());

@@ -24,6 +24,7 @@ import javax.persistence.Transient;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.location.LocationBo;
@@ -35,17 +36,24 @@ import com.google.common.collect.ImmutableMap;
 
 public class DepartmentBo extends HrBusinessObject implements DepartmentContract {
 
-	private static final String DEPT = "dept";
+    static class KeyFields {
+
+        final static String DEPT = "dept";
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+
+    }
 
 	private static final long serialVersionUID = 5476378484272246487L;
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Department";
 	//KPME-2273/1965 Primary Business Keys List.		
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(DEPT)
+            .add(KeyFields.DEPT)
+            //.add(KeyFields.GROUP_KEY_CODE)
             .build();
 
     private String hrDeptId;
+    private String groupKeyCode;
     private String dept;
     private String description;
     private String location;
@@ -57,6 +65,7 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
     private String org;
     private boolean payrollApproval;
 
+    private HrGroupKeyBo groupKey;
     private LocationBo locationObj;
     private Chart chartObj;
     private Organization orgObj;
@@ -71,7 +80,8 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
-				.put(DEPT, this.getDept())
+				.put(KeyFields.DEPT, this.getDept())
+                .put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
     
@@ -105,6 +115,14 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
+
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
+
+    public void setGroupKeyCode(String groupKeyCode) {
+        this.groupKeyCode = groupKeyCode;
+    }
 
     public String getDescription() {
         return description;
@@ -210,11 +228,24 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
 		this.payrollApproval = payrollApproval;
 	}
 
+    public HrGroupKeyBo getGroupKey() {
+        if (groupKey == null) {
+            //get from dg service
+        }
+        return groupKey;
+    }
+
+    public void setGroupKey(HrGroupKeyBo groupKey) {
+        this.groupKey = groupKey;
+    }
+
     public static DepartmentBo from(Department im) {
         DepartmentBo dept = new DepartmentBo();
 
         dept.setHrDeptId(im.getHrDeptId());
         dept.setDept(im.getDept());
+        dept.setGroupKeyCode(im.getGroupKeyCode());
+        dept.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
         dept.setDescription(im.getDescription());
         dept.setLocation(im.getLocation());
 

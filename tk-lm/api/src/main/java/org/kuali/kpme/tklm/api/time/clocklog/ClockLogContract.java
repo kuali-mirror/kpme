@@ -17,14 +17,14 @@ package org.kuali.kpme.tklm.api.time.clocklog;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeKeyedDataTransferObject;
 
 
 /**
  * <p>ClockLogContract interface</p>
  *
  */
-public interface ClockLogContract extends KpmeDataTransferObject {
+public interface ClockLogContract extends KpmeKeyedDataTransferObject {
 	
 	/**
 	 * The primary key of a ClockLog entry saved in a database

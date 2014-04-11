@@ -31,11 +31,13 @@
 			    <ref bean="ClockLog-documentId"/>
                 <ref bean="ClockLog-tkClockLogId" />
 				<ref bean="ClockLog-principalId" />
+                <ref bean="ClockLog-groupKeyCode" />
 				<ref bean="ClockLog-jobNumber" />
 				<ref bean="ClockLog-workArea" />
 				<ref bean="ClockLog-task" />
 				<ref bean="ClockLog-clockTimestamp" />
 				<ref bean="ClockLog-clockTimestampTimezone" />
+                <ref bean="ClockLog-shortClockTimezone" />
 				<ref bean="ClockLog-clockAction" />
 				<ref bean="ClockLog-ipAddress" />
 				<ref bean="ClockLog-userPrincipalId" />
@@ -43,43 +45,7 @@
 				<ref bean="ClockLog-clockedByMissedPunch"/>
 			</list>
 		</property>
-		 
-		<!-- <property name="relationships">
-			<list>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="workAreaObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
-								p:targetName="workArea" />
-						</list>
-					</property>
-				</bean>
 
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="taskObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
-								p:targetName="task" />
-						</list>
-					</property>
-				</bean>
-			
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="principal" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
-								p:targetName="principalId" />
-						</list>
-					</property>
-				</bean>
-						
-				 
-			</list>
-		</property> -->
-		 
 	</bean>
 
 	<!-- Attribute Definition -->
@@ -102,7 +68,10 @@
 	<bean id="ClockLog-principalId" parent="ClockLog-principalId-parentBean" />
 	<bean id="ClockLog-principalId-parentBean" abstract="true" parent="KpmeAttributeReference-principalId" />
 
-	<!-- ClockLog-jobNumber  -->
+    <bean id="ClockLog-groupKeyCode" parent="ClockLog-groupKeyCode-parentBean" />
+    <bean id="ClockLog-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
+
+    <!-- ClockLog-jobNumber  -->
 	<bean id="ClockLog-jobNumber" parent="ClockLog-jobNumber-parentBean" />
 	<bean id="ClockLog-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
 
@@ -134,6 +103,21 @@
 		<property name="name" value="clockTimestamp" />
 		<property name="label" value="Clock Timestamp (MM/DD/YYYY HH:MM AM)" />
 	</bean>
+
+    <bean id="ClockLog-shortClockTimezone" parent="ClockLog-shortClockTimezone-parentBean" />
+    <bean id="ClockLog-shortClockTimezone-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Clock Timezone" />
+        <property name="maxLength" value="4" />
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="4" />
+        </property>
+        <property name="name" value="shortClockTimezone" />
+        <property name="label" value="Clock Timezone" />
+    </bean>
 
 	<!-- clockTimestampTimezone -->
 	<bean id="ClockLog-clockTimestampTimezone" parent="ClockLog-clockTimestampTimezone-parentBean" />
@@ -222,6 +206,8 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
+                            <bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
+                            <bean parent="FieldDefinition" p:attributeName="jobNumber" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="task" />
 							<bean parent="FieldDefinition" p:attributeName="clockTimestamp" />
@@ -255,6 +241,8 @@
 					<property name="items">
 						<list>
 							<bean parent="Uif-DataField" p:propertyName="principalId" />
+                            <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+                            <bean parent="Uif-DataField" p:propertyName="jobNumber" />
 							<bean parent="Uif-DataField" p:propertyName="workArea" />
 							<bean parent="Uif-DataField" p:propertyName="task" />
 							<bean parent="Uif-DataField" p:propertyName="clockTimestamp" />
@@ -295,6 +283,12 @@
 						p:inquiryParameters="principalId:principalId" />
 				</property>
 			</bean>
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode">
+                <property name="quickfinder">
+                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
+                          p:fieldConversions="groupKeyCode:groupKeyCode" />
+                </property>
+            </bean>
 			<bean parent="Uif-LookupCriteriaInputField" p:propertyName="workArea">
 				<property name="quickfinder">
 					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkAreaBo"
@@ -315,14 +309,15 @@
 		<list>
 			<bean parent="Uif-DataField" p:propertyName="documentId" />
 			<bean parent="Uif-DataField" p:propertyName="principalId" />
+            <bean parent="Uif-DataField" p:propertyName="clockAction" />
+            <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+            <bean parent="Uif-DataField" p:propertyName="jobNumber" />
 			<bean parent="Uif-DataField" p:propertyName="workArea" />
 			<bean parent="Uif-DataField" p:propertyName="task" />
 			<bean parent="Uif-DataField" p:propertyName="ipAddress" />
-			<bean parent="Uif-DataField" p:propertyName="clockAction" />
-			<bean parent="Uif-DataField" p:propertyName="jobNumber" />
 			<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 			<bean parent="Uif-DataField" p:propertyName="clockTimestamp" />
-			<bean parent="Uif-DataField" p:propertyName="clockTimestampTimezone" />
+			<bean parent="Uif-DataField" p:propertyName="shortClockTimezone" />
 			<bean parent="Uif-DataField" p:propertyName="timestamp" />
 			<bean parent="Uif-DataField" p:propertyName="clockedByMissedPunch" />
 		</list>

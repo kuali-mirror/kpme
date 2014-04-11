@@ -24,21 +24,23 @@ import org.kuali.kpme.core.api.util.KpmeUtils;
 
 public class AssignmentDescriptionKey {
 
-	private Long jobNumber;
+	private String groupKeyCode;
+    private Long jobNumber;
 	private Long workArea;
 	private Long task;
 	
 	public static AssignmentDescriptionKey get(String assignmentDescriptionKeyString) {
 		//AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey();
 		
-		Pattern keyPattern = Pattern.compile("^\\d{1,}_\\d{1,}_\\d{1,}");
+		Pattern keyPattern = Pattern.compile(".*?_\\d{1,}_\\d{1,}_\\d{1,}");
 		Matcher match = keyPattern.matcher(assignmentDescriptionKeyString);
 		if (match.matches()) {
 			String[] key = StringUtils.split(assignmentDescriptionKeyString, HrApiConstants.ASSIGNMENT_KEY_DELIMITER);
-			Long jobNumber = Long.parseLong(key[0]);
-			Long workArea = Long.parseLong(key[1]);
-			Long task = Long.parseLong(key[2]);
-            return new AssignmentDescriptionKey(jobNumber, workArea, task);
+            String groupKeyCode = key[0];
+			Long jobNumber = Long.parseLong(key[1]);
+			Long workArea = Long.parseLong(key[2]);
+			Long task = Long.parseLong(key[3]);
+            return new AssignmentDescriptionKey(groupKeyCode, jobNumber, workArea, task);
 		}
 		
 		return new AssignmentDescriptionKey();
@@ -49,53 +51,46 @@ public class AssignmentDescriptionKey {
 
     public AssignmentDescriptionKey(AssignmentContract assignment) {
         if (assignment != null) {
+            this.groupKeyCode = assignment.getGroupKeyCode();
             this.jobNumber = assignment.getJobNumber();
             this.workArea = assignment.getWorkArea();
             this.task = assignment.getTask();
         }
     }
 
-	public AssignmentDescriptionKey(Long jobNumer, Long workArea, Long task) {
+	public AssignmentDescriptionKey(String GroupKeyCode, Long jobNumer, Long workArea, Long task) {
+        this.groupKeyCode = GroupKeyCode;
 		this.jobNumber = jobNumer;
 		this.workArea = workArea;
 		this.task = task;
 	}
 
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
 	public Long getJobNumber() {
 		return jobNumber;
 	}
-	
-	/*private void setJobNumber(Long jobNumber) {
-		this.jobNumber = jobNumber;
-	}*/
-	
+
 	public Long getWorkArea() {
 		return workArea;
 	}
-	
-	/*public void setWorkArea(Long workArea) {
-		this.workArea = workArea;
-	}*/
-	
+
 	public Long getTask() {
 		return task;
 	}
-	
-	/*public void setTask(Long task) {
-		this.task = task;
-	}*/
 
     public String toAssignmentKeyString() {
-        return KpmeUtils.formatAssignmentKey(jobNumber, workArea, task);
+        return KpmeUtils.formatAssignmentKey(groupKeyCode, jobNumber, workArea, task);
     }
 
     public static String getAssignmentKeyString(AssignmentContract a) {
-    	return KpmeUtils.formatAssignmentKey(a.getJobNumber(), a.getWorkArea(), a.getTask());
+    	return KpmeUtils.formatAssignmentKey(a.getGroupKeyCode(), a.getJobNumber(), a.getWorkArea(), a.getTask());
     }
     
     @Override
     public String toString() {
-        return "jobNumber: " + jobNumber + "; workArea: " + workArea + "; task: " + task;
+        return "groupKeyCode: " + groupKeyCode + "; jobNumber: " + jobNumber + "; workArea: " + workArea + "; task: " + task;
     }
     
 }

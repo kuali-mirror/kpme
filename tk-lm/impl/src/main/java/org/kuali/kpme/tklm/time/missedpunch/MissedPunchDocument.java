@@ -21,7 +21,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.kpme.core.api.assignment.Assignment;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.department.DepartmentBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
@@ -37,6 +39,7 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
 	
 	private MissedPunchBo missedPunch = new MissedPunchBo();
 
+    private transient HrGroupKeyBo groupKey;
     private transient JobBo jobObj;
     private transient WorkAreaBo workAreaObj;
     private transient DepartmentBo departmentObj;
@@ -79,6 +82,12 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
         return missedPunch.getTask();
     }
 
+    public String getGroupKeyCode() {
+        return  missedPunch.getGroupKeyCode();
+    }
+
+
+
     public Date getActionDateTime() {
         return null;
     }
@@ -103,6 +112,9 @@ public class MissedPunchDocument extends TransactionalDocumentBase implements Mi
         return missedPunch.getRelativeEffectiveDate();
     }*/
 
+    public HrGroupKeyBo getGroupKey() {
+        return groupKey;
+    }
     public TaskBo getTaskObj() {
         return taskObj;
     }

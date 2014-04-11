@@ -77,6 +77,7 @@ public class ActualTimeInquiryWebTest extends KPMEWebTestCase {
 		timeBlock = new TimeBlockBo();
 		timeBlock.setUserPrincipalId("admin");
 		timeBlock.setPrincipalId("admin");
+        timeBlock.setGroupKeyCode("IU-BL");
 		timeBlock.setJobNumber(2L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);

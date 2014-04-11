@@ -149,6 +149,7 @@
                 <kr.dataSource.validationQuery>select 1</kr.dataSource.validationQuery>
                 <!--<kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>-->
                 <kr.dataSource.clearCheckSums>true</kr.dataSource.clearCheckSums>
+                <!--<kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap</kr.dataSource.contexts>-->
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging</kr.dataSource.contexts>
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
                 <kpme.dataSource.database>tk</kpme.dataSource.database>
@@ -158,6 +159,7 @@
                 <kpme.dataSource.validationQuery>select 1</kpme.dataSource.validationQuery>
                 <!--<kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>-->
                 <kpme.dataSource.clearCheckSums>true</kpme.dataSource.clearCheckSums>
+                <!--<kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap</kpme.dataSource.contexts>-->
                 <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-staging</kpme.dataSource.contexts>
             </properties>
             <build>

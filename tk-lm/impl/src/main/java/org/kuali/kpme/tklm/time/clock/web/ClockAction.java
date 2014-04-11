@@ -136,7 +136,7 @@ public class ClockAction extends TimesheetAction {
 		                clockActionForm.setCurrentClockAction(TkConstants.CLOCK_OUT);
 		            }
 		            // if the current clock action is clock out, displays only the clocked-in assignment
-		            String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
+		            String selectedAssignment = new AssignmentDescriptionKey(lastClockLog.getGroupKeyCode(), lastClockLog.getJobNumber(), lastClockLog.getWorkArea(), lastClockLog.getTask()).toAssignmentKeyString();
 		            clockActionForm.setSelectedAssignment(selectedAssignment);
 		            Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(selectedAssignment), LocalDate.now());
 		            Map<String, String> assignmentDesc = HrServiceLocator.getAssignmentService().getAssignmentDescriptions(assignment);

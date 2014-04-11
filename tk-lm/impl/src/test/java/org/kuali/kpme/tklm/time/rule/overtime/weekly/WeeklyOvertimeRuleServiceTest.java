@@ -105,7 +105,7 @@ public class WeeklyOvertimeRuleServiceTest extends TKLMIntegrationTestCase {
 		DateTime endPeriodDate = new DateTime(2010, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		CalendarEntry endOfMarch =  HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("IU-BL_30_30_30"), beginPeriodDate.toLocalDate());
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO, "admin");
 		TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(new ArrayList<TimeBlock>(), timeBlocks, "admin");
 		tdoc.setTimeBlocks(timeBlocks);
@@ -154,7 +154,7 @@ public class WeeklyOvertimeRuleServiceTest extends TKLMIntegrationTestCase {
 		DateTime endPeriodDate = new DateTime(2010, 7, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry endOfJune =  HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("IU-BL_30_30_30"), beginPeriodDate.toLocalDate());
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO, "admin");
 		
 		tdoc.setTimeBlocks(timeBlocks);
@@ -234,7 +234,7 @@ public class WeeklyOvertimeRuleServiceTest extends TKLMIntegrationTestCase {
 		DateTime endPeriodDate = new DateTime(2010, 7, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry endOfJune =  HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("30_30_30"), beginPeriodDate.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("IU-BL_30_30_30"), beginPeriodDate.toLocalDate());
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start, 1, new BigDecimal(11), BigDecimal.ZERO, "admin"));
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "XYZ", start.plusDays(1), 1, new BigDecimal(11), BigDecimal.ZERO, "admin"));
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start.plusDays(2), 1, new BigDecimal(11), BigDecimal.ZERO, "admin"));
@@ -277,7 +277,7 @@ public class WeeklyOvertimeRuleServiceTest extends TKLMIntegrationTestCase {
 		weeklyOvertimeRule.setStep(new BigDecimal(step));
 		weeklyOvertimeRule.setMaxHours(maxHours);
 		weeklyOvertimeRule.setEffectiveLocalDate(effectiveDate);
-		
+		weeklyOvertimeRule.setUserPrincipalId("admin");
 		weeklyOvertimeRule.setTkWeeklyOvertimeRuleGroupId(1L);
 		
 		TkServiceLocator.getWeeklyOvertimeRuleService().saveOrUpdate(weeklyOvertimeRule);

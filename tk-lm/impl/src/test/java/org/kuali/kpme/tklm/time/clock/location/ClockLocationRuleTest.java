@@ -65,6 +65,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	clr.setPrincipalId("12345");
     	clr.setJobNumber(0L);
     	clr.setActive(true);
+        clr.setUserPrincipalId("admin");
     	clr.setTimestamp(TKUtils.getCurrentTimestamp());
     	clr.setEffectiveLocalDate(LocalDate.now());
     	ClockLocationRuleIpAddress anIp = new ClockLocationRuleIpAddress();
@@ -96,6 +97,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	clr.setJobNumber(0L);
     	clr.setActive(true);
     	clr.setTimestamp(TKUtils.getCurrentTimestamp());
+        clr.setUserPrincipalId("admin");
     	clr.setEffectiveLocalDate(LocalDate.now());
     	ClockLocationRuleIpAddress anIp = new ClockLocationRuleIpAddress();
     	anIp.setIpAddress(IP_ADDRESS_ONE);

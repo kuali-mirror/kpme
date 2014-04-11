@@ -168,6 +168,8 @@ public class ClockLogServiceImpl implements ClockLogService {
         ClockLogBo clockLog = new ClockLogBo();
         clockLog.setDocumentId(documentId);
         clockLog.setPrincipalId(principalId);
+        clockLog.setGroupKeyCode(assignment.getGroupKeyCode());
+        clockLog.setGroupKey(assignment.getGroupKey());
         clockLog.setJobNumber(assignment.getJobNumber());
         clockLog.setWorkArea(assignment.getWorkArea());
         clockLog.setTask(assignment.getTask());

@@ -328,6 +328,16 @@ public class HrConstants {
     public static final BigDecimal BIG_DECIMAL_MS_IN_M = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60);
     public static final BigDecimal BIG_DECIMAL_HRS_IN_DAY = new BigDecimal(24);
 
+    public static final class GroupKeySettings {
+        public static final String LOCATION_RENDER = "kpme.groupkey.location.render";
+        public static final String INSTITUION_RENDER = "kpme.groupkey.institution.render";
+        public static final String CAMPUS_RENDER = "kpme.groupkey.campus.render";
+        public static final String LOCATION_REQUIRED = "kpme.groupkey.location.required";
+        public static final String INSTITUTION_REQUIRED = "kpme.groupkey.institution.required";
+        public static final String CAMPUS_REQUIRED = "kpme.groupkey.campus.required";
+    }
+
+
     public static final class CacheNamespace {
         public static final String MODULE_NAME = "core";
         public static final String NAMESPACE_PREFIX = KPMEConstants.CacheNamespace.ROOT_NAMESPACE_PREFIX + "/"

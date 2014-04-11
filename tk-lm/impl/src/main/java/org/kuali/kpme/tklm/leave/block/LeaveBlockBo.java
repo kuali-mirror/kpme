@@ -28,10 +28,10 @@ import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
-import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.util.KpmeUtils;
@@ -96,10 +96,8 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
 	private String reason;
 
 	private String assignmentKey;
-	
-	@Transient
-	private String assignmentTitle;
-	@Transient
+
+    @Transient
 	private String calendarId;
 	@Transient
 	private String planningDescription;
@@ -386,21 +384,17 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
 				// default task is created in getTask() of TaskService
 				if (!task.getDescription()
 						.equals(HrConstants.TASK_DEFAULT_DESP)) {
-					b.append("-" + task.getDescription());
+					b.append("-").append(task.getDescription());
 				}
 			}
 		}
 		return b.toString();
 	}
 
-	public void setAssignmentTitle(String assignmentTitle) {
-		this.assignmentTitle = assignmentTitle;
-	}
-
 	public String getCalendarId() {
         if (StringUtils.isEmpty(calendarId)) {
             PrincipalHRAttributesContract principalHRAttributes = getPrincipalHRAttributes();
-            CalendarContract pcal= null;
+            CalendarContract pcal;
             if(principalHRAttributes != null) {
                 //pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
                 pcal = principalHRAttributes.getLeaveCalObj() != null ? principalHRAttributes.getLeaveCalObj() : principalHRAttributes.getCalendar();
@@ -462,7 +456,7 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
     
     public String getAssignmentKey() {
         if (assignmentKey == null) {
-            this.setAssignmentKey(KpmeUtils.formatAssignmentKey(jobNumber, workArea, task));
+            this.setAssignmentKey(KpmeUtils.formatAssignmentKey(groupKeyCode, jobNumber, workArea, task));
         }
         return assignmentKey;
     }
@@ -720,6 +714,15 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
         this.accrualCategoryObj = accrualCategoryObj;
     }
 
+    @Override
+    public HrGroupKey getGroupKey() {
+        if (groupKey == null
+                && getGroupKeyCode() != null) {
+            setGroupKey(HrServiceLocator.getHrGroupKeyService().getHrGroupKey(getGroupKeyCode(), getLeaveLocalDate()));
+        }
+        return groupKey;
+    }
+
     public static LeaveBlockBo from(LeaveBlock im) {
         LeaveBlockBo lb = new LeaveBlockBo();
         lb.setHrCalendarBlockId(im.getHrCalendarBlockId());
@@ -760,13 +763,13 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
 
         lb.setAssignmentKey(im.getAssignmentKey());
 
-        lb.setAssignmentTitle(im.getAssignmentTitle());
         lb.setCalendarId(im.getCalendarId());
         lb.setPlanningDescription(im.getPlanningDescription());
 
         lb.setAccrualCategoryRule(im.getAccrualCategoryRule());
         lb.setAccrualCategoryObj(im.getAccrualCategoryObj());
-
+        lb.setGroupKeyCode(im.getGroupKeyCode());
+        lb.setGroupKey(im.getGroupKey());
         lb.setAffectPay(im.getAffectPay());
         lb.setTransactionDocId(im.getTransactionalDocId());
         lb.setObjectId(im.getObjectId());

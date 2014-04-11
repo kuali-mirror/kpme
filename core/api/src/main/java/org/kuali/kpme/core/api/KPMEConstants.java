@@ -38,6 +38,15 @@ public final class KPMEConstants {
         public static final String VERSION_2_1 = "v2_1";
     }
 
+    public static final class CommonElements {
+        public final static String ID = "id";
+        public final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
+        public final static String CREATE_TIME = "createTime";
+        public final static String USER_PRINCIPAL_ID = "userPrincipalId";
+        public final static String GROUP_KEY_CODE = "groupKeyCode";
+        public final static String GROUP_KEY = "groupKey";
+    }
+
     private KPMEConstants() {
         throw new UnsupportedOperationException("do not call");
     }

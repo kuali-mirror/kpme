@@ -275,6 +275,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setJobNumber(assignment.getJobNumber());
         tb.setWorkArea(assignment.getWorkArea());
         tb.setTask(assignment.getTask());
+        tb.setGroupKeyCode(assignment.getGroupKeyCode());
         tb.setEarnCode(earnCode);
         tb.setBeginDateTime(beginDateTime);
         tb.setEndDateTime(endDateTime);

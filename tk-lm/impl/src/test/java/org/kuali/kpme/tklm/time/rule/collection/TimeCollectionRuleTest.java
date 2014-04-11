@@ -57,6 +57,7 @@ public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
 		timeCollectionRule.setActive(true);
 		timeCollectionRule.setPayType("%");
 		timeCollectionRule.setTimestamp(TKUtils.getCurrentTimestamp());
+        timeCollectionRule.setUserPrincipalId("admin");
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
 
 		TimeCollectionRule timeCollectionRule2 = new TimeCollectionRule();
@@ -66,6 +67,7 @@ public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
 		timeCollectionRule2.setActive(true);
 		timeCollectionRule2.setPayType("%");
 		timeCollectionRule2.setTimestamp(TKUtils.getCurrentTimestamp());
+        timeCollectionRule2.setUserPrincipalId("admin");
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule2);
 	}
 }

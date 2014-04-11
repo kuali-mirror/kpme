@@ -36,6 +36,7 @@
 				<ref bean="MissedPunch-timesheetDocumentId" />
 				<ref bean="MissedPunch-assignmentKey" />
 				<ref bean="MissedPunch-assignmentValue" />
+                <ref bean="MissedPunch-groupKeyCode" />
                 <ref bean="MissedPunch-jobNumber" />
                 <ref bean="MissedPunch-workArea" />
                 <ref bean="MissedPunch-department"/>
@@ -78,6 +79,16 @@
 								p:targetName="principalId" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
 								p:targetName="effectiveDate" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="groupKey" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
                         </list>
                     </property>
                 </bean>
@@ -203,7 +214,10 @@
             <bean parent="Uif-TextControl" />
         </property>
     </bean>
-    
+
+    <bean id="MissedPunch-groupKeyCode" parent="MissedPunch-groupKeyCode-parentBean" />
+    <bean id="MissedPunch-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
+
     <bean id="MissedPunch-jobNumber" parent="MissedPunch-jobNumber-parentBean" />
     <bean id="MissedPunch-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
     
@@ -393,6 +407,7 @@
 	  						p:fieldConversions="documentId:timesheetDocumentId"/>
 	  				</property> -->
 		        </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode"/>
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobNumber">
 		        <!-- Can be enabled once a principal id fetch is defined for principalName and
 		        	KRAD Views have been defined for jobNumber. -->

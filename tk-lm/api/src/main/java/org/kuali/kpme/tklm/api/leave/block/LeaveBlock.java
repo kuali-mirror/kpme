@@ -29,8 +29,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
@@ -55,8 +57,8 @@ import org.w3c.dom.Element;
         LeaveBlock.Elements.CALENDAR_ID,
         LeaveBlock.Elements.EARN_CODE_DESCRIPTION,
         LeaveBlock.Elements.LEAVE_BLOCK_TYPE,
-        //LeaveBlock.Elements.EDITABLE,
-        //LeaveBlock.Elements.DELETABLE,
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
         LeaveBlock.Elements.ASSIGNMENT_KEY,
         LeaveBlock.Elements.DOCUMENT_STATUS,
         LeaveBlock.Elements.LEAVE_REQUEST_DOCUMENT_ID,
@@ -96,10 +98,15 @@ public final class LeaveBlock
         implements LeaveBlockContract
 {
 
+    private static final long serialVersionUID = -871236487733142844L;
     @XmlElement(name = Elements.TASK, required = false)
     private final Long task;
     @XmlElement(name = Elements.EARN_CODE, required = false)
     private final String earnCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
     @XmlElement(name = Elements.ACCRUAL_CATEGORY_RULE, required = false)
     private final AccrualCategoryRule accrualCategoryRule;
     @XmlElement(name = Elements.ACCRUAL_CATEGORY_OBJ, required = false)
@@ -214,8 +221,8 @@ public final class LeaveBlock
         this.calendarId = null;
         this.earnCodeDescription = null;
         this.leaveBlockType = null;
-        //this.editable = false;
-        //this.deletable = false;
+        this.groupKeyCode = null;
+        this.groupKey = null;
         this.assignmentKey = null;
         this.documentStatus = null;
         this.leaveRequestDocumentId = null;
@@ -264,8 +271,8 @@ public final class LeaveBlock
         this.calendarId = builder.getCalendarId();
         this.earnCodeDescription = builder.getEarnCodeDescription();
         this.leaveBlockType = builder.getLeaveBlockType();
-        //this.editable = builder.isEditable();
-        //this.deletable = builder.isDeletable();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
         this.assignmentKey = builder.getAssignmentKey();
         this.documentStatus = builder.getDocumentStatus();
         this.leaveRequestDocumentId = builder.getLeaveRequestDocumentId();
@@ -327,6 +334,16 @@ public final class LeaveBlock
     @Override
     public String getAccrualCategory() {
         return this.accrualCategory;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return groupKey;
+    }
+
+    @Override
+    public String getGroupKeyCode() {
+        return groupKeyCode;
     }
 
     @Override
@@ -550,6 +567,7 @@ public final class LeaveBlock
         return new EqualsBuilder()
                 .append(principalId, leaveBlock.principalId)
                 .append(jobNumber, leaveBlock.jobNumber)
+                .append(groupKeyCode, leaveBlock.getGroupKeyCode())
                 .append(workArea, leaveBlock.workArea)
                 .append(task, leaveBlock.task)
                 .append(earnCode, leaveBlock.earnCode)
@@ -583,8 +601,8 @@ public final class LeaveBlock
         private String calendarId;
         private String earnCodeDescription;
         private String leaveBlockType;
-        //private boolean editable;
-        //private boolean deletable;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
         private String assignmentKey;
         private String documentStatus;
         private String leaveRequestDocumentId;
@@ -653,8 +671,8 @@ public final class LeaveBlock
             builder.setCalendarId(contract.getCalendarId());
             builder.setEarnCodeDescription(contract.getEarnCodeDescription());
             builder.setLeaveBlockType(contract.getLeaveBlockType());
-            //builder.setEditable(contract.isEditable());
-            //builder.setDeletable(contract.isDeletable());
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setAssignmentKey(contract.getAssignmentKey());
             builder.setDocumentStatus(contract.getDocumentStatus());
             builder.setLeaveRequestDocumentId(contract.getLeaveRequestDocumentId());
@@ -926,6 +944,16 @@ public final class LeaveBlock
             return this.versionNumber;
         }
 
+        @Override
+        public String getGroupKeyCode() {
+            return groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
+        }
+
         public void setTask(Long task) {
             
             this.task = task;
@@ -996,15 +1024,13 @@ public final class LeaveBlock
             this.leaveBlockType = leaveBlockType;
         }
 
-        //public void setEditable(boolean editable) {
-            
-        //    this.editable = editable;
-        //}
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
 
-        //public void setDeletable(boolean deletable) {
-            
-        //    this.deletable = deletable;
-        //}
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
+        }
 
         public void setAssignmentKey(String assignmentKey) {
             
@@ -1195,8 +1221,6 @@ public final class LeaveBlock
         final static String CALENDAR_ID = "calendarId";
         final static String EARN_CODE_DESCRIPTION = "earnCodeDescription";
         final static String LEAVE_BLOCK_TYPE = "leaveBlockType";
-        final static String EDITABLE = "editable";
-        final static String DELETABLE = "deletable";
         final static String ASSIGNMENT_KEY = "assignmentKey";
         final static String DOCUMENT_STATUS = "documentStatus";
         final static String LEAVE_REQUEST_DOCUMENT_ID = "leaveRequestDocumentId";

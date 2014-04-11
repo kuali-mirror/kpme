@@ -62,11 +62,11 @@ public interface AssignmentDao {
 
 	public AssignmentBo getAssignment(String tkAssignmentId);
 
-    public AssignmentBo getAssignmentForTargetPrincipal(Long job, Long workArea, Long task, LocalDate asOfDate);
+    public AssignmentBo getAssignmentForTargetPrincipal(String groupKeyCode, Long job, Long workArea, Long task, LocalDate asOfDate);
 
 	public List<AssignmentBo> getActiveAssignments(LocalDate asOfDate);
 	
-	public AssignmentBo getAssignment(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate);
+	public AssignmentBo getAssignment(String principalId, String groupKeyCode, Long jobNumber, Long workArea, Long task, LocalDate asOfDate);
 	
 	/**
 	 * KPME-1129

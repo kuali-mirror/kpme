@@ -30,6 +30,7 @@
 				<ref bean="Assignment-tkAssignmentId" />
 				<ref bean="Assignment-principalId" />
 				<ref bean="Assignment-name" />
+                <ref bean="Assignment-groupKeyCode" />
 				<ref bean="Assignment-jobNumber" />
 				<ref bean="Assignment-hrJobId" />
 				<ref bean="Assignment-dept" />
@@ -80,6 +81,8 @@
 		<property name="label" value="Name" />
 	</bean>
 
+    <bean id="Assignment-groupKeyCode" parent="Assignment-groupKeyCode-parentBean" />
+    <bean id="Assignment-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
 
 	<bean id="Assignment-jobNumber" parent="Assignment-jobNumber-parentBean" />
 	<bean id="Assignment-jobNumber-parentBean" abstract="true" parent="KpmeAttributeReference-jobNumber"/>
@@ -140,6 +143,7 @@
 					<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 					<bean parent="Uif-DataField" p:propertyName="principalId" />
 					<bean parent="Uif-DataField" p:propertyName="name" />
+                    <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
 					<bean parent="Uif-DataField" p:propertyName="jobNumber" />
 					<bean parent="Uif-DataField" p:propertyName="dept" />
 					<bean parent="Uif-DataField" p:propertyName="workArea" />
@@ -191,7 +195,13 @@
             	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
                             p:fieldConversions="principalId:principalId"/>
             </property>        
-        </bean>       
+        </bean>
+          <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode" >
+              <property name="quickfinder">
+                  <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
+                        p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
+              </property>
+          </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobNumber" >
 			<property name="quickfinder">
             	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.JobBo"
@@ -213,21 +223,12 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="primaryAssign" />
-		<!-- <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrJobId" >
-			 <property name="control">
-			    <bean parent="Uif-HiddenControl" p:cssClasses="hrJobId"/>
-			 </property>		
-		</bean>
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="workAreaObj.tkWorkAreaId" >
-			 <property name="control">
-			    <bean parent="Uif-HiddenControl" p:cssClasses="workAreaObj.tkWorkAreaId"/>
-			 </property>			
-		</bean> -->
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="Uif-DataField" p:propertyName="principalId" />
+        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
         <bean parent="Uif-DataField" p:propertyName="jobNumber" />
         <bean parent="Uif-DataField" p:propertyName="dept" />
         <bean parent="Uif-DataField" p:propertyName="workArea" />

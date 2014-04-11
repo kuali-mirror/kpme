@@ -22,6 +22,7 @@
     <class-descriptor class="org.kuali.kpme.tklm.time.timeblock.TimeBlockBo" table="TK_TIME_BLOCK_T">
         <field-descriptor name="tkTimeBlockId"          column="TK_TIME_BLOCK_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_TIME_BLOCK_S" />
         <field-descriptor name="earnCode"               column="EARN_CODE"          jdbc-type="VARCHAR"     length="15" nullable="false" primarykey="false" />
+        <field-descriptor name="groupKeyCode"          column="GRP_KEY_CD"        jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
         <field-descriptor name="jobNumber"              column="JOB_NUMBER"         jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="workArea"               column="WORK_AREA"          jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="task"                   column="TASK"               jdbc-type="BIGINT"      nullable="false" primarykey="false" />
@@ -64,6 +65,7 @@
         <field-descriptor name="tkTimeBlockHistoryId"   column="TK_TIME_BLOCK_HIST_ID"      jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_TIME_BLOCK_HIST_S" />
         <field-descriptor name="tkTimeBlockId"          column="TK_TIME_BLOCK_ID"           jdbc-type="VARCHAR"     length="60" nullable="false" primarykey="false" />
         <field-descriptor name="documentId"             column="DOCUMENT_ID"                jdbc-type="VARCHAR"     length="14" nullable="false" primarykey="false" />
+        <field-descriptor name="groupKeyCode"  column="GRP_KEY_CD"        jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
         <field-descriptor name="jobNumber"              column="JOB_NUMBER"                 jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="earnCode"               column="EARN_CODE"                  jdbc-type="VARCHAR"     length="15" nullable="false" primarykey="false" />
         <field-descriptor name="beginTimestamp"         column="BEGIN_TS"                   jdbc-type="TIMESTAMP"   nullable="false" primarykey="false" />
@@ -115,6 +117,7 @@
         <field-descriptor name="tkClockLogId"           column="TK_CLOCK_LOG_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_CLOCK_LOG_S" />
         <field-descriptor name="documentId"             column="DOCUMENT_ID"        jdbc-type="VARCHAR"     length="14" nullable="false" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="groupKeyCode"          column="GRP_KEY_CD"        jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
         <field-descriptor name="jobNumber"              column="JOB_NUMBER"         jdbc-type="BIGINT"      nullable="false" />
         <field-descriptor name="workArea"               column="WORK_AREA"          jdbc-type="BIGINT"      nullable="false" />
         <field-descriptor name="task"                   column="TASK"               jdbc-type="BIGINT"      nullable="false" />
@@ -339,6 +342,7 @@
         <field-descriptor name="tkMissedPunchId"        column="TK_MISSED_PUNCH_ID"     jdbc-type="VARCHAR"     length="60" nullable="false" autoincrement="true" primarykey="true" sequence-name="TK_MISSED_PUNCH_S" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="timesheetDocumentId"    column="TIMESHEET_DOCUMENT_ID"	jdbc-type="VARCHAR"     length="14" nullable="false" />
+        <field-descriptor name="groupKeyCode"          column="GRP_KEY_CD"            jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
         <field-descriptor name="jobNumber"              column="JOB_NUMBER"             jdbc-type="BIGINT" />
         <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT" />
         <field-descriptor name="task"                   column="TASK"                   jdbc-type="BIGINT" />

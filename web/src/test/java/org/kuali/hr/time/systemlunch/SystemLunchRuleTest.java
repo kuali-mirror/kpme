@@ -65,7 +65,7 @@ public class SystemLunchRuleTest extends KPMEWebTestCase {
     	Assert.assertNotNull(page);
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();
-    	criteria.put("selectedAssignment", new String[]{HrTestConstants.FormElementTypes.DROPDOWN, "2_1234_2"});
+    	criteria.put("selectedAssignment", new String[]{HrTestConstants.FormElementTypes.DROPDOWN, "IU-BL_2_1234_2"});
     	HtmlUnitUtil.createTempFile(page);
     	// choose the first assignment from the drop down
     	page = HtmlUnitUtil.fillOutForm(page, criteria);

@@ -22,6 +22,7 @@ import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.block.service.CalendarBlockService;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.api.calendar.service.CalendarService;
+import org.kuali.kpme.core.api.groupkey.HrGroupKeyService;
 import org.kuali.kpme.core.api.department.DepartmentService;
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.api.earncode.group.service.EarnCodeGroupService;
@@ -64,6 +65,7 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static final String HR_SALARY_GROUP_SERVICE = "salaryGroupService";
 	public static final String HR_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
 	public static final String HR_ACCRUAL_CATEGORY_RULE_SERVICE = "accrualCategoryRuleService";
+    public static final String HR_GROUP_KEY_SERVICE = "HrGroupKeyService";
     public static final String HR_TASK_SERVICE = "taskService";
     public static final String HR_LOCATION_SERVICE = "locationService";
     public static final String HR_PAY_GRADE_SERVICE = "payGradeService";
@@ -118,6 +120,10 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static SalaryGroupService getSalaryGroupService() {
 		return (SalaryGroupService) CONTEXT.getBean(HR_SALARY_GROUP_SERVICE);
 	}
+
+    public static HrGroupKeyService getHrGroupKeyService() {
+        return (HrGroupKeyService) CONTEXT.getBean(HR_GROUP_KEY_SERVICE);
+    }
 
 	public static DepartmentService getDepartmentService() {
 		return (DepartmentService) CONTEXT.getBean(HR_DEPARTMENT_SERVICE);

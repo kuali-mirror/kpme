@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -41,6 +42,7 @@ import org.w3c.dom.Element;
         Department.Elements.LOCATION,
         Department.Elements.HR_DEPT_ID,
         Department.Elements.DEPT,
+        Department.Elements.GROUP_KEY_CODE,
         Department.Elements.DESCRIPTION,
         Department.Elements.INSTITUTION,
         Department.Elements.CHART,
@@ -50,6 +52,7 @@ import org.w3c.dom.Element;
         CoreConstants.CommonElements.OBJECT_ID,
         Department.Elements.ACTIVE,
         Department.Elements.ID,
+        Department.Elements.GROUP_KEY,
         Department.Elements.CREATE_TIME,
         Department.Elements.EFFECTIVE_LOCAL_DATE,
         Department.Elements.USER_PRINCIPAL_ID,
@@ -64,8 +67,12 @@ public final class Department
     private final String location;
     @XmlElement(name = Elements.HR_DEPT_ID, required = false)
     private final String hrDeptId;
-    @XmlElement(name = Elements.DEPT, required = false)
+    @XmlElement(name = Elements.DEPT, required = true)
     private final String dept;
+    @XmlElement(name = Elements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = Elements.GROUP_KEY, required = true)
+    private final HrGroupKey groupKey;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
     @XmlElement(name = Elements.INSTITUTION, required = false)
@@ -104,6 +111,8 @@ public final class Department
         this.location = null;
         this.hrDeptId = null;
         this.dept = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
         this.description = null;
         this.institution = null;
         this.chart = null;
@@ -122,6 +131,8 @@ public final class Department
         this.location = builder.getLocation();
         this.hrDeptId = builder.getHrDeptId();
         this.dept = builder.getDept();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
         this.description = builder.getDescription();
         this.institution = builder.getInstitution();
         this.chart = builder.getChart();
@@ -149,6 +160,16 @@ public final class Department
     @Override
     public String getDept() {
         return this.dept;
+    }
+
+    @Override
+    public String getGroupKeyCode() {
+    return this.groupKeyCode;
+}
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
     }
 
     @Override
@@ -223,6 +244,8 @@ public final class Department
         private String location;
         private String hrDeptId;
         private String dept;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
         private String description;
         private String institution;
         private String chart;
@@ -236,20 +259,22 @@ public final class Department
         private LocalDate effectiveLocalDate;
         private String userPrincipalId;
 
-        private Builder(String dept) {
+        private Builder(String groupKeyCode, String dept) {
+            setGroupKeyCode(groupKeyCode);
             setDept(dept);
         }
 
-        public static Builder create(String dept) {
-            return new Builder(dept);
+        public static Builder create(String groupKeyCode, String dept) {
+            return new Builder(groupKeyCode, dept);
         }
 
         public static Builder create(DepartmentContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            Builder builder = create(contract.getDept());
+            Builder builder = create(contract.getGroupKeyCode(), contract.getDept());
             builder.setLocation(contract.getLocation());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setHrDeptId(contract.getHrDeptId());
             builder.setDescription(contract.getDescription());
             builder.setInstitution(contract.getInstitution());
@@ -283,6 +308,16 @@ public final class Department
         @Override
         public String getDept() {
             return this.dept;
+        }
+
+        @Override
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return this.groupKey;
         }
 
         @Override
@@ -360,6 +395,17 @@ public final class Department
             this.dept = dept;
         }
 
+        public void setGroupKeyCode(String groupKeyCode) {
+            if (StringUtils.isWhitespace(groupKeyCode)) {
+                throw new IllegalArgumentException("groupKeyCode is blank");
+            }
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
+        }
+
         public void setDescription(String description) {
             this.description = description;
         }
@@ -432,6 +478,8 @@ public final class Department
         final static String LOCATION = "location";
         final static String HR_DEPT_ID = "hrDeptId";
         final static String DEPT = "dept";
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
         final static String DESCRIPTION = "description";
         final static String INSTITUTION = "institution";
         final static String CHART = "chart";

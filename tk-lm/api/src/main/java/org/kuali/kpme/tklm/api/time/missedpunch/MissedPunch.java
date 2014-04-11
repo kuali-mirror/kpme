@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -52,6 +54,8 @@ import org.w3c.dom.Element;
         MissedPunch.Elements.TIMESHEET_DOCUMENT_ID,
         MissedPunch.Elements.PRINCIPAL_ID,
         MissedPunch.Elements.ASSIGNMENT_KEY,
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
         MissedPunch.Elements.ASSIGNMENT_VALUE,
         MissedPunch.Elements.MISSED_PUNCH_DOC_ID,
         MissedPunch.Elements.MISSED_PUNCH_DOC_STATUS,
@@ -84,6 +88,10 @@ public final class MissedPunch
     private final String principalName;
     @XmlElement(name = Elements.PERSON_NAME, required = false)
     private final String personName;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
     @XmlElement(name = Elements.ASSIGNMENT_READ_ONLY, required = false)
     private final boolean assignmentReadOnly;
     @XmlElement(name = Elements.TK_MISSED_PUNCH_ID, required = false)
@@ -122,6 +130,8 @@ public final class MissedPunch
     private MissedPunch() {
         this.task = null;
         this.actionFullDateTime = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
         this.actionLocalDate = null;
         this.actionTime = null;
         this.clockAction = null;
@@ -151,6 +161,8 @@ public final class MissedPunch
         this.clockAction = builder.getClockAction();
         this.tkClockLogId = builder.getTkClockLogId();
         this.principalName = builder.getPrincipalName();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
         this.personName = builder.getPersonName();
         this.assignmentReadOnly = builder.isAssignmentReadOnly();
         this.tkMissedPunchId = builder.getTkMissedPunchId();
@@ -243,6 +255,16 @@ public final class MissedPunch
     }
 
     @Override
+    public HrGroupKey getGroupKey() {
+        return groupKey;
+    }
+
+    @Override
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
+
+    @Override
     public String getAssignmentValue() {
         return this.assignmentValue;
     }
@@ -288,6 +310,8 @@ public final class MissedPunch
         private String principalName;
         private String personName;
         private boolean assignmentReadOnly;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
         private String tkMissedPunchId;
         private Long jobNumber;
         private Long workArea;
@@ -333,6 +357,8 @@ public final class MissedPunch
             builder.setCreateTime(contract.getCreateTime());
             builder.setMissedPunchDocId(contract.getMissedPunchDocId());
             builder.setMissedPunchDocStatus(contract.getMissedPunchDocStatus());
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -445,6 +471,16 @@ public final class MissedPunch
             return missedPunchDocStatus;
         }
 
+        @Override
+        public String getGroupKeyCode() {
+            return groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
+        }
+
         public void setMissedPunchDocId(String missedPunchDocId) {
             this.missedPunchDocId = missedPunchDocId;
         }
@@ -525,6 +561,13 @@ public final class MissedPunch
             this.createTime = createTime;
         }
 
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
+        }
     }
 
 

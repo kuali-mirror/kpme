@@ -64,10 +64,11 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         }
     }
 
-    public AssignmentBo getAssignment(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
+    public AssignmentBo getAssignment(String principalId, String groupKeyCode, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("principalId", principalId);
+        root.addEqualTo("groupKeyCode", groupKeyCode);
         root.addEqualTo("jobNumber", jobNumber);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("task", task);
@@ -87,9 +88,10 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
 
 
     @Override
-    public AssignmentBo getAssignmentForTargetPrincipal(Long job, Long workArea, Long task, LocalDate asOfDate) {
+    public AssignmentBo getAssignmentForTargetPrincipal(String groupKeyCode, Long job, Long workArea, Long task, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
+        root.addEqualTo("groupKeyCode", groupKeyCode);
         root.addEqualTo("jobNumber", job);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("task", task);

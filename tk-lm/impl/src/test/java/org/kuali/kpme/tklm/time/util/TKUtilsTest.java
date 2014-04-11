@@ -101,20 +101,21 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
 
     @Test
     public void testFormatAssignmentKey() throws Exception {
-        String assignmentKey = KpmeUtils.formatAssignmentKey(1L, 2L, 3L);
-        Assert.assertEquals("Assignment Key should be 1_2_3","1_2_3",assignmentKey);
+        String assignmentKey = KpmeUtils.formatAssignmentKey("GK", 1L, 2L, 3L);
+        Assert.assertEquals("Assignment Key should be GK_1_2_3","GK_1_2_3",assignmentKey);
     }
 
     @Test
     public void testFormatAssignmentDescription() throws Exception {
-        Assignment.Builder testAssignment = Assignment.Builder.create("admin", 30L, 30L, 30L);
+        Assignment.Builder testAssignment = Assignment.Builder.create("admin", "GK", 30L, 30L, 30L);
         testAssignment.setEffectiveLocalDate(new LocalDate(2010,1,1));
 
         Map<String,String> formattedAssignmentDescription = TKUtils.formatAssignmentDescription(testAssignment.build());
 
-        assertTrue(formattedAssignmentDescription.containsKey("30_30_30"));
-        Assert.assertEquals("Description is not correct","SDR1 Work Area : $20.00 Rcd 30 TEST-DEPT SDR1 task",formattedAssignmentDescription.get("30_30_30"));
+        assertTrue(formattedAssignmentDescription.containsKey("GK_30_30_30"));
+        Assert.assertEquals("Description is not correct","SDR1 Work Area : $20.00 Rcd 30 TEST-DEPT SDR1 task",formattedAssignmentDescription.get("GK_30_30_30"));
 
+        testAssignment.setGroupKeyCode("GK");
         testAssignment.setJobNumber(999L);
         testAssignment.setWorkArea(999L);
         testAssignment.setTask(999L);
@@ -122,13 +123,13 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
         testAssignment.setEffectiveLocalDate(new LocalDate(2013,1,1));
 
         formattedAssignmentDescription = TKUtils.formatAssignmentDescription(testAssignment.build());
-        assertTrue(formattedAssignmentDescription.containsKey("999_999_999"));
-        Assert.assertEquals("Description is not correct"," : $0.00 Rcd 999 ",formattedAssignmentDescription.get("999_999_999"));
+        assertTrue(formattedAssignmentDescription.containsKey("GK_999_999_999"));
+        Assert.assertEquals("Description is not correct"," : $0.00 Rcd 999 ",formattedAssignmentDescription.get("GK_999_999_999"));
     }
 
     @Test
     public void testGetAssignmentString() throws Exception {
-        String testAssignmentString = HrServiceLocator.getAssignmentService().getAssignmentDescription("admin", 30L, 30L, 30L, new LocalDate(2010, 1, 1));
+        String testAssignmentString = HrServiceLocator.getAssignmentService().getAssignmentDescription("admin", "IU-BL", 30L, 30L, 30L, new LocalDate(2010, 1, 1));
         Assert.assertEquals("Assignment String is wrong","SDR1 Work Area : $20.00 Rcd 30 TEST-DEPT SDR1 task",testAssignmentString);
     }
 

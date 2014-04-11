@@ -17,6 +17,7 @@ package org.kuali.kpme.core.document.calendar;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
@@ -99,7 +100,8 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
         List<Assignment> dayAssignments = getAssignmentMap().get(date);
         if (CollectionUtils.isNotEmpty(dayAssignments)) {
             for (Assignment assignment : dayAssignments) {
-                if (assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
+                if (StringUtils.equals(assignment.getGroupKeyCode(), assignmentDescriptionKey.getGroupKeyCode()) &&
+                        assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(assignmentDescriptionKey.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(assignmentDescriptionKey.getTask()) == 0) {
                     return assignment;

@@ -38,6 +38,7 @@
                 <ref bean="MissedPunchDocument-department"/>
                 <ref bean="MissedPunchDocument-workArea"/>
                 <ref bean="MissedPunchDocument-jobNumber"/>
+                <ref bean="MissedPunchDocument-groupKeyCode"/>
                 <ref bean="MissedPunchDocument-task"/>
                 <ref bean="MissedPunchDocument-missedPunch-timesheetDocumentId"/>
                 <ref bean="MissedPunchDocument-clockAction"/>
@@ -59,6 +60,14 @@
                         <list>
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea" />
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="department" p:targetName="dept" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="groupKey" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
                         </list>
                     </property>
                 </bean>
@@ -97,6 +106,8 @@
     <bean id="MissedPunchDocument-department-parentBean" abstract="true" parent="MissedPunch-department"/>
     <bean id="MissedPunchDocument-workArea" parent="MissedPunchDocument-workArea-parentBean" />
     <bean id="MissedPunchDocument-workArea-parentBean" abstract="true" parent="MissedPunch-workArea"/>
+    <bean id="MissedPunchDocument-groupKeyCode" parent="MissedPunchDocument-groupKeyCode-parentBean" />
+    <bean id="MissedPunchDocument-groupKeyCode-parentBean" abstract="true" parent="MissedPunch-groupKeyCode"/>
     <bean id="MissedPunchDocument-task" parent="MissedPunchDocument-task-parentBean" />
     <bean id="MissedPunchDocument-task-parentBean" abstract="true" parent="MissedPunch-task"/>
     <bean id="MissedPunchDocument-jobNumber" parent="MissedPunchDocument-jobNumber-parentBean" />
@@ -200,6 +211,20 @@
     <bean id="MissedPunchDocument-searchingTypeDefinitions-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
         <property name="sourceList">
             <list>
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"
+                              p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
+                            <property name="attributeName" value="groupKeyCode"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>groupKeyCode</value>
+                        </list>
+                    </property>
+                </bean>
                 <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
                     <property name="searchingAttribute">
                         <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute"

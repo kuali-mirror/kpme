@@ -158,6 +158,7 @@ public class TkTestUtils {
 		timeBlock.setEndDateTime(endDateTime);
 		timeBlock.setEndTimeDisplay(endDateTime);
 		timeBlock.setEarnCode(earnCode);
+        timeBlock.setGroupKeyCode("IU-BL");
 		timeBlock.setJobNumber(1L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);

@@ -1,0 +1,281 @@
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1-mysql" author="jjhanso" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <sql>
+            CREATE TABLE HR_GRP_KEY_S (
+            ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID)
+            ) ENGINE MyISAM;
+            ALTER TABLE HR_GRP_KEY_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="jjhanso" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <createTable tableName="HR_GRP_KEY_T">
+            <column name="ID" type="VARCHAR(60)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="GRP_KEY_CD" type="VARCHAR(30)">
+                <constraints nullable="false" />
+            </column>
+            <column name="DESCR" type="VARCHAR(255)" />
+            <column name="INSTITUTION" type="VARCHAR(15)" />
+            <column name="CAMPUS_CD" type="VARCHAR(2)" />
+            <column name="LOCATION" type="VARCHAR(20)" />
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
+            </column>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="3" author="jjhanso" context="kpme-client-bootstrap">
+        <comment>update constraint for Data Groups</comment>
+
+        <createIndex indexName="HR_GRP_KEY_IDX1" tableName="HR_GRP_KEY_T" unique="true">
+            <column name="GRP_KEY_CD" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="4" author="jjhanso" context="kpme-client-bootstrap">
+        <insert tableName="HR_GRP_KEY_T">
+            <column name="ID" value="KPME0001" />
+            <column name="GRP_KEY_CD" value="DEFAULT" />
+            <column name="DESCR" value="Basic data grouping" />
+            <column name="EFFDT" valueDate="1970-01-01" />
+            <column name="ACTIVE" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="5" author="jjhanso" context="kpme-client-bootstrap">
+        <addColumn tableName="TK_ASSIGNMENT_T">
+            <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
+        </addColumn>
+
+        <update tableName="TK_ASSIGNMENT_T">
+            <column name="GRP_KEY_CD" value="DEFAULT" />
+        </update>
+
+        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="TK_ASSIGNMENT_T" columnDataType="VARCHAR(30)"/>
+
+        <dropIndex tableName="TK_ASSIGNMENT_T" indexName="TK_ASSIGNMENT_IDX1" />
+        <createIndex indexName="TK_ASSIGNMENT_IDX1" tableName="TK_ASSIGNMENT_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="GRP_KEY_CD" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <dropIndex tableName="TK_ASSIGNMENT_T" indexName="TK_ASSIGNMENT_IDX2" />
+        <createIndex indexName="TK_ASSIGNMENT_IDX2" tableName="TK_ASSIGNMENT_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="GRP_KEY_CD" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+            <column name="ACTIVE" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="6" author="jjhanso" context="kpme-client-bootstrap">
+        <addColumn tableName="TK_CLOCK_LOG_T">
+            <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
+        </addColumn>
+
+        <update tableName="TK_CLOCK_LOG_T">
+            <column name="GRP_KEY_CD" value="DEFAULT" />
+        </update>
+
+        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="TK_CLOCK_LOG_T" columnDataType="VARCHAR(30)"/>
+
+        <dropIndex indexName="TK_CLOCK_LOG_IDX1" tableName="TK_CLOCK_LOG_T" />
+        <createIndex indexName="TK_CLOCK_LOG_IDX1" tableName="TK_CLOCK_LOG_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="GRP_KEY_CD" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="CLOCK_TS" />
+            <column name="CLOCK_TS_TZ" />
+            <column name="CLOCK_ACTION" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="7" author="jjhanso" context="kpme-client-bootstrap">
+        <addColumn tableName="TK_MISSED_PUNCH_T">
+            <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
+        </addColumn>
+
+        <update tableName="TK_MISSED_PUNCH_T">
+            <column name="GRP_KEY_CD" value="DEFAULT" />
+        </update>
+
+        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="TK_MISSED_PUNCH_T" columnDataType="VARCHAR(30)"/>
+
+        <createIndex indexName="TK_MISSED_PUNCH_IDX1" tableName="TK_MISSED_PUNCH_T" unique="false">
+            <column name="PRINCIPAL_ID" />
+            <column name="TIMESHEET_DOCUMENT_ID" />
+            <column name="GRP_KEY_CD" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="ACTION_DATE" />
+            <column name="CLOCK_ACTION" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="8" author="jjhanso" context="kpme-client-bootstrap">
+        <addColumn tableName="TK_TIME_BLOCK_T">
+            <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
+        </addColumn>
+
+        <update tableName="TK_TIME_BLOCK_T">
+            <column name="GRP_KEY_CD" value="DEFAULT" />
+        </update>
+
+        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="TK_TIME_BLOCK_T" columnDataType="VARCHAR(30)"/>
+
+        <dropIndex indexName="TK_TIME_BLOCK_IDX1" tableName="TK_TIME_BLOCK_T" />
+        <createIndex indexName="TK_TIME_BLOCK_IDX1" tableName="TK_TIME_BLOCK_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="DOCUMENT_ID" />
+            <column name="GRP_KEY_CD" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="EARN_CODE" />
+            <column name="BEGIN_TS" />
+            <column name="END_TS" />
+            <column name="TIMESTAMP" />
+            <column name="CLOCK_LOG_CREATED" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="9" author="jjhanso" context="kpme-client-bootstrap">
+        <addColumn tableName="TK_TIME_BLOCK_HIST_T">
+            <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
+        </addColumn>
+
+        <update tableName="TK_TIME_BLOCK_HIST_T">
+            <column name="GRP_KEY_CD" value="DEFAULT" />
+        </update>
+
+        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="TK_TIME_BLOCK_HIST_T" columnDataType="VARCHAR(30)"/>
+
+        <createIndex indexName="TK_TIME_BLOCK_HIST_IDX1" tableName="TK_TIME_BLOCK_T" unique="false">
+            <column name="PRINCIPAL_ID" />
+            <column name="DOCUMENT_ID" />
+            <column name="GRP_KEY_CD" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="EARN_CODE" />
+            <column name="BEGIN_TS" />
+            <column name="END_TS" />
+            <column name="TIMESTAMP" />
+            <column name="CLOCK_LOG_CREATED" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="10" author="jjhanso" context="kpme-client-bootstrap">
+        <addColumn tableName="LM_LEAVE_BLOCK_T">
+            <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
+        </addColumn>
+
+        <update tableName="LM_LEAVE_BLOCK_T">
+            <column name="GRP_KEY_CD" value="DEFAULT" />
+        </update>
+
+        <!-- assignment data not currently required for this table -->
+        <!--<addNotNullConstraint columnName="GRP_KEY_CD" tableName="LM_LEAVE_BLOCK_T" columnDataType="VARCHAR(30)"/>-->
+
+        <dropIndex indexName="LM_LEAVE_BLOCK_IDX1" tableName="LM_LEAVE_BLOCK_T" />
+        <createIndex indexName="LM_LEAVE_BLOCK_IDX1" tableName="LM_LEAVE_BLOCK_T" unique="false">
+            <column name="PRINCIPAL_ID" />
+            <column name="EARN_CODE"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="GRP_KEY_CD" />
+            <column name="JOB_NUMBER"/>
+            <column name="WORK_AREA"/>
+            <column name="TASK"/>
+            <column name="LEAVE_BLOCK_TYPE" />
+            <column name="REQUEST_STATUS"/>
+            <column name="LEAVE_DATE" />
+            <column name="BEGIN_TS" />
+            <column name="END_TS"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="11" author="jjhanso" context="kpme-client-bootstrap">
+        <addColumn tableName="LM_LEAVE_BLOCK_HIST_T">
+            <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
+        </addColumn>
+
+        <update tableName="LM_LEAVE_BLOCK_HIST_T">
+            <column name="GRP_KEY_CD" value="DEFAULT" />
+        </update>
+
+        <!-- assignment data not currently required for this table -->
+        <!--<addNotNullConstraint columnName="GRP_KEY_CD" tableName="LM_LEAVE_BLOCK_HIST_T" columnDataType="VARCHAR(30)"/>-->
+
+        <dropIndex indexName="LM_LEAVE_BLOCK_HIST_IDX1" tableName="LM_LEAVE_BLOCK_HIST_T"/>
+        <createIndex indexName="LM_LEAVE_BLOCK_HIST_IDX1" tableName="LM_LEAVE_BLOCK_HIST_T" unique="false">
+            <column name="PRINCIPAL_ID" />
+            <column name="EARN_CODE"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="GRP_KEY_CD" />
+            <column name="JOB_NUMBER"/>
+            <column name="WORK_AREA"/>
+            <column name="TASK"/>
+            <column name="LEAVE_BLOCK_TYPE" />
+            <column name="REQUEST_STATUS"/>
+            <column name="LEAVE_DATE" />
+            <column name="BEGIN_TS" />
+            <column name="END_TS"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

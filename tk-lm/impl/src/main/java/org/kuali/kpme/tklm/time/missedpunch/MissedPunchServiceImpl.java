@@ -71,7 +71,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     public MissedPunch addClockLog(MissedPunch missedPunch, String ipAddress) {
         MissedPunch.Builder builder = MissedPunch.Builder.create(missedPunch);
         TimesheetDocument timesheetDocument = timesheetService.getTimesheetDocument(missedPunch.getTimesheetDocumentId());
-        AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
+        AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getGroupKeyCode(), missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, missedPunch.getActionLocalDate());
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
 
@@ -146,7 +146,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     protected MissedPunch addClockLogAndTimeBlocks(MissedPunch missedPunch, String ipAddress, String logEndId, String logBeginId) {
         MissedPunch.Builder builder = MissedPunch.Builder.create(missedPunch);
         TimesheetDocument timesheetDocument = timesheetService.getTimesheetDocument(missedPunch.getTimesheetDocumentId());
-        AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
+        AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getGroupKeyCode(), missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, missedPunch.getActionLocalDate());
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
@@ -162,8 +162,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         builder.setTkClockLogId(clockLog.getTkClockLogId());
 
         if (logEndId != null || logBeginId != null) {
-            ClockLog endLog = null;
-            ClockLog beginLog = null;
+            ClockLog endLog;
+            ClockLog beginLog;
 
             if (logEndId != null) {
                 endLog = clockLogService.getClockLog(logEndId);

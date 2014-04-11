@@ -19,8 +19,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccount;
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.task.Task;
 import org.kuali.kpme.core.api.workarea.WorkArea;
@@ -45,6 +47,8 @@ import java.util.List;
         Assignment.Elements.NAME,
         Assignment.Elements.ASSIGNMENT_ACCOUNTS,
         Assignment.Elements.PRINCIPAL_ID,
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
         Assignment.Elements.JOB,
         Assignment.Elements.JOB_NUMBER,
         Assignment.Elements.CLOCK_TEXT,
@@ -77,8 +81,14 @@ public final class Assignment
     private final String name;
     @XmlElement(name = Elements.ASSIGNMENT_ACCOUNTS, required = false)
     private final List<AssignmentAccount> assignmentAccounts;
-    @XmlElement(name = Elements.PRINCIPAL_ID, required = false)
+    @XmlElement(name = Elements.PRINCIPAL_ID, required = true)
     private final String principalId;
+
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
+
     @XmlElement(name = Elements.JOB, required = false)
     private final Job job;
     @XmlElement(name = Elements.JOB_NUMBER, required = false)
@@ -133,6 +143,10 @@ public final class Assignment
         this.name = null;
         this.assignmentAccounts = null;
         this.principalId = null;
+
+        this.groupKeyCode = null;
+        this.groupKey = null;
+
         this.job = null;
         this.jobNumber = null;
         this.clockText = null;
@@ -153,12 +167,17 @@ public final class Assignment
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
+
     }
 
     private Assignment(Builder builder) {
         this.name = builder.getName();
         this.assignmentAccounts = CollectionUtils.isEmpty(builder.getAssignmentAccounts()) ? Collections.<AssignmentAccount>emptyList() : ModelObjectUtils.<AssignmentAccount>buildImmutableCopy(builder.getAssignmentAccounts());
         this.principalId = builder.getPrincipalId();
+
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+
         this.job = builder.getJob() == null ? null : builder.getJob().build();
         this.jobNumber = builder.getJobNumber();
         this.clockText = builder.getClockText();
@@ -194,6 +213,11 @@ public final class Assignment
     @Override
     public String getPrincipalId() {
         return this.principalId;
+    }
+
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
     }
 
     @Override
@@ -239,6 +263,11 @@ public final class Assignment
     @Override
     public Task getTaskObj() {
         return this.taskObj;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
     }
 
     @Override
@@ -309,6 +338,10 @@ public final class Assignment
         private String name;
         private List<AssignmentAccount.Builder> assignmentAccounts;
         private String principalId;
+
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
+
         private Job.Builder job;
         private Long jobNumber;
         private String clockText;
@@ -335,22 +368,23 @@ public final class Assignment
                         return AssignmentAccount.Builder.create(input);
                     }
                 };
-        private Builder(String principalId, Long workArea, Long jobNumber, Long task) {
+        private Builder(String principalId, String groupKeyCode, Long workArea, Long jobNumber, Long task) {
             setPrincipalId(principalId);
+            setGroupKeyCode(groupKeyCode);
             setWorkArea(workArea);
             setJobNumber(jobNumber);
             setTask(task);
         }
 
-        public static Builder create(String principalId, Long workArea, Long jobNumber, Long task) {
-            return new Builder(principalId, workArea, jobNumber, task);
+        public static Builder create(String principalId, String groupKeyCode, Long workArea, Long jobNumber, Long task) {
+            return new Builder(principalId, groupKeyCode, workArea, jobNumber, task);
         }
 
         public static Builder create(AssignmentContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            Builder builder = create(contract.getPrincipalId(), contract.getWorkArea(), contract.getJobNumber(), contract.getTask());
+            Builder builder = create(contract.getPrincipalId(), contract.getGroupKeyCode(), contract.getWorkArea(), contract.getJobNumber(), contract.getTask());
             builder.setName(contract.getName());
             if (CollectionUtils.isEmpty(contract.getAssignmentAccounts())) {
                 builder.setAssignmentAccounts(Collections.<AssignmentAccount.Builder>emptyList());
@@ -363,6 +397,7 @@ public final class Assignment
             builder.setDept(contract.getDept());
             builder.setWorkAreaObj(contract.getWorkAreaObj() == null ? null : WorkArea.Builder.create(contract.getWorkAreaObj()));
             builder.setTaskObj(contract.getTaskObj() == null ? null : Task.Builder.create(contract.getTaskObj()));
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setCalGroup(contract.getCalGroup());
             builder.setAssignmentKey(contract.getAssignmentKey());
             builder.setPrimaryAssign(contract.isPrimaryAssign());
@@ -494,6 +529,24 @@ public final class Assignment
         @Override
         public String getUserPrincipalId() {
             return this.userPrincipalId;
+        }
+
+        @Override
+        public String getGroupKeyCode() {
+            return groupKeyCode;
+        }
+
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
         }
 
         public void setName(String name) {

@@ -117,7 +117,7 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 		
 		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc.getTimeBlocks());
 		Assert.assertEquals("Wrong number of classes in style class map", 1, aMap.size());
-		Assert.assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("1_1234_1"));
+		Assert.assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("IU-BL_1_1234_1"));
 	}
 	
 	@Test
@@ -136,7 +136,7 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 	public void testGetLeaveBlocksJson() {
 		List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
 		LeaveBlockBo lb = new LeaveBlockBo();
-		lb.setAssignmentTitle("testAssignment");
+		//lb.setAssignmentTitle("testAssignment");
 		lb.setAssignmentKey("0-123-0");
 		lb.setEarnCode("EarnCode");
 		lb.setLmLeaveBlockId("1111");
@@ -204,8 +204,8 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 		
 		List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
 		LeaveBlockBo lb = new LeaveBlockBo();
-		lb.setAssignmentTitle("testAssignment");
-		lb.setAssignmentKey("0-123-0");
+		//lb.setAssignmentTitle("testAssignment");
+		lb.setAssignmentKey("IU-BL_0_123_0");
 		lb.setEarnCode("EarnCode");
 		lb.setLmLeaveBlockId("1111");
 		lb.setLeaveAmount(new BigDecimal(3));
@@ -215,8 +215,8 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 		
 		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc.getTimeBlocks(), lbList);
 		Assert.assertEquals("Wrong number of classes in style class map", 2, aMap.size());
-		Assert.assertEquals("Wrong key for class assignment0", "assignment1", aMap.get("1_1234_1"));
-		Assert.assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("0-123-0"));
+		Assert.assertEquals("Wrong key for class assignment0", "assignment1", aMap.get("IU-BL_1_1234_1"));
+		Assert.assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("IU-BL_0_123_0"));
 	}
 	
 	@Test
@@ -225,9 +225,9 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 		TimeBlockBo timeBlockBo = new TimeBlockBo();
 		
 		timeBlockBo.setAssignmentValue("testAssignment");
-		timeBlockBo.setAssignmentKey("0-123-0");
 		timeBlockBo.setEarnCode("SDR");
 		timeBlockBo.setTkTimeBlockId("1111");
+        timeBlockBo.setGroupKeyCode("IU-BL");
 		timeBlockBo.setWorkArea(new Long(30));
 		timeBlockBo.setBeginDateTime(new DateTime(2014, 4, 10, 0, 0, 0, 0));
 		timeBlockBo.setEndDateTime(new DateTime(2014, 4, 10, 0, 0, 0, 0));
@@ -243,7 +243,7 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"title\":\"SDR1 Work Area\""));
 		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"tkTimeBlockId\":\"1111\""));
 		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"amount\":10.00"));
-		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"assignment\":\"30_30_0\""));
+		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"assignment\":\"IU-BL_30_30_0\""));
 	}
 	
 	@Test

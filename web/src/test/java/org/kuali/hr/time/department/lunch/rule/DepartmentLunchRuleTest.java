@@ -53,6 +53,7 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
 		deptLunchRule.setTkDeptLunchRuleId("1001");
+        deptLunchRule.setUserPrincipalId("admin");
 
 		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
@@ -79,6 +80,7 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 		deptLunchRule.setDeductionMins(new BigDecimal(30));
 		deptLunchRule.setShiftHours(new BigDecimal(6));
 		deptLunchRule.setTkDeptLunchRuleId("1001");
+        deptLunchRule.setUserPrincipalId("admin");
 
 		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 

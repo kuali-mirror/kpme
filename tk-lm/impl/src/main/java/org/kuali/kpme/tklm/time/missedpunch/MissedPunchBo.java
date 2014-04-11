@@ -23,8 +23,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.department.DepartmentBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
@@ -71,7 +73,9 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
 	private String clockAction;
 	private String tkClockLogId;
 	private Timestamp timestamp;
-	
+    private String groupKeyCode;
+
+    private transient HrGroupKeyBo groupKey;
 	private transient String principalName;
     private transient String personName;
 	private transient JobBo jobObj;
@@ -112,19 +116,20 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
 	}
 	
 	public String getAssignmentKey() {
-		return KpmeUtils.formatAssignmentKey(getJobNumber(), getWorkArea(), getTask());
+		return KpmeUtils.formatAssignmentKey(getGroupKeyCode(), getJobNumber(), getWorkArea(), getTask());
 	}
 	
 	public void setAssignmentKey(String assignmentKey) {
 		AssignmentDescriptionKey assignmentDescriptionKey = AssignmentDescriptionKey.get(assignmentKey);
-		
+
+        setGroupKeyCode(assignmentDescriptionKey.getGroupKeyCode());
 		setJobNumber(assignmentDescriptionKey.getJobNumber());
 		setWorkArea(assignmentDescriptionKey.getWorkArea());
 		setTask(assignmentDescriptionKey.getTask());
 	}
 	
 	public String getAssignmentValue() {
-		return HrServiceLocator.getAssignmentService().getAssignmentDescription(getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getActionFullDateTime().toLocalDate());
+		return HrServiceLocator.getAssignmentService().getAssignmentDescription(getGroupKeyCode(), getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getActionFullDateTime().toLocalDate());
 	}
 	
     public Date getRelativeEffectiveDate() {
@@ -158,6 +163,27 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
 	public void setTask(Long task) {
 		this.task = task;
 	}
+
+    @Override
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
+
+    public void setGroupKeyCode(String groupKeyCode) {
+        this.groupKeyCode = groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKeyBo getGroupKey() {
+        if (groupKey == null) {
+            groupKey = HrGroupKeyBo.from(HrServiceLocator.getHrGroupKeyService().getHrGroupKey(getGroupKeyCode(), getActionFullDateTime().toLocalDate()));
+        }
+        return groupKey;
+    }
+
+    public void setGroupKey(HrGroupKeyBo groupKey) {
+        this.groupKey = groupKey;
+    }
 	
     public DateTime getActionFullDateTime() {
     	return actionDateTime != null ? new DateTime(actionDateTime) : null;
@@ -405,6 +431,8 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
         mp.setPrincipalName(im.getPrincipalName());
         mp.setPersonName(im.getPersonName());
 
+        mp.setGroupKeyCode(im.getGroupKeyCode());
+        mp.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
         mp.setAssignmentReadOnly(im.isAssignmentReadOnly());
         mp.setMissedPunchDocId(im.getMissedPunchDocId());
         mp.setMissedPunchDocStatus(im.getMissedPunchDocStatus());

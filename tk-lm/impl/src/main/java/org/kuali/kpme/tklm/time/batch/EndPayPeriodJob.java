@@ -36,7 +36,6 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public class EndPayPeriodJob extends BatchJob {
@@ -107,7 +106,7 @@ public class EndPayPeriodJob extends BatchJob {
         String ipAddress = openClockLog.getIpAddress();
 	    TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, calendarEntry.getBeginPeriodFullDateTime(), endPeriodDateTime);
 	    if (timesheetDocumentHeader != null) {
-	        AssignmentDescriptionKey assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask());
+	        AssignmentDescriptionKey assignmentKey = new AssignmentDescriptionKey(openClockLog.getGroupKeyCode(), openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask());
             Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(principalId, assignmentKey, coLogDateTime.toLocalDate());
 	        ClockLog clockOutLog = TkServiceLocator.getClockLogService().processClockLog(principalId, timesheetDocumentHeader.getDocumentId(), coLogDateTime, assignment, calendarEntry, ipAddress,
 	            		endPeriodDateTime.toLocalDate(), TkConstants.CLOCK_OUT, false, batchUserPrincipalId);

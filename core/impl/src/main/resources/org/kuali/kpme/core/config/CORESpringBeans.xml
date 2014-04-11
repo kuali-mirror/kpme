@@ -152,6 +152,8 @@
     
 	<bean id="hrBusinessObjectDao" class="org.kuali.kpme.core.bo.dao.HrBusinessObjectDaoOjbImpl" parent="platformAwareDao" />
 
+    <bean id="hrGroupKeyDao" class="org.kuali.kpme.core.groupkey.dao.HrGroupKeyDaoOjbImpl" parent="platformAwareDao" />
+
     <bean id="taskDao" class="org.kuali.kpme.core.task.dao.TaskDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="positionBaseDao" class="org.kuali.kpme.core.position.dao.PositionBaseDaoOjbImpl" parent="platformAwareDao" />
@@ -313,6 +315,10 @@
     <bean id="calendarEntryService" class="org.kuali.kpme.core.calendar.entry.service.CalendarEntryServiceImpl">
         <property name="calendarEntryDao" ref="calendarEntryDao"/>
         <property name="calendarDao" ref="calendarDao"/>
+    </bean>
+
+    <bean id="HrGroupKeyService" class="org.kuali.kpme.core.groupkey.HrGroupKeyServiceImpl">
+        <property name="hrGroupKeyDao" ref="hrGroupKeyDao"/>
     </bean>
 
     <bean id="assignmentService" class="org.kuali.kpme.core.assignment.service.AssignmentServiceImpl">

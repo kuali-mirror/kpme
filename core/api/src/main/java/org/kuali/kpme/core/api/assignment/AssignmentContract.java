@@ -16,9 +16,8 @@
 package org.kuali.kpme.core.api.assignment;
 
 import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
@@ -29,7 +28,7 @@ import java.util.List;
  * <p>AssignmentContract interface.</p>
  *
  */
-public interface AssignmentContract extends KpmeEffectiveDataTransferObject {
+public interface AssignmentContract extends KpmeEffectiveKeyedDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Assignment";
 	

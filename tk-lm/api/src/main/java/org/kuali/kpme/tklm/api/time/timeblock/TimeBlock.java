@@ -15,16 +15,18 @@
  */
 package org.kuali.kpme.tklm.api.time.timeblock;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
 import org.kuali.kpme.core.api.util.jaxb.LocalTimeAdapter;
 import org.w3c.dom.Element;
@@ -70,6 +72,8 @@ import java.util.List;
         TimeBlock.Elements.HR_CALENDAR_BLOCK_ID,
         TimeBlock.Elements.BEGIN_TIME,
         TimeBlock.Elements.CREATE_TIME,
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
         TimeBlock.Elements.WORK_AREA,
         TimeBlock.Elements.JOB_NUMBER,
         TimeBlock.Elements.TASK,
@@ -98,6 +102,10 @@ public final class TimeBlock
     @XmlElement(name = Elements.END_DATE_TIME, required = false)
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime endDateTime;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
     @XmlElement(name = Elements.CLOCK_LOG_CREATED, required = false)
     private final Boolean clockLogCreated;
     @XmlElement(name = Elements.BEGIN_DATE_TIME, required = false)
@@ -202,6 +210,8 @@ public final class TimeBlock
      */
     private TimeBlock() {
         this.hours = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
         this.endDateTime = null;
         this.clockLogCreated = null;
         this.beginDateTime = null;
@@ -257,13 +267,9 @@ public final class TimeBlock
         this.amount = builder.getAmount();
         this.userPrincipalId = builder.getUserPrincipalId();
         this.tkTimeBlockId = builder.getTkTimeBlockId();
-        List<TimeHourDetail> temp = new ArrayList<TimeHourDetail>();
-        if (CollectionUtils.isNotEmpty(builder.getTimeHourDetails())) {
-            for (TimeHourDetail.Builder b : builder.getTimeHourDetails()) {
-                temp.add(b.build());
-            }
-        }
-        this.timeHourDetails = Collections.unmodifiableList(temp);
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+        this.timeHourDetails = ModelObjectUtils.buildImmutableCopy(builder.getTimeHourDetails());
         this.pushBackward = builder.isPushBackward();
         this.beginTimeDisplay = builder.getBeginTimeDisplay();
         this.beginTimeDisplayDateOnlyString = builder.getBeginTimeDisplayDateOnlyString();
@@ -458,6 +464,16 @@ public final class TimeBlock
     }
 
     @Override
+    public HrGroupKey getGroupKey() {
+        return groupKey;
+    }
+
+    @Override
+    public String getGroupKeyCode() {
+        return groupKeyCode;
+    }
+
+    @Override
     public Long getTask() {
         return this.task;
     }
@@ -552,6 +568,7 @@ public final class TimeBlock
         }
         TimeBlock timeBlock = (TimeBlock) obj;
         return new EqualsBuilder()
+                .append(groupKeyCode, timeBlock.groupKeyCode)
                 .append(jobNumber, timeBlock.jobNumber)
                 .append(workArea, timeBlock.workArea)
                 .append(task, timeBlock.task)
@@ -573,6 +590,8 @@ public final class TimeBlock
     {
 
         private BigDecimal hours;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
         private DateTime endDateTime;
         private Boolean clockLogCreated;
         private DateTime beginDateTime;
@@ -639,6 +658,8 @@ public final class TimeBlock
             builder.setBeginDateTime(contract.getBeginDateTime());
             builder.setEndTime(contract.getEndTime());
             builder.setAmount(contract.getAmount());
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setUserPrincipalId(contract.getUserPrincipalId());
             builder.setTkTimeBlockId(contract.getTkTimeBlockId());
             if (contract.getTimeHourDetails() != null) {
@@ -698,6 +719,16 @@ public final class TimeBlock
         @Override
         public BigDecimal getHours() {
             return this.hours;
+        }
+
+        @Override
+        public String getGroupKeyCode() {
+            return groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
         }
 
         @Override
@@ -938,6 +969,14 @@ public final class TimeBlock
         public void setBeginDateTime(DateTime beginDateTime) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.beginDateTime = beginDateTime;
+        }
+
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
         }
 
         public void setEndTime(LocalTime endTime) {

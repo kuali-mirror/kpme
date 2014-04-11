@@ -132,7 +132,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
                     put("startNoTz", start.toString("yyyy-MM-dd'T'HH:mm:ss"));
                     put("endNoTz", end.toString("yyyy-MM-dd'T'HH:mm:ss"));
                     put("title", "SDR1 Work Area");
-                    put("assignment", "30_30_30");
+                    put("assignment", "IU-BL_30_30_30");
                 }}
         ));
 
@@ -216,7 +216,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
                     put("startNoTz", start.toString("yyyy-MM-dd'T'HH:mm:ss"));
                     put("endNoTz", end.toString("yyyy-MM-dd'T'HH:mm:ss"));
                     put("title", "SDR1 Work Area");
-                    put("assignment", "30_30_30");
+                    put("assignment", "IU-BL_30_30_30");
                 }}
         ));
     }

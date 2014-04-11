@@ -23,6 +23,6 @@
     <!--<include file="src/main/config/db/rice/db.changelog-2.3.1.xml" />-->
 
     <!-- uncomment the following line when first changeset in the 2.0.1 folder is created -->
-    <include file="src/main/config/db/db.changelog-2.0.1.xml" />
+    <include file="src/main/config/db/db.changelog-2.1.0.xml" />
     
 </databaseChangeLog>

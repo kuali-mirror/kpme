@@ -100,8 +100,9 @@ public class TKUtils {
 
     public static Map<String, String> formatAssignmentDescription(Assignment assignment) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-        String assignmentDescKey = KpmeUtils.formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
-        String assignmentDescValue = HrServiceLocator.getAssignmentService().getAssignmentDescription(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), assignment.getEffectiveLocalDate());
+
+        String assignmentDescKey = KpmeUtils.formatAssignmentKey(assignment.getGroupKeyCode(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
+        String assignmentDescValue = HrServiceLocator.getAssignmentService().getAssignmentDescription(assignment.getPrincipalId(), assignment.getGroupKeyCode(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), assignment.getEffectiveLocalDate());
         assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
 
         return assignmentDescriptions;
@@ -583,7 +584,8 @@ public class TKUtils {
     public static Assignment getAssignmentWithKey(List<Assignment> assignments, AssignmentDescriptionKey assignmentDescriptionKey) {
 
         for (Assignment assignment : assignments) {
-            if (assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
+            if (StringUtils.equals(assignment.getGroupKeyCode(), assignmentDescriptionKey.getGroupKeyCode()) &&
+                    assignment.getJobNumber().compareTo(assignmentDescriptionKey.getJobNumber()) == 0 &&
                     assignment.getWorkArea().compareTo(assignmentDescriptionKey.getWorkArea()) == 0 &&
                     assignment.getTask().compareTo(assignmentDescriptionKey.getTask()) == 0) {
                 return assignment;

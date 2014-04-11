@@ -42,6 +42,7 @@ public class TimeBlockHistory extends TimeBlockBo implements TimeBlockHistoryCon
 	public TimeBlockHistory(TimeBlockBo tb) {
 		this.setTkTimeBlockId(tb.getTkTimeBlockId());
 		this.setDocumentId(tb.getDocumentId());
+        this.setGroupKeyCode(tb.getGroupKeyCode());
 		this.setJobNumber(tb.getJobNumber());
 		this.setWorkArea(tb.getWorkArea());
 		this.setTask(tb.getTask());

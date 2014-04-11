@@ -80,7 +80,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
                     put("startNoTz", "2011-03-02T08:00:00");
                     put("endNoTz", "2011-03-02T13:00:00");
                     put("title", "SDR1 Work Area");
-                    put("assignment", "30_30_30");
+                    put("assignment", "IU-BL_30_30_30");
                 }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
@@ -93,7 +93,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
                     put("startNoTz", "2011-03-02T13:10:00");
                     put("endNoTz", "2011-03-02T18:10:00");
                     put("title", "SDR1 Work Area");
-                    put("assignment", "30_30_30");
+                    put("assignment", "IU-BL_30_30_30");
                 }}
         );
         deleteTimesheet(tdocId);
@@ -111,7 +111,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
                      put("startNoTz", "2011-03-02T08:00:00");
                      put("endNoTz", "2011-03-02T13:00:00");
                      put("title", "SDR1 Work Area");
-                     put("assignment", "30_30_30");
+                     put("assignment", "IU-BL_30_30_30");
                  }},
                  new ArrayList<Map<String, Object>>() {{
                      add(new HashMap<String, Object>() {{
@@ -126,7 +126,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
                      put("startNoTz", "2011-03-02T13:10:00");
                      put("endNoTz", "2011-03-02T18:10:00");
                      put("title", "SDR1 Work Area");
-                     put("assignment", "30_30_30");
+                     put("assignment", "IU-BL_30_30_30");
                  }}
         );
         deleteTimesheet(tdocId);

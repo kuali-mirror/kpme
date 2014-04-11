@@ -124,12 +124,14 @@
     <changeSet id="5" author="djunk" context="kpme-client-test">
         <loadData tableName="hr_calendar_entries_t" file="src/test/config/db/test/hr_calendar_entries_t.csv" />
         <loadData tableName="hr_calendar_t" file="src/test/config/db/test/hr_calendar_t.csv" />
+        <loadData tableName="hr_grp_key_t" file="src/test/config/db/test/hr_grp_key_t.csv" />
         <loadData tableName="hr_dept_t" file="src/test/config/db/test/hr_dept_t.csv" />
         <loadData tableName="hr_earn_code_group_def_t" file="src/test/config/db/test/hr_earn_code_group_def_t.csv" />
         <loadData tableName="hr_earn_code_group_t" file="src/test/config/db/test/hr_earn_code_group_t.csv" />
         <loadData tableName="hr_earn_code_security_t" file="src/test/config/db/test/hr_earn_code_security_t.csv" />
         <loadData tableName="hr_earn_code_t" file="src/test/config/db/test/hr_earn_code_t.csv" />
         <loadData tableName="hr_job_t" file="src/test/config/db/test/hr_job_t.csv" />
+        <loadData tableName="hr_location_t" file="src/test/config/db/test/hr_location_t.csv" />
         <loadData tableName="hr_paytype_t" file="src/test/config/db/test/hr_paytype_t.csv" />
         <loadData tableName="hr_principal_attributes_t" file="src/test/config/db/test/hr_principal_attributes_t.csv" />
         <loadData tableName="hr_position_t" file="src/test/config/db/test/hr_position_t.csv" />

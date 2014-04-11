@@ -18,14 +18,14 @@ package org.kuali.kpme.tklm.api.time.missedpunch;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.mo.CreateTime;
-import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeKeyedDataTransferObject;
 
 
 /**
  * <p>MissedPunchContract interface</p>
  *
  */
-public interface MissedPunchContract extends KpmeDataTransferObject, CreateTime {
+public interface MissedPunchContract extends KpmeKeyedDataTransferObject, CreateTime {
 	
 	/**
 	 * The primary key of a MissedPunch entry saved in a database

@@ -315,7 +315,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         AssignmentBo a = null;
 
         if (key != null) {
-            a = assignmentDao.getAssignment(principalId, key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
+            a = assignmentDao.getAssignment(principalId, key.getGroupKeyCode(), key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
         }
         if (a != null) {
             a = populateAssignment(a, asOfDate);
@@ -329,7 +329,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         AssignmentBo a = null;
 
         if (key != null) {
-            a = assignmentDao.getAssignmentForTargetPrincipal(key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
+            a = assignmentDao.getAssignmentForTargetPrincipal(key.getGroupKeyCode(), key.getJobNumber(), key.getWorkArea(), key.getTask(), asOfDate);
         }
 
         return AssignmentBo.to(a);
@@ -398,7 +398,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 	}
 
     @Override
-    public String getAssignmentDescription(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
+    public String getAssignmentDescription(String principalId, String groupKeyCode, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
         StringBuilder builder = new StringBuilder();
 
         if (jobNumber != null && workArea != null && task != null) {
@@ -422,7 +422,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public String getAssignmentDescriptionForAssignment(Assignment assignment, LocalDate asOfDate) {
-        return getAssignmentDescription(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), asOfDate);
+        return getAssignmentDescription(assignment.getGroupKeyCode(), assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), asOfDate);
     }
 
 
