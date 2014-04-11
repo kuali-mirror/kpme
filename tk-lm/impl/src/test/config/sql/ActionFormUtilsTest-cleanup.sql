@@ -17,3 +17,9 @@
 delete from hr_earn_code_t where hr_earn_code_id >= '5000';
 delete from hr_earn_code_group_t where hr_earn_code_group_id >= '5000';
 delete from lm_accrual_category_t where lm_accrual_category_id >= '5000';
+
+
+delete from lm_leave_plan_t where LM_LEAVE_PLAN_ID='5000';
+delete from tk_time_block_t where tk_time_block_id='5000';
+delete from lm_leave_block_t where lm_leave_block_id='5000';
+delete from hr_principal_attributes_t where HR_PRINCIPAL_ATTRIBUTE_ID='3';
