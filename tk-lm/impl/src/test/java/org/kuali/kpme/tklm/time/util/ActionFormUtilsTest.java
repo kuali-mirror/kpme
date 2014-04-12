@@ -152,8 +152,10 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 	
 	//following tests are changes of KPME-3367
 	@Test
-	public void testIsOnCurrentPeriodFlag(){
-		boolean gotOne = ActionFormUtils.isOnCurrentPeriodFlag(createdCalendarEntry);
+	public void testIsOnCurrentPeriodFlag(){	
+		CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", new LocalDate().toDateTimeAtStartOfDay());
+		
+		boolean gotOne = ActionFormUtils.isOnCurrentPeriodFlag(calendarEntry);
 		Assert.assertTrue("Is on Current Period", gotOne);
 		
 		boolean notGotOne = ActionFormUtils.isOnCurrentPeriodFlag(createdCalendarEntry2);
@@ -191,8 +193,10 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 		tdaf.setWarningMessages(warningMessages);
 		tdaf.setTimesheetDocument(timesheetDocument);
 		
+		Assert.assertEquals("Number of messages should be 2 BEFORE the call.", 2, tdaf.getWarningMessages().size());
 		ActionFormUtils.addUniqueWarningsToForm(tdaf, warningMessages);
 		
+		Assert.assertEquals("Number of messages should be 2 AFTER the call.", 2, tdaf.getWarningMessages().size());
 		Assert.assertTrue("warningMessage2 should show up.", tdaf.getWarningMessages().get(0).equalsIgnoreCase("warningMessage2"));
 		Assert.assertTrue("warningMessage1 should show up.", tdaf.getWarningMessages().get(1).equalsIgnoreCase("warningMessage1"));
 	}
@@ -239,10 +243,10 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 		String jsonString = ActionFormUtils.getTimeBlocksJson(timeBlockList);
 		// expected jsonString:
 		// [{"isApprover":true,"isSynchronousUser":null,"canEditTb":false,"canEditTBOvt":true,"canEditTBAll":false,"canEditTBAssgOnly":true,"documentId":null,"title":"SDR1 Work Area","earnCode":"SDR","earnCodeDesc":"SHIFT DIFF","earnCodeType":null,"start":"2014-04-10T00:00:00-04:00","end":"2014-04-10T00:00:00-04:00","startDate":"04\/10\/2014","endDate":"04\/10\/2014","startNoTz":"2014-04-10T00:00:00","endNoTz":"2014-04-10T00:00:00","startTimeHourMinute":"12:00 AM","endTimeHourMinute":"12:00 AM","startTime":"0:00","endTime":"0:00","id":"1111","hours":0.00,"amount":10.00,"timezone":"America\/New_York","assignment":"30_30_0","tkTimeBlockId":"1111","lunchDeleted":false,"timeHourDetails":"[]"}]
-		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"earnCode\":\"SDR\""));
-		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"title\":\"SDR1 Work Area\""));
-		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"tkTimeBlockId\":\"1111\""));
-		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"amount\":10.00"));
+		Assert.assertTrue("Leave Block Json should include earnCode", jsonString.contains("\"earnCode\":\"SDR\""));
+		Assert.assertTrue("Leave Block Json should include title", jsonString.contains("\"title\":\"SDR1 Work Area\""));
+		Assert.assertTrue("Leave Block Json should include tkTimeBlockId", jsonString.contains("\"tkTimeBlockId\":\"1111\""));
+		Assert.assertTrue("Leave Block Json should include amount", jsonString.contains("\"amount\":10.00"));
 		Assert.assertTrue("Leave Block Json should include assignment", jsonString.contains("\"assignment\":\"IU-BL_30_30_0\""));
 	}
 	
@@ -263,11 +267,11 @@ public class ActionFormUtilsTest extends TKLMIntegrationTestCase {
 	 	// {105=04/01/2014 - 04/14/2014, 104=03/15/2014 - 03/31/2014}
 	    Assert.assertTrue("Should return two pay periods", pMap.size() == 2);
 	    
-        Assert.assertTrue("Key of the first pay periods", test[0].getKey().equals("105"));
-        Assert.assertTrue("Value of the first pay periods", test[0].getValue().equals("04/01/2014 - 04/14/2014"));
+        Assert.assertTrue("Key of the first pay period", test[0].getKey().equals("105"));
+        Assert.assertTrue("Value of the first pay period", test[0].getValue().equals("04/01/2014 - 04/14/2014"));
         
-        Assert.assertTrue("Key of the second pay periods", test[1].getKey().equals("104"));
-        Assert.assertTrue("Value of the second pay periods", test[1].getValue().equals("03/15/2014 - 03/31/2014"));
+        Assert.assertTrue("Key of the second pay period", test[1].getKey().equals("104"));
+        Assert.assertTrue("Value of the second pay period", test[1].getValue().equals("03/15/2014 - 03/31/2014"));
 	}
 	
 }
