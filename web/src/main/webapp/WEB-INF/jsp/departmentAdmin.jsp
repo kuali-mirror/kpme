@@ -22,6 +22,7 @@
 <c:set var="TkForm" value="${TkForm}" scope="request"/>
 
 <tk:tkHeader tabId="departmentAdmin">
+<script type="text/javascript" src="js/maintview.js"></script>
     <div id="departmentAdmin">
         <table width="100%">
             <tr>
