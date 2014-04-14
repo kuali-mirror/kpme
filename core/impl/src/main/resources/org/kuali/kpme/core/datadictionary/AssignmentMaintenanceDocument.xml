@@ -35,6 +35,7 @@
         <property name="lockingKeys">
             <list>
                 <value>principalId</value>
+                <value>groupKeyCode</value>
                 <value>workArea</value>
                 <value>task</value>
                 <value>jobNumber</value>
@@ -68,6 +69,12 @@
 			            </property>        
 			        </bean>
 			        <bean parent="Uif-InputField" p:propertyName="name" p:widgetInputOnly="true"/>
+                    <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true">
+                        <property name="quickfinder">
+                            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
+                                  p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
+                        </property>
+                    </bean>
 			        <bean parent="Uif-InputField" p:propertyName="jobNumber" p:required="true">
 						<property name="quickfinder">
 			            	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.JobBo"
@@ -75,10 +82,6 @@
 			            </property>        
 			        </bean>
 			        <bean parent="Uif-InputField" p:propertyName="dept" p:widgetInputOnly="true">
-						<!-- <property name="quickfinder">
-			  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-			                    p:fieldConversions="dept:dept,effectiveDate:relativeEffectiveDate"/>
-			            </property>   -->      
 			        </bean>
 			        <bean parent="Uif-InputField" p:propertyName="workArea">
 						<property name="quickfinder">

@@ -168,9 +168,9 @@
 
     <bean id="KpmeAttributeReference-groupKeyCode" parent="KpmeAttributeReference-groupKeyCode-parentBean" />
     <bean id="KpmeAttributeReference-groupKeyCode-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Data Group" />
+        <property name="shortLabel" value="Group Key" />
         <property name="maxLength" value="30" />
-        <property name="forceUppercase" value="true" />
+        <property name="forceUppercase" value="false" />
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30" />
         </property>
@@ -188,13 +188,14 @@
             </bean>
         </property>
         <property name="name" value="groupKeyCode" />
-        <property name="label" value="Data Group" />
+        <property name="label" value="Group Key" />
     </bean>
 
     <bean id="KpmeAttributeReference-institution" parent="KpmeAttributeReference-institution-parentBean"/>
     <bean id="KpmeAttributeReference-institution-parentBean" abstract="true" parent="WildcardableAttributeDefinition">
         <property name="shortLabel" value="Institution" />
         <property name="maxLength" value="15" />
+        <property name="forceUppercase" value="false" />
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern">
                 <property name="allowWhitespace" value="false" />
