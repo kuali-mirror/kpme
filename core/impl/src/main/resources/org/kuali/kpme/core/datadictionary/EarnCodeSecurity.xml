@@ -218,7 +218,7 @@
 	</bean>
 	
 	<bean id="EarnCodeSecurity-MaintenanceView" parent="EarnCodeSecurity-EarnCodeSecurityMaintenance-parentBean" />
-	<bean id="EarnCodeSecurity-EarnCodeSecurityMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
+	<bean id="EarnCodeSecurity-EarnCodeSecurityMaintenance-parentBean" abstract="true" parent="KPMEUif-MaintenanceView">
 		<property name="headerText" value="Earn Code Security Maintenance" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
 		<property name="items">
