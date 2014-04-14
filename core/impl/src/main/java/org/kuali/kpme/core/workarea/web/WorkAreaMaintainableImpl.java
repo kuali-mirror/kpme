@@ -31,7 +31,6 @@ import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.api.task.TaskContract;
-import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.role.KPMERole;
@@ -44,7 +43,6 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.HrServiceLocatorInternal;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
-import org.kuali.kpme.core.workarea.validation.WorkAreaMaintenanceDocumentRule;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -52,13 +50,10 @@ import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
-import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
 @SuppressWarnings("deprecation")
@@ -203,7 +198,7 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 						if (roleMember.getPrincipalId()!=null && !StringUtils.isEmpty(roleMember.getPrincipalId())) {
 							Principal person = KimApiServiceLocator.getIdentityService().getPrincipal(roleMember.getPrincipalId());
 							if (person == null) {
-								GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"principalRoleMembers", 
+								GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.principalRoleMembers'].principalId", 
 										"error.role.person.notexist", roleMember.getMemberId());
 								return false;
 							}
@@ -215,7 +210,7 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 						if (roleMember.getPositionNumber()!=null && !StringUtils.isEmpty(roleMember.getPositionNumber())) {
 							PositionBaseContract position = HrServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
 							if (position == null) {
-								GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"positionRoleMembers", 
+								GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.positionRoleMembers'].positionNumber", 
 										"error.role.positionNumber.notexist", roleMember.getPositionNumber());
 								return false;
 							}
@@ -248,7 +243,6 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 				List<WorkAreaPrincipalRoleMemberBo> existingRoleMembers = location.getPrincipalRoleMembers();
 				for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 					int index = iter.nextIndex();
-					String prefix = "roleMembers[" + index + "].";
 					WorkAreaPrincipalRoleMemberBo existingRoleMember = iter.next();
 					if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
 						if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
@@ -257,15 +251,11 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 									valid &= false;
 									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.principalRoleMembers[" + index + "].effectiveDate", "error.role.active.existence");
 									GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.principalRoleMembers'].effectiveDate", "error.role.active.duplicate");
-									/*this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
-									this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");*/
 								}
 							}else {
 								valid &= false;
 								GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.principalRoleMembers[" + index + "].effectiveDate", "error.role.active.existence");
 								GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.principalRoleMembers'].effectiveDate", "error.role.active.duplicate");
-								/*this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
-								this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");*/
 							}
 						}
 					}
@@ -273,24 +263,19 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 				existingRoleMembers = location.getInactivePrincipalRoleMembers();
 				for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 					int index = iter.nextIndex();
-					String prefix = "inactiveRoleMembers[" + index + "].";
 					WorkAreaPrincipalRoleMemberBo existingRoleMember = iter.next();
 					if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
 						if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
 							if(existingRoleMember.getActiveToDate() != null && !StringUtils.isEmpty(existingRoleMember.getActiveToDate().toString())) {
 								if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
 									valid &= false;
-									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.principalRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
+									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.inactivePrincipalRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
 									GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.principalRoleMembers'].effectiveDate", "error.role.inactive.duplicate");
-									/*this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
-									this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");*/
 								}
 							}else {
 								valid &= false;
-								GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.principalRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
+								GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.inactivePrincipalRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
 								GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.principalRoleMembers'].effectiveDate", "error.role.inactive.duplicate");
-								/*this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
-								this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");*/
 							}
 						}
 					}
@@ -304,7 +289,6 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 				List<WorkAreaPositionRoleMemberBo> existingRoleMembers = location.getPositionRoleMembers();
 				for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 					int index = iter.nextIndex();
-					String prefix = "roleMembers[" + index + "].";
 					WorkAreaPositionRoleMemberBo existingRoleMember = iter.next();
 					if(StringUtils.equals(existingRoleMember.getPositionNumber(),roleMember.getPositionNumber())) {
 						if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
@@ -313,15 +297,11 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 									valid &= false;
 									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.positionRoleMembers[" + index + "].effectiveDate", "error.role.active.existence");
 									GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.positionRoleMembers'].effectiveDate", "error.role.active.duplicate");
-									/*this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
-									this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");*/
 								}
 							}else {
 								valid &= false;
 								GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.positionRoleMembers[" + index + "].effectiveDate", "error.role.active.existence");
 								GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.positionRoleMembers'].effectiveDate", "error.role.active.duplicate");
-								/*this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
-								this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");*/
 							}
 						}
 					}
@@ -329,24 +309,19 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 				existingRoleMembers = location.getInactivePositionRoleMembers();
 				for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
 					int index = iter.nextIndex();
-	            	String prefix = "inactiveRoleMembers[" + index + "].";
 					WorkAreaPositionRoleMemberBo existingRoleMember = iter.next();
 					if(StringUtils.equals(existingRoleMember.getPositionNumber(),roleMember.getPositionNumber())) {
 						if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
 							if(existingRoleMember.getActiveToDate() != null && !StringUtils.isEmpty(existingRoleMember.getActiveToDate().toString())) {
 								if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
 									valid &= false;
-									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.positionRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
+									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.inactivePositionRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
 									GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.positionRoleMembers'].effectiveDate", "error.role.inactive.duplicate");
-									/*this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
-									this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");*/
 								}
 							}else {
 								valid &= false;
-								GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.positionRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
+								GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.inactivePositionRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
 								GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.positionRoleMembers'].effectiveDate", "error.role.inactive.duplicate");
-								/*this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
-								this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");*/
 							}
 						}
 					}
@@ -356,8 +331,7 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 		return valid;
 		
 	}
-
-
+	
 	boolean validateTask(TaskBo task, WorkAreaBo workArea) {
 
 		boolean valid = true;
@@ -367,12 +341,10 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 		if(workArea.getEffectiveDate()!=null && !StringUtils.isEmpty(workArea.getEffectiveDate().toString())){
        		if (task.getEffectiveDate().compareTo(workArea.getEffectiveDate()) < 0) {
        			GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.tasks'].effectiveDate","task.workarea.invalid.effdt");
-       			/*this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() + "'");*/
        			valid = false;
        		}
        	}else{
-       		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath("document.newMaintainableObject.dataObject.effectiveDate","workarea.invalid.effdt");
-       		/*this.putGlobalError("workarea.invalid.effdt");*/
+       		GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.tasks'].effectiveDate","workarea.invalid.effdt");
        		valid = false;
        	}
 
@@ -389,8 +361,7 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
                 for(Assignment assignment : assignments){
                     for(Long inactiveTask : inactiveTasks){
                         if(inactiveTask.equals(assignment.getTask())){
-                        	GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.tasks","task.active.inactivate",inactiveTask.toString());
-                        	/*this.putGlobalError("task.active.inactivate", inactiveTask.toString());*/
+                        	GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.tasks'].active","task.active.inactivate",inactiveTask.toString());
                             valid = false;
 						}
 					}
