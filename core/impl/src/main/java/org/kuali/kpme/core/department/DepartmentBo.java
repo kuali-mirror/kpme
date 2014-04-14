@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
@@ -34,7 +34,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class DepartmentBo extends HrBusinessObject implements DepartmentContract {
+public class DepartmentBo extends HrKeyedBusinessObject implements DepartmentContract {
 
     static class KeyFields {
 
@@ -53,7 +53,6 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
             .build();
 
     private String hrDeptId;
-    private String groupKeyCode;
     private String dept;
     private String description;
     private String location;
@@ -65,7 +64,6 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
     private String org;
     private boolean payrollApproval;
 
-    private HrGroupKeyBo groupKey;
     private LocationBo locationObj;
     private Chart chartObj;
     private Organization orgObj;
@@ -115,14 +113,6 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-
-    public String getGroupKeyCode() {
-        return groupKeyCode;
-    }
-
-    public void setGroupKeyCode(String groupKeyCode) {
-        this.groupKeyCode = groupKeyCode;
-    }
 
     public String getDescription() {
         return description;
@@ -227,17 +217,6 @@ public class DepartmentBo extends HrBusinessObject implements DepartmentContract
 	public void setPayrollApproval(boolean payrollApproval) {
 		this.payrollApproval = payrollApproval;
 	}
-
-    public HrGroupKeyBo getGroupKey() {
-        if (groupKey == null) {
-            //get from dg service
-        }
-        return groupKey;
-    }
-
-    public void setGroupKey(HrGroupKeyBo groupKey) {
-        this.groupKey = groupKey;
-    }
 
     public static DepartmentBo from(Department im) {
         DepartmentBo dept = new DepartmentBo();

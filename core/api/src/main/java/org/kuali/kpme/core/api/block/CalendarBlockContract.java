@@ -16,17 +16,14 @@
 package org.kuali.kpme.core.api.block;
 
 import org.joda.time.DateTime;
-import org.kuali.kpme.core.api.mo.KeyedData;
-import org.kuali.rice.core.api.mo.common.GloballyUnique;
-import org.kuali.rice.core.api.mo.common.Versioned;
-
+import org.kuali.kpme.core.api.mo.KpmeKeyedDataTransferObject;
 import java.math.BigDecimal;
 
 /**
  * <p>CalendarBlockContract interface</p>
  *
  */
-public interface CalendarBlockContract extends GloballyUnique, Versioned, KeyedData {
+public interface CalendarBlockContract extends KpmeKeyedDataTransferObject {
 
 	public String getHrCalendarBlockId();
 	

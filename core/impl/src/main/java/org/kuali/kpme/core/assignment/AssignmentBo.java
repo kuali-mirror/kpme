@@ -27,7 +27,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.assignment.account.AssignmentAccountBo;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -43,7 +43,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class AssignmentBo extends HrBusinessObject implements AssignmentContract {
+public class AssignmentBo extends HrKeyedBusinessObject implements AssignmentContract {
     public static final ModelObjectUtils.Transformer<AssignmentBo, Assignment> toAssignment =
             new ModelObjectUtils.Transformer<AssignmentBo, Assignment>() {
                 public Assignment transform(AssignmentBo input) {
@@ -82,8 +82,7 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Assignment";
 
 	private String tkAssignmentId;
-	private String principalId;
-    private String groupKeyCode;
+	private String principalId;    
 	private Long jobNumber;
 	private String hrJobId;
 	private transient JobBo job;
@@ -93,7 +92,6 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 	private boolean primaryAssign;
     private String calGroup;
 
-    private transient HrGroupKeyBo groupKey;
 	private transient WorkAreaBo workAreaObj;
 	private transient Person principal;
 	private transient TaskBo taskObj;
@@ -338,27 +336,7 @@ public class AssignmentBo extends HrBusinessObject implements AssignmentContract
 		this.primaryAssign = primaryAssign;
 	}
 
-    @Override
-    public String getGroupKeyCode() {
-        return groupKeyCode;
-    }
-
-    public void setGroupKeyCode(String groupKeyCode) {
-        this.groupKeyCode = groupKeyCode;
-    }
-
-    @Override
-    public HrGroupKeyBo getGroupKey() {
-        if (groupKey == null) {
-            groupKey = HrGroupKeyBo.from(HrServiceLocator.getHrGroupKeyService().getHrGroupKey(getGroupKeyCode(), getEffectiveLocalDate()));
-        }
-        return groupKey;
-    }
-
-    public void setGroupKey(HrGroupKeyBo groupKey) {
-        this.groupKey = groupKey;
-    }
-
+   
     public static AssignmentBo from(Assignment im) {
         if (im == null) {
             return null;
