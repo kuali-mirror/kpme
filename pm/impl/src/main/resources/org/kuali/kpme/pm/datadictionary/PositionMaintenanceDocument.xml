@@ -330,11 +330,10 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="positionClass"
-                      p:required="true"
-                      >
+                      p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl"
-                              p:disabled="true"/>
+                              p:disabled="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
@@ -342,7 +341,7 @@
                               p:lookupParameters="location:location,institution:institution"/>
                     </property>
                     <property name="quickfinder.quickfinderAction.disabled"
-                              value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update'}" >
+                              value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
                     </property>
                     <property name="quickfinder.fieldConversions">
                         <map>
@@ -489,7 +488,11 @@
                     <property name="control">
                         <bean parent="Uif-TextControl"
                               p:disabled="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Change Status'}"
-                              p:refreshWhenChangedPropertyNames="#dp.process"/>
+                              p:refreshWhenChangedPropertyNames="#dp.process"> 
+                              <property name="datePicker">
+                              	<bean parent="Uif-DatePicker" p:render="@{!#parent.disabled}"/>
+                              </property>
+                        </bean>
                     </property>
                     <property name="validCharactersConstraint">
 						<bean parent="BasicDatePatternConstraint" />
@@ -682,6 +685,10 @@
 							</property>
 						</bean>
 					</property>
+					<property name="quickfinder">
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.leaveplan.LeavePlanBo"
+		        			 p:fieldConversions="leavePlan:leavePlan"/>
+		   		 	</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="payGrade" >
                     <property name="control">
