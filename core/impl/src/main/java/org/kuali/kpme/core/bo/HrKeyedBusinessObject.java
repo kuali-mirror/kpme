@@ -72,5 +72,28 @@ public abstract class HrKeyedBusinessObject extends HrBusinessObject implements 
 		}
 		return null;
 	}
+	
+	/**
+	 * @return the institutionCode
+	 */
+	public String getInstitution() {
+		HrGroupKeyBo grpKey = getGroupKey(); 
+		if(grpKey != null) {
+			return grpKey.getInstitutionCode();
+		}
+		return null;
+	}
+
+
+	/**
+	 * @return the locationId
+	 */
+	public String getLocation() {
+		HrGroupKeyBo grpKey = getGroupKey(); 
+		if(grpKey != null) {
+			return grpKey.getLocationId();
+		}
+		return null;
+	}
 
 }

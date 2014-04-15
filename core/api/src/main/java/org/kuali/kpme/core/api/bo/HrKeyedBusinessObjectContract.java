@@ -36,5 +36,21 @@ public interface HrKeyedBusinessObjectContract extends HrBusinessObjectContract,
      * @return institutionObj for this keyed business object
      */
 	public InstitutionContract getInstitutionObj();
+	
+	/**
+     * The Institution code associated with the keyed business object
+     *
+     *
+     * @return institution code for this keyed business object
+     */
+	public String getInstitution();
+
+	/**
+     * The Location code associated with the keyed business object
+     *
+     *
+     * @return location code for this keyed business object
+     */
+	public String getLocation();
 
 }
