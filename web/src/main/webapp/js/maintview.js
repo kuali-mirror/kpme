@@ -22,7 +22,7 @@ jQuery(document).ready(function () {
 	jQuery("[title='Search Field']").attr("tabindex","-1");
 	jQuery("[name^='performLookup']").attr("tabindex","-1");
 	
-	jQuery(document).keypress(function(e) {
+	jQuery(document).keypress(function(event) {
 		/* use IE naming first then firefox. */
 	    var elemType = event.srcElement ? event.srcElement.type : event.target.type;
 	    if (elemType != null && (elemType.toLowerCase() == 'textarea' || elemType.toLowerCase() == 'submit')) {
