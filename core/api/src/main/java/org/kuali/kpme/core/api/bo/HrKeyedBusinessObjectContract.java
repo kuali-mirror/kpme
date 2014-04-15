@@ -15,8 +15,26 @@
  */
 package org.kuali.kpme.core.api.bo;
 
+import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
 public interface HrKeyedBusinessObjectContract extends HrBusinessObjectContract, KpmeEffectiveKeyedDataTransferObject {
+	
+	/**
+     * The Location object associated with the keyed business object
+     *
+     *
+     * @return locationObj for this keyed business object
+     */
+	public LocationContract getLocationObj();
+
+    /**
+     * The Institution object associated with the keyed business object
+     *
+     *
+     * @return institutionObj for this keyed business object
+     */
+	public InstitutionContract getInstitutionObj();
 
 }

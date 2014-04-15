@@ -17,6 +17,8 @@ package org.kuali.kpme.core.bo;
 
 import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.core.institution.InstitutionBo;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 public abstract class HrKeyedBusinessObject extends HrBusinessObject implements HrKeyedBusinessObjectContract {
@@ -38,15 +40,37 @@ public abstract class HrKeyedBusinessObject extends HrBusinessObject implements 
 	@Override
 	public HrGroupKeyBo getGroupKey() {
 		if (groupKey == null) {
-			groupKey = HrGroupKeyBo.from(HrServiceLocator
-					.getHrGroupKeyService().getHrGroupKey(getGroupKeyCode(),
-							getEffectiveLocalDate()));
+			groupKey = HrGroupKeyBo.from(HrServiceLocator.getHrGroupKeyService().getHrGroupKey(getGroupKeyCode(), this.getEffectiveLocalDate()));
 		}
 		return groupKey;
 	}
 
 	public void setGroupKey(HrGroupKeyBo groupKey) {
 		this.groupKey = groupKey;
+	}
+	
+	
+	/**
+	 * @return the locationObj
+	 */
+	public LocationBo getLocationObj() {
+		HrGroupKeyBo grpKey = getGroupKey(); 
+		if(grpKey != null) {
+			return grpKey.getLocation();
+		}
+		return null;		
+	}
+
+	
+	/**
+	 * @return the institutionObj
+	 */
+	public InstitutionBo getInstitutionObj() {
+		HrGroupKeyBo grpKey = getGroupKey(); 
+		if(grpKey != null) {
+			return grpKey.getInstitution();
+		}
+		return null;
 	}
 
 }
