@@ -22,11 +22,13 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -176,5 +178,27 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
         List<TimeBlockBo> timeBlocks = (List<TimeBlockBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return timeBlocks == null || timeBlocks.size() == 0 ? new LinkedList<TimeBlockBo>() : timeBlocks;
 	}
+
+    @Override
+    public List<TimeBlockBo> getIntersectingTimeBlocks(String principalId, Interval interval) {
+        Criteria rootCriteria = new Criteria();
+        rootCriteria.addEqualTo("principalId", principalId);
+
+        Criteria orCriteria = new Criteria();
+        Criteria beginCriteria = new Criteria();
+        Criteria endCriteria = new Criteria();
+        Timestamp intervalStart = new Timestamp(interval.getStartMillis());
+        Timestamp intervalEnd = new Timestamp(interval.getEndMillis());
+        beginCriteria.addBetween("beginTimestamp", intervalStart, intervalEnd);
+        endCriteria.addBetween("endTimestamp", intervalStart, intervalEnd);
+        orCriteria.addOrCriteria(beginCriteria);
+        orCriteria.addOrCriteria(endCriteria);
+        rootCriteria.addAndCriteria(orCriteria);
+
+
+        Query query = QueryFactory.newQuery(TimeBlockBo.class, rootCriteria);
+        List<TimeBlockBo> timeBlocks = (List<TimeBlockBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        return timeBlocks == null || timeBlocks.isEmpty() ? new ArrayList<TimeBlockBo>() : timeBlocks;
+    }
 
 }

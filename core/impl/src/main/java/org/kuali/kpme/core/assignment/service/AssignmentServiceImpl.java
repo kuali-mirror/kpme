@@ -444,6 +444,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public List<Assignment> filterAssignmentListForUser(String userPrincipalId, List<Assignment> assignments) {
+        if (CollectionUtils.isEmpty(assignments)) {
+            return Collections.emptyList();
+        }
         List<Assignment> filteredAssignments = new ArrayList<Assignment>();
         //TkUserRoles roles = TkUserRoles.getUserRoles(TKContext.getPrincipalId());
         //boolean systemAdmin = HrContext.isSystemAdmin();

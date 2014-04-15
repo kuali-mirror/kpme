@@ -96,9 +96,6 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 			b.setClockLogCreated(true);
             timeBlocks.add(b.build());
 		}
-        //reset time block
-        //TkServiceLocator.getTimesheetService().resetTimeBlock(doc.getTimeBlocks());
-		//TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, doc.getTimeBlocks(), doc.getCalendarEntry(), doc, "admin");
 		for(TimeBlock tb : timeBlocks) {
 			if(tb.getHours().compareTo(deptLunchRule.getShiftHours()) == 1) {
 				for(TimeHourDetail thd : tb.getTimeHourDetails()){

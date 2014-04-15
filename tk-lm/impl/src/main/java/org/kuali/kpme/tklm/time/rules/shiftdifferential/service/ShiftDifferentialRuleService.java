@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.rules.shiftdifferential.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
@@ -70,5 +71,7 @@ public interface ShiftDifferentialRuleService {
 
     List<ShiftDifferentialRule> getShiftDifferentialRules(String userPrincipalId, String location, String hrSalGroup, String payGrade, LocalDate fromEffdt,
     		LocalDate toEffdt, String active, String showHist);
+
+    public List<TimeBlock> getTimeblocksOverlappingTimesheetShift(TimesheetDocument timesheetDocument);
 
 }

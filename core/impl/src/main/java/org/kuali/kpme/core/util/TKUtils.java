@@ -108,28 +108,6 @@ public class TKUtils {
         return assignmentDescriptions;
     }
 
-/*    public static String getAssignmentString(String principalId, Long jobNumber, Long workArea, Long task, LocalDate asOfDate) {
-    	StringBuilder builder = new StringBuilder();
-    	
-    	if (jobNumber != null && workArea != null && task != null) {
-        	JobContract jobObj = HrServiceLocator.getJobService().getJob(principalId, jobNumber, asOfDate);
-        	WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea, asOfDate);
-        	TaskContract taskObj = HrServiceLocator.getTaskService().getTask(task, asOfDate);
-        	
-        	String workAreaDescription = workAreaObj != null ? workAreaObj.getDescription() : StringUtils.EMPTY;
-        	KualiDecimal compensationRate = jobObj != null ? jobObj.getCompRate() : KualiDecimal.ZERO;
-        	String department = jobObj != null ? jobObj.getDept() : StringUtils.EMPTY;
-        	String taskDescription = taskObj != null && !HrConstants.TASK_DEFAULT_DESP.equals(taskObj.getDescription()) ? taskObj.getDescription() : StringUtils.EMPTY;
-        	
-        	builder.append(workAreaDescription).append(" : $").append(compensationRate).append(" Rcd ").append(jobNumber).append(" ").append(department);
-        	if (StringUtils.isNotBlank(taskDescription)) {
-        		builder.append(" ").append(taskDescription);
-        	}
-        }
-        
-        return builder.toString();
-    }*/
-
     /**
      * Constructs a list of Day Spans for the pay calendar entry provided. You
      * must also provide a DateTimeZone so that we can create relative boundaries.
@@ -594,6 +572,7 @@ public class TKUtils {
 
         return null;
     }
+
 
 
 }

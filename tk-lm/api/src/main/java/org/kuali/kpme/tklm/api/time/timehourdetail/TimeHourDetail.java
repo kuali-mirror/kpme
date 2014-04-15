@@ -24,6 +24,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -123,6 +125,24 @@ public final class TimeHourDetail
         return this.objectId;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        TimeHourDetailContract timeHourDetail = (TimeHourDetailContract) obj;
+        return new EqualsBuilder()
+                .append(earnCode, timeHourDetail.getEarnCode())
+                .append(amount, timeHourDetail.getAmount())
+                .append(hours, timeHourDetail.getHours())
+                .isEquals();
+    }
 
     /**
      * A builder which can be used to construct {@link TimeHourDetail} instances.  Enforces the constraints of the {@link TimeHourDetailContract}.
@@ -237,6 +257,25 @@ public final class TimeHourDetail
         public void setObjectId(String objectId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.objectId = objectId;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (obj == this) {
+                return true;
+            }
+            if (obj.getClass() != getClass()) {
+                return false;
+            }
+            TimeHourDetailContract timeHourDetail = (TimeHourDetailContract) obj;
+            return new EqualsBuilder()
+                    .append(earnCode, timeHourDetail.getEarnCode())
+                    .append(amount, timeHourDetail.getAmount())
+                    .append(hours, timeHourDetail.getHours())
+                    .isEquals();
         }
 
     }

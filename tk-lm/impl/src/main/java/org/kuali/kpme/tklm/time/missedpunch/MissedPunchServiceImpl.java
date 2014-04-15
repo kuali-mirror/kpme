@@ -36,9 +36,11 @@ import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
+import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.missedpunch.dao.MissedPunchDao;
 import org.kuali.kpme.tklm.time.rules.TkRuleControllerService;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -191,7 +193,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
      */
     private void buildTimeBlockRunRules(ClockLog beginClockLog, ClockLog endClockLog, TimesheetDocument tdoc, Assignment currentAssignment, String earnCode, DateTime beginDateTime, DateTime endDateTime) {
         // New Time Blocks, pointer reference
-        List<TimeBlock> newTimeBlocks = tdoc.getTimeBlocks();
+        List<TimeBlock> newTimeBlocks = TimesheetUtils.getTimesheetTimeblocksForProcessing(tdoc, true);
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>();
         boolean createNewTb = true;
         for (TimeBlock tb : newTimeBlocks) {
@@ -214,23 +216,8 @@ public class MissedPunchServiceImpl implements MissedPunchService {
             newTimeBlocks.addAll(blocks);
         }
 
-        List<Assignment> assignments = tdoc.getAllAssignments();
-        List<String> assignmentKeys = new ArrayList<String>();
-        for (Assignment assignment : assignments) {
-            assignmentKeys.add(assignment.getAssignmentKey());
-        }
-        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(tdoc.getPrincipalId(), tdoc.getAsOfDate(), tdoc.getDocEndDate(), assignmentKeys);
-
-        //reset time block
-        newTimeBlocks = timesheetService.resetTimeBlock(newTimeBlocks, tdoc.getAsOfDate());
-        //apply any rules for this action
-        newTimeBlocks = tkRuleControllerService.applyRules(
-                TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, leaveBlocks,
-                tdoc.getCalendarEntry(),
-                tdoc, tdoc.getPrincipalId()
-        );
-
-        timeBlockService.saveOrUpdateTimeBlocks(referenceTimeBlocks, newTimeBlocks, HrContext.getPrincipalId());
+        List<LeaveBlock> leaveBlocks = TimesheetUtils.getLeaveBlocksForTimesheet(tdoc);
+        TimesheetUtils.processTimeBlocksWithRuleChange(newTimeBlocks, referenceTimeBlocks, leaveBlocks, tdoc.getCalendarEntry(), tdoc, tdoc.getPrincipalId());
     }
 
     public void setMissedPunchDao(MissedPunchDao missedPunchDao) {

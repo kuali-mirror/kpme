@@ -658,4 +658,10 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		}
         return timeBlockList;
 	}
+
+    @Override
+    public List<TimeBlock> getIntersectingTimeBlocks(String principalId, DateTime startTime, DateTime endTime) {
+        Interval interval = new Interval(startTime, endTime);
+        return ModelObjectUtils.transform(timeBlockDao.getIntersectingTimeBlocks(principalId, interval), toTimeBlock);
+    }
 }

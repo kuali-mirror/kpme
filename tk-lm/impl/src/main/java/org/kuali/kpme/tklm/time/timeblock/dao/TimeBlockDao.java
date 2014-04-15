@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.time.timeblock.dao;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
@@ -60,4 +61,6 @@ public interface TimeBlockDao {
 	public List<TimeBlockBo> getTimeBlocksForLookup(String documentId,
 			String principalId, String userPrincipalId, LocalDate fromDate,
 			LocalDate toDate);
+
+    public List<TimeBlockBo> getIntersectingTimeBlocks(String principalId, Interval interval);
 }

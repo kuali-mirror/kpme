@@ -34,8 +34,10 @@ import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDao;
+import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -133,11 +135,8 @@ public class ClockLogServiceImpl implements ClockLogService {
     	BigDecimal hours = TKUtils.getHoursBetween(beginDateTime.getMillis(), endDateTime.getMillis());
     	if(hours.compareTo(BigDecimal.ZERO) > 0) {
 	        // New Time Blocks, pointer reference
-	        List<TimeBlock> newTimeBlocks = td.getTimeBlocks();
-	        List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(newTimeBlocks.size());
-	        for (TimeBlock tb : newTimeBlocks) {
-	            referenceTimeBlocks.add(TimeBlock.copy(tb));
-	        }
+	        List<TimeBlock> newTimeBlocks = TimesheetUtils.getTimesheetTimeblocksForProcessing(td, true);
+	        List<TimeBlock> referenceTimeBlocks = TimesheetUtils.getReferenceTimeBlocks(newTimeBlocks);
 	
 	        // Add TimeBlocks after we store our reference object!
 	        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(principalId, pe, currentAssignment,
@@ -146,21 +145,9 @@ public class ClockLogServiceImpl implements ClockLogService {
 
 	        newTimeBlocks.addAll(aList);
 	        
-	        List<Assignment> assignments = td.getAssignmentMap().get(beginDateTime.toLocalDate());
-	        List<String> assignmentKeys = new ArrayList<String>();
-	        for (Assignment assignment : assignments) {
-	        	assignmentKeys.add(assignment.getAssignmentKey());
-	        }
-	        List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(principalId, pe.getBeginPeriodFullDateTime().toLocalDate(), pe.getEndPeriodFullDateTime().toLocalDate(), assignmentKeys);
-	
-	        //reset time block
-	        newTimeBlocks = TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks, pe.getBeginPeriodFullDateTime().toLocalDate());
-	
-	        //apply any rules for this action
-	        newTimeBlocks = TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, leaveBlocks, pe, td, principalId);
-	
-	        //call persist method that only saves added/deleted/changed timeblocks
-	        TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(referenceTimeBlocks, newTimeBlocks, userPrincipalId);
+	        List<LeaveBlock> leaveBlocks = TimesheetUtils.getLeaveBlocksForTimesheet(td);
+
+            TimesheetUtils.processTimeBlocksWithRuleChange(newTimeBlocks, referenceTimeBlocks, leaveBlocks, pe, td, principalId);
     	}
     }
 

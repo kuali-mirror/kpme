@@ -847,6 +847,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
     public static TimeBlockBo from(TimeBlock im) {
         TimeBlockBo tb = new TimeBlockBo();
 
+        tb.setConcreteBlockId(im.getTkTimeBlockId());
         tb.setTkTimeBlockId(im.getTkTimeBlockId());
         tb.setBeginDate(im.getBeginDateTime() == null ? null : im.getBeginDateTime().toDate());
         tb.setEndDate(im.getEndDateTime() == null ? null : im.getEndDateTime().toDate());
@@ -904,7 +905,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
         tb.setJobNumber(im.getJobNumber());
         tb.setTask(im.getTask());
         tb.setConcreteBlockType(im.getConcreteBlockType());
-        tb.setConcreteBlockId(im.getConcreteBlockId());
+
         tb.setPrincipalIdModified(im.getUserPrincipalId());
         tb.setBeginDate(im.getBeginDateTime() == null ? null : im.getBeginDateTime().toDate());
         tb.setGroupKeyCode(im.getGroupKeyCode());

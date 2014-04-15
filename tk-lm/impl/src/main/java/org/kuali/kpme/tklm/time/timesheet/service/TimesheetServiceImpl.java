@@ -345,7 +345,7 @@ public class TimesheetServiceImpl implements TimesheetService {
             resetWorkedHours(previous, tb, asOfDate);
             previous = tb;
         }
-        return TkServiceLocator.getTimeBlockService().resetTimeHourDetail(timeBlocks);
+        return TkServiceLocator.getTimeBlockService().resetTimeHourDetail(ModelObjectUtils.<TimeBlock>buildImmutableCopy(builders));
     }
 
 	@Override

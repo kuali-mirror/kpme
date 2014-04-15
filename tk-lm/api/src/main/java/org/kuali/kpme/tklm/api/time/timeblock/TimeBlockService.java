@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.api.time.timeblock;
 
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
@@ -250,4 +251,7 @@ public interface TimeBlockService {
     //@XmlElement(name = "timeBlock", required = false)
     //@WebResult(name = "timeBlocks")
 	public List<TimeBlock> applyHolidayPremiumEarnCode(String principalId, List<Assignment> timeAssignments, List<TimeBlock> appliedTimeBlocks);
+
+
+    public List<TimeBlock> getIntersectingTimeBlocks(String principalId, DateTime startTime, DateTime endTime);
 }
