@@ -612,6 +612,19 @@ $(document).ready(function() {
         active : 0,
         autoHeight: false
     });
+    
+    $("#changeTargetPersonForm #changeTargetPersonId").keypress(function(event) {
+		var key = event.keyCode;
+		/* initiator is undefined check is to prevent return from doing anything if not in a form field since the initiator is undefined */
+		/* 13 is return key code */
+		/* length &gt; 0 check is to allow user to hit return on links */
+		if ( key == 13 ) {
+		  // disallow enter key from fields that dont match prefix.
+		  $("#changeTargetPersonForm #methodToCall").val("changeTargetPerson");
+		  $("#changeTargetPersonForm").submit();
+		}
+	});
+    
 
 });
 
