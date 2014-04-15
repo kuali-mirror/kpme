@@ -28,6 +28,8 @@ public class MissedPunchForm extends TransactionalDocumentFormBase {
 	
 	private boolean missedPunchSubmitted;
 	
+	private String ipAddress;
+	
 	@Override
 	public String getDocTypeName() {
 		return "MissedPunchDocumentType";
@@ -55,6 +57,14 @@ public class MissedPunchForm extends TransactionalDocumentFormBase {
 
 	public void setMissedPunchSubmitted(boolean missedPunchSubmitted) {
 		this.missedPunchSubmitted = missedPunchSubmitted;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 
 }

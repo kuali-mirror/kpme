@@ -129,6 +129,7 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
 	}
 	
 	public String getAssignmentValue() {
+		System.out.println("Inside Get Assignment Value for missed punch::::::::::::::::::::::");
 		return HrServiceLocator.getAssignmentService().getAssignmentDescription(getGroupKeyCode(), getPrincipalId(), getJobNumber(), getWorkArea(), getTask(), getActionFullDateTime().toLocalDate());
 	}
 	

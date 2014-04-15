@@ -70,7 +70,7 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
     	
     	MissedPunchForm missedPunchForm = (MissedPunchForm) form;
     	MissedPunchBo missedPunch = missedPunchForm.getMissedPunch();
-    	
+    	missedPunchForm.setIpAddress(TKUtils.getIPAddressFromRequest(request));
         TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(missedPunch.getTimesheetDocumentId());
         if (timesheetDocument != null) {
         	missedPunch.setPrincipalId(timesheetDocument.getPrincipalId());

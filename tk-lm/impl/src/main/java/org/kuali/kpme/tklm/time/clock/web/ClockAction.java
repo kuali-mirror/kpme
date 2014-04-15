@@ -15,6 +15,20 @@
  */
 package org.kuali.kpme.tklm.time.clock.web;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -51,12 +65,6 @@ import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class ClockAction extends TimesheetAction {
 
@@ -103,8 +111,30 @@ public class ClockAction extends TimesheetAction {
 		        if (targetPrincipalId != null) {
 		            clockActionForm.setPrincipalId(targetPrincipalId);
 		        }
-		        clockActionForm.setAssignmentDescriptions(timesheetDocument.getAssignmentDescriptions(true, LocalDate.now()));
 		        
+		        String ipAddress = TKUtils.getIPAddressFromRequest(request);
+		        Map<String, String> assignmentMap = timesheetDocument.getAssignmentDescriptions(true, LocalDate.now());
+		        String principalId = HrContext.getPrincipalId();
+		        
+		        if(targetPrincipalId.equals(principalId)){
+		        	Map<String, String> assignmentDescriptionMap = new TreeMap<String, String>();
+
+		        	DateTime currentDateTime = new DateTime();
+		        	for (Map.Entry<String, String> entry : assignmentMap.entrySet()) {
+		        		Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(entry.getKey()), LocalDate.now());
+		        		String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
+		        		if(StringUtils.equals(allowActionFromInvalidLocaiton, "false")) {
+		        			boolean isInValid = TkServiceLocator.getClockLocationRuleService().isInValidIPClockLocation(assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ipAddress, currentDateTime.toLocalDate());
+		        			if(!isInValid){
+		        				assignmentDescriptionMap.put(entry.getKey(), entry.getValue());
+		        			}
+		        		}
+		        	}
+		        	clockActionForm.setAssignmentDescriptions(assignmentDescriptionMap);
+		        }else{
+		        	clockActionForm.setAssignmentDescriptions(assignmentMap);
+		        }
+                
 		        if (clockActionForm.getEditTimeBlockId() != null) {
 		            clockActionForm.setCurrentTimeBlock(TkServiceLocator.getTimeBlockService().getTimeBlock(clockActionForm.getEditTimeBlockId()));
 		        }
@@ -170,7 +200,7 @@ public class ClockAction extends TimesheetAction {
 		        		if (assignment != null) {
 		        			Long workArea = assignment.getWorkArea();
                             String dept = assignment.getJob().getDept();
-		        			String principalId = HrContext.getPrincipalId();
+		        			/*String principalId = HrContext.getPrincipalId();*/
 		        			DateTime startOfToday = LocalDate.now().toDateTimeAtStartOfDay();
                             isApproverOrReviewerForCurrentAssignment =
                                     HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, startOfToday)
