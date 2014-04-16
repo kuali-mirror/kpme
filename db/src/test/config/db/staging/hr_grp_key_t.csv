@@ -3,4 +3,4 @@ ID,GRP_KEY_CD,DESCR,INSTITUTION,CAMPUS_CD,LOCATION,EFFDT,ACTIVE,USER_PRINCIPAL_I
 6,IU-IN,Indiana University - Indiana,IU,NULL,IN,2010-01-01,Y,admin
 7,UGA-GA,University of Georgia - GA,UGA,NULL,GA,2010-01-01,Y,admin
 8,Utah-UT,University of Utah - Utah,Utah,NULL,UT,2010-01-01,Y,admin
-9,MU-MOH,Miami - MOH,NULL,NULL,MU,2010-01-01,Y,admin
+9,MU-MOH,Miami - MOH,MU,NULL,MU,2010-01-01,Y,admin

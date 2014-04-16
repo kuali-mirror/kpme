@@ -38,7 +38,9 @@
                 <constraints nullable="false" />
             </column>
             <column name="DESCR" type="VARCHAR(255)" />
-            <column name="INSTITUTION" type="VARCHAR(15)" />
+            <column name="INSTITUTION" type="VARCHAR(15)">
+           		 <constraints nullable="false" />
+            </column>
             <column name="CAMPUS_CD" type="VARCHAR(2)" />
             <column name="LOCATION" type="VARCHAR(20)" />
             <column name="EFFDT" type="DATE">
@@ -71,6 +73,7 @@
         <insert tableName="HR_GRP_KEY_T">
             <column name="ID" value="KPME0001" />
             <column name="GRP_KEY_CD" value="DEFAULT" />
+            <column name="INSTITUTION" value="DEFAULT" />
             <column name="DESCR" value="Basic data grouping" />
             <column name="EFFDT" valueDate="1970-01-01" />
             <column name="ACTIVE" value="Y" />

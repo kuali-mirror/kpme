@@ -30,10 +30,7 @@
     <param name="kpme.core.ehcache.config.location" override="false">classpath:kpme.core.ehcache.xml</param>
 
     <!-- Data Group Setup -->
-    <param name="kpme.groupkey.institution.render">true</param>
     <param name="kpme.groupkey.campus.render">true</param>
-
-    <param name="kpme.groupkey.institution.required">false</param>
     <param name="kpme.groupkey.campus.required">false</param>
 
 

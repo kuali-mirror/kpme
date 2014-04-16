@@ -293,9 +293,7 @@
                             <bean parent="Uif-InputField" p:propertyName="campusCode"
                                   p:required="@{#ConfigProperties['kpme.groupkey.campus.required']}"
                                   p:render="@{#ConfigProperties['kpme.groupkey.campus.render']}"  />
-                            <bean parent="Uif-InputField" p:propertyName="institutionCode"
-                                  p:required="@{#ConfigProperties['kpme.groupkey.institution.required']}"
-                                  p:render="@{#ConfigProperties['kpme.groupkey.institution.render']}">
+                            <bean parent="Uif-InputField" p:propertyName="institutionCode" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
                                           p:fieldConversions="institutionCode:institutionCode"/>

@@ -330,10 +330,8 @@ public class HrConstants {
 
     public static final class GroupKeySettings {
         public static final String LOCATION_RENDER = "kpme.groupkey.location.render";
-        public static final String INSTITUION_RENDER = "kpme.groupkey.institution.render";
         public static final String CAMPUS_RENDER = "kpme.groupkey.campus.render";
         public static final String LOCATION_REQUIRED = "kpme.groupkey.location.required";
-        public static final String INSTITUTION_REQUIRED = "kpme.groupkey.institution.required";
         public static final String CAMPUS_REQUIRED = "kpme.groupkey.campus.required";
     }
 
