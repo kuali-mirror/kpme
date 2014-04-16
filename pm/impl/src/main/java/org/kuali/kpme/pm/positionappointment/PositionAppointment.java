@@ -15,44 +15,34 @@
  */
 package org.kuali.kpme.pm.positionappointment;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.institution.InstitutionBo;
-import org.kuali.kpme.core.location.LocationBo;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionAppointment extends HrBusinessObject implements PositionAppointmentContract {
+public class PositionAppointment extends HrKeyedBusinessObject implements PositionAppointmentContract {
 	
-	private static final String LOCATION = "location";
-	private static final String INSTITUTION = "institution";
+	private static final String GROUP_KEY_CODE = "groupKeyCode";
 	private static final String POSITION_APPOINTMENT = "positionAppointment";
 
 	private static final long serialVersionUID = 1L;
 	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(POSITION_APPOINTMENT)
-            .add(INSTITUTION)
-            .add(LOCATION)
+            .add(GROUP_KEY_CODE)
             .build();
 	
 	private String pmPositionAppointmentId;
 	private String positionAppointment;
 	private String description;
-	private String institution;
-	private String location;
-	
-	private LocationBo locationObj;
-	private InstitutionBo institutionObj;
 	private boolean history;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
 			.put(POSITION_APPOINTMENT, this.getPositionAppointment())
-			.put(INSTITUTION, this.getInstitution())
-			.put(LOCATION, this.getLocation())
+			.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 	
@@ -88,22 +78,7 @@ public class PositionAppointment extends HrBusinessObject implements PositionApp
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
+	
 	@Override
 	public String getId() {
 		return getPmPositionAppointmentId();
@@ -113,38 +88,10 @@ public class PositionAppointment extends HrBusinessObject implements PositionApp
 	public void setId(String pmPositionAppointmentId) {
 		setPmPositionAppointmentId(pmPositionAppointmentId);
 	}
-	
-	/**
-	 * @return the locationObj
-	 */
-	public LocationBo getLocationObj() {
-		return locationObj;
-	}
-
-	/**
-	 * @param locationObj the locationObj to set
-	 */
-	public void setLocationObj(LocationBo locationObj) {
-		this.locationObj = locationObj;
-	}
-
-	/**
-	 * @return the institutionObj
-	 */
-	public InstitutionBo getInstitutionObj() {
-		return institutionObj;
-	}
-
-	/**
-	 * @param institutionObj the institutionObj to set
-	 */
-	public void setInstitutionObj(InstitutionBo institutionObj) {
-		this.institutionObj = institutionObj;
-	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionAppointment() + "_" + getInstitution() + "_" + getLocation();
+		return getPositionAppointment() + "_" + this.getGroupKeyCode();
 	}
 
 }

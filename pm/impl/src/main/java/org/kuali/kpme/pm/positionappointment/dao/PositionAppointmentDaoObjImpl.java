@@ -24,13 +24,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
-import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -50,7 +46,7 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 		return (PositionAppointment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String description, String institution, String location, 
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String description, String groupKeyCode, 
 			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
 		
 		List<PositionAppointment> prgList = new ArrayList<PositionAppointment>();
@@ -66,14 +62,8 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 			root.addLike("UPPER(description)", description.toUpperCase());
 		}
 		
-		if (StringUtils.isNotEmpty(institution) 
-				&& !ValidationUtils.isWildCard(institution)) {
-			root.addLike("UPPER(institution)", institution.toUpperCase());
-		}
-		
-		if (StringUtils.isNotEmpty(location) 
-				&& !ValidationUtils.isWildCard(location)) {
-			root.addLike("UPPER(location)", location.toUpperCase());
+		if (StringUtils.isNotEmpty(groupKeyCode)) {
+			root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase());
 		}
 
 		Criteria effectiveDateFilter = new Criteria();
@@ -116,7 +106,7 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 		return prgList;
 	}
 	
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate) {
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String groupKeyCode, LocalDate asOfDate) {
 	
 		List<PositionAppointment> prgList = new ArrayList<PositionAppointment>();
 		Criteria root = new Criteria();
@@ -126,14 +116,8 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 			root.addLike("UPPER(`pstn_appointment`)", positionAppointment.toUpperCase());
 		}
 		
-		if (StringUtils.isNotEmpty(institution) 
-				&& !ValidationUtils.isWildCard(institution)) {
-			root.addLike("UPPER(`institution`)", institution.toUpperCase());
-		}
-		
-		if (StringUtils.isNotEmpty(location) 
-				&& !ValidationUtils.isWildCard(location)) {
-			root.addLike("UPPER(`location`)", location.toUpperCase());
+		if (StringUtils.isNotEmpty(groupKeyCode)) {
+			root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase());
 		}
 
 		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionAppointment.class, asOfDate, PositionAppointment.BUSINESS_KEYS, false));
@@ -152,50 +136,4 @@ public class PositionAppointmentDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 
 		return prgList;
 	}
-
-    public List<PositionAppointment> getValidPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate) {
-
-        List<PositionAppointment> prgList = new ArrayList<PositionAppointment>();
-
-        Criteria root = new Criteria();
-
-        if (StringUtils.isNotEmpty(positionAppointment)
-                && !ValidationUtils.isWildCard(positionAppointment)) {
-            root.addLike("UPPER(`pstn_appointment`)", positionAppointment.toUpperCase());
-        }
-
-        if (StringUtils.isNotEmpty(institution)
-                && !ValidationUtils.isWildCard(institution)) {
-            List<String> institutionList = new ArrayList<String>();
-            institutionList.add(institution.toUpperCase());
-            institutionList.add(PMConstants.WILDCARD_CHARACTER);
-            institutionList.add(HrConstants.WILDCARD_CHARACTER);
-            root.addColumnIn("UPPER(`institution`)", institutionList);
-        }
-
-        if (StringUtils.isNotEmpty(location)
-                && !ValidationUtils.isWildCard(location)) {
-            List<String> locationList = new ArrayList<String>();
-            locationList.add(location.toUpperCase());
-            locationList.add(PMConstants.WILDCARD_CHARACTER);
-            locationList.add(HrConstants.WILDCARD_CHARACTER);
-            root.addColumnIn("UPPER(`location`)", locationList);
-        }
-
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionAppointment.class, asOfDate, PositionAppointment.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionAppointment.class, PositionAppointment.BUSINESS_KEYS, false));
-
-        Criteria activeFilter = new Criteria();
-        activeFilter.addEqualTo("active", true);
-        root.addAndCriteria(activeFilter);
-
-        Query query = QueryFactory.newQuery(PositionAppointment.class, root);
-
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
-        if (!c.isEmpty())
-            prgList.addAll(c);
-
-        return prgList;
-    }
 }

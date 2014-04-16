@@ -36,8 +36,7 @@ public class PositionAppointmentServiceTest extends PMIntegrationTestCase {
 
 	private final String pmPositionAppointmentId = "123456789";
 	private final String positionAppointment = "testAppointment";
-	private final String institution = "testInst";
-	private final String location = "BL";
+	private final String groupKeyCode = "UGA-ATHENS";
 
 	@Before
 	public void setUp() throws Exception {
@@ -61,7 +60,7 @@ public class PositionAppointmentServiceTest extends PMIntegrationTestCase {
 	public void testGetPositionAppointmentList() throws Exception {
 
 		LocalDate todayDate = new LocalDate();
-		List<? extends PositionAppointmentContract> positionAppointments = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, "%", institution, location, 
+		List<? extends PositionAppointmentContract> positionAppointments = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList(positionAppointment, "%", groupKeyCode, 
 				TKUtils.formatDateString(""), TKUtils.formatDateString(""), "Y", "Y");
 		assertTrue(positionAppointments.size() == 1);
 	}

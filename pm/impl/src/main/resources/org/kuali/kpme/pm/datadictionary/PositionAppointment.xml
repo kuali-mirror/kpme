@@ -32,6 +32,7 @@
 	        <ref bean="PositionAppointment-description"/>
 	        <ref bean="PositionAppointment-institution"/>
 	        <ref bean="PositionAppointment-location"/>
+	        <ref bean="PositionAppointment-groupKeyCode" />
 		 </list>
 	    </property>
 	    <property name="objectLabel" value="PositionAppointment"/>
@@ -78,15 +79,14 @@
 	
 	<bean id="PositionAppointment-institution" parent="PositionAppointment-institution-parentBean" />
 	<bean id="PositionAppointment-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
-		<property name="required" value="true" />
-		<property name="containsWildcardData" value="true"/>
 	</bean>
 	
 	<bean id="PositionAppointment-location" parent="PositionAppointment-location-parentBean" />
 	<bean id="PositionAppointment-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
-		<property name="required" value="true" />
-		<property name="containsWildcardData" value="true"/>
 	</bean>
+	
+	<bean id="PositionAppointment-groupKeyCode" parent="PositionAppointment-groupKeyCode-parentBean" />
+    <bean id="PositionAppointment-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
 
 <!--*************************************************************************** 
 							Views
@@ -97,11 +97,13 @@
   <bean id="PositionAppointment-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Appointment Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment" />
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.positionappointment.web.PositionAppointmentLookupableImpl"/>
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionAppointment" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />       
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />  
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode"/>     
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" >
         	<property name="quickfinder">
 	            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
@@ -128,6 +130,7 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="description" />
+        <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
         <bean parent="Uif-DataField" p:propertyName="institution" />
         <bean parent="Uif-DataField" p:propertyName="location" >
         	
@@ -151,6 +154,7 @@
 		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 			        <bean parent="Uif-DataField" p:propertyName="positionAppointment" />
 			        <bean parent="Uif-DataField" p:propertyName="description" />
+			        <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
@@ -176,18 +180,12 @@
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="positionAppointment" />
 		        <bean parent="Uif-InputField" p:propertyName="description" />
-		        <bean parent="Uif-InputField" p:propertyName="institution" >
-			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-		        			 p:fieldConversions="institutionCode:institution"/>
-		   			</property>
-		        </bean>
-		        <bean parent="Uif-InputField" p:propertyName="location" >
-		        	<property name="quickfinder">
-							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-								p:fieldConversions="location:location" />
-					</property>
-		        </bean>
+		        <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
+                              p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
+                    </property>
+                </bean>
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>
           </property>

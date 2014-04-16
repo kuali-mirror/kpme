@@ -31,12 +31,14 @@ public class PositionAppointmentValidation extends MaintenanceDocumentRuleBase {
 		
 		if (pa != null) {
 			valid = true;
-			valid &= this.validateInstitution(pa);
-			valid &= this.validateLocation(pa);
+			// TODO: Validate if groupkeycode is valid here??
+			//valid &= this.validateInstitution(pa);
+			//valid &= this.validateLocation(pa);
 		}
 		return valid;
 	}
 	
+	/*
 	private boolean validateInstitution(PositionAppointment pa) {
 		if (StringUtils.isNotEmpty(pa.getInstitution()) && !ValidationUtils.validateInstitution(pa.getInstitution(), pa.getEffectiveLocalDate())) {
 			this.putFieldError("dataObject.institution", "error.existence", "Instituion '" + pa.getInstitution() + "'");
@@ -53,6 +55,6 @@ public class PositionAppointmentValidation extends MaintenanceDocumentRuleBase {
 		} else {
 			return true;
 		}
-	}
+	}*/
 	
 }

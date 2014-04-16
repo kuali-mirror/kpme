@@ -99,10 +99,11 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			if (depts != null && depts.size() > 0) {
 				boolean found = false;
 				for (PositionDepartmentBo aPos : depts) {
-					if (PmValidationUtils.validatePositionAppointmentType(aPosition.getAppointmentType(), aPos.getInstitution(), aPos.getLocation(), aPosition.getEffectiveLocalDate())) {
-						found = true;
-						break;
-					}
+					// TODO: uncomment this out when group key gets added to Position
+					//if (PmValidationUtils.validatePositionAppointmentType(aPosition.getAppointmentType(), aPos.getGroupKeyCode(), aPosition.getEffectiveLocalDate())) {
+					//	found = true;
+					//	break;
+					//}
 				}
 				if (!found) {
 					this.putFieldError("dataObject.appointmentType", "error.existence", "Appointment Type '" + aPosition.getAppointmentType() + "'");

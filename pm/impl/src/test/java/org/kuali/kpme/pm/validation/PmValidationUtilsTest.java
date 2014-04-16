@@ -271,33 +271,8 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
     LocalDate  asOfDate = new LocalDate(2010,1,1);
 
     //no wild card test
-    boolean results = PmValidationUtils.validatePositionAppointmentType("noWildCard","ISU","IA",asOfDate);
+    boolean results = PmValidationUtils.validatePositionAppointmentType("noWildCard","UGA-ATHENS",asOfDate);
     Assert.assertTrue(results);
 
-    //institution wildcard test
-    results = PmValidationUtils.validatePositionAppointmentType("institutionWildCard","ISU","IA",asOfDate);
-    Assert.assertTrue(results);
-
-    results = PmValidationUtils.validatePositionAppointmentType("institutionWildCard","UNI","IA",asOfDate);
-    Assert.assertTrue(results);
-
-    results = PmValidationUtils.validatePositionAppointmentType("institutionWildCard","UNI","IN",asOfDate);
-    Assert.assertFalse(results);
-
-    //location wildcard test
-
-    results = PmValidationUtils.validatePositionAppointmentType("locationWildCard","ISU","IA",asOfDate);
-    Assert.assertTrue(results);
-
-    results = PmValidationUtils.validatePositionAppointmentType("locationWildCard","ISU","IN",asOfDate);
-    Assert.assertTrue(results);
-
-    results = PmValidationUtils.validatePositionAppointmentType("locationWildCard","IU","IN",asOfDate);
-    Assert.assertFalse(results);
-
-    //both wildcard test
-
-    results = PmValidationUtils.validatePositionAppointmentType("bothWildCard","USC","CA",asOfDate);
-    Assert.assertTrue(results);
     }
 }

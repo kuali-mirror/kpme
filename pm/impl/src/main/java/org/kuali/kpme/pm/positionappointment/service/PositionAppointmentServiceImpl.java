@@ -18,7 +18,6 @@ package org.kuali.kpme.pm.positionappointment.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 import org.kuali.kpme.pm.api.positionappointment.service.PositionAppointmentService;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
 import org.kuali.kpme.pm.positionappointment.dao.PositionAppointmentDao;
@@ -33,17 +32,13 @@ public class PositionAppointmentServiceImpl  implements PositionAppointmentServi
 	}
 
 
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String description, String institution, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-		return positionAppointmentDao.getPositionAppointmentList(positionAppointment, description, institution, location, fromEffdt, toEffdt, active, showHistory);
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String description, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+		return positionAppointmentDao.getPositionAppointmentList(positionAppointment, description, groupKeyCode, fromEffdt, toEffdt, active, showHistory);
 	}
 	
-	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate) {
-		return positionAppointmentDao.getPositionAppointmentList(positionAppointment, institution, location, asOfDate);
+	public List<PositionAppointment> getPositionAppointmentList(String positionAppointment, String groupKeyCode, LocalDate asOfDate) {
+		return positionAppointmentDao.getPositionAppointmentList(positionAppointment, groupKeyCode, asOfDate);
 	}
-
-    public List<PositionAppointment> getValidPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate) {
-        return positionAppointmentDao.getValidPositionAppointmentList(positionAppointment, institution, location, asOfDate);
-    }
 
 	public PositionAppointmentDao getPositionAppointmentDao() {
 		return positionAppointmentDao;

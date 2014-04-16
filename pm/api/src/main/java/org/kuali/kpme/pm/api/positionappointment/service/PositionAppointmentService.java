@@ -36,34 +36,23 @@ public interface PositionAppointmentService {
 	 * 
 	 * @param positionAppointment
 	 * @param description
-	 * @param institution
-	 * @param location
+	 * @param groupKeyCode
 	 * @param fromEffdt
 	 * @param toEffdt
 	 * @param active
 	 * @param showHistory
 	 * @return
 	 */
-	public List<? extends PositionAppointmentContract> getPositionAppointmentList(String positionAppointment, String description, String institution, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+	public List<? extends PositionAppointmentContract> getPositionAppointmentList(String positionAppointment, String description, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 	
 	/**
 	 * Get list of PositionAppointment with given group, institution, location and effective date wild card allowed
 	 * 
 	 * @param positionAppointment
-	 * @param institution
-	 * @param location
+	 * @param groupKeyCode
+	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PositionAppointmentContract> getPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate);
-
-    /**
-     * Get list of  PositionAppointment with given group, institution or WILDCARD, location or WILDCARD and effective date wild card allowed used for validation
-     *
-     * @param positionAppointment
-     * @param institution
-     * @param location
-     * @return
-     */
-    public List<? extends PositionAppointmentContract> getValidPositionAppointmentList(String positionAppointment, String institution, String location, LocalDate asOfDate);
+	public List<? extends PositionAppointmentContract> getPositionAppointmentList(String positionAppointment, String groupKeyCode, LocalDate asOfDate);
 }
 
