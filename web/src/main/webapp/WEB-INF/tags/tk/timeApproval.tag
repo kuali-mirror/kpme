@@ -123,7 +123,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<%-- <c:forEach var="aMp" items="${row.missedPunchList}">
+								<c:forEach var="aMp" items="${row.missedPunchList}">
 								<tr>
 									<td style="width: 150px;"><joda:format value="${aMp.actionFullDateTime}"
                                                                            pattern="MM/dd/yyyy HH:mm:ss zzz" /></td>
@@ -132,14 +132,14 @@
 										<div class="warning-note-message">
 											${aMp.assignmentValue}
 											<br/>Doc Id: 
-											<a href="changeTargetPerson.do?${aMp.missedPunchUserTargetURLParams}&targetUrl=kew/DocHandler.do?command=displayDocSearchView&docId=${aMp.missedPunchDocId}&returnUrl=TimeApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}">
+											<%-- <a href="changeTargetPerson.do?${aMp.missedPunchUserTargetURLParams}&targetUrl=kew/DocHandler.do?command=displayDocSearchView&docId=${aMp.missedPunchDocId}&returnUrl=TimeApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}"> --%>
 											<a href="${ConfigProperties.kew.url}/DocHandler.do?command=displayDocSearchView&docId=${aMp.missedPunchDocId}" target="_blank">
 											${aMp.missedPunchDocId}</a>
 											&nbsp;Doc Status: <span id="approvals-status" class="approvals-status">${aMp.missedPunchDocStatus}</span>
 									</div>
 									</td>
 								</tr>
-							</c:forEach> --%>
+							</c:forEach>
 							</tbody>
 						</table>
 					</div>
