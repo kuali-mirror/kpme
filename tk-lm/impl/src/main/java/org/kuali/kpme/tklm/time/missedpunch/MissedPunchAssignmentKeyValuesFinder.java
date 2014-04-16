@@ -61,24 +61,31 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 				Map<LocalDate, List<Assignment>> assignmentMap = timesheetDocument.getAssignmentMap();
 				List<Assignment> assignments = assignmentMap.get(mpDate);
 
-				String ipAddress = TKUtils.getIPAddressFromRequest(missedPunchForm.getIpAddress());
-				
 				if (assignments.size() > 1) {
 					labels.add(new ConcreteKeyValue("", ""));
 				}
-				Map<String, String> assignmentDescMap = timesheetDocument.getAssignmentDescriptions(true, LocalDate.now());
-				String targetPrincipalId = HrContext.getTargetPrincipalId(); 	            
-				String principalId = HrContext.getPrincipalId();
-				if(targetPrincipalId.equals(principalId)){
-					DateTime currentDateTime = new DateTime();
-					for (Map.Entry<String, String> entry : assignmentDescMap.entrySet()) {
-						Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(entry.getKey()), LocalDate.now());
-						String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
-						if(StringUtils.equals(allowActionFromInvalidLocaiton, "false")) {
-							boolean isInValid = TkServiceLocator.getClockLocationRuleService().isInValidIPClockLocation(assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ipAddress, currentDateTime.toLocalDate());
-							if(!isInValid){
-								labels.add(new ConcreteKeyValue(assignment.getAssignmentKey(),assignment.getAssignmentDescription()));
+
+				if(missedPunchForm.getIpAddress()!=null){
+					String ipAddress = TKUtils.getIPAddressFromRequest(missedPunchForm.getIpAddress());
+
+					Map<String, String> assignmentDescMap = timesheetDocument.getAssignmentDescriptions(true, LocalDate.now());
+					String targetPrincipalId = HrContext.getTargetPrincipalId(); 	            
+					String principalId = HrContext.getPrincipalId();
+					if(targetPrincipalId.equals(principalId)){
+						DateTime currentDateTime = new DateTime();
+						for (Map.Entry<String, String> entry : assignmentDescMap.entrySet()) {
+							Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(entry.getKey()), LocalDate.now());
+							String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
+							if(StringUtils.equals(allowActionFromInvalidLocaiton, "false")) {
+								boolean isInValid = TkServiceLocator.getClockLocationRuleService().isInValidIPClockLocation(assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ipAddress, currentDateTime.toLocalDate());
+								if(!isInValid){
+									labels.add(new ConcreteKeyValue(assignment.getAssignmentKey(),assignment.getAssignmentDescription()));
+								}
 							}
+						}
+					}else{
+						for (Assignment assignment : assignments) {
+							labels.add(new ConcreteKeyValue(assignment.getAssignmentKey(),assignment.getAssignmentDescription()));
 						}
 					}
 				}else{
@@ -90,5 +97,5 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 		}
 		return labels;
 	}
-    
+
 }
