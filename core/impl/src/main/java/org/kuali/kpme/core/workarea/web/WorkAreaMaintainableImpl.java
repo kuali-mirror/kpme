@@ -27,6 +27,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
@@ -267,7 +268,7 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 					if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
 						if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
 							if(existingRoleMember.getActiveToDate() != null && !StringUtils.isEmpty(existingRoleMember.getActiveToDate().toString())) {
-								if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								if(isBetweenEffectiveDateRange(existingRoleMember,roleMember)){
 									valid &= false;
 									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.inactivePrincipalRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
 									GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.principalRoleMembers'].effectiveDate", "error.role.inactive.duplicate");
@@ -313,7 +314,7 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 					if(StringUtils.equals(existingRoleMember.getPositionNumber(),roleMember.getPositionNumber())) {
 						if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
 							if(existingRoleMember.getActiveToDate() != null && !StringUtils.isEmpty(existingRoleMember.getActiveToDate().toString())) {
-								if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								if(isBetweenEffectiveDateRange(existingRoleMember,roleMember)){
 									valid &= false;
 									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.inactivePositionRoleMembers[" + index + "].effectiveDate", "error.role.inactive.existence");
 									GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.positionRoleMembers'].effectiveDate", "error.role.inactive.duplicate");
@@ -332,6 +333,33 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 		
 	}
 	
+	private boolean isBetweenEffectiveDateRange(Object existingRoleMember, Object roleMember) {
+		
+		boolean isBetweenEffectiveDateRange = true;
+		boolean isFromDateBetween = true;
+		boolean isToDateBetween = true;
+		if(existingRoleMember instanceof WorkAreaPrincipalRoleMemberBo && roleMember instanceof WorkAreaPrincipalRoleMemberBo){
+			WorkAreaPrincipalRoleMemberBo existingPrincipalRoleMember = (WorkAreaPrincipalRoleMemberBo) existingRoleMember;
+			WorkAreaPrincipalRoleMemberBo currentPrincipalRoleMember = (WorkAreaPrincipalRoleMemberBo) roleMember;
+			isFromDateBetween = isDateBetweenRange(existingPrincipalRoleMember.getActiveFromDate() , existingPrincipalRoleMember.getActiveToDate(),currentPrincipalRoleMember.getActiveFromDate());
+			isToDateBetween = isDateBetweenRange(existingPrincipalRoleMember.getActiveFromDate() , existingPrincipalRoleMember.getActiveToDate(),currentPrincipalRoleMember.getActiveToDate());
+			isBetweenEffectiveDateRange = (isFromDateBetween || isToDateBetween);
+		}else if(existingRoleMember instanceof WorkAreaPositionRoleMemberBo && roleMember instanceof WorkAreaPositionRoleMemberBo){
+			WorkAreaPositionRoleMemberBo existingPositionRoleMember = (WorkAreaPositionRoleMemberBo) existingRoleMember;
+			WorkAreaPositionRoleMemberBo currentPositionRoleMember = (WorkAreaPositionRoleMemberBo) roleMember;
+			isFromDateBetween = isDateBetweenRange(existingPositionRoleMember.getActiveFromDate() , existingPositionRoleMember.getActiveToDate(), currentPositionRoleMember.getActiveFromDate());
+			isToDateBetween = isDateBetweenRange(existingPositionRoleMember.getActiveFromDate() , existingPositionRoleMember.getActiveToDate(), currentPositionRoleMember.getActiveToDate());
+			isBetweenEffectiveDateRange = (isFromDateBetween || isToDateBetween);
+		}
+		return isBetweenEffectiveDateRange;
+	}
+
+	private boolean isDateBetweenRange(DateTime activeFromDate, DateTime activeToDate, DateTime checkDate) {
+		
+		Interval interval = new Interval( activeFromDate , activeToDate);
+		return interval.contains(checkDate);
+	}
+
 	boolean validateTask(TaskBo task, WorkAreaBo workArea) {
 
 		boolean valid = true;
