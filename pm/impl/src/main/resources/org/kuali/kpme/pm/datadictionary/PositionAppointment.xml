@@ -47,7 +47,6 @@
 	    <property name="controlField">
 	      <bean parent="Uif-TextControl" p:size="100"/>
 	    </property>
-
 	    <property name="name" value="pmPositionAppointmentId"/>
 	    <property name="label" value="Position Assignment Id"/>
 	 </bean>   
@@ -125,7 +124,7 @@
         <bean parent="Uif-DataField" p:propertyName="positionAppointment">
          	<property name="inquiry">
 	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointment" 
-	        	 p:inquiryParameters="pmPositionAppointmentId:positionAppointment"/>
+	        	 p:inquiryParameters="pmPositionAppointmentId:pmPositionAppointmentId"/>
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="description" />
