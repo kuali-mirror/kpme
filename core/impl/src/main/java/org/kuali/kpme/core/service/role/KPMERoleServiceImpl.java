@@ -189,7 +189,6 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 
     @Override
     public List<Long> getWorkAreasForPrincipalInRoles(String principalId, List<String> roleIds, DateTime asOfDate, boolean isActiveOnly) {
-    	
         Set<Long> workAreas = new HashSet<Long>();
 
         // iterate through the role ids getting the work areas for each one
@@ -237,52 +236,17 @@ public class KPMERoleServiceImpl implements KPMERoleService {
     }
 
     public List<Long> getWorkAreasForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly) {
-		Set<Long> workAreas = new HashSet<Long>();
-
-        Map<String, String> qualifiers = new HashMap<String, String>();        
-        // empty qualifier map will match any attribute in the predicate query, i.e. will work like wildcarded entries
-        List<Map<String, String>> roleQualifiers = new ArrayList<Map<String, String>>();
-    	List<RoleMember> principalAndGroupRoleMembers = getRoleMembers(namespaceCode, roleName, qualifiers, asOfDate, isActiveOnly);
-    	for(RoleMember roleMember : principalAndGroupRoleMembers){
-    		// check for principals or groups
-    		if (MemberType.PRINCIPAL.equals(roleMember.getType())) {
-        		if(roleMember.getMemberId().equals(principalId)) {
-        			roleQualifiers.add(roleMember.getAttributes());
-        		}
-    		}
-    		else if( MemberType.GROUP.equals(roleMember.getType()) ) {
-    			// query the helper to see if the principal is a member of this nested member group
-    			Group nestedGroup = getGroupService().getGroup(roleMember.getMemberId());
-    			if(getRoleServiceHelper().isMemberOfGroup(principalId, nestedGroup, asOfDate, isActiveOnly)) {
-    				roleQualifiers.add(roleMember.getAttributes());
-    			}
-    		}
-    	}
-		
-		
-		for (Map<String, String> roleQualifier : roleQualifiers) {
-			Long workArea = MapUtils.getLong(roleQualifier, KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName());
-			if(workArea != null) {
-				workAreas.add(workArea);
-			}
+		List<Long> workAreas = new ArrayList<Long>();
+		Role role = getRoleService().getRoleByNamespaceCodeAndName(namespaceCode, roleName);
+		if(role != null) {
+			workAreas = getWorkAreasForPrincipalInRoles(principalId, Collections.singletonList(role.getId()), asOfDate, isActiveOnly);
 		}
-		
-		List<String> departments = getDepartmentsForPrincipalInRole(principalId, namespaceCode, roleName, asOfDate, isActiveOnly);
-		workAreas.addAll(getWorkAreaService().getWorkAreasForDepartments(departments, asOfDate.toLocalDate()));
-
-		return new ArrayList<Long>(workAreas);
+		return workAreas;       
 	}
     
-    
-    
-    
-    
-
     public List<String> getDepartmentsForPrincipalInRoles(String principalId, List<String> roleIds, DateTime asOfDate, boolean isActiveOnly) {
         Set<String> departments = new HashSet<String>();
-
-        //Role role = getRoleService().getRoleByNamespaceCodeAndName(namespaceCode, roleName);
-
+        
         Map<String, String> qualifiers = new HashMap<String, String>();
         qualifiers.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "%");
         qualifiers.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
@@ -303,21 +267,10 @@ public class KPMERoleServiceImpl implements KPMERoleService {
     }
 
 	public List<String> getDepartmentsForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly) {
-		Set<String> departments = new HashSet<String>();
-		
+		List<String> departments = new ArrayList<String>();		
 		Role role = getRoleService().getRoleByNamespaceCodeAndName(namespaceCode, roleName);
-
-        Map<String, String> qualifiers = new HashMap<String, String>();
-        qualifiers.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "%");
-        qualifiers.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
-        qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), "%");
-        List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, role, qualifiers, asOfDate, isActiveOnly);
-		
-		for (Map<String, String> roleQualifier : roleQualifiers) {
-			String department = MapUtils.getString(roleQualifier, KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName());
-			if (department != null) {
-				departments.add(department);
-			}
+		if(role != null) {
+			departments = getDepartmentsForPrincipalInRoles(principalId, Collections.singletonList(role.getId()), asOfDate, isActiveOnly);
 		}
 		
 		List<String> locations = getLocationsForPrincipalInRole(principalId, namespaceCode, roleName, asOfDate, isActiveOnly);
@@ -347,25 +300,13 @@ public class KPMERoleServiceImpl implements KPMERoleService {
     }
 
 	public List<String> getLocationsForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly) {
-		Set<String> locations = new HashSet<String>();
-		
+		List<String> locations = new ArrayList<String>();	
 		Role role = getRoleService().getRoleByNamespaceCodeAndName(namespaceCode, roleName);
-
-        Map<String, String> qualifiers = new HashMap<String, String>();
-        qualifiers.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "%");
-        qualifiers.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
-        qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), "%");
-		List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, role, qualifiers, asOfDate, isActiveOnly);
-		
-		for (Map<String, String> roleQualifier : roleQualifiers) {
-			String location = MapUtils.getString(roleQualifier, KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName());
-			
-			if (location != null) {
-				locations.add(location);
-			}
+		if(role != null) {
+			locations = getLocationsForPrincipalInRoles(principalId, Collections.singletonList(role.getId()), asOfDate, isActiveOnly);
 		}
-		
-		return new ArrayList<String>(locations);
+		return locations;
+
 	}
 	
 	
@@ -387,29 +328,9 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 		return primaryRoleMembers;
 	}
 	
-	/**
-	 * Helper method to gather up all qualifiers for the given {@code principalId} in {@code role}.
-	 *
-	 * @param principalId The person get the role qualifiers for
-	 * @param role The role
-	 * @param asOfDate The effective date of the role
-	 * @param activeOnly Whether or not to consider only active role members
-	 * 
-	 * @return the map of qualifiers for the given {@code principalId} in {@code role}.
-	 */
-	private List<Map<String, String>> getRoleQualifiers(String principalId, Role role, Map<String, String> qualifiers, DateTime asOfDate, boolean activeOnly) {
-		List<Map<String, String>> roleQualifiers = new ArrayList<Map<String, String>>();
-		
-		if (role != null) {
-			List<String> roleIds = Collections.singletonList(role.getId());
-			roleQualifiers = getRoleQualifiers(principalId, roleIds, qualifiers, asOfDate, activeOnly);
-		}
-
-        return roleQualifiers;
-	}
-
+	
     /**
-     * Helper method to gather up all qualifiers for the given {@code principalId} in {@code role}.
+     * Helper method to gather up all qualifiers for the given {@code principalId} in {@code roleIds}.
      *
      * @param principalId The person get the role qualifiers for
      * @param roleIds The roleIds

@@ -251,8 +251,11 @@
 							<bean parent="FieldDefinition" p:attributeName="principalId"/>
 							<bean parent="FieldDefinition" p:attributeName="fromAccrualCategory"/>
 							<bean parent="FieldDefinition" p:attributeName="toAccrualCategory"/>
+							<bean parent="FieldDefinition" p:attributeName="transferAmount"/>
+							<bean parent="FieldDefinition" p:attributeName="amountTransferred"/>
+							<bean parent="FieldDefinition" p:attributeName="forfeitedAmount" />
                             <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-						</list>
+                        </list>
 					</property>
 					<property name="title" value="Balance Transfer" />
 				</bean>

@@ -193,9 +193,6 @@
 		<property name="name" value="clockedByMissedPunch" />
 		<property name="label" value="Clocked By Missed Punch" />
 	</bean>
-	<!--  Inquiry Definitions  -->
-  
-  	<bean id="ClockLog-inquiryDefinition" parent="ClockLog-inquiryDefinition-parentBean" />
 
 	<bean id="ClockLog-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition"  p:inquirableClass="org.kuali.kpme.tklm.time.clocklog.web.ClockLogInquirableImpl">
@@ -323,6 +320,33 @@
 		</list>
 	</property>
 </bean>
+    
+    <bean id="ClockLog-MaintenanceView" parent="ClockLog-ClockLogMaintenance-parentBean" />
+    <bean id="ClockLog-ClockLogMaintenance-parentBean" abstract="true" parent="Uif-MaintenanceView">
+        <property name="headerText" value="Clock Log Maintenance" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.clocklog.ClockLog"/>
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="principalId" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="jobNumber" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="workArea" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="task" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="clockTimestamp" p:required="true"/>
+                            <bean parent="Uif-InputField" p:propertyName="clockTimestampTimezone" p:required="false" />
+                            <bean parent="Uif-InputField" p:propertyName="clockAction" p:required="false" />
+                            <bean parent="Uif-InputField" p:propertyName="ipAddress" p:required="false" />
+                            <bean parent="Uif-InputField" p:propertyName="clockedByMissedPunch" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="userPrincipalId" p:required="false" />
+                            <bean parent="Uif-InputField" p:propertyName="timestamp" p:required="false" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 	
 	
 </beans>

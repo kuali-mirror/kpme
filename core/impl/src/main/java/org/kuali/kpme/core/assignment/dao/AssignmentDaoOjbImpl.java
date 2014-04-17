@@ -299,6 +299,8 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
             List<Long> workAreasForDept = HrServiceLocator.getWorkAreaService().getWorkAreasForDepartment(dept, asOfDate);
             if (CollectionUtils.isNotEmpty(workAreasForDept)) {
                 workAreaCriteria.addIn("workArea", workAreasForDept);
+            } else {
+            	return results;
             }
             root.addAndCriteria(workAreaCriteria);
         }
