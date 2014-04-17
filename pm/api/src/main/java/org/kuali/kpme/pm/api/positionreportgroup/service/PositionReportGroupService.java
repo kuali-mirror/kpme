@@ -48,11 +48,7 @@ package org.kuali.kpme.pm.api.positionreportgroup.service;
 
 
 import java.util.List;
-
-
-
 import org.joda.time.LocalDate;
-
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 
 
@@ -72,18 +68,15 @@ public interface PositionReportGroupService {
 	public PositionReportGroupContract getPositionReportGroupById(String pmPositionReportGroupId);
 
 	
-
 	/**
 
-	 * Get list of PositionReportGroup with given group, institution, location and effective date
+	 * Get list of PositionReportGroup with given group, groupKeyCode and effective date
 
 	 * wild card allowed
 
 	 * @param positionReportGroup
 
-	 * @param institution
-
-	 * @param location
+	 * @param groupKeyCode
 
 	 * @param asOfDate
 
@@ -91,8 +84,7 @@ public interface PositionReportGroupService {
 
 	 */
 
-	public List<? extends PositionReportGroupContract> getPositionReportGroupList(String positionReportGroup, String institution, String location, LocalDate asOfDate);
-
+	public List<? extends PositionReportGroupContract> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate);
 	
 
 	/**
@@ -108,6 +100,20 @@ public interface PositionReportGroupService {
 	 */
 
 	public PositionReportGroupContract getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
+	
+	/**
 
+	 * Get list of  PositionReportGroup with given positionReportGroup, groupKeyCode, from effective date,  to effective date,active, and showHistory
+
+	 * @param positionReportGroup
+	 * @param groupKeyCode
+	 * @param fromEffdt
+	 * @param toEffdt
+	 * @param active
+	 * @param showHistory
+	 * @return
+
+	 */
+	public List<? extends PositionReportGroupContract> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }
 

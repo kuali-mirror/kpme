@@ -43,7 +43,23 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 	}
 
 	@Override
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String location, LocalDate asOfDate) {
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
+		Criteria root = new Criteria();
+        root.addEqualTo("positionReportGroup", positionReportGroup);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroup.class, asOfDate, PositionReportGroup.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroup.class, PositionReportGroup.BUSINESS_KEYS, false));
+        
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+        
+        Query query = QueryFactory.newQuery(PositionReportGroup.class, root);
+        return (PositionReportGroup) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
+	
+	@Override
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
 		List<PositionReportGroup> prgList = new ArrayList<PositionReportGroup>();
 		Criteria root = new Criteria();
 
@@ -51,13 +67,9 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 				&& !ValidationUtils.isWildCard(positionReportGroup)) {
 			root.addEqualTo("positionReportGroup", positionReportGroup);  
 		}
-		if(StringUtils.isNotEmpty(institution) 
-				&& !ValidationUtils.isWildCard(institution)) {
-			root.addEqualTo("institution", institution); 
-		}
-		if(StringUtils.isNotEmpty(location) 
-				&& !ValidationUtils.isWildCard(location)) {
-			root.addEqualTo("location", location); 
+		
+		if (StringUtils.isNotEmpty(groupKeyCode)) {
+			root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase());
 		}
         
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroup.class, asOfDate, PositionReportGroup.BUSINESS_KEYS, false));
@@ -75,20 +87,60 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 		
 		return prgList;
 	}
-
+	
 	@Override
-	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, 
+			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+		LocalDate asOfDate = LocalDate.now();
+		List<PositionReportGroup> prgList = new ArrayList<PositionReportGroup>();
 		Criteria root = new Criteria();
-        root.addEqualTo("positionReportGroup", positionReportGroup);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroup.class, asOfDate, PositionReportGroup.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroup.class, PositionReportGroup.BUSINESS_KEYS, false));
+
+		if (StringUtils.isNotEmpty(positionReportGroup) 
+				&& !ValidationUtils.isWildCard(positionReportGroup)) {
+			root.addLike("UPPER(positionReportGroup)", positionReportGroup.toUpperCase());
+		}
+		
+		if (StringUtils.isNotEmpty(groupKeyCode)) {
+			root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase());
+		}
+		
+		Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
+        }
+        if (toEffdt != null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
+        }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
         
-        Criteria activeFilter = new Criteria();
-        activeFilter.addEqualTo("active", true);
-        root.addAndCriteria(activeFilter);
-        
-        Query query = QueryFactory.newQuery(PositionReportGroup.class, root);
-        return (PositionReportGroup) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
+        }
+		
+		if (StringUtils.equals(showHistory, "N")) {
+			 root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PositionReportGroup.class, effectiveDateFilter, PositionReportGroup.BUSINESS_KEYS, false));
+		     root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroup.class, PositionReportGroup.BUSINESS_KEYS, false));   
+        }
+		
+
+		Query query = QueryFactory.newQuery(PositionReportGroup.class, root);
+
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		
+		if (!c.isEmpty())
+			prgList.addAll(c);
+
+		return prgList;
 	}
+	
 
 }

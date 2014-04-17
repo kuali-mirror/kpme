@@ -115,6 +115,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	
 	private boolean validateReportingGroup(ClassificationBo clss) {
 		if(StringUtils.isNotBlank(clss.getPositionReportGroup())) {
+			// TODO: get a PositionReportGroupContract with groupKeyCode filter
 			PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getEffectiveLocalDate());
 			String errorMes = "PositionReportGroup '" + clss.getPositionReportGroup() + "'";
 			if(aPrg == null) {

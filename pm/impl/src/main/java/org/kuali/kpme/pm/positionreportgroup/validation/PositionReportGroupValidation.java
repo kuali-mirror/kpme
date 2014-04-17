@@ -31,12 +31,14 @@ public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  
 		
 		if (prg != null) {
 			valid = true;
-			valid &= this.validateInstitution(prg);
-			valid &= this.validateLocation(prg);
+			// TODO: Validate if groupkeycode is valid here??
+			//valid &= this.validateInstitution(prg);
+			//valid &= this.validateLocation(prg);
 		}
 		return valid;
 	}
 	
+	/*
 	private boolean validateInstitution(PositionReportGroup prg) {
 		if (StringUtils.isNotEmpty(prg.getInstitution())
 				&& !ValidationUtils.validateInstitution(prg.getInstitution(), prg.getEffectiveLocalDate())) {
@@ -58,4 +60,5 @@ public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  
 			return true;
 		}
 	}
+	*/
 }

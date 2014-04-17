@@ -31,12 +31,22 @@ public class PositionReportGroupServiceImpl implements PositionReportGroupServic
 			String pmPositionReportGroupId) {
 		return positionReportGroupDao.getPositionReportGroupById(pmPositionReportGroupId);
 	}
-
+	
 	@Override
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String institution, String location, LocalDate asOfDate) {
-		return positionReportGroupDao.getPositionReportGroupList(positionReportGroup, institution, location, asOfDate);
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
+		return positionReportGroupDao.getPositionReportGroup(positionReportGroup, asOfDate);
+	}
+	
+	@Override
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
+		return positionReportGroupDao.getPositionReportGroupList(positionReportGroup, groupKeyCode, asOfDate);
 	}
 
+	@Override
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory){
+		return positionReportGroupDao.getPositionReportGroupList(positionReportGroup, groupKeyCode, fromEffdt, toEffdt, active, showHistory);
+	}
+	
 	public PositionReportGroupDao getPositionReportGroupDao() {
 		return positionReportGroupDao;
 	}
@@ -46,9 +56,6 @@ public class PositionReportGroupServiceImpl implements PositionReportGroupServic
 		this.positionReportGroupDao = positionReportGroupDao;
 	}
 
-	@Override
-	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
-		return positionReportGroupDao.getPositionReportGroup(positionReportGroup, asOfDate);
-	}
+	
 
 }

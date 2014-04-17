@@ -16,14 +16,17 @@
 package org.kuali.kpme.pm.positionreportgroup;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.location.LocationBo;
+import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportGroup extends HrBusinessObject implements PositionReportGroupContract {
+public class PositionReportGroup extends HrKeyedBusinessObject implements PositionReportGroupContract {
+
 	private static final String POSITION_REPORT_GROUP = "positionReportGroup";
 
 	//KPME-2273/1965 Primary Business Keys List.	
@@ -36,8 +39,6 @@ public class PositionReportGroup extends HrBusinessObject implements PositionRep
 	private String pmPositionReportGroupId;
 	private String positionReportGroup;
 	private String description;
-	private String institution;
-	private String location;
 	
 	private LocationBo locationObj;
 	private InstitutionBo institutionObj;
@@ -86,22 +87,6 @@ public class PositionReportGroup extends HrBusinessObject implements PositionRep
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 
 	public LocationBo getLocationObj() {

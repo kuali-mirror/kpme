@@ -184,27 +184,22 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 	public void testValidatePstnRptGrp() {
 		DateTime aDate = INVALID_DATE;
 		String prg = "nonExist";
-		String institution = "*";
-		String campus = "*";
-		boolean results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); // non-existing
+		String groupKeyCode = "*";
+		
+		boolean results = PmValidationUtils.validatePstnRptGrp(prg, groupKeyCode, aDate.toLocalDate()); // non-existing
 		Assert.assertFalse(results);
 		
 		prg = "testPRG";	
-		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); // existing, but wrong date
+		results = PmValidationUtils.validatePstnRptGrp(prg, groupKeyCode, aDate.toLocalDate()); // existing, but wrong date
 		Assert.assertFalse(results);
 		
 		aDate = VALID_DATE;
-		institution = "nonExist";
-		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate());   // existing, right date, wrong institution
+		groupKeyCode = "nonExist";
+		results = PmValidationUtils.validatePstnRptGrp(prg, groupKeyCode, aDate.toLocalDate());   // existing, right date, wrong institution
 		Assert.assertFalse(results);
 		
-		institution = "testInst";
-		campus = "nonExist";
-		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate());   // existing, right date, right institution, wrong campus
-		Assert.assertFalse(results);
-		
-		campus = "BL";
-		results = PmValidationUtils.validatePstnRptGrp(prg, institution, campus, aDate.toLocalDate()); 
+		groupKeyCode = "DEFAULT";
+		results = PmValidationUtils.validatePstnRptGrp(prg, groupKeyCode, aDate.toLocalDate()); 
 		Assert.assertTrue(results);
 	}
 

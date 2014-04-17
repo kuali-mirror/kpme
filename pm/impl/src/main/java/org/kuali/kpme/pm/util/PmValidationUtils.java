@@ -154,9 +154,9 @@ public class PmValidationUtils {
 		return false;
 	}
 	
-	public static boolean validatePstnRptGrp(String PstnRptGrp, String institution, String location, LocalDate asOfDate) {
+	public static boolean validatePstnRptGrp(String PstnRptGrp, String groupKeyCode, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<? extends PositionReportGroupContract> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, location, asOfDate);
+			List<? extends PositionReportGroupContract> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, groupKeyCode, asOfDate);
 			return CollectionUtils.isNotEmpty(prgList);
 		}
 		return false;
