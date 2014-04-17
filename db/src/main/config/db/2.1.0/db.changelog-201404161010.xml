@@ -29,7 +29,7 @@
         <update tableName="PM_PSTN_DEPT_T">
             <column name="GRP_KEY_CD" value="DEFAULT" />
         </update>
-        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="TK_ASSIGNMENT_T" columnDataType="VARCHAR(30)"/>
+        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="PM_PSTN_DEPT_T" columnDataType="VARCHAR(30)"/>
     </changeSet>
    
 </databaseChangeLog>
