@@ -193,9 +193,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
+    public List<LeaveBlock> addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId) {
     	
+    	List<LeaveBlockBo> newlyAddedLeaveBlocks = new ArrayList<LeaveBlockBo>();
     	DateTimeZone timezone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime calBeginDateTime = beginDate;
     	DateTime calEndDateTime = endDate;
@@ -205,7 +206,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         	calEndDateTime = ce.getEndPeriodLocalDateTime().toDateTime();
         } else {
         	LOG.error("Calendar Entry parameter is null.");
-        	return;
+        	return ModelObjectUtils.transform(newlyAddedLeaveBlocks, toLeaveBlock);
 //          throw new RuntimeException("Calendar Entry parameter is null.");
         }
         
@@ -271,8 +272,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                                 hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
 	                    		LeaveBlockBo leaveBlock = buildLeaveBlock(leaveBlockInt.getStart().toLocalDate(), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, leaveBlockInt.getStart(), endDate);
-	                            
+	                    		
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+			                    	newlyAddedLeaveBlocks.add(leaveBlock);
 			                        currentLeaveBlocks.add(leaveBlock);
 			                    }
 	                    		break;
@@ -293,6 +295,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                    		LeaveBlockBo leaveBlock = buildLeaveBlock(leaveBlockInt.getStart().toLocalDate(), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, currentDate, endDate);
 	                            
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+			                    	newlyAddedLeaveBlocks.add(leaveBlock);
 			                        currentLeaveBlocks.add(leaveBlock);
 			                    }
 
@@ -309,6 +312,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                    		LeaveBlockBo leaveBlock = buildLeaveBlock(leaveBlockInt.getStart().toLocalDate(), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, currentDate, firstDay.getEnd());
 	                            
 			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+			                    	newlyAddedLeaveBlocks.add(leaveBlock);
 			                        currentLeaveBlocks.add(leaveBlock);
 			                    }
 
@@ -323,6 +327,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 		                LeaveBlockBo leaveBlock = buildLeaveBlock(leaveBlockInt.getStart().toLocalDate(), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(),
 		                		selectedAssignment, requestStatus, leaveBlockType, null, null);
 	                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+	                    	newlyAddedLeaveBlocks.add(leaveBlock);
 	                        currentLeaveBlocks.add(leaveBlock);
 	                    }
                     }
@@ -330,6 +335,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             }
         }
         saveLeaveBlockBos(currentLeaveBlocks);
+        return ModelObjectUtils.transform(newlyAddedLeaveBlocks, toLeaveBlock);
     }
 
     private BigDecimal negateHoursIfNecessary(String leaveBlockType, BigDecimal hours) {

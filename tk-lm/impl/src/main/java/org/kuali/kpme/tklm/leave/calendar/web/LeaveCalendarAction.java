@@ -380,7 +380,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
 			List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
 			assignment = HrServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodFullDateTime().toLocalDate());
 		}
-		LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
+		List<LeaveBlock> newLeaveBlocks = LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
 				LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, targetPrincipalId);
 
 		generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
@@ -401,10 +401,9 @@ public class LeaveCalendarAction extends CalendarFormAction {
 		
 		// KPME-2540 replicate submitForApproval method in LeaveRequestAction here
 		if (!StringUtils.isEmpty(approval)) {
-			List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocks(targetPrincipalId, beginDate.toLocalDate(), endDate.toLocalDate());
-			for(LeaveBlock leaveBlock : leaveBlocks) {
-	            LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
-	            LmServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
+			for(LeaveBlock leaveBlock : newLeaveBlocks) {
+				LeaveRequestDocument lrd = LmServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
+				LmServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
 			}
 		}
 		

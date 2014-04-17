@@ -22,7 +22,7 @@ import org.kuali.rice.krad.web.form.LookupForm;
 public class ClockLogLookupableImpl extends KPMELookupableImpl {
  
  
-        @Override
+   @Override
    public void initSuppressAction(LookupForm lookupForm) {
        ((LookupView) lookupForm.getView()).setSuppressActions(false);
    }

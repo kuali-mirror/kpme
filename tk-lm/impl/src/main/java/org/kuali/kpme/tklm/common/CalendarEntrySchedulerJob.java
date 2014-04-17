@@ -15,18 +15,17 @@
  */
 package org.kuali.kpme.tklm.common;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
+
+import java.util.List;
 
 public class CalendarEntrySchedulerJob extends QuartzJobBean {
 
@@ -64,6 +63,10 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 	            
 	            if (calendarEntry.getBatchSupervisorApprovalFullDateTime() != null) {
 	            	getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry);
+	            }
+	            
+	            if (calendarEntry.getBatchPayrollApprovalFullDateTime() != null) {
+	            	getBatchJobService().schedulePayrollApprovalJobs(calendarEntry);
 	            }
 	        }
         } catch (SchedulerException se) {

@@ -184,7 +184,7 @@ public class KpmeRoleServiceHelperTest extends CoreUnitTestCase {
 	}
 	
 	
-	// @Test
+	@Test
 	public void testGetRoleMembers() {
 		DateTime today = new DateTime();
 		DateTime yesterday = today.minusDays(1);
@@ -193,7 +193,7 @@ public class KpmeRoleServiceHelperTest extends CoreUnitTestCase {
 		List<RoleMember> roleMembers;
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "4444");
-		RoleMember roleMember = RoleMember.Builder.create("KPM0013", null, "KPME0001", MemberType.GROUP, DateTime.parse("2011-01-01T00:00:00.000-06:00"), null, qualification, null, null).build();
+		RoleMember roleMember = RoleMember.Builder.create("KPM0013", null, "KPME0001", MemberType.GROUP, DateTime.parse("2011-01-01"), null, qualification, null, null).build();
 		// call with asOfDate = null
 		roleMembers = kpmeRoleService.getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), (long) 4444, null, true);
 		Assert.assertTrue(roleMembersListContains(roleMember, roleMembers));
@@ -232,7 +232,7 @@ public class KpmeRoleServiceHelperTest extends CoreUnitTestCase {
 		roleMembers = kpmeRoleService.getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), (long) 8888, DateTime.parse("2013-01-01"), true);
 		qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "8888");
-	    roleMember = RoleMember.Builder.create("KPME0020", null, "test_principal_2", MemberType.PRINCIPAL, DateTime.parse("2013-01-01T00:00:00.000-06:00"), DateTime.parse("2013-12-31T00:00:00.000-06:00"), qualification, null, null).build();		
+	    roleMember = RoleMember.Builder.create("KPME0020", null, "test_principal_2", MemberType.PRINCIPAL, DateTime.parse("2013-01-01"), DateTime.parse("2013-12-31"), qualification, null, null).build();
 	    Assert.assertTrue(roleMembersListContains(roleMember, roleMembers));
 		
 		roleMembers = kpmeRoleService.getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), (long) 8888, DateTime.parse("2012-12-31"), true);

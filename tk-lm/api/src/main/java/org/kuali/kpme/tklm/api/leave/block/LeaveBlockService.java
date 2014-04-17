@@ -74,7 +74,7 @@ public interface LeaveBlockService {
 
 
     @CacheEvict(value={LeaveBlock.CACHE_NAME}, allEntries = true)
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
+    public List<LeaveBlock> addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId);
     
     @Caching(evict = {
