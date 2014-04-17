@@ -17,14 +17,12 @@ package org.kuali.kpme.pm.api.positiondepartment;
 
 
 import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
-import org.kuali.kpme.core.api.institution.InstitutionContract;
-import org.kuali.kpme.core.api.location.LocationContract;
-import org.kuali.kpme.pm.api.position.PositionDerivedContract;
+import org.kuali.kpme.pm.api.position.PositionKeyedDerivedContract;
 
 
 
 
-public interface PositionDepartmentContract extends PositionDerivedContract {
+public interface PositionDepartmentContract extends PositionKeyedDerivedContract {
 
 
     /**
@@ -61,39 +59,6 @@ public interface PositionDepartmentContract extends PositionDerivedContract {
     public String getPmPositionDeptId();
 
     /**
-     * Position Department Institution
-     *
-     * <p>
-     * institution for the Position Department.
-     * <p>
-     *
-     * @return institution for Position Department
-     */
-    public String getInstitution();
-
-    /**
-     * Position Department Location
-     *
-     * <p>
-     * location for the Position Department.
-     * <p>
-     *
-     * @return location for Position Department
-     */
-    public String getLocation();
-
-    /**
-     * Position Department Location Object
-     *
-     * <p>
-     * locationObj for the Position Department.
-     * <p>
-     *
-     * @return locationObj for Position Department
-     */
-    public LocationContract getLocationObj();
-
-    /**
      * Position Department Department
      *
      * <p>
@@ -103,17 +68,6 @@ public interface PositionDepartmentContract extends PositionDerivedContract {
      * @return department for Position Department
      */
     public String getDepartment();
-
-    /**
-     * Position Department Institution
-     *
-     * <p>
-     * institutionObj for the Position Department.
-     * <p>
-     *
-     * @return institutionObj for Position Department
-     */
-    public InstitutionContract getInstitutionObj();
 
     /**
      * Position Department Department Object

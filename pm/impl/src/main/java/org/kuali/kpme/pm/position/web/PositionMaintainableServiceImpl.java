@@ -27,6 +27,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.derived.HrBusinessObjectDerived;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.position.PositionBo;
@@ -259,8 +260,9 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
             if (positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                 hasPrimaryDepartment=true;
                 positionDepartment.setDepartment(position.getPrimaryDepartment());
-                positionDepartment.setLocation(position.getLocation());
-                positionDepartment.setInstitution(position.getInstitution());
+                
+//                positionDepartment.setLocation(position.getLocation());
+//                positionDepartment.setInstitution(position.getInstitution());
                 positionDepartment.setDeptAffl(HrServiceLocator.getDepartmentAffiliationService().getPrimaryAffiliation().getDeptAfflType());
             }
         }
@@ -269,8 +271,9 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         if (!hasPrimaryDepartment && StringUtils.isNotEmpty(position.getPrimaryDepartment())) {
             PositionDepartmentBo primaryDepartment = new PositionDepartmentBo();
             primaryDepartment.setDepartment(position.getPrimaryDepartment());
-            primaryDepartment.setLocation(position.getLocation());
-            primaryDepartment.setInstitution(position.getInstitution());
+            primaryDepartment.setGroupKeyCode(position.getInstitution() + "-"+position.getLocation());
+            //   primaryDepartment.setLocation(position.getLocation());
+//            primaryDepartment.setInstitution(position.getInstitution());
             primaryDepartment.setDeptAffl(HrServiceLocator.getDepartmentAffiliationService().getPrimaryAffiliation().getDeptAfflType());
             position.getDepartmentList().add(primaryDepartment);
         }

@@ -19,34 +19,33 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
-import org.kuali.kpme.core.institution.InstitutionBo;
-import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
-import org.kuali.kpme.pm.position.PositionDerived;
+import org.kuali.kpme.pm.position.PositionKeyedDerived;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.ImmutableList;
-public class PositionDepartmentBo extends PositionDerived implements PositionDepartmentContract {
-	
-    private static final String DEPARTMENT = "department";
 
+public class PositionDepartmentBo extends PositionKeyedDerived implements PositionDepartmentContract {
+	
+    static class KeyFields {
+    	private static final String DEPARTMENT = "department";
+    	final static String GROUP_KEY_CODE = "groupKeyCode";
+    }
+    
 	//TODO reslove the issue with DepartmentAffiliation to implement  PositionDepartmentContract
 	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-		    .add(DEPARTMENT)
+		    .add(KeyFields.DEPARTMENT)
+		    .add(KeyFields.GROUP_KEY_CODE)
 		    .build();
 	
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPositionDeptId;
-	private String institution;
-	private String location;
 	private String department;
 	private String deptAffl;
 
-	private LocationBo locationObj;
-	private InstitutionBo institutionObj;
 	private DepartmentBo departmentObj;
 	private DepartmentAffiliation deptAfflObj;
 
@@ -102,50 +101,6 @@ public class PositionDepartmentBo extends PositionDerived implements PositionDep
 	}
 
 	/**
-	 * @return the institution
-	 */
-	public String getInstitution() {
-		return institution;
-	}
-
-	/**
-	 * @param institution the institution to set
-	 */
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-
-	
-	
-	/**
-	 * @return the location
-	 */
-	public String getLocation() {
-		return location;
-	}
-
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	/**
-	 * @return the locationObj
-	 */
-	public LocationBo getLocationObj() {
-		return locationObj;
-	}
-
-	/**
-	 * @param locationObj the locationObj to set
-	 */
-	public void setLocationObj(LocationBo locationObj) {
-		this.locationObj = locationObj;
-	}
-
-	/**
 	 * @return the department
 	 */
 	public String getDepartment() {
@@ -157,20 +112,6 @@ public class PositionDepartmentBo extends PositionDerived implements PositionDep
 	 */
 	public void setDepartment(String department) {
 		this.department = department;
-	}
-
-	/**
-	 * @return the institutionObj
-	 */
-	public InstitutionBo getInstitutionObj() {
-		return institutionObj;
-	}
-
-	/**
-	 * @param institutionObj the institutionObj to set
-	 */
-	public void setInstitutionObj(InstitutionBo institutionObj) {
-		this.institutionObj = institutionObj;
 	}
 
 	/**
@@ -187,7 +128,7 @@ public class PositionDepartmentBo extends PositionDerived implements PositionDep
 		this.departmentObj = departmentObj;
 	}
 
-    @Override
+	@Override
     public boolean equals(Object obj) {
         if (obj == null)
             return false;
@@ -199,8 +140,7 @@ public class PositionDepartmentBo extends PositionDerived implements PositionDep
         PositionDepartmentBo rhs = (PositionDepartmentBo)obj;
         return new EqualsBuilder()
                 .append(pmPositionDeptId,rhs.getPmPositionDeptId())
-                .append(institution, rhs.getInstitution())
-                .append(location, rhs.getLocation())
+                .append(groupKeyCode,rhs.getGroupKeyCode())
                 .append(department, rhs.getDepartment())
                 .append(deptAffl, rhs.getDeptAffl())
                 .append(hrPositionId, rhs.getHrPositionId())

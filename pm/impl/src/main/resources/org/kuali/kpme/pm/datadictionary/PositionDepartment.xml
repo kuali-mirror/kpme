@@ -27,10 +27,11 @@
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PositionDepartment-pmPositionDeptId"/>
-	        <ref bean="PositionDepartment-institution"/>
-	        <ref bean="PositionDepartment-location"/>
+	       <!--  <ref bean="PositionDepartment-institution"/>
+	        <ref bean="PositionDepartment-location"/> -->
 	        <ref bean="PositionDepartment-department"/>
 	        <ref bean="PositionDepartment-deptAffl"/>
+	        <ref bean="PositionDepartment-groupKeyCode" />
 	      </list>
 	    </property>
 	    <property name="objectLabel" value="Position Department"/>
@@ -50,16 +51,6 @@
 	    <property name="label" value="Position Department Id"/>
 	 </bean>   
 	 
-	<bean id="PositionDepartment-institution" parent="PositionDepartment-institution-parentBean" />
-	<bean id="PositionDepartment-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
-		<property name="required" value="false" /><!-- KPME-3315: set to false to turn of server side required validation -->
-	</bean>
-	
-	<bean id="PositionDepartment-location" parent="PositionDepartment-location-parentBean" />
-	<bean id="PositionDepartment-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
-        <property name="required" value="false" /> <!--KPME-3315: set to false to turn of server side required validation -->
-	</bean>
-	
 	<bean id="PositionDepartment-department" parent="PositionDepartment-department-parentBean" />
 	<bean id="PositionDepartment-department-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
@@ -93,4 +84,8 @@
 		<property name="name" value="deptAffl" />
 		<property name="label" value="Affiliation" />
 	</bean> 
+	
+	<bean id="PositionDepartment-groupKeyCode" parent="PositionDepartment-groupKeyCode-parentBean" />
+    <bean id="PositionDepartment-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
+	
 </beans>

@@ -24,9 +24,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliation;
-import org.kuali.kpme.core.api.institution.Institution;
-import org.kuali.kpme.core.api.location.Location;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
@@ -36,17 +36,19 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = PositionDepartment.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PositionDepartment.Constants.TYPE_NAME, propOrder = {
-    PositionDepartment.Elements.LOCATION,
+//    PositionDepartment.Elements.LOCATION,
     PositionDepartment.Elements.PM_POSITION_DEPT_ID,
-    PositionDepartment.Elements.LOCATION_OBJ,
+//    PositionDepartment.Elements.LOCATION_OBJ,
     PositionDepartment.Elements.DEPT_AFFL_OBJ,
-    PositionDepartment.Elements.INSTITUTION,
-    PositionDepartment.Elements.INSTITUTION_OBJ,
+//    PositionDepartment.Elements.INSTITUTION,
+//    PositionDepartment.Elements.INSTITUTION_OBJ,
     PositionDepartment.Elements.DEPARTMENT,
     PositionDepartment.Elements.DEPT_AFFL,
     PositionDepartment.Elements.HR_POSITION_ID,
     PositionDepartment.Elements.OWNER,
     PositionDepartment.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
+    KPMEConstants.CommonElements.GROUP_KEY_CODE,
+ 	KPMEConstants.CommonElements.GROUP_KEY,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
@@ -55,18 +57,22 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
 
     private static final long serialVersionUID = -9138371031422545617L;
 	
-	@XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
+//	@XmlElement(name = Elements.LOCATION, required = false)
+//    private final String location;
     @XmlElement(name = Elements.PM_POSITION_DEPT_ID, required = false)
     private final String pmPositionDeptId;
-    @XmlElement(name = Elements.LOCATION_OBJ, required = false)
-    private final Location locationObj;
+//    @XmlElement(name = Elements.LOCATION_OBJ, required = false)
+//    private final Location locationObj;
     @XmlElement(name = Elements.DEPT_AFFL_OBJ, required = false)
     private final DepartmentAffiliation deptAfflObj;
-    @XmlElement(name = Elements.INSTITUTION, required = false)
-    private final String institution;
-    @XmlElement(name = Elements.INSTITUTION_OBJ, required = false)
-    private final Institution institutionObj;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+	private final String groupKeyCode;
+ 	@XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+ 	private final HrGroupKey groupKey;
+//    @XmlElement(name = Elements.INSTITUTION, required = false)
+//    private final String institution;
+//    @XmlElement(name = Elements.INSTITUTION_OBJ, required = false)
+//    private final Institution institutionObj;
     @XmlElement(name = Elements.DEPARTMENT, required = false)
     private final String department;
     @XmlElement(name = Elements.DEPT_AFFL, required = false)
@@ -89,12 +95,14 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
      * 
      */
     private PositionDepartment() {
-        this.location = null;
+//        this.location = null;
         this.pmPositionDeptId = null;
-        this.locationObj = null;
+//        this.locationObj = null;
         this.deptAfflObj = null;
-        this.institution = null;
-        this.institutionObj = null;
+        this.groupKey = null;
+        this.groupKeyCode = null;
+//        this.institution = null;
+//        this.institutionObj = null;
         this.department = null;
         this.deptAffl = null;
         this.hrPositionId = null;
@@ -105,12 +113,14 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
     }
 
     private PositionDepartment(Builder builder) {
-        this.location = builder.getLocation();
+//        this.location = builder.getLocation();
         this.pmPositionDeptId = builder.getPmPositionDeptId();
-        this.locationObj = builder.getLocationObj() == null ? null : builder.getLocationObj().build();
+//        this.locationObj = builder.getLocationObj() == null ? null : builder.getLocationObj().build();
         this.deptAfflObj =  builder.getDeptAfflObj() == null ? null : builder.getDeptAfflObj().build();
-        this.institution = builder.getInstitution();
-        this.institutionObj =  builder.getInstitutionObj() == null ? null : builder.getInstitutionObj().build();
+//        this.institution = builder.getInstitution();
+//        this.institutionObj =  builder.getInstitutionObj() == null ? null : builder.getInstitutionObj().build();
+        this.groupKeyCode = builder.getGroupKeyCode();
+ 	 	this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
         this.department = builder.getDepartment();
         this.deptAffl = builder.getDeptAffl();
         this.hrPositionId = builder.getHrPositionId();
@@ -120,34 +130,25 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         this.objectId = builder.getObjectId();
     }
 
+    
     @Override
-    public String getLocation() {
-        return this.location;
+ 	public String getGroupKeyCode() {
+    	return this.groupKeyCode;
     }
-
+    
+    @Override
+    public HrGroupKey getGroupKey() {
+    	return this.groupKey;
+    }
+    
     @Override
     public String getPmPositionDeptId() {
         return this.pmPositionDeptId;
     }
 
     @Override
-    public Location getLocationObj() {
-        return this.locationObj;
-    }
-
-    @Override
     public DepartmentAffiliation getDeptAfflObj() {
         return this.deptAfflObj;
-    }
-
-    @Override
-    public String getInstitution() {
-        return this.institution;
-    }
-
-    @Override
-    public Institution getInstitutionObj() {
-        return this.institutionObj;
     }
 
     @Override
@@ -194,12 +195,14 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
 
     	private static final long serialVersionUID = -114427722527252268L;
 		
-    	private String location;
+//    	private String location;
         private String pmPositionDeptId;
-        private Location.Builder locationObj;
+//        private Location.Builder locationObj;
         private DepartmentAffiliation.Builder deptAfflObj;
-        private String institution;
-        private Institution.Builder institutionObj;
+//        private String institution;
+//        private Institution.Builder institutionObj;
+        private String groupKeyCode;
+ 	 	private HrGroupKey.Builder groupKey;
         private String department;
         private String deptAffl;
         private String hrPositionId;
@@ -223,12 +226,13 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-            builder.setLocation(contract.getLocation());
+//            builder.setLocation(contract.getLocation());
             builder.setPmPositionDeptId(contract.getPmPositionDeptId());
-            builder.setLocationObj(contract.getLocationObj() == null ? null : Location.Builder.create(contract.getLocationObj()));
+//            builder.setLocationObj(contract.getLocationObj() == null ? null : Location.Builder.create(contract.getLocationObj()));
             builder.setDeptAfflObj(contract.getDeptAfflObj() == null ? null : DepartmentAffiliation.Builder.create(contract.getDeptAfflObj()));
-            builder.setInstitution(contract.getInstitution());
-            builder.setInstitutionObj(contract.getInstitutionObj() == null ? null : Institution.Builder.create(contract.getInstitutionObj()));
+//            builder.setInstitution(contract.getInstitution());
+//            builder.setInstitutionObj(contract.getInstitutionObj() == null ? null : Institution.Builder.create(contract.getInstitutionObj()));
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setDepartment(contract.getDepartment());
             builder.setDeptAffl(contract.getDeptAffl());
             builder.setHrPositionId(contract.getHrPositionId());
@@ -239,13 +243,27 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
             return builder;
         }
 
-        public PositionDepartment build() {
-            return new PositionDepartment(this);
+        
+        @Override
+ 	 	public String getGroupKeyCode() {
+ 	 	 	 	return groupKeyCode;
         }
 
+        public void setGroupKeyCode(String groupKeyCode) {
+        		this.groupKeyCode = groupKeyCode;
+        }
+        
         @Override
-        public String getLocation() {
-            return this.location;
+        public HrGroupKey.Builder getGroupKey() {
+        	return groupKey;
+        }
+        
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+        	this.groupKey = groupKey;
+        }
+        
+        public PositionDepartment build() {
+            return new PositionDepartment(this);
         }
 
         @Override
@@ -254,23 +272,8 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         }
 
         @Override
-        public Location.Builder getLocationObj() {
-            return this.locationObj;
-        }
-
-        @Override
         public DepartmentAffiliation.Builder getDeptAfflObj() {
             return this.deptAfflObj;
-        }
-
-        @Override
-        public String getInstitution() {
-            return this.institution;
-        }
-
-        @Override
-        public Institution.Builder getInstitutionObj() {
-            return this.institutionObj;
         }
 
         @Override
@@ -308,34 +311,14 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
             return this.objectId;
         }
 
-        public void setLocation(String location) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.location = location;
-        }
-
         public void setPmPositionDeptId(String pmPositionDeptId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.pmPositionDeptId = pmPositionDeptId;
         }
 
-        public void setLocationObj(Location.Builder locationObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.locationObj = locationObj;
-        }
-
         public void setDeptAfflObj(DepartmentAffiliation.Builder deptAfflObj) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.deptAfflObj = deptAfflObj;
-        }
-
-        public void setInstitution(String institution) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.institution = institution;
-        }
-
-        public void setInstitutionObj(Institution.Builder institutionObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.institutionObj = institutionObj;
         }
 
         public void setDepartment(String department) {
@@ -394,12 +377,12 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
      */
     static class Elements {
 
-        final static String LOCATION = "location";
+//        final static String LOCATION = "location";
         final static String PM_POSITION_DEPT_ID = "pmPositionDeptId";
-        final static String LOCATION_OBJ = "locationObj";
+//        final static String LOCATION_OBJ = "locationObj";
         final static String DEPT_AFFL_OBJ = "deptAfflObj";
-        final static String INSTITUTION = "institution";
-        final static String INSTITUTION_OBJ = "institutionObj";
+//        final static String INSTITUTION = "institution";
+//        final static String INSTITUTION_OBJ = "institutionObj";
         final static String DEPARTMENT = "department";
         final static String DEPT_AFFL = "deptAffl";
         final static String HR_POSITION_ID = "hrPositionId";

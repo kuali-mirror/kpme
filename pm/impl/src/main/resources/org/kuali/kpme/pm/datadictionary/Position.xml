@@ -655,8 +655,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="institution"/>
-                <bean parent="Uif-DataField" p:propertyName="location"/>
+            	<bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
                 <bean parent="Uif-DataField" p:propertyName="department"/>
                 <bean parent="Uif-DataField" p:propertyName="deptAffl"/>
             </list>
@@ -1227,30 +1226,17 @@
         </property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:required="true" p:propertyName="institution" id="position_department_institution"
-                        p:onDocumentReadyScript="jQuery('#position_department_institution_add_control').val('@{#dp.institution}');">
-					<property name="control">
-						<bean parent="Uif-DropdownControl" />
-					</property>
-					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
-					</property>
-				</bean>
-				<bean parent="Uif-InputField" p:required="true" p:propertyName="location" id="position_department_location"
-                      p:onDocumentReadyScript="jQuery('#position_department_location_add_control').val('@{#dp.location}');"
-                      p:refreshWhenChangedPropertyNames="#lp.institution" >
-					<property name="control">
-						<bean parent="Uif-DropdownControl" />
-					</property>
-					<property name="optionsFinder">
-						<bean class="org.kuali.kpme.pm.util.LocationKeyValueFinder" />
-					</property>
-				</bean>
+                <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
+                              p:fieldConversions="groupKeyCode:groupKeyCode" />
+                    </property>
+                </bean>
 				<bean parent="Uif-InputField" p:propertyName="department">
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
 							p:fieldConversions="dept:department"
-                            p:lookupParameters="location:location" />
+                            />
 					</property>
 				</bean>
 				<bean parent="Uif-InputField" p:propertyName="deptAffl">
