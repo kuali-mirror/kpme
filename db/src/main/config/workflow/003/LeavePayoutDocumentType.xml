@@ -32,11 +32,19 @@
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <active>true</active>
             <applicationId>KPME</applicationId>
-            <routingVersion>1</routingVersion>
+            <routingVersion>2</routingVersion>
 			<routePaths>
                 <routePath>
-                    <start name="Initiated" nextNode="PeopleFlows" />
-                    <requests name="PeopleFlows" />
+                    <start name="Initiated" nextNode="LeavePayoutSplitNode" />
+                    <split name="LeavePayoutSplitNode">
+                        <branch name="calendar" >
+                            <requests name ="PeopleFlows" nextNode="JoinNode"/>
+                        </branch>
+                        <branch name="maintenance">
+                            <simple name="noOpNode" nextNode="JoinNode"/>
+                        </branch>
+                        <join name="JoinNode"/>
+                    </split>
                 </routePath>
             </routePaths>
             <routeNodes>
@@ -45,10 +53,17 @@
                     <mandatoryRoute>false</mandatoryRoute>
                     <finalApproval>false</finalApproval>
                 </start>
+                <split name="LeavePayoutSplitNode">
+                    <type>org.kuali.kpme.tklm.leave.workflow.LeavePayoutSplitNode</type>
+                </split>
                 <requests name="PeopleFlows">
                     <activationType>R</activationType>
                     <rulesEngine executorClass="org.kuali.kpme.tklm.leave.workflow.krms.LeaveMaintDocRulesEngineExecutor"/>
                 </requests>
+                <simple name="noOpNode">
+                    <type>org.kuali.rice.kew.engine.node.NoOpNode</type>
+                </simple>
+                <join name="JoinNode"/>
 				<!--<start name="adhoc">
 					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>

@@ -17,10 +17,12 @@ package org.kuali.kpme.tklm.time.missedpunch.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
@@ -36,6 +38,7 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.document.Document;
@@ -59,6 +62,7 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         	valid &= validateClockAction(missedPunch);
         	valid &= validateClockTime(missedPunch);
         	valid &= validateOverLappingTimeBlocks(missedPunch, missedPunch.getTimesheetDocumentId());
+            valid &= validateTimeSheetInitiated(missedPunch);
         }
 	    
         return valid;
@@ -234,4 +238,30 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         return valid;
     }
 
+    boolean validateTimeSheetInitiated(MissedPunchBo missedPunch) {
+        // use the actual date and time from the document to build the date time with user zone, then apply system time zone to it
+        String dateString = TKUtils.formatDateTimeShort(missedPunch.getActionFullDateTime());
+        String longDateString = TKUtils.formatDateTimeLong(missedPunch.getActionFullDateTime());
+        String timeString = TKUtils.formatTimeShort(longDateString);
+
+        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTime(dateString, timeString);
+        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
+
+        String clockAction = missedPunch.getClockAction();
+        String principalId = missedPunch.getPrincipalId();
+        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId);
+        if (StringUtils.equals(clockAction, TkConstants.CLOCK_OUT) || StringUtils.equals(clockAction, TkConstants.LUNCH_OUT)) {
+            TimesheetDocument previousTimeDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(previousClockLog.getDocumentId());
+            if(previousTimeDoc != null) {
+                CalendarEntry previousCalEntry = previousTimeDoc.getCalendarEntry();
+                DateTime previousEndPeriodDateTimeWithUserZone = previousCalEntry.getEndPeriodFullDateTime().withZoneRetainFields(DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(principalId)));
+                // if current time is after the end time of previous calendar entry, it means the clock action covers two calendar entries
+                if(actionDateTime.isAfter(previousEndPeriodDateTimeWithUserZone.getMillis())) {
+                    GlobalVariables.getMessageMap().putError("document.timesheetDocumentId", "clock.mp.cross.calendar");
+                }
+            }
+
+    }
+        return true;
+    }
 }
