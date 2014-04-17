@@ -98,7 +98,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
     		EarnCode earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
     		if(earnCode != null) {
     			if(earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_TIME)) {
-    		    	return LeaveCalendarValidationUtil.validateTimeParametersForLeaveEntry(earnCode, lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcf.getLmLeaveBlockId(), lcf.getSpanningWeeks());
+    		    	return LeaveCalendarValidationUtil.validateTimeParametersForLeaveEntry(earnCode, lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcf.getLmLeaveBlockId(), null);
     			}
     			// we should not have any leave earn codes with amount recording method
 //    			else if (earnCode.getRecordMethod().equalsIgnoreCase(HrConstants.EARN_CODE_AMOUNT)) {
@@ -149,9 +149,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
     public static List<String> validateTimeEntryDetails(TimeDetailActionFormBase tdaf) {
     	boolean spanningWeeks = false;
     	boolean acrossDays = false;
-    	if(tdaf.getSpanningWeeks() != null) {
-    		spanningWeeks = tdaf.getSpanningWeeks().equalsIgnoreCase("y");
-    	}
+    	
     	if(tdaf.getAcrossDays() != null) {
     		acrossDays = tdaf.getAcrossDays().equalsIgnoreCase("y");
     	}
@@ -160,11 +158,11 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
                 tdaf.getHours(), tdaf.getAmount(), tdaf.getStartTime(), tdaf.getEndTime(),
                 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getTimesheetDocument(),
                 tdaf.getSelectedEarnCode(), tdaf.getSelectedAssignment(),
-                acrossDays, tdaf.getTkTimeBlockId(), tdaf.getOvertimePref(), spanningWeeks
+                acrossDays, tdaf.getTkTimeBlockId(), tdaf.getOvertimePref()
         );
     }
 
-    public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, String timeblockId, String overtimePref, boolean spanningWeeks) {
+    public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, String timeblockId, String overtimePref) {
         List<String> errors = new ArrayList<String>();
 
         if (timesheetDocument == null) {
@@ -249,10 +247,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         // -------------------------------
         // check if there is a weekend day when the include weekends flag is checked
         //--------------------------------
-        //KPME-2010
-        if(!spanningWeeks) {
-        	errors.addAll(validateSpanningWeeks(startTemp,endTemp));
-        }
+       
         if (errors.size() > 0) return errors;
 
         //------------------------
@@ -526,28 +521,6 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
             errors.add("The end date/time is outside the pay period");
         }
         return errors;
-    }
-
-    // KPME-1446
-    // Moving to CalendarValidationUtil
-    @Deprecated
-    public static List<String> validateSpanningWeeks(boolean spanningWeeks, DateTime startTemp, DateTime endTemp) {
-    	List<String> errors = new ArrayList<String>();
-    	
-    	if (!spanningWeeks) {
-    		boolean isOnlyWeekendSpan = true;
-    		while ((startTemp.isBefore(endTemp) || startTemp.isEqual(endTemp)) && isOnlyWeekendSpan) {
-    			if (startTemp.getDayOfWeek() != DateTimeConstants.SATURDAY && startTemp.getDayOfWeek() != DateTimeConstants.SUNDAY) {
-    				isOnlyWeekendSpan = false;
-	        	}
-	        	startTemp = startTemp.plusDays(1);
-	        }
-	        if (isOnlyWeekendSpan) {
-	        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");
-	        }
-    	}
-    	
-    	return errors;
     }
 
 }

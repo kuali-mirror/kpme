@@ -111,23 +111,26 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         DateTime actionDateTime = missedPunch.getActionFullDateTime();
 
         ClockLog clockLog = clockLogService.getClockLog(missedPunch.getTkClockLogId());
-        if (clockLog != null && !clockLog.getClockDateTime().equals(actionDateTime)){
-            String clockLogEndId = null;
-            String clockLogBeginId = null;
+        if (clockLog != null) {
+            DateTime clockDtInUserTimeZone = clockLog.getClockDateTime().withZone(DateTimeZone.forID(clockLog.getClockTimestampTimezone()));
+            if (!clockDtInUserTimeZone.equals(actionDateTime)) {
+                String clockLogEndId = null;
+                String clockLogBeginId = null;
 
-            List<TimeBlock> timeBlocks = timeBlockService.getTimeBlocksForClockLogEndId(clockLog.getTkClockLogId());
-            if (timeBlocks.isEmpty()) {
-                timeBlocks = timeBlockService.getTimeBlocksForClockLogBeginId(clockLog.getTkClockLogId());
-                if (!timeBlocks.isEmpty()) {
-                    clockLogEndId = timeBlocks.get(0).getClockLogEndId();
+                List<TimeBlock> timeBlocks = timeBlockService.getTimeBlocksForClockLogEndId(clockLog.getTkClockLogId());
+                if (timeBlocks.isEmpty()) {
+                    timeBlocks = timeBlockService.getTimeBlocksForClockLogBeginId(clockLog.getTkClockLogId());
+                    if (!timeBlocks.isEmpty()) {
+                        clockLogEndId = timeBlocks.get(0).getClockLogEndId();
+                    }
+                } else {
+                    clockLogBeginId = timeBlocks.get(0).getClockLogBeginId();
                 }
-            } else {
-                clockLogBeginId = timeBlocks.get(0).getClockLogBeginId();
+
+                deleteClockLogAndTimeBlocks(clockLog, timeBlocks);
+
+                missedPunch = addClockLogAndTimeBlocks(missedPunch, ipAddress, clockLogEndId, clockLogBeginId);
             }
-
-            deleteClockLogAndTimeBlocks(clockLog, timeBlocks);
-
-            missedPunch = addClockLogAndTimeBlocks(missedPunch, ipAddress, clockLogEndId, clockLogBeginId);
         }
         return missedPunch;
     }
@@ -151,16 +154,23 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         AssignmentDescriptionKey assignmentDescriptionKey = new AssignmentDescriptionKey(missedPunch.getGroupKeyCode(), missedPunch.getJobNumber(), missedPunch.getWorkArea(), missedPunch.getTask());
         Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment(missedPunch.getPrincipalId(), assignmentDescriptionKey, missedPunch.getActionLocalDate());
         CalendarEntry calendarEntry = timesheetDocument.getCalendarEntry();
+        String dateString = TKUtils.formatDateTimeShort(missedPunch.getActionFullDateTime());
+        String longDateString = TKUtils.formatDateTimeLong(missedPunch.getActionFullDateTime());
+        String timeString = TKUtils.formatTimeShort(longDateString);
+
+        String userTimezone = HrServiceLocator.getTimezoneService().getUserTimezone(missedPunch.getPrincipalId());
+        DateTimeZone userTimeZone = DateTimeZone.forID(userTimezone);
+        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTimeWithTimeZone(dateString, timeString, userTimeZone);
         DateTime userActionDateTime = missedPunch.getActionFullDateTime();
-        DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        DateTime actionDateTime = new DateTime(userActionDateTime, userTimeZone).withZone(TKUtils.getSystemDateTimeZone());
+
+        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
         String clockAction = missedPunch.getClockAction();
         String principalId = timesheetDocument.getPrincipalId();
 
         ClockLog clockLog = clockLogService.processClockLog(principalId, timesheetDocument.getDocumentId(), actionDateTime, assignment, calendarEntry, ipAddress, LocalDate.now(), clockAction, false);
 
         clockLogService.saveClockLog(clockLog);
-        builder.setActionFullDateTime(clockLog.getClockDateTime());
+        builder.setActionFullDateTime(missedPunch.getActionFullDateTime());
         builder.setTkClockLogId(clockLog.getTkClockLogId());
 
         if (logEndId != null || logBeginId != null) {

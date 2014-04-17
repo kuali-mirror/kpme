@@ -501,7 +501,7 @@ public class TimeDetailAction extends TimesheetAction {
 		BigDecimal leaveAmount = tdaf.getLeaveAmount();
 		
 		String desc = "";	// there's no description field in time calendar pop window
-		String spanningWeeks = tdaf.getSpanningWeeks();
+		String spanningWeeks = "Y";// tdaf.getSpanningWeeks();
         Assignment currentAssignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(tdaf.getSelectedAssignment()), beginDate.toLocalDate());
 
         LmServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getCalendarEntry(), selectedEarnCode, leaveAmount, desc, currentAssignment,
@@ -591,7 +591,7 @@ public class TimeDetailAction extends TimesheetAction {
                     tdaf.getTimesheetDocument().getCalendarEntry(), currentAssignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getDocumentId(), startTime,
                     endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()),
-                    tdaf.getSpanningWeeks(), HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId), toTimeBlockBuilder);
+                    HrContext.getPrincipalId(), clockLogBeginId, clockLogEndId), toTimeBlockBuilder);
         } else {
             TimesheetDocument tempTd = tdaf.getTimesheetDocument();
             timeBlocksToAdd = ModelObjectUtils.transform(TkServiceLocator.getTimeBlockService().buildTimeBlocks(tempTd.getPrincipalId(), tempTd.getCalendarEntry(), currentAssignment,

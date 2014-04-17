@@ -142,7 +142,6 @@ public interface TimeBlockService {
      * @param amount
 	 * @param clockLogCreated
      * @param lunchDeleted
-     * @param spanningWeeks
 	 * @return
 	 */
     //@WebMethod(operationName = "buildTimeBlocksSpanDates")
@@ -151,7 +150,7 @@ public interface TimeBlockService {
     //@WebResult(name = "timeBlocks")
 	public List<TimeBlock> buildTimeBlocksSpanDates(String principalId, CalendarEntry calendarEntry, Assignment assignment, String earnCode,
                                                     String documentId, DateTime beginDateTime, DateTime endDateTime, BigDecimal hours, BigDecimal amount,
-                                                    Boolean clockLogCreated, Boolean lunchDeleted, String spanningWeeks, String userPrincipalId,
+                                                    Boolean clockLogCreated, Boolean lunchDeleted, String userPrincipalId,
                                                     String clockLogBeginId, String clockLogEndId);
 	/**
 	 * Create a TimeBlock for the given criteria

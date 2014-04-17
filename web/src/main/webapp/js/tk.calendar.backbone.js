@@ -270,20 +270,6 @@ $(function () {
                                 $("#selectedAssignment").html($("#selectedAssignmentHidden").html());
                             }
                         }
-                        //May need a third condition to check if this method was triggered by shortcut.
-                        
-                        var startSpanDate = Date.parse($("#startDate").val()).clearTime();
-                        var endSpanDate = Date.parse($("#endDate").val()).clearTime();
-                        var spanningWeeks = false;
-                        for (var currentSpanDate = startSpanDate; currentSpanDate.isBefore(endSpanDate) || currentSpanDate.equals(endSpanDate); currentSpanDate.addDays(1)) {
-                            if (currentSpanDate.is().saturday() || currentSpanDate.is().sunday()) {
-                               spanningWeeks = true;
-                            } else {
-                                spanningWeeks = false;
-                                break;
-                            }
-                        }
-                        $("#spanningWeeks").attr("checked", spanningWeeks);
                     },
                     close : function () {
                         // reset values on the form
@@ -316,7 +302,6 @@ $(function () {
                         	}
 
                             $('#acrossDays').val($('#acrossDays').is(':checked') ? 'y' : 'n');
-                            $('#spanningWeeks').val($('#spanningWeeks').is(':checked') ? 'y' : 'n');  // KPME-1446
 
                             // If the user can only update the assignment, there is no need to do the validations.
                             var canEditAssignmentOnly = $("#selectedEarnCode").is('[disabled]');
@@ -517,20 +502,7 @@ $(function () {
 
 			$("#startDate").val(leaveBlock.get("leaveDate"));
 			$("#endDate").val(leaveBlock.get("leaveDate"));
-            this.fetchAssignmentsForDay();
-            var startSpanDate = Date.parse($("#startDate").val()).clearTime();
-            var endSpanDate = Date.parse($("#endDate").val()).clearTime();
-            var spanningWeeks = false;
-            var spanningWeeks = false;
-            for (var currentSpanDate = startSpanDate; currentSpanDate.isBefore(endSpanDate) || currentSpanDate.equals(endSpanDate); currentSpanDate.addDays(1)) {
-                if (currentSpanDate.is().saturday() || currentSpanDate.is().sunday()) {
-                    spanningWeeks = true;
-                } else {
-                    spanningWeeks = false;
-                    break;
-                }
-            }
-            $("#spanningWeeks").attr("checked", spanningWeeks);
+            
 			dfd.done()
 				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
 				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
@@ -980,7 +952,6 @@ $(function () {
                     params['overtimePref'] = $("#overtimePref").val();
                 }
                 params['acrossDays'] = $('#acrossDays').is(':checked') ? 'y' : 'n';
-                params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
                 params['tkTimeBlockId'] = $('#tkTimeBlockId').val();
 
                 // leave block parameters
@@ -1400,20 +1371,6 @@ $(function () {
                 var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
                 $('#endDate').val(endDateTime.add(-1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
             }
-
-            var startSpanDate = Date.parse($("#startDate").val()).clearTime();
-            var endSpanDate = Date.parse($("#endDate").val()).clearTime();
-            var spanningWeeks = false;
-            for (var currentSpanDate = startSpanDate; currentSpanDate.isBefore(endSpanDate) || currentSpanDate.equals(endSpanDate); currentSpanDate.addDays(1)) {
-                if (currentSpanDate.is().saturday() || currentSpanDate.is().sunday()) {
-                    spanningWeeks = true;
-                } else {
-                    spanningWeeks = false;
-                    break;
-                }
-            }
-            $("#spanningWeeks").attr("checked", spanningWeeks);
-            
         },
         leaveBlockFillInForm : function (leaveBlock) {
             $("#selectedAssignment option[value='" + leaveBlock.get("assignment") + "']").attr("selected", "selected");

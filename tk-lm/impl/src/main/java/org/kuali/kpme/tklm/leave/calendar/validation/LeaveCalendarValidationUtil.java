@@ -144,8 +144,7 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
         if (errors.size() > 0) return errors;
         
         //KPME-2010
-        if(!StringUtils.equalsIgnoreCase(spanningWeeks,"y")
-        		&& spanningWeeks != null) {
+        if(spanningWeeks != null && !StringUtils.equalsIgnoreCase(spanningWeeks,"y")) {
         	errors.addAll(validateSpanningWeeks(startTemp,endTemp));
         }
         
