@@ -268,7 +268,7 @@
     </class-descriptor>
 
     <!-- Position Appointment -->
-    <!-- Business Keys - [positionAppointment : institution : location] --> 
+    <!-- Business Keys - [positionAppointment : groupKeyCode] --> 
     <class-descriptor class="org.kuali.kpme.pm.positionappointment.PositionAppointment" table="PM_PSTN_APPOINTMENT_T">
         <field-descriptor name="pmPositionAppointmentId"   	column="PM_PSTN_APPOINTMENT_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_APPOINTMENT_S" />
         <field-descriptor name="positionAppointment"    	column="PSTN_APPOINTMENT"      	jdbc-type="VARCHAR"     length="50" 		nullable="false" />

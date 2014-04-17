@@ -31,30 +31,17 @@ public class PositionAppointmentValidation extends MaintenanceDocumentRuleBase {
 		
 		if (pa != null) {
 			valid = true;
-			// TODO: Validate if groupkeycode is valid here??
-			//valid &= this.validateInstitution(pa);
-			//valid &= this.validateLocation(pa);
+			valid &= this.validateGroupKey(pa);
 		}
 		return valid;
 	}
 	
-	/*
-	private boolean validateInstitution(PositionAppointment pa) {
-		if (StringUtils.isNotEmpty(pa.getInstitution()) && !ValidationUtils.validateInstitution(pa.getInstitution(), pa.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.institution", "error.existence", "Instituion '" + pa.getInstitution() + "'");
+	private boolean validateGroupKey(PositionAppointment pa) {
+		if (StringUtils.isNotEmpty(pa.getGroupKeyCode()) && !ValidationUtils.validateGroupKey(pa.getGroupKeyCode(), pa.getEffectiveLocalDate())) {
+			this.putFieldError("dataObject.groupKeyCode", "error.existence", "Group Key '" + pa.getGroupKeyCode() + "'");
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
-	private boolean validateLocation(PositionAppointment pa) {
-		if (StringUtils.isNotEmpty(pa.getLocation()) && !ValidationUtils.validateLocation(pa.getLocation(), pa.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.location", "error.existence", "Location '" + pa.getLocation() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}*/
-	
 }

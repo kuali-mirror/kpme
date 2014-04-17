@@ -15,17 +15,22 @@
  */
 package org.kuali.kpme.core.util;
 
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.authorization.DepartmentalRule;
 import org.kuali.kpme.core.api.calendar.Calendar;
-import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.institution.Institution;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.location.Location;
@@ -38,18 +43,18 @@ import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.kfs.coa.businessobject.*;
+import org.kuali.kpme.core.kfs.coa.businessobject.Account;
+import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
+import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
+import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
+import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
+import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -713,5 +718,23 @@ public class ValidationUtils {
 			}	
 		}
 		return false;
+	}
+	
+	/**
+	 * validates existence of an active group key matching the supplied params
+	 * 
+	 * @param groupKeyCode
+	 * @param asOfDate
+	 * @return
+	 */
+	public static boolean validateGroupKey(String groupKeyCode, LocalDate asOfDate) {
+		boolean valid = false;
+		if(StringUtils.isNotEmpty(groupKeyCode)) {
+			if (asOfDate != null) {
+				HrGroupKey hrGroupKey = HrServiceLocator.getHrGroupKeyService().getHrGroupKey(groupKeyCode, asOfDate);
+				valid = (hrGroupKey != null);
+			}
+		}
+		return valid;
 	}
 }

@@ -130,7 +130,8 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="description" />
-        <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
+        <bean parent="Uif-DataField" p:propertyName="groupKeyCode">
+        </bean>
         <bean parent="Uif-DataField" p:propertyName="institution" />
         <bean parent="Uif-DataField" p:propertyName="location" >
         	
@@ -180,11 +181,15 @@
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="positionAppointment" />
 		        <bean parent="Uif-InputField" p:propertyName="description" />
-		        <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true">
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
-                              p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
-                    </property>
+		        <bean parent="Uif-InputField" p:propertyName="groupKeyCode" 
+		        	p:required="true"
+		        	p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
+                    <property name="control">
+						<bean parent="Uif-DropdownControl" />
+					</property>
+					<property name="optionsFinder">
+						<bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
+					</property>
                 </bean>
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>

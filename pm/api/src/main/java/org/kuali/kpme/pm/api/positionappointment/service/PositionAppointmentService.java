@@ -31,7 +31,7 @@ public interface PositionAppointmentService {
 	public PositionAppointmentContract getPositionAppointmentById(String pmPositionAppointmentId);
 
 	/**
-	 * Get list of PositionAppointment with given group, description, institution, location and
+	 * Get list of PositionAppointment with given group, description, groupKeyCode and
 	 * effective date wild card allowed
 	 * 
 	 * @param positionAppointment
@@ -46,7 +46,7 @@ public interface PositionAppointmentService {
 	public List<? extends PositionAppointmentContract> getPositionAppointmentList(String positionAppointment, String description, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 	
 	/**
-	 * Get list of PositionAppointment with given group, institution, location and effective date wild card allowed
+	 * Get list of PositionAppointment with given group, groupKeyCode and effective date wild card allowed
 	 * 
 	 * @param positionAppointment
 	 * @param groupKeyCode

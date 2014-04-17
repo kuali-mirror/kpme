@@ -16,6 +16,8 @@
 package org.kuali.kpme.core.api.groupkey;
 
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 
 public interface HrGroupKeyService {
@@ -24,4 +26,6 @@ public interface HrGroupKeyService {
     HrGroupKey getHrGroupKey(String groupKeyCode, LocalDate asOfDate);
 
     HrGroupKey populateSubObjects(HrGroupKey groupKey, LocalDate asOfDate);
+    
+    List<HrGroupKey> getAllActiveHrGroupKeys(LocalDate asOfDate);
 }

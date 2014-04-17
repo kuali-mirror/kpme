@@ -15,6 +15,10 @@
  */
 package org.kuali.kpme.core.groupkey;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
@@ -27,8 +31,6 @@ import org.kuali.kpme.core.groupkey.dao.HrGroupKeyDao;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
-
-import java.util.Collections;
 
 
 public class HrGroupKeyServiceImpl implements HrGroupKeyService {
@@ -65,6 +67,22 @@ public class HrGroupKeyServiceImpl implements HrGroupKeyService {
             builder.setCampus(Campus.Builder.create(campusService.getCampus(builder.getCampusCode())));
         }
         return builder.build();
+    }
+    
+    @Override
+    public List<HrGroupKey> getAllActiveHrGroupKeys(LocalDate asOfDate) {
+    	
+    	List<HrGroupKey> hrGroupKeys = new ArrayList<HrGroupKey>();
+    	if (asOfDate == null) {
+            asOfDate = LocalDate.now();
+        }
+    	
+    	List<HrGroupKeyBo> hrGroupKeyBos = hrGroupKeyDao.getAllActiveHrGroupKeys(asOfDate);
+    	for (HrGroupKeyBo hrGroupKeyBo: hrGroupKeyBos) {
+    		hrGroupKeys.add(HrGroupKeyBo.to(hrGroupKeyBo));
+    	}
+    	
+    	return hrGroupKeys;
     }
 
 
