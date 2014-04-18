@@ -51,8 +51,8 @@ public enum KPMERole {
 	KOHR_INSTITUTION_VIEW_ONLY ("KOHR Institution View Only"),
 	KOHR_LOCATION_ADMINISTRATOR ("KOHR Location Administrator"),
 	KOHR_LOCATION_VIEW_ONLY ("KOHR Location View Only"),
-	KOHR_ORG_ADMINISTRATOR ("KOHR Org Administrator"),
-	KOHR_ORG_VIEW_ONLY ("KOHR Org View Only"),
+	KOHR_ORG_ADMINISTRATOR ("KOHR Organization Administrator"),
+	KOHR_ORG_VIEW_ONLY ("KOHR Organization View Only"),
 	HR_DEPARTMENT_ADMINISTRATOR ("HR Department Administrator"),
 	HR_DEPARTMENT_VIEW_ONLY ("HR Department View Only"),
 	HR_INSTITUTION_APPROVER ("HR Institution Approver"),
@@ -62,8 +62,8 @@ public enum KPMERole {
 	HR_LOCATION_APPROVER ("HR Location Approver"),
 	ACADEMIC_HR_LOCATION_APPROVER ("Academic HR Location Approver"), 
 	FISCAL_LOCATION_APPROVER ("Fiscal Location Approver"), 
-	HR_ORG_APPROVER ("HR Org Approver"),
-	FISCAL_ORG_APPROVER ("Fiscal Org Approver"),
+	HR_ORG_APPROVER ("HR Organization Approver"),
+	FISCAL_ORG_APPROVER ("Fiscal Organization Approver"),
 	DEPARTMENT_APPROVER ("Department Approver"),
 	FISCAL_DEPARTMENT_APPROVER ("Fiscal Department Approver");
 	
