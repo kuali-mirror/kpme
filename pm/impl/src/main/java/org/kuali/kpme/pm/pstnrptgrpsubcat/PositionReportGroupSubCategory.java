@@ -23,14 +23,18 @@ import com.google.common.collect.ImmutableMap;
 
 public class PositionReportGroupSubCategory extends HrKeyedBusinessObject implements PositionReportGroupSubCategoryContract {
 	
-	private static final String POSITION_REPORT_GROUP = "positionReportGroup";
-	private static final String POSITION_REPORT_SUB_CAT = "positionReportSubCat";
+	static class KeyFields {
+		private static final String POSITION_REPORT_GROUP = "positionReportGroup";
+		private static final String POSITION_REPORT_SUB_CAT = "positionReportSubCat";
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
+	}
 
 	private static final long serialVersionUID = 1L;
 	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-		     .add(POSITION_REPORT_SUB_CAT)
-		     .add(POSITION_REPORT_GROUP)
+		     .add(KeyFields.POSITION_REPORT_SUB_CAT)
+		     .add(KeyFields.POSITION_REPORT_GROUP)
+		     .add(KeyFields.GROUP_KEY_CODE)
 		     .build();
 	
 	private String pmPstnRptGrpSubCatId;
@@ -42,10 +46,11 @@ public class PositionReportGroupSubCategory extends HrKeyedBusinessObject implem
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
-				.put(POSITION_REPORT_SUB_CAT, this.getPositionReportSubCat())
-				.put(POSITION_REPORT_GROUP, this.getPositionReportGroup())
+				.put(KeyFields.POSITION_REPORT_SUB_CAT, this.getPositionReportSubCat())
+				.put(KeyFields.POSITION_REPORT_GROUP, this.getPositionReportGroup())
+				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
-	}	
+	}
 	
 	@Override
 	public String getId() {
