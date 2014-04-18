@@ -30,9 +30,12 @@ public class KpmeHrBusinessObjectLookupableImpl extends KPMELookupableImpl {
 	// this constructor sets the lookup service that is wired with the 
     // hrBusinessObject lookup DAO
 	public KpmeHrBusinessObjectLookupableImpl() {
-		this.setLookupService((LookupService) KRADServiceLocatorWeb.getService(KPME_HR_BUSINESS_OBJECT_LOOKUP_SERVICE));
+		this.setLookupService(this.createLookupServiceInstance());
 	}
 	
+	protected LookupService createLookupServiceInstance() {
+		return (LookupService) KRADServiceLocatorWeb.getService(KPME_HR_BUSINESS_OBJECT_LOOKUP_SERVICE);
+	}
 	
 	 // KPME-2699 editing inactive records is only allowed for admins
     @Override

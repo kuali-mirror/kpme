@@ -515,19 +515,32 @@
 	
     
 <!--     common beans for KNS/KRAD hr business object lookup -->
+
+	<!-- the below service is wired with a DAO that injects the effective date and timestamp subqueries into lookup -->
   	<bean id="kpmeHrBusinessObjectLookupService" parent="lookupService">
     	<property name="lookupDao">
        		<ref bean="kpmeHrBusinessObjectLookupDao"/>
     	</property>
 	</bean>
-
 	<bean id="kpmeHrBusinessObjectLookupDao" parent="lookupDao">
 		<property name="lookupDaoOjb">
 			<ref bean="kpmeHrBusinessObjectLookupDaoOjb"/>
 		</property>
 	</bean>    
-
 	<bean id="kpmeHrBusinessObjectLookupDaoOjb" parent="lookupDaoOjb" class="org.kuali.kpme.core.bo.dao.KpmeHrBusinessObjectLookupDaoOjbImpl" />
+
+	<!-- the below service is wired with a DAO that injects the institution and location subqueries for group key (in addition to the subqueries of the above parent DAO) -->
+    <bean id="kpmeHrGroupKeyedBusinessObjectLookupService" parent="kpmeHrBusinessObjectLookupService">
+    	<property name="lookupDao">
+       		<ref bean="kpmeHrGroupKeyedBusinessObjectLookupDao"/>
+    	</property>
+	</bean>
+	<bean id="kpmeHrGroupKeyedBusinessObjectLookupDao" parent="kpmeHrBusinessObjectLookupDao">
+		<property name="lookupDaoOjb">
+			<ref bean="kpmeHrGroupKeyedBusinessObjectLookupDaoOjb"/>
+		</property>
+	</bean>
+	<bean id="kpmeHrGroupKeyedBusinessObjectLookupDaoOjb" parent="kpmeHrBusinessObjectLookupDaoOjb" class="org.kuali.kpme.core.bo.dao.KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl" />
     
     
 <!--  parent beans for the above common beans for KNS/KRAD hr business object lookup; copied and pasted from KRAD spring bean file --> 

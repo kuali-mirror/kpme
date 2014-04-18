@@ -28,6 +28,10 @@ public abstract class HrKeyedBusinessObject extends HrBusinessObject implements 
 	protected String groupKeyCode;
 	protected transient HrGroupKeyBo groupKey;
 	
+	//purely for lookup criteria
+    protected transient String locationId;
+	protected transient String institutionCode;
+	
 	@Override
 	public String getGroupKeyCode() {
 		return groupKeyCode;
@@ -35,6 +39,22 @@ public abstract class HrKeyedBusinessObject extends HrBusinessObject implements 
 
 	public void setGroupKeyCode(String groupKeyCode) {
 		this.groupKeyCode = groupKeyCode;
+	}
+	
+	public String getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(String locationId) {
+		this.locationId = locationId;
+	}
+
+	public String getInstitutionCode() {
+		return institutionCode;
+	}
+
+	public void setInstitutionCode(String institutionCode) {
+		this.institutionCode = institutionCode;
 	}
 
 	@Override

@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.bo.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -48,22 +49,23 @@ public class KpmeHrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Criteria getCollectionCriteriaFromMap(BusinessObject example, Map formProps) {
-		// read and remove the history option from the form map
-		String showHistory = (String) formProps.remove(HISTORY_PARAM_NAME);
-		Class<? extends HrBusinessObjectContract> businessObjectClass = 
-				 (Class<? extends HrBusinessObjectContract>) example.getClass();
-		transformWildCardableFields(businessObjectClass, formProps);
-		Criteria returnVal = super.getCollectionCriteriaFromMap(example, formProps);
-		// inject the efft date and timestamp subqueries if history is not to be shown
-		if (StringUtils.equals(showHistory, NO)) {
-			injectSubQueries(returnVal,	businessObjectClass, formProps);
-		}
-		return returnVal;
+		Map<String, String> removedProperties = removeAndTransformFormProperties((Class<? extends HrBusinessObjectContract>) example.getClass(), formProps);		
+		Criteria rootCriteria = super.getCollectionCriteriaFromMap(example, formProps);		
+		processRootCriteria(rootCriteria, (Class<? extends HrBusinessObjectContract>) example.getClass(), formProps, removedProperties);
+		return rootCriteria;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Criteria getCollectionCriteriaFromMapUsingPrimaryKeysOnly(Class businessObjectClass, Map formProps) {
+		Map<String, String> removedProperties = removeAndTransformFormProperties(businessObjectClass, formProps);		 
+		Criteria rootCriteria = super.getCollectionCriteriaFromMapUsingPrimaryKeysOnly((Class<? extends HrBusinessObjectContract>) businessObjectClass, formProps);		 
+		processRootCriteria(rootCriteria, (Class<? extends HrBusinessObjectContract>) businessObjectClass, formProps, removedProperties);
+		return rootCriteria;
+	}
+
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void transformWildCardableFields(Class<? extends HrBusinessObjectContract> hrBOClass, Map formProps) {
+	protected void transformWildCardableFields(Class<? extends HrBusinessObjectContract> hrBOClass, Map formProps) {
 		Iterator propsIter = formProps.keySet().iterator();
         while (propsIter.hasNext()) {
             String propertyName = (String) propsIter.next();
@@ -95,21 +97,26 @@ public class KpmeHrBusinessObjectLookupDaoOjbImpl extends LookupDaoOjb {
         }
 	}
 
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Criteria getCollectionCriteriaFromMapUsingPrimaryKeysOnly(Class businessObjectClass, Map formProps) {
-		 // read and remove the history option from the form map
-		 String showHistory = (String) formProps.remove(HISTORY_PARAM_NAME);
-		 businessObjectClass = (Class<? extends HrBusinessObjectContract>) businessObjectClass;
-		 transformWildCardableFields(businessObjectClass, formProps);
-		 Criteria returnVal = super.getCollectionCriteriaFromMapUsingPrimaryKeysOnly(businessObjectClass, formProps);
-		 // inject the efft date and timestamp subqueries if history is not to be shown
-		 if (StringUtils.equals(showHistory, NO)) {
-			 injectSubQueries(returnVal, businessObjectClass, formProps);
-		 }
-		 return returnVal;
+	
+	@SuppressWarnings("rawtypes")
+	protected Map<String, String> removeAndTransformFormProperties(Class<? extends HrBusinessObjectContract> businessObjectClass, Map formProps) {
+		HashMap<String, String> retVal = new HashMap<String, String>();
+		// remove the history option field from the form map and add it to the return value map
+		retVal.put(HISTORY_PARAM_NAME, (String) formProps.remove(HISTORY_PARAM_NAME));
+		// covert any field inputs to be ORed with wild cards if applicable
+		transformWildCardableFields(businessObjectClass, formProps);
+		return retVal;
 	}
-
+	
+	
+	// inject effective dated subqueries into the root criteria if show history is not chosen
+	@SuppressWarnings("rawtypes")
+	protected void processRootCriteria(Criteria rootCriteria, Class<? extends HrBusinessObjectContract> businessObjectClass, Map formProps, Map<String, String> removedProperties) {
+		// inject the efft date and timestamp subqueries if history is not to be shown
+		if (StringUtils.equals(removedProperties.get(HISTORY_PARAM_NAME), NO)) {
+			injectSubQueries(rootCriteria, businessObjectClass, formProps);
+		}
+	}	
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

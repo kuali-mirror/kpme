@@ -22,7 +22,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionReportGroupSubCat" parent="PositionReportGroupSubCat-parentBean"/>
- 	<bean id="PositionReportGroupSubCat-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+ 	<bean id="PositionReportGroupSubCat-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
 	    <property name="attributes">
 	      <list merge="true">
@@ -31,27 +31,25 @@
 	        <ref bean="PositionReportGroupSubCat-positionReportGroup"/>
 	        <ref bean="PositionReportGroupSubCat-positionReportSubCat"/>
 	        <ref bean="PositionReportGroupSubCat-description"/>
-	        <ref bean="PositionReportGroupSubCat-institution"/>
-	        <ref bean="PositionReportGroupSubCat-location"/>
 	      </list>
 	    </property>
 	    <property name="objectLabel" value="Position Report Group Sub Category"/>
   	</bean>
 
-		<!-- Attribute Definitions -->  
-	 <bean id="PositionReportGroupSubCat-pmPstnRptGrpSubCatId" parent="PositionReportGroupSubCat-pmPstnRptGrpSubCatId-parentBean"/>
-	 <bean id="PositionReportGroupSubCat-pmPstnRptGrpSubCatId-parentBean" abstract="true" parent="AttributeDefinition">
+		<!-- Attribute Definitions -->
+	<bean id="PositionReportGroupSubCat-pmPstnRptGrpSubCatId" parent="PositionReportGroupSubCat-pmPstnRptGrpSubCatId-parentBean" />
+	<bean id="PositionReportGroupSubCat-pmPstnRptGrpSubCatId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="60" />
-	    <property name="required" value="false" />
-	    <property name="forceUppercase" value="false"/>
-	    <property name="shortLabel" value="id"/>
-	    <property name="controlField">
-	      <bean parent="Uif-TextControl" p:size="100"/>
-	    </property>
-	    <property name="name" value="pmPstnRptGrpSubCatId"/>
-	    <property name="label" value="Position Report Group Sub Category Id"/>
-	 </bean>   
-	 
+		<property name="required" value="false" />
+		<property name="forceUppercase" value="false" />
+		<property name="shortLabel" value="id" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="100" />
+		</property>
+		<property name="name" value="pmPstnRptGrpSubCatId" />
+		<property name="label" value="Position Report Group Sub Category Id" />
+	</bean>
+
 	<bean id="PositionReportGroupSubCat-pstnRptGrpSubCat" parent="PositionReportGroupSubCat-pstnRptGrpSubCat-parentBean" />
 	<bean id="PositionReportGroupSubCat-pstnRptGrpSubCat-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
@@ -64,25 +62,25 @@
 		<property name="label" value="Position Report Group Sub Category" />
 		<property name="description" value="positionReportGroupSubCategory" />
 	</bean>
-	
+
 
 	<bean id="PositionReportGroupSubCat-positionReportGroup" parent="PositionReportGroupSubCat-positionReportGroup-parentBean" />
 	<bean id="PositionReportGroupSubCat-positionReportGroup-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
-	    <property name="controlField">
+		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="50" />
 		</property>
 		<property name="name" value="positionReportGroup" />
 		<property name="label" value="Position Report Group" />
 		<property name="description" value="positionReportGroup" />
 	</bean>
-		
+
 	<bean id="PositionReportGroupSubCat-positionReportSubCat" parent="PositionReportGroupSubCat-positionReportSubCat-parentBean" />
 	<bean id="PositionReportGroupSubCat-positionReportSubCat-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="50" />
 		<property name="required" value="true" />
-	    <property name="controlField">
+		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="50" />
 		</property>
 		<property name="name" value="positionReportSubCat" />
@@ -101,16 +99,7 @@
 		<property name="label" value="Description" />
 		<property name="description" value="description" />
 	</bean>
-	
-	<bean id="PositionReportGroupSubCat-institution" parent="PositionReportGroupSubCat-institution-parentBean" />
-	<bean id="PositionReportGroupSubCat-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
-		<property name="required" value="true" />
-	</bean>
-	
-	<bean id="PositionReportGroupSubCat-location" parent="PositionReportGroupSubCat-location-parentBean" />
-	<bean id="PositionReportGroupSubCat-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
-		<property name="required" value="true" />
-	</bean>
+
 	
 <!--***************************************************************************
 							Views
@@ -118,7 +107,7 @@
   	
   <!-- Position Reporting Group Sub Category Lookup View -->
  
-  <bean id="PositionReportGroupSubCat-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+  <bean id="PositionReportGroupSubCat-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
     <property name="headerText" value="Position Report Group Sub Category Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" />
     <property name="criteriaFields">
@@ -136,18 +125,7 @@
 	        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 	   		 </property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-	        		 p:fieldConversions="institutionCode:institution"/>
-	   		 </property>
-        </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-        	<property name="quickfinder">
-							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-								p:fieldConversions="location:location" />
-			</property>
-        </bean>
+        
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
@@ -163,8 +141,6 @@
         </bean>
         <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
         <bean parent="Uif-DataField" p:propertyName="positionReportSubCat" />
-        <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="location" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -186,8 +162,6 @@
 			        <bean parent="Uif-DataField" p:propertyName="description" />
 			        <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
 			        <bean parent="Uif-DataField" p:propertyName="positionReportSubCat" />
-			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="location" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
                     <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 	        	</list>
@@ -223,18 +197,7 @@
 		        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 		   		 </property>
 	       		</bean>
-		        <bean parent="Uif-InputField" p:propertyName="institution" >
-			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-		        			 p:fieldConversions="institutionCode:institution"/>
-		   			</property>
-		        </bean>
-		        <bean parent="Uif-InputField" p:propertyName="location">
-		        	<property name="quickfinder">
-							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-								p:fieldConversions="location:location" />
-					</property>
-		        </bean>
+
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
             </list>
           </property>
