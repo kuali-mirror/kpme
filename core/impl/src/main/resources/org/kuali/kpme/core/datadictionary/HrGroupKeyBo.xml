@@ -24,7 +24,7 @@
 	<bean id="HrGroupKey" parent="HrGroupKey-parentBean" />
 	<bean id="HrGroupKey-parentBean" abstract="true"	parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.groupkey.HrGroupKeyBo" />
-		<property name="objectLabel" value="Data Group" />
+		<property name="objectLabel" value="Group Key" />
 		<!--<property name="inquiryDefinition">
 			<ref bean="HrGroupKey-inquiryDefinition" />
 		</property>
@@ -47,7 +47,7 @@
 	<bean id="HrGroupKey-id" parent="HrGroupKey-id-parentBean" />
 	<bean id="HrGroupKey-id-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Data Group Id" />
+		<property name="shortLabel" value="Group Key Id" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -58,7 +58,7 @@
 			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
 		<property name="name" value="id" />
-		<property name="label" value="Data Group Id" />
+		<property name="label" value="Group Key Id" />
 	</bean>
 
 	<bean id="HrGroupKey-groupKeyCode" parent="HrGroupKey-groupKeyCode-parentBean" />
@@ -201,7 +201,7 @@
 	</bean>
 
 	<bean id="HrGroupKey-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
-		<property name="headerText" value="Data Group Lookup" />
+		<property name="headerText" value="Group Key Lookup" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.groupkey.HrGroupKeyBo" />
 		<property name="criteriaFields">
 			<list>
@@ -267,7 +267,7 @@
     <bean id="HrGroupKey-MaintenanceView" parent="HrGroupKey-MaintenanceView-parentBean" />
     <bean id="HrGroupKey-MaintenanceView-parentBean" abstract="true"
           parent="KPMEEffectiveDateBO-MaintenanceView">
-        <property name="headerText" value="Data Group Maintenance" />
+        <property name="headerText" value="Group Key Maintenance" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.groupkey.HrGroupKeyBo" />
         <property name="items">
             <list merge="true">
