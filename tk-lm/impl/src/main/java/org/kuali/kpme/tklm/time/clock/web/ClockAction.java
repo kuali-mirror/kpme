@@ -313,6 +313,10 @@ public class ClockAction extends TimesheetAction {
    	 	DateTime clockBeginDateTime = new DateTime(beginDate.toDateTimeAtCurrentTime());
         // validate if there's any overlapping with existing time blocks
         if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
+             Set<String> regularEarnCodes = new HashSet<String>();
+             for(Assignment assign : caf.getTimesheetDocument().getAllAssignments()) {
+                 regularEarnCodes.add(assign.getJob().getPayTypeObj().getRegEarnCode());
+             }
         	 List<TimeBlock> tbList = caf.getTimesheetDocument().getTimeBlocks();
 	         for(TimeBlock tb : tbList) {
 	        	 String earnCode = tb.getEarnCode();
@@ -320,7 +324,7 @@ public class ClockAction extends TimesheetAction {
 	        	 EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, caf.getTimesheetDocument().getAsOfDate());
 	        	 if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
 	        		 Interval clockInterval = new Interval(tb.getBeginDateTime(), tb.getEndDateTime());
-	        		 if(isRegularEarnCode && clockInterval.contains(clockBeginDateTime.getMillis())) {
+	        		 if((isRegularEarnCode || regularEarnCodes.contains(earnCodeObj.getEarnCode())) && clockInterval.contains(clockBeginDateTime.getMillis())) {
 	        			 caf.setErrorMessage(TIME_BLOCK_OVERLAP_ERROR);
 	        			 return mapping.findForward("basic");
 	        		 }

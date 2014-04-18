@@ -72,6 +72,8 @@
     <param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
     <param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
     <param name="kew.externalizable.images.url">/${app.context.name}/kew/images/</param>
+    
+    <param name="department.admin.url">${application.url}/DepartmentAdmin.do</param>
 
     <!-- TODO: remove once all KNS screen converted to KRAD -->
     <!--<param name="kns.javascript.files">plugins/jquery/jquery-1.8.3.js,plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js</param>-->

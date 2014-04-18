@@ -97,7 +97,7 @@ public interface JobDao {
     
     public List<JobBo> getAllActiveLeaveJobs(String principalId, LocalDate asOfDate);
     
-    public List<JobBo> getInactiveLeaveJobs(Long jobNumber, LocalDate endDate);
+    public List<JobBo> getInactiveLeaveJobs(Long jobNumber, String principalId, LocalDate endDate);
     
     public List<JobBo> getAllInActiveLeaveJobsInRange(String principalId, LocalDate endDate);
     

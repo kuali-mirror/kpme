@@ -235,8 +235,8 @@ public class JobServiceImpl implements JobService {
     	return toImmutable(jobDao.getAllActiveLeaveJobs(principalId, asOfDate));
     }
     
-    public List<Job> getInactiveLeaveJobs(Long jobNumber, LocalDate endDate) {
-    	return toImmutable(jobDao.getInactiveLeaveJobs(jobNumber, endDate));
+    public List<Job> getInactiveLeaveJobs(Long jobNumber, String principalId, LocalDate endDate) {
+    	return toImmutable(jobDao.getInactiveLeaveJobs(jobNumber, principalId, endDate));
     }
     
     @Override
