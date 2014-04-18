@@ -320,7 +320,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         boolean isRegularEarnCode = StringUtils.equals(assign.getJob().getPayTypeObj().getRegEarnCode(),selectedEarnCode);
         startTime = TKUtils.convertDateStringToDateTime(startDateS, startTimeS).getMillis();
         endTime = TKUtils.convertDateStringToDateTime(endDateS, endTimeS).getMillis();
-        
+
         errors.addAll(validateOverlap(startTime, endTime, acrossDays, startDateS, endTimeS,startTemp, endTemp, timesheetDocument, timeblockId, isRegularEarnCode, selectedEarnCode));
         if (errors.size() > 0) return errors;
 

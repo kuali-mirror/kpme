@@ -18,6 +18,7 @@ package org.kuali.hr.time.roles.web;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -33,7 +34,9 @@ import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -183,16 +186,26 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
 
-        DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(userId));
+
+        String targetedTimesheetUrl = getTargetedTimesheetDocumentUrl(tdocId,"fred");
+        HrContext.setTargetPrincipalId("fred");
+        page = getWebClient().getPage(targetedTimesheetUrl);
+        Assert.assertNotNull(page);
+
+        DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone("fred"));
         final DateTime start = new DateTime(2011, 3, 2, 13, 0, 0, 0, dateTimeZone);
         final DateTime end = new DateTime(2011, 3, 2, 18, 0, 0, 0, dateTimeZone);
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true, null, null, null, null, null, null);
 
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
+
+        if (CollectionUtils.isNotEmpty(errors)) {
+            for (String error : errors) {
+                LOG.error(error);
+            }
+        }
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
-        String targetedTimesheetUrl = getTargetedTimesheetDocumentUrl(tdocId,"fred");
-        page = getWebClient().getPage(targetedTimesheetUrl);
-        Assert.assertNotNull(page);
+
         String submitDetailsUrl = BASE_DETAIL_URL + tdocId;
         //The following page does not contain timeBlockString data after KPME-2959.
         page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), submitDetailsUrl, tdaf);
@@ -237,12 +250,18 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         EarnCode earnCode = earnCodes.get(0);
 
         Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
-
-        DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(userId));
+        HrContext.setTargetPrincipalId("fred");
+        DateTimeZone dateTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone("fred"));
         DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, dateTimeZone);
         DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, dateTimeZone);
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true, null, null, null, null, null, null);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            for (String error : errors) {
+                LOG.error(error);
+            }
+        }
+        KPMERole[] roleNames = KPMERole.values();
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), userId, getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
