@@ -66,6 +66,10 @@ public class PayrollApprovalJob extends BatchJob {
 			String subject = "";
 			List<Long> workAreas = new ArrayList<Long>();
 			
+			// used to flag if any document has be routed by this batch job. If true, 
+			// we need to reschedule this job since the newly routed documents are not approved by this job, we need a new job to approve them
+			boolean needToReschedule = false;	
+			
 			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
 				List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
 		        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
@@ -77,10 +81,18 @@ public class PayrollApprovalJob extends BatchJob {
 						if(documentStatus.equals(DocumentStatus.ENROUTE.getCode())) {
 							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
 							if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {	
-								TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+								TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.PAYROLL_JOB_APPROVE);
 								roleMembers = getRoleMembersInDepartment(timesheetDocument.getAllAssignments(), KPMENamespace.KPME_TK);
 								subject = "Payroll Batch Approved Timesheet Document " + docId;
 							}
+						} else if(documentStatus.equals(DocumentStatus.INITIATED.getCode()) || documentStatus.equals(DocumentStatus.SAVED.getCode())) {
+		        			// if there are documents still not submitted by the time payroll processor approval batch job runs, we need to route the document, then reschedule the payroll processor job
+		        			String principalId = timesheetDocument.getPrincipalId();
+							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+							if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {		
+								TkServiceLocator.getTimesheetService().routeTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
+								needToReschedule = true;
+				            }
 		        		}
 					}
 		        }
@@ -99,11 +111,22 @@ public class PayrollApprovalJob extends BatchJob {
 								roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAllAssignments(), KPMENamespace.KPME_LM);
 								subject = "Payroll Batch Approved Leave Calendar Document " + docId;
 							}
+						} else if(documentStatus.equals(DocumentStatus.INITIATED.getCode()) || documentStatus.equals(DocumentStatus.SAVED.getCode())) {
+							String principalId = leaveCalendarDocument.getPrincipalId();
+							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+							if(phraRecord != null && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {	
+								LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
+								needToReschedule = true;
+							}
 						}
 					}
 		        }
 			}
 			sendNotifications(subject, roleMembers, workAreas);
+			if(needToReschedule) {
+				rescheduleJob(context);
+			}
+			
         } else {
         	String principalName = getBatchUserPrincipalName();
         	LOG.error("Could not run batch jobs due to missing batch user " + principalName);

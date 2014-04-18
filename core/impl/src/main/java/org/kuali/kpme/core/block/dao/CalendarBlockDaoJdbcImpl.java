@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.block.dao;
 
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc;
 import org.kuali.rice.core.framework.persistence.jdbc.sql.Criteria;
@@ -110,6 +112,77 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 			return cBlock;
 		}
 		
+	}
+	
+
+	@Override
+	public DateTime getLatestEndTimestampForAssignment(Assignment assignment,String calendarBlockType) {
+		
+		PreparedStatementCreator timeBlockPSC = new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				StringBuffer sql = new StringBuffer();
+				sql.append("SELECT max(end_ts) ");
+				sql.append("FROM tk_time_block_t ");
+				sql.append("WHERE principal_id = ? AND job_number=? AND task=? AND work_area=?");
+				
+				String query = sql.toString();
+
+				return conn.prepareStatement(query);
+			}
+		};
+
+		PreparedStatementCreator leaveBlockPSC = new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn)
+					throws SQLException {
+				StringBuffer sql = new StringBuffer();
+				sql.append("SELECT max(end_ts) ");
+				sql.append("FROM lm_leave_block_t ");
+				sql.append("WHERE principal_id = ? AND job_number=? AND task=? AND work_area=?");
+
+				String query = sql.toString();
+
+				return conn.prepareStatement(query);
+			}
+		};
+		
+		try {
+    		PreparedStatement statement = null;
+		    if (StringUtils.equals(calendarBlockType, "Time")) {
+				statement = timeBlockPSC.createPreparedStatement(this.getDataSource().getConnection());
+		    } else if (StringUtils.equals(calendarBlockType, "Leave")) {
+		    	statement = leaveBlockPSC.createPreparedStatement(this.getDataSource().getConnection());
+		    }
+		    else {
+		    	throw new IllegalArgumentException("calendarBlockType must be one of 'Time' or 'Leave'");
+		    }
+		    if(statement != null) {
+		    	statement.setString(1, assignment.getPrincipalId());
+		    	statement.setString(2, assignment.getJobNumber().toString());
+		    	statement.setString(3, assignment.getTask().toString());
+		    	statement.setString(4, assignment.getWorkArea().toString());
+		    }
+		    
+		    ResultSet rs = statement.executeQuery();
+		    if(rs != null) {
+		    	boolean empty = !rs.first();
+		    	Timestamp maxDate = rs.getTimestamp("max(end_ts)");
+		  	  if(maxDate == null) {
+				  return null;
+			  }
+			  else {
+				  return new DateTime(maxDate.getTime());
+			  }
+		    }
+		} catch (SQLException e) {
+			LOG.warn("error creating or executing sql statement");
+			throw new RuntimeException();
+		}
+        return null;
 	}
 	
 	@Override

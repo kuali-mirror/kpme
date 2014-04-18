@@ -56,6 +56,7 @@ public class HrConstants {
 		public static final String BATCH_JOB_INITIATE = "BI";
 		public static final String BATCH_JOB_ROUTE = "BR";
 		public static final String BATCH_JOB_APPROVE = "BA";
+		public static final String PAYROLL_JOB_APPROVE = "PA";
 	}
 
 	public static final class ROUTE_STATUS {

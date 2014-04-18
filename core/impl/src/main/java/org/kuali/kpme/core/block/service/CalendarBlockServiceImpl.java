@@ -18,6 +18,7 @@ package org.kuali.kpme.core.block.service;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.service.CalendarBlockService;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.block.dao.CalendarBlockDao;
@@ -42,6 +43,11 @@ public class CalendarBlockServiceImpl implements CalendarBlockService {
 	@Override
 	public DateTime getLatestEndTimestampForEarnCode(String earnCode, String calendarBlockType) {
 		return calendarBlockDao.getLatestEndTimestampForEarnCode(earnCode, calendarBlockType);
+	}
+
+	@Override
+	public DateTime getLatestEndTimestampForAssignment(Assignment assignment,String calendarBlockType) {
+		return calendarBlockDao.getLatestEndTimestampForAssignment(assignment,calendarBlockType);
 	}
 	
 }

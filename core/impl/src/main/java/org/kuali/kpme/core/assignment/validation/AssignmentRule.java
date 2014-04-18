@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
@@ -296,24 +297,33 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-/*	protected boolean validateActiveFlag(Assignment assign){
-		if(!assign.isActive()) {
-			List<TimeBlock> tbList = TkServiceLocator.getTimeBlockService().getTimeBlocksForAssignment(assign);
-			if(!tbList.isEmpty()) {
-				DateTime tbEndDate = tbList.get(0).getEndDateTime();
-				for(TimeBlock tb : tbList) {
-					if(tb.getEndDateTime().isAfter(tbEndDate)) {
-						tbEndDate = tb.getEndDateTime();			// get the max end date
-					}
-				}
-				if(tbEndDate.equals(assign.getEffectiveLocalDate().toDateTimeAtStartOfDay()) || tbEndDate.isAfter(assign.getEffectiveLocalDate().toDateTimeAtStartOfDay())) {
-					this.putFieldError("active", "error.assignment.timeblock.existence", tbEndDate.toString());
-					return false;
-				}
+	protected boolean validateActiveFlag(AssignmentBo assign){
+        Assignment assignment = AssignmentBo.to(assign);
+		DateTime latestTimeEndTimestamp =  HrServiceLocator.getCalendarBlockService().getLatestEndTimestampForAssignment(assignment,"Time");
+		
+		if(latestTimeEndTimestamp != null) {
+			LocalDate assignmentEffectiveDate = assign.getEffectiveLocalDate();
+			LocalDate latestTimeEndTimestampLocalDate = latestTimeEndTimestamp.toLocalDate();
+			 
+			if ( !assign.isActive() && assignmentEffectiveDate.isBefore(latestTimeEndTimestampLocalDate) ){
+				this.putFieldError("active", "error.assignment.timeblock.existence", latestTimeEndTimestampLocalDate.toString());
+				return false;
 			}
 		}
+		
+		DateTime latestLeaveEndTimestamp =  HrServiceLocator.getCalendarBlockService().getLatestEndTimestampForAssignment(assignment,"Leave");
+		if(latestLeaveEndTimestamp!=null) {
+			LocalDate assignmentEffectiveDate = assign.getEffectiveLocalDate();
+			LocalDate latestLeaveEndTimestampLocalDate = latestLeaveEndTimestamp.toLocalDate();
+			 
+			if ( !assign.isActive() && assignmentEffectiveDate.isBefore(latestLeaveEndTimestampLocalDate) ){
+				this.putFieldError("active", "error.assignment.leaveblock.existence", latestLeaveEndTimestampLocalDate.toString());
+				return false;
+			}
+		}
+		
 		return true;
-	}*/
+	}
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
@@ -335,7 +345,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDepartment(assignment);
 				valid &= this.validatePercentagePerEarnCode(assignment);
 				valid &= this.validateHasAccounts(assignment);
-				//valid &= this.validateActiveFlag(assignment);
+				valid &= this.validateActiveFlag(assignment);
 				if(!assignment.getAssignmentAccounts().isEmpty()) {
 					valid &= this.validateRegPayEarnCode(assignment);
 //					valid &= this.validateAccounts(assignment); // KPME-2780

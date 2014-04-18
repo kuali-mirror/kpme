@@ -22,6 +22,7 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.calendar.CalendarBo;
+import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -42,54 +43,53 @@ import java.util.List;
 public class EmployeeApprovalJob extends BatchJob {
 
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		try {
-			JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-			TkServiceLocator.getBatchJobService().updateStatus(context.getJobDetail(), BatchJobService.RUNNING_JOB_STATUS_CODE);
-			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
-	//		String documentId = jobDataMap.getString("documentId");
-	
-			CalendarEntry calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
-	        Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
-			
-			DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
-	    	DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
-			
-			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
-		        List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
-		       
-		        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
-		        	if(timesheetDocumentHeader != null) {
-		        		String docId = timesheetDocumentHeader.getDocumentId();
-		        		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
-		        		if(timesheetDocument != null) {
-							if (TkConstants.EMPLOYEE_APPROVAL_DOC_STATUS.contains(KEWServiceLocator.getRouteHeaderService().getDocumentStatus(docId))) {
-								// use the range of the calendar entry to retrieve the correct PrincipalHrAtrribute record for the employee
-								// then check if the calendar name/id matches the one from the calendar entry
-								String principalId = timesheetDocument.getPrincipalId();
-								PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
-								if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {		
-									TkServiceLocator.getTimesheetService().routeTimesheet(principalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
-					            }
-							}
-		        		}
-		        	}
-		        }
-	    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
-		        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
-		        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
-		        	if (leaveCalendarDocumentHeader != null) {
-		        		String docId = leaveCalendarDocumentHeader.getDocumentId();
-						LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
-						if (TkConstants.EMPLOYEE_APPROVAL_DOC_STATUS.contains(KEWServiceLocator.getRouteHeaderService().getDocumentStatus(docId))) {
-							String principalId = leaveCalendarDocument.getPrincipalId();
-							PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
-							if(phraRecord != null && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {	
-								LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(principalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
-							}
-						}
-					}
-		        }
-	    	}
+        try {
+            JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
+            String batchUserPrincipalId = getBatchUserPrincipalId();
+            String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
+
+            CalendarEntry calendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
+            Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+
+            DateTime beginDate = calendarEntry.getBeginPeriodFullDateTime();
+            DateTime endDate = calendarEntry.getEndPeriodFullDateTime();
+
+            if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+                List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+
+                for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+                    if(timesheetDocumentHeader != null) {
+                        String docId = timesheetDocumentHeader.getDocumentId();
+                        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+                        if(timesheetDocument != null) {
+                            if (TkConstants.EMPLOYEE_APPROVAL_DOC_STATUS.contains(KEWServiceLocator.getRouteHeaderService().getDocumentStatus(docId))) {
+                                // use the range of the calendar entry to retrieve the correct PrincipalHrAtrribute record for the employee
+                                // then check if the calendar name/id matches the one from the calendar entry
+                                String principalId = timesheetDocument.getPrincipalId();
+                                PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+                                if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {
+                                    TkServiceLocator.getTimesheetService().routeTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+                List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+                for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+                    if (leaveCalendarDocumentHeader != null) {
+                        String docId = leaveCalendarDocumentHeader.getDocumentId();
+                        LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
+                        if (TkConstants.EMPLOYEE_APPROVAL_DOC_STATUS.contains(KEWServiceLocator.getRouteHeaderService().getDocumentStatus(docId))) {
+                            String principalId = leaveCalendarDocument.getPrincipalId();
+                            PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+                            if (phraRecord != null && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {
+                                LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
+                            }
+                        }
+                    }
+                }
+            }
 		}catch(Exception ex) {
 			TkServiceLocator.getBatchJobService().updateStatus(context.getJobDetail(), BatchJobService.FAILED_JOB_STATUS_CODE);
 			ex.printStackTrace();

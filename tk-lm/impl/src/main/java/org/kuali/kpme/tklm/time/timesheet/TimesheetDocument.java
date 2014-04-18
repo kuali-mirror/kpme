@@ -16,11 +16,15 @@
 package org.kuali.kpme.tklm.time.timesheet;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.job.Job;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -151,11 +155,43 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 
                 if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {
                     TimeCollectionRule tcr = null;
-                    if (assignment.getJob() != null)
+                    if (assignment.getJob() != null) {
                         tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+                    }
                     boolean isSynchronous = tcr == null || tcr.isClockUserFl();
                     if (!clockOnlyAssignments || isSynchronous) {
                         assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+                    }
+                }
+            }
+        }
+        
+        return assignmentDescriptions;
+    }
+    
+    public Map<String, String> getAssignmentDescriptionsOfApprovals(boolean clockOnlyAssignments) {
+        Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
+        List<Assignment> allAssignments = getAllAssignments();
+        for (Assignment assignment : allAssignments) {
+        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+
+        	if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {
+        		TimeCollectionRule tcr = null;
+        		if(assignment.getJob() != null)
+        			tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+        		boolean isSynchronous = tcr == null || tcr.isClockUserFl();
+                if (!clockOnlyAssignments || isSynchronous) {
+    				Long workArea = assignment.getWorkArea();
+                    String dept = assignment.getJob() == null ? StringUtils.EMPTY : assignment.getJob().getDept();
+        			DateTime startOfToday = LocalDate.now().toDateTimeAtStartOfDay();
+                    boolean isApproverOrReviewerForCurrentAssignment =
+                            HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, startOfToday)
+        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, startOfToday)
+        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, startOfToday)
+                            || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, startOfToday)
+                            || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, startOfToday);
+                    if(isApproverOrReviewerForCurrentAssignment) {
+                    	assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
                     }
                 }
             }

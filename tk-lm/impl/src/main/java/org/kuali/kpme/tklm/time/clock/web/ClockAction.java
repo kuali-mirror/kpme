@@ -112,6 +112,12 @@ public class ClockAction extends TimesheetAction {
 		            clockActionForm.setPrincipalId(targetPrincipalId);
 		        }
 		        
+		        if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), HrContext.getTargetPrincipalId())) {
+		        	clockActionForm.setAssignmentDescriptions(timesheetDocument.getAssignmentDescriptions(true, LocalDate.now()));
+		        } else {
+		        	clockActionForm.setAssignmentDescriptions(timesheetDocument.getAssignmentDescriptionsOfApprovals(true));
+		        }
+		        
 		        String ipAddress = TKUtils.getIPAddressFromRequest(request);
 		        Map<String, String> assignmentMap = timesheetDocument.getAssignmentDescriptions(true, LocalDate.now());
 		        String principalId = HrContext.getPrincipalId();
@@ -310,7 +316,7 @@ public class ClockAction extends TimesheetAction {
         }
         
         LocalDate beginDate = LocalDate.now();
-   	 	DateTime clockBeginDateTime = new DateTime(beginDate.toDateTimeAtCurrentTime());
+   	 	DateTime clockTimeWithGraceRule = TkServiceLocator.getGracePeriodService().processGracePeriodRule(new DateTime(beginDate.toDateTimeAtCurrentTime()), beginDate);
         // validate if there's any overlapping with existing time blocks
         if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
              Set<String> regularEarnCodes = new HashSet<String>();
@@ -324,7 +330,7 @@ public class ClockAction extends TimesheetAction {
 	        	 EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, caf.getTimesheetDocument().getAsOfDate());
 	        	 if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
 	        		 Interval clockInterval = new Interval(tb.getBeginDateTime(), tb.getEndDateTime());
-	        		 if((isRegularEarnCode || regularEarnCodes.contains(earnCodeObj.getEarnCode())) && clockInterval.contains(clockBeginDateTime.getMillis())) {
+	        		 if((isRegularEarnCode || regularEarnCodes.contains(earnCodeObj.getEarnCode())) && clockInterval.contains(clockTimeWithGraceRule.getMillis())) {
 	        			 caf.setErrorMessage(TIME_BLOCK_OVERLAP_ERROR);
 	        			 return mapping.findForward("basic");
 	        		 }
@@ -350,8 +356,25 @@ public class ClockAction extends TimesheetAction {
                inAction = TkConstants.CLOCK_IN;
                outAction = TkConstants.CLOCK_OUT;
             }     
-        	
+
         	TimesheetDocument previousTimeDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(previousClockLog.getDocumentId());
+
+            //uses a different method to get previous timesheet if missed punch was used to create a clock log
+            // on the previous timesheet
+            if (StringUtils.equals(((ClockActionForm) form).getDocumentId(),previousTimeDoc.getDocumentId())) {
+                DateTime currentCalendarEntryBeginDate = ((ClockActionForm) form).getTimesheetDocument().getCalendarEntry().getBeginPeriodFullDateTime();
+                DateTime currentCalendarEntryEndDate = ((ClockActionForm) form).getTimesheetDocument().getCalendarEntry().getEndPeriodFullDateTime();
+
+                Interval currentCalendarInterval = new Interval(currentCalendarEntryBeginDate,currentCalendarEntryEndDate);
+
+                if (!currentCalendarInterval.contains(previousClockLog.getClockDateTime())) {
+                    TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(pId,currentCalendarEntryBeginDate);
+                    if (prevTdh != null) {
+                        previousTimeDoc =  TkServiceLocator.getTimesheetService().getTimesheetDocument(prevTdh.getDocumentId());
+                    }
+                }
+            }
+
         	if(previousTimeDoc != null) {
                 CalendarEntry previousCalEntry = previousTimeDoc.getCalendarEntry();
 	        	DateTime previousEndPeriodDateTime = previousCalEntry.getEndPeriodFullDateTime();
@@ -453,7 +476,7 @@ public class ClockAction extends TimesheetAction {
 	        	 boolean isRegularEarnCode = StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(),earnCode);
 	        	 EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 	        	 if(isRegularEarnCode && earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
-	            	 if(clockInterval.contains(tb.getBeginDateTime().getMillis()) || clockInterval.contains(tb.getEndDateTime().getMillis())) {
+	            	 if(clockInterval.overlaps(new Interval(tb.getBeginDateTime(), tb.getEndDateTime()))) {
 	            		 return false;
 	            	 }
 	        	 }

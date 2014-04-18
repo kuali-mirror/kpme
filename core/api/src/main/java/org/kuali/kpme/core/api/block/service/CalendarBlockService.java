@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.block.service;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.block.CalendarBlockContract;
 
 public interface CalendarBlockService {
@@ -25,5 +26,6 @@ public interface CalendarBlockService {
 	public List<? extends CalendarBlockContract> getAllCalendarBlocks();
 
 	public DateTime getLatestEndTimestampForEarnCode(String earnCode, String calendarBlockType);
-	
+
+    public DateTime getLatestEndTimestampForAssignment(Assignment assignment,String calendarBlockType);
 }

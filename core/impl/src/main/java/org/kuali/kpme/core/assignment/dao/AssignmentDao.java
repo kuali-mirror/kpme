@@ -93,3 +93,4 @@ public interface AssignmentDao {
 
     public List<AssignmentBo> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate, boolean requireActive);
 }
+

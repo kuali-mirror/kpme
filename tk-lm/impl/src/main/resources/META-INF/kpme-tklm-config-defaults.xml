@@ -19,6 +19,7 @@
 
     <param name="kpme.tklm.ehcache.config.location" override="false">classpath:kpme.tklm.ehcache.xml</param>
 
+    <param name="kpme.tklm.target.employee.time.limit">30</param>
     <!-- KPME Batch Processing -->
     <param name="kpme.org.quartz.threadPool.threadCount">5</param>
     <param name="kpme.batch.user.principalName">admin</param>

@@ -38,6 +38,7 @@ import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -209,7 +210,10 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
         if (timeApprovalActionForm.getCalendarEntry() == null) {
             return Collections.emptyList();
         }
-        LocalDate endDate = timeApprovalActionForm.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate().minusDays(1);
+
+        //allows all employees with active assignments in the limit set in the config to be viewable by approver
+        Integer limit = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty("kpme.tklm.target.employee.time.limit"));
+        LocalDate endDate = timeApprovalActionForm.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate().minusDays(limit);
         LocalDate beginDate = timeApprovalActionForm.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
 
         return TkServiceLocator.getTimeApproveService().getTimePrincipalIdsWithSearchCriteria(workAreas, calendar, endDate, beginDate, endDate);      

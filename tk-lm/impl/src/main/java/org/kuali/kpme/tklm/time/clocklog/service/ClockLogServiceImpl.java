@@ -25,16 +25,13 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
-import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDao;
-import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
@@ -131,9 +128,9 @@ public class ClockLogServiceImpl implements ClockLogService {
         DateTime beginDateTime = lastClockDateTime;
         DateTime endDateTime = clockLog.getClockDateTime();
 
-        // KPME-2680 : chk if hours is not zero then and then create TimeBlock
-    	BigDecimal hours = TKUtils.getHoursBetween(beginDateTime.getMillis(), endDateTime.getMillis());
-    	if(hours.compareTo(BigDecimal.ZERO) > 0) {
+//        // KPME-2680 : chk if hours is not zero then and then create TimeBlock
+//    	BigDecimal hours = TKUtils.getHoursBetween(beginDateTime.getMillis(), endDateTime.getMillis());
+//    	if(hours.compareTo(BigDecimal.ZERO) > 0) {
 	        // New Time Blocks, pointer reference
 	        List<TimeBlock> newTimeBlocks = TimesheetUtils.getTimesheetTimeblocksForProcessing(td, true);
 	        List<TimeBlock> referenceTimeBlocks = TimesheetUtils.getReferenceTimeBlocks(newTimeBlocks);
@@ -149,7 +146,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 
             TimesheetUtils.processTimeBlocksWithRuleChange(newTimeBlocks, referenceTimeBlocks, leaveBlocks, pe, td, principalId);
     	}
-    }
+//    }
 
     private ClockLogBo buildClockLog(String principalId, String documentId, DateTime clockDateTime, Timestamp originalTimestamp, Assignment assignment, String clockAction, String ip, String userPrincipalId) {
         ClockLogBo clockLog = new ClockLogBo();

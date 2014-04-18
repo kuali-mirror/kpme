@@ -191,4 +191,8 @@ public interface AssignmentService {
     public Map<LocalDate, List<Assignment>> getAssignmentHistoryBetweenDays(String principalId, LocalDate beginDate, LocalDate endDate);
 
     public List<Assignment> filterAssignmentListForUser(String userPrincipalId, List<Assignment> assignments);
+
+    public List<Assignment> getRecentAssignments(String principalId);
+
+    public List<Assignment> getRecentAssignments(String principalId, LocalDate startDate, LocalDate endDate);
 }

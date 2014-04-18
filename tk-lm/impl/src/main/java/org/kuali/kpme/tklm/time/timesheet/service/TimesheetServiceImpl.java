@@ -126,12 +126,19 @@ public class TimesheetServiceImpl implements TimesheetService {
                     wd.approve("Approving timesheet.");
                 }
             } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
+            	// supervisor approval job should take approve action but not finalize the document if there's payroll processor set up for this doc
             	Note.Builder builder = Note.Builder.create(rhid, principalId);
            	 	builder.setCreateDate(new DateTime());
            	 	builder.setText("Approved via Supervisor Approval batch job");
            	 	KewApiServiceLocator.getNoteService().createNote(builder.build());
-
-            	wd.superUserBlanketApprove("Batch job approving timesheet.");
+           	 	// supervisor approval job should take approve action not super user approval
+           	 	wd.approve("Supervisor Batch job approving timesheet.");
+            } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.PAYROLL_JOB_APPROVE)) {
+            	Note.Builder builder = Note.Builder.create(rhid, principalId);
+           	 	builder.setCreateDate(new DateTime());
+           	 	builder.setText("Approved via Payroll Processor Approval batch job");
+           	 	KewApiServiceLocator.getNoteService().createNote(builder.build());
+            	wd.superUserBlanketApprove("Payroll Processor Batch job approving timesheet.");
             } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
                 if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument)
                 		&& !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), timesheetDocument)) {
@@ -289,7 +296,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     protected void loadTimesheetDocumentData(TimesheetDocument tdoc, String principalId, CalendarEntry payCalEntry) {
     	//tdoc.setAssignments(HrServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, payCalEntry));
     	tdoc.setAssignments(HrServiceLocator.getAssignmentService().getAssignmentHistoryForCalendarEntry(principalId, payCalEntry));
-        if (payCalEntry != null) {
+    	if (payCalEntry != null) {
     		tdoc.setJobs(HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));
     	}
     	tdoc.setTimeBlocks(TkServiceLocator.getTimeBlockService().getTimeBlocks(tdoc.getDocumentHeader().getDocumentId()));

@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.tklm.common;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -147,6 +147,16 @@ public class ChangeTargetPersonAction extends KPMEAction {
             		|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, LocalDate.now().toDateTimeAtStartOfDay())
             		|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, LocalDate.now().toDateTimeAtStartOfDay())
             		|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, LocalDate.now().toDateTimeAtStartOfDay())) {
+                return true;
+            }
+        }
+
+        //check if user has a recently changed assignment
+        for (Assignment assignment : HrServiceLocator.getAssignmentService().getRecentAssignments(principalId)){
+            if (HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay())
+                    || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), LocalDate.now().toDateTimeAtStartOfDay())
+                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getDept(), LocalDate.now().toDateTimeAtStartOfDay())
+                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(GlobalVariables.getUserSession().getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), assignment.getDept(), LocalDate.now().toDateTimeAtStartOfDay())) {
                 return true;
             }
         }

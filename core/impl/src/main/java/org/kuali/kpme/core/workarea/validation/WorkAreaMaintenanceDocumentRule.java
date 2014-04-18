@@ -16,9 +16,11 @@
 package org.kuali.kpme.core.workarea.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.task.Task;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberBo;
 import org.kuali.kpme.core.role.PositionRoleMemberBo;
@@ -64,16 +66,156 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveLocalDate(), "principalRoleMembers", "positionRoleMembers");
 			
 			valid &= validateActive(workArea);
-			
-			if(workArea.getTasks()!=null && !workArea.getTasks().isEmpty()){
-				for(TaskBo task : workArea.getTasks()){
-					valid &= validateTask(task,workArea);
+		}
+
+		return valid;
+	}
+
+	@Override
+	public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
+		boolean valid = true;
+
+		PersistableBusinessObject pboWorkArea = (WorkAreaBo)document.getDocumentDataObject();
+		PersistableBusinessObject pboTask = line;
+
+		if (pboWorkArea instanceof WorkAreaBo && pboTask instanceof TaskBo) {
+			WorkAreaBo workArea = (WorkAreaBo) pboWorkArea;
+            for(TaskBo task : workArea.getTasks()){
+                valid &= validateTask(task,workArea);
+            }
+	    }
+		
+		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
+		if(line instanceof WorkAreaPrincipalRoleMemberBo) {
+			WorkAreaPrincipalRoleMemberBo roleMember = (WorkAreaPrincipalRoleMemberBo) line;
+			WorkAreaBo location = (WorkAreaBo) document.getDocumentDataObject();
+			List<WorkAreaPrincipalRoleMemberBo> existingRoleMembers = location.getPrincipalRoleMembers();
+			for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "roleMembers[" + index + "].";
+				WorkAreaPrincipalRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+						}
+					}
+				}
+			}
+			existingRoleMembers = location.getInactivePrincipalRoleMembers();
+			for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "inactiveRoleMembers[" + index + "].";
+				WorkAreaPrincipalRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPrincipalId(),roleMember.getPrincipalId())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+						}
+					}
+				}
+			}
+		}
+		
+		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
+		if(line instanceof WorkAreaPositionRoleMemberBo) {
+			WorkAreaPositionRoleMemberBo roleMember = (WorkAreaPositionRoleMemberBo) line;
+			WorkAreaBo location = (WorkAreaBo) document.getDocumentDataObject();
+			List<WorkAreaPositionRoleMemberBo> existingRoleMembers = location.getPositionRoleMembers();
+			for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "roleMembers[" + index + "].";
+				WorkAreaPositionRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPositionNumber(),roleMember.getPositionNumber())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.active.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.active.duplicate");
+						}
+					}
+				}
+			}
+			existingRoleMembers = location.getInactivePositionRoleMembers();
+			for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
+				int index = iter.nextIndex();
+	            String prefix = "inactiveRoleMembers[" + index + "].";
+				WorkAreaPositionRoleMemberBo existingRoleMember = iter.next();
+				if(StringUtils.equals(existingRoleMember.getPositionNumber(),roleMember.getPositionNumber())) {
+					if(StringUtils.equals(existingRoleMember.getRoleName(),roleMember.getRoleName())) {
+						if(existingRoleMember.getActiveToDate() != null) {
+							if(roleMember.getActiveFromDate().compareTo(existingRoleMember.getActiveToDate()) < 0) {
+								valid &= false;
+								this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+								this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+							}
+						}
+						else {
+							valid &= false;
+							this.putFieldError(prefix + "effectiveDate", "error.role.inactive.existence");
+							this.putFieldError("add.roleMembers.effectiveDate", "error.role.inactive.duplicate");
+						}
+					}
 				}
 			}
 		}
 		
 		return valid;
 	}
+	
+	private boolean isBetweenEffectiveDateRange(Object existingRoleMember, Object roleMember) {
+		
+		boolean isBetweenEffectiveDateRange = true;
+		boolean isFromDateBetween = true;
+		boolean isToDateBetween = true;
+		if(existingRoleMember instanceof WorkAreaPrincipalRoleMemberBo && roleMember instanceof WorkAreaPrincipalRoleMemberBo){
+			WorkAreaPrincipalRoleMemberBo existingPrincipalRoleMember = (WorkAreaPrincipalRoleMemberBo) existingRoleMember;
+			WorkAreaPrincipalRoleMemberBo currentPrincipalRoleMember = (WorkAreaPrincipalRoleMemberBo) roleMember;
+			isFromDateBetween = isDateBetweenRange(existingPrincipalRoleMember.getActiveFromDate() , existingPrincipalRoleMember.getActiveToDate(),currentPrincipalRoleMember.getActiveFromDate());
+			isToDateBetween = isDateBetweenRange(existingPrincipalRoleMember.getActiveFromDate() , existingPrincipalRoleMember.getActiveToDate(),currentPrincipalRoleMember.getActiveToDate());
+			isBetweenEffectiveDateRange = (isFromDateBetween || isToDateBetween);
+		}else if(existingRoleMember instanceof WorkAreaPositionRoleMemberBo && roleMember instanceof WorkAreaPositionRoleMemberBo){
+			WorkAreaPositionRoleMemberBo existingPositionRoleMember = (WorkAreaPositionRoleMemberBo) existingRoleMember;
+			WorkAreaPositionRoleMemberBo currentPositionRoleMember = (WorkAreaPositionRoleMemberBo) roleMember;
+			isFromDateBetween = isDateBetweenRange(existingPositionRoleMember.getActiveFromDate() , existingPositionRoleMember.getActiveToDate(), currentPositionRoleMember.getActiveFromDate());
+			isToDateBetween = isDateBetweenRange(existingPositionRoleMember.getActiveFromDate() , existingPositionRoleMember.getActiveToDate(), currentPositionRoleMember.getActiveToDate());
+			isBetweenEffectiveDateRange = (isFromDateBetween || isToDateBetween);
+		}
+		return isBetweenEffectiveDateRange;
+	}
+
+	private boolean isDateBetweenRange(DateTime activeFromDate, DateTime activeToDate, DateTime checkDate) {
+		
+		Interval interval = new Interval( activeFromDate , activeToDate);
+		return interval.contains(checkDate);
+	}
+	
+	
 	
 	protected boolean validateDefaultOvertimeEarnCode(String defaultOvertimeEarnCode, LocalDate asOfDate) {
 		boolean valid = true;
@@ -103,7 +245,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 
-	boolean validateRoleMembers(List<? extends PrincipalRoleMemberBo> principalRoleMembers, List<? extends PositionRoleMemberBo> positionRoleMembers, LocalDate effectiveDate, String principalPrefix, String positionPrefix) {
+	protected boolean validateRoleMembers(List<? extends PrincipalRoleMemberBo> principalRoleMembers, List<? extends PositionRoleMemberBo> positionRoleMembers, LocalDate effectiveDate, String principalPrefix, String positionPrefix) {
 		boolean valid = true;
 		
 		boolean activeRoleMember = false;
@@ -131,8 +273,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 
 		return valid;
 	}
-	
-	boolean validateRoleMember(KPMERoleMemberBo roleMember, LocalDate effectiveDate, String prefix, int index) {
+
+    protected boolean validateRoleMember(KPMERoleMemberBo roleMember, LocalDate effectiveDate, String prefix, int index) {
 		boolean valid = true;
 		
 		Role role = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
@@ -159,7 +301,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 	
-	boolean validateActive(WorkAreaBo workArea) {
+	protected boolean validateActive(WorkAreaBo workArea) {
 		boolean valid = true;
 		
 		if(!workArea.isActive()){
@@ -196,7 +338,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 	
-	boolean validateTask(TaskBo task, WorkAreaBo workArea) {
+	protected boolean validateTask(TaskBo task, WorkAreaBo workArea) {
+        
 
 		boolean valid = true;
         if (task.getEffectiveDate() == null) {
@@ -235,4 +378,15 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 
+	protected Long getMaxTaskNumber(WorkAreaBo workArea) {
+		Long task = new Long("100");
+		
+		Task maxTask = HrServiceLocator.getTaskService().getMaxTask(workArea.getWorkArea());
+		
+		if (maxTask != null) {
+			task = maxTask.getTask() + 1;
+		}
+		
+		return task;
+	}
 }

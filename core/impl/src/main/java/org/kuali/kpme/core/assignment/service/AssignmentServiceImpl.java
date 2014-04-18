@@ -44,6 +44,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.KimConstants;
@@ -418,6 +419,37 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         return builder.toString();
+    }
+
+
+    @Override
+    public List<Assignment> getRecentAssignments(String principalId) {
+        //if no dates are specified uses date range of now and now minus limit set in config
+        Integer limit = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty("kpme.tklm.target.employee.time.limit"));
+        LocalDate startDate = LocalDate.now().minusDays(limit);
+        LocalDate endDate = LocalDate.now();
+
+        return getRecentAssignments(principalId,startDate,endDate);
+    }
+
+    @Override
+    public List<Assignment> getRecentAssignments(String principalId, LocalDate startDate, LocalDate endDate) {
+        Set<Assignment> assignmentSet = new HashSet<Assignment>();
+        List<Assignment> assignmentList = new ArrayList<Assignment>();
+
+        Map<LocalDate, List<Assignment>> assignmentMap = getAssignmentHistoryBetweenDays(principalId, startDate, endDate);
+
+        //loop through every entry in the map, and add unique assignments to the set of recent active assignments
+        for (Map.Entry<LocalDate, List<Assignment>> entry : assignmentMap.entrySet()) {
+            for (Assignment assignment : entry.getValue()) {
+                assignmentSet.add(assignment);
+            }
+        }
+
+        //convert set to a list
+        assignmentList.addAll(assignmentSet);
+
+        return assignmentList;
     }
 
     @Override
