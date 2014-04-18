@@ -16,21 +16,30 @@
 package org.kuali.kpme.core.groupkey;
 
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.util.Map;
+
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.location.LocationBo;
+import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.location.api.campus.Campus;
 
-import java.util.Map;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 public class HrGroupKeyBo extends HrBusinessObject implements HrGroupKeyContract {
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(Elements.GROUP_KEY_CODE)
             .build();
+    
+    // KPME-3378
+    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+            .add(HrGroupKeyBo.CACHE_NAME)
+            .build();
+	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "HrGroupKey";
+	
     private static final long serialVersionUID = 4566214396709772458L;
     private String id;
     private String groupKeyCode;
