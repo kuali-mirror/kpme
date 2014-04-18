@@ -155,27 +155,25 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 	public void testValidatePositionReportSubCat() {
 		DateTime aDate = INVALID_DATE;
 		String prsc = "nonExist";
-		String institution = "*";
-		String campus = "*";
-		boolean results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate()); // non-existing
+		String groupKeyCode = "*-*";
+		boolean results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate()); // non-existing
 		Assert.assertFalse(results);
 		
 		prsc = "testPRSC";	
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate()); // existing, but wrong date
+		results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate()); // existing, but wrong date
 		Assert.assertFalse(results);
 		
 		aDate = VALID_DATE;
-		institution = "nonExist";
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate());   // existing, right date, wrong institution
+		groupKeyCode = "nonExist-*";
+		results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate());   // existing, right date, wrong institution
 		Assert.assertFalse(results);
 		
-		institution = "testInst";
-		campus = "nonExist";
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate());   // existing, right date, right institution, wrong campus
+		groupKeyCode = "testInst-nonExist";
+		results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate());   // existing, right date, right institution, wrong campus
 		Assert.assertFalse(results);
 		
-		campus = "BL";
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, institution, campus, aDate.toLocalDate());  
+		groupKeyCode = "testInst-BL";
+		results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate());  
 		Assert.assertTrue(results);
 	}
 	

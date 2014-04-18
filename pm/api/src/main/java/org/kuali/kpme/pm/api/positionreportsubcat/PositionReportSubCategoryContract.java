@@ -15,16 +15,16 @@
  */
 package org.kuali.kpme.pm.api.positionreportsubcat;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 
 /**
  * <p>PositionReportSubCategoryContract interface</p>
  *
  */
-public interface PositionReportSubCategoryContract extends HrBusinessObjectContract {
+public interface PositionReportSubCategoryContract extends HrKeyedBusinessObjectContract {
 
     /**
      * The primary key for a PositionReportSubCategory entry saved in the database

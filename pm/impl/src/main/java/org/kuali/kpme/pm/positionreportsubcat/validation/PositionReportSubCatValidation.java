@@ -34,8 +34,7 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 		if (prsc != null) {
 			valid = true;
 			valid &= this.validatePositionReportCategory(prsc);
-			valid &= this.validateInstitution(prsc);
-			valid &= this.validateLocation(prsc);
+			valid &= this.validateGroupKeyCode(prsc);
 		}
 		return valid;
 	}
@@ -47,46 +46,19 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 		if(aCat == null) {
 			this.putFieldError("positionReportCat", "error.existence", errorMes);
 			return false;
-		} else {
-			if(!ValidationUtils.wildCardMatch(aCat.getInstitution(), prsc.getInstitution())) {
-				String[] params = new String[3];
-				params[0] = prsc.getInstitution();
-				params[1] = aCat.getInstitution();
-				params[2] = errorMes;
-				this.putFieldError("institution", "institution.inconsistent", params);
-				return false;
-			}
-			if(!ValidationUtils.wildCardMatch(aCat.getLocation(), prsc.getLocation())) {
-				String[] params = new String[3];
-				params[0] = prsc.getLocation();
-				params[1] = aCat.getLocation();
-				params[2] = errorMes;
-				this.putFieldError("location", "location.inconsistent", params);
-				return false;
-			}
-		}
+		} 
 		return true;
 	}	
 
-	private boolean validateInstitution(PositionReportSubCategory prsc) {
-		if (StringUtils.isNotEmpty(prsc.getInstitution())) {
-			if(!ValidationUtils.validateInstitution(prsc.getInstitution(), prsc.getEffectiveLocalDate())) {
-				this.putFieldError("institution", "error.existence", "Instituion '"
-						+ prsc.getInstitution() + "'");
+	private boolean validateGroupKeyCode(PositionReportSubCategory prsc) {
+		if (StringUtils.isNotEmpty(prsc.getGroupKeyCode())) {
+			if(!ValidationUtils.validateGroupKey(prsc.getGroupKeyCode(), prsc.getEffectiveLocalDate())){
+				this.putFieldError("groupKeyCode", "error.existence", "Group Key Code '"
+						+ prsc.getGroupKeyCode() + "'");
 				return false;
 			}
 		}
 		return true;
 	}
 	
-	private boolean validateLocation(PositionReportSubCategory prsc) {
-		if (StringUtils.isNotEmpty(prsc.getLocation())) {
-			if(!ValidationUtils.validateLocation(prsc.getLocation(), prsc.getEffectiveLocalDate())) {
-				this.putFieldError("location", "error.existence", "Location '"
-						+ prsc.getLocation() + "'");
-				return false;
-			}
-		}
-		return true;
-	}
 }
