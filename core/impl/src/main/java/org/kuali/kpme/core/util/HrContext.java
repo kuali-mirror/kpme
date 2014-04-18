@@ -165,7 +165,228 @@ public class HrContext {
     public static boolean canEditInactiveRecords() {
         return isAnyAdmin();
     }
+    
+    //KPME-3400
+    public static boolean isUserOrTargetKOHRInstitutionAdmin(){
+    	return isUserKOHRInstitutionAdmin() || isTargetKOHRInstitutionAdmin();
+    }
 
+    public static boolean isUserKOHRInstitutionAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_INSTITUTION_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isTargetKOHRInstitutionAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_INSTITUTION_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetKOHRAcademicHrAdmin(){
+    	return isUserKOHRAcademicHrAdmin() || isTargetKOHRAcademicHrAdmin();
+    }
+    public static boolean isUserKOHRAcademicHrAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_ACADEMIC_HR_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isTargetKOHRAcademicHrAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_ACADEMIC_HR_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetKOHRInstitutionViewOnly(){
+    	return isUserKOHRInstitutionViewOnly() || isTargetKOHRInstitutionViewOnly();
+    }
+    public static boolean isUserKOHRInstitutionViewOnly(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_INSTITUTION_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isTargetKOHRInstitutionViewOnly(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_INSTITUTION_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetKOHRLocationViewOnly(){
+    	return isUserKOHRLocationViewOnly() || isTargetKOHRLocationViewOnly();
+    }
+    public static boolean isUserKOHRLocationViewOnly(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_INSTITUTION_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isTargetKOHRLocationViewOnly(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_INSTITUTION_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetKOHRLocationAdmin(){
+    	return isUserKOHRLocationAdmin() || isTargetKOHRLocationAdmin();
+    }
+    public static boolean isUserKOHRLocationAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_LOCATION_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isTargetKOHRLocationAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_LOCATION_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetKOHROrgAdmin(){
+    	return isUserKOHROrgAdmin() || isTargetKOHROrgAdmin();
+    }
+    public static boolean isUserKOHROrgAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_ORG_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isTargetKOHROrgAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_ORG_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetKOHROrgViewOnly(){
+    	return isUserKOHROrgViewOnly() || isTargetKOHROrgViewOnly();
+    }
+    public static boolean isTargetKOHROrgViewOnly(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_ORG_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserKOHROrgViewOnly(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.KOHR_ORG_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetHRDepartmentAdmin(){
+    	return isUserHRDepartmentAdmin() || isTargetHRDepartmentAdmin();
+    }
+    public static boolean isTargetHRDepartmentAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_DEPARTMENT_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserHRDepartmentAdmin(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_DEPARTMENT_ADMINISTRATOR.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetHRDepartmentViewOnly(){
+    	return isUserHRDepartmentViewOnly() || isTargetHRDepartmentViewOnly();
+    }
+    public static boolean isTargetHRDepartmentViewOnly(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_DEPARTMENT_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserHRDepartmentViewOnly(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_DEPARTMENT_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetHRInstitutionApprover(){
+    	return isUserHRInstitutionApprover() || isTargetHRInstitutionApprover();
+    }
+    public static boolean isTargetHRInstitutionApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_INSTITUTION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserHRInstitutionApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_INSTITUTION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetAcademicHRInstitutionApprover(){
+    	return isUserAcademicHRInstitutionApprover() || isTargetAcademicHRInstitutionApprover();
+    }
+    public static boolean isTargetAcademicHRInstitutionApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.ACADEMIC_HR_INSTITUTION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserAcademicHRInstitutionApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.ACADEMIC_HR_INSTITUTION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetBudgetApprover(){
+    	return isUserBudgetApprover() || isTargetBudgetApprover();
+    }
+    public static boolean isTargetBudgetApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.BUDGET_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserBudgetApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.BUDGET_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetPayrollApprover(){
+    	return isUserPayrollApprover() || isTargetPayrollApprover();
+    }
+    public static boolean isTargetPayrollApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserPayrollApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetHRLocationApprover(){
+    	return isUserHRLocationApprover() || isTargetHRLocationApprover();
+    }
+    public static boolean isTargetHRLocationApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_LOCATION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserHRLocationApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_LOCATION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetAcademicHRLocationApprover(){
+    	return isUserAcademicHRLocationApprover() || isTargetAcademicHRLocationApprover();
+    }
+    public static boolean isTargetAcademicHRLocationApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.ACADEMIC_HR_LOCATION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserAcademicHRLocationApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.ACADEMIC_HR_LOCATION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetFiscalLocationApprover(){
+    	return isUserFiscalLocationApprover() || isTargetFiscalLocationApprover();
+    }
+    public static boolean isTargetFiscalLocationApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.FISCAL_LOCATION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserFiscalLocationApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.FISCAL_LOCATION_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetHROrgApprover(){
+    	return isUserHROrgApprover() || isTargetHROrgApprover();
+    }
+    public static boolean isTargetHROrgApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_ORG_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserHROrgApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.HR_ORG_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetFiscalOrgApprover(){
+    	return isUserFiscalOrgApprover() || isTargetFiscalOrgApprover();
+    }
+    public static boolean isTargetFiscalOrgApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.FISCAL_ORG_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserFiscalOrgApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.FISCAL_ORG_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetDepartmentApprover(){
+    	return isUserDepartmentApprover() || isTargetDepartmentApprover();
+    }
+    public static boolean isTargetDepartmentApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.DEPARTMENT_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserDepartmentApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.DEPARTMENT_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserOrTargetFiscalDepartmentApprover(){
+    	return isUserFiscalDepartmentApprover() || isTargetFiscalDepartmentApprover();
+    }
+    public static boolean isTargetFiscalDepartmentApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.FISCAL_DEPARTMENT_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
+
+    public static boolean isUserFiscalDepartmentApprover(){
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.FISCAL_DEPARTMENT_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
+    }
     
     public static boolean isPositionModuleEnabled() {
     	String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.module.status");
