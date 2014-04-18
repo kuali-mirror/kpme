@@ -215,7 +215,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript"
                               p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                              p:fieldConversions="locationId:location" />
+                              p:fieldConversions="location:locationId" />
                     </property>
                 </bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
@@ -224,7 +224,7 @@
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-							p:fieldConversions="institutionCode:institution" />
+							p:fieldConversions="institutionCode:institutionCode" />
 					</property>
 				</bean>
 
