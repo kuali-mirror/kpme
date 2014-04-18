@@ -16,16 +16,13 @@
 package org.kuali.kpme.pm.api.positionreporttype;
 
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.api.location.LocationContract;
-
-import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
 
 /**
  * <p>PositionReportTypeContract interface</p>
  *
  */
-public interface PositionReportTypeContract extends HrBusinessObjectContract {
+public interface PositionReportTypeContract extends HrKeyedBusinessObjectContract {
 
     /**
      * The text used to identify the PositionReportType
@@ -50,17 +47,6 @@ public interface PositionReportTypeContract extends HrBusinessObjectContract {
 	public String getDescription();
 
     /**
-     * The institution associated with the PositionReportType
-     *
-     * <p>
-     * institution of a PositionReportType.
-     * <p>
-     *
-     * @return institution for PositionReportType
-     */
-	public String getInstitution();
-
-    /**
      * The position reportType id associated with the PositionReportType
      *
      * <p>
@@ -70,38 +56,5 @@ public interface PositionReportTypeContract extends HrBusinessObjectContract {
      * @return pmPositionReportTypeId for PositionReportType
      */
 	public String getPmPositionReportTypeId();
-
-    /**
-     * The Institution object associated with the PositionReportType
-     *
-     * <p>
-     * institutionObj of a PositionReportType.
-     * <p>
-     *
-     * @return institutionObj for PositionReportType
-     */
-	public InstitutionContract getInstitutionObj();
-
-    /**
-     * The location associated with the PositionReportType
-     *
-     * <p>
-     * location of a PositionReportType.
-     * <p>
-     *
-     * @return location for PositionReportType
-     */
-	public String getLocation();
-
-    /**
-     * The Location object associated with the PositionReportType
-     *
-     * <p>
-     * locationObj of a PositionReportType.
-     * <p>
-     *
-     * @return locationObj for PositionReportType
-     */
-	public LocationContract getLocationObj();
 
 }

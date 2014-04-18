@@ -57,10 +57,10 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 				this.putFieldError("institution", "institution.inconsistent", params);
 				return false;
 			}
-			if(!ValidationUtils.wildCardMatch(aType.getLocation(), prc.getLocation())) {
+			if(!ValidationUtils.wildCardMatch(aType.getGroupKey().getLocation().getLocation(), prc.getLocation())) {
 				String[] params = new String[3];
 				params[0] = prc.getLocation();
-				params[1] = aType.getLocation();
+				params[1] = aType.getGroupKey().getLocation().getLocation();
 				params[2] = positionReportTypeError;
 				this.putFieldError("location", "location.inconsistent", params);
 				return false;

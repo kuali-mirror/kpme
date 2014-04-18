@@ -15,15 +15,14 @@
  */
 package org.kuali.kpme.pm.positionreporttype;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.institution.InstitutionBo;
-import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportType extends HrBusinessObject implements PositionReportTypeContract {
+public class PositionReportType extends HrKeyedBusinessObject implements PositionReportTypeContract {
 	private static final String POSITION_REPORT_TYPE = "positionReportType";
 
 	//KPME-2273/1965 Primary Business Keys List.	
@@ -36,12 +35,6 @@ public class PositionReportType extends HrBusinessObject implements PositionRepo
 	private String pmPositionReportTypeId;
 	private String positionReportType;
 	private String description;
-	private String institution;
-	private String location;
-	
-	private LocationBo locationObj;
-	private InstitutionBo institutionObj;
-	
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -62,7 +55,7 @@ public class PositionReportType extends HrBusinessObject implements PositionRepo
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionReportType() + "_" + getInstitution() + "_" + getLocation();
+		return getPositionReportType() + "_" + getGroupKeyCode();
 	}
 
 	public String getPositionReportType() {
@@ -81,14 +74,6 @@ public class PositionReportType extends HrBusinessObject implements PositionRepo
 		this.description = description;
 	}
 
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-
 	public String getPmPositionReportTypeId() {
 		return pmPositionReportTypeId;
 	}
@@ -96,29 +81,4 @@ public class PositionReportType extends HrBusinessObject implements PositionRepo
 	public void setPmPositionReportTypeId(String pmPositionReportTypeId) {
 		this.pmPositionReportTypeId = pmPositionReportTypeId;
 	}
-
-	public InstitutionBo getInstitutionObj() {
-		return institutionObj;
-	}
-
-	public void setInstitutionObj(InstitutionBo institutionObj) {
-		this.institutionObj = institutionObj;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public LocationBo getLocationObj() {
-		return locationObj;
-	}
-
-	public void setLocationObj(LocationBo locationObj) {
-		this.locationObj = locationObj;
-	}
-
 }

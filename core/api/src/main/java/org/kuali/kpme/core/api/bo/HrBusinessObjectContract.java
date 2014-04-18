@@ -30,18 +30,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 public interface HrBusinessObjectContract extends PersistableBusinessObject, KpmeEffectiveDataTransferObject {
 	
 	/**
-	 * The unique id defined by the object, could be a combination
-	 * of multiple fields
-	 * 
-	 * <p>
-	 * id of HrBusinessObject
-	 * <p>
-	 * 
-	 * @return id of HrBusinessObject
-	 */
-	public abstract String getId();
-	
-	/**
 	 * The effective date of the HrBusinessObject
 	 * 
 	 * <p>
@@ -51,17 +39,6 @@ public interface HrBusinessObjectContract extends PersistableBusinessObject, Kpm
 	 * @return effectiveDate of HrBusinessObject
 	 */
 	public Date getEffectiveDate();
-	
-	/**
-	 * The localDate format of the effective date of the HrBusinessObject
-	 * 
-	 * <p>
-	 * effectiveLocalDate of HrBusinessObject
-	 * <p>
-	 * 
-	 * @return effectiveLocalDate of HrBusinessObject
-	 */
-	public LocalDate getEffectiveLocalDate();
 	
 	/**
 	 * Relative effective date of HrBusinessObject. Returns effectiveDate if not null, current date otherwise.
@@ -92,25 +69,12 @@ public interface HrBusinessObjectContract extends PersistableBusinessObject, Kpm
 	 * 
 	 * @return map of key-value pairs that comprise the business key
 	 */
-	public Map<String, Object> getBusinessKeyValuesMap();
-	
-	
+	public Map<String, Object> getBusinessKeyValuesMap();	
 	
 	/**
 	 * Checks if all the business keys have values currently
 	 * @return
 	 */
 	public boolean areAllBusinessKeyValuesAvailable(); 
-	
 
-    /**
-     * The userPrincipalId of when this HrBusinessObject was last created/updated
-     *
-     * <p>
-     * userPrincipalId of HrBusinessObject
-     * <p>
-     *
-     * @return userPrincipalId of HrBusinessObject
-     */
-    public String getUserPrincipalId();
 }

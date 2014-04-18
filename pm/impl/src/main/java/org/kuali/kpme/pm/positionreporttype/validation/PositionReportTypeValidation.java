@@ -31,28 +31,16 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 		
 		if (prt != null) {
 			valid = true;
-			valid &= this.validateInstitution(prt);
-			valid &= this.validateLocation(prt);
+			valid &= this.validateGroupKey(prt);
 		}
 		return valid;
 	}
 	
-	private boolean validateInstitution(PositionReportType prt) {
-		if (StringUtils.isNotEmpty(prt.getInstitution())
-				&& !ValidationUtils.validateInstitution(prt.getInstitution(), prt.getEffectiveLocalDate())) {
-			this.putFieldError("institution", "error.existence", "Instituion '"
-					+ prt.getInstitution() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	private boolean validateLocation(PositionReportType prt) {
-		if (StringUtils.isNotEmpty(prt.getLocation())
-				&& !ValidationUtils.validateLocation(prt.getLocation(), prt.getEffectiveLocalDate())) {
-			this.putFieldError("location", "error.existence", "Location '"
-					+ prt.getLocation() + "'");
+	protected boolean validateGroupKey(PositionReportType prt) {
+		if (StringUtils.isNotEmpty(prt.getGroupKeyCode())
+				&& !ValidationUtils.validateGroupKey(prt.getGroupKeyCode(), prt.getEffectiveLocalDate())) {
+			this.putFieldError("groupKeyCode", "error.existence", "Group Key '"
+					+ prt.getGroupKeyCode() + "'");
 			return false;
 		} else {
 			return true;
