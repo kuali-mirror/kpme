@@ -80,7 +80,7 @@
 	<bean id="PositionReportGroup-location" parent="PositionReportGroup-location-parentBean" />
 	<bean id="PositionReportGroup-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
 	
-	<bean id="PositionReportGroup-groupKeyCode" parent="PositionAppointment-groupKeyCode-parentBean" />
+	<bean id="PositionReportGroup-groupKeyCode" parent="PositionReportGroup-groupKeyCode-parentBean" />
     <bean id="PositionReportGroup-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
 
 	<!-- Business Object Inquiry Definition -->

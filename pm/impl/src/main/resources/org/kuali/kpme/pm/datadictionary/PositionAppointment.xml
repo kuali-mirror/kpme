@@ -23,16 +23,13 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionAppointment" parent="PositionAppointment-parentBean"/>
- 	<bean id="PositionAppointment-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+ 	<bean id="PositionAppointment-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionappointment.PositionAppointment"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PositionAppointment-pmPositionAppointmentId"/>
 	        <ref bean="PositionAppointment-positionAppointment"/>
 	        <ref bean="PositionAppointment-description"/>
-	        <ref bean="PositionAppointment-institution"/>
-	        <ref bean="PositionAppointment-location"/>
-	        <ref bean="PositionAppointment-groupKeyCode" />
 		 </list>
 	    </property>
 	    <property name="objectLabel" value="PositionAppointment"/>
@@ -76,17 +73,6 @@
 		<property name="label" value="Description" />
 		<property name="description" value="description" />
 	</bean>
-	
-	<bean id="PositionAppointment-institution" parent="PositionAppointment-institution-parentBean" />
-	<bean id="PositionAppointment-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
-	</bean>
-	
-	<bean id="PositionAppointment-location" parent="PositionAppointment-location-parentBean" />
-	<bean id="PositionAppointment-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
-	</bean>
-	
-	<bean id="PositionAppointment-groupKeyCode" parent="PositionAppointment-groupKeyCode-parentBean" />
-    <bean id="PositionAppointment-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
 
 <!--*************************************************************************** 
 							Views
@@ -94,28 +80,13 @@
   	
   <!-- Position Appointment Lookup View -->
  
-  <bean id="PositionAppointment-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+  <bean id="PositionAppointment-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
     <property name="headerText" value="Position Appointment Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.positionappointment.web.PositionAppointmentLookupableImpl"/>
     <property name="criteriaFields">
-      <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+      <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionAppointment" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />  
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode"/>     
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" >
-        	<property name="quickfinder">
-	            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-	                  p:fieldConversions="institutionCode:institution"/>
-	        </property>
-	    </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-        	<property name="quickfinder">
-				<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-						p:fieldConversions="location:location" />
-			</property>
-		</bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
@@ -130,12 +101,9 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="description" />
-        <bean parent="Uif-DataField" p:propertyName="groupKeyCode">
-        </bean>
-        <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="location" >
-        	
-        </bean>
+        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+        <bean parent="Uif-DataField" p:propertyName="institutionCode" />
+        <bean parent="Uif-DataField" p:propertyName="locationId" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -155,9 +123,9 @@
 		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 			        <bean parent="Uif-DataField" p:propertyName="positionAppointment" />
 			        <bean parent="Uif-DataField" p:propertyName="description" />
-			        <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
-			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="location" />
+			        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+			        <bean parent="Uif-DataField" p:propertyName="institutionCode" />
+			        <bean parent="Uif-DataField" p:propertyName="locationId" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
                     <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
 	        	</list>
@@ -177,14 +145,14 @@
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">
           <property name="items">
-            <list>
-	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+            <list merge="true">
+            	<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="positionAppointment" />
 		        <bean parent="Uif-InputField" p:propertyName="description" />
 		        <bean parent="Uif-InputField" p:propertyName="groupKeyCode" 
 		        	p:required="true"
 		        	p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
-                    <property name="control">
+                    <property name="controlField">
 						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
