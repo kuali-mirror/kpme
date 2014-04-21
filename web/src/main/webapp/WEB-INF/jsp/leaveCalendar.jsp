@@ -59,7 +59,9 @@
         <c:if test="${not empty Form.calendarEntry}">
         
             <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
-            <a href="#" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/leaveBlock?&methodToCall=start&viewId=leaveUsageView', {minHeight: 300, height: 300, maxWidth: 600, closeBtn: false})" >Copy Leave Usage to External Calendar</a>
+            
+            <a href="#" onClick="javascript: showLightboxUrl(extractUrlBase() + '/kpme/leaveBlock?&methodToCall=start&viewId=leaveUsageView', {minHeight: 300, maxWidth: 600, closeBtn: false})" >Copy Leave Usage to External Calendar</a>
+           
             <%-- if this leave calendar does not have a leave calendar document, then do not show routing sections --%>
             <c:if test="${not empty Form.documentId}">
             	<%-- render the calendar buttons --%>

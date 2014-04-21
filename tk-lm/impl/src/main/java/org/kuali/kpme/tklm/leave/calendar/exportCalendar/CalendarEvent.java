@@ -83,10 +83,6 @@ public class CalendarEvent {
     public String createEvent(String calTitle, DateTime dStart, DateTime dEnd, String tStart,
             String tEnd, String desc, String uid){
     			
-    			System.out.println(dStart.toString());
-    			System.out.println(tStart);
-    			System.out.println(dEnd.toString());
-    			System.out.println(tEnd);
     			setTitle(calTitle);
     			if(dStart.compareTo(dEnd)==0 && tStart.equals(tEnd)){
     				

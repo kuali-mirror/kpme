@@ -26,6 +26,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.bcel.generic.NEW;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.joda.time.DateTime;
@@ -50,8 +51,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/leaveBlock")
 public class LeaveBlockController extends UifControllerBase {
-
+	
+	int eventCount=0;
 	String fileName;
+	StringBuffer sb=new StringBuffer();
+	
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
 		// TODO Auto-generated method stub
@@ -66,66 +70,49 @@ public class LeaveBlockController extends UifControllerBase {
         return modelAndView;
 	}
 	
-	@RequestMapping(params = "methodToCall=submit")
-    public ModelAndView submit(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-		LeaveBlockForm leaveBlockForm = (LeaveBlockForm)form;
-		String fromDate = request.getParameter("fromDate");
-		String toDate = request.getParameter("toDate");
-		if (fromDate != null && !fromDate.equals("") && toDate != null && !toDate.equals("")) {
-			DateTime beginDate = TKUtils.formatDateTimeStringNoTimezone(fromDate);
-			DateTime endDate = TKUtils.formatDateTimeStringNoTimezone(toDate);
-			if (beginDate != null && endDate != null) {
-				StringBuffer sb = exportApprovedLeaves(beginDate.toLocalDate(), endDate.toLocalDate());
-				if (sb != null) {
-					try {
-						File file = new File(fileName);
-						FileUtils.writeStringToFile(file, sb.toString());
-						InputStream is = new FileInputStream(file);
-						long length = file.length();
-
-						byte[] calendar = new byte[(int) length];
-			        	int offset = 0;
-			        	int numRead = 0;
-			        	while (offset < calendar.length && (numRead = is.read(calendar, offset, calendar.length - offset)) >= 0) {
-			            	offset += numRead;
-			        	}
-			        	if (offset < calendar.length) {
-			        		throw new IOException("Could not completely read file " + fileName);
-			        	}
-			        	is.close();
-			        	response.setContentType("text/calendar");
-		            	response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-		            	response.getOutputStream().write(calendar); 
-		            	response.setContentLength(calendar.length);
-		            	response.getOutputStream().flush();
-		            	response.getOutputStream().close();
-		            	if(file.exists()){
-		            		file.delete();
-		            	}
-					}catch(Exception e){
-						//IO EXCEPTION
-						e.printStackTrace();
-					}
-				}
-			}
-		}else{
-			if(fromDate == null || fromDate.equals("")){
-				GlobalVariables.getMessageMap().putError("fromDate","error.required","From Date");
-			}
-			if(toDate == null || toDate.equals("")){
-				GlobalVariables.getMessageMap().putError("toDate","error.required", "To Date");
+	@RequestMapping(params = "methodToCall=download")
+	public ModelAndView download(@ModelAttribute("KualiForm") UifFormBase form,BindingResult result, HttpServletRequest request,HttpServletResponse response) {
+		if (sb != null) {
+			try {
+				response.setContentType("text/calendar");
+				response.setHeader("Content-Disposition",
+						"attachment;filename=" + fileName);
+				response.getWriter().write(sb.toString());
+				response.setContentLength(sb.toString().getBytes().length);
+				response.getWriter().flush();
+				response.getWriter().close();
+				sb.setLength(0);
+			} catch (Exception e) {
+				// IO EXCEPTION
+				e.printStackTrace();
 			}
 		}
 		return getUIFModelAndView(form);
-    }
+	}
 	
-	public StringBuffer exportApprovedLeaves(LocalDate beginDate,LocalDate endDate){
+	@RequestMapping(params = "methodToCall=submit")
+    public ModelAndView submit(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+		eventCount=0;
+		sb.setLength(0);
+		LeaveBlockForm leaveBlockForm = (LeaveBlockForm)form;
+		if(leaveBlockForm.getFromDate()!=null && leaveBlockForm.getToDate()!=null && !leaveBlockForm.getFromDate().equals("") && !leaveBlockForm.getToDate().equals("")){
+			DateTime beginDate = new DateTime(leaveBlockForm.getFromDate());
+			DateTime endDate = new DateTime(leaveBlockForm.getToDate());
+			if (beginDate != null && endDate != null) {
+				exportApprovedLeaves(beginDate.toLocalDate(), endDate.toLocalDate());
+				leaveBlockForm.setCalendarCount(String.valueOf(eventCount));
+			}
+		}
+		return getUIFModelAndView(leaveBlockForm);
+	}
+	
+	public void exportApprovedLeaves(LocalDate beginDate,LocalDate endDate){
 		String principalId = HrContext.getTargetPrincipalId();
 		List<LeaveBlock> approvedLeaves = getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, HrConstants.REQUEST_STATUS.APPROVED);
 		CalendarEvent mycal = new CalendarEvent();
 		fileName = mycal.generateFilename();
-		StringBuffer writer = new StringBuffer();
-		writer.append(mycal.calendarHeader());
+
+		sb.append(mycal.calendarHeader());
     	if(approvedLeaves!=null && !approvedLeaves.isEmpty()){
         	for (LeaveBlock leaveBlock : approvedLeaves) {
         		String desc = leaveBlock.getDescription();
@@ -134,11 +121,11 @@ public class LeaveBlockController extends UifControllerBase {
         		}
         		String uid = "" + leaveBlock.getBlockId() + leaveBlock.getObjectId();
         		String event = mycal.createEvent(leaveBlock.getAssignmentTitle(),leaveBlock.getLeaveDateTime(),leaveBlock.getLeaveDateTime(),"000000","000000",leaveBlock.getEarnCode() + "(" + leaveBlock.getLeaveAmount() + ")\n" + desc, uid);
-        		writer.append(event);
+        		sb.append(event);
+        		eventCount++;
 			}		
     	}
-    	writer.append(mycal.calendarFooter());
-		return writer;
+    	sb.append(mycal.calendarFooter());
     }
 
 	private List<LeaveBlock> getLeaveBlocksWithRequestStatus(String principalId, LocalDate beginDate, LocalDate endDate, String requestStatus) {

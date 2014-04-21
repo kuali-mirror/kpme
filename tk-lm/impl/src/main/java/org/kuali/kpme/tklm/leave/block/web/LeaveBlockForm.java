@@ -15,7 +15,8 @@
  */
 package org.kuali.kpme.tklm.leave.block.web;
 
-import org.joda.time.LocalDate;
+import java.util.Date;
+
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
@@ -26,9 +27,10 @@ public class LeaveBlockForm extends UifFormBase {
 	 */
 	private static final long serialVersionUID = -4877920434755295616L;
 	
-	private LocalDate toDate;
-	private LocalDate fromDate;
+	private Date toDate;
+	private Date fromDate;
 	private LeaveBlockBo leaveBlock;
+	private String calendarCount;
 
 	public LeaveBlockBo getLeaveBlock() {
 		return leaveBlock;
@@ -38,20 +40,29 @@ public class LeaveBlockForm extends UifFormBase {
 		this.leaveBlock = leaveBlock;
 	}
 
-	public LocalDate getToDate() {
+	public String getCalendarCount() {
+		return calendarCount;
+	}
+
+	public void setCalendarCount(String calendarCount) {
+		this.calendarCount = calendarCount;
+	}
+
+	public Date getToDate() {
 		return toDate;
 	}
-	
-	public void setToDate(LocalDate toDate) {
+
+	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
-	
-	public LocalDate getFromDate() {
+
+	public Date getFromDate() {
 		return fromDate;
 	}
-	
-	public void setFromDate(LocalDate fromDate) {
+
+	public void setFromDate(Date fromDate) {
 		this.fromDate = fromDate;
 	}
+	
 	
 }
