@@ -15,14 +15,11 @@
  */
 package org.kuali.kpme.pm.pstncontracttype.validation;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-@SuppressWarnings("deprecation")
-public class PstnContractTypeValidation extends MaintenanceDocumentRuleBase  {
+public class PstnContractTypeValidation extends HrKeyedBusinessObjectValidation {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
@@ -34,17 +31,6 @@ public class PstnContractTypeValidation extends MaintenanceDocumentRuleBase  {
 			valid &= this.validateGroupKeyCode(pstnContractType);
 		}
 		return valid;
-	}
-	
-	private boolean validateGroupKeyCode(PstnContractType pstnContractType) {
-		if (StringUtils.isNotEmpty(pstnContractType.getGroupKeyCode())) {
-			if(!ValidationUtils.validateGroupKey(pstnContractType.getGroupKeyCode(), pstnContractType.getEffectiveLocalDate())){
-				this.putFieldError("groupKeyCode", "error.existence", "Group Key Code '"
-						+ pstnContractType.getGroupKeyCode() + "'");
-				return false;
-			}
-		}
-		return true;
 	}
 	
 }

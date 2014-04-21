@@ -15,18 +15,15 @@
  */
 package org.kuali.kpme.pm.pstnrptgrpsubcat.validation;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
-import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
-import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
+public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
@@ -36,8 +33,7 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 		if (prgsc != null) {
 			valid = true;
 			valid &= this.validatePstnRptSubCat(prgsc);
-			valid &= this.validateInstitution(prgsc);
-			valid &= this.validateLocation(prgsc);
+			valid &= this.validateGroupKeyCode(prgsc);
 			valid &= this.validatePstnRptGroup(prgsc);
 			
 		}
@@ -70,28 +66,6 @@ public class PstnRptGrpSubCatValidation extends MaintenanceDocumentRuleBase {
 			}
 		}
 		return true;
-	}
-	
-	private boolean validateInstitution(PositionReportGroupSubCategory prgsc) {
-		if (StringUtils.isNotEmpty(prgsc.getInstitution())
-				&& !ValidationUtils.validateInstitution(prgsc.getInstitution(), prgsc.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
-					+ prgsc.getInstitution() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	private boolean validateLocation(PositionReportGroupSubCategory prgsc) {
-		if (StringUtils.isNotEmpty(prgsc.getLocation())
-				&& !ValidationUtils.validateLocation(prgsc.getLocation(), prgsc.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.location", "error.existence", "Location '"
-					+ prgsc.getLocation() + "'");
-			return false;
-		} else {
-			return true;
-		}
 	}
 	
 	private boolean validatePstnRptGroup(PositionReportGroupSubCategory prgsc) {
