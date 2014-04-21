@@ -23,14 +23,16 @@ import com.google.common.collect.ImmutableMap;
 
 public class PositionAppointment extends HrKeyedBusinessObject implements PositionAppointmentContract {
 	
-	private static final String GROUP_KEY_CODE = "groupKeyCode";
-	private static final String POSITION_APPOINTMENT = "positionAppointment";
-
+	static class KeyFields {
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
+		private static final String POSITION_APPOINTMENT = "positionAppointment";
+	}
+	
 	private static final long serialVersionUID = 1L;
 	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(POSITION_APPOINTMENT)
-            .add(GROUP_KEY_CODE)
+            .add(KeyFields.POSITION_APPOINTMENT)
+            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 	
 	private String pmPositionAppointmentId;
@@ -41,8 +43,8 @@ public class PositionAppointment extends HrKeyedBusinessObject implements Positi
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(POSITION_APPOINTMENT, this.getPositionAppointment())
-			.put(GROUP_KEY_CODE, this.getGroupKeyCode())
+			.put(KeyFields.POSITION_APPOINTMENT, this.getPositionAppointment())
+			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 	
