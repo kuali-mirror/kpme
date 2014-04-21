@@ -155,6 +155,29 @@
     		</list>
   		</property>
   	</bean>
+  	 
+  	<bean id="KPMEGroupKeyed-MaintenanceGridSection" parent="Uif-MaintenanceGridSection">
+    	<property name="items">
+        	<list merge="true">
+        		<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+            	<bean parent="Uif-InputField" p:propertyName="groupKeyCode" 
+            		p:required="true"
+            	    p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
+                	<property name="control">
+                    	<bean parent="Uif-DropdownControl" />
+               		</property>
+               		<property name="optionsFinder">
+                    	<bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
+               		</property>
+           		</bean>
+       		</list>
+    	</property>
+    </bean>
+    
+  	<bean id="KPMEGroupKeyedEffectiveDateBO-MaintenanceView" abstract="true" parent="KPMEGroupKeyedEffectiveDateBO-MaintenanceView-parentBean"/>
+  	<bean id="KPMEGroupKeyedEffectiveDateBO-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+  		<!-- Neeraj's group key validation here -->
+  	</bean>
   	
   	<bean id="KPMEEffectiveDateWarning-Dialog-parentBean" parent="Uif-Yes-No-DialogGroup">
   		<property name="headerText" value="Effective date warning!"/>
