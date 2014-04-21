@@ -4,24 +4,22 @@ import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.khr.hub.pages.LoginPage;
+import org.kuali.khr.hub.tests.selenium.KhrBase;
 import org.kuali.khr.hub.util.SeleniumBase;
 import org.kuali.khr.pm.pages.PositionLookup;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class LookupPositionUIT {
+public class LookupPositionUIT extends KhrBase
+{
 	private static WebDriver driver = SeleniumBase.getDriver();
-	private static LoginPage login;
 	private static PositionLookup position_lookup;
 	private static final String USERNAME = "admin";
 
 	@BeforeClass
 	public static void setUpBeforeTest()
 	{
-		login = PageFactory.initElements(driver, LoginPage.class);
-		login.gotoPage();
-		login.login(USERNAME);
+		login(USERNAME);
 	}
 	
 	@Test

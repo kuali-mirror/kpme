@@ -9,10 +9,12 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.kuali.khr.hub.util.SeleniumBase;
 import org.kuali.khr.pm.tests.selenium.LookupPositionUIT;
+import org.kuali.khr.pm.tests.selenium.PositionReportGroupSubCategoryLookupUIT;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
-	LookupPositionUIT.class 
+	LookupPositionUIT.class,
+	PositionReportGroupSubCategoryLookupUIT.class
 	})
 public class SeleniumTestSuite {
 
@@ -28,5 +30,13 @@ public class SeleniumTestSuite {
 
 	public static void main(String[] args) {
 		junit.textui.TestRunner.run(suite());
+	}
+	
+	public static void waitHere() {
+		try {
+			Thread.sleep(2000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

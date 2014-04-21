@@ -11,6 +11,8 @@ public class KhrTestConstants {
 		public static final String LOGOUT_URL = BASE_URL + "/logout.do";
 		public static final String POSITION_LOOKUP_URL = BASE_URL
 				+ "/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.pm.position.PositionBo";
+		public static final String PositionReportGroupSubCategoryLookup = BASE_URL
+				+ "/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory&showMaintenanceLinks=true";
 
 	}
 

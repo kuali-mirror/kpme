@@ -1,7 +1,7 @@
 package org.kuali.khr.pm.pages;
 
 import static org.kuali.khr.hub.util.KhrTestConstants.Urls.POSITION_LOOKUP_URL;
-
+import static org.kuali.khr.hub.tests.selenium.SeleniumTestSuite.waitHere;
 import org.kuali.khr.hub.pages.Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -49,12 +49,6 @@ public class PositionLookup implements Page {
 		driver.get(POSITION_LOOKUP_URL);
 	}
 
-	private void waitHere() {
-		try {
-			Thread.sleep(2000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 
 }
