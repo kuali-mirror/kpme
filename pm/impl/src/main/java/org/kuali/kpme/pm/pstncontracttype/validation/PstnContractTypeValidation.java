@@ -31,32 +31,20 @@ public class PstnContractTypeValidation extends MaintenanceDocumentRuleBase  {
 		
 		if (pstnContractType != null) {
 			valid = true;
-			valid &= this.validateInstitution(pstnContractType);
-			valid &= this.validateLocation(pstnContractType);
+			valid &= this.validateGroupKeyCode(pstnContractType);
 		}
 		return valid;
 	}
 	
-	private boolean validateInstitution(PstnContractType pstnContractType) {
-		if (StringUtils.isNotEmpty(pstnContractType.getInstitution())
-				&& !ValidationUtils.validateInstitution(pstnContractType.getInstitution(), pstnContractType.getEffectiveLocalDate())) {
-			this.putFieldError("institution", "error.existence", "Institution '"
-					+ pstnContractType.getInstitution() + "'");
-			return false;
-		} else {
-			return true;
+	private boolean validateGroupKeyCode(PstnContractType pstnContractType) {
+		if (StringUtils.isNotEmpty(pstnContractType.getGroupKeyCode())) {
+			if(!ValidationUtils.validateGroupKey(pstnContractType.getGroupKeyCode(), pstnContractType.getEffectiveLocalDate())){
+				this.putFieldError("groupKeyCode", "error.existence", "Group Key Code '"
+						+ pstnContractType.getGroupKeyCode() + "'");
+				return false;
+			}
 		}
+		return true;
 	}
 	
-	private boolean validateLocation(PstnContractType pstnContractType) {
-		if (StringUtils.isNotEmpty(pstnContractType.getLocation())
-				&& !ValidationUtils.validateLocation(pstnContractType.getLocation(), pstnContractType.getEffectiveLocalDate())) {
-			this.putFieldError("location", "error.existence", "Location '"
-					+ pstnContractType.getLocation() + "'");
-			return false;
-		} else {
-			return true;
-			
-		}
-	}
 }

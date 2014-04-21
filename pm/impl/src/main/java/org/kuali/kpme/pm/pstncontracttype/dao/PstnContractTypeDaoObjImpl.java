@@ -28,7 +28,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -45,18 +44,12 @@ public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
 	@Override
-	public List<PstnContractType> getPstnContractTypeList(String institution, String location, LocalDate asOfDate) {
+	public List<PstnContractType> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate) {
 		List<PstnContractType> pctList = new ArrayList<PstnContractType>();
 		Criteria root = new Criteria();
- 		if(StringUtils.isNotEmpty(institution) 
- 				&& !ValidationUtils.isWildCard(institution)) {
-			root.addEqualTo("institution", institution); 
+ 		if(StringUtils.isNotEmpty(groupKeyCode)) {
+			root.addEqualTo("groupKeyCode", groupKeyCode); 
 		}
-		if(StringUtils.isNotEmpty(location) 
-				&& !ValidationUtils.isWildCard(location)) {
-			root.addEqualTo("location", location); 
-		}
-        
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnContractType.class, asOfDate, PstnContractType.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PstnContractType.class, PstnContractType.BUSINESS_KEYS, false));
         
@@ -74,7 +67,7 @@ public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 	
 	@Override
-	public List<PstnContractType> getPstnContractTypeList(String name, String institution, String location, LocalDate asOfDate) {
+	public List<PstnContractType> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate) {
 		List<PstnContractType> pctList = new ArrayList<PstnContractType>();
 		Criteria root = new Criteria();
 		Set<String> coll = new HashSet<String>();
@@ -84,22 +77,10 @@ public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implemen
 			root.addEqualTo("name", name); 
 		}
 		
- 		if(StringUtils.isNotEmpty(institution) 
- 				&& !ValidationUtils.isWildCard(institution)) {
- 			coll.clear();
- 			coll.add(institution);
- 			coll.add(PMConstants.WILDCARD_CHARACTER);
- 			root.addIn("institution", coll);
+ 		if(StringUtils.isNotEmpty(groupKeyCode)) {
+ 			root.addEqualTo("groupKeyCode", groupKeyCode);
 		}
  		
-		if(StringUtils.isNotEmpty(location) 
-				&& !ValidationUtils.isWildCard(location)) {
-			coll.clear();
- 			coll.add(location);
- 			coll.add(PMConstants.WILDCARD_CHARACTER);
-			root.addIn("location", coll); 
-		}
-        
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnContractType.class, asOfDate, PstnContractType.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PstnContractType.class, PstnContractType.BUSINESS_KEYS, false));
         

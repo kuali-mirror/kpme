@@ -196,9 +196,9 @@ public class PmValidationUtils {
 		return false;
 	}
 
-	public static boolean validatePositionContractType(String name, String institution, String location, LocalDate asOfDate) {
+	public static boolean validatePositionContractType(String name, String groupKeyCode, LocalDate asOfDate) {
 		if (StringUtils.isNotEmpty(name) && asOfDate != null) {
-			List<? extends PstnContractTypeContract> ptList = PmServiceLocator.getPstnContractTypeService().getPstnContractTypeList(name, institution, location, asOfDate);
+			List<? extends PstnContractTypeContract> ptList = PmServiceLocator.getPstnContractTypeService().getPstnContractTypeList(name, groupKeyCode, asOfDate);
 			return CollectionUtils.isNotEmpty(ptList);
 		}
 		return false;

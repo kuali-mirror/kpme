@@ -36,7 +36,7 @@ public interface PstnContractTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String institution, String location, LocalDate asOfDate);
+	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate);
 	
 	/**
 	 * Get list of PstnContractType with given name, institution, location and effective date
@@ -47,5 +47,5 @@ public interface PstnContractTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String name, String institution, String location, LocalDate asOfDate);
+	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate);
 }

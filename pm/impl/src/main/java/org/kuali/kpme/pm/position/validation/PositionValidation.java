@@ -118,7 +118,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 				this.putFieldError("dataObject.contractType", "error.overview.fields.required");
 				return false;
 			} else {
-				if (!PmValidationUtils.validatePositionContractType(aPosition.getContractType(), aPosition.getInstitution(), aPosition.getLocation(), aPosition.getEffectiveLocalDate())) {
+				if (!PmValidationUtils.validatePositionContractType(aPosition.getContractType(), aPosition.getInstitution()+"-"+aPosition.getLocation(), aPosition.getEffectiveLocalDate())) {
 					this.putFieldError("dataObject.contractType", "error.existence", "Contract Type '" + aPosition.getContractType() + "'");
 					return false;
 				}

@@ -15,15 +15,13 @@
  */
 package org.kuali.kpme.pm.api.pstncontracttype;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.api.institution.InstitutionContract;
-import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
 
 /**
  * <p>PstnContractTypeContract interface</p>
  *
  */
-public interface PstnContractTypeContract extends HrBusinessObjectContract {
+public interface PstnContractTypeContract extends HrKeyedBusinessObjectContract {
 
 	/**
 	 * The primary key of a PstnContractType entry saved in a database
@@ -57,49 +55,5 @@ public interface PstnContractTypeContract extends HrBusinessObjectContract {
 	 * return description for PstnContractType
 	 */
 	public String getDescription();
-
-	/**
-	 * The institution associated with the PstnContractType
-	 * 
-	 * <p>
-	 * institution of a PstnContractType.
-	 * <p>
-	 * 
-	 * return institution for PstnContractType
-	 */
-	public String getInstitution();
-
-	/**
-	 * The location associated with the PstnContractType
-	 * 
-	 * <p>
-	 * location of a PstnContractType.
-	 * <p>
-	 * 
-	 * return location for PstnContractType
-	 */
-	public String getLocation();
-
-	/**
-	 * The Location object associated with the PstnContractType
-	 * 
-	 * <p>
-	 * location of a PstnContractType.
-	 * <p>
-	 * 
-	 * return location for PstnContractType
-	 */
-	public LocationContract getLocationObj();
-
-	/**
-	 * The Institution object associated with the PstnContractType
-	 * 
-	 * <p>
-	 * institution of a PstnContractType.
-	 * <p>
-	 * 
-	 * return institution object for PstnContractType
-	 */
-	public InstitutionContract getInstitutionObj();
 
 }
