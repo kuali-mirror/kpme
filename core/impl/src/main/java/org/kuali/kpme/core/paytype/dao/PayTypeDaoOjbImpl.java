@@ -76,7 +76,7 @@ public class PayTypeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PayTyp
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PayTypeBo> getPayTypes(String payType, String regEarnCode, String descr, String location, String institution, String flsaStatus,
+    public List<PayTypeBo> getPayTypes(String payType, String regEarnCode, String descr, String groupKeyCode, String flsaStatus,
     		String payFrequency, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         List<PayTypeBo> results = new ArrayList<PayTypeBo>();
         
@@ -94,12 +94,8 @@ public class PayTypeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PayTyp
             root.addLike("UPPER(descr)", descr.toUpperCase()); // KPME-2695
         }
         
-        if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(location)", location.toUpperCase()); // KPME-2695
-        }
-        
-        if (StringUtils.isNotBlank(institution)) {
-            root.addLike("UPPER(institution)", institution.toUpperCase()); // KPME-2695
+        if (StringUtils.isNotBlank(groupKeyCode)) {
+            root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase()); // KPME-2695
         }
         
         if (StringUtils.isNotBlank(flsaStatus)) {
@@ -109,7 +105,6 @@ public class PayTypeDaoOjbImpl extends PlatformAwareDaoBaseOjb implements PayTyp
         if (StringUtils.isNotBlank(payFrequency)) {
             root.addLike("payFrequency", payFrequency);
         }
-        
         
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {

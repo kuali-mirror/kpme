@@ -17,18 +17,16 @@ package org.kuali.kpme.core.paytype.validation;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.job.JobBo;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public class PayTypeRule extends MaintenanceDocumentRuleBase {
+public class PayTypeRule extends HrKeyedBusinessObjectValidation {
 
 	boolean validateEarnCode(String regEarnCode, LocalDate asOfDate) {
 		boolean valid = ValidationUtils.validateEarnCode(regEarnCode, asOfDate);
@@ -47,34 +45,6 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
-	private boolean validateInstitution(String institution, LocalDate asOfDate) {
-		boolean valid = true;
-		
-		if (!StringUtils.isBlank(institution)) {
-			valid = ValidationUtils.validateInstitution(institution, asOfDate);
-
-			if (!valid) {
-				this.putFieldError("dataObject.institution", "paytype.institution.invalid", institution);
-			} 			
-		}
-		
-		return valid;
-	}
-	
-	private boolean validateLocation(String location, LocalDate asOfDate) {
-		boolean valid = true;
-		
-		if (!StringUtils.isBlank(location)) {
-			valid = ValidationUtils.validateLocation(location, asOfDate);
-			if (!valid) {
-				this.putFieldError("dataObject.location", "error.existence", location);
-			} 			
-		}
-
-		return valid;
-	}
-	
-
 	boolean validateActive(String hrPayType, LocalDate asOfDate) {
 		boolean valid = true;
 		List<Job> jobs = HrServiceLocator.getJobService()
@@ -95,8 +65,7 @@ public class PayTypeRule extends MaintenanceDocumentRuleBase {
 			PayTypeBo pt = (PayTypeBo) pbo;
 
 			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveLocalDate());
-			valid &= validateInstitution(pt.getInstitution(), pt.getEffectiveLocalDate());
-			valid &= validateLocation(pt.getLocation(), pt.getEffectiveLocalDate());
+			valid &= validateGroupKeyCode(pt);
 			if (document.isOldDataObjectInDocument() && !pt.isActive()) {
 				valid &= validateActive(pt.getPayType(), pt.getEffectiveLocalDate());
 			}

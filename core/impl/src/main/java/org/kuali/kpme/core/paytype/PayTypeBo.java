@@ -15,27 +15,27 @@
  */
 package org.kuali.kpme.core.paytype;
 
-import javax.persistence.Transient;
+import java.sql.Timestamp;
 
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
-import org.kuali.kpme.core.institution.InstitutionBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
-import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import java.sql.Timestamp;
-
-public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
-    private static final String PAY_TYPE = "payType";
+public class PayTypeBo extends HrKeyedBusinessObject implements PayTypeContract {
+	static class KeyFields {
+		private static final String PAY_TYPE = "payType";
+		final static String GROUP_KEY_CODE = "groupKeyCode";
+	}
+    
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(PayTypeBo.CACHE_NAME)
@@ -45,7 +45,8 @@ public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
             .build();
     //KPME-2273/1965 Primary Business Keys List.	
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(PAY_TYPE)
+            .add(KeyFields.PAY_TYPE)
+            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
 	private static final long serialVersionUID = 1L;
@@ -58,23 +59,14 @@ public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
     private EarnCodeBo regEarnCodeObj;
     private Boolean ovtEarnCode;
     
-    // KPME-2252
-	private String location;
-	@Transient
-	private String hrLocationId;
-    private String institution;
-    @Transient
-    private String pmInstitutionId;
 	private String flsaStatus;
 	private String payFrequency;
-	
-	private LocationBo locationObj;
-	private InstitutionBo institutionObj;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(PAY_TYPE, this.getPayType())
+			.put(KeyFields.PAY_TYPE, this.getPayType())
+			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 
@@ -111,7 +103,6 @@ public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
 	public String getHrPayTypeId() {
 		return hrPayTypeId;
 	}
-
 
 	public void setHrPayTypeId(String hrPayTypeId) {
 		this.hrPayTypeId = hrPayTypeId;
@@ -153,14 +144,6 @@ public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
 		setHrPayTypeId(id);
 	}
 
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-
 	public String getFlsaStatus() {
 		return flsaStatus;
 	}
@@ -177,46 +160,6 @@ public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
 		this.payFrequency = payFrequency;
 	}
 
-	public InstitutionBo getInstitutionObj() {
-		return institutionObj;
-	}
-
-	public void setInstitutionObj(InstitutionBo institutionObj) {
-		this.institutionObj = institutionObj;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public LocationBo getLocationObj() {
-		return locationObj;
-	}
-
-	public void setLocationObj(LocationBo locationObj) {
-		this.locationObj = locationObj;
-	}
-
-	public String getHrLocationId() {
-		return hrLocationId;
-	}
-
-	public void setHrLocationId(String hrLocationId) {
-		this.hrLocationId = hrLocationId;
-	}
-
-	public String getPmInstitutionId() {
-		return pmInstitutionId;
-	}
-
-	public void setPmInstitutionId(String pmInstitutionId) {
-		this.pmInstitutionId = pmInstitutionId;
-	}
-
     public static PayTypeBo from(PayType im) {
         if (im == null) {
             return null;
@@ -225,14 +168,15 @@ public class PayTypeBo extends HrBusinessObject implements PayTypeContract {
 
         pt.setHrPayTypeId(im.getHrPayTypeId());
         pt.setPayType(im.getPayType());
+
+        pt.setGroupKeyCode(im.getGroupKeyCode());
+        pt.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+        
         pt.setDescr(im.getDescr());
         pt.setRegEarnCode(im.getRegEarnCode());
         pt.setHrEarnCodeId(im.getHrEarnCodeId());
         pt.setRegEarnCodeObj(im.getRegEarnCodeObj() == null ? null : EarnCodeBo.from(im.getRegEarnCodeObj()));
         pt.setOvtEarnCode(im.isOvtEarnCode());
-
-        pt.setLocation(im.getLocation());
-        pt.setInstitution(im.getInstitution());
         pt.setFlsaStatus(im.getFlsaStatus());
         pt.setPayFrequency(im.getPayFrequency());
 

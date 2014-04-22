@@ -17,13 +17,14 @@ package org.kuali.kpme.core.api.paytype;
 
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>PayTypeContract interface.</p>
  *
  */
-public interface PayTypeContract extends KpmeEffectiveDataTransferObject {
+public interface PayTypeContract extends KpmeEffectiveKeyedDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
 	
@@ -105,28 +106,6 @@ public interface PayTypeContract extends KpmeEffectiveDataTransferObject {
 	public Boolean isOvtEarnCode();
 
 	/**
-	 * Name of the Institution object the PayType is associated with
-	 * 
-	 * <p>
-	 * institution of PayType
-	 * </p>
-	 * 
-	 * @return institution for PayType
-	 */
-	public String getInstitution();
-	
-	/**
-	 * The Institution object the PayType is associated with
-	 * 
-	 * <p>
-	 * institutionObj of PayType
-	 * </p>
-	 * 
-	 * @return institutionObj for PayType
-	 */
-	//public InstitutionContract getInstitutionObj();
-	
-	/**
 	 * Indicates if the PayType's Position is FLSA exempt or non-exempt 
 	 * 
 	 * <p>
@@ -148,25 +127,4 @@ public interface PayTypeContract extends KpmeEffectiveDataTransferObject {
 	 */
 	public String getPayFrequency();
 
-	/**
-	 * Name of the Location object the PayType is associated with
-	 * 
-	 * <p>
-	 * location of PayType
-	 * </p>
-	 * 
-	 * @return location for PayType
-	 */
-	public String getLocation();
-
-	/**
-	 * The Location object the PayType is associated with
-	 * 
-	 * <p>
-	 * locationObj of PayType
-	 * </p>
-	 * 
-	 * @return locationObj for PayType
-	 */
-	//public LocationContract getLocationObj();
 }

@@ -18,7 +18,9 @@ package org.kuali.kpme.core.api.paytype;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.earncode.EarnCode;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -34,15 +36,15 @@ import java.util.Collection;
 @XmlRootElement(name = PayType.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PayType.Constants.TYPE_NAME, propOrder = {
-        PayType.Elements.LOCATION,
         PayType.Elements.REG_EARN_CODE_OBJ,
         PayType.Elements.PAY_TYPE,
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
         PayType.Elements.DESCR,
         PayType.Elements.REG_EARN_CODE,
         PayType.Elements.HR_PAY_TYPE_ID,
         PayType.Elements.HR_EARN_CODE_ID,
         PayType.Elements.OVT_EARN_CODE,
-        PayType.Elements.INSTITUTION,
         PayType.Elements.FLSA_STATUS,
         PayType.Elements.PAY_FREQUENCY,
         PayType.Elements.ACTIVE,
@@ -59,12 +61,16 @@ public final class PayType
         implements PayTypeContract
 {
 
-    @XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
     @XmlElement(name = Elements.REG_EARN_CODE_OBJ, required = false)
     private final EarnCode regEarnCodeObj;
     @XmlElement(name = Elements.PAY_TYPE, required = false)
     private final String payType;
+    
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
+
     @XmlElement(name = Elements.DESCR, required = false)
     private final String descr;
     @XmlElement(name = Elements.REG_EARN_CODE, required = false)
@@ -75,8 +81,6 @@ public final class PayType
     private final String hrEarnCodeId;
     @XmlElement(name = Elements.OVT_EARN_CODE, required = false)
     private final Boolean ovtEarnCode;
-    @XmlElement(name = Elements.INSTITUTION, required = false)
-    private final String institution;
     @XmlElement(name = Elements.FLSA_STATUS, required = false)
     private final String flsaStatus;
     @XmlElement(name = Elements.PAY_FREQUENCY, required = false)
@@ -106,15 +110,17 @@ public final class PayType
      *
      */
     private PayType() {
-        this.location = null;
         this.regEarnCodeObj = null;
         this.payType = null;
+        
+        this.groupKeyCode = null;
+        this.groupKey = null;
+        
         this.descr = null;
         this.regEarnCode = null;
         this.hrPayTypeId = null;
         this.hrEarnCodeId = null;
         this.ovtEarnCode = null;
-        this.institution = null;
         this.flsaStatus = null;
         this.payFrequency = null;
         this.versionNumber = null;
@@ -127,15 +133,17 @@ public final class PayType
     }
 
     private PayType(Builder builder) {
-        this.location = builder.getLocation();
         this.regEarnCodeObj = builder.getRegEarnCodeObj() == null ? null : builder.getRegEarnCodeObj().build();
         this.payType = builder.getPayType();
+        
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+        
         this.descr = builder.getDescr();
         this.regEarnCode = builder.getRegEarnCode();
         this.hrPayTypeId = builder.getHrPayTypeId();
         this.hrEarnCodeId = builder.getHrEarnCodeId();
         this.ovtEarnCode = builder.isOvtEarnCode();
-        this.institution = builder.getInstitution();
         this.flsaStatus = builder.getFlsaStatus();
         this.payFrequency = builder.getPayFrequency();
         this.versionNumber = builder.getVersionNumber();
@@ -148,11 +156,6 @@ public final class PayType
     }
 
     @Override
-    public String getLocation() {
-        return this.location;
-    }
-
-    @Override
     public EarnCode getRegEarnCodeObj() {
         return this.regEarnCodeObj;
     }
@@ -160,6 +163,16 @@ public final class PayType
     @Override
     public String getPayType() {
         return this.payType;
+    }
+    
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
     }
 
     @Override
@@ -185,11 +198,6 @@ public final class PayType
     @Override
     public Boolean isOvtEarnCode() {
         return this.ovtEarnCode;
-    }
-
-    @Override
-    public String getInstitution() {
-        return this.institution;
     }
 
     @Override
@@ -246,15 +254,18 @@ public final class PayType
             implements Serializable, PayTypeContract, ModelBuilder
     {
 
-        private String location;
+    	private static final long serialVersionUID = 4303332490877015437L;
         private EarnCode.Builder regEarnCodeObj;
         private String payType;
+        
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
+
         private String descr;
         private String regEarnCode;
         private String hrPayTypeId;
         private String hrEarnCodeId;
         private Boolean ovtEarnCode;
-        private String institution;
         private String flsaStatus;
         private String payFrequency;
         private Long versionNumber;
@@ -278,14 +289,14 @@ public final class PayType
                 throw new IllegalArgumentException("contract was null");
             }
             Builder builder = create(contract.getPayType());
-            builder.setLocation(contract.getLocation());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setRegEarnCodeObj(contract.getRegEarnCodeObj() == null ? null : EarnCode.Builder.create(contract.getRegEarnCodeObj()));
             builder.setDescr(contract.getDescr());
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
             builder.setRegEarnCode(contract.getRegEarnCode());
             builder.setHrPayTypeId(contract.getHrPayTypeId());
             builder.setHrEarnCodeId(contract.getHrEarnCodeId());
             builder.setOvtEarnCode(contract.isOvtEarnCode());
-            builder.setInstitution(contract.getInstitution());
             builder.setFlsaStatus(contract.getFlsaStatus());
             builder.setPayFrequency(contract.getPayFrequency());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -300,11 +311,6 @@ public final class PayType
 
         public PayType build() {
             return new PayType(this);
-        }
-
-        @Override
-        public String getLocation() {
-            return this.location;
         }
 
         @Override
@@ -340,11 +346,6 @@ public final class PayType
         @Override
         public Boolean isOvtEarnCode() {
             return this.ovtEarnCode;
-        }
-
-        @Override
-        public String getInstitution() {
-            return this.institution;
         }
 
         @Override
@@ -392,8 +393,22 @@ public final class PayType
             return this.userPrincipalId;
         }
 
-        public void setLocation(String location) {
-            this.location = location;
+        @Override
+        public String getGroupKeyCode() {
+            return groupKeyCode;
+        }
+
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
         }
 
         public void setRegEarnCodeObj(EarnCode.Builder regEarnCodeObj) {
@@ -425,10 +440,6 @@ public final class PayType
 
         public void setOvtEarnCode(Boolean ovtEarnCode) {
             this.ovtEarnCode = ovtEarnCode;
-        }
-
-        public void setInstitution(String institution) {
-            this.institution = institution;
         }
 
         public void setFlsaStatus(String flsaStatus) {
@@ -487,8 +498,7 @@ public final class PayType
      *
      */
     static class Elements {
-
-        final static String LOCATION = "location";
+    	final static String GROUP_KEY_CODE = "groupKeyCode";
         final static String REG_EARN_CODE_OBJ = "regEarnCodeObj";
         final static String PAY_TYPE = "payType";
         final static String DESCR = "descr";
@@ -496,7 +506,6 @@ public final class PayType
         final static String HR_PAY_TYPE_ID = "hrPayTypeId";
         final static String HR_EARN_CODE_ID = "hrEarnCodeId";
         final static String OVT_EARN_CODE = "ovtEarnCode";
-        final static String INSTITUTION = "institution";
         final static String FLSA_STATUS = "flsaStatus";
         final static String PAY_FREQUENCY = "payFrequency";
         final static String ACTIVE = "active";

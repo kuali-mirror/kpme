@@ -43,8 +43,7 @@ public class PayTypeLookupableImpl extends KpmeHrBusinessObjectLookupableImpl {
 		String payType = searchCriteria.get("payType");
         String regEarnCode = searchCriteria.get("regEarnCode");
         String descr = searchCriteria.get("descr");
-        String location = searchCriteria.get("location"); // KPME-2701
-        String institution = searchCriteria.get("institution");
+        String groupKeyCode = searchCriteria.get("groupKeyCode"); // KPME-2701
         String flsaStatus = searchCriteria.get("flsaStatus");
         String payFrequency = searchCriteria.get("payFrequency");
         String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
@@ -56,15 +55,7 @@ public class PayTypeLookupableImpl extends KpmeHrBusinessObjectLookupableImpl {
             payType = "";
         }
         
-        if (StringUtils.equals(location, "*")) {
-            location = "";
-        }
-        
-        if (StringUtils.equals(institution, "*")) {
-        	institution = "";
-        }
-        
-        return ModelObjectUtils.transform(HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, location, institution, flsaStatus, payFrequency,
+        return ModelObjectUtils.transform(HrServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, groupKeyCode, flsaStatus, payFrequency,
                 TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toPayTypeBo);
 	}
     

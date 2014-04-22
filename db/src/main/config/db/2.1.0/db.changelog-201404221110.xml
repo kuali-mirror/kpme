@@ -21,18 +21,27 @@
     
 	
 	<changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
-		<addColumn tableName="PM_PSTN_CNTRCT_TYP_T">
+		<addColumn tableName="HR_PAYTYPE_T">
 			<column name="GRP_KEY_CD" type="VARCHAR(30)"/>
 		</addColumn>
 			
-		<update tableName="PM_PSTN_CNTRCT_TYP_T">
+		<update tableName="HR_PAYTYPE_T">
 			<column name="GRP_KEY_CD" value="DEFAULT" />
 		</update>
 		
-		<addNotNullConstraint tableName="PM_PSTN_CNTRCT_TYP_T" columnDataType="VARCHAR(30)" columnName="GRP_KEY_CD" />
+		<addNotNullConstraint tableName="HR_PAYTYPE_T" columnDataType="VARCHAR(30)" columnName="GRP_KEY_CD" />
 		
-		<dropColumn tableName="PM_PSTN_CNTRCT_TYP_T" columnName="INSTITUTION" />
-		<dropColumn tableName="PM_PSTN_CNTRCT_TYP_T" columnName="LOCATION" />
+		<dropColumn tableName="HR_PAYTYPE_T" columnName="INSTITUTION" />
+		<dropColumn tableName="HR_PAYTYPE_T" columnName="LOCATION" />
 		
-	</changeSet>
+		<dropIndex tableName="HR_PAYTYPE_T" indexName="HR_PAYTYPE_IDX1" />
+		
+        <createIndex indexName="HR_PAYTYPE_IDX1" tableName="HR_PAYTYPE_T" unique="true">
+            <column name="PAYTYPE" />
+            <column name="GRP_KEY_CD" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>	
+        
+    </changeSet>
 </databaseChangeLog>
