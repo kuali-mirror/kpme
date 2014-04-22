@@ -164,20 +164,6 @@
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />
-        <!--        
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-	    	<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-	        		 p:fieldConversions="institutionCode:institution"/>
-	   		</property>
-        </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
-       		<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-	        		 p:fieldConversions="location:location" />
-	   		 </property>
-        </bean>
-        -->
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
@@ -308,31 +294,17 @@
   
 <!--  Salary Group Maintenance View -->
   <bean id="SalaryGroup-MaintenanceView" parent="SalaryGroup-MaintenanceView-parentBean"/>
-  <bean id="SalaryGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+  <bean id="SalaryGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEGroupKeyedEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Salary Group Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo"/>
     <property name="items">
-      <list>
-        <bean parent="Uif-MaintenanceGridSection">
+      <list merge="true">
+        <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
           <property name="items">
-            <list>
+            <list merge="true">
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:readOnly="@{document.newMaintainableObject.dataObject.hrSalGroupId ne NULL}" />
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
-		        <!-- 
-		        <bean parent="Uif-InputField" p:propertyName="institution" >
-			        <property name="quickfinder">
-		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-		        			 p:fieldConversions="institutionCode:institution"/>
-		   			</property>
-		        </bean>
-		        <bean parent="Uif-InputField" p:propertyName="location">
-				        <property name="quickfinder">
-			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-			        		 p:fieldConversions="location:location" />
-			   		 </property>
-		        </bean>
-		        -->
 		        <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
 		        	 p:constraintText="Must be a number between 0 and 100.">
 		        	<property name="validCharactersConstraint">

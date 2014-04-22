@@ -17,12 +17,12 @@ package org.kuali.kpme.core.salarygroup.validation;
 
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
+public class SalaryGroupValidation  extends HrKeyedBusinessObjectValidation{
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
@@ -31,33 +31,10 @@ public class SalaryGroupValidation  extends MaintenanceDocumentRuleBase{
 		
 		if (sg != null) {
 			valid = true;
-			valid &= this.validateInstitution(sg);
-			valid &= this.validateLocation(sg);
+			valid &= this.validateGroupKeyCode(sg);
 			valid &= this.validateLeavePlan(sg);
 		}
 		return valid;
-	}
-	
-	private boolean validateInstitution(SalaryGroupBo sg) {
-		if (StringUtils.isNotEmpty(sg.getInstitution())
-				&& !ValidationUtils.validateInstitution(sg.getInstitution(), sg.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
-					+ sg.getInstitution() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	private boolean validateLocation(SalaryGroupBo sg) {
-		if (StringUtils.isNotEmpty(sg.getLocation())
-				&& !ValidationUtils.validateLocation(sg.getLocation(), sg.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.location", "error.existence", "Location '"
-					+ sg.getLocation() + "'");
-			return false;
-		} else {
-			return true;
-		}
 	}
 	
 	private boolean validateLeavePlan(SalaryGroupBo sg) {

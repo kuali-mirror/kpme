@@ -15,14 +15,12 @@
  */
 package org.kuali.kpme.pm.positionreportgroup.validation;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 @SuppressWarnings("deprecation")
-public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  {
+public class PositionReportGroupValidation extends HrKeyedBusinessObjectValidation  {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
@@ -31,34 +29,9 @@ public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  
 		
 		if (prg != null) {
 			valid = true;
-			// TODO: Validate if groupkeycode is valid here??
-			//valid &= this.validateInstitution(prg);
-			//valid &= this.validateLocation(prg);
+			valid &= this.validateGroupKeyCode(prg);
 		}
 		return valid;
 	}
 	
-	/*
-	private boolean validateInstitution(PositionReportGroup prg) {
-		if (StringUtils.isNotEmpty(prg.getInstitution())
-				&& !ValidationUtils.validateInstitution(prg.getInstitution(), prg.getEffectiveLocalDate())) {
-			this.putFieldError("institution", "error.existence", "Instituion '"
-					+ prg.getInstitution() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	private boolean validateLocation(PositionReportGroup prg) {
-		if (StringUtils.isNotEmpty(prg.getLocation())
-				&& !ValidationUtils.validateLocation(prg.getLocation(), prg.getEffectiveLocalDate())) {
-			this.putFieldError("location", "error.existence", "Location '"
-					+ prg.getLocation() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	*/
 }
