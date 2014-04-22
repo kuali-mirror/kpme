@@ -75,7 +75,8 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + payStep.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
-			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), payStep.getInstitution())) {
+			// TODO make change after adding groupKey to SalaryGroup 
+			/*if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), payStep.getInstitution())) {
 				String[] params = new String[3];
 				params[0] = payStep.getInstitution();
 				params[1] = aSalGroup.getInstitution();
@@ -90,7 +91,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 				params[2] = errorMes;
 				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
-			}
+			}*/
 		} else {
 			this.putFieldError("dataObject.salaryGroup", "error.existence", errorMes);
 			return false;

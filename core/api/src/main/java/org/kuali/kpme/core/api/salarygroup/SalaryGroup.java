@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.salarygroup;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -29,6 +30,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.api.assignment.Assignment.Builder;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -39,11 +43,14 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = SalaryGroup.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = SalaryGroup.Constants.TYPE_NAME, propOrder = {
-        SalaryGroup.Elements.LOCATION,
+        
         SalaryGroup.Elements.HR_SAL_GROUP_ID,
         SalaryGroup.Elements.HR_SAL_GROUP,
         SalaryGroup.Elements.DESCR,
-        SalaryGroup.Elements.INSTITUTION,
+             
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
+        
         SalaryGroup.Elements.PERCENT_TIME,
         SalaryGroup.Elements.BENEFITS_ELIGIBLE,
         SalaryGroup.Elements.LEAVE_ELIGIBLE,
@@ -61,17 +68,18 @@ public final class SalaryGroup
         extends AbstractDataTransferObject
         implements SalaryGroupContract
 {
-
-    @XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
     @XmlElement(name = Elements.HR_SAL_GROUP_ID, required = false)
     private final String hrSalGroupId;
     @XmlElement(name = Elements.HR_SAL_GROUP, required = false)
     private final String hrSalGroup;
     @XmlElement(name = Elements.DESCR, required = false)
     private final String descr;
-    @XmlElement(name = Elements.INSTITUTION, required = false)
-    private final String institution;
+    
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
+    
     @XmlElement(name = Elements.PERCENT_TIME, required = false)
     private final BigDecimal percentTime;
     @XmlElement(name = Elements.BENEFITS_ELIGIBLE, required = false)
@@ -105,11 +113,13 @@ public final class SalaryGroup
      *
      */
     private SalaryGroup() {
-        this.location = null;
         this.hrSalGroupId = null;
         this.hrSalGroup = null;
         this.descr = null;
-        this.institution = null;
+        
+        this.groupKeyCode = null;
+        this.groupKey = null;
+        
         this.percentTime = null;
         this.benefitsEligible = null;
         this.leaveEligible = null;
@@ -124,11 +134,13 @@ public final class SalaryGroup
     }
 
     private SalaryGroup(Builder builder) {
-        this.location = builder.getLocation();
         this.hrSalGroupId = builder.getHrSalGroupId();
         this.hrSalGroup = builder.getHrSalGroup();
         this.descr = builder.getDescr();
-        this.institution = builder.getInstitution();
+        
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+
         this.percentTime = builder.getPercentTime();
         this.benefitsEligible = builder.getBenefitsEligible();
         this.leaveEligible = builder.getLeaveEligible();
@@ -142,10 +154,6 @@ public final class SalaryGroup
         this.userPrincipalId = builder.getUserPrincipalId();
     }
 
-    @Override
-    public String getLocation() {
-        return this.location;
-    }
 
     @Override
     public String getHrSalGroupId() {
@@ -160,11 +168,6 @@ public final class SalaryGroup
     @Override
     public String getDescr() {
         return this.descr;
-    }
-
-    @Override
-    public String getInstitution() {
-        return this.institution;
     }
 
     @Override
@@ -222,20 +225,23 @@ public final class SalaryGroup
         return this.userPrincipalId;
     }
 
-
+    
+    
     /**
      * A builder which can be used to construct {@link SalaryGroup} instances.  Enforces the constraints of the {@link SalaryGroupContract}.
      *
      */
     public final static class Builder
             implements Serializable, SalaryGroupContract, ModelBuilder
-    {
-
-        private String location;
+    {        
         private String hrSalGroupId;
         private String hrSalGroup;
         private String descr;
-        private String institution;
+        
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
+
+        
         private BigDecimal percentTime;
         private String benefitsEligible;
         private String leaveEligible;
@@ -248,12 +254,13 @@ public final class SalaryGroup
         private LocalDate effectiveLocalDate;
         private String userPrincipalId;
 
-        private Builder(String hrSalGroup) {
+        private Builder(String hrSalGroup, String groupKeyCode) {
             setHrSalGroup(hrSalGroup);
+            setGroupKeyCode(groupKeyCode);
         }
 
-        public static Builder create(String hrSalGroup) {
-            return new Builder(hrSalGroup);
+        public static Builder create(String hrSalGroup, String groupKeyCode ) {
+            return new Builder(hrSalGroup, groupKeyCode );
         }
 
         public static Builder create(SalaryGroupContract contract) {
@@ -261,11 +268,14 @@ public final class SalaryGroup
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create(contract.getHrSalGroup());
-            builder.setLocation(contract.getLocation());
+            Builder builder = create(contract.getHrSalGroup(), contract.getGroupKeyCode());
+     
+            
             builder.setHrSalGroupId(contract.getHrSalGroupId());
             builder.setDescr(contract.getDescr());
-            builder.setInstitution(contract.getInstitution());
+           
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+            
             builder.setPercentTime(contract.getPercentTime());
             builder.setBenefitsEligible(contract.getBenefitsEligible());
             builder.setLeaveEligible(contract.getLeaveEligible());
@@ -285,11 +295,6 @@ public final class SalaryGroup
         }
 
         @Override
-        public String getLocation() {
-            return this.location;
-        }
-
-        @Override
         public String getHrSalGroupId() {
             return this.hrSalGroupId;
         }
@@ -302,11 +307,6 @@ public final class SalaryGroup
         @Override
         public String getDescr() {
             return this.descr;
-        }
-
-        @Override
-        public String getInstitution() {
-            return this.institution;
         }
 
         @Override
@@ -363,9 +363,23 @@ public final class SalaryGroup
         public String getUserPrincipalId() {
             return this.userPrincipalId;
         }
+        
+        @Override
+        public String getGroupKeyCode() {
+            return groupKeyCode;
+        }
 
-        public void setLocation(String location) {
-            this.location = location;
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
         }
 
         public void setHrSalGroupId(String hrSalGroupId) {
@@ -381,10 +395,6 @@ public final class SalaryGroup
 
         public void setDescr(String descr) {
             this.descr = descr;
-        }
-
-        public void setInstitution(String institution) {
-            this.institution = institution;
         }
 
         public void setPercentTime(BigDecimal percentTime) {
@@ -451,12 +461,11 @@ public final class SalaryGroup
      *
      */
     static class Elements {
-
-        final static String LOCATION = "location";
+        
         final static String HR_SAL_GROUP_ID = "hrSalGroupId";
         final static String HR_SAL_GROUP = "hrSalGroup";
         final static String DESCR = "descr";
-        final static String INSTITUTION = "institution";
+        final static String GROUP_KEY_CODE = "groupKeyCode";
         final static String PERCENT_TIME = "percentTime";
         final static String BENEFITS_ELIGIBLE = "benefitsEligible";
         final static String LEAVE_ELIGIBLE = "leaveEligible";
@@ -466,7 +475,20 @@ public final class SalaryGroup
         final static String CREATE_TIME = "createTime";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-
+        
     }
+
+
+	@Override
+	public String getGroupKeyCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public org.kuali.kpme.core.api.groupkey.HrGroupKey.Builder getGroupKey() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

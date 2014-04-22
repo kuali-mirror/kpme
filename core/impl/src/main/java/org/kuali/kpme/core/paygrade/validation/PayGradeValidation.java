@@ -44,7 +44,8 @@ public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 			this.putFieldError("dataObject.salGroup", "error.existence", errorMes);
 			return false;
 		} else {
-			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), aPayGrade.getInstitution())) {
+			// TODO make change after adding groupKey to SalaryGroup 
+			/*if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), aPayGrade.getInstitution())) {
 				String[] params = new String[3];
 				params[0] = aPayGrade.getInstitution();
 				params[1] = aSalGroup.getInstitution();
@@ -59,7 +60,7 @@ public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 				params[2] = errorMes;
 				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
-			}
+			}*/
 		} 
 		return true;
 	}
