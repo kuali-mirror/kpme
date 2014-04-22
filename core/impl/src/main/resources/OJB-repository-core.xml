@@ -296,7 +296,7 @@
         <field-descriptor name="versionNumber"              column="VER_NBR"            jdbc-type="BIGINT" locking="true" />    </class-descriptor>
 
     <!-- SalGroup -->
-    <!-- Business Keys - [hrSalGroup : groupKeyCode: groupKeyCode: effectiveDate : timestamp] -->
+    <!-- Business Keys - [hrSalGroup : groupKeyCode: effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.core.salarygroup.SalaryGroupBo" table="HR_SAL_GROUP_T">
         <field-descriptor name="hrSalGroupId"   column="HR_SAL_GROUP_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_SAL_GROUP_S" />
         <field-descriptor name="hrSalGroup"     column="HR_SAL_GROUP"       jdbc-type="VARCHAR"     length="10" nullable="false" />
@@ -440,13 +440,11 @@
     </class-descriptor>
 
     <!--  PayGrade -->
-    <!-- Business Keys - [payGrade : effectiveDate : timestamp] -->
+    <!-- Business Keys - [payGrade : groupKeyCode: effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.core.paygrade.PayGradeBo" table="HR_PAY_GRADE_T">
         <field-descriptor name="hrPayGradeId"       column="HR_PAY_GRADE_ID"    jdbc-type="VARCHAR"     length="60" nullable="false" autoincrement="true" primarykey="true" sequence-name="HR_PAY_GRADE_S" />
         <field-descriptor name="payGrade"           column="PAY_GRADE"          jdbc-type="VARCHAR"     length="20" />
         <field-descriptor name="salGroup"           column="SAL_GROUP"          jdbc-type="VARCHAR"     length="20" />
-        <field-descriptor name="institution"        column="INSTITUTION"        jdbc-type="VARCHAR"     length="15" />
-        <field-descriptor name="location"           column="LOCATION"           jdbc-type="VARCHAR"     length="15"/>
         <field-descriptor name="minRate"            column="MIN_RATE"           jdbc-type="DECIMAL"  />
         <field-descriptor name="maxRate"            column="MAX_RATE"           jdbc-type="DECIMAL"  />
         <field-descriptor name="midPointRate"       column="MID_POINT_RATE"     jdbc-type="DECIMAL"  />
@@ -459,6 +457,7 @@
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="groupKeyCode"  		column="GRP_KEY_CD"        	jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
 
     <!--  Position -->

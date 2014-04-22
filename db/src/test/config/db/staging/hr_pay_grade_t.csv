@@ -1,17 +1,17 @@
-HR_PAY_GRADE_ID,PAY_GRADE,SAL_GROUP,DESCRIPTION,LOCATION,EFFDT,ACTIVE,USER_PRINCIPAL_ID
-1,EX1,EX,Pay Grade 1 Exempt,*,2010-01-01,Y,admin
-2,EX2,EX,Pay Grade 2 Exempt,*,2010-01-01,Y,admin
-3,EX3,EX,Pay Grade 3 Exempt,*,2010-01-01,Y,admin
-4,HR1,HR,Pay Grade 1 Hourly,*,2010-01-01,Y,admin
-5,HR2,HR,Pay Grade 2 Hourly,*,2010-01-01,Y,admin
-6,HR3,HR,Pay Grade 3 Hourly,*,2010-01-01,Y,admin
-7,NE1,NE,Pay Grade 1 Non-Exempt,*,2010-01-01,Y,admin
-8,NE2,NE,Pay Grade 2 Non-Exempt,*,2010-01-01,Y,admin
-9,NE3,NE,Pay Grade 3 Non-Exempt,*,2010-01-01,Y,admin
-10,F,Staff,Grade F,UT,2010-01-01,Y,admin
-11,PS1,PROSTAFF,Professional Staff 1,*,2010-01-01,Y,admin
-12,PS2,PROSTAFF,Professional Staff 2,*,2010-01-01,Y,admin
-13,PS3,PROSTAFF,Professional Staff 3,*,2010-01-01,Y,admin
-14,PS4,PROSTAFF,Professional Staff 4,*,2010-01-01,Y,admin
-15,PS5,PROSTAFF,Professional Staff 5,*,2010-01-01,Y,admin
-16,PS6,PROSTAFF,Professional Staff 6,*,2010-01-01,Y,admin
+HR_PAY_GRADE_ID,PAY_GRADE,SAL_GROUP,DESCRIPTION,EFFDT,ACTIVE,USER_PRINCIPAL_ID,GRP_KEY_CD
+1,EX1,EX,Pay Grade 1 Exempt,2010-01-01,Y,admin,UGA-GA
+2,EX2,EX,Pay Grade 2 Exempt,2010-01-01,Y,admin,UGA-GA
+3,EX3,EX,Pay Grade 3 Exempt,2010-01-01,Y,admin,UGA-GA
+4,HR1,HR,Pay Grade 1 Hourly,2010-01-01,Y,admin,UGA-GA
+5,HR2,HR,Pay Grade 2 Hourly,2010-01-01,Y,admin,UGA-GA
+6,HR3,HR,Pay Grade 3 Hourly,2010-01-01,Y,admin,IU-IN
+7,NE1,NE,Pay Grade 1 Non-Exempt,2010-01-01,Y,admin,IU-IN
+8,NE2,NE,Pay Grade 2 Non-Exempt,2010-01-01,Y,admin,IU-IN
+9,NE3,NE,Pay Grade 3 Non-Exempt,2010-01-01,Y,admin,IU-IN
+10,F,Staff,Grade F,2010-01-01,Y,admin,ISU-IA
+11,PS1,PROSTAFF,Professional Staff 1,2010-01-01,Y,admin,ISU-IA
+12,PS2,PROSTAFF,Professional Staff 2,2010-01-01,Y,admin,ISU-IA
+13,PS3,PROSTAFF,Professional Staff 3,2010-01-01,Y,admin,ISU-IA
+14,PS4,PROSTAFF,Professional Staff 4,2010-01-01,Y,admin,ISU-IA
+15,PS5,PROSTAFF,Professional Staff 5,2010-01-01,Y,admin,DEFAULT
+16,PS6,PROSTAFF,Professional Staff 6,2010-01-01,Y,admin,DEFAULT

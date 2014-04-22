@@ -20,22 +20,27 @@ import java.sql.Timestamp;
 
 import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PayGradeBo extends HrBusinessObject implements PayGradeContract {
+public class PayGradeBo extends HrKeyedBusinessObject implements PayGradeContract {
 
-	private static final String SAL_GROUP = "salGroup";
-	private static final String PAY_GRADE = "payGrade";
-	
+	static class KeyFields {
+		private static final String SAL_GROUP = "salGroup";
+		private static final String PAY_GRADE = "payGrade";
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
+	}
+
 	private static final long serialVersionUID = -5736949952127760566L;
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(PAY_GRADE)
-            .add(SAL_GROUP)
+            .add(KeyFields.PAY_GRADE)
+            .add(KeyFields.SAL_GROUP)
+            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayGrade";
@@ -44,8 +49,6 @@ public class PayGradeBo extends HrBusinessObject implements PayGradeContract {
 	private String payGrade;
 	private String description;
 	private String salGroup;
-    private String institution;
-    private String location;
     private String rateType;
     private BigDecimal minRate;
     private BigDecimal maxRate;
@@ -56,8 +59,9 @@ public class PayGradeBo extends HrBusinessObject implements PayGradeContract {
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(PAY_GRADE, this.getPayGrade())
-			.put(SAL_GROUP, this.getSalGroup())
+			.put(KeyFields.PAY_GRADE, this.getPayGrade())
+			.put(KeyFields.SAL_GROUP, this.getSalGroup())
+			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
     
@@ -109,14 +113,6 @@ public class PayGradeBo extends HrBusinessObject implements PayGradeContract {
 		this.salGroup = salGroup;
 	}
 
-    public String getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(String institution) {
-        this.institution = institution;
-    }
-
     public String getRateType() {
         return rateType;
     }
@@ -157,14 +153,6 @@ public class PayGradeBo extends HrBusinessObject implements PayGradeContract {
         this.maxHiringRate = maxHiringRate;
     }
 
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
     public static PayGradeBo from(PayGrade im) {
         if (im == null) {
             return null;
@@ -180,10 +168,8 @@ public class PayGradeBo extends HrBusinessObject implements PayGradeContract {
         pg.setMaxRate(im.getMaxRate());
         pg.setMidPointRate(im.getMidPointRate());
         pg.setMaxHiringRate(im.getMaxHiringRate());
-        pg.setInstitution(im.getInstitution());
-        pg.setLocation(im.getLocation());
-
-
+        pg.setGroupKeyCode(im.getGroupKeyCode());
+        pg.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
         pg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
         pg.setActive(im.isActive());
         if (im.getCreateTime() != null) {

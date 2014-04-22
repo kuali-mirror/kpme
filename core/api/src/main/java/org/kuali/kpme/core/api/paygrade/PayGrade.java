@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.paygrade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -29,6 +30,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -39,7 +42,6 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = PayGrade.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PayGrade.Constants.TYPE_NAME, propOrder = {
-        PayGrade.Elements.LOCATION,
         PayGrade.Elements.RATE_TYPE,
         PayGrade.Elements.MIN_RATE,
         PayGrade.Elements.MAX_RATE,
@@ -50,23 +52,22 @@ import org.w3c.dom.Element;
         PayGrade.Elements.MAX_HIRING_RATE,
         PayGrade.Elements.USER_PRINCIPAL_ID,
         PayGrade.Elements.SAL_GROUP,
-        PayGrade.Elements.INSTITUTION,
         PayGrade.Elements.ACTIVE,
         PayGrade.Elements.ID,
         PayGrade.Elements.CREATE_TIME,
         PayGrade.Elements.EFFECTIVE_LOCAL_DATE,
         CoreConstants.CommonElements.VERSION_NUMBER,
         CoreConstants.CommonElements.OBJECT_ID,
-        CoreConstants.CommonElements.FUTURE_ELEMENTS
+        CoreConstants.CommonElements.FUTURE_ELEMENTS,
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
 })
 public final class PayGrade
         extends AbstractDataTransferObject
         implements PayGradeContract
 {
-
-    @XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
-    @XmlElement(name = Elements.RATE_TYPE, required = false)
+	private static final long serialVersionUID = 6236986099095958704L;
+	@XmlElement(name = Elements.RATE_TYPE, required = false)
     private final String rateType;
     @XmlElement(name = Elements.MIN_RATE, required = false)
     private final BigDecimal minRate;
@@ -86,8 +87,6 @@ public final class PayGrade
     private final String userPrincipalId;
     @XmlElement(name = Elements.SAL_GROUP, required = false)
     private final String salGroup;
-    @XmlElement(name = Elements.INSTITUTION, required = false)
-    private final String institution;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -105,13 +104,16 @@ public final class PayGrade
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
 
     /**
      * Private constructor used only by JAXB.
      *
      */
     private PayGrade() {
-        this.location = null;
         this.rateType = null;
         this.minRate = null;
         this.maxRate = null;
@@ -122,17 +124,17 @@ public final class PayGrade
         this.maxHiringRate = null;
         this.userPrincipalId = null;
         this.salGroup = null;
-        this.institution = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
         this.id = null;
         this.createTime = null;
         this.effectiveLocalDate = null;
+		this.groupKeyCode = null;
+        this.groupKey = null;
     }
 
     private PayGrade(Builder builder) {
-        this.location = builder.getLocation();
         this.rateType = builder.getRateType();
         this.minRate = builder.getMinRate();
         this.maxRate = builder.getMaxRate();
@@ -143,18 +145,14 @@ public final class PayGrade
         this.maxHiringRate = builder.getMaxHiringRate();
         this.userPrincipalId = builder.getUserPrincipalId();
         this.salGroup = builder.getSalGroup();
-        this.institution = builder.getInstitution();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
         this.id = builder.getId();
         this.createTime = builder.getCreateTime();
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
-    }
-
-    @Override
-    public String getLocation() {
-        return this.location;
+		this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
@@ -208,11 +206,6 @@ public final class PayGrade
     }
 
     @Override
-    public String getInstitution() {
-        return this.institution;
-    }
-
-    @Override
     public Long getVersionNumber() {
         return this.versionNumber;
     }
@@ -241,7 +234,16 @@ public final class PayGrade
     public LocalDate getEffectiveLocalDate() {
         return this.effectiveLocalDate;
     }
-
+    
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+    
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
+    }
 
     /**
      * A builder which can be used to construct {@link PayGrade} instances.  Enforces the constraints of the {@link PayGradeContract}.
@@ -250,9 +252,8 @@ public final class PayGrade
     public final static class Builder
             implements Serializable, PayGradeContract, ModelBuilder
     {
-
-        private String location;
-        private String rateType;
+		private static final long serialVersionUID = -6301960774708803831L;
+		private String rateType;
         private BigDecimal minRate;
         private BigDecimal maxRate;
         private String hrPayGradeId;
@@ -262,29 +263,30 @@ public final class PayGrade
         private BigDecimal maxHiringRate;
         private String userPrincipalId;
         private String salGroup;
-        private String institution;
         private Long versionNumber;
         private String objectId;
         private boolean active;
         private String id;
         private DateTime createTime;
         private LocalDate effectiveLocalDate;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
 
-        private Builder(String payGrade, String salGroup) {
+        private Builder(String payGrade, String salGroup, String groupKeyCode) {
             setPayGrade(payGrade);
             setSalGroup(salGroup);
+			setGroupKeyCode(groupKeyCode);
         }
 
-        public static Builder create(String payGrade, String salGroup) {
-            return new Builder(payGrade, salGroup);
+        public static Builder create(String payGrade, String salGroup, String groupKeyCode) {
+            return new Builder(payGrade, salGroup, groupKeyCode);
         }
 
         public static Builder create(PayGradeContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            Builder builder = create(contract.getPayGrade(), contract.getSalGroup());
-            builder.setLocation(contract.getLocation());
+            Builder builder = create(contract.getPayGrade(), contract.getSalGroup(), contract.getGroupKeyCode());
             builder.setRateType(contract.getRateType());
             builder.setMinRate(contract.getMinRate());
             builder.setMaxRate(contract.getMaxRate());
@@ -295,13 +297,13 @@ public final class PayGrade
             builder.setMaxHiringRate(contract.getMaxHiringRate());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
             builder.setSalGroup(contract.getSalGroup());
-            builder.setInstitution(contract.getInstitution());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
             builder.setId(contract.getId());
             builder.setCreateTime(contract.getCreateTime());
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -310,9 +312,14 @@ public final class PayGrade
         }
 
         @Override
-        public String getLocation() {
-            return this.location;
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
         }
+        
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
+        }      
 
         @Override
         public String getRateType() {
@@ -365,11 +372,6 @@ public final class PayGrade
         }
 
         @Override
-        public String getInstitution() {
-            return this.institution;
-        }
-
-        @Override
         public Long getVersionNumber() {
             return this.versionNumber;
         }
@@ -399,8 +401,12 @@ public final class PayGrade
             return this.effectiveLocalDate;
         }
 
-        public void setLocation(String location) {
-            this.location = location;
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
+        
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
         }
 
         public void setRateType(String rateType) {
@@ -449,10 +455,6 @@ public final class PayGrade
             this.salGroup = salGroup;
         }
 
-        public void setInstitution(String institution) {
-            this.institution = institution;
-        }
-
         public void setVersionNumber(Long versionNumber) {
             this.versionNumber = versionNumber;
         }
@@ -498,7 +500,6 @@ public final class PayGrade
      */
     static class Elements {
 
-        final static String LOCATION = "location";
         final static String RATE_TYPE = "rateType";
         final static String MIN_RATE = "minRate";
         final static String MAX_RATE = "maxRate";
@@ -509,12 +510,10 @@ public final class PayGrade
         final static String MAX_HIRING_RATE = "maxHiringRate";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
         final static String SAL_GROUP = "salGroup";
-        final static String INSTITUTION = "institution";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String CREATE_TIME = "createTime";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
-
     }
-
+   
 }

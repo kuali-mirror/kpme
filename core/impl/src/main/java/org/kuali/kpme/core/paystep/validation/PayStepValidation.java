@@ -51,6 +51,8 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 			this.putFieldError("dataObject.payGrade", "error.existence", errorMes);
 			return false;
 		} else {
+			// TODO When pay step is ready, uncomment this section out
+			/*
 			if(!ValidationUtils.wildCardMatch(aPayGrade.getInstitution(), payStep.getInstitution())) {
 				String[] params = new String[3];
 				params[0] = payStep.getInstitution();
@@ -66,7 +68,7 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 				params[2] = errorMes;
 				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
-			}
+			}*/
 		}
 		return true;
 	}
