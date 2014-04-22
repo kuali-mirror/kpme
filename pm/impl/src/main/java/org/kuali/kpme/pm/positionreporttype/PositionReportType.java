@@ -16,7 +16,6 @@
 package org.kuali.kpme.pm.positionreporttype;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
-import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 
 import com.google.common.collect.ImmutableList;
@@ -24,10 +23,12 @@ import com.google.common.collect.ImmutableMap;
 
 public class PositionReportType extends HrKeyedBusinessObject implements PositionReportTypeContract {
 	private static final String POSITION_REPORT_TYPE = "positionReportType";
+	private static final String GROUP_KEY_CODE = "groupKeyCode";
 
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		     .add(POSITION_REPORT_TYPE)
+		     .add(GROUP_KEY_CODE)
 		     .build();
 
 	private static final long serialVersionUID = 1L;
@@ -40,6 +41,7 @@ public class PositionReportType extends HrKeyedBusinessObject implements Positio
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(POSITION_REPORT_TYPE, this.getPositionReportType())
+				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 	

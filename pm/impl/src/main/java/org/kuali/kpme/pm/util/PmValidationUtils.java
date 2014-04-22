@@ -67,49 +67,15 @@ public class PmValidationUtils {
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validatePositionReportType(String positionReportType, String institution, String location, LocalDate asOfDate) {
+	public static boolean validatePositionReportType(String positionReportType, String groupKeyCode, LocalDate asOfDate) {
 		boolean valid = false;
 		if (asOfDate != null) {
-			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, institution, location, asOfDate);
+			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, groupKeyCode, asOfDate);
 			valid = (CollectionUtils.isNotEmpty(prtList));
 		} 
 		return valid;
 	}	
-	
-	/** 
-	 * Validate if the institution is consistent with given Position Report Type 
-	 * Wild card is allowed for String parameters
-	 * @param positionReportType
-	 * @param institutionCode
-	 * @param asOfDate
-	 * @return
-	 */
-	public static boolean validateInstitutionWithPRT(String positionReportType, String institutionCode, LocalDate asOfDate) {
-		if (asOfDate != null) {
-			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService()
-				.getPositionReportTypeList(positionReportType, institutionCode, PMConstants.WILDCARD_CHARACTER, asOfDate);
-			return CollectionUtils.isNotEmpty(prtList);
-		} 
-		return false;
-	}
-	
-	/**
-	 * Validate if the campus is consistent with given positonReportType
-	 * Wild card is allowed for String parameters
-	 * @param positionReportType
-	 * @param campus
-	 * @param asOfDate
-	 * @return
-	 */
-	public static boolean validateCampusWithPRT(String positionReportType, String campus, LocalDate asOfDate) {
-		if (asOfDate != null) {
-			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService()
-				.getPositionReportTypeList(positionReportType, HrConstants.WILDCARD_CHARACTER, campus, asOfDate);
-			return CollectionUtils.isNotEmpty(prtList);
-		} 
-		return false;
-	}
-	
+
 	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, LocalDate asOfDate) {
 		if (asOfDate != null) {
 			PayGrade grade = HrServiceLocator.getPayGradeService().getPayGrade(payGrade, salaryGroup, asOfDate);
@@ -119,18 +85,17 @@ public class PmValidationUtils {
 		return false;
 	}
 	/**
-	 * Validate if there exists Position Report Category that matches given postionReportCat, positionReportType , institution, campus and exists before given date 
+	 * Validate if there exists Position Report Category that matches given postionReportCat, positionReportType , groupKeyCode and exists before given date 
 	 * Wild card allowed
 	 * @param positionReportCat
 	 * @param positionReportType
-	 * @param institution
-	 * @param campus
+	 * @param groupKeyCode
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validatePositionReportCategory(String positionReportCat, String positionReportType, String institution, String campus, LocalDate asOfDate) {
+	public static boolean validatePositionReportCategory(String positionReportCat, String positionReportType, String groupKeyCode, LocalDate asOfDate) {
 		if (StringUtils.isNotEmpty(positionReportCat) && asOfDate != null) {
-			List<? extends PositionReportCategoryContract> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(positionReportCat, positionReportType, institution, campus, asOfDate);
+			List<? extends PositionReportCategoryContract> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(positionReportCat, positionReportType, groupKeyCode, asOfDate);
 			return CollectionUtils.isNotEmpty(prcList);
 		}
 		return false;

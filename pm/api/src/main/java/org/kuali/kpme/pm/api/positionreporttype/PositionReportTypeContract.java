@@ -56,5 +56,5 @@ public interface PositionReportTypeContract extends HrKeyedBusinessObjectContrac
      * @return pmPositionReportTypeId for PositionReportType
      */
 	public String getPmPositionReportTypeId();
-
+	
 }

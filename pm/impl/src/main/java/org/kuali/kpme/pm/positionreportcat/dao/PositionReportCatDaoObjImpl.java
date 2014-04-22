@@ -42,7 +42,7 @@ public class PositionReportCatDaoObjImpl extends PlatformAwareDaoBaseOjb impleme
 	}
 
 	@Override
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String location, LocalDate asOfDate) {
+	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String groupKeyCode, LocalDate asOfDate) {
 		List<PositionReportCategory> prcList = new ArrayList<PositionReportCategory>();
 		Criteria root = new Criteria();
 		
@@ -54,13 +54,8 @@ public class PositionReportCatDaoObjImpl extends PlatformAwareDaoBaseOjb impleme
 				&& !ValidationUtils.isWildCard(positionReportType)) {
 			root.addEqualTo("positionReportType", positionReportType);  
 		}
-		if(StringUtils.isNotEmpty(institution) 
-				&& !ValidationUtils.isWildCard(institution)) {
-			root.addEqualTo("institution", institution); 
-		}
-		if(StringUtils.isNotEmpty(location) 
-				&& !ValidationUtils.isWildCard(location)) {
-			root.addEqualTo("location", location); 
+		if(StringUtils.isNotEmpty(groupKeyCode)) {
+			root.addEqualTo("groupKeyCode", groupKeyCode); 
 		}
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportCategory.class, asOfDate, PositionReportCategory.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportCategory.class, PositionReportCategory.BUSINESS_KEYS, false));

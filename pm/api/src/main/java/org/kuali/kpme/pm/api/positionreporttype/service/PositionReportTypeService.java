@@ -93,15 +93,13 @@ public interface PositionReportTypeService {
 
 	/**
 
-	 * Get list of PositionReportType with given type, institution, location and effective date
+	 * Get list of PositionReportType with given type, groupKeyCode and effective date
 
 	 * wild card allowed
 
 	 * @param positionReportType
 
-	 * @param institution
-
-	 * @param location
+	 * @param groupKeyCode
 
 	 * @param asOfDate
 
@@ -109,7 +107,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public List<? extends PositionReportTypeContract> getPositionReportTypeList(String positionReportType, String institution, String location, LocalDate asOfDate);
+	public List<? extends PositionReportTypeContract> getPositionReportTypeList(String positionReportType, String groupKeyCode, LocalDate asOfDate);
 
 	
 

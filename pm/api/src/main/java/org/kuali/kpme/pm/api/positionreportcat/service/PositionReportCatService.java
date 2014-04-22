@@ -30,15 +30,14 @@ public interface PositionReportCatService {
 	public PositionReportCategoryContract getPositionReportCatById(String pmPositionReportCatId);
 	
 	/**
-	 * Get List of PositionReportCategory with given category, type and effective date
+	 * Get List of PositionReportCategory with given category, type, groupKeyCode and effective date
 	 * @param positionReportCat
 	 * @param positionReportType
-	 * @param institution
-	 * @param location
+	 * @param groupKeyCode
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PositionReportCategoryContract> getPositionReportCatList(String positionReportCat, String positionReportType, String institution, String location, LocalDate asOfDate);
+	public List<? extends PositionReportCategoryContract> getPositionReportCatList(String positionReportCat, String positionReportType, String groupKeyCode, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the latest active PositionReportCategory with given positionReportCat and effective date

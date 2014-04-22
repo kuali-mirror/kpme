@@ -34,8 +34,8 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 		
 		if (prc != null) {
 			valid = true;
-			valid &= this.validateInstitution(prc);
-			valid &= this.validateLocation(prc);
+//			valid &= this.validateInstitution(prc);
+//			valid &= this.validateLocation(prc);
 			valid &= this.validatePositionReportType(prc);
 		}
 		return valid;
@@ -49,46 +49,38 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 			this.putFieldError("positionReportType", "error.existence", positionReportTypeError);
 			return false;
 		} else {
-			if(!ValidationUtils.wildCardMatch(aType.getInstitution(),prc.getInstitution())) {
+			if(!StringUtils.equals(aType.getGroupKeyCode(),prc.getGroupKeyCode())) {
 				String[] params = new String[3];
-				params[0] = prc.getInstitution();
-				params[1] = aType.getInstitution();
+				params[0] = prc.getGroupKeyCode();
+				params[1] = aType.getGroupKeyCode();
 				params[2] = positionReportTypeError;
-				this.putFieldError("institution", "institution.inconsistent", params);
-				return false;
-			}
-			if(!ValidationUtils.wildCardMatch(aType.getGroupKey().getLocation().getLocation(), prc.getLocation())) {
-				String[] params = new String[3];
-				params[0] = prc.getLocation();
-				params[1] = aType.getGroupKey().getLocation().getLocation();
-				params[2] = positionReportTypeError;
-				this.putFieldError("location", "location.inconsistent", params);
+				this.putFieldError("groupKeyCode", "groupKey.inconsistent", params);
 				return false;
 			}
 		}
 		return true;
 	}	
 	
-	private boolean validateInstitution(PositionReportCategory prc) {
-		if (StringUtils.isNotEmpty(prc.getInstitution())) {
-			if(!ValidationUtils.validateInstitution(prc.getInstitution(), prc.getEffectiveLocalDate())) {
-				this.putFieldError("institution", "error.existence", "Instituion '"
-						+ prc.getInstitution() + "'");
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	private boolean validateLocation(PositionReportCategory prc) {
-		if (StringUtils.isNotEmpty(prc.getLocation())) {
-			if(!ValidationUtils.validateLocation(prc.getLocation(), prc.getEffectiveLocalDate())) {
-				this.putFieldError("location", "error.existence", "Location '"
-						+ prc.getLocation() + "'");
-				return false;
-			}
-		}
-		return true;
-	}
+//	private boolean validateInstitution(PositionReportCategory prc) {
+//		if (StringUtils.isNotEmpty(prc.getInstitution())) {
+//			if(!ValidationUtils.validateInstitution(prc.getInstitution(), prc.getEffectiveLocalDate())) {
+//				this.putFieldError("institution", "error.existence", "Instituion '"
+//						+ prc.getInstitution() + "'");
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
+//	
+//	private boolean validateLocation(PositionReportCategory prc) {
+//		if (StringUtils.isNotEmpty(prc.getLocation())) {
+//			if(!ValidationUtils.validateLocation(prc.getLocation(), prc.getEffectiveLocalDate())) {
+//				this.putFieldError("location", "error.existence", "Location '"
+//						+ prc.getLocation() + "'");
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 	
 }

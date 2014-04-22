@@ -15,22 +15,22 @@
  */
 package org.kuali.kpme.pm.positionreportcat;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.institution.InstitutionBo;
-import org.kuali.kpme.core.location.LocationBo;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.positionreporttype.PositionReportType;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportCategory extends HrBusinessObject implements PositionReportCategoryContract {
+public class PositionReportCategory extends HrKeyedBusinessObject implements PositionReportCategoryContract {
 	
 	private static final String POSITION_REPORT_CAT = "positionReportCat";
-
+	private static final String GROUP_KEY_CODE = "groupKeyCode";
+	
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		    .add(POSITION_REPORT_CAT)
+		    .add(GROUP_KEY_CODE)
 		    .build();
 
 	private static final long serialVersionUID = 1L;
@@ -39,17 +39,14 @@ public class PositionReportCategory extends HrBusinessObject implements Position
 	private String positionReportCat;
 	private String positionReportType;
 	private String description;
-	private String institution;
-	private String location;
 	
-	private LocationBo locationObj;
-	private InstitutionBo institutionObj;
 	private PositionReportType prtObj;	
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(POSITION_REPORT_CAT, this.getPositionReportCat())
+				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 	
@@ -65,7 +62,7 @@ public class PositionReportCategory extends HrBusinessObject implements Position
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionReportCat() + "_" + getPositionReportType() + "_" + getInstitution() + "_" + getLocation();
+		return getPositionReportCat() + "_" + getPositionReportType() + "_" + getGroupKeyCode();
 	}
 
 	public String getPositionReportType() {
@@ -82,38 +79,6 @@ public class PositionReportCategory extends HrBusinessObject implements Position
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-	
-	public InstitutionBo getInstitutionObj() {
-		return institutionObj;
-	}
-
-	public void setInstitutionObj(InstitutionBo institutionObj) {
-		this.institutionObj = institutionObj;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public LocationBo getLocationObj() {
-		return locationObj;
-	}
-
-	public void setLocationObj(LocationBo locationObj) {
-		this.locationObj = locationObj;
 	}
 
 	public String getPmPositionReportCatId() {

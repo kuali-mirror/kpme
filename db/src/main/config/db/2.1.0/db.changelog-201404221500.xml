@@ -21,18 +21,17 @@
     
 	
 	<changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
-		<addColumn tableName="PM_PSTN_RPT_TYP_T">
+		<addColumn tableName="PM_PSTN_RPT_CAT_T">
 			<column name="GRP_KEY_CD" type="VARCHAR(30)"/>
 		</addColumn>
 			
-		<update tableName="PM_PSTN_RPT_TYP_T">
+		<update tableName="PM_PSTN_RPT_CAT_T">
 			<column name="GRP_KEY_CD" value="DEFAULT" />
 		</update>
+		<addNotNullConstraint columnName="GRP_KEY_CD" tableName="PM_PSTN_RPT_CAT_T" columnDataType="VARCHAR(30)"/>
 		
-		<addNotNullConstraint columnName="GRP_KEY_CD" tableName="PM_PSTN_RPT_TYP_T" columnDataType="VARCHAR(30)"/>
-		
-		<dropColumn tableName="PM_PSTN_RPT_TYP_T" columnName="INSTITUTION" />
-		<dropColumn tableName="PM_PSTN_RPT_TYP_T" columnName="LOCATION" />
+		<dropColumn tableName="PM_PSTN_RPT_CAT_T" columnName="INSTITUTION" />
+		<dropColumn tableName="PM_PSTN_RPT_CAT_T" columnName="LOCATION" />
 		
 	</changeSet>
 </databaseChangeLog>
