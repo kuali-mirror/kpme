@@ -15,14 +15,14 @@
  */
 package org.kuali.kpme.pm.api.pstnrptgrpsubcat;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
 /**
  * <p>PositionReportGroupSubCategoryContract interface</p>
  *
  */
-public interface PositionReportGroupSubCategoryContract extends HrBusinessObjectContract{
+public interface PositionReportGroupSubCategoryContract extends KpmeEffectiveKeyedDataTransferObject {
 
 	/**
 	 * The primary key of a PositionReportGroupSubCategory entry saved in a database

@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.pm.pstnrptgrpsubcat.dao;
 
-import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory;
+import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategoryBo;
 
 public interface PstnRptGrpSubCatDao {
-	public PositionReportGroupSubCategory getPstnRptGrpSubCatById(String pmPstnRptGrpSubCatId);
+	public PositionReportGroupSubCategoryBo getPstnRptGrpSubCatById(String pmPstnRptGrpSubCatId);
 
 }

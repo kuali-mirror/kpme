@@ -19,7 +19,7 @@ import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
-import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory;
+import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategoryBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
@@ -28,7 +28,7 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Report Group Sub Category");
-		PositionReportGroupSubCategory prgsc = (PositionReportGroupSubCategory) this.getNewDataObject();
+		PositionReportGroupSubCategoryBo prgsc = (PositionReportGroupSubCategoryBo) this.getNewDataObject();
 		
 		if (prgsc != null) {
 			valid = true;
@@ -40,7 +40,7 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 		return valid;
 	}
 	
-	private boolean validatePstnRptSubCat(PositionReportGroupSubCategory prgsc) {
+	private boolean validatePstnRptSubCat(PositionReportGroupSubCategoryBo prgsc) {
 		// validatePositionReportSubCat handles wild card for Institution and Location
 		PositionReportSubCategoryContract aPrsc = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getEffectiveLocalDate());
 		String errorMes = "PositionReportSubCategory '" + prgsc.getPositionReportSubCat() + "'";
@@ -68,7 +68,7 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 		return true;
 	}
 	
-	private boolean validatePstnRptGroup(PositionReportGroupSubCategory prgsc) {
+	private boolean validatePstnRptGroup(PositionReportGroupSubCategoryBo prgsc) {
 		PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(prgsc.getPositionReportGroup(), prgsc.getEffectiveLocalDate());
 		String errorMes = "PositionReportGroup '" + prgsc.getPositionReportGroup() + "'";
 		if(aPrg == null) {

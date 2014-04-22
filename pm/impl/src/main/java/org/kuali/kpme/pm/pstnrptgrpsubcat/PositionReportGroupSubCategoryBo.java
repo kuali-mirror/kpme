@@ -21,7 +21,7 @@ import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategoryCont
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportGroupSubCategory extends HrKeyedBusinessObject implements PositionReportGroupSubCategoryContract {
+public class PositionReportGroupSubCategoryBo extends HrKeyedBusinessObject implements PositionReportGroupSubCategoryContract {
 	
 	static class KeyFields {
 		private static final String POSITION_REPORT_GROUP = "positionReportGroup";
