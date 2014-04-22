@@ -89,6 +89,8 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(clss.getSalaryGroup(), clss.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + clss.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
+			// TODO 
+			/*
 			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), clss.getInstitution())) {
 				String[] params = new String[3];
 				params[0] = clss.getInstitution();
@@ -101,6 +103,22 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 				String[] params = new String[3];
 				params[0] = clss.getLocation();
 				params[1] = aSalGroup.getLocation();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.location", "location.inconsistent", params);
+				return false;
+			}*/
+			if(!ValidationUtils.wildCardMatch(aSalGroup.getGroupKey().getInstitution().getInstitutionCode(), clss.getInstitution())) {
+				String[] params = new String[3];
+				params[0] = clss.getInstitution();
+				params[1] = aSalGroup.getGroupKey().getInstitution().getInstitutionCode();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+				return false;
+			}
+			if(!ValidationUtils.wildCardMatch(aSalGroup.getGroupKey().getLocation().getLocation(), clss.getLocation())) {
+				String[] params = new String[3];
+				params[0] = clss.getLocation();
+				params[1] = aSalGroup.getGroupKey().getLocation().getLocation();
 				params[2] = errorMes;
 				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
@@ -122,6 +140,8 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 				this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
 				return false;
 			} else {
+				// TODO fix this after groupKey has been added to positonreportgroup
+				/*
 				if(!ValidationUtils.wildCardMatch(aPrg.getInstitution(), clss.getInstitution())) {
 					String[] params = new String[3];
 					params[0] = clss.getInstitution();
@@ -138,6 +158,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 					this.putFieldError("dataObject.location", "location.inconsistent", params);
 					return false;
 				}
+				*/
 			}
 		}
 		return true;

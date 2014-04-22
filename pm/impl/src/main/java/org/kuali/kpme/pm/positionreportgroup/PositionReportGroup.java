@@ -27,11 +27,13 @@ import com.google.common.collect.ImmutableMap;
 
 public class PositionReportGroup extends HrKeyedBusinessObject implements PositionReportGroupContract {
 
+	private static final String GROUP_KEY_CODE = "groupKeyCode";
 	private static final String POSITION_REPORT_GROUP = "positionReportGroup";
 
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		    .add(POSITION_REPORT_GROUP)
+		    .add(GROUP_KEY_CODE)
 		    .build();
 
 	private static final long serialVersionUID = 1L;
@@ -40,13 +42,11 @@ public class PositionReportGroup extends HrKeyedBusinessObject implements Positi
 	private String positionReportGroup;
 	private String description;
 	
-	private LocationBo locationObj;
-	private InstitutionBo institutionObj;
-	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(POSITION_REPORT_GROUP, this.getPositionReportGroup())
+				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 
@@ -62,7 +62,7 @@ public class PositionReportGroup extends HrKeyedBusinessObject implements Positi
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionReportGroup() + "_" + getInstitution() + "_" + getLocation();
+		return getPositionReportGroup() + "_" + this.getGroupKeyCode();
 	}
 
 	public String getPmPositionReportGroupId() {
@@ -87,22 +87,6 @@ public class PositionReportGroup extends HrKeyedBusinessObject implements Positi
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public LocationBo getLocationObj() {
-		return locationObj;
-	}
-
-	public void setLocationObj(LocationBo locationObj) {
-		this.locationObj = locationObj;
-	}
-
-	public InstitutionBo getInstitutionObj() {
-		return institutionObj;
-	}
-
-	public void setInstitutionObj(InstitutionBo institutionObj) {
-		this.institutionObj = institutionObj;
 	}
 
 	public static long getSerialversionuid() {

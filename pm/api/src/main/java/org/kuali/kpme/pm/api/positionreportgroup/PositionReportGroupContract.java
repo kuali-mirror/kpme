@@ -16,15 +16,13 @@
 package org.kuali.kpme.pm.api.positionreportgroup;
 
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.api.location.LocationContract;
-import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
 
 /**
  * <p>PositionReportGroupContract interface</p>
  *
  */
-public interface PositionReportGroupContract extends HrBusinessObjectContract {
+public interface PositionReportGroupContract extends HrKeyedBusinessObjectContract {
 
     /**
      * The primary key for a PositionReportGroup entry saved in the database
@@ -58,49 +56,5 @@ public interface PositionReportGroupContract extends HrBusinessObjectContract {
      * @return description for PositionReportGroup
      */
 	public String getDescription();
-
-    /**
-     * The institution associated with the PositionReportGroup
-     *
-     * <p>
-     * institution of a PositionReportGroup.
-     * <p>
-     *
-     * @return institution for PositionReportGroup
-     */
-	public String getInstitution();
-
-    /**
-     * The location associated with the PositionReportGroup
-     *
-     * <p>
-     * location of a PositionReportGroup.
-     * <p>
-     *
-     * @return location for PositionReportGroup
-     */
-	public String getLocation();
-
-    /**
-     * The Location object associated with the PositionReportGroup
-     *
-     * <p>
-     * locationObj of a PositionReportGroup.
-     * <p>
-     *
-     * @return locationObj for PositionReportGroup
-     */
-	public LocationContract getLocationObj();
-
-    /**
-     * The Institution object associated with the PositionReportGroup
-     *
-     * <p>
-     * institutionObj of a PositionReportGroup.
-     * <p>
-     *
-     * @return institutionObj for PositionReportGroup
-     */
-	public InstitutionContract getInstitutionObj();
 
 }
