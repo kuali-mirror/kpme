@@ -15,21 +15,21 @@
  */
 package org.kuali.kpme.core.accrualcategory.service;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.accrualcategory.dao.AccrualCategoryDao;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryService;
+import org.kuali.kpme.core.api.accrualcategory.AccrualEarnInterval;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.util.List;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
@@ -80,7 +80,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
    
 
 	public void runAccrual(String principalId, LocalDate asOfDate){
-		PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(principalHRAttributes == null){
 			LOG.error("Cannot find principal hr attributes for "+principalId);
 			return;

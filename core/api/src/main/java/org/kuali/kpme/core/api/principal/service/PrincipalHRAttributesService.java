@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.principal.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -29,7 +30,7 @@ public interface PrincipalHRAttributesService {
 	 * @return
 	 */
     @Cacheable(value= PrincipalHRAttributesContract.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public PrincipalHRAttributesContract getPrincipalCalendar(String principalId, LocalDate asOfDate);
+	public PrincipalHRAttributes getPrincipalCalendar(String principalId, LocalDate asOfDate);
 	
 	/**
 	 * Get a list of active employees based on pay calendar and as of a particular date 
@@ -38,7 +39,7 @@ public interface PrincipalHRAttributesService {
 	 * @return
 	 */
     @Cacheable(value= PrincipalHRAttributesContract.CACHE_NAME, key="'payCalendarName=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public List<? extends PrincipalHRAttributesContract> getActiveEmployeesForPayCalendar(String payCalendarName, LocalDate asOfDate);
+    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, LocalDate asOfDate);
     
 	/**
 	 * Get a list of active employees based on leave calendar and as of a particular date 
@@ -47,7 +48,7 @@ public interface PrincipalHRAttributesService {
 	 * @return
 	 */
     @Cacheable(value= PrincipalHRAttributesContract.CACHE_NAME, key="'leaveCalendarName=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public List<? extends PrincipalHRAttributesContract> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, LocalDate asOfDate);
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, LocalDate asOfDate);
     
     /**
      * Get a list of unique principal ids that match given criteria, used by leave approval and leave request approval pages
@@ -77,7 +78,7 @@ public interface PrincipalHRAttributesService {
 	 * @return
 	 */
     @Cacheable(value= PrincipalHRAttributesContract.CACHE_NAME, key="'leavePlan=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public List<? extends PrincipalHRAttributesContract> getActiveEmployeesForLeavePlan(String leavePlan, LocalDate asOfDate);
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, LocalDate asOfDate);
     
 	/**
 	 * Fetch inactive PrincipalHRAttributes object at a particular date
@@ -85,29 +86,29 @@ public interface PrincipalHRAttributesService {
 	 * @param asOfDate
 	 * @return
 	 */
-    public PrincipalHRAttributesContract getInactivePrincipalHRAttributes(String principalId, LocalDate asOfDate);
+    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, LocalDate asOfDate);
 	/**
 	 * Fetch PrincipalHRAttributes object with given id
 	 * @param hrPrincipalAttributeId
 	 * @return
 	 */
-    public PrincipalHRAttributesContract getPrincipalHRAttributes(String hrPrincipalAttributeId);
+    public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId);
     
-    public List<? extends PrincipalHRAttributesContract> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
+    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
     
-    public List<? extends PrincipalHRAttributesContract> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
+    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
     
-    public PrincipalHRAttributesContract getMaxTimeStampPrincipalHRAttributes(String principalId);
+    public PrincipalHRAttributes getMaxTimeStampPrincipalHRAttributes(String principalId);
     
     /*
      * Fetch list of PrincipalHRAttributes that become active for given principalId and date range
      */
     @Cacheable(value= PrincipalHRAttributesContract.CACHE_NAME, key="'{getActivePrincipalHrAttributesForRange}' + 'principalId=' + #p0 + '|' + 'startDate=' + #p1 + '|' + 'startDate=' + #p2")
-    public List<? extends PrincipalHRAttributesContract> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
+    public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
     /*
      * Fetch list of PrincipalHRAttributes that become inactive for given principalId and date range
      */
-    public List<? extends PrincipalHRAttributesContract> getInactivePrincipalHRAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
+    public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
     /**
      * Fetch list of PrincipalHRAttributes using given parameters
      *
@@ -118,7 +119,7 @@ public interface PrincipalHRAttributesService {
      * @param active
      * @param showHistory     @return
      */
-    public List<? extends PrincipalHRAttributesContract> getPrincipalHrAtributes(String userPrincipalId, String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String userPrincipalId, String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 
     /**
      * Get List of all active pay calendars for the given principal ids.

@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.leave.accrual.bucket;
 
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.UsageLimitBalanceContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
@@ -27,7 +27,7 @@ public class UsageLimitBalance extends LeaveBalance implements UsageLimitBalance
 
 	private BigDecimal usageLimit;
 	
-	protected UsageLimitBalance(AccrualCategory accrualCategory, PrincipalHRAttributes principalCalendar) {
+	protected UsageLimitBalance(AccrualCategory accrualCategory, PrincipalHRAttributesBo principalCalendar) {
 		super(accrualCategory, principalCalendar);
 		usageLimit = BigDecimal.ZERO;
 	}

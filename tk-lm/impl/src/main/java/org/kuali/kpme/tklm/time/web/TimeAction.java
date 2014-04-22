@@ -28,7 +28,7 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -76,7 +76,7 @@ public class TimeAction extends KPMEAction {
         if (HrContext.isSystemAdmin()) {
             return new ActionRedirect("/portal.do");
         }
-        PrincipalHRAttributesContract phra = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
+        PrincipalHRAttributes phra = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
         if (phra == null) {
             return new ActionRedirect("/PersonInfo.do");
         }

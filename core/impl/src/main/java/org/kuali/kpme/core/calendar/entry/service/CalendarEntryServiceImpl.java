@@ -23,8 +23,7 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntryPeriodType;
 import org.kuali.kpme.core.api.calendar.entry.service.CalendarEntryService;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.calendar.CalendarBo;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.calendar.dao.CalendarDao;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.calendar.entry.dao.CalendarEntryDao;
@@ -181,7 +180,7 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     @Override
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId) {
 		int planningMonths = 0;
-		PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator
 				.getPrincipalHRAttributeService().getPrincipalCalendar(
 						principalId, LocalDate.now());
 		if (principalHRAttributes != null
@@ -236,7 +235,7 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     
     @Override
     public CalendarEntry getCalendarDatesByPayEndDate(String principalId, DateTime payEndDate, String calendarType) {
-        PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toLocalDate());
+        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, payEndDate.toLocalDate());
 
         Calendar calendar = null;
         if(ObjectUtils.isNull(principalCalendar)) {

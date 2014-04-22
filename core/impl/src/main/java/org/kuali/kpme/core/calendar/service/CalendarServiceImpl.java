@@ -21,9 +21,10 @@ import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.service.CalendarService;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.paytype.PayType;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.calendar.dao.CalendarDao;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
@@ -50,7 +51,7 @@ public class CalendarServiceImpl implements CalendarService {
 
 	@Override
     public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate beginDate, LocalDate endDate, boolean findLeaveCal) {
-        CalendarBo pcal = null;
+        Calendar pcal = null;
         List<Job> currentJobs = HrServiceLocator.getJobService().getJobs(principalId, endDate);
         if(currentJobs.size() < 1){
             return null;
@@ -65,7 +66,7 @@ public class CalendarServiceImpl implements CalendarService {
             	LOG.warn("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             }
 
-            PrincipalHRAttributes principalCalendar = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
+            PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
             if(principalCalendar == null){
             	return null;
                 //throw new RuntimeException("No principal hr attribute setup for "+principalId);
@@ -88,12 +89,12 @@ public class CalendarServiceImpl implements CalendarService {
             }
         }
 
-        return CalendarBo.to(pcal);
+        return pcal;
     }
 
 	@Override
 	public Calendar getCalendarByPrincipalIdAndDate(String principalId, LocalDate asOfDate, boolean findLeaveCal) {
-        CalendarBo pcal = null;
+        Calendar pcal = null;
         List<Job> currentJobs = HrServiceLocator.getJobService().getJobs(principalId, asOfDate);
         if(currentJobs.size() < 1){
            return null;
@@ -108,7 +109,7 @@ public class CalendarServiceImpl implements CalendarService {
             	LOG.warn("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
             }
 
-            PrincipalHRAttributes principalCalendar = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+            PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
             if(principalCalendar == null){
 //                throw new RuntimeException("No principal hr attribute setup for "+principalId);
             	LOG.warn("No principal hr attribute setup for "+principalId);
@@ -132,7 +133,7 @@ public class CalendarServiceImpl implements CalendarService {
             }
         }
 
-        return CalendarBo.to(pcal);
+        return pcal;
 	}
 	
 	@Override

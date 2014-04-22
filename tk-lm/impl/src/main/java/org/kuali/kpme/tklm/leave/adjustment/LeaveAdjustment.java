@@ -21,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.adjustment.LeaveAdjustmentContract;
 import org.kuali.rice.kim.api.identity.Person;
@@ -51,7 +51,7 @@ public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustment
     private transient Person principal;
 	private transient AccrualCategoryBo accrualCategoryObj;
 	private transient EarnCodeBo earnCodeObj;
-	private transient PrincipalHRAttributes principalHRAttrObj;
+	private transient PrincipalHRAttributesBo principalHRAttrObj;
 	
 	
 
@@ -98,7 +98,7 @@ public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustment
 	
 	public String getLeavePlan() {
 		if (!StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
+			principalHRAttrObj = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate()));
 		}
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}
@@ -156,10 +156,10 @@ public class LeaveAdjustment extends HrBusinessObject implements LeaveAdjustment
 		setLmLeaveAdjustmentId(id);
 	}
 
-	public PrincipalHRAttributes getPrincipalHRAttrObj() {
+	public PrincipalHRAttributesBo getPrincipalHRAttrObj() {
 		return principalHRAttrObj;
 	}
-	public void setPrincipalHRAttrObj(PrincipalHRAttributes principalHRAttrObj) {
+	public void setPrincipalHRAttrObj(PrincipalHRAttributesBo principalHRAttrObj) {
 		this.principalHRAttrObj = principalHRAttrObj;
 	}
 }

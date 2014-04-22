@@ -18,18 +18,18 @@ package org.kuali.kpme.core.principal.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 
 public interface PrincipalHRAttributesDao {
-	public void saveOrUpdate(PrincipalHRAttributes principalCalendar);
+	public void saveOrUpdate(PrincipalHRAttributesBo principalCalendar);
 
-	public void saveOrUpdate(List<PrincipalHRAttributes> lstPrincipalCalendar);
+	public void saveOrUpdate(List<PrincipalHRAttributesBo> lstPrincipalCalendar);
 
-	public PrincipalHRAttributes getPrincipalCalendar(String principalId, LocalDate asOfDate);
+	public PrincipalHRAttributesBo getPrincipalCalendar(String principalId, LocalDate asOfDate);
 	
-	public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, LocalDate asOfDate);
+	public List<PrincipalHRAttributesBo> getActiveEmployeesForPayCalendar(String payCalendarName, LocalDate asOfDate);
 
-	public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, LocalDate asOfDate);
+	public List<PrincipalHRAttributesBo> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, LocalDate asOfDate);
 	
 	public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, LocalDate asOfDate);
 	
@@ -42,28 +42,28 @@ public interface PrincipalHRAttributesDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, LocalDate asOfDate);
+	public List<PrincipalHRAttributesBo> getActiveEmployeesForLeavePlan(String leavePlan, LocalDate asOfDate);
 	
 // this method is not needed anymore since we changed the primary key of
 //	PrincipalHRAttributes table from principalId to hrPrincipalAttributeId
 //	use getPrincipalCalendar(String principalId, Date asOfDate) instead
 //	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
 	
-	public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, LocalDate asOfDate);
+	public PrincipalHRAttributesBo getInactivePrincipalHRAttributes(String principalId, LocalDate asOfDate);
 	
-	public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId);
+	public PrincipalHRAttributesBo getPrincipalHRAttributes(String hrPrincipalAttributeId);
 	
-	public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
+	public List<PrincipalHRAttributesBo> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
 	
-	public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
+	public List<PrincipalHRAttributesBo> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, LocalDate asOfDate);
 	
-	public PrincipalHRAttributes getMaxTimeStampPrincipalHRAttributes(String principalId);
+	public PrincipalHRAttributesBo getMaxTimeStampPrincipalHRAttributes(String principalId);
 	
-	public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
+	public List<PrincipalHRAttributesBo> getActivePrincipalHrAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
 	 
-	public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
+	public List<PrincipalHRAttributesBo> getInactivePrincipalHRAttributesForRange(String principalId, LocalDate startDate, LocalDate endDate);
     
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    public List<PrincipalHRAttributesBo> getPrincipalHrAtributes(String principalId, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
     
     public List<String> getUniquePayCalendars(List<String> principalIds);
     

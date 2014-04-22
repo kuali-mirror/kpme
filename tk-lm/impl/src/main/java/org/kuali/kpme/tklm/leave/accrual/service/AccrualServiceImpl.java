@@ -35,15 +35,13 @@ import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.accrual.AccrualService;
 import org.kuali.kpme.tklm.api.leave.accrual.PrincipalAccrualRanContract;
-import org.kuali.kpme.tklm.api.leave.accrual.RateRangeAggregateContract;
 import org.kuali.kpme.tklm.api.leave.accrual.RateRangeContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
@@ -52,7 +50,6 @@ import org.kuali.kpme.tklm.leave.accrual.RateRange;
 import org.kuali.kpme.tklm.leave.accrual.RateRangeAggregate;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 
 import java.math.BigDecimal;
@@ -102,16 +99,16 @@ public class AccrualServiceImpl implements AccrualService {
 		
 		//Build a rate range aggregate with appropriate information for this period of time detailing Rate Ranges for job
 		//entries for this range of time
-		RateRangeAggregateContract rrAggregate = this.buildRateRangeAggregate(principalId, startDate, endDate);
-		PrincipalHRAttributesContract phra = null;
-		PrincipalHRAttributesContract endPhra = null;
+		RateRangeAggregate rrAggregate = this.buildRateRangeAggregate(principalId, startDate, endDate);
+		PrincipalHRAttributes phra = null;
+		PrincipalHRAttributes endPhra = null;
 		LeavePlanContract lp = null;
 		List<? extends AccrualCategoryContract> accrCatList = null;
 		
 		//Iterate over every day in span 
 		DateTime currentDate = startDate;
 		while (!currentDate.isAfter(endDate)) {
-			RateRangeContract currentRange = rrAggregate.getRateOnDate(currentDate);
+			RateRange currentRange = rrAggregate.getRateOnDate(currentDate);
 			if(currentRange == null) {
 				currentDate = currentDate.plusDays(1);
 				continue;
@@ -582,8 +579,8 @@ public class AccrualServiceImpl implements AccrualService {
 		List<Job> activeJobs = HrServiceLocator.getJobService().getAllActiveLeaveJobs(principalId, endDate.toLocalDate());
 		List<Job> inactiveJobs = HrServiceLocator.getJobService().getAllInActiveLeaveJobsInRange(principalId, endDate.toLocalDate());
 		
-		List<PrincipalHRAttributes> phaList = (List<PrincipalHRAttributes>) HrServiceLocator.getPrincipalHRAttributeService().getAllActivePrincipalHrAttributesForPrincipalId(principalId, endDate.toLocalDate());
-		List<PrincipalHRAttributes> inactivePhaList = (List<PrincipalHRAttributes>) HrServiceLocator.getPrincipalHRAttributeService().getAllInActivePrincipalHrAttributesForPrincipalId(principalId, endDate.toLocalDate());
+		List<PrincipalHRAttributes> phaList = HrServiceLocator.getPrincipalHRAttributeService().getAllActivePrincipalHrAttributesForPrincipalId(principalId, endDate.toLocalDate());
+		List<PrincipalHRAttributes> inactivePhaList = HrServiceLocator.getPrincipalHRAttributeService().getAllInActivePrincipalHrAttributesForPrincipalId(principalId, endDate.toLocalDate());
 		
 		if(activeJobs.isEmpty() || phaList.isEmpty()) {
 			return rrAggregate;
@@ -809,7 +806,7 @@ public class AccrualServiceImpl implements AccrualService {
 				for(int i = 1; i < phasForDay.size(); i++) {
 					if( (phasForDay.get(i).getEffectiveLocalDate().isAfter(phasForDay.get(indexOfMaxEffDt).getEffectiveLocalDate()))
 							||(phasForDay.get(i).getEffectiveLocalDate().equals(phasForDay.get(indexOfMaxEffDt).getEffectiveLocalDate())
-									&& phasForDay.get(i).getTimestamp().after(phasForDay.get(indexOfMaxEffDt).getTimestamp()))) {
+									&& phasForDay.get(i).getCreateTime().isAfter(phasForDay.get(indexOfMaxEffDt).getCreateTime()))) {
 						indexOfMaxEffDt = i;
 					}
 				}
@@ -834,7 +831,7 @@ public class AccrualServiceImpl implements AccrualService {
 				for(int i = 1; i < inactivePhasForDay.size(); i++) {
 					if( (inactivePhasForDay.get(i).getEffectiveLocalDate().isAfter(inactivePhasForDay.get(indexOfMaxEffDt).getEffectiveLocalDate()))
 							||(inactivePhasForDay.get(i).getEffectiveLocalDate().equals(inactivePhasForDay.get(indexOfMaxEffDt).getEffectiveLocalDate())
-									&& inactivePhasForDay.get(i).getTimestamp().after(inactivePhasForDay.get(indexOfMaxEffDt).getTimestamp()))) {
+									&& inactivePhasForDay.get(i).getCreateTime().isAfter(inactivePhasForDay.get(indexOfMaxEffDt).getCreateTime()))) {
 						indexOfMaxEffDt = i;
 					}
 				}
@@ -919,7 +916,7 @@ public class AccrualServiceImpl implements AccrualService {
 	
 	@Override
 	public void calculateFutureAccrualUsingPlanningMonth(String principalId, LocalDate asOfDate, String runAsPrincipalId) {
-		PrincipalHRAttributesContract phra = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes phra = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(phra != null) {
 			// use the date from pay period to get the leave plan
 			LeavePlanContract lp = HrServiceLocator.getLeavePlanService().getLeavePlan(phra.getLeavePlan(), asOfDate);  
@@ -1128,17 +1125,21 @@ public class AccrualServiceImpl implements AccrualService {
 		DateTime ruleStartDate = null;
 		
 		String intervalValue = HrConstants.SERVICE_UNIT_OF_TIME.get(earnInterval);
-		
-		if (intervalValue.equals("Months")) {
-			ruleStartDate = serviceDate.toDateTimeAtStartOfDay().plusMonths(startAcc.intValue());
-			if (ruleStartDate.getDayOfMonth() > ruleStartDate.dayOfMonth().getMaximumValue()) {
-				ruleStartDate = ruleStartDate.withDayOfMonth(ruleStartDate.dayOfMonth().getMaximumValue());
-			}
-		} else if (intervalValue.equals("Years")) {
-			ruleStartDate = serviceDate.toDateTimeAtStartOfDay().withYear(startAcc.intValue());
-		} else {
-			ruleStartDate = serviceDate.toDateTimeAtStartOfDay();
-		}
+
+        switch (intervalValue) {
+            case "Months":
+                ruleStartDate = serviceDate.toDateTimeAtStartOfDay().plusMonths(startAcc.intValue());
+                if (ruleStartDate.getDayOfMonth() > ruleStartDate.dayOfMonth().getMaximumValue()) {
+                    ruleStartDate = ruleStartDate.withDayOfMonth(ruleStartDate.dayOfMonth().getMaximumValue());
+                }
+                break;
+            case "Years":
+                ruleStartDate = serviceDate.toDateTimeAtStartOfDay().withYear(startAcc.intValue());
+                break;
+            default:
+                ruleStartDate = serviceDate.toDateTimeAtStartOfDay();
+                break;
+        }
 		
 		return ruleStartDate;
 	}
@@ -1167,17 +1168,14 @@ public class AccrualServiceImpl implements AccrualService {
 			return true;
 		}
 		
-		PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getMaxTimeStampPrincipalHRAttributes(principalId);
-		if(pha != null && pha.getTimestamp().after(par.getLastRanTs())) {
+		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getMaxTimeStampPrincipalHRAttributes(principalId);
+		if(pha != null && pha.getCreateTime().isAfter(par.getLastRanDateTime())) {
 			return true;
 		}
 		// if there are leave blocks created for earn codes with eligible-for-accrual = no since the last accrual run, it should trigger recalculation 
 		List<LeaveBlock> lbList = LmServiceLocator.getLeaveBlockService().getABELeaveBlocksSinceTime(principalId, par.getLastRanDateTime());
-		if(CollectionUtils.isNotEmpty(lbList)) {
-			return true;
-		}		
-		return false;
-	}
+        return CollectionUtils.isNotEmpty(lbList);
+    }
 	
     public List<AccrualCategoryRule> getAccrualCategoryRulesForDate(List<AccrualCategoryRule> acrList, String accrualCategoryId, LocalDate currentDate, LocalDate serviceDate) {
     	List<AccrualCategoryRule> aList = new ArrayList<AccrualCategoryRule>();
@@ -1231,7 +1229,7 @@ public class AccrualServiceImpl implements AccrualService {
 	public BigDecimal getAccruedBalanceForPrincipal(String principalId,
 			AccrualCategoryContract accrualCategory, LocalDate asOfDate) {
     	BigDecimal balance = new BigDecimal(0);
-    	PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+    	PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	if(pha == null)
     		return BigDecimal.ZERO;
     	
@@ -1254,7 +1252,7 @@ public class AccrualServiceImpl implements AccrualService {
 	public BigDecimal getApprovedBalanceForPrincipal(String principalId,
 			AccrualCategoryContract accrualCategory, LocalDate asOfDate) {
     	BigDecimal balance = new BigDecimal(0);
-    	PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+    	PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
     	List<LeaveBlock> leaveBlocks = LmServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceLocalDate(), asOfDate, accrualCategory.getAccrualCategory());
     	for(LeaveBlock block : leaveBlocks) {
     		if(StringUtils.equals(block.getRequestStatus(),HrConstants.REQUEST_STATUS.APPROVED)) {
@@ -1272,8 +1270,8 @@ public class AccrualServiceImpl implements AccrualService {
 	@Override
 	public void runAccrualForLeavePlan(LeavePlanContract aLeavePlan, DateTime startDate, DateTime endDate, boolean recordRanData) {
 		if(aLeavePlan != null) {
-			List<? extends PrincipalHRAttributesContract> phaList = HrServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForLeavePlan(aLeavePlan.getLeavePlan(), aLeavePlan.getEffectiveLocalDate());
-			for(PrincipalHRAttributesContract aPHA : phaList) {
+			List<PrincipalHRAttributes> phaList = HrServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForLeavePlan(aLeavePlan.getLeavePlan(), aLeavePlan.getEffectiveLocalDate());
+			for(PrincipalHRAttributes aPHA : phaList) {
 				String anId = aPHA.getPrincipalId();
 				if(LmServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(anId)) {
 					DateTime startDT = startDate == null ? getStartAccrualDate(anId) : startDate;

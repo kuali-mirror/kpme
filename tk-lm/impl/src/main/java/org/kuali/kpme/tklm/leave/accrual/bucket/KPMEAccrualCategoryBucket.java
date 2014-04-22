@@ -36,8 +36,7 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -55,11 +54,11 @@ public class KPMEAccrualCategoryBucket implements KPMEAccrualCategoryBucketContr
 	//Leave Summary
 	private LinkedHashMap<String, List<LeaveBalance>> leaveBalances;
 	private CalendarEntry viewingCalendarEntry;
-	private PrincipalHRAttributes principalCalendar;
+	private PrincipalHRAttributesBo principalCalendar;
 	private boolean isInitialized;
 	private LocalDate asOfDate;
 	
-	public void initialize(PrincipalHRAttributes currentPrincipalCalendar) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void initialize(PrincipalHRAttributesBo currentPrincipalCalendar) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		leaveBalances = new LinkedHashMap<String, List<LeaveBalance>>();
 		principalCalendar = currentPrincipalCalendar;
 		asOfDate = LocalDate.now();

@@ -20,7 +20,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.AccruedLeaveBalanceContract;
@@ -30,7 +30,6 @@ import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaxCarryoverException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.NegativeBalanceException;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.UsageLimitException;
-import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class AccruedLeaveBalance extends LeaveBalance implements AccruedLeaveBal
 	private YearToDateUsageLeaveBalance ytdUsage;
 	private CarryOverLeaveBalance carryOver;
 
-	public AccruedLeaveBalance(AccrualCategory accrualCategory, PrincipalHRAttributes principalCalendar) {
+	public AccruedLeaveBalance(AccrualCategory accrualCategory, PrincipalHRAttributesBo principalCalendar) {
 		super(accrualCategory, principalCalendar);
 		//bad, add asOfDate to constructor
 		asOfDate = LocalDate.now();

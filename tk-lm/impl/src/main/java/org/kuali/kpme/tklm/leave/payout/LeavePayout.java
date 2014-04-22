@@ -20,11 +20,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.payout.LeavePayoutContract;
@@ -51,7 +49,7 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
 	private transient Person principal;
 	private transient AccrualCategoryBo fromAccrualCategoryObj;
 	private transient EarnCodeBo earnCodeObj;
-	private transient PrincipalHRAttributes principalHRAttrObj;
+	private transient PrincipalHRAttributesBo principalHRAttrObj;
     private String leaveCalendarDocumentId;
     private String accrualCategoryRule;
     private String forfeitedLeaveBlockId;
@@ -103,7 +101,7 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
 	
 	public String getLeavePlan() {
 		if (!StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
+			principalHRAttrObj = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate()));
 		}
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}
@@ -169,10 +167,10 @@ public class LeavePayout extends HrBusinessObject implements Assignable, LeavePa
 		setLmLeavePayoutId(id);
 	}
 
-	public PrincipalHRAttributes getPrincipalHRAttrObj() {
+	public PrincipalHRAttributesBo getPrincipalHRAttrObj() {
 		return principalHRAttrObj;
 	}
-	public void setPrincipalHRAttrObj(PrincipalHRAttributes hrObj) {
+	public void setPrincipalHRAttrObj(PrincipalHRAttributesBo hrObj) {
 		this.principalHRAttrObj = hrObj;
 	}
 	public String getAccrualCategoryRule() {

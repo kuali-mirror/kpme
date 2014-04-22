@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -56,7 +56,7 @@ public class MissedPunchApprovalJob extends BatchJob {
         		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timeDocId);
         		if(timesheetDocument != null
         				&& TkConstants.MISSEDPUNCH_APPROVAL_TIME_DOC_STATUS.contains(KEWServiceLocator.getRouteHeaderService().getDocumentStatus(timeDocId))) {
-        			PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
+        			PrincipalHRAttributes phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
 					if(phraRecord != null && StringUtils.isNotBlank(phraRecord.getPayCalendar()) && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {	
 						List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentsByTimesheetDocumentId(timeDocId);
 						for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {

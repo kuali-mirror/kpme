@@ -17,10 +17,12 @@ package org.kuali.kpme.core.api.principal;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
 
@@ -28,7 +30,7 @@ import org.kuali.rice.kim.api.identity.Person;
  * <p>PrincipalHRAttributesContract interface</p>
  *
  */
-public interface PrincipalHRAttributesContract extends HrBusinessObjectContract {
+public interface PrincipalHRAttributesContract extends KpmeEffectiveDataTransferObject {
 
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "PrincipalHRAttributes";
 	/**
@@ -77,17 +79,6 @@ public interface PrincipalHRAttributesContract extends HrBusinessObjectContract 
 	 */
 	public String getLeavePlan();
 	
-	/**
-	 * The employee's start date for their leave eligible job
-	 * 
-	 * <p>
-	 * serviceDate of a PrincipalHRAttributes
-	 * </p>
-	 * 
-	 * @return serviceDate for PrincipalHRAttributes
-	 */
-	public Date getServiceDate();
-
 	/**
 	 * The serviceDate (LocalDate) the PrincipalHRAttributes is associated with
 	 * 
@@ -142,17 +133,7 @@ public interface PrincipalHRAttributesContract extends HrBusinessObjectContract 
 	 * @return calendar for PrincipalHRAttributes
 	 */
 	public CalendarContract getCalendar();
-	
-	/**
-	 * The Person object the PrincipalHRAttributes is associated with
-	 * 
-	 * <p>
-	 * person of a aPrincipalHRAttributes
-	 * </p>
-	 * 
-	 * @return person for PrincipalHRAttributes
-	 */
-	public Person getPerson();
+
 
 	/**
 	 * Determines the accrual rules and leave codes  for the employee
@@ -197,16 +178,5 @@ public interface PrincipalHRAttributesContract extends HrBusinessObjectContract 
 	 * @return hrPrincipalAttributeId for PrincipalHRAttributes
 	 */
 	public String getHrPrincipalAttributeId();
-
-	/**
-	 * The history flag for PrincipalHRAttributes lookups 
-	 * 
-	 * <p>
-	 * history of PrincipalHRAttributes
-	 * </p>
-	 * 
-	 * @return true if want to show history, false if not
-	 */
-	public Boolean getHistory();
 	
 }

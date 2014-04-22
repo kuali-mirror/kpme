@@ -15,19 +15,19 @@
  */
 package org.kuali.kpme.core.leaveplan.validation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.leaveplan.LeavePlanBo;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 
@@ -41,7 +41,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		// plan can't be inactivated, so return false otherwise true
 		if (!leavePlan.isActive()) {
 			// this has to use the effective date of the job passed in
-			List<PrincipalHRAttributes> pList = (List<PrincipalHRAttributes>) HrServiceLocator
+			List<PrincipalHRAttributes> pList = HrServiceLocator
 					.getPrincipalHRAttributeService()
 					.getActiveEmployeesForLeavePlan(leavePlan.getLeavePlan(),
 							leavePlan.getEffectiveLocalDate());
@@ -74,8 +74,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateEffectiveDate(LocalDate effectiveDate) {
-		boolean valid = true;
-		valid = ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate);
+		boolean valid = ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate);
 		if(!valid) {
 			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
 		} 
@@ -108,8 +107,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		if (pbo instanceof LeavePlanBo) {
 			LeavePlanBo leavePlan = (LeavePlanBo) pbo;
 			if (leavePlan != null) {
-				valid = true;
-				valid &= this.validateInactivation(leavePlan);
+				valid = this.validateInactivation(leavePlan);
 				if (StringUtils.isNotEmpty(leavePlan.getPlanningMonths())) {
 					valid &= this.validatePlanningMonths(leavePlan
 							.getPlanningMonths());

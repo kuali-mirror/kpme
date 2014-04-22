@@ -15,22 +15,25 @@
  */
 package org.kuali.kpme.core.principal;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PrincipalHRAttributes extends HrBusinessObject implements PrincipalHRAttributesContract {
+public class PrincipalHRAttributesBo extends HrBusinessObject implements PrincipalHRAttributesContract {
 
 	private static final String PRINCIPAL_ID = "principalId";
 	
@@ -41,6 +44,34 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
             .build();
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PrincipalHRAttributes";
 
+    /*
+	 * convert bo to immutable
+	 *
+     * Can be used with ModelObjectUtils:
+     *
+     * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPrincipalHRAttributesBo, PrincipalHRAttributesBo.toImmutable);
+     */
+    public static final ModelObjectUtils.Transformer<PrincipalHRAttributesBo, PrincipalHRAttributes> toImmutable =
+            new ModelObjectUtils.Transformer<PrincipalHRAttributesBo, PrincipalHRAttributes>() {
+                public PrincipalHRAttributes transform(PrincipalHRAttributesBo input) {
+                    return PrincipalHRAttributesBo.to(input);
+                };
+            };
+
+    /*
+     * convert immutable to bo
+     *
+     * Can be used with ModelObjectUtils:
+     *
+     * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPrincipalHRAttributes, PrincipalHRAttributesBo.toBo);
+     */
+    public static final ModelObjectUtils.Transformer<PrincipalHRAttributes, PrincipalHRAttributesBo> toBo =
+            new ModelObjectUtils.Transformer<PrincipalHRAttributes, PrincipalHRAttributesBo>() {
+                public PrincipalHRAttributesBo transform(PrincipalHRAttributes input) {
+                    return PrincipalHRAttributesBo.from(input);
+                };
+            };
+
 	private String hrPrincipalAttributeId;
 	private String principalId;
 	private String leaveCalendar;
@@ -50,10 +81,6 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 	private boolean fmlaEligible;
 	private boolean workersCompEligible;
 	private String timezone;
-	// KPME-1268 Kagata added recordTime and recordLeave variables
-	// KPME-1676 
-//	private String recordTime;
-//	private String recordLeave;
 	
 	private transient CalendarBo calendar;
 	private transient CalendarBo leaveCalObj;
@@ -205,5 +232,44 @@ public class PrincipalHRAttributes extends HrBusinessObject implements Principal
 	public void setHrPrincipalAttributeId(String hrPrincipalAttributeId) {
 		this.hrPrincipalAttributeId = hrPrincipalAttributeId;
 	}
+
+    public static PrincipalHRAttributesBo from(PrincipalHRAttributes im) {
+        if (im == null) {
+            return null;
+        }
+        PrincipalHRAttributesBo phra = new PrincipalHRAttributesBo();
+
+        phra.setHrPrincipalAttributeId(im.getHrPrincipalAttributeId());
+        phra.setPrincipalId(im.getPrincipalId());
+        phra.setLeaveCalendar(im.getLeaveCalendar());
+        phra.setPayCalendar(im.getPayCalendar());
+        phra.setLeavePlan(im.getLeavePlan());
+        phra.setServiceDate(im.getServiceLocalDate() == null ? null : im.getServiceLocalDate().toDate());
+        phra.setFmlaEligible(im.isFmlaEligible());
+        phra.setWorkersCompEligible(im.isWorkersCompEligible());
+        phra.setTimezone(im.getTimezone());
+        phra.setCalendar(CalendarBo.from(im.getCalendar()));
+        phra.setLeaveCalObj(CalendarBo.from(im.getLeaveCalObj()));
+        phra.setLeavePlanObj(LeavePlanBo.from(im.getLeavePlanObj()));
+
+        phra.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        phra.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            phra.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        phra.setUserPrincipalId(im.getUserPrincipalId());
+        phra.setVersionNumber(im.getVersionNumber());
+        phra.setObjectId(im.getObjectId());
+
+        return phra;
+    }
+
+    public static PrincipalHRAttributes to(PrincipalHRAttributesBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return PrincipalHRAttributes.Builder.create(bo).build();
+    }
 
 }

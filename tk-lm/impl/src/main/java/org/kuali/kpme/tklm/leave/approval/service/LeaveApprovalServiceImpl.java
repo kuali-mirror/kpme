@@ -28,7 +28,7 @@ import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -437,10 +437,10 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			Map<LocalDateTime, Map<String, BigDecimal>> accrualCategoryLeaveHours = getAccrualCategoryLeaveHours(leaveBlocks, leaveSummaryDates);
 
 			//get all accrual categories of this employee
-			PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+			PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
 			if(pha != null) {
-				List<? extends AccrualCategoryContract> acList = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), endDate.toLocalDate());
-				for(AccrualCategoryContract ac : acList) {
+				List<AccrualCategory> acList = HrServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), endDate.toLocalDate());
+				for(AccrualCategory ac : acList) {
 					List<BigDecimal> acDayDetails = new ArrayList<BigDecimal>();
 					Map<String, Object> displayMap = new HashMap<String, Object>();
 					BigDecimal totalAmount = BigDecimal.ZERO;
@@ -479,7 +479,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
         //CalendarEntry calendarEntry = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
 		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
 			LeaveSummaryContract leaveSummary;
-			PrincipalHRAttributesContract pha; 
+			PrincipalHRAttributes pha;
 //			List<Date> leaveSummaryDates = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry);
             try {
                 leaveSummary = LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, endDate.toLocalDate());

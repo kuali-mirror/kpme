@@ -20,9 +20,10 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -40,7 +41,7 @@ public class PrincipalHRAttributesLookupableHelper extends KPMELookupableHelperS
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		PrincipalHRAttributes principalHRAttributes = (PrincipalHRAttributes) businessObject;
+		PrincipalHRAttributesBo principalHRAttributes = (PrincipalHRAttributesBo) businessObject;
 		String hrPrincipalAttributeId = principalHRAttributes.getHrPrincipalAttributeId();
 		
 		Properties params = new Properties();
@@ -67,8 +68,8 @@ public class PrincipalHRAttributesLookupableHelper extends KPMELookupableHelperS
 	    String active = fieldValues.get("active");
 	    String showHist = fieldValues.get("history");
 
-	    return HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes(GlobalVariables.getUserSession().getPrincipalId(), principalId, leavePlan, TKUtils.formatDateString(fromEffdt),
-	    		TKUtils.formatDateString(toEffdt), active, showHist);
+	    return ModelObjectUtils.transform(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes(GlobalVariables.getUserSession().getPrincipalId(), principalId, leavePlan, TKUtils.formatDateString(fromEffdt),
+	    		TKUtils.formatDateString(toEffdt), active, showHist), PrincipalHRAttributesBo.toBo);
 	}
 	
 }

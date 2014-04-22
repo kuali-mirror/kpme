@@ -19,10 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.batch.BatchJob;
-import org.kuali.kpme.core.calendar.CalendarBo;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -66,7 +64,7 @@ public class EmployeeApprovalJob extends BatchJob {
                                 // use the range of the calendar entry to retrieve the correct PrincipalHrAtrribute record for the employee
                                 // then check if the calendar name/id matches the one from the calendar entry
                                 String principalId = timesheetDocument.getPrincipalId();
-                                PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+                                PrincipalHRAttributes phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
                                 if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {
                                     TkServiceLocator.getTimesheetService().routeTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
                                 }
@@ -82,7 +80,7 @@ public class EmployeeApprovalJob extends BatchJob {
                         LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
                         if (TkConstants.EMPLOYEE_APPROVAL_DOC_STATUS.contains(KEWServiceLocator.getRouteHeaderService().getDocumentStatus(docId))) {
                             String principalId = leaveCalendarDocument.getPrincipalId();
-                            PrincipalHRAttributesContract phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
+                            PrincipalHRAttributes phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate.toLocalDate());
                             if (phraRecord != null && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {
                                 LmServiceLocator.getLeaveCalendarService().routeLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE);
                             }

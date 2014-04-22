@@ -15,20 +15,18 @@
  */
 package org.kuali.kpme.tklm.leave.accrual;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.Interval;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
-import org.kuali.kpme.core.job.JobBo;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.tklm.api.leave.accrual.RateRangeContract;
 import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
-import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RateRange implements RateRangeContract {
 	private Interval range;

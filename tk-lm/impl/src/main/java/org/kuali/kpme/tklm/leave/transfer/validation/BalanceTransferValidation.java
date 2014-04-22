@@ -15,10 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.transfer.validation;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -26,9 +22,7 @@ import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.job.JobBo;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -40,6 +34,10 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
@@ -374,11 +372,11 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validatePrincipal(String principalId, Date effectiveDate, String userPrincipalId) {
 		boolean isValid = true;
-		PrincipalHRAttributesContract pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.fromDateFields(effectiveDate));
+		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.fromDateFields(effectiveDate));
 		
 		if(pha == null) {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "balanceTransfer.principal.noAttributes");
-			isValid &= false;
+			isValid = false;
 		}
 		else {
 			boolean canCreate = false;

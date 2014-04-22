@@ -22,8 +22,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.kpme.core.FunctionalTest;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.calendar.CalendarBo;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -37,7 +38,7 @@ public class LMPermissionServiceTest extends KPMEWebTestCase {
 		super.setUp();
 		// change taget person to a non-admin
 	    //HrContext.setTargetPrincipalId("eric");
-	    PrincipalHRAttributes phra = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2");
+	    PrincipalHRAttributesBo phra = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2"));
 	    phra.setLeaveCalendar("BWS-LM");
 	    phra.setLeaveCalObj(CalendarBo.from(HrServiceLocator.getCalendarService().getCalendarByGroup("BWS-LM")));
 	    KRADServiceLocator.getBusinessObjectService().save(phra);
@@ -47,7 +48,7 @@ public class LMPermissionServiceTest extends KPMEWebTestCase {
 	public void tearDown() throws Exception {
 		super.tearDown();
 	    //HrContext.setTargetPrincipalId("admin");
-	    PrincipalHRAttributes phra = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2");
+	    PrincipalHRAttributesBo phra = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2"));
 	    phra.setLeaveCalendar(null);
 	    phra.setLeaveCalObj(null);
 	    KRADServiceLocator.getBusinessObjectService().save(phra);

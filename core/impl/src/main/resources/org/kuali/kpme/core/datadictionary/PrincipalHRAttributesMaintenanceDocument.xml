@@ -27,7 +27,7 @@
 	<bean id="PrincipalHRAttributesMaintenanceDocument" parent="PrincipalHRAttributesMaintenanceDocument-parentBean" />
 
 	<bean id="PrincipalHRAttributesMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry" 
-        p:dataObjectClass="org.kuali.kpme.core.principal.PrincipalHRAttributes"
+        p:dataObjectClass="org.kuali.kpme.core.principal.PrincipalHRAttributesBo"
 		p:businessRulesClass="org.kuali.kpme.core.principal.validation.PrincipalHRAttributesRule"
 		p:maintainableClass="org.kuali.kpme.core.principal.web.PrincipalHRAttributesMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.kpme.core.principal.authorization.PrincipalHRAttributesAuthorizer">
@@ -47,7 +47,7 @@
           abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
         <property name="title" value="Principal HR Attributes Maintenance"/>
         <property name="headerText" value="Principal HR Attributes Maintenance"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.principal.PrincipalHRAttributes"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.principal.PrincipalHRAttributesBo"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.principal.web.PrincipalHRAttributesMaintainableImpl"/>
         <property name="items">
             <list merge="true">

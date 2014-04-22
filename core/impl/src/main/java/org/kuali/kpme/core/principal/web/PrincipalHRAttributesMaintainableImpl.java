@@ -17,15 +17,13 @@ package org.kuali.kpme.core.principal.web;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.cache.CacheUtils;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.kim.api.identity.name.EntityName;
-import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
@@ -36,20 +34,20 @@ public class PrincipalHRAttributesMaintainableImpl extends HrBusinessObjectMaint
 	public void processAfterCopy(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
 		super.processAfterCopy(document, parameters);
-		PrincipalHRAttributes principalHRAttributes = (PrincipalHRAttributes) document.getNewMaintainableObject().getDataObject();
+		PrincipalHRAttributesBo principalHRAttributes = (PrincipalHRAttributesBo) document.getNewMaintainableObject().getDataObject();
 		principalHRAttributes.setPrincipalId(null);
 	}
 
 	@Override
 	public void saveBusinessObject() {
 		super.saveBusinessObject();
-		CacheUtils.flushCache(PrincipalHRAttributes.CACHE_NAME);
+		CacheUtils.flushCache(PrincipalHRAttributesBo.CACHE_NAME);
 		CacheUtils.flushCache(HrConstants.CacheNamespace.KPME_GLOBAL_CACHE_NAME);
 	}
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(id);
+		return PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(id));
 	}
 
     //attribute query, populates name when principalID is selected

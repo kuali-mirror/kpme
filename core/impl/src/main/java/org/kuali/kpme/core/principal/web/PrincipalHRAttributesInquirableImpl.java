@@ -15,31 +15,30 @@
  */
 package org.kuali.kpme.core.principal.web;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+import java.util.Map;
+
 public class PrincipalHRAttributesInquirableImpl extends KualiInquirableImpl {
 	
     @Override
     public BusinessObject getBusinessObject(Map fieldValues) {
-    	PrincipalHRAttributesContract principalAttributes = null;
+    	PrincipalHRAttributesBo principalAttributes = null;
     	if (StringUtils.isNotBlank((String)fieldValues.get("hrPrincipalAttributeId"))) {
-    		principalAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes((String) fieldValues.get("hrPrincipalAttributeId"));
+    		principalAttributes = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes((String) fieldValues.get("hrPrincipalAttributeId")));
     	} else if(StringUtils.isNotBlank((String)fieldValues.get("principalId"))
     			&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-    		principalAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar((String) fieldValues.get("principalId"), effectiveDate);
+    		principalAttributes = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar((String) fieldValues.get("principalId"), effectiveDate));
     	} else {
-    		principalAttributes = (PrincipalHRAttributes) super.getBusinessObject(fieldValues);
+    		principalAttributes = (PrincipalHRAttributesBo) super.getBusinessObject(fieldValues);
     	}
     	return principalAttributes;
     }

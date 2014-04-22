@@ -15,8 +15,6 @@
  */
 package org.kuali.kpme.tklm.leave.batch;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -24,15 +22,15 @@ import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanService;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
-import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.tklm.api.leave.accrual.AccrualService;
 import org.kuali.kpme.tklm.leave.calendar.service.LeaveCalendarServiceImpl;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import java.util.List;
 
 public class AccrualJob extends BatchJob {
 
@@ -55,7 +53,7 @@ public class AccrualJob extends BatchJob {
 				if (assignment.getJob().isEligibleForLeave()) {
 					String principalId = assignment.getPrincipalId();
 					
-					PrincipalHRAttributesContract principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+					PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 					if (principalHRAttributes != null) {
 						LeavePlanContract leavePlan = getLeavePlanService().getLeavePlan(principalHRAttributes.getLeavePlan(), principalHRAttributes.getEffectiveLocalDate());
 						if (leavePlan != null) {

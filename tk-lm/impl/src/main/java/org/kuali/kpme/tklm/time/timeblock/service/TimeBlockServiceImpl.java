@@ -29,7 +29,7 @@ import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.paytype.PayType;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -625,7 +625,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 		        List<TimeHourDetailBo> timeHourDetails = new ArrayList<TimeHourDetailBo>();
 				if(earnCodeObj.getCountsAsRegularPay().equals("Y") || regularEarnCodes.contains(earnCodeObj.getEarnCode())) {
 			        if(assignment != null && assignment.getJob() != null && assignment.getJob().isEligibleForLeave()) {
-			        	PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, tb.getBeginDateTime().toLocalDate());
+			        	PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, tb.getBeginDateTime().toLocalDate());
 			    		if(principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
                             SystemScheduledTimeOffContract sstoHoliday = LmServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(principalCalendar.getLeavePlan(), tb.getBeginDateTime().toLocalDate());
 			    			if(sstoHoliday != null && sstoHoliday.getPremiumHoliday().equalsIgnoreCase("Y") && StringUtils.isNotEmpty(sstoHoliday.getPremiumEarnCode())) {

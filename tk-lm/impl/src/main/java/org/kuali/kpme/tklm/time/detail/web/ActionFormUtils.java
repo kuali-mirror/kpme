@@ -26,7 +26,7 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -44,7 +44,15 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ActionFormUtils {
 
@@ -316,7 +324,7 @@ public class ActionFormUtils {
         for (CalendarEntry pce : payPeriods) {
         	// Check if service date of user is after the Calendar entry
             DateTime asOfDate = pce.getEndPeriodFullDateTime().minusDays(1);
-    		PrincipalHRAttributesContract principalHRAttributes = null;
+    		PrincipalHRAttributes principalHRAttributes = null;
     		String formattedBeginDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.print(pce.getBeginPeriodFullDateTime());
             String formattedEndDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.print(pce.getEndPeriodFullDateTime().minusMillis(1));
             String formattedRange = formattedBeginDate + " - " + formattedEndDate;
@@ -359,7 +367,7 @@ public class ActionFormUtils {
     
     public static int getPlanningMonthsForEmployee(String principalid) {
 		int plannningMonths = 0;
-		PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator
+		PrincipalHRAttributes principalHRAttributes = HrServiceLocator
 				.getPrincipalHRAttributeService().getPrincipalCalendar(
 						principalid, LocalDate.now());
 		if (principalHRAttributes != null

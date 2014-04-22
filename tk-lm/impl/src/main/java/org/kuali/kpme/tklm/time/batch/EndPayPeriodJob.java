@@ -22,14 +22,13 @@ import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.common.BatchJobService;
-import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.quartz.JobDataMap;
@@ -63,8 +62,8 @@ public class EndPayPeriodJob extends BatchJob {
 	    	String calendarName = calendarEntry.getCalendarName();
 	    	DateTime scheduleDate = calendarEntry.getBatchEndPayPeriodFullDateTime();
 	    	
-	    	List<? extends PrincipalHRAttributesContract> principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate.toLocalDate());
-            for (PrincipalHRAttributesContract principalHRAttribute : principalHRAttributes) {
+	    	List<PrincipalHRAttributes> principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate.toLocalDate());
+            for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
 	    		String pId = principalHRAttribute.getPrincipalId();
 	    	    
 	    		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForTimeCalendar(pId, calendarEntry);

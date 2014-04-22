@@ -32,12 +32,11 @@ import org.kuali.kpme.core.api.calendar.CalendarContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.block.CalendarBlock;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -109,7 +108,7 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
     private AccrualCategory accrualCategoryObj;
 
     @Transient
-    private PrincipalHRAttributesContract principalHRAttributes;
+    private PrincipalHRAttributes principalHRAttributes;
   
     @Transient
     private String affectPay;
@@ -393,7 +392,7 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
 
 	public String getCalendarId() {
         if (StringUtils.isEmpty(calendarId)) {
-            PrincipalHRAttributesContract principalHRAttributes = getPrincipalHRAttributes();
+            PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributes();
             CalendarContract pcal;
             if(principalHRAttributes != null) {
                 //pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
@@ -659,7 +658,7 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
     public AccrualCategoryRule getAccrualCategoryRule() {
         if (accrualCategoryRule == null) {
             AccrualCategory category = getAccrualCategoryObj();
-            PrincipalHRAttributesContract pha = getPrincipalHRAttributes();
+            PrincipalHRAttributes pha = getPrincipalHRAttributes();
             if (category != null && pha != null) {
                 accrualCategoryRule = HrServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, getLeaveLocalDate(), pha.getServiceLocalDate());
             }
@@ -679,7 +678,7 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
         return getTimestamp() == null ? null : new DateTime(getTimestamp().getTime());
     }
 
-    public PrincipalHRAttributesContract getPrincipalHRAttributes() {
+    public PrincipalHRAttributes getPrincipalHRAttributes() {
         if (principalHRAttributes == null) {
             principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, getLeaveLocalDate());
         }

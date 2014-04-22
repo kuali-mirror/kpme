@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.leave.override;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -49,7 +49,7 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
 	private String accrualCategory;
 	private String leavePlan;
 	private transient Person principal;
-	private transient PrincipalHRAttributes principalHRAttrObj;
+	private transient PrincipalHRAttributesBo principalHRAttrObj;
 	private transient AccrualCategoryBo accrualCategoryObj;
 	private String overrideType;
 	private Long overrideValue;
@@ -154,7 +154,7 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
             return leavePlan;
         }
 		if (this.principalHRAttrObj == null && !StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate());
+			principalHRAttrObj = PrincipalHRAttributesBo.from(HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveLocalDate()));
 		}
         leavePlan = principalHRAttrObj == null ? null : principalHRAttrObj.getLeavePlan();
 		return leavePlan;
@@ -180,11 +180,11 @@ public class EmployeeOverride extends HrBusinessObject implements EmployeeOverri
 		this.principal = principal;
 	}
 
-	public PrincipalHRAttributes getPrincipalHRAttrObj() {
+	public PrincipalHRAttributesBo getPrincipalHRAttrObj() {
 		return principalHRAttrObj;
 	}
 
-	public void setPrincipalHRAttrObj(PrincipalHRAttributes principalHRAttrObj) {
+	public void setPrincipalHRAttrObj(PrincipalHRAttributesBo principalHRAttrObj) {
 		this.principalHRAttrObj = principalHRAttrObj;
 	}
 

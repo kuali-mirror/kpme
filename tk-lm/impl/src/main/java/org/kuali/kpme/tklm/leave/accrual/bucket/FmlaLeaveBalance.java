@@ -17,7 +17,7 @@ package org.kuali.kpme.tklm.leave.accrual.bucket;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.FmlaLeaveBalanceContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.accrual.bucket.exception.MaximumBalanceException;
@@ -31,7 +31,7 @@ public class FmlaLeaveBalance extends LeaveBalance implements FmlaLeaveBalanceCo
 
 	private List<LeaveBlock> leaveBlocks;
 
-	public FmlaLeaveBalance(AccrualCategory accrualCategory, PrincipalHRAttributes principalCalendar) {
+	public FmlaLeaveBalance(AccrualCategory accrualCategory, PrincipalHRAttributesBo principalCalendar) {
 		super(accrualCategory, principalCalendar);
 		asOfDate = LocalDate.now();
 		leaveBlocks = new ArrayList<LeaveBlock>();

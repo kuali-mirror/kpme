@@ -18,13 +18,12 @@ package org.kuali.kpme.tklm.leave.accrual.bucket;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.KPMEBalanceException;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.LeaveBalanceContract;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
-import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 
 import java.math.BigDecimal;
@@ -32,13 +31,13 @@ import java.math.BigDecimal;
 public abstract class LeaveBalance implements LeaveBalanceContract {
 
 	protected AccrualCategory accrualCategory;
-	protected PrincipalHRAttributes principalCalendar;
+	protected PrincipalHRAttributesBo principalCalendar;
 	protected LocalDate asOfDate;
 	protected LocalDate calendarPeriodBeginDate;
 	protected LocalDate calendarPeriodEndDate;
 	protected BigDecimal balance;
 	
-	protected LeaveBalance(AccrualCategory accrualCategory, PrincipalHRAttributes principalCalendar) {
+	protected LeaveBalance(AccrualCategory accrualCategory, PrincipalHRAttributesBo principalCalendar) {
 		this.accrualCategory = accrualCategory;
 		this.principalCalendar = principalCalendar;
 		asOfDate = LocalDate.now();

@@ -372,7 +372,7 @@
     </class-descriptor>
     <!-- PrincipalHRAttributes -->
     <!-- Business Keys - [principalId : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.principal.PrincipalHRAttributes" table="HR_PRINCIPAL_ATTRIBUTES_T">
+    <class-descriptor class="org.kuali.kpme.core.principal.PrincipalHRAttributesBo" table="HR_PRINCIPAL_ATTRIBUTES_T">
         <field-descriptor name="hrPrincipalAttributeId" column="HR_PRINCIPAL_ATTRIBUTE_ID"  jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_PRINCIPAL_ATTRIBUTE_S" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"               jdbc-type="VARCHAR"     length="40" nullable="false" primarykey="false" />
         <field-descriptor name="leaveCalendar"          column="LEAVE_CALENDAR"             jdbc-type="VARCHAR"     length="15" />

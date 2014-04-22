@@ -39,7 +39,7 @@ import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
 import org.kuali.kpme.core.role.KPMERole;
@@ -190,7 +190,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
             	LocalDate previousBeginDate = previousCalendarEntry.getBeginPeriodFullDateTime().toLocalDate();
             	LocalDate previousEndDate = previousCalendarEntry.getEndPeriodFullDateTime().toLocalDate().minusDays(1);
 
-        		PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, previousEndDate);
+        		PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, previousEndDate);
         		if (principalHRAttributes != null) {
         			LocalDate serviceDate = principalHRAttributes.getServiceLocalDate();
         			if (serviceDate != null) {
@@ -521,7 +521,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
     protected void setLeaveSummary(LeaveCalendarForm leaveCalendarForm) throws Exception {
     	String principalId = HrContext.getTargetPrincipalId();
         CalendarEntry calendarEntry = leaveCalendarForm.getCalendarEntry();
-    	PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+    	PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 
     	//check to see if we are on a previous leave plan
         if (principalHRAttributes != null) {
@@ -554,7 +554,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
     protected void setMessages(LeaveCalendarForm leaveCalendarForm, List<LeaveBlock> leaveBlocks) {
     	String principalId = HrContext.getTargetPrincipalId();
         CalendarEntry calendarEntry = leaveCalendarForm.getCalendarEntry();
-    	PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
+    	PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
     	
         Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
 

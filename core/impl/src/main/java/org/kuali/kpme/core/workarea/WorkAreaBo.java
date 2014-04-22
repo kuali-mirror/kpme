@@ -47,6 +47,7 @@ public class WorkAreaBo extends HrBusinessObject implements WorkAreaContract {
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 	            .add(WORK_AREA)
 	            .build();
+
     public static final ModelObjectUtils.Transformer<WorkAreaBo, WorkArea> toWorkArea =
             new ModelObjectUtils.Transformer<WorkAreaBo, WorkArea>() {
                 public WorkArea transform(WorkAreaBo input) {

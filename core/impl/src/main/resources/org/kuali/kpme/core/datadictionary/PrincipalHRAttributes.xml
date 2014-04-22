@@ -24,7 +24,7 @@
 
 	<bean name="PrincipalHRAttributes" parent="PrincipalHRAttributes-parentBean" />
 	<bean id="PrincipalHRAttributes-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.principal.PrincipalHRAttributes" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.principal.PrincipalHRAttributesBo" />
 		<property name="titleAttribute" value="principalId" />
 		<property name="objectLabel" value="principalId" />
 		<property name="inquiryDefinition">
@@ -293,7 +293,7 @@
     <!--Principal HR Inquiry View-->
     <bean id="PrincipalHRAttributes-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Principal HR Attributes Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.principal.PrincipalHRAttributes"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.principal.PrincipalHRAttributesBo"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
             <list>
@@ -357,7 +357,7 @@
     <!--Principal HR Lookup View-->
     <bean id="PrincipalHRAttributes-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Principal HR Attributes Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.principal.PrincipalHRAttributes"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.principal.PrincipalHRAttributesBo"/>
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/>

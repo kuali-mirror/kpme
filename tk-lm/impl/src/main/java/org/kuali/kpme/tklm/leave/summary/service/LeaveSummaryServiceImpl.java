@@ -29,8 +29,7 @@ import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
@@ -38,7 +37,6 @@ import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
 import org.kuali.kpme.tklm.api.leave.summary.LeaveSummaryService;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.override.EmployeeOverride;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummary;
 import org.kuali.kpme.tklm.leave.summary.LeaveSummaryRow;
@@ -46,7 +44,14 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	private LeaveBlockService leaveBlockService;
@@ -87,7 +92,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
             if(lp == null) {
                return leaveBalance;
             }
-            PrincipalHRAttributesContract pha = getPrincipalHrAttributes(principalId, startDate, endDate);
+            PrincipalHRAttributes pha = getPrincipalHrAttributes(principalId, startDate, endDate);
             //until we have something that creates carry over, we need to grab everything.
             // Calculating leave bLocks from Calendar Year start instead of Service Date
             Map<String, LeaveBlock> carryOverBlocks = getLeaveBlockService().getLastCarryOverBlocks(principalId, startDate);
@@ -384,9 +389,9 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     }
 
     private PrincipalHRAttributes getPrincipalHrAttributes(String principalId, LocalDate startDate, LocalDate endDate) {
-        PrincipalHRAttributes pha = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, startDate);
+        PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, startDate);
         if(pha == null) {	// principal hr attributes does not exist at the beginning of this calendar entry
-            pha = (PrincipalHRAttributes) HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate);
+            pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate);
         }
         return pha;
     }
@@ -396,7 +401,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
         PrincipalHRAttributes pha = getPrincipalHrAttributes(principalId, startDate, endDate);
         // get list of principalHrAttributes that become active during this pay period
-        List<PrincipalHRAttributes> phaList = (List<PrincipalHRAttributes>) HrServiceLocator.getPrincipalHRAttributeService()
+        List<PrincipalHRAttributes> phaList = HrServiceLocator.getPrincipalHRAttributeService()
                 .getActivePrincipalHrAttributesForRange(principalId, startDate, endDate);
         if(pha != null) {
             lpStrings.add(pha.getLeavePlan());

@@ -15,25 +15,25 @@
  */
 package org.kuali.kpme.core.service.timezone;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
-import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.List;
+
 public class TimezoneServiceImpl implements TimezoneService {
 
     @Override
     public String getUserTimezone(String principalId) {
-        PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
+        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
@@ -103,7 +103,7 @@ public class TimezoneServiceImpl implements TimezoneService {
 
 	@Override
 	public String getApproverTimezone(String principalId) {
-		PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
+		PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
 	    if(principalCalendar != null && principalCalendar.getTimezone() != null){
 	        return principalCalendar.getTimezone();
 	    }

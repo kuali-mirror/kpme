@@ -32,7 +32,7 @@ import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.permission.HRPermissionService;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -194,7 +194,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public void loadHolidaysOnTimesheet(TimesheetDocument timesheetDocument, String principalId, LocalDate beginDate, LocalDate endDate) {
-        PrincipalHRAttributesContract principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
+        PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
         if (principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
         	List<? extends SystemScheduledTimeOffContract> sstoList = LmServiceLocator.getSysSchTimeOffService()
         		.getSystemScheduledTimeOffForPayPeriod(principalCalendar.getLeavePlan(), beginDate, endDate);
@@ -415,7 +415,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         String accrualCategory;
 
         //  first make a list of the accrual categories available to the user's Leave Plan (yes, leave plan), for later comparison.
-        PrincipalHRAttributesContract principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
+        PrincipalHRAttributes principalHRAttributes = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
         boolean fmlaEligible = principalHRAttributes.isFmlaEligible();
         boolean workersCompEligible = principalHRAttributes.isWorkersCompEligible();
 

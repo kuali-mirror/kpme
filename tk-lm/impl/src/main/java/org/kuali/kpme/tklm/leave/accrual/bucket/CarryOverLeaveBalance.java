@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.leave.accrual.bucket;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.bucket.CarryOverLeaveBalanceContract;
@@ -35,7 +35,7 @@ public class CarryOverLeaveBalance extends LeaveBalance implements CarryOverLeav
 
 	private List<LeaveBlock> leaveBlocks;
 
-	public CarryOverLeaveBalance(AccrualCategory accrualCategory, PrincipalHRAttributes principalCalendar) {
+	public CarryOverLeaveBalance(AccrualCategory accrualCategory, PrincipalHRAttributesBo principalCalendar) {
 		super(accrualCategory, principalCalendar);
 		leaveBlocks = new ArrayList<LeaveBlock>();
 	}

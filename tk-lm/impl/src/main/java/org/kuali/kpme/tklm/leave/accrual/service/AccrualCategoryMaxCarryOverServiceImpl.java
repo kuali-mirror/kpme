@@ -27,15 +27,15 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.job.service.JobService;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.leaveplan.LeavePlanService;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.principal.service.PrincipalHRAttributesService;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.leave.accrual.AccrualCategoryMaxCarryOverService;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockService;
 import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
-import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideService;
+import org.kuali.kpme.tklm.common.LMConstants;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -55,7 +55,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	public boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, List<CalendarEntry> calendarEntries, LocalDate asOfDate) {
 		boolean exceedsAccrualCategoryMaxCarryOver = false;
 		
-		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
             CalendarEntry lastCalendarPeriodOfLeavePlan = null;
@@ -79,7 +79,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	public boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, CalendarEntry calendarEntry, LocalDate asOfDate) {
 		boolean exceedsAccrualCategoryMaxCarryOver = false;
 		
-		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
 			if (getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), asOfDate)) {
@@ -92,7 +92,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	
 	@Override
 	public void calculateMaxCarryOver(String documentId, String principalId, List<CalendarEntry> calendarEntries, LocalDate asOfDate) {
-		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
             CalendarEntry lastCalendarPeriodOfLeavePlan = null;
@@ -112,7 +112,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 		
 	@Override
 	public void calculateMaxCarryOver(String documentId, String principalId, CalendarEntry calendarEntry, LocalDate asOfDate) {
-		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {			
 			if (getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), asOfDate)) {
@@ -138,7 +138,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	private BigDecimal getAccrualCategoryCarryOverAdjustment(String accrualCategory, String principalId, CalendarEntry calendarEntry, LocalDate asOfDate) {
 		BigDecimal accrualCategoryCarryOverAdjustment = BigDecimal.ZERO;
 		
-		PrincipalHRAttributesContract principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
 		if (principalCalendar != null) {
 			LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalCalendar.getLeavePlan(), principalCalendar.getEffectiveLocalDate());

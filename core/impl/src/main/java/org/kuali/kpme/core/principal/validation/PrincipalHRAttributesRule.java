@@ -16,7 +16,7 @@
 package org.kuali.kpme.core.principal.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.principal.PrincipalHRAttributesBo;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -24,7 +24,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 
-	private boolean validatePrincipalId(PrincipalHRAttributes principalHRAttr) {
+	private boolean validatePrincipalId(PrincipalHRAttributesBo principalHRAttr) {
 		if (StringUtils.isNotEmpty(principalHRAttr.getPrincipalId())
 				&& !ValidationUtils.validatePrincipalId(principalHRAttr
 						.getPrincipalId())) {
@@ -36,7 +36,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	private boolean validatePayCalendar(PrincipalHRAttributes principalHRAttr) {
+	private boolean validatePayCalendar(PrincipalHRAttributesBo principalHRAttr) {
 		if (StringUtils.isNotEmpty(principalHRAttr.getPayCalendar())
 				&& !ValidationUtils.validateCalendarByType(principalHRAttr.getPayCalendar(), "Pay")) {
 			this.putFieldError("payCalendar", "error.existence",
@@ -47,7 +47,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	private boolean validateLeaveCalendar(PrincipalHRAttributes principalHRAttr) {
+	private boolean validateLeaveCalendar(PrincipalHRAttributesBo principalHRAttr) {
 		if (StringUtils.isNotEmpty(principalHRAttr.getLeaveCalendar())
 				&& !ValidationUtils.validateCalendarByType(principalHRAttr.getLeaveCalendar(), "Leave")) {
 			this.putFieldError("leaveCalendar", "error.existence",
@@ -58,7 +58,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
         }
 	}
 
-	private boolean validateLeavePlan(PrincipalHRAttributes principalHRAttr) {
+	private boolean validateLeavePlan(PrincipalHRAttributesBo principalHRAttr) {
         if (StringUtils.isNotEmpty(principalHRAttr.getLeavePlan())
 				&& !ValidationUtils.validateLeavePlan(principalHRAttr.getLeavePlan(), null)) {
 			this.putFieldError("leavePlan", "error.existence",
@@ -69,7 +69,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-    private boolean validateServiceDate(PrincipalHRAttributes principalHRAttr) {
+    private boolean validateServiceDate(PrincipalHRAttributesBo principalHRAttr) {
         if (StringUtils.isNotEmpty(principalHRAttr.getLeavePlan())
                 && principalHRAttr.getServiceDate() == null) {
             this.putFieldError("leavePlan", "validation.prerequisite", "'Service Date'");
@@ -78,7 +78,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    private boolean validateLeavefields(PrincipalHRAttributes principalHRAttr){
+    private boolean validateLeavefields(PrincipalHRAttributesBo principalHRAttr){
         if (StringUtils.isNotEmpty(principalHRAttr.getLeavePlan()) ||
                 StringUtils.isNotEmpty(principalHRAttr.getLeaveCalendar()) ||
                 principalHRAttr.getServiceDate() != null) {
@@ -103,7 +103,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
         }
     }
 
-	boolean validateEffectiveDate(PrincipalHRAttributes principalHRAttr) {
+	boolean validateEffectiveDate(PrincipalHRAttributesBo principalHRAttr) {
 		boolean valid = true;
 		if (principalHRAttr.getEffectiveDate() != null && !ValidationUtils.validateOneYearFutureDate(principalHRAttr.getEffectiveLocalDate())) {
 			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
@@ -120,8 +120,8 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 
 		LOG.debug("entering custom validation for Job");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
-		if (pbo instanceof PrincipalHRAttributes) {
-			PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) pbo;
+		if (pbo instanceof PrincipalHRAttributesBo) {
+			PrincipalHRAttributesBo principalHRAttr = (PrincipalHRAttributesBo) pbo;
 			if (principalHRAttr != null) {
 				valid = true;
 				valid &= this.validatePrincipalId(principalHRAttr);

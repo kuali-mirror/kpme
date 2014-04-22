@@ -15,11 +15,9 @@
  */
 package org.kuali.kpme.tklm.leave.adjustment.web;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
+import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -31,6 +29,8 @@ import org.kuali.kpme.tklm.leave.adjustment.LeaveAdjustment;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+
+import java.util.Map;
 
 public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
 
@@ -72,7 +72,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 				&& fieldValues.containsKey("effectiveDate")
 				&& StringUtils.isNotEmpty(fieldValues.get("effectiveDate"))) {
 			LocalDate effDate = TKUtils.formatDateString(fieldValues.get("effectiveDate"));
-			PrincipalHRAttributesContract principalHRAttrObj = HrServiceLocator.getPrincipalHRAttributeService()
+			PrincipalHRAttributes principalHRAttrObj = HrServiceLocator.getPrincipalHRAttributeService()
 						.getPrincipalCalendar(fieldValues.get("principalId"), effDate);
 			String lpString = (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 			fieldValues.put("leavePlan", lpString);

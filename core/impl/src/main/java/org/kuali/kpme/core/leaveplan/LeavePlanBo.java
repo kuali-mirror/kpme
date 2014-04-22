@@ -151,6 +151,9 @@ public class LeavePlanBo extends HrBusinessObject implements LeavePlanContract {
 	}
 
     public static LeavePlanBo from(LeavePlan im) {
+        if (im == null) {
+            return null;
+        }
         LeavePlanBo lp = new LeavePlanBo();
 
         lp.setLmLeavePlanId(im.getLmLeavePlanId());
