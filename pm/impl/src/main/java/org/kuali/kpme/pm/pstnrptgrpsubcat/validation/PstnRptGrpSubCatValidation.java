@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.pm.pstnrptgrpsubcat.validation;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
@@ -47,23 +48,14 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 		if(aPrsc == null) {
 			this.putFieldError("dataObject.positionReportSubCat", "error.existence", errorMes);
 			return false;
-		} else {
-			if(!ValidationUtils.wildCardMatch(aPrsc.getInstitution(), prgsc.getInstitution())) {
-				String[] params = new String[3];
-				params[0] = prgsc.getInstitution();
-				params[1] = aPrsc.getInstitution();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
-				return false;
-			}
-			if(!ValidationUtils.wildCardMatch(aPrsc.getLocation(), prgsc.getLocation())) {
-				String[] params = new String[3];
-				params[0] = prgsc.getLocation();
-				params[1] = aPrsc.getLocation();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.location", "location.inconsistent", params);
-				return false;
-			}
+		} 
+		else if(!StringUtils.equals(aPrsc.getGroupKeyCode(), prgsc.getGroupKeyCode())) {
+			String[] params = new String[3];
+			params[0] = prgsc.getGroupKeyCode();
+			params[1] = aPrsc.getGroupKeyCode();
+			params[2] = errorMes;
+			this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+			return false;
 		}
 		return true;
 	}
@@ -74,25 +66,15 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 		if(aPrg == null) {
 			this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
 			return false;
-		} else {
-			if(!ValidationUtils.wildCardMatch(aPrg.getInstitution(), prgsc.getInstitution())) {
-				String[] params = new String[3];
-				params[0] = prgsc.getInstitution();
-				params[1] = aPrg.getInstitution();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
-				return false;
-			}
-			if(!ValidationUtils.wildCardMatch(aPrg.getLocation(), prgsc.getLocation())) {
-				String[] params = new String[3];
-				params[0] = prgsc.getLocation();
-				params[1] = aPrg.getLocation();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.location", "location.inconsistent", params);
-				return false;
-			}
 		} 
-		
+		else if(!StringUtils.equals(aPrg.getGroupKeyCode(), prgsc.getGroupKeyCode())) {
+			String[] params = new String[3];
+			params[0] = aPrg.getGroupKeyCode();
+			params[1] = aPrg.getGroupKeyCode();
+			params[2] = errorMes;
+			this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+			return false;
+		}		
 		return true;
 		
 	}

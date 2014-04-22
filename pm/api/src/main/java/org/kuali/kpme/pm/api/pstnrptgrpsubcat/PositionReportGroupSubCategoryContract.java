@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.pm.api.pstnrptgrpsubcat;
 
-import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
 /**
@@ -78,38 +77,5 @@ public interface PositionReportGroupSubCategoryContract extends KpmeEffectiveKey
 	 * @return description for PositionReportGroupSubCategory
 	 */
 	public String getDescription();
-
-	/**
-	 * The institution associated with the PositionReportGroupSubCategory
-	 * 
-	 * <p>
-	 * institution of a PositionReportGroupSubCategory
-	 * <p>
-	 * 
-	 * @return institution for PositionReportGroupSubCategory
-	 */
-	public String getInstitution();
-
-	/**
-	 * The location associated with the PositionReportGroupSubCategory
-	 * 
-	 * <p>
-	 * location of a PositionReportGroupSubCategory
-	 * <p>
-	 * 
-	 * @return location for PositionReportGroupSubCategory
-	 */
-	public String getLocation();
-
-	/**
-	 * The Location object associated with the PositionReportGroupSubCategory
-	 * 
-	 * <p>
-	 * location object of a PositionReportGroupSubCategory
-	 * <p>
-	 * 
-	 * @return location object for PositionReportGroupSubCategory
-	 */
-	public LocationContract getLocationObj();
 	
 }
