@@ -15,12 +15,10 @@
  */
 package org.kuali.kpme.core.api.salarygroup;
 
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import java.math.BigDecimal;
+
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
-
-import java.math.BigDecimal;
 
 /**
  * <p>SalaryGroupContract interface.</p>

@@ -156,6 +156,7 @@
   		</property>
   	</bean>
   	 
+  	<!-- KPME-3403 per Jerry Neal's suggestion -->
   	<bean id="KPMEGroupKeyed-MaintenanceGridSection" parent="Uif-MaintenanceGridSection">
     	<property name="items">
         	<list merge="true">
@@ -173,11 +174,6 @@
        		</list>
     	</property>
     </bean>
-    
-  	<bean id="KPMEGroupKeyedEffectiveDateBO-MaintenanceView" abstract="true" parent="KPMEGroupKeyedEffectiveDateBO-MaintenanceView-parentBean"/>
-  	<bean id="KPMEGroupKeyedEffectiveDateBO-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
-  		<!-- Neeraj's group key validation here -->
-  	</bean>
   	
   	<bean id="KPMEEffectiveDateWarning-Dialog-parentBean" parent="Uif-Yes-No-DialogGroup">
   		<property name="headerText" value="Effective date warning!"/>

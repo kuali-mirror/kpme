@@ -133,7 +133,7 @@
   </bean> 
   
   <bean id="PositionAppointment-MaintenanceView" parent="PositionAppointment-MaintenanceView-parentBean"/>
-  <bean id="PositionAppointment-MaintenanceView-parentBean" abstract="true" parent="KPMEGroupKeyedEffectiveDateBO-MaintenanceView">
+  <bean id="PositionAppointment-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Appointment Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment"/>
     <property name="items">

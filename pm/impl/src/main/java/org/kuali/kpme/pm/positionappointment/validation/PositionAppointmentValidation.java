@@ -15,13 +15,11 @@
  */
 package org.kuali.kpme.pm.positionappointment.validation;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.positionappointment.PositionAppointment;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public class PositionAppointmentValidation extends MaintenanceDocumentRuleBase {
+public class PositionAppointmentValidation extends HrKeyedBusinessObjectValidation {
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -31,17 +29,8 @@ public class PositionAppointmentValidation extends MaintenanceDocumentRuleBase {
 		
 		if (pa != null) {
 			valid = true;
-			valid &= this.validateGroupKey(pa);
+			valid &= this.validateGroupKeyCode(pa);
 		}
 		return valid;
-	}
-	
-	private boolean validateGroupKey(PositionAppointment pa) {
-		if (StringUtils.isNotEmpty(pa.getGroupKeyCode()) && !ValidationUtils.validateGroupKey(pa.getGroupKeyCode(), pa.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.groupKeyCode", "error.existence", "Group Key '" + pa.getGroupKeyCode() + "'");
-			return false;
-		} else {
-			return true;
-		}
 	}
 }

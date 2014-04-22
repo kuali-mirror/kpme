@@ -31,7 +31,6 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.KPMEConstants;
-import org.kuali.kpme.core.api.assignment.Assignment.Builder;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
@@ -68,7 +67,8 @@ public final class SalaryGroup
         extends AbstractDataTransferObject
         implements SalaryGroupContract
 {
-    @XmlElement(name = Elements.HR_SAL_GROUP_ID, required = false)
+	private static final long serialVersionUID = -6084880122577097614L;
+	@XmlElement(name = Elements.HR_SAL_GROUP_ID, required = false)
     private final String hrSalGroupId;
     @XmlElement(name = Elements.HR_SAL_GROUP, required = false)
     private final String hrSalGroup;
@@ -224,8 +224,16 @@ public final class SalaryGroup
     public String getUserPrincipalId() {
         return this.userPrincipalId;
     }
-
     
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+    
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
+    }
     
     /**
      * A builder which can be used to construct {@link SalaryGroup} instances.  Enforces the constraints of the {@link SalaryGroupContract}.
@@ -234,7 +242,8 @@ public final class SalaryGroup
     public final static class Builder
             implements Serializable, SalaryGroupContract, ModelBuilder
     {        
-        private String hrSalGroupId;
+		private static final long serialVersionUID = -7598385554696461452L;
+		private String hrSalGroupId;
         private String hrSalGroup;
         private String descr;
         
@@ -465,7 +474,6 @@ public final class SalaryGroup
         final static String HR_SAL_GROUP_ID = "hrSalGroupId";
         final static String HR_SAL_GROUP = "hrSalGroup";
         final static String DESCR = "descr";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
         final static String PERCENT_TIME = "percentTime";
         final static String BENEFITS_ELIGIBLE = "benefitsEligible";
         final static String LEAVE_ELIGIBLE = "leaveEligible";
@@ -477,18 +485,4 @@ public final class SalaryGroup
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
         
     }
-
-
-	@Override
-	public String getGroupKeyCode() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public org.kuali.kpme.core.api.groupkey.HrGroupKey.Builder getGroupKey() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
