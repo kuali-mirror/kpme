@@ -15,16 +15,13 @@
  */
 package org.kuali.kpme.pm.positionreportsubcat.validation;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
-import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase {
+public class PositionReportSubCatValidation extends HrKeyedBusinessObjectValidation {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
@@ -50,15 +47,4 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 		return true;
 	}	
 
-	private boolean validateGroupKeyCode(PositionReportSubCategory prsc) {
-		if (StringUtils.isNotEmpty(prsc.getGroupKeyCode())) {
-			if(!ValidationUtils.validateGroupKey(prsc.getGroupKeyCode(), prsc.getEffectiveLocalDate())){
-				this.putFieldError("groupKeyCode", "error.existence", "Group Key Code '"
-						+ prsc.getGroupKeyCode() + "'");
-				return false;
-			}
-		}
-		return true;
-	}
-	
 }

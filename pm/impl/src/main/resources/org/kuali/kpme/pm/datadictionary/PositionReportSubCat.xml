@@ -22,7 +22,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PositionReportSubCat" parent="PositionReportSubCat-parentBean" />
-	<bean id="PositionReportSubCat-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+	<bean id="PositionReportSubCat-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" />
 		<property name="attributes">
 			<list merge="true">
@@ -31,16 +31,12 @@
 				<ref bean="PositionReportSubCat-positionReportCat" />
 				<ref bean="PositionReportSubCat-positionReportType" />
 				<ref bean="PositionReportSubCat-description" />
-				<ref bean="PositionReportSubCat-groupKeyCode" />
 			</list>
 		</property>
 		<property name="objectLabel" value="Position Report Sub Category" />
 	</bean>
 
 	<!-- Attribute Definitions -->
-	
-    <bean id="PositionReportSubCat-groupKeyCode" parent="PositionReportSubCat-groupKeyCode-parentBean" />
-    <bean id="PositionReportSubCat-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
 	
 	<bean id="PositionReportSubCat-pmPositionReportSubCatId" parent="PositionReportSubCat-pmPositionReportSubCatId-parentBean" />
 	<bean id="PositionReportSubCat-pmPositionReportSubCatId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -101,19 +97,13 @@
 		<property name="description" value="description" />
 	</bean>
 	
-	<bean id="PositionReportSubCat-institution" parent="PositionReportSubCat-institution-parentBean" />
-	<bean id="PositionReportSubCat-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution"/>
-
-	<bean id="PositionReportSubCat-location" parent="PositionReportSubCat-location-parentBean" />
-	<bean id="PositionReportSubCat-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
-
     <!--***************************************************************************
                                 Views
      ***************************************************************************-->
 
     <!-- Position Reporting Sub Category Lookup View -->
 
-    <bean id="PositionReportSubCat-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+    <bean id="PositionReportSubCat-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Sub Category Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" />
         <property name="criteriaFields">
@@ -131,12 +121,6 @@
                               p:fieldConversions="positionReportType:positionReportType" />
                     </property>
                 </bean>
-	          <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode" >
-	              <property name="quickfinder">
-	                  <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
-	                        p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
-	              </property>
-	          </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
             </list>
