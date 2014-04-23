@@ -20,8 +20,8 @@ import java.util.Set;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroupBo;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -36,11 +36,11 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
 	@Override
     public void addNewLineToCollection(String collectionName) {
         if (collectionName.equals("earnCodeGroups")) {
-        	EarnCodeGroupDefinition definition = (EarnCodeGroupDefinition)newCollectionLines.get(collectionName );
+        	EarnCodeGroupDefinitionBo definition = (EarnCodeGroupDefinitionBo)newCollectionLines.get(collectionName );
             if ( definition != null ) {
-            	EarnCodeGroup earnGroup = (EarnCodeGroup)this.getBusinessObject();
+            	EarnCodeGroupBo earnGroup = (EarnCodeGroupBo)this.getBusinessObject();
             	Set<String> earnCodes = new HashSet<String>();
-            	for(EarnCodeGroupDefinition earnGroupDef : earnGroup.getEarnCodeGroups()){
+            	for(EarnCodeGroupDefinitionBo earnGroupDef : earnGroup.getEarnCodeGroups()){
             		earnCodes.add(earnGroupDef.getEarnCode());
             	}
             	if(earnCodes.contains(definition.getEarnCode())){
@@ -70,13 +70,13 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(id);
+		return EarnCodeGroupBo.from(HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(id));
 	} 
 
     @Override
     public void customSaveLogic(HrBusinessObject hrObj){
-        EarnCodeGroup ecg = (EarnCodeGroup)hrObj;
-        for (EarnCodeGroupDefinition definition : ecg.getEarnCodeGroups()) {
+        EarnCodeGroupBo ecg = (EarnCodeGroupBo)hrObj;
+        for (EarnCodeGroupDefinitionBo definition : ecg.getEarnCodeGroups()) {
             definition.setHrEarnCodeGroupDefId(null);
             definition.setHrEarnCodeGroupId(ecg.getHrEarnCodeGroupId());
         }

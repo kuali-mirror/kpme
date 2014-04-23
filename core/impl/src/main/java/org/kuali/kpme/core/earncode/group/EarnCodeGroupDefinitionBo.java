@@ -18,17 +18,26 @@ package org.kuali.kpme.core.earncode.group;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase implements EarnCodeGroupDefinitionContract {
+public class EarnCodeGroupDefinitionBo extends PersistableBusinessObjectBase implements EarnCodeGroupDefinitionContract {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8463674251885306591L;
+	
+	public static final ModelObjectUtils.Transformer<EarnCodeGroupDefinition, EarnCodeGroupDefinitionBo> toEarnCodeGroupDefinitionBo =
+            new ModelObjectUtils.Transformer<EarnCodeGroupDefinition, EarnCodeGroupDefinitionBo>() {
+                public EarnCodeGroupDefinitionBo transform(EarnCodeGroupDefinition input) {
+                    return EarnCodeGroupDefinitionBo.from(input);
+                };
+            };
 
 	private String hrEarnCodeGroupDefId;
 
@@ -36,6 +45,10 @@ public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase imple
 
 	private String hrEarnCodeGroupId;
 
+	private String userPrincipalId;
+	 
+	private boolean active=true;
+	
     private EarnCodeBo earnCodeObj;
 
 	public String getEarnCode() {
@@ -69,7 +82,7 @@ public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase imple
 	public void setEarnCodeObj(EarnCodeBo earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
-	
+		
 	// this is for the maintenance screen
 	public String getEarnCodeDesc() {
 		EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, LocalDate.now());
@@ -79,4 +92,53 @@ public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase imple
 		}
 		return "";
 	}
+
+	public String getUserPrincipalId() {
+		return userPrincipalId;
+	}
+
+	public void setUserPrincipalId(String userPrincipalId) {
+		this.userPrincipalId = userPrincipalId;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	@Override
+	public String getId() {
+		return hrEarnCodeGroupDefId;
+	}
+
+	public void setId(String id) {
+		setHrEarnCodeGroupDefId(id);
+	}
+	
+	public static EarnCodeGroupDefinitionBo from(EarnCodeGroupDefinition im) {
+	    if (im == null) {
+	        return null;
+	    }
+	    EarnCodeGroupDefinitionBo ecgd = new EarnCodeGroupDefinitionBo();
+	    
+	    ecgd.setHrEarnCodeGroupDefId(im.getHrEarnCodeGroupDefId());
+	    ecgd.setEarnCode(im.getEarnCode());
+	    ecgd.setHrEarnCodeGroupId(im.getHrEarnCodeGroupId());
+	    ecgd.setActive(im.isActive());
+	    ecgd.setUserPrincipalId(im.getUserPrincipalId());
+	    ecgd.setVersionNumber(im.getVersionNumber());
+	    ecgd.setObjectId(im.getObjectId());
+	    return ecgd;
+	} 
+	
+	public static EarnCodeGroupDefinition to(EarnCodeGroupDefinitionBo bo) {
+	    if (bo == null) {
+	        return null;
+	    }
+	    return EarnCodeGroupDefinition.Builder.create(bo).build();
+	}
+
 }

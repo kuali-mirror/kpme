@@ -18,24 +18,14 @@ package org.kuali.kpme.core.api.earncode.group;
 import java.util.List;
 
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 
 /**
  * <p>EarnCodeGroupContract interface</p>
  *
  */
-public interface EarnCodeGroupContract extends HrBusinessObjectContract {
+public interface EarnCodeGroupContract extends KpmeEffectiveDataTransferObject {
 		
-	/**
-	 * The history flag for EarnCodeGroup lookups 
-	 * 
-	 * <p>
-	 * history of an EarnCodeGroup
-	 * </p>
-	 * 
-	 * @return true if want to show history, false if not
-	 */
-	public Boolean getHistory();
-
 	/**
 	 * The list of EarnCodeGroupDefinition objects the EarnCodeGroup is associated with
 	 * 
@@ -57,17 +47,6 @@ public interface EarnCodeGroupContract extends HrBusinessObjectContract {
 	 * @return earnCodeGroup for EarnCodeGroup
 	 */
 	public String getDescr();
-
-	/**
-	 * The flag to indicate if this grouping needs to be displayed as a section in the timesheet summary
-	 * 
-	 * <p>
-	 * showSummary of an EarnCodeGroup
-	 * <p>
-	 * 
-	 * @return showSummary for EarnCodeGroup
-	 */
-	public Boolean getShowSummary();
 
 	/**
 	 * The warningText the EarnCodeGroup is associated with

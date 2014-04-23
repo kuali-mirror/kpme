@@ -15,18 +15,21 @@
  */
 package org.kuali.kpme.core.earncode.group;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupContract {
+public class EarnCodeGroupBo extends HrBusinessObject implements EarnCodeGroupContract {
 
 	private static final String EARN_CODE_GROUP = "earnCodeGroup";
 
@@ -34,6 +37,33 @@ public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupCont
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(EARN_CODE_GROUP)
             .build();
+	
+	/*
+     * convert bo to immutable
+     *
+ * Can be used with ModelObjectUtils:
+ *
+ * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfEarnCodeGroupBo, EarnCodeGroupBo.toImmutable);
+ */
+public static final ModelObjectUtils.Transformer<EarnCodeGroupBo, EarnCodeGroup> toImmutable =
+        new ModelObjectUtils.Transformer<EarnCodeGroupBo, EarnCodeGroup>() {
+            public EarnCodeGroup transform(EarnCodeGroupBo input) {
+                return EarnCodeGroupBo.to(input);
+            };
+        };
+/*
+ * convert immutable to bo
+ *
+ * Can be used with ModelObjectUtils:
+ *
+ * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfEarnCodeGroup, EarnCodeGroupBo.toBo);
+ */
+public static final ModelObjectUtils.Transformer<EarnCodeGroup, EarnCodeGroupBo> toBo =
+        new ModelObjectUtils.Transformer<EarnCodeGroup, EarnCodeGroupBo>() {
+            public EarnCodeGroupBo transform(EarnCodeGroup input) {
+                return EarnCodeGroupBo.from(input);
+            };
+        };
 
 	private static final long serialVersionUID = -3034933572755800531L;
 
@@ -45,7 +75,7 @@ public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupCont
 
 	private Boolean showSummary;
 
-	private List<EarnCodeGroupDefinition> earnCodeGroups = new ArrayList<EarnCodeGroupDefinition>();
+	private List<EarnCodeGroupDefinitionBo> earnCodeGroups = new ArrayList<EarnCodeGroupDefinitionBo>();
 	
 	private String warningText;
 
@@ -58,11 +88,11 @@ public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupCont
 	}
 	
 
-	public List<EarnCodeGroupDefinition> getEarnCodeGroups() {
+	public List<EarnCodeGroupDefinitionBo> getEarnCodeGroups() {
 		return earnCodeGroups;
 	}
 
-	public void setEarnCodeGroups(List<EarnCodeGroupDefinition> earnCodeGroups) {
+	public void setEarnCodeGroups(List<EarnCodeGroupDefinitionBo> earnCodeGroups) {
 		this.earnCodeGroups = earnCodeGroups;
 	}
 
@@ -121,5 +151,35 @@ public class EarnCodeGroup extends HrBusinessObject implements EarnCodeGroupCont
 	public void setEarnCodeGroup(String earnCodeGroup) {
 		this.earnCodeGroup = earnCodeGroup;
 	}
+	
+	public static EarnCodeGroupBo from(EarnCodeGroup im) {
+        if (im == null) {
+            return null;
+        }
+        EarnCodeGroupBo ecg = new EarnCodeGroupBo();
+        ecg.setHrEarnCodeGroupId(im.getHrEarnCodeGroupId());
+        ecg.setEarnCodeGroup(im.getEarnCodeGroup());
+        ecg.setDescr(im.getDescr());
+        ecg.setWarningText(im.getWarningText());
+        
+        /*ecg.setCalendar(CalendarBo.from(im.getCalendar()));
+        ecg.setLeaveCalObj(CalendarBo.from(im.getLeaveCalObj()));
+        ecg.setLeavePlanObj(LeavePlanBo.from(im.getLeavePlanObj()));*/
+        ecg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+        ecg.setActive(im.isActive());
+        if (im.getCreateTime() != null) {
+            ecg.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+        }
+        ecg.setUserPrincipalId(im.getUserPrincipalId());
+        ecg.setVersionNumber(im.getVersionNumber());
+        ecg.setObjectId(im.getObjectId());
+        return ecg;
+    }
+    public static EarnCodeGroup to(EarnCodeGroupBo bo) {
+        if (bo == null) {
+            return null;
+        }
+        return EarnCodeGroup.Builder.create(bo).build();
+    }
 
 }

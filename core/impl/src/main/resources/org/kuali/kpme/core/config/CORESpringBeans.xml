@@ -208,8 +208,6 @@
         <property name="hrBusinessObjectDao" ref="hrBusinessObjectDao"/>
     </bean>
     
-    
-    
     <bean id="payStepService" class="org.kuali.kpme.core.paystep.service.PayStepServiceImpl">
         <property name="payStepDao" ref="payStepDao"/>
     </bean>

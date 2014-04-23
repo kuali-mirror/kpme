@@ -20,7 +20,7 @@ import java.sql.Time;
 
 import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroupBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
@@ -96,7 +96,7 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 	
 	private EarnCodeBo earnCodeObj;
 	private SalaryGroupBo salaryGroupObj;
-    private EarnCodeGroup fromEarnGroupObj;
+    private EarnCodeGroupBo fromEarnGroupObj;
     private CalendarBo payCalendar;
     private LocationBo locationObj;
     private PayGradeBo payGradeObj;
@@ -289,11 +289,11 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 		this.salaryGroupObj = salaryGroupObj;
 	}
 
-    public EarnCodeGroup getFromEarnGroupObj() {
+    public EarnCodeGroupBo getFromEarnGroupObj() {
         return fromEarnGroupObj;
     }
 
-    public void setFromEarnGroupObj(EarnCodeGroup fromEarnGroupObj) {
+    public void setFromEarnGroupObj(EarnCodeGroupBo fromEarnGroupObj) {
         this.fromEarnGroupObj = fromEarnGroupObj;
     }
 

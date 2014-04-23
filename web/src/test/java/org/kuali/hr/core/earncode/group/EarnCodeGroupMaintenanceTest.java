@@ -152,7 +152,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
     @Test
     //tests EarnCodeGroupValidation
     public void testSubmitEarnGroupMaint() throws Exception {
-        String baseUrl = getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.earncode.group.EarnCodeGroup&methodToCall=start";
+        String baseUrl = getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.earncode.group.EarnCodeGroupBo&methodToCall=start";
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
 
@@ -221,7 +221,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMEWebTestCase {
 
     @Test
     public void testSubmitEarnGroupWithNewerVersionMaint() throws Exception {
-        String baseUrl = getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.earncode.group.EarnCodeGroup&methodToCall=start";
+        String baseUrl = getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.core.earncode.group.EarnCodeGroupBo&methodToCall=start";
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
 

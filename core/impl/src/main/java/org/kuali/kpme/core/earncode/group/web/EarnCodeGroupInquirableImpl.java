@@ -19,8 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroupBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
@@ -30,18 +29,18 @@ public class EarnCodeGroupInquirableImpl extends KualiInquirableImpl {
 
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		EarnCodeGroupContract ec = null;
+		EarnCodeGroupBo ec = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("hrEarnCodeGroupId"))) {
-			ec = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup((String)fieldValues.get("hrEarnCodeGroupId"));
+			ec = EarnCodeGroupBo.from(HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup((String)fieldValues.get("hrEarnCodeGroupId")));
 
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCodeGroup"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			String earnCodeGroup = (String)fieldValues.get("earnCodeGroup");
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-			ec = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnCodeGroup, effectiveDate);
+			ec = EarnCodeGroupBo.from(HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnCodeGroup, effectiveDate));
 		} else {
-			ec = (EarnCodeGroup) super.getBusinessObject(fieldValues);
+			ec = (EarnCodeGroupBo) super.getBusinessObject(fieldValues);
 		}
 
 		return ec;

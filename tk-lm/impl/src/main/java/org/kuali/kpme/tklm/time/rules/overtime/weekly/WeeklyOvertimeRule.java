@@ -18,7 +18,7 @@ package org.kuali.kpme.tklm.time.rules.overtime.weekly;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.earncode.EarnCodeBo;
-import org.kuali.kpme.core.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroupBo;
 import org.kuali.kpme.tklm.api.time.rules.overtime.weekly.WeeklyOvertimeRuleContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
@@ -41,8 +41,8 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 	
 	private Long tkWeeklyOvertimeRuleGroupId = 1L;
 	
-	private EarnCodeGroup maxHoursEarnGroupObj;
-	private EarnCodeGroup convertFromEarnGroupObj;
+	private EarnCodeGroupBo maxHoursEarnGroupObj;
+	private EarnCodeGroupBo convertFromEarnGroupObj;
 	private EarnCodeBo convertToEarnCodeObj;
 	
 	// TODO returning an empty map for the time-being, until the BK is finalized
@@ -109,19 +109,19 @@ public class WeeklyOvertimeRule extends TkRule implements WeeklyOvertimeRuleCont
 		this.ovtEarnCode = ovtEarnCode;
 	}
 
-	public EarnCodeGroup getMaxHoursEarnGroupObj() {
+	public EarnCodeGroupBo getMaxHoursEarnGroupObj() {
 		return maxHoursEarnGroupObj;
 	}
 
-	public void setMaxHoursEarnGroupObj(EarnCodeGroup maxHoursEarnGroupObj) {
+	public void setMaxHoursEarnGroupObj(EarnCodeGroupBo maxHoursEarnGroupObj) {
 		this.maxHoursEarnGroupObj = maxHoursEarnGroupObj;
 	}
 
-	public EarnCodeGroup getConvertFromEarnGroupObj() {
+	public EarnCodeGroupBo getConvertFromEarnGroupObj() {
 		return convertFromEarnGroupObj;
 	}
 
-	public void setConvertFromEarnGroupObj(EarnCodeGroup convertFromEarnGroupObj) {
+	public void setConvertFromEarnGroupObj(EarnCodeGroupBo convertFromEarnGroupObj) {
 		this.convertFromEarnGroupObj = convertFromEarnGroupObj;
 	}
 

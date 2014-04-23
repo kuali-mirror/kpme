@@ -32,7 +32,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -354,7 +354,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			List<EarnCodeSection> earnCodeToEarnCodeSections = earnCodeSections.get(key);
 			for(EarnCodeSection earnCodeSection : earnCodeToEarnCodeSections){
 				String earnCode = earnCodeSection.getEarnCode();
-				EarnCodeGroupContract earnGroupObj = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, asOfDate);
+				EarnCodeGroup earnGroupObj = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, asOfDate);
 				String earnGroup = null;
 				if(earnGroupObj == null){
 					earnGroup = OTHER_EARN_GROUP;

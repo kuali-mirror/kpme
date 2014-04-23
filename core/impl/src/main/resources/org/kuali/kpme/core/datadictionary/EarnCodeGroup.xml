@@ -23,7 +23,7 @@
 
 	<bean id="EarnCodeGroup" parent="EarnCodeGroup-parentBean" />
 	<bean id="EarnCodeGroup-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupBo" />
 		<property name="objectLabel" value="earnCodeGroup" />
 		<property name="attributes">
 			<list merge="true">
@@ -37,7 +37,7 @@
 		<property name="collections">
 	    	<list>
 	    		<bean parent="CollectionDefinition">
-	          		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition" />
+	          		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo" />
 	          		<property name="name" value="earnCodeGroups" />
 	          		<property name="shortLabel" value="Earn Code Group Definitions" />
 	          		<property name="label" value="Earn Code Group Definitions" />
@@ -121,7 +121,7 @@
     <bean id="EarnCodeGroup-InquiryView" parent="Uif-InquiryView" >
         <property name="headerText" value="Earn Code Group Inquiry" />
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupInquirableKradImpl"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupBo" />
         <property name="singlePageView" value="true" />
         <property name="items">
             <list>
@@ -147,7 +147,7 @@
     
     <bean id="EarnCodeGroup-earnCodeGroupDefinitionInquiry" parent="Uif-Disclosure-TableCollectionSection">
         <property name="headerText" value="Earn Group Defintions"/>
-        <property name="collectionObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo"/>
         <property name="propertyName" value="earnCodeGroups"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="header"> <!-- Without this, active/inactive button shows up -->
@@ -165,7 +165,7 @@
         
         <bean id="EarnCodeGroup-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Earn Code Group Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupBo"/>
         <property name="criteriaFields">
         	<list>
          		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCodeGroup" />
@@ -192,7 +192,7 @@
  	<bean id="EarnCodeGroup-MaintenanceView" parent="EarnCodeGroup-MaintenanceView-parentBean"/>
 	<bean id="EarnCodeGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
 		<property name="headerText" value="Earn Code Group Maintenance" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroup" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupBo" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="Uif-MaintenanceGridSection">
@@ -215,7 +215,7 @@
 	
 	<bean id="EarnCodeGroup-EarnCodeGroupDefinitions" parent="Uif-Disclosure-TableCollectionSection">
         <property name="headerText" value="Earn Code Group Defintions"/>
-        <property name="collectionObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo"/>
         <property name="propertyName" value="earnCodeGroups"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="showInactiveLines" value = "true"/>

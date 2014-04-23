@@ -23,14 +23,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 @IntegrationTest
 public class EarnCodeGroupServiceTest extends CoreUnitTestCase{
 	@Test
 	public void testEarnGroupFetch() throws Exception{
-		EarnCodeGroupContract earnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
+		EarnCodeGroup earnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", LocalDate.now());
 		Assert.assertTrue("Test Earn Group fetch failed", earnGroup!=null && StringUtils.equals("REG", earnGroup.getEarnCodeGroup()));
 		Assert.assertTrue("Test earn group def fetch failed", earnGroup.getEarnCodeGroups()!=null && earnGroup.getEarnCodeGroups().get(0).getHrEarnCodeGroupId().equals("100"));
 	}
@@ -38,7 +39,7 @@ public class EarnCodeGroupServiceTest extends CoreUnitTestCase{
 	// KPME-2529
 	@Test
 	public void testEarnGroupsFetch() throws Exception{
-		List<EarnCodeGroup> earnGroups = (List<EarnCodeGroup>) HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupsForEarnCode("REG", LocalDate.now());
+		List<EarnCodeGroupBo> earnGroups = ModelObjectUtils.transform(HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupsForEarnCode("REG", LocalDate.now()),EarnCodeGroupBo.toBo);
 		Assert.assertTrue("Test Earn Groups fetch succeeded", earnGroups.size()==2);
 	}
 }

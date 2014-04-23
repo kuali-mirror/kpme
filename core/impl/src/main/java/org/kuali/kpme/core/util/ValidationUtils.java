@@ -23,7 +23,8 @@ import org.kuali.kpme.core.api.authorization.DepartmentalRule;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.institution.Institution;
@@ -37,6 +38,7 @@ import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
+import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
@@ -45,6 +47,7 @@ import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
 import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -54,6 +57,7 @@ import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -401,7 +405,7 @@ public class ValidationUtils {
         boolean valid = false;
 
         if (earnGroup != null && asOfDate != null) {
-            EarnCodeGroupContract eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
+            EarnCodeGroup eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
             valid = (eg != null);
         } else if (earnGroup != null) {
         	int count = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupCount(earnGroup);
@@ -418,9 +422,10 @@ public class ValidationUtils {
      */
     public static boolean earnGroupHasOvertimeEarnCodes(String earnGroup, LocalDate asOfDate) {
          if (earnGroup != null && asOfDate != null) {
-             EarnCodeGroupContract eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
+             EarnCodeGroup eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
              if(eg != null) {
-            	for(EarnCodeGroupDefinitionContract egd : eg.getEarnCodeGroups()) {
+            	 List<EarnCodeGroupDefinitionBo> codeGroupDefinitions = ModelObjectUtils.transform(eg.getEarnCodeGroups(),EarnCodeGroupDefinitionBo.toEarnCodeGroupDefinitionBo);
+            	for(EarnCodeGroupDefinitionContract egd : codeGroupDefinitions) {
             		if(egd.getEarnCode() != null) {
             			EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(egd.getEarnCode(), asOfDate);
             			if(ec != null && ec.isOvtEarnCode()) {

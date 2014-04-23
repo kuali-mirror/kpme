@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
 
 public interface EarnCodeGroupService {
 	/**
@@ -30,14 +30,14 @@ public interface EarnCodeGroupService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public EarnCodeGroupContract getEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate);
+	public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, LocalDate asOfDate);
 	/**
 	 * Fetch earn group for an earn code as of a particular date
 	 * @param earnCode
 	 * @param asOfDate
 	 * @return
 	 */
-	public EarnCodeGroupContract getEarnCodeGroupForEarnCode(String earnCode, LocalDate asOfDate);
+	public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, LocalDate asOfDate);
 
 	/** KPME-2529
 	 * Fetch earn groups for an earn code as of a particular date
@@ -45,7 +45,7 @@ public interface EarnCodeGroupService {
 	 * @param asOfDate
 	 * @return List<EarnCodeGroup>
 	 */
-	public List<? extends EarnCodeGroupContract> getEarnCodeGroupsForEarnCode(String earnCode, LocalDate asOfDate);
+	public List<EarnCodeGroup> getEarnCodeGroupsForEarnCode(String earnCode, LocalDate asOfDate);
 	
 	/**
 	 * Fetch Set of earn codes for earn group
@@ -58,9 +58,9 @@ public interface EarnCodeGroupService {
 	 * Used to get earn group that this earn code belongs on in context to the summary
 	 * CAUTION this is used only for the timesheet summary
 	 */
-	public EarnCodeGroupContract getEarnCodeGroupSummaryForEarnCode(String earnCode, LocalDate asOfDate);
+	public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, LocalDate asOfDate);
 	
-	public EarnCodeGroupContract getEarnCodeGroup(String hrEarnCodeGroupId);
+	public EarnCodeGroup getEarnCodeGroup(String hrEarnCodeGroupId);
 	
 	/**
 	 * Returns list of warning text from earn group that is used by time blocks of the timesheetDocument

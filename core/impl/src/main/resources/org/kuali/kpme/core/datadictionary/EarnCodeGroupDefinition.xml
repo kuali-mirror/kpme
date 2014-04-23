@@ -25,7 +25,7 @@
 	<bean id="EarnCodeGroupDefinition" parent="EarnCodeGroupDefinition-parentBean" />
 
 	<bean id="EarnCodeGroupDefinition-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo" />
 		<property name="objectLabel" value="Earn Code Group Definition" />
 		<property name="attributes">
 			<list>
@@ -58,7 +58,7 @@
         
 	 <bean id="EarnCodeGroupDefinition-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Earn Code Group Definition Lookup"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinition"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo"/>
         <property name="criteriaFields">
         	<list>
          		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="earnCode" />

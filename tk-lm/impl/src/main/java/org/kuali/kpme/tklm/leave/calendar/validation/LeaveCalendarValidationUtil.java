@@ -26,7 +26,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
+import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
@@ -343,9 +343,9 @@ public class LeaveCalendarValidationUtil extends CalendarValidationUtil {
 	                if(ec != null) {
 	                	// KPME-2529
 	                    //EarnCodeGroup eg = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
-	                	List<? extends EarnCodeGroupContract> egs = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupsForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
+	                	List<EarnCodeGroup> egs = HrServiceLocator.getEarnCodeGroupService().getEarnCodeGroupsForEarnCode(lb.getEarnCode(), lb.getLeaveLocalDate());
 	                	if (egs != null && egs.size() > 0) {                	    
-	                		for (EarnCodeGroupContract eg : egs) {
+	                		for (EarnCodeGroup eg : egs) {
 			                    if(!StringUtils.isEmpty(eg.getWarningText())) {
 			                        warningMessages.add(eg.getWarningText());
 			                    }
