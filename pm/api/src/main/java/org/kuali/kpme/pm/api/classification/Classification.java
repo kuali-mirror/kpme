@@ -19,17 +19,18 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlag;
@@ -333,7 +334,6 @@ public final class Classification extends AbstractDataTransferObject implements 
 
 		private static final long serialVersionUID = -5298550128140145929L;
 		
-		private String location;
         private String poolEligible;
         private String positionType;
         private String positionReportGroup;
@@ -341,14 +341,12 @@ public final class Classification extends AbstractDataTransferObject implements 
         private String benefitsEligible;
         private String classificationTitle;
         private String positionClass;
-        private String institution;
         private BigDecimal percentTime;
         private String salaryGroup;
         private String tenureEligible;
         private String externalReference;
         private List<ClassificationQualification.Builder> qualificationList;
         private String pmPositionClassId;
-        private Location.Builder locationObj;
         private List<ClassificationFlag.Builder> flagList;
         private List<ClassificationDuty.Builder> dutyList;
         private String leavePlan;
