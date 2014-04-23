@@ -275,10 +275,9 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayTypeBo"/>
     <property name="items">
       <list>
-        <bean parent="Uif-MaintenanceGridSection">
+        <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
           <property name="items">
-            <list>
-	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
+            <list merge="true">
 		        <bean parent="Uif-InputField" p:propertyName="payType" p:required="true" />
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
 		         <bean parent="Uif-InputField" p:propertyName="regEarnCode" p:required="true" >
@@ -287,16 +286,6 @@
 		        			 p:fieldConversions="earnCode:regEarnCode"/>
 		   			</property>
 		        </bean>
-   		        <bean parent="Uif-InputField" p:propertyName="groupKeyCode" 
-	        			p:required="true"
-		        		p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
-                    		<property name="control">
-								<bean parent="Uif-DropdownControl" />
-							</property>
-							<property name="optionsFinder">
-								<bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
-							</property>
-              	 </bean>
 		        <bean parent="Uif-InputField" p:propertyName="flsaStatus" p:defaultValue="NE" p:required="true" />
 		       	<bean parent="Uif-InputField" p:propertyName="payFrequency" p:defaultValue="M" p:required="true"  />
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
