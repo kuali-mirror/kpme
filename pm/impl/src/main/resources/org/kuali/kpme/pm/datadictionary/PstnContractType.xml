@@ -147,22 +147,11 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
     <property name="items">
       <list merge="true">
-        <bean parent="Uif-MaintenanceGridSection">
+        <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
           <property name="items">
-            <list>
-	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+            <list merge="true">
 		        <bean parent="Uif-InputField" p:propertyName="name" />
 		        <bean parent="Uif-InputField" p:propertyName="description" />
-		        <bean parent="Uif-InputField" p:propertyName="groupKeyCode" 
-	        			p:required="true"
-		        		p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
-                    		<property name="control">
-								<bean parent="Uif-DropdownControl" />
-							</property>
-							<property name="optionsFinder">
-								<bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
-							</property>
-                	 </bean>
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>
           </property>

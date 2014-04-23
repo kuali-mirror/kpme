@@ -62,7 +62,7 @@ public class PstnContractType extends HrKeyedBusinessObject implements PstnContr
 
 	@Override
 	protected String getUniqueKey() {
-		return getName() + "_" + getInstitution() + "_" + getLocation();
+		return getName() + "_" + getGroupKeyCode();
 	}
 
 	public String getPmCntrctTypeId() {
