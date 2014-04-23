@@ -489,12 +489,10 @@
     </class-descriptor>
 
     <!-- PayStep -->
-    <!-- Business Keys - [payStep : effectiveDate : timestamp] -->
+    <!-- Business Keys - [payStep : groupKeyCode: effectiveDate : timestamp] -->
 	<class-descriptor class="org.kuali.kpme.core.paystep.PayStep" table="PM_PAY_STEP_T">
 		<field-descriptor name="pmPayStepId"    		column="PM_PAY_STEP_ID"			 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PAY_STEP_S"  />
         <field-descriptor name="payStep"    			column="PAY_STEP"				 jdbc-type="VARCHAR"     length="10"		nullable="false" />
-        <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
-        <field-descriptor name="location"    				column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="salaryGroup"    		column="SALARY_GROUP"			 jdbc-type="VARCHAR"     length="10"		nullable="false" />
         <field-descriptor name="payGrade"    			column="PAY_GRADE"				 jdbc-type="VARCHAR"     length="20" 		nullable="false" />
         <field-descriptor name="stepNumber"   			column="STEP_NUM"				 jdbc-type="TINYINT"	 />
@@ -507,6 +505,7 @@
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" 		/>
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" 	/>
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="groupKeyCode"  			column="GRP_KEY_CD"        		jdbc-type="VARCHAR"      length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
 
 	<!-- Chart of Account -->	

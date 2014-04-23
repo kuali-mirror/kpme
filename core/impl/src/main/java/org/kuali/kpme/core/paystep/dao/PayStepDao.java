@@ -23,7 +23,7 @@ public interface PayStepDao {
 
 	public PayStep getPayStepById(String payStepId);
 
-	public List<PayStep> getPaySteps(String payStep, String institution, String location,
+	public List<PayStep> getPaySteps(String payStep, String groupKeyCode,
 			String salaryGroup, String payGrade, String history, String active);
 
 }

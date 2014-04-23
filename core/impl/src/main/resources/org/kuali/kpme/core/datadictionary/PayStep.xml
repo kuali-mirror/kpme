@@ -21,14 +21,12 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="PayStep" parent="PayStep-parentBean" />
-	<bean id="PayStep-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+	<bean id="PayStep-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.paystep.PayStep" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="PayStep-pmPayStepId" />
 				<ref bean="PayStep-payStep" />
-				<ref bean="PayStep-institution" />
-				<ref bean="PayStep-location" />
 				<ref bean="PayStep-salaryGroup" />
 				<ref bean="PayStep-payGrade" />
 				<ref bean="PayStep-stepNumber" />
@@ -78,16 +76,6 @@
 	
 	<bean id="PayStep-payGrade" parent="PayStep-payGrade-parentBean" />
 	<bean id="PayStep-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade">
- 		<property name="required" value="true" />
-	</bean>
-	
-	<bean id="PayStep-institution" parent="PayStep-institution-parentBean" />
-	<bean id="PayStep-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
- 		<property name="required" value="true" />
-	</bean>
-	
-	<bean id="PayStep-location" parent="PayStep-location-parentBean" />
-	<bean id="PayStep-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
  		<property name="required" value="true" />
 	</bean>
 	
@@ -153,8 +141,6 @@
 							<bean parent="Uif-DataField" p:propertyName="pmPayStepId" />
 							<bean parent="Uif-DataField" p:propertyName="payStep" />
 							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-							<bean parent="Uif-DataField" p:propertyName="institution" />
-							<bean parent="Uif-DataField" p:propertyName="location" />
 							<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
 							<bean parent="Uif-DataField" p:propertyName="payGrade" />
 							<bean parent="Uif-DataField" p:propertyName="stepNumber" />
@@ -179,23 +165,10 @@
   	<property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStep"/>
     <property name="items">
       <list merge="true">
-      	<bean parent="Uif-MaintenanceGridSection">
+      	<bean parent="KPMEGroupKeyed-MaintenanceGridSection">
 	      	<property name="items">
-	      		<list>
-			      	<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
+	      		<list merge="true">
 					<bean parent="Uif-InputField" p:propertyName="payStep" p:required="true"/>
-			        <bean parent="Uif-InputField" p:propertyName="institution" p:required="true">
-						<property name="quickfinder">
-				            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-				                  p:fieldConversions="institutionCode:institution"/>
-				        </property>
-					</bean>
-			        <bean parent="Uif-InputField" p:propertyName="location" p:required="true" >
-			        	<property name="quickfinder">
-							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-								p:fieldConversions="location:location" />
-						</property>
-			        </bean>
 					<bean parent="Uif-InputField" p:propertyName="salaryGroup" p:required="true">
 						<property name="quickfinder">
 				            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
@@ -233,25 +206,12 @@
   </bean>
 	
   <!-- KRAD Lookup View Definition -->
-  <bean id="PayStep-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+  <bean id="PayStep-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
     <property name="headerText" value="Pay Step Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStep" />
     <property name="criteriaFields">
-      <list>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
+      <list merge="true">
       	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payStep" />
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-			<property name="quickfinder">
-	            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-	                  p:fieldConversions="institutionCode:institution"/>
-	        </property>
-		</bean>
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
-			 <property name="quickfinder">
-							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-								p:fieldConversions="location:location" />
-			</property>
-		</bean>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
 			<property name="quickfinder">
 	            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
@@ -271,8 +231,6 @@
     <property name="resultFields">
       <list>
       	<bean parent="Uif-DataField" p:propertyName="payStep" />
-		<bean parent="Uif-DataField" p:propertyName="institution" />
-		<bean parent="Uif-DataField" p:propertyName="location" />
 		<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
 		<bean parent="Uif-DataField" p:propertyName="payGrade" />
 		<bean parent="Uif-DataField" p:propertyName="effectiveDate"/>

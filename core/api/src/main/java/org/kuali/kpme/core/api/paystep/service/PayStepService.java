@@ -23,7 +23,7 @@ public interface PayStepService {
 
 	public PayStepContract getPayStepById(String payStepId);
 
-	public List<? extends PayStepContract> getPaySteps(String payStep, String institution,
-			String location, String salaryGroup, String payGrade, String history, String active);
+	public List<? extends PayStepContract> getPaySteps(String payStep, String groupKeyCode,
+			String salaryGroup, String payGrade, String history, String active);
 	
 }

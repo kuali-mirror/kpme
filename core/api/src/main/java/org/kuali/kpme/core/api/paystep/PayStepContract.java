@@ -17,13 +17,13 @@ package org.kuali.kpme.core.api.paystep;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
 
 /**
  * <p>PayStepContract interface</p>
  *
  */
-public interface PayStepContract extends HrBusinessObjectContract {
+public interface PayStepContract extends HrKeyedBusinessObjectContract {
 
 	/**
 	 * The text field used to identify the PayStep
@@ -35,28 +35,6 @@ public interface PayStepContract extends HrBusinessObjectContract {
 	 * @return payStep for PayStep
 	 */
 	public String getPayStep();
-	
-	/**
-	 * The institution the PayStep is associated with
-	 * 
-	 * <p>
-	 * institution of a PayStep 
-	 * </p>
-	 * 
-	 * @return institution for PayStep
-	 */
-	public String getInstitution();
-	
-	/**
-	 * The location the PayStep is associated with
-	 * 
-	 * <p>
-	 * location of a PayStep 
-	 * </p>
-	 * 
-	 * @return location for PayStep
-	 */
-	public String getLocation();
 	
 	/**
 	 * The salary group the PayStep is associated with

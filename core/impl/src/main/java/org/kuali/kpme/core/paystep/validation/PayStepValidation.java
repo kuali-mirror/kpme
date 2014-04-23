@@ -18,14 +18,14 @@ package org.kuali.kpme.core.paystep.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.paystep.PayStep;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 @SuppressWarnings("deprecation")
-public class PayStepValidation extends MaintenanceDocumentRuleBase {
+public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -35,11 +35,10 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 
 		PayStep payStep = (PayStep) this.getNewDataObject();
 		
-		isValid &= validateInstitution(payStep);
-		isValid &= validateLocation(payStep);
 		isValid &= validateSalaryGroup(payStep);
 		isValid &= validatePayGrade(payStep);
 		isValid &= validatePayGradeInSalaryGroup(payStep);
+		isValid &= this.validateGroupKeyCode(payStep);
 		
 		return isValid;
 	}
@@ -51,24 +50,14 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 			this.putFieldError("dataObject.payGrade", "error.existence", errorMes);
 			return false;
 		} else {
-			// TODO When pay step is ready, uncomment this section out
-			/*
-			if(!ValidationUtils.wildCardMatch(aPayGrade.getInstitution(), payStep.getInstitution())) {
+			if (!aPayGrade.getGroupKeyCode().equals(payStep.getGroupKeyCode())) {
 				String[] params = new String[3];
-				params[0] = payStep.getInstitution();
-				params[1] = aPayGrade.getInstitution();
+				params[0] = payStep.getGroupKeyCode();
+				params[1] = aPayGrade.getGroupKeyCode();
 				params[2] = errorMes;
-				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
 				return false;
 			}
-			if(!ValidationUtils.wildCardMatch(aPayGrade.getLocation(), payStep.getLocation())) {
-				String[] params = new String[3];
-				params[0] = payStep.getLocation();
-				params[1] = aPayGrade.getLocation();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.location", "location.inconsistent", params);
-				return false;
-			}*/
 		}
 		return true;
 	}
@@ -77,23 +66,14 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + payStep.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
-			// TODO make change after adding groupKey to SalaryGroup 
-			/*if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), payStep.getInstitution())) {
+			if (!aSalGroup.getGroupKeyCode().equals(payStep.getGroupKeyCode())) {
 				String[] params = new String[3];
-				params[0] = payStep.getInstitution();
-				params[1] = aSalGroup.getInstitution();
+				params[0] = payStep.getGroupKeyCode();
+				params[1] = aSalGroup.getGroupKeyCode();
 				params[2] = errorMes;
-				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
 				return false;
 			}
-			if(!ValidationUtils.wildCardMatch(aSalGroup.getLocation(), payStep.getLocation())) {
-				String[] params = new String[3];
-				params[0] = payStep.getLocation();
-				params[1] = aSalGroup.getLocation();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.location", "location.inconsistent", params);
-				return false;
-			}*/
 		} else {
 			this.putFieldError("dataObject.salaryGroup", "error.existence", errorMes);
 			return false;
@@ -115,27 +95,4 @@ public class PayStepValidation extends MaintenanceDocumentRuleBase {
 			return false;
 		}
 	}
-
-	private boolean validateLocation(PayStep payStep) {
-		if (StringUtils.isNotEmpty(payStep.getLocation())
-				&& ValidationUtils.validateLocation(payStep.getLocation(), payStep.getEffectiveLocalDate())) {
-			return true;
-		} else {
-			this.putFieldError("dataObject.location", "error.existence", "Location '"
-					+ payStep.getLocation() + "'");
-			return false;
-		}
-	}
-
-	private boolean validateInstitution(PayStep payStep) {
-		if (StringUtils.isNotEmpty(payStep.getInstitution())
-				&& ValidationUtils.validateInstitution(payStep.getInstitution(), payStep.getEffectiveLocalDate())) {
-			return true;
-		} else {
-			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
-					+ payStep.getInstitution() + "'");
-			return false;
-		}
-	}
-
 }

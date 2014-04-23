@@ -20,28 +20,30 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.paystep.PayStepContract;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PayStep extends HrBusinessObject implements Comparable, PayStepContract {
+public class PayStep extends HrKeyedBusinessObject implements Comparable, PayStepContract {
 
-	private static final String PAY_STEP = "payStep";
+	static class KeyFields {
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
+		private static final String PAY_STEP = "payStep";
+	}
 	
 	private static final Logger LOG = Logger.getLogger(PayStep.class);
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-		    .add(PAY_STEP)
+		    .add(KeyFields.PAY_STEP)
+		    .add(KeyFields.GROUP_KEY_CODE)
 		    .build();
 
 	private static final long serialVersionUID = 1L;
 	
 	private String pmPayStepId;
 	private String payStep;
-	private String institution;
-	private String location;
 	private String salaryGroup;
 	private String payGrade;
 	private int stepNumber;
@@ -52,7 +54,8 @@ public class PayStep extends HrBusinessObject implements Comparable, PayStepCont
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(PAY_STEP, this.getPayStep())
+			.put(KeyFields.PAY_STEP, this.getPayStep())
+			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 	
@@ -111,22 +114,6 @@ public class PayStep extends HrBusinessObject implements Comparable, PayStepCont
 
 	public void setPayStep(String payStep) {
 		this.payStep = payStep;
-	}
-
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 
 	public String getSalaryGroup() {
