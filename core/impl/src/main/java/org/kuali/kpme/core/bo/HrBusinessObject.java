@@ -21,6 +21,7 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class HrBusinessObject extends PersistableBusinessObjectBase implements HrBusinessObjectContract {
@@ -112,5 +113,24 @@ public abstract class HrBusinessObject extends PersistableBusinessObjectBase imp
 
     public DateTime getCreateTime() {
         return getTimestamp() == null ? null : new DateTime(getTimestamp().getTime());
+    }
+    
+    
+    /**
+     * Utility method to copy over the common fields like timestamp, effective date etc. from the src object 
+     * to the dest object.
+     * 
+     * @param dest
+     * @param src
+     */
+    public static void copyCommonFields(HrBusinessObject dest, KpmeEffectiveDataTransferObject src) {
+    	dest.setEffectiveDate(src.getEffectiveLocalDate() == null ? null : src.getEffectiveLocalDate().toDate());
+        dest.setActive(src.isActive());
+        if (src.getCreateTime() != null) {
+            dest.setTimestamp(new Timestamp(src.getCreateTime().getMillis()));
+        }
+        dest.setUserPrincipalId(src.getUserPrincipalId());
+        dest.setVersionNumber(src.getVersionNumber());
+        dest.setObjectId(src.getObjectId());
     }
 }

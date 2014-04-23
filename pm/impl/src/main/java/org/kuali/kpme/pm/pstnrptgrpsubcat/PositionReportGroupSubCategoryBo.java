@@ -16,6 +16,8 @@
 package org.kuali.kpme.pm.pstnrptgrpsubcat;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategory;
 import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategoryContract;
 
 import com.google.common.collect.ImmutableList;
@@ -106,5 +108,32 @@ public class PositionReportGroupSubCategoryBo extends HrKeyedBusinessObject impl
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public static PositionReportGroupSubCategoryBo from(PositionReportGroupSubCategory im) {
+		PositionReportGroupSubCategoryBo retVal = new PositionReportGroupSubCategoryBo();
+		
+		// copy over BO-specific fields
+		retVal.setPositionReportGroup(im.getPositionReportGroup());
+		retVal.setPositionReportSubCat(im.getPositionReportSubCat());
+		retVal.setGroupKeyCode(im.getGroupKeyCode());
+		retVal.setPstnRptGrpSubCat(im.getPstnRptGrpSubCat());
+		retVal.setPmPstnRptGrpSubCatId(im.getPmPstnRptGrpSubCatId());
+		retVal.setDescription(im.getDescription());
+		retVal.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+		
+		// fnally copy over fields common to all Hr BOs
+		copyCommonFields(retVal, im);		
+		
+		return retVal;
+	}
+	
+	public static PositionReportGroupSubCategory to(PositionReportGroupSubCategoryBo bo) {
+        if (bo == null) {
+            return null;
+        }
+
+        return PositionReportGroupSubCategory.Builder.create(bo).build();
+    }
+
 
 }

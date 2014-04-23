@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.core.principal;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 import org.joda.time.LocalDate;
@@ -252,14 +251,8 @@ public class PrincipalHRAttributesBo extends HrBusinessObject implements Princip
         phra.setLeaveCalObj(CalendarBo.from(im.getLeaveCalObj()));
         phra.setLeavePlanObj(LeavePlanBo.from(im.getLeavePlanObj()));
 
-        phra.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
-        phra.setActive(im.isActive());
-        if (im.getCreateTime() != null) {
-            phra.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
-        }
-        phra.setUserPrincipalId(im.getUserPrincipalId());
-        phra.setVersionNumber(im.getVersionNumber());
-        phra.setObjectId(im.getObjectId());
+        // finally copy over the common fields into phra from im
+        copyCommonFields(phra, im);
 
         return phra;
     }
