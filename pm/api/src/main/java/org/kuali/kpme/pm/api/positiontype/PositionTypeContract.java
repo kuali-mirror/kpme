@@ -15,16 +15,15 @@
  */
 package org.kuali.kpme.pm.api.positiontype;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-import org.kuali.kpme.core.api.location.LocationContract;
-
+import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
 import org.kuali.kpme.core.api.institution.InstitutionContract;
+import org.kuali.kpme.core.api.location.LocationContract;
 
 /**
  * <p>PositionTypeContract interface</p>
  *
  */
-public interface PositionTypeContract extends HrBusinessObjectContract {
+public interface PositionTypeContract extends HrKeyedBusinessObjectContract {
 
     /**
      * The primary key for a PositionType entry saved in the database

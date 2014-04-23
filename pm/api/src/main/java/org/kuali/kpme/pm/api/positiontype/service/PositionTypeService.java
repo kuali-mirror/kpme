@@ -29,15 +29,14 @@ public interface PositionTypeService {
 	public PositionTypeContract getPositionTypeById(String pmPositionTypeId);
 	
 	/**
-	 * Get list of PositionType with given group, institution, location and effective date
+	 * Get list of PositionType with given group, groupKeyCode and effective date
 	 * wild card allowed
 	 * @param positionType
-	 * @param institution
-	 * @param location
+	 * @param groupKeyCode
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PositionTypeContract> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate);
+	public List<? extends PositionTypeContract> getPositionTypeList(String positionType, String groupKeyCode, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the latest active Position Type with given positionType and effectiveDate

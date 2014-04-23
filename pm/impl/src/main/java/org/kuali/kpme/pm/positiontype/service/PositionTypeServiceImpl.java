@@ -33,8 +33,8 @@ public class PositionTypeServiceImpl implements PositionTypeService {
 	}
 
 	@Override
-	public List<PositionType> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate) {
-		return positionTypeDao.getPositionTypeList(positionType, institution, location, asOfDate);
+	public List<PositionType> getPositionTypeList(String positionType, String groupKeyCode, LocalDate asOfDate) {
+		return positionTypeDao.getPositionTypeList(positionType, groupKeyCode, asOfDate);
 	}
 
 	public PositionTypeDao getPositionTypeDao() {

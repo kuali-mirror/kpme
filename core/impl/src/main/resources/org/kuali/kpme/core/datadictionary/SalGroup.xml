@@ -178,10 +178,6 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
-        <!-- 
-        <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="location" />
-        -->
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -274,10 +270,6 @@
 		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 			        <bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
 			        <bean parent="Uif-DataField" p:propertyName="descr" />
-			        <!-- 
-			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="location" />
-			        -->
 			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
 			        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
 			        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />

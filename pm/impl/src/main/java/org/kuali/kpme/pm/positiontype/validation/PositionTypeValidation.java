@@ -15,14 +15,13 @@
  */
 package org.kuali.kpme.pm.positiontype.validation;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.positiontype.PositionType;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 @SuppressWarnings("deprecation")
-public class PositionTypeValidation extends MaintenanceDocumentRuleBase  {
+public class PositionTypeValidation extends HrKeyedBusinessObjectValidation  {
+	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
@@ -31,31 +30,9 @@ public class PositionTypeValidation extends MaintenanceDocumentRuleBase  {
 		
 		if (positionType != null) {
 			valid = true;
-			valid &= this.validateInstitution(positionType);
-			valid &= this.validateLocation(positionType);
+			valid &= this.validateGroupKeyCode(positionType);
 		}
 		return valid;
 	}
-	
-	private boolean validateInstitution(PositionType positionType) {
-		if (StringUtils.isNotEmpty(positionType.getInstitution())
-				&& !ValidationUtils.validateInstitution(positionType.getInstitution(), positionType.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.institution", "error.existence", "Institution '"
-					+ positionType.getInstitution() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	private boolean validateLocation(PositionType positionType) {
-		if (StringUtils.isNotEmpty(positionType.getLocation())
-				&& !ValidationUtils.validateLocation(positionType.getLocation(), positionType.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.location", "error.existence", "Location '"
-					+ positionType.getLocation() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
+
 }

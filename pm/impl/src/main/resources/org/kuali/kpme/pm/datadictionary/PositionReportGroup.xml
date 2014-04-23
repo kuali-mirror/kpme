@@ -29,11 +29,6 @@
 				<ref bean="PositionReportGroup-pmPositionReportGroupId" />
 				<ref bean="PositionReportGroup-positionReportGroup" />
 				<ref bean="PositionReportGroup-description" />
-				<!-- 
-				<ref bean="PositionReportGroup-institution" />
-				<ref bean="PositionReportGroup-location" />
-				-->
-				<!-- ref bean="PositionReportGroup-groupKeyCode" /-->
 			</list>
 		</property>
 		<property name="objectLabel" value="Position Report Group" />
@@ -75,16 +70,7 @@
 		<property name="label" value="Description" />
 		<property name="description" value="description" />
 	</bean>
-	<!-- 
-	<bean id="PositionReportGroup-institution" parent="PositionReportGroup-institution-parentBean" />
-	<bean id="PositionReportGroup-institution-parentBean" abstract="true"  parent="KpmeAttributeReference-institution"/>
- 	
-	<bean id="PositionReportGroup-location" parent="PositionReportGroup-location-parentBean" />
-	<bean id="PositionReportGroup-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
-	
-	<bean id="PositionReportGroup-groupKeyCode" parent="PositionReportGroup-groupKeyCode-parentBean" />
-    <bean id="PositionReportGroup-groupKeyCode-parentBean" abstract="true" parent="KpmeAttributeReference-groupKeyCode"/>
--->
+
 	<!-- Business Object Inquiry Definition -->
 	<bean id="PositionReportGroup-inquiryDefinition" parent="PositionReportGroup-inquiryDefinition-parentBean" />
 	<bean id="PositionReportGroup-inquiryDefinition-parentBean" abstract="true"
@@ -98,10 +84,6 @@
 							<bean parent="FieldDefinition" p:attributeName="positionReportGroup" />
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
-							<!-- 
-							<bean parent="FieldDefinition" p:attributeName="institution" />
-							<bean parent="FieldDefinition" p:attributeName="location" />
-							-->
 							<bean parent="FieldDefinition" p:attributeName="active" />
                             <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
@@ -123,7 +105,6 @@
     <bean id="PositionReportGroup-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Group Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" />
-        <!-- property name="viewHelperServiceClass" value="org.kuali.kpme.pm.positionreportgroup.web.PositionReportGroupLookupableImpl"/-->
         <property name="criteriaFields">
             <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" />
