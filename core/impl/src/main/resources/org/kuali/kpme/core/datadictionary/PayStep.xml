@@ -147,6 +147,7 @@
 							<bean parent="Uif-DataField" p:propertyName="compRate" />
 							<bean parent="Uif-DataField" p:propertyName="serviceAmount" />
 							<bean parent="Uif-DataField" p:propertyName="serviceUnit" />
+							<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
 							<bean parent="Uif-DataField" p:propertyName="active" />
                             <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 						</list>
@@ -234,6 +235,7 @@
 		<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
 		<bean parent="Uif-DataField" p:propertyName="payGrade" />
 		<bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+		<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
       </list>
     </property>
   </bean>

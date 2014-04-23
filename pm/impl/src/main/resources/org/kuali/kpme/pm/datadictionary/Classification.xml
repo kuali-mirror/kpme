@@ -23,15 +23,13 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="Classification" parent="Classification-parentBean"/>
- 	<bean id="Classification-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+ 	<bean id="Classification-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="Classification-pmPositionClassId"/>
 	        <ref bean="Classification-positionClass"/>
 	        <ref bean="Classification-classificationTitle"/>
-	        <ref bean="Classification-institution"/>
-	        <ref bean="Classification-location"/>
 	        <ref bean="Classification-salaryGroup"/>
             <ref bean="Classification-payGrade"/>
 	        <ref bean="Classification-percentTime"/>
@@ -108,18 +106,6 @@
 		</property>
 		<property name="name" value="classificationTitle" />
 		<property name="label" value="Classification Title" />
-	</bean>
-	
-	<bean id="Classification-institution" parent="Classification-institution-parentBean" />
-	<bean id="Classification-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
-		<property name="required" value="true" />
-		<property name="containsWildcardData" value="true"/>
-	</bean>
-
-	<bean id="Classification-location" parent="Classification-location-parentBean" />
-	<bean id="Classification-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
-		<property name="required" value="true" />
-		<property name="containsWildcardData" value="true"/>
 	</bean>
 	
 	<bean id="Classification-salaryGroup" parent="Classification-salaryGroup-parentBean" />
@@ -232,26 +218,13 @@
  ***************************************************************************-->  	
   	
   <!-- Position Classification Lookup View -->
-  <bean id="Classification-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+  <bean id="Classification-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
     <property name="headerText" value="Position Classification Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.classification.ClassificationBo" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionClass" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />       
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-	        		 p:fieldConversions="institutionCode:institution"/>
-	   		 </property>
-        </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-	        <property name="quickfinder">
-					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-						p:fieldConversions="location:location" />
-			</property>
-		</bean>
-        
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
        		<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
@@ -293,14 +266,13 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
-        <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="location" />
         <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
         <bean parent="Uif-DataField" p:propertyName="payGrade" />
         <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
         <bean parent="Uif-DataField" p:propertyName="positionType" />
         <bean parent="Uif-DataField" p:propertyName="poolEligible" />
         <bean parent="Uif-DataField" p:propertyName="tenureEligible" />
+        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -369,8 +341,6 @@
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
                 <bean parent="Uif-DataField" p:propertyName="positionClass"/>
                 <bean parent="Uif-DataField" p:propertyName="classificationTitle"/>
-                <bean parent="Uif-DataField" p:propertyName="institution"/>
-                <bean parent="Uif-DataField" p:propertyName="location"/>
 				<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
                 <bean parent="Uif-DataField" p:propertyName="payGrade" />
 		        <bean parent="Uif-DataField" p:propertyName="percentTime" />
@@ -383,6 +353,7 @@
 		        <bean parent="Uif-DataField" p:propertyName="tenureEligible" />			        
 		        <bean parent="Uif-LinkField" p:label="External Reference" 
 						p:href="@{#root.dataObject.externalReference}" p:linkText="@{#root.dataObject.externalReference}" p:target="_blank" />
+				<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
 		        <bean parent="Uif-DataField" p:propertyName="active"/>
                 <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
             </list>

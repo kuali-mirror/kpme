@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
@@ -28,7 +29,7 @@ import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationCont
  * <p>ClassificationContract interface</p>
  *
  */
-public interface ClassificationContract extends KpmeEffectiveDataTransferObject {
+public interface ClassificationContract extends KpmeEffectiveKeyedDataTransferObject {
 
 	/**
 	 * The identifier of the position classification
@@ -51,28 +52,6 @@ public interface ClassificationContract extends KpmeEffectiveDataTransferObject 
 	 * @return classificationTitle for Classification
 	 */
 	public String getClassificationTitle();
-	
-	/**
-	 * The institution associated with the Classification
-	 * 
-	 * <p>
-	 * institution for the Classification.
-	 * <p>
-	 * 
-	 * @return institution for Classification
-	 */
-	public String getInstitution();
-
-	/**
-	 * The location associated with the Classification
-	 * 
-	 * <p>
-	 * location for the Classification.
-	 * <p>
-	 * 
-	 * @return location for Classification
-	 */
-	public String getLocation();
 
 	/**
 	 * The grouping of Salary Group payroll attributes to be assigned to Position Classification
@@ -216,17 +195,6 @@ public interface ClassificationContract extends KpmeEffectiveDataTransferObject 
 	 * @return pmPositionClassId for Classification
 	 */
 	public String getPmPositionClassId();
-
-	/**
-	 * The Location Object associated with the Classification
-	 * 
-	 * <p>
-	 * Location object for the Classification.
-	 * <p>
-	 * 
-	 * @return locationObj for Classification
-	 */
-	public LocationContract getLocationObj();
 
 	/**
 	 * The list of ClassificationDuty Objects associated with the Classification

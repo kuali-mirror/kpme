@@ -226,8 +226,8 @@
                               <bean parent="Uif-DataField" p:propertyName="midPointRate" />
                               <bean parent="Uif-DataField" p:propertyName="maxRate" />
                               <bean parent="Uif-DataField" p:propertyName="maxHiringRate" />
-                              <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
                               <bean parent="Uif-DataField" p:propertyName="rateType" />
+                              <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />                              
                               <bean parent="Uif-DataField" p:propertyName="active"/>
                               <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
                           </list>

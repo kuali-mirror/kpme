@@ -90,55 +90,24 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="Cls-ClassificationPage-Widgets" parent="Uif-MaintenanceGridSection"
+	<bean id="Cls-ClassificationPage-Widgets" parent="KPMEGroupKeyed-MaintenanceGridSection"
 		p:headerText="Classification">
 		<property name="items">
-			<list>	
-				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-			    <bean parent="Uif-InputField" p:propertyName="institution" id="classfication_institution"
-			        p:onDocumentReadyScript="
-                        var options = jQuery('#classfication_institution_control option');
-                        if (options.length == 2) {
-                            jQuery('#classfication_institution_control').val(options[1].value);
-                         }"
-                      p:required="true"
-                      p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
-                    </property>
-		        </bean>
-		        <bean parent="Uif-InputField" p:propertyName="location" id="classification_location"
-                      p:onDocumentReadyScript="
-                        var options = jQuery('#classification_location_control option');
-                        if (options.length == 2) {
-                            jQuery('#classification_location_control').val(options[1].value);
-                         }"
-                      p:required="true"
-                      p:refreshWhenChangedPropertyNames="#dp.institution" >
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.kpme.pm.util.LocationKeyValueFinder" />
-                    </property>
-		        </bean>
+			<list merge="true">
 		        <bean parent="Uif-InputField" p:propertyName="positionClass" />
 		        <bean parent="Uif-InputField" p:propertyName="classificationTitle" />
 		        <bean parent="Uif-InputField" p:propertyName="positionReportGroup">
 			        <property name="quickfinder">
 			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
 			        		 p:fieldConversions="positionReportGroup:positionReportGroup"
-			        		 p:lookupParameters="location:location,institution:institution"/>
+			        		 p:lookupParameters="groupKeyCode:groupKeyCode"/>
 			   		</property>
 		        </bean>
 		       	<bean parent="Uif-InputField" p:propertyName="positionType">
 					 <property name="quickfinder">
 			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionType" 
 			        		 p:fieldConversions="positionType:positionType"
-			        		 p:lookupParameters="location:location,institution:institution"/>
+			        		 p:lookupParameters="groupKeyCode:groupKeyCode"/>
 			   		 </property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="poolEligible" />
@@ -147,7 +116,7 @@
 		        	<property name="quickfinder">
 		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
 		        		 	p:fieldConversions="hrSalGroup:salaryGroup,percentTime:percentTime,benefitsEligible:benefitsEligible,leaveEligible:leaveEligible,leavePlan:leavePlan"
-		        		 	p:lookupParameters="location:location,institution:institution"/>
+		        		 	p:lookupParameters="groupKeyCode:groupKeyCode"/>
 		   	   		</property>
 		   	   		<property name="attributeQuery">
 	            		<bean parent="Uif-AttributeQueryConfig" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
@@ -186,7 +155,7 @@
                      <property name="quickfinder">
                          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGradeBo"
                                p:fieldConversions="payGrade:payGrade"
-                               p:lookupParameters="location:location,institution:institution,salaryGroup:salGroup"/>
+                               p:lookupParameters="groupKeyCode:groupKeyCode,salaryGroup:salGroup"/>
                      </property>
                 </bean>
 			    <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
@@ -311,7 +280,7 @@
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="positionClass" />
 				<bean parent="Uif-InputField" p:propertyName="positionType" />				
-				<bean parent="Uif-InputField" p:propertyName="location" />
+				<bean parent="Uif-InputField" p:propertyName="groupKey.locationId" />
 			</list>
 		</property>
 	</bean>
