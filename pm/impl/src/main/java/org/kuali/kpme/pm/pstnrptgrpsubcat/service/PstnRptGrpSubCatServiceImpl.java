@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.pm.pstnrptgrpsubcat.service;
 
+import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategory;
 import org.kuali.kpme.pm.api.pstnrptgrpsubcat.service.PstnRptGrpSubCatService;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategoryBo;
 import org.kuali.kpme.pm.pstnrptgrpsubcat.dao.PstnRptGrpSubCatDao;
@@ -24,9 +25,8 @@ public class PstnRptGrpSubCatServiceImpl implements PstnRptGrpSubCatService {
 	private PstnRptGrpSubCatDao pstnRptGrpSubCatDao;
 
 	@Override
-	public PositionReportGroupSubCategoryBo getPstnRptGrpSubCatById(
-			String pmPstnRptGrpSubCatId) {
-		return pstnRptGrpSubCatDao.getPstnRptGrpSubCatById(pmPstnRptGrpSubCatId);
+	public PositionReportGroupSubCategory getPstnRptGrpSubCatById(String pmPstnRptGrpSubCatId) {
+		return PositionReportGroupSubCategoryBo.to(pstnRptGrpSubCatDao.getPstnRptGrpSubCatById(pmPstnRptGrpSubCatId));
 	}
 
 	public void setPstnRptGrpSubCatDao(PstnRptGrpSubCatDao pstnRptGrpSubCatDao) {

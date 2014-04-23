@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.pm.api.pstnrptgrpsubcat.service;
 
-import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategoryContract;
+import org.kuali.kpme.pm.api.pstnrptgrpsubcat.PositionReportGroupSubCategory;
 
 public interface PstnRptGrpSubCatService {
 	
@@ -24,7 +24,7 @@ public interface PstnRptGrpSubCatService {
 	 * @param pmPstnRptGrpSubCatId
 	 * @return
 	 */
-	public PositionReportGroupSubCategoryContract getPstnRptGrpSubCatById(String pmPstnRptGrpSubCatId);
+	public PositionReportGroupSubCategory getPstnRptGrpSubCatById(String pmPstnRptGrpSubCatId);
 
 
 }
