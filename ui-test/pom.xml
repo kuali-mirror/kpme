@@ -46,7 +46,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-tools-test</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 	
 </project>

@@ -75,7 +75,7 @@
         <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
         <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
         <rice.version>2.3.5</rice.version>
-        <selenium-java.version>2.40.0</selenium-java.version>
+        <selenium-java.version>2.41.0</selenium-java.version>
         <slf4j.version>1.7.2</slf4j.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
         <xercesImpl.version>2.11.0</xercesImpl.version>

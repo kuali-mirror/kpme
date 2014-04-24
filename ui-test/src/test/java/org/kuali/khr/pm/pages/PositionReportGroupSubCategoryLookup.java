@@ -3,142 +3,147 @@ package org.kuali.khr.pm.pages;
 import static org.kuali.khr.hub.tests.selenium.SeleniumTestSuite.waitHere;
 import static org.kuali.khr.hub.util.KhrTestConstants.Urls.PositionReportGroupSubCategoryLookup;
 
-import java.util.List;
-
+import org.kuali.khr.hub.pages.Lookup;
 import org.kuali.khr.hub.pages.Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-public class PositionReportGroupSubCategoryLookup implements Page
+public class PositionReportGroupSubCategoryLookup extends Lookup implements Page
 {
 	private WebDriver driver;
 
 	public PositionReportGroupSubCategoryLookup(WebDriver driver) {
 		this.driver = driver;
 	}
-	
-	@FindBy(css = ".uif-headerText-span")
+
+	@FindBy(xpath = "//*span[matches(.,'Position Report Group Sub Category Lookup')]")
 	public WebElement PositionReportGroupSubCategoryLookupTitle;
 	
-	@FindBy(css = "#u22u100012_label")
+	@FindBy(xpath = "//*label[matches(.,'Effective Date:')]")
 	public WebElement EffectiveDateLabel;
-	
-	@FindBy(css = "#u100012From_control")
-	private WebElement EffectiveDateFromField;
-	
-	@FindBy(css = "#u100012From_control")
-	private WebElement EffectiveDateToField;
 
-	@FindBy(css = "#u100018_label")
+	@FindBy(xpath = "//*label[matches(.,'Group Key:')]")
 	public WebElement GroupKeyLabel;
 	
-	@FindBy(css = "#u100018_control")
-	private WebElement GroupKeyField;
+	@FindBy(xpath = "//input[@name='lookupCriteria[groupKeyCode]']/following-sibling::input[1]")
+	public WebElement GroupKeyLookupButton;
 	
-	@FindBy(css = "#u100025")
-	private WebElement GroupKeyLookupButton;
-	
-	@FindBy(css = "#u100028_label")
+	@FindBy(xpath = "//*label[matches(.,'Institution:')]")
 	public WebElement InstitutionLabel;
 	
-	@FindBy(css = "#u100028_control")
-	private WebElement InstitutionField;
+	@FindBy(xpath = "//input[@name='lookupCriteria[institutionCode]']/following-sibling::input[1]")
+	public WebElement InstitutionLookupButton;
 	
-	@FindBy(css = "#u100035")
-	private WebElement InstitutionLookupButton;
-	
-	@FindBy(css = "#u100038_label")
+	@FindBy(xpath = "//*label[matches(.,'Location:')]")
 	public WebElement LocationLabel;
 	
-	@FindBy(css = "#u100038_control")
-	private WebElement LocationField;
-	
-	@FindBy(css = "#u100045")
-	private WebElement LocationSearchButton;
+	@FindBy(xpath = "//input[@name='lookupCriteria[locationId]']/following-sibling::input[1]")
+	public WebElement LocationLookupButton;
 	
 	
-	@FindBy(css = "#u100048_label")
+	@FindBy(xpath = "//*label[matches(.,'Position Report Group Sub Category:')]")
 	public WebElement PositionReportGroupSubCategoryLabel;
 	
-	@FindBy(css = "#u100048_control")
-	private WebElement PositionReportGroupSubCategoryField;
-	
-	@FindBy(css = "#u100054_label")
+	@FindBy(xpath = "//*label[matches(.,'Position Report Group:')]")
 	public WebElement PositionReportGroupLabel;
 	
-	@FindBy(css = "#u100054_control")
-	private WebElement PositionReportGroupField;
+	@FindBy(xpath = "//input[@name='lookupCriteria[positionReportGroup]']/following-sibling::input[1]")
+	private WebElement PositionReportGroupLookupButton;
 	
-	@FindBy(css = "#u100061")
-	private WebElement PositionReportGroupSearchButton;
-	
-	@FindBy(css = "#u100064_label")
+	@FindBy(xpath = "//*label[matches(.,'Position Report Sub Category:')]")
 	public WebElement PositionReportSubCategoryLabel;
 	
-	@FindBy(css = "#u100064_control")
+	@FindBy(name = "lookupCriteria[positionReportSubCat]")
 	private WebElement PositionReportSubCategoryField;
 	
-	@FindBy(css = "#u100071")
-	private WebElement PositionReportSubCategorySearchButton;
+	@FindBy(xpath = "//input[@name='lookupCriteria[positionReportSubCat]']/following-sibling::input[1]")
+	private WebElement PositionReportSubCategoryLookupButton;
 	
-	@FindBy(css = "#u100074_label")
+	@FindBy(xpath = "//*label[matches(.,'Show History:')]")
 	public WebElement ShowHistoryLabel;
 	
-	@FindBy(css = "#u100074_control_0")
+	// TODO find identifier for radio buttons
+	@FindBy(id = "u100074_control_0")
 	private WebElement ShowHistoryYesBtn;
 	
-	@FindBy(xpath = "//fieldset[@id='u100074_fieldset']/span[2]/label")
+	// TODO find identifier for radio buttons and get next sibling for label
+	@FindBy(xpath = "//*label[matches(.,'')]")
 	public WebElement ShowHistoryYesLabel;
 	
-	@FindBy(css = "#u100074_control_1")
+	// TODO find identifier for radio buttons
+	@FindBy(id = "u100074_control_1")
 	private WebElement ShowHistoryNoBtn;
 	
-	@FindBy(xpath = "//fieldset[@id='u100074_fieldset']/span[3]/label")
-	
+	// TODO find identifier for radio buttons and get next sibling for label
+	@FindBy(xpath = "//*fieldset[@id='u100074_fieldset']/span[3]/label")
 	public WebElement ShowHistoryNoLabel;
 	
-	@FindBy(css = "#u100080_label")
+	@FindBy(xpath = "//*label[matches(.,'Active:')]")
 	public WebElement ActiveLabel;
 	
+	// TODO find identifier for radio buttons
 	@FindBy(css = "#u100080_control_0")
 	private WebElement ActiveYesBtn;
 	
-	@FindBy(xpath = "//fieldset[@id='u100080_fieldset']/span[2]/label")
+	// TODO find identifier for radio buttons and get next sibling for label
+	@FindBy(xpath = "//*fieldset[@id='u100080_fieldset']/span[2]/label")
 	public WebElement ActiveYesLabel;
 	
+	// TODO find identifier for radio buttons
 	@FindBy(css = "#u100080_control_1")
 	private WebElement ActiveNoBtn;
 	
-	@FindBy(xpath = "//fieldset[@id='u100080_fieldset']/span[3]/label")
+	// TODO find identifier for radio buttons and get next sibling for label
+	@FindBy(xpath = "//*fieldset[@id='u100080_fieldset']/span[3]/label")
 	public WebElement ActiveNoLabel;
 	
+	// TODO find identifier for radio buttons
 	@FindBy(css = "#u100080_control_2")
 	private WebElement ActiveBothBtn;
 	
-	@FindBy(xpath = "//fieldset[@id='u100080_fieldset']/span[4]/label")
+	@FindBy(xpath = "//*label[matches(.,'Both')]")
 	public WebElement ActiveBothLabel;
 	
-	@FindBy(css = "#u100006")
+	@FindBy(xpath = "//button[contains(text(), 'Search')]")
 	public WebElement SearchButton;
 	
-	@FindBy(css = "#u100007")
+	@FindBy(xpath = "//button[contains(text(), 'Clear Values')]")
 	private WebElement ClearValuesButton;
 	
-	@FindBy(css = "#u100008")
+	@FindBy(xpath = "//button[contains(text(), 'Cancel')]")
 	private WebElement CancelButton;
+	
+	@FindBy(xpath = "//button[contains(text(), 'Close')]")
+	private WebElement CloseButton;
+	
+
+	@FindBy(xpath = "//*label[matches(.,'Group Key Id:')]")
+	public WebElement GroupKeyIdLabel;
+	
+	@FindBy(xpath = "//*label[matches(.,'Group Key Lookup ')]")
+	public WebElement GroupKeyLookupTitle;
+
+	@FindBy(xpath = "//*label[matches(.,'Institution Lookup ')]")
+	public WebElement InstitutionLookupTitle;
+	
+	@FindBy(xpath = "//*label[matches(.,'Institution Code:')]")
+	public WebElement InstitutionCodeLabel;
 	
 	// TODO set up test for calendar object and test calendar objects on this page
 	
-	@FindBy(tagName = "iframe_portlet_container_div")
-	public WebElement iframe;
+
+	@FindBy(xpath = "//*label[matches(.,'Actions')]")
+	public WebElement ResultsActionsLabel;
 	
-	@FindBy(xpath = "//th[1]/span[1]/label[@id='u100121_c1']")
-	private WebElement ActionsLabel;
+	@FindBy(xpath ="//label[matches(.,'Effective Date')]")
+	public WebElement ResultsEffectiveDateLabel;
 	
-	@FindBy(css = "#u100087_info")
+	@FindBy(xpath ="//*label[matches(.,'Position Report Group Sub Category ')]")
+	public WebElement ResultsPositionReportGroupSubCategoryLabel;
+	
+	@FindBy(className = "dataTables_info")
 	private WebElement results;
 	
 	
@@ -166,27 +171,39 @@ public class PositionReportGroupSubCategoryLookup implements Page
 		search();
 	}
 	
+	
 	public String checkResults() {
 		waitHere();
 		String resultstring = results.getText();
 		return resultstring;
 	}
 	
-	public String getActionsLabel() {
+	
+	public void lookupInstitution(String value) {
+		ClearValuesButton.click();
 		waitHere();
-		String action = ActionsLabel.getText();
-		return action;
+		InstitutionCodeField.sendKeys(value);
+		search();
 	}
 	
-	public GroupKeyLookup gotoGroupKeyLookup()
+
+	public void switchFrame(String framename)
 	{
-		waitHere();
-		GroupKeyLookupButton.click();
-		waitHere();
-	    return PageFactory.initElements(driver, GroupKeyLookup.class);
+		WebElement frame = driver.findElement(By.xpath("//*[contains(@name, '" + framename + "')]"));
+		String frameID = frame.getAttribute("name");
+        driver.switchTo().frame(frameID);
 	}
 	
 
+	public void switchToDefaultFrame()
+	{
+		driver.switchTo().defaultContent();
+	}
 	
-
+	public void closeLookupLightbox()
+	{
+		CloseButton.click();
+	}
+	
+	
 }
