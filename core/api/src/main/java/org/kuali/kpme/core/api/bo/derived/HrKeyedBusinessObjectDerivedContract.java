@@ -17,9 +17,9 @@ package org.kuali.kpme.core.api.bo.derived;
 
 import org.kuali.kpme.core.api.institution.InstitutionContract;
 import org.kuali.kpme.core.api.location.LocationContract;
-import org.kuali.kpme.core.api.mo.KPMEEffectiveKeyedDerivedDataTransferObject;
+import org.kuali.kpme.core.api.mo.KeyedData;
 
-public interface HrKeyedBusinessObjectDerivedContract extends HrBusinessObjectDerivedContract, KPMEEffectiveKeyedDerivedDataTransferObject{
+public interface HrKeyedBusinessObjectDerivedContract extends HrBusinessObjectDerivedContract, KeyedData {
 	
 	/**
      * The Location object associated with the keyed business object

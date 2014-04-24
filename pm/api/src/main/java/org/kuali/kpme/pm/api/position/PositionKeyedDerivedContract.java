@@ -15,11 +15,8 @@
  */
 package org.kuali.kpme.pm.api.position;
 
-import org.kuali.kpme.core.api.mo.KPMEEffectiveKeyedDerivedDataTransferObject;
+import org.kuali.kpme.core.api.mo.KeyedData;
 
-public interface PositionKeyedDerivedContract extends KPMEEffectiveKeyedDerivedDataTransferObject {
+public interface PositionKeyedDerivedContract extends PositionDerivedContract, KeyedData {
 	
-	PositionContract getOwner();
-	
-	String getHrPositionId();
 }
