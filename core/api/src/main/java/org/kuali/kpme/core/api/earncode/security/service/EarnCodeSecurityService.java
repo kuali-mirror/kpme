@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.earncode.security.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -31,7 +32,7 @@ public interface EarnCodeSecurityService {
                     "+ '|' + 'hrSalGroup=' + #p1" +
                     "+ '|' + 'location=' + #p2" +
                     "+ '|' + 'asOfDate=' + #p3")
-	public List<? extends EarnCodeSecurityContract> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate);
+	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate);
 	
 	/**
 	 * Fetch department earn code by id
@@ -39,12 +40,12 @@ public interface EarnCodeSecurityService {
 	 * @return
 	 */
     @Cacheable(value= EarnCodeSecurityContract.CACHE_NAME, key="'hrEarnCodeSecId=' + #p0")
-	public EarnCodeSecurityContract getEarnCodeSecurity(String hrEarnCodeSecId);
+	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
 	
-    public List<? extends EarnCodeSecurityContract> getEarnCodeSecuritiesByType(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
+    public List<EarnCodeSecurity> getEarnCodeSecuritiesByType(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
     		LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String earnCodeType);
     
-	public List<? extends EarnCodeSecurityContract> searchEarnCodeSecurities(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
+	public List<EarnCodeSecurity> searchEarnCodeSecurities(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
 			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 	
     /**
@@ -86,6 +87,6 @@ public interface EarnCodeSecurityService {
 	 * @param effdt
 	 * @return
 	 */
-	public List<? extends EarnCodeSecurityContract> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
 			String active, LocalDate effdt);
 }

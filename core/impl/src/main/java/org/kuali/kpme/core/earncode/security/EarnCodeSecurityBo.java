@@ -15,8 +15,12 @@
  */
 package org.kuali.kpme.core.earncode.security;
 
+import java.sql.Timestamp;
+
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
@@ -24,11 +28,12 @@ import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecurityContract {
+public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecurityContract {
 
 	private static final String LOCATION = "location";
 	private static final String EARN_CODE = "earnCode";
@@ -39,7 +44,7 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCodeSecurity";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
-            .add(EarnCodeSecurity.CACHE_NAME)
+            .add(EarnCodeSecurityBo.CACHE_NAME)
             .add(EarnCodeBo.CACHE_NAME)
             .add(CalendarBlockPermissions.CACHE_NAME)
             .build();
@@ -50,6 +55,34 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
             .add(EARN_CODE)
             .add(LOCATION)
             .build();
+    
+    
+    /*
+     * convert bo to immutable
+     *
+     * Can be used with ModelObjectUtils:
+     *
+     * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfEarnCodeSecurityBo, EarnCodeSecurityBo.toImmutable);
+     */
+    public static final ModelObjectUtils.Transformer<EarnCodeSecurityBo, EarnCodeSecurity> toImmutable =
+    		new ModelObjectUtils.Transformer<EarnCodeSecurityBo, EarnCodeSecurity>() {
+    	public EarnCodeSecurity transform(EarnCodeSecurityBo input) {
+    		return EarnCodeSecurityBo.to(input);
+    	};
+    };
+    /*
+     * convert immutable to bo
+     *
+     * Can be used with ModelObjectUtils:
+     *
+     * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfEarnCodeSecurity, EarnCodeSecurityBo.toBo);
+     */
+    public static final ModelObjectUtils.Transformer<EarnCodeSecurity, EarnCodeSecurityBo> toBo =
+    		new ModelObjectUtils.Transformer<EarnCodeSecurity, EarnCodeSecurityBo>() {
+    	public EarnCodeSecurityBo transform(EarnCodeSecurity input) {
+    		return EarnCodeSecurityBo.from(input);
+    	};
+    };
 
 	private String hrEarnCodeSecurityId;
 	private String dept;
@@ -205,5 +238,49 @@ public class EarnCodeSecurity extends HrBusinessObject implements EarnCodeSecuri
 	public void setId(String id) {
 		setHrEarnCodeSecurityId(id);
 	}
+	
+	public static EarnCodeSecurityBo from(EarnCodeSecurity im) {
+	    if (im == null) {
+	        return null;
+	    }
+	    EarnCodeSecurityBo ecs = new EarnCodeSecurityBo();
+	    ecs.setHrEarnCodeSecurityId(im.getHrEarnCodeSecurityId());
+	    ecs.setDept(im.getDept());
+	    ecs.setHrSalGroup(im.getHrSalGroup());
+	    ecs.setEarnCode(im.getEarnCode());
+	    ecs.setEmployee(im.isEmployee());
+		ecs.setApprover(im.isApprover());
+		ecs.setPayrollProcessor(im.isPayrollProcessor());
+		ecs.setLocation(im.getLocation());
+		ecs.setEarnCodeType(im.getEarnCodeType());
+		
+		ecs.setSalaryGroupObj(im.getSalaryGroupObj() == null ? null : SalaryGroupBo.from(im.getSalaryGroupObj()));
+		ecs.setDepartmentObj(im.getDepartmentObj() == null ? null : DepartmentBo.from(im.getDepartmentObj()));
+		ecs.setEarnCodeObj(im.getEarnCodeObj() == null ? null : EarnCodeBo.from(im.getEarnCodeObj()));
+		ecs.setJobObj(im.getJobObj() == null ? null : JobBo.from(im.getJobObj()));
+	    ecs.setLocationObj(im.getLocationObj() == null ? null : LocationBo.from(im.getLocationObj()));
+	    
+	    copyCommonFields(ecs, im);
+	 
+	    return ecs;
+	}
 
+	public static void copyCommonFields(HrBusinessObject dest, KpmeEffectiveDataTransferObject src) {
+	    dest.setEffectiveDate(src.getEffectiveLocalDate() == null ? null : src.getEffectiveLocalDate().toDate());
+	    dest.setActive(src.isActive());
+	    if (src.getCreateTime() != null) {
+	        dest.setTimestamp(new Timestamp(src.getCreateTime().getMillis()));
+	    }
+	    dest.setUserPrincipalId(src.getUserPrincipalId());
+	    dest.setVersionNumber(src.getVersionNumber());
+	    dest.setObjectId(src.getObjectId());
+	}
+	
+	public static EarnCodeSecurity to(EarnCodeSecurityBo bo) {
+	    if (bo == null) {
+	        return null;
+	    }
+	    return EarnCodeSecurity.Builder.create(bo).build();
+	}
+	
 }

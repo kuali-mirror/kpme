@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -36,7 +36,7 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 
-	private boolean validateSalGroup(EarnCodeSecurity departmentEarnCode ) {
+	private boolean validateSalGroup(EarnCodeSecurityBo departmentEarnCode ) {
 		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getHrSalGroup(), departmentEarnCode.getEffectiveLocalDate())) {
 			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getHrSalGroup()+ "'");
 			return false;
@@ -45,7 +45,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	private boolean validateDept(EarnCodeSecurity departmentEarnCode) {
+	private boolean validateDept(EarnCodeSecurityBo departmentEarnCode) {
 		if (StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER)) {
             return true;
         }
@@ -57,7 +57,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 
     //KPME-2630
-    private boolean validateDeptForLocation(EarnCodeSecurity departmentEarnCode){
+    private boolean validateDeptForLocation(EarnCodeSecurityBo departmentEarnCode){
         if (StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER)) {
             return true;
         }
@@ -75,7 +75,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
         }
     }
 
-	private boolean validateEarnCode(EarnCodeSecurity departmentEarnCode ) {
+	private boolean validateEarnCode(EarnCodeSecurityBo departmentEarnCode ) {
 		if (!ValidationUtils.validateEarnCode(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveLocalDate())) {
 			this.putFieldError("earnCode", "error.existence", "Earncode '" + departmentEarnCode.getEarnCode()+ "'");
 			return false;
@@ -84,7 +84,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	private boolean validateDuplication(EarnCodeSecurity departmentEarnCode) {
+	private boolean validateDuplication(EarnCodeSecurityBo departmentEarnCode) {
 		if(ValidationUtils.duplicateDeptEarnCodeExists(departmentEarnCode)) {
 			this.putFieldError("effectiveDate", "deptEarncode.duplicate.exists");
 			return false;
@@ -93,7 +93,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	private boolean validateLocation(EarnCodeSecurity departmentEarnCode) {
+	private boolean validateLocation(EarnCodeSecurityBo departmentEarnCode) {
 		if (departmentEarnCode.getLocation() != null
 				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), departmentEarnCode.getEffectiveLocalDate()) && 
 				!StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER)) {
@@ -105,7 +105,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	private boolean validateDepartmentCurrentUser(EarnCodeSecurity departmentEarnCode) {
+	private boolean validateDepartmentCurrentUser(EarnCodeSecurityBo departmentEarnCode) {
 		boolean isValid = true;
 		
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -130,7 +130,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		return isValid;
 	}
 	
-	private boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
+	private boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurityBo departmentEarnCode){
 		// KPME-1106 can not deactivate a department earn code if it used in active time blocks
 		boolean valid = true;
 		DateTime latestEndTimestamp =  HrServiceLocator.getCalendarBlockService().getLatestEndTimestampForEarnCode(departmentEarnCode.getEarnCode(), "Time");
@@ -161,8 +161,8 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 
 		LOG.debug("entering custom validation for EarnCodeSecurity");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
-		if (pbo instanceof EarnCodeSecurity) {
-			EarnCodeSecurity departmentEarnCode = (EarnCodeSecurity) pbo;
+		if (pbo instanceof EarnCodeSecurityBo) {
+			EarnCodeSecurityBo departmentEarnCode = (EarnCodeSecurityBo) pbo;
 
 			if (departmentEarnCode != null) {
 				valid = true;

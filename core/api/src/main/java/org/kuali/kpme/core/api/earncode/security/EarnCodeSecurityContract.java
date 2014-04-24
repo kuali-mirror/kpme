@@ -20,6 +20,7 @@ import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
@@ -27,7 +28,7 @@ import org.kuali.kpme.core.api.util.HrApiConstants;
  * <p>EarnCodeSecurityContract interface</p>
  *
  */
-public interface EarnCodeSecurityContract extends HrBusinessObjectContract {
+public interface EarnCodeSecurityContract extends KpmeEffectiveDataTransferObject {
 
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCodeSecurity";
 	

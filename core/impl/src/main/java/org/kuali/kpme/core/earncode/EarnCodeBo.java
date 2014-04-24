@@ -26,7 +26,7 @@ import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
@@ -43,7 +43,7 @@ public class EarnCodeBo extends HrBusinessObject implements EarnCodeContract {
 	
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "EarnCode";
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
-            .add(EarnCodeSecurity.CACHE_NAME)
+            .add(EarnCodeSecurityBo.CACHE_NAME)
             .add(EarnCodeBo.CACHE_NAME)
             .build();
     //KPME-2273/1965 Primary Business Keys List.

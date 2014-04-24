@@ -28,7 +28,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -40,13 +40,13 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(EarnCodeSecurityDaoOjbImpl.class);
 
-	public void saveOrUpdate(EarnCodeSecurity earnCodeSec) {
+	public void saveOrUpdate(EarnCodeSecurityBo earnCodeSec) {
 		this.getPersistenceBrokerTemplate().store(earnCodeSec);
 	}
 
-	public void saveOrUpdate(List<EarnCodeSecurity> ernCdSecList) {
+	public void saveOrUpdate(List<EarnCodeSecurityBo> ernCdSecList) {
 		if (ernCdSecList != null) {
-			for (EarnCodeSecurity ernCdSec : ernCdSecList) {
+			for (EarnCodeSecurityBo ernCdSec : ernCdSecList) {
 				this.getPersistenceBrokerTemplate().store(ernCdSec);
 			}
 		}
@@ -54,8 +54,8 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
-	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate) {
-		List<EarnCodeSecurity> decs = new LinkedList<EarnCodeSecurity>();
+	public List<EarnCodeSecurityBo> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate) {
+		List<EarnCodeSecurityBo> decs = new LinkedList<EarnCodeSecurityBo>();
 
 		Criteria root = new Criteria();
 		
@@ -94,15 +94,15 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
         if ( !location.trim().isEmpty() ){
             fields.add("location");
         }
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurity.class, asOfDate, fields.build(), false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurity.class, fields.build(), false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurityBo.class, asOfDate, fields.build(), false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurityBo.class, fields.build(), false));
 		
 		root.addOrderBy("earnCode", true);
 		root.addOrderBy("dept",false);
 		root.addOrderBy("hrSalGroup",false);
 		
 		
-		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, root);
+		Query query = QueryFactory.newQuery(EarnCodeSecurityBo.class, root);
 		
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		
@@ -112,8 +112,8 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		
 		//Now we can have duplicates so remove any that match more than once
 		Set<String> aSet = new HashSet<String>();
-		List<EarnCodeSecurity> aList = new ArrayList<EarnCodeSecurity>();
-		for(EarnCodeSecurity dec : decs){
+		List<EarnCodeSecurityBo> aList = new ArrayList<EarnCodeSecurityBo>();
+		for(EarnCodeSecurityBo dec : decs){
 			if(!aSet.contains(dec.getEarnCode())){
 				aList.add(dec);
 				aSet.add(dec.getEarnCode());
@@ -123,20 +123,20 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
 	@Override
-	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId) {
+	public EarnCodeSecurityBo getEarnCodeSecurity(String hrEarnCodeSecId) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("hrEarnCodeSecurityId", hrEarnCodeSecId);
 		
-		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
-		return (EarnCodeSecurity)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(EarnCodeSecurityBo.class, crit);
+		return (EarnCodeSecurityBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
+	public List<EarnCodeSecurityBo> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
 														   String active, String showHistory) {
 		
-		List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
+		List<EarnCodeSecurityBo> results = new ArrayList<EarnCodeSecurityBo>();
 
         Criteria root = new Criteria();
 
@@ -180,11 +180,11 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EarnCodeSecurity.class, effectiveDateFilter, EarnCodeSecurity.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurity.class, EarnCodeSecurity.BUSINESS_KEYS, false));
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EarnCodeSecurityBo.class, effectiveDateFilter, EarnCodeSecurityBo.BUSINESS_KEYS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurityBo.class, EarnCodeSecurityBo.BUSINESS_KEYS, false));
         }
         
-        Query query = QueryFactory.newQuery(EarnCodeSecurity.class, root);
+        Query query = QueryFactory.newQuery(EarnCodeSecurityBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
@@ -211,7 +211,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       if(hrDeptEarnCodeId != null) {
     	  crit.addEqualTo("hrEarnCodeSecurityId", hrDeptEarnCodeId);
       }
-      Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
+      Query query = QueryFactory.newQuery(EarnCodeSecurityBo.class, crit);
       return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 	
@@ -226,13 +226,13 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		else {
 			return 0;
 		}
-		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
+		Query query = QueryFactory.newQuery(EarnCodeSecurityBo.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 	
 	
 	@Override
-	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+	public List<EarnCodeSecurityBo> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
 			String active, LocalDate effdt) {
 	  Criteria crit = new Criteria();
       crit.addEqualTo("earnCode", earnCode);
@@ -246,16 +246,16 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
     	  crit.addEqualTo("payrollProcessor", payrollProcessor);
       }
       crit.addEqualTo("active", active);
-      crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurity.class, effdt, EarnCodeSecurity.BUSINESS_KEYS, false));
+      crit.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurityBo.class, effdt, EarnCodeSecurityBo.BUSINESS_KEYS, false));
       
-      Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
+      Query query = QueryFactory.newQuery(EarnCodeSecurityBo.class, crit);
       
-      List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
+      List<EarnCodeSecurityBo> results = new ArrayList<EarnCodeSecurityBo>();
       results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
       
    // dept and salGroup allow wildcards,
-      List<EarnCodeSecurity> finalResults = new ArrayList<EarnCodeSecurity>();
-      for(EarnCodeSecurity aSecurity : results) {
+      List<EarnCodeSecurityBo> finalResults = new ArrayList<EarnCodeSecurityBo>();
+      for(EarnCodeSecurityBo aSecurity : results) {
     	 if((StringUtils.isNotEmpty(dept) && ValidationUtils.wildCardMatch(aSecurity.getDept(), dept))
     		 && (StringUtils.isNotEmpty(salGroup) && ValidationUtils.wildCardMatch(aSecurity.getHrSalGroup(), salGroup))) {
     		 // location is not a required field, it allows wild card

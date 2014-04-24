@@ -22,12 +22,14 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.api.earncode.security.service.EarnCodeSecurityService;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
-import org.kuali.kpme.core.earncode.security.dao.EarnCodeSecurityDao;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
+import org.kuali.kpme.core.earncode.security.dao.EarnCodeSecurityDao;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -41,12 +43,13 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 
 	@Override
 	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate) {
-		return earnCodeSecurityDao.getEarnCodeSecurities(department, hrSalGroup, location, asOfDate);
+		return ModelObjectUtils.transform(earnCodeSecurityDao.getEarnCodeSecurities(department, hrSalGroup, location, asOfDate),EarnCodeSecurityBo.toImmutable);
+		
 	}
 
 	@Override
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId) {
-		return earnCodeSecurityDao.getEarnCodeSecurity(hrEarnCodeSecId);
+		return EarnCodeSecurityBo.to(earnCodeSecurityDao.getEarnCodeSecurity(hrEarnCodeSecId));
 	}
 
 	@Override
@@ -57,8 +60,8 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 			String earnCodeType) {
 		List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
 		
- 		List<EarnCodeSecurity> earnCodeSecurityObjs = earnCodeSecurityDao.searchEarnCodeSecurities(dept, salGroup, earnCode, location, fromEffdt,
-								toEffdt, active, showHistory);
+ 		List<EarnCodeSecurity> earnCodeSecurityObjs = ModelObjectUtils.transform(earnCodeSecurityDao.searchEarnCodeSecurities(dept, salGroup, earnCode, location, fromEffdt,
+								toEffdt, active, showHistory),EarnCodeSecurityBo.toImmutable);
  		if(StringUtils.isBlank(earnCodeType)) {
  			results.addAll(earnCodeSecurityObjs);
  		} else {
@@ -107,7 +110,7 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept,
 			String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
 			String location, String active, LocalDate effdt) {
-		return earnCodeSecurityDao.getEarnCodeSecurityList(dept, salGroup, earnCode, employee, approver, payrollProcessor, location, active, effdt);
+		return ModelObjectUtils.transform(earnCodeSecurityDao.getEarnCodeSecurityList(dept, salGroup, earnCode, employee, approver, payrollProcessor, location, active, effdt),EarnCodeSecurityBo.toImmutable);
 	}
 
 }

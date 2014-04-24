@@ -25,7 +25,7 @@
 	<bean id="EarnCodeSecurity" parent="EarnCodeSecurity-parentBean" />
 
 	<bean id="EarnCodeSecurity-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo" />
 		<property name="attributes">
 			<list merge="true">
                 <ref bean="EarnCodeSecurity-hrEarnCodeSecurityId" />
@@ -123,7 +123,7 @@
 	
 	<bean id="EarnCodeSecurity-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Earn Code Security Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
           <list>      
@@ -160,7 +160,7 @@
 	
 	<bean id="EarnCodeSecurity-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
 		<property name="headerText" value="Earn Code Security Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo" />
          <property name="viewHelperServiceClass" value="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityLookupableImpl" />
         <property name="criteriaFields">
             <list>
@@ -220,7 +220,7 @@
 	<bean id="EarnCodeSecurity-MaintenanceView" parent="EarnCodeSecurity-EarnCodeSecurityMaintenance-parentBean" />
 	<bean id="EarnCodeSecurity-EarnCodeSecurityMaintenance-parentBean" abstract="true" parent="KPMEUif-MaintenanceView">
 		<property name="headerText" value="Earn Code Security Maintenance" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurity" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo" />
 		<property name="items">
 			<list merge="true">
 				<bean parent="Uif-MaintenanceGridSection">

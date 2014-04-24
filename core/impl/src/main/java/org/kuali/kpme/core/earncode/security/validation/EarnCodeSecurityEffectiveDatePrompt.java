@@ -16,7 +16,7 @@
 package org.kuali.kpme.core.earncode.security.validation;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.web.KPMEHrObjectNewerVersionPromptBase;
 
@@ -24,7 +24,7 @@ public class EarnCodeSecurityEffectiveDatePrompt extends KPMEHrObjectNewerVersio
     
 	@Override
     protected boolean doesNewerVersionExist(HrBusinessObject pbo) {
-        EarnCodeSecurity earnCodeSecurity = (EarnCodeSecurity) pbo;
+        EarnCodeSecurityBo earnCodeSecurity = (EarnCodeSecurityBo) pbo;
         int numberOfNewer = HrServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(earnCodeSecurity.getEarnCode(), earnCodeSecurity.getEffectiveLocalDate());
         return numberOfNewer > 0;
     }

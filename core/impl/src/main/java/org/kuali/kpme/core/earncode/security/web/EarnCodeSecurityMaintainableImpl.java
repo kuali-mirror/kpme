@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -35,7 +35,7 @@ public class EarnCodeSecurityMaintainableImpl extends HrBusinessObjectMaintainab
 	
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
-		EarnCodeSecurity departmentEarnCode = (EarnCodeSecurity) this.getBusinessObject();
+		EarnCodeSecurityBo departmentEarnCode = (EarnCodeSecurityBo) this.getBusinessObject();
 		int count = HrServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveLocalDate());
 		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
@@ -52,6 +52,6 @@ public class EarnCodeSecurityMaintainableImpl extends HrBusinessObjectMaintainab
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurity(id);
+		return EarnCodeSecurityBo.from(HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurity(id));
 	}
 }

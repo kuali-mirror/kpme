@@ -18,19 +18,19 @@ package org.kuali.kpme.core.earncode.security.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 
 public interface EarnCodeSecurityDao {
 
-	public void saveOrUpdate(EarnCodeSecurity earnCodeSecurity);
+	public void saveOrUpdate(EarnCodeSecurityBo earnCodeSecurity);
 
-	public void saveOrUpdate(List<EarnCodeSecurity> earnCodeSecList);
+	public void saveOrUpdate(List<EarnCodeSecurityBo> earnCodeSecList);
 
-	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hr_sal_group, String location, LocalDate asOfDate);
+	public List<EarnCodeSecurityBo> getEarnCodeSecurities(String department, String hr_sal_group, String location, LocalDate asOfDate);
 
-	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
+	public EarnCodeSecurityBo getEarnCodeSecurity(String hrEarnCodeSecId);
 	
-	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
+	public List<EarnCodeSecurityBo> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
 														   String active, String showHistory);
 	
 	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
@@ -38,7 +38,7 @@ public interface EarnCodeSecurityDao {
 	
 	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt);
 	
-	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept,
+	public List<EarnCodeSecurityBo> getEarnCodeSecurityList(String dept,
 			String salGroup, String earnCode, String employee, String approver, String payrollProcessor, 
 			String location, String active, LocalDate effdt);
 }

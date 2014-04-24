@@ -20,11 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -32,6 +34,13 @@ import org.kuali.rice.krad.web.form.LookupForm;
 
 public class EarnCodeSecurityLookupableImpl extends KPMELookupableImpl{
 
+	private static final ModelObjectUtils.Transformer<EarnCodeSecurity, EarnCodeSecurityBo> toEarnCodeSecurityBo =
+            new ModelObjectUtils.Transformer<EarnCodeSecurity, EarnCodeSecurityBo>() {
+                public EarnCodeSecurityBo transform(EarnCodeSecurity input) {
+                    return EarnCodeSecurityBo.from(input);
+                };
+            };
+            
 	@Override
 	protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
 		String salGroup = searchCriteria.get("hrSalGroup");
@@ -44,12 +53,12 @@ public class EarnCodeSecurityLookupableImpl extends KPMELookupableImpl{
         String showHist = searchCriteria.get("history");
         String earnCodeType = searchCriteria.get("earnCodeType");
         
-        List<EarnCodeSecurity> searchResults = new ArrayList<EarnCodeSecurity>();
-        List<EarnCodeSecurity> rawSearchResults = (List<EarnCodeSecurity>) HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
-                        TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType);
+        List<EarnCodeSecurityBo> searchResults = new ArrayList<EarnCodeSecurityBo>();
+        List<EarnCodeSecurityBo> rawSearchResults = ModelObjectUtils.transform(HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
+                        TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType), toEarnCodeSecurityBo );
         
         if(rawSearchResults != null && !rawSearchResults.isEmpty()) {
-                for(EarnCodeSecurity ecs : rawSearchResults) {
+                for(EarnCodeSecurityBo ecs : rawSearchResults) {
                         ecs.setEarnCodeType(HrConstants.EARN_CODE_SECURITY_TYPE.get(ecs.getEarnCodeType()));
                         searchResults.add(ecs);
                 }

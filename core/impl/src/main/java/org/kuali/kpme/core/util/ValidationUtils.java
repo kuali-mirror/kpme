@@ -39,7 +39,7 @@ import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
@@ -448,7 +448,7 @@ public class ValidationUtils {
         return calendar != null;
 	}
 
-   public static boolean duplicateDeptEarnCodeExists(EarnCodeSecurity deptEarnCode) {
+   public static boolean duplicateDeptEarnCodeExists(EarnCodeSecurityBo deptEarnCode) {
 	   boolean valid = false;
 	   int count = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
-import org.kuali.kpme.core.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
 @SuppressWarnings("deprecation")
@@ -33,8 +33,8 @@ public class EarnCodeSecurityAuthorizer extends KPMEMaintenanceDocumentAuthorize
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
 		
-		if (dataObject instanceof EarnCodeSecurity) {
-			EarnCodeSecurity earnCodeSecurityObj = (EarnCodeSecurity) dataObject;
+		if (dataObject instanceof EarnCodeSecurityBo) {
+			EarnCodeSecurityBo earnCodeSecurityObj = (EarnCodeSecurityBo) dataObject;
 			
 			if (earnCodeSecurityObj != null) {
 				department = StringUtils.equals(earnCodeSecurityObj.getDept(), "%") ? StringUtils.EMPTY : earnCodeSecurityObj.getDept();
