@@ -29,7 +29,7 @@ function preSubmitDownloadForm(methodToCall) {
 
 function onConfirm(methodToCall){
 	nonAjaxSubmitForm(methodToCall);
-	var delay=500;
+	var delay=2000;
 	setTimeout(function(){
 		var hash = top.window.location.toString();
 		hash = hash.replace('&lightbox=true', '');
