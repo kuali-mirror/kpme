@@ -162,7 +162,7 @@ public class LeavePlanBo extends HrBusinessObject implements LeavePlanContract {
         lp.setCalendarYearStart(im.getCalendarYearStart());
         lp.setPlanningMonths(im.getPlanningMonths());
         lp.setBatchPriorYearCarryOverStartDate(im.getBatchPriorYearCarryOverStartDate());
-        lp.setBatchPriorYearCarryOverStartTime(im.getBatchPriorYearCarryOverStartLocalTime() == null ? null : new Time(im.getBatchPriorYearCarryOverStartLocalTime().getMillisOfDay()));
+        lp.setBatchPriorYearCarryOverStartTime(im.getBatchPriorYearCarryOverStartLocalTime() == null ? null : new Time(im.getBatchPriorYearCarryOverStartLocalTime().toDateTimeToday().getMillis()));
 
         lp.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
         lp.setActive(im.isActive());

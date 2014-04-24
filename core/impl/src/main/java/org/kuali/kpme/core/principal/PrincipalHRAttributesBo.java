@@ -17,6 +17,7 @@ package org.kuali.kpme.core.principal;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
@@ -26,7 +27,9 @@ import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.common.collect.ImmutableList;
@@ -85,6 +88,7 @@ public class PrincipalHRAttributesBo extends HrBusinessObject implements Princip
 	private transient CalendarBo leaveCalObj;
 	private transient Person person;
 	private transient LeavePlanBo leavePlanObj;
+    private transient IdentityService identityService;
 
 	
 	@Override
@@ -100,13 +104,16 @@ public class PrincipalHRAttributesBo extends HrBusinessObject implements Princip
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
-		person = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 	}
 
 	public String getName() {
-		 if (person == null) {
-	            person = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
-	    }
+		if (person == null) {
+            EntityNamePrincipalName name = getIdentityService().getDefaultNamesForPrincipalId(this.principalId);
+            if (name != null) {
+                return name.getDefaultName().getCompositeName();
+            }
+            return StringUtils.EMPTY;
+        }
 	    return (person != null) ? person.getName() : "";
 	}
 
@@ -183,7 +190,8 @@ public class PrincipalHRAttributesBo extends HrBusinessObject implements Princip
 	}
 
 	public LeavePlanBo getLeavePlanObj() {
-        if (leavePlanObj == null) {
+        if (leavePlanObj == null
+                && StringUtils.isNotEmpty(leavePlan)) {
             leavePlanObj = LeavePlanBo.from(HrServiceLocator.getLeavePlanService().getLeavePlan(leavePlan,getEffectiveLocalDate()));
         }
 		return leavePlanObj;
@@ -231,6 +239,17 @@ public class PrincipalHRAttributesBo extends HrBusinessObject implements Princip
 	public void setHrPrincipalAttributeId(String hrPrincipalAttributeId) {
 		this.hrPrincipalAttributeId = hrPrincipalAttributeId;
 	}
+
+    public IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = KimApiServiceLocator.getIdentityService();
+        }
+        return identityService;
+    }
+
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
 
     public static PrincipalHRAttributesBo from(PrincipalHRAttributes im) {
         if (im == null) {

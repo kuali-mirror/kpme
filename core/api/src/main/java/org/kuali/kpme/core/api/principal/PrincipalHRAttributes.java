@@ -101,7 +101,7 @@ public final class PrincipalHRAttributes
      *
      */
     private PrincipalHRAttributes() {
-        this.name = null;
+        this.name = "";
         this.leavePlan = null;
         this.serviceLocalDate = null;
         this.fmlaEligible = false;

@@ -67,6 +67,7 @@
         <kuali.release.goals>pre-site deploy</kuali.release.goals>
         <kuali.release.arguments>-DskipTests</kuali.release.arguments>
         <log4j.version>1.2.16</log4j.version>
+        <mockito.version>1.9.0</mockito.version>
         <mysql.jdbc.version>5.1.23</mysql.jdbc.version>
         <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
         <mysql-connector-java.jar.location>${jdbc.drivers.location}/mysql/${mysql.jdbc.artifactId}/${mysql.jdbc.version}/${mysql.jdbc.artifactId}-${mysql.jdbc.version}.jar</mysql-connector-java.jar.location>
@@ -213,6 +214,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

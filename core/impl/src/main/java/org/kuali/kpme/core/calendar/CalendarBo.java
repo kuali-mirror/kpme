@@ -187,7 +187,7 @@ public class CalendarBo extends PersistableBusinessObjectBase implements Calenda
         cal.setCalendarName(im.getCalendarName());
         cal.setCalendarDescriptions(im.getCalendarDescriptions());
         cal.setFlsaBeginDay(im.getFlsaBeginDay());
-        cal.setFlsaBeginTime(im.getFlsaBeginLocalTime() == null ? null : new Time(im.getFlsaBeginLocalTime().getMillisOfDay()));
+        cal.setFlsaBeginTime(im.getFlsaBeginLocalTime() == null ? null : new Time(im.getFlsaBeginLocalTime().toDateTimeToday().getMillisOfDay()));
         cal.setCalendarTypes(im.getCalendarTypes());
         cal.setFlsaBeginDayConstant(im.getFlsaBeginDayConstant());
 
