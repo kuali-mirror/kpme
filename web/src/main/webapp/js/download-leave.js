@@ -19,7 +19,7 @@ function preSubmitDownloadForm(methodToCall) {
 	if(valid){
 		ajaxSubmitForm(methodToCall);
 		setupOnChangeRefresh('calendarCount', 'eventCount', '');
-		var delay=500;
+		var delay=1000;
 		setTimeout(function(){
 			showLightboxComponent('Download-DialogGroup-ProgressiveDialogGroup');
 		},delay);
@@ -29,7 +29,7 @@ function preSubmitDownloadForm(methodToCall) {
 
 function onConfirm(methodToCall){
 	nonAjaxSubmitForm(methodToCall);
-	var delay=2000;
+	var delay=1000;
 	setTimeout(function(){
 		var hash = top.window.location.toString();
 		hash = hash.replace('&lightbox=true', '');
