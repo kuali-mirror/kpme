@@ -264,17 +264,6 @@ public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecu
 	 
 	    return ecs;
 	}
-
-	public static void copyCommonFields(HrBusinessObject dest, KpmeEffectiveDataTransferObject src) {
-	    dest.setEffectiveDate(src.getEffectiveLocalDate() == null ? null : src.getEffectiveLocalDate().toDate());
-	    dest.setActive(src.isActive());
-	    if (src.getCreateTime() != null) {
-	        dest.setTimestamp(new Timestamp(src.getCreateTime().getMillis()));
-	    }
-	    dest.setUserPrincipalId(src.getUserPrincipalId());
-	    dest.setVersionNumber(src.getVersionNumber());
-	    dest.setObjectId(src.getObjectId());
-	}
 	
 	public static EarnCodeSecurity to(EarnCodeSecurityBo bo) {
 	    if (bo == null) {
