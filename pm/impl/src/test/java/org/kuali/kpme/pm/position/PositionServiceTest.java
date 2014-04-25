@@ -32,8 +32,7 @@ public class PositionServiceTest extends PMIntegrationTestCase {
 	private final String hrPositionId = "1";
 	private final String positionNum = "1";
 	private final String description = "testPosition";
-	private final String institution = "IU";
-	private final String location = "IN";
+	private final String groupKeyCode = "UGA-GA";
 	private final String classificationTitle = "HOURLY";
 	private final String positionType = "HOURLY";
 	private final String poolEligible = "N";
@@ -64,7 +63,7 @@ public class PositionServiceTest extends PMIntegrationTestCase {
 	@Test
 	public void testGetPositions() throws Exception {
 		List<? extends PositionContract> positionContracts = PmServiceLocator.getPositionService().getPositions(
-				positionNum, description, location, institution, classificationTitle, 
+				positionNum, description, groupKeyCode, classificationTitle, 
 				positionType, poolEligible, positionStatus, null, null, active, showHistory);
 			
 		assertTrue(positionContracts.size() == 1);

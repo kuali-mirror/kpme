@@ -143,10 +143,8 @@
   <bean id="Institution-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
     <property name="headerText" value="Institution Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.institution.InstitutionBo" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl" />
     <property name="criteriaFields">
       <list>
-		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institutionCode" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />

@@ -52,8 +52,7 @@ public class PositionLookupableImpl extends KPMELookupableImpl {
             positionNum = "";
         }
         
-        List<? extends PositionContract> posContrasts = PmServiceLocator.getPositionService().getPositions(positionNum, description, location,
-                        institution, classificationTitle, positionType, poolEligible, positionStatus, TKUtils.formatDateString(fromEffdt),
+        List<? extends PositionContract> posContrasts = PmServiceLocator.getPositionService().getPositions(positionNum, description, null, classificationTitle, positionType, poolEligible, positionStatus, TKUtils.formatDateString(fromEffdt),
                         TKUtils.formatDateString(toEffdt), active, showHist);
         
         if (StringUtils.isEmpty(primaryDepartment)) {

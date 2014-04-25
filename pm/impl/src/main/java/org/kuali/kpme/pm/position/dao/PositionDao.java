@@ -22,5 +22,5 @@ import org.kuali.kpme.pm.position.PositionBo;
 
 public interface PositionDao {
 	public PositionBo getPosition(String id);
-	public List<PositionBo> getPositions(String positionNum, String description, String location, String institution, String classificationTitle, String positionType, String poolEligible, String positionStatus, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+	public List<PositionBo> getPositions(String positionNum, String description, String groupKeycode, String classificationTitle, String positionType, String poolEligible, String positionStatus, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

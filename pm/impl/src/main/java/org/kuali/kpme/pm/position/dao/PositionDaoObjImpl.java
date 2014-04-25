@@ -38,9 +38,9 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
         return (PositionBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<PositionBo> getPositions(String positionNum, String description, String location,
-            String institution, String classificationTitle, String positionType, String poolEligible, String positionStatus,
+	public List<PositionBo> getPositions(String positionNum, String description, String grpKeyCode, String classificationTitle, String positionType, String poolEligible, String positionStatus,
 			LocalDate fromEffdt, LocalDate toEffdt, String active,
 			String showHistory) {
 		List<PositionBo> results = new ArrayList<PositionBo>();
@@ -56,12 +56,8 @@ public class PositionDaoObjImpl extends PlatformAwareDaoBaseOjb implements Posit
             root.addLike("UPPER(description)", description.toUpperCase());
         }
 
-        if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(location)", location.toUpperCase());
-        }
-
-        if (StringUtils.isNotBlank(institution)) {
-            root.addLike("UPPER(institution)", institution.toUpperCase());
+        if (StringUtils.isNotBlank(grpKeyCode)) {
+            root.addLike("UPPER(`GRP_KEY_CD`)", grpKeyCode.toUpperCase());
         }
 
         if (StringUtils.isNotBlank(classificationTitle)) {
