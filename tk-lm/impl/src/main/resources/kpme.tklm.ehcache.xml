@@ -41,4 +41,6 @@
     <cache name="http://kpme.kuali.org/tklm/TimeCollectionRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="http://kpme.kuali.org/tklm/UserPreferences" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
     <cache name="http://kpme.kuali.org/tklm/WeeklyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="http://kpme.kuali.org/tklm/ShiftDifferentialRuleType" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    
 </ehcache>

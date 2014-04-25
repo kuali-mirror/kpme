@@ -723,7 +723,7 @@ public class ValidationUtils {
             //   return ValidationUtils.isWildCard(salGroup.getLocation()) || StringUtils.equals(salGroup.getLocation(), location);
 			//}
 			
-			if (salGroup != null && StringUtils.isNotBlank(salGroup.getGroupKey().getLocation().getLocation())) {
+			if (salGroup != null && salGroup.getGroupKey() != null && salGroup.getGroupKey().getLocation() != null && StringUtils.isNotBlank(salGroup.getGroupKey().getLocation().getLocation())) {
                 return ValidationUtils.isWildCard(salGroup.getGroupKey().getLocation().getLocation()) || StringUtils.equals(salGroup.getGroupKey().getLocation().getLocation(), location);
 			}
 		}
@@ -747,4 +747,5 @@ public class ValidationUtils {
 		}
 		return valid;
 	}
+	
 }

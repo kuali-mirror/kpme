@@ -53,6 +53,7 @@
 				<ref bean="ShiftDifferentialRule-sunday" />
 				<ref bean="ShiftDifferentialRule-maxGap" />
 				<ref bean="ShiftDifferentialRule-pyCalendarGroup" />
+				<ref bean="ShiftDifferentialRule-ruleType" />
 				<ref bean="ShiftDifferentialRule-fromEarnGroup" />
 				<ref bean="ShiftDifferentialRule-hrSalGroupId" />
 				<ref bean="ShiftDifferentialRule-hrLocationId" />
@@ -153,6 +154,22 @@
                         </list>
                     </property>
 				</bean>
+				
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="ruleTypeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="ruleType"
+								p:targetName="name" />
+						</list>
+					</property>
+                    <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
+                    </property>
+				</bean>
 
 
 			</list>
@@ -186,7 +203,18 @@
 	<bean id="ShiftDifferentialRule-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade" >
 
     </bean>
-
+    
+	<bean id="ShiftDifferentialRule-ruleType" parent="ShiftDifferentialRule-ruleType-parentBean" />
+	<bean id="ShiftDifferentialRule-ruleType-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="ruleType"/>
+	    <property name="label" value="Rule Type Name "/>
+	    <property name="shortLabel" value="Rule Type Name"/>
+	    <property name="maxLength" value="60"/>
+	    <property name="required" value="true"/>
+	    <property name="control">
+	      <bean parent="TextControlDefinition" p:size="20"/>
+	    </property>
+	</bean>
 
 	<!-- earnCode -->
 	<bean id="ShiftDifferentialRule-earnCode" parent="ShiftDifferentialRule-earnCode-parentBean" />
@@ -385,6 +413,7 @@
 							<bean parent="FieldDefinition" p:attributeName="maxGap" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup" />
+							<bean parent="FieldDefinition" p:attributeName="ruleType" />
                             <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
                                   p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
                             <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />

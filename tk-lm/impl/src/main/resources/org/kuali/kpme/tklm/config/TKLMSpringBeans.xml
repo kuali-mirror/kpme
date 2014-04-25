@@ -138,6 +138,8 @@
     <bean id="weeklyOvertimeRuleDao" class="org.kuali.kpme.tklm.time.rules.overtime.weekly.dao.WeeklyOvertimeRuleDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="shiftDifferentialRuleDao" class="org.kuali.kpme.tklm.time.rules.shiftdifferential.dao.ShiftDifferentialRuleDaoOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="shiftDifferentialRuleTypeDao" class="org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.dao.ShiftDifferentialRuleTypeDaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="gracePeriodDao" class="org.kuali.kpme.tklm.time.rules.graceperiod.dao.GracePeriodDaoOjbImpl" parent="platformAwareDao" />
 
@@ -318,6 +320,11 @@
     <bean id="shiftDifferentialRuleService"
           class="org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleServiceImpl">
         <property name="shiftDifferentialRuleDao" ref="shiftDifferentialRuleDao"/>
+    </bean>
+
+    <bean id="shiftDifferentialRuleTypeService"
+          class="org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.service.ShiftDifferentialRuleTypeServiceImpl">
+        <property name="shiftDifferentialRuleTypeDao" ref="shiftDifferentialRuleTypeDao"/>
     </bean>
 
     <bean id="dailyOvertimeRuleService"

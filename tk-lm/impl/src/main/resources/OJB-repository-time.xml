@@ -252,6 +252,7 @@
         <field-descriptor name="pyCalendarGroup"    column="PY_CALENDAR_GROUP"      jdbc-type="VARCHAR"     length="30" />
         <field-descriptor name="fromEarnGroup"      column="FROM_EARN_GROUP"        jdbc-type="VARCHAR"     length="10" />
         <field-descriptor name="maxGap"             column="MAX_GAP"                jdbc-type="DECIMAL"     primarykey="false" />
+        <field-descriptor name="ruleType"           column="RULE_TYP_NM"           	jdbc-type="VARCHAR"     length="60" />
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" />
         <field-descriptor name="timestamp"          column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false"    conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
@@ -352,6 +353,21 @@
         <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    <!-- ShiftDifferentialRuleType -->
+    <!-- Business Keys - [name : effectiveDate : timestamp] -->
+    <class-descriptor class="org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.ShiftDifferentialRuleType" table="TK_SHIFT_DIFFERENTIAL_RL_TYP_T">
+        <field-descriptor name="tkShiftDiffRuleTypeId"  column="TK_SHIFT_DIFF_RL_TYP_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_SHIFT_DIFFERENTIAL_RL_TYP_S" />
+        <field-descriptor name="namespace"              column="NMSPC_CD"                   jdbc-type="VARCHAR"     length="40" />
+        <field-descriptor name="name"                   column="TYP_NM"           			jdbc-type="VARCHAR"     length="60" />
+        <field-descriptor name="serviceName"           	column="SERVICE_NM"              	jdbc-type="VARCHAR"     length="100" />
+        <field-descriptor name="effectiveDate"     		column="EFFDT"		                jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"          jdbc-type="VARCHAR"     length="40" />
+        <field-descriptor name="timestamp"          	column="TIMESTAMP"              	jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="active"             	column="ACTIVE"                 	jdbc-type="VARCHAR"     length="1" nullable="false"    conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId"           	column="OBJ_ID"             		jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      	column="VER_NBR"            		jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
 </descriptor-repository>

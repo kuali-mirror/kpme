@@ -76,6 +76,7 @@
 				<bean parent="MaintainableFieldDefinition" p:name="friday" />
 				<bean parent="MaintainableFieldDefinition" p:name="saturday" />
 				<bean parent="MaintainableFieldDefinition" p:name="maxGap" p:required="true" p:defaultValue="0"/>
+				<bean parent="MaintainableFieldDefinition" p:name="ruleType"/>
 				<bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" />
 				<bean parent="MaintainableFieldDefinition" p:name="pyCalendarGroup"  p:required="true"/>

@@ -17,11 +17,14 @@ package org.kuali.kpme.tklm.time.service;
 //import org.kuali.hr.time.paytype.service.PayTypeService;
 //import org.kuali.hr.time.permission.service.TKPermissionService;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchService;
+import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailService;
+import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryService;
 import org.kuali.kpme.tklm.common.BatchJobService;
 import org.kuali.kpme.tklm.time.approval.service.TimeApproveService;
-import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
 import org.kuali.kpme.tklm.time.docsearch.TkSearchableAttributeService;
-import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunchService;
 import org.kuali.kpme.tklm.time.missedpunch.document.MissedPunchDocumentService;
 import org.kuali.kpme.tklm.time.rules.TkRuleControllerService;
 import org.kuali.kpme.tklm.time.rules.clocklocation.service.ClockLocationRuleService;
@@ -30,15 +33,13 @@ import org.kuali.kpme.tklm.time.rules.lunch.department.service.DepartmentLunchRu
 import org.kuali.kpme.tklm.time.rules.lunch.sys.service.SystemLunchRuleService;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.service.DailyOvertimeRuleService;
 import org.kuali.kpme.tklm.time.rules.overtime.weekly.service.WeeklyOvertimeRuleService;
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.service.ShiftDifferentialRuleTypeService;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleService;
 import org.kuali.kpme.tklm.time.rules.timecollection.service.TimeCollectionRuleService;
 import org.kuali.kpme.tklm.time.service.permission.TKPermissionService;
 import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryDetailService;
 import org.kuali.kpme.tklm.time.timeblock.service.TimeBlockHistoryService;
-import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
-import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailService;
 import org.kuali.kpme.tklm.time.timesheet.service.TimesheetService;
-import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryService;
 import org.kuali.kpme.tklm.time.user.pref.service.UserPreferenceService;
 import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -74,6 +75,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_MISSED_PUNCH_SERVICE = "missedPunchService";
     public static final String TK_MISSED_PUNCH_DOC_SERVICE = "missedPunchDocumentService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
+    public static final String TK_SHIFT_DIFFERENTIAL_RULE_TYPE_SERVICE = "shiftDifferentialRuleTypeService";
 
     public static final String TK_PERMISSION_SERVICE = "tkPermissionService";
 
@@ -177,6 +179,10 @@ public class TkServiceLocator implements ApplicationContextAware {
     	return (TKPermissionService) CONTEXT.getBean(TK_PERMISSION_SERVICE);
     }
 	
+	public static ShiftDifferentialRuleTypeService getShiftDifferentialRuleTypeService() {
+		return (ShiftDifferentialRuleTypeService) CONTEXT.getBean(TK_SHIFT_DIFFERENTIAL_RULE_TYPE_SERVICE);
+	}
+
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;

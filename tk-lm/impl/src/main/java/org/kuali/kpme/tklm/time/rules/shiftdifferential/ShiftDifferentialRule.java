@@ -27,6 +27,7 @@ import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.tklm.api.time.rules.shiftdifferential.ShiftDifferentialRuleContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.TkRule;
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.ShiftDifferentialRuleType;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -87,6 +88,7 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 	private String fromEarnGroup;
 	private String pyCalendarGroup;
 	private BigDecimal maxGap; // Gap is in HOURS
+	private String ruleType;
 
 	private String hrSalGroupId;
 	private String hrLocationId;
@@ -100,6 +102,7 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
     private CalendarBo payCalendar;
     private LocationBo locationObj;
     private PayGradeBo payGradeObj;
+    private ShiftDifferentialRuleType ruleTypeObj;
     
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -345,6 +348,14 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 		this.hrPayGradeId = hrPayGradeId;
 	}
 
+	public ShiftDifferentialRuleType getRuleTypeObj() {
+		return ruleTypeObj;
+	}
+
+	public void setRuleTypeObj(ShiftDifferentialRuleType ruleTypeObj) {
+		this.ruleTypeObj = ruleTypeObj;
+	}
+
 	@Override
 	public String getUniqueKey() {
 		return location + "_" + hrSalGroup + "_" + payGrade + "_" + earnCode;
@@ -366,6 +377,14 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 
 	public void setHistory(boolean history) {
 		this.history = history;
+	}
+	
+	public String getRuleType() {
+		return ruleType;
+	}
+
+	public void setRuleType(String ruleType) {
+		this.ruleType = ruleType;
 	}
 
 	/* (non-Javadoc)
