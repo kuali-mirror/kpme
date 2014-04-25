@@ -161,18 +161,9 @@ public static final ModelObjectUtils.Transformer<EarnCodeGroup, EarnCodeGroupBo>
         ecg.setEarnCodeGroup(im.getEarnCodeGroup());
         ecg.setDescr(im.getDescr());
         ecg.setWarningText(im.getWarningText());
+               
+        copyCommonFields(ecg, im);
         
-        /*ecg.setCalendar(CalendarBo.from(im.getCalendar()));
-        ecg.setLeaveCalObj(CalendarBo.from(im.getLeaveCalObj()));
-        ecg.setLeavePlanObj(LeavePlanBo.from(im.getLeavePlanObj()));*/
-        ecg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
-        ecg.setActive(im.isActive());
-        if (im.getCreateTime() != null) {
-            ecg.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
-        }
-        ecg.setUserPrincipalId(im.getUserPrincipalId());
-        ecg.setVersionNumber(im.getVersionNumber());
-        ecg.setObjectId(im.getObjectId());
         return ecg;
     }
     public static EarnCodeGroup to(EarnCodeGroupBo bo) {
