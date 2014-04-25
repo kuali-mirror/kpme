@@ -472,6 +472,7 @@
         <field-descriptor name="effectiveDate"  column="EFFDT"          jdbc-type="DATE"        nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="userPrincipalId"  column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="groupKeyCode"  	column="GRP_KEY_CD"     jdbc-type="VARCHAR"     length="30"        nullable="false" />
     </class-descriptor>
 
     <!-- Institution -->

@@ -81,7 +81,8 @@
     </bean>
     
     <!-- lookup view for group-keyed effective dated BOs (that have a view link from lookup); the criteria fields list provides the common lookup fields of grp key, institution and location codes. -->
-    <bean id="KPMEUif-GroupKeyedEffectiveDateBOLookupView" parent="KPMEUif-EffectiveDateBOLookupView" abstract="true">
+    <bean id="KPMEUif-GroupKeyedEffectiveDateBOLookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView-parentBean" abstract="true" />
+    <bean id="KPMEUif-GroupKeyedEffectiveDateBOLookupView-parentBean" parent="KPMEUif-EffectiveDateBOLookupView" abstract="true">
     	<property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl" />
     	<property name="criteriaFields">
 		      <list merge="true">
@@ -101,7 +102,12 @@
 			   		 </property>
 		        </bean>		          
 		      </list>
-    	 </property>
+    	</property>
+    	<property name="resultFields">
+    	 	  <list merge="true">
+    	 	  	<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />    	  		
+    	  	  </list>
+    	</property>
     </bean>
     
    

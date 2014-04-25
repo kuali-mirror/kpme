@@ -21,7 +21,7 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
         
 	<bean id="PositionBase" parent="PositionBase-parentBean" />
-	<bean id="PositionBase-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+	<bean id="PositionBase-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.position.PositionBaseBo" />
 		<property name="objectLabel" value="Position" />
 		<property name="lookupDefinition">
@@ -218,12 +218,12 @@
 	
 
 	<!-- Look up Definitions  -->
-	<bean id="PositionBase-LookupView" parent="KPMEUif-EffectiveDateBOLookupView" >
+	<bean id="PositionBase-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView" >
 	    <property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBaseBo" />
 	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionBaseLookupableImpl" />
 	    <property name="criteriaFields">
-			<list>
+			<list merge="true">
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
@@ -232,7 +232,7 @@
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>
+			<list merge="true">
 				<bean parent="Uif-DataField" p:propertyName="positionNumber" >
 					<property name="inquiry">
 	       		 		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBaseBo"

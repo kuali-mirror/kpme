@@ -16,17 +16,24 @@
 package org.kuali.kpme.core.position;
 
 import org.kuali.kpme.core.api.position.PositionBaseContract;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionBaseBo extends HrBusinessObject implements PositionBaseContract {
+public class PositionBaseBo extends HrKeyedBusinessObject implements PositionBaseContract {
+	
+	static class KeyFields {
+		private static final String POSITION_NUMBER = "positionNumber";
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
+	}
 
-	private static final String POSITION_NUMBER = "positionNumber";
+	
 	private static final long serialVersionUID = -3258249005786874634L;
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(POSITION_NUMBER)
+            .add(KeyFields.POSITION_NUMBER)
+            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
 	
@@ -37,7 +44,8 @@ public class PositionBaseBo extends HrBusinessObject implements PositionBaseCont
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(POSITION_NUMBER, this.getPositionNumber())
+			.put(KeyFields.POSITION_NUMBER, this.getPositionNumber())
+			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 	
@@ -80,4 +88,31 @@ public class PositionBaseBo extends HrBusinessObject implements PositionBaseCont
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+//	public static PositionBaseBo from(PositionBase im) {
+//		if (im == null) {
+//            return null;
+//        }		
+//		PositionBaseBo retVal = new PositionBaseBo();
+//		
+//		retVal.setHrPositionId(im.getHrPositionId());
+//		retVal.setPositionNumber(im.getPositionNumber());
+//		retVal.setDescription(im.getDescription());
+//		
+//		retVal.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+//	    retVal.setActive(im.isActive());
+//	    if (im.getCreateTime() != null) {
+//	    	retVal.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+//	    }
+//	    retVal.setUserPrincipalId(im.getUserPrincipalId());
+//	    retVal.setVersionNumber(im.getVersionNumber());
+//	    retVal.setObjectId(im.getObjectId());
+//
+//	    return retVal;
+//	}
+//	
+	
+	
+	
+	
 }

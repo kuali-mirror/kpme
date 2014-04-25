@@ -124,28 +124,28 @@ public interface PositionContract extends PositionBaseContract {
      */
     public String getCategory();
 
-    /**
-     * The Position Institution
-     *
-     * <p>
-     * institution of a Position.
-     * <p>
-     *
-     * @return institution for Position
-     */
-    public String getInstitution();
-
-
-    /**
-     * The Position Location
-     *
-     * <p>
-     * location of a Position.
-     * <p>
-     *
-     * @return location for Position
-     */
-    public String getLocation();
+//    /**
+//     * The Position Institution
+//     *
+//     * <p>
+//     * institution of a Position.
+//     * <p>
+//     *
+//     * @return institution for Position
+//     */
+//    public String getInstitution();
+//
+//
+//    /**
+//     * The Position Location
+//     *
+//     * <p>
+//     * location of a Position.
+//     * <p>
+//     *
+//     * @return location for Position
+//     */
+//    public String getLocation();
 
     /**
      * The Position Salary Group

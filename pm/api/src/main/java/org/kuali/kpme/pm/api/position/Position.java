@@ -26,8 +26,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.position.PositionContract;
@@ -46,7 +48,7 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = Position.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = Position.Constants.TYPE_NAME, propOrder = {
-    Position.Elements.LOCATION,
+//    Position.Elements.LOCATION,
     Position.Elements.BENEFITS_ELIGIBLE,
     Position.Elements.PERCENT_TIME,
     Position.Elements.CLASSIFICATION_TITLE,
@@ -69,7 +71,7 @@ import org.w3c.dom.Element;
     Position.Elements.POSITION_RESPONSIBILITY_LIST,
     Position.Elements.PM_POSITION_CLASS_ID,
     Position.Elements.FUNDING_LIST,
-    Position.Elements.INSTITUTION,
+//    Position.Elements.INSTITUTION,
     Position.Elements.WORK_MONTHS,
     Position.Elements.TEMPORARY,
     Position.Elements.CATEGORY,
@@ -89,14 +91,16 @@ import org.w3c.dom.Element;
     Position.Elements.EFFECTIVE_LOCAL_DATE,
     Position.Elements.CREATE_TIME,
     Position.Elements.USER_PRINCIPAL_ID,
+    Position.Elements.GROUP_KEY_CODE,
+    Position.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class Position extends AbstractDataTransferObject implements PositionContract {
 
 	private static final long serialVersionUID = -3036514710625474302L;
 	
-	@XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
+//	@XmlElement(name = Elements.LOCATION, required = false)
+//    private final String location;
     @XmlElement(name = Elements.BENEFITS_ELIGIBLE, required = false)
     private final String benefitsEligible;
     @XmlElement(name = Elements.PERCENT_TIME, required = false)
@@ -141,8 +145,8 @@ public final class Position extends AbstractDataTransferObject implements Positi
     private final String pmPositionClassId;
     @XmlElement(name = Elements.FUNDING_LIST, required = false)
     private final List<PositionFunding> fundingList;
-    @XmlElement(name = Elements.INSTITUTION, required = false)
-    private final String institution;
+//    @XmlElement(name = Elements.INSTITUTION, required = false)
+//    private final String institution;
     @XmlElement(name = Elements.WORK_MONTHS, required = false)
     private final int workMonths;
     @XmlElement(name = Elements.TEMPORARY, required = false)
@@ -181,6 +185,10 @@ public final class Position extends AbstractDataTransferObject implements Positi
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
+    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
+    private final String groupKeyCode;
+    @XmlElement(name = Elements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
 
@@ -189,7 +197,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
      * 
      */
     private Position() {
-        this.location = null;
+//        this.location = null;
         this.benefitsEligible = null;
         this.percentTime = null;
         this.classificationTitle = null;
@@ -212,7 +220,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
         this.positionResponsibilityList = null;
         this.pmPositionClassId = null;
         this.fundingList = null;
-        this.institution = null;
+//        this.institution = null;
         this.workMonths = 0;
         this.temporary = null;
         this.category = null;
@@ -232,10 +240,12 @@ public final class Position extends AbstractDataTransferObject implements Positi
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
     }
 
     private Position(Builder builder) {
-        this.location = builder.getLocation();
+//        this.location = builder.getLocation();
         this.benefitsEligible = builder.getBenefitsEligible();
         this.percentTime = builder.getPercentTime();
         this.classificationTitle = builder.getClassificationTitle();
@@ -258,7 +268,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
         this.positionResponsibilityList = ModelObjectUtils.<PositionResponsibility>buildImmutableCopy(builder.getPositionResponsibilityList());
         this.pmPositionClassId = builder.getPmPositionClassId();
         this.fundingList = ModelObjectUtils.<PositionFunding>buildImmutableCopy(builder.getFundingList());
-        this.institution = builder.getInstitution();
+//        this.institution = builder.getInstitution();
         this.workMonths = builder.getWorkMonths();
         this.temporary = builder.getTemporary();
         this.category = builder.getCategory();
@@ -278,12 +288,14 @@ public final class Position extends AbstractDataTransferObject implements Positi
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
-    @Override
-    public String getLocation() {
-        return this.location;
-    }
+//    @Override
+//    public String getLocation() {
+//        return this.location;
+//    }
 
     @Override
     public String getBenefitsEligible() {
@@ -395,10 +407,10 @@ public final class Position extends AbstractDataTransferObject implements Positi
         return this.fundingList;
     }
 
-    @Override
-    public String getInstitution() {
-        return this.institution;
-    }
+//    @Override
+//    public String getInstitution() {
+//        return this.institution;
+//    }
 
     @Override
     public int getWorkMonths() {
@@ -494,6 +506,16 @@ public final class Position extends AbstractDataTransferObject implements Positi
     public String getUserPrincipalId() {
         return this.userPrincipalId;
     }
+    
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
+    }
 
 
     /**
@@ -505,7 +527,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
 
 		private static final long serialVersionUID = 1980038289993898352L;
 
-		private String location;
+//		private String location;
         private String benefitsEligible;
         private BigDecimal percentTime;
         private String classificationTitle;
@@ -528,7 +550,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
         private List<PositionResponsibility.Builder> positionResponsibilityList;
         private String pmPositionClassId;
         private List<PositionFunding.Builder> fundingList;
-        private String institution;
+//        private String institution;
         private int workMonths;
         private String temporary;
         private String category;
@@ -548,6 +570,8 @@ public final class Position extends AbstractDataTransferObject implements Positi
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
         
 		private static final ModelObjectUtils.Transformer<PositionDepartmentContract, PositionDepartment.Builder> toPositionDepartmentBuilder = new ModelObjectUtils.Transformer<PositionDepartmentContract, PositionDepartment.Builder>() {
 			public PositionDepartment.Builder transform(PositionDepartmentContract input) {
@@ -590,23 +614,22 @@ public final class Position extends AbstractDataTransferObject implements Positi
 				return ClassificationQualification.Builder.create(input);
 			}
 		};
-
-        private Builder() {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        
+        private Builder(String positionNumber, String groupKeyCode) {
+        	setPositionNumber(positionNumber);
+            setGroupKeyCode(groupKeyCode);
         }
 
-        public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder();
+        public static Builder create(String positionNumber, String groupKeyCode) {
+            return new Builder(positionNumber, groupKeyCode);
         }
 
         public static Builder create(PositionContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create();
-            builder.setLocation(contract.getLocation());
+            Builder builder = create(contract.getPositionNumber(), contract.getGroupKeyCode());
+//            builder.setLocation(contract.getLocation());
             builder.setBenefitsEligible(contract.getBenefitsEligible());
             builder.setPercentTime(contract.getPercentTime());
             builder.setClassificationTitle(contract.getClassificationTitle());
@@ -629,7 +652,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
             builder.setPositionResponsibilityList(ModelObjectUtils.transform(contract.getPositionResponsibilityList(), toPositionResponsibilityBuilder));
             builder.setPmPositionClassId(contract.getPmPositionClassId());
             builder.setFundingList(ModelObjectUtils.transform(contract.getFundingList(), toPositionFundingBuilder));
-            builder.setInstitution(contract.getInstitution());
+//            builder.setInstitution(contract.getInstitution());
             builder.setWorkMonths(contract.getWorkMonths());
             builder.setTemporary(contract.getTemporary());
             builder.setCategory(contract.getCategory());
@@ -639,7 +662,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
             builder.setPayGrade(contract.getPayGrade());
             builder.setDutyList(ModelObjectUtils.transform(contract.getDutyList(), toPositionDutyBuilder));
             builder.setContract(contract.getContract());
-            builder.setPositionNumber(contract.getPositionNumber());
+//            builder.setPositionNumber(contract.getPositionNumber());
             builder.setHrPositionId(contract.getHrPositionId());
             builder.setDescription(contract.getDescription());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -649,6 +672,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -656,10 +680,10 @@ public final class Position extends AbstractDataTransferObject implements Positi
             return new Position(this);
         }
 
-        @Override
-        public String getLocation() {
-            return this.location;
-        }
+//        @Override
+//        public String getLocation() {
+//            return this.location;
+//        }
 
         @Override
         public String getBenefitsEligible() {
@@ -771,10 +795,10 @@ public final class Position extends AbstractDataTransferObject implements Positi
             return this.fundingList;
         }
 
-        @Override
-        public String getInstitution() {
-            return this.institution;
-        }
+//        @Override
+//        public String getInstitution() {
+//            return this.institution;
+//        }
 
         @Override
         public int getWorkMonths() {
@@ -870,11 +894,21 @@ public final class Position extends AbstractDataTransferObject implements Positi
         public String getUserPrincipalId() {
             return this.userPrincipalId;
         }
-
-        public void setLocation(String location) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.location = location;
+        
+        @Override
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
         }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return this.groupKey;
+        }
+
+//        public void setLocation(String location) {
+//            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+//            this.location = location;
+//        }
 
         public void setBenefitsEligible(String benefitsEligible) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
@@ -986,10 +1020,10 @@ public final class Position extends AbstractDataTransferObject implements Positi
             this.fundingList = fundingList;
         }
 
-        public void setInstitution(String institution) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.institution = institution;
-        }
+//        public void setInstitution(String institution) {
+//            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+//            this.institution = institution;
+//        }
 
         public void setWorkMonths(int workMonths) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
@@ -1037,7 +1071,9 @@ public final class Position extends AbstractDataTransferObject implements Positi
         }
 
         public void setPositionNumber(String positionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+        	if (StringUtils.isBlank(positionNumber)) {
+                throw new IllegalArgumentException("position number is blank");
+            }           
             this.positionNumber = positionNumber;
         }
 
@@ -1085,6 +1121,17 @@ public final class Position extends AbstractDataTransferObject implements Positi
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.userPrincipalId = userPrincipalId;
         }
+        
+        public void setGroupKeyCode(String groupKeyCode) {
+        	if (StringUtils.isBlank(groupKeyCode)) {
+                throw new IllegalArgumentException("group key code is blank");
+            }
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
+        }
 
     }
 
@@ -1107,7 +1154,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
      */
     static class Elements {
 
-        final static String LOCATION = "location";
+//        final static String LOCATION = "location";
         final static String BENEFITS_ELIGIBLE = "benefitsEligible";
         final static String PERCENT_TIME = "percentTime";
         final static String CLASSIFICATION_TITLE = "classificationTitle";
@@ -1130,7 +1177,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
         final static String POSITION_RESPONSIBILITY_LIST = "positionResponsibilityList";
         final static String PM_POSITION_CLASS_ID = "pmPositionClassId";
         final static String FUNDING_LIST = "fundingList";
-        final static String INSTITUTION = "institution";
+//        final static String INSTITUTION = "institution";
         final static String WORK_MONTHS = "workMonths";
         final static String TEMPORARY = "temporary";
         final static String CATEGORY = "category";
@@ -1148,6 +1195,8 @@ public final class Position extends AbstractDataTransferObject implements Positi
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
 
     }
 

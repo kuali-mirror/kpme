@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.position;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -30,6 +31,7 @@ import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
+import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
 import org.kuali.kpme.pm.position.funding.PositionFundingBo;
@@ -56,7 +58,6 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
     private List<PositionFundingBo> fundingList = new ArrayList<PositionFundingBo>();
     private List<PositionDepartmentBo> departmentList = new ArrayList<PositionDepartmentBo>();
 
-    private String institution;
     private String salaryGroup;
     private String pmPositionClassId;
     private transient String positionClass;
@@ -72,9 +73,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
     private String poolEligible;
     private int maxPoolHeadCount;
     private String tenureEligible;
-    
-    // KPME-3016
-    private String location; 
+     
     private String process;
     private String positionStatus;
     private String primaryDepartment;
@@ -187,7 +186,8 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.positionClass = positionClass;
     }
 
-    public List<ClassificationQualificationBo> getRequiredQualList() {
+    @SuppressWarnings("unchecked")
+	public List<ClassificationQualificationBo> getRequiredQualList() {
 		if(StringUtils.isNotEmpty(this.getPmPositionClassId())) {
 			// when Position Classification Id is changed, change the requiredQualList with it
 			if(CollectionUtils.isEmpty(requiredQualList) ||
@@ -223,14 +223,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-    public String getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(String institution) {
-        this.institution = institution;
-    }
-
+   
     public String getSalaryGroup() {
         return salaryGroup;
     }
@@ -374,14 +367,6 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.primaryDepartment = primaryDepartment;
     }
 
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
 	public String getReportsToPositionId() {
 		return reportsToPositionId;
 	}
@@ -511,4 +496,26 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		}
 		return retVal;
 	}
+	
+//	public static PositionBo from(Position im) {
+//		if (im == null) {
+//            return null;
+//        }		
+//		PositionBo retVal = new PositionBo();
+//		
+//		retVal.setHrPositionId(im.getHrPositionId());
+//		
+//		
+//		retVal.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+//	    retVal.setActive(im.isActive());
+//	    if (im.getCreateTime() != null) {
+//	    	retVal.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+//	    }
+//	    retVal.setUserPrincipalId(im.getUserPrincipalId());
+//	    retVal.setVersionNumber(im.getVersionNumber());
+//	    retVal.setObjectId(im.getObjectId());
+//
+//	    return retVal;
+//	}
+	
 }

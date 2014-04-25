@@ -21,7 +21,7 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="Position" parent="Position-parentBean" />
-	<bean id="Position-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+	<bean id="Position-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.position.PositionBo" />
 		<property name="objectLabel" value="Position" />
 		<property name="lookupDefinition">
@@ -32,8 +32,6 @@
 				<ref bean="Position-hrPositionId" />
 				<ref bean="Position-positionNumber" />
 				<ref bean="Position-description" />
-				<ref bean="Position-institution" />
-				<ref bean="Position-location" />
 				<ref bean="Position-salaryGroup" />
 				<ref bean="Position-classificationTitle" />
 				<ref bean="Position-percentTime" />
@@ -170,15 +168,6 @@
 		<property name="label" value="Working Title" />
 	</bean>
 
-	<bean id="Position-institution" parent="Position-institution-parentBean" />
-	<bean id="Position-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
-		<property name="containsWildcardData" value="true"/>
-	</bean>
-
-	<bean id="Position-location" parent="Position-location-parentBean" />
-	<bean id="Position-location-parentBean" abstract="true" parent="KpmeAttributeReference-location" >
-		<property name="containsWildcardData" value="true"/>
-	</bean>
 
 	<bean id="Position-salaryGroup" parent="Position-salaryGroup-parentBean" />
 	<bean id="Position-salaryGroup-parentBean" abstract="true"
@@ -568,10 +557,8 @@
         <property name="headerText" value="Overview"/>
         <property name="layoutManager.numberOfColumns" value="2"/>
         <property name="items">
-            <list>
+            <list merge="true">
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
-                <bean parent="Uif-DataField" p:propertyName="institution"/>
-                <bean parent="Uif-DataField" p:propertyName="location"/>
                 <bean parent="Uif-DataField" p:propertyName="primaryDepartment"/>
                 <bean parent="Uif-DataField" p:propertyName="positionClass"/>
                 <bean parent="Uif-DataField" p:propertyName="classificationTitle"/>
@@ -831,28 +818,17 @@
 
 
     <!-- Look up Definitions -->
-	<bean id="Position-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+	<bean id="Position-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
 		<!-- p:maintenanceUrlMapping="positionMaintenance"> -->
 		<property name="headerText" value="Position Lookup" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.pm.position.PositionBo" />
 		<property name="viewHelperServiceClass" value="org.kuali.kpme.pm.position.web.PositionLookupableImpl"/>
         <property name="maintenanceUrlMapping" value="kpme/positionMaintenance"/>
 		<property name="criteriaFields">
-			<list>
+			<list merge="true">
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-							p:fieldConversions="institutionCode:institution" />
-					</property>
-				</bean>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                              p:fieldConversions="location:location" />
-                    </property>
-                </bean>
+				
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="primaryDepartment" >
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
@@ -885,7 +861,7 @@
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>
+			<list merge="true">
 				<bean parent="Uif-DataField" p:propertyName="positionNumber">
 					<property name="inquiry">
 						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.position.PositionBo"
@@ -893,12 +869,10 @@
 					</property>
 				</bean>
 				<bean parent="Uif-DataField" p:propertyName="description" />
-				<bean parent="Uif-DataField" p:propertyName="institution" />
-				<bean parent="Uif-DataField" p:propertyName="location" />
 				<bean parent="Uif-DataField" p:propertyName="primaryDepartment">
 					<property name="inquiry">
 						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-							p:inquiryParameters="primaryDepartment:dept,location:location,effectiveDate:effectiveDate" />
+							p:inquiryParameters="primaryDepartment:dept,groupKeyCode:groupKeyCode,effectiveDate:effectiveDate" />
 					</property>
 				</bean>
 				<bean parent="Uif-DataField" p:propertyName="classificationTitle" />

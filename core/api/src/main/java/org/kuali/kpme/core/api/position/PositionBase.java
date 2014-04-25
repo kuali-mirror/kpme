@@ -23,8 +23,11 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -43,6 +46,8 @@ import org.w3c.dom.Element;
     PositionBase.Elements.EFFECTIVE_LOCAL_DATE,
     PositionBase.Elements.CREATE_TIME,
     PositionBase.Elements.USER_PRINCIPAL_ID,
+    PositionBase.Elements.GROUP_KEY_CODE,
+    PositionBase.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PositionBase extends AbstractDataTransferObject implements PositionBaseContract {
@@ -69,7 +74,11 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlAnyElement
+    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
+    private final String groupKeyCode;
+    @XmlElement(name = Elements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
+    @XmlAnyElement    
     private final Collection<Element> _futureElements = null;
 
     /**
@@ -87,6 +96,8 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
     }
 
     private PositionBase(Builder builder) {
@@ -100,6 +111,8 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
@@ -152,6 +165,15 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
         return this.userPrincipalId;
     }
 
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
+    }
 
     /**
      * A builder which can be used to construct {@link PositionBase} instances.  Enforces the constraints of the {@link PositionBaseContract}.
@@ -171,23 +193,24 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
 
-        private Builder() {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        private Builder(String positionNumber, String groupKeyCode) {
+        	setPositionNumber(positionNumber);
+            setGroupKeyCode(groupKeyCode);
         }
 
-        public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder();
+        public static Builder create(String positionNumber, String groupKeyCode) {
+            return new Builder(positionNumber, groupKeyCode);
         }
 
         public static Builder create(PositionBaseContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create();
-            builder.setPositionNumber(contract.getPositionNumber());
+            Builder builder = create(contract.getPositionNumber(), contract.getGroupKeyCode());
+//            builder.setPositionNumber(contract.getPositionNumber());
             builder.setHrPositionId(contract.getHrPositionId());
             builder.setDescription(contract.getDescription());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -253,9 +276,22 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
         public String getUserPrincipalId() {
             return this.userPrincipalId;
         }
+        
+        @Override
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return this.groupKey;
+        }
+
 
         public void setPositionNumber(String positionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+        	if (StringUtils.isBlank(positionNumber)) {
+                throw new IllegalArgumentException("position number is blank");
+            }           
             this.positionNumber = positionNumber;
         }
 
@@ -303,6 +339,17 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.userPrincipalId = userPrincipalId;
         }
+        
+        public void setGroupKeyCode(String groupKeyCode) {
+        	if (StringUtils.isBlank(groupKeyCode)) {
+                throw new IllegalArgumentException("group key code is blank");
+            }
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
+        }
 
     }
 
@@ -333,6 +380,8 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
 
     }
 
