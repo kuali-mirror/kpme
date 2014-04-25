@@ -711,7 +711,7 @@
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
 					<property name="quickfinder">
-						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paystep.PayStep"
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paystep.PayStepBo"
 							p:fieldConversions="payStep:payStep" p:lookupParameters="payGrade:payGrade" />
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"

@@ -490,7 +490,7 @@
 
     <!-- PayStep -->
     <!-- Business Keys - [payStep : groupKeyCode: effectiveDate : timestamp] -->
-	<class-descriptor class="org.kuali.kpme.core.paystep.PayStep" table="PM_PAY_STEP_T">
+	<class-descriptor class="org.kuali.kpme.core.paystep.PayStepBo" table="PM_PAY_STEP_T">
 		<field-descriptor name="pmPayStepId"    		column="PM_PAY_STEP_ID"			 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PAY_STEP_S"  />
         <field-descriptor name="payStep"    			column="PAY_STEP"				 jdbc-type="VARCHAR"     length="10"		nullable="false" />
         <field-descriptor name="salaryGroup"    		column="SALARY_GROUP"			 jdbc-type="VARCHAR"     length="10"		nullable="false" />

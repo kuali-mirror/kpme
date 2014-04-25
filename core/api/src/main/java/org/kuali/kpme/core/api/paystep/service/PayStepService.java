@@ -17,13 +17,13 @@ package org.kuali.kpme.core.api.paystep.service;
 
 import java.util.List;
 
-import org.kuali.kpme.core.api.paystep.PayStepContract;
+import org.kuali.kpme.core.api.paystep.PayStep;
 
 public interface PayStepService {
 
-	public PayStepContract getPayStepById(String payStepId);
+	public PayStep getPayStepById(String payStepId);
 
-	public List<? extends PayStepContract> getPaySteps(String payStep, String groupKeyCode,
+	public List<PayStep> getPaySteps(String payStep, String groupKeyCode,
 			String salaryGroup, String payGrade, String history, String active);
 	
 }

@@ -17,13 +17,13 @@ package org.kuali.kpme.core.paystep.dao;
 
 import java.util.List;
 
-import org.kuali.kpme.core.paystep.PayStep;
+import org.kuali.kpme.core.paystep.PayStepBo;
 
 public interface PayStepDao {
 
-	public PayStep getPayStepById(String payStepId);
+	public PayStepBo getPayStepById(String payStepId);
 
-	public List<PayStep> getPaySteps(String payStep, String groupKeyCode,
+	public List<PayStepBo> getPaySteps(String payStep, String groupKeyCode,
 			String salaryGroup, String payGrade, String history, String active);
 
 }

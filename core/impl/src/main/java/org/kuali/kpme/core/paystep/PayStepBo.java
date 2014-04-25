@@ -19,29 +19,59 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kpme.core.api.paystep.PayStep;
 import org.kuali.kpme.core.api.paystep.PayStepContract;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PayStep extends HrKeyedBusinessObject implements Comparable, PayStepContract {
+public class PayStepBo extends HrKeyedBusinessObject implements Comparable, PayStepContract {
 
 	static class KeyFields {
 		private static final String GROUP_KEY_CODE = "groupKeyCode";
 		private static final String PAY_STEP = "payStep";
 	}
-	
-	private static final Logger LOG = Logger.getLogger(PayStep.class);
+
+	/*
+	 * convert bo to immutable
+	 *
+	 * Can be used with ModelObjectUtils:
+	 *
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPayStepBo, PayStepBo.toImmutable);
+	 */
+	public static final ModelObjectUtils.Transformer<PayStepBo, PayStep> toImmutable =
+			new ModelObjectUtils.Transformer<PayStepBo, PayStep>() {
+		public PayStep transform(PayStepBo input) {
+			return PayStepBo.to(input);
+		};
+	};
+
+	/*
+	 * convert immutable to bo
+	 * 
+	 * Can be used with ModelObjectUtils:
+	 * 
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPayStep, PayStepBo.toBo);
+	 */
+	public static final ModelObjectUtils.Transformer<PayStep, PayStepBo> toBo =
+			new ModelObjectUtils.Transformer<PayStep, PayStepBo>() {
+		public PayStepBo transform(PayStep input) {
+			return PayStepBo.from(input);
+		};
+	};
+
+	private static final Logger LOG = Logger.getLogger(PayStepBo.class);
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-		    .add(KeyFields.PAY_STEP)
-		    .add(KeyFields.GROUP_KEY_CODE)
-		    .build();
+			.add(KeyFields.PAY_STEP)
+			.add(KeyFields.GROUP_KEY_CODE)
+			.build();
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String pmPayStepId;
 	private String payStep;
 	private String salaryGroup;
@@ -53,12 +83,12 @@ public class PayStep extends HrKeyedBusinessObject implements Comparable, PaySte
 
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-    	return  new ImmutableMap.Builder<String, Object>()
-			.put(KeyFields.PAY_STEP, this.getPayStep())
-			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
-			.build();
+		return  new ImmutableMap.Builder<String, Object>()
+				.put(KeyFields.PAY_STEP, this.getPayStep())
+				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
+				.build();
 	}
-	
+
 	@Override
 	public boolean isActive() {
 		return super.isActive();
@@ -81,8 +111,8 @@ public class PayStep extends HrKeyedBusinessObject implements Comparable, PaySte
 
 	@Override
 	public int compareTo(Object o) {
-		if(o instanceof PayStep) {
-			PayStep s = (PayStep) o;
+		if(o instanceof PayStepBo) {
+			PayStepBo s = (PayStepBo) o;
 			if(StringUtils.equals(s.salaryGroup,salaryGroup)
 					&& StringUtils.equals(s.payGrade,payGrade)) {
 
@@ -91,20 +121,20 @@ public class PayStep extends HrKeyedBusinessObject implements Comparable, PaySte
 					otherServiceTime = s.getServiceAmount() * 12;
 				else
 					otherServiceTime = s.getServiceAmount();
-				
+
 				Integer thisServiceTime = 0;
 				if(StringUtils.equals(serviceUnit, HrConstants.SERVICE_TIME_YEAR))
 					thisServiceTime = serviceAmount * 12;
 				else
 					thisServiceTime = serviceAmount;
-				
+
 				return otherServiceTime.compareTo(thisServiceTime);
 			}
 			else 
-//				throw new IllegalArgumentException("pay step must be within the same salary group and pay grade");
+				//	throw new IllegalArgumentException("pay step must be within the same salary group and pay grade");
 				LOG.error("pay step must be within the same salary group and pay grade");
 		}
-			
+
 		return 0;
 	}
 
@@ -187,4 +217,30 @@ public class PayStep extends HrKeyedBusinessObject implements Comparable, PaySte
 		this.pmPayStepId = pmPayStepId;
 	}
 
+	public static PayStepBo from(PayStep im) {
+		if (im == null) {
+			return null;
+		}
+		PayStepBo ps = new PayStepBo();
+		ps.setPmPayStepId(im.getPmPayStepId());
+		ps.setPayStep(im.getPayStep());
+		ps.setSalaryGroup(im.getSalaryGroup());
+		ps.setPayGrade(im.getPayGrade());
+		ps.setStepNumber(im.getStepNumber());
+		ps.setCompRate(im.getCompRate());
+		ps.setServiceAmount(im.getServiceAmount());
+		ps.setServiceUnit(im.getServiceUnit());
+
+		// finally copy over the common fields into ps from im
+		copyCommonFields(ps, im);
+
+		return ps;
+	}
+
+	public static PayStep to(PayStepBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PayStep.Builder.create(bo).build();
+	}
 }

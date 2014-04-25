@@ -18,12 +18,13 @@ package org.kuali.kpme.core.api.paystep;
 import java.math.BigDecimal;
 
 import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
 /**
  * <p>PayStepContract interface</p>
  *
  */
-public interface PayStepContract extends HrKeyedBusinessObjectContract {
+public interface PayStepContract extends KpmeEffectiveKeyedDataTransferObject {
 
 	/**
 	 * The text field used to identify the PayStep

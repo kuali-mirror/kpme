@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
-import org.kuali.kpme.core.paystep.PayStep;
+import org.kuali.kpme.core.paystep.PayStepBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -33,7 +33,7 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 		LOG.debug("entering custom validation for pay step");
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-		PayStep payStep = (PayStep) this.getNewDataObject();
+		PayStepBo payStep = (PayStepBo) this.getNewDataObject();
 		
 		isValid &= validateSalaryGroup(payStep);
 		isValid &= validatePayGrade(payStep);
@@ -43,7 +43,7 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 		return isValid;
 	}
 
-	private boolean validatePayGrade(PayStep payStep) {
+	private boolean validatePayGrade(PayStepBo payStep) {
 		PayGrade aPayGrade = HrServiceLocator.getPayGradeService().getPayGrade(payStep.getPayGrade(), payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
 		String errorMes = "Pay Grade '" + payStep.getPayGrade() + "'";
 		if(aPayGrade == null) {
@@ -62,7 +62,7 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 		return true;
 	}
 
-	private boolean validateSalaryGroup(PayStep payStep) {
+	private boolean validateSalaryGroup(PayStepBo payStep) {
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + payStep.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
@@ -82,7 +82,7 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 		return true;
 	}
 	
-	private boolean validatePayGradeInSalaryGroup(PayStep payStep) {
+	private boolean validatePayGradeInSalaryGroup(PayStepBo payStep) {
 		if(StringUtils.isNotEmpty(payStep.getSalaryGroup())
 				&& ValidationUtils.validatePayGradeWithSalaryGroup(payStep.getSalaryGroup(),payStep.getPayGrade(),payStep.getEffectiveLocalDate())) {
 			return true;

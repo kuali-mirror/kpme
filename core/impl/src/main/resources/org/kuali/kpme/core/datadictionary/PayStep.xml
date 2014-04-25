@@ -22,7 +22,7 @@
 
 	<bean id="PayStep" parent="PayStep-parentBean" />
 	<bean id="PayStep-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.paystep.PayStep" />
+		<property name="dataObjectClass" value="org.kuali.kpme.core.paystep.PayStepBo" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="PayStep-pmPayStepId" />
@@ -130,7 +130,7 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="PayStep-InquiryView" parent="Uif-InquiryView">
 		<property name="headerText" value="Pay Step Inquiry"/>
-		<property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStep"/>
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStepBo"/>
 		<property name="singlePageView" value="true"/>
 		<property name="items">
 			<list>
@@ -163,7 +163,7 @@
   <bean id="PayStepMaintenanceDocument-PayStepMaintenance" parent="PayStepMaintenanceDocument-PayStepMaintenance-parentBean"/>
   <bean id="PayStepMaintenanceDocument-PayStepMaintenance-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
   	<property name="headerText" value= "Pay Step Maintenance"/>
-  	<property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStep"/>
+  	<property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStepBo"/>
     <property name="items">
       <list merge="true">
       	<bean parent="KPMEGroupKeyed-MaintenanceGridSection">
@@ -209,7 +209,7 @@
   <!-- KRAD Lookup View Definition -->
   <bean id="PayStep-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
     <property name="headerText" value="Pay Step Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStep" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStepBo" />
     <property name="criteriaFields">
       <list merge="true">
       	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payStep" />

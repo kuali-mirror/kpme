@@ -17,9 +17,11 @@ package org.kuali.kpme.core.paystep.service;
 
 import java.util.List;
 
+import org.kuali.kpme.core.api.paystep.PayStep;
 import org.kuali.kpme.core.api.paystep.service.PayStepService;
-import org.kuali.kpme.core.paystep.PayStep;
+import org.kuali.kpme.core.paystep.PayStepBo;
 import org.kuali.kpme.core.paystep.dao.PayStepDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PayStepServiceImpl implements PayStepService {
 
@@ -27,7 +29,7 @@ public class PayStepServiceImpl implements PayStepService {
 	
 	@Override
 	public PayStep getPayStepById(String payStepId) {
-		return payStepDao.getPayStepById(payStepId);
+		return PayStepBo.to(payStepDao.getPayStepById(payStepId));
 	}
 
 	public PayStepDao getPayStepDao() {
@@ -42,7 +44,7 @@ public class PayStepServiceImpl implements PayStepService {
 	public List<PayStep> getPaySteps(String payStep, String groupKeyCode,
 			String salaryGroup, String payGrade, String history, String active) {
 		// TODO Auto-generated method stub
-		return payStepDao.getPaySteps(payStep,groupKeyCode,salaryGroup,payGrade,history,active);
+		return ModelObjectUtils.transform(payStepDao.getPaySteps(payStep,groupKeyCode,salaryGroup,payGrade,history,active),PayStepBo.toImmutable);
 	}
 
 }

@@ -27,7 +27,7 @@
 
   <bean id="PayStepMaintenanceDocument" parent="PayStepMaintenanceDocument-parentBean"/>
   <bean id="PayStepMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-  		<property name="dataObjectClass" value="org.kuali.kpme.core.paystep.PayStep"/>
+  		<property name="dataObjectClass" value="org.kuali.kpme.core.paystep.PayStepBo"/>
   		<property name="businessRulesClass" value="org.kuali.kpme.core.paystep.validation.PayStepValidation"/>
   		<property name="maintainableClass" value="org.kuali.kpme.core.paystep.web.PayStepMaintainableImpl"/>
   		<property name="documentTypeName" value="PayStepMaintenanceDocumentType"/>
