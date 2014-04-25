@@ -13,23 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.khr.hub.tests.cucumber;
+package org.kuali.khr.lm.pages;
 
-import org.junit.runner.RunWith;
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import org.kuali.khr.hub.pages.Page;
+import org.kuali.khr.hub.util.Helper;
+import org.openqa.selenium.WebDriver;
 
-@RunWith(Cucumber.class)
-//@CucumberOptions(format = {"pretty", "html:target/cucumber-htmlreport","json-pretty:target/cucumber-report.json"})
-@CucumberOptions(
-		format = {"pretty", "html:target/cucumber-htmlreport"}, 
-		glue = {"org.kuali.khr.hub.steps", 
-				"org.kuali.khr.tk.steps",
-				"org.kuali.khr.lm.steps",
-				"org.kuali.khr.pm.steps"},
-		features = "src/test/resources/features"
-				
-		)
+public class LeaveCalendar implements Page {
 
-public class RunCukesUIT {
+	private WebDriver driver;
+
+	public LeaveCalendar(WebDriver driver) {
+		this.driver = driver;
+	}
+	
+	@Override
+	public void gotoPage() {
+		// TODO Auto-generated method stub
+
+	}
+	
+	public void switchFrame(String framename)
+	{
+		Helper.switchFrame(framename, driver);
+	}
+	
+
+	public void switchToDefaultFrame()
+	{
+		Helper.switchToDefaultFrame(driver);
+	}
+
 }

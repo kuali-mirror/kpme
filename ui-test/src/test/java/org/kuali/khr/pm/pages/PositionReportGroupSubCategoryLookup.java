@@ -20,7 +20,7 @@ import static org.kuali.khr.hub.util.KhrTestConstants.Urls.PositionReportGroupSu
 
 import org.kuali.khr.hub.pages.Lookup;
 import org.kuali.khr.hub.pages.Page;
-import org.openqa.selenium.By;
+import org.kuali.khr.hub.util.Helper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,6 +33,8 @@ public class PositionReportGroupSubCategoryLookup extends Lookup implements Page
 		this.driver = driver;
 	}
 
+	// TODO look at elements on this page that should be moved up to base class Lookup
+	
 	@FindBy(xpath = "//*span[matches(.,'Position Report Group Sub Category Lookup')]")
 	public WebElement PositionReportGroupSubCategoryLookupTitle;
 	
@@ -204,15 +206,13 @@ public class PositionReportGroupSubCategoryLookup extends Lookup implements Page
 
 	public void switchFrame(String framename)
 	{
-		WebElement frame = driver.findElement(By.xpath("//*[contains(@name, '" + framename + "')]"));
-		String frameID = frame.getAttribute("name");
-        driver.switchTo().frame(frameID);
+		Helper.switchFrame(framename, driver);
 	}
 	
 
 	public void switchToDefaultFrame()
 	{
-		driver.switchTo().defaultContent();
+		Helper.switchToDefaultFrame(driver);
 	}
 	
 	public void closeLookupLightbox()

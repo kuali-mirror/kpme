@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.khr.tk.clock.steps;
+package org.kuali.khr.tk.steps;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.kuali.khr.hub.pages.Login;
 import org.kuali.khr.hub.util.SeleniumBase;
-import org.kuali.khr.tk.clock.pages.Clock;
-import org.kuali.khr.tk.time_detail.pages.TimeDetail;
+import org.kuali.khr.tk.pages.Clock;
+import org.kuali.khr.tk.pages.TimeDetail;
 import org.openqa.selenium.WebDriver;
 
 import cucumber.api.java.en.Given;

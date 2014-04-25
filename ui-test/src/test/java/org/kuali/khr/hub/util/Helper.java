@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.khr.hub.tests.cucumber;
+package org.kuali.khr.hub.util;
 
-import org.junit.runner.RunWith;
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-@RunWith(Cucumber.class)
-//@CucumberOptions(format = {"pretty", "html:target/cucumber-htmlreport","json-pretty:target/cucumber-report.json"})
-@CucumberOptions(
-		format = {"pretty", "html:target/cucumber-htmlreport"}, 
-		glue = {"org.kuali.khr.hub.steps", 
-				"org.kuali.khr.tk.steps",
-				"org.kuali.khr.lm.steps",
-				"org.kuali.khr.pm.steps"},
-		features = "src/test/resources/features"
-				
-		)
+public class Helper {
 
-public class RunCukesUIT {
+	
+	public static void switchFrame(String framename, WebDriver driver)
+	{
+		WebElement frame = driver.findElement(By.xpath("//*[contains(@name, '" + framename + "')]"));
+		String frameID = frame.getAttribute("name");
+        driver.switchTo().frame(frameID);
+	}
+	
+	public static void switchToDefaultFrame(WebDriver driver)
+	{
+		driver.switchTo().defaultContent();
+	}
 }
