@@ -92,8 +92,7 @@
       </list>
     </property>
     <property name="resultFields">
-      <list>
-        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+      <list merge="true">
         <bean parent="Uif-DataField" p:propertyName="positionAppointment">
          	<property name="inquiry">
 	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointment" 
@@ -101,7 +100,6 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="description" />
-        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>

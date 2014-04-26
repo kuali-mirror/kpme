@@ -103,8 +103,7 @@
                               p:source="@{#ConfigProperties['application.url']}/krad/images/asterisk_orange.png"
                               p:altText="change_icon"
                               p:progressiveRender="@{!(document.newMaintainableObject.dataObject.effectiveDate == null ? '' :document.newMaintainableObject.dataObject.effectiveDate).equals(document.oldMaintainableObject.dataObject.effectiveDate == null ? '' :document.oldMaintainableObject.dataObject.effectiveDate) ||
-                                 !(document.newMaintainableObject.dataObject.institution == null ? '' :document.newMaintainableObject.dataObject.institution).equals(document.oldMaintainableObject.dataObject.institution == null ? '' :document.oldMaintainableObject.dataObject.institution) ||
-                                 !(document.newMaintainableObject.dataObject.location == null ? '' :document.newMaintainableObject.dataObject.location).equals(document.oldMaintainableObject.dataObject.location == null ? '' :document.oldMaintainableObject.dataObject.location) ||
+                                 !(document.newMaintainableObject.dataObject.groupKeyCode == null ? '' :document.newMaintainableObject.dataObject.groupKeyCode).equals(document.oldMaintainableObject.dataObject.groupKeyCode == null ? '' :document.oldMaintainableObject.dataObject.groupKeyCode) ||
                                  !(document.newMaintainableObject.dataObject.primaryDepartment == null ? '' :document.newMaintainableObject.dataObject.primaryDepartment).equals(document.oldMaintainableObject.dataObject.primaryDepartment == null ? '' :document.oldMaintainableObject.dataObject.primaryDepartment) ||
                                  !(document.newMaintainableObject.dataObject.positionClass == null ? '' :document.newMaintainableObject.dataObject.positionClass).equals(document.oldMaintainableObject.dataObject.positionClass == null ? '' :document.oldMaintainableObject.dataObject.positionClass) ||
                                  !(document.newMaintainableObject.dataObject.description == null ? '' :document.newMaintainableObject.dataObject.description).equals(document.oldMaintainableObject.dataObject.description == null ? '' :document.oldMaintainableObject.dataObject.description) ||
@@ -279,11 +278,11 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="institution" id="position_institution"
+                <bean parent="Uif-InputField" p:propertyName="groupKeyCode" id="position_groupKeyCode"
                       p:onDocumentReadyScript="
-                        var options = jQuery('#position_institution_control option');
+                        var options = jQuery('#position_groupKeyCode_control option');
                         if (options.length == 2) {
-                            jQuery('#position_institution_control').val(options[1].value);
+                            jQuery('#position_groupKeyCode_control').val(options[1].value);
                          }"
                       p:required="true"
                       p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
@@ -293,24 +292,7 @@
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.kpme.core.util.InstitutionKeyValueFinder" />
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:propertyName="location" id="position_location"
-                      p:onDocumentReadyScript="
-                        var options = jQuery('#position_location_control option');
-                        if (options.length == 2) {
-                            jQuery('#position_location_control').val(options[1].value);
-                         }"
-                      p:required="true"
-                      p:refreshWhenChangedPropertyNames="#dp.institution" >
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl"
-                              p:disabled="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}"
-                              p:refreshWhenChangedPropertyNames="#dp.process"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.kpme.pm.util.LocationKeyValueFinder" />
+                        <bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="primaryDepartment"
@@ -323,7 +305,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
                               p:fieldConversions="dept:primaryDepartment"
-                              p:lookupParameters="location:location,institution:institution" />
+                              p:lookupParameters="groupKey.locationId:location,groupKey.institutionCode:institution" />
                     </property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Data Update'}" >
@@ -338,7 +320,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
                               p:dataObjectClassName="org.kuali.kpme.pm.classification.ClassificationBo"
-                              p:lookupParameters="location:location,institution:institution"/>
+                              p:lookupParameters="groupKeyCode:groupKeyCode"/>
                     </property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
@@ -361,6 +343,12 @@
                             <entry key="active" value="active" />
                         </map>
                     </property>
+                    <!-- 
+                    <property name="attributeQuery">
+	            		<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getClassification"
+	            			p:queryMethodArgumentFieldList="positionClass" 
+	                  		p:returnFieldMapping="classificationTitle:classificationTitle,salaryGroup:salaryGroup,percentTime:percentTime,benefitsEligible:benefitsEligible,leaveEligible:leaveEligible,leavePlan:leavePlan,payGrade:payGrade,positionReportGroup:positionReportGroup,positionType:positionType,poolEligible:poolEligible,tenureEligible:tenureEligible,active:active"/>
+	        		</property>   -->
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="classificationTitle" p:readOnly="true "/>
 				<bean parent="Uif-InputField" p:propertyName="description"
@@ -394,7 +382,7 @@
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointment"
 							p:fieldConversions="positionAppointment:appointmentType"
-							p:lookupParameters="location:location,institution:institution"/>
+							p:lookupParameters="groupKeyCode:groupKeyCode"/>
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Change Status'}" >
@@ -440,7 +428,7 @@
 						<bean parent="Uif-QuickFinderByScript"
 							p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractType"
 							p:fieldConversions="name:contractType" 
-							p:lookupParameters="location:location,institution:institution" />
+							p:lookupParameters="groupKeyCode:groupKeyCode" />
 					</property>					
 					<property name="quickfinder.quickfinderAction.disabled"
 						value="@{document.newMaintainableObject.dataObject.contract ne 'Y' or #dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Change Status'}" >
@@ -474,7 +462,7 @@
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.position.PositionBo" 
 						      p:fieldConversions="positionNumber:reportsToPositionId" 
-						      p:lookupParameters="location:location,institution:institution" />
+						      p:lookupParameters="groupKeyCode:groupKeyCode" />
 					</property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null  or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
