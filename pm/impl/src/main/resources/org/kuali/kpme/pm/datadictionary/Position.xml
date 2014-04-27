@@ -852,8 +852,6 @@
                               p:addBlankOption="true" />
                     </property>
                 </bean>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate"
-					p:ranged="true" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="history"
 					p:defaultValue="N" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active"
