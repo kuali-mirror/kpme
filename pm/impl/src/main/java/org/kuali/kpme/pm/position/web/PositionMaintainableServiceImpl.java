@@ -258,7 +258,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
             if (positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
                 hasPrimaryDepartment=true;
                 positionDepartment.setDepartment(position.getPrimaryDepartment());
-                
+                positionDepartment.setGroupKeyCode(position.getGroupKeyCode());
 //                positionDepartment.setLocation(position.getLocation());
 //                positionDepartment.setInstitution(position.getInstitution());
                 positionDepartment.setDeptAffl(HrServiceLocator.getDepartmentAffiliationService().getPrimaryAffiliation().getDeptAfflType());
@@ -269,9 +269,9 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         if (!hasPrimaryDepartment && StringUtils.isNotEmpty(position.getPrimaryDepartment())) {
             PositionDepartmentBo primaryDepartment = new PositionDepartmentBo();
             primaryDepartment.setDepartment(position.getPrimaryDepartment());
-            primaryDepartment.setGroupKeyCode(position.getInstitution() + "-"+position.getLocation());
-            //   primaryDepartment.setLocation(position.getLocation());
-//            primaryDepartment.setInstitution(position.getInstitution());
+            primaryDepartment.setGroupKeyCode(position.getGroupKeyCode());
+            // primaryDepartment.setLocation(position.getLocation());
+            // primaryDepartment.setInstitution(position.getInstitution());
             primaryDepartment.setDeptAffl(HrServiceLocator.getDepartmentAffiliationService().getPrimaryAffiliation().getDeptAfflType());
             position.getDepartmentList().add(primaryDepartment);
         }
