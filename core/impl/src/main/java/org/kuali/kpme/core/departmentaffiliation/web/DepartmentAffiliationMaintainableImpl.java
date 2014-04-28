@@ -17,6 +17,7 @@ package org.kuali.kpme.core.departmentaffiliation.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
 
@@ -26,6 +27,6 @@ public class DepartmentAffiliationMaintainableImpl extends HrBusinessObjectMaint
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) HrServiceLocator.getDepartmentAffiliationService().getDepartmentAffiliationById(id);
+		return  DepartmentAffiliationBo.from(HrServiceLocator.getDepartmentAffiliationService().getDepartmentAffiliationById(id));
 	}
 }

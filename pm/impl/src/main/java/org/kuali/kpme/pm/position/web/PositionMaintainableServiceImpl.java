@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.derived.HrBusinessObjectDerived;
-import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.position.PositionBo;
@@ -94,7 +94,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         if (aPosition.getDepartmentList() != null) {
         	for(PositionDepartmentBo aPositionDepartment : aPosition.getDepartmentList()) {
         		if(aPositionDepartment != null && aPositionDepartment.getDeptAffl() != null) {
-        			DepartmentAffiliation pda = (DepartmentAffiliation)aPositionDepartment.getDeptAfflObj();
+        			DepartmentAffiliationBo pda = (DepartmentAffiliationBo)aPositionDepartment.getDeptAfflObj();
         			if (pda.isPrimaryIndicator()) {
         				aPosition.setGroupKeyCode(aPositionDepartment.getGroupKeyCode());
         				break;

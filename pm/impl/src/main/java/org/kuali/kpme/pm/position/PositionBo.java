@@ -26,7 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
-import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
@@ -352,7 +352,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 
 		if (this.primaryDepartment == null && this.departmentList != null && this.departmentList.size() > 0) {
 			for (PositionDepartmentBo department: this.departmentList) {
-				DepartmentAffiliation pda = department.getDeptAfflObj();
+				DepartmentAffiliationBo pda = department.getDeptAfflObj();
 				if (pda.isPrimaryIndicator()) {
 					primaryDepartment = department.getDepartment();
 					break;

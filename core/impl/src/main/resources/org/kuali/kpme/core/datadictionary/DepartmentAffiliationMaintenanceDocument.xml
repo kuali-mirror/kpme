@@ -26,7 +26,7 @@
 
     <bean id="DepartmentAffiliationMaintenanceDocument" parent="DepartmentAffiliationMaintenanceDocument-parentBean"/>
     <bean id="DepartmentAffiliationMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"/>
+        <property name="dataObjectClass" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo"/>
         <property name="maintainableClass" value="org.kuali.kpme.core.departmentaffiliation.web.DepartmentAffiliationMaintainableImpl"/>
         <property name="documentTypeName" value="DepartmentAffiliationMaintenanceDocumentType"/>
     </bean>

@@ -166,7 +166,7 @@
 
     <!-- Department Affliation-->
     <!-- Business Keys - [DeptAfflType : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation" table="HR_DEPT_AFFL_T">
+    <class-descriptor class="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo" table="HR_DEPT_AFFL_T">
         <field-descriptor name="hrDeptAfflId"           column="HR_DEPT_AFFL_ID"  	jdbc-type="VARCHAR"     length="60" 	  primarykey="true" autoincrement="true" sequence-name="HR_DEPT_AFFL_S" />
         <field-descriptor name="deptAfflType"           column="DEPT_AFFL_TYP"		jdbc-type="VARCHAR"     length="60" 	  nullable="false" />
         <field-descriptor name="active"                 column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" 		  nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>

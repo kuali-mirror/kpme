@@ -18,14 +18,14 @@ package org.kuali.kpme.core.departmentaffiliation.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 
 public interface DepartmentAffiliationDao {
 
-    public DepartmentAffiliation getDepartmentAffiliationById(String hrDeptAfflId);
-    public DepartmentAffiliation getDepartmentAffiliationByType(String deptAfflType);
-    public List<DepartmentAffiliation> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate);
-    public List<DepartmentAffiliation> getAllActiveAffiliations();
-    public DepartmentAffiliation getPrimaryAffiliation();
+    public DepartmentAffiliationBo getDepartmentAffiliationById(String hrDeptAfflId);
+    public DepartmentAffiliationBo getDepartmentAffiliationByType(String deptAfflType);
+    public List<DepartmentAffiliationBo> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate);
+    public List<DepartmentAffiliationBo> getAllActiveAffiliations();
+    public DepartmentAffiliationBo getPrimaryAffiliation();
 
 }

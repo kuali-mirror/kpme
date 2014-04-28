@@ -25,31 +25,31 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
-import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class DepartmentAffiliationDaoObjImpl extends PlatformAwareDaoBaseOjb implements DepartmentAffiliationDao {
 
     @Override
-    public DepartmentAffiliation getDepartmentAffiliationById(String hrDeptAfflId) {
+    public DepartmentAffiliationBo getDepartmentAffiliationById(String hrDeptAfflId) {
         Criteria crit = new Criteria();
         crit.addEqualTo("hrDeptAfflId", hrDeptAfflId);
-        Query query = QueryFactory.newQuery(DepartmentAffiliation.class, crit);
-        return (DepartmentAffiliation) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(DepartmentAffiliationBo.class, crit);
+        return (DepartmentAffiliationBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     @Override
-    public DepartmentAffiliation getDepartmentAffiliationByType(String deptAfflType) {
+    public DepartmentAffiliationBo getDepartmentAffiliationByType(String deptAfflType) {
         Criteria crit = new Criteria();
         crit.addEqualTo("deptAfflType", deptAfflType);
-        Query query = QueryFactory.newQuery(DepartmentAffiliation.class, crit);
-        return (DepartmentAffiliation) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(DepartmentAffiliationBo.class, crit);
+        return (DepartmentAffiliationBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
     @Override
-    public List<DepartmentAffiliation> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate) {
+    public List<DepartmentAffiliationBo> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate) {
 
-        List<DepartmentAffiliation> pdaList = new ArrayList<DepartmentAffiliation>();
+        List<DepartmentAffiliationBo> pdaList = new ArrayList<DepartmentAffiliationBo>();
         Criteria root = new Criteria();
 
 
@@ -57,14 +57,14 @@ public class DepartmentAffiliationDaoObjImpl extends PlatformAwareDaoBaseOjb imp
             root.addEqualTo("deptAfflType", deptAfflType);
         }
 
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentAffiliation.class, asOfDate, DepartmentAffiliation.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentAffiliation.class, DepartmentAffiliation.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentAffiliationBo.class, asOfDate, DepartmentAffiliationBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentAffiliationBo.class, DepartmentAffiliationBo.BUSINESS_KEYS, false));
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(DepartmentAffiliation.class, root);
+        Query query = QueryFactory.newQuery(DepartmentAffiliationBo.class, root);
 
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if(!c.isEmpty())
@@ -74,11 +74,11 @@ public class DepartmentAffiliationDaoObjImpl extends PlatformAwareDaoBaseOjb imp
     }
 
     @Override
-    public List<DepartmentAffiliation> getAllActiveAffiliations() {
-        List<DepartmentAffiliation> aList = new ArrayList<DepartmentAffiliation>();
+    public List<DepartmentAffiliationBo> getAllActiveAffiliations() {
+        List<DepartmentAffiliationBo> aList = new ArrayList<DepartmentAffiliationBo>();
         Criteria root = new Criteria();
         root.addEqualTo("active", true);
-        Query query = QueryFactory.newQuery(DepartmentAffiliation.class, root);
+        Query query = QueryFactory.newQuery(DepartmentAffiliationBo.class, root);
 
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if(!c.isEmpty())
@@ -88,11 +88,11 @@ public class DepartmentAffiliationDaoObjImpl extends PlatformAwareDaoBaseOjb imp
     }
 
     @Override
-    public DepartmentAffiliation getPrimaryAffiliation() {
+    public DepartmentAffiliationBo getPrimaryAffiliation() {
         Criteria crit = new Criteria();
         crit.addEqualTo("primaryIndicator", true);
         crit.addEqualTo("active", true);
-        Query query = QueryFactory.newQuery(DepartmentAffiliation.class, crit);
-        return (DepartmentAffiliation) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(DepartmentAffiliationBo.class, crit);
+        return (DepartmentAffiliationBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 }

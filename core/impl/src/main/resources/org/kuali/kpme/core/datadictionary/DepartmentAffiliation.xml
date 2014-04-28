@@ -23,7 +23,7 @@
 
     <bean id="DepartmentAffiliation" parent="DepartmentAffiliation-parentBean"/>
     <bean id="DepartmentAffiliation-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-        <property name="dataObjectClass" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"/>
+        <property name="dataObjectClass" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo"/>
         <property name="attributes">
             <list merge="true">
                 <ref bean="DepartmentAffiliation-hrDeptAfflId"/>
@@ -78,7 +78,7 @@
 
     <bean id="DepartmentAffiliation-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Department Affiliation Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo" />
         <property name="criteriaFields">
             <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="deptAfflType" />
@@ -92,7 +92,7 @@
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
                 <bean parent="Uif-DataField" p:propertyName="deptAfflType" >
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo"
                               p:inquiryParameters="hrDeptAfflId:hrDeptAfflId"/>
                     </property>
                 </bean>
@@ -105,7 +105,7 @@
     <!-- Department Affiliation Inquiry View -->
     <bean id="DepartmentAffiliation-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Department Affiliation Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -130,7 +130,7 @@
 <bean id="DepartmentAffiliation-MaintenanceView" parent="DepartmentAffiliation-MaintenanceView-parentBean"/>
 <bean id="DepartmentAffiliation-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
 <property name="headerText" value="Department Affiliation Maintenance"/>
-<property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation"/>
+<property name="dataObjectClassName" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">

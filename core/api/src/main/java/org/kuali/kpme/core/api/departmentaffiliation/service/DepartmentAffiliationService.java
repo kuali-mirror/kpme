@@ -18,7 +18,7 @@ package org.kuali.kpme.core.api.departmentaffiliation.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
+import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliation;
 
 public interface DepartmentAffiliationService {
 
@@ -27,26 +27,26 @@ public interface DepartmentAffiliationService {
      * @param hrDeptAfflId
      * @return
      */
-    public DepartmentAffiliationContract getDepartmentAffiliationById(String hrDeptAfflId);
+    public DepartmentAffiliation getDepartmentAffiliationById(String hrDeptAfflId);
 
     /**
      * retrieve the DepartmentAffiliation with given affiliation type
      * @param deptAfflType
      * @return
      */
-    public DepartmentAffiliationContract getDepartmentAffiliationByType(String deptAfflType);
+    public DepartmentAffiliation getDepartmentAffiliationByType(String deptAfflType);
 
-    public List<? extends DepartmentAffiliationContract> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate);
+    public List<DepartmentAffiliation> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate);
 
     /**
      * Retrieve the list of all active affiliations
      * @return
      */
-    public List<? extends DepartmentAffiliationContract> getAllActiveAffiliations();
+    public List<DepartmentAffiliation> getAllActiveAffiliations();
 
     /**
      * Retrieve the primary affiliation
      * @return
      */
-    public DepartmentAffiliationContract getPrimaryAffiliation();
+    public DepartmentAffiliation getPrimaryAffiliation();
 }

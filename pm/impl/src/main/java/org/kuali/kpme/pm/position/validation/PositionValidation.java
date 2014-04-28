@@ -26,7 +26,7 @@ import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDutyBo;
 import org.kuali.kpme.pm.position.funding.PositionFundingBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
-import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -160,7 +160,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		if (CollectionUtils.isNotEmpty(aPosition.getDepartmentList())) {
 			for (PositionDepartmentBo aDepartment : aPosition.getDepartmentList()) {
 				if(aDepartment != null && aDepartment.getDeptAfflObj() != null) {
-					DepartmentAffiliation pda = (DepartmentAffiliation)aDepartment.getDeptAfflObj();
+					DepartmentAffiliationBo pda = (DepartmentAffiliationBo)aDepartment.getDeptAfflObj();
 					if (pda.isPrimaryIndicator()) {
 						return true;
 					}

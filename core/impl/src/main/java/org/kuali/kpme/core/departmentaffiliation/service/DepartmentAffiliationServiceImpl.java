@@ -18,10 +18,11 @@ package org.kuali.kpme.core.departmentaffiliation.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
+import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
-import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.departmentaffiliation.dao.DepartmentAffiliationDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class DepartmentAffiliationServiceImpl implements DepartmentAffiliationService {
 
@@ -45,27 +46,27 @@ public class DepartmentAffiliationServiceImpl implements DepartmentAffiliationSe
 	@Override
 	public DepartmentAffiliation getDepartmentAffiliationById(
 			String hrDeptAfflId) {
-		return this.departmentAffiliationDao.getDepartmentAffiliationById(hrDeptAfflId);
+		return DepartmentAffiliationBo.to(this.departmentAffiliationDao.getDepartmentAffiliationById(hrDeptAfflId));
 	}
 	
 	@Override
 	public DepartmentAffiliation getDepartmentAffiliationByType(String deptAfflType) {
-		return this.departmentAffiliationDao.getDepartmentAffiliationByType(deptAfflType);
+		return DepartmentAffiliationBo.to(this.departmentAffiliationDao.getDepartmentAffiliationByType(deptAfflType));
 	}
 	
 	@Override
 	public List<DepartmentAffiliation> getDepartmentAffiliationList(String deptAfflType, LocalDate asOfDate) {
-		return this.departmentAffiliationDao.getDepartmentAffiliationList(deptAfflType, asOfDate);
+		return ModelObjectUtils.transform(this.departmentAffiliationDao.getDepartmentAffiliationList(deptAfflType, asOfDate),DepartmentAffiliationBo.toImmutable);
 	}
 
 	@Override
 	public List<DepartmentAffiliation> getAllActiveAffiliations() {
-		return this.departmentAffiliationDao.getAllActiveAffiliations();
+		return ModelObjectUtils.transform(this.departmentAffiliationDao.getAllActiveAffiliations(),DepartmentAffiliationBo.toImmutable);
 	}
 
 
     @Override
     public DepartmentAffiliation getPrimaryAffiliation() {
-        return this.departmentAffiliationDao.getPrimaryAffiliation();
+        return DepartmentAffiliationBo.to(this.departmentAffiliationDao.getPrimaryAffiliation());
     }
 }

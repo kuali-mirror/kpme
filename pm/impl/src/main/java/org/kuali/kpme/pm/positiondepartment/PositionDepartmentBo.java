@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.positiondepartment;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.department.DepartmentBo;
-import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliation;
+import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
 import org.kuali.kpme.pm.position.PositionKeyedDerived;
@@ -47,7 +47,7 @@ public class PositionDepartmentBo extends PositionKeyedDerived implements Positi
 	private String deptAffl;
 
 	private DepartmentBo departmentObj;
-	private DepartmentAffiliation deptAfflObj;
+	private DepartmentAffiliationBo deptAfflObj;
 
 	/**
 	 * @return the DeptAffl
@@ -66,12 +66,12 @@ public class PositionDepartmentBo extends PositionKeyedDerived implements Positi
 	/**
 	 * @return the deptAfflObj
 	 */
-	public DepartmentAffiliation getDeptAfflObj() {
+	public DepartmentAffiliationBo getDeptAfflObj() {
 		
 		if (deptAfflObj == null) {
 			if (!StringUtils.isEmpty(deptAffl)) {
 				DepartmentAffiliationService pdaService = HrServiceLocator.getDepartmentAffiliationService();
-				deptAfflObj = (DepartmentAffiliation)pdaService.getDepartmentAffiliationByType(deptAffl);
+				deptAfflObj = DepartmentAffiliationBo.from(pdaService.getDepartmentAffiliationByType(deptAffl));
 			}
 		} 
 		
@@ -82,7 +82,7 @@ public class PositionDepartmentBo extends PositionKeyedDerived implements Positi
 	 * @param deptAfflObj the deptAfflObj to set
 	 */
 	public void setDeptAfflObj(
-			DepartmentAffiliation deptAfflObj) {
+			DepartmentAffiliationBo deptAfflObj) {
 		this.deptAfflObj = deptAfflObj;
 	}
 
