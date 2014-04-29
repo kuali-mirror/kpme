@@ -108,10 +108,7 @@
                         <td><label for="selectedAssignment">Assignment:</label></td>
                         <td>
                             <div id="assignment-section">
-                                <%--<tk:assignment assignments="${Form.assignmentDescriptions}"/>--%>
-                                <select id="selectedAssignment" name="selectedAssignment">
-                                    <option value="" selected="selected">-- select an assignment --</option>
-                                </select>
+                                <tk:assignment assignments="${Form.assignmentDescriptions}"/>
                             </div>
                         </td>
                     </tr>
