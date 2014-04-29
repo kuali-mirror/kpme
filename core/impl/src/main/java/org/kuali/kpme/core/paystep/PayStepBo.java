@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.paystep.PayStep;
 import org.kuali.kpme.core.api.paystep.PayStepContract;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
@@ -230,6 +231,8 @@ public class PayStepBo extends HrKeyedBusinessObject implements Comparable, PayS
 		ps.setCompRate(im.getCompRate());
 		ps.setServiceAmount(im.getServiceAmount());
 		ps.setServiceUnit(im.getServiceUnit());
+		ps.setGroupKeyCode(im.getGroupKeyCode());        
+		ps.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
 
 		// finally copy over the common fields into ps from im
 		copyCommonFields(ps, im);

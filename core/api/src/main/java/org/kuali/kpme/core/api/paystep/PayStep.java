@@ -24,8 +24,11 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
@@ -89,10 +92,10 @@ public final class PayStep
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY, required = false)
-    private final HrGroupKeyContract groupKey;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
+    @XmlElement(name = Elements.GROUP_KEY_CODE, required = true)
     private final String groupKeyCode;
+    @XmlElement(name = Elements.GROUP_KEY, required = true)
+    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -137,7 +140,7 @@ public final class PayStep
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKey = builder.getGroupKey();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
         this.groupKeyCode = builder.getGroupKeyCode();
     }
 
@@ -217,7 +220,7 @@ public final class PayStep
     }
 
     @Override
-    public HrGroupKeyContract getGroupKey() {
+    public HrGroupKey getGroupKey() {
         return this.groupKey;
     }
 
@@ -250,30 +253,29 @@ public final class PayStep
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private HrGroupKeyContract groupKey;
         private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
 
-        private Builder() {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        private Builder(String groupKeyCode, String payStep) {
+        	setGroupKeyCode(groupKeyCode);
+        	setPayStep(payStep);
         }
 
-        public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder();
+        public static Builder create(String groupKeyCode, String payStep) {
+            return new Builder(groupKeyCode,payStep);
         }
 
         public static Builder create(PayStepContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create();
+
+            Builder builder = create(contract.getGroupKeyCode(),contract.getPayStep());
             builder.setCompRate(contract.getCompRate());
             builder.setStepNumber(contract.getStepNumber());
             builder.setPayGrade(contract.getPayGrade());
             builder.setPmPayStepId(contract.getPmPayStepId());
             builder.setServiceUnit(contract.getServiceUnit());
-            builder.setPayStep(contract.getPayStep());
             builder.setSalaryGroup(contract.getSalaryGroup());
             builder.setServiceAmount(contract.getServiceAmount());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -283,8 +285,7 @@ public final class PayStep
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKey(contract.getGroupKey());
-            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -368,13 +369,13 @@ public final class PayStep
         }
 
         @Override
-        public HrGroupKeyContract getGroupKey() {
-            return this.groupKey;
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
         }
 
         @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
+        public HrGroupKey.Builder getGroupKey() {
+            return this.groupKey;
         }
 
         public void setCompRate(BigDecimal compRate) {
@@ -404,6 +405,9 @@ public final class PayStep
 
         public void setPayStep(String payStep) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
+        	if (StringUtils.isWhitespace(payStep)) {
+                throw new IllegalArgumentException("payStep is blank");
+            }
             this.payStep = payStep;
         }
 
@@ -452,14 +456,15 @@ public final class PayStep
             this.userPrincipalId = userPrincipalId;
         }
 
-        public void setGroupKey(HrGroupKeyContract groupKey) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.groupKey = groupKey;
+        public void setGroupKeyCode(String groupKeyCode) {
+            if (StringUtils.isWhitespace(groupKeyCode)) {
+                throw new IllegalArgumentException("groupKeyCode is blank");
+            }
+            this.groupKeyCode = groupKeyCode;
         }
 
-        public void setGroupKeyCode(String groupKeyCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.groupKeyCode = groupKeyCode;
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
         }
 
     }
@@ -502,4 +507,3 @@ public final class PayStep
     }
 
 }
-
