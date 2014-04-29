@@ -956,9 +956,10 @@ $(function () {
             this.collection.each(function (assignment) {
                 $(self.el).append(self.template(assignment.toJSON()));
             });
-            if($("#selectedAssignment option").size() == 0) {
-                $("#selectedEarnCode").html("<option value=''> -- no assignments available --");
-            }
+            
+//            if($("#selectedAssignment option").size() == 0) {
+//                $("#selectedEarnCode").html("<option value=''> -- no assignments available --");
+//            }
             return this;
         }
     });
