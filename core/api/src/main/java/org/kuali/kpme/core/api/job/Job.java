@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.job;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -28,8 +29,9 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.paytype.PayType;
-import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -40,11 +42,15 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = Job.Constants.TYPE_NAME, propOrder = {
         Job.Elements.NAME,
-        Job.Elements.LOCATION,
+        //Job.Elements.LOCATION,
         Job.Elements.ID,
         Job.Elements.PAY_GRADE,
         Job.Elements.STANDARD_HOURS,
         Job.Elements.PRINCIPAL_ID,
+        
+        KPMEConstants.CommonElements.GROUP_KEY_CODE,
+        KPMEConstants.CommonElements.GROUP_KEY,
+        
         Job.Elements.HR_SAL_GROUP,
         Job.Elements.COMP_RATE,
         Job.Elements.PAY_TYPE_OBJ,
@@ -77,8 +83,8 @@ public final class Job
     private static final long serialVersionUID = 271124129309463092L;
     @XmlElement(name = Elements.NAME, required = false)
     private final String name;
-    @XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
+    //@XmlElement(name = Elements.LOCATION, required = false)
+    //private final String location;
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
     @XmlElement(name = Elements.PAY_GRADE, required = false)
@@ -87,6 +93,12 @@ public final class Job
     private final BigDecimal standardHours;
     @XmlElement(name = Elements.PRINCIPAL_ID, required = false)
     private final String principalId;
+    
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    private final String groupKeyCode;
+    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
+    
     @XmlElement(name = Elements.HR_SAL_GROUP, required = false)
     private final String hrSalGroup;
     @XmlElement(name = Elements.COMP_RATE, required = false)
@@ -141,11 +153,15 @@ public final class Job
      */
     private Job() {
         this.name = null;
-        this.location = null;
+        //this.location = null;
         this.id = null;
         this.payGrade = null;
         this.standardHours = null;
         this.principalId = null;
+        
+        this.groupKeyCode = null;
+        this.groupKey = null;
+        
         this.hrSalGroup = null;
         this.compRate = null;
         this.payTypeObj = null;
@@ -172,11 +188,15 @@ public final class Job
 
     private Job(Builder builder) {
         this.name = builder.getName();
-        this.location = builder.getLocation();
+        //this.location = builder.getLocation();
         this.id = builder.getId();
         this.payGrade = builder.getPayGrade();
         this.standardHours = builder.getStandardHours();
         this.principalId = builder.getPrincipalId();
+        
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+        
         this.hrSalGroup = builder.getHrSalGroup();
         this.compRate = builder.getCompRate();
         this.payTypeObj = builder.getPayTypeObj() == null ? null : builder.getPayTypeObj().build();
@@ -206,10 +226,11 @@ public final class Job
         return this.name;
     }
 
+    /*
     @Override
     public String getLocation() {
         return this.location;
-    }
+    }*/
 
     @Override
     public String getId() {
@@ -231,6 +252,16 @@ public final class Job
         return this.principalId;
     }
 
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
+    }
+    
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+    
     @Override
     public String getHrSalGroup() {
         return this.hrSalGroup;
@@ -351,11 +382,16 @@ public final class Job
     {
 
         private String name;
-        private String location;
+        //private String location;
         private String id;
         private String payGrade;
         private BigDecimal standardHours;
         private String principalId;
+        
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
+
+        
         private String hrSalGroup;
         private KualiDecimal compRate;
         private PayType.Builder payTypeObj;
@@ -394,10 +430,13 @@ public final class Job
             }
             Builder builder = create(contract.getPrincipalId(), contract.getJobNumber());
             builder.setName(contract.getName());
-            builder.setLocation(contract.getLocation());
+            //builder.setLocation(contract.getLocation());
             builder.setId(contract.getId());
             builder.setPayGrade(contract.getPayGrade());
             builder.setStandardHours(contract.getStandardHours());
+            
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+            
             builder.setHrSalGroup(contract.getHrSalGroup());
             builder.setCompRate(contract.getCompRate());
             builder.setPayTypeObj(contract.getPayTypeObj() == null ? null : PayType.Builder.create(contract.getPayTypeObj()));
@@ -431,10 +470,10 @@ public final class Job
             return this.name;
         }
 
-        @Override
+        /*@Override
         public String getLocation() {
             return this.location;
-        }
+        }*/
 
         @Override
         public String getId() {
@@ -565,14 +604,33 @@ public final class Job
         public String getUserPrincipalId() {
             return this.userPrincipalId;
         }
+        
+        @Override
+        public String getGroupKeyCode() {
+            return groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return groupKey;
+        }
+        
+        public void setGroupKeyCode(String groupKeyCode) {
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
+        }
+        
 
         public void setName(String name) {
             this.name = name;
         }
 
-        public void setLocation(String location) {
+        /*public void setLocation(String location) {
             this.location = location;
-        }
+        }*/
 
         public void setId(String id) {
             this.id = id;
@@ -706,7 +764,10 @@ public final class Job
     static class Elements {
 
         final static String NAME = "name";
-        final static String LOCATION = "location";
+        
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
+        
         final static String ID = "id";
         final static String PAY_GRADE = "payGrade";
         final static String STANDARD_HOURS = "standardHours";

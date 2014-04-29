@@ -38,19 +38,18 @@
     <!-- Maintenance Section Definitions -->
 
     <bean id="JobMaintenanceDocument-JobMaintenance" parent="JobMaintenanceDocument-JobMaintenance-parentBean"/>
-    <bean id="JobMaintenanceDocument-JobMaintenance-parentBean" abstract="true"
-          parent="KPMEEffectiveDateBO-MaintenanceView">
+    <bean id="JobMaintenanceDocument-JobMaintenance-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
         <property name="title" value="Job Maintenance"/>
         <property name="headerText" value="Job Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.job.JobBo"/>
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobMaintainableImpl"/>
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-MaintenanceGridSection">
+                <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
                     <property name="headerText" value="Job Maintenance"/>
                     <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
+                        <list merge="true">
+                            <!-- bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/-->
                             <bean parent="Uif-InputField" p:propertyName="principalId" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
@@ -87,7 +86,7 @@
                                           p:fieldConversions="dept:dept"/>
                                 </property>
                             </bean>
-
+							<!-- 
                             <bean parent="Uif-InputField" p:propertyName="location" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
@@ -95,6 +94,7 @@
                                           p:fieldConversions="location:location"/>
                                 </property>
                             </bean>
+                            -->
                             <bean parent="Uif-InputField" p:propertyName="positionNumber" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"

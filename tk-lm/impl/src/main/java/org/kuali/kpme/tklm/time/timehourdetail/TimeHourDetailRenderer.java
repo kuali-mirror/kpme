@@ -15,6 +15,9 @@
  */
 package org.kuali.kpme.tklm.time.timehourdetail;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
@@ -30,11 +33,7 @@ import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailRendererContract;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeHourDetailRenderer implements TimeHourDetailRendererContract {
     private TimeHourDetail timeHourDetail;
@@ -56,7 +55,7 @@ public class TimeHourDetailRenderer implements TimeHourDetailRendererContract {
                     String approver = HrContext.isApprover() ? "Y" : null;
                     String payrollProcessor = HrContext.isPayrollProcessor() ? "Y" : null;
 
-                    List<? extends EarnCodeSecurityContract> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor, job.getLocation(),
+                    List<? extends EarnCodeSecurityContract> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor, job.getGroupKey().getLocationId(),
                             "Y", tb.getEndDateTime().toLocalDate());
                     if(CollectionUtils.isNotEmpty(securityList)) {
                         eligibleOvertimeEarnCodeListStrings.add(earnCode.getEarnCode());

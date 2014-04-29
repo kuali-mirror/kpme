@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.core.api.job;
 
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -26,7 +26,7 @@ import java.math.BigDecimal;
  * <p>JobContract interface.</p>
  *
  */
-public interface JobContract extends KpmeEffectiveDataTransferObject {
+public interface JobContract extends KpmeEffectiveKeyedDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
 	
@@ -150,7 +150,7 @@ public interface JobContract extends KpmeEffectiveDataTransferObject {
 	 * 
 	 * @return location for Job
 	 */
-	public String getLocation();
+	//public String getLocation();
 	
 	/**
 	 * The pay type value of the PayType object associated with the Job

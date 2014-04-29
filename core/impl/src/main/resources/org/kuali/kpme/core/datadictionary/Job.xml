@@ -22,7 +22,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="Job" parent="Job-parentBean" />
-	<bean id="Job-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+	<bean id="Job-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.job.JobBo" />
 
 		<property name="titleAttribute" value="hrJobId" />
@@ -37,7 +37,9 @@
 				<ref bean="Job-jobNumber" />
 				<ref bean="Job-dept" />
 				<ref bean="Job-hrSalGroup" />
+				<!-- 
 				<ref bean="Job-location" />
+				-->
 				<ref bean="Job-hrPayType" />
 				<ref bean="Job-payGrade" />
 				<ref bean="Job-standardHours" />
@@ -208,13 +210,14 @@
 	<bean id="Job-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade"/>
 
 	<!-- The validation type and length on this may be wrong -->
+	<!-- 
 	<bean id="Job-location" parent="Job-location-parentBean" />
 	<bean id="Job-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
-
+	-->
 	<bean id="Job-positionNbr" parent="Job-positionNbr-parentBean" />
 	<bean id="Job-positionNbr-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Location" />
+		<property name="shortLabel" value="Position Number" />
 		<property name="maxLength" value="27" />
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint">
@@ -459,7 +462,11 @@
                             <bean parent="Uif-DataField" p:propertyName="name"/>
                             <bean parent="Uif-DataField" p:propertyName="jobNumber"/>
                             <bean parent="Uif-DataField" p:propertyName="dept"/>
+                            <!-- 
                             <bean parent="Uif-DataField" p:propertyName="location"/>
+                            -->
+                            <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+                            
                             <bean parent="Uif-DataField" p:propertyName="positionNumber"/>
                             <bean parent="Uif-DataField" p:propertyName="hrPayType"/>
                             <bean parent="Uif-DataField" p:propertyName="hrSalGroup"/>
@@ -495,7 +502,10 @@
 							<bean parent="FieldDefinition" p:attributeName="name" />
 							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
+							<!-- 
 							<bean parent="FieldDefinition" p:attributeName="location" />
+							-->
+							<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
 							<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 							<bean parent="FieldDefinition" p:attributeName="hrPayType" />
 							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
@@ -521,13 +531,13 @@
 	</bean>
 
     <!--Job Lookup View -->
-    <bean id="Job-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+    <bean id="Job-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Job Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.job.JobBo"/>
-        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobLookupableImpl"/>
+        <!-- property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobLookupableImpl"/-->
         <property name="criteriaFields">
-            <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/>
+            <list merge="true">
+                <!-- bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/-->
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript"
@@ -580,7 +590,10 @@
                               p:inquiryParameters="deptObj.hrDeptId:hrDeptId"/>
                     </property>
                 </bean>
+                <!-- 
                 <bean parent="Uif-DataField" p:propertyName="location"/>
+                -->
+                <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
                 <bean parent="Uif-DataField" p:propertyName="positionNumber">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.position.PositionBaseBo"
@@ -630,7 +643,11 @@
 				<bean parent="FieldDefinition" p:attributeName="principalName" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<!-- 
 				<bean parent="FieldDefinition" p:attributeName="location" />
+				-->
+				<bean parent="FieldDefinition" p:attributeName="groupKeyCode"/>
+				
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="eligibleForLeave" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />

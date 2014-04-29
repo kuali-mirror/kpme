@@ -67,7 +67,8 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         Long jobNumber = 30L;
         Long workArea = 30L;
         Long task = 30L;
-        DailyOvertimeRule rule = createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea, task, new BigDecimal(8), new BigDecimal("9.00"), null);
+        DailyOvertimeRule rule = createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+        		"BW", "TEST-DEPT", workArea, task, new BigDecimal(8), new BigDecimal("9.00"), null);
         String tdocId = KPME788_789(
                new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
@@ -98,7 +99,8 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         );
         deleteTimesheet(tdocId);
 
-        createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea, task, new BigDecimal(8), new BigDecimal("10.00"), null);
+        createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+        		"BW", "TEST-DEPT", workArea, task, new BigDecimal(8), new BigDecimal("10.00"), null);
         tdocId = KPME788_789(
                 new ArrayList<Map<String, Object>>() {{
                      add(new HashMap<String, Object>() {{

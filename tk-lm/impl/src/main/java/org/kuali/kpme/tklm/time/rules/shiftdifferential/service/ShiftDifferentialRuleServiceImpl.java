@@ -88,7 +88,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		PrincipalHRAttributes principalCal = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 
 		for (Job job : timesheetDocument.getJobs()) {
-			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getLocation(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getPayCalendar(), 
+			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getGroupKey().getLocationId(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getPayCalendar(), 
 					timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 			if (shiftDifferentialRules.size() > 0)
 				jobNumberToShifts.put(job.getJobNumber(), new HashSet<ShiftDifferentialRule>(shiftDifferentialRules));

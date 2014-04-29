@@ -15,6 +15,15 @@
  */
 package org.kuali.kpme.tklm.time.timesheet.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -63,9 +72,6 @@ import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
@@ -430,7 +436,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+        List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), asOfDate);
         for (EarnCodeSecurityContract dec : decs) {
 
             boolean addEarnCode = HrServiceLocator.getEarnCodeService().addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);

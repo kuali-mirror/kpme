@@ -177,7 +177,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     	List<? extends EarnCodeSecurityContract> earnCodeSecurityList = HrServiceLocator
                   .getEarnCodeSecurityService().getEarnCodeSecurities(
                           job.getDept(), job.getHrSalGroup(),
-                          job.getLocation(), aTimeBlock.getEndDateTime().toLocalDate());
+                          job.getGroupKey().getLocationId(), aTimeBlock.getEndDateTime().toLocalDate());
     	// no earn code security found, then no edit permissions for roles other than sys/location admins
     	if(CollectionUtils.isEmpty(earnCodeSecurityList))
     		return false; 

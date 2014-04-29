@@ -15,11 +15,22 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
@@ -41,7 +52,6 @@ import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockService;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
@@ -51,9 +61,6 @@ import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
 
@@ -508,7 +515,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					return true;
 				}
 
-				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
+				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), timeBlock.getEndDateTime().toLocalDate());
 				for(EarnCodeSecurityContract dec : deptEarnCodes){
 					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;
@@ -523,7 +530,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					return true;
 				}
 
-				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), timeBlock.getEndDateTime().toLocalDate());
+				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), timeBlock.getEndDateTime().toLocalDate());
 				for(EarnCodeSecurityContract dec : deptEarnCodes){
 					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;

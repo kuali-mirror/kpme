@@ -241,7 +241,7 @@ public class ClockWebTest extends KPMEWebTestCase {
 		Assert.assertNotNull(page);
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();
-    	criteria.put("selectedAssignment", new String[]{HrTestConstants.FormElementTypes.DROPDOWN, "IU-BL_30_30_30"});
+    	criteria.put("selectedAssignment", new String[]{HrTestConstants.FormElementTypes.DROPDOWN, "IU-IN_30_30_30"});
     	// choose the first assignment from the drop down
     	page = HtmlUnitUtil.fillOutForm(page, criteria);
     	Assert.assertNotNull(page);
@@ -301,7 +301,7 @@ public class ClockWebTest extends KPMEWebTestCase {
             Thread.sleep(4000);
         }
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
-        String actionUrl = baseUrl + "?methodToCall=clockAction&selectedAssignment=IU-BL_30_30_30&currentClockAction=" + clockAction;
+        String actionUrl = baseUrl + "?methodToCall=clockAction&selectedAssignment=IU-IN_30_30_30&currentClockAction=" + clockAction;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), actionUrl);
         Assert.assertNotNull("The login page shouldn't be null", page);
         Thread.sleep(3000);

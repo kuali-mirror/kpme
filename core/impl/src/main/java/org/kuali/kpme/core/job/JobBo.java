@@ -15,16 +15,18 @@
  */
 package org.kuali.kpme.core.job;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.Timestamp;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
-import org.kuali.kpme.core.location.LocationBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.position.PositionBaseBo;
@@ -37,21 +39,25 @@ import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.sql.Timestamp;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
-public class JobBo extends HrBusinessObject implements JobContract {
-
-	private static final String JOB_NUMBER = "jobNumber";
-	private static final String PRINCIPAL_ID = "principalId";
+public class JobBo extends HrKeyedBusinessObject implements JobContract {
+	static class KeyFields {
+		private static final String JOB_NUMBER = "jobNumber";
+		private static final String PRINCIPAL_ID = "principalId";
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
+	}
 	private static final long serialVersionUID = 1369595897637935064L;	
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-	            .add(PRINCIPAL_ID)
-	            .add(JOB_NUMBER)
+	            .add(KeyFields.PRINCIPAL_ID)
+	            .add(KeyFields.JOB_NUMBER)
+	            .add(KeyFields.GROUP_KEY_CODE)
 	            .build();
+	
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
+	
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(JobBo.CACHE_NAME)
             .add(AssignmentBo.CACHE_NAME)
@@ -59,7 +65,7 @@ public class JobBo extends HrBusinessObject implements JobContract {
             .add(RoleMember.Cache.NAME)
             .build();
 	
-	private String location;
+	//private String location;
 	private String hrPayType;
 	private String payGrade;
 	private BigDecimal standardHours;
@@ -82,19 +88,17 @@ public class JobBo extends HrBusinessObject implements JobContract {
 	private transient Person principal;
 	private transient DepartmentBo deptObj;
 	private PayTypeBo payTypeObj;
-	private transient LocationBo locationObj;
+	//private transient LocationBo locationObj;
     private transient PayGradeBo payGradeObj;
     private transient SalaryGroupBo salaryGroupObj;
     private transient PositionBaseBo positionObj;
     
-
-    
-    
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
-				.put(PRINCIPAL_ID, this.getPrincipalId())
-				.put(JOB_NUMBER, this.getJobNumber())
+				.put(KeyFields.PRINCIPAL_ID, this.getPrincipalId())
+				.put(KeyFields.JOB_NUMBER, this.getJobNumber())
+				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
     
@@ -191,14 +195,6 @@ public class JobBo extends HrBusinessObject implements JobContract {
 	public void setJobNumber(Long jobNumber) {
 		this.jobNumber = jobNumber;
 	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public String getLocation() {
-		return location;
-	}
 	
 	public String getHrPayType() {
 		return hrPayType;
@@ -286,6 +282,7 @@ public class JobBo extends HrBusinessObject implements JobContract {
 		return primaryIndicator;
 	}
 
+	/*
 	public LocationBo getLocationObj() {
         if (locationObj == null) {
             this.setLocationObj(LocationBo.from(HrServiceLocator.getLocationService().getLocation(location,getEffectiveLocalDate())));
@@ -295,7 +292,7 @@ public class JobBo extends HrBusinessObject implements JobContract {
 
 	public void setLocationObj(LocationBo locationObj) {
 		this.locationObj = locationObj;
-	}
+	}*/
 
 	public PayGradeBo getPayGradeObj() {
 		return payGradeObj;
@@ -361,12 +358,16 @@ public class JobBo extends HrBusinessObject implements JobContract {
         }
         JobBo job = new JobBo();
 
-        job.setLocation(im.getLocation());
+        //job.setLocation(im.getLocation());
         job.setHrPayType(im.getHrPayType());
         job.setPayGrade(im.getPayGrade());
         job.setStandardHours(im.getStandardHours());
         job.setHrJobId(im.getHrJobId());
         job.setPrincipalId(im.getPrincipalId());
+        
+        job.setGroupKeyCode(im.getGroupKeyCode());
+        job.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+        
         job.setFirstName(im.getFirstName());
         job.setLastName(im.getLastName());
         job.setPrincipalName(im.getPrincipalName());
@@ -379,7 +380,7 @@ public class JobBo extends HrBusinessObject implements JobContract {
         job.setFte();
         job.setFlsaStatus(im.getFlsaStatus());
         job.setPayGrade(im.getPayGrade());
-        job.setLocation(im.getLocation());
+        
         job.setEligibleForLeave(im.isEligibleForLeave());
         if (im.getPayTypeObj() != null) {
             job.setPayTypeObj(PayTypeBo.from(im.getPayTypeObj()));

@@ -70,7 +70,8 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 		Long jobNumber = 30L;
 		Long workArea = 30L;
 		Long task = 30L;
-		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea,
+		createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+				"BW", "TEST-DEPT", workArea,
 				task, new BigDecimal(8), new BigDecimal("0.10"), null);
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours first block, 5 the next.
 		// Should end up with 2 hours total OVT.
@@ -100,7 +101,8 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 		Long jobNumber = 30L;
 		Long workArea = 30L;
 		Long task = 30L;
-		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea,
+		createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+				"BW", "TEST-DEPT", workArea,
 				task, new BigDecimal(8), new BigDecimal("15.0"), null);
 
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours first block, 5 the next.
@@ -128,16 +130,20 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 	public void testRuleCreationAndRetrieval() throws Exception {
 		Long workArea = 0L;
 		Long task = 30L;
-		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea,
+		createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+				"BW", "TEST-DEPT", workArea,
 				task, new BigDecimal(8), new BigDecimal("0.25"), null);
-		DailyOvertimeRule rule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule("SD1", "BW", "TEST-DEPT", workArea, JAN_AS_OF_DATE.toLocalDate());
+		DailyOvertimeRule rule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule("IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+				"BW", "TEST-DEPT", workArea, JAN_AS_OF_DATE.toLocalDate());
 		Assert.assertNotNull("Rule not created.", rule);
 	}
 	
 	@Test
 	public void testSearchDailyOvertimeRules() throws Exception {
-		createDailyOvertimeRule("REG", "OVT", "SD1", "BL", "TEST-DEPT", 30L, 30L, new BigDecimal(8), new BigDecimal("0.10"), null);
-		createDailyOvertimeRule("REG", "OVT", "SD1", "BL", "TEST-DEPT5", 5555L, 30L, new BigDecimal(8), new BigDecimal("0.10"), null);
+		createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+				"BL", "TEST-DEPT", 30L, 30L, new BigDecimal(8), new BigDecimal("0.10"), null);
+		createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+				"BL", "TEST-DEPT5", 5555L, 30L, new BigDecimal(8), new BigDecimal("0.10"), null);
 		
 		List<DailyOvertimeRule> allResults = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules("admin", null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());

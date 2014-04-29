@@ -118,7 +118,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		Long jobNumber = 30L;
 		Long workArea = 0L;
 		this.createShiftDifferentialRule(
-				"BWS-CAL", "REG", "PRM", "SD1", "SD1", "SD1",
+				"BWS-CAL", "REG", "PRM", "IN", "SD1", "SD1",// // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				(new DateTime(2010, 8, 31, 22, 0, 0, 0, tz)),
 				(new DateTime(2010, 8, 31,  4, 0, 0, 0, tz)),
 				new BigDecimal(3), // minHours
@@ -160,7 +160,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("IU-BL_30_30_30"), beginPeriodDate.toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("IU-IN_30_30_30"), beginPeriodDate.toLocalDate());
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO, "admin"));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 		tdoc.setTimeBlocks(blocks);
@@ -232,7 +232,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 				"BWS-CAL",
 				"REG",
 				"PRM",
-				"SD1",
+				"IN",  // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"SD1",
 				"SD1",
 				(new DateTime(2010, 8, 31, 22, 0, 0, 0, tz)),
@@ -247,7 +247,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
-        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("IU-BL_30_30_30"), endOfAugust.getBeginPeriodFullDateTime().toLocalDate());
+        Assignment assignment = HrServiceLocator.getAssignmentService().getAssignment("admin", AssignmentDescriptionKey.get("IU-IN_30_30_30"), endOfAugust.getBeginPeriodFullDateTime().toLocalDate());
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO, "admin"));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust, HrServiceLocator.getCalendarService().getCalendar(endOfAugust.getHrCalendarId()), true);
 
@@ -295,7 +295,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 				"BWS-CAL",
 				"REG",
 				"PRM",
-				"SD1",
+				"IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"SD1",
 				"SD1",
 				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
@@ -344,7 +344,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 				"BWS-CAL",
 				"REG",
 				"PRM",
-				"SD1",
+				"IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"SD1",
 				"SD1",
 				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
@@ -462,7 +462,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 				"BWS-CAL",
 				"REG",
 				"PRM",
-				"SD1",
+				"IN",  // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"SD1",
 				"SD1",
 				(new DateTime(2010, 3, 29, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())),

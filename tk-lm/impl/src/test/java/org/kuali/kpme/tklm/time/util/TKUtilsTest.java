@@ -15,6 +15,19 @@
  */
 package org.kuali.kpme.tklm.time.util;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -27,24 +40,10 @@ import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.util.KpmeUtils;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 @IntegrationTest
 public class TKUtilsTest extends TKLMIntegrationTestCase {
@@ -166,10 +165,24 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
         //test overloaded method
         List<Interval> daySpanList3 = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry.build());
         Assert.assertEquals("List Size should be 2",2,daySpanList3.size());
-        Assert.assertEquals("Start Date should be 01/01/2013",daySpanList3.get(0).getStart(),
-                new DateTime(2013,1,1,0,0,0,TKUtils.getSystemDateTimeZone()));
-        Assert.assertEquals("End Date should be 01/03/2013",daySpanList3.get(daySpanList3.size()-1).getEnd(),
-                new DateTime(2013,1,3,0,0,0,TKUtils.getSystemDateTimeZone()));
+        
+        // cannot use TKUtils.getSystemDateTimeZone() here, because it returns where ever the timezone you are. Test would not pass, because admin is in America/Indiana/Indianapolis, if the test is running in GA, the timezone is America/New_York 
+        Assert.assertEquals("Start Date should be 01/01/2013",daySpanList3.get(0).getStart().getMillis(),
+                new DateTime(2013,1,1,0,0,0,TKUtils.getSystemDateTimeZone()).getMillis());
+        Assert.assertTrue("Start Date should be 01/01/2013",daySpanList3.get(0).getStart().isEqual(new DateTime(2013,1,1,0,0,0,TKUtils.getSystemDateTimeZone())) );
+        
+        //Assert.assertEquals("Start Date should be 01/01/2013",daySpanList3.get(0).getStart(), new DateTime(2013,1,1,0,0,0, DateTimeZone.forID("America/Indiana/Indianapolis")) );
+        
+        
+                
+        Assert.assertEquals("End Date should be 01/03/2013",daySpanList3.get(daySpanList3.size()-1).getEnd().getMillis(),
+                new DateTime(2013,1,3,0,0,0,TKUtils.getSystemDateTimeZone()).getMillis());
+          //Assert.assertTrue("Start Date should be 01/01/2013",daySpanList3.get(daySpanList3.size()-1).getEnd().isEqual(new DateTime(2013,1,3,0,0,0,TKUtils.getSystemDateTimeZone())) );
+        
+//        Assert.assertEquals("End Date should be 01/03/2013",daySpanList3.get(daySpanList3.size()-1).getEnd(),
+//        new DateTime(2013,1,3,0,0,0,DateTimeZone.forID("America/Indiana/Indianapolis")));
+//        
+        
     }
 
     @Test
@@ -242,7 +255,9 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
         String timeString = "9:0";
         DateTime dateTime = TKUtils.convertDateStringToDateTime(dateString, timeString);
         DateTime equalsDateTime = new DateTime(2013, 1, 1, 9, 0, 0, TKUtils.getSystemDateTimeZone());
-        Assert.assertEquals("Date Time Not Correct", dateTime, equalsDateTime);
+        
+        Assert.assertTrue("Date Time Not Correct " + equalsDateTime, dateTime.isEqual(equalsDateTime));
+        Assert.assertEquals("Date Time Not Correct", dateTime.toString(), equalsDateTime.toString());
     }
 
 
@@ -316,7 +331,9 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
         String dateTimeString = "01/01/2013";
         DateTime compareDateTime = new DateTime(2013,1,1,0,0,0);
         DateTime dateTime = TKUtils.formatDateTimeString(dateTimeString);
-        Assert.assertEquals("DateTime is not Correct",compareDateTime,dateTime);
+        
+        Assert.assertTrue("DateTime is not Correct", compareDateTime.isEqual(dateTime));
+        Assert.assertEquals("DateTime is not Correct", compareDateTime.toString(), dateTime.toString());
     }
 
     @Test
@@ -469,11 +486,15 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
     @Test
     public void testisDateEqualOrBetween() throws Exception {
         //equals
-        DateTime equalsDate = new DateTime(2013,1,1,0,0,0);
+        //DateTime equalsDate = new DateTime(2013,01,01,0,0,0);
+    	//Must set timezone when create the data, admin is in IU-IN where is in America/Indiana/Indianapolis timezone. The systemTimeZone is where the test is running.
+        DateTime equalsDate =  new DateTime(2013,1,1,0,0,0, DateTimeZone.forID("America/Indiana/Indianapolis"));
+        
         assertTrue("This should be true", TKUtils.isDateEqualOrBetween(equalsDate, "01/01/2013..01/07/2013"));
 
         //between
-        DateTime betweenDate = new DateTime(2013,1,4,0,0,0);
+        //DateTime betweenDate = new DateTime(2013,1,4,0,0,0);
+        DateTime betweenDate = new DateTime(2013,1,4,0,0,0, DateTimeZone.forID("America/Indiana/Indianapolis"));
         assertTrue("This should be true", TKUtils.isDateEqualOrBetween(betweenDate, "01/01/2013..01/07/2013"));
 
     }

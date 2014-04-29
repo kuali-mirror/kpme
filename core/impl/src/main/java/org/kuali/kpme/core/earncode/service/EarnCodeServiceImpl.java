@@ -112,7 +112,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+        List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), asOfDate);
+        //List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
 
         for (EarnCodeSecurityContract dec : decs) {
 

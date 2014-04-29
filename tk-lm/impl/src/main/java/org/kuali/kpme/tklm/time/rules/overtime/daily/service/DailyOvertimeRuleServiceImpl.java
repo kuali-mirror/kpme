@@ -15,6 +15,16 @@
  */
 package org.kuali.kpme.tklm.time.rules.overtime.daily.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
@@ -37,9 +47,6 @@ import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
@@ -176,7 +183,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 		for(Assignment assignment : timesheetDocument.getAllAssignments()) {
 			JobContract job = assignment.getJob();
-			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getLocation(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getDocEndDate());
+			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getGroupKey().getLocationId(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getDocEndDate());
 
 			if(dailyOvertimeRule !=null) {
 				if(mapDailyOvtRulesToAssignment.containsKey(dailyOvertimeRule)){

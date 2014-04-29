@@ -32,6 +32,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
@@ -320,7 +321,10 @@ public class TKUtils {
     
     public static DateTime formatDateTimeString(String dateTime) {
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+    	
         DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
+        
+        System.out.println("DateTimeZone: " + dtz);
     	try {
 			return new DateTime(sdf.parse(dateTime)).withZone(dtz);
 		} catch (ParseException e) {
@@ -401,7 +405,9 @@ public class TKUtils {
     }
     
     public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
-        return getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
+    	
+    	List<Interval> daySpanList3 = getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
+    	return getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
     }
 
     public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
@@ -498,19 +504,25 @@ public class TKUtils {
 	 
 	 public static boolean isDateEqualOrBetween(DateTime date, String searchDateString) {
 		 boolean valid = false;
-		 
+		
 		 String fromDateString = TKUtils.getFromDateString(searchDateString);
 		 DateTime fromDate = TKUtils.formatDateTimeString(fromDateString);
 		 String toDateString = TKUtils.getToDateString(searchDateString);
 		 DateTime toDate = TKUtils.formatDateTimeString(toDateString);
 		 
 		 if (date != null) {
+			 
+			 /*if (fromDate != null ? (date.isEqual(fromDate) || date.isAfter(fromDate)) : true
+					 && toDate != null ? (date.isBefore(toDate) || date.isEqual(toDate)) : true) {
+				*/ 
+			 
 			 if (fromDate != null ? (date.equals(fromDate) || date.isAfter(fromDate)) : true
 					 && toDate != null ? (date.isBefore(toDate) || date.equals(toDate)) : true) {
+				
 				 valid = true;
 			 }
 		 }
-
+		 
 		 return valid;
 	 }
 	 

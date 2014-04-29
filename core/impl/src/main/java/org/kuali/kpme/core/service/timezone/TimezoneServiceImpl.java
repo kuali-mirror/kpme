@@ -15,32 +15,33 @@
  */
 package org.kuali.kpme.core.service.timezone;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
-import org.kuali.kpme.core.api.principal.PrincipalHRAttributesContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.List;
 
 public class TimezoneServiceImpl implements TimezoneService {
 
     @Override
     public String getUserTimezone(String principalId) {
         PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, LocalDate.now());
+        
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
         List<Job> jobs = HrServiceLocator.getJobService().getJobs(principalId, LocalDate.now());
         if (jobs.size() > 0) {
             // Grab the location off the first job in the list
-            LocationContract location = HrServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), LocalDate.now());
+            //LocationContract location = HrServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), LocalDate.now());
+            LocationContract location = HrServiceLocator.getLocationService().getLocation(jobs.get(0).getGroupKey().getLocationId(), LocalDate.now());
             if (location!=null){
                 if(StringUtils.isNotBlank(location.getTimezone())){
                     return location.getTimezone();
