@@ -24,35 +24,45 @@ import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.pm.api.positionappointment.PositionAppointment;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
+import org.kuali.kpme.pm.positionappointment.PositionAppointmentBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
 
 	private static final long serialVersionUID = 4826886027602440306L;
-	
-    @Override
-    public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
-    	
-    	//return super.getSearchResults(form, searchCriteria, bounded);
- 
-        String description = searchCriteria.get("description");
-        String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
-        String active = searchCriteria.get("active");
-        String showHist = searchCriteria.get("history");
-        String positionAppointment = searchCriteria.get("positionAppointment");
-        String institution = searchCriteria.get("institution");
-        String location = searchCriteria.get("location");
-        String groupKeyCode = searchCriteria.get("groupKeyCode");
-       
-        List<? extends PositionAppointmentContract> posApptContrasts = PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList
-        		(positionAppointment, description, groupKeyCode, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
 
-        // TODO: Filter the result by institution and location here
-        
-       return posApptContrasts;
-    }
+	private static final ModelObjectUtils.Transformer<PositionAppointment, PositionAppointmentBo> toPositionAppointmentBo =
+			new ModelObjectUtils.Transformer<PositionAppointment, PositionAppointmentBo>() {
+		public PositionAppointmentBo transform(PositionAppointment input) {
+			return PositionAppointmentBo.from(input);
+		};
+	};
+
+	@Override
+	public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
+
+		//return super.getSearchResults(form, searchCriteria, bounded);
+
+		String description = searchCriteria.get("description");
+		String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
+		String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
+		String active = searchCriteria.get("active");
+		String showHist = searchCriteria.get("history");
+		String positionAppointment = searchCriteria.get("positionAppointment");
+		String institution = searchCriteria.get("institution");
+		String location = searchCriteria.get("location");
+		String groupKeyCode = searchCriteria.get("groupKeyCode");
+
+		List<PositionAppointmentBo> posApptContrasts = ModelObjectUtils.transform(PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList
+				(positionAppointment, description, groupKeyCode, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toPositionAppointmentBo);
+
+		// TODO: Filter the result by institution and location here
+
+		return posApptContrasts;
+	}
 
 }

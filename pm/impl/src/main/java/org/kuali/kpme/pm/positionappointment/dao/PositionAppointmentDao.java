@@ -18,14 +18,14 @@ package org.kuali.kpme.pm.positionappointment.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positionappointment.PositionAppointment;
+import org.kuali.kpme.pm.positionappointment.PositionAppointmentBo;
 
 public interface PositionAppointmentDao {
 
-	public PositionAppointment getPositionAppointmentById(String pmPositionAppointmentId);
+	public PositionAppointmentBo getPositionAppointmentById(String pmPositionAppointmentId);
 
-	public List<PositionAppointment> getPositionAppointmentList(String pmPositionAppointment, String description, String groupKeyCode, 
+	public List<PositionAppointmentBo> getPositionAppointmentList(String pmPositionAppointment, String description, String groupKeyCode, 
 			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 	
-	public List<PositionAppointment> getPositionAppointmentList(String pmPositionAppointment, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionAppointmentBo> getPositionAppointmentList(String pmPositionAppointment, String groupKeyCode, LocalDate asOfDate);
 }

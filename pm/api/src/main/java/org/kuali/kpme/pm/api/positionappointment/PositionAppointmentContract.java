@@ -15,13 +15,13 @@
  */
 package org.kuali.kpme.pm.api.positionappointment;
 
-import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
 /**
  * <p>PositionAppointmentContract interface</p>
  *
  */
-public interface PositionAppointmentContract extends HrKeyedBusinessObjectContract {
+public interface PositionAppointmentContract extends KpmeEffectiveKeyedDataTransferObject {
 
     /**
      * The primary key for a PositionAppointment entry saved in the database

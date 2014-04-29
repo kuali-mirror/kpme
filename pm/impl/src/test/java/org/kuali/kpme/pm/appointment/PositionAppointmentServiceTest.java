@@ -28,7 +28,7 @@ import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.pm.PMIntegrationTestCase;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
-import org.kuali.kpme.pm.positionappointment.PositionAppointment;
+import org.kuali.kpme.pm.positionappointment.PositionAppointmentBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 @IntegrationTest

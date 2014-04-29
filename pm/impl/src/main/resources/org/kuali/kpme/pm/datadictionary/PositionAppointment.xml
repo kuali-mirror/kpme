@@ -24,7 +24,7 @@
 	
 	<bean id="PositionAppointment" parent="PositionAppointment-parentBean"/>
  	<bean id="PositionAppointment-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionappointment.PositionAppointment"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PositionAppointment-pmPositionAppointmentId"/>
@@ -82,7 +82,7 @@
  
   <bean id="PositionAppointment-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
     <property name="headerText" value="Position Appointment Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionAppointment" />
@@ -95,7 +95,7 @@
       <list merge="true">
         <bean parent="Uif-DataField" p:propertyName="positionAppointment">
          	<property name="inquiry">
-	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointment" 
+	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo" 
 	        	 p:inquiryParameters="pmPositionAppointmentId:pmPositionAppointmentId"/>
     		</property>
         </bean>
@@ -108,7 +108,7 @@
  <!-- Position Appointment Inquiry View -->
   <bean id="PositionAppointment-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Appointment Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -133,7 +133,7 @@
   <bean id="PositionAppointment-MaintenanceView" parent="PositionAppointment-MaintenanceView-parentBean"/>
   <bean id="PositionAppointment-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Appointment Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointment"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo"/>
     <property name="items">
       <list merge="true">
         <bean parent="KPMEGroupKeyed-MaintenanceGridSection">

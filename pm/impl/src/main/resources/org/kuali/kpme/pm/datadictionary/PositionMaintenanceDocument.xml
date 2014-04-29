@@ -380,7 +380,7 @@
                     </property>
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointment"
+							p:dataObjectClassName="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo"
 							p:fieldConversions="positionAppointment:appointmentType"
 							p:lookupParameters="groupKeyCode:groupKeyCode"/>
 					</property>

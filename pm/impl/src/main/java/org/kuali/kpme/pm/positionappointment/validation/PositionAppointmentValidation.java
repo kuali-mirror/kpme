@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.positionappointment.validation;
 
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
-import org.kuali.kpme.pm.positionappointment.PositionAppointment;
+import org.kuali.kpme.pm.positionappointment.PositionAppointmentBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 public class PositionAppointmentValidation extends HrKeyedBusinessObjectValidation {
@@ -25,7 +25,7 @@ public class PositionAppointmentValidation extends HrKeyedBusinessObjectValidati
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for position appointment");
-		PositionAppointment pa = (PositionAppointment) this.getNewDataObject();
+		PositionAppointmentBo pa = (PositionAppointmentBo) this.getNewDataObject();
 		
 		if (pa != null) {
 			valid = true;

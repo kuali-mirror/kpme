@@ -17,6 +17,8 @@ package org.kuali.kpme.pm.positionappointment.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.pm.api.positionappointment.PositionAppointment;
+import org.kuali.kpme.pm.positionappointment.PositionAppointmentBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 public class PositionAppointmentMaintainableImpl extends HrBusinessObjectMaintainableImpl {
@@ -25,7 +27,7 @@ public class PositionAppointmentMaintainableImpl extends HrBusinessObjectMaintai
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) PmServiceLocator.getPositionAppointmentService().getPositionAppointmentById(id);
+		return PositionAppointmentBo.from(PmServiceLocator.getPositionAppointmentService().getPositionAppointmentById(id));
 	}
 
 }

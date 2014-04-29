@@ -27,7 +27,7 @@
 
   <bean id="PositionAppointmentMaintenanceDocument" parent="PositionAppointmentMaintenanceDocument-parentBean"/>
   <bean id="PositionAppointmentMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionappointment.PositionAppointment"/>
+    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.positionappointment.web.PositionAppointmentMaintainableImpl"/>  
     <property name="documentTypeName" value="PositionAppointmentMaintenanceDocumentType"/>
     <property name="documentAuthorizerClass" value="org.kuali.kpme.pm.positionappointment.authorization.PositionAppointmentAuthorizer"/>
