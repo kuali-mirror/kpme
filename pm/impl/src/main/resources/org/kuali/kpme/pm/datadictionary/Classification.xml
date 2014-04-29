@@ -240,7 +240,7 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup">
         	<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" 
 	        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
 	   		</property>
         </bean>

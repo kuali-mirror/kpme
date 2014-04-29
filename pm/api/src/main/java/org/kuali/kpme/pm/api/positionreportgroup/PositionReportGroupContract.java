@@ -16,13 +16,13 @@
 package org.kuali.kpme.pm.api.positionreportgroup;
 
 
-import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
 /**
  * <p>PositionReportGroupContract interface</p>
  *
  */
-public interface PositionReportGroupContract extends HrKeyedBusinessObjectContract {
+public interface PositionReportGroupContract extends KpmeEffectiveKeyedDataTransferObject {
 
     /**
      * The primary key for a PositionReportGroup entry saved in the database

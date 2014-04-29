@@ -34,7 +34,7 @@
     
     <!-- Position Reporting Group -->
     <!-- Business Keys - [positionReportGroup : groupKeyCode : effectiveDate : timestamp] --> 
-    <class-descriptor class="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" table="PM_PSTN_RPT_GRP_T">
+    <class-descriptor class="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" table="PM_PSTN_RPT_GRP_T">
         <field-descriptor name="pmPositionReportGroupId" column="PM_PSTN_RPT_GRP_ID"  	 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_GRP_S" />
         <field-descriptor name="positionReportGroup"    column="PSTN_RPT_GRP"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />

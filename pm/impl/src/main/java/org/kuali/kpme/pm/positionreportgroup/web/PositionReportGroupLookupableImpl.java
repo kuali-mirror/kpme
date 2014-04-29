@@ -24,8 +24,11 @@ import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PositionReportGroupLookupableImpl extends KPMELookupableImpl {
@@ -46,12 +49,12 @@ public class PositionReportGroupLookupableImpl extends KPMELookupableImpl {
         String location = searchCriteria.get("location");
         String groupKeyCode = searchCriteria.get("groupKeyCode");
        
-        List<? extends PositionReportGroupContract> posReportGroupContrasts = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList
-        		(positionReportGroup, groupKeyCode, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
+        List<PositionReportGroupBo> posReportGroups = ModelObjectUtils.transform(PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList
+        		(positionReportGroup, groupKeyCode, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist),PositionReportGroupBo.toBo);
 
         // TODO: Filter the result by institution and location here
         
-       return posReportGroupContrasts;
+       return posReportGroups;
     }
 
 }

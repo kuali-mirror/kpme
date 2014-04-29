@@ -18,9 +18,11 @@ package org.kuali.kpme.pm.positionreportgroup.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.api.positionreportgroup.service.PositionReportGroupService;
-import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 import org.kuali.kpme.pm.positionreportgroup.dao.PositionReportGroupDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionReportGroupServiceImpl implements PositionReportGroupService {
 
@@ -29,22 +31,22 @@ public class PositionReportGroupServiceImpl implements PositionReportGroupServic
 	@Override
 	public PositionReportGroup getPositionReportGroupById(
 			String pmPositionReportGroupId) {
-		return positionReportGroupDao.getPositionReportGroupById(pmPositionReportGroupId);
+		return PositionReportGroupBo.to(positionReportGroupDao.getPositionReportGroupById(pmPositionReportGroupId));
 	}
 	
 	@Override
 	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
-		return positionReportGroupDao.getPositionReportGroup(positionReportGroup, asOfDate);
+		return PositionReportGroupBo.to(positionReportGroupDao.getPositionReportGroup(positionReportGroup, asOfDate));
 	}
 	
 	@Override
 	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
-		return positionReportGroupDao.getPositionReportGroupList(positionReportGroup, groupKeyCode, asOfDate);
+		return ModelObjectUtils.transform(positionReportGroupDao.getPositionReportGroupList(positionReportGroup, groupKeyCode, asOfDate),PositionReportGroupBo.toImmutable);
 	}
 
 	@Override
 	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory){
-		return positionReportGroupDao.getPositionReportGroupList(positionReportGroup, groupKeyCode, fromEffdt, toEffdt, active, showHistory);
+		return ModelObjectUtils.transform(positionReportGroupDao.getPositionReportGroupList(positionReportGroup, groupKeyCode, fromEffdt, toEffdt, active, showHistory),PositionReportGroupBo.toImmutable);
 	}
 	
 	public PositionReportGroupDao getPositionReportGroupDao() {

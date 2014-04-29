@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.positionreportgroup.validation;
 
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
-import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 @SuppressWarnings("deprecation")
@@ -25,7 +25,7 @@ public class PositionReportGroupValidation extends HrKeyedBusinessObjectValidati
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Report Group");
-		PositionReportGroup prg = (PositionReportGroup) this.getNewDataObject();
+		PositionReportGroupBo prg = (PositionReportGroupBo) this.getNewDataObject();
 		
 		if (prg != null) {
 			valid = true;

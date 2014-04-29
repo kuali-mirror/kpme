@@ -98,7 +98,7 @@
 		        <bean parent="Uif-InputField" p:propertyName="classificationTitle" />
 		        <bean parent="Uif-InputField" p:propertyName="positionReportGroup">
 			        <property name="quickfinder">
-			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" 
 			        		 p:fieldConversions="positionReportGroup:positionReportGroup"
 			        		 p:lookupParameters="groupKeyCode:groupKeyCode"/>
 			   		</property>

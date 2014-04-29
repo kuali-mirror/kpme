@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.positionreportgroup.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 public class PositionReportGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
@@ -25,6 +26,6 @@ public class PositionReportGroupMaintainableImpl extends HrBusinessObjectMaintai
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) PmServiceLocator.getPositionReportGroupService().getPositionReportGroupById(id);
+		return PositionReportGroupBo.from(PmServiceLocator.getPositionReportGroupService().getPositionReportGroupById(id));
 	}
 }

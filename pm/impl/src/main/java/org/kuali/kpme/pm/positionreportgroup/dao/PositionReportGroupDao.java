@@ -18,16 +18,16 @@ package org.kuali.kpme.pm.positionreportgroup.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.positionreportgroup.PositionReportGroup;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 
 public interface PositionReportGroupDao {
 	
-	public PositionReportGroup getPositionReportGroupById(String pmPositionReportGroupId);
+	public PositionReportGroupBo getPositionReportGroupById(String pmPositionReportGroupId);
 	
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate);
 	
-	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
+	public PositionReportGroupBo getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
 	
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 	
 }

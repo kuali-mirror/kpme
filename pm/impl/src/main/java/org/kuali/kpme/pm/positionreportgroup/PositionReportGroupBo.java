@@ -15,17 +15,16 @@
  */
 package org.kuali.kpme.pm.positionreportgroup;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
-import org.kuali.kpme.core.institution.InstitutionBo;
-import org.kuali.kpme.core.location.LocationBo;
-import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportGroup extends HrKeyedBusinessObject implements PositionReportGroupContract {
+public class PositionReportGroupBo extends HrKeyedBusinessObject implements PositionReportGroupContract {
 
 	private static final String GROUP_KEY_CODE = "groupKeyCode";
 	private static final String POSITION_REPORT_GROUP = "positionReportGroup";
@@ -49,6 +48,34 @@ public class PositionReportGroup extends HrKeyedBusinessObject implements Positi
 				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
+
+	/*
+	 * convert bo to immutable
+	 *
+	 * Can be used with ModelObjectUtils:
+	 *
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionReportGroupBo, PositionReportGroupBo.toImmutable);
+	 */
+	public static final ModelObjectUtils.Transformer<PositionReportGroupBo, PositionReportGroup> toImmutable =
+			new ModelObjectUtils.Transformer<PositionReportGroupBo, PositionReportGroup>() {
+		public PositionReportGroup transform(PositionReportGroupBo input) {
+			return PositionReportGroupBo.to(input);
+		};
+	};
+
+	/*
+	 * convert immutable to bo
+	 * 
+	 * Can be used with ModelObjectUtils:
+	 * 
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionReportGroup, PositionReportGroupBo.toBo);
+	 */
+	public static final ModelObjectUtils.Transformer<PositionReportGroup, PositionReportGroupBo> toBo =
+			new ModelObjectUtils.Transformer<PositionReportGroup, PositionReportGroupBo>() {
+		public PositionReportGroupBo transform(PositionReportGroup input) {
+			return PositionReportGroupBo.from(input);
+		};
+	};
 
 	@Override
 	public String getId() {
@@ -91,6 +118,30 @@ public class PositionReportGroup extends HrKeyedBusinessObject implements Positi
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public static PositionReportGroupBo from(PositionReportGroup im) {
+		if (im == null) {
+			return null;
+		}
+		PositionReportGroupBo prg = new PositionReportGroupBo();
+		prg.setPmPositionReportGroupId(im.getPmPositionReportGroupId());
+		prg.setPositionReportGroup(im.getPositionReportGroup());
+		prg.setDescription(im.getDescription());
+		prg.setGroupKeyCode(im.getGroupKeyCode());        
+		prg.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+		
+		// finally copy over the common fields into prg from im
+		copyCommonFields(prg, im);
+
+		return prg;
+	} 
+
+	public static PositionReportGroup to(PositionReportGroupBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PositionReportGroup.Builder.create(bo).build();
 	}
 
 }

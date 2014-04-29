@@ -23,7 +23,7 @@
 	<bean id="PositionReportGroup" parent="PositionReportGroup-parentBean" />
 
 	<bean id="PositionReportGroup-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" />
+		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="PositionReportGroup-pmPositionReportGroupId" />
@@ -104,7 +104,7 @@
 
     <bean id="PositionReportGroup-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Group Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" />
         <property name="criteriaFields">
             <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" />
@@ -116,7 +116,7 @@
             <list>
             	<bean parent="Uif-DataField" p:propertyName="positionReportGroup" >
 	            	<property name="inquiry">
-			       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup" 
+			       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" 
 			        	 p:inquiryParameters="pmPositionReportGroupId:pmPositionReportGroupId"/>
 		    		</property>
 	    		</bean>
@@ -131,7 +131,7 @@
     
     <bean id="PositionReportGroup-inquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Position Report Group Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
           <list>      
@@ -150,7 +150,7 @@
     <bean id="PositionReportGroup-MaintenanceView" parent="PositionReportGroup-MaintenanceView-parentBean"/>
     <bean id="PositionReportGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
       <property name="headerText" value="Position Report Group Maintenance"/>
-      <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroup"/>
+      <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo"/>
       <property name="items">
           <list merge="true">
               <!-- bean parent="Uif-MaintenanceGridSection"-->
