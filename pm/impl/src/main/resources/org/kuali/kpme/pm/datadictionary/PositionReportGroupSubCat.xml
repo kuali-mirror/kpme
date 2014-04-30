@@ -131,7 +131,7 @@
       </list>
     </property>
     <property name="resultFields">
-      <list>
+      <list merge="true">
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="pstnRptGrpSubCat">
         	<property name="inquiry">
