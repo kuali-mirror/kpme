@@ -144,14 +144,16 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
 		private String leaveBlockType;
 		private String userPrincipalId;
 		private LeaveCalendarDocumentHeader leaveCalendarDocumentHeader;
+		private String groupKeyCode;
 		
 		public Builder(LocalDate leaveDate, String documentId,
-				String principalId, String earnCode, BigDecimal leaveAmount) {
+				String principalId, String earnCode, BigDecimal leaveAmount, String groupKeyCode) {
 			this.leaveDate = leaveDate.toDate();
 			this.documentId = documentId;
 			this.principalId = principalId;
 			this.earnCode = earnCode;
 			this.leaveAmount = leaveAmount;
+			this.groupKeyCode = groupKeyCode;
 		}
 
 		// validations could be done in the builder methods below
@@ -231,7 +233,6 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
 		public LeaveBlockBo build() {
 			return new LeaveBlockBo(this);
 		}
-		
 	}
 
 	private LeaveBlockBo(Builder builder) {
@@ -254,6 +255,7 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
 		leaveBlockType = builder.leaveBlockType;
 		userPrincipalId = builder.userPrincipalId;
 		leaveCalendarDocumentHeader = builder.leaveCalendarDocumentHeader;
+		groupKeyCode = builder.groupKeyCode;
 		// TODO: need to hook up leaveCodeObj, systemScheduledTimeOffObj,
 		// accrualCategoryObj, and ids for individual obj
 	}

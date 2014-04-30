@@ -351,7 +351,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     public LeaveBlockBo buildLeaveBlock(LocalDate leaveDate, String docId, String principalId, String selectedEarnCode,
     		BigDecimal hours, String description, String accrualCategory, Assignment selectedAssignment, String requestStatus, String leaveBlockType, DateTime beginDateTime, DateTime endDateTime) {
     	
-    	LeaveBlockBo leaveBlock = new LeaveBlockBo.Builder(leaveDate, docId, principalId, selectedEarnCode, hours)
+    	LeaveBlockBo leaveBlock = new LeaveBlockBo.Builder(leaveDate, docId, principalId, selectedEarnCode, hours, selectedAssignment.getGroupKeyCode())
         .description(description)
         .principalIdModified(principalId)
         .timestamp(TKUtils.getCurrentTimestamp())

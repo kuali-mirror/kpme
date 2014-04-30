@@ -54,6 +54,7 @@ public class TimeBlockHistory extends TimeBlockBo implements TimeBlockHistoryCon
 		this.setUserPrincipalId(tb.getUserPrincipalId());
 		this.setPrincipalId(tb.getPrincipalId());
 		this.setTimestamp(tb.getTimestamp());
+		this.setGroupKeyCode(tb.getGroupKeyCode());
 		// add time block history details for this time block history
 		TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(this, tb);
 	}
