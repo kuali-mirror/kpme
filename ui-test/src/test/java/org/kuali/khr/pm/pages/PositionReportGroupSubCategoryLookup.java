@@ -16,7 +16,7 @@
 package org.kuali.khr.pm.pages;
 
 import static org.kuali.khr.hub.tests.selenium.SeleniumTestSuite.waitHere;
-import static org.kuali.khr.hub.util.KhrTestConstants.Urls.PositionReportGroupSubCategoryLookup;
+import static org.kuali.khr.hub.util.KhrTestConstants.Urls.POSITION_REPORT_GROUP_SUB_CATEGORY_LOOKUP_URL;
 
 import org.kuali.khr.hub.pages.Lookup;
 import org.kuali.khr.hub.pages.Page;
@@ -166,7 +166,7 @@ public class PositionReportGroupSubCategoryLookup extends Lookup implements Page
 	
 	@Override
 	public void gotoPage() {
-		driver.get(PositionReportGroupSubCategoryLookup);
+		driver.get(POSITION_REPORT_GROUP_SUB_CATEGORY_LOOKUP_URL);
 	}
 	
 	public void search() {

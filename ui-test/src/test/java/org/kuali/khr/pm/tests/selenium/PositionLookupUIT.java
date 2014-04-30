@@ -25,7 +25,7 @@ import org.kuali.khr.pm.pages.PositionLookup;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class LookupPositionUIT extends KhrBase
+public class PositionLookupUIT extends KhrBase
 {
 	private static WebDriver driver = SeleniumBase.getDriver();
 	private static PositionLookup position_lookup;

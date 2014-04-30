@@ -23,12 +23,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.kuali.khr.hub.util.SeleniumBase;
-import org.kuali.khr.pm.tests.selenium.LookupPositionUIT;
+import org.kuali.khr.pm.tests.selenium.PositionLookupUIT;
 import org.kuali.khr.pm.tests.selenium.PositionReportGroupSubCategoryLookupUIT;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
-	LookupPositionUIT.class,
+	PositionLookupUIT.class,
 	PositionReportGroupSubCategoryLookupUIT.class
 	})
 public class SeleniumTestSuite {

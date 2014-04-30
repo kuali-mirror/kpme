@@ -18,6 +18,7 @@ package org.kuali.khr.lm.pages;
 import org.kuali.khr.hub.pages.Page;
 import org.kuali.khr.hub.util.Helper;
 import org.openqa.selenium.WebDriver;
+import static org.kuali.khr.hub.util.KhrTestConstants.Urls.LEAVE_CALENDAR_URL;
 
 public class LeaveCalendar implements Page {
 
@@ -29,7 +30,7 @@ public class LeaveCalendar implements Page {
 	
 	@Override
 	public void gotoPage() {
-		// TODO Auto-generated method stub
+		driver.get(LEAVE_CALENDAR_URL);
 
 	}
 	

@@ -26,12 +26,12 @@ public class KhrTestConstants {
 		public static final String LOGOUT_URL = BASE_URL + "/logout.do";
 		public static final String POSITION_LOOKUP_URL = BASE_URL
 				+ "/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.pm.position.PositionBo";
-		public static final String PositionReportGroupSubCategoryLookup = BASE_URL
+		public static final String POSITION_REPORT_GROUP_SUB_CATEGORY_LOOKUP_URL = BASE_URL
 				+ "/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategoryBo&showMaintenanceLinks=true";
+		public static final String LEAVE_CALENDAR_URL = BASE_URL + "/LeaveCalendar.do";
 
 		
-//		public static final String PositionReportGroupSubCategoryLookup = BASE_URL
-//				+ "/portal.do?channelTitle=Position%20Report%20Group%20Sub%20Category&channelUrl=" + BASE_URL + "/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategoryBo&returnLocation=http://localhost:8080/kpme-dev/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y";
+
 	}	
 
 
