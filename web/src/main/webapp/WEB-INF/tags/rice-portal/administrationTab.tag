@@ -14,12 +14,12 @@
  limitations under the License.
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
-
+<%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <td class="content" valign="top">      
       <administrationChannel:workflow />
       <administrationChannel:sendNotification />
-      <mainChannel:rules/>
+      <admin:krmsRules />
 </td>
 <td class="content" valign="top">
       <administrationChannel:identity />
