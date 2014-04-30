@@ -99,8 +99,8 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportCat" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" >
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportType"
-                              p:fieldConversions="positionReportType:positionReportType" />
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportCategory"
+                              p:fieldConversions="pmPositionReportCatId:pmPositionReportCatId" />
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
@@ -109,7 +109,12 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="positionReportCat"/>
+                <bean parent="Uif-DataField" p:propertyName="positionReportCat">
+                	<property name="inquiry">
+			       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionreportcat.PositionReportCategory" 
+			        	 p:inquiryParameters="pmPositionReportCatId:pmPositionReportCatId"/>
+		    		</property>
+		    	</bean>
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
                 <bean parent="Uif-DataField" p:propertyName="positionReportType" />
                 <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
@@ -120,26 +125,17 @@
 
     <!--Position Reporting Category Inquiry View-->
 
-    <bean id="PositionReportCat-InquiryView" parent="Uif-InquiryView" >
+    <bean id="PositionReportCat-InquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView" >
         <property name="headerText" value="Position Report Category Inquiry" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategory"/>
         <property name="singlePageView" value="true"/>
+        <property name="title" value="Position Report Category Information" />
         <property name="items">
-            <list>
-                <bean id="PositionReportCat-InquiryView-General" parent="Uif-Disclosure-GridSection">
-                    <property name="layoutManager.numberOfColumns" value="2"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="positionReportCat" />
-                            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-                            <bean parent="Uif-DataField" p:propertyName="positionReportType" />
-                            <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
-                            <bean parent="Uif-DataField" p:propertyName="active" />
-                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-                        </list>
-                    </property>
-                    <property name="title" value="Position Report Category Information" />
-                </bean>
+            <list merge="true">
+                <bean parent="Uif-DataField" p:propertyName="positionReportCat" />
+                <bean parent="Uif-DataField" p:propertyName="positionReportType" />
+                <bean parent="Uif-DataField" p:propertyName="active" />
+                <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
             </list>
         </property>
     </bean>

@@ -116,7 +116,12 @@
         </property>
         <property name="resultFields">
             <list>
-            	<bean parent="Uif-DataField" p:propertyName="positionReportType" />
+            	<bean parent="Uif-DataField" p:propertyName="positionReportType" >
+	            	<property name="inquiry">
+			       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportType" 
+			        	 p:inquiryParameters="pmPositionReportTypeId:pmPositionReportTypeId"/>
+		    		</property>
+		    	</bean>
             	<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
 				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 				<bean parent="Uif-DataField" p:propertyName="active" />
@@ -126,16 +131,15 @@
 
     <!--Position Reporting Type Inquiry View-->
     
-    <bean id="PositionReportType-inquiryView" parent="Uif-InquiryView">
+    <bean id="PositionReportType-inquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
         <property name="headerText" value="Position Report Type Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
-          <list>      
-            <bean parent="Uif-DataField" p:propertyName="positionReportType" />
-            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+          <list merge="true">      
+            <bean parent="Uif-DataField" p:propertyName="positionReportType" >
+            </bean>
             <bean parent="Uif-DataField" p:propertyName="description" />
-            <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
             <bean parent="Uif-DataField" p:propertyName="active" />
             <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
           </list>

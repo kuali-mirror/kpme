@@ -128,17 +128,14 @@
     </bean>
 
     <!--Position Reporting Group Inquiry View-->
-    
-    <bean id="PositionReportGroup-inquiryView" parent="Uif-InquiryView">
+    <bean id="PositionReportGroup-inquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
         <property name="headerText" value="Position Report Group Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
-          <list>      
+          <list merge="true">      
             <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
-            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
             <bean parent="Uif-DataField" p:propertyName="description" />
-            <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
             <bean parent="Uif-DataField" p:propertyName="active" />
             <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
           </list>

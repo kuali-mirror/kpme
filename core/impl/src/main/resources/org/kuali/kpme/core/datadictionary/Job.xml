@@ -447,45 +447,36 @@
         ***************************************************************************-->
 
     <!-- Job Inquiry View -->
-    <bean id="Job-InquiryView" parent="Uif-InquiryView">
-        <property name="headerText" value="Job Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.job.JobBo"/>
-        <property name="singlePageView" value="true"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Disclosure-GridSection">
-                    <property name="layoutManager.numberOfColumns" value="2"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
-                            <bean parent="Uif-DataField" p:propertyName="principalId"/>
-                            <bean parent="Uif-DataField" p:propertyName="name"/>
-                            <bean parent="Uif-DataField" p:propertyName="jobNumber"/>
-                            <bean parent="Uif-DataField" p:propertyName="dept"/>
-                            <!-- 
-                            <bean parent="Uif-DataField" p:propertyName="location"/>
-                            -->
-                            <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
-                            
-                            <bean parent="Uif-DataField" p:propertyName="positionNumber"/>
-                            <bean parent="Uif-DataField" p:propertyName="hrPayType"/>
-                            <bean parent="Uif-DataField" p:propertyName="hrSalGroup"/>
-                            <bean parent="Uif-DataField" p:propertyName="payGrade"/>
-                            <bean parent="Uif-DataField" p:propertyName="compRate"/>
-                            <bean parent="Uif-DataField" p:propertyName="standardHours"/>
-                            <bean parent="Uif-DataField" p:propertyName="fte"/>
-                            <bean parent="Uif-DataField" p:propertyName="primaryIndicator"/>
-                            <bean parent="Uif-DataField" p:propertyName="eligibleForLeave"/>
-                            <bean parent="Uif-DataField" p:propertyName="flsaStatus"/>
-                            <bean parent="Uif-DataField" p:propertyName="active"/>
-                            <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
-                        </list>
-                    </property>
-                    <property name="title" value="Department Inquiry"/>
-                </bean>
-            </list>
-        </property>
-    </bean>
+	<bean id="Job-InquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
+		<property name="headerText" value="Job Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.job.JobBo" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="Job Inquiry" />
+		<property name="items">
+			<list merge="true">
+				<!-- 
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />-->
+				<bean parent="Uif-DataField" p:propertyName="principalId" />
+				<bean parent="Uif-DataField" p:propertyName="name" />
+				<bean parent="Uif-DataField" p:propertyName="jobNumber" />
+				<bean parent="Uif-DataField" p:propertyName="dept" />
+				<!-- <bean parent="Uif-DataField" p:propertyName="location"/> -->
+				<bean parent="Uif-DataField" p:propertyName="positionNumber" />
+				<bean parent="Uif-DataField" p:propertyName="hrPayType" />
+				<bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
+				<bean parent="Uif-DataField" p:propertyName="payGrade" />
+				<bean parent="Uif-DataField" p:propertyName="compRate" />
+				<bean parent="Uif-DataField" p:propertyName="standardHours" />
+				<bean parent="Uif-DataField" p:propertyName="fte" />
+				<bean parent="Uif-DataField" p:propertyName="primaryIndicator" />
+				<bean parent="Uif-DataField" p:propertyName="eligibleForLeave" />
+				<bean parent="Uif-DataField" p:propertyName="flsaStatus" />
+				<bean parent="Uif-DataField" p:propertyName="active" />
+				<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+			</list>
+		</property>
+	</bean>
     
     <!-- KNS Inquiry View -->
 	<bean id="Job-inquiryDefinition" parent="Job-inquiryDefinition-parentBean" />
@@ -583,7 +574,12 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="principalName"/>
-                <bean parent="Uif-DataField" p:propertyName="jobNumber"/>
+                <bean parent="Uif-DataField" p:propertyName="jobNumber">
+                	<property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.job.JobBo"
+                              p:inquiryParameters="hrJobId:hrJobId"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-DataField" p:propertyName="dept">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"

@@ -116,28 +116,19 @@
   </bean> 
  
  <!-- Position Type Inquiry View -->
-  <bean id="PstnContractType-InquiryView" parent="Uif-InquiryView">
+  <bean id="PstnContractType-InquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
     <property name="headerText" value="Position Contract Type Inquiry"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
     <property name="singlePageView" value="true"/>
+    <property name="title" value="Position Contract Type Inquiry"/>
     <property name="items">
-      <list>
-  			<bean parent="Uif-Disclosure-GridSection">
-		      <property name="layoutManager.numberOfColumns" value="2"/>
-		      <property name="items">
-	       	 	<list>
-		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-			        <bean parent="Uif-DataField" p:propertyName="name" />
-			        <bean parent="Uif-DataField" p:propertyName="description" />
-			        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
-			        <bean parent="Uif-DataField" p:propertyName="active"/>
-                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-	        	</list>
-	     	 </property>
-	     	 <property name="title" value="Position Contract Type Inquiry"/>
-	   	   </bean>
-      </list>
-    </property>
+     	 	<list merge="true">
+		        <bean parent="Uif-DataField" p:propertyName="name" />
+		        <bean parent="Uif-DataField" p:propertyName="description" />
+		        <bean parent="Uif-DataField" p:propertyName="active"/>
+	            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+	      	</list>
+   	 </property>
   </bean> 
   
 <!--  Position Type Maintenance View -->

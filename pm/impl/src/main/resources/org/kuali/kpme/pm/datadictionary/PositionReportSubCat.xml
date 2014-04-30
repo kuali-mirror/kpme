@@ -127,7 +127,12 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="positionReportSubCat" />
+                <bean parent="Uif-DataField" p:propertyName="positionReportSubCat" >
+                	<property name="inquiry">
+			       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
+			        	 p:inquiryParameters="pmPositionReportSubCatId:pmPositionReportSubCatId"/>
+		    		</property>
+    			</bean>
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
                 <bean parent="Uif-DataField" p:propertyName="positionReportCat" />
                 <bean parent="Uif-DataField" p:propertyName="positionReportType" />
