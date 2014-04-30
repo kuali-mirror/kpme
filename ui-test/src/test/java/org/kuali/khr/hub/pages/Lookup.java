@@ -45,4 +45,16 @@ public class Lookup
 	@FindBy(name = "lookupCriteria[positionReportGroup]")
 	protected WebElement PositionReportGroupField;
 
+    @FindBy(xpath = "//button[contains(text(), 'Search')]")
+    public WebElement SearchButton;
+
+    @FindBy(xpath = "//button[contains(text(), 'Clear Values')]")
+    protected WebElement ClearValuesButton;
+
+    @FindBy(xpath = "//button[contains(text(), 'Cancel')]")
+    protected WebElement CancelButton;
+
+    @FindBy(xpath = "//button[contains(text(), 'Close')]")
+    protected WebElement CloseButton;
+
 }

@@ -123,17 +123,7 @@ public class PositionReportGroupSubCategoryLookup extends Lookup implements Page
 	@FindBy(xpath = "//*label[matches(.,'Both')]")
 	public WebElement ActiveBothLabel;
 	
-	@FindBy(xpath = "//button[contains(text(), 'Search')]")
-	public WebElement SearchButton;
-	
-	@FindBy(xpath = "//button[contains(text(), 'Clear Values')]")
-	private WebElement ClearValuesButton;
-	
-	@FindBy(xpath = "//button[contains(text(), 'Cancel')]")
-	private WebElement CancelButton;
-	
-	@FindBy(xpath = "//button[contains(text(), 'Close')]")
-	private WebElement CloseButton;
+
 	
 
 	@FindBy(xpath = "//*label[matches(.,'Group Key Id:')]")

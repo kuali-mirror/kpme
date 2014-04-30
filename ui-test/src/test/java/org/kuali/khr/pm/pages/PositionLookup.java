@@ -21,8 +21,9 @@ import org.kuali.khr.hub.pages.Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.kuali.khr.hub.pages.Lookup;
 
-public class PositionLookup implements Page {
+public class PositionLookup extends Lookup implements Page {
 
 	private WebDriver driver;
 
@@ -33,11 +34,7 @@ public class PositionLookup implements Page {
 	@FindBy(id = "u100012_control")
 	private WebElement PositionNumberField;
 
-	@FindBy(id = "u100006")
-	private WebElement SearchButton;
 
-	@FindBy(id = "u100007")
-	private WebElement ClearValuesButton;
 
 	@FindBy(id = "u100103_info")
 	private WebElement results;

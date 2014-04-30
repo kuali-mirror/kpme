@@ -55,10 +55,10 @@ public class ClockInSteps {
 	public void clockInClockOut() throws InterruptedException {
 		clock.goToClock();
 		clockinInfos.add(clock.clockIn(1));
-		Thread.sleep(20000);
+//		Thread.sleep(20000);
 		clock.clockOut();
 		clockinInfos.add(clock.clockIn(2));
-		Thread.sleep(20000);
+//		Thread.sleep(20000);
 		clock.clockOut();
 
 	}

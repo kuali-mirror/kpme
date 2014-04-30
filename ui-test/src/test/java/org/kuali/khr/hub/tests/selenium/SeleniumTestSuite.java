@@ -29,10 +29,9 @@ import org.kuali.khr.pm.tests.selenium.PositionReportGroupSubCategoryLookupUIT;
 @RunWith(Suite.class)
 @SuiteClasses({ 
 	PositionLookupUIT.class,
-	PositionReportGroupSubCategoryLookupUIT.class
-	})
-public class SeleniumTestSuite {
-
+	PositionReportGroupSubCategoryLookupUIT.class})
+public class SeleniumTestSuite
+{
 	public static Test suite() {
 		TestSuite testsuite = new TestSuite();
 		return testsuite;
