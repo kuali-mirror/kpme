@@ -26,7 +26,7 @@ public class SeleniumBase {
 
 	private SeleniumBase() {
 		driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 	}
 
 	public static WebDriver getDriver() {

@@ -33,4 +33,13 @@ public class Helper {
 	{
 		driver.switchTo().defaultContent();
 	}
+
+    public static void waitHere()
+    {
+        try {
+            Thread.sleep(2000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

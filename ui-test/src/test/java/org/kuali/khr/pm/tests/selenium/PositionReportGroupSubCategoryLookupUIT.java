@@ -17,7 +17,6 @@ package org.kuali.khr.pm.tests.selenium;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.kuali.khr.hub.tests.selenium.SeleniumTestSuite.waitHere;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -36,16 +35,13 @@ public class PositionReportGroupSubCategoryLookupUIT extends KhrBase {
 	public static void setUp() 
 	{
 		login(USERNAME);
-		waitHere();
 	}
 	
 	@Before
 	public void setUpBeforeTest()
 	{
-		prgsc_lookup = loadPage();
+		prgsc_lookup = (PositionReportGroupSubCategoryLookup) loadPage(PositionReportGroupSubCategoryLookup.class);
 		prgsc_lookup.gotoPage();
-		waitHere();
-		
 	}
 
 	@Test
@@ -73,42 +69,39 @@ public class PositionReportGroupSubCategoryLookupUIT extends KhrBase {
 		
 		
 		prgsc_lookup.search();
-		prgsc_lookup = loadPage();
+		loadPage(prgsc_lookup.getClass());
 		
 		assertNotNull(prgsc_lookup.ResultsActionsLabel);
 		assertNotNull(prgsc_lookup.ResultsEffectiveDateLabel);
 		assertNotNull(prgsc_lookup.ResultsPositionReportGroupSubCategoryLabel);
-		
-
 	}
 	
 	@Test
-	public void test() {
+	public void test()
+    {
 		prgsc_lookup.lookupGroupKey("1");
 	}
 
 	@Test
-	public void findByPositionReportGroupSubCategory() {
+	public void findByPositionReportGroupSubCategory()
+    {
 		prgsc_lookup.lookupPositionReportGroupSubCategory("Sr Exec Off");
 		verifyResults(prgsc_lookup);
 	}
-
 
 	@Test
 	public void checkGroupKeyLookup() 
 	{
 		prgsc_lookup.GroupKeyLookupButton.click();
-		waitHere();
-		loadPage();
+		loadPage(prgsc_lookup.getClass());
 		prgsc_lookup.switchFrame("fancybox-frame");
 		
 		assertNotNull(prgsc_lookup.GroupKeyLookupTitle);
 		assertNotNull(prgsc_lookup.GroupKeyIdLabel);
 		prgsc_lookup.lookupGroupKey("ISU-IA");
-		waitHere();
 		verifyResults(prgsc_lookup);
 		prgsc_lookup.closeLookupLightbox();
-		loadPage();
+		loadPage(prgsc_lookup.getClass());
 		prgsc_lookup.switchToDefaultFrame();
 		
 		// verify you can access objects on main Position Report Group Sub Category Lookup screen 
@@ -119,17 +112,15 @@ public class PositionReportGroupSubCategoryLookupUIT extends KhrBase {
 	public void checkInstitutionLookup() 
 	{
 		prgsc_lookup.InstitutionLookupButton.click();
-		waitHere();
-		loadPage();
+		loadPage(PositionReportGroupSubCategoryLookup.class);
 		prgsc_lookup.switchFrame("fancybox-frame");
 		
 		assertNotNull(prgsc_lookup.InstitutionLookupTitle);
 		assertNotNull(prgsc_lookup.InstitutionCodeLabel);
 		prgsc_lookup.lookupInstitution("ISU");
-		waitHere();
 		verifyResults(prgsc_lookup);
 		prgsc_lookup.closeLookupLightbox();
-		loadPage();
+		loadPage(prgsc_lookup.getClass());
 		prgsc_lookup.switchToDefaultFrame();
 		
 		// verify you can access objects on main Position Report Group Sub Category Lookup screen 
@@ -143,9 +134,7 @@ public class PositionReportGroupSubCategoryLookupUIT extends KhrBase {
 				"Showing 1 to 1 of 1 entries");
 	}
 	
-	private static PositionReportGroupSubCategoryLookup loadPage() {
-		return PageFactory.initElements(driver, PositionReportGroupSubCategoryLookup.class);
-	}
+
 	
 	
 

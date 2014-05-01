@@ -15,9 +15,8 @@
  */
 package org.kuali.khr.pm.pages;
 
-import static org.kuali.khr.hub.tests.selenium.SeleniumTestSuite.waitHere;
+import static org.kuali.khr.hub.util.Helper.waitHere;
 import static org.kuali.khr.hub.util.KhrTestConstants.Urls.POSITION_REPORT_GROUP_SUB_CATEGORY_LOOKUP_URL;
-
 import org.kuali.khr.hub.pages.Lookup;
 import org.kuali.khr.hub.pages.Page;
 import org.kuali.khr.hub.util.Helper;
@@ -150,9 +149,6 @@ public class PositionReportGroupSubCategoryLookup extends Lookup implements Page
 	@FindBy(xpath ="//*label[matches(.,'Position Report Group Sub Category ')]")
 	public WebElement ResultsPositionReportGroupSubCategoryLabel;
 	
-	@FindBy(className = "dataTables_info")
-	private WebElement results;
-	
 	
 	@Override
 	public void gotoPage() {
@@ -181,8 +177,7 @@ public class PositionReportGroupSubCategoryLookup extends Lookup implements Page
 	
 	public String checkResults() {
 		waitHere();
-		String resultstring = results.getText();
-		return resultstring;
+		return results.getText();
 	}
 	
 	

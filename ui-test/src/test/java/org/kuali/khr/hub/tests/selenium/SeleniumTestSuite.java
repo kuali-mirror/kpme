@@ -45,12 +45,5 @@ public class SeleniumTestSuite
 	public static void main(String[] args) {
 		junit.textui.TestRunner.run(suite());
 	}
-	
-	public static void waitHere() {
-		try {
-			Thread.sleep(2000);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+
 }

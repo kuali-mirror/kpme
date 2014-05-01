@@ -15,7 +15,7 @@
  */
 package org.kuali.khr.lm.tests.selenium;
 
-import static org.kuali.khr.hub.tests.selenium.SeleniumTestSuite.waitHere;
+import static org.kuali.khr.hub.util.Helper.waitHere;
 
 import org.junit.Before;
 import org.junit.BeforeClass;

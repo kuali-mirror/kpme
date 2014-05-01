@@ -35,8 +35,8 @@ public class Lookup
 	
 	@FindBy(name = "lookupCriteria[institutionCode]")
 	protected WebElement InstitutionField;
-	
-	@FindBy(name = "lookupCriteria[locationId]")
+
+    @FindBy(name = "lookupCriteria[locationId]")
 	protected WebElement LocationField;
 	
 	@FindBy(name = "lookupCriteria[pstnRptGrpSubCat]")
@@ -44,6 +44,12 @@ public class Lookup
 	
 	@FindBy(name = "lookupCriteria[positionReportGroup]")
 	protected WebElement PositionReportGroupField;
+
+    @FindBy(name = "lookupCriteria[positionNumber]")
+    protected WebElement PositionNumberField;
+
+    @FindBy(className = "dataTables_info")
+    protected WebElement results;
 
     @FindBy(xpath = "//button[contains(text(), 'Search')]")
     public WebElement SearchButton;

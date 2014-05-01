@@ -16,7 +16,7 @@
 package org.kuali.khr.pm.tests.selenium;
 
 import static org.junit.Assert.*;
-
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.khr.hub.tests.selenium.KhrBase;
@@ -32,16 +32,32 @@ public class PositionLookupUIT extends KhrBase
 	private static final String USERNAME = "admin";
 
 	@BeforeClass
-	public static void setUpBeforeTest()
+	public static void setUp()
 	{
 		login(USERNAME);
 	}
-	
+
+    @Before
+    public void setUpBeforeTest()
+    {
+        position_lookup = (PositionLookup) loadPage(PositionLookup.class);
+        position_lookup.gotoPage();
+    }
+
+    @Test
+    public void lookupPositionUsingNoSearchValues() {
+        position_lookup.lookupAny();
+        loadPage(position_lookup.getClass());
+        assertEquals(position_lookup.checkResults(), "Showing 1 to 25 of 53 entries");
+
+        // Verify result (based on... what, number of results, number of results > 0, or look at a specific result?
+    }
+
 	@Test
-	public void lookupPositionUsingNoSearchValues() {
-		position_lookup = PageFactory.initElements(driver, PositionLookup.class);
-		position_lookup.gotoPage();
-		position_lookup.lookupPositionNumber("1");
+	public void lookupPositionUsingPositionNumber()
+    {
+        loadPage(position_lookup.getClass());
+		position_lookup.lookupPositionNumber("10001");
 		verifyResults(position_lookup);
 		
 		// Verify result (based on... what, number of results, number of results > 0, or look at a specific result?
@@ -50,16 +66,8 @@ public class PositionLookupUIT extends KhrBase
 	private void verifyResults(PositionLookup position_lookup) {
 		assertEquals(position_lookup.checkResults(), "Showing 1 to 1 of 1 entries");
 
-		
 	}
 
-	@Test
-	public void lookupPositionUsingPositionNumber() {
-//		fail("Not yet implemented");
-		
-		//lookup based on Position Number
-		// Verify result (based on... what, number of results, number of results > 0, or look at a specific result?
-	}
 	
 
 

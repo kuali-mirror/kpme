@@ -16,7 +16,7 @@
 package org.kuali.khr.pm.pages;
 
 import static org.kuali.khr.hub.util.KhrTestConstants.Urls.POSITION_LOOKUP_URL;
-import static org.kuali.khr.hub.tests.selenium.SeleniumTestSuite.waitHere;
+import static org.kuali.khr.hub.util.Helper.waitHere;
 import org.kuali.khr.hub.pages.Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,13 +31,11 @@ public class PositionLookup extends Lookup implements Page {
 		this.driver = driver;
 	}
 
-	@FindBy(id = "u100012_control")
-	private WebElement PositionNumberField;
-
-
-
-	@FindBy(id = "u100103_info")
-	private WebElement results;
+    public void lookupAny() {
+        ClearValuesButton.click();
+        waitHere();
+        search();
+    }
 
 	public void lookupPositionNumber(String value) {
 		ClearValuesButton.click();

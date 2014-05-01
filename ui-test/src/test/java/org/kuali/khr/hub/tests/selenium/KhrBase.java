@@ -31,5 +31,10 @@ public class KhrBase {
 		login.login(username);
 	}
 
+    protected static Object loadPage(Class classtype) {
+        return PageFactory.initElements(driver, classtype);
+
+    }
+
 	
 }
