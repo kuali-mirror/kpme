@@ -53,7 +53,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
-import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
+import org.kuali.kpme.pm.api.positionreporttype.PositionReportType;
 
 
 
@@ -71,7 +71,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public PositionReportTypeContract getPositionReportTypeById(String pmPositionReportTypeId);
+	public PositionReportType getPositionReportTypeById(String pmPositionReportTypeId);
 
 
 
@@ -87,7 +87,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public PositionReportTypeContract getPositionReportType(String positionReportType, LocalDate asOfDate);
+	public PositionReportType getPositionReportType(String positionReportType, LocalDate asOfDate);
 
 	
 
@@ -107,7 +107,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public List<? extends PositionReportTypeContract> getPositionReportTypeList(String positionReportType, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String groupKeyCode, LocalDate asOfDate);
 
 	
 
@@ -121,7 +121,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public List<? extends PositionReportTypeContract> getPositionReportTypeListByType(String positionReportType);
+	public List<PositionReportType> getPositionReportTypeListByType(String positionReportType);
 
 	
 
@@ -137,7 +137,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public List<? extends PositionReportTypeContract> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate);
+	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate);
 
 	
 
@@ -153,7 +153,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public List<? extends PositionReportTypeContract> getPrtListWithLocationAndDate(String location, LocalDate asOfDate);
+	public List<PositionReportType> getPrtListWithLocationAndDate(String location, LocalDate asOfDate);
 
 	
 

@@ -16,12 +16,15 @@
 package org.kuali.kpme.pm.positionreporttype;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.pm.api.positionreporttype.PositionReportType;
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportType extends HrKeyedBusinessObject implements PositionReportTypeContract {
+public class PositionReportTypeBo extends HrKeyedBusinessObject implements PositionReportTypeContract {
 	private static final String POSITION_REPORT_TYPE = "positionReportType";
 	private static final String GROUP_KEY_CODE = "groupKeyCode";
 
@@ -44,6 +47,34 @@ public class PositionReportType extends HrKeyedBusinessObject implements Positio
 				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
+
+	/*
+		 * convert bo to immutable
+		 *
+		 * Can be used with ModelObjectUtils:
+		 *
+		 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionReportTypeBo, PositionReportTypeBo.toImmutable);
+		 */
+		public static final ModelObjectUtils.Transformer<PositionReportTypeBo, PositionReportType> toImmutable =
+				new ModelObjectUtils.Transformer<PositionReportTypeBo, PositionReportType>() {
+			public PositionReportType transform(PositionReportTypeBo input) {
+				return PositionReportTypeBo.to(input);
+			};
+		};
+	
+		/*
+		 * convert immutable to bo
+		 * 
+		 * Can be used with ModelObjectUtils:
+		 * 
+		 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionReportType, PositionReportTypeBo.toBo);
+		 */
+		public static final ModelObjectUtils.Transformer<PositionReportType, PositionReportTypeBo> toBo =
+				new ModelObjectUtils.Transformer<PositionReportType, PositionReportTypeBo>() {
+			public PositionReportTypeBo transform(PositionReportType input) {
+				return PositionReportTypeBo.from(input);
+			};
+		};
 	
 	@Override
 	public String getId() {
@@ -83,4 +114,30 @@ public class PositionReportType extends HrKeyedBusinessObject implements Positio
 	public void setPmPositionReportTypeId(String pmPositionReportTypeId) {
 		this.pmPositionReportTypeId = pmPositionReportTypeId;
 	}
+
+	public static PositionReportTypeBo from(PositionReportType im) {
+		if (im == null) {
+			return null;
+		}
+		PositionReportTypeBo prt = new PositionReportTypeBo();
+		
+		prt.setPmPositionReportTypeId(im.getPmPositionReportTypeId());
+		prt.setPositionReportType(im.getPositionReportType());
+		prt.setDescription(im.getDescription());
+		prt.setGroupKeyCode(im.getGroupKeyCode());
+        prt.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+        
+		// finally copy over the common fields into prt from im
+		copyCommonFields(prt, im);
+
+		return prt;
+	} 
+
+	public static PositionReportType to(PositionReportTypeBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PositionReportType.Builder.create(bo).build();
+	}
+
 }

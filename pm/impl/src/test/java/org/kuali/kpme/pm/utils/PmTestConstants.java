@@ -23,7 +23,7 @@ public final class PmTestConstants {
 	
 	public static class Urls {
 		
-		public static final String POSITION_REPORT_TYPE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.pm.positionreporttype.PositionReportType&methodToCall=start";
+		public static final String POSITION_REPORT_TYPE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo&methodToCall=start";
 		
 		public static final String POSITION_REPORT_GROUP_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo&methodToCall=start";
 		

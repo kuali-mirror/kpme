@@ -28,7 +28,7 @@
   <bean id="PositionReportTypeMaintenanceDocument" parent="PositionReportTypeMaintenanceDocument-parentBean"/>
  
   <bean id="PositionReportTypeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
+    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo"/>
     <property name="businessRulesClass" value="org.kuali.kpme.pm.positionreporttype.validation.PositionReportTypeValidation"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.positionreporttype.web.PositionReportTypeMaintainableImpl"/>
     <property name="documentTypeName" value="PositionReportTypeMaintenanceDocumentType"/>

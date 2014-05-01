@@ -24,7 +24,7 @@
 	<bean id="PositionReportType" parent="PositionReportType-parentBean" />
 
 	<bean id="PositionReportType-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
+		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo"/>
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="PositionReportType-pmPositionReportTypeId" />
@@ -106,7 +106,7 @@
 
     <bean id="PositionReportType-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Type Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo" />
         <property name="criteriaFields">
             <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" />
@@ -118,7 +118,7 @@
             <list>
             	<bean parent="Uif-DataField" p:propertyName="positionReportType" >
 	            	<property name="inquiry">
-			       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportType" 
+			       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo" 
 			        	 p:inquiryParameters="pmPositionReportTypeId:pmPositionReportTypeId"/>
 		    		</property>
 		    	</bean>
@@ -133,7 +133,7 @@
     
     <bean id="PositionReportType-inquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
         <property name="headerText" value="Position Report Type Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
+        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
           <list merge="true">      
@@ -151,7 +151,7 @@
     <bean id="PositionReportType-MaintenanceView" parent="PositionReportType-MaintenanceView-parentBean"/>
     <bean id="PositionReportType-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
       <property name="headerText" value="Position Report Type Maintenance"/>
-      <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportType"/>
+      <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo"/>
       <property name="items">
           <list merge="true">
               <bean parent="KPMEGroupKeyed-MaintenanceGridSection">

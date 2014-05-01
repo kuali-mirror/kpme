@@ -19,7 +19,7 @@
 
 	<!-- Position Report Type -->
     <!-- Business Keys - [positionReportType : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.pm.positionreporttype.PositionReportType" table="PM_PSTN_RPT_TYP_T">
+    <class-descriptor class="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo" table="PM_PSTN_RPT_TYP_T">
         <field-descriptor name="pmPositionReportTypeId" column="PM_PSTN_RPT_TYP_ID"  jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_TYP_S" />
         <field-descriptor name="positionReportType"      column="PSTN_RPT_TYP"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />

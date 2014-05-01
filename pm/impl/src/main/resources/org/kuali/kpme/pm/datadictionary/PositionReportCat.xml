@@ -155,7 +155,7 @@
                             <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
                             <bean parent="Uif-InputField" p:propertyName="positionReportType" p:required="true">
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportType"
+                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo"
                                           p:fieldConversions="positionReportType:positionReportType" />
                                 </property>
                             </bean>

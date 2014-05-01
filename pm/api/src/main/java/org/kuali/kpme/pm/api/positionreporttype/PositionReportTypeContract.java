@@ -15,14 +15,13 @@
  */
 package org.kuali.kpme.pm.api.positionreporttype;
 
-
-import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
 /**
  * <p>PositionReportTypeContract interface</p>
  *
  */
-public interface PositionReportTypeContract extends HrKeyedBusinessObjectContract {
+public interface PositionReportTypeContract extends KpmeEffectiveKeyedDataTransferObject {
 
     /**
      * The text used to identify the PositionReportType

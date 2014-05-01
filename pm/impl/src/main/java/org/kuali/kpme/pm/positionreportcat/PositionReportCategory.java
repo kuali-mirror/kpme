@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.positionreportcat;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
-import org.kuali.kpme.pm.positionreporttype.PositionReportType;
+import org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -40,7 +40,7 @@ public class PositionReportCategory extends HrKeyedBusinessObject implements Pos
 	private String positionReportType;
 	private String description;
 	
-	private PositionReportType prtObj;	
+	private PositionReportTypeBo prtObj;	
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -97,11 +97,11 @@ public class PositionReportCategory extends HrKeyedBusinessObject implements Pos
 		this.positionReportCat = positionReportCat;
 	}
 
-	public PositionReportType getPrtObj() {
+	public PositionReportTypeBo getPrtObj() {
 		return prtObj;
 	}
 
-	public void setPrtObj(PositionReportType prtObj) {
+	public void setPrtObj(PositionReportTypeBo prtObj) {
 		this.prtObj = prtObj;
 	}
 

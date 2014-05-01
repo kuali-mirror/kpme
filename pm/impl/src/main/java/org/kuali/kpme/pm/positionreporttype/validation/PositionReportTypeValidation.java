@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.positionreporttype.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.positionreporttype.PositionReportType;
+import org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
@@ -27,7 +27,7 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Report Type");
-		PositionReportType prt = (PositionReportType) this.getNewDataObject();
+		PositionReportTypeBo prt = (PositionReportTypeBo) this.getNewDataObject();
 		
 		if (prt != null) {
 			valid = true;
@@ -36,7 +36,7 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 		return valid;
 	}
 	
-	protected boolean validateGroupKey(PositionReportType prt) {
+	protected boolean validateGroupKey(PositionReportTypeBo prt) {
 		if (StringUtils.isNotEmpty(prt.getGroupKeyCode())
 				&& !ValidationUtils.validateGroupKey(prt.getGroupKeyCode(), prt.getEffectiveLocalDate())) {
 			this.putFieldError("groupKeyCode", "error.existence", "Group Key '"
