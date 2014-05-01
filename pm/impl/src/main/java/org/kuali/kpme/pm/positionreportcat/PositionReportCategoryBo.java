@@ -58,7 +58,7 @@ public class PositionReportCategoryBo extends HrKeyedBusinessObject implements P
 	 *
 	 * Can be used with ModelObjectUtils:
 	 *
-	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionReportTypeBo, PositionReportTypeBo.toImmutable);
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionReportCategoryBo, PositionReportCategoryBo.toImmutable);
 	 */
 	public static final ModelObjectUtils.Transformer<PositionReportCategoryBo, PositionReportCategory> toImmutable =
 			new ModelObjectUtils.Transformer<PositionReportCategoryBo, PositionReportCategory>() {

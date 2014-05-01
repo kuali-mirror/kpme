@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.positionreportsubcat.validation;
 
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
-import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
+import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
@@ -26,7 +26,7 @@ public class PositionReportSubCatValidation extends HrKeyedBusinessObjectValidat
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Report Sub Category");
-		PositionReportSubCategory prsc = (PositionReportSubCategory) this.getNewDataObject();
+		PositionReportSubCategoryBo prsc = (PositionReportSubCategoryBo) this.getNewDataObject();
 		
 		if (prsc != null) {
 			valid = true;
@@ -36,7 +36,7 @@ public class PositionReportSubCatValidation extends HrKeyedBusinessObjectValidat
 		return valid;
 	}
 	
-	private boolean validatePositionReportCategory(PositionReportSubCategory prsc) {
+	private boolean validatePositionReportCategory(PositionReportSubCategoryBo prsc) {
 		PositionReportCategoryContract aCat = PmServiceLocator.getPositionReportCatService().getPositionReportCat(prsc.getPositionReportCat(), prsc.getEffectiveLocalDate());
 		
 		String errorMes = "PositionReportCategory '" + prsc.getPositionReportCat() + "'";

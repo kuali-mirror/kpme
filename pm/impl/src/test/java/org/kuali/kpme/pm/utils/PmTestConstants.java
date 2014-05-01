@@ -29,7 +29,7 @@ public final class PmTestConstants {
 		
 		public static final String POSITION_REPORT_CAT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo&methodToCall=start";
 		
-		public static final String POSITION_REPORT_SUB_CAT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory&methodToCall=start";
+		public static final String POSITION_REPORT_SUB_CAT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo&methodToCall=start";
 		
 	}
 

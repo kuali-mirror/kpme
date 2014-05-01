@@ -121,7 +121,7 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportSubCat">
        		<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo" 
 	        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 	   		 </property>
         </bean>
@@ -185,7 +185,7 @@
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="positionReportSubCat">
 			        <property name="quickfinder">
-		       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" 
+		       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo" 
 		        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 		   		 </property>
 	       		</bean>

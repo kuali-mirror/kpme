@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.api.positionreportsubcat.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
+import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategory;
 
 public interface PositionReportSubCatService {
 	
@@ -27,7 +27,7 @@ public interface PositionReportSubCatService {
 	 * @param pmPositionReportSubCatId
 	 * @return
 	 */
-	public PositionReportSubCategoryContract getPositionReportSubCatById(String pmPositionReportSubCatId);
+	public PositionReportSubCategory getPositionReportSubCatById(String pmPositionReportSubCatId);
 	
 	/**
 	 * retrieve list of active PositionReportSubCategory with given pstnRptSubCat, institution, location and effective date
@@ -38,7 +38,7 @@ public interface PositionReportSubCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PositionReportSubCategoryContract> getPositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the last active PositionReportSubCategory with given pstnRptSubCat and effective date
@@ -46,5 +46,5 @@ public interface PositionReportSubCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public PositionReportSubCategoryContract getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
+	public PositionReportSubCategory getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
 }

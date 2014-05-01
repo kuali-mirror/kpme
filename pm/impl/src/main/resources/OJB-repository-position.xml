@@ -65,7 +65,7 @@
     
     <!-- Position Reporting Sub Category -->
     <!-- Business Keys - [positionReportSubCat : effectiveDate : timestamp] -->	
-    <class-descriptor class="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory" table="PM_PSTN_RPT_SUB_CAT_T">
+    <class-descriptor class="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo" table="PM_PSTN_RPT_SUB_CAT_T">
         <field-descriptor name="pmPositionReportSubCatId" column="PM_PSTN_RPT_SUB_CAT_ID"  	 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_SUB_CAT_S" />
         <field-descriptor name="positionReportSubCat"     column="PSTN_RPT_SUB_CAT"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="positionReportCat"     	  column="PSTN_RPT_CAT"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />

@@ -27,21 +27,21 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
+import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  implements PositionReportSubCatDao {
-	 public PositionReportSubCategory getPositionReportSubCatById(
+	 public PositionReportSubCategoryBo getPositionReportSubCatById(
 			String pmPositionReportSubCatId) {
 		Criteria crit = new Criteria();
         crit.addEqualTo("pmPositionReportSubCatId", pmPositionReportSubCatId);
 
-        Query query = QueryFactory.newQuery(PositionReportSubCategory.class, crit);
-        return (PositionReportSubCategory) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionReportSubCategoryBo.class, crit);
+        return (PositionReportSubCategoryBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate) {
-		List<PositionReportSubCategory> prscList = new ArrayList<PositionReportSubCategory>();
+	public List<PositionReportSubCategoryBo> getPositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate) {
+		List<PositionReportSubCategoryBo> prscList = new ArrayList<PositionReportSubCategoryBo>();
 		Criteria root = new Criteria();
 		if(StringUtils.isNotEmpty(pstnRptSubCat) 
 				&& !ValidationUtils.isWildCard(pstnRptSubCat)) {
@@ -50,13 +50,13 @@ public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  imp
 		if(StringUtils.isNotEmpty(groupKeyCode)) {
 			root.addEqualTo("groupKeyCode", groupKeyCode); 
 		}
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategory.class, asOfDate, PositionReportSubCategory.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportSubCategory.class, PositionReportSubCategory.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategoryBo.class, asOfDate, PositionReportSubCategoryBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportSubCategoryBo.class, PositionReportSubCategoryBo.BUSINESS_KEYS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
-        Query query = QueryFactory.newQuery(PositionReportSubCategory.class, root);
+        Query query = QueryFactory.newQuery(PositionReportSubCategoryBo.class, root);
         
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		if(!c.isEmpty())
@@ -66,17 +66,17 @@ public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  imp
 	}
 
 	@Override
-	public PositionReportSubCategory getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate) {
+	public PositionReportSubCategoryBo getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("positionReportSubCat", pstnRptSubCat);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategory.class, asOfDate, PositionReportSubCategory.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportSubCategory.class, PositionReportSubCategory.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategoryBo.class, asOfDate, PositionReportSubCategoryBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportSubCategoryBo.class, PositionReportSubCategoryBo.BUSINESS_KEYS, false));
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
         
-        Query query = QueryFactory.newQuery(PositionReportSubCategory.class, root);
-        return (PositionReportSubCategory) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionReportSubCategoryBo.class, root);
+        return (PositionReportSubCategoryBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 }

@@ -18,9 +18,11 @@ package org.kuali.kpme.pm.positionreportsubcat.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.api.positionreportsubcat.service.PositionReportSubCatService;
-import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategory;
+import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo;
 import org.kuali.kpme.pm.positionreportsubcat.dao.PositionReportSubCatDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionReportSubCatServiceImpl implements PositionReportSubCatService{
 	private PositionReportSubCatDao positionReportSubCatDao;
@@ -28,7 +30,7 @@ public class PositionReportSubCatServiceImpl implements PositionReportSubCatServ
 	@Override
 	public PositionReportSubCategory getPositionReportSubCatById(
 			String pmPositionReportSubCatId) {
-		return positionReportSubCatDao.getPositionReportSubCatById(pmPositionReportSubCatId);
+		return PositionReportSubCategoryBo.to(positionReportSubCatDao.getPositionReportSubCatById(pmPositionReportSubCatId));
 	}
 
 	public PositionReportSubCatDao getPositionReportSubCatDao() {
@@ -41,13 +43,13 @@ public class PositionReportSubCatServiceImpl implements PositionReportSubCatServ
 	}
 	
 	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate) {
-		return positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, groupKeyCode, asOfDate);
+		return ModelObjectUtils.transform(positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, groupKeyCode, asOfDate),PositionReportSubCategoryBo.toImmutable);
 	}
 
 	@Override
 	public PositionReportSubCategory getPositionReportSubCat(
 			String pstnRptSubCat, LocalDate asOfDate) {
-		return positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, asOfDate);
+		return PositionReportSubCategoryBo.to(positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, asOfDate));
 	}
 
 }

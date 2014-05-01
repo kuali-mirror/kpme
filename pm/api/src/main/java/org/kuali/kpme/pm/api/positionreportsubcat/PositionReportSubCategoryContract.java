@@ -15,16 +15,14 @@
  */
 package org.kuali.kpme.pm.api.positionreportsubcat;
 
-import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
-import org.kuali.kpme.core.api.institution.InstitutionContract;
-import org.kuali.kpme.core.api.location.LocationContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 
 /**
  * <p>PositionReportSubCategoryContract interface</p>
  *
  */
-public interface PositionReportSubCategoryContract extends HrKeyedBusinessObjectContract {
+public interface PositionReportSubCategoryContract extends KpmeEffectiveKeyedDataTransferObject {
 
     /**
      * The primary key for a PositionReportSubCategory entry saved in the database
@@ -112,7 +110,7 @@ public interface PositionReportSubCategoryContract extends HrKeyedBusinessObject
      *
      * @return locationObj for PositionReportSubCategory
      */
-	public LocationContract getLocationObj();
+//	public LocationContract getLocationObj();
 
     /**
      * The Institution object associated with the PositionReportSubCategory
@@ -123,7 +121,7 @@ public interface PositionReportSubCategoryContract extends HrKeyedBusinessObject
      *
      * @return institutionObj for PositionReportSubCategory
      */
-	public InstitutionContract getInstitutionObj();
+//	public InstitutionContract getInstitutionObj();
 
     /**
      * The PositionReportCategory object associated with the PositionReportSubCategory
