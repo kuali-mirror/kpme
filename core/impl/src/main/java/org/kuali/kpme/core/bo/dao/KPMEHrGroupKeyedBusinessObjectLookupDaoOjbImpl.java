@@ -65,10 +65,12 @@ public class KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl extends KpmeHrBusine
 			// create the subquery criteria and conditionally add 'like' checks for institution and location
 			Criteria subQueryCriteria = new Criteria();
 			if(StringUtils.isNotBlank(institutionVal)) {
-				subQueryCriteria.addLike(INSTITUTION_PARAM_NAME, institutionVal);
+				String institutionName = getDbPlatform().getUpperCaseFunction() + "(" + INSTITUTION_PARAM_NAME + ")";
+				subQueryCriteria.addLike(institutionName, institutionVal.toUpperCase());
 			}		
 			if(StringUtils.isNotBlank(locationVal)) {
-				subQueryCriteria.addLike(LOCATION_PARAM_NAME, locationVal);
+				String locationName = getDbPlatform().getUpperCaseFunction() + "(" + LOCATION_PARAM_NAME + ")";
+				subQueryCriteria.addLike(locationName, locationVal.toUpperCase());
 			}
 			// create the subquery for the grp key BO's table using the above criteria, and set the 'select' to be the grp key code column
 			ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(HrGroupKeyBo.class, subQueryCriteria);
