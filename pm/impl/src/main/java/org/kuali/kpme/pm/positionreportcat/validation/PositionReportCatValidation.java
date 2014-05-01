@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.positionreportcat.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
-import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
+import org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo;
 import org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -30,7 +30,7 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Report Category");
-		PositionReportCategory prc = (PositionReportCategory) this.getNewDataObject();
+		PositionReportCategoryBo prc = (PositionReportCategoryBo) this.getNewDataObject();
 		
 		if (prc != null) {
 			valid = true;
@@ -41,7 +41,7 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 		return valid;
 	}
 	
-	private boolean validatePositionReportType(PositionReportCategory prc) {
+	private boolean validatePositionReportType(PositionReportCategoryBo prc) {
 		// validatePositionReportType handles wild card for institution and location
 		PositionReportTypeContract aType = PmServiceLocator.getPositionReportTypeService().getPositionReportType(prc.getPositionReportType(), prc.getEffectiveLocalDate());
 		String positionReportTypeError = "PositionReportType '" + prc.getPositionReportType() + "'";

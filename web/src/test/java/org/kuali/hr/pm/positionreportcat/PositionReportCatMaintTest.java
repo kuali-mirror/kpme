@@ -27,7 +27,7 @@ import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
-import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
+import org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.kpme.pm.utils.PmTestConstants;
 

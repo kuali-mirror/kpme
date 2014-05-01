@@ -18,9 +18,11 @@ package org.kuali.kpme.pm.positionreportcat.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.api.positionreportcat.service.PositionReportCatService;
-import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
+import org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo;
 import org.kuali.kpme.pm.positionreportcat.dao.PositionReportCatDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionReportCatServiceImpl implements PositionReportCatService {
 	
@@ -28,12 +30,12 @@ public class PositionReportCatServiceImpl implements PositionReportCatService {
 	
 	@Override
 	public PositionReportCategory getPositionReportCatById(String pmPositionReportCatId) {
-		return positionReportCatDao.getPositionReportCatById(pmPositionReportCatId);
+		return PositionReportCategoryBo.to(positionReportCatDao.getPositionReportCatById(pmPositionReportCatId));
 	}
 	
 	@Override
 	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String groupKeyCode, LocalDate asOfDate) {
-		return positionReportCatDao.getPositionReportCatList(positionReportCat, positionReportType, groupKeyCode, asOfDate);
+		return ModelObjectUtils.transform(positionReportCatDao.getPositionReportCatList(positionReportCat, positionReportType, groupKeyCode, asOfDate),PositionReportCategoryBo.toImmutable);
 	}
 
 	public PositionReportCatDao getPositionReportCatDao() {
@@ -46,6 +48,6 @@ public class PositionReportCatServiceImpl implements PositionReportCatService {
 
 	@Override
 	public PositionReportCategory getPositionReportCat(String positionReportCat, LocalDate asOfDate) {
-		return positionReportCatDao.getPositionReportCat(positionReportCat, asOfDate);
+		return PositionReportCategoryBo.to(positionReportCatDao.getPositionReportCat(positionReportCat, asOfDate));
 	}
 }

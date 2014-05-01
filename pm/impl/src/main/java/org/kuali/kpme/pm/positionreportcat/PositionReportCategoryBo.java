@@ -16,13 +16,16 @@
 package org.kuali.kpme.pm.positionreportcat;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportCategory extends HrKeyedBusinessObject implements PositionReportCategoryContract {
+public class PositionReportCategoryBo extends HrKeyedBusinessObject implements PositionReportCategoryContract {
 	
 	private static final String POSITION_REPORT_CAT = "positionReportCat";
 	private static final String GROUP_KEY_CODE = "groupKeyCode";
@@ -49,6 +52,34 @@ public class PositionReportCategory extends HrKeyedBusinessObject implements Pos
 				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
+	
+	/*
+	 * convert bo to immutable
+	 *
+	 * Can be used with ModelObjectUtils:
+	 *
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionReportTypeBo, PositionReportTypeBo.toImmutable);
+	 */
+	public static final ModelObjectUtils.Transformer<PositionReportCategoryBo, PositionReportCategory> toImmutable =
+			new ModelObjectUtils.Transformer<PositionReportCategoryBo, PositionReportCategory>() {
+		public PositionReportCategory transform(PositionReportCategoryBo input) {
+			return PositionReportCategoryBo.to(input);
+		};
+	};
+
+	/*
+	 * convert immutable to bo
+	 * 
+	 * Can be used with ModelObjectUtils:
+	 * 
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionReportCategory, PositionReportCategoryBo.toBo);
+	 */
+	public static final ModelObjectUtils.Transformer<PositionReportCategory, PositionReportCategoryBo> toBo =
+			new ModelObjectUtils.Transformer<PositionReportCategory, PositionReportCategoryBo>() {
+		public PositionReportCategoryBo transform(PositionReportCategory input) {
+			return PositionReportCategoryBo.from(input);
+		};
+	};
 	
 	@Override
 	public String getId() {
@@ -105,4 +136,31 @@ public class PositionReportCategory extends HrKeyedBusinessObject implements Pos
 		this.prtObj = prtObj;
 	}
 
+	public static PositionReportCategoryBo from(PositionReportCategory im) {
+		if (im == null) {
+			return null;
+		}
+		PositionReportCategoryBo prc = new PositionReportCategoryBo();
+		
+		prc.setPmPositionReportCatId(im.getPmPositionReportCatId());
+		prc.setPositionReportCat(im.getPositionReportCat());
+		prc.setPositionReportType(im.getPositionReportType());
+		prc.setDescription(im.getDescription());
+		prc.setPrtObj(PositionReportTypeBo.from(im.getPrtObj()));
+		prc.setGroupKeyCode(im.getGroupKeyCode());
+        prc.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+        
+		// finally copy over the common fields into prc from im
+		copyCommonFields(prc, im);
+
+		return prc;
+	} 
+
+	public static PositionReportCategory to(PositionReportCategoryBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PositionReportCategory.Builder.create(bo).build();
+	}
+	
 }

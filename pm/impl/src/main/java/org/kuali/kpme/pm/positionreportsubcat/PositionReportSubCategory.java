@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.positionreportsubcat;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
-import org.kuali.kpme.pm.positionreportcat.PositionReportCategory;
+import org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -46,7 +46,7 @@ public class PositionReportSubCategory extends HrKeyedBusinessObject implements 
 	
 //	private LocationBo locationObj;
 //	private InstitutionBo institutionObj;
-	private PositionReportCategory prcObj;
+	private PositionReportCategoryBo prcObj;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -112,11 +112,11 @@ public class PositionReportSubCategory extends HrKeyedBusinessObject implements 
 		this.description = description;
 	}
 
-	public PositionReportCategory getPrcObj() {
+	public PositionReportCategoryBo getPrcObj() {
 		return prcObj;
 	}
 
-	public void setPrcObj(PositionReportCategory prcObj) {
+	public void setPrcObj(PositionReportCategoryBo prcObj) {
 		this.prcObj = prcObj;
 	}
 
