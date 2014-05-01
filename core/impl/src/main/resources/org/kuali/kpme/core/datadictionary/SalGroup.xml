@@ -257,25 +257,31 @@
     </bean>
 
  <!-- Salary Group Inquiry View -->
-  <bean id="SalaryGroup-InquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
-	<property name="headerText" value="Salary Group Inquiry" />
-	<property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo" />
-	<property name="singlePageView" value="true" />
-	<property name="title" value="Salary Group Inquiry" />
-	<property name="items">
-		<list merge="true">
-			<!-- bean parent="Uif-DataField" p:propertyName="effectiveDate" /-->
-			<bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
-			<bean parent="Uif-DataField" p:propertyName="descr" />
-			<bean parent="Uif-DataField" p:propertyName="percentTime" />
-			<bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
-			<bean parent="Uif-DataField" p:propertyName="leaveEligible" />
-			<bean parent="Uif-DataField" p:propertyName="leavePlan" />
-			<bean parent="Uif-DataField" p:propertyName="active" />
-			<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-		</list>
-	</property>
-</bean> 
+	<bean id="SalaryGroup-InquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Salary Group Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="Salary Group Inquiry" />
+		<property name="items">
+			<list>
+				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
+							<bean parent="Uif-DataField" p:propertyName="descr" />
+							<bean parent="Uif-DataField" p:propertyName="percentTime" />
+							<bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
+							<bean parent="Uif-DataField" p:propertyName="leaveEligible" />
+							<bean parent="Uif-DataField" p:propertyName="leavePlan" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean> 
   
 <!--  Salary Group Maintenance View -->
   <bean id="SalaryGroup-MaintenanceView" parent="SalaryGroup-MaintenanceView-parentBean"/>

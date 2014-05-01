@@ -147,22 +147,30 @@
   </bean> 
  
  <!-- Position Reporting Group Sub Category Inquiry View -->
-  <bean id="PositionReportGroupSubCat-InquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
-    <property name="headerText" value="Position Report Group Sub Category Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategoryBo"/>
-    <property name="singlePageView" value="true"/>
-    <property name="title" value="Position Report Group Sub Category Inquiry"/>
-    <property name="items">
-   	 	<list merge="true">
-		       <bean parent="Uif-DataField" p:propertyName="pstnRptGrpSubCat" />
-		       <bean parent="Uif-DataField" p:propertyName="description" />
-		       <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
-		       <bean parent="Uif-DataField" p:propertyName="positionReportSubCat" />
-		       <bean parent="Uif-DataField" p:propertyName="active"/>
-		       <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-	    </list>
-  	 </property> 	 
-  </bean> 
+	<bean id="PositionReportGroupSubCat-InquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Position Report Group Sub Category Inquiry" />
+		<property name="dataObjectClassName"
+			value="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategoryBo" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="Position Report Group Sub Category Inquiry" />
+		<property name="items">
+			<list>
+				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="pstnRptGrpSubCat" />
+							<bean parent="Uif-DataField" p:propertyName="description" />
+							<bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
+							<bean parent="Uif-DataField" p:propertyName="positionReportSubCat" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean> 
   
 <!--  Position Reporting Group Sub Category Maintenance View -->
   <bean id="PositionReportGroupSubCat-MaintenanceView" parent="PositionReportGroupSubCat-MaintenanceView-parentBean"/>

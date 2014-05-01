@@ -105,21 +105,28 @@
     </property>
   </bean> 
  
- <!-- Position Appointment Inquiry View -->    
-  <bean id="PositionAppointment-InquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
-    <property name="headerText" value="Position Appointment Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo"/>
-    <property name="singlePageView" value="true"/>
-    <property name="items">
-      <list merge="true">
-      		<bean parent="Uif-DataField" p:propertyName="positionAppointment" />
-        	<bean parent="Uif-DataField" p:propertyName="description" />
-        	<bean parent="Uif-DataField" p:propertyName="active"/>
-            <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
-      </list>
-    </property>
-	<property name="title" value="Position Appointment Inquiry"/>
-  </bean>
+ <!-- Position Appointment Inquiry View -->
+	<bean id="PositionAppointment-InquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Position Appointment Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="Position Appointment Inquiry" />
+		<property name="items">
+			<list>
+				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="positionAppointment" />
+							<bean parent="Uif-DataField" p:propertyName="description" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
   
   <bean id="PositionAppointment-MaintenanceView" parent="PositionAppointment-MaintenanceView-parentBean"/>
   <bean id="PositionAppointment-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">

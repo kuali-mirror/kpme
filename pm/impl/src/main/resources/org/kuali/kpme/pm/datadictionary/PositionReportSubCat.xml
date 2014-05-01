@@ -148,17 +148,16 @@
         <property name="headerText" value="Position Report Sub Category Inquiry"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo"/>
         <property name="singlePageView" value="true"/>
+        <property name="title" value="Position Report Sub Category Inquiry"/>
         <property name="items">
-            <list>
-                <bean id="PositionReportSubCat-InquiryView-General" parent="Uif-Disclosure-GridSection">
+            <list merge="true">
+                <bean parent="KPMEGroupKeyed-InquiryGridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="items">
-                      <list>
+                      <list merge="true">
                         <bean parent="Uif-DataField" p:propertyName="positionReportSubCat" />
-                        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
                         <bean parent="Uif-DataField" p:propertyName="positionReportCat" />
                         <bean parent="Uif-DataField" p:propertyName="positionReportType" />
-                        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
                         <bean parent="Uif-DataField" p:propertyName="active" />
                         <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
                       </list>
@@ -166,7 +165,6 @@
                 </bean>
             </list>
         </property>
-        <property name="title" value="Position Report Sub Category Inquiry"/>
     </bean>
 
     <!--  Position Reporting Group Sub Category Maintenance View -->

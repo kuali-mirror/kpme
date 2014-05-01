@@ -128,20 +128,27 @@
     </bean>
 
     <!--Position Reporting Group Inquiry View-->
-    <bean id="PositionReportGroup-inquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
-        <property name="headerText" value="Position Report Group Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo"/>
-        <property name="singlePageView" value="true"/>
-        <property name="items">
-          <list merge="true">      
-            <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
-            <bean parent="Uif-DataField" p:propertyName="description" />
-            <bean parent="Uif-DataField" p:propertyName="active" />
-            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-          </list>
-        </property>
-        <property name="title" value="Position Report Group Inquiry"/>
-    </bean>
+	<bean id="PositionReportGroup-inquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Position Report Group Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="Position Report Group Inquiry" />
+		<property name="items">
+			<list>
+				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
+							<bean parent="Uif-DataField" p:propertyName="description" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 	<!--  Position Reporting Group Maintenance View -->
     <bean id="PositionReportGroup-MaintenanceView" parent="PositionReportGroup-MaintenanceView-parentBean"/>

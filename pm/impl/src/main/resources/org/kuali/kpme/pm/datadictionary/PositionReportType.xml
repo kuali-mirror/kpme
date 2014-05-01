@@ -130,22 +130,28 @@
     </bean>
 
     <!--Position Reporting Type Inquiry View-->
-    
-    <bean id="PositionReportType-inquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
-        <property name="headerText" value="Position Report Type Inquiry"/>
-        <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo"/>
-        <property name="singlePageView" value="true"/>
-        <property name="items">
-          <list merge="true">      
-            <bean parent="Uif-DataField" p:propertyName="positionReportType" >
-            </bean>
-            <bean parent="Uif-DataField" p:propertyName="description" />
-            <bean parent="Uif-DataField" p:propertyName="active" />
-            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-          </list>
-        </property>
-        <property name="title" value="Position Report Type Inquiry"/>
-    </bean>
+
+	<bean id="PositionReportType-inquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Position Report Type Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="Position Report Type Inquiry" />
+		<property name="items">
+			<list>
+				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="positionReportType" />
+							<bean parent="Uif-DataField" p:propertyName="description" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 <!--  Position Reporting Type Maintenance View -->
     <bean id="PositionReportType-MaintenanceView" parent="PositionReportType-MaintenanceView-parentBean"/>

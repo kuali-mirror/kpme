@@ -118,35 +118,28 @@
     </property>
   </bean> 
  
- <!-- Position Type Inquiry View -->
-  <bean id="PositionType-InquiryView" parent="Uif-InquiryView">
-    <property name="headerText" value="Position Type Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionType"/>
-    <property name="singlePageView" value="true"/>
-    <property name="items">
-      <list>
-  			<bean parent="Uif-Disclosure-GridSection">
-		      <property name="layoutManager.numberOfColumns" value="2"/>
-		      <property name="items">
-	       	 	<list>
-		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-			        <bean parent="Uif-DataField" p:propertyName="positionType" />
-			        <bean parent="Uif-DataField" p:propertyName="description" />
-			        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
-			        <!-- 
-			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="location" />
-			        -->
-                    <bean parent="Uif-DataField" p:propertyName="academicFlag"/>
-			        <bean parent="Uif-DataField" p:propertyName="active"/>
-                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
-	        	</list>
-	     	 </property>
-	     	 <property name="title" value="Position Type Inquiry"/>
-	   	   </bean>
-      </list>
-    </property>
-  </bean> 
+ 	<!-- Position Type Inquiry View -->
+	<bean id="PositionType-InquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Position Type Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionType" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="Position Type Inquiry" />
+		<property name="items">
+			<list>
+				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="description" />
+							<bean parent="Uif-DataField" p:propertyName="academicFlag" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean> 
   
 <!--  Position Type Maintenance View -->
   <bean id="PositionType-MaintenanceView" parent="PositionType-MaintenanceView-parentBean"/>

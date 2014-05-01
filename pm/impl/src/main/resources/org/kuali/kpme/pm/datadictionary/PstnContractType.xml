@@ -116,18 +116,25 @@
   </bean> 
  
  <!-- Position Type Inquiry View -->
-  <bean id="PstnContractType-InquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
+  <bean id="PstnContractType-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Contract Type Inquiry"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
     <property name="singlePageView" value="true"/>
     <property name="title" value="Position Contract Type Inquiry"/>
     <property name="items">
-     	 	<list merge="true">
-		        <bean parent="Uif-DataField" p:propertyName="name" />
-		        <bean parent="Uif-DataField" p:propertyName="description" />
-		        <bean parent="Uif-DataField" p:propertyName="active"/>
-	            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-	      	</list>
+    	<list>
+			<bean parent="KPMEGroupKeyed-InquiryGridSection">
+				<property name="layoutManager.numberOfColumns" value="2" />
+				<property name="items">
+		     	 	<list merge="true">
+				        <bean parent="Uif-DataField" p:propertyName="name" />
+				        <bean parent="Uif-DataField" p:propertyName="description" />
+				        <bean parent="Uif-DataField" p:propertyName="active"/>
+			            <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+			      	</list>
+	      		</property>
+	      	</bean>
+	      </list>
    	 </property>
   </bean> 
   

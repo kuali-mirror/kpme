@@ -110,15 +110,26 @@
     	</property>
     </bean>
  
-    <bean id="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView" parent="Uif-InquiryView" abstract="true">
+ 
+    <!--bean id="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView" parent="Uif-InquiryView" abstract="true">
         <property name="items">
           <list merge="true">      
             <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
             <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
           </list>
         </property>
-	</bean>
+	</bean-->
+ 
    
+    <bean id="KPMEGroupKeyed-InquiryGridSection" parent="Uif-Disclosure-GridSection">
+    	<property name="items">
+        	<list merge="true">
+        		<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+            	<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+       		</list>
+    	</property>
+    </bean>
+    
     <bean id="MaintDoc-HiddenFields-parentBean"
           abstract="true" parent="MaintainableSectionDefinition"  >
         <property name="hidden" value="true" />

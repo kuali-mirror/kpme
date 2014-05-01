@@ -128,29 +128,33 @@
 	
 
 	<!-- Business Object Inquiry Definition -->
-	<bean id="PayStep-InquiryView" parent="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView">
-	<property name="headerText" value="Pay Step Inquiry" />
-	<property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStepBo" />
-	<property name="singlePageView" value="true" />
-	<property name="title" value="Pay Step Inquiry" />
-	<property name="items">
-		<list merge="true">
-			<bean parent="Uif-DataField" p:propertyName="pmPayStepId" />
-			<bean parent="Uif-DataField" p:propertyName="payStep" />
-			<!-- 
-			<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-			<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />-->
-			<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
-			<bean parent="Uif-DataField" p:propertyName="payGrade" />
-			<bean parent="Uif-DataField" p:propertyName="stepNumber" />
-			<bean parent="Uif-DataField" p:propertyName="compRate" />
-			<bean parent="Uif-DataField" p:propertyName="serviceAmount" />
-			<bean parent="Uif-DataField" p:propertyName="serviceUnit" />
-			<bean parent="Uif-DataField" p:propertyName="active" />
-			<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-		</list>
-	</property>
-</bean>
+	<bean id="PayStep-InquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="Pay Step Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStepBo" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="Pay Step Inquiry" />
+		<property name="items">
+			<list>
+				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="pmPayStepId" />
+							<bean parent="Uif-DataField" p:propertyName="payStep" />
+							<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
+							<bean parent="Uif-DataField" p:propertyName="payGrade" />
+							<bean parent="Uif-DataField" p:propertyName="stepNumber" />
+							<bean parent="Uif-DataField" p:propertyName="compRate" />
+							<bean parent="Uif-DataField" p:propertyName="serviceAmount" />
+							<bean parent="Uif-DataField" p:propertyName="serviceUnit" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
   <!-- Maintenance View -->
 
