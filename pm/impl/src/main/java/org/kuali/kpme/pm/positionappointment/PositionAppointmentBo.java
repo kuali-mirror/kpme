@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.positionappointment;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointment;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -134,7 +135,9 @@ public class PositionAppointmentBo extends HrKeyedBusinessObject implements Posi
 		pa.setPmPositionAppointmentId(im.getPmPositionAppointmentId());
 		pa.setPositionAppointment(im.getPositionAppointment());
 		pa.setDescription(im.getDescription());
-
+		pa.setGroupKeyCode(im.getGroupKeyCode());        
+		pa.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+		
 		// finally copy over the common fields into pa from im
 		copyCommonFields(pa, im);
 

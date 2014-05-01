@@ -17,17 +17,18 @@ package org.kuali.kpme.pm.api.positionappointment;
 
 import java.io.Serializable;
 import java.util.Collection;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -36,11 +37,9 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = PositionAppointment.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PositionAppointment.Constants.TYPE_NAME, propOrder = {
-    PositionAppointment.Elements.PM_POSITION_APPOINTMENT_ID,
-    KPMEConstants.CommonElements.GROUP_KEY_CODE,
-    KPMEConstants.CommonElements.GROUP_KEY,
     PositionAppointment.Elements.POSITION_APPOINTMENT,
     PositionAppointment.Elements.DESCRIPTION,
+    PositionAppointment.Elements.PM_POSITION_APPOINTMENT_ID,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
     PositionAppointment.Elements.ACTIVE,
@@ -48,6 +47,8 @@ import org.w3c.dom.Element;
     PositionAppointment.Elements.EFFECTIVE_LOCAL_DATE,
     PositionAppointment.Elements.CREATE_TIME,
     PositionAppointment.Elements.USER_PRINCIPAL_ID,
+    PositionAppointment.Elements.GROUP_KEY_CODE,
+    PositionAppointment.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PositionAppointment
@@ -55,12 +56,12 @@ public final class PositionAppointment
     implements PositionAppointmentContract
 {
 
-    @XmlElement(name = Elements.PM_POSITION_APPOINTMENT_ID, required = false)
-    private final String pmPositionAppointmentId;
     @XmlElement(name = Elements.POSITION_APPOINTMENT, required = false)
     private final String positionAppointment;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
+    @XmlElement(name = Elements.PM_POSITION_APPOINTMENT_ID, required = false)
+    private final String pmPositionAppointmentId;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -75,9 +76,9 @@ public final class PositionAppointment
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
+    @XmlElement(name = Elements.GROUP_KEY_CODE, required = true)
     private final String groupKeyCode;
-    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
+    @XmlElement(name = Elements.GROUP_KEY, required = true)
     private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
@@ -88,9 +89,9 @@ public final class PositionAppointment
      * 
      */
     private PositionAppointment() {
-        this.pmPositionAppointmentId = null;
         this.positionAppointment = null;
         this.description = null;
+        this.pmPositionAppointmentId = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -103,9 +104,9 @@ public final class PositionAppointment
     }
 
     private PositionAppointment(Builder builder) {
-        this.pmPositionAppointmentId = builder.getPmPositionAppointmentId();
         this.positionAppointment = builder.getPositionAppointment();
         this.description = builder.getDescription();
+        this.pmPositionAppointmentId = builder.getPmPositionAppointmentId();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -113,13 +114,8 @@ public final class PositionAppointment
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKeyCode = builder.getGroupKeyCode();
         this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
-    }
-
-    @Override
-    public String getPmPositionAppointmentId() {
-        return this.pmPositionAppointmentId;
+        this.groupKeyCode = builder.getGroupKeyCode();
     }
 
     @Override
@@ -130,6 +126,11 @@ public final class PositionAppointment
     @Override
     public String getDescription() {
         return this.description;
+    }
+
+    @Override
+    public String getPmPositionAppointmentId() {
+        return this.pmPositionAppointmentId;
     }
 
     @Override
@@ -174,8 +175,9 @@ public final class PositionAppointment
 
     @Override
     public String getGroupKeyCode() {
-        return groupKeyCode;
+        return this.groupKeyCode;
     }
+
 
     /**
      * A builder which can be used to construct {@link PositionAppointment} instances.  Enforces the constraints of the {@link PositionAppointmentContract}.
@@ -185,9 +187,9 @@ public final class PositionAppointment
         implements Serializable, PositionAppointmentContract, ModelBuilder
     {
 
-        private String pmPositionAppointmentId;
         private String positionAppointment;
         private String description;
+        private String pmPositionAppointmentId;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -198,13 +200,15 @@ public final class PositionAppointment
         private String groupKeyCode;
         private HrGroupKey.Builder groupKey;
 
-        private Builder() {
+        private Builder(String groupKeyCode, String positionAppointment) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setGroupKeyCode(groupKeyCode);
+        	setPositionAppointment(positionAppointment);
         }
 
-        public static Builder create() {
+        public static Builder create(String groupKeyCode, String positionAppointment) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder();
+            return new Builder(groupKeyCode,positionAppointment);
         }
 
         public static Builder create(PositionAppointmentContract contract) {
@@ -212,10 +216,10 @@ public final class PositionAppointment
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create();
-            builder.setPmPositionAppointmentId(contract.getPmPositionAppointmentId());
+            Builder builder = create(contract.getGroupKeyCode(),contract.getPositionAppointment());
             builder.setPositionAppointment(contract.getPositionAppointment());
             builder.setDescription(contract.getDescription());
+            builder.setPmPositionAppointmentId(contract.getPmPositionAppointmentId());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -232,11 +236,6 @@ public final class PositionAppointment
         }
 
         @Override
-        public String getPmPositionAppointmentId() {
-            return this.pmPositionAppointmentId;
-        }
-
-        @Override
         public String getPositionAppointment() {
             return this.positionAppointment;
         }
@@ -244,6 +243,11 @@ public final class PositionAppointment
         @Override
         public String getDescription() {
             return this.description;
+        }
+
+        @Override
+        public String getPmPositionAppointmentId() {
+            return this.pmPositionAppointmentId;
         }
 
         @Override
@@ -280,38 +284,33 @@ public final class PositionAppointment
         public String getUserPrincipalId() {
             return this.userPrincipalId;
         }
-
+        
         @Override
         public String getGroupKeyCode() {
-            return groupKeyCode;
-        }
-
-        public void setGroupKeyCode(String groupKeyCode) {
-            this.groupKeyCode = groupKeyCode;
+            return this.groupKeyCode;
         }
 
         @Override
         public HrGroupKey.Builder getGroupKey() {
-            return groupKey;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
-        }
-
-        public void setPmPositionAppointmentId(String pmPositionAppointmentId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.pmPositionAppointmentId = pmPositionAppointmentId;
+            return this.groupKey;
         }
 
         public void setPositionAppointment(String positionAppointment) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
+        	if (StringUtils.isWhitespace(positionAppointment)) {
+                throw new IllegalArgumentException("positionAppointment is blank");
+            }
             this.positionAppointment = positionAppointment;
         }
 
         public void setDescription(String description) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.description = description;
+        }
+
+        public void setPmPositionAppointmentId(String pmPositionAppointmentId) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.pmPositionAppointmentId = pmPositionAppointmentId;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -349,6 +348,17 @@ public final class PositionAppointment
             this.userPrincipalId = userPrincipalId;
         }
 
+        public void setGroupKeyCode(String groupKeyCode) {
+            if (StringUtils.isWhitespace(groupKeyCode)) {
+                throw new IllegalArgumentException("groupKeyCode is blank");
+            }
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
+        }
+
     }
 
 
@@ -370,16 +380,17 @@ public final class PositionAppointment
      */
     static class Elements {
 
-        final static String PM_POSITION_APPOINTMENT_ID = "pmPositionAppointmentId";
         final static String POSITION_APPOINTMENT = "positionAppointment";
         final static String DESCRIPTION = "description";
+        final static String PM_POSITION_APPOINTMENT_ID = "pmPositionAppointmentId";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
 
     }
 
 }
-
