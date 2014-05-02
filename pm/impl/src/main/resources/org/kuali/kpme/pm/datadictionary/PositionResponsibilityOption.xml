@@ -24,7 +24,7 @@
 	
 	<bean id="PositionResponsibilityOption" parent="PositionResponsibilityOption-parentBean"/>
  	<bean id="PositionResponsibilityOption-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PositionResponsibilityOption-prOptionId"/>
@@ -83,7 +83,7 @@
  
   <bean id="PositionResponsibilityOption-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Responsibility Option Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="prOptionName" />
@@ -96,7 +96,7 @@
       <list>
      	<bean parent="Uif-DataField" p:propertyName="prOptionName">
         	<property name="inquiry">
-      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" 
+      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo" 
        			 	p:inquiryParameters="prOptionId:prOptionId"/>
   			</property>
         </bean>
@@ -111,7 +111,7 @@
  
   <bean id="PositionResponsibilityOption-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Responsibility Option Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -138,7 +138,7 @@
   <bean id="PositionResponsibilityOption-MaintenanceView" parent="PositionResponsibilityOption-MaintenanceView-parentBean"/>
   <bean id="PositionResponsibilityOption-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Responsibility Option Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">

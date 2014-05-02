@@ -22,28 +22,28 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption;
+import org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 
 public class PositionResponsibilityOptionDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionResponsibilityOptionDao {
 
 	@Override
-	public PositionResponsibilityOption getPositionResponsibilityOptionById(
+	public PositionResponsibilityOptionBo getPositionResponsibilityOptionById(
 			String prOptionId) {
 		Criteria crit = new Criteria();
         crit.addEqualTo("prOptionId", prOptionId);
 
-        Query query = QueryFactory.newQuery(PositionResponsibilityOption.class, crit);
-        return (PositionResponsibilityOption) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionResponsibilityOptionBo.class, crit);
+        return (PositionResponsibilityOptionBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
 	@Override
-	public List<PositionResponsibilityOption> getAllActivePstnRspOptions() {
-		List<PositionResponsibilityOption> aList = new ArrayList<PositionResponsibilityOption>();
+	public List<PositionResponsibilityOptionBo> getAllActivePstnRspOptions() {
+		List<PositionResponsibilityOptionBo> aList = new ArrayList<PositionResponsibilityOptionBo>();
 		Criteria root = new Criteria();
 		root.addEqualTo("active", true);
-		Query query = QueryFactory.newQuery(PositionResponsibilityOption.class, root);
+		Query query = QueryFactory.newQuery(PositionResponsibilityOptionBo.class, root);
 		
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		if(!c.isEmpty())

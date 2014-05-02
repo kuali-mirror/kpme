@@ -26,7 +26,7 @@
 
   <bean id="PositionResponsibilityOptionMaintenanceDocument" parent="PositionResponsibilityOptionMaintenanceDocument-parentBean"/>
   <bean id="PositionResponsibilityOptionMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption"/>
+    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.positionResponsibilityOption.service.PositionResponsibilityOptionMaintainableImpl"/>  
     <property name="documentTypeName" value="PositionResponsibilityOptionMaintenanceDocumentType"/>
   </bean>

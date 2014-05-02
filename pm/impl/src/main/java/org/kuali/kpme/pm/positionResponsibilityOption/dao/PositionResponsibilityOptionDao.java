@@ -17,11 +17,11 @@ package org.kuali.kpme.pm.positionResponsibilityOption.dao;
 
 import java.util.List;
 
-import org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption;
+import org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo;
 
 public interface PositionResponsibilityOptionDao {
 	
-	public PositionResponsibilityOption getPositionResponsibilityOptionById(String prOptionId);
-	public List<PositionResponsibilityOption> getAllActivePstnRspOptions();
+	public PositionResponsibilityOptionBo getPositionResponsibilityOptionById(String prOptionId);
+	public List<PositionResponsibilityOptionBo> getAllActivePstnRspOptions();
 
 }

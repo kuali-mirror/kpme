@@ -17,10 +17,10 @@ package org.kuali.kpme.pm.positionResponsibilityOption.service;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 public class PositionResponsibilityOptionMaintainableImpl extends HrBusinessObjectMaintainableImpl {
-
 	
 
 	/**
@@ -30,7 +30,7 @@ public class PositionResponsibilityOptionMaintainableImpl extends HrBusinessObje
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) PmServiceLocator.getPositionResponsibilityOptionService().getPositionResponsibilityOptionById(id);
+		return PositionResponsibilityOptionBo.from(PmServiceLocator.getPositionResponsibilityOptionService().getPositionResponsibilityOptionById(id));
 	}
 
 }

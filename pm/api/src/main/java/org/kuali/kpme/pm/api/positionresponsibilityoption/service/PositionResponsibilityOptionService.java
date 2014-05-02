@@ -17,12 +17,13 @@ package org.kuali.kpme.pm.api.positionresponsibilityoption.service;
 
 import java.util.List;
 
+import org.kuali.kpme.pm.api.positionresponsibilityoption.PositionResponsibilityOption;
 import org.kuali.kpme.pm.api.positionresponsibilityoption.PositionResponsibilityOptionContract;
 
 public interface PositionResponsibilityOptionService {
 	
-	public PositionResponsibilityOptionContract getPositionResponsibilityOptionById(String prOptionId);
-	public List<? extends PositionResponsibilityOptionContract> getAllActivePstnRspOptions();
+	public PositionResponsibilityOption getPositionResponsibilityOptionById(String prOptionId);
+	public List<PositionResponsibilityOption> getAllActivePstnRspOptions();
 	
 	
 

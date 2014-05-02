@@ -15,13 +15,13 @@
  */
 package org.kuali.kpme.pm.api.positionresponsibilityoption;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 
 /**
  * <p>PositionResponsibilityOptionContract interface</p>
  *
  */
-public interface PositionResponsibilityOptionContract extends HrBusinessObjectContract {
+public interface PositionResponsibilityOptionContract extends KpmeEffectiveDataTransferObject {
 
     /**
      * The primary key for a PositionResponsibilityOption entry saved in the database

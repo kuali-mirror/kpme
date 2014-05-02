@@ -302,7 +302,7 @@
 
      <!-- Position Responsibilty Option -->
     <!-- Business Keys - [name : description : effectiveDate : timestamp] -->
-    <class-descriptor class="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOption" table="PSTN_RPS_OPT_T">
+    <class-descriptor class="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo" table="PSTN_RPS_OPT_T">
         <field-descriptor name="prOptionId" 			column="PSTN_RPS_OPT_ID" 		 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PSTN_RPS_OPT_S" />
         <field-descriptor name="prOptionName"     		column="NAME"					 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="prDescription"  		column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="500"  		nullable="true" />
