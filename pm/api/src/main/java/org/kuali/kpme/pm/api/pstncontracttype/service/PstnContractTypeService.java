@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.api.pstncontracttype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.pstncontracttype.PstnContractTypeContract;
+import org.kuali.kpme.pm.api.pstncontracttype.PstnContractType;
 
 public interface PstnContractTypeService {
 	/**
@@ -26,7 +26,7 @@ public interface PstnContractTypeService {
 	 * @param pmCntrctTypeId
 	 * @return
 	 */
-	public PstnContractTypeContract getPstnContractTypeById(String pmCntrctTypeId);
+	public PstnContractType getPstnContractTypeById(String pmCntrctTypeId);
 	
 	/**
 	 * Get list of PstnContractType with given group, institution, location and effective date
@@ -36,7 +36,7 @@ public interface PstnContractTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate);
+	public List<PstnContractType> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate);
 	
 	/**
 	 * Get list of PstnContractType with given name, institution, location and effective date
@@ -47,5 +47,5 @@ public interface PstnContractTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PstnContractTypeContract> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate);
+	public List<PstnContractType> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate);
 }

@@ -15,13 +15,13 @@
  */
 package org.kuali.kpme.pm.api.pstncontracttype;
 
-import org.kuali.kpme.core.api.bo.HrKeyedBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
 /**
  * <p>PstnContractTypeContract interface</p>
  *
  */
-public interface PstnContractTypeContract extends HrKeyedBusinessObjectContract {
+public interface PstnContractTypeContract extends KpmeEffectiveKeyedDataTransferObject {
 
 	/**
 	 * The primary key of a PstnContractType entry saved in a database

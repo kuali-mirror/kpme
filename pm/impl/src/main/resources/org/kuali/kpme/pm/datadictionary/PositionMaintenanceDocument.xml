@@ -426,7 +426,7 @@
 					</property>
 					<property name="quickfinder">
 						<bean parent="Uif-QuickFinderByScript"
-							p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractType"
+							p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo"
 							p:fieldConversions="name:contractType" 
 							p:lookupParameters="groupKeyCode:groupKeyCode" />
 					</property>					

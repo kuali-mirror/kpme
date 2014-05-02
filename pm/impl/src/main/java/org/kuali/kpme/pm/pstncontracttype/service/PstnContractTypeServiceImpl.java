@@ -18,9 +18,11 @@ package org.kuali.kpme.pm.pstncontracttype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.pstncontracttype.PstnContractType;
 import org.kuali.kpme.pm.api.pstncontracttype.service.PstnContractTypeService;
-import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
+import org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo;
 import org.kuali.kpme.pm.pstncontracttype.dao.PstnContractTypeDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PstnContractTypeServiceImpl implements PstnContractTypeService {
 
@@ -35,21 +37,20 @@ public class PstnContractTypeServiceImpl implements PstnContractTypeService {
 		this.pstnContractTypeDao = pstnContractTypeDao;
 	}
 
-
 	@Override
 	public PstnContractType getPstnContractTypeById(
 			String pmPositionTypeId) {
-		return pstnContractTypeDao.getPstnContractTypeById(pmPositionTypeId);
+		return PstnContractTypeBo.to(pstnContractTypeDao.getPstnContractTypeById(pmPositionTypeId));
 	}
 
 	@Override
 	public List<PstnContractType> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate) {
-		return pstnContractTypeDao.getPstnContractTypeList(groupKeyCode, asOfDate);
+		return ModelObjectUtils.transform(pstnContractTypeDao.getPstnContractTypeList(groupKeyCode, asOfDate),PstnContractTypeBo.toImmutable);
 	}
 	
 	@Override
 	public List<PstnContractType> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate) {
-		return pstnContractTypeDao.getPstnContractTypeList(name, groupKeyCode, asOfDate);
+		return ModelObjectUtils.transform(pstnContractTypeDao.getPstnContractTypeList(name, groupKeyCode, asOfDate),PstnContractTypeBo.toImmutable);
 	}
 
 }

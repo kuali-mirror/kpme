@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.pstncontracttype.validation;
 
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
-import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
+import org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 public class PstnContractTypeValidation extends HrKeyedBusinessObjectValidation {
@@ -24,7 +24,7 @@ public class PstnContractTypeValidation extends HrKeyedBusinessObjectValidation 
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for PstnContractType");
-		PstnContractType pstnContractType = (PstnContractType) this.getNewDataObject();
+		PstnContractTypeBo pstnContractType = (PstnContractTypeBo) this.getNewDataObject();
 		
 		if (pstnContractType != null) {
 			valid = true;

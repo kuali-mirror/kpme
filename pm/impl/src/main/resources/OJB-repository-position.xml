@@ -287,7 +287,7 @@
 
 	<!-- Position Contract Type-->
     <!-- Business Keys - [name : effectiveDate : timestamp] -->	
-    <class-descriptor class="org.kuali.kpme.pm.pstncontracttype.PstnContractType" table="PM_PSTN_CNTRCT_TYP_T">
+    <class-descriptor class="org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo" table="PM_PSTN_CNTRCT_TYP_T">
         <field-descriptor name="pmCntrctTypeId" 		column="PM_CNTRCT_TYP_ID"  		 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CNTRCT_TYP_S" />
         <field-descriptor name="name"      				column="NAME"					 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />

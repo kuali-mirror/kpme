@@ -28,36 +28,36 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
+import org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements PstnContractTypeDao {
 
 	@Override
-	public PstnContractType getPstnContractTypeById(
+	public PstnContractTypeBo getPstnContractTypeById(
 			String pmCntrctTypeId) {
 		Criteria crit = new Criteria();
         crit.addEqualTo("pmCntrctTypeId", pmCntrctTypeId);
 
-        Query query = QueryFactory.newQuery(PstnContractType.class, crit);
-        return (PstnContractType) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PstnContractTypeBo.class, crit);
+        return (PstnContractTypeBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 	@Override
-	public List<PstnContractType> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate) {
-		List<PstnContractType> pctList = new ArrayList<PstnContractType>();
+	public List<PstnContractTypeBo> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate) {
+		List<PstnContractTypeBo> pctList = new ArrayList<PstnContractTypeBo>();
 		Criteria root = new Criteria();
  		if(StringUtils.isNotEmpty(groupKeyCode)) {
 			root.addEqualTo("groupKeyCode", groupKeyCode); 
 		}
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnContractType.class, asOfDate, PstnContractType.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PstnContractType.class, PstnContractType.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnContractTypeBo.class, asOfDate, PstnContractTypeBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PstnContractTypeBo.class, PstnContractTypeBo.BUSINESS_KEYS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(PstnContractType.class, root);
+        Query query = QueryFactory.newQuery(PstnContractTypeBo.class, root);
         
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		if(!c.isEmpty())
@@ -67,8 +67,8 @@ public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 	
 	@Override
-	public List<PstnContractType> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate) {
-		List<PstnContractType> pctList = new ArrayList<PstnContractType>();
+	public List<PstnContractTypeBo> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate) {
+		List<PstnContractTypeBo> pctList = new ArrayList<PstnContractTypeBo>();
 		Criteria root = new Criteria();
 		Set<String> coll = new HashSet<String>();
 		
@@ -81,14 +81,14 @@ public class PstnContractTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implemen
  			root.addEqualTo("groupKeyCode", groupKeyCode);
 		}
  		
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnContractType.class, asOfDate, PstnContractType.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PstnContractType.class, PstnContractType.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PstnContractTypeBo.class, asOfDate, PstnContractTypeBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PstnContractTypeBo.class, PstnContractTypeBo.BUSINESS_KEYS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(PstnContractType.class, root);
+        Query query = QueryFactory.newQuery(PstnContractTypeBo.class, root);
         
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		if(!c.isEmpty())

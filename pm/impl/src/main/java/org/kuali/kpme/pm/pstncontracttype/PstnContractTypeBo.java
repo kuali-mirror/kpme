@@ -16,12 +16,15 @@
 package org.kuali.kpme.pm.pstncontracttype;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.pm.api.pstncontracttype.PstnContractType;
 import org.kuali.kpme.pm.api.pstncontracttype.PstnContractTypeContract;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PstnContractType extends HrKeyedBusinessObject implements PstnContractTypeContract {
+public class PstnContractTypeBo extends HrKeyedBusinessObject implements PstnContractTypeContract {
 	
 	static class KeyFields {
 		final static String GROUP_KEY_CODE = "groupKeyCode";
@@ -47,6 +50,34 @@ public class PstnContractType extends HrKeyedBusinessObject implements PstnContr
 			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
+	
+	/*
+	 * convert bo to immutable
+	 *
+	 * Can be used with ModelObjectUtils:
+	 *
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPstnContractTypeBo, PstnContractTypeBo.toImmutable);
+	 */
+	public static final ModelObjectUtils.Transformer<PstnContractTypeBo, PstnContractType> toImmutable =
+			new ModelObjectUtils.Transformer<PstnContractTypeBo, PstnContractType>() {
+		public PstnContractType transform(PstnContractTypeBo input) {
+			return PstnContractTypeBo.to(input);
+		};
+	};
+
+	/*
+	 * convert immutable to bo
+	 * 
+	 * Can be used with ModelObjectUtils:
+	 * 
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPstnContractType, PstnContractTypeBo.toBo);
+	 */
+	public static final ModelObjectUtils.Transformer<PstnContractType, PstnContractTypeBo> toBo =
+			new ModelObjectUtils.Transformer<PstnContractType, PstnContractTypeBo>() {
+		public PstnContractTypeBo transform(PstnContractType input) {
+			return PstnContractTypeBo.from(input);
+		};
+	};
 
 	@Override
 	public String getId() {
@@ -87,6 +118,31 @@ public class PstnContractType extends HrKeyedBusinessObject implements PstnContr
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+
+	public static PstnContractTypeBo from(PstnContractType im) {
+		if (im == null) {
+			return null;
+		}
+		PstnContractTypeBo pa = new PstnContractTypeBo();
+		pa.setPmCntrctTypeId(im.getPmCntrctTypeId());
+		pa.setName(im.getName());
+		pa.setDescription(im.getDescription());
+		pa.setGroupKeyCode(im.getGroupKeyCode());        
+		pa.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+		
+		// finally copy over the common fields into pa from im
+		copyCommonFields(pa, im);
+
+		return pa;
+	} 
+
+	public static PstnContractType to(PstnContractTypeBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PstnContractType.Builder.create(bo).build();
 	}
 
 }

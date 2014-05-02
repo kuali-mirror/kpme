@@ -18,13 +18,13 @@ package org.kuali.kpme.pm.pstncontracttype.dao;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.pstncontracttype.PstnContractType;
+import org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo;
 
 public interface PstnContractTypeDao {
 	
-	public PstnContractType getPstnContractTypeById(String pmCntrctTypeId);
+	public PstnContractTypeBo getPstnContractTypeById(String pmCntrctTypeId);
 	
-	public List<PstnContractType> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate);
+	public List<PstnContractTypeBo> getPstnContractTypeList(String groupKeyCode, LocalDate asOfDate);
 	
-	public List<PstnContractType> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate);
+	public List<PstnContractTypeBo> getPstnContractTypeList(String name, String groupKeyCode, LocalDate asOfDate);
 }

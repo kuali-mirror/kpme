@@ -23,7 +23,7 @@
 	
 	<bean id="PstnContractType" parent="PstnContractType-parentBean"/>
  	<bean id="PstnContractType-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PstnContractType-pmCntrctTypeId"/>
@@ -92,7 +92,7 @@
  
   <bean id="PstnContractType-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
     <property name="headerText" value="Position Contract Type Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />       
@@ -105,7 +105,7 @@
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="name" >
         	<property name="inquiry">
-	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractType" 
+	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo" 
 	        	p:inquiryParameters="pmCntrctTypeId:pmCntrctTypeId"/>
     		</property>
         </bean>
@@ -118,7 +118,7 @@
  <!-- Position Type Inquiry View -->
   <bean id="PstnContractType-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Contract Type Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo"/>
     <property name="singlePageView" value="true"/>
     <property name="title" value="Position Contract Type Inquiry"/>
     <property name="items">
@@ -142,7 +142,7 @@
   <bean id="PstnContractType-MaintenanceView" parent="PstnContractType-MaintenanceView-parentBean"/>
   <bean id="PstnContractType-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Contract Type Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo"/>
     <property name="items">
       <list merge="true">
         <bean parent="KPMEGroupKeyed-MaintenanceGridSection">

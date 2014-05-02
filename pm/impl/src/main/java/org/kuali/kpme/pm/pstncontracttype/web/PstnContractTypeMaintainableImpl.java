@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.pstncontracttype.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
 
@@ -26,6 +27,6 @@ public class PstnContractTypeMaintainableImpl extends HrBusinessObjectMaintainab
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) PmServiceLocator.getPstnContractTypeService().getPstnContractTypeById(id);
+		return PstnContractTypeBo.from(PmServiceLocator.getPstnContractTypeService().getPstnContractTypeById(id));
 	}
 }
