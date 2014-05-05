@@ -81,14 +81,12 @@ public class PstnContractTypeBo extends HrKeyedBusinessObject implements PstnCon
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return getPmCntrctTypeId();
 	}
 
 	@Override
 	public void setId(String id) {
-		// TODO Auto-generated method stub
-
+		setPmCntrctTypeId(id);
 	}
 
 	@Override
