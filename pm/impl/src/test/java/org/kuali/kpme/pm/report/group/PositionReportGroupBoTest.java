@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBoTest;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 
 public class PositionReportGroupBoTest {
 
