@@ -285,60 +285,53 @@ public class TKUtils {
     }
 
     public static String formatDate(LocalDate localDate) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        return sdf.format(localDate.toDate());
+        if (localDate == null) {
+            return StringUtils.EMPTY;
+        }
+        return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.print(localDate);
     }
 
     public static String formatDateTimeShort(DateTime dateTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        return sdf.format(dateTime.toDate());
+        if (dateTime == null) {
+            return StringUtils.EMPTY;
+        }
+        return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.print(dateTime);
     }
     
     public static String formatDateTimeLong(DateTime dateTime){
-    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        return sdf.format(dateTime.toDate());
+        if (dateTime == null) {
+            return StringUtils.EMPTY;
+        }
+        return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT_WITH_SEC.print(dateTime);
     }
 
     public static LocalDate formatDateString(String date){
-    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-    	try {
-			return LocalDate.fromDateFields(sdf.parse(date));
-		} catch (ParseException e) {
-			return null;
-		}
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        }
+        return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseLocalDate(date);
     }
     
     public static String formatTimeShort(String dateString) {
-    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-    	Date tempDate = null;
- 		try {
- 			tempDate = sdf.parse(dateString);
- 		} catch (ParseException e) {
- 			e.printStackTrace();
- 		}
-        return new SimpleDateFormat("HH:mm").format(tempDate);      
+        if (StringUtils.isEmpty(dateString)) {
+            return null;
+        }
+        DateTime tempDate = HrConstants.DateTimeFormats.BASIC_DATE_FORMAT_WITH_SEC.parseDateTime(dateString);
+    	return HrConstants.DateTimeFormats.BASIC_TIME_FORMAT.print(tempDate);
     }
     
     public static DateTime formatDateTimeString(String dateTime) {
-    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-    	
-        DateTimeZone dtz = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone());
-        
-        System.out.println("DateTimeZone: " + dtz);
-    	try {
-			return new DateTime(sdf.parse(dateTime)).withZone(dtz);
-		} catch (ParseException e) {
-			return null;
-		}
+        if (StringUtils.isEmpty(dateTime)) {
+            return null;
+        }
+        return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(dateTime).withZone(HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
     }
 
     public static DateTime formatDateTimeStringNoTimezone(String dateTime) {
-    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-    	try {
-			return new DateTime(sdf.parse(dateTime));
-		} catch (ParseException e) {
-			return null;
-		}
+        if (StringUtils.isEmpty(dateTime)) {
+            return null;
+        }
+        return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(dateTime);
     }
     
     /**
@@ -405,8 +398,6 @@ public class TKUtils {
     }
     
     public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
-    	
-    	List<Interval> daySpanList3 = getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
     	return getDaySpanForCalendarEntry(calendarEntry, HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback());
     }
 
@@ -512,13 +503,8 @@ public class TKUtils {
 		 
 		 if (date != null) {
 			 
-			 /*if (fromDate != null ? (date.isEqual(fromDate) || date.isAfter(fromDate)) : true
-					 && toDate != null ? (date.isBefore(toDate) || date.isEqual(toDate)) : true) {
-				*/ 
-			 
-			 if (fromDate != null ? (date.equals(fromDate) || date.isAfter(fromDate)) : true
-					 && toDate != null ? (date.isBefore(toDate) || date.equals(toDate)) : true) {
-				
+			 if (fromDate != null ? (date.isEqual(fromDate) || date.isAfter(fromDate)) :
+                     toDate != null ? (date.isBefore(toDate) || date.isEqual(toDate)) : true) {
 				 valid = true;
 			 }
 		 }

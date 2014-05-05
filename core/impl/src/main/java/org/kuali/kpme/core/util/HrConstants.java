@@ -163,7 +163,9 @@ public class HrConstants {
 	public static final Long WILDCARD_LONG = -1L;
 
 	public static final class DateTimeFormats {
+        public static final DateTimeFormatter BASIC_TIME_FORMAT = DateTimeFormat.forPattern("HH:mm");
         public static final DateTimeFormatter BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
+        public static final DateTimeFormatter BASIC_DATE_FORMAT_WITH_SEC = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss");
         public static final DateTimeFormatter FULL_DATE_TIME_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss.SSS");
     }
 
