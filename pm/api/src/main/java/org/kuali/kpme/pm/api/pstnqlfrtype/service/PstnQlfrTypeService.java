@@ -50,7 +50,7 @@ package org.kuali.kpme.pm.api.pstnqlfrtype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
+import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrType;
 
 
 
@@ -66,14 +66,14 @@ public interface PstnQlfrTypeService {
 
 	 */
 
-	public PstnQlfrTypeContract getPstnQlfrTypeById(String pmPstnQlfrTypeId);
+	public PstnQlfrType getPstnQlfrTypeById(String pmPstnQlfrTypeId);
 
 	/**
 	 * retrieve the Position Qualifier Type with given type
 	 * @param pmPstnQlfrType
 	 * @return
 	 */
-	public PstnQlfrTypeContract getPstnQlfrTypeByType(String pmPstnQlfrType);
+	public PstnQlfrType getPstnQlfrTypeByType(String pmPstnQlfrType);
 
 	/**
 
@@ -83,7 +83,7 @@ public interface PstnQlfrTypeService {
 
 	 */
 
-	public List<? extends PstnQlfrTypeContract> getAllActivePstnQlfrTypes(LocalDate asOfDate);
+	public List<? extends PstnQlfrType> getAllActivePstnQlfrTypes(LocalDate asOfDate);
 
 }
 

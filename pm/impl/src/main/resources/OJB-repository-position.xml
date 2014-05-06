@@ -139,7 +139,7 @@
     
     <!-- Position Qualifier Type -->
     <!-- Business Keys - [code : type : typeValue : effectiveDate : timestamp] -->	
-    <class-descriptor class="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" table="PM_PSTN_QLFR_TYP_T">
+    <class-descriptor class="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrTypeBo" table="PM_PSTN_QLFR_TYP_T">
         <field-descriptor name="pmPstnQlfrTypeId" 		column="PM_PSTN_QLFR_TYP_ID" 		 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_QLFR_TYP_S" />
         <field-descriptor name="code"     				column="CODE"					 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="type"  					column="TYPE"     				 jdbc-type="VARCHAR"     length="50"  		nullable="false" />

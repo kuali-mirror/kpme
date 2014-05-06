@@ -24,7 +24,7 @@
 	
 	<bean id="PositionQualifierType" parent="PositionQualifierType-parentBean"/>
  	<bean id="PositionQualifierType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrTypeBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PositionQualifierType-pmPstnQlfrTypeId"/>
@@ -130,7 +130,7 @@
  
   <bean id="PositionQualifierType-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Qualifier Type Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrTypeBo" />
     <property name="criteriaFields">
       <list merge="true">       
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" />
@@ -146,7 +146,7 @@
       <list>
      	<bean parent="Uif-DataField" p:propertyName="code">
         	<property name="inquiry">
-      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType" 
+      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrTypeBo" 
        			 	p:inquiryParameters="pmPstnQlfrTypeId:pmPstnQlfrTypeId"/>
   			</property>
         </bean>
@@ -163,7 +163,7 @@
  <!-- Position Qualifier Type Inquiry View -->
   <bean id="PositionQualifierType-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Qualifier Type Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrTypeBo"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -191,7 +191,7 @@
   <bean id="PositionQualifierType-MaintenanceView" parent="PositionQualifierType-MaintenanceView-parentBean"/>
   <bean id="PositionQualifierType-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Qualifier Type Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrType"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrTypeBo"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">
