@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.pm.positionresponsibility.service;
 
+import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.api.positionresponsibility.service.PositionResponsibilityService;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 import org.kuali.kpme.pm.positionresponsibility.dao.PositionResponsibilityDao;
@@ -24,9 +25,9 @@ public class PositionResponsibilityServiceImpl implements PositionResponsibility
 	private PositionResponsibilityDao positionResponsibilityDao;
 
 	@Override
-	public PositionResponsibilityBo getPositionResponsibilityById(
+	public PositionResponsibility getPositionResponsibilityById(
 			String positionResponsibilityId) {
-		return positionResponsibilityDao.getPositionResponsibilityById(positionResponsibilityId);
+		return PositionResponsibilityBo.to(positionResponsibilityDao.getPositionResponsibilityById(positionResponsibilityId));
 
 	}
 

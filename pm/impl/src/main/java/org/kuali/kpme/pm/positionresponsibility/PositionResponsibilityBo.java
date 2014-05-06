@@ -15,17 +15,48 @@
  */
 package org.kuali.kpme.pm.positionresponsibility;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
-import org.kuali.kpme.pm.position.PositionDerived;
-import org.kuali.rice.location.api.campus.Campus;
-
 import java.math.BigDecimal;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibility;
+import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
+import org.kuali.kpme.pm.position.PositionBo;
+import org.kuali.kpme.pm.position.PositionDerived;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.location.api.campus.Campus;
 
 public class PositionResponsibilityBo extends PositionDerived implements PositionResponsibilityContract {
 
 	private static final long serialVersionUID = -1631206606795253956L;
-	
+
+	/*
+	 * convert bo to immutable
+	 *
+	 * Can be used with ModelObjectUtils:
+	 *
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionResponsibilityBo, PositionResponsibilityBo.toImmutable);
+	 */
+	public static final ModelObjectUtils.Transformer<PositionResponsibilityBo, PositionResponsibility> toImmutable =
+	        new ModelObjectUtils.Transformer<PositionResponsibilityBo, PositionResponsibility>() {
+	            public PositionResponsibility transform(PositionResponsibilityBo input) {
+	                return PositionResponsibilityBo.to(input);
+	            };
+	        };
+	 
+	/*
+	 * convert immutable to bo
+	 * 
+	 * Can be used with ModelObjectUtils:
+	 * 
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transform(listOfPositionResponsibility, PositionResponsibilityBo.toBo);
+	 */
+	public static final ModelObjectUtils.Transformer<PositionResponsibility, PositionResponsibilityBo> toBo =
+	        new ModelObjectUtils.Transformer<PositionResponsibility, PositionResponsibilityBo>() {
+	            public PositionResponsibilityBo transform(PositionResponsibility input) {
+	                return PositionResponsibilityBo.from(input);
+	            };
+	        };
+	        
 	private String positionResponsibilityId;
 	private String positionResponsibilityOption;
 	private BigDecimal percentTime;
@@ -91,5 +122,27 @@ public class PositionResponsibilityBo extends PositionDerived implements Positio
                 .isEquals();
 
     }
-	
+    
+    public static PositionResponsibilityBo from(PositionResponsibility im) {
+        if (im == null) {
+            return null;
+        }
+        PositionResponsibilityBo pr = new PositionResponsibilityBo();
+        
+        pr.setCampusObj(im.getCampusObj());
+        pr.setPositionResponsibilityOption(im.getPositionResponsibilityOption());
+        pr.setPositionResponsibilityId(im.getPositionResponsibilityId());
+        pr.setPercentTime(im.getPercentTime());
+        pr.setVersionNumber(im.getVersionNumber());
+        pr.setObjectId(im.getObjectId());
+        
+        return pr;
+    } 
+    
+    public static PositionResponsibility to(PositionResponsibilityBo bo) {
+        if (bo == null) {
+            return null;
+        }
+        return PositionResponsibility.Builder.create(bo).build();
+    }
 }

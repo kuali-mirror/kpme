@@ -15,9 +15,9 @@
  */
 package org.kuali.kpme.pm.api.positionresponsibility.service;
 
-import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
+import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibility;
 
 public interface PositionResponsibilityService {
-	public PositionResponsibilityContract getPositionResponsibilityById(String positionResponsibilityId);
+	public PositionResponsibility getPositionResponsibilityById(String positionResponsibilityId);
 
 }

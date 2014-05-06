@@ -29,6 +29,7 @@ import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusContract;
 import org.w3c.dom.Element;
 
@@ -51,7 +52,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
 	private static final long serialVersionUID = 9087038146966583259L;
 	
 	@XmlElement(name = Elements.CAMPUS_OBJ, required = false)
-    private final CampusContract campusObj;
+    private final Campus campusObj;
     @XmlElement(name = Elements.POSITION_RESPONSIBILITY_OPTION, required = false)
     private final String positionResponsibilityOption;
     @XmlElement(name = Elements.PERCENT_TIME, required = false)
@@ -88,7 +89,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
     }
 
     private PositionResponsibility(Builder builder) {
-        this.campusObj = builder.getCampusObj();
+        this.campusObj = builder.getCampusObj() == null ? null : builder.getCampusObj().build();
         this.positionResponsibilityOption = builder.getPositionResponsibilityOption();
         this.percentTime = builder.getPercentTime();
         this.positionResponsibilityId = builder.getPositionResponsibilityId();
@@ -100,7 +101,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
     }
 
     @Override
-    public CampusContract getCampusObj() {
+    public Campus getCampusObj() {
         return this.campusObj;
     }
 
@@ -153,7 +154,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
 
     	private static final long serialVersionUID = 9129941203942056769L;
     	
-		private CampusContract campusObj;
+		private Campus.Builder campusObj;
         private String positionResponsibilityOption;
         private BigDecimal percentTime;
         private String positionResponsibilityId;
@@ -178,7 +179,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-            builder.setCampusObj(contract.getCampusObj());
+            builder.setCampusObj(builder.getCampusObj() == null ? null : Campus.Builder.create(builder.getCampusObj().build()));
             builder.setPositionResponsibilityOption(contract.getPositionResponsibilityOption());
             builder.setPercentTime(contract.getPercentTime());
             builder.setPositionResponsibilityId(contract.getPositionResponsibilityId());
@@ -195,7 +196,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         }
 
         @Override
-        public CampusContract getCampusObj() {
+        public Campus.Builder getCampusObj() {
             return this.campusObj;
         }
 
@@ -239,7 +240,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
             return this.objectId;
         }
 
-        public void setCampusObj(CampusContract campusObj) {
+        public void setCampusObj(Campus.Builder campusObj) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.campusObj = campusObj;
         }
