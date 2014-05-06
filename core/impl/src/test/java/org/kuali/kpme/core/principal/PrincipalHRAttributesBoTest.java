@@ -15,15 +15,22 @@
  */
 package org.kuali.kpme.core.principal;
 
+
+
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
+import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.calendar.CalendarBoTest;
+import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.leaveplan.LeavePlanBoTest;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.name.EntityName;
@@ -40,7 +47,9 @@ public class PrincipalHRAttributesBoTest {
     private static IdentityService mockIdentityService;
 
     private static Map<String, PrincipalHRAttributes> testPrincipalHRAttributeBos;
+
     public static PrincipalHRAttributes.Builder principalHrAttributesBuilder = PrincipalHRAttributes.Builder.create("testuser1");
+
     static {
         testPrincipalHRAttributeBos = new HashMap<String, PrincipalHRAttributes>();
         principalHrAttributesBuilder.setName("user, test1");
@@ -89,6 +98,52 @@ public class PrincipalHRAttributesBoTest {
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
         Assert.assertEquals(immutable, PrincipalHRAttributesBo.to(bo));
+    }
+
+    @Test
+    public void testNotEqualsWithCalendar()
+    {
+        PrincipalHRAttributes immutable1 = PrincipalHRAttributesBoTest.getPrincipalHRAttributes("testuser1");
+        PrincipalHRAttributesBo bo1 = PrincipalHRAttributesBo.from(immutable1);
+
+        PrincipalHRAttributes immutable2 = PrincipalHRAttributesBoTest.getPrincipalHRAttributes("testuser1");
+        PrincipalHRAttributesBo bo2 = PrincipalHRAttributesBo.from(immutable2);
+
+        bo1.setCalendar(CalendarBo.from(CalendarBoTest.getTestCalendar("LM")));
+        bo2.setCalendar(CalendarBo.from(CalendarBoTest.getTestCalendar("BWS-CAL")));
+
+        Assert.assertNotEquals(bo1.getCalendar(), bo2.getCalendar());
+    }
+
+    @Test
+    public void testServiceLocalDateNotEquals()
+    {
+        PrincipalHRAttributes immutable1 = PrincipalHRAttributesBoTest.getPrincipalHRAttributes("testuser1");
+        PrincipalHRAttributesBo bo1 = PrincipalHRAttributesBo.from(immutable1);
+
+        PrincipalHRAttributes immutable2 = PrincipalHRAttributesBoTest.getPrincipalHRAttributes("testuser1");
+        PrincipalHRAttributesBo bo2 = PrincipalHRAttributesBo.from(immutable2);
+
+        bo1.setServiceLocalDate(new LocalDate(2014,6,4));
+        bo2.setServiceLocalDate(new LocalDate(2014,6,4));
+
+        Assert.assertEquals(bo1.getServiceLocalDate(), bo2.getServiceLocalDate());
+    }
+
+    @Test
+    public void testLeavePlanNotEquals()
+    {
+        PrincipalHRAttributes immutable1 = PrincipalHRAttributesBoTest.getPrincipalHRAttributes("testuser1");
+        PrincipalHRAttributesBo bo1 = PrincipalHRAttributesBo.from(immutable1);
+
+        PrincipalHRAttributes immutable2 = PrincipalHRAttributesBoTest.getPrincipalHRAttributes("testuser1");
+        PrincipalHRAttributesBo bo2 = PrincipalHRAttributesBo.from(immutable2);
+
+        LeavePlanBo lpbo = LeavePlanBo.from(LeavePlan.Builder.create(LeavePlanBoTest.getLeavePlan("LEAVE")).build());
+        bo1.setLeavePlanObj(lpbo);
+        bo2.setLeavePlanObj(lpbo);
+
+        Assert.assertEquals(bo1.getLeavePlanObj(), bo2.getLeavePlanObj());
     }
 
     public static PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
