@@ -246,7 +246,7 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType">
        		<property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionType"
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionTypeBo"
 	        		 p:fieldConversions="positionType:positionType"/>
 	   		</property>
         </bean>

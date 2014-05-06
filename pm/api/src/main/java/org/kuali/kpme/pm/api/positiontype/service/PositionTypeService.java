@@ -18,7 +18,8 @@ package org.kuali.kpme.pm.api.positiontype.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
+import org.kuali.kpme.pm.api.positiontype.PositionType;
+import org.kuali.kpme.pm.api.positiontype.PositionType;
 
 public interface PositionTypeService {
 	/**
@@ -26,7 +27,7 @@ public interface PositionTypeService {
 	 * @param pmPositionTypeId
 	 * @return
 	 */
-	public PositionTypeContract getPositionTypeById(String pmPositionTypeId);
+	public PositionType getPositionTypeById(String pmPositionTypeId);
 	
 	/**
 	 * Get list of PositionType with given group, groupKeyCode and effective date
@@ -36,7 +37,7 @@ public interface PositionTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PositionTypeContract> getPositionTypeList(String positionType, String groupKeyCode, LocalDate asOfDate);
+	public List<? extends PositionType> getPositionTypeList(String positionType, String groupKeyCode, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the latest active Position Type with given positionType and effectiveDate
@@ -44,5 +45,5 @@ public interface PositionTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public PositionTypeContract getPositionType(String positionType, LocalDate asOfDate);
+	public PositionType getPositionType(String positionType, LocalDate asOfDate);
 }

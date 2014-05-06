@@ -19,7 +19,7 @@ import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.krms.KpmeKrmsFactBuilderServiceHelper;
 import org.kuali.kpme.pm.api.common.krms.PmKrmsConstants;
 import org.kuali.kpme.pm.position.PositionBo;
-import org.kuali.kpme.pm.positiontype.PositionType;
+import org.kuali.kpme.pm.positiontype.PositionTypeBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krms.api.engine.Facts;
@@ -49,7 +49,7 @@ public class PMFactBuilderServiceImpl extends KpmeKrmsFactBuilderServiceHelper {
             if (document.getNewMaintainableObject().getDataObject() != null && document.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
                 PositionBo newPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
 
-                PositionType positionType = (PositionType) PmServiceLocator.getPositionTypeService().getPositionType(newPosition.getPositionType(),newPosition.getEffectiveLocalDate());
+                PositionTypeBo positionType = PositionTypeBo.from( PmServiceLocator.getPositionTypeService().getPositionType(newPosition.getPositionType(),newPosition.getEffectiveLocalDate()));
 
                 factsBuilder.addFact(new Term("academicFlag"), positionType.isAcademicFlag());
                 factsBuilder.addFact(new Term("positionProcess"), newPosition.getProcess());

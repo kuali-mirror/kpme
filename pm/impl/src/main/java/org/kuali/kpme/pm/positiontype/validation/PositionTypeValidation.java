@@ -16,7 +16,7 @@
 package org.kuali.kpme.pm.positiontype.validation;
 
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
-import org.kuali.kpme.pm.positiontype.PositionType;
+import org.kuali.kpme.pm.positiontype.PositionTypeBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 @SuppressWarnings("deprecation")
@@ -26,7 +26,7 @@ public class PositionTypeValidation extends HrKeyedBusinessObjectValidation  {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Type");
-		PositionType positionType = (PositionType) this.getNewDataObject();
+		PositionTypeBo positionType = (PositionTypeBo) this.getNewDataObject();
 		
 		if (positionType != null) {
 			valid = true;

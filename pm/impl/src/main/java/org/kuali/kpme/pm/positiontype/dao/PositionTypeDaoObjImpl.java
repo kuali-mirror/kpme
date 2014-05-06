@@ -26,24 +26,24 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.positiontype.PositionType;
+import org.kuali.kpme.pm.positiontype.PositionTypeBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements PositionTypeDao {
 
 	@Override
-	public PositionType getPositionTypeById(
+	public PositionTypeBo getPositionTypeById(
 			String pmPositionTypeId) {
 		Criteria crit = new Criteria();
         crit.addEqualTo("pmPositionTypeId", pmPositionTypeId);
 
-        Query query = QueryFactory.newQuery(PositionType.class, crit);
-        return (PositionType) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionTypeBo.class, crit);
+        return (PositionTypeBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 	@Override
-	public List<PositionType> getPositionTypeList(String positionType, String groupKeyCode, LocalDate asOfDate) {
-		List<PositionType> prgList = new ArrayList<PositionType>();
+	public List<PositionTypeBo> getPositionTypeList(String positionType, String groupKeyCode, LocalDate asOfDate) {
+		List<PositionTypeBo> prgList = new ArrayList<PositionTypeBo>();
 		Criteria root = new Criteria();
 
 		if(StringUtils.isNotEmpty(positionType)
@@ -55,14 +55,14 @@ public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 			root.addEqualTo("groupKeyCode", groupKeyCode); 
 		}
         
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionType.class, asOfDate, PositionType.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionType.class, PositionType.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionTypeBo.class, asOfDate, PositionTypeBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionTypeBo.class, PositionTypeBo.BUSINESS_KEYS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Query query = QueryFactory.newQuery(PositionType.class, root);
+        Query query = QueryFactory.newQuery(PositionTypeBo.class, root);
         
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		if(!c.isEmpty())
@@ -72,18 +72,18 @@ public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 	}
 
 	@Override
-	public PositionType getPositionType(String positionType, LocalDate asOfDate) {
+	public PositionTypeBo getPositionType(String positionType, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("positionType", positionType);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionType.class, asOfDate, PositionType.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionType.class, PositionType.BUSINESS_KEYS, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionTypeBo.class, asOfDate, PositionTypeBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionTypeBo.class, PositionTypeBo.BUSINESS_KEYS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
         
-        Query query = QueryFactory.newQuery(PositionType.class, root);
-        return (PositionType) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(PositionTypeBo.class, root);
+        return (PositionTypeBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
 }
