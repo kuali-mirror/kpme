@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.kpme.tklm.time.rules.shiftdifferential.web;
 
 import java.util.List;
@@ -29,9 +30,23 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+import org.kuali.rice.kns.web.ui.Column;
+
 
 @SuppressWarnings("deprecation")
 public class ShiftDifferentialRuleLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
+
+    @Override
+    public List<Column> getColumns() {
+        List<Column> columns = super.getColumns();
+        for (Column column : columns) {
+            if (column.getFormatter() instanceof org.kuali.kpme.core.SqlTimeFormatter)
+            {
+                column.setSortable(Boolean.FALSE.toString());
+            }
+        }
+        return columns;
+    }
 
 	private static final long serialVersionUID = -7636153206208704542L;
 
@@ -42,7 +57,7 @@ public class ShiftDifferentialRuleLookupableHelperServiceImpl extends KPMELookup
 
 		ShiftDifferentialRule shiftDifferentialRule = (ShiftDifferentialRule) businessObject;
 		String tkShiftDiffRuleId = shiftDifferentialRule.getTkShiftDiffRuleId();
-		
+
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
