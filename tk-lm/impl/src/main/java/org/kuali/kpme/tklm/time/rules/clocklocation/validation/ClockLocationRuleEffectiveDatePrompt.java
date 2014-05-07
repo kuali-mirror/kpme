@@ -30,7 +30,7 @@ public class ClockLocationRuleEffectiveDatePrompt extends KPMEHrObjectNewerVersi
 		boolean futureEffectiveDateExists = false;
         ClockLocationRule clr = (ClockLocationRule) pbo;
         if(clr.getEffectiveLocalDate() != null) {
-	        List<ClockLocationRule> lastClr = TkServiceLocator.getClockLocationRuleService().getNewerVersionClockLocationRule(clr.getDept(), clr.getWorkArea(), clr.getPrincipalId(), clr.getJobNumber(), clr.getEffectiveLocalDate());
+	        List<ClockLocationRule> lastClr = TkServiceLocator.getClockLocationRuleService().getNewerVersionClockLocationRule(clr.getGroupKeyCode(), clr.getDept(), clr.getWorkArea(), clr.getPrincipalId(), clr.getJobNumber(), clr.getEffectiveLocalDate());
 	   		futureEffectiveDateExists = CollectionUtils.isNotEmpty(lastClr);
         }
    		return futureEffectiveDateExists;

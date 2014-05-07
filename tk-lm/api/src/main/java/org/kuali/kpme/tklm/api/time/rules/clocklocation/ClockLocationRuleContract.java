@@ -18,17 +18,20 @@ package org.kuali.kpme.tklm.api.time.rules.clocklocation;
 import java.util.List;
 
 import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.tklm.api.time.rules.TkRuleContract;
+import org.kuali.kpme.tklm.api.time.rules.TkRuleKeyedContract;
 import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * <p>ClockLocationRuleContract interface</p>
  *
  */
-public interface ClockLocationRuleContract extends TkRuleContract {
+public interface ClockLocationRuleContract extends TkRuleKeyedContract{ //TkRuleContract 
 	
+	public String getGroupKeyCode();
+	public HrGroupKeyContract getGroupKey();
 	/**
 	 * The work area associated with the ClockLocationRule
 	 * 
@@ -205,5 +208,6 @@ public interface ClockLocationRuleContract extends TkRuleContract {
 	 * @return ip addresses string for ClockLocationRule
 	 */
 	public String getIpAddressesString();
+	
 
 }

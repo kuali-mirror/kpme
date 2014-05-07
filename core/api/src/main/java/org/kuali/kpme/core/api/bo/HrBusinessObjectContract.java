@@ -19,9 +19,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 
-import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
-import org.kuali.rice.core.api.mo.common.active.Inactivatable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 /**
  * <p>HrBusinessObjectContract interface.</p>

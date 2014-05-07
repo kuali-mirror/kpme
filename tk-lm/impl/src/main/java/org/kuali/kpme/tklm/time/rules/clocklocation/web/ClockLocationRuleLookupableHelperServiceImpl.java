@@ -74,6 +74,7 @@ public class ClockLocationRuleLookupableHelperServiceImpl extends KPMELookupable
         String workArea = fieldValues.get("workArea");
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
+        String groupKeyCode = fieldValues.get("groupKeyCode");
         
         if (StringUtils.contains(workArea, "%")) {
 			workArea = "";
@@ -84,7 +85,7 @@ public class ClockLocationRuleLookupableHelperServiceImpl extends KPMELookupable
 		}
         
 
-        return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
+        return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(groupKeyCode, GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
         		principalId, jobNumber, dept, workArea, active, showHist);
     }
     

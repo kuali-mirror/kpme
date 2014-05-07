@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.api.authorization.DepartmentalRule;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.department.DepartmentBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
-import org.kuali.kpme.tklm.api.time.rules.clocklocation.ClockLocationRuleContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.rules.clocklocation.ClockLocationRuleContract;
 import org.kuali.kpme.tklm.time.rules.TkRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
@@ -32,24 +34,25 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 public class ClockLocationRule extends TkRule implements DepartmentalRule, ClockLocationRuleContract {
-
-	private static final String PRINCIPAL_ID = "principalId";
-
-	private static final String JOB_NUMBER = "jobNumber";
-
-	private static final String WORK_AREA = "workArea";
-
-	private static final String DEPT = "dept";
-
+	
+	static class KeyFields {
+		private static final String PRINCIPAL_ID = "principalId";
+		private static final String JOB_NUMBER = "jobNumber";
+		private static final String WORK_AREA = "workArea";
+		private static final String DEPT = "dept";
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
+	}
+	
 	private static final long serialVersionUID = 959554402289679184L;
 
 	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "ClockLocationRule";
 	//KPME-2273/1965 Primary Business Keys List. 
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(DEPT)
-            .add(WORK_AREA)
-            .add(JOB_NUMBER)
-            .add(PRINCIPAL_ID)
+            .add(KeyFields.DEPT)
+            .add(KeyFields.WORK_AREA)
+            .add(KeyFields.JOB_NUMBER)
+            .add(KeyFields.PRINCIPAL_ID)
+            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
 
@@ -64,24 +67,49 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 	private String principalId;
 	private Long jobNumber;
 	private String hrJobId;
+	
+	//private String groupKeyCode;
 
 	private List<ClockLocationRuleIpAddress> ipAddresses = new ArrayList<ClockLocationRuleIpAddress>();
 
 	private WorkAreaBo workAreaObj;
 	private JobBo job;
 	private transient Person principal;
-
+	private transient HrGroupKeyBo groupKey;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(DEPT, this.getDept())
-			.put(WORK_AREA, this.getWorkArea())
-			.put(JOB_NUMBER, this.getJobNumber())
-			.put(PRINCIPAL_ID, this.getPrincipalId())
+			.put(KeyFields.DEPT, this.getDept())
+			.put(KeyFields.WORK_AREA, this.getWorkArea())
+			.put(KeyFields.JOB_NUMBER, this.getJobNumber())
+			.put(KeyFields.PRINCIPAL_ID, this.getPrincipalId())
+			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 	
+	public String getGroupKeyCode() {
+		return groupKeyCode;
+	}
+	
+	public void setGroupKeyCode(String groupKeyCode) {
+		this.groupKeyCode = groupKeyCode;
+	}
+	/*
+	 @Override
+	    public HrGroupKeyBo getGroupKey() {
+	        return this.groupKey;
+	    }
+	    
+	 
+	public HrGroupKeyBo getGroupKey() {
+		return groupKey;
+	}
+
+	public void setGroupKey(HrGroupKeyBo groupKey) {
+		this.groupKey = groupKey;
+	}*/
+
 	public Long getWorkArea() {
 		return workArea;
 	}
@@ -181,7 +209,8 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 	public String getUniqueKey() {
 		String clockLocKey = getDept()+"_"+getPrincipalId()+"_"+
 		(getJobNumber()!=null ? getJobNumber().toString(): "") +"_" + 
-		(getWorkArea() !=null ? getWorkArea().toString() : "");
+		(getWorkArea() !=null ? getWorkArea().toString() : "") +"_" +
+		(getGroupKeyCode() !=null ? getGroupKeyCode().toString() : "");
 		
 		return clockLocKey;
 	}

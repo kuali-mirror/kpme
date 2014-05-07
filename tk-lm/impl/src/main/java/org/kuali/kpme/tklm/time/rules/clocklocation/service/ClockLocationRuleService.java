@@ -38,7 +38,7 @@ public interface ClockLocationRuleService {
                     "+ '|' + 'principalId=' + #p2" +
                     "+ '|' + 'jobNumber=' + #p3" +
                     "+ '|' + 'asOfDate=' + #p4")
-	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea,
+	public List<ClockLocationRule> getClockLocationRule(String groupKeyCode, String dept, Long workArea,
 			String principalId, Long jobNumber, LocalDate asOfDate);
 	/**
 	 * Process clock location rule based on clock log passed in
@@ -62,7 +62,7 @@ public interface ClockLocationRuleService {
                     "+ '|' + 'principalId=' + #p2" +
                     "+ '|' + 'jobNumber=' + #p3" +
                     "+ '|' + 'asOfDate=' + #p4")
-	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
+	public List<ClockLocationRule> getNewerVersionClockLocationRule(String groupKeyCode, String dept, Long workArea, String principalId, 
 			Long jobNumber, LocalDate asOfDate);
 	/**
 	 * 
@@ -79,8 +79,8 @@ public interface ClockLocationRuleService {
 	 */
 	public void populateIPAddressesForCLR(ClockLocationRule clr);
 
-    List<ClockLocationRule> getClockLocationRules(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
+    List<ClockLocationRule> getClockLocationRules(String groupKeyCode, String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                                   String dept, String workArea, String active, String showHistory);
     
-    public boolean isInValidIPClockLocation(String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate);
+    public boolean isInValidIPClockLocation(String groupKeyCode, String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate);
 }

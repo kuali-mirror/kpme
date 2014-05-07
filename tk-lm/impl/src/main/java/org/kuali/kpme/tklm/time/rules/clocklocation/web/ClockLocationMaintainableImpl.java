@@ -68,7 +68,8 @@ public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableI
 				.getBusinessObject();
 		List<ClockLocationRule> clockLocationRuleList = TkServiceLocator
 				.getClockLocationRuleService()
-				.getNewerVersionClockLocationRule(clockLocationRule.getDept(),
+				.getNewerVersionClockLocationRule(clockLocationRule.getGroupKeyCode(), 
+						clockLocationRule.getDept(),
 						clockLocationRule.getWorkArea(),
 						clockLocationRule.getPrincipalId(),
 						clockLocationRule.getJobNumber(),

@@ -109,28 +109,81 @@
     	  	  </list>
     	</property>
     </bean>
- 
- 
-    <!--bean id="KPMEUif-GroupKeyedEffectiveDateBO-InquiryView" parent="Uif-InquiryView" abstract="true">
-        <property name="items">
-          <list merge="true">      
-            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-            <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
-          </list>
-        </property>
-	</bean-->
- 
    
     <bean id="KPMEGroupKeyed-InquiryGridSection" parent="Uif-Disclosure-GridSection">
     	<property name="items">
         	<list merge="true">
+        		<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
         		<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-            	<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
        		</list>
     	</property>
     </bean>
     
-    <bean id="MaintDoc-HiddenFields-parentBean"
+    
+    
+    <!-- lookup defination for group-keyed effective dated *Rule BO (that have a view link from lookup); the criteria fields list provides the common lookup fields of grp key, institution and location codes. -->
+    <bean id="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupDefinition-parentBean" abstract="true" />
+    <bean id="KPMEUif-GroupKeyedEffectiveDateBOLookupDefinition-parentBean" parent="LookupDefinition" abstract="true">
+    	<!-- property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl" /-->
+    	<property name="lookupFields">
+		      <list merge="true">
+		      	<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noLookup="true"/>
+		      	<bean parent="FieldDefinition" p:attributeName="groupKeyCode" >
+              		<!-- property name="quickfinder">
+                  		<bean parent="QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
+              		</property-->
+          		</bean>
+          		<bean parent="FieldDefinition" p:attributeName="institutionCode">
+			         <!-- property name="quickfinder">
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo" p:fieldConversions="institutionCode:institutionCode"/>
+			   		 </property-->
+		        </bean>
+		        <bean parent="FieldDefinition" p:attributeName="locationId">
+		       		<!-- property name="quickfinder">
+			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo" p:fieldConversions="location:locationId" />
+			   		 </property-->
+		        </bean>		          
+		      </list>
+    	</property>
+    	<property name="resultFields">
+    	 	  <list merge="true">
+    	 	  	<bean parent="FieldDefinition" p:attributeName="effectiveDate" /> 
+    	 	  	<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />    	  		
+    	  	  </list>
+    	</property>
+    </bean>
+    
+    <!-- Inquiry defination for group-keyed effective dated *Rule BO-->
+    <bean id="KPMEGroupKeyed-InquirySectionDefinition" parent="InquirySectionDefinition">
+    	<property name="inquiryFields">
+        	<list merge="true">
+        		<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+            	<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
+       		</list>
+    	</property>
+    </bean>
+    
+    <!-- MaintainableSectionDefinition for group-keyed effective dated *Rule BO-->
+    <bean id="KPMEEffectiveDateGroupKeyed-MaintainableSectionDefinition" abstract="true" parent="MaintainableSectionDefinition"  >
+        <property name="maintainableItems">
+            <list merge="true">
+                <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:noLookup="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="groupKeyCode" p:required="true"/>
+                <!-- bean parent="MaintainableFieldDefinition" p:name="groupKeyCode" 
+                	p:required="true"
+            	    p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
+                	<property name="control">
+                    	<bean parent="SelectControlDefinition" />
+               		</property>
+               		<property name="optionsFinder">
+                    	<bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
+               		</property>
+           		</bean-->
+            </list>
+        </property>
+    </bean>
+
+	<bean id="MaintDoc-HiddenFields-parentBean"
           abstract="true" parent="MaintainableSectionDefinition"  >
         <property name="hidden" value="true" />
         <property name="title" value="Hidden Fields" />
@@ -140,8 +193,6 @@
             </list>
         </property>
     </bean>
-
-	
 
     <!-- maintenance view to hide cancel button upon submit -->
     <bean id="KPMEUif-MaintenanceView" parent="Uif-MaintenanceView">

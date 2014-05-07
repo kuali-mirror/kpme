@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.kpme.tklm.time.rules.validation.TkKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.authorization.DepartmentalRule;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -31,7 +32,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
+public class ClockLocationRuleRule extends TkKeyedBusinessObjectValidation {
 
 	private static Logger LOG = Logger.getLogger(ClockLocationRuleRule.class);
 
@@ -173,6 +174,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		
 		if (pbo instanceof ClockLocationRule) {
 			ClockLocationRule clr = (ClockLocationRule) pbo;
             valid = this.validateDepartment(clr);
@@ -181,6 +183,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
             valid &= this.validatePrincipalId(clr);
             valid &= this.validateJobNumber(clr);
             valid &= this.validateIpAddresses(clr.getIpAddresses());
+            valid &= this.validateGroupKeyCode(clr);
 		}
 
 		return valid;

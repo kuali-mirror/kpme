@@ -31,6 +31,30 @@
 		</property>
     </bean>
     
+    <bean id="KPMETkKeyedBusinessObjectParent" parent="KPMEHrBusinessObjectParent" abstract="true">
+    	<property name="attributes">
+	      	<list merge="true">
+		        <ref bean="KPMEHrKeyedBusinessObjectParent-groupKeyCode"/>
+		        <ref bean="KPMEHrKeyedBusinessObjectParent-institutionCode"/>
+		        <ref bean="KPMEHrKeyedBusinessObjectParent-locationId"/>
+            </list>
+		</property>
+		
+		<property name="relationships">
+	  		<list merge="true">
+	  			<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="groupKey" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
+							<!-- bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/-->
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		
+    </bean>
     <!--  Common attributes -->    
 
 	<!-- group key code -->

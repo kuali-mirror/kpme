@@ -47,7 +47,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	}
 
 	public void processClockLocationRule(ClockLogBo clockLog, LocalDate asOfDate){
-		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(clockLog.getDept(),
+		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(clockLog.getGroupKeyCode(), clockLog.getDept(),
 										clockLog.getWorkArea(), clockLog.getPrincipalId(), clockLog.getJobNumber(), asOfDate);
 		if(lstClockLocationRules.isEmpty()){
 			return;
@@ -63,13 +63,15 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 			}
 		}
 		clockLog.setUnapprovedIP(true);
+		
 		GlobalVariables.getMessageMap().putWarning("property", "ipaddress.invalid.format", clockLog.getIpAddress());
 
 	}
 	
-	public boolean isInValidIPClockLocation(String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate){
+	public boolean isInValidIPClockLocation(String groupKeyCode, String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate){
 		Boolean isInValid = true;
-		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(dept, workArea, principalId, jobNumber, asOfDate);
+		
+		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(groupKeyCode, dept, workArea, principalId, jobNumber, asOfDate);
 		if(lstClockLocationRules.isEmpty()){
 			isInValid = false;
 			return isInValid;
@@ -108,61 +110,61 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	}
 
 	@Override
-	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea,String principalId, Long jobNumber, LocalDate asOfDate) {
+	public List<ClockLocationRule> getClockLocationRule(String groupKeyCode, String dept, Long workArea,String principalId, Long jobNumber, LocalDate asOfDate) {
 
         // 1 : dept, wa, principal, job
-		List<ClockLocationRule> clockLocationRule = clockLocationDao.getClockLocationRule(dept, workArea,principalId,jobNumber,asOfDate);
+		List<ClockLocationRule> clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, workArea,principalId,jobNumber,asOfDate);
 		if(!clockLocationRule.isEmpty()){
 			return clockLocationRule;
 		}
 
         // 2 : dept, wa, principal, -1
-		clockLocationRule = clockLocationDao.getClockLocationRule(dept, workArea, principalId, -1L, asOfDate);
+		clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, workArea, principalId, -1L, asOfDate);
 		if(!clockLocationRule.isEmpty()){
 			return clockLocationRule;
 		}
 
         // 3 : dept, wa, %        , job
-        clockLocationRule = clockLocationDao.getClockLocationRule(dept, workArea, "%", jobNumber, asOfDate);
+        clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, workArea, "%", jobNumber, asOfDate);
         if(!clockLocationRule.isEmpty()){
             return clockLocationRule;
         }
 
         // 4 : dept, -1, principal, job
-        clockLocationRule = clockLocationDao.getClockLocationRule(dept, -1L, principalId, jobNumber, asOfDate);
+        clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, -1L, principalId, jobNumber, asOfDate);
         if(!clockLocationRule.isEmpty()){
             return clockLocationRule;
         }
 
         // 5 : dept, wa, %        , -1
-		clockLocationRule = clockLocationDao.getClockLocationRule(dept, workArea, "%", -1L, asOfDate);
+		clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, workArea, "%", -1L, asOfDate);
 		if(!clockLocationRule.isEmpty()){
 			return clockLocationRule;
 		}
 
         // 6 : dept, -1, principal, -1
-        clockLocationRule = clockLocationDao.getClockLocationRule(dept, -1L, principalId, -1L, asOfDate);
+        clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, -1L, principalId, -1L, asOfDate);
         if(!clockLocationRule.isEmpty()){
             return clockLocationRule;
         }
 
         // 7 : dept, -1, %        , job
-        clockLocationRule = clockLocationDao.getClockLocationRule(dept, -1L, "%", jobNumber, asOfDate);
+        clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, -1L, "%", jobNumber, asOfDate);
         if(!clockLocationRule.isEmpty()){
             return clockLocationRule;
         }
 
         // 8 : dept, -1, %        , job
-		clockLocationRule = clockLocationDao.getClockLocationRule(dept, -1L, "%", -1L, asOfDate);
+		clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, -1L, "%", -1L, asOfDate);
 		return clockLocationRule;
 	}
 
 	@Override
-	public List<ClockLocationRule> getNewerVersionClockLocationRule(
+	public List<ClockLocationRule> getNewerVersionClockLocationRule(String groupKeyCode,
 			String dept, Long workArea, String principalId, Long jobNumber,
 			LocalDate asOfDate) {
 		 
-		return clockLocationDao.getNewerVersionClockLocationRule(dept, workArea, principalId, jobNumber, asOfDate);
+		return clockLocationDao.getNewerVersionClockLocationRule(groupKeyCode, dept, workArea, principalId, jobNumber, asOfDate);
 	}
 
 	@Override
@@ -174,11 +176,11 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 		clockLocationDao.populateIPAddressesForCLR(clr);
 	}
 
-    public List<ClockLocationRule> getClockLocationRules(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
+    public List<ClockLocationRule> getClockLocationRules(String groupKeyCode, String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
                                                          String dept, String workArea, String active, String showHistory){
     	List<ClockLocationRule> results = new ArrayList<ClockLocationRule>();
     	
-    	List<ClockLocationRule> clockLocationRuleObjs = clockLocationDao.getClockLocationRules(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
+    	List<ClockLocationRule> clockLocationRuleObjs = clockLocationDao.getClockLocationRules(groupKeyCode, fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
     
     	for (ClockLocationRule clockLocationRuleObj : clockLocationRuleObjs) {
         	String department = clockLocationRuleObj.getDept();

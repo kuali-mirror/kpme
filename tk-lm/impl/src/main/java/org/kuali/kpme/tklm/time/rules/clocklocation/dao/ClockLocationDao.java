@@ -30,7 +30,7 @@ public interface ClockLocationDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<ClockLocationRule> getClockLocationRule(String dept, Long workArea, String principalId, 
+	public List<ClockLocationRule> getClockLocationRule(String groupKeyCode, String dept, Long workArea, String principalId, 
 													Long jobNumber, LocalDate asOfDate);
 	/**
 	 * Get list of clock location rules based on criteria
@@ -41,7 +41,7 @@ public interface ClockLocationDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<ClockLocationRule> getNewerVersionClockLocationRule(String dept, Long workArea, String principalId, 
+	public List<ClockLocationRule> getNewerVersionClockLocationRule(String groupKeyCode, String dept, Long workArea, String principalId, 
 			Long jobNumber, LocalDate asOfDate);
 	/**
 	 * Get Clock Location Rule based on id
@@ -56,5 +56,5 @@ public interface ClockLocationDao {
 	 */
 	public void populateIPAddressesForCLR(ClockLocationRule clr);
 
-    List<ClockLocationRule> getClockLocationRules(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber, String dept, String workArea, String active, String showHistory);
+    List<ClockLocationRule> getClockLocationRules(String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber, String dept, String workArea, String active, String showHistory);
 }

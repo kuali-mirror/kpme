@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.tklm.time.rules;
+package org.kuali.kpme.tklm.api.time.rules;
 
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
-import org.kuali.kpme.tklm.api.time.rules.TkRuleKeyedContract;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.api.mo.KeyedData;
 
-public abstract class TkRule extends HrKeyedBusinessObject implements TkRuleKeyedContract {
 
-	private static final long serialVersionUID = 1L;
-}
+/**
+ * <p>TkRuleContract interface</p>
+ *
+ */
+public interface TkRuleKeyedContract extends HrBusinessObjectContract, KeyedData { }

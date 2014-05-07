@@ -60,6 +60,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
 
     public ClockLocationRule createClr(String ipAddress, Long workArea, String principalId, Long jobNumber ) {
     	ClockLocationRule clr = new ClockLocationRule();
+    	clr.setGroupKeyCode("IU-IN");
     	clr.setDept("TEST");
     	clr.setWorkArea(1234L);
     	clr.setPrincipalId("12345");
@@ -99,6 +100,8 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	clr.setTimestamp(TKUtils.getCurrentTimestamp());
         clr.setUserPrincipalId("admin");
     	clr.setEffectiveLocalDate(LocalDate.now());
+    	clr.setGroupKeyCode("IU-IN");
+    	
     	ClockLocationRuleIpAddress anIp = new ClockLocationRuleIpAddress();
     	anIp.setIpAddress(IP_ADDRESS_ONE);
     	List<ClockLocationRuleIpAddress> aList = new ArrayList<ClockLocationRuleIpAddress>();
@@ -150,14 +153,14 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     @Test
     public void testClockLocationRuleFetch() throws Exception{
     	ClockLocationRule clr = this.createClr(IP_ADDRESS_ONE, 1234L, "1234", 0L);
-    	List<ClockLocationRule> clockLocationRule = TkServiceLocator.getClockLocationRuleService().getClockLocationRule("TEST", 1234L, 
+    	List<ClockLocationRule> clockLocationRule = TkServiceLocator.getClockLocationRuleService().getClockLocationRule("IU-IN", "TEST", 1234L, 
     											"12345", 0L, LocalDate.now());
     	
     	Assert.assertTrue("Clock Location Rule pulled back correctly",clockLocationRule.size()==1);
     	boService.delete(clr);
     	clr = this.createClr(IP_ADDRESS_ONE, -1L, "%", -1L);
     	
-    	clockLocationRule = TkServiceLocator.getClockLocationRuleService().getClockLocationRule("TEST", 1234L, 
+    	clockLocationRule = TkServiceLocator.getClockLocationRuleService().getClockLocationRule("IU-IN", "TEST", 1234L, 
 				"12345", 0L, LocalDate.now());
     	Assert.assertTrue("Clock Location Rule pulled back correctly",clockLocationRule.size()==1);
     }
@@ -175,6 +178,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	clockLog.setWorkArea(1234L);
     	clockLog.setPrincipalId("12345");
     	clockLog.setJobNumber(0L);
+    	clockLog.setGroupKeyCode("IU-IN");
     	//clockLog.getJob().setDept("TEST");
     	
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
@@ -192,6 +196,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	clockLog.setWorkArea(1234L);
     	clockLog.setPrincipalId("12345");
     	clockLog.setJobNumber(0L);
+    	clockLog.setGroupKeyCode("IU-IN");
     	//clockLog.getJob().setDept("TEST");
     	
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, LocalDate.now());
@@ -213,6 +218,7 @@ public class ClockLocationRuleTest extends TKLMIntegrationTestCase {
     	clockLog.setWorkArea(1234L);
     	clockLog.setPrincipalId("12345");
     	clockLog.setJobNumber(0L);
+    	clockLog.setGroupKeyCode("IU-IN");
     	//clockLog.getJob().setDept("TEST");
     	
     	this.processRuleWithIPNoWarning(clockLog, "%");
