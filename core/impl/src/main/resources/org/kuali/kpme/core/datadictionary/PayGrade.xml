@@ -186,7 +186,7 @@
             </list>
         </property>
         <property name="resultFields">
-            <list>
+            <list merge="true">
                 <bean parent="Uif-DataField" p:propertyName="payGrade">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGradeBo"
@@ -219,7 +219,6 @@
 					<property name="layoutManager.numberOfColumns" value="2" />
 					<property name="items">
 						<list merge="true">
-							<!-- <bean parent="Uif-DataField" p:propertyName="effectiveDate"/> -->
 							<bean parent="Uif-DataField" p:propertyName="payGrade" />
 							<bean parent="Uif-DataField" p:propertyName="description" />
 							<bean parent="Uif-DataField" p:propertyName="salGroup" />
@@ -228,7 +227,6 @@
 							<bean parent="Uif-DataField" p:propertyName="maxRate" />
 							<bean parent="Uif-DataField" p:propertyName="maxHiringRate" />
 							<bean parent="Uif-DataField" p:propertyName="rateType" />
-							<!-- bean parent="Uif-DataField" p:propertyName="groupKeyCode" /> -->
 							<bean parent="Uif-DataField" p:propertyName="active" />
 							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 						</list>

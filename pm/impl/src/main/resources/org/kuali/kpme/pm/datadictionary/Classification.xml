@@ -257,7 +257,7 @@
       </list>
     </property>
     <property name="resultFields">
-      <list>
+      <list merge="true">
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="positionClass">
          	<property name="inquiry">
@@ -272,7 +272,6 @@
         <bean parent="Uif-DataField" p:propertyName="positionType" />
         <bean parent="Uif-DataField" p:propertyName="poolEligible" />
         <bean parent="Uif-DataField" p:propertyName="tenureEligible" />
-        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>

@@ -113,15 +113,14 @@
             </list>
         </property>
         <property name="resultFields">
-            <list>
+            <list merge="true">
             	<bean parent="Uif-DataField" p:propertyName="positionReportGroup" >
 	            	<property name="inquiry">
 			       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" 
 			        	 p:inquiryParameters="pmPositionReportGroupId:pmPositionReportGroupId"/>
 		    		</property>
 	    		</bean>
-				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-				<bean parent="Uif-DataField" p:propertyName="groupKeyCode" /> 
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" /> 
 				<bean parent="Uif-DataField" p:propertyName="active" />
             </list>
         </property>

@@ -228,7 +228,7 @@
       </list>
     </property>
     <property name="resultFields">
-      <list>
+      <list merge="true" >
       	<bean parent="Uif-DataField" p:propertyName="payStep" >
       		<property name="inquiry">
 				<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.paystep.PayStepBo"
@@ -238,7 +238,6 @@
 		<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
 		<bean parent="Uif-DataField" p:propertyName="payGrade" />
 		<bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
-		<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
       </list>
     </property>
   </bean>

@@ -559,6 +559,7 @@
         <property name="items">
             <list merge="true">
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
                 <bean parent="Uif-DataField" p:propertyName="primaryDepartment"/>
                 <bean parent="Uif-DataField" p:propertyName="positionClass"/>
                 <bean parent="Uif-DataField" p:propertyName="classificationTitle"/>

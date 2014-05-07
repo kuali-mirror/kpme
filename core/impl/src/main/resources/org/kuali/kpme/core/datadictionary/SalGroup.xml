@@ -169,7 +169,7 @@
       </list>
     </property>
     <property name="resultFields">
-      <list>
+      <list merge="true">
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="hrSalGroup">
          	<property name="inquiry">
@@ -177,7 +177,6 @@
 	        	 p:inquiryParameters="hrSalGroupId:hrSalGroupId"/>
     		</property>
         </bean>
-        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>

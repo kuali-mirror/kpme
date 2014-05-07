@@ -99,19 +99,14 @@
       </list>
     </property>
     <property name="resultFields">
-      <list>
+      <list merge="true">
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="positionType" >
         	<property name="inquiry">
 	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionTypeBo" 
 	        	p:inquiryParameters="pmPositionTypeId:pmPositionTypeId"/>
     		</property>
-        </bean>
-        <!-- 
-        <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="location" > </bean>
-        -->
-        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" /> 
+        </bean> 
         <bean parent="Uif-DataField" p:propertyName="academicFlag"/>
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
