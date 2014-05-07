@@ -16,10 +16,9 @@
 package org.kuali.kpme.pm.api.position.funding.service;
 
 import java.util.List;
-
-import org.kuali.kpme.pm.api.position.funding.PositionFundingContract; 
+import org.kuali.kpme.pm.api.position.funding.PositionFunding;
 
 public interface PositionFundingService {
-	public List<? extends PositionFundingContract> getFundingListForPosition(String hrPositionId);
+	public List<? extends PositionFunding> getFundingListForPosition(String hrPositionId);
 
 }

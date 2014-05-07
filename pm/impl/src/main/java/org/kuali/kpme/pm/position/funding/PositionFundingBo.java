@@ -16,18 +16,26 @@
 package org.kuali.kpme.pm.position.funding;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
+import org.kuali.kpme.pm.api.position.funding.PositionFunding;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDerived;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class PositionFundingBo extends PositionDerived implements PositionFundingContract {
+public class PositionFundingBo extends PositionDerived implements
+		PositionFundingContract {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String pmPositionFunctionId;
 	
 	
@@ -41,11 +49,14 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 	private BigDecimal percent;
 	private BigDecimal amount;
 	private boolean priorityFlag;
-	
-	// indicates where the funding information comes from, it could be from maint document, Institution batch imports, etc..
-	// we use source on the maint document to determine which funding information is readonly
-	private String source;		
-			
+
+	// indicates where the funding information comes from, it could be from
+	// maint document, Institution batch imports, etc..
+	// we use source on the maint document to determine which funding
+	// information is readonly
+	private String source;
+	private BusinessObjectService businessObjectService;
+
 	public String getPmPositionFunctionId() {
 		return pmPositionFunctionId;
 	}
@@ -53,8 +64,6 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 	public void setPmPositionFunctionId(String pmPositionFunctionId) {
 		this.pmPositionFunctionId = pmPositionFunctionId;
 	}
-	
-	
 
 	public String getSource() {
 		return source;
@@ -68,8 +77,9 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("accountNumber", this.account);
 		fields.put("active", "true");
-		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class, fields);
-		if(account != null && !account.isClosed()) {
+		Account account = (Account) getBusinessObjectService().findByPrimaryKey(Account.class,
+						fields);
+		if (account != null && !account.isClosed()) {
 			this.setChart(account.getChartOfAccountsCode());
 		} else {
 			this.setChart(null);
@@ -153,31 +163,86 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 		this.priorityFlag = priorityFlag;
 	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-        if (obj == this)
-            return true;
-        if (obj.getClass() != getClass())
-            return false;
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (obj.getClass() != getClass())
+			return false;
 
-        PositionFundingBo rhs = (PositionFundingBo) obj;
-        return new EqualsBuilder()
-                .append(pmPositionFunctionId,rhs.getPmPositionFunctionId())
-                .append(hrPositionId, rhs.getHrPositionId())
-                .append(chart, rhs.getChart())
-                .append(org, rhs.getOrg())
-                .append(account, rhs.getAccount())
-                .append(subAccount, rhs.getSubAccount())
-                .append(objectCode, rhs.getObjectCode())
-                .append(subObjectCode, rhs.getSubObjectCode())
-                .append(orgRefCode, rhs.getOrgRefCode())
-                .append(percent, rhs.getPercent())
-                .append(amount, rhs.getAmount())
-                .append(priorityFlag, rhs.isPriorityFlag())
-                .isEquals();
+		PositionFundingBo rhs = (PositionFundingBo) obj;
+		return new EqualsBuilder()
+				.append(pmPositionFunctionId, rhs.getPmPositionFunctionId())
+				.append(hrPositionId, rhs.getHrPositionId())
+				.append(chart, rhs.getChart()).append(org, rhs.getOrg())
+				.append(account, rhs.getAccount())
+				.append(subAccount, rhs.getSubAccount())
+				.append(objectCode, rhs.getObjectCode())
+				.append(subObjectCode, rhs.getSubObjectCode())
+				.append(orgRefCode, rhs.getOrgRefCode())
+				.append(percent, rhs.getPercent())
+				.append(amount, rhs.getAmount())
+				.append(priorityFlag, rhs.isPriorityFlag()).isEquals();
 
-    }
+	}
+
+	public static PositionFundingBo from(PositionFunding im) {
+		if (im == null) {
+			return null;
+		}
+
+		PositionFundingBo positionFundingBo = new PositionFundingBo();
+
+		positionFundingBo.setAccount(im.getAccount());
+		positionFundingBo.setAmount(im.getAmount());
+		positionFundingBo.setChart(im.getChart());
+		positionFundingBo.setHrPositionId(im.getHrPositionId());
+		positionFundingBo.setObjectCode(im.getObjectCode());
+		positionFundingBo.setOrg(im.getOrg());
+		positionFundingBo.setOrgRefCode(im.getOrgRefCode());
+//		positionFundingBo.setOwner(PositionBo. im.getOwner());
+		positionFundingBo.setPercent(im.getPercent());
+		positionFundingBo.setPmPositionFunctionId(im.getPmPositionFunctionId());
+		positionFundingBo.setPriorityFlag(im.isPriorityFlag());
+		positionFundingBo.setSource(im.getSource());
+		positionFundingBo.setSubAccount(im.getSubAccount());
+		positionFundingBo.setSubObjectCode(im.getSubObjectCode());
+		positionFundingBo.setObjectId(im.getObjectId());
+		positionFundingBo.setVersionNumber(im.getVersionNumber());
+
+		return positionFundingBo;
+	}
+
+	public static PositionFunding to(PositionFundingBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PositionFunding.Builder.create(bo).build();
+	}
+
+	public static final ModelObjectUtils.Transformer<PositionFundingBo, PositionFunding> toImmutable = new ModelObjectUtils.Transformer<PositionFundingBo, PositionFunding>() {
+		public PositionFunding transform(PositionFundingBo input) {
+			return PositionFundingBo.to(input);
+		};
+	};
+
+	public static final ModelObjectUtils.Transformer<PositionFunding, PositionFundingBo> toBo = new ModelObjectUtils.Transformer<PositionFunding, PositionFundingBo>() {
+		public PositionFundingBo transform(PositionFunding input) {
+			return PositionFundingBo.from(input);
+		};
+	};
+
+	public BusinessObjectService getBusinessObjectService() {
+		if(businessObjectService == null) {
+			businessObjectService = KRADServiceLocator.getBusinessObjectService();
+		}
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
 	
 }
