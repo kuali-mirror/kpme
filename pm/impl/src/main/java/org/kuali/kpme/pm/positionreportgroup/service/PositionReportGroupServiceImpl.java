@@ -35,8 +35,8 @@ public class PositionReportGroupServiceImpl implements PositionReportGroupServic
 	}
 	
 	@Override
-	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
-		return PositionReportGroupBo.to(positionReportGroupDao.getPositionReportGroup(positionReportGroup, asOfDate));
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
+		return PositionReportGroupBo.to(positionReportGroupDao.getPositionReportGroup(positionReportGroup, groupKeyCode, asOfDate));
 	}
 	
 	@Override

@@ -83,7 +83,7 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
 	
 	private boolean validateReportingGroup(ClassificationBo clss) {
 		if(StringUtils.isNotBlank(clss.getPositionReportGroup())) {
-			PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getEffectiveLocalDate());
+			PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getGroupKeyCode(), clss.getEffectiveLocalDate());
 			String errorMes = "PositionReportGroup '" + clss.getPositionReportGroup() + "'";
 			if(aPrg == null) {
 				this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);

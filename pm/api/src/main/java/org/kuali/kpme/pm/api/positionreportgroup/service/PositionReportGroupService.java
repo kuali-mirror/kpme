@@ -48,6 +48,7 @@ package org.kuali.kpme.pm.api.positionreportgroup.service;
 
 
 import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
 
@@ -92,6 +93,8 @@ public interface PositionReportGroupService {
 	 * Retrieve the latest active PositionReportGroup with given positionReportGroup and effective date
 
 	 * @param positionReportGroup
+	  
+	 * @param groupKeyCode, 
 
 	 * @param asOfDate
 
@@ -99,7 +102,7 @@ public interface PositionReportGroupService {
 
 	 */
 
-	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, String groupKeyCode, LocalDate asOfDate);
 	
 	/**
 

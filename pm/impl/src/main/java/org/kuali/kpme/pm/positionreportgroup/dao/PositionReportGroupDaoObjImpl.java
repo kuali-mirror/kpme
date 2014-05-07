@@ -43,9 +43,10 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 	}
 
 	@Override
-	public PositionReportGroupBo getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
+	public PositionReportGroupBo getPositionReportGroup(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("positionReportGroup", positionReportGroup);
+        root.addEqualTo("groupKeyCode", groupKeyCode);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroupBo.class, asOfDate, PositionReportGroupBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroupBo.class, PositionReportGroupBo.BUSINESS_KEYS, false));
         

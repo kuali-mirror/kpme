@@ -60,7 +60,7 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 	}
 	
 	private boolean validatePstnRptGroup(PositionReportGroupSubCategoryBo prgsc) {
-		PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(prgsc.getPositionReportGroup(), prgsc.getEffectiveLocalDate());
+		PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(prgsc.getPositionReportGroup(), prgsc.getGroupKeyCode(), prgsc.getEffectiveLocalDate());
 		String errorMes = "PositionReportGroup '" + prgsc.getPositionReportGroup() + "'";
 		if(aPrg == null) {
 			this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
