@@ -27,7 +27,7 @@
             <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
         </addColumn>
         <update tableName="HR_JOB_T">
-            <column name="GRP_KEY_CD" value="IU-IN" />
+            <column name="GRP_KEY_CD" value="DEFAULT" />
         </update>
         <addNotNullConstraint columnName="GRP_KEY_CD" tableName="HR_JOB_T" columnDataType="VARCHAR(30)"/>
     </changeSet>
