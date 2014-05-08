@@ -305,7 +305,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			LocalDate assignmentEffectiveDate = assign.getEffectiveLocalDate();
 			LocalDate latestTimeEndTimestampLocalDate = latestTimeEndTimestamp.toLocalDate();
 			 
-			if ( !assign.isActive() && assignmentEffectiveDate.isBefore(latestTimeEndTimestampLocalDate) ){
+			if ( !assign.isActive() && !assignmentEffectiveDate.isAfter(latestTimeEndTimestampLocalDate) ){
 				this.putFieldError("active", "error.assignment.timeblock.existence", latestTimeEndTimestampLocalDate.toString());
 				return false;
 			}
@@ -316,7 +316,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			LocalDate assignmentEffectiveDate = assign.getEffectiveLocalDate();
 			LocalDate latestLeaveEndTimestampLocalDate = latestLeaveEndTimestamp.toLocalDate();
 			 
-			if ( !assign.isActive() && assignmentEffectiveDate.isBefore(latestLeaveEndTimestampLocalDate) ){
+			if ( !assign.isActive() && !assignmentEffectiveDate.isAfter(latestLeaveEndTimestampLocalDate) ){
 				this.putFieldError("active", "error.assignment.leaveblock.existence", latestLeaveEndTimestampLocalDate.toString());
 				return false;
 			}
