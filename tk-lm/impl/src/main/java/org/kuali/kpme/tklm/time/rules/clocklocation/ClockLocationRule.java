@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kpme.core.api.authorization.DepartmentalRule;
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.department.DepartmentBo;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -46,6 +44,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 	private static final long serialVersionUID = 959554402289679184L;
 
 	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "ClockLocationRule";
+	
 	//KPME-2273/1965 Primary Business Keys List. 
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(KeyFields.DEPT)
@@ -54,7 +53,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
             .add(KeyFields.PRINCIPAL_ID)
             .add(KeyFields.GROUP_KEY_CODE)
             .build();
-
 
 	private String tkClockLocationRuleId;
 
@@ -67,15 +65,12 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 	private String principalId;
 	private Long jobNumber;
 	private String hrJobId;
-	
-	//private String groupKeyCode;
 
 	private List<ClockLocationRuleIpAddress> ipAddresses = new ArrayList<ClockLocationRuleIpAddress>();
 
 	private WorkAreaBo workAreaObj;
 	private JobBo job;
 	private transient Person principal;
-	private transient HrGroupKeyBo groupKey;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -88,28 +83,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 			.build();
 	}
 	
-	public String getGroupKeyCode() {
-		return groupKeyCode;
-	}
-	
-	public void setGroupKeyCode(String groupKeyCode) {
-		this.groupKeyCode = groupKeyCode;
-	}
-	/*
-	 @Override
-	    public HrGroupKeyBo getGroupKey() {
-	        return this.groupKey;
-	    }
-	    
-	 
-	public HrGroupKeyBo getGroupKey() {
-		return groupKey;
-	}
-
-	public void setGroupKey(HrGroupKeyBo groupKey) {
-		this.groupKey = groupKey;
-	}*/
-
 	public Long getWorkArea() {
 		return workArea;
 	}
@@ -235,6 +208,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 	public void setIpAddresses(List<ClockLocationRuleIpAddress> ipAddresses) {
 		this.ipAddresses = ipAddresses;
 	}
+	
 	// for lookup and inquiry display only
 	public String getIpAddressesString() {
 		String aString = "";
@@ -243,6 +217,5 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule, Clock
 		}
 		return aString;
 	}
-
 
 }
