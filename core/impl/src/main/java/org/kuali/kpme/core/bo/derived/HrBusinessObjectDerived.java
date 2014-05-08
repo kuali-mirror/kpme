@@ -25,6 +25,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 public abstract class HrBusinessObjectDerived extends PersistableBusinessObjectBase implements HrBusinessObjectDerivedContract {
 
 	private static final long serialVersionUID = 1318362548103383417L;
+	protected HrBusinessObject owner;
+	private static final String OWNER = "owner";
 
 	@Override
 	public LocalDate getEffectiveLocalDateOfOwner() {
@@ -50,6 +52,11 @@ public abstract class HrBusinessObjectDerived extends PersistableBusinessObjectB
 	}
 
 	@Override
-	public abstract HrBusinessObject getOwner();
+	public HrBusinessObject getOwner() {
+		if(this.owner == null) {
+			refreshReferenceObject(OWNER);
+		}
+		return this.owner;
+	}
 
 }
