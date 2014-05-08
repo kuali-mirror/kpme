@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.api.positionflag.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
+import org.kuali.kpme.pm.api.positionflag.PositionFlag;
 
 public interface PositionFlagService {
 	/**
@@ -33,13 +33,13 @@ public interface PositionFlagService {
 	 * @param effDate
 	 * @return
 	 */
-	public List<? extends PositionFlagContract> getAllActivePositionFlags(String category, String name, LocalDate effDate);
+	public List<? extends PositionFlag> getAllActivePositionFlags(String category, String name, LocalDate effDate);
 	
-	public List<? extends PositionFlagContract> getAllActivePositionFlagsWithCategory(String category, LocalDate effDate);
+	public List<? extends PositionFlag> getAllActivePositionFlagsWithCategory(String category, LocalDate effDate);
 	/**
      * retrieve the PositionFlag with given id
 	 * @param pmPositionFlagId
 	 * @return
 	 */
-	public PositionFlagContract getPositionFlagById(String pmPositionFlagId);
+	public PositionFlag getPositionFlagById(String pmPositionFlagId);
 }

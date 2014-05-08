@@ -24,7 +24,7 @@
 	
 	<bean id="PositionFlag" parent="PositionFlag-parentBean"/>
  	<bean id="PositionFlag-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
+	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positionflag.PositionFlagBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PositionFlag-pmPositionFlagId"/>
@@ -84,7 +84,7 @@
  
   <bean id="PositionFlag-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Flag Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag" />
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlagBo" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="category" />
@@ -97,7 +97,7 @@
       <list>
      	<bean parent="Uif-DataField" p:propertyName="positionFlagName">
         	<property name="inquiry">
-      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionflag.PositionFlag" 
+      			 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positionflag.PositionFlagBo" 
        			 	p:inquiryParameters="pmPositionFlagId:pmPositionFlagId"/>
   			</property>
         </bean>
@@ -112,7 +112,7 @@
  <!-- Position Flag Inquiry View -->
   <bean id="PositionFlag-InquiryView" parent="Uif-InquiryView">
     <property name="headerText" value="Position Flag Inquiry"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlagBo"/>
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
@@ -139,7 +139,7 @@
   <bean id="PositionFlag-MaintenanceView" parent="PositionFlag-MaintenanceView-parentBean"/>
   <bean id="PositionFlag-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Position Flag Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlag"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionflag.PositionFlagBo"/>
     <property name="items">
       <list merge="true">
         <bean parent="Uif-MaintenanceGridSection">

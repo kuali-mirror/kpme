@@ -18,30 +18,48 @@ package org.kuali.kpme.pm.positionflag.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.pm.api.positionflag.PositionFlag;
 import org.kuali.kpme.pm.api.positionflag.service.PositionFlagService;
-import org.kuali.kpme.pm.positionflag.PositionFlag;
+import org.kuali.kpme.pm.api.positiontype.PositionType;
+import org.kuali.kpme.pm.positionflag.PositionFlagBo;
 import org.kuali.kpme.pm.positionflag.dao.PositionFlagDao;
+import org.kuali.kpme.pm.positiontype.PositionTypeBo;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionFlagServiceImpl implements PositionFlagService {
 
 	private PositionFlagDao positionFlagDao;
-	
+
+	protected List<PositionFlag> convertToImmutable(List<PositionFlagBo> bos) {
+		return ModelObjectUtils.transform(bos, PositionFlagBo.toImmutable);
+	}
+
 	@Override
 	public PositionFlag getPositionFlagById(String pmPositionFlagId) {
-		return positionFlagDao.getPositionFlagById(pmPositionFlagId);
+		return PositionFlagBo.to(positionFlagDao
+				.getPositionFlagById(pmPositionFlagId));
+
 	}
+
 	@Override
 	public List<String> getAllActiveFlagCategories() {
 		return positionFlagDao.getAllActiveFlagCategories();
 	}
+
 	@Override
-	public List<PositionFlag> getAllActivePositionFlags(String category, String name, LocalDate effDate) {
-		return positionFlagDao.getAllActivePositionFlags(category, name, effDate);
+	public List<PositionFlag> getAllActivePositionFlags(String category,
+			String name, LocalDate effDate) {
+		return convertToImmutable(positionFlagDao.getAllActivePositionFlags(category, name,
+				effDate));
 	}
+
 	@Override
-	public List<PositionFlag> getAllActivePositionFlagsWithCategory(String category, LocalDate effDate) {
-		return positionFlagDao.getAllActivePositionFlagsWithCategory(category, effDate);
+	public List<PositionFlag> getAllActivePositionFlagsWithCategory(
+			String category, LocalDate effDate) {
+		return convertToImmutable(positionFlagDao.getAllActivePositionFlagsWithCategory(category,
+				effDate));
 	}
+
 	public PositionFlagDao getPositionFlagDao() {
 		return positionFlagDao;
 	}
