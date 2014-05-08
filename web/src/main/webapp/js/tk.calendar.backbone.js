@@ -342,6 +342,7 @@ $(function () {
             // That's why we call the fillInform() method below, so all the values will still be there when the form is submitted.
             dfd.done(self.fetchOvertimeEarnCode(key.id))
                     .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"))
+                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment")))
                     .done(_(timeBlock).fillInForm());
 
             $("#overtime-section").dialog({
