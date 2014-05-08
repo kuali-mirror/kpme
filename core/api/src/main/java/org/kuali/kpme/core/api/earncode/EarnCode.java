@@ -420,13 +420,14 @@ public final class EarnCode
         private DateTime createTime;
         private String userPrincipalId;
 
-        private Builder() {
+        private Builder(String earnCode) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setEarnCode(earnCode);
         }
 
-        public static Builder create() {
+        public static Builder create(String earnCode) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder();
+            return new Builder(earnCode);
         }
 
         public static Builder create(EarnCodeContract contract) {
@@ -434,7 +435,7 @@ public final class EarnCode
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create();
+            Builder builder = create(contract.getEarnCode());
             builder.setAccrualBalanceAction(contract.getAccrualBalanceAction());
             builder.setFractionalTimeAllowed(contract.getFractionalTimeAllowed());
             builder.setRoundingOption(contract.getRoundingOption());

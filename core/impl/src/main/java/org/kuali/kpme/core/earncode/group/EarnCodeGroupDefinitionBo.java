@@ -20,6 +20,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
+import org.kuali.kpme.core.api.earncode.service.EarnCodeService;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -50,6 +51,7 @@ public class EarnCodeGroupDefinitionBo extends PersistableBusinessObjectBase imp
 	private boolean active=true;
 	
     private EarnCodeBo earnCodeObj;
+    private transient EarnCodeService earnCodeService;
 
 	public String getEarnCode() {
 		return earnCode;
@@ -85,7 +87,7 @@ public class EarnCodeGroupDefinitionBo extends PersistableBusinessObjectBase imp
 		
 	// this is for the maintenance screen
 	public String getEarnCodeDesc() {
-		EarnCodeContract earnCode = HrServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, LocalDate.now());
+		EarnCodeContract earnCode =getEarnCodeService().getEarnCode(this.earnCode, LocalDate.now());
 		
 		if(earnCode != null && StringUtils.isNotBlank(earnCode.getDescription())) {
 			return earnCode.getDescription();
@@ -141,4 +143,15 @@ public class EarnCodeGroupDefinitionBo extends PersistableBusinessObjectBase imp
 	    return EarnCodeGroupDefinition.Builder.create(bo).build();
 	}
 
+	public EarnCodeService getEarnCodeService() {
+		if(earnCodeService == null) {
+			earnCodeService = HrServiceLocator.getEarnCodeService();
+		}
+		return earnCodeService;
+	}
+
+	public void setEarnCodeService(EarnCodeService earnCodeService) {
+		this.earnCodeService = earnCodeService;
+	}
+	
 }

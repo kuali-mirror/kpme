@@ -161,13 +161,14 @@ public final class EarnCodeGroupDefinition
         private boolean active;
         private String userPrincipalId;
 
-        private Builder() {
+        private Builder(String earnCode) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setEarnCode(earnCode);
         }
 
-        public static Builder create() {
+        public static Builder create(String earnCode) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder();
+            return new Builder(earnCode);
         }
 
         public static Builder create(EarnCodeGroupDefinitionContract contract) {
@@ -175,8 +176,7 @@ public final class EarnCodeGroupDefinition
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create();
-            builder.setEarnCode(contract.getEarnCode());
+            Builder builder = create(contract.getEarnCode());
             builder.setHrEarnCodeGroupId(contract.getHrEarnCodeGroupId());
             builder.setHrEarnCodeGroupDefId(contract.getHrEarnCodeGroupDefId());
             builder.setEarnCodeDesc(contract.getEarnCodeDesc());

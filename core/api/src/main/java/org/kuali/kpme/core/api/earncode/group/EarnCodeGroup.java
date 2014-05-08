@@ -207,13 +207,14 @@ public final class EarnCodeGroup
                     }
                 };
                 
-        private Builder() {
+        private Builder(String earnCodeGroup) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setEarnCodeGroup(earnCodeGroup);
         }
 
-        public static Builder create() {
+        public static Builder create(String earnCodeGroup) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder();
+            return new Builder(earnCodeGroup);
         }
 
         public static Builder create(EarnCodeGroupContract contract) {
@@ -221,8 +222,7 @@ public final class EarnCodeGroup
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create();
-            builder.setEarnCodeGroup(contract.getEarnCodeGroup());
+            Builder builder = create(contract.getEarnCodeGroup());
             builder.setDescr(contract.getDescr());
             builder.setWarningText(contract.getWarningText());
             if (CollectionUtils.isEmpty(contract.getEarnCodeGroups())) {

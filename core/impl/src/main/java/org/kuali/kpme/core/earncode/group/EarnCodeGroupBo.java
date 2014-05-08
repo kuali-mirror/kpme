@@ -15,11 +15,8 @@
  */
 package org.kuali.kpme.core.earncode.group;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupContract;
@@ -162,6 +159,7 @@ public static final ModelObjectUtils.Transformer<EarnCodeGroup, EarnCodeGroupBo>
         ecg.setDescr(im.getDescr());
         ecg.setWarningText(im.getWarningText());
                
+        ecg.setEarnCodeGroups(ModelObjectUtils.transform(im.getEarnCodeGroups(),EarnCodeGroupDefinitionBo.toEarnCodeGroupDefinitionBo));
         copyCommonFields(ecg, im);
         
         return ecg;
