@@ -31,7 +31,7 @@ import java.util.Map;
 public class LeaveCalendarDocument extends CalendarDocument implements Assignable, LeaveCalendarDocumentContract {
 	private static final long serialVersionUID = -5029062030186479210L;
 
-
+    private LeaveCalendarDocumentHeader documentHeader;
 	/**
 	 * This static member is needed by document search, to trigger the correct calendar document
 	 * opening when clicking on a doc id link in the search results.
@@ -42,18 +42,17 @@ public class LeaveCalendarDocument extends CalendarDocument implements Assignabl
 	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 
 	public LeaveCalendarDocument(CalendarEntry calendarEntry) {
-		this.calendarEntry = calendarEntry;
+		setCalendarEntry(calendarEntry);
 	}
 
-	public LeaveCalendarDocument(
-			LeaveCalendarDocumentHeader documentHeader) {
-		this.documentHeader = documentHeader;
-		this.calendarType = LEAVE_CALENDAR_DOCUMENT_TYPE;
+	public LeaveCalendarDocument(LeaveCalendarDocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
+		setCalendarType(LEAVE_CALENDAR_DOCUMENT_TYPE);
 	}
 
     @Override
 	public LeaveCalendarDocumentHeader getDocumentHeader() {
-		return (LeaveCalendarDocumentHeader) documentHeader;
+		return documentHeader;
 	}
 
 	public void setDocumentHeader(
@@ -69,48 +68,21 @@ public class LeaveCalendarDocument extends CalendarDocument implements Assignabl
 		this.leaveBlocks = leaveBlocks;
 	}
 
+
+
     @Override
-	public CalendarEntry getCalendarEntry() {
-		return calendarEntry;
-	}
-
-	public void setCalendarEntry(CalendarEntry calendarEntry) {
-		this.calendarEntry = calendarEntry;
-	}
-
 	public String getPrincipalId() {
-		return getDocumentHeader().getPrincipalId();
-	}
-
-	public String getDocumentId() {
-		if (getDocumentHeader() != null) {
-			return getDocumentHeader().getDocumentId();
-		} else {
-			return null;
-		}
+        return  getDocumentHeader() == null ? null : getDocumentHeader().getPrincipalId();
 	}
 
     @Override
-	public Map<LocalDate, List<Assignment>> getAssignmentMap() {
-		return assignments;
-	}
-
-	public void setAssignments(Map<LocalDate, List<Assignment>> assignments) {
-		this.assignments = assignments;
+	public String getDocumentId() {
+        return getDocumentHeader() == null ? null : getDocumentHeader().getDocumentId();
 	}
 
     @Override
     public List<Assignment> getAssignments() {
         return getAllAssignments();
     }
-
-    @Override
-    public LocalDate getAsOfDate(){
-        return getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
-    }
-	
-    public LocalDate getDocEndDate(){
-		return getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
-	}
 	
 }

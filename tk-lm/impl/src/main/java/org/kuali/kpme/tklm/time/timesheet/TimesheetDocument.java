@@ -52,28 +52,20 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 	private List<Job> jobs = new LinkedList<Job>();
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
+    private TimesheetDocumentHeader documentHeader;
 
 	public TimesheetDocument(TimesheetDocumentHeader documentHeader) {
 		this.documentHeader = documentHeader;
-		this.calendarType = TIMESHEET_DOCUMENT_TYPE;
+		setCalendarType(TIMESHEET_DOCUMENT_TYPE);
 	}
 
 	@Override
 	public TimesheetDocumentHeader getDocumentHeader() {
-		return (TimesheetDocumentHeader) documentHeader;
+		return documentHeader;
 	}
 
 	public void setDocumentHeader(TimesheetDocumentHeader documentHeader) {
 		this.documentHeader = documentHeader;
-	}
-
-    @Override
-	public Map<LocalDate, List<Assignment>> getAssignmentMap() {
-		return assignments;
-	}
-
-	public void setAssignments(Map<LocalDate, List<Assignment>> assignments) {
-		this.assignments = assignments;
 	}
 
 	public List<Job> getJobs() {
@@ -98,38 +90,24 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
 		this.timeBlocks = timeBlocks;
 	}
 
-    @Override
-	public CalendarEntry getCalendarEntry() {
-		return calendarEntry;
-	}
-
-	public void setCalendarEntry(CalendarEntry calendarEntry) {
-		this.calendarEntry = calendarEntry;
-	}
-
 	public TimeSummary getTimeSummary() {
         return (TimeSummary)TkServiceLocator.getTimeSummaryService().getTimeSummary(getPrincipalId(), getTimeBlocks(), getCalendarEntry(), getAssignmentMap());
 	}
 
+    @Override
 	public String getPrincipalId(){
-		return getDocumentHeader().getPrincipalId();
+		return getDocumentHeader() == null ? null : getDocumentHeader().getPrincipalId();
 	}
 
 	public Job getJob(Long jobNumber){
 		return jobNumberToJobMap.get(jobNumber);
 	}
 
-    @Override
-	public LocalDate getAsOfDate(){
-		return getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
-	}
-    
-    public LocalDate getDocEndDate(){
-		return getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
-	}
 
+
+    @Override
 	public String getDocumentId(){
-		return this.getDocumentHeader().getDocumentId();
+		return getDocumentHeader() == null ? null : getDocumentHeader().getDocumentId();
 	}
 
     public Map<String, List<LocalDate>> getEarnCodeMap() {

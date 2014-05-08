@@ -38,15 +38,15 @@ import java.util.Set;
 
 public abstract class CalendarDocument implements Serializable, CalendarDocumentContract{
 	private static final long serialVersionUID = 6074564807962995821L;
-	protected CalendarDocumentHeader documentHeader;
-	protected Map<LocalDate, List<Assignment>> assignments = new HashMap<LocalDate, List<Assignment>>();
-	protected CalendarEntry calendarEntry = null;
-	protected LocalDate asOfDate;
-	protected String calendarType;
+	//private <T extends CalendarDocumentHeader> T documentHeader;
+	private Map<LocalDate, List<Assignment>> assignments = new HashMap<LocalDate, List<Assignment>>();
+	private CalendarEntry calendarEntry = null;
+	private LocalDate asOfDate;
+	private String calendarType;
 	
 	public abstract CalendarDocumentHeader getDocumentHeader();
 
-	public abstract Map<LocalDate, List<Assignment>> getAssignmentMap();
+	//public abstract Map<LocalDate, List<Assignment>> getAssignmentMap();
 
     public List<Assignment> getAllAssignments() {
         if (MapUtils.isEmpty(getAssignmentMap())) {
@@ -59,23 +59,27 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
         return new ArrayList<Assignment>(allAssignments);
     }
 
-	public abstract CalendarEntry getCalendarEntry();
+    @Override
+    public CalendarEntry getCalendarEntry() {
+        return calendarEntry;
+    }
 
-	public abstract LocalDate getAsOfDate();	
+    public void setCalendarEntry(CalendarEntry calendarEntry) {
+        this.calendarEntry = calendarEntry;
+    }
+
+    @Override
+    public LocalDate getAsOfDate(){
+        return getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
+    }
+
+    public LocalDate getDocEndDate(){
+        return getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
+    }
 	
-	public String getDocumentId() {
-		if(documentHeader != null)
-			return documentHeader.getDocumentId();
-		else
-			return null;
-	}
+	public abstract String getDocumentId();
 	
-	public String getPrincipalId() {
-		if(documentHeader != null)
-			return documentHeader.getPrincipalId();
-		else
-			return null;
-	}
+	public abstract String getPrincipalId();
 
     public String getCalendarType() {
     	return calendarType;
@@ -84,7 +88,16 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
     public void setCalendarType(String calendarType) {
     	this.calendarType = calendarType;
     }
-    
+
+    @Override
+    public Map<LocalDate, List<Assignment>> getAssignmentMap() {
+        return assignments;
+    }
+
+    public void setAssignments(Map<LocalDate, List<Assignment>> assignments) {
+        this.assignments = assignments;
+    }
+
     public Map<String, String> getAssignmentDescriptions(LocalDate date) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
         List<Assignment> dayAssignments = getAssignmentMap().get(date);
@@ -117,5 +130,4 @@ public abstract class CalendarDocument implements Serializable, CalendarDocument
             return null;
         }
     }
-
 }

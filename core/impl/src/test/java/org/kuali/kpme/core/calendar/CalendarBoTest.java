@@ -17,6 +17,8 @@ package org.kuali.kpme.core.calendar;
 
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
+import org.junit.Assert;
+import org.junit.Test;
 import org.kuali.kpme.core.api.calendar.Calendar;
 
 import java.util.HashMap;
@@ -34,7 +36,7 @@ public class CalendarBoTest {
         b.setCalendarName("BWS-CAL");
         b.setCalendarTypes("Pay");
         b.setFlsaBeginDay("Sun");
-        b.setFlsaBeginLocalTime(new LocalTime(0));
+        b.setFlsaBeginLocalTime(new LocalTime(12, 0));
         b.setFlsaBeginDayConstant(DateTimeConstants.SUNDAY);
         b.setHrCalendarId("KPME_TEST_0001");
         b.setVersionNumber(1L);
@@ -49,5 +51,15 @@ public class CalendarBoTest {
 
     public static Calendar getTestCalendar(String calendarName) {
         return testCalendars.get(calendarName);
+    }
+
+    @Test
+    public void testCalendarConversions() {
+        Calendar immutable = CalendarBoTest.getTestCalendar("BWS-CAL");
+        CalendarBo bo = CalendarBo.from(immutable);
+        //mockIdentityService
+        Assert.assertFalse(bo.equals(immutable));
+        Assert.assertFalse(immutable.equals(bo));
+        Assert.assertEquals(immutable, CalendarBo.to(bo));
     }
 }

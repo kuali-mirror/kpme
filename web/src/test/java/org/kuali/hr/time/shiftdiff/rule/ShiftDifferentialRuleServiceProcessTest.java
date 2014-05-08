@@ -119,8 +119,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		Long workArea = 0L;
 		this.createShiftDifferentialRule(
 				"BWS-CAL", "REG", "PRM", "IN", "SD1", "SD1",// // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
-				(new DateTime(2010, 8, 31, 22, 0, 0, 0, tz)),
-				(new DateTime(2010, 8, 31,  4, 0, 0, 0, tz)),
+				(new LocalTime(22, 0)),
+				(new LocalTime(4, 0)),
 				new BigDecimal(3), // minHours
 				new BigDecimal("15.00"), // maxGap
 				dayArray);
@@ -155,8 +155,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 
 		// August
 		DateTime beginPeriodDate = new DateTime(2010, 8, 15, 0, 0, 0, 0, tz);
-        DateTime endPeriodDate = new DateTime(2010, 9, 1, 0, 0, 0, 0);
-		CalendarEntry endOfAugust =  HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
+		CalendarEntry endOfAugust =  HrServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", new DateTime(2010, 9, 1, 0, 0, 0, 0));
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
@@ -188,7 +187,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 
 		// Verify carry over and applied PRM bucket
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
-		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("8.75"));put("RGN", new BigDecimal(20));}},aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal("8.75"));put("RGN", new BigDecimal(22));}},aggregate);
 	}
 
     private List<TimeBlock> setDocumentIdOnBlocks(List<TimeBlock> blocks, String id) {
@@ -227,7 +226,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		Long jobNumber = 30L;
 		Long workArea = 0L;
 
-        DateTimeZone tz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone tz = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		this.createShiftDifferentialRule(
 				"BWS-CAL",
 				"REG",
@@ -235,8 +234,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 				"IN",  // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"SD1",
 				"SD1",
-				(new DateTime(2010, 8, 31, 22, 0, 0, 0, tz)),
-				(new DateTime(2010, 8, 31,  5, 0, 0, 0, tz)),
+				(new LocalTime(22, 0)),
+				(new LocalTime(5, 0)),
 				new BigDecimal(3), // minHours
 				new BigDecimal("0.25"), // maxGap
 				dayArray);
@@ -270,7 +269,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 
 		// Verify carry over and applied PRM bucket
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
-		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(7));put("RGN", new BigDecimal(5));}},aggregate);
+		TkTestUtils.verifyAggregateHourSumsFlatList("September Post-Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(7));put("RGN", new BigDecimal(7));}},aggregate);
 	}
 
 	@SuppressWarnings("serial")
@@ -291,6 +290,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		// Matches HR Job ID #1 (job # 30)
 		Long jobNumber = 30L;
 		Long workArea = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		this.createShiftDifferentialRule(
 				"BWS-CAL",
 				"REG",
@@ -298,19 +298,19 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 				"IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"SD1",
 				"SD1",
-				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
-				(new DateTime(2010, 3, 30, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
+				(new LocalTime(16, 0)),
+				(new LocalTime(0, 0)),
 				new BigDecimal(4), // minHours
 				new BigDecimal("15"), // maxGap
 				dayArray);
 
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
-		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, zone);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "RGN", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("2"), "RGN", jobNumber, workArea));
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(new DateTime(2010, 3, 29, 12, 58, 0, 0, TKUtils.getSystemDateTimeZone()), 2, new BigDecimal(1), "RGN", jobNumber, workArea));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(new DateTime(2010, 3, 29, 12, 58, 0, 0, zone), 2, new BigDecimal(1), "RGN", jobNumber, workArea));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
@@ -340,6 +340,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		// Matches HR Job ID #1 (job # 30)
 		Long jobNumber = 30L;
 		Long workArea = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		this.createShiftDifferentialRule(
 				"BWS-CAL",
 				"REG",
@@ -347,14 +348,14 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 				"IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"SD1",
 				"SD1",
-				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
-				(new DateTime(2010, 3, 30, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
+				(new LocalTime(16, 0)), //4pm
+				(new LocalTime(0, 0)),  //midnight
 				new BigDecimal(4), // minHours
-				new BigDecimal("15.00"), // maxGap
+				new BigDecimal("15.00"), // maxGap minutes
 				dayArray);
 
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
-		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, zone);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea));
@@ -378,14 +379,14 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 	 *
 	 * dayBooleans[] is a 7 element array of booleans, [0, 6] is [sun, sat]
 	 */
-	private void createShiftDifferentialRule(String pyCalendarGroup, String fromEarnGroup, String premiumEarnCode, String location, String payGrade, String hrSalGroup, DateTime startTime, DateTime endTime, BigDecimal minHours, BigDecimal maxGap, boolean dayBooleans[]) {
+	private void createShiftDifferentialRule(String pyCalendarGroup, String fromEarnGroup, String premiumEarnCode, String location, String payGrade, String hrSalGroup, LocalTime startTime, LocalTime endTime, BigDecimal minHours, BigDecimal maxGap, boolean dayBooleans[]) {
 		Assert.assertTrue("Wrong number of day booleans", dayBooleans.length == 7);
 
 		ShiftDifferentialRuleService service = TkServiceLocator.getShiftDifferentialRuleService();
 		ShiftDifferentialRule sdr = new ShiftDifferentialRule();
 
-		sdr.setBeginTime(new Time(startTime.getMillis()));
-		sdr.setEndTime(new Time(endTime.getMillis()));
+		sdr.setBeginTime(new Time(startTime.toDateTimeToday().getMillis()));
+		sdr.setEndTime(new Time(endTime.toDateTimeToday().getMillis()));
 		sdr.setMinHours(minHours);
 		sdr.setMaxGap(maxGap);
 		sdr.setActive(true);
@@ -465,8 +466,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 				"IN",  // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
 				"SD1",
 				"SD1",
-				(new DateTime(2010, 3, 29, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
-				(new DateTime(2010, 3, 29, 17, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
+				(new LocalTime(12, 0)),
+				(new LocalTime(17, 0)),
 				new BigDecimal(4), // minHours
 				new BigDecimal("15.00"), // maxGap
 				dayArray);

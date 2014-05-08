@@ -70,7 +70,7 @@ public class LeavePlanBo extends HrBusinessObject implements LeavePlanContract {
 	}
 
     public LocalTime getBatchPriorYearCarryOverStartLocalTime() {
-        return new LocalTime(batchPriorYearCarryOverStartTime);
+        return batchPriorYearCarryOverStartTime == null ? null : LocalTime.fromDateFields(batchPriorYearCarryOverStartTime);
     }
 
 	public void setBatchPriorYearCarryOverStartTime(

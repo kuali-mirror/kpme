@@ -16,10 +16,10 @@
 package org.kuali.kpme.core.leaveplan;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
-import org.kuali.kpme.core.api.calendar.Calendar;
+import org.junit.Assert;
+import org.junit.Test;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 
 import java.util.HashMap;
@@ -49,14 +49,19 @@ public class LeavePlanBoTest {
         b.setObjectId("ac1c2c7c-cbba-11e3-9cd3-51a754ad6a0a");
         testLeavePlans.put(b.getLeavePlan(), b.build());
 
-        //b.setCalendarName("LM");
-        //b.setCalendarTypes("Leave");
-        //b.setHrCalendarId("KPME_TEST_0002");
-        //b.setObjectId("b7dbaf1a-cbba-11e3-9cd3-51a754ad6a0a");
-        //testCalendars.put(b.getCalendarName(), b.build());
     }
 
     public static LeavePlan getLeavePlan(String leavePlan) {
         return testLeavePlans.get(leavePlan);
+    }
+
+    @Test
+    public void testLeavePlanConversions() {
+        LeavePlan immutable = LeavePlanBoTest.getLeavePlan("LEAVE");
+        LeavePlanBo bo = LeavePlanBo.from(immutable);
+        //mockIdentityService
+        Assert.assertFalse(bo.equals(immutable));
+        Assert.assertFalse(immutable.equals(bo));
+        Assert.assertEquals(immutable, LeavePlanBo.to(bo));
     }
 }

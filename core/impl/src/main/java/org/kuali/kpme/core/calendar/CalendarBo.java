@@ -109,7 +109,7 @@ public class CalendarBo extends PersistableBusinessObjectBase implements Calenda
 	}
 
     public LocalTime getFlsaBeginLocalTime() {
-        return getFlsaBeginTime() == null ? null : LocalTime.fromMillisOfDay(getFlsaBeginTime().getTime());
+        return getFlsaBeginTime() == null ? null : LocalTime.fromDateFields(getFlsaBeginTime());
     }
 
 	public void setFlsaBeginTime(Time flsaBeginTime) {
@@ -187,7 +187,7 @@ public class CalendarBo extends PersistableBusinessObjectBase implements Calenda
         cal.setCalendarName(im.getCalendarName());
         cal.setCalendarDescriptions(im.getCalendarDescriptions());
         cal.setFlsaBeginDay(im.getFlsaBeginDay());
-        cal.setFlsaBeginTime(im.getFlsaBeginLocalTime() == null ? null : new Time(im.getFlsaBeginLocalTime().toDateTimeToday().getMillisOfDay()));
+        cal.setFlsaBeginTime(im.getFlsaBeginLocalTime() == null ? null : new Time(im.getFlsaBeginLocalTime().toDateTimeToday().getMillis()));
         cal.setCalendarTypes(im.getCalendarTypes());
         cal.setFlsaBeginDayConstant(im.getFlsaBeginDayConstant());
 

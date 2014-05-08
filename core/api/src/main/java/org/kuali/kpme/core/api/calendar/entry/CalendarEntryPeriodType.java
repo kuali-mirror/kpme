@@ -24,7 +24,7 @@ public enum CalendarEntryPeriodType {
     SEMI_MONTHLY("S"),
     MONTHLY("M");
 
-    public final String code;
+    private final String code;
     private static final Logger LOG = Logger.getLogger(CalendarEntryPeriodType.class);
 
     private CalendarEntryPeriodType(String code) {

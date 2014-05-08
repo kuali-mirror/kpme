@@ -90,7 +90,7 @@ public class PrincipalHRAttributesBoTest {
     }
 
     @Test
-    public void testNotEqualsWithGroup() {
+    public void testPrincipalHRConversions() {
         PrincipalHRAttributes immutable = PrincipalHRAttributesBoTest.getPrincipalHRAttributes("testuser1");
         PrincipalHRAttributesBo bo = PrincipalHRAttributesBo.from(immutable);
         //mockIdentityService
