@@ -41,7 +41,6 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -51,16 +50,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class AssignmentServiceImpl implements AssignmentService {
 
@@ -103,33 +93,34 @@ public class AssignmentServiceImpl implements AssignmentService {
         return assigns;
     }
 
-
     @Override
-    public List<Assignment> searchAssignments(String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
-                                           String dept, String workArea, String active, String showHistory) {
+    public List<Assignment> searchAssignments(String userPrincipalId, Map<String, String> searchCriteria) {
         List<AssignmentBo> results = new ArrayList<AssignmentBo>();
-        
-    	List<AssignmentBo> assignmentObjs = assignmentDao.searchAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
-    	
-    	for (AssignmentBo assignmentObj : assignmentObjs) {
-        	String department = assignmentObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, assignmentObj.getEffectiveLocalDate());
-        	String location = departmentObj != null ? departmentObj.getLocation() : null;
-        	
-        	Map<String, String> roleQualification = new HashMap<String, String>();
-        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
-        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
-        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
-        	
-        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
-    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
-        		results.add(assignmentObj);
-        	}
-    	}
-    	
-    	return convertToImmutable(results);
+
+        //AssignmentDaoObjImpl.java
+        List<AssignmentBo> assignmentObjs = assignmentDao.searchAssignments(searchCriteria);
+
+        for (AssignmentBo assignmentObj : assignmentObjs) {
+
+            String department = assignmentObj.getDept();
+            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, assignmentObj.getEffectiveLocalDate());
+            String location = departmentObj != null ? departmentObj.getLocation() : null;
+
+            Map<String, String> roleQualification = new HashMap<String, String>();
+
+            roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+            roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+
+            if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                    KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+                    || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                    KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+                results.add(assignmentObj);
+            }
+        }
+
+        return convertToImmutable(results);
     }
 
     public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntry payCalendarEntry) {

@@ -28,78 +28,104 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @IntegrationTest
 public class AssignmentServiceImplTest extends CoreUnitTestCase {
 
-	private static final Logger LOG = Logger.getLogger(AssignmentServiceImplTest.class);
-	AssignmentService assignmentService = null;
+    private static final Logger LOG = Logger.getLogger(AssignmentServiceImplTest.class);
+    AssignmentService assignmentService = null;
 
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-		assignmentService=HrServiceLocator.getAssignmentService();
-	}
-	
-	@Test
-	public void testGetAssignments() throws Exception {
-		List<Assignment> assignments = assignmentService.getAssignments("admin", new DateTime(2010,8,5,1,0,0,0, TKUtils.getSystemDateTimeZone()).toLocalDate());
-		Assert.assertNotNull("Null assignment list", assignments);
-		Assert.assertTrue("No assignments found", assignments.size() > 0);
-		
-		for(Assignment assign : assignments){
-			Assert.assertNotNull("Null job found", assign.getJob());
-			Assert.assertTrue("Job number is same", assign.getJob().getJobNumber().compareTo(assign.getJobNumber())==0);
-		}
-		
-	}
-	@Test
-	public void testGetAssignmentsByCalEntryForLeaveCalendar() throws Exception {
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        assignmentService = HrServiceLocator.getAssignmentService();
+    }
+
+    @Test
+    public void testGetAssignments() throws Exception {
+        List<Assignment> assignments = assignmentService.getAssignments("admin", new DateTime(2010, 8, 5, 1, 0, 0, 0, TKUtils.getSystemDateTimeZone()).toLocalDate());
+        Assert.assertNotNull("Null assignment list", assignments);
+        Assert.assertTrue("No assignments found", assignments.size() > 0);
+
+        for (Assignment assign : assignments) {
+            Assert.assertNotNull("Null job found", assign.getJob());
+            Assert.assertTrue("Job number is same", assign.getJob().getJobNumber().compareTo(assign.getJobNumber()) == 0);
+        }
+
+    }
+
+    @Test
+    public void testGetAssignmentsByCalEntryForLeaveCalendar() throws Exception {
         CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Assignment> assignments = assignmentService.getAllAssignmentsByCalEntryForLeaveCalendar("testUser", ce);
-		Assert.assertNotNull("Null assignment list", assignments);
-		
-		Assert.assertTrue("Assignments size for Leave calendar should be 2, not " + assignments.size(), assignments.size() == 2);
-		for(Assignment anAssignment : assignments) {
-			Assert.assertTrue("Assignment found for Leave calendar should be '5001' or '5002', not " + anAssignment.getTkAssignmentId(), 
-					anAssignment.getTkAssignmentId().equals("5001") || anAssignment.getTkAssignmentId().equals("5002") );
-		}
-	}
-	
-	@Test
-	public void testGetAssignmentsByCalEntryForTimeCalendar() throws Exception {
+        List<Assignment> assignments = assignmentService.getAllAssignmentsByCalEntryForLeaveCalendar("testUser", ce);
+        Assert.assertNotNull("Null assignment list", assignments);
+
+        Assert.assertTrue("Assignments size for Leave calendar should be 2, not " + assignments.size(), assignments.size() == 2);
+        for (Assignment anAssignment : assignments) {
+            Assert.assertTrue("Assignment found for Leave calendar should be '5001' or '5002', not " + anAssignment.getTkAssignmentId(),
+                    anAssignment.getTkAssignmentId().equals("5001") || anAssignment.getTkAssignmentId().equals("5002"));
+        }
+    }
+
+    @Test
+    public void testGetAssignmentsByCalEntryForTimeCalendar() throws Exception {
         CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Assignment> assignments = assignmentService.getAllAssignmentsByCalEntryForTimeCalendar("testUser", ce);
-		Assert.assertNotNull("Null assignment list", assignments);
-		
-		Assert.assertTrue("Assignments size for Time calendar should be 2, not " + assignments.size(), assignments.size() == 2);
-		for(Assignment anAssignment : assignments) {
-			Assert.assertTrue("Assignment found for Time calendar should be '5000' or '5001', not " + anAssignment.getTkAssignmentId(), 
-					anAssignment.getTkAssignmentId().equals("5000") || anAssignment.getTkAssignmentId().equals("5001") );
-		}
-		
-	}
-	@Test
-	public void testGetAssignmentsByPayEntry() throws Exception {
+        List<Assignment> assignments = assignmentService.getAllAssignmentsByCalEntryForTimeCalendar("testUser", ce);
+        Assert.assertNotNull("Null assignment list", assignments);
+
+        Assert.assertTrue("Assignments size for Time calendar should be 2, not " + assignments.size(), assignments.size() == 2);
+        for (Assignment anAssignment : assignments) {
+            Assert.assertTrue("Assignment found for Time calendar should be '5000' or '5001', not " + anAssignment.getTkAssignmentId(),
+                    anAssignment.getTkAssignmentId().equals("5000") || anAssignment.getTkAssignmentId().equals("5001"));
+        }
+
+    }
+
+    @Test
+    public void testGetAssignmentsByPayEntry() throws Exception {
         CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("55");
-		List<Assignment> assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
-		Assert.assertNotNull("Null assignment list", assignments);
-		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 3, not " + assignments.size(), assignments.size() == 3);
-		
-		ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5001");
-		assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
-		Assert.assertNotNull("Null assignment list", assignments);
-		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 4, not " + assignments.size(), assignments.size() == 4);
-	}
-	
-	@Test
-	public void testSearchAssignments() throws Exception {
-		List<Assignment> allResults = HrServiceLocator.getAssignmentService().searchAssignments("admin", null, null, null, null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 14, allResults.size());
-		
-		List<Assignment> restrictedResults = HrServiceLocator.getAssignmentService().searchAssignments("testuser6", null, null, null, null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 5, restrictedResults.size());
-	}
-	
+        List<Assignment> assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
+        Assert.assertNotNull("Null assignment list", assignments);
+        Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 3, not " + assignments.size(), assignments.size() == 3);
+
+        ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry("5001");
+        assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
+        Assert.assertNotNull("Null assignment list", assignments);
+        Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 4, not " + assignments.size(), assignments.size() == 4);
+    }
+
+    @Test
+    public void testSearchAssignments() throws Exception {
+        Map<String, String> formValues = new HashMap<String, String>();
+        formValues.put("active", (String)"Y");
+        formValues.put("history", (String)"N");
+        formValues.put("fromEffdt", null);
+        formValues.put("toEffdt", null);
+        formValues.put("principalId", null);
+        formValues.put("jobNumber", null);
+        formValues.put("dept", null);
+        formValues.put("workArea", null);
+
+        List<Assignment> allResults = HrServiceLocator.getAssignmentService().searchAssignments((String)"admin", formValues);
+
+       Assert.assertEquals("Search returned the wrong number of results.", 14, allResults.size());
+
+
+        Map<String, String> formValues2 = new HashMap<String, String>();
+        formValues2.put("active", (String)"Y");
+        formValues2.put("history", (String)"N");
+        formValues2.put("fromEffdt", null);
+        formValues2.put("toEffdt", null);
+        formValues2.put("principalId", null);
+        formValues2.put("jobNumber", null);
+        formValues2.put("dept", null);
+        formValues2.put("workArea", null);
+
+        List<Assignment> restrictedResults = HrServiceLocator.getAssignmentService().searchAssignments((String)"testuser6", formValues2);
+
+        Assert.assertEquals("Search returned the wrong number of results.", 5, restrictedResults.size());
+    }
 }

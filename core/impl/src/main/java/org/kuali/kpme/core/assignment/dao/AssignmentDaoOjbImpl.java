@@ -15,13 +15,6 @@
  */
 package org.kuali.kpme.core.assignment.dao;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -30,16 +23,63 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
+import org.kuali.kpme.core.bo.dao.KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.kpme.core.util.TKUtils;
 
-public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
+import java.sql.Date;
+import java.util.*;
+
+
+//public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
+//public class AssignmentDaoOjbImpl extends KpmeHrBusinessObjectLookupDaoOjbImpl implements AssignmentDao {
+public class AssignmentDaoOjbImpl extends KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl implements AssignmentDao {
 
     private static final Logger LOG = Logger.getLogger(AssignmentDaoOjbImpl.class);
+
+    private static final String WORK_AREA = "workArea";
+    private static final String DEPT_PARAM_NAME = "dept";
+
+    @SuppressWarnings("rawtypes")
+    protected Map<String, String> removeAndTransformFormProperties(Class<? extends HrBusinessObjectContract> businessObjectClass, Map formProps)
+    {
+        HashMap<String, String> retVal = new HashMap<String, String>();
+
+        // remove the institution and location field from the form map and add them to the return value map
+        String department = (String) formProps.remove(DEPT_PARAM_NAME);
+        if(department != null) {
+            retVal.put(DEPT_PARAM_NAME, department);
+        }
+
+        // call super class method
+        retVal.putAll(super.removeAndTransformFormProperties(businessObjectClass, formProps));
+        return retVal;
+    }
+
+    @Override
+    protected void processRootCriteria(Criteria rootCriteria, Class<? extends HrBusinessObjectContract> businessObjectClass, Map formProps, Map<String, String> removedProperties) {
+        String dept = removedProperties.get(DEPT_PARAM_NAME);
+        if (StringUtils.isNotBlank(dept)) {
+            Criteria workAreaCriteria = new Criteria();
+
+            LocalDate toEffdt = TKUtils.formatDateString(TKUtils.getToDateString((String) formProps.get("effectiveDate")));
+            LocalDate asOfDate = toEffdt != null ? toEffdt : LocalDate.now();
+
+            List<Long> workAreasForDept = HrServiceLocator.getWorkAreaService().getWorkAreasForDepartment(dept, asOfDate);
+            if (CollectionUtils.isNotEmpty(workAreasForDept)) {
+                workAreaCriteria.addIn(WORK_AREA, workAreasForDept);
+            }
+            rootCriteria.addAndCriteria(workAreaCriteria);
+        }
+
+        super.processRootCriteria(rootCriteria, businessObjectClass, formProps, removedProperties);
+    }
+
+
      @Override
     public void saveOrUpdate(AssignmentBo assignment) {
         this.getPersistenceBrokerTemplate().store(assignment);
@@ -260,76 +300,22 @@ public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Ass
         return assignments;
     }
 
-	@Override
+    @Override
     @SuppressWarnings("unchecked")
-    public List<AssignmentBo> searchAssignments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber, String dept, String workArea,
-    										  String active, String showHistory) {
+    public List<AssignmentBo> searchAssignments(Map<String, String> searchCriteria) {
 
         List<AssignmentBo> results = new ArrayList<AssignmentBo>();
-        
+
         Criteria root = new Criteria();
 
-        Criteria effectiveDateFilter = new Criteria();
-        if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
-        }
-        if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
-        }
-        if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
-        }
-        root.addAndCriteria(effectiveDateFilter);
-        
-        if (StringUtils.isNotBlank(principalId)) {
-            root.addLike("UPPER(principalId)", principalId.toUpperCase()); // KPME-2695 in case principal id is not a number
-        }
+        root.addAndCriteria(getCollectionCriteriaFromMap(new AssignmentBo(), searchCriteria));
 
-//        if (StringUtils.isNotBlank(jobNumber)) {
-//            root.addLike("jobNumber", jobNumber);
-//        }
-        
-        if (StringUtils.isNotBlank(jobNumber)) {
-            OjbSubQueryUtil.addNumericCriteria(root, "jobNumber", jobNumber);
-        }
-
-        if (StringUtils.isNotBlank(dept)) {
-            Criteria workAreaCriteria = new Criteria();
-            LocalDate asOfDate = toEffdt != null ? toEffdt : LocalDate.now();
-            List<Long> workAreasForDept = HrServiceLocator.getWorkAreaService().getWorkAreasForDepartment(dept, asOfDate);
-            if (CollectionUtils.isNotEmpty(workAreasForDept)) {
-                workAreaCriteria.addIn("workArea", workAreasForDept);
-            } else {
-            	return results;
-            }
-            root.addAndCriteria(workAreaCriteria);
-        }
-
-        if (StringUtils.isNotBlank(workArea)) {
-            OjbSubQueryUtil.addNumericCriteria(root, "workArea", workArea);
-        }
-        
-        if (StringUtils.isNotBlank(active)) {
-        	Criteria activeFilter = new Criteria();
-            if (StringUtils.equals(active, "Y")) {
-                activeFilter.addEqualTo("active", true);
-            } else if (StringUtils.equals(active, "N")) {
-                activeFilter.addEqualTo("active", false);
-            }
-            root.addAndCriteria(activeFilter);
-        }
-
-        if (StringUtils.equals(showHistory, "N")) {
-            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(AssignmentBo.class, effectiveDateFilter, AssignmentBo.BUSINESS_KEYS, false));
-            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(AssignmentBo.class, AssignmentBo.BUSINESS_KEYS, false));
-        }
-        
         Query query = QueryFactory.newQuery(AssignmentBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
-        
+
         return results;
     }
-    
+
     @Override
     public AssignmentBo getMaxTimestampAssignment(String principalId) {
     	Criteria root = new Criteria();

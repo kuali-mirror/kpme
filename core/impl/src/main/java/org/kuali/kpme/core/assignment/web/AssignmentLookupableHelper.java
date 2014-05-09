@@ -15,29 +15,16 @@
  */
 package org.kuali.kpme.core.assignment.web;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.kuali.kpme.core.api.assignment.Assignment;
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
-
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
-import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrContext;
-import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.service.DocumentDictionaryService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
+
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class AssignmentLookupableHelper extends KpmeHrBusinessObjectLookupableImpl {
@@ -50,45 +37,13 @@ public class AssignmentLookupableHelper extends KpmeHrBusinessObjectLookupableIm
                 };
             };
 
-	
-//	@Override
-//	@SuppressWarnings("rawtypes")
-//    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-//    	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-//
-//		Assignment assignment = (Assignment) businessObject;
-//        String tkAssignmentId = assignment.getTkAssignmentId();
-//
-//		Properties params = new Properties();
-//		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
-//		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-//		params.put("tkAssignmentId", tkAssignmentId);
-//		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
-//		viewUrl.setDisplayText("view");
-//		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
-//		customActionUrls.add(viewUrl);
-//		
-//		//	Add copy link - KPME-3060
-//		customActionUrls.add(getUrlData(assignment, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames));
-//		
-//		return customActionUrls;
-//    }
-
 
 	@Override
 	protected List<?> getSearchResults(LookupForm form,
 			Map<String, String> searchCriteria, boolean unbounded) {
-        String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
-        String principalId = searchCriteria.get("principalId");
-        String jobNumber = searchCriteria.get("jobNumber");
-        String dept = searchCriteria.get("dept");
-        String workArea = searchCriteria.get("workArea");
-        String active = searchCriteria.get("active");
-        String showHist = searchCriteria.get("history");
 
-        return ModelObjectUtils.transform(HrServiceLocator.getAssignmentService().searchAssignments(GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId, 
-        		jobNumber, dept, workArea, active, showHist), toAssignmentBo);
+        String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+
+        return ModelObjectUtils.transform(HrServiceLocator.getAssignmentService().searchAssignments(userPrincipalId, searchCriteria), toAssignmentBo);
 	}
-	
 }

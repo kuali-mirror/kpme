@@ -158,7 +158,7 @@
 
     <bean id="positionBaseDao" class="org.kuali.kpme.core.position.dao.PositionBaseDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="assignmentDao" class="org.kuali.kpme.core.assignment.dao.AssignmentDaoOjbImpl" parent="platformAwareDao" />
+    <bean id="assignmentDao" class="org.kuali.kpme.core.assignment.dao.AssignmentDaoOjbImpl" parent="kpmeHrGroupKeyedBusinessObjectLookupDaoOjb" />
 
     <bean id="workAreaDao" class="org.kuali.kpme.core.workarea.dao.WorkAreaDaoOjbImpl" parent="platformAwareDao" />
 

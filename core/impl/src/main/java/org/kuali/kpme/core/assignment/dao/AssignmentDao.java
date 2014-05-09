@@ -15,12 +15,11 @@
  */
 package org.kuali.kpme.core.assignment.dao;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.assignment.AssignmentBo;
+
+import java.util.List;
+import java.util.Map;
 
 public interface AssignmentDao {
 
@@ -80,9 +79,8 @@ public interface AssignmentDao {
 
     List<AssignmentBo> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate);
 
-    List<AssignmentBo> searchAssignments(LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
-                                    String dept, String workArea, String active, String showHistory);
-    
+   List<AssignmentBo> searchAssignments(Map<String, String> searchCriteria);
+
     public AssignmentBo getMaxTimestampAssignment(String principalId);
     
     public List<String> getPrincipalIds(List<String> workAreaList, LocalDate effdt, LocalDate startDate, LocalDate endDate);
