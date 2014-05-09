@@ -15,16 +15,17 @@
  */
 package org.kuali.kpme.tklm.common;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.authorization.DepartmentalRule;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -36,23 +37,24 @@ public class AuthorizationValidationUtils {
      * Indicates whether or not the current user can wildcard the work area
      * of the specified DepartmentalRule.
      *
-     * @param departmentalRule The DepartmentalRule we are investigating.
+     * @param clockLocationRule The ClockLocationRule we are investigating.
      *
      * @return true if you can wildcard the WorkArea, false otherwise.
      */
-    public static boolean canWildcardWorkArea(DepartmentalRule departmentalRule) {
+    public static boolean canWildcardWorkArea(ClockLocationRule clockLocationRule) {
     	boolean canWildcardWorkArea = false;
     	
     	if (HrContext.isSystemAdmin()) {
         	return true;
     	}
     	
-    	if (departmentalRule != null) {
+    	if (clockLocationRule != null) {
 	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
-	    	String department = departmentalRule.getDept();
-	    	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
-			String location = departmentObj != null ? departmentObj.getLocation() : null;
-	    	
+	    	String department = clockLocationRule.getDept();
+	    	String groupKeyCode = clockLocationRule.getGroupKeyCode();
+	    	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, LocalDate.now());
+			String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+			
 	        if (!HrConstants.WILDCARD_CHARACTER.equals(department)) {
 	        	canWildcardWorkArea = HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, LocalDate.now().toDateTimeAtStartOfDay())
 	        			|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, LocalDate.now().toDateTimeAtStartOfDay())
@@ -67,26 +69,35 @@ public class AuthorizationValidationUtils {
     /**
      * Can the current user use a wildcard for the department?
      *
-     * @param departmentalRule The DepartmentalRule we are examining.
+     * @param clockLocationRule The ClockLocationRule we are examining.
      *
      * @return true if so, false otherwise.
      */
-    public static boolean canWildcardDepartment(DepartmentalRule departmentalRule) {
+    public static boolean canWildcardDepartment(ClockLocationRule clockLocationRule) {
         return HrContext.isSystemAdmin();
     }
     
-    public static boolean hasAccessToWrite(DepartmentalRule departmentalRule) {
+    /**
+     * Static helper method to provide a single point of access for both Kuali
+     * Rice maintenance page hooks as well as Lookupable filtering.
+     *
+     * @param clockLocationRule The business object under investigation.
+     * @return true if writable by current context user, false otherwise.
+     * @deprecated - doesn't seem to be used anywhere
+     */
+    public static boolean hasAccessToWrite(ClockLocationRule clockLocationRule) {
         boolean hasAccessToWrite = false;
         
         if (HrContext.isSystemAdmin()) {
         	return true;
     	}
         
-        if (departmentalRule != null) {
+        if (clockLocationRule != null) {
 	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
-	    	String department = departmentalRule.getDept();
-	    	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
-			String location = departmentObj != null ? departmentObj.getLocation() : null;
+	    	String department = clockLocationRule.getDept();
+	    	String groupKeyCode = clockLocationRule.getGroupKeyCode();
+	    	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, LocalDate.now());
+			String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 	        
 	        if (!HrConstants.WILDCARD_CHARACTER.equals(department)) {
 	        	hasAccessToWrite = HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, LocalDate.now().toDateTimeAtStartOfDay())
@@ -103,17 +114,17 @@ public class AuthorizationValidationUtils {
      * Static helper method to provide a single point of access for both Kuali
      * Rice maintenance page hooks as well as Lookupable filtering.
      *
-     * @param departmentalRule The business object under investigation.
-     *
+     * @param clockLocationRule The business object under investigation.
      * @return true if readable by current context user, false otherwise.
+     * @deprecated - doesn't seem to be used anywhere
      */
-    public static boolean hasAccessToRead(DepartmentalRule departmentalRule) {
+    public static boolean hasAccessToRead(ClockLocationRule clockLocationRule) {
         boolean hasAccessToRead = false;
         
         if (HrContext.isSystemAdmin() || HrContext.isGlobalViewOnly())
             return true;
 
-        if (departmentalRule != null) {
+        if (clockLocationRule != null) {
             //    dept     | workArea   | meaning
             //    ---------|------------|
             // 1: %        ,  -1        , any dept/work area valid roles
@@ -124,10 +135,11 @@ public class AuthorizationValidationUtils {
             // * Not permitted.
 
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        	Long workArea = departmentalRule.getWorkArea();
-        	String department = departmentalRule.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
-    		String location = departmentObj != null ? departmentObj.getLocation() : null;
+        	Long workArea = clockLocationRule.getWorkArea();
+        	String department = clockLocationRule.getDept();
+	    	String groupKeyCode = clockLocationRule.getGroupKeyCode();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, LocalDate.now());
+    		String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
             DateTime date = LocalDate.now().toDateTimeAtStartOfDay();
             if (HrConstants.WILDCARD_CHARACTER.equals(department) && HrConstants.WILDCARD_LONG.equals(workArea)) {
                 // case 1
@@ -153,5 +165,23 @@ public class AuthorizationValidationUtils {
         }
 
         return hasAccessToRead;
+    }
+    
+    /**
+     * For ClockLocationRule object, if a work area is defined, you can not
+     * leave the department field with a wildcard. Permission for wildcarding
+     * will be checked with other methods.
+     *
+     * @param clr The ClockLocationRule to examine.
+     * @return true if valid, false otherwise.
+     */
+    public static boolean validateWorkAreaDeptWildcarding(ClockLocationRule clr) {
+        boolean ret = true;
+
+        if (StringUtils.equals(clr.getDept(), HrConstants.WILDCARD_CHARACTER)) {
+            ret = clr.getWorkArea().equals(HrConstants.WILDCARD_LONG);
+        }
+
+        return ret;
     }
 }

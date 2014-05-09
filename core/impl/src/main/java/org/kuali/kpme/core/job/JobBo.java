@@ -240,7 +240,7 @@ public class JobBo extends HrKeyedBusinessObject implements JobContract {
 
 	public DepartmentBo getDeptObj() {
 		if(deptObj == null) {
-			this.setDeptObj(DepartmentBo.from(HrServiceLocator.getDepartmentService().getDepartment(dept, getEffectiveLocalDate())));
+			this.setDeptObj(DepartmentBo.from(HrServiceLocator.getDepartmentService().getDepartment(dept, groupKeyCode, getEffectiveLocalDate())));
 		}
 		return deptObj;
 	}

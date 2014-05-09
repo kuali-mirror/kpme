@@ -16,15 +16,15 @@
 package org.kuali.kpme.tklm.time.rules.timecollection.validation;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.kuali.hr.kpme.tklm.time.rules.validation.TkKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TimeCollectionRuleValidation extends MaintenanceDocumentRuleBase {
+public class TimeCollectionRuleValidation extends TkKeyedBusinessObjectValidation {
 
 	boolean validateWorkArea(TimeCollectionRule ruleObj) {
 		if (!ValidationUtils.validateWorkArea(ruleObj.getWorkArea(), ruleObj.getDept(), ruleObj.getEffectiveLocalDate())) {
@@ -36,7 +36,7 @@ public class TimeCollectionRuleValidation extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateDepartment(TimeCollectionRule ruleObj) {
-		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveLocalDate())) {
+		if (!ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getGroupKeyCode(), ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
 			return false;
 		} else {
@@ -78,6 +78,7 @@ public class TimeCollectionRuleValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.validateDepartment(timeCollectionRule);
 				valid &= this.validateWorkArea(timeCollectionRule);
 				valid &= this.validatePayType(timeCollectionRule);
+				valid &= this.validateGroupKeyCode(timeCollectionRule);
 			}
 		}
 

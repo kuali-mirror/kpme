@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -36,9 +35,10 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 	}
 
 	@Override
-	public DepartmentBo getDepartment(String department, LocalDate asOfDate) {
+	public DepartmentBo getDepartment(String department, String groupKeyCode, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
+		root.addEqualTo("groupKeyCode", groupKeyCode);
 		root.addEqualTo("dept", department);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentBo.class, asOfDate, DepartmentBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentBo.class, DepartmentBo.BUSINESS_KEYS, false));
@@ -55,10 +55,9 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 	}
 
     @Override
-    public List<DepartmentBo> getDepartments(String location, LocalDate asOfDate) {
+    public List<DepartmentBo> getDepartments(LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
-		root.addEqualTo("location", location);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentBo.class, asOfDate, DepartmentBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentBo.class, DepartmentBo.BUSINESS_KEYS, false));
 
@@ -76,28 +75,7 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 		return d;
     }
 
-    @Override
-    public List<DepartmentBo> getDepartmentsForLocations(List<String> locations, LocalDate asOfDate) {
-        Criteria root = new Criteria();
-
-        root.addIn("location", locations);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentBo.class, asOfDate, DepartmentBo.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentBo.class, DepartmentBo.BUSINESS_KEYS, false));
-
-        Criteria activeFilter = new Criteria(); // Inner Join For Activity
-        activeFilter.addEqualTo("active", true);
-        root.addAndCriteria(activeFilter);
-
-
-        Query query = QueryFactory.newQuery(DepartmentBo.class, root);
-
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        List<DepartmentBo> d = new ArrayList<DepartmentBo>(c.size());
-        d.addAll(c);
-
-        return d;
-    }
-
+    /*
 	@Override
 	@SuppressWarnings("unchecked")
     public List<DepartmentBo> getDepartments(String dept, String location, String departmentDescr, String active, String showHistory, String payrollApproval) {
@@ -140,7 +118,7 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
-    }
+    }*/
 
 	@Override
 	public DepartmentBo getDepartment(String hrDeptId) {
@@ -152,30 +130,18 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 	}
 	
 	@Override
-	public int getDepartmentCount(String department) {
+	public int getDepartmentCount(String department, String groupKeyCode) {
 		Criteria crit = new Criteria();
+		crit.addEqualTo("groupKeyCode", groupKeyCode);
 		crit.addEqualTo("dept", department);
 		Query query = QueryFactory.newQuery(DepartmentBo.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 	
 	@Override
-	public List<DepartmentBo> getDepartments(String department) {
-		List<DepartmentBo> results = new ArrayList<DepartmentBo>();
-		Criteria crit = new Criteria();
-		crit.addEqualTo("dept", department);
-		crit.addEqualTo("active", true);
-		Query query = QueryFactory.newQuery(DepartmentBo.class, crit);
-		results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
-		return results;
-	}
-	
-	@Override
-	public DepartmentBo getDepartment(String department, String location, LocalDate asOfDate) {
+	public List<DepartmentBo> getDepartments(String department, LocalDate asOfDate) {
 		Criteria root = new Criteria();
-
 		root.addEqualTo("dept", department);
-		root.addEqualTo("location", location);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentBo.class, asOfDate, DepartmentBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentBo.class, DepartmentBo.BUSINESS_KEYS, false));
 
@@ -185,30 +151,23 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
 
 		Query query = QueryFactory.newQuery(DepartmentBo.class, root);
 
-		DepartmentBo d = (DepartmentBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-
-		return d;
-	}
-	
-	@Override
-	public List<DepartmentBo> getDepartmentsForInstitution(String institution, LocalDate asOfDate) {
-		Criteria root = new Criteria();
-
-		root.addEqualTo("institution", institution);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentBo.class, asOfDate, DepartmentBo.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentBo.class, DepartmentBo.BUSINESS_KEYS, false));
-
-		Criteria activeFilter = new Criteria(); // Inner Join For Activity
-		activeFilter.addEqualTo("active", true);
-		root.addAndCriteria(activeFilter);
-
-
-		Query query = QueryFactory.newQuery(DepartmentBo.class, root);
-
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		List<DepartmentBo> d = new ArrayList<DepartmentBo>(c.size());
         d.addAll(c);
 
 		return d;
+	}
+	
+	@Override
+	public List<DepartmentBo> getDepartments(String department, String groupKeyCode) {
+		List<DepartmentBo> results = new ArrayList<DepartmentBo>();
+		Criteria crit = new Criteria();
+		
+		crit.addEqualTo("dept", department);
+		crit.addEqualTo("groupKeyCode", groupKeyCode);
+		crit.addEqualTo("active", true);
+		Query query = QueryFactory.newQuery(DepartmentBo.class, crit);
+		results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+		return results;
 	}
 }

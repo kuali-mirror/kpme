@@ -144,16 +144,17 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 	}
 
     @Override
-    public List<DeptLunchRule> getDepartmentLunchRules(String userPrincipalId, String dept, String workArea, String principalId, String jobNumber, 
+    public List<DeptLunchRule> getDepartmentLunchRules(String userPrincipalId, String dept, String workArea, String principalId, String jobNumber, String groupKeyCode,
     												   LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
     	List<DeptLunchRule> results = new ArrayList<DeptLunchRule>();
         
-    	List<DeptLunchRule> departmentLunchRuleObjs = deptLunchRuleDao.getDepartmentLunchRules(dept, workArea, principalId, jobNumber, fromEffdt, toEffdt, active, showHistory);
+    	List<DeptLunchRule> departmentLunchRuleObjs = deptLunchRuleDao.getDepartmentLunchRules(dept, workArea, principalId, jobNumber, groupKeyCode, fromEffdt, toEffdt, active, showHistory);
     
     	for (DeptLunchRule departmentLunchRuleObj : departmentLunchRuleObjs) {
-        	String department = departmentLunchRuleObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, departmentLunchRuleObj.getEffectiveLocalDate());
-        	String location = departmentObj != null ? departmentObj.getLocation() : null;
+        	String department = departmentLunchRuleObj.getDept(); 
+        	String grpKeyCode = departmentLunchRuleObj.getGroupKeyCode();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, grpKeyCode, departmentLunchRuleObj.getEffectiveLocalDate());
+        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);

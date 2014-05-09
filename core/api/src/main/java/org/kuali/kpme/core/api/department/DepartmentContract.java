@@ -58,28 +58,6 @@ public interface DepartmentContract extends KpmeEffectiveKeyedDataTransferObject
 	 * @return description for Department
 	 */
     public String getDescription();
-    
-    /**
-	 * The name of the Location object associated with this Department
-	 * 
-	 * <p>
-	 * location of Department
-	 * <p>
-	 * 
-	 * @return location for Department
-	 */
-	public String getLocation();
-
-    /**
-     * The name of the Institution object associated with this Department
-     *
-     * <p>
-     * institution of Department
-     * <p>
-     *
-     * @return institution for Department
-     */
-    public String getInstitution();
 	 
     /**
 	 * Chart value under which the Department is defined
@@ -102,17 +80,6 @@ public interface DepartmentContract extends KpmeEffectiveKeyedDataTransferObject
 	 * @return org for Department
 	 */
     public String getOrg();
-    
-    /**
-	 * Location object associated with this Department
-	 * 
-	 * <p>
-	 * locationObj of Department
-	 * <p>
-	 * 
-	 * @return locationObj for Department
-	 */
-	//public LocationContract getLocationObj();
 	 
     /**
 	 * Chart object under which the Department is defined

@@ -58,8 +58,9 @@ public class PayGradeLookupableImpl extends KPMELookupableImpl {
         String active = searchCriteria.get("active");
         String showHistory = searchCriteria.get("history");
         String salGroup = searchCriteria.get("salGroup");  // KPME-2700
+        String groupKeyCode = searchCriteria.get("groupKeyCode");
 
-        return ModelObjectUtils.transform(HrServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, salGroup, active, showHistory), toPayGradeBo);
+        return ModelObjectUtils.transform(HrServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, salGroup, groupKeyCode, active, showHistory), toPayGradeBo);
     }
     
 }

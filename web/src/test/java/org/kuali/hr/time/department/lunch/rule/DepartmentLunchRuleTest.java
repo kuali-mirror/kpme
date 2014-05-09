@@ -31,8 +31,6 @@ import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
-import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -54,7 +52,8 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 		deptLunchRule.setShiftHours(new BigDecimal(6));
 		deptLunchRule.setTkDeptLunchRuleId("1001");
         deptLunchRule.setUserPrincipalId("admin");
-
+        deptLunchRule.setGroupKeyCode("IU-BL");
+        
 		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST",
@@ -81,7 +80,8 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 		deptLunchRule.setShiftHours(new BigDecimal(6));
 		deptLunchRule.setTkDeptLunchRuleId("1001");
         deptLunchRule.setUserPrincipalId("admin");
-
+        deptLunchRule.setGroupKeyCode("IU-BL");
+        
 		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST-DEPT",
@@ -111,11 +111,11 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 
 	@Test
 	public void testSearchDepartmentLunchRules() throws Exception {
-		List<DeptLunchRule> allResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("admin", null, null, null, null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
+		List<DeptLunchRule> allResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("admin", null, null, null, null, "IU-BL", null, null, "Y", "N");
+		Assert.assertEquals("Search returned the correct number of results.", 2, allResults.size());
 		
-		List<DeptLunchRule> restrictedResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("fran", null, null, null, null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
+		List<DeptLunchRule> restrictedResults = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules("fran", null, null, null, null, "IU-BL", null, null, "Y", "N");
+		Assert.assertEquals("Search returned the correct number of results.", 0, restrictedResults.size());
 	}
 	
 }

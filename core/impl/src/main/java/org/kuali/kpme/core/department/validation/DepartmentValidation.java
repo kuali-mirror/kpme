@@ -21,6 +21,7 @@ import java.util.ListIterator;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
@@ -30,13 +31,12 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 @SuppressWarnings("deprecation")
-public class DepartmentValidation extends MaintenanceDocumentRuleBase {
+public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -54,6 +54,7 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 			valid &= validateOrg(department.getOrg());
 			valid &= validateChartAndOrg(department.getChart(), department.getOrg());
 			valid &= validateRolePresent(department.getRoleMembers(), department.getEffectiveLocalDate(), department.isPayrollApproval());
+			valid &= this.validateGroupKeyCode(department);
 		}
 
 		return valid;
@@ -61,11 +62,14 @@ public class DepartmentValidation extends MaintenanceDocumentRuleBase {
 	
 	protected boolean validateDepartment(DepartmentBo department) {
 		boolean valid = true;
-		
-		if (StringUtils.isNotBlank(department.getDept()) && department.getEffectiveDate() != null) {
-			List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept());
+
+		if (StringUtils.isNotBlank(department.getDept()) && 
+				department.getEffectiveDate() != null && 
+				StringUtils.isNotBlank(department.getGroupKeyCode())) {
+			List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept(), department.getGroupKeyCode());
 			if (depts != null && depts.size() > 0) {
-				 this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
+				 String[] params = new String[] {department.getDept(), department.getGroupKeyCode()};
+				 this.putFieldError("dept", "error.department.duplicate.exists", params);
 				 valid = false;
 			}
 		}

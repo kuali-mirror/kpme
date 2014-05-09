@@ -193,9 +193,9 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 		for (MissedPunchBo missedPunch : missedPunches) {
 			JobContract jobObj = HrServiceLocator.getJobService().getJob(missedPunch.getPrincipalId(), missedPunch.getJobNumber(), LocalDate.fromDateFields(missedPunch.getActionDate()));
 			String department = jobObj != null ? jobObj.getDept() : null;
-			
-			Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(missedPunch.getActionDate())) : null;
-			String location = departmentObj != null ? departmentObj.getLocation() : null;
+			String groupKeyCode = jobObj != null ? jobObj.getGroupKeyCode() : null;
+			Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, LocalDate.fromDateFields(missedPunch.getActionDate())) : null;
+			String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 			
 			Map<String, String> roleQualification = new HashMap<String, String>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, GlobalVariables.getUserSession().getPrincipalId());

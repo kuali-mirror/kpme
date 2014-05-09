@@ -34,17 +34,19 @@ public class TimeCollectionRuleAuthorizer extends KPMEMaintenanceDocumentAuthori
 
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
+		String groupKeyCode = StringUtils.EMPTY;
 		
 		if (dataObject instanceof TimeCollectionRule) {
 			TimeCollectionRule timeCollectionRuleObj = (TimeCollectionRule) dataObject;
 			
 			if (timeCollectionRuleObj != null) {
-				department = timeCollectionRuleObj.getDept();
+				department = timeCollectionRuleObj.getDept(); 
+				groupKeyCode = timeCollectionRuleObj.getGroupKeyCode();
 				
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, timeCollectionRuleObj.getEffectiveLocalDate());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, timeCollectionRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
-					location = departmentObj.getLocation();
+					location = departmentObj.getGroupKey().getLocationId();
 				}
 			}
 		}

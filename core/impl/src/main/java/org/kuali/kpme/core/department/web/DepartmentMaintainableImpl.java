@@ -59,7 +59,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         if(StringUtils.isNotBlank(oldMaintainableObject.getHrDeptId())) {
         	oldDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(oldMaintainableObject.getHrDeptId());
         } else {
-        	oldDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(oldMaintainableObject.getDept(), oldMaintainableObject.getEffectiveLocalDate());
+        	oldDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(oldMaintainableObject.getDept(), oldMaintainableObject.getGroupKeyCode(), oldMaintainableObject.getEffectiveLocalDate());
         }
 
         //KPME-3312: reinitiate all collection lists so old and new collections are unique
@@ -75,7 +75,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         if(StringUtils.isNotBlank(newMaintainableObject.getHrDeptId())) {
         	newDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(newMaintainableObject.getHrDeptId());
         } else {
-        	newDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(newMaintainableObject.getDept(), newMaintainableObject.getEffectiveLocalDate());
+        	newDepartment = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(newMaintainableObject.getDept(), newMaintainableObject.getGroupKeyCode(), newMaintainableObject.getEffectiveLocalDate());
         }
         
         List<DepartmentPrincipalRoleMemberBo> newRoleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();

@@ -60,6 +60,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return departmentObj;
 	}
 	
+	/*
     @Override
     public List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory, String payrollApproval) {
     	List<DepartmentBo> results = new ArrayList<DepartmentBo>();
@@ -81,28 +82,30 @@ public class DepartmentServiceImpl implements DepartmentService {
     	}
         
         return ModelObjectUtils.transform(results, toDepartment);
-    }
+    }*/
     
 	@Override
-	public int getDepartmentCount(String department) {
-		return departmentDao.getDepartmentCount(department);
+	public int getDepartmentCount(String department, String groupKeyCode) {
+		return departmentDao.getDepartmentCount(department, groupKeyCode);
 	}
 
     @Override
-    public Department getDepartment(String department, LocalDate asOfDate) {
-        return DepartmentBo.to(getDepartmentBo(department, asOfDate));
+    public Department getDepartment(String department, String groupKeyCode, LocalDate asOfDate) {
+        return DepartmentBo.to(getDepartmentBo(department, groupKeyCode, asOfDate));
     }
 
-    protected DepartmentBo getDepartmentBo(String department, LocalDate asOfDate) {
-        return departmentDao.getDepartment(department, asOfDate);
+    protected DepartmentBo getDepartmentBo(String department,  String groupKeyCode, LocalDate asOfDate) {
+        return departmentDao.getDepartment(department, groupKeyCode, asOfDate);
     }
 
     @Override
     public List<String> getDepartmentValuesWithLocation(String location, LocalDate asOfDate) {
-        List<DepartmentBo> departmentObjs = departmentDao.getDepartments(location, asOfDate);
+        List<DepartmentBo> departmentObjs = departmentDao.getDepartments(asOfDate);
         List<String> depts = new ArrayList<String>();
         for (DepartmentBo departmentObj : departmentObjs) {
-            depts.add(departmentObj.getDept());
+        	if (departmentObj.getGroupKey().getLocationId().equals(location)) {
+        		depts.add(departmentObj.getDept());
+        	}
         }
 
         return depts;
@@ -113,10 +116,20 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (CollectionUtils.isEmpty(locations)) {
             return Collections.emptyList();
         }
-        List<DepartmentBo> departmentObjs = departmentDao.getDepartmentsForLocations(locations, asOfDate);
+        
+        // TODO
+        // If groupkeycode gets passed instead of location, you will want to create a method called
+        // getDepartmentsForGropuKeyCode(groupKeyCode, asOfDate), which will be alot faster than the
+        // call below
+        //
+        // For now, just get departments based on asOfDate, check if their groupKey.location is in the list of locations
+        
+        List<DepartmentBo> departmentObjs = departmentDao.getDepartments(asOfDate);  
         List<String> depts = new ArrayList<String>();
         for (DepartmentBo departmentObj : departmentObjs) {
-            depts.add(departmentObj.getDept());
+        	if (locations.contains(departmentObj.getGroupKey().getLocationId())) {
+                depts.add(departmentObj.getDept());        		
+        	}
         }
 
         return depts;
@@ -124,30 +137,46 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Department> getDepartmentsWithLocation(String location, LocalDate asOfDate) {
-        return ModelObjectUtils.transform(departmentDao.getDepartments(location, asOfDate), toDepartment);
-    }
-    
-    @Override
-	public List<Department> getDepartments(String department) {
-		return ModelObjectUtils.transform(departmentDao.getDepartments(department), toDepartment);
-	}
-
-    @Override
-    public Department getDepartmentWithDeptAndLocation(String department, String location, LocalDate asOfDate) {
-    	return DepartmentBo.to(departmentDao.getDepartment(department, location, asOfDate));
-    }
-    
-    @Override
-    public List<String> getLocationsValuesWithInstitution(String institution, LocalDate asOfDate) {
-        List<DepartmentBo> departmentObjs = departmentDao.getDepartmentsForInstitution(institution, asOfDate);
-        List<String> locations = new ArrayList<String>();
-        for (DepartmentBo departmentObj : departmentObjs) {
-        	if (!locations.contains(departmentObj.getLocation())) {
-            	locations.add(departmentObj.getLocation());        		
-        	}
+    	
+    	// TODO
+        // If groupkeycode gets passed instead of location, you will want to create a method called
+        // getDepartmentsForGropuKeyCode(groupKeyCode, asOfDate), which will be alot faster than the
+        // call below
+    	//
+    	// For now, just get departments based on asOfDate, check their groupKey.location and return the ones that match location
+    	
+    	List<DepartmentBo> departmentObjs = departmentDao.getDepartments(asOfDate);
+    	List<DepartmentBo> deptObjs = new ArrayList<DepartmentBo>();
+    	for (DepartmentBo departmentObj : departmentObjs) {
+    		if (departmentObj.getGroupKey().getLocationId().equals(location)) {
+    			deptObjs.add(departmentObj);
+    		}
         }
-
-        return locations;
+    	
+        return ModelObjectUtils.transform(deptObjs, toDepartment);
     }
-
+    
+    @Override
+    public List<Department> getDepartments(String department, LocalDate asOfDate) {
+    	return ModelObjectUtils.transform(departmentDao.getDepartments(department, asOfDate), toDepartment);
+    }
+    
+    @Override
+    public List<Department> getDepartments(String department, String groupKeyCode) {
+    	return ModelObjectUtils.transform(departmentDao.getDepartments(department, groupKeyCode), toDepartment);
+    }
+    
+    @Override
+    public List<Department> getDepartments(String department, String location, LocalDate asOfDate) {
+    	
+    	List<DepartmentBo> departmentObjs = departmentDao.getDepartments(department, asOfDate);
+    	List<DepartmentBo> deptObjs = new ArrayList<DepartmentBo>();
+    	for (DepartmentBo departmentObj : departmentObjs) {
+    		if (departmentObj.getGroupKey().getLocationId().equals(location)) {
+    			deptObjs.add(departmentObj);
+    		}
+        }
+    	
+        return ModelObjectUtils.transform(deptObjs, toDepartment);
+    }
 }

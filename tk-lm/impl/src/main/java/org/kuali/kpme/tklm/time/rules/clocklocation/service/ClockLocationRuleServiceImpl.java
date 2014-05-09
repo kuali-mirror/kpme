@@ -183,9 +183,9 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
     	List<ClockLocationRule> clockLocationRuleObjs = clockLocationDao.getClockLocationRules(groupKeyCode, fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
     
     	for (ClockLocationRule clockLocationRuleObj : clockLocationRuleObjs) {
-        	String department = clockLocationRuleObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getEffectiveLocalDate());
-        	String location = departmentObj != null ? departmentObj.getLocation() : null;
+        	String department = clockLocationRuleObj.getDept(); 
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getGroupKeyCode(), clockLocationRuleObj.getEffectiveLocalDate());
+        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);

@@ -24,5 +24,5 @@ public interface TimeCollectionRuleDaoService {
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate);
 	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId);
 
-    List<TimeCollectionRule> getTimeCollectionRules(String dept, Long workArea, String payType, String active, String showHistory);
+    List<TimeCollectionRule> getTimeCollectionRules(String dept, Long workArea, String payType, String groupKeyCode, String active, String showHistory);
 }

@@ -56,18 +56,19 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService 
 	}
 
     @Override
-    public List<TimeCollectionRule> getTimeCollectionRules(String userPrincipalId, String dept, String workArea, String payType, String active, String showHistory) {
+    public List<TimeCollectionRule> getTimeCollectionRules(String userPrincipalId, String dept, String workArea, String payType, String groupKeyCode, String active, String showHistory) {
     	List<TimeCollectionRule> results = new ArrayList<TimeCollectionRule>();
     	
     	Long workAreaToSearch = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
     	
-    	List<TimeCollectionRule> timeCollectionRuleObjs = timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch , payType, active, showHistory);
+    	List<TimeCollectionRule> timeCollectionRuleObjs = timeCollectRuleDao.getTimeCollectionRules(dept, workAreaToSearch, payType, groupKeyCode, active, showHistory);
 
         //TODO - performance  too many db calls in loop
     	for (TimeCollectionRule timeCollectionRuleObj : timeCollectionRuleObjs) {
-        	String department = timeCollectionRuleObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, timeCollectionRuleObj.getEffectiveLocalDate());
-        	String location = departmentObj != null ? departmentObj.getLocation() : null;
+        	String department = timeCollectionRuleObj.getDept(); 
+        	String grpKeyCode = timeCollectionRuleObj.getGroupKeyCode();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, grpKeyCode, timeCollectionRuleObj.getEffectiveLocalDate());
+        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
         	Map<String, String> permissionDetails = new HashMap<String, String>();
         	permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KRADServiceLocatorWeb.getDocumentDictionaryService().getMaintenanceDocumentTypeName(TimeCollectionRule.class));
         	Map<String, String> roleQualification = new HashMap<String, String>();

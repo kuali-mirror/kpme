@@ -133,7 +133,7 @@
     </class-descriptor>
 
     <!-- ClockLocationRule -->
-    <!-- Business Keys - [dept : workArea : principalId : jobNumber : effectiveDate : timestamp] -->
+    <!-- Business Keys - [dept : workArea : principalId : jobNumber : groupKeyCode : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule" table="TK_CLOCK_LOCATION_RL_T">
         <field-descriptor name="tkClockLocationRuleId"  column="TK_CLOCK_LOC_RULE_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_CLOCK_LOCATION_RL_S" />
         <field-descriptor name="dept"                   column="DEPT"                   jdbc-type="VARCHAR"     length="21" />
@@ -176,7 +176,7 @@
     </class-descriptor>
 
     <!--  Added for Department Lunch Table-->
-    <!-- Business Keys - [workArea : jobNumber : dept : principalId :  effectiveDate : timestamp] -->
+    <!-- Business Keys - [workArea : jobNumber : dept : principalId : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule" table="TK_DEPT_LUNCH_RL_T">
         <field-descriptor name="tkDeptLunchRuleId"  column="TK_DEPT_LUNCH_RL_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_DEPT_LUNCH_RL_S" />
         <field-descriptor name="dept"               column="DEPT"                   jdbc-type="VARCHAR"     length="21" nullable="false" primarykey="false" />
@@ -191,6 +191,7 @@
         <field-descriptor name="timestamp"          column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="objectId"           column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"      column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="groupKeyCode"       column="GRP_KEY_CD"        		jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader" table="TK_DOCUMENT_HEADER_T">
@@ -217,6 +218,7 @@
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="active"                 column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="groupKeyCode"  			column="GRP_KEY_CD"         	jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
 
     <!-- System Launch Rule -->

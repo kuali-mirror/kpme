@@ -28,7 +28,6 @@ import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
-import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.permission.HrPermissionServiceBase;
@@ -131,11 +130,11 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         		return false;
         	}
         }    	
-    	
+
     	JobContract job = HrServiceLocator.getJobService().getJob(
                  HrContext.getTargetPrincipalId(), aTimeBlock.getJobNumber(),
                  aTimeBlock.getEndDateTime().toLocalDate());
-    	
+ 
         PayType payType = HrServiceLocator.getPayTypeService().getPayType(
                 job.getHrPayType(), aTimeBlock.getEndDateTime().toLocalDate()); 
         
@@ -251,10 +250,10 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 		// use job to find the department, then use the location from Department to get the location roles 
 		JobContract aJob = HrServiceLocator.getJobService().getJob(aTimeBlock.getPrincipalId(), aTimeBlock.getJobNumber(), aTimeBlock.getEndDateTime().toLocalDate());
 		if(aJob != null) {
-			Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getEffectiveLocalDate());
+			Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getGroupKeyCode(), aJob.getEffectiveLocalDate());
 			if(aDept != null) {
 				// TimeLocationAdmin
-			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), asOfDate))
+			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getGroupKey().getLocationId(), asOfDate))
 			    	return true;
 			}
 		}

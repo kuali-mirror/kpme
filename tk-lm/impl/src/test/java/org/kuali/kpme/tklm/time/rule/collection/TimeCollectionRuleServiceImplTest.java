@@ -29,11 +29,11 @@ public class TimeCollectionRuleServiceImplTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testSearchTimeCollectionRules() throws Exception {
-		List<TimeCollectionRule> allResults = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules("admin", null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 4, allResults.size());
+		List<TimeCollectionRule> allResults = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules("admin", null, null, null, "IU-BL", "Y", "N");
+		Assert.assertEquals("Search returned the correct number of results.", 4, allResults.size());
 		
-		List<TimeCollectionRule> restrictedResults = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules("fran", null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());
+		List<TimeCollectionRule> restrictedResults = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules("fran", null, null, null, "IU-BL", "Y", "N");
+		Assert.assertEquals("Search returned the correct number of results.", 0, restrictedResults.size());
 	}
 
 }

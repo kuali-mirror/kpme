@@ -230,9 +230,9 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
         for (TimeBlockBo timeBlock : timeBlocks) {
             JobContract jobObj = HrServiceLocator.getJobService().getJob(timeBlock.getPrincipalId(), timeBlock.getJobNumber(), LocalDate.fromDateFields(timeBlock.getBeginDate()), false);
             String department = jobObj != null ? jobObj.getDept() : null;
-
-            Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(timeBlock.getBeginDate())) : null;
-            String location = departmentObj != null ? departmentObj.getLocation() : null;
+            String groupKeyCode = jobObj != null ? jobObj.getGroupKeyCode() : null;
+            Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, LocalDate.fromDateFields(timeBlock.getBeginDate())) : null;
+            String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 
             Map<String, String> roleQualification = new HashMap<String, String>();
             roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, GlobalVariables.getUserSession().getPrincipalId());

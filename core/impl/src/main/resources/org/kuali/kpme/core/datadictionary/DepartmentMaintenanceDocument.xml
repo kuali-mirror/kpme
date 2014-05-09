@@ -45,31 +45,16 @@
         <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo"/>
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-MaintenanceGridSection">
+                <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
                     <property name="headerText" value="Department Maintenance"/>
                     <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
+                        <list merge="true">
                             <bean parent="Uif-InputField" p:propertyName="dept" p:required="true">
                                 <property name="inquiry">
                                     <bean parent="Uif-Inquiry" p:render="false"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="description" p:required="true"/>
-                            <bean parent="Uif-InputField" p:propertyName="location" p:required="true">
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                                          p:fieldConversions="location:location"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="institution">
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinderByScript"
-                                          p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-                                          p:fieldConversions="institutionCode:institution"/>
-                                </property>
-                            </bean>
                             <bean parent="Uif-InputField" p:propertyName="chart">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"

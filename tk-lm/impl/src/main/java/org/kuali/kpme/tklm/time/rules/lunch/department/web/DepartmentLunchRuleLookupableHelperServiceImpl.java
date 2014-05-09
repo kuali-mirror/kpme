@@ -73,6 +73,7 @@ public class DepartmentLunchRuleLookupableHelperServiceImpl extends KPMELookupab
         String workArea = fieldValues.get("workArea");
         String active = fieldValues.get("active");
         String history = fieldValues.get("history");
+        String groupKeyCode = fieldValues.get("groupKeyCode");
         String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 
@@ -90,6 +91,6 @@ public class DepartmentLunchRuleLookupableHelperServiceImpl extends KPMELookupab
         }
         
         return TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules(GlobalVariables.getUserSession().getPrincipalId(), dept,
-                workArea, principalId, jobNumber, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, history);
+                workArea, principalId, jobNumber, groupKeyCode, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, history);
     }
 }

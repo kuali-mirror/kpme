@@ -28,30 +28,6 @@ import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb implements TimeCollectionRuleDaoService {
- 
-    private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, LocalDate asOfDate) {
-        Criteria root = new Criteria();
-    	//KPME-2273/1965 Primary Business Keys list being used instead.	
-//        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-//                .add("workArea")
-//                .add("dept")
-//                .build();
-
-        root.addEqualTo("dept", dept);
-        root.addEqualTo("workArea", workArea);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TimeCollectionRule.class, asOfDate, TimeCollectionRule.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TimeCollectionRule.class, TimeCollectionRule.BUSINESS_KEYS, false));
-//		root.addEqualTo("active", true);
-
-        Criteria activeFilter = new Criteria(); // Inner Join For Activity
-        activeFilter.addEqualTo("active", true);
-        root.addAndCriteria(activeFilter);
-
-
-        Query query = QueryFactory.newQuery(TimeCollectionRule.class, root);
-        return (TimeCollectionRule) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-
-    }
 
     @Override
     public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId) {
@@ -64,7 +40,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
     }
 
     /* Jira 1152
-      * Returns valid TimeCollectionRule based on dept, workArea, payType, and asOfDate
+      * Returns valid TimeCollectionRule based on dept, workArea, payType, groupKeyCode, and asOfDate
       * dept, work area, and payType can be wildcardable values
       */
     @Override
@@ -140,7 +116,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<TimeCollectionRule> getTimeCollectionRules(String dept, Long workArea, String payType, String active, String showHistory) {
+    public List<TimeCollectionRule> getTimeCollectionRules(String dept, Long workArea, String payType, String groupKeyCode, String active, String showHistory) {
         List<TimeCollectionRule> results = new ArrayList<TimeCollectionRule>();
 
         Criteria root = new Criteria();
@@ -155,6 +131,10 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         
         if (StringUtils.isNotBlank(payType)) {
             root.addLike("payType", payType);
+        }
+        
+        if (StringUtils.isNotBlank(groupKeyCode)) {
+        	root.addLike("groupKeyCode", groupKeyCode);
         }
         
         if (StringUtils.isNotBlank(active)) {

@@ -65,7 +65,7 @@ public class DepartmentLunchRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb imple
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<DeptLunchRule> getDepartmentLunchRules(String dept, String workArea, String principalId, String jobNumber, 
+    public List<DeptLunchRule> getDepartmentLunchRules(String dept, String workArea, String principalId, String jobNumber, String groupKeyCode, 
     												   LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
         List<DeptLunchRule> results = new ArrayList<DeptLunchRule>();
         
@@ -99,6 +99,10 @@ public class DepartmentLunchRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb imple
         
         if (StringUtils.isNotBlank(workArea)) {
         	OjbSubQueryUtil.addNumericCriteria(root, "workArea", workArea);
+        }
+        
+        if (StringUtils.isNotBlank(groupKeyCode)) {
+        	root.addLike("groupKeyCode", groupKeyCode);
         }
         
         if (StringUtils.isNotBlank(active)) {

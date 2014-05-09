@@ -16,6 +16,8 @@
 package org.kuali.kpme.core.department.web;
 
 
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.department.DepartmentBo;
@@ -24,12 +26,11 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
-import java.util.Map;
-
 public class DepartmentInquirableImpl extends KualiInquirableImpl {
 
     private static final long serialVersionUID = 8809785231041208573L;
 
+    // This class shouldn't be used any more
     @Override
     @SuppressWarnings("rawtypes")
     public BusinessObject getBusinessObject(Map fieldValues) {
@@ -37,11 +38,12 @@ public class DepartmentInquirableImpl extends KualiInquirableImpl {
 
         if (StringUtils.isNotBlank((String) fieldValues.get("hrDeptId"))) {
             departmentObj = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData((String) fieldValues.get("hrDeptId"));
-        } else if (fieldValues.containsKey("dept") && fieldValues.containsKey("effectiveDate")) {
+        } else if (fieldValues.containsKey("dept") && fieldValues.containsKey("groupKeyCode") && fieldValues.containsKey("effectiveDate")) {
             String department = (String) fieldValues.get("dept");
+            String groupKeyCode = (String) fieldValues.get("groupKeyCode");
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-            departmentObj = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(department, effectiveDate);
+            departmentObj = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(department, groupKeyCode, effectiveDate);
         } else {
             departmentObj = (DepartmentBo) super.getBusinessObject(fieldValues);
         }

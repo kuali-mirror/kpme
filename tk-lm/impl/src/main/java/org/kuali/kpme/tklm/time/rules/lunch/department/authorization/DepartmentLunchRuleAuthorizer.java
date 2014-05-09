@@ -34,17 +34,19 @@ public class DepartmentLunchRuleAuthorizer extends KPMEMaintenanceDocumentAuthor
 
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
+		String groupKeyCode = StringUtils.EMPTY;
 		
 		if (dataObject instanceof DeptLunchRule) {
 			DeptLunchRule departmentLunchRuleObj = (DeptLunchRule) dataObject;
 			
 			if (departmentLunchRuleObj != null) {
-				department = departmentLunchRuleObj.getDept();
+				department = departmentLunchRuleObj.getDept(); 
+				groupKeyCode = departmentLunchRuleObj.getGroupKeyCode();
 				
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, departmentLunchRuleObj.getEffectiveLocalDate());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, departmentLunchRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
-					location = departmentObj.getLocation();
+					location = departmentObj.getGroupKey().getLocationId();
 				}
 			}
 		}

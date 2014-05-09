@@ -93,8 +93,8 @@ public class ClockLocationRuleRule extends TkKeyedBusinessObjectValidation {
 	protected boolean validateDepartment(ClockLocationRule clr) {
         boolean ret = false;
 
-        if (!StringUtils.isEmpty(clr.getDept())) {
-    		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveLocalDate())) {
+        if (!StringUtils.isEmpty(clr.getDept()) && !StringUtils.isEmpty(clr.getGroupKeyCode())) {
+    		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getGroupKeyCode(), clr.getEffectiveLocalDate())) {
 			    this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
             } else if (!AuthorizationValidationUtils.hasAccessToWrite(clr)) {
                 this.putFieldError("dept", "error.department.permissions", clr.getDept());
@@ -140,10 +140,10 @@ public class ClockLocationRuleRule extends TkKeyedBusinessObjectValidation {
      *
      * @return true if wild card setup is correct, false otherwise.
      */
-    boolean validateWildcards(DepartmentalRule clr) {
+    boolean validateWildcards(ClockLocationRule clr) {
         boolean valid = true;
 
-        if (!ValidationUtils.validateWorkAreaDeptWildcarding(clr)) {
+        if (!AuthorizationValidationUtils.validateWorkAreaDeptWildcarding(clr)) {
             // add error when work area defined, department is wild carded.
             this.putFieldError("dept", "error.wc.wadef", "department '" + clr.getDept() + "'");
             valid = false;

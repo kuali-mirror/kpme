@@ -64,7 +64,7 @@ public class CalendarDocumentFactBuilderServiceImpl extends KpmeKrmsFactBuilderS
             for (Assignment a : document.getAllAssignments()) {
                 workAreas.add(String.valueOf(a.getWorkArea()));
                 depts.add(a.getDept());
-                Department department = HrServiceLocator.getDepartmentService().getDepartment(a.getDept(), asOfDate);
+                Department department = HrServiceLocator.getDepartmentService().getDepartment(a.getDept(), a.getGroupKeyCode(), asOfDate);
                 if (department != null
                         && department.isPayrollApproval()) {
                     factsBuilder.addFact(new Term("payrollProcessorApproval"), Boolean.TRUE);

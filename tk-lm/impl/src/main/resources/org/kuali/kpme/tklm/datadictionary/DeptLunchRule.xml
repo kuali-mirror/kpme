@@ -22,7 +22,7 @@
 
 	<bean id="DeptLunchRule" parent="DeptLunchRule-parentBean" />
 
-	<bean id="DeptLunchRule-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+	<bean id="DeptLunchRule-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="DeptLunchRule" />
@@ -221,11 +221,10 @@
 		parent="InquiryDefinition">
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
+				<bean parent="KPMEGroupKeyed-InquirySectionDefinition">
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+						<list merge="true">
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
@@ -252,15 +251,14 @@
 
 	<bean id="DeptLunchRule-lookupDefinition" parent="DeptLunchRule-lookupDefinition-parentBean" />
 	<bean id="DeptLunchRule-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
+		parent="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition">
 		<property name="lookupableID" value="departmentLunchRuleLookupable" />
 		<property name="lookupFields">
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noLookup="true"/>
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 				<bean parent="FieldDefinition" p:attributeName="hrDeptId"/>
@@ -270,12 +268,11 @@
                       p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>			</list>
 		</property>
 		<property name="resultFields">
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>

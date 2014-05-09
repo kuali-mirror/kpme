@@ -100,8 +100,9 @@ public class LeavePayoutLookupableHelperServiceImpl extends KPMELookupableHelper
 					if(job.isEligibleForLeave()) {
 						
 						String department = job != null ? job.getDept() : null;
-						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, effectiveLocalDate) : null;
-						String location = departmentObj != null ? departmentObj.getLocation() : null;
+						String groupKeyCode = job != null ? job.getGroupKeyCode() : null;
+						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, effectiveLocalDate) : null;
+						String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "View Leave Payout", department, effectiveDate)
 							|| LmServiceLocator.getLMPermissionService().isAuthorizedInLocation(userPrincipalId, "View Leave Payout", location, effectiveDate)) {
 								canView = true;

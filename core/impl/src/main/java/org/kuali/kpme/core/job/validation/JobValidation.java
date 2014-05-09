@@ -60,9 +60,8 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 	}
 
 	protected boolean validateDepartment(JobBo job) {
-		if (job.getDept() != null
-				&& !ValidationUtils.validateDepartment(job.getDept(), job
-						.getEffectiveLocalDate())) {
+		if (job.getDept() != null && 
+			!ValidationUtils.validateDepartment(job.getDept(), job.getGroupKeyCode(), job.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '"
 					+ job.getDept() + "'");
 			return false;
@@ -154,14 +153,14 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateConsistentLocation(JobBo job) {
 		String department = job.getDept();
-		Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, job.getEffectiveLocalDate());
+		Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, job.getGroupKeyCode(), job.getEffectiveLocalDate());
 		Location location = HrServiceLocator.getLocationService().getLocation(job.getLocation(), job.getEffectiveLocalDate());
 		if(departmentObj != null && location != null) {
-			if(departmentObj.getLocation().equals(location.getLocation())) {
+			if(departmentObj.getGroupKey().getLocationId().equals(location.getLocation())) {
 				return true;
 			}
 			else {
-				this.putFieldError("location", "job.location.inconsistent", departmentObj.getLocation());
+				this.putFieldError("location", "job.location.inconsistent", departmentObj.getGroupKey().getLocationId());
 			}
 		}
 		return false;

@@ -15,8 +15,8 @@
  */
 package org.kuali.kpme.tklm.api.time.rules.timecollection;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 
@@ -24,7 +24,7 @@ import org.kuali.kpme.core.api.workarea.WorkAreaContract;
  * <p>TimeCollectionRuleContract interface</p>
  *
  */
-public interface TimeCollectionRuleContract extends HrBusinessObjectContract {
+public interface TimeCollectionRuleContract extends KpmeEffectiveKeyedDataTransferObject {
 	
 	/**
 	 * The Department object associated with the TimeCollectionRule

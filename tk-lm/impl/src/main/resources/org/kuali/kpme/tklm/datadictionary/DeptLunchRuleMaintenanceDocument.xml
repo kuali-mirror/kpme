@@ -46,11 +46,10 @@
   <!-- Maintenance Section Definitions -->
 
   <bean id="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance" parent="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance-parentBean"/>
-  <bean id="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="DeptLunchRuleMaintenanceDocument-DeptLunchRuleMaintenance-parentBean" abstract="true" parent="KPMEEffectiveDateGroupKeyed-MaintainableSectionDefinition">
     <property name="title" value="Department Lunch Rule Maintenance"/>
     <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:noLookup="true"/>
+      <list merge="true">
       	<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />

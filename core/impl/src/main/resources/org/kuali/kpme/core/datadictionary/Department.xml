@@ -22,7 +22,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="Department" parent="Department-parentBean" />
-    <bean id="Department-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+    <bean id="Department-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
         <property name="dataObjectClass" value="org.kuali.kpme.core.department.DepartmentBo" />
         <property name="titleAttribute" value="dept" />
         <property name="objectLabel" value="Department" />
@@ -31,8 +31,6 @@
 		      	<ref bean="Department-hrDeptId" />
 		        <ref bean="Department-dept" />
 		        <ref bean="Department-description" />
-		        <ref bean="Department-location" />
-		        <ref bean="Department-institution"/>
 		        <ref bean="Department-chart" />
 		        <ref bean="Department-org" />
 		        <ref bean="Department-payrollApproval" />
@@ -117,13 +115,6 @@
             <bean parent="TextControlDefinition" p:size="30" />
         </property>
     </bean>
-  
-    <bean id="Department-location" parent="Department-location-parentBean" />
-    <bean id="Department-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
-
-	<bean id="Department-institution" parent="Department-institution-parentBean" />
-	<bean id="Department-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution"/>
-
 	
     <bean id="Department-chart" parent="Department-chart-parentBean" />
     <bean id="Department-chart-parentBean" abstract="true" parent="AttributeDefinition">
@@ -199,11 +190,10 @@
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+	                        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+	                        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
                             <bean parent="Uif-DataField" p:propertyName="dept" />
                             <bean parent="Uif-DataField" p:propertyName="description" />
-                            <bean parent="Uif-DataField" p:propertyName="location" />
-                            <bean parent="Uif-DataField" p:propertyName="institution" />
                             <bean parent="Uif-DataField" p:propertyName="chart" />
                             <bean parent="Uif-DataField" p:propertyName="org" />
                             <bean parent="Uif-DataField" p:propertyName="payrollApproval" />
@@ -258,7 +248,7 @@
             </list>
         </property>
     </bean>
-
+    
     <!-- KNS Inquiry View -->
     <bean id="Department-inquiryDefinition" parent="Department-inquiryDefinition-parentBean" />
     <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.department.web.DepartmentInquirableImpl">
@@ -266,15 +256,12 @@
         <property name="translateCodes" value="false" />
         <property name="inquirySections">
             <list>
-                <bean parent="InquirySectionDefinition" p:title="Department">
+                <bean parent="KPMEGroupKeyed-InquirySectionDefinition" p:title="Department">
                     <property name="numberOfColumns" value="1" />
                     <property name="inquiryFields">
-                        <list>
-                            <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                        <list merge="true">
                             <bean parent="FieldDefinition" p:attributeName="dept" />
                             <bean parent="FieldDefinition" p:attributeName="description" />
-                            <bean parent="FieldDefinition" p:attributeName="location" />
-                            <bean parent="FieldDefinition" p:attributeName="institution" />
                             <bean parent="FieldDefinition" p:attributeName="chart" />
                             <bean parent="FieldDefinition" p:attributeName="org" />
                             <bean parent="FieldDefinition" p:attributeName="payrollApproval" />
@@ -324,33 +311,18 @@
     </bean>
 
     <!-- Department Lookup View -->
-    <bean id="Department-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+    <bean id="Department-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Department Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo" />
 
         <property name="criteriaFields">
-            <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate"
-                      p:ranged="true" />
+            <list merge="true">
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:render="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                              p:fieldConversions="location:location"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-                              p:fieldConversions="institutionCode:institution"/>
-                    </property>
-                </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payrollApproval" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
@@ -358,10 +330,8 @@
         </property>
 
         <property name="resultFields">
-            <list>
+            <list merge="true">
                 <bean parent="Uif-DataField" p:propertyName="dept" />
-                <bean parent="Uif-DataField" p:propertyName="location" />
-                <bean parent="Uif-DataField" p:propertyName="institution" />
                 <bean parent="Uif-DataField" p:propertyName="description" />
                 <bean parent="Uif-DataField" p:propertyName="timestamp" />
                 <bean parent="Uif-DataField" p:propertyName="payrollApproval" />
@@ -369,20 +339,18 @@
             </list>
         </property>
     </bean>
-
+    
     <!-- KNS Lookup View -->
     <bean id="Department-lookupDefinition" parent="Department-lookupDefinition-parentBean" />
-    <bean id="Department-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <bean id="Department-lookupDefinition-parentBean" abstract="true" parent="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition">
         <property name="title" value="Department Lookup" />
         <property name="lookupableID" value="departmentLookupable" />
         <property name="defaultSort">
             <bean parent="SortDefinition" />
         </property>
         <property name="lookupFields">
-            <list>
+            <list merge="true">
                 <bean parent="FieldDefinition" p:attributeName="dept" />
-                <bean parent="FieldDefinition" p:attributeName="location" />
-                <bean parent="FieldDefinition" p:attributeName="institution" />
                 <bean parent="FieldDefinition" p:attributeName="description" />
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
                 <bean parent="FieldDefinition" p:attributeName="payrollApproval" />
@@ -391,10 +359,8 @@
             </list>
         </property>
         <property name="resultFields">
-            <list>
+            <list merge="true">
                 <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
-                <bean parent="FieldDefinition" p:attributeName="location" />
-                <bean parent="FieldDefinition" p:attributeName="institution" />
                 <bean parent="FieldDefinition" p:attributeName="description" />
                 <bean parent="FieldDefinition" p:attributeName="timestamp" />
                 <bean parent="FieldDefinition" p:attributeName="payrollApproval" />

@@ -73,30 +73,8 @@ public class DepartmentInternalServiceImpl implements DepartmentInternalService 
     }
 
     @Override
-    public List<DepartmentBo> getDepartmentsWithRoleData(String location, LocalDate asOfDate) {
-        List<DepartmentBo> departmentObjs = departmentDao.getDepartments(location, asOfDate);
-
-        for (DepartmentBo departmentObj : departmentObjs) {
-            populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveLocalDate());
-        }
-
-        return departmentObjs;
-    }
-
-    @Override
-    public DepartmentBo getDepartmentWithRoleData(String department, String location, LocalDate asOfDate) {
-        DepartmentBo departmentObj = departmentDao.getDepartment(department, location, asOfDate);
-
-        if (departmentObj != null) {
-            populateDepartmentRoleMembers(departmentObj, asOfDate);
-        }
-
-        return departmentObj;
-    }
-
-    @Override
-    public DepartmentBo getDepartmentWithRoleData(String department, LocalDate asOfDate) {
-        DepartmentBo departmentObj = departmentDao.getDepartment(department, asOfDate);
+    public DepartmentBo getDepartmentWithRoleData(String department, String groupKeyCode, LocalDate asOfDate) {
+        DepartmentBo departmentObj = departmentDao.getDepartment(department, groupKeyCode, asOfDate);
 
         if (departmentObj != null) {
             populateDepartmentRoleMembers(departmentObj, asOfDate);

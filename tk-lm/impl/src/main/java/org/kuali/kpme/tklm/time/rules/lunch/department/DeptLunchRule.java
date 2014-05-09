@@ -17,31 +17,33 @@ package org.kuali.kpme.tklm.time.rules.lunch.department;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
-import org.kuali.kpme.tklm.api.time.rules.lunch.department.DeptLunchRuleContract;
 import org.kuali.kpme.tklm.api.common.TkConstants;
+import org.kuali.kpme.tklm.api.time.rules.lunch.department.DeptLunchRuleContract;
 import org.kuali.rice.kim.api.identity.Person;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleContract {
+public class DeptLunchRule extends HrKeyedBusinessObject implements DeptLunchRuleContract {
     
-	private static final String JOB_NUMBER = "jobNumber";
-	private static final String PRINCIPAL_ID = "principalId";
-	private static final String WORK_AREA = "workArea";
-	private static final String DEPT = "dept";
+	static class KeyFields {
+		private static final String JOB_NUMBER = "jobNumber";
+		private static final String PRINCIPAL_ID = "principalId";
+		private static final String WORK_AREA = "workArea";
+		private static final String DEPT = "dept";
+	}
 	
 	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "DeptLunchRule";
     //KPME-2273/1965 Primary Business Keys List.
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(DEPT)
-            .add(WORK_AREA)
-            .add(PRINCIPAL_ID)
-            .add(JOB_NUMBER)
+            .add(KeyFields.DEPT)
+            .add(KeyFields.WORK_AREA)
+            .add(KeyFields.PRINCIPAL_ID)
+            .add(KeyFields.JOB_NUMBER)
             .build();
 
 	
@@ -67,10 +69,10 @@ public class DeptLunchRule extends HrBusinessObject implements DeptLunchRuleCont
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(DEPT, this.getDept())
-			.put(WORK_AREA, this.getWorkArea())
-			.put(PRINCIPAL_ID, this.getPrincipalId())
-			.put(JOB_NUMBER, this.getJobNumber())
+			.put(KeyFields.DEPT, this.getDept())
+			.put(KeyFields.WORK_AREA, this.getWorkArea())
+			.put(KeyFields.PRINCIPAL_ID, this.getPrincipalId())
+			.put(KeyFields.JOB_NUMBER, this.getJobNumber())
 			.build();
 	}
 	

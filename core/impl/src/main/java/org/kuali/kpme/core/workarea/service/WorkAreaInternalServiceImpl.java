@@ -76,8 +76,11 @@ public class WorkAreaInternalServiceImpl implements WorkAreaInternalService {
         //TODO - performance
         for (WorkAreaBo workAreaObj : workAreaObjs) {
             String department = workAreaObj.getDept();
-            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, workAreaObj.getEffectiveLocalDate());
-            String location = departmentObj != null ? departmentObj.getLocation() : null;
+            // TODO remove the line below and uncomment the next line when group key code is added to work area
+    		String groupKeyCode = null;
+    		//String groupKeyCode = workAreaObj != null ? workAreaObj.getGroupKeyCode() : null;
+            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, workAreaObj.getEffectiveLocalDate());
+            String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 
             Map<String, String> roleQualification = new HashMap<String, String>();
             roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);

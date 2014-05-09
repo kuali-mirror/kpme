@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
@@ -412,8 +413,11 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	
     	for (DailyOvertimeRule dailyOvertimeRuleObj : dailyOvertimeRuleObjs) {
         	String department = dailyOvertimeRuleObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, dailyOvertimeRuleObj.getEffectiveLocalDate());
-        	String loc = departmentObj != null ? departmentObj.getLocation() : null;
+        	// TODO uncomment out when DailyOvertimeRule is ready 
+        	String groupKeyCode = null;
+        	//String groupKeyCode = dailyOvertimeRuleObj.getGroupKeyCode();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, dailyOvertimeRuleObj.getEffectiveLocalDate());
+        	String loc = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);

@@ -230,10 +230,10 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 	    // use job to find the department, then use the location from Department to get the location roles 
 	    JobContract aJob = HrServiceLocator.getJobService().getJob(aLeaveBlock.getPrincipalId(), aLeaveBlock.getJobNumber(), aLeaveBlock.getLeaveLocalDate());
 	    if(aJob != null) {
-	    	Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getEffectiveLocalDate());
+	    	Department aDept = HrServiceLocator.getDepartmentService().getDepartment(aJob.getDept(), aJob.getGroupKeyCode(), aJob.getEffectiveLocalDate());
 	    	if(aDept != null) {
 	    		// LeaveLocationAdmin
-			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getLocation(), LocalDate.now().toDateTimeAtStartOfDay()))
+			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getGroupKey().getLocationId(), LocalDate.now().toDateTimeAtStartOfDay()))
 			    	return true;
 			    // Payroll Processor
 			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aDept.getDept(), LocalDate.now().toDateTimeAtStartOfDay())) {

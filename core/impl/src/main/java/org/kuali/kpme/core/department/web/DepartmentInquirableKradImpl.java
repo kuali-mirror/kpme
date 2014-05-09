@@ -22,33 +22,31 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.department.DepartmentBo;
-import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.HrServiceLocatorInternal;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 
 public class DepartmentInquirableKradImpl extends InquirableImpl {
 
-    @Override
+	private static final long serialVersionUID = 4345521354840709599L;
+
+	@Override
     @SuppressWarnings("rawtypes")
     public DepartmentContract retrieveDataObject(Map fieldValues) {
     	DepartmentBo departmentObj = null;
 
         if (StringUtils.isNotBlank((String) fieldValues.get("hrDeptId"))) {
             departmentObj = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData((String) fieldValues.get("hrDeptId"));
-        } else if (fieldValues.containsKey("dept") && fieldValues.containsKey("effectiveDate")) {
+        } else if (fieldValues.containsKey("dept") && fieldValues.containsKey("effectiveDate") && fieldValues.containsKey("groupKeyCode")) {
             String department = (String) fieldValues.get("dept");
             String effDate = (String) fieldValues.get("effectiveDate");
+            String groupKeyCode = (String) fieldValues.get("groupKeyCode");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-            
-            if (fieldValues.containsKey("location")) {
-            	String location = (String) fieldValues.get("location");
-            	departmentObj =HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(department, location, effectiveDate);
-            } else {
-            	departmentObj = HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(department, effectiveDate);
-            }
+  
+            departmentObj =HrServiceLocatorInternal.getDepartmentInternalService().getDepartmentWithRoleData(department, groupKeyCode, effectiveDate);
+
         } else {
-            departmentObj = (DepartmentBo) super.retrieveDataObject(fieldValues);
+            departmentObj = (DepartmentBo)super.retrieveDataObject(fieldValues);
         }
 
         return departmentObj;

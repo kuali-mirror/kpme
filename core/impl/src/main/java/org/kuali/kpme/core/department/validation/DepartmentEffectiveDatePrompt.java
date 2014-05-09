@@ -29,7 +29,7 @@ public class DepartmentEffectiveDatePrompt extends KPMEHrObjectNewerVersionPromp
     	boolean futureEffectiveDateExists = false;
     	
         DepartmentBo department = (DepartmentBo) pbo;
-        Department lastDepartment = HrServiceLocator.getDepartmentService().getDepartment(department.getDept(), TKUtils.END_OF_TIME);
+        Department lastDepartment = HrServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getGroupKeyCode(), TKUtils.END_OF_TIME);
         if (lastDepartment != null && lastDepartment.getEffectiveLocalDate() != null && department.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastDepartment.getEffectiveLocalDate().isAfter(department.getEffectiveLocalDate());
         }

@@ -16,7 +16,7 @@
 package org.kuali.kpme.tklm.time.rules.timecollection;
 
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
@@ -26,20 +26,22 @@ import org.kuali.kpme.tklm.api.common.TkConstants;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class TimeCollectionRule extends HrBusinessObject implements TimeCollectionRuleContract {
+public class TimeCollectionRule extends HrKeyedBusinessObject implements TimeCollectionRuleContract {
 
-	private static final String PAY_TYPE = "payType";
-	private static final String DEPT = "dept";
-	private static final String WORK_AREA = "workArea";
-
+	static class KeyFields {
+		private static final String PAY_TYPE = "payType";
+		private static final String DEPT = "dept";
+		private static final String WORK_AREA = "workArea";
+	}
+	
 	private static final long serialVersionUID = 7892616560736184294L;
 
 	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "TimeCollectionRule";
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(WORK_AREA)
-            .add(DEPT)
-            .add(PAY_TYPE)
+            .add(KeyFields.WORK_AREA)
+            .add(KeyFields.DEPT)
+            .add(KeyFields.PAY_TYPE)
             .build();
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(TimeCollectionRule.CACHE_NAME)
@@ -67,9 +69,9 @@ public class TimeCollectionRule extends HrBusinessObject implements TimeCollecti
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(WORK_AREA, this.getWorkArea())
-			.put(DEPT, this.getDept())
-			.put(PAY_TYPE, this.getPayType())
+			.put(KeyFields.WORK_AREA, this.getWorkArea())
+			.put(KeyFields.DEPT, this.getDept())
+			.put(KeyFields.PAY_TYPE, this.getPayType())
 			.build();
 	}
 

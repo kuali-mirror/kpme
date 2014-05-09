@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.rules.lunch.department.validation;
 
 import java.math.BigDecimal;
 
+import org.kuali.hr.kpme.tklm.time.rules.validation.TkKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -26,7 +27,7 @@ import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
+public class DeptLunchRuleRule extends TkKeyedBusinessObjectValidation {
 
 	boolean validateWorkArea(DeptLunchRule ruleObj) {
 		boolean valid = true;
@@ -52,7 +53,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 	boolean validateDepartment(DeptLunchRule ruleObj) {
 		if (ruleObj.getDept() != null
 			&& !ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER) // KPME-2688
-			&& !ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getEffectiveLocalDate())) {
+			&& !ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getGroupKeyCode(), ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '" + ruleObj.getDept() + "'");
 			return false;
 		} else {
@@ -120,6 +121,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validatePrincipalId(deptLunchRule);
 				valid &= this.validateJobNumber(deptLunchRule);
 				valid &= this.validateShiftHour(deptLunchRule);
+				valid &= this.validateGroupKeyCode(deptLunchRule);
 			}
 		}
 

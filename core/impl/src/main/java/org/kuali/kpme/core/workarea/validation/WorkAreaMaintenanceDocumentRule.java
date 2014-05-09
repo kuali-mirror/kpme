@@ -54,17 +54,12 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			WorkAreaBo workArea = (WorkAreaBo) pbo;
 			
 			valid &= validateDefaultOvertimeEarnCode(workArea.getDefaultOvertimeEarnCode(), workArea.getEffectiveLocalDate());
-			
-			valid &= validateDepartment(workArea.getDept(), workArea.getEffectiveLocalDate());
-			
-/*			if (!AuthorizationValidationUtils.hasAccessToWrite((DepartmentalRule)pbo)) {
-				String[] params = new String[] {GlobalVariables.getUserSession().getPrincipalName(), workArea.getDept()};
-				this.putFieldError("dept", "dept.user.unauthorized", params);
-				valid &= false;
-			}*/
-			
+
+			// TODO remove the line below and uncomment the next line when group key code is added to work area
+			String groupKeyCode = null;
+			//valid &= validateDepartment(workArea.getDept(), workArea.getGroupKeyCode(), workArea.getEffectiveLocalDate());
+			valid &= validateDepartment(workArea.getDept(), groupKeyCode, workArea.getEffectiveLocalDate());
 			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveLocalDate(), "principalRoleMembers", "positionRoleMembers");
-			
 			valid &= validateActive(workArea);
 		}
 
@@ -235,8 +230,8 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 		return valid;
 	}
 	
-	protected boolean validateDepartment(String dept, LocalDate asOfDate) {
-		boolean valid = ValidationUtils.validateDepartment(dept, asOfDate);
+	protected boolean validateDepartment(String dept, String groupKeyCode, LocalDate asOfDate) {
+		boolean valid = ValidationUtils.validateDepartment(dept, groupKeyCode, asOfDate);
 		
 		if (!valid) {
 			this.putFieldError("dept", "dept.notfound");

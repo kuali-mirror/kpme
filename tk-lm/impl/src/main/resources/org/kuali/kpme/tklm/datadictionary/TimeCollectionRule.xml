@@ -23,7 +23,7 @@
 	<bean id="TimeCollectionRule" parent="TimeCollectionRule-parentBean" />
 
 	<bean id="TimeCollectionRule-parentBean" abstract="true"
-		parent="KPMEHrBusinessObjectParent">
+		parent="KPMEHrKeyedBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="TimeCollectionRule" />
@@ -191,11 +191,10 @@
 		parent="InquiryDefinition">
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
+				<bean parent="KPMEGroupKeyed-InquirySectionDefinition">
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+						<list merge="true">
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="payType" />
@@ -216,14 +215,13 @@
 	<!--  Look up Definitions  -->
 
 	<bean id="TimeCollectionRule-lookupDefinition" parent="TimeCollectionRule-lookupDefinition-parentBean" />
-	<bean id="TimeCollectionRule-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+	<bean id="TimeCollectionRule-lookupDefinition-parentBean" abstract="true" parent="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition">
         <property name="lookupableID" value="timeCollectionRuleLookupable" />
 		<property name="lookupFields">
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />
-                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="active"/>
                 <bean parent="FieldDefinition" p:attributeName="history"  p:defaultValue="N"/>
                 <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
@@ -231,11 +229,10 @@
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="payType" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="clockUserFl" />
                 <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>

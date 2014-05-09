@@ -67,6 +67,7 @@ public class TimeCollectionRuleLookupableHelperServiceImpl extends KPMELookupabl
         String payType = fieldValues.get("payType");
         String active = fieldValues.get("active");
         String history = fieldValues.get("history");
+        String groupKeyCode = fieldValues.get("groupKeyCode");
 
         String workAreaValue = null;
         if (StringUtils.equals(workArea,"%") || StringUtils.equals(workArea,"*")){
@@ -82,7 +83,7 @@ public class TimeCollectionRuleLookupableHelperServiceImpl extends KPMELookupabl
         	}
         }
         
-        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workAreaValue, payType, active, history);
+        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workAreaValue, payType, groupKeyCode, active, history);
 	}
 
 	@Override

@@ -241,9 +241,9 @@ public class LeaveBlockHistoryLookupableHelperServiceImpl extends KPMELookupable
 				
 				JobContract job = HrServiceLocator.getJobService().getJob(tb.getPrincipalId(), tb.getJobNumber(), LocalDate.fromDateFields(tb.getLeaveDate()), false);
 				String department = job != null ? job.getDept() : null;
-				
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(tb.getLeaveDate()));
-				String location = departmentObj != null ? departmentObj.getLocation() : null;
+				String groupKeyCode = job != null ? job.getGroupKeyCode() : null;
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, LocalDate.fromDateFields(tb.getLeaveDate()));
+				String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 				DateTime date = LocalDate.now().toDateTimeAtStartOfDay();
 				boolean valid = false;
 				if (HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(HrContext.getPrincipalId(), date)

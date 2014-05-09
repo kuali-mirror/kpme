@@ -31,32 +31,26 @@ public interface DepartmentService {
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'hrDeptId=' + #p0")
     Department getDepartment(String hrDeptId);
     
-    List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory, String payrollApproval);
+    // This is not used anywhere
+    //List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory, String payrollApproval);
     
     /**
 	 * get count of department with given department
 	 * @param department
+	 * @param groupKeyCode
 	 * @return int
 	 */
-	int getDepartmentCount(String department);
-	
-	/**
-	 * Get Department as of a particular date passed in
-	 * @param department
-	 * @param asOfDate
-	 * @return
-	 */
-    //@Cacheable(value=DepartmentContract.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-    //Department getDepartmentWithDeptAndLocation(String department, LocalDate asOfDate);
+	int getDepartmentCount(String department, String groupKeyCode);
 
     /**
-     * Fetch department by id without sub kim role member data
+     * Fetch department by dept, groupKeyCode and asOfDate without sub kim role member data
      * @param department
+     * @param groupKeyCode
      * @param asOfDate
      * @return Department
      */
-    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartment}' + 'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-    Department getDepartment(String department, LocalDate asOfDate);
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartment}' + 'department=' + #p0 + '|' + 'groupKeyCode=' + #p1 + '|' + 'asOfDate=' + #p2")
+    Department getDepartment(String department, String groupKeyCode, LocalDate asOfDate);
 
     /**
      * Fetches a list of Department objects as of the specified date all of which
@@ -90,32 +84,37 @@ public interface DepartmentService {
      */
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartmentsForLocations}' + 'location=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
     List<String> getDepartmentValuesWithLocations(List<String> locations, LocalDate asOfDate);
+
+	/**
+     * Fetch a list of Department objects as of the specified date all of which
+     * match the indicated department.
+     * 
+     * @param department
+     * @param asOfDate
+     * @return A List<Department> object
+     */
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartments}' + 'department=' + #p0 + '|' + 'asOfDate=' + #p1")
+    List<Department> getDepartments(String department, LocalDate asOfDate);
     
-	/**
-	 * get count of department with given department
-	 * @param department
-	 * @return int
-	 */
-	List<Department> getDepartments(String department);
-	
-	/**
-     * Fetch department by department, location and effective date
+    /**
+     * Fetch a list of Department objects with given department and groupKeyCode
+     * 
+     * @param department
+     * @param groupKeyCode
+     * @return A List<Department> object
+     */
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartments}' + 'department=' + #p0 + '|' + 'groupKeyCode=' + #p1")
+    List<Department> getDepartments(String department, String groupKeyCode);
+    
+    /**
+     * Fetch a list of Department objects as of the specified date all of which
+     * match the indicated department and location.
+     * 
      * @param department
      * @param location
      * @param asOfDate
-     * @return Department
+     * @return A List<Department> object
      */
-    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'department=' + #p0 + '|' + 'location=' + #p1 + '|' + 'asOfDate=' + #p2")
-    Department getDepartmentWithDeptAndLocation(String department, String location, LocalDate asOfDate);
-
-    /**
-     * Fetches a list of locations as of the specified date all of which
-     * belong to the indicated institution.
-     *
-     * @param institution The search criteria
-     * @param asOfDate Effective date
-     * @return A List<String> object.
-     */
-    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartmentsForInstitution}' + 'institution=' + #p0 + '|' + 'asOfDate=' + #p1")
-    List<String> getLocationsValuesWithInstitution(String institution, LocalDate asOfDate);
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartments}' + 'department=' + #p0 + '|' + 'location=' + #p1 + '|' + 'asOfDate=' + #p2")
+    List<Department> getDepartments(String department, String location, LocalDate asOfDate);
 }

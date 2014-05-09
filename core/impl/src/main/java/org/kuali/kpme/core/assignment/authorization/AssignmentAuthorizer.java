@@ -38,10 +38,10 @@ public class AssignmentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer 
 			AssignmentBo assignmentObj = (AssignmentBo) dataObject;
 			
 			if (assignmentObj != null) {
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getEffectiveLocalDate());
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getGroupKeyCode(), assignmentObj.getEffectiveLocalDate());
 				
 				if (departmentObj != null) {
-					location = departmentObj.getLocation();
+					location = departmentObj.getGroupKey().getLocationId();
 				}
 			}
 		}

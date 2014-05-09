@@ -65,24 +65,6 @@ import java.util.Map;
  */
 public class ValidationUtils {
 
-    /**
-     * For DepartmentalRule objects, if a work area is defined, you can not
-     * leave the department field with a wildcard. Permission for wildcarding
-     * will be checked with other methods.
-     *
-     * @param dr The DepartmentalRule to examine.
-     * @return true if valid, false otherwise.
-     */
-    public static boolean validateWorkAreaDeptWildcarding(DepartmentalRule dr) {
-        boolean ret = true;
-
-        if (StringUtils.equals(dr.getDept(), HrConstants.WILDCARD_CHARACTER)) {
-            ret = dr.getWorkArea().equals(HrConstants.WILDCARD_LONG);
-        }
-
-        return ret;
-    }
-
 	/**
 	 * Most basic validation: Only checks for presence in the database.
 	 */
@@ -93,8 +75,8 @@ public class ValidationUtils {
 	/**
 	 * Most basic validation: Only checks for presence in the database.
 	 */
-	public static boolean validateDepartment(String department) {
-		return validateDepartment(department, null);
+	public static boolean validateDepartment(String department, String groupKeyCode) {
+		return validateDepartment(department, groupKeyCode, null);
 	}
 
 	/**
@@ -281,18 +263,18 @@ public class ValidationUtils {
 	 * Checks for row presence of a department, and optionally whether or not
 	 * it is active as of the specified date.
 	 */
-	public static boolean validateDepartment(String department, LocalDate asOfDate) {
+	public static boolean validateDepartment(String department, String groupKeyCode, LocalDate asOfDate) {
 		boolean valid = false;
 
-        if (StringUtils.isEmpty(department)) {
+        if (StringUtils.isEmpty(department) || StringUtils.isEmpty(groupKeyCode)) {
           return false;
         } else if (StringUtils.equals(department, HrConstants.WILDCARD_CHARACTER)) {
         	valid = true;
         }else if (asOfDate != null) {
-			Department d = HrServiceLocator.getDepartmentService().getDepartment(department, asOfDate);
+			Department d = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, asOfDate);
 		    valid = (d != null);
 		} else {
-			int count = HrServiceLocator.getDepartmentService().getDepartmentCount(department);
+			int count = HrServiceLocator.getDepartmentService().getDepartmentCount(department, groupKeyCode);
 			valid = (count > 0);
 		}
 

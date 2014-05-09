@@ -108,6 +108,9 @@ package org.kuali.hr.core.workarea;
 	
 	@Override
 	public void tearDown() throws Exception {
+		// TODO
+		// If you ever need this, create a method getDepartmentWithDeptAndGroupKeyCode(String department, String groupKeyCode, LocalDate asOfDate),
+		// which is the equivalent of getDepartmentWithDeptAndLocation(String department, LocalDate asOfDate)
 		DepartmentContract deptObj = HrServiceLocator.getDepartmentService().getDepartmentWithDeptAndLocation(TEST_CODE_DEPARTMENT_VALID, LocalDate.now());
 		WorkAreaContract workAreaObj = HrServiceLocator.getWorkAreaService().getWorkAreaWithoutRoles(workArea, LocalDate.now());
 		KRADServiceLocator.getBusinessObjectService().delete(workAreaObj);

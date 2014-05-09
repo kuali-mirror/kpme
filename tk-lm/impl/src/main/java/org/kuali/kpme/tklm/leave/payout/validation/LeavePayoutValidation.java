@@ -423,8 +423,9 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 					if(job.isEligibleForLeave()) {
 						
 						String department = job != null ? job.getDept() : null;
-						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.fromDateFields(effectiveDate)) : null;
-						String location = departmentObj != null ? departmentObj.getLocation() : null;
+						String groupKeyCode = job != null ? job.getGroupKeyCode() : null;
+						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, LocalDate.fromDateFields(effectiveDate)) : null;
+						String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 
 						//logged in user may ONLY submit documents for principals in authorized departments / location.
 			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "Create Leave Payout", department, new DateTime(effectiveDate.getTime()))

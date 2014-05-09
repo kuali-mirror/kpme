@@ -97,14 +97,15 @@ public class AssignmentServiceImpl implements AssignmentService {
     public List<Assignment> searchAssignments(String userPrincipalId, Map<String, String> searchCriteria) {
         List<AssignmentBo> results = new ArrayList<AssignmentBo>();
 
-        //AssignmentDaoObjImpl.java
+    	//AssignmentDaoObjImpl.java
         List<AssignmentBo> assignmentObjs = assignmentDao.searchAssignments(searchCriteria);
 
         for (AssignmentBo assignmentObj : assignmentObjs) {
 
             String department = assignmentObj.getDept();
-            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, assignmentObj.getEffectiveLocalDate());
-            String location = departmentObj != null ? departmentObj.getLocation() : null;
+            String groupKeyCode = assignmentObj.getGroupKeyCode();
+            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, assignmentObj.getEffectiveLocalDate());
+            String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 
             Map<String, String> roleQualification = new HashMap<String, String>();
 

@@ -32,7 +32,6 @@ public class PayGradeBo extends HrKeyedBusinessObject implements PayGradeContrac
 	static class KeyFields {
 		private static final String SAL_GROUP = "salGroup";
 		private static final String PAY_GRADE = "payGrade";
-		private static final String GROUP_KEY_CODE = "groupKeyCode";
 	}
 
 	private static final long serialVersionUID = -5736949952127760566L;
@@ -40,7 +39,6 @@ public class PayGradeBo extends HrKeyedBusinessObject implements PayGradeContrac
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(KeyFields.PAY_GRADE)
             .add(KeyFields.SAL_GROUP)
-            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayGrade";
@@ -61,7 +59,6 @@ public class PayGradeBo extends HrKeyedBusinessObject implements PayGradeContrac
     	return  new ImmutableMap.Builder<String, Object>()
 			.put(KeyFields.PAY_GRADE, this.getPayGrade())
 			.put(KeyFields.SAL_GROUP, this.getSalGroup())
-			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
     

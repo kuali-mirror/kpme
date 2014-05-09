@@ -128,8 +128,8 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
         	JobContract jobObj = HrServiceLocator.getJobService().getPrimaryJob(principalHRAttributeObj.getPrincipalId(), principalHRAttributeObj.getEffectiveLocalDate());
     		
     		String department = jobObj != null ? jobObj.getDept() : null;
-        	Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getEffectiveLocalDate()) : null;
-        	String location = departmentObj != null ? departmentObj.getLocation() : null;
+        	Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getGroupKeyCode(), jobObj.getEffectiveLocalDate()) : null;
+        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
         	
         	Map<String, String> roleQualification = new HashMap<>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, principalHRAttributeObj.getPrincipalId());

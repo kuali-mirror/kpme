@@ -34,17 +34,19 @@ public class ClockLocationRuleAuthorizer extends KPMEMaintenanceDocumentAuthoriz
 
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
+		String groupKeyCode = StringUtils.EMPTY;
 		
 		if (dataObject instanceof ClockLocationRule) {
 			ClockLocationRule clockLocationRuleObj = (ClockLocationRule) dataObject;
 			
 			if (clockLocationRuleObj != null) {
-				department = clockLocationRuleObj.getDept();
-				
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getEffectiveLocalDate());
+				department = clockLocationRuleObj.getDept(); 
+				groupKeyCode = clockLocationRuleObj.getGroupKeyCode();
+
+				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, clockLocationRuleObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
-					location = departmentObj.getLocation();
+					location = departmentObj.getGroupKey().getLocationId();
 				}
 			}
 		}

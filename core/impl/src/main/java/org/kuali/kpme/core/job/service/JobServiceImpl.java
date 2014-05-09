@@ -173,8 +173,8 @@ public class JobServiceImpl implements JobService {
         
     	for (JobBo jobObj : jobObjs) {
         	String department = jobObj.getDept();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getEffectiveLocalDate());
-        	String location = departmentObj != null ? departmentObj.getLocation() : null;
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getGroupKeyCode(), jobObj.getEffectiveLocalDate());
+        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);

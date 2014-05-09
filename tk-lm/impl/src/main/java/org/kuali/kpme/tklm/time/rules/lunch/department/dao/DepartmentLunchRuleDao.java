@@ -25,6 +25,6 @@ public interface DepartmentLunchRuleDao {
 	
 	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId);
 
-    List<DeptLunchRule> getDepartmentLunchRules(String dept, String workArea, String principalId, String jobNumber, 
+    List<DeptLunchRule> getDepartmentLunchRules(String dept, String workArea, String principalId, String jobNumber, String groupKeyCode, 
     											LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

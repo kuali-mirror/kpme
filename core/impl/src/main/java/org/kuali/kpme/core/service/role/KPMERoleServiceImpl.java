@@ -259,7 +259,9 @@ public class KPMERoleServiceImpl implements KPMERoleService {
                 departments.add(department);
             }
         }
-
+        
+        // TODO:
+        // Do we want to pass groupKeyCode instead of location to speed up the performance?
         List<String> locations = getLocationsForPrincipalInRoles(principalId, roleIds, asOfDate, isActiveOnly);
         departments.addAll(getDepartmentService().getDepartmentValuesWithLocations(locations, asOfDate.toLocalDate()));
 
@@ -273,6 +275,8 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 			departments = getDepartmentsForPrincipalInRoles(principalId, Collections.singletonList(role.getId()), asOfDate, isActiveOnly);
 		}
 		
+		// TODO:
+        // Do we want to pass groupKeyCode instead of location to speed up the performance?
 		List<String> locations = getLocationsForPrincipalInRole(principalId, namespaceCode, roleName, asOfDate, isActiveOnly);
 		departments.addAll(getDepartmentService().getDepartmentValuesWithLocations(locations, asOfDate.toLocalDate()));
 

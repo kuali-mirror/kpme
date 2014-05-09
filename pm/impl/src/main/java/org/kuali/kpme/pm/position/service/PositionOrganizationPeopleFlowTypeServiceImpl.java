@@ -55,9 +55,10 @@ public class PositionOrganizationPeopleFlowTypeServiceImpl extends DataDictionar
         List<Map<String, String>> orgQualifiers = new ArrayList<Map<String, String>>();
         String departmentString = getElementValue(documentContent.getApplicationContent(), "//document/newMaintainableObject/businessObject/primaryDepartment/@value");
         String effectiveDate = getElementValue(documentContent.getApplicationContent(), "//document/newMaintainableObject/businessObject/effectiveDate/@value");
-        if (StringUtils.isNotEmpty(departmentString)) {
+        String groupKeyCode = getElementValue(documentContent.getApplicationContent(), "//document/newMaintainableObject/businessObject/groupKeyCode/@value");
+        if (StringUtils.isNotEmpty(departmentString) && StringUtils.isNotEmpty(groupKeyCode)) {
             LocalDate asOfDate = new LocalDate(effectiveDate);
-            Department department =  HrServiceLocator.getDepartmentService().getDepartment(departmentString,asOfDate);
+            Department department =  HrServiceLocator.getDepartmentService().getDepartment(departmentString,groupKeyCode,asOfDate);
 
                 orgQualifiers.add(
                         Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(),
@@ -71,7 +72,7 @@ public class PositionOrganizationPeopleFlowTypeServiceImpl extends DataDictionar
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
                         PositionBo position = (PositionBo)(md.getNewMaintainableObject().getDataObject());
-                        Department department = HrServiceLocator.getDepartmentService().getDepartment(position.getPrimaryDepartment(),position.getEffectiveLocalDate());
+                        Department department = HrServiceLocator.getDepartmentService().getDepartment(position.getPrimaryDepartment(),position.getGroupKeyCode(),position.getEffectiveLocalDate());
                         orgQualifiers.add(
                             Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), String.valueOf(department.getOrg())));
 
@@ -79,7 +80,7 @@ public class PositionOrganizationPeopleFlowTypeServiceImpl extends DataDictionar
                 } else {
                     // If doc itself is instance of Position
                     if (doc instanceof PositionBo) {
-                        Department department = HrServiceLocator.getDepartmentService().getDepartment(((PositionBo)doc).getPrimaryDepartment(),((PositionBo)doc).getEffectiveLocalDate());
+                        Department department = HrServiceLocator.getDepartmentService().getDepartment(((PositionBo)doc).getPrimaryDepartment(),((PositionBo)doc).getGroupKeyCode(),((PositionBo)doc).getEffectiveLocalDate());
                         orgQualifiers.add(
                                 Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), String.valueOf(department.getOrg())));
                     }

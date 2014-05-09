@@ -17,9 +17,9 @@ package org.kuali.kpme.tklm.api.time.rules.lunch.department;
 
 import java.math.BigDecimal;
 
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
 import org.kuali.rice.kim.api.identity.Person;
 
@@ -27,7 +27,7 @@ import org.kuali.rice.kim.api.identity.Person;
  * <p>DeptLunchRuleContract interface</p>
  *
  */
-public interface DeptLunchRuleContract extends HrBusinessObjectContract {
+public interface DeptLunchRuleContract extends KpmeEffectiveKeyedDataTransferObject {
 	
 	/**
 	 * The principal associated with the DeptLunchRule

@@ -227,9 +227,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
 
             for (String dept : depts) {
-                Department department = HrServiceLocator.getDepartmentService().getDepartment(dept, asOfDate);
+               Department department = HrServiceLocator.getDepartmentService().getDepartment(dept, a.getGroupKeyCode(), asOfDate);
                 if (department!= null && a.getDept().equalsIgnoreCase(department.getDept())) {
-                    addEarnCode = true;
+                   addEarnCode = true;
                     break;
                 }
             }

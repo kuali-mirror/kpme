@@ -54,7 +54,7 @@ public class PositionAdditionalOrganizationsPeopleFlowTypeServiceImpl extends Da
 
                         for (PositionDepartmentBo positionDepartment : position.getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
-                                Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(),position.getEffectiveLocalDate());
+                                Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(),positionDepartment.getGroupKeyCode(),position.getEffectiveLocalDate());
                                 orgQualifiers.add(
                                         Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), String.valueOf(deptObj.getOrg())));
                             }
@@ -65,7 +65,7 @@ public class PositionAdditionalOrganizationsPeopleFlowTypeServiceImpl extends Da
                     if (doc instanceof PositionBo) {
                         for (PositionDepartmentBo positionDepartment : ((PositionBo)doc).getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
-                                Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(),((PositionBo)doc).getEffectiveLocalDate());
+                                Department deptObj = HrServiceLocator.getDepartmentService().getDepartment(positionDepartment.getDepartment(),positionDepartment.getGroupKeyCode(),((PositionBo)doc).getEffectiveLocalDate());
                                 orgQualifiers.add(
                                         Collections.singletonMap(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), String.valueOf(deptObj.getOrg())));
                             }

@@ -20,6 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -49,10 +50,14 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		if (StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER)) {
             return true;
         }
-        if (!ValidationUtils.validateDepartment(departmentEarnCode.getDept(), departmentEarnCode.getEffectiveLocalDate())) { //!StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER)
-			this.putFieldError("dept", "error.existence", "department '" + departmentEarnCode.getDept() + "'");
-			return false;
-        }
+		// KPME-3376
+		// We need groupKeyCode to validate a department, but since EarnCodeSecurityBo doesn't have it,
+		// we could validate a department based on EarnCodeSecurityBo's location, which is done in this.validateDeptForLocation(departmentEarnCode). 
+		// So, there is no need for the validation below.  If we ever add groupKeyCode to EarnCodeSecurityBo, use this validation with dept and groupkey code
+        //if (!ValidationUtils.validateDepartment(departmentEarnCode.getDept(), departmentEarnCode.getEffectiveLocalDate())) { //!StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER)
+		//	this.putFieldError("dept", "error.existence", "department '" + departmentEarnCode.getDept() + "'");
+		//	return false;
+        //}
         return this.validateDeptForLocation(departmentEarnCode);
 	}
 
@@ -109,22 +114,30 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		boolean isValid = true;
 		
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-		String department = departmentEarnCode.getDept();
-		Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, LocalDate.now());
-		String location = departmentObj != null ? departmentObj.getLocation() : null;
-
-        DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
-
-        //TODO - performance
-		if (!HrContext.isSystemAdmin() 
-				&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, asOfDate)
-    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, asOfDate)
-    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, asOfDate)
-    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, asOfDate)
-    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), location, asOfDate)
-    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), location, asOfDate)) {
-			this.putFieldError("dept", "error.department.permissions", department);
-			isValid = false;
+		String department = departmentEarnCode.getDept(); 
+ 
+		List<Department> departmentObjs = HrServiceLocator.getDepartmentService().getDepartments(department, departmentEarnCode.getLocation(), LocalDate.now());
+		
+		for (Department departmentObj : departmentObjs) {
+			// KPME-3376
+			// For now, leave the line below although it's redundant (getDepartments above already takes location - created to reduce
+			// the number of departments to be returned).  
+			String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+	
+	        DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
+	
+	        //TODO - performance
+			if (!HrContext.isSystemAdmin() 
+					&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, asOfDate)
+	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, asOfDate)
+	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, asOfDate)
+	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, asOfDate)
+	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), location, asOfDate)
+	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), location, asOfDate)) {
+				this.putFieldError("dept", "error.department.permissions", department);
+				isValid = false;
+				break;
+			}
 		}
 		
 		return isValid;
