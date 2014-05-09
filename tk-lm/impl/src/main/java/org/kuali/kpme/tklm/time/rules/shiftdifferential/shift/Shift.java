@@ -113,7 +113,18 @@ public class Shift {
                             sb2.setApplyPremium(Boolean.TRUE);
                         }
                     } else {
-                        //time blocks exceed max gap
+                        //add if either block exceeds minimum
+                        if (sb1.exceedsMinHours()) {
+                            duration += sb1.getShiftBlockDurationMillis();
+                            idsAddedToDuration.add(sb1.getShiftBlockId());
+                            sb1.setApplyPremium(Boolean.TRUE);
+                        }
+                        if (sb2.exceedsMinHours()) {
+                            duration += sb2.getShiftBlockDurationMillis();
+                            idsAddedToDuration.add(sb2.getShiftBlockId());
+                            sb2.setApplyPremium(Boolean.TRUE);
+                        }
+
                     }
                 }
             } else {

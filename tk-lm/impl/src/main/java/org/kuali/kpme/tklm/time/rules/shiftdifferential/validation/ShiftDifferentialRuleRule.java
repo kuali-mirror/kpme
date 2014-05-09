@@ -88,8 +88,9 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 	}
 	
 	boolean validateLocationWithSalaryGroup(ShiftDifferentialRule shiftDifferentialRule) {
-		
-		if (shiftDifferentialRule.getLocation() != null
+		//TODO: re-enable this when sal group is fixed for list of group keys
+        return true;
+		/*if (shiftDifferentialRule.getLocation() != null
 				&& !StringUtils.equals(shiftDifferentialRule.getLocation(),
 						HrConstants.WILDCARD_CHARACTER)
 				&& !StringUtils.equals(shiftDifferentialRule.getHrSalGroup(),
@@ -102,7 +103,7 @@ public class ShiftDifferentialRuleRule extends MaintenanceDocumentRuleBase {
 			return false;
 		} else {
 			return true;
-		}
+		}*/
 	}
 	
 	boolean validateDays(ShiftDifferentialRule shiftDifferentialRule) {

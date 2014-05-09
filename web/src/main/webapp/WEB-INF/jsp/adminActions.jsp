@@ -29,6 +29,7 @@
                     <admin:calendarEntry />
                     <admin:initiateDocument />
                     <admin:deleteDocument />
+                    <admin:ruleRecalculation />
                 </td>
                 <td class="content" valign="top">
                     <admin:batchJob />

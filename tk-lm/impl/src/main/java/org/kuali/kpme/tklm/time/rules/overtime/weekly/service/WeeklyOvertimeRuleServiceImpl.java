@@ -107,7 +107,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
         //convert weeks to list of timeblocks to push back into aggregate
         List<List<TimeBlock>> updatedBlocks = new ArrayList<List<TimeBlock>>();
-        Interval calEntryInterval = new Interval(aggregate.getPayCalendarEntry().getBeginPeriodFullDateTime(), aggregate.getPayCalendarEntry().getEndPeriodFullDateTime());
+        Interval calEntryInterval = new Interval(aggregate.getPayCalendarEntry().getBeginPeriodFullDateTime().minusDays(1), aggregate.getPayCalendarEntry().getEndPeriodFullDateTime());
         for (List<FlsaWeek> weekParts : flsaWeeks) {
            for (FlsaWeek week : weekParts) {
                for (FlsaDay day : week.getFlsaDays()) {
@@ -118,8 +118,17 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
            }
 
         }
+
+        //merge
+        if (aggregate.getDayTimeBlockList().size() - updatedBlocks.size() == 2) {
+            List<TimeBlock> firstDay = aggregate.getDayTimeBlockList().get(0);
+            List<TimeBlock> lastDay = aggregate.getDayTimeBlockList().get(aggregate.getDayTimeBlockList().size() - 1);
+            updatedBlocks.add(0, firstDay);
+            updatedBlocks.add(lastDay);
+        }
+
         aggregate.setDayTimeBlockList(updatedBlocks);
-		savePreviousNextCalendarTimeBlocks(flsaWeeks);
+		//savePreviousNextCalendarTimeBlocks(flsaWeeks);
 	}
 	
 	/**

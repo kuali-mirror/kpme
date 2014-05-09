@@ -29,6 +29,7 @@
         <form-bean name="ChangeTargetPersonForm" type="org.kuali.kpme.tklm.common.ChangeTargetPersonForm"/>
         <form-bean name="InitiateDocumentForm" type="org.kuali.kpme.tklm.common.InitiateDocumentForm"/>
         <form-bean name="DeleteDocumentForm" type="org.kuali.kpme.tklm.common.DeleteDocumentForm"/>
+        <form-bean name="RuleRecalculateForm" type="org.kuali.kpme.tklm.time.rules.web.RuleRecalculateActionForm"/>
         <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.kpme.tklm.common.CalculateLeaveAccrualsForm"/>
         <form-bean name="BatchJobActionForm" type="org.kuali.kpme.tklm.common.BatchJobActionForm"/>
         <form-bean name="CarryOverBatchJobActionForm" type="org.kuali.kpme.tklm.leave.batch.web.CarryOverBatchJobActionForm"/>
@@ -114,7 +115,11 @@
         <action path="/deleteDocument" name="DeleteDocumentForm" type="org.kuali.kpme.tklm.common.DeleteDocumentAction">
             <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
         </action>
-        
+
+        <action path="/ruleRecalculate" name="RuleRecalculateForm" type="org.kuali.kpme.tklm.time.rules.web.RuleRecalculateAction">
+            <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
+        </action>
+
         <action path="/calculateLeaveAccruals" name="CalculateLeaveAccrualsForm" type="org.kuali.kpme.tklm.common.CalculateLeaveAccrualsAction">
             <forward name="basic" path="/WEB-INF/jsp/adminActions.jsp"/>
         </action>

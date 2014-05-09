@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.rules.shiftdifferential.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -32,7 +33,6 @@ import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -84,14 +84,14 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 
 	private Map<Long,Set<ShiftDifferentialRule>> getJobNumberToShiftRuleMap(TimesheetDocument timesheetDocument) {
-		Map<Long,Set<ShiftDifferentialRule>> jobNumberToShifts = new HashMap<Long,Set<ShiftDifferentialRule>>();
+		Map<Long,Set<ShiftDifferentialRule>> jobNumberToShifts = new HashMap<>();
 		PrincipalHRAttributes principalCal = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(),timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 
 		for (Job job : timesheetDocument.getJobs()) {
 			List<ShiftDifferentialRule> shiftDifferentialRules = getShiftDifferentalRules(job.getGroupKey().getLocationId(),job.getHrSalGroup(),job.getPayGrade(),principalCal.getPayCalendar(), 
 					timesheetDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate());
 			if (shiftDifferentialRules.size() > 0)
-				jobNumberToShifts.put(job.getJobNumber(), new HashSet<ShiftDifferentialRule>(shiftDifferentialRules));
+				jobNumberToShifts.put(job.getJobNumber(), new HashSet<>(shiftDifferentialRules));
 		}
 
 		return jobNumberToShifts;
@@ -111,7 +111,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                 if (jobsForShiftRule.containsKey(sdr.getId())) {
                     jobsForShiftRule.get(sdr.getId()).add(job.getJobNumber());
                 } else {
-                    Set<Long> tempSet = new HashSet<Long>();
+                    Set<Long> tempSet = new HashSet<>();
                     tempSet.add(job.getJobNumber());
                     jobsForShiftRule.put(sdr.getId(), tempSet);
                 }
@@ -126,46 +126,6 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
         return sci;
     }
-
-	protected Map<Long,List<TimeBlock.Builder>> getPreviousPayPeriodLastDayJobToTimeBlockMap(TimesheetDocument timesheetDocument, Map<Long,Set<ShiftDifferentialRule>> jobNumberToShifts) {
-		Map<Long, List<TimeBlock.Builder>> jobNumberToTimeBlocksPreviousDay = null;
-
-		// Get the last day of the last week of the previous pay period.
-		// This is the only day that can have impact on the current day.
-		List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDateTime());
-		if (prevBlocks.size() > 0) {
-			TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(timesheetDocument.getPrincipalId(), timesheetDocument.getDocumentHeader().getBeginDateTime().toDateTime());
-			if (prevTdh != null) {
-				CalendarEntry prevPayCalendarEntry = HrServiceLocator.getCalendarEntryService().getCalendarDatesByPayEndDate(timesheetDocument.getPrincipalId(), prevTdh.getEndDateTime(), HrConstants.PAY_CALENDAR_TYPE);
-                Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(prevPayCalendarEntry.getHrCalendarId());
-				TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, calendar, true);
-				List<List<TimeBlock>> dayBlocks = prevTimeAggregate.getDayTimeBlockList();
-				List<TimeBlock> previousPeriodLastDayBlocks = dayBlocks.get(dayBlocks.size() - 1);
-				// Set back to null if there is nothing in the list.
-				if (previousPeriodLastDayBlocks.size() > 0) {
-					jobNumberToTimeBlocksPreviousDay = new HashMap<Long, List<TimeBlock.Builder>>();
-
-					for (TimeBlock block : previousPeriodLastDayBlocks) {
-						// Job Number to TimeBlock for Last Day of Previous Time
-						// Period
-						Long jobNumber = block.getJobNumber();
-						if (jobNumberToShifts.containsKey(jobNumber)
-                                && block.getBeginDateTime().compareTo(block.getEndDateTime()) != 0) {
-							// we have a useful timeblock.
-							List<TimeBlock.Builder> jblist = jobNumberToTimeBlocksPreviousDay.get(jobNumber);
-							if (jblist == null) {
-								jblist = new ArrayList<TimeBlock.Builder>();
-								jobNumberToTimeBlocksPreviousDay.put(jobNumber, jblist);
-							}
-							jblist.add(TimeBlock.Builder.create(block));
-						}
-					}
-				}
-			}
-		}
-
-		return jobNumberToTimeBlocksPreviousDay;
-	}
 
     @Override
     public List<TimeBlock> getTimeblocksOverlappingTimesheetShift(TimesheetDocument timesheetDocument) {
@@ -220,7 +180,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
             }
         }
         //get timeblocks that occur within these shifts
-        List<TimeBlock> intersectingTimeBlocks = new ArrayList<TimeBlock>();
+        List<TimeBlock> intersectingTimeBlocks = new ArrayList<>();
         TimeBlockService tbService = TkServiceLocator.getTimeBlockService();
         if (checkBefore) {
             if (beforeCalEntry != null) {
@@ -231,6 +191,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
             intersectingTimeBlocks.addAll(tbService.getIntersectingTimeBlocks(timesheetDocument.getPrincipalId(), afterCalEntry.getStart(), afterCalEntry.getEnd()));
         }
 
+        if (CollectionUtils.isNotEmpty(intersectingTimeBlocks)) {
+            intersectingTimeBlocks = TkServiceLocator.getTimesheetService().resetTimeBlock(intersectingTimeBlocks, timesheetDocument.getAsOfDate());
+        }
         return intersectingTimeBlocks;
     }
 
@@ -253,8 +216,6 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
             }
         }
         List<List<TimeBlock>> shiftedBlockDays = processShiftDifferentialRulesForTimeBlocks(timesheetDocument, flattenedList, aggregate.getFlattenedLeaveBlockList(), true);
-        //aggregate = new TkTimeBlockAggregate(flattenedList, aggregate.getFlattenedLeaveBlockList(), aggregate.getPayCalendarEntry(), aggregate.getPayCalendar(), true);
-        //List<List<TimeBlock>> shiftedBlockDays = processShift(timesheetDocument, aggregate.getDayTimeBlockList(), false);
         if (shiftedBlockDays != null) {
             aggregate.setDayTimeBlockList(shiftedBlockDays);
         }
@@ -276,26 +237,23 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         //build aggregate object (mainly to reuse code)
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, calEntry, cal, true, dayIntervals);
         return processShift(timesheetDocument, aggregate.getDayTimeBlockList(), modifyPrevious);
-        //if (shiftedBlockDays != null) {
-        //    aggregate.setDayTimeBlockList(shiftedBlockDays);
-        //}
-        //return shiftedBlockDays;
 
     }
 
-    protected List<List<TimeBlock>> processShift(TimesheetDocument timesheetDocument, List<List<TimeBlock>> blockDays, boolean allowPriorPayPeriod) {
-        String principalId = timesheetDocument.getPrincipalId();
-        DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        DateTime periodStartDateTime = timesheetDocument.getCalendarEntry().getBeginPeriodLocalDateTime().toDateTime(zone);
-        if (allowPriorPayPeriod) {
-            periodStartDateTime = periodStartDateTime.minusDays(1);
-        } else {
-            //we may need to add extra blocks...
-
+    protected List<List<TimeBlock>> processShift(TimesheetDocument timesheetDocument, List<List<TimeBlock>> blockDays, boolean allowPriorPayPeriodChange) {
+        if (timesheetDocument == null
+                || blockDays == null) {
+            return null;
         }
 
 		Map<Long,Set<ShiftDifferentialRule>> jobNumberToShifts = getJobNumberToShiftRuleMap(timesheetDocument);
 
+        // If there are no shift differential rules, we have an early exit.
+        if (jobNumberToShifts.isEmpty()) {
+            return null;
+        }
+
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         List<ShiftCalendarInterval> shiftCalendars = getShiftCalendarIntervals(timesheetDocument, zone);
         for (ShiftCalendarInterval sci : shiftCalendars) {
             for (List<TimeBlock> blocks : blockDays) {
@@ -303,15 +261,10 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
             }
         }
 
-        // If there are no shift differential rules, we have an early exit.
-        if (jobNumberToShifts.isEmpty()) {
-            return null;
-        }
-
         //convert to builders
-        List<List<TimeBlock.Builder>> builderBlockDays = new ArrayList<List<TimeBlock.Builder>>();
+        List<List<TimeBlock.Builder>> builderBlockDays = new ArrayList<>();
         for (List<TimeBlock> tbList : blockDays) {
-            List<TimeBlock.Builder> tempList = new ArrayList<TimeBlock.Builder>();
+            List<TimeBlock.Builder> tempList = new ArrayList<>();
             for (TimeBlock t : tbList) {
                 tempList.add(TimeBlock.Builder.create(t));
             }
@@ -319,6 +272,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         }
 
         //process!
+        Map<String, Set<String>> previousDocIdChanges = new HashMap<>();
         for (ShiftCalendarInterval sci : shiftCalendars) {
             for (Shift shift : sci.getShifts()) {
                 shift.processShift();
@@ -330,19 +284,19 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                 // the nested for loops look really bad, but the data is pretty limited
                 for (List<TimeBlock.Builder> dayTimeBlocks : builderBlockDays) {
                     for (TimeBlock.Builder tb : dayTimeBlocks) {
-                        List<ShiftBlock> shiftBlocks = timeBlocksForShift.get(tb.build());
-                        if (CollectionUtils.isNotEmpty(shiftBlocks)) {
-                            //only dealing with a single shift type at this point, so combine shift hours and apply
-
-                            long duration = 0L;
-                            String earnCode = sci.getRule().getEarnCode();
-                            for (ShiftBlock sb : shiftBlocks) {
-                                duration += sb.getShiftBlockDurationMillis();
-                            }
-                            BigDecimal durationHours = TKUtils.convertMillisToHours(duration);
-                            if (duration > 0) {
-                                addPremiumTimeHourDetail(tb, durationHours, earnCode);
-                            }
+                        if (isPreviousTimesheet(tb, timesheetDocument)) {
+                            if (allowPriorPayPeriodChange) {
+                                List<ShiftBlock> shiftBlocks = timeBlocksForShift.get(tb.build());
+                                boolean applied = computeAndApplyPremium(tb, shiftBlocks, sci);
+                                if (applied) {
+                                    addToMap(previousDocIdChanges, tb.getDocumentId(), tb.getTkTimeBlockId());
+                                }
+                            } //else {
+                                //time block is on a previous pay period, but we are not allowed to change it
+                            //}
+                        } else {
+                            List<ShiftBlock> shiftBlocks = timeBlocksForShift.get(tb.build());
+                            computeAndApplyPremium(tb, shiftBlocks, sci);
                         }
                     }
                 }
@@ -350,25 +304,71 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         }
 
         //convert to TimeBlock
-        List<List<TimeBlock>> shiftedBlockDays = new ArrayList<List<TimeBlock>>();
+        List<List<TimeBlock>> shiftedBlockDays = new ArrayList<>();
         for (List<TimeBlock.Builder> builderList : builderBlockDays) {
             shiftedBlockDays.add(ModelObjectUtils.<TimeBlock>buildImmutableCopy(builderList));
         }
+
+        sendFYIForPreviousTimeSheets(previousDocIdChanges, shiftedBlockDays);
         return shiftedBlockDays;
 	}
 
+
+    protected void addToMap(Map<String, Set<String>> map, String docId, String timeBlockId) {
+        if (docId == null
+            || timeBlockId == null) {
+            return;
+        }
+        if (map.containsKey(docId)) {
+            map.get(docId).add(timeBlockId);
+        } else {
+            Set<String> tempSet = new HashSet<>();
+            tempSet.add(timeBlockId);
+            map.put(docId, tempSet);
+        }
+    }
+
+    protected boolean isPreviousTimesheet(TimeBlock.Builder timeBlock, TimesheetDocument timesheetDocument) {
+        if (!StringUtils.equals(timeBlock.getDocumentId(), timesheetDocument.getDocumentId())) {
+            TimesheetDocumentHeader altDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(timeBlock.getDocumentId());
+            if (altDocHeader != null
+                && altDocHeader.getBeginDateTime().isBefore(timesheetDocument.getDocumentHeader().getBeginDateTime())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected boolean computeAndApplyPremium(TimeBlock.Builder timeBlock, List<ShiftBlock> shiftBlocks, ShiftCalendarInterval shiftCalendarInterval) {
+        if (CollectionUtils.isNotEmpty(shiftBlocks)) {
+            //only dealing with a single shift type at this point, so combine shift hours and apply
+
+            long duration = 0L;
+            String earnCode = shiftCalendarInterval.getRule().getEarnCode();
+            for (ShiftBlock sb : shiftBlocks) {
+                duration += sb.getShiftBlockDurationMillis();
+            }
+            if (duration > 0) {
+                BigDecimal durationHours = TKUtils.convertMillisToHours(duration);
+                addPremiumTimeHourDetail(timeBlock, durationHours, earnCode);
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public List<ShiftDifferentialRule> getShiftDifferentialRules(String userPrincipalId, String location, String hrSalGroup, String payGrade, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
-    	List<ShiftDifferentialRule> results = new ArrayList<ShiftDifferentialRule>();
+    	List<ShiftDifferentialRule> results = new ArrayList<>();
         
     	List<ShiftDifferentialRule> shiftDifferentialRuleObjs = shiftDifferentialRuleDao.getShiftDifferentialRules(location, hrSalGroup, payGrade, fromEffdt, toEffdt, active, showHist);
     
     	for (ShiftDifferentialRule shiftDifferentialRuleObj : shiftDifferentialRuleObjs) {
-        	Map<String, String> roleQualification = new HashMap<String, String>();
+        	Map<String, String> roleQualification = new HashMap<>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
         	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), shiftDifferentialRuleObj.getLocation());
         	
-        	Map<String, String> permissionDetails = new HashMap<String, String>();
+        	Map<String, String> permissionDetails = new HashMap<>();
         	permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KRADServiceLocatorWeb.getDocumentDictionaryService().getMaintenanceDocumentTypeName(ShiftDifferentialRule.class));
         	
         	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
@@ -404,7 +404,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 	@Override
 	public List<ShiftDifferentialRule> getShiftDifferentalRules(String location, String hrSalGroup, String payGrade, String pyCalendarGroup, LocalDate asOfDate) {
-		List<ShiftDifferentialRule> sdrs = new ArrayList<ShiftDifferentialRule>();
+		List<ShiftDifferentialRule> sdrs = new ArrayList<>();
 
 		// location, sal group, pay grade, calendar
 	    sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules(location, hrSalGroup, payGrade, pyCalendarGroup, asOfDate));
@@ -497,66 +497,69 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		shiftDifferentialRuleDao.saveOrUpdate(shiftDifferentialRule);
 	}
 
-    //@Override
-    public void checkForNonActiveTimesheetChanges(String currentDocumetId, List<TimeBlock> extraBlocks, List<TimeBlock> newTimeBlocks) {
-        Map<String, TimeBlock> nonActiveTimesheetBlocks = new HashMap<String, TimeBlock>();
-        Map<String, Boolean> sendNotificationForDoc = new HashMap<String, Boolean>();
-        if (currentDocumetId == null) {
-            return;
-        }
-        for (TimeBlock tb : newTimeBlocks) {
-            if (!tb.getDocumentId().equals(currentDocumetId)) {
-                if (!sendNotificationForDoc.containsKey(tb.getDocumentId())) {
-                    DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(tb.getDocumentId());
-                    if (DocumentStatus.ENROUTE.equals(documentStatus)) {
-                        List<ActionTaken> actions = KewApiServiceLocator.getWorkflowDocumentService().getActionsTaken(tb.getDocumentId());
-                        boolean containsApprove = false;
-                        for (ActionTaken action : actions) {
-                            if (action.getActionTaken().equals(ActionType.APPROVE)) {
-                                containsApprove = true;
-                                break;
-                            }
-                        }
-                        if(containsApprove) {
-                            sendNotificationForDoc.put(tb.getDocumentId(), Boolean.TRUE);
-                        } else {
-                            sendNotificationForDoc.put(tb.getDocumentId(), Boolean.FALSE);
-                        }
-                    } else {
-                        sendNotificationForDoc.put(tb.getDocumentId(), Boolean.FALSE);
-                    }
-                }
-                nonActiveTimesheetBlocks.put(tb.getTkTimeBlockId(), tb);
-            }
-        }
+    protected void sendFYIForPreviousTimeSheets(Map<String, Set<String>> previousDocIdChanges, List<List<TimeBlock>> shiftedBlockDays) {
+        Set<String> fyiNeeded = new HashSet<>();
+        if (MapUtils.isNotEmpty(previousDocIdChanges)) {
+            for (Map.Entry<String, Set<String>> entry : previousDocIdChanges.entrySet()) {
+                String docId = entry.getKey();
+                Set<String> timeBlockIds = entry.getValue();
 
-        for (TimeBlock extra : extraBlocks) {
-            if (sendNotificationForDoc.containsKey(extra.getDocumentId())
-                    && sendNotificationForDoc.get(extra.getDocumentId())) {
-
-                if (nonActiveTimesheetBlocks.containsKey(extra.getTkTimeBlockId())) {
-                    TimeBlock nonActiveTimesheetBlock = nonActiveTimesheetBlocks.get(extra.getTkTimeBlockId());
-                    if (extra.getTimeHourDetails().size() != nonActiveTimesheetBlock.getTimeHourDetails().size()) {
-                        //send fyi
-                        sendShiftFYI(extra.getDocumentId());
-                        break;
-                    }
-                    for (TimeHourDetail hourDetail : extra.getTimeHourDetails()) {
-                        if (!nonActiveTimesheetBlock.getTimeHourDetails().contains(hourDetail)) {
-                            //send fyi
-                            sendShiftFYI(extra.getDocumentId());
+                DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(docId);
+                if (DocumentStatus.ENROUTE.equals(documentStatus)) {
+                    List<ActionTaken> actions = KewApiServiceLocator.getWorkflowDocumentService().getActionsTaken(docId);
+                    boolean containsApprove = false;
+                    for (ActionTaken action : actions) {
+                        if (action.getActionTaken().equals(ActionType.APPROVE)) {
+                            containsApprove = true;
                             break;
                         }
                     }
+                    if(containsApprove) {
+                        //check for actual time block changes
+                        List<TimeBlock> changedBlocks = getTimeBlocksWithIds(shiftedBlockDays, timeBlockIds);
+                        for (TimeBlock changedBlock : changedBlocks) {
+                            TimeBlock existingBlock = TkServiceLocator.getTimeBlockService().getTimeBlock(changedBlock.getTkTimeBlockId());
+                            if (changedBlock.getTimeHourDetails().size() != existingBlock.getTimeHourDetails().size()) {
+                                //send fyi
+                                fyiNeeded.add(docId);
+                                break;
+                            }
+                            for (TimeHourDetail hourDetail : changedBlock.getTimeHourDetails()) {
+                                if (!existingBlock.getTimeHourDetails().contains(hourDetail)) {
+                                    //send fyi
+                                    fyiNeeded.add(docId);
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
+            }
+            for (String documentId : fyiNeeded) {
+                sendShiftFYI(documentId);
             }
         }
     }
 
+    protected List<TimeBlock> getTimeBlocksWithIds(List<List<TimeBlock>> timeBlocks, Set<String> timeBlockIds) {
+        List<TimeBlock> filteredBlocks = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(timeBlocks)
+                && CollectionUtils.isNotEmpty(timeBlockIds)) {
+            for (List<TimeBlock> blockList : timeBlocks) {
+                for (TimeBlock tb : blockList) {
+                    if (timeBlockIds.contains(tb.getTkTimeBlockId())) {
+                        filteredBlocks.add(tb);
+                    }
+                }
+            }
+        }
+        return filteredBlocks;
+    }
+
     protected void sendShiftFYI(String docId) {
         String annotationTemplate = "Document was modified by a rules operation on a subsequent timesheet after it was approved.";
-        Set<String> approverIds = new HashSet<String>();
-        Set<String> doNotFYIAgainIds = new HashSet<String>();
+        Set<String> approverIds = new HashSet<>();
+        Set<String> doNotFYIAgainIds = new HashSet<>();
         // get approver's node name
         List<ActionRequest> rootActionRequests = KewApiServiceLocator.getWorkflowDocumentService().getRootActionRequests(docId);
         for (ActionRequest actionRequest : rootActionRequests) {

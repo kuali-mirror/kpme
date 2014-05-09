@@ -52,6 +52,8 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 	private List<List<LeaveBlock>> dayLeaveBlockList = new ArrayList<List<LeaveBlock>>();
 	private CalendarEntry payCalendarEntry;
 	private Calendar payCalendar;
+    private boolean extraFirstDayForShift;
+    private boolean extraLastDayForShift;
 
     /**
      * Defaults to using SYSTEM time zone.

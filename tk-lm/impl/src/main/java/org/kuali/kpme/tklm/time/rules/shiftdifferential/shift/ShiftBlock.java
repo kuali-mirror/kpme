@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 
@@ -105,5 +106,10 @@ public class ShiftBlock implements Comparable<ShiftBlock> {
             return -1;
         }
         return this.getStartTime().compareTo(o.getStartTime());
+    }
+
+    public boolean exceedsMinHours() {
+        Long shiftDuration = getShiftBlockDurationMillis();
+        return rule.getMinHours().compareTo(TKUtils.convertMillisToHours(shiftDuration)) <= 0;
     }
 }

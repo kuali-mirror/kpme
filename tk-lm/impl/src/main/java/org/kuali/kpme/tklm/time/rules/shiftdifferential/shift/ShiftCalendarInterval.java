@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.rules.shiftdifferential.shift;
 
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
@@ -84,7 +85,9 @@ public class ShiftCalendarInterval {
             shiftInterval = incrementShift(shiftInterval);
         }
         while (calendarEntryInterval.overlaps(shiftInterval)) {
-            shifts.add(new Shift(rule, shiftInterval, zone));
+            if (ruleIsActiveForDay(shiftInterval.getStart(), rule)) {
+                shifts.add(new Shift(rule, shiftInterval, zone));
+            }
             shiftInterval = incrementShift(shiftInterval);
         }
         return shifts;
@@ -110,6 +113,36 @@ public class ShiftCalendarInterval {
                 }
             }
         }
+    }
+
+    protected boolean ruleIsActiveForDay(DateTime currentDate, ShiftDifferentialRule sdr) {
+        boolean active = false;
+
+        switch (currentDate.getDayOfWeek()) {
+            case DateTimeConstants.MONDAY:
+                active = sdr.isMonday();
+                break;
+            case DateTimeConstants.TUESDAY:
+                active = sdr.isTuesday();
+                break;
+            case DateTimeConstants.WEDNESDAY:
+                active = sdr.isWednesday();
+                break;
+            case DateTimeConstants.THURSDAY:
+                active = sdr.isThursday();
+                break;
+            case DateTimeConstants.FRIDAY:
+                active = sdr.isFriday();
+                break;
+            case DateTimeConstants.SATURDAY:
+                active = sdr.isSaturday();
+                break;
+            case DateTimeConstants.SUNDAY:
+                active = sdr.isSunday();
+                break;
+        }
+
+        return active;
     }
 
     public Map<TimeBlock, List<ShiftBlock>> getTimeBlockMap() {
