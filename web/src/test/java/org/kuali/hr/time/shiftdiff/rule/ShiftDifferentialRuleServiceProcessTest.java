@@ -430,11 +430,11 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		ShiftDifferentialRule sdrBack = service.getShiftDifferentialRule(sdr.getTkShiftDiffRuleId());
 
         DateTimeZone tz = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-        LocalTime orig_start = new LocalTime(sdr.getBeginTime(), tz);
-		LocalTime orig_end = new LocalTime(sdr.getEndTime(), tz);
+        LocalTime orig_start = new LocalTime(sdr.getBeginTime());
+		LocalTime orig_end = new LocalTime(sdr.getEndTime());
 
-		LocalTime stored_start = new LocalTime(sdrBack.getBeginTime(), tz);
-		LocalTime stored_end = new LocalTime(sdrBack.getEndTime(), tz);
+		LocalTime stored_start = new LocalTime(sdrBack.getBeginTime());
+		LocalTime stored_end = new LocalTime(sdrBack.getEndTime());
 
 		Assert.assertTrue("Start times not equal.", orig_start.equals(stored_start));
 		Assert.assertTrue("End times not equal.", orig_end.equals(stored_end));

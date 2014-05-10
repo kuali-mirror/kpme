@@ -73,7 +73,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
      * @param payCalendar
      */
 	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, Calendar payCalendar) {
-        this(timeBlocks, payCalendarEntry, payCalendar, false);
+        this(timeBlocks, payCalendarEntry, payCalendar, true);
     }
 
     /**
