@@ -15,20 +15,15 @@
  */
 package org.kuali.kpme.tklm.time.block.history;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.CalendarBo;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -36,6 +31,11 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @IntegrationTest
 public class TimeBlockTest extends TKLMIntegrationTestCase {
@@ -79,15 +79,16 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testTimeBlockBuilding() throws Exception {
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		CalendarEntry.Builder payCalendarEntry = CalendarEntry.Builder.create();
-		DateTime beginPeriodDateTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		DateTime endPeriodDateTime = new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime beginPeriodDateTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, zone);
+		DateTime endPeriodDateTime = new DateTime(2010, 1, 15, 12, 0, 0, 0, zone);
 		payCalendarEntry.setBeginPeriodFullDateTime(beginPeriodDateTime);
 		payCalendarEntry.setEndPeriodFullDateTime(endPeriodDateTime);
 		
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry.build());
-		DateTime beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		DateTime endDateTime = new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, zone);
+		DateTime endDateTime = new DateTime(2010, 1, 2, 14, 0, 0, 0, zone);
 		
 		Interval firstDay = null;
 		List<TimeBlockBo> lstTimeBlocks = new ArrayList<TimeBlockBo>();
@@ -122,8 +123,8 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 		
 		lstTimeBlocks.clear();
 		
-		beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		endDateTime = new DateTime(2010, 1, 1, 15, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, zone);
+		endDateTime = new DateTime(2010, 1, 1, 15, 0, 0, 0, zone);
 		
 		firstDay = null;
 		for(Interval dayInt : dayInterval){
@@ -158,8 +159,9 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testTimeBlockAggregate() throws Exception {
-		DateTime beginTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		DateTime endTime = new DateTime(2010, 1, 16, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+		DateTime beginTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, zone);
+		DateTime endTime = new DateTime(2010, 1, 16, 12, 0, 0, 0, zone);
 
         Calendar.Builder payCalendar = Calendar.Builder.create();
 		
@@ -175,16 +177,17 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 	
 	@Test
 	public void testTimeBlockSorting() throws Exception {
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		List<TimeBlockBo> tbList = new ArrayList<TimeBlockBo>();
 		TimeBlockBo tb1 = new TimeBlockBo();
 		// time block with 2010 time
-		tb1.setBeginDateTime(new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
-		tb1.setEndDateTime(new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
+		tb1.setBeginDateTime(new DateTime(2010, 1, 1, 13, 0, 0, 0, zone));
+		tb1.setEndDateTime(new DateTime(2010, 1, 2, 14, 0, 0, 0, zone));
 		tbList.add(tb1);
 		//time block with 2009 time
 		TimeBlockBo tb2 = new TimeBlockBo();
-		tb2.setBeginDateTime(new DateTime(2009, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
-		tb2.setEndDateTime(new DateTime(2009, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone()));
+		tb2.setBeginDateTime(new DateTime(2009, 1, 1, 13, 0, 0, 0, zone));
+		tb2.setEndDateTime(new DateTime(2009, 1, 2, 14, 0, 0, 0, zone));
 		tbList.add(tb2);
 		
 		Assert.assertTrue(tbList.get(0) == tb1);
@@ -196,8 +199,9 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 	}
 	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, CalendarEntry payCalendarEntry){
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
-		DateTime beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		DateTime endDateTime = new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+		DateTime beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, zone);
+		DateTime endDateTime = new DateTime(2010, 1, 2, 14, 0, 0, 0, zone);
 		
 		Interval firstDay = null;
 		List<TimeBlockBo> lstTimeBlocks = new ArrayList<TimeBlockBo>();
@@ -232,8 +236,8 @@ public class TimeBlockTest extends TKLMIntegrationTestCase {
 		
 		lstTimeBlocks.clear();
 		
-		beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
-		endDateTime = new DateTime(2010, 1, 1, 15, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		beginDateTime = new DateTime(2010, 1, 1, 13, 0, 0, 0, zone);
+		endDateTime = new DateTime(2010, 1, 1, 15, 0, 0, 0, zone);
 		
 		firstDay = null;
 		for(Interval dayInt : dayInterval){
