@@ -16,16 +16,16 @@
 package org.kuali.kpme.tklm.time.rules.overtime.daily.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.kpme.tklm.time.rules.validation.TkKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
+public class DailyOvertimeRuleRule extends TkKeyedBusinessObjectValidation {//MaintenanceDocumentRuleBase
 
 	boolean validateWorkArea(DailyOvertimeRule ruleObj) {
 		boolean valid = true;
@@ -46,12 +46,12 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 	}
 
 	boolean validateDepartment(DailyOvertimeRule ruleObj) {
-		String groupKeyCode = null;
+		//String groupKeyCode = null;
 		if (ruleObj.getDept() != null
 				&& !ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER)
 				// TODO uncomment out when DailyOvertimeRule is ready  
-				//&& !ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getGroupKeyCode(), ruleObj.getEffectiveLocalDate())) {
-				&& !ValidationUtils.validateDepartment(ruleObj.getDept(), groupKeyCode, ruleObj.getEffectiveLocalDate())) {
+				&& !ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getGroupKeyCode(), ruleObj.getEffectiveLocalDate())) {
+				//&& !ValidationUtils.validateDepartment(ruleObj.getDept(), groupKeyCode, ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '"
 					+ ruleObj.getDept() + "'");
 			return false;
@@ -98,6 +98,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
+	/*
 	boolean validateLocation(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getLocation() != null
 				&& !ValidationUtils.validateLocation(dailyOvertimeRule
@@ -108,7 +109,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 		} else {
 			return true;
 		}
-	}
+	}*/
 
 	boolean validatePayType(DailyOvertimeRule dailyOvertimeRule) {
 		if (dailyOvertimeRule.getPaytype() != null
@@ -141,12 +142,13 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 					.getUserSession().getPrincipalId());
 			if (dailyOvertimeRule != null) {
 				valid = true;
-				valid &= this.validateLocation(dailyOvertimeRule);
+				//valid &= this.validateLocation(dailyOvertimeRule);
 				valid &= this.validatePayType(dailyOvertimeRule);
 				valid &= this.validateDepartment(dailyOvertimeRule);
 				valid &= this.validateWorkArea(dailyOvertimeRule);
 				valid &= this.validateEarnCode(dailyOvertimeRule);
 				valid &= this.validateEarnGroup(dailyOvertimeRule);
+				valid &= this.validateGroupKeyCode(dailyOvertimeRule);
 			}
 		}
 

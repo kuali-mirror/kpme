@@ -15,8 +15,12 @@
  */
 package org.kuali.hr.time.overtime.daily;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -29,7 +33,6 @@ import org.kuali.kpme.core.FunctionalTest;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.HrTestConstants;
@@ -40,11 +43,8 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.utils.TkTestConstants;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * https://wiki.kuali.org/display/KPME/Test+Cases+-+Business+Logic+Daily+Overtime
@@ -67,7 +67,8 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         Long jobNumber = 30L;
         Long workArea = 30L;
         Long task = 30L;
-        DailyOvertimeRule rule = createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+        DailyOvertimeRule rule = createDailyOvertimeRule("IU-IN", "REG", "OVT", 
+        		//"IN", // 05/08 remove location because adding groupkeycode to DailyOvertimeRule // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
         		"BW", "TEST-DEPT", workArea, task, new BigDecimal(8), new BigDecimal("9.00"), null);
         String tdocId = KPME788_789(
                new ArrayList<Map<String, Object>>() {{
@@ -99,7 +100,8 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         );
         deleteTimesheet(tdocId);
 
-        createDailyOvertimeRule("REG", "OVT", "IN", // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
+        createDailyOvertimeRule("IN-IU", "REG", "OVT", 
+        		//"IN", // 05/08 remove location because adding groupkeycode to DailyOvertimeRule  // changed from "SD1" to "IN" for changes of adding groupKeyCode to Job
         		"BW", "TEST-DEPT", workArea, task, new BigDecimal(8), new BigDecimal("10.00"), null);
         tdocId = KPME788_789(
                 new ArrayList<Map<String, Object>>() {{
@@ -193,12 +195,16 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         return tdocId;
     }
 
-    private DailyOvertimeRule createDailyOvertimeRule(String fromEarnGroup, String earnCode, String location, String paytype, String dept, Long workArea, Long task, BigDecimal minHours, BigDecimal maxGap, String overtimePref) {
+    private DailyOvertimeRule createDailyOvertimeRule(String groupKeyCode, String fromEarnGroup, String earnCode, 
+    		//String location, 
+    		String paytype, String dept, Long workArea, Long task, BigDecimal minHours, BigDecimal maxGap, String overtimePref) {
         DailyOvertimeRule rule = new DailyOvertimeRule();
+        
+        rule.setGroupKeyCode("IU-IN");
         rule.setEffectiveLocalDate(JAN_AS_OF_DATE.toLocalDate());
         rule.setFromEarnGroup(fromEarnGroup);
         rule.setEarnCode(earnCode);
-        rule.setLocation(location);
+        //rule.setLocation(location);
         rule.setPaytype(paytype);
         rule.setDept(dept);
         rule.setWorkArea(workArea);

@@ -22,10 +22,8 @@
 
 	<bean name="DailyOvertimeRule" parent="DailyOvertimeRule-parentBean" />
 
-	<bean id="DailyOvertimeRule-parentBean" abstract="true"
-		parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass"
-			value="org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule" />
+	<bean id="DailyOvertimeRule-parentBean" abstract="true" parent="KPMETkKeyedBusinessObjectParent">
+		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule" />
 		<property name="titleAttribute" value="tkDailyOvertimeRuleId" />
 		<property name="objectLabel" value="DailyOvertimeRule" />
 		<property name="inquiryDefinition">
@@ -36,7 +34,7 @@
 		</property>
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="DailyOvertimeRule-location" />
+				<!-- <ref bean="DailyOvertimeRule-location" /> -->
 				<ref bean="DailyOvertimeRule-paytype" />
 				<ref bean="DailyOvertimeRule-dept" />
 				<ref bean="DailyOvertimeRule-workArea" />
@@ -52,7 +50,7 @@
 		</property>
 
 		<property name="relationships">
-			<list>
+			<list merge="true">
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="workAreaObj" />
 					<property name="primitiveAttributes">
@@ -60,30 +58,33 @@
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
 
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId" p:targetName="tkWorkAreaId"/>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId"
+								p:targetName="tkWorkAreaId" />
 						</list>
 					</property>
 				</bean>
 
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="fromEarnGroupObj" />
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="fromEarnGroup" p:targetName="earnCodeGroup" />
-            </list>
-          </property>
-        </bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="fromEarnGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="fromEarnGroup"
+								p:targetName="earnCodeGroup" />
+						</list>
+					</property>
+				</bean>
 
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="earnCodeObj" />
-          <property name="primitiveAttributes">
-            <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
-                p:targetName="earnCode" />
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode" p:targetName="ovtEarnCode" />
-            </list>
-          </property>
-        </bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="earnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode"
+								p:targetName="earnCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode"
+								p:targetName="ovtEarnCode" />
+						</list>
+					</property>
+				</bean>
 
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="departmentObj" />
@@ -106,28 +107,20 @@
 						</list>
 					</property>
 				</bean>
-				
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="locationObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="location" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId"
-								p:targetName="hrLocationId" />
-						</list>
-					</property>
-				</bean>
+				<!-- <bean parent="RelationshipDefinition"> <property name="objectAttributeName" 
+					value="locationObj" /> <property name="primitiveAttributes"> <list> <bean 
+					parent="PrimitiveAttributeDefinition" p:sourceName="location" p:targetName="location" 
+					/> <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrLocationId" 
+					p:targetName="hrLocationId" /> </list> </property> </bean> -->
 			</list>
 		</property>
-
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<!-- location -->
+	<!-- location 
 	<bean id="DailyOvertimeRule-location" parent="DailyOvertimeRule-location-parentBean" />
 	<bean id="DailyOvertimeRule-location-parentBean" abstract="true" parent="KpmeAttributeReference-location"/>
-
+	-->
 	<!-- hrPayType  -->
 	<bean id="DailyOvertimeRule-paytype" parent="DailyOvertimeRule-paytype-parentBean" />
 	<bean id="DailyOvertimeRule-paytype-parentBean" abstract="true"
@@ -267,16 +260,17 @@
   
   	<bean id="DailyOvertimeRule-inquiryDefinition" parent="DailyOvertimeRule-inquiryDefinition-parentBean" />
 
-	<bean id="DailyOvertimeRule-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+	<bean id="DailyOvertimeRule-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
+				<bean parent="KPMEGroupKeyed-InquirySectionDefinition"><!--InquirySectionDefinition  -->
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
-						<list>
+						<list merge="true">
+							<!--  
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
+							-->
 							<bean parent="FieldDefinition" p:attributeName="paytype" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
@@ -298,15 +292,16 @@
 	
 	<!--  Look up Definitions  -->
 	<bean id="DailyOvertimeRule-lookupDefinition" parent="DailyOvertimeRule-lookupDefinition-parentBean" />
-	<bean id="DailyOvertimeRule-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
+	<bean id="DailyOvertimeRule-lookupDefinition-parentBean" abstract="true" parent="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition"><!-- LookupDefinition -->
 		<property name="lookupableID" value="dailyOvertimeRuleLookupable" />
 		<property name="lookupFields">
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
+				<!-- 
 				<bean parent="FieldDefinition" p:attributeName="location" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+				-->
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 				<bean parent="FieldDefinition" p:attributeName="hrLocationId"/>
@@ -315,13 +310,15 @@
 			</list>
 		</property>
 		<property name="resultFields">
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
+				<!-- 
 				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				-->
 				<bean parent="FieldDefinition" p:attributeName="paytype" />
 				<bean parent="FieldDefinition" p:attributeName="minHours" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
         		<bean parent="FieldDefinition" p:attributeName="fromEarnGroup" />
         		<bean parent="FieldDefinition" p:attributeName="earnCode" />

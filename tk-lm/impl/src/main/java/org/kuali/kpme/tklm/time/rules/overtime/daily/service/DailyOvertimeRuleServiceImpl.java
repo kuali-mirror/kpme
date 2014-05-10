@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.assignment.Assignment;
@@ -84,47 +83,47 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	@Override
 	/**
 	 * Search for the valid Daily Overtime Rule, wild cards are allowed on
-	 * location
+	 * groupKeyCode maybe wild card later 05/10/14
 	 * paytype
 	 * department
 	 * workArea
 	 *
 	 * asOfDate is required.
 	 */
-	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, LocalDate asOfDate) {
+	public DailyOvertimeRule getDailyOvertimeRule(String groupKeyCode, String paytype, String dept, Long workArea, LocalDate asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule = null;
 
 		//		l, p, d, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, dept, workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(groupKeyCode, paytype, dept, workArea, asOfDate);
 
 		//		l, p, d, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, dept, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(groupKeyCode, paytype, dept, -1L, asOfDate);
 
 		//		l, p, *, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, "%", workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(groupKeyCode, paytype, "%", workArea, asOfDate);
 
 		//		l, p, *, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, paytype, "%", -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(groupKeyCode, paytype, "%", -1L, asOfDate);
 
 		//		l, *, d, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "%", dept, workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(groupKeyCode, "%", dept, workArea, asOfDate);
 
 		//		l, *, d, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "%", dept, -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(groupKeyCode, "%", dept, -1L, asOfDate);
 
 		//		l, *, *, w
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "%", "%", workArea, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(groupKeyCode, "%", "%", workArea, asOfDate);
 
 		//		l, *, *, -1
 		if (dailyOvertimeRule == null)
-			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(location, "%", "%", -1L, asOfDate);
+			dailyOvertimeRule = dailyOvertimeRuleDao.findDailyOvertimeRule(groupKeyCode, "%", "%", -1L, asOfDate);
 
 		//		*, p, d, w
 		if (dailyOvertimeRule == null)
@@ -184,7 +183,7 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
 		for(Assignment assignment : timesheetDocument.getAllAssignments()) {
 			JobContract job = assignment.getJob();
-			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getGroupKey().getLocationId(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getDocEndDate());
+			DailyOvertimeRule dailyOvertimeRule = getDailyOvertimeRule(job.getGroupKey().getGroupKeyCode(), job.getHrPayType(), job.getDept(), assignment.getWorkArea(), timesheetDocument.getDocEndDate());
 
 			if(dailyOvertimeRule !=null) {
 				if(mapDailyOvtRulesToAssignment.containsKey(dailyOvertimeRule)){
@@ -406,17 +405,17 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 	
 	@Override
-	public List<DailyOvertimeRule> getDailyOvertimeRules(String userPrincipalId, String dept, String workArea, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String groupKeyCode, String userPrincipalId, String dept, String workArea, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
 		List<DailyOvertimeRule> results = new ArrayList<DailyOvertimeRule>();
         
-    	List<DailyOvertimeRule> dailyOvertimeRuleObjs = dailyOvertimeRuleDao.getDailyOvertimeRules(dept, workArea, location, fromEffdt, toEffdt, active, showHist);
+    	List<DailyOvertimeRule> dailyOvertimeRuleObjs = dailyOvertimeRuleDao.getDailyOvertimeRules(groupKeyCode, dept, workArea, fromEffdt, toEffdt, active, showHist);
 	
     	for (DailyOvertimeRule dailyOvertimeRuleObj : dailyOvertimeRuleObjs) {
         	String department = dailyOvertimeRuleObj.getDept();
         	// TODO uncomment out when DailyOvertimeRule is ready 
-        	String groupKeyCode = null;
-        	//String groupKeyCode = dailyOvertimeRuleObj.getGroupKeyCode();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, dailyOvertimeRuleObj.getEffectiveLocalDate());
+        	//String groupKeyCode = null;
+        	String groupKeyCd = dailyOvertimeRuleObj.getGroupKeyCode();
+        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCd, dailyOvertimeRuleObj.getEffectiveLocalDate());
         	String loc = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
         	
         	Map<String, String> roleQualification = new HashMap<String, String>();

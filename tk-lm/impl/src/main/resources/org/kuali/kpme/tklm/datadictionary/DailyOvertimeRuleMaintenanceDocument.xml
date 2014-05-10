@@ -47,13 +47,14 @@
 
 	<!-- Maintenance Section Definitions -->	
 	<bean id="DailyOvertimeRuleMaintenanceDocument-DailyOvertimeRuleMaintenance" parent="DailyOvertimeRuleMaintenanceDocument-DailyOvertimeRuleMaintenance-parentBean" />
-	<bean id="DailyOvertimeRuleMaintenanceDocument-DailyOvertimeRuleMaintenance-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
+	<bean id="DailyOvertimeRuleMaintenanceDocument-DailyOvertimeRuleMaintenance-parentBean" abstract="true" parent="KPMEEffectiveDateGroupKeyed-MaintainableSectionDefinition"><!-- MaintainableSectionDefinition-->
 		<property name="title" value="Daily Overtime Rule Maintenance" />
 		<property name="maintainableItems">
-			<list>
+			<list merge="true">
+				<!-- 
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
+				-->
 				<bean parent="MaintainableFieldDefinition" p:name="paytype" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:required="true"/>

@@ -281,10 +281,10 @@
     </class-descriptor>
 
     <!-- DailyOvertimeRule -->
-    <!-- Business Keys - [location : payType : dept : workArea : effectiveDate : timestamp] -->
+    <!-- Business Keys - [groupKeyCode : payType : dept : workArea : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule" table="TK_DAILY_OVERTIME_RL_T">
         <field-descriptor name="tkDailyOvertimeRuleId"  column="TK_DAILY_OVERTIME_RL_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_DAILY_OVERTIME_RL_S" />
-        <field-descriptor name="location"               column="LOCATION"                   jdbc-type="VARCHAR"     length="30" />
+        <field-descriptor name="groupKeyCode"           column="GRP_KEY_CD"             	jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
         <field-descriptor name="paytype"                column="PAYTYPE"                    jdbc-type="VARCHAR"     length="4" />
         <field-descriptor name="dept"                   column="DEPT"                       jdbc-type="VARCHAR"     length="21" />
         <field-descriptor name="workArea"               column="WORK_AREA"                  jdbc-type="BIGINT"      primarykey="false" />
@@ -296,8 +296,8 @@
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"          jdbc-type="VARCHAR"     length="40" />
         <field-descriptor name="timestamp"              column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="active"                 column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
-        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="objectId"           	column="OBJ_ID"             		jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      	column="VER_NBR"            		jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo" table="TK_HOUR_DETAIL_T">

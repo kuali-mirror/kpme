@@ -33,17 +33,22 @@ import com.google.common.collect.ImmutableMap;
 
 public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContract {
 
-	private static final String WORK_AREA = "workArea";
-	private static final String DEPT = "dept";
-	private static final String PAY_TYPE = "payType";
-	private static final String LOCATION = "location";
+	static class KeyFields {
+		private static final String WORK_AREA = "workArea";
+		private static final String DEPT = "dept";
+		private static final String PAY_TYPE = "payType";
+		//private static final String LOCATION = "location";
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
+	}
 	private static final long serialVersionUID = 2064326101630818390L;
+	
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-	            .add(LOCATION)
-	            .add(PAY_TYPE)
-	            .add(DEPT)
-	            .add(WORK_AREA)
+	            //.add(KeyFields.LOCATION)
+				.add(KeyFields.GROUP_KEY_CODE)
+	            .add(KeyFields.PAY_TYPE)
+	            .add(KeyFields.DEPT)
+	            .add(KeyFields.WORK_AREA)
 	            .build();
 
 		
@@ -54,7 +59,7 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 	private String fromEarnGroup;
 	private String earnCode;
 
-	private String location;
+	//private String location;
 	private String paytype;
 	private String dept;
 	private Long workArea;
@@ -80,10 +85,11 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-    		.put(LOCATION, this.getLocation())
-    		.put(PAY_TYPE, this.getPaytype())
-			.put(DEPT, this.getDept())
-			.put(WORK_AREA, this.getWorkArea())
+    		//.put(KeyFields.LOCATION, this.getLocation())
+    		.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
+    		.put(KeyFields.PAY_TYPE, this.getPaytype())
+			.put(KeyFields.DEPT, this.getDept())
+			.put(KeyFields.WORK_AREA, this.getWorkArea())
 			.build();
 	}
 
@@ -95,13 +101,14 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 		this.tkDailyOvertimeRuleId = tkDailyOvertimeRuleId;
 	}
 
+	/*
 	public String getLocation() {
 		return location;
 	}
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
+	}*/
 
 	public BigDecimal getMaxGap() {
 		return maxGap;
@@ -257,7 +264,7 @@ public class DailyOvertimeRule extends TkRule implements DailyOvertimeRuleContra
 
 	@Override
 	public String getUniqueKey() {
-		return location + "_" + dept + "_" + workArea + "_" + paytype;
+		return getGroupKeyCode() + "_" + dept + "_" + workArea + "_" + paytype;
 	}
 
 	@Override

@@ -52,7 +52,7 @@
       </list>
     </property> 
     <property name="relationships">
-  		<list>
+  		<list merge="true">
   			<bean parent="RelationshipDefinition">
 				<property name="objectAttributeName" value="principal" />
 				<property name="primitiveAttributes">

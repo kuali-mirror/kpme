@@ -29,13 +29,13 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 public class DailyOvertimeRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb implements DailyOvertimeRuleDao {
    @Override
-	public DailyOvertimeRule findDailyOvertimeRule(String location, String paytype, String dept, Long workArea, LocalDate asOfDate) {
+	public DailyOvertimeRule findDailyOvertimeRule(String groupKeyCode, String paytype, String dept, Long workArea, LocalDate asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule;
 
 		Criteria root = new Criteria();
 		root.addEqualTo("dept", dept);
 		root.addEqualTo("workArea", workArea);
-		root.addEqualTo("location", location);
+		root.addEqualTo("groupKeyCode", groupKeyCode);
 		root.addEqualTo("paytype", paytype);
 		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DailyOvertimeRule.class, asOfDate, DailyOvertimeRule.BUSINESS_KEYS, false));
 		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DailyOvertimeRule.class, DailyOvertimeRule.BUSINESS_KEYS, false));
@@ -73,7 +73,7 @@ public class DailyOvertimeRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
 	}
 	
 	@Override
-	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String groupKeyCode, String dept, String workArea, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist) {
         List<DailyOvertimeRule> results = new ArrayList<DailyOvertimeRule>();
         
         Criteria root = new Criteria();
@@ -87,8 +87,8 @@ public class DailyOvertimeRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb impleme
         }
         
 
-        if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(location)", location.toUpperCase()); // KPME-2695
+        if (StringUtils.isNotBlank(groupKeyCode)) {
+            root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase()); // KPME-2695
         }
         
         Criteria effectiveDateFilter = new Criteria();

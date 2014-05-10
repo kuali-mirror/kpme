@@ -45,7 +45,7 @@ public class DailyOvertimeRuleMaintenanceTest extends KPMEWebTestCase{
 		inputForDescription.setValueAttribute("Test_Description");
 		
 		HtmlUnitUtil.setFieldValue(maintPage, "document.newMaintainableObject.effectiveDate", "01/01/2010");
-		HtmlUnitUtil.setFieldValue(maintPage, "document.newMaintainableObject.location", "BL");
+		HtmlUnitUtil.setFieldValue(maintPage, "document.newMaintainableObject.groupKeyCode", "IU-IN");
 		HtmlUnitUtil.setFieldValue(maintPage, "document.newMaintainableObject.paytype", "HR");
 		HtmlUnitUtil.setFieldValue(maintPage, "document.newMaintainableObject.dept", TEST_CODE_INVALID_DEPT_ID);
 		HtmlUnitUtil.setFieldValue(maintPage, "document.newMaintainableObject.workArea", TEST_CODE_INVALID_WORK_AREA_ID.toString());
