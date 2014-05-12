@@ -42,9 +42,8 @@ public class SalaryGroupLookupableHelper extends KPMELookupableHelperServiceImpl
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
-        //String institution = fieldValues.get("institution");
-        //String location = fieldValues.get("location");
-        String groupKeyCode = fieldValues.get("groupKeyCode");
+        String institution = fieldValues.get("institution");
+        String location = fieldValues.get("location");
         String leavePlan = fieldValues.get("leavePlan");
         String benefitsEligible = fieldValues.get("benefitsEligible");
         String leaveEligible = fieldValues.get("leaveEligible");
@@ -54,7 +53,7 @@ public class SalaryGroupLookupableHelper extends KPMELookupableHelperServiceImpl
             hrSalGroup = "";
         }
         
-        return ModelObjectUtils.transform(HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, groupKeyCode, leavePlan, TKUtils.formatDateString(fromEffdt),
+        return ModelObjectUtils.transform(HrServiceLocator.getSalaryGroupService().getSalaryGroups(hrSalGroup, institution, location, leavePlan, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist, benefitsEligible, leaveEligible, percentTime), toSalaryGroupBo);
 	}
 }

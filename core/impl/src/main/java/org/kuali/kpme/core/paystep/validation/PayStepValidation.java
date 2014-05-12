@@ -66,14 +66,33 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + payStep.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
-			if (!aSalGroup.getGroupKeyCode().equals(payStep.getGroupKeyCode())) {
+			/*if (!aSalGroup.getGroupKeyCode().equals(payStep.getGroupKeyCode())) {
 				String[] params = new String[3];
 				params[0] = payStep.getGroupKeyCode();
 				params[1] = aSalGroup.getGroupKeyCode();
 				params[2] = errorMes;
 				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
 				return false;
+			}*/
+			
+			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), payStep.getInstitution())) {
+				String[] params = new String[3];
+				params[0] = payStep.getInstitution();
+				params[1] = aSalGroup.getInstitution();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+				return false;
 			}
+			if(!ValidationUtils.wildCardMatch(aSalGroup.getLocation(), payStep.getLocation())) {
+				String[] params = new String[3];
+				params[0] = payStep.getLocation();
+				params[1] = aSalGroup.getLocation();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.location", "location.inconsistent", params);
+				return false;
+			}
+			
+			
 		} else {
 			this.putFieldError("dataObject.salaryGroup", "error.existence", errorMes);
 			return false;

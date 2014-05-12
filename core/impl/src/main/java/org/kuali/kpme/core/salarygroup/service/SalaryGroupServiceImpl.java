@@ -53,7 +53,7 @@ public class SalaryGroupServiceImpl implements SalaryGroupService {
 	}
 
     @Override
-    public List<SalaryGroup> getSalaryGroups(String salGroup, String groupKeyCode, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist, String benefitEligible, String leaveEligible, String percentTime) {
-        return ModelObjectUtils.transform(salaryGroupDao.getSalaryGroups(salGroup, groupKeyCode, leavePlan, fromEffdt, toEffdt, active, showHist, benefitEligible, leaveEligible, percentTime), toSalaryGroup);
+    public List<SalaryGroup> getSalaryGroups(String salGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist, String benefitEligible, String leaveEligible, String percentTime) {
+        return ModelObjectUtils.transform(salaryGroupDao.getSalaryGroups(salGroup, institution, location, leavePlan, fromEffdt, toEffdt, active, showHist, benefitEligible, leaveEligible, percentTime), toSalaryGroup);
     }
 }

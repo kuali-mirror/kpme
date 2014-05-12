@@ -26,5 +26,5 @@ public interface SalaryGroupDao {
 	public SalaryGroupBo getSalaryGroup(String hrSalGroupId);
 	public int getSalGroupCount(String salGroup);
 
-    List<SalaryGroupBo> getSalaryGroups(String hrSalGroup, String groupKeyCode, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist, String benefitEligible, String leaveEligible, String percentTime);
+    List<SalaryGroupBo> getSalaryGroups(String hrSalGroup, String institution, String location, String leavePlan, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist, String benefitEligible, String leaveEligible, String percentTime);
 }

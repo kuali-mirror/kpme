@@ -20,6 +20,7 @@ import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
@@ -45,12 +46,30 @@ public class PayGradeValidation extends HrKeyedBusinessObjectValidation {
 			this.putFieldError("dataObject.salGroup", "error.existence", errorMes);
 			return false;
 		} else {
+			/*
 			if (!aSalGroup.getGroupKeyCode().equals(aPayGrade.getGroupKeyCode())) {
 				String[] params = new String[3];
 				params[0] = aPayGrade.getGroupKeyCode();
 				params[1] = aSalGroup.getGroupKeyCode();
 				params[2] = errorMes;
 				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+				return false;
+			}*/
+			
+			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), aPayGrade.getInstitution())) {
+				String[] params = new String[3];
+				params[0] = aPayGrade.getInstitution();
+				params[1] = aSalGroup.getInstitution();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+				return false;
+			}
+			if(!ValidationUtils.wildCardMatch(aSalGroup.getLocation(), aPayGrade.getLocation())) {
+				String[] params = new String[3];
+				params[0] = aPayGrade.getLocation();
+				params[1] = aSalGroup.getLocation();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
 			}
 		} 

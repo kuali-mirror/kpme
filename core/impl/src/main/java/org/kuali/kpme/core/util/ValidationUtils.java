@@ -700,13 +700,9 @@ public class ValidationUtils {
 	public static boolean validateLocationWithSalaryGroup(String salaryGroup, String location, LocalDate asOfDate) {
 		if (asOfDate != null) {
 			SalaryGroup salGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(salaryGroup, asOfDate);
-			// TODO FIX THIS AFTER adding groupkey to SALARYGROUP 
-			//if (salGroup != null && StringUtils.isNotBlank(salGroup.getLocation())) {
-            //   return ValidationUtils.isWildCard(salGroup.getLocation()) || StringUtils.equals(salGroup.getLocation(), location);
-			//}
 			
-			if (salGroup != null && salGroup.getGroupKey() != null && salGroup.getGroupKey().getLocation() != null && StringUtils.isNotBlank(salGroup.getGroupKey().getLocation().getLocation())) {
-                return ValidationUtils.isWildCard(salGroup.getGroupKey().getLocation().getLocation()) || StringUtils.equals(salGroup.getGroupKey().getLocation().getLocation(), location);
+			if (salGroup != null && StringUtils.isNotBlank(salGroup.getLocation())) {
+               return ValidationUtils.isWildCard(salGroup.getLocation()) || StringUtils.equals(salGroup.getLocation(), location);
 			}
 		}
 		return false;

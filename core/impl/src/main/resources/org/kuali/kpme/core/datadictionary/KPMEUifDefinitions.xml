@@ -124,7 +124,7 @@
     <!-- lookup defination for group-keyed effective dated *Rule BO (that have a view link from lookup); the criteria fields list provides the common lookup fields of grp key, institution and location codes. -->
     <bean id="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupDefinition-parentBean" abstract="true" />
     <bean id="KPMEUif-GroupKeyedEffectiveDateBOLookupDefinition-parentBean" parent="LookupDefinition" abstract="true">
-    	<!-- property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl" /-->
+    	<!--property name="lookupableID" value="kpmeTkGroupKeyedBusinessObjectLookupHelperService" /-->
     	<property name="lookupFields">
 		      <list merge="true">
 		      	<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noLookup="true"/>

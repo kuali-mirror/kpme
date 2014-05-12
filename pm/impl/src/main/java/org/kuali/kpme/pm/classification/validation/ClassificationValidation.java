@@ -65,12 +65,29 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(clss.getSalaryGroup(), clss.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + clss.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
+			/*
 			if (!aSalGroup.getGroupKeyCode().equals(clss.getGroupKeyCode())) {
 				String[] params = new String[3];
 				params[0] = clss.getGroupKeyCode();
 				params[1] = aSalGroup.getGroupKeyCode();
 				params[2] = errorMes;
 				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+				return false;
+			}*/
+			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), clss.getInstitution())) {
+				String[] params = new String[3];
+				params[0] = clss.getInstitution();
+				params[1] = aSalGroup.getInstitution();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
+				return false;
+			}
+			if(!ValidationUtils.wildCardMatch(aSalGroup.getLocation(), clss.getLocation())) {
+				String[] params = new String[3];
+				params[0] = clss.getLocation();
+				params[1] = aSalGroup.getLocation();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
 			}
 		} else {

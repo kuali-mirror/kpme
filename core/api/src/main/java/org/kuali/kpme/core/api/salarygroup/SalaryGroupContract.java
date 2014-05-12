@@ -15,16 +15,16 @@
  */
 package org.kuali.kpme.core.api.salarygroup;
 
-import java.math.BigDecimal;
-
-import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
+
+import java.math.BigDecimal;
 
 /**
  * <p>SalaryGroupContract interface.</p>
  *
  */
-public interface SalaryGroupContract extends KpmeEffectiveKeyedDataTransferObject {
+public interface SalaryGroupContract extends KpmeEffectiveDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "SalaryGroup";
 
@@ -60,6 +60,17 @@ public interface SalaryGroupContract extends KpmeEffectiveKeyedDataTransferObjec
 	 * @return descr for SalaryGroup
 	 */
 	public String getDescr();
+	
+	/**
+	 * The name of the institution the salary group is associated with.
+	 * 
+	 * <p>
+	 * institution of a SalaryGroup
+	 * <p>
+	 * 
+	 * @return institution for SalaryGroup
+	 */
+	public String getInstitution();
 	
 	/**
 	 * Maximum percentage of time worked for the SalaryGroup. When defining individual positions and jobs, 
@@ -108,4 +119,14 @@ public interface SalaryGroupContract extends KpmeEffectiveKeyedDataTransferObjec
 	 */
 	public String getLeavePlan();
 
+	/**
+	 * The name of the Location the salary group is associated with.
+	 * 
+	 * <p>
+	 * location of a SalaryGroup
+	 * <p>
+	 * 
+	 * @return location for SalaryGroup
+	 */
+	public String getLocation();
 }
