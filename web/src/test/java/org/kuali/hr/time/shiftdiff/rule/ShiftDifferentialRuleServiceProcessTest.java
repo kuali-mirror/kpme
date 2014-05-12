@@ -503,9 +503,10 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 
         // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
         DateTime start = new DateTime(2010, 3, 29, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
+
         List<TimeBlock> blocks = new ArrayList<TimeBlock>();
         DateTime tbStart = new DateTime(2010, 3, 29, 0, 0, 0, 0, zone);
-        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", tbStart);
 
         //24 time block (midnight to midnight)
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart, 1, new BigDecimal("24"), "REG", jobNumber, workArea));
@@ -522,6 +523,63 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 
         // Verify post-Rule Run
         TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(17));put("REG", new BigDecimal(24));}},aggregate,2);
+
+    }
+
+    /**
+     * Tests WorkSchedules impact on Shift Differential Rule: Simple Case
+     *
+     * Create a two 24 hour timeblocks that span three different shifts, all exceeding the min hours
+     */
+    @Test
+    public void overlapMultipleShiftsWithMultipleTimeBlocks() {
+        // Create the Rule
+        boolean[] dayArray = {true, true, true, true, true, true, true};
+        // Matches HR Job ID #1 (job # 30)
+        Long jobNumber = 30L;
+        Long workArea = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+
+        //3pm to 8am, 6 hour minimum, 90 minute max gap
+        this.createShiftDifferentialRule(
+                "BWS-CAL",
+                "REG",
+                "PRM",
+                "IN",
+                "SD1",
+                "SD1",
+                (new LocalTime(15, 0)),
+                (new LocalTime(8, 0)),
+                new BigDecimal(6), // minHours
+                new BigDecimal("90.00"), // maxGap
+                dayArray);
+
+        // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+        DateTime start = new DateTime(2010, 3, 29, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
+
+        List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+        DateTime tbStart = new DateTime(2010, 3, 29, 0, 0, 0, 0, zone);
+
+        //24 time block (midnight to midnight)
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart, 1, new BigDecimal("24"), "REG", jobNumber, workArea));
+
+        //24 time block (midnight to midnight)
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart.plusDays(1), 1, new BigDecimal("24"), "REG", jobNumber, workArea));
+
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+        // Verify pre-Rule Run
+        TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(48));}},aggregate,2);
+
+        // Run Rule
+        TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
+        tdoc.setTimeBlocks(blocks);
+        TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+
+        // Verify post-Rule Run
+        //overlaps from 12a-8a (8 hours), 3p-8a (17 hours), and 3p - 12a (9 hours) == 34 hours
+        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(34));put("REG", new BigDecimal(48));}},aggregate,2);
 
     }
 
@@ -553,7 +611,6 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
                 new BigDecimal("90.00"), // maxGap
                 dayArray);
 
-        // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
         DateTime start = new DateTime(2010, 3, 29, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         List<TimeBlock> blocks = new ArrayList<TimeBlock>();
         CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
@@ -586,10 +643,67 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
     /**
      * Tests WorkSchedules impact on Shift Differential Rule: Simple Case
      *
+     * Create a single 24 hour timeblock that spans two different shift, both exceeding the min hours
+     */
+    @Test
+    public void overlapMultipleShiftsWithSameTimeBlockExceedingMinOnFirstShift() {
+        // Create the Rule
+        boolean[] dayArray = {true, true, true, true, true, true, true};
+        // Matches HR Job ID #1 (job # 30)
+        Long jobNumber = 30L;
+        Long workArea = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+
+        //3pm to 8am, 6 hour minimum, 90 minute max gap
+        this.createShiftDifferentialRule(
+                "BWS-CAL",
+                "REG",
+                "PRM",
+                "IN",
+                "SD1",
+                "SD1",
+                (new LocalTime(15, 0)),
+                (new LocalTime(8, 0)),
+                new BigDecimal(6), // minHours
+                new BigDecimal("90.00"), // maxGap
+                dayArray);
+
+        DateTime start = new DateTime(2010, 3, 29, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
+
+        //reg timeblock 1am - 9pm
+        DateTime tbStart = new DateTime(2010, 3, 30, 1, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart,   1, new BigDecimal("19"), "REG", jobNumber, workArea));
+
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+        // Verify pre-Rule Run
+        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+                .put("PRM", BigDecimal.ZERO)
+                .put("REG", new BigDecimal(19)).build(), aggregate, 2);
+
+        // Run Rule
+        TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
+        tdoc.setTimeBlocks(blocks);
+        TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+
+        // Verify post-Rule Run
+        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+                        .put("PRM", new BigDecimal(7))
+                        .put("REG", new BigDecimal(19)).build(),
+                aggregate,
+                2);
+
+    }
+
+    /**
+     * Tests WorkSchedules impact on Shift Differential Rule: Simple Case
+     *
      * Create a single 17 hour timeblock that spans two different shift, neither exceeding the min hours
      */
     @Test
-    public void overlapMultipleShiftsWithSameTimeBlocNeitherkExceedingMin() {
+    public void overlapMultipleShiftsWithSameTimeBlocNeitherExceedingMin() {
         // Create the Rule
         boolean[] dayArray = {true, true, true, true, true, true, true};
         // Matches HR Job ID #1 (job # 30)
@@ -673,10 +787,10 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         List<TimeBlock> blocks = new ArrayList<TimeBlock>();
         CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
 
-        //reg timeblock 3am - 8pm
+        //reg timeblock 10pm - midnight
         DateTime tbStart1 = new DateTime(2010, 3, 30, 22, 0, 0, 0, zone);
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("2"), "REG", jobNumber, workArea));
-        //reg timeblock 3am - 8pm
+        //reg timeblock midnight - 5am
         DateTime tbStart2 = new DateTime(2010, 3, 31, 0, 0, 0, 0, zone);
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("5"), "REG", jobNumber, workArea));
 
@@ -733,10 +847,10 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         List<TimeBlock> blocks = new ArrayList<TimeBlock>();
         CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
 
-        //reg timeblock 3am - 8pm
+        //reg timeblock 10pm - midnight
         DateTime tbStart1 = new DateTime(2010, 3, 30, 22, 0, 0, 0, zone);
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("2"), "REG", jobNumber, workArea));
-        //reg timeblock 3am - 8pm
+        //reg timeblock 1am - 5am
         DateTime tbStart2 = new DateTime(2010, 3, 31, 1, 0, 0, 0, zone);
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("4"), "REG", jobNumber, workArea));
 
@@ -793,10 +907,10 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         List<TimeBlock> blocks = new ArrayList<TimeBlock>();
         CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
 
-        //reg timeblock 3am - 8pm
+        //reg timeblock 10pm - midnight
         DateTime tbStart1 = new DateTime(2010, 3, 30, 22, 0, 0, 0, zone);
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("2"), "REG", jobNumber, workArea));
-        //reg timeblock 3am - 8pm
+        //reg timeblock 1:30am - 5:30pm
         DateTime tbStart2 = new DateTime(2010, 3, 31, 1, 30, 0, 0, zone);
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("4"), "REG", jobNumber, workArea));
 
@@ -853,11 +967,11 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         List<TimeBlock> blocks = new ArrayList<TimeBlock>();
         CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
 
-        //reg timeblock 3am - 8pm
+        //reg timeblock 10pm - midnight
         DateTime tbStart1 = new DateTime(2010, 3, 30, 22, 0, 0, 0, zone);
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("2"), "REG", jobNumber, workArea));
-        //reg timeblock 3am - 8pm
-        DateTime tbStart2 = new DateTime(2010, 3, 31, 1, 35, 0, 0, zone);
+        //reg timeblock 1:36am - 5:36am
+        DateTime tbStart2 = new DateTime(2010, 3, 31, 1, 36, 0, 0, zone);
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("4"), "REG", jobNumber, workArea));
 
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
@@ -876,6 +990,143 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", BigDecimal.valueOf(0))
                         .put("REG", BigDecimal.valueOf(6)).build(),
+                aggregate,
+                2);
+    }
+
+
+    /**
+     * Tests WorkSchedules impact on Shift Differential Rule: Simple Case
+     *
+     * Create a single 17 hour timeblock that spans two different shift, neither exceeding the min hours
+     */
+    @Test
+    public void threeBlocksWithinSameShift() {
+        // Create the Rule
+        boolean[] dayArray = {true, true, true, true, true, true, true};
+        // Matches HR Job ID #1 (job # 30)
+        Long jobNumber = 30L;
+        Long workArea = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+
+        //3pm to 8am, 6 hour minimum, 90 minute max gap
+        this.createShiftDifferentialRule(
+                "BWS-CAL",
+                "REG",
+                "PRM",
+                "IN",
+                "SD1",
+                "SD1",
+                (new LocalTime(15, 0)),
+                (new LocalTime(8, 0)),
+                new BigDecimal(6), // minHours
+                new BigDecimal("90.00"), // maxGap
+                dayArray);
+
+        // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+        DateTime start = new DateTime(2010, 3, 29, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
+
+        List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+
+        //reg timeblock 3pm - 5pm
+        DateTime tbStart1 = new DateTime(2010, 3, 30, 15, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("2"), "REG", jobNumber, workArea));
+
+        // 6pm - 9pm
+        DateTime tbStart2 = new DateTime(2010, 3, 30, 18, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("3"), "REG", jobNumber, workArea));
+
+        // 10pm - 11pm
+        DateTime tbStart3 = new DateTime(2010, 3, 30, 22, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart3,   1, new BigDecimal("1"), "REG", jobNumber, workArea));
+
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+        // Verify pre-Rule Run
+        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+                .put("PRM", BigDecimal.ZERO)
+                .put("REG", BigDecimal.valueOf(6)).build(), aggregate, 2);
+
+        // Run Rule
+        TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
+        tdoc.setTimeBlocks(blocks);
+        TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+
+        // Verify post-Rule Run
+        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+                        .put("PRM", BigDecimal.valueOf(6))
+                        .put("REG", BigDecimal.valueOf(6)).build(),
+                aggregate,
+                2);
+    }
+
+    /**
+     * Tests WorkSchedules impact on Shift Differential Rule: Simple Case
+     *
+     * Create a single 17 hour timeblock that spans two different shift, neither exceeding the min hours
+     */
+    @Test
+    public void fourBlocksWithinSameShiftSpanningTwoDays() {
+        // Create the Rule
+        boolean[] dayArray = {true, true, true, true, true, true, true};
+        // Matches HR Job ID #1 (job # 30)
+        Long jobNumber = 30L;
+        Long workArea = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+
+        //3pm to 8am, 6 hour minimum, 90 minute max gap
+        this.createShiftDifferentialRule(
+                "BWS-CAL",
+                "REG",
+                "PRM",
+                "IN",
+                "SD1",
+                "SD1",
+                (new LocalTime(15, 0)),
+                (new LocalTime(8, 0)),
+                new BigDecimal(6), // minHours
+                new BigDecimal("90.00"), // maxGap
+                dayArray);
+
+        // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+        DateTime start = new DateTime(2010, 3, 29, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
+
+        List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+
+        //reg timeblock 5pm - 6pm
+        DateTime tbStart1 = new DateTime(2010, 3, 30, 17, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("1"), "REG", jobNumber, workArea));
+
+        // 7:30pm - 8:30pm
+        DateTime tbStart2 = new DateTime(2010, 3, 30, 19, 30, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("1"), "REG", jobNumber, workArea));
+
+        // 10pm - midnight
+        DateTime tbStart3 = new DateTime(2010, 3, 30, 22, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart3,   1, new BigDecimal("2"), "REG", jobNumber, workArea));
+
+        // 1:30am - 4:30am
+        DateTime tbStart4 = new DateTime(2010, 3, 31, 1, 30, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart4,   1, new BigDecimal("3"), "REG", jobNumber, workArea));
+
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+        // Verify pre-Rule Run
+        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+                .put("PRM", BigDecimal.ZERO)
+                .put("REG", BigDecimal.valueOf(7)).build(), aggregate, 2);
+
+        // Run Rule
+        TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
+        tdoc.setTimeBlocks(blocks);
+        TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
+
+        // Verify post-Rule Run
+        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+                        .put("PRM", BigDecimal.valueOf(7))
+                        .put("REG", BigDecimal.valueOf(7)).build(),
                 aggregate,
                 2);
     }
