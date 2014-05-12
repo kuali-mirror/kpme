@@ -25,12 +25,12 @@
 	<bean id="HrGroupKey-parentBean" abstract="true"	parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.groupkey.HrGroupKeyBo" />
 		<property name="objectLabel" value="Group Key" />
-		<!--<property name="inquiryDefinition">
+		<property name="inquiryDefinition">
 			<ref bean="HrGroupKey-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
 			<ref bean="HrGroupKey-lookupDefinition" />
-		</property>-->
+		</property>
 		<property name="titleAttribute" value="groupKey" />
 		<property name="attributes">
 			<list merge="true">
@@ -105,9 +105,10 @@
 	</bean>
 
 
-<!--	<bean id="HrGroupKey-inquiryDefinition" parent="HrGroupKey-inquiryDefinition-parentBean" />
+	<bean id="HrGroupKey-inquiryDefinition" parent="HrGroupKey-inquiryDefinition-parentBean" />
 	<bean id="HrGroupKey-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.groupkey.web.HrGroupKeyInquirableImpl">
+		parent="InquiryDefinition">
+<!-- 		p:inquirableClass="org.kuali.kpme.core.groupkey.web.HrGroupKeyInquirableImpl"> -->
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -116,7 +117,7 @@
 						<list>
                             <bean parent="FieldDefinition" p:attributeName="id" />
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-							<bean parent="FieldDefinition" p:attributename="groupKeyCode" />
+							<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
 							<bean parent="FieldDefinition" p:attributeName="description" />
 							<bean parent="FieldDefinition" p:attributeName="institutionCode" />
 							<bean parent="FieldDefinition" p:attributeName="campusCode" />
@@ -131,14 +132,10 @@
 		</property>
 		<property name="translateCodes" value="false" />
 		<property name="title" value="Data Group Inquiry" />
-	</bean>-->
+	</bean>
 
 	<!-- Business Object Lookup Definition -->
-
-
-<!--
 	<bean id="HrGroupKey-lookupDefinition" parent="HrGroupKey-lookupDefinition-parentBean" />
-
 	<bean id="HrGroupKey-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="defaultSort">
@@ -149,7 +146,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="id" />
-				<bean parent="FieldDefinition" p:attributename="groupKeyCode" />
+				<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
 				<bean parent="FieldDefinition" p:attributeName="locationId" />
 				<bean parent="FieldDefinition" p:attributeName="campusCode" />
 				<bean parent="FieldDefinition" p:attributeName="institutionCode" />
@@ -165,10 +162,10 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributename="groupKeyCode" />
+				<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
 				<bean parent="FieldDefinition" p:attributeName="locationId" />
 				<bean parent="FieldDefinition" p:attributeName="campusCode" />
-				<bean parent="FieldDefinition" p:attributeName="institutionId" />
+				<bean parent="FieldDefinition" p:attributeName="institutionCode" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
@@ -176,9 +173,9 @@
 		</property>
 		<property name="title" value="Earn Code Lookup" />
 	</bean>
--->
 
-	<!-- Assignment Inquiry View -->
+
+	<!-- Inquiry View -->
 	<bean id="HrGroupKey-InquiryView" parent="Uif-InquiryView">
 		<property name="headerText" value="GroupKey Inquiry" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.groupkey.HrGroupKeyBo" />

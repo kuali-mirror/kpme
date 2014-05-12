@@ -31,14 +31,14 @@
 		</property>
     </bean>
     
-    <bean id="KPMETkKeyedBusinessObjectParent" parent="KPMEHrBusinessObjectParent" abstract="true">
-    	<property name="attributes">
-	      	<list merge="true">
-		        <ref bean="KPMEHrKeyedBusinessObjectParent-groupKeyCode"/>
-		        <ref bean="KPMEHrKeyedBusinessObjectParent-institutionCode"/>
-		        <ref bean="KPMEHrKeyedBusinessObjectParent-locationId"/>
-            </list>
-		</property>
+    <bean id="KPMETkKeyedBusinessObjectParent" parent="KPMEHrKeyedBusinessObjectParent" abstract="true">
+<!--     	<property name="attributes"> -->
+<!-- 	      	<list merge="true"> -->
+<!-- 		        <ref bean="KPMEHrKeyedBusinessObjectParent-groupKeyCode"/> -->
+<!-- 		        <ref bean="KPMEHrKeyedBusinessObjectParent-institutionCode"/> -->
+<!-- 		        <ref bean="KPMEHrKeyedBusinessObjectParent-locationId"/> -->
+<!--             </list> -->
+<!-- 		</property> -->
 		
 		<property name="relationships">
 	  		<list merge="true">
