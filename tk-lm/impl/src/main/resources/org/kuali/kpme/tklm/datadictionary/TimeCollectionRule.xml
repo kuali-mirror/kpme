@@ -72,8 +72,8 @@
 					</property>
                     <property name="supportAttributes">
                         <list>
-                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
-                                  p:targetName="effectiveDate" />
+                            <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate" p:targetName="effectiveDate" />
+                            <bean parent="SupportAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
                         </list>
                     </property>
 				</bean>

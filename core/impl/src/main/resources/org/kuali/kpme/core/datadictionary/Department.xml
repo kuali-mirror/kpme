@@ -186,12 +186,10 @@
         <property name="singlePageView" value="true" />
         <property name="items">
             <list>
-                <bean parent="Uif-Disclosure-GridSection">
+                <bean parent="KPMEGroupKeyed-InquiryGridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="items">
-                        <list>
-	                        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-	                        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+                        <list merge="true">
                             <bean parent="Uif-DataField" p:propertyName="dept" />
                             <bean parent="Uif-DataField" p:propertyName="description" />
                             <bean parent="Uif-DataField" p:propertyName="chart" />
