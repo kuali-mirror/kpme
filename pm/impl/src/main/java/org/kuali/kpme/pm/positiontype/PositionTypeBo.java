@@ -15,10 +15,6 @@
  */
 package org.kuali.kpme.pm.positiontype;
 
-import java.sql.Timestamp;
-
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.pm.api.positiontype.PositionType;
@@ -134,19 +130,6 @@ public class PositionTypeBo extends HrKeyedBusinessObject implements
 
 		return positionTypeBo;
 
-	}
-
-	public static void copyCommonFields(HrBusinessObject dest,
-			KpmeEffectiveDataTransferObject src) {
-		dest.setEffectiveDate(src.getEffectiveLocalDate() == null ? null : src
-				.getEffectiveLocalDate().toDate());
-		dest.setActive(src.isActive());
-		if (src.getCreateTime() != null) {
-			dest.setTimestamp(new Timestamp(src.getCreateTime().getMillis()));
-		}
-		dest.setUserPrincipalId(src.getUserPrincipalId());
-		dest.setVersionNumber(src.getVersionNumber());
-		dest.setObjectId(src.getObjectId());
 	}
 
 	public static PositionType to(PositionTypeBo bo) {
