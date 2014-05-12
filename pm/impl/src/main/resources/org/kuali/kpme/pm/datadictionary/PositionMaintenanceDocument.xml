@@ -315,7 +315,7 @@
                       p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl"
-                              p:disabled="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}"/>
+                              p:disabled="true"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
@@ -343,12 +343,6 @@
                             <entry key="active" value="active" />
                         </map>
                     </property>
-                    <!-- 
-                    <property name="attributeQuery">
-	            		<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getClassification"
-	            			p:queryMethodArgumentFieldList="positionClass" 
-	                  		p:returnFieldMapping="classificationTitle:classificationTitle,salaryGroup:salaryGroup,percentTime:percentTime,benefitsEligible:benefitsEligible,leaveEligible:leaveEligible,leavePlan:leavePlan,payGrade:payGrade,positionReportGroup:positionReportGroup,positionType:positionType,poolEligible:poolEligible,tenureEligible:tenureEligible,active:active"/>
-	        		</property>   -->
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="classificationTitle" p:readOnly="true "/>
 				<bean parent="Uif-InputField" p:propertyName="description"
