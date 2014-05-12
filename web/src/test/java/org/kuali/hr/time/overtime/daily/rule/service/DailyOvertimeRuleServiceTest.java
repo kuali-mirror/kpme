@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
@@ -78,11 +79,13 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 				task, new BigDecimal(8), new BigDecimal("0.10"), null);
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours first block, 5 the next.
 		// Should end up with 2 hours total OVT.
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime tbStart = new DateTime(2010, 3, 29, 14, 0, 0, 0, zone);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task));
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
@@ -111,11 +114,13 @@ public class DailyOvertimeRuleServiceTest extends KPMEWebTestCase {
 
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours first block, 5 the next.
 		// Should end up with 2 hours total OVT.
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
 		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime tbStart = new DateTime(2010, 3, 29, 14, 0, 0, 0, zone);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task));
-		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart, 2, new BigDecimal("4"), "REG", jobNumber, workArea, task));
+		blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart.plusHours(4).plusMinutes(15), 2, new BigDecimal("5"), "REG", jobNumber, workArea, task));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
