@@ -46,7 +46,7 @@ public class PayTypeBo extends HrKeyedBusinessObject implements PayTypeContract 
     //KPME-2273/1965 Primary Business Keys List.	
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(KeyFields.PAY_TYPE)
-            .add(KeyFields.GROUP_KEY_CODE)
+//            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
 	private static final long serialVersionUID = 1L;
@@ -66,7 +66,7 @@ public class PayTypeBo extends HrKeyedBusinessObject implements PayTypeContract 
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
 			.put(KeyFields.PAY_TYPE, this.getPayType())
-			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
+//			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 
