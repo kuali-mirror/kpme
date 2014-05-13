@@ -24,7 +24,7 @@ public interface PositionTypeDao {
 	
 	public PositionTypeBo getPositionTypeById(String pmPositionTypeId);
 	
-	public List<PositionTypeBo> getPositionTypeList(String ositionType, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionTypeBo> getPositionTypeList(String ositionType, String institution, String location, LocalDate asOfDate);
 	
 	public PositionTypeBo getPositionType(String positionType, LocalDate asOfDate);
 }

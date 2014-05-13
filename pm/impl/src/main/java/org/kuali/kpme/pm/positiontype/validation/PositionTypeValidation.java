@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.pm.positiontype.validation;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.positiontype.PositionTypeBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -30,9 +32,32 @@ public class PositionTypeValidation extends HrKeyedBusinessObjectValidation  {
 		
 		if (positionType != null) {
 			valid = true;
-			valid &= this.validateGroupKeyCode(positionType);
+			//valid &= this.validateGroupKeyCode(positionType);
+			valid &= this.validateInstitution(positionType);
+			valid &= this.validateLocation(positionType);
 		}
 		return valid;
 	}
 
+	private boolean validateInstitution(PositionTypeBo positionType) {
+		if (StringUtils.isNotEmpty(positionType.getInstitution())
+				&& !ValidationUtils.validateInstitution(positionType.getInstitution(), positionType.getEffectiveLocalDate())) {
+			this.putFieldError("dataObject.institution", "error.existence", "Institution '"
+					+ positionType.getInstitution() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean validateLocation(PositionTypeBo positionType) {
+		if (StringUtils.isNotEmpty(positionType.getLocation())
+				&& !ValidationUtils.validateLocation(positionType.getLocation(), positionType.getEffectiveLocalDate())) {
+			this.putFieldError("dataObject.location", "error.existence", "Location '"
+					+ positionType.getLocation() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

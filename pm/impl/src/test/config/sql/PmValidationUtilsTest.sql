@@ -37,6 +37,6 @@ insert into PM_PSTN_RPT_GRP_T (`pm_pstn_rpt_grp_id`, `pstn_rpt_grp`, `descriptio
 insert into PM_PSTN_QLFCTN_VL_T(`PM_PSTN_QLFCTN_VL_ID`, `VL_NM`, `OBJ_ID`, `VER_NBR`) values ('5000', 'existing', uuid(), '1');
 insert into HR_PAY_GRADE_T(`HR_PAY_GRADE_ID`,`PAY_GRADE`,`DESCRIPTION`,`TIMESTAMP`,`ACTIVE`,`EFFDT`,`SAL_GROUP`,`GRP_KEY_CD`) values ('5000','T','test',now(),'Y','2012-01-01','testSalGrp','DEFAULT');
 insert into HR_DEPT_AFFL_T(`HR_DEPT_AFFL_ID`,`DEPT_AFFL_TYP`,`EFFDT`,`PRIMARY_INDICATOR`,`ACTIVE`,`VER_NBR`) values ('5000','testType','2012-01-01','Y','Y',1);
-insert into PM_PSTN_TYP_T(`PM_PSTN_TYP_ID`,`PSTN_TYP`,`GRP_KEY_CD`,`EFFDT`,`ACTIVE`,`VER_NBR`) values ('5000','testTyp','DEFAULT','2012-01-01','Y',1);
+insert into PM_PSTN_TYP_T(`PM_PSTN_TYP_ID`,`PSTN_TYP`,`INSTITUTION`,`LOCATION`,`EFFDT`,`ACTIVE`,`VER_NBR`) values ('5000','testTyp','testInst','BL','2012-01-01','Y',1);
 
 insert into PM_PSTN_APPOINTMENT_T(`PM_PSTN_APPOINTMENT_ID`,`PSTN_APPOINTMENT`,`DESCRIPTION`,`GRP_KEY_CD`,`EFFDT`,`ACTIVE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`USER_PRINCIPAL_ID`) values ('5000','noWildCard','noWildCard','UGA-ATHENS','2010-01-01','Y',now(),1,1,'admin');

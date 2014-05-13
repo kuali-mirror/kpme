@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.api.positiontype.PositionType;
-import org.kuali.kpme.pm.api.positiontype.PositionType;
 
 public interface PositionTypeService {
 	/**
@@ -33,11 +32,12 @@ public interface PositionTypeService {
 	 * Get list of PositionType with given group, groupKeyCode and effective date
 	 * wild card allowed
 	 * @param positionType
-	 * @param groupKeyCode
+	 * @param institution
+	 * @param location
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PositionType> getPositionTypeList(String positionType, String groupKeyCode, LocalDate asOfDate);
+	public List<? extends PositionType> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the latest active Position Type with given positionType and effectiveDate

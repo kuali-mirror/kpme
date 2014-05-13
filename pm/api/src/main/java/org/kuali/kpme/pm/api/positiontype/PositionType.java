@@ -51,8 +51,11 @@ import org.w3c.dom.Element;
     PositionType.Elements.EFFECTIVE_LOCAL_DATE,
     PositionType.Elements.CREATE_TIME,
     PositionType.Elements.USER_PRINCIPAL_ID,
-    PositionType.Elements.GROUP_KEY,
-    PositionType.Elements.GROUP_KEY_CODE,
+    
+    PositionType.Elements.LOCATION,
+    PositionType.Elements.INSTITUTION,
+//    PositionType.Elements.GROUP_KEY,
+//    PositionType.Elements.GROUP_KEY_CODE,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PositionType
@@ -82,10 +85,16 @@ public final class PositionType
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY, required = false)
-    private final HrGroupKey groupKey;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
-    private final String groupKeyCode;
+    
+    @XmlElement(name = Elements.LOCATION, required = false)
+    private final String location;
+    @XmlElement(name = Elements.INSTITUTION, required = false)
+    private final String institution;
+    
+//    @XmlElement(name = Elements.GROUP_KEY, required = false)
+//    private final HrGroupKey groupKey;
+//    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
+//    private final String groupKeyCode;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -106,8 +115,11 @@ public final class PositionType
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKey = null;
-        this.groupKeyCode = null;
+        
+        this.location = null;
+        this.institution = null;
+//        this.groupKey = null;
+//        this.groupKeyCode = null;
     }
 
     private PositionType(Builder builder) {
@@ -122,8 +134,11 @@ public final class PositionType
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
-        this.groupKeyCode = builder.getGroupKeyCode();
+        
+        this.location = builder.getLocation();
+        this.institution = builder.getInstitution();
+//        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+//        this.groupKeyCode = builder.getGroupKeyCode();
     }
 
     @Override
@@ -182,14 +197,24 @@ public final class PositionType
     }
 
     @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
+    public String getLocation() {
+        return this.location;
+    }
+    
+    @Override
+    public String getInstitution() {
+        return this.institution;
     }
 
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
+//    @Override
+//    public HrGroupKey getGroupKey() {
+//        return this.groupKey;
+//    }
+//
+//    @Override
+//    public String getGroupKeyCode() {
+//        return this.groupKeyCode;
+//    }
 
 
     /**
@@ -211,8 +236,12 @@ public final class PositionType
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
+        
+        private String location;
+        private String institution;
+//        private String groupKeyCode;
+//        private HrGroupKey.Builder groupKey;
+
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -222,15 +251,16 @@ public final class PositionType
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
             return new Builder();
         }
-        private Builder(String groupKeyCode, String positionType) {
+        
+        private Builder(String positionType) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
-        	setGroupKeyCode(groupKeyCode);
+        	//setGroupKeyCode(groupKeyCode);
         	setPositionType(positionType);
         }
 
-        public static Builder create(String groupKeyCode, String positionType) {
+        public static Builder create(String positionType) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(groupKeyCode,positionType);
+            return new Builder(positionType);
         }
 
         public static Builder create(PositionTypeContract contract) {
@@ -238,7 +268,11 @@ public final class PositionType
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create(contract.getGroupKeyCode(),contract.getPositionType());
+            Builder builder = create(contract.getPositionType());
+           
+            builder.setLocation(contract.getLocation());
+            builder.setInstitution(contract.getInstitution());
+            
             builder.setDescription(contract.getDescription());
             builder.setAcademicFlag(contract.isAcademicFlag());
             builder.setPositionType(contract.getPositionType());
@@ -250,8 +284,8 @@ public final class PositionType
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKeyCode(contract.getGroupKeyCode());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+            //builder.setGroupKeyCode(contract.getGroupKeyCode());
+            //builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -259,6 +293,17 @@ public final class PositionType
             return new PositionType(this);
         }
 
+        @Override
+        public String getLocation() {
+            return this.location;
+        }
+
+        @Override
+        public String getInstitution() {
+            return this.institution;
+        }
+
+        
         @Override
         public String getDescription() {
             return this.description;
@@ -314,16 +359,25 @@ public final class PositionType
             return this.userPrincipalId;
         }
 
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return this.groupKey;
+//        @Override
+//        public HrGroupKey.Builder getGroupKey() {
+//            return this.groupKey;
+//        }
+//
+//        @Override
+//        public String getGroupKeyCode() {
+//            return this.groupKeyCode;
+//        }
+
+        
+        public void setLocation(String location) {
+            this.location = location;
         }
 
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
+        public void setInstitution(String institution) {
+            this.institution = institution;
         }
-
+        
         public void setDescription(String description) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.description = description;
@@ -379,16 +433,16 @@ public final class PositionType
             this.userPrincipalId = userPrincipalId;
         }
 
-        public void setGroupKeyCode(String groupKeyCode) {
-            if (StringUtils.isWhitespace(groupKeyCode)) {
-                throw new IllegalArgumentException("groupKeyCode is blank");
-            }
-            this.groupKeyCode = groupKeyCode;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
-        }
+//        public void setGroupKeyCode(String groupKeyCode) {
+//            if (StringUtils.isWhitespace(groupKeyCode)) {
+//                throw new IllegalArgumentException("groupKeyCode is blank");
+//            }
+//            this.groupKeyCode = groupKeyCode;
+//        }
+//
+//        public void setGroupKey(HrGroupKey.Builder groupKey) {
+//            this.groupKey = groupKey;
+//        }
 
     }
 
@@ -411,7 +465,8 @@ public final class PositionType
      */
     static class Elements {
 
-        final static String DESCRIPTION = "description";
+        //public static final String LOCATION = null;
+		final static String DESCRIPTION = "description";
         final static String ACADEMIC_FLAG = "academicFlag";
         final static String POSITION_TYPE = "positionType";
         final static String PM_POSITION_TYPE_ID = "pmPositionTypeId";
@@ -420,8 +475,11 @@ public final class PositionType
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        final static String GROUP_KEY = "groupKey";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
+        
+        final static String LOCATION = "location";
+        final static String INSTITUTION = "institution";
+//        final static String GROUP_KEY = "groupKey";
+//        final static String GROUP_KEY_CODE = "groupKeyCode";
 
     }
 

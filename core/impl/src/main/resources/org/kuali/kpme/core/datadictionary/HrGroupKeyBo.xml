@@ -171,7 +171,7 @@
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
-		<property name="title" value="Earn Code Lookup" />
+		<property name="title" value="Group Key Lookup" />
 	</bean>
 
 

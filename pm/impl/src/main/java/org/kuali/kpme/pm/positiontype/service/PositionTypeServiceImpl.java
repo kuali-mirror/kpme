@@ -39,11 +39,10 @@ public class PositionTypeServiceImpl implements PositionTypeService {
 	}
 
 	@Override
-	public List<PositionType> getPositionTypeList(String positionType,
-			String groupKeyCode, LocalDate asOfDate) {
+	public List<PositionType> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate) {
 
 		List<PositionTypeBo> bos = positionTypeDao.getPositionTypeList(
-				positionType, groupKeyCode, asOfDate);
+				positionType, institution, location, asOfDate);
 		return convertToImmutable(bos);
 	}
 

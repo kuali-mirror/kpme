@@ -152,8 +152,15 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 			this.putFieldError("dataObject.positionType", "error.existence", errorMes);
 			return false;
 		} else {
-			// TODO When location and institution are added back to Position Type, uncomment out the code below
-			/*
+			/*if (!aPType.getGroupKeyCode().equals(clss.getGroupKeyCode())) {
+			String[] params = new String[3];
+			params[0] = clss.getGroupKeyCode();
+			params[1] = aPType.getGroupKeyCode();
+			params[2] = errorMes;
+			this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+			return false;
+			}*/
+			
 			if(!ValidationUtils.wildCardMatch(aPType.getInstitution(), clss.getInstitution())) {
 				String[] params = new String[3];
 				params[0] = clss.getInstitution();
@@ -169,7 +176,7 @@ public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 				params[2] = errorMes;
 				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
-			}*/
+			}
 		} 
 		
 		return true;

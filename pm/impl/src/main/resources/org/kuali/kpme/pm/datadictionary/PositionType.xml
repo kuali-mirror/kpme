@@ -22,13 +22,15 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 	<bean id="PositionType" parent="PositionType-parentBean"/>
- 	<bean id="PositionType-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
+ 	<bean id="PositionType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 	    <property name="dataObjectClass" value="org.kuali.kpme.pm.positiontype.PositionTypeBo"/>
 	    <property name="attributes">
 	      <list merge="true">
 	        <ref bean="PositionType-pmPositionTypeId"/>
 	        <ref bean="PositionType-positionType"/>
 	        <ref bean="PositionType-description"/>
+	        <ref bean="PositionType-institution"/>
+	        <ref bean="PositionType-location"/>
             <ref bean="PositionType-academicFlag"/>
 	      </list>
 	    </property>
@@ -74,6 +76,16 @@
 		<property name="description" value="description" />
 	</bean>
 	
+	<bean id="PositionType-institution" parent="PositionType-institution-parentBean" />
+	<bean id="PositionType-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
+		<property name="required" value="true" />
+	</bean>
+	
+	<bean id="PositionType-location" parent="PositionType-location-parentBean" />
+	<bean id="PositionType-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
+		<property name="required" value="true" />
+	</bean>
+
     <bean id="PositionType-academicFlag" parent="PositionType-academicFlag-parentBean" />
     <bean id="PositionType-academicFlag-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
         <property name="shortLabel" value="Academic" />
@@ -87,54 +99,74 @@
   	
   <!-- Position Type Lookup View -->
  
-  <bean id="PositionType-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
+  <bean id="PositionType-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Position Type Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionTypeBo" />
     <property name="criteriaFields">
       <list merge="true">
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType" />   
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionType" />       
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
+	         <property name="quickfinder">
+	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
+	        		 p:fieldConversions="institutionCode:institution"/>
+	   		 </property>
+        </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
+        	<property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
+								p:fieldConversions="location:location" />
+			</property>
+        </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="academicFlag"/>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
     <property name="resultFields">
-      <list merge="true">
+      <list>
         <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
         <bean parent="Uif-DataField" p:propertyName="positionType" >
         	<property name="inquiry">
 	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.pm.positiontype.PositionTypeBo" 
 	        	p:inquiryParameters="pmPositionTypeId:pmPositionTypeId"/>
     		</property>
-        </bean> 
+        </bean>
+        <bean parent="Uif-DataField" p:propertyName="institution" />
+        <bean parent="Uif-DataField" p:propertyName="location" >
+        	
+        </bean>
         <bean parent="Uif-DataField" p:propertyName="academicFlag"/>
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
   </bean> 
  
- 	<!-- Position Type Inquiry View -->
-	<bean id="PositionType-InquiryView" parent="Uif-InquiryView">
-		<property name="headerText" value="Position Type Inquiry" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionTypeBo" />
-		<property name="singlePageView" value="true" />
-		<property name="title" value="Position Type Inquiry" />
-		<property name="items">
-			<list>
-				<bean parent="KPMEGroupKeyed-InquiryGridSection">
-					<property name="layoutManager.numberOfColumns" value="2" />
-					<property name="items">
-						<list merge="true">
-							<bean parent="Uif-DataField" p:propertyName="description" />
-							<bean parent="Uif-DataField" p:propertyName="academicFlag" />
-							<bean parent="Uif-DataField" p:propertyName="active" />
-							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean> 
+ <!-- Position Type Inquiry View -->
+  <bean id="PositionType-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Position Type Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionTypeBo"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+  			<bean parent="Uif-Disclosure-GridSection">
+		      <property name="layoutManager.numberOfColumns" value="2"/>
+		      <property name="items">
+	       	 	<list>
+		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			        <bean parent="Uif-DataField" p:propertyName="positionType" />
+			        <bean parent="Uif-DataField" p:propertyName="description" />
+			        <bean parent="Uif-DataField" p:propertyName="institution" />
+			        <bean parent="Uif-DataField" p:propertyName="location" />
+                    <bean parent="Uif-DataField" p:propertyName="academicFlag"/>
+			        <bean parent="Uif-DataField" p:propertyName="active"/>
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId"/>
+	        	</list>
+	     	 </property>
+	     	 <property name="title" value="Position Type Inquiry"/>
+	   	   </bean>
+      </list>
+    </property>
+  </bean> 
   
 <!--  Position Type Maintenance View -->
   <bean id="PositionType-MaintenanceView" parent="PositionType-MaintenanceView-parentBean"/>
@@ -143,11 +175,24 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positiontype.PositionTypeBo"/>
     <property name="items">
       <list merge="true">
-        <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
+        <bean parent="Uif-MaintenanceGridSection">
           <property name="items">
-            <list merge="true">
+            <list>
+	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="positionType" />
 		        <bean parent="Uif-InputField" p:propertyName="description" />
+		        <bean parent="Uif-InputField" p:propertyName="institution" >
+			        <property name="quickfinder">
+		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
+		        			 p:fieldConversions="institutionCode:institution"/>
+		   			</property>
+		        </bean>
+		        <bean parent="Uif-InputField" p:propertyName="location" >
+		        	<property name="quickfinder">
+							<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
+								p:fieldConversions="location:location" />
+					</property>
+		        </bean>
                 <bean parent="Uif-InputField" p:propertyName="academicFlag"/>
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>

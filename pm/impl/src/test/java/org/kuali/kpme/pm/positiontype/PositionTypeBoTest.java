@@ -30,8 +30,8 @@ import org.kuali.kpme.pm.api.positiontype.PositionType;
 
 public class PositionTypeBoTest {
 	private static Map<String, PositionType> testPositionTypeBos;
-	public static PositionType.Builder positionTypeBuilder = PositionType.Builder.create("ISU-IA", "TST-PSTNTYP");
-	
+	//public static PositionType.Builder positionTypeBuilder = PositionType.Builder.create("ISU-IA", "TST-PSTNTYP");
+	public static PositionType.Builder positionTypeBuilder = PositionType.Builder.create("TST-PSTNTYP");
 	static{
 		testPositionTypeBos = new HashMap<String, PositionType>();
 		
@@ -40,8 +40,10 @@ public class PositionTypeBoTest {
 		positionTypeBuilder.setCreateTime(DateTime.now());
 		positionTypeBuilder.setDescription("Testing Immutable PositionType");
 		positionTypeBuilder.setEffectiveLocalDate(new LocalDate(2014, 5, 6));
-		positionTypeBuilder.setGroupKeyCode("ISU-IA");
-		positionTypeBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
+		positionTypeBuilder.setLocation("IA");
+		positionTypeBuilder.setLocation("ISU");
+		//positionTypeBuilder.setGroupKeyCode("ISU-IA");
+		//positionTypeBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
 		positionTypeBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		positionTypeBuilder.setPmPositionTypeId("KPME-TEST-0001");
 		positionTypeBuilder.setId(positionTypeBuilder.getPmPositionTypeId());

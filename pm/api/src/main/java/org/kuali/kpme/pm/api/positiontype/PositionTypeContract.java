@@ -15,14 +15,14 @@
  */
 package org.kuali.kpme.pm.api.positiontype;
 
-import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 
 /**
  * <p>PositionTypeContract interface</p>
  *
  */
-public interface PositionTypeContract extends KpmeEffectiveKeyedDataTransferObject {
-
+public interface PositionTypeContract extends KpmeEffectiveDataTransferObject {
+	
     /**
      * The primary key for a PositionType entry saved in the database
      *
@@ -55,6 +55,50 @@ public interface PositionTypeContract extends KpmeEffectiveKeyedDataTransferObje
      * @return description for PositionType
      */
 	public String getDescription();
+
+    /**
+     * The institution associated with the PositionType
+     *
+     * <p>
+     * institution of a PositionType.
+     * <p>
+     *
+     * @return institution for PositionType
+     */
+	public String getInstitution();
+
+    /**
+     * The location associated with the PositionType
+     *
+     * <p>
+     * location of a PositionType.
+     * <p>
+     *
+     * @return location for PositionType
+     */
+	public String getLocation();
+
+    /**
+     * The Location object associated with the PositionType
+     *
+     * <p>
+     * locationObj of a PositionType.
+     * <p>
+     *
+     * @return locationObj for PositionType
+     */
+	//public LocationContract getLocationObj();
+
+    /**
+     * The Institution object associated with the PositionType
+     *
+     * <p>
+     * institutionObj of a PositionType
+     * <p>
+     *
+     * @return institutionObj for PositionType
+     */
+	//public InstitutionContract getInstitutionObj();
 
     /**
      * Indicates if this Position Type is academic

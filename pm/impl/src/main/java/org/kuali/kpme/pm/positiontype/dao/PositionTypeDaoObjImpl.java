@@ -42,7 +42,7 @@ public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 	}
 
 	@Override
-	public List<PositionTypeBo> getPositionTypeList(String positionType, String groupKeyCode, LocalDate asOfDate) {
+	public List<PositionTypeBo> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate) {
 		List<PositionTypeBo> prgList = new ArrayList<PositionTypeBo>();
 		Criteria root = new Criteria();
 
@@ -50,9 +50,15 @@ public class PositionTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implements P
 				&& !ValidationUtils.isWildCard(positionType)) {
 			root.addEqualTo("positionType", positionType);  
 		}
-		if(StringUtils.isNotEmpty(groupKeyCode) 
-				&& !ValidationUtils.isWildCard(groupKeyCode)) {
-			root.addEqualTo("groupKeyCode", groupKeyCode); 
+		
+		if(StringUtils.isNotEmpty(institution) 
+				&& !ValidationUtils.isWildCard(institution)) {
+			root.addEqualTo("institution", institution); 
+		}
+		
+		if(StringUtils.isNotEmpty(location) 
+				&& !ValidationUtils.isWildCard(location)) {
+			root.addEqualTo("location", location); 
 		}
         
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionTypeBo.class, asOfDate, PositionTypeBo.BUSINESS_KEYS, false));

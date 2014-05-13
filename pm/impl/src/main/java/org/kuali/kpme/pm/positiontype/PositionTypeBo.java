@@ -15,17 +15,25 @@
  */
 package org.kuali.kpme.pm.positiontype;
 
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.pm.api.positiontype.PositionType;
 import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
+//import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule.KeyFields;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionTypeBo extends HrKeyedBusinessObject implements
-		PositionTypeContract {
+public class PositionTypeBo extends HrBusinessObject implements PositionTypeContract {
+	
+	static class KeyFields {
+		private static final String POSITION_TYPE = "positionType";
+		private static final String LOCATION = "location";
+		private static final String INSTITUTION = "institution";
+		//private static final String GROUP_KEY_CODE = "groupKeyCode";
+	}
 	
 	public static final ModelObjectUtils.Transformer<PositionTypeBo, PositionType> toImmutable = new ModelObjectUtils.Transformer<PositionTypeBo, PositionType>() {
 		public PositionType transform(PositionTypeBo input) {
@@ -39,12 +47,14 @@ public class PositionTypeBo extends HrKeyedBusinessObject implements
 		};
 	};
 
-	private static final String POSITION_TYPE = "positionType";
-	private static final String GROUP_KEY_CODE = "groupKeyCode";
-
+	
 	// KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-			.add(POSITION_TYPE).add(GROUP_KEY_CODE).build();
+			.add(KeyFields.POSITION_TYPE)
+			.add(KeyFields.LOCATION)
+	        .add(KeyFields.INSTITUTION)
+			//.add(GROUP_KEY_CODE)
+			.build();
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,14 +62,21 @@ public class PositionTypeBo extends HrKeyedBusinessObject implements
 	private String positionType;
 	private String description;
 	private boolean academicFlag;
+	
+	private String institution;
+	private String location;
 
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
-				.put(POSITION_TYPE, this.getPositionType())
-				.put(GROUP_KEY_CODE, this.getGroupKeyCode()).build();
+				.put(KeyFields.POSITION_TYPE, this.getPositionType())
+				.put(KeyFields.LOCATION, this.getLocation())
+				.put(KeyFields.INSTITUTION, this.getInstitution())
+				//.put(GROUP_KEY_CODE, this.getGroupKeyCode())
+				.build();
 	}
-
+	
+	
 	@Override
 	public String getId() {
 		return this.getPmPositionTypeId();
@@ -72,7 +89,11 @@ public class PositionTypeBo extends HrKeyedBusinessObject implements
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionType() + "_" + this.getGroupKeyCode();
+		return getPositionType() + "_" + 
+				this.getLocation() + "_" + 
+				this.getInstitution()
+				//this.getGroupKeyCode()
+				;
 	}
 
 	public String getPmPositionTypeId() {
@@ -111,6 +132,25 @@ public class PositionTypeBo extends HrKeyedBusinessObject implements
 		this.academicFlag = academicFlag;
 	}
 
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+	
+	
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+
 	public static PositionTypeBo from(PositionType im) {
 
 		if (im == null) {
@@ -120,10 +160,14 @@ public class PositionTypeBo extends HrKeyedBusinessObject implements
 		PositionTypeBo positionTypeBo = new PositionTypeBo();
 		positionTypeBo.setDescription(im.getDescription());
 		positionTypeBo.setPmPositionTypeId(im.getPmPositionTypeId());
-		positionTypeBo.setPositionType(im.getPositionType());
-		positionTypeBo.setGroupKeyCode(im.getGroupKeyCode());     
+		positionTypeBo.setPositionType(im.getPositionType());   
 		positionTypeBo.setAcademicFlag(im.isAcademicFlag());
-		positionTypeBo.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+		
+		positionTypeBo.setLocation(im.getLocation()); 
+		positionTypeBo.setInstitution(im.getInstitution()); 
+		
+//		positionTypeBo.setGroupKeyCode(im.getGroupKeyCode()); 
+//		positionTypeBo.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
 
 
 		copyCommonFields(positionTypeBo, im);
