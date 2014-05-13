@@ -20,7 +20,7 @@ import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
-public abstract class HrBusinessObjectKey extends HrBusinessObjectDerived implements HrBusinessObjectKeyContract {
+public abstract class HrBusinessObjectKey<O extends HrKeyedSetBusinessObject> extends HrBusinessObjectDerived<O> implements HrBusinessObjectKeyContract {
 	
 	private static final long serialVersionUID = 4931341075109022350L;
 	
@@ -28,8 +28,13 @@ public abstract class HrBusinessObjectKey extends HrBusinessObjectDerived implem
 	protected transient HrGroupKeyBo groupKey;
 
 	@Override
-	public HrKeyedSetBusinessObject getOwner() {
-		return (HrKeyedSetBusinessObject) super.getOwner();
+	public O getOwner() {
+		return super.getOwner();
+	}
+	
+	@Override
+	public void setOwner(O owner) {
+		super.setOwner(owner);
 	}
 	
 	@Override

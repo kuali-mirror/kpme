@@ -24,10 +24,8 @@ public interface PositionReportGroupDao {
 	
 	public PositionReportGroupBo getPositionReportGroupById(String pmPositionReportGroupId);
 	
-	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, LocalDate asOfDate);
 	
-	public PositionReportGroupBo getPositionReportGroup(String positionReportGroup, String groupKeyCode, LocalDate asOfDate);
-	
-	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+	public PositionReportGroupBo getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
 	
 }

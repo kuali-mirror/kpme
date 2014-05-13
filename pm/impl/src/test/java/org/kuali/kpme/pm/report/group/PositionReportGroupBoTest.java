@@ -22,19 +22,17 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBoTest;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 
 public class PositionReportGroupBoTest {
 
 	private static Map<String, PositionReportGroup> testPositionReportGroupBos;
-	public static PositionReportGroup.Builder positionReportGroupBuilder = PositionReportGroup.Builder.create("ISU-IA", "TST-PSTNRPTGRP");
+	public static PositionReportGroup.Builder positionReportGroupBuilder = PositionReportGroup.Builder.create("TST-PSTNRPTGRP");
 	
 	static {
 		testPositionReportGroupBos = new HashMap<String, PositionReportGroup>();
-		positionReportGroupBuilder.setGroupKeyCode("ISU-IA");
+		
 		positionReportGroupBuilder.setDescription("Testing Immutable PositionReportGroup");
 		positionReportGroupBuilder.setPositionReportGroup("TST-PSTNRPTGRP");
 		positionReportGroupBuilder.setUserPrincipalId("admin");
@@ -47,8 +45,7 @@ public class PositionReportGroupBoTest {
 		positionReportGroupBuilder.setEffectiveLocalDate(new LocalDate(2012, 3, 1));
 		positionReportGroupBuilder.setCreateTime(DateTime.now());
 		
-		// Set GroupKeycode Object
-		positionReportGroupBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
+	
 		testPositionReportGroupBos.put(positionReportGroupBuilder.getPositionReportGroup(), positionReportGroupBuilder.build());
 	}
 	

@@ -15,6 +15,10 @@
  */
 package org.kuali.kpme.core.api.mo;
 
+import java.util.Set;
+
 public interface KpmeEffectiveKeyedSetDataTransferObject extends KpmeEffectiveDataTransferObject, KeyedSetData {
+	
+	Set<? extends KpmeEffectiveKey> getEffectiveKeySet();
 
 }

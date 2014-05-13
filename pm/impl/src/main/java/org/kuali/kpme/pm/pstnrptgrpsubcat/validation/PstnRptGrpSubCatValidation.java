@@ -60,20 +60,20 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 	}
 	
 	private boolean validatePstnRptGroup(PositionReportGroupSubCategoryBo prgsc) {
-		PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(prgsc.getPositionReportGroup(), prgsc.getGroupKeyCode(), prgsc.getEffectiveLocalDate());
+		PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(prgsc.getPositionReportGroup(), prgsc.getEffectiveLocalDate());
 		String errorMes = "PositionReportGroup '" + prgsc.getPositionReportGroup() + "'";
 		if(aPrg == null) {
 			this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
 			return false;
 		} 
-		else if(!StringUtils.equals(aPrg.getGroupKeyCode(), prgsc.getGroupKeyCode())) {
-			String[] params = new String[3];
-			params[0] = aPrg.getGroupKeyCode();
-			params[1] = aPrg.getGroupKeyCode();
-			params[2] = errorMes;
-			this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
-			return false;
-		}		
+//		else if(!StringUtils.equals(aPrg.getGroupKeyCode(), prgsc.getGroupKeyCode())) {
+//			String[] params = new String[3];
+//			params[0] = aPrg.getGroupKeyCode();
+//			params[1] = aPrg.getGroupKeyCode();
+//			params[2] = errorMes;
+//			this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+//			return false;
+//		}		
 		return true;
 		
 	}

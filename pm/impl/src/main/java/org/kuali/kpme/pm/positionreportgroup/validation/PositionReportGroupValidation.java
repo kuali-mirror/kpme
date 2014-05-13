@@ -15,12 +15,11 @@
  */
 package org.kuali.kpme.pm.positionreportgroup.validation;
 
-import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-@SuppressWarnings("deprecation")
-public class PositionReportGroupValidation extends HrKeyedBusinessObjectValidation  {
+public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
@@ -29,7 +28,7 @@ public class PositionReportGroupValidation extends HrKeyedBusinessObjectValidati
 		
 		if (prg != null) {
 			valid = true;
-			valid &= this.validateGroupKeyCode(prg);
+			//valid &= this.validateGroupKeyCode(prg);
 		}
 		return valid;
 	}

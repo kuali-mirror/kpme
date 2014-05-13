@@ -17,7 +17,7 @@ package org.kuali.kpme.pm.api.positionreportgroup;
 
 import java.io.Serializable;
 import java.util.Collection;
-
+import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -29,17 +29,20 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = PositionReportGroup.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PositionReportGroup.Constants.TYPE_NAME, propOrder = {
-    PositionReportGroup.Elements.POSITION_REPORT_GROUP,
-    PositionReportGroup.Elements.DESCRIPTION,
     PositionReportGroup.Elements.PM_POSITION_REPORT_GROUP_ID,
+    PositionReportGroup.Elements.EFFECTIVE_KEY_SET,
+    PositionReportGroup.Elements.DESCRIPTION,
+    PositionReportGroup.Elements.POSITION_REPORT_GROUP,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
     PositionReportGroup.Elements.ACTIVE,
@@ -47,21 +50,22 @@ import org.w3c.dom.Element;
     PositionReportGroup.Elements.EFFECTIVE_LOCAL_DATE,
     PositionReportGroup.Elements.CREATE_TIME,
     PositionReportGroup.Elements.USER_PRINCIPAL_ID,
-    PositionReportGroup.Elements.GROUP_KEY_CODE,
-    PositionReportGroup.Elements.GROUP_KEY,
+    PositionReportGroup.Elements.GROUP_KEY_CODE_SET,
+    PositionReportGroup.Elements.GROUP_KEY_SET,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
-public final class PositionReportGroup
-    extends AbstractDataTransferObject
-    implements PositionReportGroupContract
-{
+public final class PositionReportGroup extends AbstractDataTransferObject implements PositionReportGroupContract {
 
-    @XmlElement(name = Elements.POSITION_REPORT_GROUP, required = false)
-    private final String positionReportGroup;
+	private static final long serialVersionUID = -41287964136831033L;
+	
+	@XmlElement(name = Elements.PM_POSITION_REPORT_GROUP_ID, required = false)
+    private final String pmPositionReportGroupId;
+    @XmlElement(name = Elements.EFFECTIVE_KEY_SET, required = false)
+    private final Set<PositionReportGroupKey> effectiveKeySet;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
-    @XmlElement(name = Elements.PM_POSITION_REPORT_GROUP_ID, required = false)
-    private final String pmPositionReportGroupId;
+    @XmlElement(name = Elements.POSITION_REPORT_GROUP, required = false)
+    private final String positionReportGroup;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -76,11 +80,10 @@ public final class PositionReportGroup
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = true)
-    private final String groupKeyCode;
-    @XmlElement(name = Elements.GROUP_KEY, required = true)
-    private final HrGroupKey groupKey;
-    @SuppressWarnings("unused")
+    @XmlElement(name = Elements.GROUP_KEY_CODE_SET, required = false)
+    private final Set<String> groupKeyCodeSet;
+    @XmlElement(name = Elements.GROUP_KEY_SET, required = false)
+    private final Set<HrGroupKey> groupKeySet;
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
 
@@ -89,9 +92,10 @@ public final class PositionReportGroup
      * 
      */
     private PositionReportGroup() {
-        this.positionReportGroup = null;
-        this.description = null;
         this.pmPositionReportGroupId = null;
+        this.effectiveKeySet = null;
+        this.description = null;
+        this.positionReportGroup = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -99,14 +103,23 @@ public final class PositionReportGroup
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKeyCode = null;
-        this.groupKey = null;
+        this.groupKeyCodeSet = null;
+        this.groupKeySet = null;
     }
 
     private PositionReportGroup(Builder builder) {
-        this.positionReportGroup = builder.getPositionReportGroup();
-        this.description = builder.getDescription();
         this.pmPositionReportGroupId = builder.getPmPositionReportGroupId();
+        // set self as the owner for each of the effective key object builders
+        Set<PositionReportGroupKey.Builder> keyBuilders = builder.getEffectiveKeySet();
+        if(keyBuilders != null) {
+	        for(PositionReportGroupKey.Builder keyBuilder : keyBuilders) {
+	        	keyBuilder.setOwner(this);
+	        }
+        }
+        this.effectiveKeySet = ModelObjectUtils.<PositionReportGroupKey>buildImmutableCopy(keyBuilders);
+        
+        this.description = builder.getDescription();
+        this.positionReportGroup = builder.getPositionReportGroup();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -114,13 +127,18 @@ public final class PositionReportGroup
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
-        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKeyCodeSet = builder.getGroupKeyCodeSet();
+        this.groupKeySet = ModelObjectUtils.<HrGroupKey>buildImmutableCopy(builder.getGroupKeySet());
     }
 
     @Override
-    public String getPositionReportGroup() {
-        return this.positionReportGroup;
+    public String getPmPositionReportGroupId() {
+        return this.pmPositionReportGroupId;
+    }
+
+    @Override
+    public Set<PositionReportGroupKey> getEffectiveKeySet() {
+        return this.effectiveKeySet;
     }
 
     @Override
@@ -129,8 +147,8 @@ public final class PositionReportGroup
     }
 
     @Override
-    public String getPmPositionReportGroupId() {
-        return this.pmPositionReportGroupId;
+    public String getPositionReportGroup() {
+        return this.positionReportGroup;
     }
 
     @Override
@@ -169,13 +187,13 @@ public final class PositionReportGroup
     }
 
     @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
+    public Set<String> getGroupKeyCodeSet() {
+        return this.groupKeyCodeSet;
     }
 
     @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
+    public Set<HrGroupKey> getGroupKeySet() {
+        return this.groupKeySet;
     }
 
 
@@ -183,13 +201,14 @@ public final class PositionReportGroup
      * A builder which can be used to construct {@link PositionReportGroup} instances.  Enforces the constraints of the {@link PositionReportGroupContract}.
      * 
      */
-    public final static class Builder
-        implements Serializable, PositionReportGroupContract, ModelBuilder
-    {
+    public final static class Builder implements Serializable, PositionReportGroupContract, ModelBuilder {
 
-        private String positionReportGroup;
+		private static final long serialVersionUID = 6845448497862211410L;
+		
+		private String pmPositionReportGroupId;
+        private Set<PositionReportGroupKey.Builder> effectiveKeySet;
         private String description;
-        private String pmPositionReportGroupId;
+        private String positionReportGroup;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -197,18 +216,31 @@ public final class PositionReportGroup
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
+        private Set<String> groupKeyCodeSet;
+        private Set<HrGroupKey.Builder> groupKeySet;
 
-        private Builder(String groupKeyCode, String positionReportGroup) {
+        private static final ModelObjectUtils.Transformer<PositionReportGroupKeyContract, PositionReportGroupKey.Builder> toPositionReportGroupKeyBuilder 
+		        = new ModelObjectUtils.Transformer<PositionReportGroupKeyContract, PositionReportGroupKey.Builder>() {
+					public PositionReportGroupKey.Builder transform(PositionReportGroupKeyContract input) {
+						return PositionReportGroupKey.Builder.create(input);
+					}
+				};
+				
+		private static final ModelObjectUtils.Transformer<HrGroupKeyContract, HrGroupKey.Builder> toHrGroupKeyBuilder 
+		        = new ModelObjectUtils.Transformer<HrGroupKeyContract, HrGroupKey.Builder>() {
+					public HrGroupKey.Builder transform(HrGroupKeyContract input) {
+						return HrGroupKey.Builder.create(input);
+					}
+				};	    
+        
+        private Builder(String positionReportGroup) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
-        	setGroupKeyCode(groupKeyCode);
         	setPositionReportGroup(positionReportGroup);
         }
 
-        public static Builder create(String groupKeyCode, String positionReportGroup) {
+        public static Builder create(String positionReportGroup) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(groupKeyCode,positionReportGroup);
+            return new Builder(positionReportGroup);
         }
 
         public static Builder create(PositionReportGroupContract contract) {
@@ -216,9 +248,10 @@ public final class PositionReportGroup
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create(contract.getGroupKeyCode(),contract.getPositionReportGroup());
-            builder.setDescription(contract.getDescription());
+            Builder builder = create(contract.getPositionReportGroup());
             builder.setPmPositionReportGroupId(contract.getPmPositionReportGroupId());
+            builder.setEffectiveKeySet(ModelObjectUtils.transformSet(contract.getEffectiveKeySet(), toPositionReportGroupKeyBuilder));
+            builder.setDescription(contract.getDescription());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -226,7 +259,8 @@ public final class PositionReportGroup
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+            builder.setGroupKeyCodeSet(contract.getGroupKeyCodeSet());
+            builder.setGroupKeySet(ModelObjectUtils.transformSet(contract.getGroupKeySet(), toHrGroupKeyBuilder));
             return builder;
         }
 
@@ -235,8 +269,13 @@ public final class PositionReportGroup
         }
 
         @Override
-        public String getPositionReportGroup() {
-            return this.positionReportGroup;
+        public String getPmPositionReportGroupId() {
+            return this.pmPositionReportGroupId;
+        }
+
+        @Override
+        public Set<PositionReportGroupKey.Builder> getEffectiveKeySet() {
+            return this.effectiveKeySet;
         }
 
         @Override
@@ -245,8 +284,8 @@ public final class PositionReportGroup
         }
 
         @Override
-        public String getPmPositionReportGroupId() {
-            return this.pmPositionReportGroupId;
+        public String getPositionReportGroup() {
+            return this.positionReportGroup;
         }
 
         @Override
@@ -285,21 +324,23 @@ public final class PositionReportGroup
         }
 
         @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
+        public Set<String> getGroupKeyCodeSet() {
+            return this.groupKeyCodeSet;
         }
 
         @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return this.groupKey;
+        public Set<HrGroupKey.Builder> getGroupKeySet() {
+            return this.groupKeySet;
         }
 
-        public void setPositionReportGroup(String positionReportGroup) {
+        public void setPmPositionReportGroupId(String pmPositionReportGroupId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-        	if (StringUtils.isWhitespace(positionReportGroup)) {
-                throw new IllegalArgumentException("positionReportGroup is blank");
-            }
-            this.positionReportGroup = positionReportGroup;
+            this.pmPositionReportGroupId = pmPositionReportGroupId;
+        }
+
+        public void setEffectiveKeySet(Set<PositionReportGroupKey.Builder> effectiveKeySet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.effectiveKeySet = effectiveKeySet;
         }
 
         public void setDescription(String description) {
@@ -307,9 +348,12 @@ public final class PositionReportGroup
             this.description = description;
         }
 
-        public void setPmPositionReportGroupId(String pmPositionReportGroupId) {
+        public void setPositionReportGroup(String positionReportGroup) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.pmPositionReportGroupId = pmPositionReportGroupId;
+            if (StringUtils.isWhitespace(positionReportGroup) || (positionReportGroup == null)) {
+                throw new IllegalArgumentException("positionReportGroup is blank");
+            }
+            this.positionReportGroup = positionReportGroup;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -347,15 +391,14 @@ public final class PositionReportGroup
             this.userPrincipalId = userPrincipalId;
         }
 
-        public void setGroupKeyCode(String groupKeyCode) {
-            if (StringUtils.isWhitespace(groupKeyCode)) {
-                throw new IllegalArgumentException("groupKeyCode is blank");
-            }
-            this.groupKeyCode = groupKeyCode;
+        public void setGroupKeyCodeSet(Set<String> groupKeyCodeSet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKeyCodeSet = groupKeyCodeSet;
         }
 
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
+        public void setGroupKeySet(Set<HrGroupKey.Builder> groupKeySet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKeySet = groupKeySet;
         }
 
     }
@@ -379,18 +422,18 @@ public final class PositionReportGroup
      */
     static class Elements {
 
-        final static String POSITION_REPORT_GROUP = "positionReportGroup";
-        final static String DESCRIPTION = "description";
         final static String PM_POSITION_REPORT_GROUP_ID = "pmPositionReportGroupId";
+        final static String EFFECTIVE_KEY_SET = "effectiveKeySet";
+        final static String DESCRIPTION = "description";
+        final static String POSITION_REPORT_GROUP = "positionReportGroup";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
-        final static String GROUP_KEY = "groupKey";
+        final static String GROUP_KEY_CODE_SET = "groupKeyCodeSet";
+        final static String GROUP_KEY_SET = "groupKeySet";
 
     }
 
 }
-

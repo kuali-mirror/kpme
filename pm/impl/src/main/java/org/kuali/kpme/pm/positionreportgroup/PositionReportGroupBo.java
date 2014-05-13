@@ -15,7 +15,10 @@
  */
 package org.kuali.kpme.pm.positionreportgroup;
 
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
@@ -24,15 +27,13 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportGroupBo extends HrKeyedBusinessObject implements PositionReportGroupContract {
+public class PositionReportGroupBo extends HrKeyedSetBusinessObject implements PositionReportGroupContract {
 
-	private static final String GROUP_KEY_CODE = "groupKeyCode";
 	private static final String POSITION_REPORT_GROUP = "positionReportGroup";
 
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		    .add(POSITION_REPORT_GROUP)
-		    .add(GROUP_KEY_CODE)
 		    .build();
 
 	private static final long serialVersionUID = 1L;
@@ -40,12 +41,12 @@ public class PositionReportGroupBo extends HrKeyedBusinessObject implements Posi
 	private String pmPositionReportGroupId;
 	private String positionReportGroup;
 	private String description;
+	private Set<PositionReportGroupKeyBo> effectiveKeySet = new HashSet<PositionReportGroupKeyBo>();
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(POSITION_REPORT_GROUP, this.getPositionReportGroup())
-				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 
@@ -89,7 +90,7 @@ public class PositionReportGroupBo extends HrKeyedBusinessObject implements Posi
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionReportGroup() + "_" + this.getGroupKeyCode();
+		return getPositionReportGroup();
 	}
 
 	public String getPmPositionReportGroupId() {
@@ -128,20 +129,34 @@ public class PositionReportGroupBo extends HrKeyedBusinessObject implements Posi
 		prg.setPmPositionReportGroupId(im.getPmPositionReportGroupId());
 		prg.setPositionReportGroup(im.getPositionReportGroup());
 		prg.setDescription(im.getDescription());
-		prg.setGroupKeyCode(im.getGroupKeyCode());        
-		prg.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+		Set<PositionReportGroupKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), PositionReportGroupKeyBo.toBo);
+		// set prg as the owner for each of the derived effective key objects in the set
+		PositionReportGroupKeyBo.setOwnerOfDerivedCollection(prg, effectiveKeyBoSet);
+		prg.setEffectiveKeySet(effectiveKeyBoSet);
+		
+		prg.setGroupKeyCodeSet(im.getGroupKeyCodeSet());
+		prg.setGroupKeySet(ModelObjectUtils.transformSet(im.getGroupKeySet(), HrGroupKeyBo.toBo));
 		
 		// finally copy over the common fields into prg from im
 		copyCommonFields(prg, im);
 
 		return prg;
-	} 
+	}
 
 	public static PositionReportGroup to(PositionReportGroupBo bo) {
 		if (bo == null) {
 			return null;
 		}
 		return PositionReportGroup.Builder.create(bo).build();
+	}
+
+	@Override
+	public Set<PositionReportGroupKeyBo> getEffectiveKeySet(){
+		return this.effectiveKeySet;		
+	}
+
+	public void setEffectiveKeySet(Set<PositionReportGroupKeyBo> effectiveKeySet) {
+		this.effectiveKeySet = effectiveKeySet;
 	}
 
 }

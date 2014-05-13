@@ -22,7 +22,7 @@
 
 	<bean id="PositionReportGroup" parent="PositionReportGroup-parentBean" />
 
-	<bean id="PositionReportGroup-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
+	<bean id="PositionReportGroup-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" />
 		<property name="attributes">
 			<list merge="true">
@@ -83,7 +83,6 @@
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="positionReportGroup" />
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-							<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
                             <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
@@ -102,7 +101,7 @@
 
     <!-- Position Reporting Group Lookup View -->
 
-    <bean id="PositionReportGroup-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
+    <bean id="PositionReportGroup-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Group Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" />
         <property name="criteriaFields">
@@ -134,10 +133,11 @@
 		<property name="title" value="Position Report Group Inquiry" />
 		<property name="items">
 			<list>
-				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+				<bean parent="Uif-Disclosure-GridSection">
 					<property name="layoutManager.numberOfColumns" value="2" />
 					<property name="items">
 						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 							<bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
 							<bean parent="Uif-DataField" p:propertyName="description" />
 							<bean parent="Uif-DataField" p:propertyName="active" />
@@ -157,9 +157,10 @@
       <property name="items">
           <list merge="true">
               <!-- bean parent="Uif-MaintenanceGridSection"-->
-              <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
+              <bean parent="Uif-MaintenanceGridSection">
                  <property name="items">
                   <list merge="true">
+                  	  <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
                       <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
                       <bean parent="Uif-InputField" p:propertyName="positionReportGroup" p:required="true"/>
                       <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />

@@ -43,10 +43,9 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 	}
 
 	@Override
-	public PositionReportGroupBo getPositionReportGroup(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
+	public PositionReportGroupBo getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("positionReportGroup", positionReportGroup);
-        root.addEqualTo("groupKeyCode", groupKeyCode);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroupBo.class, asOfDate, PositionReportGroupBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroupBo.class, PositionReportGroupBo.BUSINESS_KEYS, false));
         
@@ -59,18 +58,15 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 	}
 
 	
+	@SuppressWarnings("rawtypes")
 	@Override
-	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
+	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, LocalDate asOfDate) {
 		List<PositionReportGroupBo> prgList = new ArrayList<PositionReportGroupBo>();
 		Criteria root = new Criteria();
 
 		if(StringUtils.isNotEmpty(positionReportGroup) 
 				&& !ValidationUtils.isWildCard(positionReportGroup)) {
 			root.addEqualTo("positionReportGroup", positionReportGroup);  
-		}
-		
-		if (StringUtils.isNotEmpty(groupKeyCode)) {
-			root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase());
 		}
         
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportGroupBo.class, asOfDate, PositionReportGroupBo.BUSINESS_KEYS, false));
@@ -89,59 +85,6 @@ public class PositionReportGroupDaoObjImpl extends PlatformAwareDaoBaseOjb imple
 		return prgList;
 	}
 	
-	@Override
-	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, 
-			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-		LocalDate asOfDate = LocalDate.now();
-		List<PositionReportGroupBo> prgList = new ArrayList<PositionReportGroupBo>();
-		Criteria root = new Criteria();
-
-		if (StringUtils.isNotEmpty(positionReportGroup) 
-				&& !ValidationUtils.isWildCard(positionReportGroup)) {
-			root.addLike("UPPER(positionReportGroup)", positionReportGroup.toUpperCase());
-		}
-		
-		if (StringUtils.isNotEmpty(groupKeyCode)) {
-			root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase());
-		}
-		
-		Criteria effectiveDateFilter = new Criteria();
-        if (fromEffdt != null) {
-            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt.toDate());
-        }
-        if (toEffdt != null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt.toDate());
-        }
-        if (fromEffdt == null && toEffdt == null) {
-            effectiveDateFilter.addLessOrEqualThan("effectiveDate", LocalDate.now().toDate());
-        }
-        root.addAndCriteria(effectiveDateFilter);
-        
-		if (StringUtils.isNotBlank(active)) {
-        	Criteria activeFilter = new Criteria();
-            if (StringUtils.equals(active, "Y")) {
-                activeFilter.addEqualTo("active", true);
-            } else if (StringUtils.equals(active, "N")) {
-                activeFilter.addEqualTo("active", false);
-            }
-            root.addAndCriteria(activeFilter);
-        }
-		
-		if (StringUtils.equals(showHistory, "N")) {
-			 root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PositionReportGroupBo.class, effectiveDateFilter, PositionReportGroupBo.BUSINESS_KEYS, false));
-		     root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportGroupBo.class, PositionReportGroupBo.BUSINESS_KEYS, false));   
-        }
-		
-
-		Query query = QueryFactory.newQuery(PositionReportGroupBo.class, root);
-
-		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-		
-		if (!c.isEmpty())
-			prgList.addAll(c);
-
-		return prgList;
-	}
 	
 
 }

@@ -29,24 +29,18 @@ public class PositionReportGroupServiceImpl implements PositionReportGroupServic
 	private PositionReportGroupDao positionReportGroupDao;
 	
 	@Override
-	public PositionReportGroup getPositionReportGroupById(
-			String pmPositionReportGroupId) {
+	public PositionReportGroup getPositionReportGroupById(String pmPositionReportGroupId) {
 		return PositionReportGroupBo.to(positionReportGroupDao.getPositionReportGroupById(pmPositionReportGroupId));
 	}
 	
 	@Override
-	public PositionReportGroup getPositionReportGroup(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
-		return PositionReportGroupBo.to(positionReportGroupDao.getPositionReportGroup(positionReportGroup, groupKeyCode, asOfDate));
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate) {
+		return PositionReportGroupBo.to(positionReportGroupDao.getPositionReportGroup(positionReportGroup, asOfDate));
 	}
 	
 	@Override
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate) {
-		return ModelObjectUtils.transform(positionReportGroupDao.getPositionReportGroupList(positionReportGroup, groupKeyCode, asOfDate),PositionReportGroupBo.toImmutable);
-	}
-
-	@Override
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory){
-		return ModelObjectUtils.transform(positionReportGroupDao.getPositionReportGroupList(positionReportGroup, groupKeyCode, fromEffdt, toEffdt, active, showHistory),PositionReportGroupBo.toImmutable);
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, LocalDate asOfDate) {
+		return ModelObjectUtils.transform(positionReportGroupDao.getPositionReportGroupList(positionReportGroup, asOfDate),PositionReportGroupBo.toImmutable);
 	}
 	
 	public PositionReportGroupDao getPositionReportGroupDao() {

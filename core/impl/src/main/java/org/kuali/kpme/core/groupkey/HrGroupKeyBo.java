@@ -24,6 +24,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.location.api.campus.Campus;
 
 import com.google.common.collect.ImmutableList;
@@ -53,6 +54,36 @@ public class HrGroupKeyBo extends HrBusinessObject implements HrGroupKeyContract
     private Campus campus;
     private InstitutionBo institution;
 
+    
+    /*
+	 * convert immutable to bo
+	 * 
+	 * Can be used with ModelObjectUtils:
+	 * 
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transformSet(setOfHrGroupKey, HrGroupKeyBo.toBo);
+	 */
+	public static final ModelObjectUtils.Transformer<HrGroupKey, HrGroupKeyBo> toBo =
+		new ModelObjectUtils.Transformer<HrGroupKey, HrGroupKeyBo>() {
+			public HrGroupKeyBo transform(HrGroupKey input) {
+				return HrGroupKeyBo.from(input);
+			};
+		};
+
+	/*
+	 * convert bo to immutable
+	 *
+	 * Can be used with ModelObjectUtils:
+	 *
+	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transformSet(setOfHrGroupKeyBo, HrGroupKeyBo.toImmutable);
+	 */
+	public static final ModelObjectUtils.Transformer<HrGroupKeyBo, HrGroupKey> toImmutable =
+		new ModelObjectUtils.Transformer<HrGroupKeyBo, HrGroupKey>() {
+			public HrGroupKey transform(HrGroupKeyBo input) {
+				return HrGroupKeyBo.to(input);
+			};
+		};
+		
+		
 
     @Override
     public Map<String, Object> getBusinessKeyValuesMap() {
@@ -149,28 +180,21 @@ public class HrGroupKeyBo extends HrBusinessObject implements HrGroupKeyContract
         if (im == null) {
             return null;
         }
-        HrGroupKeyBo dg = new HrGroupKeyBo();
-        dg.setId(im.getId());
-        dg.setGroupKeyCode(im.getGroupKeyCode());
-        dg.setInstitutionCode(im.getInstitutionCode());
-        dg.setDescription(im.getDescription());
-        dg.setLocationId(im.getLocationId());
-        dg.setCampusCode(im.getCampusCode());
+        HrGroupKeyBo hgk = new HrGroupKeyBo();
+        hgk.setId(im.getId());
+        hgk.setGroupKeyCode(im.getGroupKeyCode());
+        hgk.setInstitutionCode(im.getInstitutionCode());
+        hgk.setDescription(im.getDescription());
+        hgk.setLocationId(im.getLocationId());
+        hgk.setCampusCode(im.getCampusCode());
 
-        dg.setLocation(im.getLocation() == null ? null : LocationBo.from(im.getLocation()));
-        dg.setCampus(im.getCampus());
-        dg.setInstitution(im.getInstitution() == null ? null : InstitutionBo.from(im.getInstitution()));
+        hgk.setLocation(im.getLocation() == null ? null : LocationBo.from(im.getLocation()));
+        hgk.setCampus(im.getCampus());
+        hgk.setInstitution(im.getInstitution() == null ? null : InstitutionBo.from(im.getInstitution()));
+        
+        copyCommonFields(hgk, im);
 
-        dg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
-        dg.setActive(im.isActive());
-        if (im.getCreateTime() != null) {
-            dg.setTimestamp(new java.sql.Timestamp(im.getCreateTime().getMillis()));
-        }
-        dg.setUserPrincipalId(im.getUserPrincipalId());
-        dg.setVersionNumber(im.getVersionNumber());
-        dg.setObjectId(im.getObjectId());
-
-        return dg;
+        return hgk;
     }
 
     public static HrGroupKey to(HrGroupKeyBo bo) {

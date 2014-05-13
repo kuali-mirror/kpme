@@ -71,13 +71,11 @@ public interface PositionReportGroupService {
 	
 	/**
 
-	 * Get list of PositionReportGroup with given group, groupKeyCode and effective date
+	 * Get list of PositionReportGroup with given group and effective date
 
 	 * wild card allowed
 
 	 * @param positionReportGroup
-
-	 * @param groupKeyCode
 
 	 * @param asOfDate
 
@@ -85,7 +83,7 @@ public interface PositionReportGroupService {
 
 	 */
 
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, LocalDate asOfDate);
 	
 
 	/**
@@ -93,8 +91,6 @@ public interface PositionReportGroupService {
 	 * Retrieve the latest active PositionReportGroup with given positionReportGroup and effective date
 
 	 * @param positionReportGroup
-	  
-	 * @param groupKeyCode, 
 
 	 * @param asOfDate
 
@@ -102,21 +98,7 @@ public interface PositionReportGroupService {
 
 	 */
 
-	public PositionReportGroup getPositionReportGroup(String positionReportGroup, String groupKeyCode, LocalDate asOfDate);
+	public PositionReportGroup getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
 	
-	/**
-
-	 * Get list of  PositionReportGroup with given positionReportGroup, groupKeyCode, from effective date,  to effective date,active, and showHistory
-
-	 * @param positionReportGroup
-	 * @param groupKeyCode
-	 * @param fromEffdt
-	 * @param toEffdt
-	 * @param active
-	 * @param showHistory
-	 * @return
-
-	 */
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }
 

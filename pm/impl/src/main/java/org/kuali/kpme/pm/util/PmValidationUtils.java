@@ -22,11 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliationContract;
 import org.kuali.kpme.core.api.paygrade.PayGrade;
-import org.kuali.kpme.core.api.paygrade.PayGradeContract;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
@@ -119,9 +116,9 @@ public class PmValidationUtils {
 		return false;
 	}
 	
-	public static boolean validatePstnRptGrp(String PstnRptGrp, String groupKeyCode, LocalDate asOfDate) {
+	public static boolean validatePstnRptGrp(String pstnRptGrp, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<? extends PositionReportGroupContract> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, groupKeyCode, asOfDate);
+			List<? extends PositionReportGroupContract> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(pstnRptGrp, asOfDate);
 			return CollectionUtils.isNotEmpty(prgList);
 		}
 		return false;

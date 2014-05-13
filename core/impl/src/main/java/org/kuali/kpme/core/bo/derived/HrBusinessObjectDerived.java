@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.bo.derived;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.joda.time.LocalDate;
@@ -22,10 +23,10 @@ import org.kuali.kpme.core.api.bo.derived.HrBusinessObjectDerivedContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public abstract class HrBusinessObjectDerived extends PersistableBusinessObjectBase implements HrBusinessObjectDerivedContract {
+public abstract class HrBusinessObjectDerived<O extends HrBusinessObject> extends PersistableBusinessObjectBase implements HrBusinessObjectDerivedContract {
 
 	private static final long serialVersionUID = 1318362548103383417L;
-	protected HrBusinessObject owner;
+	protected O owner;
 	private static final String OWNER = "owner";
 
 	@Override
@@ -52,11 +53,24 @@ public abstract class HrBusinessObjectDerived extends PersistableBusinessObjectB
 	}
 
 	@Override
-	public HrBusinessObject getOwner() {
+	public O getOwner() {
 		if(this.owner == null) {
 			refreshReferenceObject(OWNER);
 		}
 		return this.owner;
+	}
+	
+	public void setOwner(O owner) {
+		this.owner = owner;
+	}
+	
+	// utility method to set back reference to an owner of a derived collection
+	public static <T extends HrBusinessObject> void setOwnerOfDerivedCollection(T owner, Collection<? extends HrBusinessObjectDerived<T>> derivedObjs) {
+		if(derivedObjs != null) {
+			for(HrBusinessObjectDerived<T> derivedObj: derivedObjs) {
+				derivedObj.setOwner(owner);
+			}
+		}
 	}
 
 }

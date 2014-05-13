@@ -33,20 +33,22 @@ public abstract class HrKeyedSetBusinessObject extends HrBusinessObject implemen
 	protected transient Set<HrGroupKeyBo> groupKeySet;
 	
 
-	public abstract Set<? extends HrBusinessObjectKey> getkeySet();
+	@Override
+	public abstract Set<? extends HrBusinessObjectKey> getEffectiveKeySet();
 	
 	public Set<String> getGroupKeyCodeSet() {
-		Set<String> retVal = new HashSet<String>();
-		if(CollectionUtils.isEmpty(this.groupKeyCodeSet) && CollectionUtils.isNotEmpty(this.getkeySet())) {
+		if(CollectionUtils.isEmpty(this.groupKeyCodeSet) && CollectionUtils.isNotEmpty(this.getEffectiveKeySet())) {
+			Set<String> computedSet = new HashSet<String>();
 			// iterate over the key set and extract out the group key codes
-			Set<? extends HrBusinessObjectKey> keys = this.getkeySet();
+			Set<? extends HrBusinessObjectKey> keys = this.getEffectiveKeySet();
 			for(HrBusinessObjectKey key : keys) {
-				retVal.add(key.getGroupKeyCode());
+				computedSet.add(key.getGroupKeyCode());
 			}
+			// set it so that we dont have to compute next time
+			this.setGroupKeyCodeSet(computedSet);
 		}
-		// set it so that we dont have to iterate next time
-		this.setGroupKeyCodeSet(retVal);
-		return retVal;
+		
+		return this.groupKeyCodeSet;
 	}
 
 	public void setGroupKeyCodeSet(Set<String> groupKeyCodeSet) {
@@ -55,17 +57,18 @@ public abstract class HrKeyedSetBusinessObject extends HrBusinessObject implemen
 	
 	
 	public Set<HrGroupKeyBo> getGroupKeySet() {
-		Set<HrGroupKeyBo> retVal = new HashSet<HrGroupKeyBo>();
-		if(CollectionUtils.isEmpty(this.groupKeySet) && CollectionUtils.isNotEmpty(this.getkeySet())) {
+		if(CollectionUtils.isEmpty(this.groupKeySet) && CollectionUtils.isNotEmpty(this.getEffectiveKeySet())) {
+			Set<HrGroupKeyBo> computedSet = new HashSet<HrGroupKeyBo>();
 			// iterate over the key set and extract out the group key objects
-			Set<? extends HrBusinessObjectKey> keys = this.getkeySet();
+			Set<? extends HrBusinessObjectKey> keys = this.getEffectiveKeySet();
 			for(HrBusinessObjectKey key : keys) {
-				retVal.add(key.getGroupKey());
+				computedSet.add(key.getGroupKey());
 			}
+			// set it so that we dont have to compute next time
+			this.setGroupKeySet(computedSet);
 		}
-		// set it so that we dont have to iterate next time
-		this.setGroupKeySet(retVal);
-		return retVal;
+		
+		return this.groupKeySet;
 	}
 
 	public void setGroupKeySet(Set<HrGroupKeyBo> groupKeySet) {
