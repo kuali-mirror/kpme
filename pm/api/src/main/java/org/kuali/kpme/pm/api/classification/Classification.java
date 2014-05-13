@@ -19,18 +19,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.KPMEConstants;
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlag;
@@ -46,6 +43,7 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = Classification.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = Classification.Constants.TYPE_NAME, propOrder = {
+    Classification.Elements.LOCATION,
     Classification.Elements.POOL_ELIGIBLE,
     Classification.Elements.POSITION_TYPE,
     Classification.Elements.POSITION_REPORT_GROUP,
@@ -53,12 +51,14 @@ import org.w3c.dom.Element;
     Classification.Elements.BENEFITS_ELIGIBLE,
     Classification.Elements.CLASSIFICATION_TITLE,
     Classification.Elements.POSITION_CLASS,
+    Classification.Elements.INSTITUTION,
     Classification.Elements.PERCENT_TIME,
     Classification.Elements.SALARY_GROUP,
     Classification.Elements.TENURE_ELIGIBLE,
     Classification.Elements.EXTERNAL_REFERENCE,
     Classification.Elements.QUALIFICATION_LIST,
     Classification.Elements.PM_POSITION_CLASS_ID,
+    Classification.Elements.LOCATION_OBJ,
     Classification.Elements.FLAG_LIST,
     Classification.Elements.DUTY_LIST,
     Classification.Elements.LEAVE_PLAN,
@@ -70,14 +70,14 @@ import org.w3c.dom.Element;
     Classification.Elements.EFFECTIVE_LOCAL_DATE,
     Classification.Elements.CREATE_TIME,
     Classification.Elements.USER_PRINCIPAL_ID,
-    CoreConstants.CommonElements.FUTURE_ELEMENTS,
-    KPMEConstants.CommonElements.GROUP_KEY_CODE,
-    KPMEConstants.CommonElements.GROUP_KEY,
+    CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class Classification extends AbstractDataTransferObject implements ClassificationContract {
 
 	private static final long serialVersionUID = 3022823678756071188L;
-
+	
+	@XmlElement(name = Elements.LOCATION, required = false)
+    private final String location;
     @XmlElement(name = Elements.POOL_ELIGIBLE, required = false)
     private final String poolEligible;
     @XmlElement(name = Elements.POSITION_TYPE, required = false)
@@ -92,6 +92,8 @@ public final class Classification extends AbstractDataTransferObject implements 
     private final String classificationTitle;
     @XmlElement(name = Elements.POSITION_CLASS, required = false)
     private final String positionClass;
+    @XmlElement(name = Elements.INSTITUTION, required = false)
+    private final String institution;
     @XmlElement(name = Elements.PERCENT_TIME, required = false)
     private final BigDecimal percentTime;
     @XmlElement(name = Elements.SALARY_GROUP, required = false)
@@ -104,6 +106,8 @@ public final class Classification extends AbstractDataTransferObject implements 
     private final List<ClassificationQualification> qualificationList;
     @XmlElement(name = Elements.PM_POSITION_CLASS_ID, required = false)
     private final String pmPositionClassId;
+    @XmlElement(name = Elements.LOCATION_OBJ, required = false)
+    private final Location locationObj;
     @XmlElement(name = Elements.FLAG_LIST, required = false)
     private final List<ClassificationFlag> flagList;
     @XmlElement(name = Elements.DUTY_LIST, required = false)
@@ -128,16 +132,13 @@ public final class Classification extends AbstractDataTransferObject implements 
     private final String userPrincipalId;
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
-    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
-    private final String groupKeyCode;
-    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
-    private final HrGroupKey groupKey;
 
     /**
      * Private constructor used only by JAXB.
      * 
      */
     private Classification() {
+        this.location = null;
         this.poolEligible = null;
         this.positionType = null;
         this.positionReportGroup = null;
@@ -145,12 +146,14 @@ public final class Classification extends AbstractDataTransferObject implements 
         this.benefitsEligible = null;
         this.classificationTitle = null;
         this.positionClass = null;
+        this.institution = null;
         this.percentTime = null;
         this.salaryGroup = null;
         this.tenureEligible = null;
         this.externalReference = null;
         this.qualificationList = null;
         this.pmPositionClassId = null;
+        this.locationObj = null;
         this.flagList = null;
         this.dutyList = null;
         this.leavePlan = null;
@@ -162,11 +165,10 @@ public final class Classification extends AbstractDataTransferObject implements 
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKeyCode = null;
-        this.groupKey = null;
     }
 
     private Classification(Builder builder) {
+        this.location = builder.getLocation();
         this.poolEligible = builder.getPoolEligible();
         this.positionType = builder.getPositionType();
         this.positionReportGroup = builder.getPositionReportGroup();
@@ -174,12 +176,14 @@ public final class Classification extends AbstractDataTransferObject implements 
         this.benefitsEligible = builder.getBenefitsEligible();
         this.classificationTitle = builder.getClassificationTitle();
         this.positionClass = builder.getPositionClass();
+        this.institution = builder.getInstitution();
         this.percentTime = builder.getPercentTime();
         this.salaryGroup = builder.getSalaryGroup();
         this.tenureEligible = builder.getTenureEligible();
         this.externalReference = builder.getExternalReference();
         this.qualificationList = ModelObjectUtils.<ClassificationQualification>buildImmutableCopy(builder.getQualificationList());
         this.pmPositionClassId = builder.getPmPositionClassId();
+        this.locationObj =  builder.getLocationObj() == null ? null : builder.getLocationObj().build();
         this.flagList = ModelObjectUtils.<ClassificationFlag>buildImmutableCopy(builder.getFlagList());
         this.dutyList = ModelObjectUtils.<ClassificationDuty>buildImmutableCopy(builder.getDutyList());
         this.leavePlan = builder.getLeavePlan();
@@ -191,8 +195,11 @@ public final class Classification extends AbstractDataTransferObject implements 
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKeyCode = builder.getGroupKeyCode();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+    }
+
+    @Override
+    public String getLocation() {
+        return this.location;
     }
 
     @Override
@@ -231,6 +238,11 @@ public final class Classification extends AbstractDataTransferObject implements 
     }
 
     @Override
+    public String getInstitution() {
+        return this.institution;
+    }
+
+    @Override
     public BigDecimal getPercentTime() {
         return this.percentTime;
     }
@@ -258,6 +270,11 @@ public final class Classification extends AbstractDataTransferObject implements 
     @Override
     public String getPmPositionClassId() {
         return this.pmPositionClassId;
+    }
+
+    @Override
+    public Location getLocationObj() {
+        return this.locationObj;
     }
 
     @Override
@@ -314,16 +331,6 @@ public final class Classification extends AbstractDataTransferObject implements 
     public String getUserPrincipalId() {
         return this.userPrincipalId;
     }
-    
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
-    
-    @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
 
 
     /**
@@ -334,6 +341,7 @@ public final class Classification extends AbstractDataTransferObject implements 
 
 		private static final long serialVersionUID = -5298550128140145929L;
 		
+		private String location;
         private String poolEligible;
         private String positionType;
         private String positionReportGroup;
@@ -341,12 +349,14 @@ public final class Classification extends AbstractDataTransferObject implements 
         private String benefitsEligible;
         private String classificationTitle;
         private String positionClass;
+        private String institution;
         private BigDecimal percentTime;
         private String salaryGroup;
         private String tenureEligible;
         private String externalReference;
         private List<ClassificationQualification.Builder> qualificationList;
         private String pmPositionClassId;
+        private Location.Builder locationObj;
         private List<ClassificationFlag.Builder> flagList;
         private List<ClassificationDuty.Builder> dutyList;
         private String leavePlan;
@@ -358,8 +368,6 @@ public final class Classification extends AbstractDataTransferObject implements 
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
         
         private static final ModelObjectUtils.Transformer<ClassificationQualificationContract, ClassificationQualification.Builder> toClassificationQualificationBuilder = new ModelObjectUtils.Transformer<ClassificationQualificationContract, ClassificationQualification.Builder>() {
 			public ClassificationQualification.Builder transform(ClassificationQualificationContract input) {
@@ -394,6 +402,7 @@ public final class Classification extends AbstractDataTransferObject implements 
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
+            builder.setLocation(contract.getLocation());
             builder.setPoolEligible(contract.getPoolEligible());
             builder.setPositionType(contract.getPositionType());
             builder.setPositionReportGroup(contract.getPositionReportGroup());
@@ -401,12 +410,14 @@ public final class Classification extends AbstractDataTransferObject implements 
             builder.setBenefitsEligible(contract.getBenefitsEligible());
             builder.setClassificationTitle(contract.getClassificationTitle());
             builder.setPositionClass(contract.getPositionClass());
+            builder.setInstitution(contract.getInstitution());
             builder.setPercentTime(contract.getPercentTime());
             builder.setSalaryGroup(contract.getSalaryGroup());
             builder.setTenureEligible(contract.getTenureEligible());
             builder.setExternalReference(contract.getExternalReference());
             builder.setQualificationList(ModelObjectUtils.transform(contract.getQualificationList(), toClassificationQualificationBuilder));
             builder.setPmPositionClassId(contract.getPmPositionClassId());
+            builder.setLocationObj(contract.getLocationObj() == null ? null : Location.Builder.create(contract.getLocationObj()));
             builder.setFlagList(ModelObjectUtils.transform(contract.getFlagList(), toClassificationFlagBuilder));
             builder.setDutyList(ModelObjectUtils.transform(contract.getDutyList(), toClassificationDutyBuilder));
             builder.setLeavePlan(contract.getLeavePlan());
@@ -418,14 +429,18 @@ public final class Classification extends AbstractDataTransferObject implements 
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
         public Classification build() {
             return new Classification(this);
         }
-        
+
+        @Override
+        public String getLocation() {
+            return this.location;
+        }
+
         @Override
         public String getPoolEligible() {
             return this.poolEligible;
@@ -462,6 +477,11 @@ public final class Classification extends AbstractDataTransferObject implements 
         }
 
         @Override
+        public String getInstitution() {
+            return this.institution;
+        }
+
+        @Override
         public BigDecimal getPercentTime() {
             return this.percentTime;
         }
@@ -489,6 +509,11 @@ public final class Classification extends AbstractDataTransferObject implements 
         @Override
         public String getPmPositionClassId() {
             return this.pmPositionClassId;
+        }
+
+        @Override
+        public Location.Builder getLocationObj() {
+            return this.locationObj;
         }
 
         @Override
@@ -546,6 +571,11 @@ public final class Classification extends AbstractDataTransferObject implements 
             return this.userPrincipalId;
         }
 
+        public void setLocation(String location) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.location = location;
+        }
+
         public void setPoolEligible(String poolEligible) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.poolEligible = poolEligible;
@@ -581,6 +611,11 @@ public final class Classification extends AbstractDataTransferObject implements 
             this.positionClass = positionClass;
         }
 
+        public void setInstitution(String institution) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.institution = institution;
+        }
+
         public void setPercentTime(BigDecimal percentTime) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.percentTime = percentTime;
@@ -609,6 +644,11 @@ public final class Classification extends AbstractDataTransferObject implements 
         public void setPmPositionClassId(String pmPositionClassId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.pmPositionClassId = pmPositionClassId;
+        }
+
+        public void setLocationObj(Location.Builder locationObj) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.locationObj = locationObj;
         }
 
         public void setFlagList(List<ClassificationFlag.Builder> flagList) {
@@ -665,25 +705,6 @@ public final class Classification extends AbstractDataTransferObject implements 
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.userPrincipalId = userPrincipalId;
         }
-        
-        @Override
-        public String getGroupKeyCode() {
-            return groupKeyCode;
-        }
-
-        public void setGroupKeyCode(String groupKeyCode) {
-            this.groupKeyCode = groupKeyCode;
-        }
-
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return groupKey;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
-        }
-
 
     }
 
@@ -706,6 +727,7 @@ public final class Classification extends AbstractDataTransferObject implements 
      */
     static class Elements {
 
+        final static String LOCATION = "location";
         final static String POOL_ELIGIBLE = "poolEligible";
         final static String POSITION_TYPE = "positionType";
         final static String POSITION_REPORT_GROUP = "positionReportGroup";
@@ -713,12 +735,14 @@ public final class Classification extends AbstractDataTransferObject implements 
         final static String BENEFITS_ELIGIBLE = "benefitsEligible";
         final static String CLASSIFICATION_TITLE = "classificationTitle";
         final static String POSITION_CLASS = "positionClass";
+        final static String INSTITUTION = "institution";
         final static String PERCENT_TIME = "percentTime";
         final static String SALARY_GROUP = "salaryGroup";
         final static String TENURE_ELIGIBLE = "tenureEligible";
         final static String EXTERNAL_REFERENCE = "externalReference";
         final static String QUALIFICATION_LIST = "qualificationList";
         final static String PM_POSITION_CLASS_ID = "pmPositionClassId";
+        final static String LOCATION_OBJ = "locationObj";
         final static String FLAG_LIST = "flagList";
         final static String DUTY_LIST = "dutyList";
         final static String LEAVE_PLAN = "leavePlan";

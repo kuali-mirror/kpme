@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
-import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
@@ -29,8 +28,9 @@ import org.kuali.kpme.pm.classification.ClassificationBo;
 import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
+public class ClassificationValidation extends MaintenanceDocumentRuleBase{
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
@@ -39,15 +39,38 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
 		
 		if (clss != null) {
 			valid = true;
+			valid &= this.validateInstitution(clss);
+			valid &= this.validateLocation(clss);
 			valid &= this.validateSalGroup(clss);
 			valid &= this.validateLeavePlan(clss);
 			valid &= this.validateReportingGroup(clss);
 			valid &= this.validatePositionType(clss);
 			valid &= this.validatePercentTime(clss);
             valid &= this.validatePayGrade(clss);
-            valid &= this.validateGroupKeyCode(clss);
 		}
 		return valid;
+	}
+	
+	private boolean validateInstitution(ClassificationBo clss) {
+		if (StringUtils.isNotEmpty(clss.getInstitution())
+				&& !ValidationUtils.validateInstitution(clss.getInstitution(), clss.getEffectiveLocalDate())) {
+			this.putFieldError("dataObject.institution", "error.existence", "Instituion '"
+					+ clss.getInstitution() + "'");
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private boolean validateLocation(ClassificationBo clss) {
+		if (StringUtils.isNotEmpty(clss.getLocation())
+				&& !ValidationUtils.validateLocation(clss.getLocation(), clss.getEffectiveLocalDate())) {
+			this.putFieldError("dataObject.location", "error.existence", "Location '"
+					+ clss.getLocation() + "'");
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	private boolean validateLeavePlan(ClassificationBo clss) {
@@ -65,15 +88,6 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(clss.getSalaryGroup(), clss.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + clss.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
-			/*
-			if (!aSalGroup.getGroupKeyCode().equals(clss.getGroupKeyCode())) {
-				String[] params = new String[3];
-				params[0] = clss.getGroupKeyCode();
-				params[1] = aSalGroup.getGroupKeyCode();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
-				return false;
-			}*/
 			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), clss.getInstitution())) {
 				String[] params = new String[3];
 				params[0] = clss.getInstitution();
@@ -100,21 +114,33 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
 	
 	private boolean validateReportingGroup(ClassificationBo clss) {
 		if(StringUtils.isNotBlank(clss.getPositionReportGroup())) {
-			PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getGroupKeyCode(), clss.getEffectiveLocalDate());
+			// TODO When a collection of group key codes is added to Classification, modify this validation
+			// Comment it out for now to revert single group key code changes
+			/*
+			PositionReportGroupContract aPrg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroup(clss.getPositionReportGroup(), clss.getEffectiveLocalDate());
 			String errorMes = "PositionReportGroup '" + clss.getPositionReportGroup() + "'";
 			if(aPrg == null) {
 				this.putFieldError("dataObject.positionReportGroup", "error.existence", errorMes);
 				return false;
 			} else {
-				if (!aPrg.getGroupKeyCode().equals(clss.getGroupKeyCode())) {
+				if(!ValidationUtils.wildCardMatch(aPrg.getInstitution(), clss.getInstitution())) {
 					String[] params = new String[3];
-					params[0] = clss.getGroupKeyCode();
-					params[1] = aPrg.getGroupKeyCode();
+					params[0] = clss.getInstitution();
+					params[1] = aPrg.getInstitution();
 					params[2] = errorMes;
-					this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+					this.putFieldError("dataObject.institution", "institution.inconsistent", params);
 					return false;
 				}
-			}
+				if(!ValidationUtils.wildCardMatch(aPrg.getLocation(), clss.getLocation())) {
+					String[] params = new String[3];
+					params[0] = clss.getLocation();
+					params[1] = aPrg.getLocation();
+					params[2] = errorMes;
+					this.putFieldError("dataObject.location", "location.inconsistent", params);
+					return false;
+				}
+				
+			}*/
 		}
 		return true;
 	}
@@ -126,14 +152,24 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
 			this.putFieldError("dataObject.positionType", "error.existence", errorMes);
 			return false;
 		} else {
-			if (!aPType.getGroupKeyCode().equals(clss.getGroupKeyCode())) {
+			// TODO When location and institution are added back to Position Type, uncomment out the code below
+			/*
+			if(!ValidationUtils.wildCardMatch(aPType.getInstitution(), clss.getInstitution())) {
 				String[] params = new String[3];
-				params[0] = clss.getGroupKeyCode();
-				params[1] = aPType.getGroupKeyCode();
+				params[0] = clss.getInstitution();
+				params[1] = aPType.getInstitution();
 				params[2] = errorMes;
-				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
 				return false;
 			}
+			if(!ValidationUtils.wildCardMatch(aPType.getLocation(), clss.getLocation())) {
+				String[] params = new String[3];
+				params[0] = clss.getLocation();
+				params[1] = aPType.getLocation();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.location", "location.inconsistent", params);
+				return false;
+			}*/
 		} 
 		
 		return true;

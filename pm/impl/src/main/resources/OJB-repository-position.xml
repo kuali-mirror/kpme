@@ -163,11 +163,13 @@
     </class-descriptor>
 
     <!-- Position Classification -->
-    <!-- Business Keys - [positionClass : groupKeyCode: positionClass : classificationTitle : effectiveDate : timestamp] -->	
+    <!-- Business Keys - [positionClass : classificationTitle : institution : location : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.classification.ClassificationBo" table="PM_PSTN_CL_T">
         <field-descriptor name="pmPositionClassId"   	column="PM_PSTN_CL_ID"    			jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_S" />
         <field-descriptor name="positionClass"    		column="PSTN_CL"      				jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="classificationTitle"    column="CL_TTL"             	jdbc-type="VARCHAR"     length="100" 		nullable="false" />
+        <field-descriptor name="institution"    		column="INSTITUTION"			jdbc-type="VARCHAR"     length="15" 		nullable="false" />
+        <field-descriptor name="location"    			column="LOCATION"				jdbc-type="VARCHAR"     length="15" 		nullable="false" />        
         <field-descriptor name="salaryGroup"    		column="SAL_GROUP"				jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="payGrade"    		column="PAY_GRADE"				jdbc-type="VARCHAR"     length="20" 		nullable="true" />
         <field-descriptor name="percentTime"      		column="PRCT_TM"         		jdbc-type="DECIMAL"     length="10" 		nullable="false" />
@@ -185,7 +187,6 @@
         <field-descriptor name="objectId"      			column="OBJ_ID"             	jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber" 			column="VER_NBR"            	jdbc-type="BIGINT"      locking="true" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" nullable="false" />
-        <field-descriptor name="groupKeyCode"  			column="GRP_KEY_CD"         	jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
         
         <collection-descriptor name="qualificationList" element-class-ref="org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo"
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">

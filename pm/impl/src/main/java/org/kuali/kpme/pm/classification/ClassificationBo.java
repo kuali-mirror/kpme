@@ -19,7 +19,8 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
@@ -28,23 +29,25 @@ import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class ClassificationBo extends HrKeyedBusinessObject implements ClassificationContract {
+public class ClassificationBo extends HrBusinessObject implements ClassificationContract {
 
-	static class KeyFields {
-		private static final String CLASSIFICATION_TITLE = "classificationTitle";
-		private static final String POSITION_CLASS = "positionClass";
-		private static final String GROUP_KEY_CODE = "groupKeyCode";
-	}
+	private static final String LOCATION = "location";
+	private static final String INSTITUTION = "institution";
+	private static final String CLASSIFICATION_TITLE = "classificationTitle";
+	private static final String POSITION_CLASS = "positionClass";
 	
 	private static final long serialVersionUID = 1L;
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-											    .add(KeyFields.POSITION_CLASS)
-											    .add(KeyFields.CLASSIFICATION_TITLE)
-											    .add(KeyFields.GROUP_KEY_CODE)
+											    .add(POSITION_CLASS)
+											    .add(CLASSIFICATION_TITLE)
+											    .add(INSTITUTION)
+											    .add(LOCATION)
 											    .build();
 	private String pmPositionClassId;
 	private String positionClass;
 	private String classificationTitle;
+	private String institution;
+	private String location;
 	// salary group fields
 	private String salaryGroup;
     private String payGrade;
@@ -62,12 +65,18 @@ public class ClassificationBo extends HrKeyedBusinessObject implements Classific
 	private List<ClassificationDutyBo> dutyList = new LinkedList<ClassificationDutyBo>(); 
 	private List<ClassificationFlagBo> flagList = new LinkedList<ClassificationFlagBo>(); 
 	
+	// list of position flags, need to add flag maint section to Position maint doc
+	
+	private LocationBo locationObj;
+	
+	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.POSITION_CLASS, this.getPositionClass())
-				.put(KeyFields.CLASSIFICATION_TITLE, this.getClassificationTitle())
-				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
+				.put(POSITION_CLASS, this.getPositionClass())
+				.put(CLASSIFICATION_TITLE, this.getClassificationTitle())
+				.put(INSTITUTION, this.getInstitution())
+				.put(LOCATION, this.getLocation())
 				.build();
 	}
 	
@@ -100,6 +109,22 @@ public class ClassificationBo extends HrKeyedBusinessObject implements Classific
 
 	public void setClassificationTitle(String classificationTitle) {
 		this.classificationTitle = classificationTitle;
+	}
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public String getSalaryGroup() {
@@ -205,6 +230,14 @@ public class ClassificationBo extends HrKeyedBusinessObject implements Classific
 
 	public void setPmPositionClassId(String pmPositionClassId) {
 		this.pmPositionClassId = pmPositionClassId;
+	}
+
+	public LocationBo getLocationObj() {
+		return locationObj;
+	}
+
+	public void setLocationObj(LocationBo locationObj) {
+		this.locationObj = locationObj;
 	}
 
 	public List<ClassificationDutyBo> getDutyList() {
