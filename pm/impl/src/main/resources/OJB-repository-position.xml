@@ -46,6 +46,21 @@
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" 		nullable="false" />
     </class-descriptor>
     
+    <!-- Position Reporting Group Key-->
+    <!-- No Business Keys defined since this is a derived business object -->	
+    <class-descriptor class="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo" table="PM_PSTN_RPT_GRP_KEY_T">
+        <field-descriptor name="pmPositionReportGroupKeyId"        column="PM_PSTN_RPT_GRP_KEY_ID"   jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_GRP_KEY_S" />
+        <field-descriptor name="pmPositionReportGroupId"           column="PM_PSTN_RPT_GRP_ID"  	 jdbc-type="VARCHAR"     length="60"   		nullable="false" />
+        <field-descriptor name="groupKeyCode"  			           column="GRP_KEY_CD"        	     jdbc-type="VARCHAR"     length="30"        nullable="false" />
+        <field-descriptor name="objectId"                          column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"                     column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+        
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="pmPositionReportGroupId"/>
+        </reference-descriptor>
+                
+    </class-descriptor>
+    
     <!-- Position Reporting Category -->
     <!-- Business Keys - [positionReportCat : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo" table="PM_PSTN_RPT_CAT_T">
