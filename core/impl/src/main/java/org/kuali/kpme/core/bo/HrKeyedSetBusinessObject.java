@@ -25,23 +25,35 @@ import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 
 
 
-public abstract class HrKeyedSetBusinessObject extends HrBusinessObject implements HrKeyedSetBusinessObjectContract {
+public abstract class HrKeyedSetBusinessObject<O extends HrKeyedSetBusinessObject<O, K>, 
+											   K extends HrBusinessObjectKey<O, K>> extends HrBusinessObject implements HrKeyedSetBusinessObjectContract {
 
 	private static final long serialVersionUID = -2616362205962723831L;
 	
 	protected transient Set<String> groupKeyCodeSet;
 	protected transient Set<HrGroupKeyBo> groupKeySet;
-	
+	protected Set<K> effectiveSet;
+	private static final String EFFECTIVE_SET = "effectiveSet";
+
 
 	@Override
-	public abstract Set<? extends HrBusinessObjectKey<? extends HrKeyedSetBusinessObject>> getEffectiveKeySet();
+	public Set<K> getEffectiveKeySet() {
+		if(CollectionUtils.isEmpty(this.effectiveSet)) {
+			refreshReferenceObject(EFFECTIVE_SET);
+		}
+		return this.effectiveSet;
+	}
+	
+	public void setEffectiveKeySet(Set<K> effectiveSet) {
+		this.effectiveSet = effectiveSet;
+	}
 	
 	public Set<String> getGroupKeyCodeSet() {
 		if(CollectionUtils.isEmpty(this.groupKeyCodeSet) && CollectionUtils.isNotEmpty(this.getEffectiveKeySet())) {
 			Set<String> computedSet = new HashSet<String>();
 			// iterate over the key set and extract out the group key codes
-			Set<? extends HrBusinessObjectKey<? extends HrKeyedSetBusinessObject>> keys = this.getEffectiveKeySet();
-			for(HrBusinessObjectKey<? extends HrKeyedSetBusinessObject> key : keys) {
+			Set<K> keys = this.getEffectiveKeySet();
+			for(K key : keys) {
 				computedSet.add(key.getGroupKeyCode());
 			}
 			// set it so that we dont have to compute next time
@@ -60,8 +72,8 @@ public abstract class HrKeyedSetBusinessObject extends HrBusinessObject implemen
 		if(CollectionUtils.isEmpty(this.groupKeySet) && CollectionUtils.isNotEmpty(this.getEffectiveKeySet())) {
 			Set<HrGroupKeyBo> computedSet = new HashSet<HrGroupKeyBo>();
 			// iterate over the key set and extract out the group key objects
-			Set<? extends HrBusinessObjectKey<? extends HrKeyedSetBusinessObject>> keys = this.getEffectiveKeySet();
-			for(HrBusinessObjectKey<? extends HrKeyedSetBusinessObject> key : keys) {
+			Set<K> keys = this.getEffectiveKeySet();
+			for(K key : keys) {
 				computedSet.add(key.getGroupKey());
 			}
 			// set it so that we dont have to compute next time

@@ -21,7 +21,7 @@ import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupKey;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupKeyContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
-public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReportGroupBo> implements PositionReportGroupKeyContract {
+public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReportGroupBo, PositionReportGroupKeyBo> implements PositionReportGroupKeyContract {
 
 	private static final long serialVersionUID = 3035597915412860604L;
 	

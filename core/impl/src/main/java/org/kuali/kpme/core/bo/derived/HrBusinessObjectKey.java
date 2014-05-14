@@ -20,7 +20,8 @@ import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
-public abstract class HrBusinessObjectKey<O extends HrKeyedSetBusinessObject> extends HrBusinessObjectDerived<O> implements HrBusinessObjectKeyContract {
+public abstract class HrBusinessObjectKey <O extends HrKeyedSetBusinessObject<O, K>, 
+										   K extends HrBusinessObjectKey<O, K>> extends HrBusinessObjectDerived<O> implements HrBusinessObjectKeyContract {
 	
 	private static final long serialVersionUID = 4931341075109022350L;
 	

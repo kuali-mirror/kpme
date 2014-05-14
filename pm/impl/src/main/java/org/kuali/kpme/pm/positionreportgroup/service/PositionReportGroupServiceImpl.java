@@ -15,14 +15,11 @@
  */
 package org.kuali.kpme.pm.positionreportgroup.service;
 
-import java.util.List;
-
 import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.api.positionreportgroup.service.PositionReportGroupService;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 import org.kuali.kpme.pm.positionreportgroup.dao.PositionReportGroupDao;
-import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionReportGroupServiceImpl implements PositionReportGroupService {
 
@@ -42,8 +39,7 @@ public class PositionReportGroupServiceImpl implements PositionReportGroupServic
 		return positionReportGroupDao;
 	}
 
-	public void setPositionReportGroupDao(
-			PositionReportGroupDao positionReportGroupDao) {
+	public void setPositionReportGroupDao(PositionReportGroupDao positionReportGroupDao) {
 		this.positionReportGroupDao = positionReportGroupDao;
 	}
 

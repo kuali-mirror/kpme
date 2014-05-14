@@ -27,7 +27,7 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportGroupBo extends HrKeyedSetBusinessObject implements PositionReportGroupContract {
+public class PositionReportGroupBo extends HrKeyedSetBusinessObject<PositionReportGroupBo, PositionReportGroupKeyBo> implements PositionReportGroupContract {
 
 	private static final String POSITION_REPORT_GROUP = "positionReportGroup";
 
@@ -41,7 +41,6 @@ public class PositionReportGroupBo extends HrKeyedSetBusinessObject implements P
 	private String pmPositionReportGroupId;
 	private String positionReportGroup;
 	private String description;
-	private Set<PositionReportGroupKeyBo> effectiveKeySet = new HashSet<PositionReportGroupKeyBo>();
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -152,11 +151,11 @@ public class PositionReportGroupBo extends HrKeyedSetBusinessObject implements P
 
 	@Override
 	public Set<PositionReportGroupKeyBo> getEffectiveKeySet(){
-		return this.effectiveKeySet;		
+		return super.getEffectiveKeySet();	
 	}
 
 	public void setEffectiveKeySet(Set<PositionReportGroupKeyBo> effectiveKeySet) {
-		this.effectiveKeySet = effectiveKeySet;
+		super.setEffectiveKeySet(effectiveKeySet);
 	}
 
 }
