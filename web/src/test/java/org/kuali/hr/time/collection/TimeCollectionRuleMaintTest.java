@@ -196,7 +196,7 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 				timeCollectionRuleObj);
 
 		timeCollectionRuleObj = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(TEST_CODE_DEPARTMENT_VALID,
-									TEST_CODE_INVALID_WORKAREA, "%", LocalDate.now());
+									TEST_CODE_INVALID_WORKAREA, "%", TEST_GRP_KEY_CD, LocalDate.now());
 		//timeCollectionRuleObj = KRADServiceLocator.getBusinessObjectService()
         //        .findByPrimaryKey(TimeCollectionRule.class, Collections.singletonMap("tkTimeCollectionRuleId", timeCollectionRuleIdWithInvalidWorkArea));
 		KRADServiceLocator.getBusinessObjectService().delete(

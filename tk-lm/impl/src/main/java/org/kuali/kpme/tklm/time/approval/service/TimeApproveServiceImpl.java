@@ -290,7 +290,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         if (CollectionUtils.isNotEmpty(assignments)) {
             for (Assignment assignment : assignments) {
             	if(assignment.getJob() != null) {
-		            TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+		            TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), assignment.getGroupKeyCode(), LocalDate.now());
 		            isSynchronousUser |= (tcr == null || tcr.isClockUserFl());
             	}
             }

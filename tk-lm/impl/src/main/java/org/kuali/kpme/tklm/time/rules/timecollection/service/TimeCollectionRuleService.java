@@ -27,8 +27,9 @@ public interface TimeCollectionRuleService {
             key="'dept=' + #p0" +
                 "+ '|' + 'workArea=' + #p1" +
                 "+ '|' + 'payType=' + #p2" +
-                "+ '|' + 'asOfDate=' + #p3")
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate);
+                "+ '|' + 'groupKeyCode=' + #p3" +
+                "+ '|' + 'asOfDate=' + #p4")
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, String groupKeyCode, LocalDate asOfDate);
 
     @Cacheable(value= TimeCollectionRule.CACHE_NAME, key="'tkTimeCollectionRuleId=' + #p0")
 	public TimeCollectionRule getTimeCollectionRule(String tkTimeCollectionRuleId);

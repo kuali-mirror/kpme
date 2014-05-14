@@ -313,7 +313,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         boolean isSynchronousUser = true;
         for (Assignment assignment : assignments) {
         	if(assignment.getJob() != null) {
-	        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+	        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), assignment.getGroupKeyCode(), LocalDate.now());
 	            isSynchronousUser &= tcr == null || tcr.isClockUserFl();
         	}
         }
@@ -399,7 +399,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         TimeCollectionRule tcr = null;
         if(a.getJob() != null)
-        	tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(a.getDept(), a.getWorkArea(), a.getJob().getHrPayType(), asOfDate);
+        	tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(a.getDept(), a.getWorkArea(), a.getJob().getHrPayType(), a.getGroupKeyCode(), asOfDate);
 
         boolean isClockUser = tcr == null || tcr.isClockUserFl();
         boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());

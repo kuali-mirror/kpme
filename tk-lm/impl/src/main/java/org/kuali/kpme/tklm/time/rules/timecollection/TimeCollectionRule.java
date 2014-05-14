@@ -32,6 +32,7 @@ public class TimeCollectionRule extends HrKeyedBusinessObject implements TimeCol
 		private static final String PAY_TYPE = "payType";
 		private static final String DEPT = "dept";
 		private static final String WORK_AREA = "workArea";
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
 	}
 	
 	private static final long serialVersionUID = 7892616560736184294L;
@@ -42,6 +43,7 @@ public class TimeCollectionRule extends HrKeyedBusinessObject implements TimeCol
             .add(KeyFields.WORK_AREA)
             .add(KeyFields.DEPT)
             .add(KeyFields.PAY_TYPE)
+            .add(KeyFields.GROUP_KEY_CODE)
             .build();
     public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
             .add(TimeCollectionRule.CACHE_NAME)
@@ -72,6 +74,7 @@ public class TimeCollectionRule extends HrKeyedBusinessObject implements TimeCol
 			.put(KeyFields.WORK_AREA, this.getWorkArea())
 			.put(KeyFields.DEPT, this.getDept())
 			.put(KeyFields.PAY_TYPE, this.getPayType())
+			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 

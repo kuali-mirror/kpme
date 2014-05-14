@@ -52,7 +52,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 
 		for(Assignment assignment : assignments){
 			if(assignment.getJob() != null) {
-				TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+				TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), assignment.getGroupKeyCode(), LocalDate.now());
 				if(tcr == null || tcr.isClockUserFl()){
 					String key = new AssignmentDescriptionKey(assignment).toAssignmentKeyString();
 					String desc = assignment.getAssignmentDescription();

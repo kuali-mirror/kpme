@@ -35,6 +35,7 @@ public class DeptLunchRule extends HrKeyedBusinessObject implements DeptLunchRul
 		private static final String PRINCIPAL_ID = "principalId";
 		private static final String WORK_AREA = "workArea";
 		private static final String DEPT = "dept";
+		private static final String GROUP_KEY_CODE = "groupKeyCode";
 	}
 	
 	public static final String CACHE_NAME = TkConstants.Namespace.NAMESPACE_PREFIX + "DeptLunchRule";
@@ -44,6 +45,7 @@ public class DeptLunchRule extends HrKeyedBusinessObject implements DeptLunchRul
             .add(KeyFields.WORK_AREA)
             .add(KeyFields.PRINCIPAL_ID)
             .add(KeyFields.JOB_NUMBER)
+            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
 	
@@ -73,6 +75,7 @@ public class DeptLunchRule extends HrKeyedBusinessObject implements DeptLunchRul
 			.put(KeyFields.WORK_AREA, this.getWorkArea())
 			.put(KeyFields.PRINCIPAL_ID, this.getPrincipalId())
 			.put(KeyFields.JOB_NUMBER, this.getJobNumber())
+			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 	

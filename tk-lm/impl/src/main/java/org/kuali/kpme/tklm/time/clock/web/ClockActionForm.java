@@ -311,7 +311,7 @@ public class ClockActionForm extends TimesheetActionForm {
 					if (assignment != null) {
 						WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), timeBlock.getBeginDateTime().toLocalDate());
 						if(assignment.getJob() != null) {
-							TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), timeBlock.getBeginDateTime().toLocalDate());
+							TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), assignment.getGroupKeyCode(), timeBlock.getBeginDateTime().toLocalDate());
 							if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
 								List<TimeBlock> timeBlockList = timeBlocksMap.get(assignment.getAssignmentDescription());
 								if (timeBlockList == null) {
@@ -344,7 +344,7 @@ public class ClockActionForm extends TimesheetActionForm {
 			for (Assignment assignment : getTimesheetDocument().getAssignmentMap().get(tb.getBeginDateTime().toLocalDate())) {
 				WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), tb.getBeginDateTime().toLocalDate());
 				if(assignment.getJob() != null) {
-					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), tb.getBeginDateTime().toLocalDate());
+					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), assignment.getGroupKeyCode(), tb.getBeginDateTime().toLocalDate());
 					if (rule != null && aWorkArea != null && aWorkArea.isHrsDistributionF() && rule.isClockUserFl()) {
 						desList.put(assignment.getTkAssignmentId(), assignment.getAssignmentDescription());
 						distributeAssignList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId());

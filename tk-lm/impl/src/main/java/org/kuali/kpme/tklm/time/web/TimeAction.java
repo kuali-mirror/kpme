@@ -89,7 +89,7 @@ public class TimeAction extends KPMEAction {
                     if (job.getFlsaStatus().equals(HrConstants.FLSA_STATUS_NON_EXEMPT)) {
                         TimeCollectionRule tcr = null;
                         if(asmnt.getJob() != null)
-                        	tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(asmnt.getJob().getDept(), asmnt.getWorkArea(), asmnt.getJob().getHrPayType(), LocalDate.now());
+                        	tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(asmnt.getJob().getDept(), asmnt.getWorkArea(), asmnt.getJob().getHrPayType(), asmnt.getGroupKeyCode(), LocalDate.now());
                         if (tcr != null && tcr.isClockUserFl()) {
                             return new ActionRedirect("/Clock.do");
                         } else {

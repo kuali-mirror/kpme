@@ -32,13 +32,14 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 public class DepartmentLunchRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb implements DepartmentLunchRuleDao {
     @Override
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, 
-												Long jobNumber, LocalDate asOfDate) {
+												Long jobNumber, String groupKeyCode, LocalDate asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("dept", dept);
 		root.addEqualTo("workArea", workArea);
 		root.addEqualTo("principalId", principalId);
 		root.addEqualTo("jobNumber", jobNumber);
+		root.addEqualTo("groupKeyCode", groupKeyCode);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DeptLunchRule.class, asOfDate, DeptLunchRule.BUSINESS_KEYS, true));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DeptLunchRule.class, DeptLunchRule.BUSINESS_KEYS, true));
 //		root.addEqualTo("active", true);

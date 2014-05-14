@@ -32,19 +32,19 @@ public class TimeCollectionRuleTest extends TKLMIntegrationTestCase{
 	public void testTimeCollectionRuleFetch() throws Exception{
 		loadData();
 		TimeCollectionRule timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
-												1234L, "%", LocalDate.now());
+												1234L, "%", "IU-BL", LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
-				1234L, "%", LocalDate.now());
+				1234L, "%", "IU-BL", LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
-				234L, "%", LocalDate.now());
+				234L, "%", "IU-BL", LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
-				234L, "%", LocalDate.now());
+				234L, "%", "IU-BL", LocalDate.now());
 		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 	}
 

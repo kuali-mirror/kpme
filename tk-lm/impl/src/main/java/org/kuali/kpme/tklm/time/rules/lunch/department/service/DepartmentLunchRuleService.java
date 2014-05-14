@@ -37,8 +37,9 @@ public interface DepartmentLunchRuleService {
                     "+ '|' + 'workArea=' + #p1" +
                     "+ '|' + 'principalId=' + #p2" +
                     "+ '|' + 'jobNumber=' + #p3" +
-                    "+ '|' + 'asOfDate=' + #p4")
-	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, Long jobNumber, LocalDate asOfDate);
+                    "+ '|' + 'groupKeyCode=' + #p4" +
+                    "+ '|' + 'asOfDate=' + #p5")
+	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, Long jobNumber, String groupKeyCode, LocalDate asOfDate);
 	
     /**
      * Fetch department lunch rule based on criteria passed in, using literals for wildcards.  Will not go through logic to
@@ -56,8 +57,9 @@ public interface DepartmentLunchRuleService {
 					"+ '|' + 'workArea=' + #p1" +
 					"+ '|' + 'principalId=' + #p2" +
 					"+ '|' + 'jobNumber=' + #p3" +
-					"+ '|' + 'asOfDate=' + #p4")
-	public DeptLunchRule getDepartmentLunchRuleNoWildCards(String dept, Long workArea, String principalId, Long jobNumber, LocalDate asOfDate);
+					"+ '|' + 'groupKeyCode=' + #p4" +
+					"+ '|' + 'asOfDate=' + #p5")
+	public DeptLunchRule getDepartmentLunchRuleNoWildCards(String dept, Long workArea, String principalId, Long jobNumber, String groupKeyCode, LocalDate asOfDate);
 	 	
     /**
 	 * Apply department lunch rule to the list of timeblocks

@@ -236,7 +236,7 @@ public class ClockAction extends TimesheetAction {
 		            Map<String, Boolean> assignmentDeptLunchRuleMap = new HashMap<String, Boolean>();
 		            for (Assignment a : timesheetDocument.getAssignmentMap().get(LocalDate.now())) {
 	                    String key = AssignmentDescriptionKey.getAssignmentKeyString(a);
-	                    DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(a.getDept(), a.getWorkArea(), clockActionForm.getPrincipalId(), a.getJobNumber(), LocalDate.now());
+	                    DeptLunchRule deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(a.getDept(), a.getWorkArea(), clockActionForm.getPrincipalId(), a.getJobNumber(), a.getGroupKeyCode(), LocalDate.now());
 	                    assignmentDeptLunchRuleMap.put(key, deptLunchRule != null);
 	                }
 		            clockActionForm.setAssignmentLunchMap(assignmentDeptLunchRuleMap);

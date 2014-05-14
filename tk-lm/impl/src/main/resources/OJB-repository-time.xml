@@ -176,7 +176,7 @@
     </class-descriptor>
 
     <!--  Added for Department Lunch Table-->
-    <!-- Business Keys - [workArea : jobNumber : dept : principalId : effectiveDate : timestamp] -->
+    <!-- Business Keys - [workArea : jobNumber : dept : principalId : groupKeyCode: effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule" table="TK_DEPT_LUNCH_RL_T">
         <field-descriptor name="tkDeptLunchRuleId"  column="TK_DEPT_LUNCH_RL_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_DEPT_LUNCH_RL_S" />
         <field-descriptor name="dept"               column="DEPT"                   jdbc-type="VARCHAR"     length="21" nullable="false" primarykey="false" />
@@ -205,7 +205,7 @@
     </class-descriptor>
 
     <!-- Time Collection Rule -->
-    <!-- Business Keys - [workArea : dept : effectiveDate : timestamp] -->
+    <!-- Business Keys - [workArea : dept : groupKeyCode: effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule" table="TK_TIME_COLLECTION_RL_T">
         <field-descriptor name="tkTimeCollectionRuleId" column="TK_TIME_COLL_RULE_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_TIME_COLLECTION_RL_S" />
         <field-descriptor name="dept"                   column="DEPT"                   jdbc-type="VARCHAR"     length="21" />

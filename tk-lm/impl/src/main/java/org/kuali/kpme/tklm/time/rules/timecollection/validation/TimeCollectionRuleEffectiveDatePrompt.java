@@ -28,7 +28,7 @@ public class TimeCollectionRuleEffectiveDatePrompt extends KPMEHrObjectNewerVers
     	boolean futureEffectiveDateExists = false;
     	
         TimeCollectionRule timeCollectionRule = (TimeCollectionRule) pbo;
-        TimeCollectionRule lastTimeCollectionRule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(timeCollectionRule.getDept(), timeCollectionRule.getWorkArea(), timeCollectionRule.getPayType(), TKUtils.END_OF_TIME);
+        TimeCollectionRule lastTimeCollectionRule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(timeCollectionRule.getDept(), timeCollectionRule.getWorkArea(), timeCollectionRule.getPayType(), timeCollectionRule.getGroupKeyCode(), TKUtils.END_OF_TIME);
         if (lastTimeCollectionRule != null && lastTimeCollectionRule.getEffectiveLocalDate() != null && timeCollectionRule.getEffectiveLocalDate() != null) {
         	futureEffectiveDateExists = lastTimeCollectionRule.getEffectiveLocalDate().isAfter(timeCollectionRule.getEffectiveLocalDate());
         }

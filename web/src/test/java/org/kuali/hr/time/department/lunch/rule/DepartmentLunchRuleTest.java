@@ -57,7 +57,7 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST",
-											1234L, "admin", 0L, JAN_AS_OF_DATE.toLocalDate());
+											1234L, "admin", 0L, "IU-BL", JAN_AS_OF_DATE.toLocalDate());
 		Assert.assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
 	}
@@ -85,7 +85,7 @@ public class DepartmentLunchRuleTest extends KPMEWebTestCase {
 		KRADServiceLocator.getBusinessObjectService().save(deptLunchRule);
 
 		deptLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule("TEST-DEPT",
-											1234L, "edna", 1L, JAN_AS_OF_DATE.toLocalDate());
+											1234L, "edna", 1L, "IU-BL", JAN_AS_OF_DATE.toLocalDate());
 		Assert.assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(JAN_AS_OF_DATE, "edna");

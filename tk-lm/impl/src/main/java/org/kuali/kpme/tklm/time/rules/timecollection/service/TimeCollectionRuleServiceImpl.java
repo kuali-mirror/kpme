@@ -37,8 +37,8 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService 
 	private TimeCollectionRuleDaoService timeCollectRuleDao;
 
     @Override
-	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate){
-		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, payType, asOfDate);
+	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, String groupKeyCode, LocalDate asOfDate){
+		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, payType, groupKeyCode, asOfDate);
 	}
 
 	public TimeCollectionRuleDaoService getTimeCollectRuleDao() {

@@ -134,7 +134,7 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
                 if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {
                     TimeCollectionRule tcr = null;
                     if (assignment.getJob() != null) {
-                        tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+                        tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), assignment.getGroupKeyCode(), LocalDate.now());
                     }
                     boolean isSynchronous = tcr == null || tcr.isClockUserFl();
                     if (!clockOnlyAssignments || isSynchronous) {
@@ -156,7 +156,7 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
         	if (HrServiceLocator.getHRPermissionService().canViewCalendarDocumentAssignment(principalId, this, assignment)) {
         		TimeCollectionRule tcr = null;
         		if(assignment.getJob() != null)
-        			tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), LocalDate.now());
+        			tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getJob().getHrPayType(), assignment.getGroupKeyCode(), LocalDate.now());
         		boolean isSynchronous = tcr == null || tcr.isClockUserFl();
                 if (!clockOnlyAssignments || isSynchronous) {
     				Long workArea = assignment.getWorkArea();

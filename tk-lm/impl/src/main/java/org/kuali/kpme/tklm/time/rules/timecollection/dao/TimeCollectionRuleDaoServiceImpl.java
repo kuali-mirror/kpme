@@ -44,62 +44,63 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
       * dept, work area, and payType can be wildcardable values
       */
     @Override
-    public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, LocalDate asOfDate) {
+    public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, String groupKeyCode, LocalDate asOfDate) {
 
 
         TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
 
         //First call confirm no exact match
-        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, workArea, payType, asOfDate);
+        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, workArea, payType, groupKeyCode, asOfDate);
         if (timeCollectionRule != null) {
             return timeCollectionRule;
         }
         //Try with dept wildcarded *
-        timeCollectionRule = getTimeCollectionRuleWildCarded("%", workArea, payType, asOfDate);
+        timeCollectionRule = getTimeCollectionRuleWildCarded("%", workArea, payType, groupKeyCode, asOfDate);
         if (timeCollectionRule != null) {
             return timeCollectionRule;
         }
 
         //Try with work area wildcarded
-        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, -1L, payType, asOfDate);
+        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, -1L, payType, groupKeyCode, asOfDate);
         if (timeCollectionRule != null) {
             return timeCollectionRule;
         }
 
         //Try with payType wildcarded
-        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, workArea, "%", asOfDate);
+        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, workArea, "%", groupKeyCode, asOfDate);
         if (timeCollectionRule != null) {
             return timeCollectionRule;
         }
 
         //Try with dept and workArea wildcarded
-        timeCollectionRule = getTimeCollectionRuleWildCarded("%", -1L, payType, asOfDate);
+        timeCollectionRule = getTimeCollectionRuleWildCarded("%", -1L, payType, groupKeyCode, asOfDate);
         if (timeCollectionRule != null) {
             return timeCollectionRule;
         }
 
         //Try with dept and payType wildcarded
-        timeCollectionRule = getTimeCollectionRuleWildCarded("%", workArea, "%", asOfDate);
+        timeCollectionRule = getTimeCollectionRuleWildCarded("%", workArea, "%", groupKeyCode, asOfDate);
         if (timeCollectionRule != null) {
             return timeCollectionRule;
         }
 
         //Try with workArea and payType wildcarded
-        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, -1L, "%", asOfDate);
+        timeCollectionRule = getTimeCollectionRuleWildCarded(dept, -1L, "%", groupKeyCode, asOfDate);
         if (timeCollectionRule != null) {
             return timeCollectionRule;
         }
 
         //Try with everything wildcarded
-        return getTimeCollectionRuleWildCarded("%", -1L, "%", asOfDate);
+        return getTimeCollectionRuleWildCarded("%", -1L, "%", groupKeyCode, asOfDate);
     }
 
-    private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, String payType, LocalDate asOfDate) {
+    private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, String payType, String groupKeyCode, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
         root.addEqualTo("dept", dept);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("payType", payType);
+        root.addEqualTo("groupKeyCode", groupKeyCode);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TimeCollectionRule.class, asOfDate, TimeCollectionRule.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(TimeCollectionRule.class, TimeCollectionRule.BUSINESS_KEYS, false));
 //		root.addEqualTo("active", true);
