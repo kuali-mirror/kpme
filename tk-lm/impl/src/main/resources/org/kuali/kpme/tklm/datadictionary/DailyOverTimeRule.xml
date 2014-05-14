@@ -92,10 +92,14 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId"
-								p:targetName="hrDeptId" />
 						</list>
 					</property>
+					<property name="supportAttributes">
+	                   <list>
+	                       <bean parent="SupportAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+	                       <bean parent="SupportAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
+	                   </list>
+	               </property>
 				</bean>
 
 				<bean parent="RelationshipDefinition">

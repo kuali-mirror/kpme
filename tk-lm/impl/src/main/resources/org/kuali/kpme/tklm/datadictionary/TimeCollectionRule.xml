@@ -47,7 +47,7 @@
 		</property>
 
 		<property name="relationships">
-			<list>
+			<list merge="true">
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="workAreaObj" />
 					<property name="primitiveAttributes">
@@ -92,6 +92,16 @@
                         </list>
                     </property>
 				</bean>
+				
+	  			<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="groupKey" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
+						</list>
+					</property>
+				</bean>
+
 			</list>
 		</property>
 

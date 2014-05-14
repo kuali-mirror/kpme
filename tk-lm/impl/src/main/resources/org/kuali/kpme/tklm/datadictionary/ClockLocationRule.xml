@@ -77,9 +77,14 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
                 </list>
               </property>
+              <property name="supportAttributes">
+                   <list>
+                       <bean parent="SupportAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
+                       <bean parent="SupportAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+                   </list>
+               </property>
             </bean>
             
             <bean parent="RelationshipDefinition">

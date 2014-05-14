@@ -47,17 +47,17 @@
 			</list>
 		</property>
  
-			<property name="relationships">
-			<list>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="principal" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
-							p:targetName="principalId" />
-					</list>
-				</property>
-			</bean>
+		<property name="relationships">
+			<list  merge="true">
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="principal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
 			
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="workAreaObj" />
@@ -84,16 +84,26 @@
 		                  </list>
 		             </property>
 				</bean>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="job"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate" p:targetName="effectiveDate"/>
-                </list>
-              </property>
-            </bean>   
+				
+	            <bean parent="RelationshipDefinition">
+	              <property name="objectAttributeName" value="job"/>
+	              <property name="primitiveAttributes">
+	                <list>
+	                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
+	                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
+	                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate" p:targetName="effectiveDate"/>
+	                </list>
+	              </property>
+	            </bean>   
+			
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="groupKey" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
+						</list>
+					</property>
+				</bean>
 			</list>
 		</property>
 	 

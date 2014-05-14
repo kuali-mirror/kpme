@@ -46,12 +46,9 @@ public class DailyOvertimeRuleRule extends TkKeyedBusinessObjectValidation {//Ma
 	}
 
 	boolean validateDepartment(DailyOvertimeRule ruleObj) {
-		//String groupKeyCode = null;
 		if (ruleObj.getDept() != null
-				&& !ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER)
-				// TODO uncomment out when DailyOvertimeRule is ready  
+				&& !ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER)  
 				&& !ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getGroupKeyCode(), ruleObj.getEffectiveLocalDate())) {
-				//&& !ValidationUtils.validateDepartment(ruleObj.getDept(), groupKeyCode, ruleObj.getEffectiveLocalDate())) {
 			this.putFieldError("dept", "error.existence", "department '"
 					+ ruleObj.getDept() + "'");
 			return false;

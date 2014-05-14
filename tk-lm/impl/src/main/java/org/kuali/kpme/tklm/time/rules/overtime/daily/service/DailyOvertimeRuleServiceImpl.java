@@ -412,8 +412,6 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	
     	for (DailyOvertimeRule dailyOvertimeRuleObj : dailyOvertimeRuleObjs) {
         	String department = dailyOvertimeRuleObj.getDept();
-        	// TODO uncomment out when DailyOvertimeRule is ready 
-        	//String groupKeyCode = null;
         	String groupKeyCd = dailyOvertimeRuleObj.getGroupKeyCode();
         	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCd, dailyOvertimeRuleObj.getEffectiveLocalDate());
         	String loc = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
