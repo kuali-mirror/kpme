@@ -34,14 +34,14 @@ public abstract class HrKeyedSetBusinessObject extends HrBusinessObject implemen
 	
 
 	@Override
-	public abstract Set<? extends HrBusinessObjectKey> getEffectiveKeySet();
+	public abstract Set<? extends HrBusinessObjectKey<? extends HrKeyedSetBusinessObject>> getEffectiveKeySet();
 	
 	public Set<String> getGroupKeyCodeSet() {
 		if(CollectionUtils.isEmpty(this.groupKeyCodeSet) && CollectionUtils.isNotEmpty(this.getEffectiveKeySet())) {
 			Set<String> computedSet = new HashSet<String>();
 			// iterate over the key set and extract out the group key codes
-			Set<? extends HrBusinessObjectKey> keys = this.getEffectiveKeySet();
-			for(HrBusinessObjectKey key : keys) {
+			Set<? extends HrBusinessObjectKey<? extends HrKeyedSetBusinessObject>> keys = this.getEffectiveKeySet();
+			for(HrBusinessObjectKey<? extends HrKeyedSetBusinessObject> key : keys) {
 				computedSet.add(key.getGroupKeyCode());
 			}
 			// set it so that we dont have to compute next time
@@ -60,8 +60,8 @@ public abstract class HrKeyedSetBusinessObject extends HrBusinessObject implemen
 		if(CollectionUtils.isEmpty(this.groupKeySet) && CollectionUtils.isNotEmpty(this.getEffectiveKeySet())) {
 			Set<HrGroupKeyBo> computedSet = new HashSet<HrGroupKeyBo>();
 			// iterate over the key set and extract out the group key objects
-			Set<? extends HrBusinessObjectKey> keys = this.getEffectiveKeySet();
-			for(HrBusinessObjectKey key : keys) {
+			Set<? extends HrBusinessObjectKey<? extends HrKeyedSetBusinessObject>> keys = this.getEffectiveKeySet();
+			for(HrBusinessObjectKey<? extends HrKeyedSetBusinessObject> key : keys) {
 				computedSet.add(key.getGroupKey());
 			}
 			// set it so that we dont have to compute next time

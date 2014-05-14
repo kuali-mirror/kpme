@@ -26,7 +26,6 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
-import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
@@ -112,14 +111,6 @@ public class PmValidationUtils {
 		if(asOfDate != null) {
 			List<? extends PositionReportSubCategoryContract> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, groupKeyCode,asOfDate);
 			return CollectionUtils.isNotEmpty(prscList);
-		}
-		return false;
-	}
-	
-	public static boolean validatePstnRptGrp(String pstnRptGrp, LocalDate asOfDate) {
-		if(asOfDate != null) {
-			List<? extends PositionReportGroupContract> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(pstnRptGrp, asOfDate);
-			return CollectionUtils.isNotEmpty(prgList);
 		}
 		return false;
 	}

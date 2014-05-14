@@ -135,25 +135,25 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 	}
 	
 	
-	@Test
-	public void testValidatePstnRptGrp() {
-		DateTime aDate = INVALID_DATE;
-		String prg = "nonExist";
-		
-		boolean results = PmValidationUtils.validatePstnRptGrp(prg, aDate.toLocalDate()); // non-existing
-		Assert.assertFalse(results);
-		
-		prg = "testPRG";	
-		results = PmValidationUtils.validatePstnRptGrp(prg, aDate.toLocalDate()); // existing, but wrong date
-		Assert.assertFalse(results);
-		
-		aDate = VALID_DATE;
-		results = PmValidationUtils.validatePstnRptGrp(prg, aDate.toLocalDate());   // existing, right date
-		Assert.assertTrue(results);
-		
-		results = PmValidationUtils.validatePstnRptGrp(prg, aDate.toLocalDate()); 
-		Assert.assertTrue(results);
-	}
+//	@Test
+//	public void testValidatePstnRptGrp() {
+//		DateTime aDate = INVALID_DATE;
+//		String prg = "nonExist";
+//		
+//		boolean results = PmValidationUtils.validatePstnRptGrp(prg, aDate.toLocalDate()); // non-existing
+//		Assert.assertFalse(results);
+//		
+//		prg = "testPRG";	
+//		results = PmValidationUtils.validatePstnRptGrp(prg, aDate.toLocalDate()); // existing, but wrong date
+//		Assert.assertFalse(results);
+//		
+//		aDate = VALID_DATE;
+//		results = PmValidationUtils.validatePstnRptGrp(prg, aDate.toLocalDate());   // existing, right date
+//		Assert.assertTrue(results);
+//		
+//		results = PmValidationUtils.validatePstnRptGrp(prg, aDate.toLocalDate()); 
+//		Assert.assertTrue(results);
+//	}
 
     @Test
     public void testValidatePositionQualificationValue() {

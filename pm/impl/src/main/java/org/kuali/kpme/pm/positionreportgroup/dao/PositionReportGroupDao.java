@@ -15,16 +15,12 @@
  */
 package org.kuali.kpme.pm.positionreportgroup.dao;
 
-import java.util.List;
-
 import org.joda.time.LocalDate;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 
 public interface PositionReportGroupDao {
 	
 	public PositionReportGroupBo getPositionReportGroupById(String pmPositionReportGroupId);
-	
-	public List<PositionReportGroupBo> getPositionReportGroupList(String positionReportGroup, LocalDate asOfDate);
 	
 	public PositionReportGroupBo getPositionReportGroup(String positionReportGroup, LocalDate asOfDate);
 	

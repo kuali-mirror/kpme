@@ -38,11 +38,6 @@ public class PositionReportGroupServiceImpl implements PositionReportGroupServic
 		return PositionReportGroupBo.to(positionReportGroupDao.getPositionReportGroup(positionReportGroup, asOfDate));
 	}
 	
-	@Override
-	public List<PositionReportGroup> getPositionReportGroupList(String positionReportGroup, LocalDate asOfDate) {
-		return ModelObjectUtils.transform(positionReportGroupDao.getPositionReportGroupList(positionReportGroup, asOfDate),PositionReportGroupBo.toImmutable);
-	}
-	
 	public PositionReportGroupDao getPositionReportGroupDao() {
 		return positionReportGroupDao;
 	}
