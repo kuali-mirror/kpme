@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import org.kuali.kpme.core.UnitTest;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.leaveplan.LeavePlan;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
@@ -36,6 +37,12 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +50,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@UnitTest
 public class PrincipalHRAttributesBoTest {
     private static IdentityService mockIdentityService;
 
@@ -145,6 +153,26 @@ public class PrincipalHRAttributesBoTest {
 
         Assert.assertEquals(bo1.getLeavePlanObj(), bo2.getLeavePlanObj());
     }
+
+    @Test
+    public void testXmlMarshaling() {
+        JAXBContext jc = null;
+        try {
+            jc = JAXBContext.newInstance(PrincipalHRAttributes.class);
+
+            Marshaller marshaller = jc.createMarshaller();
+            StringWriter sw = new StringWriter();
+
+            PrincipalHRAttributes principalHrAttributes = getPrincipalHRAttributes("testuser1");
+            marshaller.marshal(principalHrAttributes, sw);
+            String xml = sw.toString();
+            System.out.println(xml);
+            Assert.assertTrue(true);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
         return testPrincipalHRAttributeBos.get(principalId);

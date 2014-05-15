@@ -374,6 +374,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		sdr.setFromEarnGroup(fromEarnGroup);
 		sdr.setPyCalendarGroup(pyCalendarGroup);
 		sdr.setEarnCode(premiumEarnCode);
+        sdr.setRuleType("default");
 
 		for (int i=0; i<dayBooleans.length; i++) {
 			switch(i) {

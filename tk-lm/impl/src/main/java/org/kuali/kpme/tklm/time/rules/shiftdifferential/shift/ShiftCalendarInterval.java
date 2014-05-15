@@ -25,6 +25,8 @@ import org.joda.time.LocalTime;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftTypeService;
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftTypeServiceBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ public class ShiftCalendarInterval {
     private Set<Long> jobNumbers;
     private ShiftDifferentialRule rule;
     private List<Shift> shifts;
+    private ShiftTypeService shiftTypeService;
 
     public ShiftCalendarInterval(Set<Long> jobNumbers, ShiftDifferentialRule rule, LocalDateTime spanBegin, LocalDateTime spanEnd, DateTimeZone zone) {
         this.jobNumbers = jobNumbers;
@@ -97,22 +100,8 @@ public class ShiftCalendarInterval {
         return new Interval(current.getStart().plusDays(1), current.getEnd().plusDays(1));
     }
 
-    public void placeTimeBlocks(List<TimeBlock> timeBlocks, DateTimeZone zone) {
-        for (TimeBlock tb : timeBlocks) {
-            if (getJobNumbers().contains(tb.getJobNumber())) {
-                int counter = 0;  // only possible for timeblock to overlap two shifts
-                Interval tbInterval = new Interval(tb.getBeginDateTime(), tb.getEndDateTime());
-                for (Shift shift : getShifts()) {
-                    if (shift.getShiftInterval().overlaps(tbInterval)) {
-                        shift.addShiftBlock(tb);
-                        counter++;
-                    }
-                    if (counter >= 2) {
-                        break;
-                    }
-                }
-            }
-        }
+    public void placeTimeBlocks(List<TimeBlock> timeBlocks) {
+        getShiftTypeService().placeTimeBlocks(this, timeBlocks);
     }
 
     protected boolean ruleIsActiveForDay(DateTime currentDate, ShiftDifferentialRule sdr) {
@@ -164,7 +153,15 @@ public class ShiftCalendarInterval {
         return shiftBlocksForTimeBlock;
     }
 
-    public boolean exceedsMinHours(long duration) {
-        return rule.getMinHours().compareTo(TKUtils.convertMillisToHours(duration)) < 0;
+    protected ShiftTypeService getShiftTypeService() {
+        if (shiftTypeService == null) {
+            if (rule.getRuleTypeObj() == null) {
+                //fall back to base logic
+                shiftTypeService = new ShiftTypeServiceBase();
+            } else {
+                shiftTypeService = rule.getRuleTypeObj().getShiftTypeService();
+            }
+        }
+        return shiftTypeService;
     }
 }

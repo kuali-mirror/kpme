@@ -25,6 +25,9 @@ import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlockContract;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.ShiftDifferentialRuleType;
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftTypeService;
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftTypeServiceBase;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class Shift {
     private Map<String, Interval> previousGapIntervals = new HashMap<>();
     private Long totalShiftTime;
     private DateTimeZone zone;
+
+    private ShiftTypeService shiftTypeService;
 
 
     public Shift(ShiftDifferentialRule rule, Interval shiftInterval, DateTimeZone zone) {
@@ -88,63 +93,7 @@ public class Shift {
     }
 
     public void processShift() {
-        long duration = 0L;
-        Map<String, Interval> intervalMap = new HashMap<>();
-        List<ShiftBlock> shiftBlockList = new ArrayList<>(getShiftBlocks());
-        List<String> idsAddedToDuration = new ArrayList<String>();
-        if (CollectionUtils.isNotEmpty(shiftBlockList)) {
-            int size = shiftBlockList.size();
-            if (size > 1) {
-                for (int i = 1; i < size; i++) {
-                    ShiftBlock sb1 = shiftBlockList.get(i - 1);
-                    ShiftBlock sb2 = shiftBlockList.get(i);
-                    Interval currentGapInterval = new Interval(sb1.getShiftOverlap().getEnd(), sb2.getShiftOverlap().getStart());
-                    intervalMap.put(sb2.getTimeBlockId(), currentGapInterval);
-                    if (rule.getMaxGap().compareTo(BigDecimal.ZERO) == 0
-                            || !exceedsMaxGap(currentGapInterval, rule.getMaxGap())) {
-                        if (!idsAddedToDuration.contains(sb1.getShiftBlockId())) {
-                            duration += sb1.getShiftBlockDurationMillis();
-                            idsAddedToDuration.add(sb1.getShiftBlockId());
-                            sb1.setApplyPremium(Boolean.TRUE);
-                        }
-                        if (!idsAddedToDuration.contains(sb2.getShiftBlockId())) {
-                            duration += sb2.getShiftBlockDurationMillis();
-                            idsAddedToDuration.add(sb2.getShiftBlockId());
-                            sb2.setApplyPremium(Boolean.TRUE);
-                        }
-                    } else {
-                        //add if either block exceeds minimum
-                        if (sb1.exceedsMinHours()) {
-                            duration += sb1.getShiftBlockDurationMillis();
-                            idsAddedToDuration.add(sb1.getShiftBlockId());
-                            sb1.setApplyPremium(Boolean.TRUE);
-                        }
-                        if (sb2.exceedsMinHours()) {
-                            duration += sb2.getShiftBlockDurationMillis();
-                            idsAddedToDuration.add(sb2.getShiftBlockId());
-                            sb2.setApplyPremium(Boolean.TRUE);
-                        }
-
-                    }
-                }
-            } else {
-                ShiftBlock singleShiftBlock = shiftBlockList.get(0);
-                duration = singleShiftBlock.getShiftBlockDurationMillis();
-                singleShiftBlock.setApplyPremium(Boolean.TRUE);
-            }
-        }
-
-
-        Long negativeAdjustment = getNegativeAdjustmentTime();
-        setTotalShiftTime(duration - negativeAdjustment);
-        if (getFullShiftPremiumTime() <= 0) {
-            //didn't hit minimum hours, make sure apply premium bools are all false
-            for (ShiftBlock sb : getShiftBlocks()) {
-                sb.setApplyPremium(Boolean.FALSE);
-            }
-        }
-        setPreviousGapIntervals(intervalMap);
-
+        getShiftTypeService().processShift(this);
     }
 
     public Long getTotalShiftTime() {
@@ -160,25 +109,11 @@ public class Shift {
     }
 
     public Long getNegativeAdjustmentTime() {
-        BigDecimal sum = BigDecimal.ZERO;
-        for (ShiftBlock sb : getShiftBlocks()) {
-            for (TimeHourDetail detail : sb.getTimeBlock().getTimeHourDetails()) {
-                // TODO: Should get a list of Earn codes for this from a new system parameter
-                if (detail.getEarnCode().equals(HrConstants.LUNCH_EARN_CODE)) {
-                    sum = sum.add(detail.getHours());
-                }
-            }
-        }
-
-        return TKUtils.convertHoursToMillis(sum);
+        return getShiftTypeService().getNegativeAdjustmentTime(this);
     }
 
     public Long getFullShiftPremiumTime() {
-        //long shiftDuration = getTotalShiftTime();
-        if (exceedsMinHours()) {
-            return getTotalShiftTime();
-        }
-        return 0L;
+        return getShiftTypeService().getFullShiftPremium(this);
     }
 
     public Map<String, Interval> getPreviousGapIntervals() {
@@ -197,12 +132,24 @@ public class Shift {
         this.totalShiftTime = totalShiftTime;
     }
 
-    protected boolean exceedsMaxGap(Interval gapInterval, BigDecimal maxGap) {
+    public boolean exceedsMaxGap(Interval gapInterval, BigDecimal maxGap) {
         if (gapInterval == null) {
             return false;
         }
         BigDecimal gapMinutes = TKUtils.convertMillisToMinutes(gapInterval.toDurationMillis());
 
         return (gapMinutes.compareTo(maxGap) > 0);
+    }
+
+    protected ShiftTypeService getShiftTypeService() {
+        if (shiftTypeService == null) {
+            if (rule.getRuleTypeObj() == null) {
+                //fall back to base logic
+                shiftTypeService = new ShiftTypeServiceBase();
+            } else {
+                shiftTypeService = rule.getRuleTypeObj().getShiftTypeService();
+            }
+        }
+        return shiftTypeService;
     }
 }

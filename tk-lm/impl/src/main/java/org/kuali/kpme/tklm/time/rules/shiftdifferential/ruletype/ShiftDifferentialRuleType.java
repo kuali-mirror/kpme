@@ -21,6 +21,11 @@ import org.kuali.kpme.tklm.api.time.rules.shiftdifferential.ruletype.ShiftDiffer
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftTypeService;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+
+import javax.xml.namespace.QName;
 
 public class ShiftDifferentialRuleType extends HrBusinessObject implements ShiftDifferentialRuleTypeContract{
 	
@@ -33,7 +38,10 @@ public class ShiftDifferentialRuleType extends HrBusinessObject implements Shift
 	private String tkShiftDiffRuleTypeId;
 	private String namespace;
 	private String name;
-	private String serviceName;
+
+    private String serviceName;
+
+    private transient ShiftTypeService shiftTypeService;
 	
 	public String getTkShiftDiffRuleTypeId() {
 		return tkShiftDiffRuleTypeId;
@@ -86,12 +94,31 @@ public class ShiftDifferentialRuleType extends HrBusinessObject implements Shift
 	@Override
 	public void setId(String id) {
 		setTkShiftDiffRuleTypeId(id);
-		
 	}
 
 	@Override
 	protected String getUniqueKey() {
 		return getName();
 	}
+
+    public void setShiftTypeService(ShiftTypeService shiftTypeService) {
+        this.shiftTypeService = shiftTypeService;
+    }
+
+    public ShiftTypeService getShiftTypeService() {
+        if (shiftTypeService == null) {
+            QName serviceQName = QName.valueOf(getServiceName());
+            try {
+                shiftTypeService = GlobalResourceLoader.getService(serviceQName);
+                if (shiftTypeService == null) {
+                    shiftTypeService = TkServiceLocator.getService(TkServiceLocator.TK_SHIFT_TYPE_SERVICE_BASE);
+                }
+            } catch (Exception ex) {
+                shiftTypeService = TkServiceLocator.getService(TkServiceLocator.TK_SHIFT_TYPE_SERVICE_BASE);
+            }
+        }
+        return shiftTypeService;
+
+    }
 
 }

@@ -76,6 +76,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_MISSED_PUNCH_DOC_SERVICE = "missedPunchDocumentService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
     public static final String TK_SHIFT_DIFFERENTIAL_RULE_TYPE_SERVICE = "shiftDifferentialRuleTypeService";
+    public static final String TK_SHIFT_TYPE_SERVICE_BASE = "shiftTypeServiceBase";
 
     public static final String TK_PERMISSION_SERVICE = "tkPermissionService";
 

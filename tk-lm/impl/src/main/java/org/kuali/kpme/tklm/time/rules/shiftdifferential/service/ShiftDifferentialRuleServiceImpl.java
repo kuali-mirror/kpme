@@ -20,7 +20,6 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
@@ -257,7 +256,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         List<ShiftCalendarInterval> shiftCalendars = getShiftCalendarIntervals(timesheetDocument, zone);
         for (ShiftCalendarInterval sci : shiftCalendars) {
             for (List<TimeBlock> blocks : blockDays) {
-                sci.placeTimeBlocks(blocks, zone);
+                sci.placeTimeBlocks(blocks);
             }
         }
 
@@ -291,9 +290,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                                 if (applied) {
                                     addToMap(previousDocIdChanges, tb.getDocumentId(), tb.getTkTimeBlockId());
                                 }
-                            } //else {
-                                //time block is on a previous pay period, but we are not allowed to change it
-                            //}
+                            }
                         } else {
                             List<ShiftBlock> shiftBlocks = timeBlocksForShift.get(tb.build());
                             computeAndApplyPremium(tb, shiftBlocks, sci);
@@ -455,36 +452,6 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 		sdrs.addAll(shiftDifferentialRuleDao.findShiftDifferentialRules("%", "%", "%", "%", asOfDate));
 
 		return sdrs;
-	}
-
-	private boolean dayIsRuleActive(DateTime currentDate, ShiftDifferentialRule sdr) {
-		boolean active = false;
-
-		switch (currentDate.getDayOfWeek()) {
-		case DateTimeConstants.MONDAY:
-			active = sdr.isMonday();
-			break;
-		case DateTimeConstants.TUESDAY:
-			active = sdr.isTuesday();
-			break;
-		case DateTimeConstants.WEDNESDAY:
-			active = sdr.isWednesday();
-			break;
-		case DateTimeConstants.THURSDAY:
-			active = sdr.isThursday();
-			break;
-		case DateTimeConstants.FRIDAY:
-			active = sdr.isFriday();
-			break;
-		case DateTimeConstants.SATURDAY:
-			active = sdr.isSaturday();
-			break;
-		case DateTimeConstants.SUNDAY:
-			active = sdr.isSunday();
-			break;
-		}
-
-		return active;
 	}
 
 	@Override

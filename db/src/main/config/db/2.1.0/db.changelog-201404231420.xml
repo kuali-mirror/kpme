@@ -33,15 +33,15 @@
             ALTER TABLE TK_SHIFT_DIFFERENTIAL_RL_TYP_S AUTO_INCREMENT = 1;
         </sql>
     </changeSet>
-     <changeSet id="2" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
+     <changeSet id="2" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-3385 SQLs added for required changes</comment>
         <createTable tableName="TK_SHIFT_DIFFERENTIAL_RL_TYP_T">
             <column name="TK_SHIFT_DIFF_RL_TYP_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="NMSPC_CD" type="VARCHAR(40)"></column>
-            <column name="TYP_NM" type="VARCHAR(60)"></column>
-            <column name="SERVICE_NM" type="VARCHAR(100)"></column>
+            <column name="NMSPC_CD" type="VARCHAR(40)"/>
+            <column name="TYP_NM" type="VARCHAR(60)"/>
+            <column name="SERVICE_NM" type="VARCHAR(100)"/>
              <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
@@ -60,7 +60,7 @@
 			<append value=" ENGINE INNODB" />
 		</modifySql>
      </changeSet>
-     <changeSet id="3" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
+     <changeSet id="3" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-3385 SQLs added for required changes</comment>
 		<addColumn tableName="TK_SHIFT_DIFFERENTIAL_RL_T">
             <column name="RULE_TYP_NM" type="VARCHAR(60)"/>

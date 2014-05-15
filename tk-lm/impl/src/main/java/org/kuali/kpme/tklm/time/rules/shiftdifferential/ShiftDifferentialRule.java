@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.rules.shiftdifferential;
 import java.math.BigDecimal;
 import java.sql.Time;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupBo;
@@ -31,6 +32,7 @@ import org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.ShiftDifferenti
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
 public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRuleContract {
 
@@ -349,6 +351,10 @@ public class ShiftDifferentialRule extends TkRule implements ShiftDifferentialRu
 	}
 
 	public ShiftDifferentialRuleType getRuleTypeObj() {
+        if (ruleTypeObj == null
+                && StringUtils.isNotEmpty(ruleType)) {
+            ruleTypeObj = TkServiceLocator.getShiftDifferentialRuleTypeService().getActiveShiftDifferentialRuleType(getRuleType(), getEffectiveLocalDate());
+        }
 		return ruleTypeObj;
 	}
 

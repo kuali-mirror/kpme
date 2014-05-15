@@ -322,6 +322,9 @@
         <property name="shiftDifferentialRuleDao" ref="shiftDifferentialRuleDao"/>
     </bean>
 
+    <bean id="shiftTypeServiceBase"
+          class="org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftTypeServiceBase" />
+
     <bean id="shiftDifferentialRuleTypeService"
           class="org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.service.ShiftDifferentialRuleTypeServiceImpl">
         <property name="shiftDifferentialRuleTypeDao" ref="shiftDifferentialRuleTypeDao"/>

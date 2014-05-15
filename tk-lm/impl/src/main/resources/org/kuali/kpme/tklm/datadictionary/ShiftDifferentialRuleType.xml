@@ -34,7 +34,7 @@
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="ShiftDifferentialRuleType-tkShiftDiffRuleTypeId" />
-				<ref bean="ShiftDifferentialRuleType-namespace" />
+				<!--<ref bean="ShiftDifferentialRuleType-namespace" />-->
 				<ref bean="ShiftDifferentialRuleType-name" />
 				<ref bean="ShiftDifferentialRuleType-serviceName" />
 			</list>
@@ -55,7 +55,7 @@
 	</bean>
 	
 	<!-- Namespace -->
-	<bean id="ShiftDifferentialRuleType-namespace" parent="ShiftDifferentialRuleType-namespace-parentBean" />
+	<!--<bean id="ShiftDifferentialRuleType-namespace" parent="ShiftDifferentialRuleType-namespace-parentBean" />
 	<bean id="ShiftDifferentialRuleType-namespace-parentBean"
 		abstract="true" parent="AttributeDefinition">
 	    <property name="name" value="namespace"/>
@@ -73,7 +73,7 @@
 	    <property name="controlField">
 			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
-	</bean>
+	</bean>-->
 
 	<!-- name -->
 	<bean id="ShiftDifferentialRuleType-name" parent="ShiftDifferentialRuleType-name-parentBean" />
@@ -126,7 +126,7 @@
 				      <property name="items">
 			       	 	<list>
 							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-							<bean parent="Uif-DataField" p:propertyName="namespace" />
+							<!--<bean parent="Uif-DataField" p:propertyName="namespace" />-->
 							<bean parent="Uif-DataField" p:propertyName="name" />
 							<bean parent="Uif-DataField" p:propertyName="serviceName" />
 							<bean parent="Uif-DataField" p:propertyName="active" />
@@ -146,7 +146,7 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.tklm.time.rules.shiftdifferential.ruletype.ShiftDifferentialRuleType" />
     <property name="criteriaFields">
       <list merge="true">
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="namespace"/>
+        <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="namespace"/>-->
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="serviceName" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
@@ -155,7 +155,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="Uif-DataField" p:propertyName="namespace" />
+        <!--<bean parent="Uif-DataField" p:propertyName="namespace" />-->
         <bean parent="Uif-DataField" p:propertyName="name" />
         <bean parent="Uif-DataField" p:propertyName="serviceName" />
         <bean parent="Uif-DataField" p:propertyName="active" />
@@ -178,7 +178,7 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="FieldDefinition" p:attributeName="namespace" />
+        <!--<bean parent="FieldDefinition" p:attributeName="namespace" />-->
         <bean parent="FieldDefinition" p:attributeName="name" />
         <bean parent="FieldDefinition" p:attributeName="serviceName" />
         <bean parent="FieldDefinition" p:attributeName="active" />
@@ -196,7 +196,7 @@
 	          <property name="items">
 	          <list>
 	                  <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
-	                  <bean parent="Uif-InputField" p:propertyName="namespace" p:required="true" />
+	                  <!--<bean parent="Uif-InputField" p:propertyName="namespace" p:required="true" />-->
 	                  <bean parent="Uif-InputField" p:propertyName="name" p:required="true" />
 	                  <bean parent="Uif-InputField" p:propertyName="serviceName" p:required="true" />
 	                  <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
