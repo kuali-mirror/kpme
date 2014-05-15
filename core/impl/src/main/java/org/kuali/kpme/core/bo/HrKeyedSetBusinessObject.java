@@ -32,20 +32,20 @@ public abstract class HrKeyedSetBusinessObject<O extends HrKeyedSetBusinessObjec
 	
 	protected transient Set<String> groupKeyCodeSet;
 	protected transient Set<HrGroupKeyBo> groupKeySet;
-	protected Set<K> effectiveSet;
-	private static final String EFFECTIVE_SET = "effectiveSet";
+	protected Set<K> effectiveKeySet;
+	private static final String EFFECTIVE_KEY_SET = "effectiveKeySet";
 
 
 	@Override
 	public Set<K> getEffectiveKeySet() {
-		if(CollectionUtils.isEmpty(this.effectiveSet)) {
-			refreshReferenceObject(EFFECTIVE_SET);
+		if(CollectionUtils.isEmpty(this.effectiveKeySet)) {
+			refreshReferenceObject(EFFECTIVE_KEY_SET);
 		}
-		return this.effectiveSet;
+		return this.effectiveKeySet;
 	}
 	
-	public void setEffectiveKeySet(Set<K> effectiveSet) {
-		this.effectiveSet = effectiveSet;
+	public void setEffectiveKeySet(Set<K> effectiveKeySet) {
+		this.effectiveKeySet = effectiveKeySet;
 	}
 	
 	public Set<String> getGroupKeyCodeSet() {
