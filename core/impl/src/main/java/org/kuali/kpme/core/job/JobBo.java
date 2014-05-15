@@ -46,14 +46,14 @@ public class JobBo extends HrKeyedBusinessObject implements JobContract {
 	static class KeyFields {
 		private static final String JOB_NUMBER = "jobNumber";
 		private static final String PRINCIPAL_ID = "principalId";
-		private static final String GROUP_KEY_CODE = "groupKeyCode";
+		//private static final String GROUP_KEY_CODE = "groupKeyCode";
 	}
 	private static final long serialVersionUID = 1369595897637935064L;	
 	//KPME-2273/1965 Primary Business Keys List. Will be using this from now on instead.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 	            .add(KeyFields.PRINCIPAL_ID)
 	            .add(KeyFields.JOB_NUMBER)
-	            .add(KeyFields.GROUP_KEY_CODE)
+	            //.add(KeyFields.GROUP_KEY_CODE)
 	            .build();
 	
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "Job";
@@ -98,7 +98,7 @@ public class JobBo extends HrKeyedBusinessObject implements JobContract {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.PRINCIPAL_ID, this.getPrincipalId())
 				.put(KeyFields.JOB_NUMBER, this.getJobNumber())
-				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
+				//.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
     
