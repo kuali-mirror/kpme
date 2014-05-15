@@ -26,9 +26,9 @@ import java.util.Set;
 
 public class KpmeJavaFunctionTermService extends KpmeKrmsJavaFunctionTermServiceBase {
 
-    public Boolean containsDept(Assignable assignable, String deptartment) {
+    public Boolean containsDept(Assignable assignable, String department) {
 
-        return getDepartmentsFromAssignments(assignable).contains(deptartment);
+        return getDepartmentsFromAssignments(assignable).contains(department);
     }
 
     public Boolean containsWorkArea(Assignable assignable, Long workArea) {

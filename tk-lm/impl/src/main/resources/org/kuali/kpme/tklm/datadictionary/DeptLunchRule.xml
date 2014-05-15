@@ -251,7 +251,7 @@
 						</list>
 					</property>
 					
-					<property name="title" value="Deptartment Lunch Rule" />
+					<property name="title" value="Department Lunch Rule" />
 				</bean>
 			</list>
 		</property>
