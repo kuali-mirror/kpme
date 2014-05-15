@@ -20,7 +20,5 @@ import org.joda.time.LocalDate;
 public interface KpmeEffectiveDerivedDataTransferObject extends KpmeDataTransferObject {
 	
 	LocalDate getEffectiveLocalDateOfOwner();
-	
-	KpmeEffectiveDataTransferObject getOwner();
 
 }

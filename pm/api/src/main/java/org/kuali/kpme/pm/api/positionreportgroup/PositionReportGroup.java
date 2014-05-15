@@ -109,15 +109,7 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
 
     private PositionReportGroup(Builder builder) {
         this.pmPositionReportGroupId = builder.getPmPositionReportGroupId();
-        // set self as the owner for each of the effective key object builders
-        Set<PositionReportGroupKey.Builder> keyBuilders = builder.getEffectiveKeySet();
-        if(keyBuilders != null) {
-	        for(PositionReportGroupKey.Builder keyBuilder : keyBuilders) {
-	        	keyBuilder.setOwner(this);
-	        }
-        }
-        this.effectiveKeySet = ModelObjectUtils.<PositionReportGroupKey>buildImmutableCopy(keyBuilders);
-        
+        this.effectiveKeySet = ModelObjectUtils.<PositionReportGroupKey>buildImmutableCopy(builder.getEffectiveKeySet());        
         this.description = builder.getDescription();
         this.positionReportGroup = builder.getPositionReportGroup();
         this.versionNumber = builder.getVersionNumber();

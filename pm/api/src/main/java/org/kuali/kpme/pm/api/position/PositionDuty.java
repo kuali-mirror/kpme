@@ -38,7 +38,6 @@ import org.w3c.dom.Element;
     PositionDuty.Elements.PERCENTAGE,
     PositionDuty.Elements.PM_DUTY_ID,
     PositionDuty.Elements.HR_POSITION_ID,
-    PositionDuty.Elements.OWNER,
     PositionDuty.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
@@ -58,8 +57,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
     private final String pmDutyId;
     @XmlElement(name = Elements.HR_POSITION_ID, required = false)
     private final String hrPositionId;
-    @XmlElement(name = Elements.OWNER, required = false)
-    private final Position owner;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -79,7 +76,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
         this.percentage = null;
         this.pmDutyId = null;
         this.hrPositionId = null;
-        this.owner = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -91,7 +87,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
         this.percentage = builder.getPercentage();
         this.pmDutyId = builder.getPmDutyId();
         this.hrPositionId = builder.getHrPositionId();
-        this.owner =  builder.getOwner() == null ? null : builder.getOwner().build();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -123,11 +118,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
     }
 
     @Override
-    public Position getOwner() {
-        return this.owner;
-    }
-
-    @Override
     public LocalDate getEffectiveLocalDateOfOwner() {
         return this.effectiveLocalDateOfOwner;
     }
@@ -155,7 +145,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
         private BigDecimal percentage;
         private String pmDutyId;
         private String hrPositionId;
-        private Position.Builder owner;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
@@ -180,7 +169,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
             builder.setPercentage(contract.getPercentage());
             builder.setPmDutyId(contract.getPmDutyId());
             builder.setHrPositionId(contract.getHrPositionId());
-            builder.setOwner(contract.getOwner() == null ? null : Position.Builder.create(contract.getOwner()));
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -215,12 +203,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
         @Override
         public String getHrPositionId() {
             return this.hrPositionId;
-        }
-
-
-        @Override
-        public Position.Builder getOwner() {
-            return this.owner;
         }
 
         @Override
@@ -261,11 +243,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
         public void setHrPositionId(String hrPositionId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.hrPositionId = hrPositionId;
-        }
-
-        public void setOwner(Position.Builder owner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.owner = owner;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
@@ -309,7 +286,6 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
         final static String PERCENTAGE = "percentage";
         final static String PM_DUTY_ID = "pmDutyId";
         final static String HR_POSITION_ID = "hrPositionId";
-        final static String OWNER = "owner";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";
 
     }

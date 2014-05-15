@@ -33,7 +33,6 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = PositionReportGroupKey.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PositionReportGroupKey.Constants.TYPE_NAME, propOrder = {
-    PositionReportGroupKey.Elements.OWNER,
     PositionReportGroupKey.Elements.POSITION_REPORT_GROUP_KEY_ID,
     PositionReportGroupKey.Elements.PM_POSITION_REPORT_GROUP_ID,
     PositionReportGroupKey.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
@@ -46,8 +45,6 @@ import org.w3c.dom.Element;
 public final class PositionReportGroupKey extends AbstractDataTransferObject implements PositionReportGroupKeyContract {
 
 	private static final long serialVersionUID = 4765631151966354214L;
-	@XmlElement(name = Elements.OWNER, required = false)
-    private final PositionReportGroup owner;
     @XmlElement(name = Elements.POSITION_REPORT_GROUP_KEY_ID, required = false)
     private final String positionReportGroupKeyId;
     @XmlElement(name = Elements.PM_POSITION_REPORT_GROUP_ID, required = false)
@@ -70,7 +67,6 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
      * 
      */
     private PositionReportGroupKey() {
-        this.owner = null;
         this.positionReportGroupKeyId = null;
         this.pmPositionReportGroupId = null;
         this.effectiveLocalDateOfOwner = null;
@@ -80,23 +76,14 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
         this.groupKeyCode = null;
     }
 
-    private PositionReportGroupKey(Builder builder) {
-    	// get the immutable owner from the builder (this should have been set by the owner's constructor before)
-    	this.owner = builder.getOwner();
-    	
+    private PositionReportGroupKey(Builder builder) {    	
         this.positionReportGroupKeyId = builder.getPositionReportGroupKeyId();
         this.pmPositionReportGroupId = builder.getPmPositionReportGroupId();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
-        this.groupKeyCode = builder.getGroupKeyCode();
-        
-    }
-
-    @Override
-    public PositionReportGroup getOwner() {
-        return this.owner;
+        this.groupKeyCode = builder.getGroupKeyCode();        
     }
 
     @Override
@@ -142,8 +129,6 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
     public final static class Builder implements Serializable, PositionReportGroupKeyContract, ModelBuilder {
 
 		private static final long serialVersionUID = 5953020367993221043L;
-		
-		private PositionReportGroup owner;
 
         private String positionReportGroupKeyId;
         private String pmPositionReportGroupId;
@@ -217,11 +202,7 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
         public String getGroupKeyCode() {
             return this.groupKeyCode;
         }
-        
-        public PositionReportGroup getOwner() {
-			return owner;
-		}
-
+       
 
         public void setPositionReportGroupKeyId(String positionReportGroupKeyId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
@@ -258,10 +239,6 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
             this.groupKeyCode = groupKeyCode;
         }
 
-		public void setOwner(PositionReportGroup owner) {
-			this.owner = owner;
-		}
-
     }
 
 
@@ -283,7 +260,6 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
      */
     static class Elements {
 
-        final static String OWNER = "owner";
         final static String POSITION_REPORT_GROUP_KEY_ID = "positionReportGroupKeyId";
         final static String PM_POSITION_REPORT_GROUP_ID = "pmPositionReportGroupId";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";

@@ -67,12 +67,14 @@ public class PositionReportGroupBoTest {
 	
     @Test
     public void testNotEqualsWithGroup() {
-    	PositionReportGroup immutable = PositionReportGroupBoTest.getPositionReportGroup("TST-PSTNRPTGRP");
-    	PositionReportGroupBo bo = PositionReportGroupBo.from(immutable);
-        Assert.assertFalse(bo.equals(immutable));
-        Assert.assertFalse(immutable.equals(bo));
-        PositionReportGroup immutableFromBo = PositionReportGroupBo.to(bo); 
-        // Assert.assertEquals(immutable, immutableFromBo);
+    	PositionReportGroup im1 = PositionReportGroupBoTest.getPositionReportGroup("TST-PSTNRPTGRP");
+    	PositionReportGroupBo bo1 = PositionReportGroupBo.from(im1);
+        Assert.assertFalse(bo1.equals(im1));
+        Assert.assertFalse(im1.equals(bo1));
+        PositionReportGroup im2 = PositionReportGroupBo.to(bo1);
+        PositionReportGroupBo bo2 = PositionReportGroupBo.from(im2);
+        PositionReportGroup im3 = PositionReportGroupBo.to(bo2);
+        Assert.assertEquals(im2, im3);
     }
 
     public static PositionReportGroup getPositionReportGroup(String positionReportGroup) {

@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -47,7 +46,6 @@ import org.w3c.dom.Element;
     PositionFunding.Elements.SOURCE,
     PositionFunding.Elements.PERCENT,
     PositionFunding.Elements.HR_POSITION_ID,
-    PositionFunding.Elements.OWNER,
     PositionFunding.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
@@ -83,8 +81,6 @@ public final class PositionFunding extends AbstractDataTransferObject implements
     private final BigDecimal percent;
     @XmlElement(name = Elements.HR_POSITION_ID, required = false)
     private final String hrPositionId;
-    @XmlElement(name = Elements.OWNER, required = false)
-    private final Position owner;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -112,7 +108,6 @@ public final class PositionFunding extends AbstractDataTransferObject implements
         this.source = null;
         this.percent = null;
         this.hrPositionId = null;
-        this.owner = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -132,7 +127,6 @@ public final class PositionFunding extends AbstractDataTransferObject implements
         this.source = builder.getSource();
         this.percent = builder.getPercent();
         this.hrPositionId = builder.getHrPositionId();
-        this.owner =  builder.getOwner() == null ? null : builder.getOwner().build();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -204,11 +198,6 @@ public final class PositionFunding extends AbstractDataTransferObject implements
     }
 
     @Override
-    public Position getOwner() {
-        return this.owner;
-    }
-
-    @Override
     public LocalDate getEffectiveLocalDateOfOwner() {
         return this.effectiveLocalDateOfOwner;
     }
@@ -245,7 +234,6 @@ public final class PositionFunding extends AbstractDataTransferObject implements
         private String source;
         private BigDecimal percent;
         private String hrPositionId;
-        private Position.Builder owner;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
@@ -278,7 +266,6 @@ public final class PositionFunding extends AbstractDataTransferObject implements
             builder.setSource(contract.getSource());
             builder.setPercent(contract.getPercent());
             builder.setHrPositionId(contract.getHrPositionId());
-            builder.setOwner(contract.getOwner() == null ? null : Position.Builder.create(contract.getOwner()));
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -352,11 +339,6 @@ public final class PositionFunding extends AbstractDataTransferObject implements
         @Override
         public String getHrPositionId() {
             return this.hrPositionId;
-        }
-
-        @Override
-        public Position.Builder getOwner() {
-            return this.owner;
         }
 
         @Override
@@ -437,11 +419,6 @@ public final class PositionFunding extends AbstractDataTransferObject implements
         public void setHrPositionId(String hrPositionId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.hrPositionId = hrPositionId;
-        }
-
-        public void setOwner(Position.Builder owner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.owner = owner;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {

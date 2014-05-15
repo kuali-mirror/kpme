@@ -34,8 +34,7 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = PstnFlag.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PstnFlag.Constants.TYPE_NAME, propOrder = {
-	PstnFlag.Elements.HR_POSITION_ID,	
-    PstnFlag.Elements.OWNER,
+	PstnFlag.Elements.HR_POSITION_ID,
     PstnFlag.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
@@ -50,8 +49,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
 	
 	@XmlElement(name = Elements.HR_POSITION_ID, required = false)
     private final String hrPositionId;
-	@XmlElement(name = Elements.OWNER, required = false)
-    private final Position owner;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -73,7 +70,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
      */
     private PstnFlag() {
         this.hrPositionId = null;
-        this.owner = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -84,7 +80,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
 
     private PstnFlag(Builder builder) {
         this.hrPositionId = builder.getHrPositionId();
-    	this.owner =  builder.getOwner() == null ? null : builder.getOwner().build();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -96,11 +91,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
     @Override
     public String getHrPositionId() {
         return this.hrPositionId;
-    }
-
-    @Override
-    public Position getOwner() {
-        return this.owner;
     }
 
     @Override
@@ -144,7 +134,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
     	private static final long serialVersionUID = -515866156444153425L;
 		
     	private String hrPositionId;
-    	private Position.Builder owner;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
@@ -168,7 +157,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
             builder.setHrPositionId(contract.getHrPositionId());
-            builder.setOwner(contract.getOwner() == null ? null : Position.Builder.create(contract.getOwner()));
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -185,11 +173,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
         @Override
         public String getHrPositionId() {
             return this.hrPositionId;
-        }
-
-        @Override
-        public Position.Builder getOwner() {
-            return this.owner;
         }
 
         @Override
@@ -225,11 +208,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
         public void setHrPositionId(String hrPositionId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.hrPositionId = hrPositionId;
-        }
-
-        public void setOwner(Position.Builder owner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.owner = owner;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
@@ -284,7 +262,6 @@ public final class PstnFlag extends AbstractDataTransferObject implements PstnFl
     static class Elements {
 
         final static String HR_POSITION_ID = "hrPositionId";
-        final static String OWNER = "owner";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";
         final static String CATEGORY = "category";
         final static String NAMES = "names";

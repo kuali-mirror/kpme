@@ -27,7 +27,6 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.departmentaffiliation.DepartmentAffiliation;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -45,7 +44,6 @@ import org.w3c.dom.Element;
     PositionDepartment.Elements.DEPARTMENT,
     PositionDepartment.Elements.DEPT_AFFL,
     PositionDepartment.Elements.HR_POSITION_ID,
-    PositionDepartment.Elements.OWNER,
     PositionDepartment.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     KPMEConstants.CommonElements.GROUP_KEY_CODE,
  	KPMEConstants.CommonElements.GROUP_KEY,
@@ -79,8 +77,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
     private final String deptAffl;
     @XmlElement(name = Elements.HR_POSITION_ID, required = false)
     private final String hrPositionId;
-    @XmlElement(name = Elements.OWNER, required = false)
-    private final Position owner;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -106,7 +102,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         this.department = null;
         this.deptAffl = null;
         this.hrPositionId = null;
-        this.owner = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -124,7 +119,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         this.department = builder.getDepartment();
         this.deptAffl = builder.getDeptAffl();
         this.hrPositionId = builder.getHrPositionId();
-        this.owner =  builder.getOwner() == null ? null : builder.getOwner().build();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -167,11 +161,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
     }
 
     @Override
-    public Position getOwner() {
-        return this.owner;
-    }
-
-    @Override
     public LocalDate getEffectiveLocalDateOfOwner() {
         return this.effectiveLocalDateOfOwner;
     }
@@ -206,7 +195,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         private String department;
         private String deptAffl;
         private String hrPositionId;
-        private Position.Builder owner;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
@@ -236,7 +224,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
             builder.setDepartment(contract.getDepartment());
             builder.setDeptAffl(contract.getDeptAffl());
             builder.setHrPositionId(contract.getHrPositionId());
-            builder.setOwner(contract.getOwner() == null ? null : Position.Builder.create(contract.getOwner()));
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -292,11 +279,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         }
 
         @Override
-        public Position.Builder getOwner() {
-            return this.owner;
-        }
-
-        @Override
         public LocalDate getEffectiveLocalDateOfOwner() {
             return this.effectiveLocalDateOfOwner;
         }
@@ -334,11 +316,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         public void setHrPositionId(String hrPositionId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.hrPositionId = hrPositionId;
-        }
-
-        public void setOwner(Position.Builder owner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.owner = owner;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
@@ -386,7 +363,6 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         final static String DEPARTMENT = "department";
         final static String DEPT_AFFL = "deptAffl";
         final static String HR_POSITION_ID = "hrPositionId";
-        final static String OWNER = "owner";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";
 
     }

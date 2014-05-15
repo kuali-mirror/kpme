@@ -16,25 +16,21 @@
 package org.kuali.kpme.pm.position.funding;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.pm.api.position.funding.PositionFunding;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
-import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDerived;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class PositionFundingBo extends PositionDerived implements
-		PositionFundingContract {
-	private static final long serialVersionUID = 1L;
+public class PositionFundingBo extends PositionDerived implements PositionFundingContract {
+	
+	private static final long serialVersionUID = 1315658420315845055L;
+
 
 	private String pmPositionFunctionId;
 	

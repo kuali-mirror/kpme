@@ -25,12 +25,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.kuali.rice.location.api.campus.Campus;
-import org.kuali.rice.location.api.campus.CampusContract;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = PositionResponsibility.Constants.ROOT_ELEMENT_NAME)
@@ -41,7 +39,6 @@ import org.w3c.dom.Element;
     PositionResponsibility.Elements.PERCENT_TIME,
     PositionResponsibility.Elements.POSITION_RESPONSIBILITY_ID,
     PositionResponsibility.Elements.HR_POSITION_ID,
-    PositionResponsibility.Elements.OWNER,
     PositionResponsibility.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
@@ -61,8 +58,6 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
     private final String positionResponsibilityId;
     @XmlElement(name = Elements.HR_POSITION_ID, required = false)
     private final String hrPositionId;
-    @XmlElement(name = Elements.OWNER, required = false)
-    private final Position owner;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -82,7 +77,6 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         this.percentTime = null;
         this.positionResponsibilityId = null;
         this.hrPositionId = null;
-        this.owner = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -94,7 +88,6 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         this.percentTime = builder.getPercentTime();
         this.positionResponsibilityId = builder.getPositionResponsibilityId();
         this.hrPositionId = builder.getHrPositionId();
-        this.owner =  builder.getOwner() == null ? null : builder.getOwner().build();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -124,12 +117,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
     public String getHrPositionId() {
         return this.hrPositionId;
     }
-
-    @Override
-    public Position getOwner() {
-        return this.owner;
-    }
-
+    
     @Override
     public LocalDate getEffectiveLocalDateOfOwner() {
         return this.effectiveLocalDateOfOwner;
@@ -159,7 +147,6 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         private BigDecimal percentTime;
         private String positionResponsibilityId;
         private String hrPositionId;
-        private Position.Builder owner;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
@@ -184,7 +171,6 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
             builder.setPercentTime(contract.getPercentTime());
             builder.setPositionResponsibilityId(contract.getPositionResponsibilityId());
             builder.setHrPositionId(contract.getHrPositionId());
-            builder.setOwner(contract.getOwner() == null ? null : Position.Builder.create(contract.getOwner()));
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -219,11 +205,6 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         public String getHrPositionId() {
             return this.hrPositionId;
         }        
-
-        @Override
-        public Position.Builder getOwner() {
-            return this.owner;
-        }
 
         @Override
         public LocalDate getEffectiveLocalDateOfOwner() {
@@ -263,11 +244,6 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         public void setHrPositionId(String hrPositionId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.hrPositionId = hrPositionId;
-        }
-
-        public void setOwner(Position.Builder owner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.owner = owner;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
@@ -311,7 +287,6 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         final static String PERCENT_TIME = "percentTime";
         final static String POSITION_RESPONSIBILITY_ID = "positionResponsibilityId";
         final static String HR_POSITION_ID = "hrPositionId";
-        final static String OWNER = "owner";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";
 
     }
