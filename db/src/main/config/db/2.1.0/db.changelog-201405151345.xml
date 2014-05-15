@@ -1,0 +1,21 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+    <changeSet id="1" author="mlemons" context="kpme-client-bootstrap">
+
+        <addColumn tableName="TK_WORK_AREA_T">
+            <column name="GRP_KEY_CD" type="VARCHAR(30)" defaultValue="DEFAULT">
+           </column>
+        </addColumn>
+
+        <update tableName="TK_WORK_AREA_T">
+            <column name="GRP_KEY_CD" value="DEFAULT"/>
+        </update>
+
+        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="TK_WORK_AREA_T" columnDataType="VARCHAR(30)"/>
+
+    </changeSet>
+
+</databaseChangeLog>

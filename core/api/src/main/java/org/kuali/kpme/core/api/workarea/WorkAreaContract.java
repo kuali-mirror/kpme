@@ -15,23 +15,18 @@
  */
 package org.kuali.kpme.core.api.workarea;
 
-import java.util.List;
-
 import org.kuali.kpme.core.api.authorization.DepartmentalRule;
-import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
-import org.kuali.kpme.core.api.role.workarea.WorkAreaPositionRoleMemberBoContract;
-import org.kuali.kpme.core.api.role.workarea.WorkAreaPrincipalRoleMemberBoContract;
-import org.kuali.kpme.core.api.task.TaskContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>WorkAreaContract interface.</p>
  *
  */
-public interface WorkAreaContract extends DepartmentalRule, KpmeEffectiveDataTransferObject {
+
+public interface WorkAreaContract extends DepartmentalRule, KpmeEffectiveKeyedDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "WorkArea";
 	

@@ -1,58 +1,42 @@
-/**
- * Copyright 2004-2014 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl2.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.kuali.kpme.core.api.workarea;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCode;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
-import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
-import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.util.Collection;
 
 @XmlRootElement(name = WorkArea.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = WorkArea.Constants.TYPE_NAME, propOrder = {
+        WorkArea.Elements.DESCRIPTION,
+        WorkArea.Elements.OVERTIME_EDIT_ROLE,
+        WorkArea.Elements.DEFAULT_OVERTIME_EARN_CODE,
+        WorkArea.Elements.OVT_EARN_CODE,
+        WorkArea.Elements.TK_WORK_AREA_ID,
+        WorkArea.Elements.ADMIN_DESCR,
         WorkArea.Elements.USER_PRINCIPAL_ID,
         WorkArea.Elements.DEFAULT_OVERTIME_EARN_CODE_OBJ,
         WorkArea.Elements.DEPARTMENT,
-        //WorkArea.Elements.TASKS,
-        WorkArea.Elements.TK_WORK_AREA_ID,
-        WorkArea.Elements.DESCRIPTION,
         WorkArea.Elements.HRS_DISTRIBUTION_F,
-        WorkArea.Elements.OVERTIME_EDIT_ROLE,
-        WorkArea.Elements.OVT_EARN_CODE,
-        WorkArea.Elements.ADMIN_DESCR,
-        WorkArea.Elements.DEFAULT_OVERTIME_EARN_CODE,
         WorkArea.Elements.DEPT,
         WorkArea.Elements.WORK_AREA,
-        WorkArea.Elements.ACTIVE,
-        WorkArea.Elements.ID,
-        WorkArea.Elements.CREATE_TIME,
-        WorkArea.Elements.EFFECTIVE_LOCAL_DATE,
         CoreConstants.CommonElements.VERSION_NUMBER,
         CoreConstants.CommonElements.OBJECT_ID,
+        WorkArea.Elements.ACTIVE,
+        WorkArea.Elements.ID,
+        WorkArea.Elements.EFFECTIVE_LOCAL_DATE,
+        WorkArea.Elements.CREATE_TIME,
+        WorkArea.Elements.GROUP_KEY_CODE,
+        WorkArea.Elements.GROUP_KEY,
         CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class WorkArea
@@ -60,28 +44,26 @@ public final class WorkArea
         implements WorkAreaContract
 {
 
+    @XmlElement(name = Elements.DESCRIPTION, required = false)
+    private final String description;
+    @XmlElement(name = Elements.OVERTIME_EDIT_ROLE, required = false)
+    private final String overtimeEditRole;
+    @XmlElement(name = Elements.DEFAULT_OVERTIME_EARN_CODE, required = false)
+    private final String defaultOvertimeEarnCode;
+    @XmlElement(name = Elements.OVT_EARN_CODE, required = false)
+    private final Boolean ovtEarnCode;
+    @XmlElement(name = Elements.TK_WORK_AREA_ID, required = false)
+    private final String tkWorkAreaId;
+    @XmlElement(name = Elements.ADMIN_DESCR, required = false)
+    private final String adminDescr;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
     @XmlElement(name = Elements.DEFAULT_OVERTIME_EARN_CODE_OBJ, required = false)
     private final EarnCode defaultOvertimeEarnCodeObj;
     @XmlElement(name = Elements.DEPARTMENT, required = false)
     private final Department department;
-    //@XmlElement(name = Elements.TASKS, required = false)
-    //private final List<Task> tasks;
-    @XmlElement(name = Elements.TK_WORK_AREA_ID, required = false)
-    private final String tkWorkAreaId;
-    @XmlElement(name = Elements.DESCRIPTION, required = false)
-    private final String description;
     @XmlElement(name = Elements.HRS_DISTRIBUTION_F, required = false)
     private final boolean hrsDistributionF;
-    @XmlElement(name = Elements.OVERTIME_EDIT_ROLE, required = false)
-    private final String overtimeEditRole;
-    @XmlElement(name = Elements.OVT_EARN_CODE, required = false)
-    private final Boolean ovtEarnCode;
-    @XmlElement(name = Elements.ADMIN_DESCR, required = false)
-    private final String adminDescr;
-    @XmlElement(name = Elements.DEFAULT_OVERTIME_EARN_CODE, required = false)
-    private final String defaultOvertimeEarnCode;
     @XmlElement(name = Elements.DEPT, required = false)
     private final String dept;
     @XmlElement(name = Elements.WORK_AREA, required = false)
@@ -94,12 +76,14 @@ public final class WorkArea
     private final boolean active;
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
-    @XmlElement(name = Elements.CREATE_TIME, required = false)
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    private final DateTime createTime;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private final LocalDate effectiveLocalDate;
+    @XmlElement(name = Elements.CREATE_TIME, required = false)
+    private final DateTime createTime;
+    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
+    private final String groupKeyCode;
+    @XmlElement(name = Elements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -109,47 +93,79 @@ public final class WorkArea
      *
      */
     private WorkArea() {
+        this.description = null;
+        this.overtimeEditRole = null;
+        this.defaultOvertimeEarnCode = null;
+        this.ovtEarnCode = null;
+        this.tkWorkAreaId = null;
+        this.adminDescr = null;
         this.userPrincipalId = null;
         this.defaultOvertimeEarnCodeObj = null;
         this.department = null;
-        //this.tasks = null;
-        this.tkWorkAreaId = null;
-        this.description = null;
         this.hrsDistributionF = false;
-        this.overtimeEditRole = null;
-        this.ovtEarnCode = null;
-        this.adminDescr = null;
-        this.defaultOvertimeEarnCode = null;
         this.dept = null;
         this.workArea = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
         this.id = null;
-        this.createTime = null;
         this.effectiveLocalDate = null;
+        this.createTime = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
     }
 
     private WorkArea(Builder builder) {
-        this.userPrincipalId = builder.getUserPrincipalId();
-        this.defaultOvertimeEarnCodeObj = builder.getDefaultOvertimeEarnCodeObj() == null ? null : builder.getDefaultOvertimeEarnCodeObj().build();
-        this.department = builder.getDepartment() == null ? null : builder.getDepartment().build();
-        //this.tasks = ModelObjectUtils.buildImmutableCopy(builder.getTasks());
-        this.tkWorkAreaId = builder.getTkWorkAreaId();
         this.description = builder.getDescription();
-        this.hrsDistributionF = builder.isHrsDistributionF();
         this.overtimeEditRole = builder.getOvertimeEditRole();
-        this.ovtEarnCode = builder.isOvtEarnCode();
-        this.adminDescr = builder.getAdminDescr();
         this.defaultOvertimeEarnCode = builder.getDefaultOvertimeEarnCode();
+        this.ovtEarnCode = builder.isOvtEarnCode();
+        this.tkWorkAreaId = builder.getTkWorkAreaId();
+        this.adminDescr = builder.getAdminDescr();
+        this.userPrincipalId = builder.getUserPrincipalId();
+        this.defaultOvertimeEarnCodeObj = builder.getDefaultOvertimeEarnCodeObj() == null ? null: builder.getDefaultOvertimeEarnCodeObj().build();
+        this.department = builder.getDepartment() == null ? null : builder.getDepartment().build();
+        this.hrsDistributionF = builder.isHrsDistributionF();
         this.dept = builder.getDept();
         this.workArea = builder.getWorkArea();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
         this.id = builder.getId();
-        this.createTime = builder.getCreateTime();
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
+        this.createTime = builder.getCreateTime();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+    }
+
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    @Override
+    public String getOvertimeEditRole() {
+        return this.overtimeEditRole;
+    }
+
+    @Override
+    public String getDefaultOvertimeEarnCode() {
+        return this.defaultOvertimeEarnCode;
+    }
+
+    @Override
+    public Boolean isOvtEarnCode() {
+        return this.ovtEarnCode;
+    }
+
+    @Override
+    public String getTkWorkAreaId() {
+        return this.tkWorkAreaId;
+    }
+
+    @Override
+    public String getAdminDescr() {
+        return this.adminDescr;
     }
 
     @Override
@@ -167,44 +183,9 @@ public final class WorkArea
         return this.department;
     }
 
-    /*@Override
-    public List<Task> getTasks() {
-        return this.tasks;
-    }*/
-
-    @Override
-    public String getTkWorkAreaId() {
-        return this.tkWorkAreaId;
-    }
-
-    @Override
-    public String getDescription() {
-        return this.description;
-    }
-
     @Override
     public boolean isHrsDistributionF() {
         return this.hrsDistributionF;
-    }
-
-    @Override
-    public String getOvertimeEditRole() {
-        return this.overtimeEditRole;
-    }
-
-    @Override
-    public Boolean isOvtEarnCode() {
-        return this.ovtEarnCode;
-    }
-
-    @Override
-    public String getAdminDescr() {
-        return this.adminDescr;
-    }
-
-    @Override
-    public String getDefaultOvertimeEarnCode() {
-        return this.defaultOvertimeEarnCode;
     }
 
     @Override
@@ -238,13 +219,23 @@ public final class WorkArea
     }
 
     @Override
+    public LocalDate getEffectiveLocalDate() {
+        return this.effectiveLocalDate;
+    }
+
+    @Override
     public DateTime getCreateTime() {
         return this.createTime;
     }
 
     @Override
-    public LocalDate getEffectiveLocalDate() {
-        return this.effectiveLocalDate;
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
     }
 
 
@@ -256,68 +247,97 @@ public final class WorkArea
             implements Serializable, WorkAreaContract, ModelBuilder
     {
 
+        private String description;
+        private String overtimeEditRole;
+        private String defaultOvertimeEarnCode;
+        private Boolean ovtEarnCode;
+        private String tkWorkAreaId;
+        private String adminDescr;
         private String userPrincipalId;
         private EarnCode.Builder defaultOvertimeEarnCodeObj;
         private Department.Builder department;
-        //private List<Task.Builder> tasks;
-        private String tkWorkAreaId;
-        private String description;
         private boolean hrsDistributionF;
-        private String overtimeEditRole;
-        private Boolean ovtEarnCode;
-        private String adminDescr;
-        private String defaultOvertimeEarnCode;
         private String dept;
         private Long workArea;
         private Long versionNumber;
         private String objectId;
         private boolean active;
         private String id;
-        private DateTime createTime;
         private LocalDate effectiveLocalDate;
-        /*private static final ModelObjectUtils.Transformer<TaskContract, Task.Builder> toTaskBuilder =
-                new ModelObjectUtils.Transformer<TaskContract, Task.Builder>() {
-                    public Task.Builder transform(TaskContract input) {
-                        return Task.Builder.create(input);
-                    };
-                };*/
+        private DateTime createTime;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
 
-        private Builder(Long workArea) {
-            setWorkArea(workArea);
+        private Builder() {
+            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
         }
 
-        public static Builder create(Long workArea) {
-            return new Builder(workArea);
+        public static Builder create() {
+            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+            return new Builder();
         }
 
         public static Builder create(WorkAreaContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            Builder builder = create(contract.getWorkArea());
+            // TODO if create() is modified to accept required parameters, this will need to be modified
+            Builder builder = create();
+            builder.setDescription(contract.getDescription());
+            builder.setOvertimeEditRole(contract.getOvertimeEditRole());
+            builder.setDefaultOvertimeEarnCode(contract.getDefaultOvertimeEarnCode());
+            builder.setOvtEarnCode(contract.isOvtEarnCode());
+            builder.setTkWorkAreaId(contract.getTkWorkAreaId());
+            builder.setAdminDescr(contract.getAdminDescr());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
             builder.setDefaultOvertimeEarnCodeObj(contract.getDefaultOvertimeEarnCodeObj() == null ? null : EarnCode.Builder.create(contract.getDefaultOvertimeEarnCodeObj()));
             builder.setDepartment(contract.getDepartment() == null ? null : Department.Builder.create(contract.getDepartment()));
-            //builder.setTasks(contract.getTasks() == null ? Collections.<Task.Builder>emptyList() : ModelObjectUtils.transform(contract.getTasks(), toTaskBuilder));
-            builder.setTkWorkAreaId(contract.getTkWorkAreaId());
-            builder.setDescription(contract.getDescription());
             builder.setHrsDistributionF(contract.isHrsDistributionF());
-            builder.setOvertimeEditRole(contract.getOvertimeEditRole());
-            builder.setOvtEarnCode(contract.isOvtEarnCode());
-            builder.setAdminDescr(contract.getAdminDescr());
-            builder.setDefaultOvertimeEarnCode(contract.getDefaultOvertimeEarnCode());
             builder.setDept(contract.getDept());
+            builder.setWorkArea(contract.getWorkArea());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
             builder.setId(contract.getId());
-            builder.setCreateTime(contract.getCreateTime());
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
+            builder.setCreateTime(contract.getCreateTime());
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
         public WorkArea build() {
             return new WorkArea(this);
+        }
+
+        @Override
+        public String getDescription() {
+            return this.description;
+        }
+
+        @Override
+        public String getOvertimeEditRole() {
+            return this.overtimeEditRole;
+        }
+
+        @Override
+        public String getDefaultOvertimeEarnCode() {
+            return this.defaultOvertimeEarnCode;
+        }
+
+        @Override
+        public Boolean isOvtEarnCode() {
+            return this.ovtEarnCode;
+        }
+
+        @Override
+        public String getTkWorkAreaId() {
+            return this.tkWorkAreaId;
+        }
+
+        @Override
+        public String getAdminDescr() {
+            return this.adminDescr;
         }
 
         @Override
@@ -335,48 +355,9 @@ public final class WorkArea
             return this.department;
         }
 
-        /*@Override
-        public List<Task.Builder> getTasks() {
-            return this.tasks;
-        }*/
-
-        @Override
-        public String getTkWorkAreaId() {
-            return this.tkWorkAreaId;
-        }
-
-        @Override
-        public String getDescription() {
-            return this.description;
-        }
-
         @Override
         public boolean isHrsDistributionF() {
             return this.hrsDistributionF;
-        }
-
-        @Override
-        public String getOvertimeEditRole() {
-            return this.overtimeEditRole;
-        }
-
-        @Override
-        public Boolean isOvtEarnCode() {
-            return this.ovtEarnCode;
-        }
-
-        public Boolean getOvtEarnCode() {
-            return this.ovtEarnCode;
-        }
-
-        @Override
-        public String getAdminDescr() {
-            return this.adminDescr;
-        }
-
-        @Override
-        public String getDefaultOvertimeEarnCode() {
-            return this.defaultOvertimeEarnCode;
         }
 
         @Override
@@ -410,92 +391,123 @@ public final class WorkArea
         }
 
         @Override
+        public LocalDate getEffectiveLocalDate() {
+            return this.effectiveLocalDate;
+        }
+
+        @Override
         public DateTime getCreateTime() {
             return this.createTime;
         }
 
         @Override
-        public LocalDate getEffectiveLocalDate() {
-            return this.effectiveLocalDate;
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return this.groupKey;
+        }
+
+        public void setDescription(String description) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.description = description;
+        }
+
+        public void setOvertimeEditRole(String overtimeEditRole) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.overtimeEditRole = overtimeEditRole;
+        }
+
+        public void setDefaultOvertimeEarnCode(String defaultOvertimeEarnCode) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.defaultOvertimeEarnCode = defaultOvertimeEarnCode;
+        }
+
+        public void setOvtEarnCode(Boolean ovtEarnCode) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.ovtEarnCode = ovtEarnCode;
+        }
+
+        public void setTkWorkAreaId(String tkWorkAreaId) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.tkWorkAreaId = tkWorkAreaId;
+        }
+
+        public void setAdminDescr(String adminDescr) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.adminDescr = adminDescr;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.userPrincipalId = userPrincipalId;
         }
 
         public void setDefaultOvertimeEarnCodeObj(EarnCode.Builder defaultOvertimeEarnCodeObj) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.defaultOvertimeEarnCodeObj = defaultOvertimeEarnCodeObj;
         }
 
         public void setDepartment(Department.Builder department) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.department = department;
         }
 
-        /*public void setTasks(List<Task.Builder> tasks) {
-            this.tasks = tasks;
-        }*/
-
-        public void setTkWorkAreaId(String tkWorkAreaId) {
-            this.tkWorkAreaId = tkWorkAreaId;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
         public void setHrsDistributionF(boolean hrsDistributionF) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.hrsDistributionF = hrsDistributionF;
         }
 
-        public void setOvertimeEditRole(String overtimeEditRole) {
-            this.overtimeEditRole = overtimeEditRole;
-        }
-
-        public void setOvtEarnCode(Boolean ovtEarnCode) {
-            this.ovtEarnCode = ovtEarnCode;
-        }
-
-        public void setAdminDescr(String adminDescr) {
-            this.adminDescr = adminDescr;
-        }
-
-        public void setDefaultOvertimeEarnCode(String defaultOvertimeEarnCode) {
-            this.defaultOvertimeEarnCode = defaultOvertimeEarnCode;
-        }
-
         public void setDept(String dept) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.dept = dept;
         }
 
         public void setWorkArea(Long workArea) {
-            if (workArea == null) {
-                throw new IllegalArgumentException("workArea is null");
-            }
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.workArea = workArea;
         }
 
         public void setVersionNumber(Long versionNumber) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.active = active;
         }
 
         public void setId(String id) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.id = id;
         }
 
+        public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.effectiveLocalDate = effectiveLocalDate;
+        }
+
         public void setCreateTime(DateTime createTime) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.createTime = createTime;
         }
 
-        public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            this.effectiveLocalDate = effectiveLocalDate;
+        public void setGroupKeyCode(String groupKeyCode) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKey = groupKey;
         }
 
     }
@@ -519,24 +531,27 @@ public final class WorkArea
      */
     static class Elements {
 
+        final static String DESCRIPTION = "description";
+        final static String OVERTIME_EDIT_ROLE = "overtimeEditRole";
+        final static String DEFAULT_OVERTIME_EARN_CODE = "defaultOvertimeEarnCode";
+        final static String OVT_EARN_CODE = "ovtEarnCode";
+        final static String TK_WORK_AREA_ID = "tkWorkAreaId";
+        final static String ADMIN_DESCR = "adminDescr";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
         final static String DEFAULT_OVERTIME_EARN_CODE_OBJ = "defaultOvertimeEarnCodeObj";
         final static String DEPARTMENT = "department";
-        //final static String TASKS = "tasks";
-        final static String TK_WORK_AREA_ID = "tkWorkAreaId";
-        final static String DESCRIPTION = "description";
         final static String HRS_DISTRIBUTION_F = "hrsDistributionF";
-        final static String OVERTIME_EDIT_ROLE = "overtimeEditRole";
-        final static String OVT_EARN_CODE = "ovtEarnCode";
-        final static String ADMIN_DESCR = "adminDescr";
-        final static String DEFAULT_OVERTIME_EARN_CODE = "defaultOvertimeEarnCode";
         final static String DEPT = "dept";
         final static String WORK_AREA = "workArea";
         final static String ACTIVE = "active";
         final static String ID = "id";
-        final static String CREATE_TIME = "createTime";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
+        final static String CREATE_TIME = "createTime";
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
 
     }
 
 }
+
+

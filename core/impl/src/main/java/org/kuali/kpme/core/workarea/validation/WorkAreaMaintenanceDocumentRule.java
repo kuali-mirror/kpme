@@ -55,10 +55,9 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			
 			valid &= validateDefaultOvertimeEarnCode(workArea.getDefaultOvertimeEarnCode(), workArea.getEffectiveLocalDate());
 
-			// TODO remove the line below and uncomment the next line when group key code is added to work area
 			String groupKeyCode = null;
-			//valid &= validateDepartment(workArea.getDept(), workArea.getGroupKeyCode(), workArea.getEffectiveLocalDate());
-			valid &= validateDepartment(workArea.getDept(), groupKeyCode, workArea.getEffectiveLocalDate());
+
+			valid &= validateDepartment(workArea.getDept(), workArea.getGroupKeyCode(), workArea.getEffectiveLocalDate());
 			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveLocalDate(), "principalRoleMembers", "positionRoleMembers");
 			valid &= validateActive(workArea);
 		}

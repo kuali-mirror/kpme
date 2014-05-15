@@ -22,8 +22,10 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="WorkArea" parent="WorkArea-parentBean" />
-	<bean id="WorkArea-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="dataObjectClass" value="org.kuali.kpme.core.workarea.WorkAreaBo" />
+
+    <bean id="WorkArea-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
+
+        <property name="dataObjectClass" value="org.kuali.kpme.core.workarea.WorkAreaBo" />
 		<property name="objectLabel" value="Work Area" />
 		<property name="attributes">
 			<list merge="true">
@@ -177,11 +179,11 @@
         
         <!-- KRAD Lookup View -->
         
-        <bean id="WorkArea-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+        <bean id="WorkArea-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Work Area Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkAreaBo"/>
         <property name="criteriaFields">
-        	<list>
+        	<list merge="true">
          		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
                 	<property name="quickfinder">
                     	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
@@ -190,13 +192,13 @@
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workArea" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/>
+
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
             </list>
         </property>
         <property name="resultFields">
-            <list>
+            <list merge = "true">
                 <bean parent="Uif-DataField" p:propertyName="dept">
                 	<!-- <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
@@ -226,12 +228,12 @@
 		<property name="viewHelperServiceClass" value="org.kuali.kpme.core.workarea.web.WorkAreaMaintainableImpl"/>
 		<property name="items">
 			<list merge="true">
-				<bean parent="Uif-MaintenanceGridSection">
+				<!-- <bean parent="Uif-MaintenanceGridSection"> -->
+                <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
 					<property name="headerText" value="Work Area Maintenance" />
 					<property name="items">
-						<list>
-							<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="workArea" p:readOnly="true" /> 
+						<list merge = "true">
+							<bean parent="Uif-InputField" p:propertyName="workArea" p:readOnly="true" />
 							<bean parent="Uif-InputField" p:propertyName="description" p:required="true" />
 							<bean parent="Uif-InputField" p:propertyName="overtimeEditRole" p:required="true" />
 							<bean parent="Uif-InputField" p:propertyName="defaultOvertimeEarnCode" p:required="false" >
@@ -387,11 +389,10 @@
         <property name="singlePageView" value="true" />
         <property name="items">
             <list>
-                <bean parent="Uif-Disclosure-GridSection">
+                <bean parent="KPMEGroupKeyed-InquiryGridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+                        <list merge="true">
                             <bean parent="Uif-DataField" p:propertyName="workArea" />
                             <bean parent="Uif-DataField" p:propertyName="description" />
                             <bean parent="Uif-DataField" p:propertyName="overtimeEditRole" />

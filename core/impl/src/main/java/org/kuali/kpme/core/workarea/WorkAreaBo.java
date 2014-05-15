@@ -15,28 +15,27 @@
  */
 package org.kuali.kpme.core.workarea;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Transient;
-
-import org.kuali.kpme.core.api.paytype.PayType;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.HrConstants;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
-public class WorkAreaBo extends HrBusinessObject implements WorkAreaContract {
+import javax.persistence.Transient;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+//public class WorkAreaBo extends HrBusinessObject implements WorkAreaContract {
+public class WorkAreaBo extends HrKeyedBusinessObject implements WorkAreaContract {
 
 	private static final String WORK_AREA = "workArea";
 
@@ -299,6 +298,7 @@ public class WorkAreaBo extends HrBusinessObject implements WorkAreaContract {
         wa.setDept(im.getDept());
         wa.setAdminDescr(im.getAdminDescr());
         wa.setHrsDistributionF(im.isHrsDistributionF());
+
         wa.setDefaultOvertimeEarnCodeObj(im.getDefaultOvertimeEarnCodeObj() == null ? null : EarnCodeBo.from(im.getDefaultOvertimeEarnCodeObj()));
         wa.setDepartment(im.getDepartment() == null ? null : DepartmentBo.from(im.getDepartment()));
 
@@ -311,6 +311,10 @@ public class WorkAreaBo extends HrBusinessObject implements WorkAreaContract {
         wa.setVersionNumber(im.getVersionNumber());
         wa.setObjectId(im.getObjectId());
 
+        wa.setGroupKey(im.getGroupKey() == null ? null : HrGroupKeyBo.from(im.getGroupKey()));
+        wa.setGroupKeyCode(im.getGroupKeyCode());
+
+        copyCommonFields(wa, im);
         return wa;
     }
 
