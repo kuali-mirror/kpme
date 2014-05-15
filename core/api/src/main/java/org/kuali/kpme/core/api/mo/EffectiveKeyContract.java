@@ -15,7 +15,9 @@
  */
 package org.kuali.kpme.core.api.mo;
 
-public interface KpmeEffectiveKey extends KpmeEffectiveDerivedDataTransferObject, KeyedData {
+public interface EffectiveKeyContract extends KpmeEffectiveDerivedDataTransferObject, KeyedData {
 	
+	String getId();
+	String getOwnerId();
 
 }

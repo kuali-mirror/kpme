@@ -30,6 +30,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
+import org.kuali.kpme.core.api.mo.EffectiveKey;
+import org.kuali.kpme.core.api.mo.EffectiveKeyContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -61,7 +63,7 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
 	@XmlElement(name = Elements.PM_POSITION_REPORT_GROUP_ID, required = false)
     private final String pmPositionReportGroupId;
     @XmlElement(name = Elements.EFFECTIVE_KEY_SET, required = false)
-    private final Set<PositionReportGroupKey> effectiveKeySet;
+    private final Set<EffectiveKey> effectiveKeySet;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
     @XmlElement(name = Elements.POSITION_REPORT_GROUP, required = false)
@@ -109,7 +111,7 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
 
     private PositionReportGroup(Builder builder) {
         this.pmPositionReportGroupId = builder.getPmPositionReportGroupId();
-        this.effectiveKeySet = ModelObjectUtils.<PositionReportGroupKey>buildImmutableCopy(builder.getEffectiveKeySet());        
+        this.effectiveKeySet = ModelObjectUtils.<EffectiveKey>buildImmutableCopy(builder.getEffectiveKeySet());        
         this.description = builder.getDescription();
         this.positionReportGroup = builder.getPositionReportGroup();
         this.versionNumber = builder.getVersionNumber();
@@ -129,7 +131,7 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
     }
 
     @Override
-    public Set<PositionReportGroupKey> getEffectiveKeySet() {
+    public Set<EffectiveKey> getEffectiveKeySet() {
         return this.effectiveKeySet;
     }
 
@@ -198,7 +200,7 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
 		private static final long serialVersionUID = 6845448497862211410L;
 		
 		private String pmPositionReportGroupId;
-        private Set<PositionReportGroupKey.Builder> effectiveKeySet;
+        private Set<EffectiveKey.Builder> effectiveKeySet;
         private String description;
         private String positionReportGroup;
         private Long versionNumber;
@@ -211,10 +213,10 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
         private Set<String> groupKeyCodeSet;
         private Set<HrGroupKey.Builder> groupKeySet;
 
-        private static final ModelObjectUtils.Transformer<PositionReportGroupKeyContract, PositionReportGroupKey.Builder> toPositionReportGroupKeyBuilder 
-		        = new ModelObjectUtils.Transformer<PositionReportGroupKeyContract, PositionReportGroupKey.Builder>() {
-					public PositionReportGroupKey.Builder transform(PositionReportGroupKeyContract input) {
-						return PositionReportGroupKey.Builder.create(input);
+        private static final ModelObjectUtils.Transformer<EffectiveKeyContract, EffectiveKey.Builder> toEffectiveKeyBuilder 
+		        = new ModelObjectUtils.Transformer<EffectiveKeyContract, EffectiveKey.Builder>() {
+					public EffectiveKey.Builder transform(EffectiveKeyContract input) {
+						return EffectiveKey.Builder.create(input);
 					}
 				};
 				
@@ -242,7 +244,7 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create(contract.getPositionReportGroup());
             builder.setPmPositionReportGroupId(contract.getPmPositionReportGroupId());
-            builder.setEffectiveKeySet(ModelObjectUtils.transformSet(contract.getEffectiveKeySet(), toPositionReportGroupKeyBuilder));
+            builder.setEffectiveKeySet(ModelObjectUtils.transformSet(contract.getEffectiveKeySet(), toEffectiveKeyBuilder));
             builder.setDescription(contract.getDescription());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -266,7 +268,7 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
         }
 
         @Override
-        public Set<PositionReportGroupKey.Builder> getEffectiveKeySet() {
+        public Set<EffectiveKey.Builder> getEffectiveKeySet() {
             return this.effectiveKeySet;
         }
 
@@ -330,7 +332,7 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
             this.pmPositionReportGroupId = pmPositionReportGroupId;
         }
 
-        public void setEffectiveKeySet(Set<PositionReportGroupKey.Builder> effectiveKeySet) {
+        public void setEffectiveKeySet(Set<EffectiveKey.Builder> effectiveKeySet) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.effectiveKeySet = effectiveKeySet;
         }

@@ -16,9 +16,9 @@
 package org.kuali.kpme.core.api.bo.derived;
 
 import org.kuali.kpme.core.api.bo.HrKeyedSetBusinessObjectContract;
-import org.kuali.kpme.core.api.mo.KpmeEffectiveKey;
+import org.kuali.kpme.core.api.mo.EffectiveKeyContract;
 
-public interface HrBusinessObjectKeyContract extends HrBusinessObjectDerivedContract, KpmeEffectiveKey {
+public interface HrBusinessObjectKeyContract extends HrBusinessObjectDerivedContract, EffectiveKeyContract {
 	
 	HrKeyedSetBusinessObjectContract getOwner();
 

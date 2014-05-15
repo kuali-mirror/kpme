@@ -15,21 +15,20 @@
  */
 package org.kuali.kpme.pm.positionreportgroup;
 
+import org.kuali.kpme.core.api.mo.EffectiveKey;
 import org.kuali.kpme.core.bo.derived.HrBusinessObjectKey;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
-import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupKey;
-import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupKeyContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
-public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReportGroupBo, PositionReportGroupKeyBo> implements PositionReportGroupKeyContract {
+public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReportGroupBo, PositionReportGroupKeyBo> {
 
 	private static final long serialVersionUID = 3035597915412860604L;
 	
 	// the foreign key linking back to the owner
-	private String pmPositionReportGroupId;
+	private String ownerId;
 
 	// the PK for the table corresponding to this BO
-	private String positionReportGroupKeyId;
+	private String id;
 	
 	
 	/*
@@ -39,9 +38,9 @@ public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReport
 	 * 
 	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transformSet(setOfPositionReportGroupKey, PositionReportGroupKeyBo.toBo);
 	 */
-	public static final ModelObjectUtils.Transformer<PositionReportGroupKey, PositionReportGroupKeyBo> toBo =
-		new ModelObjectUtils.Transformer<PositionReportGroupKey, PositionReportGroupKeyBo>() {
-			public PositionReportGroupKeyBo transform(PositionReportGroupKey input) {
+	public static final ModelObjectUtils.Transformer<EffectiveKey, PositionReportGroupKeyBo> toBo =
+		new ModelObjectUtils.Transformer<EffectiveKey, PositionReportGroupKeyBo>() {
+			public PositionReportGroupKeyBo transform(EffectiveKey input) {
 				return PositionReportGroupKeyBo.from(input);
 			};
 		};
@@ -53,9 +52,9 @@ public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReport
 	 *
 	 * org.kuali.rice.core.api.mo.ModelObjectUtils.transformSet(setOfPositionReportGroupKeyBo, PositionReportGroupKeyBo.toImmutable);
 	 */
-	public static final ModelObjectUtils.Transformer<PositionReportGroupKeyBo, PositionReportGroupKey> toImmutable =
-		new ModelObjectUtils.Transformer<PositionReportGroupKeyBo, PositionReportGroupKey>() {
-			public PositionReportGroupKey transform(PositionReportGroupKeyBo input) {
+	public static final ModelObjectUtils.Transformer<PositionReportGroupKeyBo, EffectiveKey> toImmutable =
+		new ModelObjectUtils.Transformer<PositionReportGroupKeyBo, EffectiveKey>() {
+			public EffectiveKey transform(PositionReportGroupKeyBo input) {
 				return PositionReportGroupKeyBo.to(input);
 			};
 		};
@@ -71,40 +70,30 @@ public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReport
 	}
 
 	@Override
-	public String getPmPositionReportGroupId() {
-		return pmPositionReportGroupId;
+	public String getOwnerId() {
+		return ownerId;
 	}
 
-	public void setPmPositionReportGroupId(String pmPositionReportGroupId) {
-		this.pmPositionReportGroupId = pmPositionReportGroupId;
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
 	}
 	
 	public String getId() {
-		return this.getPositionReportGroupKeyId();
+		return id;
 	}
 	
 	
 	public void setId(String id) {
-		this.setPositionReportGroupKeyId(id);
+		this.id = id;
 	}
 	
-
-	@Override
-	public String getPositionReportGroupKeyId() {
-		return this.positionReportGroupKeyId;
-	}	
-
-	public void setPositionReportGroupKeyId(String positionReportGroupKeyId) {
-		this.positionReportGroupKeyId = positionReportGroupKeyId;
-	}
-	
-	public static PositionReportGroupKeyBo from(PositionReportGroupKey im) {
+	public static PositionReportGroupKeyBo from(EffectiveKey im) {
 		if (im == null) {
 			return null;
 		}
 		PositionReportGroupKeyBo prgk = new PositionReportGroupKeyBo();
-		prgk.setPositionReportGroupKeyId(im.getPositionReportGroupKeyId());
-		prgk.setPmPositionReportGroupId(im.getPmPositionReportGroupId());
+		prgk.setId(im.getId());
+		prgk.setOwnerId(im.getOwnerId());
 		prgk.setVersionNumber(im.getVersionNumber());
 		prgk.setObjectId(im.getObjectId());
 		prgk.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
@@ -113,11 +102,11 @@ public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReport
 	}
 	
 
-	public static PositionReportGroupKey to(PositionReportGroupKeyBo bo) {
+	public static EffectiveKey to(PositionReportGroupKeyBo bo) {
 		if (bo == null) {
 			return null;
 		}
-		return PositionReportGroupKey.Builder.create(bo).build();
+		return EffectiveKey.Builder.create(bo).build();
 	}
 
 

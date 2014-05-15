@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.pm.api.positionreportgroup;
+package org.kuali.kpme.core.api.mo;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -30,35 +30,36 @@ import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.w3c.dom.Element;
 
-@XmlRootElement(name = PositionReportGroupKey.Constants.ROOT_ELEMENT_NAME)
+@XmlRootElement(name = EffectiveKey.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = PositionReportGroupKey.Constants.TYPE_NAME, propOrder = {
-    PositionReportGroupKey.Elements.POSITION_REPORT_GROUP_KEY_ID,
-    PositionReportGroupKey.Elements.PM_POSITION_REPORT_GROUP_ID,
-    PositionReportGroupKey.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
+@XmlType(name = EffectiveKey.Constants.TYPE_NAME, propOrder = {
+    EffectiveKey.Elements.ID,
+    EffectiveKey.Elements.OWNER_ID,
+    EffectiveKey.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
-    PositionReportGroupKey.Elements.GROUP_KEY,
-    PositionReportGroupKey.Elements.GROUP_KEY_CODE,
+    EffectiveKey.Elements.GROUP_KEY_CODE,
+    EffectiveKey.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
-public final class PositionReportGroupKey extends AbstractDataTransferObject implements PositionReportGroupKeyContract {
+public final class EffectiveKey extends AbstractDataTransferObject implements EffectiveKeyContract {
 
-	private static final long serialVersionUID = 4765631151966354214L;
-    @XmlElement(name = Elements.POSITION_REPORT_GROUP_KEY_ID, required = false)
-    private final String positionReportGroupKeyId;
-    @XmlElement(name = Elements.PM_POSITION_REPORT_GROUP_ID, required = false)
-    private final String pmPositionReportGroupId;
+	private static final long serialVersionUID = -1424727410760335085L;
+	
+	@XmlElement(name = Elements.ID, required = false)
+    private final String id;
+    @XmlElement(name = Elements.OWNER_ID, required = false)
+    private final String ownerId;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
     private final String objectId;
-    @XmlElement(name = Elements.GROUP_KEY, required = false)
-    private final HrGroupKey groupKey;
     @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
     private final String groupKeyCode;
+    @XmlElement(name = Elements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
 
@@ -66,34 +67,34 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
      * Private constructor used only by JAXB.
      * 
      */
-    private PositionReportGroupKey() {
-        this.positionReportGroupKeyId = null;
-        this.pmPositionReportGroupId = null;
+    private EffectiveKey() {
+        this.id = null;
+        this.ownerId = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
-        this.groupKey = null;
         this.groupKeyCode = null;
+        this.groupKey = null;
     }
 
-    private PositionReportGroupKey(Builder builder) {    	
-        this.positionReportGroupKeyId = builder.getPositionReportGroupKeyId();
-        this.pmPositionReportGroupId = builder.getPmPositionReportGroupId();
+    private EffectiveKey(Builder builder) {
+        this.id = builder.getId();
+        this.ownerId = builder.getOwnerId();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
+        this.groupKeyCode = builder.getGroupKeyCode();
         this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
-        this.groupKeyCode = builder.getGroupKeyCode();        
     }
 
     @Override
-    public String getPositionReportGroupKeyId() {
-        return this.positionReportGroupKeyId;
+    public String getId() {
+        return this.id;
     }
 
     @Override
-    public String getPmPositionReportGroupId() {
-        return this.pmPositionReportGroupId;
+    public String getOwnerId() {
+        return this.ownerId;
     }
 
     @Override
@@ -112,31 +113,31 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
     }
 
     @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
-
-    @Override
     public String getGroupKeyCode() {
         return this.groupKeyCode;
     }
 
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
+    }
+
 
     /**
-     * A builder which can be used to construct {@link PositionReportGroupKey} instances.  Enforces the constraints of the {@link PositionReportGroupKeyContract}.
+     * A builder which can be used to construct {@link EffectiveKey} instances.  Enforces the constraints of the {@link EffectiveKeyContract}.
      * 
      */
-    public final static class Builder implements Serializable, PositionReportGroupKeyContract, ModelBuilder {
+    public final static class Builder implements Serializable, EffectiveKeyContract, ModelBuilder {
 
-		private static final long serialVersionUID = 5953020367993221043L;
+		private static final long serialVersionUID = -5315864638775959006L;
 
-        private String positionReportGroupKeyId;
-        private String pmPositionReportGroupId;
+		private String id;
+        private String ownerId;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
-        private HrGroupKey.Builder groupKey;
         private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -147,35 +148,34 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
             return new Builder();
         }
 
-        public static Builder create(PositionReportGroupKeyContract contract) {
+        public static Builder create(EffectiveKeyContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-           
-            builder.setPositionReportGroupKeyId(contract.getPositionReportGroupKeyId());
-            builder.setPmPositionReportGroupId(contract.getPmPositionReportGroupId());
+            builder.setId(contract.getId());
+            builder.setOwnerId(contract.getOwnerId());
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));	
             return builder;
         }
 
-        public PositionReportGroupKey build() {
-            return new PositionReportGroupKey(this);
+        public EffectiveKey build() {
+            return new EffectiveKey(this);
         }
 
         @Override
-        public String getPositionReportGroupKeyId() {
-            return this.positionReportGroupKeyId;
+        public String getId() {
+            return this.id;
         }
 
         @Override
-        public String getPmPositionReportGroupId() {
-            return this.pmPositionReportGroupId;
+        public String getOwnerId() {
+            return this.ownerId;
         }
 
         @Override
@@ -194,24 +194,23 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
         }
 
         @Override
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
+        }
+
+        @Override
         public HrGroupKey.Builder getGroupKey() {
             return this.groupKey;
         }
 
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
-        }
-       
-
-        public void setPositionReportGroupKeyId(String positionReportGroupKeyId) {
+        public void setId(String id) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.positionReportGroupKeyId = positionReportGroupKeyId;
+            this.id = id;
         }
 
-        public void setPmPositionReportGroupId(String pmPositionReportGroupId) {
+        public void setOwnerId(String ownerId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.pmPositionReportGroupId = pmPositionReportGroupId;
+            this.ownerId = ownerId;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
@@ -229,14 +228,14 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
             this.objectId = objectId;
         }
 
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.groupKey = groupKey;
-        }
-
         public void setGroupKeyCode(String groupKeyCode) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKey = groupKey;
         }
 
     }
@@ -248,8 +247,8 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
      */
     static class Constants {
 
-        final static String ROOT_ELEMENT_NAME = "positionReportGroupKey";
-        final static String TYPE_NAME = "PositionReportGroupKeyType";
+        final static String ROOT_ELEMENT_NAME = "effectiveKey";
+        final static String TYPE_NAME = "EffectiveKeyType";
 
     }
 
@@ -260,12 +259,13 @@ public final class PositionReportGroupKey extends AbstractDataTransferObject imp
      */
     static class Elements {
 
-        final static String POSITION_REPORT_GROUP_KEY_ID = "positionReportGroupKeyId";
-        final static String PM_POSITION_REPORT_GROUP_ID = "pmPositionReportGroupId";
+        final static String ID = "id";
+        final static String OWNER_ID = "ownerId";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";
-        final static String GROUP_KEY = "groupKey";
         final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
 
     }
 
 }
+

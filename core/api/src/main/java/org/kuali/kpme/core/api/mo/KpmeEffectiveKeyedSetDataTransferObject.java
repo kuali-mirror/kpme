@@ -19,6 +19,6 @@ import java.util.Set;
 
 public interface KpmeEffectiveKeyedSetDataTransferObject extends KpmeEffectiveDataTransferObject, KeyedSetData {
 	
-	Set<? extends KpmeEffectiveKey> getEffectiveKeySet();
+	Set<? extends EffectiveKeyContract> getEffectiveKeySet();
 
 }

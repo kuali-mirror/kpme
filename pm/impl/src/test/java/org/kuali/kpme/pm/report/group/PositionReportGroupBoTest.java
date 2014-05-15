@@ -25,16 +25,16 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.mo.EffectiveKey;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBoTest;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
-import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupKey;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 
 public class PositionReportGroupBoTest {
 
 	private static Map<String, PositionReportGroup> testPositionReportGroupBos;
 	public static PositionReportGroup.Builder positionReportGroupBuilder = PositionReportGroup.Builder.create("TST-PSTNRPTGRP");
-	public static PositionReportGroupKey.Builder positionReportGroupKeyBuilder = PositionReportGroupKey.Builder.create();
+	public static EffectiveKey.Builder positionReportGroupKeyBuilder = EffectiveKey.Builder.create();
 	
 	static {
 		testPositionReportGroupBos = new HashMap<String, PositionReportGroup>();
@@ -54,11 +54,11 @@ public class PositionReportGroupBoTest {
 		// now populate the derived key object builder
 		positionReportGroupKeyBuilder.setGroupKeyCode("ISU-IA");
 		positionReportGroupKeyBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
-		positionReportGroupKeyBuilder.setPmPositionReportGroupId(positionReportGroupBuilder.getPmPositionReportGroupId());
-		positionReportGroupKeyBuilder.setPositionReportGroupKeyId("derived key object 01");
+		positionReportGroupKeyBuilder.setOwnerId(positionReportGroupBuilder.getPmPositionReportGroupId());
+		positionReportGroupKeyBuilder.setId("derived key object 01");
 		positionReportGroupKeyBuilder.setEffectiveLocalDateOfOwner(positionReportGroupBuilder.getEffectiveLocalDate());
 		
-		Set<PositionReportGroupKey.Builder> keyBuilders = new HashSet<PositionReportGroupKey.Builder>();
+		Set<EffectiveKey.Builder> keyBuilders = new HashSet<EffectiveKey.Builder>();
 		keyBuilders.add(positionReportGroupKeyBuilder);
 		positionReportGroupBuilder.setEffectiveKeySet(keyBuilders);
 		
