@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.pm.positionreportgroup;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;

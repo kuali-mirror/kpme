@@ -103,7 +103,6 @@ public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReport
 			return null;
 		}
 		PositionReportGroupKeyBo prgk = new PositionReportGroupKeyBo();
-		prgk.setOwner(PositionReportGroupBo.from(im.getOwner()));
 		prgk.setPositionReportGroupKeyId(im.getPositionReportGroupKeyId());
 		prgk.setPmPositionReportGroupId(im.getPmPositionReportGroupId());
 		prgk.setVersionNumber(im.getVersionNumber());

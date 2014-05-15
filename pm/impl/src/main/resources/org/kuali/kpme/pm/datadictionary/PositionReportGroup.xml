@@ -31,6 +31,16 @@
 				<ref bean="PositionReportGroup-description" />
 			</list>
 		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition">
+					<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo" />
+					<property name="name" value="effectiveKeySet" />
+					<property name="shortLabel" value="Effective Group Keys" />
+					<property name="label" value="Effective Group Keys" />
+				</bean>
+			</list>
+		</property>
 		<property name="objectLabel" value="Position Report Group" />
 	</bean>
 
