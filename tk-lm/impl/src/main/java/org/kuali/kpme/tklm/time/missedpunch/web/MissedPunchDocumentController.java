@@ -28,10 +28,12 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.Note;
+import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
@@ -114,14 +116,13 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
     @RequestMapping(params = "methodToCall=submit")
     public ModelAndView submit(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		MissedPunchForm missedPunchForm = (MissedPunchForm) form;
-		
-    	createDocument(missedPunchForm);
-        ModelAndView modelAndView = null;
-        try {
-            missedPunchForm.getDocument().validateBusinessRules(new SaveDocumentEvent( missedPunchForm.getDocument()));
 
-            if (GlobalVariables.getMessageMap().hasNoErrors()) {
-                modelAndView = save(missedPunchForm, result, request, response);
+        DictionaryValidationResult validationResults = KRADServiceLocatorWeb.getDictionaryValidationService().validate(((MissedPunchForm) form).getMissedPunch());
+    	if (validationResults.getNumberOfErrors() == 0) {
+
+            try {
+                createDocument(missedPunchForm);
+                save(missedPunchForm, result, request, response);
 
                 if (StringUtils.isNotBlank(missedPunchForm.getMissedPunch().getNote())) {
                     Document doc = missedPunchForm.getDocument();
@@ -131,15 +132,14 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
                     note.setNotePostedTimestampToCurrent();
                     doc.setNotes(Collections.<Note>singletonList(note));
                 }
-	    	modelAndView = route(missedPunchForm, result, request, response);
-	    	missedPunchForm.setMissedPunchSubmitted(true);
+                ModelAndView modelAndView = route(missedPunchForm, result, request, response);
+                missedPunchForm.setMissedPunchSubmitted(true);
 
-		return modelAndView;
-    }
-    
+                return modelAndView;
 
-        } catch (ValidationException exception) {
-            //ignore
+            } catch (ValidationException exception) {
+                //ignore
+            }
         }
         return getUIFModelAndView(form);
     }
