@@ -40,10 +40,7 @@ public class WorkAreaAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
 			
 			if (workAreaObj != null) {
 				department = cleanAttributeValue(workAreaObj.getDept());
-				// TODO:
-				// Remove the line below and uncomment out the next line when group key code is added to work area
-				String groupKeyCode = null;
-				//String groupKeyCode = workAreaObj != null ? workAreaObj.getGroupKeyCode() : null;
+				String groupKeyCode = workAreaObj != null ? workAreaObj.getGroupKeyCode() : null;
 				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, workAreaObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {

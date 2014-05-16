@@ -242,9 +242,7 @@ public abstract class HrPermissionServiceBase {
         }
 
 		String department = workAreaObj != null ? workAreaObj.getDept() : null;
-		// TODO remove the line below and uncomment the next line when group key code is added to work area
-		String groupKeyCode = null;
-		//String groupKeyCode = workAreaObj != null ? workAreaObj.getGroupKeyCode() : null;
+		String groupKeyCode = workAreaObj != null ? workAreaObj.getGroupKeyCode() : null;
     	Department departmentObj = getDepartmentService().getDepartment(department, groupKeyCode, asOfDate.toLocalDate());
     	
     	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;

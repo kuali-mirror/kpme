@@ -126,12 +126,12 @@
 							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 						</list>
 					</property>
-					<property name="title" value="Data Group" />
+					<property name="title" value="Group Key" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false" />
-		<property name="title" value="Data Group Inquiry" />
+		<property name="title" value="Group Key Inquiry" />
 	</bean>
 
 	<!-- Business Object Lookup Definition -->

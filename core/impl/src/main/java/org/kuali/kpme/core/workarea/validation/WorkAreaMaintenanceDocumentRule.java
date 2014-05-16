@@ -54,9 +54,6 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			WorkAreaBo workArea = (WorkAreaBo) pbo;
 			
 			valid &= validateDefaultOvertimeEarnCode(workArea.getDefaultOvertimeEarnCode(), workArea.getEffectiveLocalDate());
-
-			String groupKeyCode = null;
-
 			valid &= validateDepartment(workArea.getDept(), workArea.getGroupKeyCode(), workArea.getEffectiveLocalDate());
 			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveLocalDate(), "principalRoleMembers", "positionRoleMembers");
 			valid &= validateActive(workArea);
