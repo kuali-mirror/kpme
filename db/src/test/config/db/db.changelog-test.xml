@@ -154,5 +154,11 @@
     	<loadData tableName="ca_object_code_t" file="src/test/config/db/test/ca_object_code_t.csv"/>
     	<loadData tableName="ca_sub_object_cd_t" file="src/test/config/db/test/ca_sub_object_cd_t.csv"/>
     </changeSet>
+    
+     <changeSet id="7" author="neerajsk" context="kpme-client-test">
+     	<loadData tableName="PM_PSTN_RPT_GRP_T" file="src/test/config/db/staging/pm_pstn_rpt_grp_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+     </changeSet>
 
 </databaseChangeLog>

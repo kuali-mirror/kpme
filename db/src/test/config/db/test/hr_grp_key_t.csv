@@ -1,3 +1,5 @@
 ID,GRP_KEY_CD,DESCR,INSTITUTION,CAMPUS_CD,LOCATION,EFFDT,ACTIVE,USER_PRINCIPAL_ID
 5,IU-IN,Indiana U - Indy,IU,NULL,IN,2010-01-01,Y,admin
 6,IU-BL,Indiana U - Bloomington,IU,NULL,BL,2010-01-01,Y,admin
+7,UGA-GA,University of Georgia - GA,UGA,NULL,GA,2010-01-01,Y,admin
+8,ISU-IA,Iowa State University - Ames,ISU,NULL,IA,2010-01-01,Y,admin
