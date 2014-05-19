@@ -15,14 +15,14 @@
  */
 package org.kuali.kpme.pm.api.positionreportcat;
 
-import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 
 /**
  * <p>PositionReportCategoryContract interface</p>
  *
  */
-public interface PositionReportCategoryContract extends KpmeEffectiveKeyedDataTransferObject {
+public interface PositionReportCategoryContract extends KpmeEffectiveDataTransferObject {
 
     /**
      * The position report type associated with the PositionReportCategory 

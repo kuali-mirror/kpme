@@ -16,7 +16,6 @@
 package org.kuali.kpme.pm.positionreportcat;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategory;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategoryContract;
 import org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo;
@@ -28,12 +27,10 @@ import com.google.common.collect.ImmutableMap;
 public class PositionReportCategoryBo extends HrKeyedBusinessObject implements PositionReportCategoryContract {
 	
 	private static final String POSITION_REPORT_CAT = "positionReportCat";
-	private static final String GROUP_KEY_CODE = "groupKeyCode";
-	
+		
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		    .add(POSITION_REPORT_CAT)
-		    .add(GROUP_KEY_CODE)
 		    .build();
 
 	private static final long serialVersionUID = 1L;
@@ -49,7 +46,6 @@ public class PositionReportCategoryBo extends HrKeyedBusinessObject implements P
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(POSITION_REPORT_CAT, this.getPositionReportCat())
-				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 	
@@ -147,8 +143,6 @@ public class PositionReportCategoryBo extends HrKeyedBusinessObject implements P
 		prc.setPositionReportType(im.getPositionReportType());
 		prc.setDescription(im.getDescription());
 		prc.setPrtObj(PositionReportTypeBo.from(im.getPrtObj()));
-		prc.setGroupKeyCode(im.getGroupKeyCode());
-        prc.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
         
 		// finally copy over the common fields into prc from im
 		copyCommonFields(prc, im);

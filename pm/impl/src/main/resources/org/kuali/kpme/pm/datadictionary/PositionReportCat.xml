@@ -22,7 +22,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PositionReportCat" parent="PositionReportCat-parentBean" />
-	<bean id="PositionReportCat-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
+	<bean id="PositionReportCat-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo" />
 		<property name="attributes">
 			<list merge="true">
@@ -91,7 +91,7 @@
 
     <!--Position Reporting Category Lookup View-->
 
-    <bean id="PositionReportCat-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
+    <bean id="PositionReportCat-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Category Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo" />
         <property name="criteriaFields">
@@ -99,8 +99,8 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportCat" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportType" >
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportCategory"
-                              p:fieldConversions="pmPositionReportCatId:pmPositionReportCatId" />
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo"
+                              p:fieldConversions="positionReportType:positionReportType" p:lookupParameters="effectiveDate:effectiveDate"/>
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
@@ -131,10 +131,11 @@
 		<property name="title" value="Position Report Category Information" />
 		<property name="items">
 			<list>
-				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+				<bean parent="Uif-Disclosure-GridSection">
 					<property name="layoutManager.numberOfColumns" value="2" />
 					<property name="items">
 						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 							<bean parent="Uif-DataField" p:propertyName="positionReportCat" />
 							<bean parent="Uif-DataField" p:propertyName="positionReportType" />
 							<bean parent="Uif-DataField" p:propertyName="active" />
@@ -154,9 +155,10 @@
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo"/>
         <property name="items">
             <list merge="true">
-                <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
+                <bean parent="Uif-MaintenanceGridSection">
                     <property name="items">
                         <list merge="true">
+                        	<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
                             <bean parent="Uif-InputField" p:propertyName="positionReportCat" p:required="true"/>
                             <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
                             <bean parent="Uif-InputField" p:propertyName="positionReportType" p:required="true">

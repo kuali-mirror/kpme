@@ -50,8 +50,6 @@ import org.w3c.dom.Element;
     PositionReportCategory.Elements.EFFECTIVE_LOCAL_DATE,
     PositionReportCategory.Elements.CREATE_TIME,
     PositionReportCategory.Elements.USER_PRINCIPAL_ID,
-    PositionReportCategory.Elements.GROUP_KEY_CODE,
-    PositionReportCategory.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PositionReportCategory
@@ -83,10 +81,6 @@ public final class PositionReportCategory
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = true)
-    private final String groupKeyCode;
-    @XmlElement(name = Elements.GROUP_KEY, required = true)
-    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -108,8 +102,7 @@ public final class PositionReportCategory
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKeyCode = null;
-        this.groupKey = null;
+        
     }
 
     private PositionReportCategory(Builder builder) {
@@ -125,8 +118,6 @@ public final class PositionReportCategory
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKeyCode = builder.getGroupKeyCode();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
@@ -189,16 +180,6 @@ public final class PositionReportCategory
         return this.userPrincipalId;
     }
 
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
-
-    @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
-
 
     /**
      * A builder which can be used to construct {@link PositionReportCategory} instances.  Enforces the constraints of the {@link PositionReportCategoryContract}.
@@ -220,19 +201,16 @@ public final class PositionReportCategory
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
 
-        private Builder(String groupKeyCode, String positionReportCat, String positionReportType) {
+        private Builder( String positionReportCat, String positionReportType) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
-        	setGroupKeyCode(groupKeyCode);
         	setPositionReportCat(positionReportCat);
         	setPositionReportType(positionReportType);
         }
 
-        public static Builder create(String groupKeyCode, String positionReportCat, String positionReportType) {
+        public static Builder create( String positionReportCat, String positionReportType) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(groupKeyCode,positionReportCat,positionReportType);
+            return new Builder(positionReportCat,positionReportType);
         }
 
         public static Builder create(PositionReportCategoryContract contract) {
@@ -240,7 +218,7 @@ public final class PositionReportCategory
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create(contract.getGroupKeyCode(),contract.getPositionReportCat(),contract.getPositionReportType());
+            Builder builder = create(contract.getPositionReportCat(),contract.getPositionReportType());
             builder.setDescription(contract.getDescription());
             builder.setPmPositionReportCatId(contract.getPmPositionReportCatId());
             builder.setPrtObj(contract.getPrtObj() == null ? null : PositionReportType.Builder.create(contract.getPrtObj()));
@@ -251,7 +229,6 @@ public final class PositionReportCategory
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -317,16 +294,6 @@ public final class PositionReportCategory
         @Override
         public String getUserPrincipalId() {
             return this.userPrincipalId;
-        }
-
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
-        }
-
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return this.groupKey;
         }
 
         public void setPositionReportCat(String positionReportCat) {
@@ -395,17 +362,6 @@ public final class PositionReportCategory
             this.userPrincipalId = userPrincipalId;
         }
 
-        public void setGroupKeyCode(String groupKeyCode) {
-            if (StringUtils.isWhitespace(groupKeyCode)) {
-                throw new IllegalArgumentException("groupKeyCode is blank");
-            }
-            this.groupKeyCode = groupKeyCode;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
-        }
-
     }
 
 
@@ -437,8 +393,6 @@ public final class PositionReportCategory
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
-        final static String GROUP_KEY = "groupKey";
 
     }
 
