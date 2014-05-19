@@ -121,15 +121,6 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 		Assert.assertFalse(results);
 		
 		aDate = VALID_DATE;
-//		groupKeyCode = "nonExist-*";
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, aDate.toLocalDate());   // existing, right date, wrong institution
-		Assert.assertFalse(results);
-		
-//		groupKeyCode = "testInst-nonExist";
-		results = PmValidationUtils.validatePositionReportSubCat(prsc,  aDate.toLocalDate());   // existing, right date, right institution, wrong campus
-		Assert.assertFalse(results);
-		
-//		groupKeyCode = "testInst-BL";
 		results = PmValidationUtils.validatePositionReportSubCat(prsc, aDate.toLocalDate());  
 		Assert.assertTrue(results);
 	}
