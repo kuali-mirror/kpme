@@ -23,7 +23,6 @@
         <field-descriptor name="pmPositionReportTypeId" column="PM_PSTN_RPT_TYP_ID"  jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_RPT_TYP_S" />
         <field-descriptor name="positionReportType"      column="PSTN_RPT_TYP"			 jdbc-type="VARCHAR"     length="50" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
-        <field-descriptor name="groupKeyCode"  			column="GRP_KEY_CD"        		 jdbc-type="VARCHAR"     length="30"        nullable="false" primaryKey="false" />
         <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="true"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />

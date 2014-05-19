@@ -15,11 +15,8 @@
  */
 package org.kuali.kpme.pm.positionreportcat.validation;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.api.positionreporttype.PositionReportTypeContract;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo;
-import org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
@@ -48,15 +45,6 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 		if(aType == null) {
 			this.putFieldError("positionReportType", "error.existence", positionReportTypeError);
 			return false;
-		} else {
-			if(!StringUtils.equals(aType.getGroupKeyCode(),prc.getGroupKeyCode())) {
-				String[] params = new String[3];
-				params[0] = prc.getGroupKeyCode();
-				params[1] = aType.getGroupKeyCode();
-				params[2] = positionReportTypeError;
-				this.putFieldError("groupKeyCode", "groupKey.inconsistent", params);
-				return false;
-			}
 		}
 		return true;
 	}	

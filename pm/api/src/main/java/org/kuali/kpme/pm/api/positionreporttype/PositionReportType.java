@@ -47,8 +47,6 @@ import org.w3c.dom.Element;
     PositionReportType.Elements.EFFECTIVE_LOCAL_DATE,
     PositionReportType.Elements.CREATE_TIME,
     PositionReportType.Elements.USER_PRINCIPAL_ID,
-    PositionReportType.Elements.GROUP_KEY_CODE,
-    PositionReportType.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PositionReportType
@@ -76,10 +74,6 @@ public final class PositionReportType
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = true)
-    private final String groupKeyCode;
-    @XmlElement(name = Elements.GROUP_KEY, required = true)
-    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -99,8 +93,6 @@ public final class PositionReportType
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKeyCode = null;
-        this.groupKey = null;
     }
 
     private PositionReportType(Builder builder) {
@@ -114,8 +106,6 @@ public final class PositionReportType
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKeyCode = builder.getGroupKeyCode();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
@@ -168,16 +158,6 @@ public final class PositionReportType
         return this.userPrincipalId;
     }
 
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
-
-    @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
-
 
     /**
      * A builder which can be used to construct {@link PositionReportType} instances.  Enforces the constraints of the {@link PositionReportTypeContract}.
@@ -197,16 +177,13 @@ public final class PositionReportType
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
 
-        private Builder(String groupKeyCode, String positionReportType) {
-        	setGroupKeyCode(groupKeyCode);
+        private Builder( String positionReportType) {
         	setPositionReportType(positionReportType);
         }
 
-        public static Builder create(String groupKeyCode, String positionReportType) {
-            return new Builder(groupKeyCode,positionReportType);
+        public static Builder create( String positionReportType) {
+            return new Builder(positionReportType);
         }
 
         public static Builder create(PositionReportTypeContract contract) {
@@ -214,7 +191,7 @@ public final class PositionReportType
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create(contract.getGroupKeyCode(),contract.getPositionReportType());
+            Builder builder = create(contract.getPositionReportType());
             builder.setDescription(contract.getDescription());
             builder.setPmPositionReportTypeId(contract.getPmPositionReportTypeId());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -224,7 +201,6 @@ public final class PositionReportType
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -282,16 +258,6 @@ public final class PositionReportType
             return this.userPrincipalId;
         }
 
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
-        }
-
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return this.groupKey;
-        }
-
         public void setPositionReportType(String positionReportType) {
         	if (StringUtils.isWhitespace(positionReportType)) {
                 throw new IllegalArgumentException("positionReportType is blank");
@@ -344,17 +310,6 @@ public final class PositionReportType
             this.userPrincipalId = userPrincipalId;
         }
 
-        public void setGroupKeyCode(String groupKeyCode) {
-            if (StringUtils.isWhitespace(groupKeyCode)) {
-                throw new IllegalArgumentException("groupKeyCode is blank");
-            }
-            this.groupKeyCode = groupKeyCode;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
-        }
-
     }
 
 
@@ -384,8 +339,6 @@ public final class PositionReportType
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
-        final static String GROUP_KEY = "groupKey";
 
     }
 

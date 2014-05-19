@@ -29,11 +29,10 @@ import org.kuali.kpme.pm.positionreporttype.PositionReportTypeBo;
 
 public class PositionReportTypeBoTest {
 	private static Map<String, PositionReportType> testPositionReportTypeBos;
-	public static PositionReportType.Builder PositionReportTypeBuilder = PositionReportType.Builder.create("ISU-IA", "test1");
+	public static PositionReportType.Builder PositionReportTypeBuilder = PositionReportType.Builder.create( "test1");
 	
 	static {
 		testPositionReportTypeBos = new HashMap<String, PositionReportType>();
-		PositionReportTypeBuilder.setGroupKeyCode("ISU-IA");
 		PositionReportTypeBuilder.setDescription("Testing Immutable PositionReportType");
 		PositionReportTypeBuilder.setPositionReportType("TST-PSTNRPTTYP");
 		PositionReportTypeBuilder.setUserPrincipalId("admin");
@@ -47,7 +46,6 @@ public class PositionReportTypeBoTest {
 		PositionReportTypeBuilder.setCreateTime(DateTime.now());
 		
 		// Set GroupKeycode Object
-		PositionReportTypeBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
 		testPositionReportTypeBos.put(PositionReportTypeBuilder.getPositionReportType(), PositionReportTypeBuilder.build());
 	}
 	

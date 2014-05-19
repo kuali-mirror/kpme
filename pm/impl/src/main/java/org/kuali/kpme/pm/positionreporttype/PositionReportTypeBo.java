@@ -26,12 +26,10 @@ import com.google.common.collect.ImmutableMap;
 
 public class PositionReportTypeBo extends HrKeyedBusinessObject implements PositionReportTypeContract {
 	private static final String POSITION_REPORT_TYPE = "positionReportType";
-	private static final String GROUP_KEY_CODE = "groupKeyCode";
 
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		     .add(POSITION_REPORT_TYPE)
-		     .add(GROUP_KEY_CODE)
 		     .build();
 
 	private static final long serialVersionUID = 1L;
@@ -44,7 +42,6 @@ public class PositionReportTypeBo extends HrKeyedBusinessObject implements Posit
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(POSITION_REPORT_TYPE, this.getPositionReportType())
-				.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 
@@ -124,8 +121,6 @@ public class PositionReportTypeBo extends HrKeyedBusinessObject implements Posit
 		prt.setPmPositionReportTypeId(im.getPmPositionReportTypeId());
 		prt.setPositionReportType(im.getPositionReportType());
 		prt.setDescription(im.getDescription());
-		prt.setGroupKeyCode(im.getGroupKeyCode());
-        prt.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
         
 		// finally copy over the common fields into prt from im
 		copyCommonFields(prt, im);
