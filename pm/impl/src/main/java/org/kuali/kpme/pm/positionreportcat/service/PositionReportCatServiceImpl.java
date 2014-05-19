@@ -34,8 +34,8 @@ public class PositionReportCatServiceImpl implements PositionReportCatService {
 	}
 	
 	@Override
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String groupKeyCode, LocalDate asOfDate) {
-		return ModelObjectUtils.transform(positionReportCatDao.getPositionReportCatList(positionReportCat, positionReportType, groupKeyCode, asOfDate),PositionReportCategoryBo.toImmutable);
+	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, LocalDate asOfDate) {
+		return ModelObjectUtils.transform(positionReportCatDao.getPositionReportCatList(positionReportCat, positionReportType, asOfDate),PositionReportCategoryBo.toImmutable);
 	}
 
 	public PositionReportCatDao getPositionReportCatDao() {

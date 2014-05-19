@@ -37,7 +37,7 @@ public interface PositionReportCatService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionReportCategory> getPositionReportCatList(String positionReportCat, String positionReportType, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the latest active PositionReportCategory with given positionReportCat and effective date

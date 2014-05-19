@@ -90,21 +90,21 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 		DateTime aDate = INVALID_DATE;
 		String prc = "nonExist";
 		String prt = "nonExist";
-		String groupKeyCode = "testGK";
+//		String groupKeyCode = "testGK";
 		
-		boolean results = PmValidationUtils.validatePositionReportCategory(prc, prt, groupKeyCode, aDate.toLocalDate()); // non-existing
+		boolean results = PmValidationUtils.validatePositionReportCategory(prc, prt,  aDate.toLocalDate()); // non-existing
 		Assert.assertFalse(results);
 		
 		prc = "testPRC";	
-		results = PmValidationUtils.validatePositionReportCategory(prc, prt, groupKeyCode, aDate.toLocalDate()); 	// existing, but wrong date
+		results = PmValidationUtils.validatePositionReportCategory(prc, prt, aDate.toLocalDate()); 	// existing, but wrong date
 		Assert.assertFalse(results);
 		
 		aDate = VALID_DATE;
-		results = PmValidationUtils.validatePositionReportCategory(prc, prt, groupKeyCode, aDate.toLocalDate());   // existing, right date, wrong prt
+		results = PmValidationUtils.validatePositionReportCategory(prc, prt, aDate.toLocalDate());   // existing, right date, wrong prt
 		Assert.assertFalse(results);
 		
 		prt = "testPRT";
-		results = PmValidationUtils.validatePositionReportCategory(prc, prt, groupKeyCode, aDate.toLocalDate()); 
+		results = PmValidationUtils.validatePositionReportCategory(prc, prt, aDate.toLocalDate()); 
 		Assert.assertTrue(results);
 	}
 	
@@ -121,15 +121,15 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 		Assert.assertFalse(results);
 		
 		aDate = VALID_DATE;
-		groupKeyCode = "nonExist-*";
+//		groupKeyCode = "nonExist-*";
 		results = PmValidationUtils.validatePositionReportSubCat(prsc, aDate.toLocalDate());   // existing, right date, wrong institution
 		Assert.assertFalse(results);
 		
-		groupKeyCode = "testInst-nonExist";
+//		groupKeyCode = "testInst-nonExist";
 		results = PmValidationUtils.validatePositionReportSubCat(prsc,  aDate.toLocalDate());   // existing, right date, right institution, wrong campus
 		Assert.assertFalse(results);
 		
-		groupKeyCode = "testInst-BL";
+//		groupKeyCode = "testInst-BL";
 		results = PmValidationUtils.validatePositionReportSubCat(prsc, aDate.toLocalDate());  
 		Assert.assertTrue(results);
 	}
