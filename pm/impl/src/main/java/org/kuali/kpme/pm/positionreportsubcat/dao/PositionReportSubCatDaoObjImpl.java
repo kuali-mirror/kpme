@@ -24,7 +24,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo;
@@ -40,15 +39,12 @@ public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  imp
         return (PositionReportSubCategoryBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
-	public List<PositionReportSubCategoryBo> getPositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate) {
+	public List<PositionReportSubCategoryBo> getPositionReportSubCat(String pstnRptSubCat,LocalDate asOfDate) {
 		List<PositionReportSubCategoryBo> prscList = new ArrayList<PositionReportSubCategoryBo>();
 		Criteria root = new Criteria();
 		if(StringUtils.isNotEmpty(pstnRptSubCat) 
 				&& !ValidationUtils.isWildCard(pstnRptSubCat)) {
 			root.addEqualTo("positionReportSubCat", pstnRptSubCat); 
-		}
-		if(StringUtils.isNotEmpty(groupKeyCode)) {
-			root.addEqualTo("groupKeyCode", groupKeyCode); 
 		}
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategoryBo.class, asOfDate, PositionReportSubCategoryBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportSubCategoryBo.class, PositionReportSubCategoryBo.BUSINESS_KEYS, false));
@@ -66,7 +62,7 @@ public class PositionReportSubCatDaoObjImpl extends PlatformAwareDaoBaseOjb  imp
 	}
 
 	@Override
-	public PositionReportSubCategoryBo getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate) {
+	public PositionReportSubCategoryBo getActivePositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate) {
 		Criteria root = new Criteria();
         root.addEqualTo("positionReportSubCat", pstnRptSubCat);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportSubCategoryBo.class, asOfDate, PositionReportSubCategoryBo.BUSINESS_KEYS, false));

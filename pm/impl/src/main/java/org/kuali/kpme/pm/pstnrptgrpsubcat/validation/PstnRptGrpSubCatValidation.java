@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.pm.pstnrptgrpsubcat.validation;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
@@ -42,7 +41,7 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 	
 	private boolean validatePstnRptSubCat(PositionReportGroupSubCategoryBo prgsc) {
 		// validatePositionReportSubCat handles wild card for Institution and Location
-		PositionReportSubCategoryContract aPrsc = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getEffectiveLocalDate());
+		PositionReportSubCategoryContract aPrsc = PmServiceLocator.getPositionReportSubCatService().getActivePositionReportSubCat(prgsc.getPositionReportSubCat(), prgsc.getEffectiveLocalDate());
 		String errorMes = "PositionReportSubCategory '" + prgsc.getPositionReportSubCat() + "'";
 		if(aPrsc == null) {
 			this.putFieldError("dataObject.positionReportSubCat", "error.existence", errorMes);

@@ -112,25 +112,25 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 	public void testValidatePositionReportSubCat() {
 		DateTime aDate = INVALID_DATE;
 		String prsc = "nonExist";
-		String groupKeyCode = "*-*";
-		boolean results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate()); // non-existing
+//		String groupKeyCode = "*-*";
+		boolean results = PmValidationUtils.validatePositionReportSubCat(prsc,aDate.toLocalDate()); // non-existing
 		Assert.assertFalse(results);
 		
 		prsc = "testPRSC";	
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate()); // existing, but wrong date
+		results = PmValidationUtils.validatePositionReportSubCat(prsc, aDate.toLocalDate()); // existing, but wrong date
 		Assert.assertFalse(results);
 		
 		aDate = VALID_DATE;
 		groupKeyCode = "nonExist-*";
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate());   // existing, right date, wrong institution
+		results = PmValidationUtils.validatePositionReportSubCat(prsc, aDate.toLocalDate());   // existing, right date, wrong institution
 		Assert.assertFalse(results);
 		
 		groupKeyCode = "testInst-nonExist";
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate());   // existing, right date, right institution, wrong campus
+		results = PmValidationUtils.validatePositionReportSubCat(prsc,  aDate.toLocalDate());   // existing, right date, right institution, wrong campus
 		Assert.assertFalse(results);
 		
 		groupKeyCode = "testInst-BL";
-		results = PmValidationUtils.validatePositionReportSubCat(prsc, groupKeyCode, aDate.toLocalDate());  
+		results = PmValidationUtils.validatePositionReportSubCat(prsc, aDate.toLocalDate());  
 		Assert.assertTrue(results);
 	}
 	

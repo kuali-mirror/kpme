@@ -42,14 +42,14 @@ public class PositionReportSubCatServiceImpl implements PositionReportSubCatServ
 		this.positionReportSubCatDao = positionReportSubCatDao;
 	}
 	
-	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate) {
-		return ModelObjectUtils.transform(positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, groupKeyCode, asOfDate),PositionReportSubCategoryBo.toImmutable);
+	public List<PositionReportSubCategory> getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate) {
+		return ModelObjectUtils.transform(positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, asOfDate),PositionReportSubCategoryBo.toImmutable);
 	}
 
 	@Override
-	public PositionReportSubCategory getPositionReportSubCat(
+	public PositionReportSubCategory getActivePositionReportSubCat(
 			String pstnRptSubCat, LocalDate asOfDate) {
-		return PositionReportSubCategoryBo.to(positionReportSubCatDao.getPositionReportSubCat(pstnRptSubCat, asOfDate));
+		return PositionReportSubCategoryBo.to(positionReportSubCatDao.getActivePositionReportSubCat(pstnRptSubCat, asOfDate));
 	}
 
 }

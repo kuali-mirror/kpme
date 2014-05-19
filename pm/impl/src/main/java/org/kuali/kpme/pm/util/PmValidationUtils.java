@@ -107,9 +107,9 @@ public class PmValidationUtils {
 	 * @return
 	 */
 	
-	public static boolean validatePositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate) {
+	public static boolean validatePositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<? extends PositionReportSubCategoryContract> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, groupKeyCode,asOfDate);
+			List<? extends PositionReportSubCategoryContract> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, asOfDate);
 			return CollectionUtils.isNotEmpty(prscList);
 		}
 		return false;

@@ -23,7 +23,8 @@ import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo;
 public interface PositionReportSubCatDao {
 	public PositionReportSubCategoryBo getPositionReportSubCatById(String pmPositionReportSubCatId);
 	
-	public List<PositionReportSubCategoryBo> getPositionReportSubCat(String pstnRptSubCat, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionReportSubCategoryBo> getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
 	
-	public PositionReportSubCategoryBo getPositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
+	public PositionReportSubCategoryBo getActivePositionReportSubCat(String pstnRptSubCat, LocalDate asOfDate);
+
 }
