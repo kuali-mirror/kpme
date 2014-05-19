@@ -29,11 +29,10 @@ import org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo;
 
 public class PositionReportSubCategoryBoTest {
 	private static Map<String, PositionReportSubCategory> testPositionReportSubCategoryBos;
-	public static PositionReportSubCategory.Builder PositionReportSubCategoryBuilder = PositionReportSubCategory.Builder.create("ISU-IA", "PSTNRPTCAT", "PSTNRPTTYP");
+	public static PositionReportSubCategory.Builder PositionReportSubCategoryBuilder = PositionReportSubCategory.Builder.create( "PSTNRPTCAT", "PSTNRPTTYP");
 	
 	static {
 		testPositionReportSubCategoryBos = new HashMap<String, PositionReportSubCategory>();
-		PositionReportSubCategoryBuilder.setGroupKeyCode("ISU-IA");
 		PositionReportSubCategoryBuilder.setDescription("Testing Immutable PositionReportSubCategory");
 		PositionReportSubCategoryBuilder.setPositionReportCat("TST-PSTNRPTCAT");
 		PositionReportSubCategoryBuilder.setUserPrincipalId("admin");
@@ -46,8 +45,6 @@ public class PositionReportSubCategoryBoTest {
 		PositionReportSubCategoryBuilder.setEffectiveLocalDate(new LocalDate(2012, 3, 1));
 		PositionReportSubCategoryBuilder.setCreateTime(DateTime.now());
 		
-		// Set GroupKeycode Object
-		PositionReportSubCategoryBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
 		testPositionReportSubCategoryBos.put(PositionReportSubCategoryBuilder.getPositionReportCat(), PositionReportSubCategoryBuilder.build());
 	}
 	

@@ -15,8 +15,7 @@
  */
 package org.kuali.kpme.pm.positionreportsubcat;
 
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.kpme.pm.api.positionreportsubcat.PositionReportSubCategoryContract;
 import org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo;
@@ -25,17 +24,15 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionReportSubCategoryBo extends HrKeyedBusinessObject implements PositionReportSubCategoryContract {
+public class PositionReportSubCategoryBo extends HrBusinessObject implements PositionReportSubCategoryContract {
 	
 	static class KeyFields {
 		private static final String POSITION_REPORT_SUB_CAT = "positionReportSubCat";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
     }
 	
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		     .add(KeyFields.POSITION_REPORT_SUB_CAT)
-		     .add(KeyFields.GROUP_KEY_CODE)
 		     .build();
 
 	private static final long serialVersionUID = 1L;
@@ -44,18 +41,12 @@ public class PositionReportSubCategoryBo extends HrKeyedBusinessObject implement
 	private String positionReportCat;
 	private String positionReportType;
 	private String description;
-//	private String institution;
-//	private String location;
-	
-//	private LocationBo locationObj;
-//	private InstitutionBo institutionObj;
 	private PositionReportCategoryBo prcObj;
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.POSITION_REPORT_SUB_CAT, this.getPositionReportSubCat())
-				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 	
@@ -164,9 +155,6 @@ public class PositionReportSubCategoryBo extends HrKeyedBusinessObject implement
 		prsc.setDescription(im.getDescription());
 		prsc.setPrcObj(PositionReportCategoryBo.from(im.getPrcObj()));
 		
-		prsc.setGroupKeyCode(im.getGroupKeyCode());
-        prsc.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
-        
 		// finally copy over the common fields into prsc from im
 		copyCommonFields(prsc, im);
 

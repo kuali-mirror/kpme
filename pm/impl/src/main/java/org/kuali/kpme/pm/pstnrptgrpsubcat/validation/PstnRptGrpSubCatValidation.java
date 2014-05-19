@@ -48,14 +48,14 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 			this.putFieldError("dataObject.positionReportSubCat", "error.existence", errorMes);
 			return false;
 		} 
-		else if(!StringUtils.equals(aPrsc.getGroupKeyCode(), prgsc.getGroupKeyCode())) {
-			String[] params = new String[3];
-			params[0] = prgsc.getGroupKeyCode();
-			params[1] = aPrsc.getGroupKeyCode();
-			params[2] = errorMes;
-			this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
-			return false;
-		}
+//		else if(!StringUtils.equals(aPrsc.getGroupKeyCode(), prgsc.getGroupKeyCode())) {
+//			String[] params = new String[3];
+//			params[0] = prgsc.getGroupKeyCode();
+//			params[1] = aPrsc.getGroupKeyCode();
+//			params[2] = errorMes;
+//			this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+//			return false;
+//		}
 		return true;
 	}
 	

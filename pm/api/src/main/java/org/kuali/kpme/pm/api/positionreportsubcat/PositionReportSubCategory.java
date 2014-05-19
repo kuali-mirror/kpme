@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.pm.api.positionreportcat.PositionReportCategory;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
@@ -40,12 +39,10 @@ import org.w3c.dom.Element;
 @XmlType(name = PositionReportSubCategory.Constants.TYPE_NAME, propOrder = {
     PositionReportSubCategory.Elements.POSITION_REPORT_TYPE,
     PositionReportSubCategory.Elements.DESCRIPTION,
-    PositionReportSubCategory.Elements.INSTITUTION,
     PositionReportSubCategory.Elements.POSITION_REPORT_SUB_CAT,
     PositionReportSubCategory.Elements.POSITION_REPORT_CAT,
     PositionReportSubCategory.Elements.PRC_OBJ,
     PositionReportSubCategory.Elements.PM_POSITION_REPORT_SUB_CAT_ID,
-    PositionReportSubCategory.Elements.LOCATION,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
     PositionReportSubCategory.Elements.ACTIVE,
@@ -53,8 +50,6 @@ import org.w3c.dom.Element;
     PositionReportSubCategory.Elements.EFFECTIVE_LOCAL_DATE,
     PositionReportSubCategory.Elements.CREATE_TIME,
     PositionReportSubCategory.Elements.USER_PRINCIPAL_ID,
-    PositionReportSubCategory.Elements.GROUP_KEY_CODE,
-    PositionReportSubCategory.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PositionReportSubCategory
@@ -66,8 +61,6 @@ public final class PositionReportSubCategory
     private final String positionReportType;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
-    @XmlElement(name = Elements.INSTITUTION, required = false)
-    private final String institution;
     @XmlElement(name = Elements.POSITION_REPORT_SUB_CAT, required = false)
     private final String positionReportSubCat;
     @XmlElement(name = Elements.POSITION_REPORT_CAT, required = false)
@@ -76,8 +69,6 @@ public final class PositionReportSubCategory
     private final PositionReportCategory prcObj;
     @XmlElement(name = Elements.PM_POSITION_REPORT_SUB_CAT_ID, required = false)
     private final String pmPositionReportSubCatId;
-    @XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -92,10 +83,6 @@ public final class PositionReportSubCategory
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
-    private final String groupKeyCode;
-    @XmlElement(name = Elements.GROUP_KEY, required = false)
-    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -107,12 +94,10 @@ public final class PositionReportSubCategory
     private PositionReportSubCategory() {
         this.positionReportType = null;
         this.description = null;
-        this.institution = null;
         this.positionReportSubCat = null;
         this.positionReportCat = null;
         this.prcObj = null;
         this.pmPositionReportSubCatId = null;
-        this.location = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -120,19 +105,15 @@ public final class PositionReportSubCategory
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKeyCode = null;
-        this.groupKey = null;
     }
 
     private PositionReportSubCategory(Builder builder) {
         this.positionReportType = builder.getPositionReportType();
         this.description = builder.getDescription();
-        this.institution = builder.getInstitution();
         this.positionReportSubCat = builder.getPositionReportSubCat();
         this.positionReportCat = builder.getPositionReportCat();
         this.prcObj = builder.getPrcObj() == null ? null : builder.getPrcObj().build();
         this.pmPositionReportSubCatId = builder.getPmPositionReportSubCatId();
-        this.location = builder.getLocation();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -140,8 +121,6 @@ public final class PositionReportSubCategory
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKeyCode = builder.getGroupKeyCode();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
@@ -154,10 +133,6 @@ public final class PositionReportSubCategory
         return this.description;
     }
 
-    @Override
-    public String getInstitution() {
-        return this.institution;
-    }
 
     @Override
     public String getPositionReportSubCat() {
@@ -177,11 +152,6 @@ public final class PositionReportSubCategory
     @Override
     public String getPmPositionReportSubCatId() {
         return this.pmPositionReportSubCatId;
-    }
-
-    @Override
-    public String getLocation() {
-        return this.location;
     }
 
     @Override
@@ -219,16 +189,6 @@ public final class PositionReportSubCategory
         return this.userPrincipalId;
     }
 
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
-
-    @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
-
     /**
      * A builder which can be used to construct {@link PositionReportSubCategory} instances.  Enforces the constraints of the {@link PositionReportSubCategoryContract}.
      * 
@@ -239,12 +199,10 @@ public final class PositionReportSubCategory
 
         private String positionReportType;
         private String description;
-        private String institution;
         private String positionReportSubCat;
         private String positionReportCat;
         private PositionReportCategory.Builder prcObj;
         private String pmPositionReportSubCatId;
-        private String location;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -252,19 +210,16 @@ public final class PositionReportSubCategory
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
 
-        private Builder(String groupKeyCode, String positionReportSubCat, String positionReportCat) {
+        private Builder( String positionReportSubCat, String positionReportCat) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
-        	setGroupKeyCode(groupKeyCode);
         	setPositionReportSubCat(positionReportSubCat);
         	setPositionReportCat(positionReportCat);
         }
 
-        public static Builder create(String groupKeyCode, String positionReportSubCat, String positionReportCat) {
+        public static Builder create( String positionReportSubCat, String positionReportCat) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(groupKeyCode, positionReportSubCat, positionReportCat);
+            return new Builder( positionReportSubCat, positionReportCat);
         }
 
         public static Builder create(PositionReportSubCategoryContract contract) {
@@ -272,13 +227,11 @@ public final class PositionReportSubCategory
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
-            Builder builder = create(contract.getGroupKeyCode(), contract.getPositionReportSubCat(), contract.getPositionReportCat());
+            Builder builder = create( contract.getPositionReportSubCat(), contract.getPositionReportCat());
             builder.setPositionReportType(contract.getPositionReportType());
             builder.setDescription(contract.getDescription());
-            builder.setInstitution(contract.getInstitution());
             builder.setPrcObj(contract.getPrcObj() == null ? null : PositionReportCategory.Builder.create(contract.getPrcObj()));
             builder.setPmPositionReportSubCatId(contract.getPmPositionReportSubCatId());
-            builder.setLocation(contract.getLocation());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -286,7 +239,6 @@ public final class PositionReportSubCategory
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -304,10 +256,6 @@ public final class PositionReportSubCategory
             return this.description;
         }
 
-        @Override
-        public String getInstitution() {
-            return this.institution;
-        }
 
         @Override
         public String getPositionReportSubCat() {
@@ -329,10 +277,6 @@ public final class PositionReportSubCategory
             return this.pmPositionReportSubCatId;
         }
 
-        @Override
-        public String getLocation() {
-            return this.location;
-        }
 
         @Override
         public Long getVersionNumber() {
@@ -369,16 +313,6 @@ public final class PositionReportSubCategory
             return this.userPrincipalId;
         }
 
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
-        }
-
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return this.groupKey;
-        }
-
         public void setPositionReportType(String positionReportType) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.positionReportType = positionReportType;
@@ -389,10 +323,6 @@ public final class PositionReportSubCategory
             this.description = description;
         }
 
-        public void setInstitution(String institution) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.institution = institution;
-        }
 
         public void setPositionReportSubCat(String positionReportSubCat) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
@@ -418,11 +348,6 @@ public final class PositionReportSubCategory
         public void setPmPositionReportSubCatId(String pmPositionReportSubCatId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.pmPositionReportSubCatId = pmPositionReportSubCatId;
-        }
-
-        public void setLocation(String location) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.location = location;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -460,16 +385,6 @@ public final class PositionReportSubCategory
             this.userPrincipalId = userPrincipalId;
         }
 
-        public void setGroupKeyCode(String groupKeyCode) {
-            if (StringUtils.isWhitespace(groupKeyCode)) {
-                throw new IllegalArgumentException("groupKeyCode is blank");
-            }
-            this.groupKeyCode = groupKeyCode;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
-        }
 
     }
 
@@ -494,19 +409,15 @@ public final class PositionReportSubCategory
 
         final static String POSITION_REPORT_TYPE = "positionReportType";
         final static String DESCRIPTION = "description";
-        final static String INSTITUTION = "institution";
         final static String POSITION_REPORT_SUB_CAT = "positionReportSubCat";
         final static String POSITION_REPORT_CAT = "positionReportCat";
         final static String PRC_OBJ = "prcObj";
         final static String PM_POSITION_REPORT_SUB_CAT_ID = "pmPositionReportSubCatId";
-        final static String LOCATION = "location";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
-        final static String GROUP_KEY = "groupKey";
 
     }
 

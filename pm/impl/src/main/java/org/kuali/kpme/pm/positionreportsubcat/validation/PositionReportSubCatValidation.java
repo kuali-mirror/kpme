@@ -31,7 +31,6 @@ public class PositionReportSubCatValidation extends HrKeyedBusinessObjectValidat
 		if (prsc != null) {
 			valid = true;
 			valid &= this.validatePositionReportCategory(prsc);
-			valid &= this.validateGroupKeyCode(prsc);
 		}
 		return valid;
 	}

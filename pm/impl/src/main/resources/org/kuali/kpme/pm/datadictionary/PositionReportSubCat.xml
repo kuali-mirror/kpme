@@ -22,7 +22,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="PositionReportSubCat" parent="PositionReportSubCat-parentBean" />
-	<bean id="PositionReportSubCat-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
+	<bean id="PositionReportSubCat-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo" />
 		<property name="attributes">
 			<list merge="true">
@@ -103,7 +103,7 @@
 
     <!-- Position Reporting Sub Category Lookup View -->
 
-    <bean id="PositionReportSubCat-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
+    <bean id="PositionReportSubCat-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
         <property name="headerText" value="Position Report Sub Category Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo" />
         <property name="criteriaFields">
@@ -150,10 +150,11 @@
         <property name="title" value="Position Report Sub Category Inquiry"/>
         <property name="items">
             <list merge="true">
-                <bean parent="KPMEGroupKeyed-InquiryGridSection">
+                <bean parent="Uif-Disclosure-GridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="items">
                       <list merge="true">
+                      	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
                         <bean parent="Uif-DataField" p:propertyName="positionReportSubCat" />
                         <bean parent="Uif-DataField" p:propertyName="positionReportCat" />
                         <bean parent="Uif-DataField" p:propertyName="positionReportType" />
@@ -166,17 +167,18 @@
         </property>
     </bean>
 
-    <!--  Position Reporting Group Sub Category Maintenance View -->
+    <!--  Position Reporting Sub Category Maintenance View -->
     <bean id="PositionReportSubCat-MaintenanceView" parent="PositionReportSubCat-MaintenanceView-parentBean"/>
     <bean id="PositionReportSubCat-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
       <property name="headerText" value="Position Report Sub Category"/>
       <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportsubcat.PositionReportSubCategoryBo"/>
       <property name="items">
           <list merge="true">
-              <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
+              <bean parent="Uif-MaintenanceGridSection">
               	 <property name="headerText" value="Position Report Sub Category Maintenance" />
                  <property name="items">
                   <list merge="true">
+                  	  <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
                       <bean parent="Uif-InputField" p:propertyName="positionReportSubCat" p:required="true" />
                       <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
                       <bean parent="Uif-InputField" p:propertyName="positionReportCat" p:required="true">
