@@ -63,10 +63,10 @@ public class PmValidationUtils {
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validatePositionReportType(String positionReportType, String groupKeyCode, LocalDate asOfDate) {
+	public static boolean validatePositionReportType(String positionReportType, LocalDate asOfDate) {
 		boolean valid = false;
 		if (asOfDate != null) {
-			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, groupKeyCode, asOfDate);
+			List<? extends PositionReportTypeContract> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, asOfDate);
 			valid = (CollectionUtils.isNotEmpty(prtList));
 		} 
 		return valid;

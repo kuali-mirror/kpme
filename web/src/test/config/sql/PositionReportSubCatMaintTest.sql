@@ -21,8 +21,8 @@ delete from PM_PSTN_RPT_CAT_T where pm_pstn_rpt_cat_id >= 5000;
 delete from PM_INSTITUTION_T where pm_institution_id >= 5000;
 delete from PM_PSTN_RPT_TYP_T where pm_pstn_rpt_typ_id >= 5000;
 
-insert into PM_PSTN_RPT_CAT_T (`pm_pstn_rpt_cat_id`, `pstn_rpt_cat`, `pstn_rpt_type`, `description`, `grp_key_cd`, `effdt`, `active`,  `timestamp`, `obj_id`, `ver_nbr` ) values ('5000', 'testPRC', 'testPRT', null, 'testInst-BL', '2012-01-01', 'Y', now(), uuid(), '1');
-insert into PM_PSTN_RPT_TYP_T (`pm_pstn_rpt_typ_id`, `pstn_rpt_typ`, `description`, `grp_key_cd`, `effdt`, `active`,  `timestamp`, `obj_id`, `ver_nbr` ) values ('5000', 'testPRT', null, 'testGK', '2012-01-01', 'Y', now(), uuid(), '1');
+insert into PM_PSTN_RPT_CAT_T (`pm_pstn_rpt_cat_id`, `pstn_rpt_cat`, `pstn_rpt_type`, `description`,  `effdt`, `active`,  `timestamp`, `obj_id`, `ver_nbr` ) values ('5000', 'testPRC', 'testPRT', null, '2012-01-01', 'Y', now(), uuid(), '1');
+insert into PM_PSTN_RPT_TYP_T (`pm_pstn_rpt_typ_id`, `pstn_rpt_typ`, `description`, `effdt`, `active`,  `timestamp`, `obj_id`, `ver_nbr` ) values ('5000', 'testPRT', null, '2012-01-01', 'Y', now(), uuid(), '1');
 -- INSERT INTO HR_LOCATION_T (HR_LOCATION_ID, LOCATION, DESCRIPTION, EFFDT, TIMESTAMP, TIMEZONE, ACTIVE) VALUES('1000','BL','Bloomington','2010-01-01','2012-08-21 09:44:28.0','America/Indianapolis','Y');
 -- INSERT INTO HR_LOCATION_T (HR_LOCATION_ID, LOCATION, DESCRIPTION, EFFDT, TIMESTAMP, TIMEZONE, ACTIVE) VALUES('1001','IN','Indiana','2010-01-01','2012-08-21 09:44:28.0','America/Indianapolis','Y');
 -- insert into KRLC_CMP_T (`campus_cd`, `campus_nm`, `campus_shrt_nm`, `campus_typ_cd`, `obj_id`, `ver_nbr`, `actv_ind`) values ('TS', null, null, null, uuid(), '1', 'Y');

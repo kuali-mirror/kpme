@@ -50,16 +50,16 @@ public class PmValidationUtilsTest extends PMIntegrationTestCase {
 	public void testValidatePositionReportType() {
 		DateTime aDate = INVALID_DATE;
 		String prt = "nonExist";
-		String groupKeyCode = "testGK";
-		boolean results = PmValidationUtils.validatePositionReportType(prt, groupKeyCode, aDate.toLocalDate()); // non-existing
+//		String groupKeyCode = "testGK";
+		boolean results = PmValidationUtils.validatePositionReportType(prt, aDate.toLocalDate()); // non-existing
 		Assert.assertFalse(results);
 		
 		prt = "testPRT";	
-		results = PmValidationUtils.validatePositionReportType(prt, groupKeyCode, aDate.toLocalDate());	// existing, but wrong date
+		results = PmValidationUtils.validatePositionReportType(prt, aDate.toLocalDate());	// existing, but wrong date
 		Assert.assertFalse(results);
 		
 		aDate = VALID_DATE;
-		results = PmValidationUtils.validatePositionReportType(prt, groupKeyCode, aDate.toLocalDate());  // existing, right date
+		results = PmValidationUtils.validatePositionReportType(prt, aDate.toLocalDate());  // existing, right date
 		Assert.assertTrue(results);
 	}
 

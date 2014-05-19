@@ -107,7 +107,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String groupKeyCode, LocalDate asOfDate);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, LocalDate asOfDate);
 
 	
 
@@ -137,7 +137,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate);
+//	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate);
 
 	
 
@@ -153,7 +153,7 @@ public interface PositionReportTypeService {
 
 	 */
 
-	public List<PositionReportType> getPrtListWithLocationAndDate(String location, LocalDate asOfDate);
+//	public List<PositionReportType> getPrtListWithLocationAndDate(String location, LocalDate asOfDate);
 
 	
 

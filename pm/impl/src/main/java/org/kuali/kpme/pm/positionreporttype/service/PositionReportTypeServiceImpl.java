@@ -43,8 +43,8 @@ public class PositionReportTypeServiceImpl implements PositionReportTypeService 
 	}
 
 	@Override
-	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String groupKeyCode, LocalDate asOfDate) {
-		return ModelObjectUtils.transform(positionReportTypeDao.getPositionReportTypeList(positionReportType, groupKeyCode, asOfDate),PositionReportTypeBo.toImmutable);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, LocalDate asOfDate) {
+		return ModelObjectUtils.transform(positionReportTypeDao.getPositionReportTypeList(positionReportType, asOfDate),PositionReportTypeBo.toImmutable);
 	}
 	
 	@Override
@@ -52,15 +52,15 @@ public class PositionReportTypeServiceImpl implements PositionReportTypeService 
 		return ModelObjectUtils.transform(positionReportTypeDao.getPositionReportTypeListByType(positionReportType),PositionReportTypeBo.toImmutable);
 	}
 	
-	@Override
-	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate) {
-		return ModelObjectUtils.transform(positionReportTypeDao.getPrtListWithInstitutionCodeAndDate(institutionCode, asOfDate),PositionReportTypeBo.toImmutable);
-	}
-
-	@Override
-	public List<PositionReportType> getPrtListWithLocationAndDate(String location,LocalDate asOfDate) {
-		return ModelObjectUtils.transform(positionReportTypeDao.getPrtListWithLocationAndDate(location, asOfDate),PositionReportTypeBo.toImmutable);
-	}
+//	@Override
+//	public List<PositionReportType> getPrtListWithInstitutionCodeAndDate(String institutionCode, LocalDate asOfDate) {
+//		return ModelObjectUtils.transform(positionReportTypeDao.getPrtListWithInstitutionCodeAndDate(institutionCode, asOfDate),PositionReportTypeBo.toImmutable);
+//	}
+//
+//	@Override
+//	public List<PositionReportType> getPrtListWithLocationAndDate(String location,LocalDate asOfDate) {
+//		return ModelObjectUtils.transform(positionReportTypeDao.getPrtListWithLocationAndDate(location, asOfDate),PositionReportTypeBo.toImmutable);
+//	}
 
 	@Override
 	public PositionReportType getPositionReportType(
