@@ -15,16 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.timesheet;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
-import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.tklm.TKLMIntegrationTestCase;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.time.workflow.service.TimesheetDocumentHeaderService;
 
 import java.util.List;
 
@@ -32,16 +30,13 @@ import java.util.List;
 @IntegrationTest
 public class TimesheetUtilsTest extends TKLMIntegrationTestCase {
 
-    //AssignmentService assignmentService = null;
-    AssignmentService assignmentService = null;
-    TimesheetDocumentHeaderService tsDocService = null;
     TimesheetDocument td = null;
 
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        td = TkServiceLocator.getTimesheetService().getTimesheetDocument((String) "5001");
+        td = TkServiceLocator.getTimesheetService().getTimesheetDocument("5001");
     }
 
     @Test
@@ -52,8 +47,8 @@ public class TimesheetUtilsTest extends TKLMIntegrationTestCase {
 
     @Test
     public void testGetTimesheetTimeblocksForProcessing() throws Exception {
-        List<TimeBlock> ttb =  TimesheetUtils.getTimesheetTimeblocksForProcessing(td, (boolean)true);
-        Assert.assertEquals(ttb.size(), 3);
+        List<TimeBlock> ttb =  TimesheetUtils.getTimesheetTimeblocksForProcessing(td, false);
+        Assert.assertEquals(2, ttb.size());
     }
 
     @Test
