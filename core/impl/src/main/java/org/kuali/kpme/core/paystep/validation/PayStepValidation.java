@@ -18,14 +18,14 @@ package org.kuali.kpme.core.paystep.validation;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
-import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.paystep.PayStepBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 @SuppressWarnings("deprecation")
-public class PayStepValidation extends HrKeyedBusinessObjectValidation {
+public class PayStepValidation extends MaintenanceDocumentRuleBase {
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -38,7 +38,6 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 		isValid &= validateSalaryGroup(payStep);
 		isValid &= validatePayGrade(payStep);
 		isValid &= validatePayGradeInSalaryGroup(payStep);
-		isValid &= this.validateGroupKeyCode(payStep);
 		
 		return isValid;
 	}
@@ -50,14 +49,25 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 			this.putFieldError("dataObject.payGrade", "error.existence", errorMes);
 			return false;
 		} else {
-			if (!aPayGrade.getGroupKeyCode().equals(payStep.getGroupKeyCode())) {
+			// TODO
+			// Figure out how to handle this validation once a collection of group keys gets added to Salary Group
+			/*
+			if(!ValidationUtils.wildCardMatch(aPayGrade.getInstitution(), payStep.getInstitution())) {
 				String[] params = new String[3];
-				params[0] = payStep.getGroupKeyCode();
-				params[1] = aPayGrade.getGroupKeyCode();
+				params[0] = payStep.getInstitution();
+				params[1] = aPayGrade.getInstitution();
 				params[2] = errorMes;
-				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
+				this.putFieldError("dataObject.institution", "institution.inconsistent", params);
 				return false;
 			}
+			if(!ValidationUtils.wildCardMatch(aPayGrade.getLocation(), payStep.getLocation())) {
+				String[] params = new String[3];
+				params[0] = payStep.getLocation();
+				params[1] = aPayGrade.getLocation();
+				params[2] = errorMes;
+				this.putFieldError("dataObject.location", "location.inconsistent", params);
+				return false;
+			}*/
 		}
 		return true;
 	}
@@ -66,15 +76,9 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 		SalaryGroup aSalGroup = HrServiceLocator.getSalaryGroupService().getSalaryGroup(payStep.getSalaryGroup(), payStep.getEffectiveLocalDate());
 		String errorMes = "SalaryGroup '" + payStep.getSalaryGroup() + "'";
 		if(aSalGroup != null) {
-			/*if (!aSalGroup.getGroupKeyCode().equals(payStep.getGroupKeyCode())) {
-				String[] params = new String[3];
-				params[0] = payStep.getGroupKeyCode();
-				params[1] = aSalGroup.getGroupKeyCode();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
-				return false;
-			}*/
-			
+			// TODO
+			// Figure out how to handle this validation once a collection of group keys gets added to Salary Group
+			/*
 			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), payStep.getInstitution())) {
 				String[] params = new String[3];
 				params[0] = payStep.getInstitution();
@@ -90,8 +94,7 @@ public class PayStepValidation extends HrKeyedBusinessObjectValidation {
 				params[2] = errorMes;
 				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
-			}
-			
+			}*/
 			
 		} else {
 			this.putFieldError("dataObject.salaryGroup", "error.existence", errorMes);

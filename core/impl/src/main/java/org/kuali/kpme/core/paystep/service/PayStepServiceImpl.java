@@ -41,10 +41,10 @@ public class PayStepServiceImpl implements PayStepService {
 	}
 
 	@Override
-	public List<PayStep> getPaySteps(String payStep, String groupKeyCode,
+	public List<PayStep> getPaySteps(String payStep,
 			String salaryGroup, String payGrade, String history, String active) {
 		// TODO Auto-generated method stub
-		return ModelObjectUtils.transform(payStepDao.getPaySteps(payStep,groupKeyCode,salaryGroup,payGrade,history,active),PayStepBo.toImmutable);
+		return ModelObjectUtils.transform(payStepDao.getPaySteps(payStep,salaryGroup,payGrade,history,active),PayStepBo.toImmutable);
 	}
 
 }

@@ -23,18 +23,15 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.paystep.PayStep;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBoTest;
 
 public class PayStepBoTest {
 
 	    private static Map<String, PayStep> testPayStepBos;
-	    public static PayStep.Builder payStepBuilder = PayStep.Builder.create("ISU-IA","TST-PAYSTEP");
+	    public static PayStep.Builder payStepBuilder = PayStep.Builder.create("TST-PAYSTEP");
 	    static {
 	    	
 	    	testPayStepBos = new HashMap<String, PayStep>();
-	        payStepBuilder.setGroupKeyCode("ISU-IA");
 	        payStepBuilder.setPmPayStepId("KPME-TEST-0001");
 	        payStepBuilder.setPayStep("TST-PAYSTEP");
 	        payStepBuilder.setPayGrade("PS5");
@@ -51,8 +48,7 @@ public class PayStepBoTest {
 	        payStepBuilder.setId(payStepBuilder.getPmPayStepId());
 			payStepBuilder.setEffectiveLocalDate(new LocalDate(2012, 3, 1));
 			payStepBuilder.setCreateTime(DateTime.now());
-	        
-	        payStepBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
+			
 	        testPayStepBos.put(payStepBuilder.getPayStep(), payStepBuilder.build());
 	        
 	    }

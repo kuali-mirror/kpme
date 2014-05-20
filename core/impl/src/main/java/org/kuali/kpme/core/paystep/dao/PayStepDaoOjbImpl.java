@@ -43,7 +43,7 @@ public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<PayStepBo> getPaySteps(String payStep, String groupKeyCode,
+	public List<PayStepBo> getPaySteps(String payStep, 
 			String salaryGroup, String payGrade, String history, String active) {
 		List<PayStepBo> results = new ArrayList<PayStepBo>();
 
@@ -53,8 +53,6 @@ public class PayStepDaoOjbImpl extends PlatformAwareDaoBaseOjb implements
 		// Also, changed addEqualTo to addLike
 		if(StringUtils.isNotBlank(payStep))
 			crit.addLike("UPPER(payStep)", payStep.toUpperCase());
-		if(StringUtils.isNotBlank(groupKeyCode))
-			crit.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase());
 		if(StringUtils.isNotBlank(salaryGroup))
 			crit.addLike("UPPER(salaryGroup)", salaryGroup.toUpperCase());
 		if(StringUtils.isNotBlank(payGrade))

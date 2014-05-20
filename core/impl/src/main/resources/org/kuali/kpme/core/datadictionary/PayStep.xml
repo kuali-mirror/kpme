@@ -21,7 +21,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="PayStep" parent="PayStep-parentBean" />
-	<bean id="PayStep-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
+	<bean id="PayStep-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.paystep.PayStepBo" />
 		<property name="attributes">
 			<list merge="true">
@@ -135,7 +135,7 @@
 		<property name="title" value="Pay Step Inquiry" />
 		<property name="items">
 			<list>
-				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+				<bean parent="Uif-Disclosure-GridSection">
 					<property name="layoutManager.numberOfColumns" value="2" />
 					<property name="items">
 						<list merge="true">
@@ -164,9 +164,10 @@
   	<property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStepBo"/>
     <property name="items">
       <list merge="true">
-      	<bean parent="KPMEGroupKeyed-MaintenanceGridSection">
+      	<bean parent="Uif-MaintenanceGridSection">
 	      	<property name="items">
 	      		<list merge="true">
+	      			<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 					<bean parent="Uif-InputField" p:propertyName="payStep" p:required="true"/>
 					<bean parent="Uif-InputField" p:propertyName="salaryGroup" p:required="true">
 						<property name="quickfinder">
@@ -205,7 +206,7 @@
   </bean>
 	
   <!-- KRAD Lookup View Definition -->
-  <bean id="PayStep-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
+  <bean id="PayStep-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Pay Step Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.paystep.PayStepBo" />
     <property name="criteriaFields">

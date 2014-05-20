@@ -53,8 +53,6 @@ import org.w3c.dom.Element;
     PayStep.Elements.EFFECTIVE_LOCAL_DATE,
     PayStep.Elements.CREATE_TIME,
     PayStep.Elements.USER_PRINCIPAL_ID,
-    PayStep.Elements.GROUP_KEY,
-    PayStep.Elements.GROUP_KEY_CODE,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PayStep
@@ -92,10 +90,6 @@ public final class PayStep
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = true)
-    private final String groupKeyCode;
-    @XmlElement(name = Elements.GROUP_KEY, required = true)
-    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -120,8 +114,6 @@ public final class PayStep
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKey = null;
-        this.groupKeyCode = null;
     }
 
     private PayStep(Builder builder) {
@@ -140,8 +132,6 @@ public final class PayStep
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
-        this.groupKeyCode = builder.getGroupKeyCode();
     }
 
     @Override
@@ -219,16 +209,6 @@ public final class PayStep
         return this.userPrincipalId;
     }
 
-    @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
-
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
-
 
     /**
      * A builder which can be used to construct {@link PayStep} instances.  Enforces the constraints of the {@link PayStepContract}.
@@ -253,16 +233,13 @@ public final class PayStep
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
 
-        private Builder(String groupKeyCode, String payStep) {
-        	setGroupKeyCode(groupKeyCode);
+        private Builder(String payStep) {
         	setPayStep(payStep);
         }
 
-        public static Builder create(String groupKeyCode, String payStep) {
-            return new Builder(groupKeyCode,payStep);
+        public static Builder create(String payStep) {
+            return new Builder(payStep);
         }
 
         public static Builder create(PayStepContract contract) {
@@ -270,7 +247,7 @@ public final class PayStep
                 throw new IllegalArgumentException("contract was null");
             }
 
-            Builder builder = create(contract.getGroupKeyCode(),contract.getPayStep());
+            Builder builder = create(contract.getPayStep());
             builder.setCompRate(contract.getCompRate());
             builder.setStepNumber(contract.getStepNumber());
             builder.setPayGrade(contract.getPayGrade());
@@ -285,7 +262,6 @@ public final class PayStep
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -368,16 +344,6 @@ public final class PayStep
             return this.userPrincipalId;
         }
 
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
-        }
-
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return this.groupKey;
-        }
-
         public void setCompRate(BigDecimal compRate) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.compRate = compRate;
@@ -455,18 +421,6 @@ public final class PayStep
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.userPrincipalId = userPrincipalId;
         }
-
-        public void setGroupKeyCode(String groupKeyCode) {
-            if (StringUtils.isWhitespace(groupKeyCode)) {
-                throw new IllegalArgumentException("groupKeyCode is blank");
-            }
-            this.groupKeyCode = groupKeyCode;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
-        }
-
     }
 
 
@@ -501,8 +455,6 @@ public final class PayStep
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        final static String GROUP_KEY = "groupKey";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
 
     }
 

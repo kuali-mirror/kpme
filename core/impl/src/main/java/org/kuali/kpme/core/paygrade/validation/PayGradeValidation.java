@@ -17,14 +17,14 @@ package org.kuali.kpme.core.paygrade.validation;
 
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
-import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public class PayGradeValidation extends HrKeyedBusinessObjectValidation {
+public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = true;
@@ -34,7 +34,6 @@ public class PayGradeValidation extends HrKeyedBusinessObjectValidation {
 			PayGradeBo aPayGrade = (PayGradeBo) pbo;
 			valid &= this.validateSalGroup(aPayGrade);
 			valid &= this.validateRateAttrubutes(aPayGrade);
-			valid &= this.validateGroupKeyCode(aPayGrade);
 		}
 		return valid;
 	}
@@ -46,16 +45,9 @@ public class PayGradeValidation extends HrKeyedBusinessObjectValidation {
 			this.putFieldError("dataObject.salGroup", "error.existence", errorMes);
 			return false;
 		} else {
+			// TODO
+			// Figure out how to handle this validation once a collection of group keys gets added to Salary Group
 			/*
-			if (!aSalGroup.getGroupKeyCode().equals(aPayGrade.getGroupKeyCode())) {
-				String[] params = new String[3];
-				params[0] = aPayGrade.getGroupKeyCode();
-				params[1] = aSalGroup.getGroupKeyCode();
-				params[2] = errorMes;
-				this.putFieldError("dataObject.groupKeyCode", "groupKeyCode.inconsistent", params);
-				return false;
-			}*/
-			
 			if(!ValidationUtils.wildCardMatch(aSalGroup.getInstitution(), aPayGrade.getInstitution())) {
 				String[] params = new String[3];
 				params[0] = aPayGrade.getInstitution();
@@ -71,7 +63,7 @@ public class PayGradeValidation extends HrKeyedBusinessObjectValidation {
 				params[2] = errorMes;
 				this.putFieldError("dataObject.location", "location.inconsistent", params);
 				return false;
-			}
+			}*/
 		} 
 		return true;
 	}

@@ -18,7 +18,6 @@ package org.kuali.kpme.core.api.paygrade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -30,8 +29,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.KPMEConstants;
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -58,16 +55,14 @@ import org.w3c.dom.Element;
         PayGrade.Elements.EFFECTIVE_LOCAL_DATE,
         CoreConstants.CommonElements.VERSION_NUMBER,
         CoreConstants.CommonElements.OBJECT_ID,
-        CoreConstants.CommonElements.FUTURE_ELEMENTS,
-        KPMEConstants.CommonElements.GROUP_KEY_CODE,
-        KPMEConstants.CommonElements.GROUP_KEY,
+        CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PayGrade
         extends AbstractDataTransferObject
         implements PayGradeContract
 {
-	private static final long serialVersionUID = 6236986099095958704L;
-	@XmlElement(name = Elements.RATE_TYPE, required = false)
+
+    @XmlElement(name = Elements.RATE_TYPE, required = false)
     private final String rateType;
     @XmlElement(name = Elements.MIN_RATE, required = false)
     private final BigDecimal minRate;
@@ -104,10 +99,6 @@ public final class PayGrade
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
-    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY_CODE, required = true)
-    private final String groupKeyCode;
-    @XmlElement(name = KPMEConstants.CommonElements.GROUP_KEY, required = false)
-    private final HrGroupKey groupKey;
 
     /**
      * Private constructor used only by JAXB.
@@ -130,8 +121,6 @@ public final class PayGrade
         this.id = null;
         this.createTime = null;
         this.effectiveLocalDate = null;
-		this.groupKeyCode = null;
-        this.groupKey = null;
     }
 
     private PayGrade(Builder builder) {
@@ -151,9 +140,8 @@ public final class PayGrade
         this.id = builder.getId();
         this.createTime = builder.getCreateTime();
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
-		this.groupKeyCode = builder.getGroupKeyCode();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
+
 
     @Override
     public String getRateType() {
@@ -234,16 +222,7 @@ public final class PayGrade
     public LocalDate getEffectiveLocalDate() {
         return this.effectiveLocalDate;
     }
-    
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
-    
-    @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
+
 
     /**
      * A builder which can be used to construct {@link PayGrade} instances.  Enforces the constraints of the {@link PayGradeContract}.
@@ -252,8 +231,8 @@ public final class PayGrade
     public final static class Builder
             implements Serializable, PayGradeContract, ModelBuilder
     {
-		private static final long serialVersionUID = -6301960774708803831L;
-		private String rateType;
+
+        private String rateType;
         private BigDecimal minRate;
         private BigDecimal maxRate;
         private String hrPayGradeId;
@@ -269,24 +248,21 @@ public final class PayGrade
         private String id;
         private DateTime createTime;
         private LocalDate effectiveLocalDate;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
 
-        private Builder(String payGrade, String salGroup, String groupKeyCode) {
+        private Builder(String payGrade, String salGroup) {
             setPayGrade(payGrade);
             setSalGroup(salGroup);
-			setGroupKeyCode(groupKeyCode);
         }
 
-        public static Builder create(String payGrade, String salGroup, String groupKeyCode) {
-            return new Builder(payGrade, salGroup, groupKeyCode);
+        public static Builder create(String payGrade, String salGroup) {
+            return new Builder(payGrade, salGroup);
         }
 
         public static Builder create(PayGradeContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            Builder builder = create(contract.getPayGrade(), contract.getSalGroup(), contract.getGroupKeyCode());
+            Builder builder = create(contract.getPayGrade(), contract.getSalGroup());
             builder.setRateType(contract.getRateType());
             builder.setMinRate(contract.getMinRate());
             builder.setMaxRate(contract.getMaxRate());
@@ -303,23 +279,12 @@ public final class PayGrade
             builder.setId(contract.getId());
             builder.setCreateTime(contract.getCreateTime());
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
         public PayGrade build() {
             return new PayGrade(this);
         }
-
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
-        }
-        
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return groupKey;
-        }      
 
         @Override
         public String getRateType() {
@@ -399,14 +364,6 @@ public final class PayGrade
         @Override
         public LocalDate getEffectiveLocalDate() {
             return this.effectiveLocalDate;
-        }
-
-        public void setGroupKeyCode(String groupKeyCode) {
-            this.groupKeyCode = groupKeyCode;
-        }
-        
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
         }
 
         public void setRateType(String rateType) {
@@ -514,6 +471,7 @@ public final class PayGrade
         final static String ID = "id";
         final static String CREATE_TIME = "createTime";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
+
     }
-   
+
 }

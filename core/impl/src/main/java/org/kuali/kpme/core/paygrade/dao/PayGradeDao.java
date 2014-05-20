@@ -38,7 +38,7 @@ public interface PayGradeDao {
 	
 	public int getPayGradeCount(String payGrade);
 
-    List<PayGradeBo> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String groupKeyCode, String active, String showHistory);
+    List<PayGradeBo> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String active, String showHistory);
     /**
      * Retreives a list of pay grades active on the salary group as of a specific date.
      * @param salaryGroup

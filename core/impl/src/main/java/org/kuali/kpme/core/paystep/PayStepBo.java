@@ -21,18 +21,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.paystep.PayStep;
 import org.kuali.kpme.core.api.paystep.PayStepContract;
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PayStepBo extends HrKeyedBusinessObject implements Comparable, PayStepContract {
+public class PayStepBo extends HrBusinessObject implements Comparable, PayStepContract {
 
 	static class KeyFields {
-		private static final String GROUP_KEY_CODE = "groupKeyCode";
 		private static final String PAY_STEP = "payStep";
 	}
 
@@ -68,7 +66,6 @@ public class PayStepBo extends HrKeyedBusinessObject implements Comparable, PayS
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 			.add(KeyFields.PAY_STEP)
-			.add(KeyFields.GROUP_KEY_CODE)
 			.build();
 
 	private static final long serialVersionUID = 1L;
@@ -86,7 +83,6 @@ public class PayStepBo extends HrKeyedBusinessObject implements Comparable, PayS
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.PAY_STEP, this.getPayStep())
-				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 
@@ -231,8 +227,6 @@ public class PayStepBo extends HrKeyedBusinessObject implements Comparable, PayS
 		ps.setCompRate(im.getCompRate());
 		ps.setServiceAmount(im.getServiceAmount());
 		ps.setServiceUnit(im.getServiceUnit());
-		ps.setGroupKeyCode(im.getGroupKeyCode());        
-		ps.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
 
 		// finally copy over the common fields into ps from im
 		copyCommonFields(ps, im);

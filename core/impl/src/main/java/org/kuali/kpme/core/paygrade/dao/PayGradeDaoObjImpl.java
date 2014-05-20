@@ -69,7 +69,7 @@ public class PayGradeDaoObjImpl  extends PlatformAwareDaoBaseOjb implements PayG
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PayGradeBo> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String groupKeyCode, String active, String showHistory) {
+    public List<PayGradeBo> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String active, String showHistory) {
         List<PayGradeBo> results = new ArrayList<PayGradeBo>();
     	
     	Criteria root = new Criteria();
@@ -85,10 +85,6 @@ public class PayGradeDaoObjImpl  extends PlatformAwareDaoBaseOjb implements PayG
         // KPME-2700
         if (StringUtils.isNotBlank(salGroup)) {
             root.addLike("UPPER(salGroup)", salGroup.toUpperCase()); // KPME-2695
-        }
-        
-        if (StringUtils.isNotBlank(groupKeyCode)) {
-        	root.addLike("groupKeyCode", groupKeyCode);
         }
         
         if (StringUtils.isNotBlank(active)) {

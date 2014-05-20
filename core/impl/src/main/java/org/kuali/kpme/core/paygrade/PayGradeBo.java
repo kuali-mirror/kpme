@@ -20,25 +20,22 @@ import java.sql.Timestamp;
 
 import org.kuali.kpme.core.api.paygrade.PayGrade;
 import org.kuali.kpme.core.api.paygrade.PayGradeContract;
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PayGradeBo extends HrKeyedBusinessObject implements PayGradeContract {
+public class PayGradeBo extends HrBusinessObject implements PayGradeContract {
 
-	static class KeyFields {
-		private static final String SAL_GROUP = "salGroup";
-		private static final String PAY_GRADE = "payGrade";
-	}
-
+	private static final String SAL_GROUP = "salGroup";
+	private static final String PAY_GRADE = "payGrade";
+	
 	private static final long serialVersionUID = -5736949952127760566L;
 	//KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(KeyFields.PAY_GRADE)
-            .add(KeyFields.SAL_GROUP)
+            .add(PAY_GRADE)
+            .add(SAL_GROUP)
             .build();
 
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayGrade";
@@ -57,8 +54,8 @@ public class PayGradeBo extends HrKeyedBusinessObject implements PayGradeContrac
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(KeyFields.PAY_GRADE, this.getPayGrade())
-			.put(KeyFields.SAL_GROUP, this.getSalGroup())
+			.put(PAY_GRADE, this.getPayGrade())
+			.put(SAL_GROUP, this.getSalGroup())
 			.build();
 	}
     
@@ -165,8 +162,8 @@ public class PayGradeBo extends HrKeyedBusinessObject implements PayGradeContrac
         pg.setMaxRate(im.getMaxRate());
         pg.setMidPointRate(im.getMidPointRate());
         pg.setMaxHiringRate(im.getMaxHiringRate());
-        pg.setGroupKeyCode(im.getGroupKeyCode());
-        pg.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+
+
         pg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
         pg.setActive(im.isActive());
         if (im.getCreateTime() != null) {

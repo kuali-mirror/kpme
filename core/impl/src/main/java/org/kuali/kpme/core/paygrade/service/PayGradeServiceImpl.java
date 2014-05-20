@@ -76,8 +76,8 @@ public class PayGradeServiceImpl implements PayGradeService {
 	}
 
     @Override
-    public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String groupKeyCode, String active, String showHistory) {
-        return ModelObjectUtils.transform(payGradeDao.getPayGrades(payGrade, payGradeDescr, salGroup, groupKeyCode, active, showHistory), toPayGrade);
+    public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String salGroup, String active, String showHistory) {
+        return ModelObjectUtils.transform(payGradeDao.getPayGrades(payGrade, payGradeDescr, salGroup, active, showHistory), toPayGrade);
     }
 
 }

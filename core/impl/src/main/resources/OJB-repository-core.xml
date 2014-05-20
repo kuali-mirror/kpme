@@ -445,7 +445,7 @@
     </class-descriptor>
 
     <!--  PayGrade -->
-    <!-- Business Keys - [payGrade : groupKeyCode: effectiveDate : timestamp] -->
+    <!-- Business Keys - [payGrade : effectiveDate : timestamp] -->
     <class-descriptor class="org.kuali.kpme.core.paygrade.PayGradeBo" table="HR_PAY_GRADE_T">
         <field-descriptor name="hrPayGradeId"       column="HR_PAY_GRADE_ID"    jdbc-type="VARCHAR"     length="60" nullable="false" autoincrement="true" primarykey="true" sequence-name="HR_PAY_GRADE_S" />
         <field-descriptor name="payGrade"           column="PAY_GRADE"          jdbc-type="VARCHAR"     length="20" />
@@ -462,7 +462,6 @@
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
-        <field-descriptor name="groupKeyCode"  		column="GRP_KEY_CD"        	jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
 
     <!--  Position -->
@@ -495,7 +494,7 @@
     </class-descriptor>
 
     <!-- PayStep -->
-    <!-- Business Keys - [payStep : groupKeyCode: effectiveDate : timestamp] -->
+    <!-- Business Keys - [payStep : effectiveDate : timestamp] -->
 	<class-descriptor class="org.kuali.kpme.core.paystep.PayStepBo" table="PM_PAY_STEP_T">
 		<field-descriptor name="pmPayStepId"    		column="PM_PAY_STEP_ID"			 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PAY_STEP_S"  />
         <field-descriptor name="payStep"    			column="PAY_STEP"				 jdbc-type="VARCHAR"     length="10"		nullable="false" />
@@ -511,7 +510,6 @@
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" 		/>
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" 	/>
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
-        <field-descriptor name="groupKeyCode"  			column="GRP_KEY_CD"        		jdbc-type="VARCHAR"      length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
 
 	<!-- Chart of Account -->	

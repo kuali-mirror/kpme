@@ -21,16 +21,34 @@
     
     <changeSet id="1" author="tkagata" context="kpme-client-bootstrap">
     
+    	<dropColumn tableName="HR_PAY_GRADE_T" columnName="INSTITUTION" />
+    	<dropColumn tableName="HR_PAY_GRADE_T" columnName="LOCATION" /> 
+
+    	<addColumn tableName="HR_PAY_GRADE_T">
+   			<column name="INSTITUTION" type="VARCHAR(15)" defaultValue="*">
+            	<constraints nullable="false" />
+            </column>
+            <column name="LOCATION" type="VARCHAR(15)" defaultValue="*">
+            	<constraints nullable="false" />
+            </column>
+        </addColumn>
+    	
+    </changeSet>
+    
+    <changeSet id="2" author="tkagata" context="kpme-client-bootstrap">
+    
     	<dropColumn tableName="PM_PAY_STEP_T" columnName="INSTITUTION" />
     	<dropColumn tableName="PM_PAY_STEP_T" columnName="LOCATION" /> 
-    	
-        <addColumn tableName="PM_PAY_STEP_T">
-            <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
+
+    	<addColumn tableName="PM_PAY_STEP_T">
+   			<column name="INSTITUTION" type="VARCHAR(15)" defaultValue="*">
+            	<constraints nullable="false" />
+            </column>
+            <column name="LOCATION" type="VARCHAR(15)" defaultValue="*">
+            	<constraints nullable="false" />
+            </column>
         </addColumn>
-        <update tableName="PM_PAY_STEP_T">
-            <column name="GRP_KEY_CD" value="DEFAULT" />
-        </update>
-        <addNotNullConstraint columnName="GRP_KEY_CD" tableName="PM_PAY_STEP_T" columnDataType="VARCHAR(30)"/>
+    	
     </changeSet>
    
 </databaseChangeLog>
