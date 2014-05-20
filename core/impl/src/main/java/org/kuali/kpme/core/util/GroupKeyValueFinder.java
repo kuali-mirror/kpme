@@ -39,7 +39,7 @@ public class GroupKeyValueFinder extends UifKeyValuesFinderBase {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
 		HrKeyedBusinessObject anHrKeyObject = (HrKeyedBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
-		LocalDate aDate = anHrKeyObject.getEffectiveLocalDate() != null ? anHrKeyObject.getEffectiveLocalDate() : null;
+		LocalDate aDate = LocalDate.fromDateFields(anHrKeyObject.getRelativeEffectiveDate());
 
 		if (aDate != null) {
 			List<? extends HrGroupKey> groupKeyList = HrServiceLocator.getHrGroupKeyService().getAllActiveHrGroupKeys(aDate);
