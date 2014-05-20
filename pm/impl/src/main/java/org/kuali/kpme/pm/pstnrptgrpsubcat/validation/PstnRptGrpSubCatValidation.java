@@ -32,7 +32,6 @@ public class PstnRptGrpSubCatValidation extends HrKeyedBusinessObjectValidation 
 		if (prgsc != null) {
 			valid = true;
 			valid &= this.validatePstnRptSubCat(prgsc);
-			valid &= this.validateGroupKeyCode(prgsc);
 			valid &= this.validatePstnRptGroup(prgsc);
 			
 		}

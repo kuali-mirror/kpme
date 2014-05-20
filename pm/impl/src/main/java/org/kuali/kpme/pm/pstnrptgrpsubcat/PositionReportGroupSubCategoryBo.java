@@ -28,7 +28,6 @@ public class PositionReportGroupSubCategoryBo extends HrKeyedBusinessObject impl
 	static class KeyFields {
 		private static final String POSITION_REPORT_GROUP = "positionReportGroup";
 		private static final String POSITION_REPORT_SUB_CAT = "positionReportSubCat";
-		private static final String GROUP_KEY_CODE = "groupKeyCode";
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -36,7 +35,6 @@ public class PositionReportGroupSubCategoryBo extends HrKeyedBusinessObject impl
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 		     .add(KeyFields.POSITION_REPORT_SUB_CAT)
 		     .add(KeyFields.POSITION_REPORT_GROUP)
-		     .add(KeyFields.GROUP_KEY_CODE)
 		     .build();
 	
 	private String pmPstnRptGrpSubCatId;
@@ -50,7 +48,6 @@ public class PositionReportGroupSubCategoryBo extends HrKeyedBusinessObject impl
 		return new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.POSITION_REPORT_SUB_CAT, this.getPositionReportSubCat())
 				.put(KeyFields.POSITION_REPORT_GROUP, this.getPositionReportGroup())
-				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
 	
@@ -115,11 +112,9 @@ public class PositionReportGroupSubCategoryBo extends HrKeyedBusinessObject impl
 		// copy over BO-specific fields
 		retVal.setPositionReportGroup(im.getPositionReportGroup());
 		retVal.setPositionReportSubCat(im.getPositionReportSubCat());
-		retVal.setGroupKeyCode(im.getGroupKeyCode());
 		retVal.setPstnRptGrpSubCat(im.getPstnRptGrpSubCat());
 		retVal.setPmPstnRptGrpSubCatId(im.getPmPstnRptGrpSubCatId());
 		retVal.setDescription(im.getDescription());
-		retVal.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
 		
 		// fnally copy over fields common to all Hr BOs
 		copyCommonFields(retVal, im);		

@@ -48,8 +48,6 @@ import org.w3c.dom.Element;
     PositionReportGroupSubCategory.Elements.EFFECTIVE_LOCAL_DATE,
     PositionReportGroupSubCategory.Elements.CREATE_TIME,
     PositionReportGroupSubCategory.Elements.USER_PRINCIPAL_ID,
-    PositionReportGroupSubCategory.Elements.GROUP_KEY_CODE,
-    PositionReportGroupSubCategory.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PositionReportGroupSubCategory extends AbstractDataTransferObject implements PositionReportGroupSubCategoryContract {
@@ -80,10 +78,6 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
-    private final String groupKeyCode;
-    @XmlElement(name = Elements.GROUP_KEY, required = false)
-    private final HrGroupKey groupKey;
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
 
@@ -104,8 +98,6 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKeyCode = null;
-        this.groupKey = null;
     }
 
     private PositionReportGroupSubCategory(Builder builder) {
@@ -121,8 +113,6 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKeyCode = builder.getGroupKeyCode();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
@@ -185,16 +175,6 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
         return this.userPrincipalId;
     }
 
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
-
-    @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
-
 
     /**
      * A builder which can be used to construct {@link PositionReportGroupSubCategory} instances.  Enforces the constraints of the {@link PositionReportGroupSubCategoryContract}.
@@ -216,24 +196,21 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
 
-        private Builder(String positionReportGroup, String positionReportSubCat, String groupKeyCode) {
+        private Builder(String positionReportGroup, String positionReportSubCat) {
             setPositionReportGroup(positionReportGroup);
             setPositionReportSubCat(positionReportSubCat);
-            setGroupKeyCode(groupKeyCode);
         }
 
-        public static Builder create(String positionReportGroup, String positionReportSubCat, String groupKeyCode) {
-            return new Builder(positionReportGroup, positionReportSubCat, groupKeyCode);
+        public static Builder create(String positionReportGroup, String positionReportSubCat) {
+            return new Builder(positionReportGroup, positionReportSubCat);
         }
 
         public static Builder create(PositionReportGroupSubCategoryContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            Builder builder = create(contract.getPositionReportGroup(), contract.getPositionReportSubCat(), contract.getGroupKeyCode());
+            Builder builder = create(contract.getPositionReportGroup(), contract.getPositionReportSubCat());
             builder.setPstnRptGrpSubCat(contract.getPstnRptGrpSubCat());
             builder.setPmPstnRptGrpSubCatId(contract.getPmPstnRptGrpSubCatId());
             builder.setDescription(contract.getDescription());
@@ -244,7 +221,6 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -312,15 +288,6 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
             return this.userPrincipalId;
         }
 
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
-        }
-
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return this.groupKey;
-        }
 
         public void setPstnRptGrpSubCat(String pstnRptGrpSubCat) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
@@ -386,18 +353,6 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
             this.userPrincipalId = userPrincipalId;
         }
 
-        public void setGroupKeyCode(String groupKeyCode) {
-        	if (StringUtils.isBlank(groupKeyCode)) {
-                throw new IllegalArgumentException("group key code is blank");
-            }
-            this.groupKeyCode = groupKeyCode;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.groupKey = groupKey;
-        }
-
     }
 
 
@@ -429,8 +384,6 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
-        final static String GROUP_KEY = "groupKey";
 
     }
 
