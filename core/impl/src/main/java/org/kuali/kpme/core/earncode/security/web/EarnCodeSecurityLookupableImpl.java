@@ -15,11 +15,6 @@
  */
 package org.kuali.kpme.core.earncode.security.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
@@ -27,10 +22,12 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
-import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class EarnCodeSecurityLookupableImpl extends KPMELookupableImpl{
 
@@ -40,7 +37,7 @@ public class EarnCodeSecurityLookupableImpl extends KPMELookupableImpl{
                     return EarnCodeSecurityBo.from(input);
                 };
             };
-            
+
 	@Override
 	protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
 		String salGroup = searchCriteria.get("hrSalGroup");
@@ -52,10 +49,11 @@ public class EarnCodeSecurityLookupableImpl extends KPMELookupableImpl{
         String active = searchCriteria.get("active");
         String showHist = searchCriteria.get("history");
         String earnCodeType = searchCriteria.get("earnCodeType");
-        
+        String groupKeyCode = searchCriteria.get("groupKeyCode");
+
         List<EarnCodeSecurityBo> searchResults = new ArrayList<EarnCodeSecurityBo>();
         List<EarnCodeSecurityBo> rawSearchResults = ModelObjectUtils.transform(HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
-                        TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType), toEarnCodeSecurityBo );
+                        TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType, groupKeyCode), toEarnCodeSecurityBo );
         
         if(rawSearchResults != null && !rawSearchResults.isEmpty()) {
                 for(EarnCodeSecurityBo ecs : rawSearchResults) {

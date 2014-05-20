@@ -15,32 +15,22 @@
  */
 package org.kuali.kpme.core.api.earncode.security;
 
-import java.io.Serializable;
-import java.util.Collection;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.department.DepartmentContract;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.location.Location;
-import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
-import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.w3c.dom.Element;
 
-import org.kuali.kpme.core.api.job.Job;
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+import java.util.Collection;
 
 @XmlRootElement(name = EarnCodeSecurity.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
@@ -66,6 +56,8 @@ import org.kuali.kpme.core.api.job.Job;
     EarnCodeSecurity.Elements.EFFECTIVE_LOCAL_DATE,
     EarnCodeSecurity.Elements.CREATE_TIME,
     EarnCodeSecurity.Elements.USER_PRINCIPAL_ID,
+    EarnCodeSecurity.Elements.GROUP_KEY_CODE,
+    EarnCodeSecurity.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class EarnCodeSecurity
@@ -115,6 +107,10 @@ public final class EarnCodeSecurity
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
+    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
+    private final String groupKeyCode;
+    @XmlElement(name = Elements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -145,6 +141,8 @@ public final class EarnCodeSecurity
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
     }
 
     private EarnCodeSecurity(Builder builder) {
@@ -169,6 +167,8 @@ public final class EarnCodeSecurity
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
@@ -276,6 +276,16 @@ public final class EarnCodeSecurity
         return this.userPrincipalId;
     }
 
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
+    }
+
 
     /**
      * A builder which can be used to construct {@link EarnCodeSecurity} instances.  Enforces the constraints of the {@link EarnCodeSecurityContract}.
@@ -306,6 +316,8 @@ public final class EarnCodeSecurity
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -343,6 +355,8 @@ public final class EarnCodeSecurity
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -455,6 +469,16 @@ public final class EarnCodeSecurity
             return this.userPrincipalId;
         }
 
+        @Override
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
+        }
+
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return this.groupKey;
+        }
+
         public void setSalaryGroupObj(SalaryGroup.Builder salaryGroupObj) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.salaryGroupObj = salaryGroupObj;
@@ -560,6 +584,16 @@ public final class EarnCodeSecurity
             this.userPrincipalId = userPrincipalId;
         }
 
+        public void setGroupKeyCode(String groupKeyCode) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKey = groupKey;
+        }
+
     }
 
 
@@ -600,7 +634,8 @@ public final class EarnCodeSecurity
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
     }
 
 }

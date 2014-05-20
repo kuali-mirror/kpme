@@ -188,6 +188,7 @@ public class TimeBlockDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Time
         Criteria beginCriteria = new Criteria();
         Criteria endCriteria = new Criteria();
         Timestamp intervalStart = new Timestamp(interval.getStartMillis());
+
         Timestamp intervalEnd = new Timestamp(interval.getEndMillis());
         beginCriteria.addBetween("beginTimestamp", intervalStart, intervalEnd);
         endCriteria.addBetween("endTimestamp", intervalStart, intervalEnd);

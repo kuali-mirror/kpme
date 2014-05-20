@@ -299,7 +299,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         						approver, 
         						payrollProcessor, 
         						job.getGroupKey().getLocationId(),
-        						"Y", tb.getEndDateTime().toLocalDate());
+        						"Y", tb.getEndDateTime().toLocalDate(), job.getGroupKeyCode());
         				if(CollectionUtils.isNotEmpty(securityList)) {
         					Map<String, Object> earnCodeMap = new HashMap<String, Object>();
 	        	            earnCodeMap.put("earnCode", earnCode.getEarnCode());

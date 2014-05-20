@@ -15,14 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.timeblock.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -61,6 +53,9 @@ import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
 
@@ -515,7 +510,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					return true;
 				}
 
-				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), timeBlock.getEndDateTime().toLocalDate());
+				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), timeBlock.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
 				for(EarnCodeSecurityContract dec : deptEarnCodes){
 					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;
@@ -530,7 +525,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					return true;
 				}
 
-				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), timeBlock.getEndDateTime().toLocalDate());
+				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), timeBlock.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
 				for(EarnCodeSecurityContract dec : deptEarnCodes){
 					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;

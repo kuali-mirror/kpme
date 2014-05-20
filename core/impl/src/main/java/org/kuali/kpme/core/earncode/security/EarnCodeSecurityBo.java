@@ -15,30 +15,29 @@
  */
 package org.kuali.kpme.core.earncode.security;
 
-import java.sql.Timestamp;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-
-public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecurityContract {
+public class EarnCodeSecurityBo extends HrKeyedBusinessObject implements EarnCodeSecurityContract {
 
 	private static final String LOCATION = "location";
 	private static final String EARN_CODE = "earnCode";
 	private static final String HR_SAL_GROUP = "hrSalGroup";
 	private static final String DEPT = "dept";
+    private static final String GROUP_KEY_CODE = "groupKeyCode";
+
 
 	private static final long serialVersionUID = -4884673156883588639L;
 	
@@ -54,6 +53,7 @@ public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecu
             .add(HR_SAL_GROUP)
             .add(EARN_CODE)
             .add(LOCATION)
+            .add(GROUP_KEY_CODE)
             .build();
     
     
@@ -91,7 +91,7 @@ public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecu
 	private boolean employee;
 	private boolean approver;
 	private boolean payrollProcessor;  // KPME-2532
-	private String location;
+    private String location;
 	private String earnCodeType;
 	
 	private SalaryGroupBo salaryGroupObj;
@@ -108,6 +108,7 @@ public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecu
 			.put(HR_SAL_GROUP, this.getHrSalGroup())
 			.put(EARN_CODE, this.getEarnCode())
 			.put(LOCATION, this.getLocation())
+            .put(GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
     
@@ -179,11 +180,11 @@ public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecu
 	public String getDept() {
 		return dept;
 	}
-	
+
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	
+
 	public String getHrSalGroup() {
 		return hrSalGroup;
 	}
@@ -207,22 +208,22 @@ public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecu
 	public void setJobObj(JobBo jobObj) {
 		this.jobObj = jobObj;
 	}
-	
-	public LocationBo getLocationObj() {
-		return locationObj;
-	}
-	
-	public void setLocationObj(LocationBo locationObj) {
-		this.locationObj = locationObj;
-	}
-	
-	public String getLocation() {
-		return location;
-	}
-	
-	public void setLocation(String location) {
-		this.location = location;
-	}
+
+    public LocationBo getLocationObj() {
+        return locationObj;
+    }
+
+    public void setLocationObj(LocationBo locationObj) {
+        this.locationObj = locationObj;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
 	@Override
 	public String getUniqueKey() {
@@ -251,17 +252,20 @@ public class EarnCodeSecurityBo extends HrBusinessObject implements EarnCodeSecu
 	    ecs.setEmployee(im.isEmployee());
 		ecs.setApprover(im.isApprover());
 		ecs.setPayrollProcessor(im.isPayrollProcessor());
-		ecs.setLocation(im.getLocation());
 		ecs.setEarnCodeType(im.getEarnCodeType());
-		
+        ecs.setLocation(im.getLocation());
+
+        ecs.setGroupKeyCode(im.getGroupKeyCode());
+        ecs.setGroupKey(im.getGroupKey() == null ? null : HrGroupKeyBo.from(im.getGroupKey()));
+
 		ecs.setSalaryGroupObj(im.getSalaryGroupObj() == null ? null : SalaryGroupBo.from(im.getSalaryGroupObj()));
 		ecs.setDepartmentObj(im.getDepartmentObj() == null ? null : DepartmentBo.from(im.getDepartmentObj()));
 		ecs.setEarnCodeObj(im.getEarnCodeObj() == null ? null : EarnCodeBo.from(im.getEarnCodeObj()));
 		ecs.setJobObj(im.getJobObj() == null ? null : JobBo.from(im.getJobObj()));
-	    ecs.setLocationObj(im.getLocationObj() == null ? null : LocationBo.from(im.getLocationObj()));
-	    
+        ecs.setLocationObj(im.getLocationObj() == null ? null : LocationBo.from(im.getLocationObj()));
+
 	    copyCommonFields(ecs, im);
-	 
+
 	    return ecs;
 	}
 	

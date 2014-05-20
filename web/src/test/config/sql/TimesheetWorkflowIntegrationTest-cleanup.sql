@@ -15,3 +15,4 @@
 --
 
 update hr_job_t set std_hours='40.00' where PRINCIPAL_ID='admin'
+-- delete from hr_earn_code_security_t where hr_earn_code_security_id >= 500;

@@ -20,7 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.department.DepartmentBo;
+import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -29,14 +29,14 @@ import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 
+//public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
+    public class EarnCodeSecurityRule extends HrKeyedBusinessObjectValidation {
 	private boolean validateSalGroup(EarnCodeSecurityBo departmentEarnCode ) {
 		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getHrSalGroup(), departmentEarnCode.getEffectiveLocalDate())) {
 			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getHrSalGroup()+ "'");
@@ -47,10 +47,20 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 
 	private boolean validateDept(EarnCodeSecurityBo departmentEarnCode) {
+
 		if (StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER)) {
             return true;
         }
-		// KPME-3376
+
+        if ( (departmentEarnCode.getDepartmentObj() != null)
+            && (StringUtils.equals(departmentEarnCode.getDepartmentObj().getGroupKeyCode(), departmentEarnCode.getGroupKeyCode() ) ) ) {
+            return true;
+        } else {
+            this.putFieldError("dept", "error.department.groupkey.nomatch", departmentEarnCode.getDept());
+            return false;
+        }
+
+    	// KPME-3376
 		// We need groupKeyCode to validate a department, but since EarnCodeSecurityBo doesn't have it,
 		// we could validate a department based on EarnCodeSecurityBo's location, which is done in this.validateDeptForLocation(departmentEarnCode). 
 		// So, there is no need for the validation below.  If we ever add groupKeyCode to EarnCodeSecurityBo, use this validation with dept and groupkey code
@@ -58,7 +68,9 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		//	this.putFieldError("dept", "error.existence", "department '" + departmentEarnCode.getDept() + "'");
 		//	return false;
         //}
-        return this.validateDeptForLocation(departmentEarnCode);
+
+        //no longer needed since we now have groupKeyCode with a department
+        //return this.validateDeptForLocation(departmentEarnCode);
 	}
 
     //KPME-2630
@@ -68,7 +80,6 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
         }
         List<String> depts = HrServiceLocator.getDepartmentService().getDepartmentValuesWithLocation(departmentEarnCode.getLocation(), departmentEarnCode.getEffectiveLocalDate());
         if (depts.isEmpty()) {
-
             this.putFieldError("dept", "error.department.location.nomatch", departmentEarnCode.getDept());
             return false;
         } else {
@@ -99,15 +110,32 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 
 	private boolean validateLocation(EarnCodeSecurityBo departmentEarnCode) {
-		if (departmentEarnCode.getLocation() != null
-				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), departmentEarnCode.getEffectiveLocalDate()) && 
-				!StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER)) {
-			this.putFieldError("location", "error.existence", "location '"
-					+ departmentEarnCode.getLocation() + "'");
-			return false;
+        if (StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER))
+        {
+            return true;
+        }
+
+        if (departmentEarnCode.getLocation() == null)
+        {
+            return true;
+        }
+
+        if (ValidationUtils.validateLocation(departmentEarnCode.getLocation(), departmentEarnCode.getEffectiveLocalDate()))
+        {
+            if ( (departmentEarnCode.getGroupKey() != null) && (departmentEarnCode.getGroupKey().getLocationId() != null)
+                    && (StringUtils.equals(departmentEarnCode.getLocation(), departmentEarnCode.getGroupKey().getLocationId() ) ) ) {
+                return true;
+            }
+            else
+            {
+                this.putFieldError("location", "error.groupkey.location.nomatch", departmentEarnCode.getLocation());
+                return false;
+
+            }
 		} else {
-			return true;
-		}
+            this.putFieldError("location", "error.existence", "location '" + departmentEarnCode.getLocation() + "'");
+            return false;
+        }
 	}
 	
 	private boolean validateDepartmentCurrentUser(EarnCodeSecurityBo departmentEarnCode) {

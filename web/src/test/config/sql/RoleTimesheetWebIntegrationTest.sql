@@ -31,7 +31,7 @@ insert into hr_job_t (hr_job_id, PRINCIPAL_ID, JOB_NUMBER, EFFDT, dept, HR_SAL_G
 insert into hr_job_t (hr_job_id, PRINCIPAL_ID, JOB_NUMBER, EFFDT, dept, HR_SAL_GROUP, pay_grade, TIMESTAMP, OBJ_ID, VER_NBR, comp_rate, GRP_KEY_CD, std_hours, hr_paytype, active, primary_indicator, position_nbr, eligible_for_leave, FLSA_STATUS) values('2008', 'testuser4', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'IU-BL', '40.00', 'BW','Y',  'Y', 'N', 'Y', 'NE');
 
 # Adding Earncode Security
-insert into hr_earn_code_security_t (HR_EARN_CODE_SECURITY_ID,  DEPT, HR_SAL_GROUP,  EARN_CODE,  EMPLOYEE,  APPROVER, OBJ_ID, VER_NBR, LOCATION, ACTIVE, EFFDT, TIMESTAMP, EARN_CODE_TYPE, PAYROLLPROCESSOR) values ('1000', '%', '%', 'RGN', 'Y', 'Y', NULL, '1', 'BL', 'Y', '2010-01-01', '2010-01-01 08"08:08', 'T', 'N');
+insert into hr_earn_code_security_t (HR_EARN_CODE_SECURITY_ID,  DEPT, HR_SAL_GROUP,  EARN_CODE,  EMPLOYEE,  APPROVER, OBJ_ID, VER_NBR, LOCATION, ACTIVE, EFFDT, TIMESTAMP, EARN_CODE_TYPE, PAYROLLPROCESSOR, GRP_KEY_CD) values ('1000', '%', '%', 'RGN', 'Y', 'Y', NULL, '1', 'BL', 'Y', '2010-01-01', '2010-01-01 08"08:08', 'T', 'N', 'IU-BL');
 
 # Set up principal Calendars
 delete from hr_principal_attributes_t where hr_principal_attribute_id >= '1001' AND hr_principal_attribute_id <= '1010'

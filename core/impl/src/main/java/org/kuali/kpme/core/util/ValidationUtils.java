@@ -19,12 +19,10 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.accrualcategory.AccrualCategoryBo;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
-import org.kuali.kpme.core.api.authorization.DepartmentalRule;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
-import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinition;
 import org.kuali.kpme.core.api.earncode.group.EarnCodeGroupDefinitionContract;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.institution.Institution;
@@ -40,12 +38,7 @@ import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
-import org.kuali.kpme.core.kfs.coa.businessobject.Account;
-import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
-import org.kuali.kpme.core.kfs.coa.businessobject.ObjectCode;
-import org.kuali.kpme.core.kfs.coa.businessobject.Organization;
-import org.kuali.kpme.core.kfs.coa.businessobject.SubAccount;
-import org.kuali.kpme.core.kfs.coa.businessobject.SubObjectCode;
+import org.kuali.kpme.core.kfs.coa.businessobject.*;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -434,12 +427,12 @@ public class ValidationUtils {
 	   boolean valid = false;
 	   int count = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
-                       deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.isPayrollProcessor() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveLocalDate(), null);
+                       deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.isPayrollProcessor() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveLocalDate(), null, deptEarnCode.getGroupKeyCode());
        if(count == 1) {
     	   valid = true;
     	   count = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                    (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
-                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.isPayrollProcessor() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveLocalDate(), deptEarnCode.getHrEarnCodeSecurityId());
+                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.isPayrollProcessor() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveLocalDate(), deptEarnCode.getHrEarnCodeSecurityId(), deptEarnCode.getGroupKeyCode());
     	   if(count == 1) {
     		   valid = false;
     	   }

@@ -27,13 +27,18 @@ public interface EarnCodeSecurityService {
 	/** This should handle wild cards on department and hr_sal_group.
 	 * 
 	 */
+
+
     @Cacheable(value= EarnCodeSecurityContract.CACHE_NAME,
             key="'department=' + #p0" +
                     "+ '|' + 'hrSalGroup=' + #p1" +
                     "+ '|' + 'location=' + #p2" +
-                    "+ '|' + 'asOfDate=' + #p3")
-	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate);
-	
+                    "+ '|' + 'asOfDate=' + #p3" +
+                    "+ '|' + 'groupKeyCode=' + #p4")
+    public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate, String groupKeyCode);
+	//public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate);
+
+
 	/**
 	 * Fetch department earn code by id
 	 * @param hrDeptEarnCodeId
@@ -43,10 +48,11 @@ public interface EarnCodeSecurityService {
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
 	
     public List<EarnCodeSecurity> getEarnCodeSecuritiesByType(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
-    		LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String earnCodeType);
-    
+    		LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String earnCodeType, String groupKeyCode);
+
+    //not used anywhere, mlemons??
 	public List<EarnCodeSecurity> searchEarnCodeSecurities(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
-			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String groupKeyCode);
 	
     /**
      * get the count of Department Earn Code by given parameters
@@ -60,11 +66,15 @@ public interface EarnCodeSecurityService {
 	 * @param active
 	 * @param effdt
 	 * @param hrDeptEarnCodeId
+     * @param groupKeyCode
      * @return int
      */
-	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
-			String active, LocalDate effdt, String hrDeptEarnCodeId);
-	
+//	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+//          String active, LocalDate effdt, String hrDeptEarnCodeId);
+    public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+                                        String active, LocalDate effdt, String hrDeptEarnCodeId, String groupKeyCode );
+
+
     /**
      * get the count of newer versions of the given earnCode
      * @param earnCode
@@ -85,8 +95,11 @@ public interface EarnCodeSecurityService {
 	 * @param location
 	 * @param active
 	 * @param effdt
+     * @param groupKeyCode
 	 * @return
 	 */
-	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
-			String active, LocalDate effdt);
+    public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+                                                          String active, LocalDate effdt, String groupKeyCode );
+    //public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+    //		String active, LocalDate effdt);
 }
