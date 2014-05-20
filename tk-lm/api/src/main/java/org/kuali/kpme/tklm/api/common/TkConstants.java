@@ -267,4 +267,11 @@ public class TkConstants {
         FLSA_WEEK_END_DAY.put("Fri",4);
         FLSA_WEEK_END_DAY.put("Sat",5);
     }
+    // Configuring Grace period rule
+    public static final String  KPME_GRACE_PERIOD_RULE_CONFIG = "kpme.grace.period.rule.configuration";
+    public static final class GRACE_PERIOD_RULE_CONFIG {
+        public static final String TIME_ENTRY = "TIME";
+        public static final String REG_ENTRY = "REG";
+        public static final String CLOCK_ENTRY = "CLOCK";
+    }
 }

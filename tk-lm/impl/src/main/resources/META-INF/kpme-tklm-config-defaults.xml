@@ -66,4 +66,11 @@
     -->
     <param name="kpme.display.ytdfmla.on.leavesummary">Yes</param>
     
+    <!-- Specifies the option for System to check Grace Period Rule in which scenario
+    	 TIME : Default option apply rule to all timeblock with earn codes with record method of Time.
+    	 REG : Rule is applied to all assignments regular timeblocks (assignment -> job -> pay type -> regular earn code)
+    	 CLOCK : Rule is applied only to timeblocks that have been created via the clock/missed punch
+     -->
+     <param name="kpme.grace.period.rule.configuration">TIME</param>
+    
 </config>
