@@ -25,14 +25,14 @@
     	<dropColumn tableName="HR_PAY_GRADE_T" columnName="LOCATION" /> 
 
     	<addColumn tableName="HR_PAY_GRADE_T">
-   			<column name="INSTITUTION" type="VARCHAR(15)" defaultValue="*">
-            	<constraints nullable="false" />
+   			<column name="INSTITUTION" type="VARCHAR(15)" >
+            	<constraints nullable="true" />
             </column>
-            <column name="LOCATION" type="VARCHAR(15)" defaultValue="*">
-            	<constraints nullable="false" />
+            <column name="LOCATION" type="VARCHAR(15)" >
+            	<constraints nullable="true" />
             </column>
         </addColumn>
-    	
+  
     </changeSet>
     
     <changeSet id="2" author="tkagata" context="kpme-client-bootstrap">
@@ -41,11 +41,11 @@
     	<dropColumn tableName="PM_PAY_STEP_T" columnName="LOCATION" /> 
 
     	<addColumn tableName="PM_PAY_STEP_T">
-   			<column name="INSTITUTION" type="VARCHAR(15)" defaultValue="*">
-            	<constraints nullable="false" />
+   			<column name="INSTITUTION" type="VARCHAR(15)" >
+            	<constraints nullable="true" />
             </column>
-            <column name="LOCATION" type="VARCHAR(15)" defaultValue="*">
-            	<constraints nullable="false" />
+            <column name="LOCATION" type="VARCHAR(15)" >
+            	<constraints nullable="true" />
             </column>
         </addColumn>
     	
