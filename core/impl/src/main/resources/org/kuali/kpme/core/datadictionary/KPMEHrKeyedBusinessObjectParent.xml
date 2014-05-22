@@ -32,14 +32,6 @@
     </bean>
     
     <bean id="KPMETkKeyedBusinessObjectParent" parent="KPMEHrKeyedBusinessObjectParent" abstract="true">
-<!--     	<property name="attributes"> -->
-<!-- 	      	<list merge="true"> -->
-<!-- 		        <ref bean="KPMEHrKeyedBusinessObjectParent-groupKeyCode"/> -->
-<!-- 		        <ref bean="KPMEHrKeyedBusinessObjectParent-institutionCode"/> -->
-<!-- 		        <ref bean="KPMEHrKeyedBusinessObjectParent-locationId"/> -->
-<!--             </list> -->
-<!-- 		</property> -->
-		
 		<property name="relationships">
 	  		<list merge="true">
 	  			<bean parent="RelationshipDefinition">
@@ -50,11 +42,17 @@
 							<!-- bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/-->
 						</list>
 					</property>
+					 <property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+                        </list>
+                    </property>
 				</bean>
 			</list>
 		</property>
 		
     </bean>
+    
     <!--  Common attributes -->    
 
 	<!-- group key code -->
@@ -68,6 +66,5 @@
 	<!-- location id -->
 	<bean id="KPMEHrKeyedBusinessObjectParent-locationId" parent="KPMEHrKeyedBusinessObjectParent-locationId-parentBean" />
 	<bean id="KPMEHrKeyedBusinessObjectParent-locationId-parentBean" abstract="true" parent="KpmeAttributeReference-location" p:name="locationId" />
-	
 
 </beans>

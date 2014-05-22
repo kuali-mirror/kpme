@@ -20,6 +20,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
+import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface ClockLocationRuleService {
@@ -83,4 +84,6 @@ public interface ClockLocationRuleService {
                                                   String dept, String workArea, String active, String showHistory);
     
     public boolean isInValidIPClockLocation(String groupKeyCode, String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate);
+    
+    public List<ClockLocationRule> getClockLocationRules(String userPrincipalId, List <ClockLocationRule> clockLocationRuleObjs);
 }

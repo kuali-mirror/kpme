@@ -126,4 +126,79 @@
         <property name="serviceVersion" value="${kpme.version}" />
         <property name="servicePath" value="" />
     </bean>
+    
+    <!-- the following beans were in CORESpringBeans.xml -->
+	
+<!--  common lookupable beans for KNS hr business object lookup -->
+
+	<!-- the below lookupable is wired with a service that in turn is eventually wired with a DAO that injects the effective date and timestamp subqueries into lookup -->
+	<bean id="kpmeHrBusinessObjectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    	<property name="lookupableHelperService">
+       		<ref bean="kpmeHrBusinessObjectLookupableHelper"/>      		
+    	</property>
+	</bean>
+	
+	<bean id="kpmeHrBusinessObjectLookupableHelper" class="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper" scope="prototype">
+    	<property name="lookupService">
+       		<ref bean="kpmeHrBusinessObjectLookupService"/>
+    	</property>
+	</bean>
+	
+	<!-- the below lookupable is wired with a service that in turn is eventually wired with a DAO that injects the institution and location subqueries for group key -->
+	<bean id="kpmeHrGroupKeyedBusinessObjectLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    	<property name="lookupableHelperService">
+       		<ref bean="kpmeHrGroupKeyedBusinessObjectLookupableHelper"/>      		
+    	</property>
+	</bean>
+	
+	<bean id="kpmeHrGroupKeyedBusinessObjectLookupableHelper" class="org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper" scope="prototype">
+    	<property name="lookupService">
+       		<ref bean="kpmeHrGroupKeyedBusinessObjectLookupService"/>
+    	</property>
+	</bean>
+    
+	<!-- common lookup service beans for KNS/KRAD hr business object lookup -->
+
+	<!-- the below service is wired with a DAO that injects the effective date and timestamp subqueries into lookup -->
+  	<bean id="kpmeHrBusinessObjectLookupService" parent="lookupService">
+    	<property name="lookupDao">
+       		<bean parent="lookupDao">
+				<property name="lookupDaoOjb">
+					<bean parent="lookupDaoOjb" class="org.kuali.kpme.core.bo.dao.KpmeHrBusinessObjectLookupDaoOjbImpl" />
+				</property>
+			</bean>
+    	</property>
+	</bean>
+	
+	<!-- the below service is wired with a DAO that injects the institution and location subqueries for group key (in addition to the date/timestamp subqueries of the above parent DAO) -->
+    <bean id="kpmeHrGroupKeyedBusinessObjectLookupService" parent="lookupService">
+    	<property name="lookupDao">
+       		<bean parent="lookupDao">
+				<property name="lookupDaoOjb">
+					<bean parent="lookupDaoOjb" class="org.kuali.kpme.core.bo.dao.KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl" />
+				</property>
+			</bean>
+    	</property>
+	</bean>   
+    
+<!--  parent beans for the above common beans for KNS/KRAD hr business object lookup; copied and pasted from KRAD spring bean file --> 
+    <bean id="lookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl">
+    	<property name="lookupDao">
+      		<ref bean="lookupDao"/>
+    	</property>
+    	<property name="kualiConfigurationService">
+      		<ref bean="kualiConfigurationService"/>
+    	</property>
+  	</bean>
+  	<bean id="lookupDao" class="org.kuali.rice.krad.dao.proxy.LookupDaoProxy">
+    	<property name="lookupDaoJpa" ref="lookupDaoJpa"/>
+    	<property name="lookupDaoOjb" ref="lookupDaoOjb"/>
+  	</bean>
+    <bean id="lookupDaoOjb" parent="platformAwareDao" class="org.kuali.rice.krad.dao.impl.LookupDaoOjb">
+    	<property name="persistenceStructureService" ref="persistenceStructureService"/>
+    	<property name="dateTimeService" ref="dateTimeService"/>
+    	<property name="dataDictionaryService" ref="dataDictionaryService"/>
+  	</bean>
+  	
+    <!-- the abpve beans were in CORESpringBeans.xml -->
 </beans>

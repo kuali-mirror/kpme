@@ -23,7 +23,7 @@
 	<bean id="TimeCollectionRule" parent="TimeCollectionRule-parentBean" />
 
 	<bean id="TimeCollectionRule-parentBean" abstract="true"
-		parent="KPMEHrKeyedBusinessObjectParent">
+		parent="KPMETkKeyedBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="TimeCollectionRule" />
@@ -42,7 +42,7 @@
 				<ref bean="TimeCollectionRule-clockUserFl" />
                 <ref bean="TimeCollectionRule-tkWorkAreaId" />
                 <ref bean="TimeCollectionRule-hrDeptId" />
-                <ref bean="TimeCollectionRule-hrPayTypeId" />
+                <ref bean="TimeCollectionRule-hrPayTypeId" />                
 			</list>
 		</property>
 
@@ -92,7 +92,7 @@
                         </list>
                     </property>
 				</bean>
-				
+				<!-- 
 	  			<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="groupKey" />
 					<property name="primitiveAttributes">
@@ -101,7 +101,7 @@
 						</list>
 					</property>
 				</bean>
-
+				-->
 			</list>
 		</property>
 
@@ -226,7 +226,7 @@
 
 	<bean id="TimeCollectionRule-lookupDefinition" parent="TimeCollectionRule-lookupDefinition-parentBean" />
 	<bean id="TimeCollectionRule-lookupDefinition-parentBean" abstract="true" parent="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition">
-        <property name="lookupableID" value="timeCollectionRuleLookupable" />
+        <property name="lookupableID" value="timeCollectionRuleLookupable" /><!-- kpmeHrGroupKeyedBusinessObjectLookupable -->
 		<property name="lookupFields">
 			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="dept" />

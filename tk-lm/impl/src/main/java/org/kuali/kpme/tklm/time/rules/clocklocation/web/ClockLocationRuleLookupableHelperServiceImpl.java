@@ -15,13 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.rules.clocklocation.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
-import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper;
 import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -32,7 +33,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class ClockLocationRuleLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
+public class ClockLocationRuleLookupableHelperServiceImpl extends KpmeHrBusinessObjectLookupableHelper {
 
 	private static final long serialVersionUID = 7261054962204557586L;
     
@@ -65,8 +66,24 @@ public class ClockLocationRuleLookupableHelperServiceImpl extends KPMELookupable
 		}
 	}
 
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+    // public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends HrBusinessObjectContract> getSearchResults( Map<String, String> fieldValues) {
+    	List<? extends HrBusinessObjectContract> temp = new ArrayList<HrBusinessObjectContract>();
+		temp = super.getSearchResults(fieldValues);
+		
+		if ( temp != null ){
+			List<ClockLocationRule> results = new ArrayList<ClockLocationRule>();
+			for ( int i = 0; i < temp.size(); i++ ){
+				ClockLocationRule clockLocationRule = (ClockLocationRule)temp.get(i);
+				results.add(clockLocationRule);
+			}
+			
+			return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(GlobalVariables.getUserSession().getPrincipalId(), results);
+		} else {
+			return temp;
+		}
+    	
+    	/*String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String principalId = fieldValues.get("principalId");
         String jobNumber = fieldValues.get("jobNumber");
@@ -87,6 +104,7 @@ public class ClockLocationRuleLookupableHelperServiceImpl extends KPMELookupable
 
         return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(groupKeyCode, GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
         		principalId, jobNumber, dept, workArea, active, showHist);
+        		*/
     }
     
 }

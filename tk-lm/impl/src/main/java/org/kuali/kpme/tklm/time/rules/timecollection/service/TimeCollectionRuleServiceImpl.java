@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.rules.timecollection.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
@@ -82,6 +83,35 @@ public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService 
     				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), permissionDetails, roleQualification)) {
         		results.add(timeCollectionRuleObj);
         	}
+    	}
+    	
+    	return results;
+    }
+    
+   
+    public List<TimeCollectionRule> getTimeCollectionRules(String userPrincipalId, List <TimeCollectionRule> timeCollectionRuleObjs){
+    	List<TimeCollectionRule> results = new ArrayList<TimeCollectionRule>();
+    	
+    	if ( timeCollectionRuleObjs != null ){
+	    	for (TimeCollectionRule timeCollectionRuleObj : timeCollectionRuleObjs) {
+	        	String department = timeCollectionRuleObj.getDept(); 
+	        	String grpKeyCode = timeCollectionRuleObj.getGroupKeyCode();
+	        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, grpKeyCode, timeCollectionRuleObj.getEffectiveLocalDate());
+	        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+	        	Map<String, String> permissionDetails = new HashMap<String, String>();
+	        	permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KRADServiceLocatorWeb.getDocumentDictionaryService().getMaintenanceDocumentTypeName(TimeCollectionRule.class));
+	        	Map<String, String> roleQualification = new HashMap<String, String>();
+	        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+	        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+	        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+	        	
+	        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+	    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), permissionDetails)
+	    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+	    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), permissionDetails, roleQualification)) {
+	        		results.add(timeCollectionRuleObj);
+	        	}
+	    	}
     	}
     	
     	return results;

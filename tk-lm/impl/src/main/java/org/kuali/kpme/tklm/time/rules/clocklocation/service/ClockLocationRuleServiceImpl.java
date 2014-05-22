@@ -202,4 +202,30 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
     	
     	return results;
     }
+    
+    public List<ClockLocationRule> getClockLocationRules(String userPrincipalId, List <ClockLocationRule> clockLocationRuleObjs) {
+    	List<ClockLocationRule> results = new ArrayList<ClockLocationRule>();
+    	
+    	if ( clockLocationRuleObjs != null ){
+	    	for (ClockLocationRule clockLocationRuleObj : clockLocationRuleObjs) {
+	        	String department = clockLocationRuleObj.getDept(); 
+	        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getGroupKeyCode(), clockLocationRuleObj.getEffectiveLocalDate());
+	        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+	        	
+	        	Map<String, String> roleQualification = new HashMap<String, String>();
+	        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+	        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+	        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+	        	
+	        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+	    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+	    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+	    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+	        		results.add(clockLocationRuleObj);
+	        	}
+	    	}
+    	}
+    	
+    	return results;
+    }
 }

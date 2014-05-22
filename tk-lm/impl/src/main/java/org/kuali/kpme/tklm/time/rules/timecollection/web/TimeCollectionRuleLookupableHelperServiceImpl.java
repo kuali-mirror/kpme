@@ -15,15 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection.web;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
-import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -34,8 +33,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class TimeCollectionRuleLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
-
+public class TimeCollectionRuleLookupableHelperServiceImpl extends KpmeHrBusinessObjectLookupableHelper {
 	private static final long serialVersionUID = -1690980961895784168L;
     
 	@Override
@@ -61,29 +59,21 @@ public class TimeCollectionRuleLookupableHelperServiceImpl extends KPMELookupabl
 	}
 
 	@Override
-	public List<? extends BusinessObject> getSearchResults( Map<String, String> fieldValues) {
-        String workArea = fieldValues.get("workArea");
-        String dept = fieldValues.get("dept");
-        String payType = fieldValues.get("payType");
-        String active = fieldValues.get("active");
-        String history = fieldValues.get("history");
-        String groupKeyCode = fieldValues.get("groupKeyCode");
-
-        String workAreaValue = null;
-        if (StringUtils.equals(workArea,"%") || StringUtils.equals(workArea,"*")){
-            workArea = "";
-        } else {
-        	if(workArea != null && StringUtils.isNotBlank(workArea)) {
-	        	BigDecimal value = TKUtils.cleanNumeric(workArea);
-	        	if(value != null) {
-	        		workAreaValue = value.toString(); 
-	        	} else {
-	        		return new ArrayList<TimeCollectionRule>();
-	        	}
-        	}
-        }
-        
-        return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workAreaValue, payType, groupKeyCode, active, history);
+	public List<? extends HrBusinessObjectContract> getSearchResults( Map<String, String> fieldValues) {
+		List<? extends HrBusinessObjectContract> temp = new ArrayList<HrBusinessObjectContract>();
+		temp = super.getSearchResults(fieldValues);
+		
+		if ( temp != null ){
+			List<TimeCollectionRule> results = new ArrayList<TimeCollectionRule>();
+			for ( int i = 0; i < temp.size(); i++ ){
+				TimeCollectionRule timeCollectionRule = (TimeCollectionRule)temp.get(i);
+				results.add(timeCollectionRule);
+			}
+			
+			return TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRules(GlobalVariables.getUserSession().getPrincipalId(), results);
+		} else {
+			return temp;
+		}
 	}
 
 	@Override

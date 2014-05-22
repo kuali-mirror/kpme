@@ -42,7 +42,7 @@
                            http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
     <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
-
+	
     <!-- caching setup -->
     <bean id="kpmeTklmCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
           p:cacheManager-ref="kpmeTklmLocalCacheManager" />
@@ -486,7 +486,7 @@
         </property>
     </bean>
         
-    <bean id="clockLocationRuleLookupableHelperService" class="org.kuali.kpme.tklm.time.rules.clocklocation.web.ClockLocationRuleLookupableHelperServiceImpl" scope="prototype"/>
+    <bean id="clockLocationRuleLookupableHelperService" parent="kpmeHrGroupKeyedBusinessObjectLookupableHelper" class="org.kuali.kpme.tklm.time.rules.clocklocation.web.ClockLocationRuleLookupableHelperServiceImpl" scope="prototype"/>
     <bean id="clockLocationRuleLookupable" class="org.kuali.kpme.core.lookup.DepartmentAdminLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="clockLocationRuleLookupableHelperService" />
@@ -521,7 +521,7 @@
         </property>
     </bean>
 
-	<bean id="timeCollectionRuleLookupableHelperService" class="org.kuali.kpme.tklm.time.rules.timecollection.web.TimeCollectionRuleLookupableHelperServiceImpl" scope="prototype"/>
+	<bean id="timeCollectionRuleLookupableHelperService" parent="kpmeHrGroupKeyedBusinessObjectLookupableHelper" class="org.kuali.kpme.tklm.time.rules.timecollection.web.TimeCollectionRuleLookupableHelperServiceImpl" scope="prototype" />
     <bean id="timeCollectionRuleLookupable" class="org.kuali.kpme.core.lookup.DepartmentAdminLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="timeCollectionRuleLookupableHelperService" />

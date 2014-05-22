@@ -69,17 +69,18 @@ public class DailyOvertimeRuleLookupableHelperServiceImpl extends KPMELookupable
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
     	String dept = fieldValues.get("dept");
     	String workArea = fieldValues.get("workArea");
-    	String location = fieldValues.get("location");
+    	//String location = fieldValues.get("location");
     	String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
+        String groupKeyCode = fieldValues.get("groupKeyCode");
 
         if (StringUtils.contains(workArea, "%")) {
 			workArea = "";
 		}
 
-        return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, location, TKUtils.formatDateString(fromEffdt), 
+        return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(groupKeyCode, GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, TKUtils.formatDateString(fromEffdt), 
         		TKUtils.formatDateString(toEffdt), active, showHist);
     }
     
