@@ -493,7 +493,7 @@
         </property>
     </bean> 
         
-    <bean id="departmentLunchRuleLookupableHelperService" class="org.kuali.kpme.tklm.time.rules.lunch.department.web.DepartmentLunchRuleLookupableHelperServiceImpl" scope="prototype"/>
+    <bean id="departmentLunchRuleLookupableHelperService" parent="kpmeHrGroupKeyedBusinessObjectLookupableHelper" class="org.kuali.kpme.tklm.time.rules.lunch.department.web.DepartmentLunchRuleLookupableHelperServiceImpl" scope="prototype"/>
     <bean id="departmentLunchRuleLookupable" class="org.kuali.kpme.core.lookup.DepartmentAdminLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="departmentLunchRuleLookupableHelperService" />

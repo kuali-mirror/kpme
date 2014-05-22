@@ -59,13 +59,14 @@ public class TimeCollectionRuleLookupableHelperServiceImpl extends KpmeHrBusines
 	}
 
 	@Override
-	public List<? extends HrBusinessObjectContract> getSearchResults( Map<String, String> fieldValues) {
+	public List<? extends HrBusinessObjectContract> getSearchResults(Map<String, String> fieldValues) {
+
 		List<? extends HrBusinessObjectContract> temp = new ArrayList<HrBusinessObjectContract>();
 		temp = super.getSearchResults(fieldValues);
 		
-		if ( temp != null ){
+		if (temp != null){
 			List<TimeCollectionRule> results = new ArrayList<TimeCollectionRule>();
-			for ( int i = 0; i < temp.size(); i++ ){
+			for (int i = 0; i < temp.size(); i++) {
 				TimeCollectionRule timeCollectionRule = (TimeCollectionRule)temp.get(i);
 				results.add(timeCollectionRule);
 			}

@@ -19,14 +19,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentService;
-import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.department.dao.DepartmentDao;
-import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.util.*;
 

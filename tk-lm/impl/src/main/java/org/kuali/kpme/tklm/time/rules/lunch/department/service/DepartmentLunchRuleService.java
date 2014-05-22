@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.rules.lunch.department.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule;
 import org.springframework.cache.annotation.Cacheable;
@@ -74,7 +75,6 @@ public interface DepartmentLunchRuleService {
 	 */
     @Cacheable(value= DeptLunchRule.CACHE_NAME, key="'tkDeptLunchRuleId=' + #p0")
 	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId);
-
-    List<DeptLunchRule> getDepartmentLunchRules(String userPrincipalId, String dept, String workArea, String principalId, String jobNumber, String groupKeyCode,
-    											LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+    
+    public List<? extends HrBusinessObjectContract> getDepartmentLunchRules(String userPrincipalId, List <DeptLunchRule> deptLunchRules);
 }

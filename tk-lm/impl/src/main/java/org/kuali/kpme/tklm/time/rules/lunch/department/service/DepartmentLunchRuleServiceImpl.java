@@ -144,29 +144,28 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 	}
 
     @Override
-    public List<DeptLunchRule> getDepartmentLunchRules(String userPrincipalId, String dept, String workArea, String principalId, String jobNumber, String groupKeyCode,
-    												   LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+    public List<DeptLunchRule> getDepartmentLunchRules(String userPrincipalId, List<DeptLunchRule> departmentLunchRuleObjs) {
     	List<DeptLunchRule> results = new ArrayList<DeptLunchRule>();
         
-    	List<DeptLunchRule> departmentLunchRuleObjs = deptLunchRuleDao.getDepartmentLunchRules(dept, workArea, principalId, jobNumber, groupKeyCode, fromEffdt, toEffdt, active, showHistory);
-    
-    	for (DeptLunchRule departmentLunchRuleObj : departmentLunchRuleObjs) {
-        	String department = departmentLunchRuleObj.getDept(); 
-        	String grpKeyCode = departmentLunchRuleObj.getGroupKeyCode();
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, grpKeyCode, departmentLunchRuleObj.getEffectiveLocalDate());
-        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
-        	
-        	Map<String, String> roleQualification = new HashMap<String, String>();
-        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
-        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
-        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
-        	
-        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
-    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
-        		results.add(departmentLunchRuleObj);
-        	}
+    	if (departmentLunchRuleObjs != null ){
+	    	for (DeptLunchRule departmentLunchRuleObj : departmentLunchRuleObjs) {
+	        	String department = departmentLunchRuleObj.getDept(); 
+	        	String grpKeyCode = departmentLunchRuleObj.getGroupKeyCode();
+	        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, grpKeyCode, departmentLunchRuleObj.getEffectiveLocalDate());
+	        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+	        	
+	        	Map<String, String> roleQualification = new HashMap<String, String>();
+	        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+	        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+	        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+	        	
+	        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+	    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+	    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+	    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+	        		results.add(departmentLunchRuleObj);
+	        	}
+	    	}
     	}
     	
     	return results;

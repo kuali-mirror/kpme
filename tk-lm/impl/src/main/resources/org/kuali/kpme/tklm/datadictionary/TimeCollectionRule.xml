@@ -92,16 +92,7 @@
                         </list>
                     </property>
 				</bean>
-				<!-- 
-	  			<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="groupKey" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
-						</list>
-					</property>
-				</bean>
-				-->
+
 			</list>
 		</property>
 
@@ -226,7 +217,7 @@
 
 	<bean id="TimeCollectionRule-lookupDefinition" parent="TimeCollectionRule-lookupDefinition-parentBean" />
 	<bean id="TimeCollectionRule-lookupDefinition-parentBean" abstract="true" parent="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition">
-        <property name="lookupableID" value="timeCollectionRuleLookupable" /><!-- kpmeHrGroupKeyedBusinessObjectLookupable -->
+        <property name="lookupableID" value="timeCollectionRuleLookupable" />
 		<property name="lookupFields">
 			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="dept" />
