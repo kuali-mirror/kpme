@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.classification.Classification;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -40,7 +39,6 @@ import org.w3c.dom.Element;
     ClassificationQualification.Elements.QUALIFIER,
     ClassificationQualification.Elements.PM_CLASSIFICATION_QUALIFICATION_ID,
     ClassificationQualification.Elements.PM_POSITION_CLASS_ID,
-    ClassificationQualification.Elements.OWNER,
     ClassificationQualification.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
@@ -64,8 +62,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
     private final String pmClassificationQualificationId;
     @XmlElement(name = Elements.PM_POSITION_CLASS_ID, required = false)
     private final String pmPositionClassId;
-    @XmlElement(name = Elements.OWNER, required = false)
-    private final Classification owner;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -87,7 +83,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
         this.qualifier = null;
         this.pmClassificationQualificationId = null;
         this.pmPositionClassId = null;
-        this.owner = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -101,7 +96,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
         this.qualifier = builder.getQualifier();
         this.pmClassificationQualificationId = builder.getPmClassificationQualificationId();
         this.pmPositionClassId = builder.getPmPositionClassId();
-        this.owner = builder.getOwner() == null ? null : builder.getOwner().build();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -143,11 +137,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
     }
 
     @Override
-    public Classification getOwner() {
-        return this.owner;
-    }
-
-    @Override
     public LocalDate getEffectiveLocalDateOfOwner() {
         return this.effectiveLocalDateOfOwner;
     }
@@ -178,7 +167,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
         private String qualifier;
         private String pmClassificationQualificationId;
         private String pmPositionClassId;
-        private Classification.Builder owner;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
@@ -205,7 +193,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
             builder.setQualifier(contract.getQualifier());
             builder.setPmClassificationQualificationId(contract.getPmClassificationQualificationId());
             builder.setPmPositionClassId(contract.getPmPositionClassId());
-            builder.setOwner(contract.getOwner() == null ? null : Classification.Builder.create(contract.getOwner()));
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -249,11 +236,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
         @Override
         public String getPmPositionClassId() {
             return this.pmPositionClassId;
-        }
-
-        @Override
-        public Classification.Builder getOwner() {
-            return this.owner;
         }
 
         @Override
@@ -306,11 +288,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
             this.pmPositionClassId = pmPositionClassId;
         }
 
-        public void setOwner(Classification.Builder owner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.owner = owner;
-        }
-
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.effectiveLocalDateOfOwner = effectiveLocalDateOfOwner;
@@ -354,7 +331,6 @@ public final class ClassificationQualification extends AbstractDataTransferObjec
         final static String QUALIFIER = "qualifier";
         final static String PM_CLASSIFICATION_QUALIFICATION_ID = "pmClassificationQualificationId";
         final static String PM_POSITION_CLASS_ID = "pmPositionClassId";
-        final static String OWNER = "owner";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";
 
     }

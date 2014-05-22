@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.classification.Classification;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -39,7 +38,6 @@ import org.w3c.dom.Element;
     ClassificationFlag.Elements.NAMES,
     ClassificationFlag.Elements.PM_FLAG_ID,
     ClassificationFlag.Elements.PM_POSITION_CLASS_ID,
-    ClassificationFlag.Elements.OWNER,
     ClassificationFlag.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
@@ -57,8 +55,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
     private final String pmFlagId;
     @XmlElement(name = Elements.PM_POSITION_CLASS_ID, required = false)
     private final String pmPositionClassId;
-    @XmlElement(name = Elements.OWNER, required = false)
-    private final Classification owner;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -77,7 +73,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
         this.names = null;
         this.pmFlagId = null;
         this.pmPositionClassId = null;
-        this.owner = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -88,7 +83,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
         this.names = builder.getNames() == null ? Collections.<String>emptyList() : Collections.unmodifiableList(builder.getNames());
         this.pmFlagId = builder.getPmFlagId();
         this.pmPositionClassId = builder.getPmPositionClassId();
-        this.owner = builder.getOwner() == null ? null : builder.getOwner().build();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -112,11 +106,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
     @Override
     public String getPmPositionClassId() {
         return this.pmPositionClassId;
-    }
-
-    @Override
-    public Classification getOwner() {
-        return this.owner;
     }
 
     @Override
@@ -147,7 +136,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
         private List<String> names;
         private String pmFlagId;
         private String pmPositionClassId;
-        private Classification.Builder owner;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
@@ -171,7 +159,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
             builder.setNames(contract.getNames());
             builder.setPmFlagId(contract.getPmFlagId());
             builder.setPmPositionClassId(contract.getPmPositionClassId());
-            builder.setOwner(contract.getOwner() == null ? null : Classification.Builder.create(contract.getOwner()));
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -200,11 +187,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
         @Override
         public String getPmPositionClassId() {
             return this.pmPositionClassId;
-        }
-
-        @Override
-        public Classification.Builder getOwner() {
-            return this.owner;
         }
 
         @Override
@@ -240,11 +222,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
         public void setPmPositionClassId(String pmPositionClassId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.pmPositionClassId = pmPositionClassId;
-        }
-
-        public void setOwner(Classification.Builder owner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.owner = owner;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
@@ -287,7 +264,6 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
         final static String NAMES = "names";
         final static String PM_FLAG_ID = "pmFlagId";
         final static String PM_POSITION_CLASS_ID = "pmPositionClassId";
-        final static String OWNER = "owner";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";
 
     }

@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.classification.Classification;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -39,7 +38,6 @@ import org.w3c.dom.Element;
     ClassificationDuty.Elements.PERCENTAGE,
     ClassificationDuty.Elements.PM_DUTY_ID,
     ClassificationDuty.Elements.PM_POSITION_CLASS_ID,
-    ClassificationDuty.Elements.OWNER,
     ClassificationDuty.Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
@@ -59,8 +57,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
     private final String pmDutyId;
     @XmlElement(name = Elements.PM_POSITION_CLASS_ID, required = false)
     private final String pmPositionClassId;
-    @XmlElement(name = Elements.OWNER, required = false)
-    private final Classification owner;
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE_OF_OWNER, required = false)
     private final LocalDate effectiveLocalDateOfOwner;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -80,7 +76,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
         this.percentage = null;
         this.pmDutyId = null;
         this.pmPositionClassId = null;
-        this.owner = null;
         this.effectiveLocalDateOfOwner = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -92,7 +87,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
         this.percentage = builder.getPercentage();
         this.pmDutyId = builder.getPmDutyId();
         this.pmPositionClassId = builder.getPmPositionClassId();
-        this.owner = builder.getOwner() == null ? null : builder.getOwner().build();
         this.effectiveLocalDateOfOwner = builder.getEffectiveLocalDateOfOwner();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -124,11 +118,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
     }
 
     @Override
-    public Classification getOwner() {
-        return this.owner;
-    }
-
-    @Override
     public LocalDate getEffectiveLocalDateOfOwner() {
         return this.effectiveLocalDateOfOwner;
     }
@@ -157,7 +146,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
         private BigDecimal percentage;
         private String pmDutyId;
         private String pmPositionClassId;
-        private Classification.Builder owner;
         private LocalDate effectiveLocalDateOfOwner;
         private Long versionNumber;
         private String objectId;
@@ -182,7 +170,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
             builder.setPercentage(contract.getPercentage());
             builder.setPmDutyId(contract.getPmDutyId());
             builder.setPmPositionClassId(contract.getPmPositionClassId());
-            builder.setOwner(contract.getOwner() == null ? null : Classification.Builder.create(contract.getOwner()));
             builder.setEffectiveLocalDateOfOwner(contract.getEffectiveLocalDateOfOwner());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -216,11 +203,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
         @Override
         public String getPmPositionClassId() {
             return this.pmPositionClassId;
-        }
-
-        @Override
-        public Classification.Builder getOwner() {
-            return this.owner;
         }
 
         @Override
@@ -261,11 +243,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
         public void setPmPositionClassId(String pmPositionClassId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.pmPositionClassId = pmPositionClassId;
-        }
-
-        public void setOwner(Classification.Builder owner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.owner = owner;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
@@ -309,7 +286,6 @@ public final class ClassificationDuty extends AbstractDataTransferObject impleme
         final static String PERCENTAGE = "percentage";
         final static String PM_DUTY_ID = "pmDutyId";
         final static String PM_POSITION_CLASS_ID = "pmPositionClassId";
-        final static String OWNER = "owner";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";
 
     }
