@@ -68,6 +68,5 @@ public interface DailyOvertimeRuleService {
     @Cacheable(value= DailyOvertimeRule.CACHE_NAME, key="'tkDailyOvertimeRuleId=' + #p0")
 	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId);
     
-    public List<DailyOvertimeRule> getDailyOvertimeRules(String groupKeyCode, String userPrincipalId, String dept, String workArea, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
-
+    public List<DailyOvertimeRule> getDailyOvertimeRules(String userPrincipalId, List <DailyOvertimeRule> dailyOvertimeRuleObjs);
 }

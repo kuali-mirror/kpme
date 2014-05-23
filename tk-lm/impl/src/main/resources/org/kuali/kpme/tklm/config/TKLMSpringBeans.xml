@@ -479,7 +479,7 @@
         </property>
     </bean>
 	
-	<bean id="dailyOvertimeRuleLookupableHelperService" class="org.kuali.kpme.tklm.time.rules.overtime.daily.web.DailyOvertimeRuleLookupableHelperServiceImpl" scope="prototype"/>
+	<bean id="dailyOvertimeRuleLookupableHelperService" parent="kpmeHrGroupKeyedBusinessObjectLookupableHelper" class="org.kuali.kpme.tklm.time.rules.overtime.daily.web.DailyOvertimeRuleLookupableHelperServiceImpl" scope="prototype"/>
     <bean id="dailyOvertimeRuleLookupable" class="org.kuali.kpme.core.lookup.DepartmentAdminLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
             <ref bean="dailyOvertimeRuleLookupableHelperService" />

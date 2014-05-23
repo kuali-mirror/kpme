@@ -80,9 +80,6 @@ public interface ClockLocationRuleService {
 	 */
 	public void populateIPAddressesForCLR(ClockLocationRule clr);
 
-    List<ClockLocationRule> getClockLocationRules(String groupKeyCode, String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
-                                                  String dept, String workArea, String active, String showHistory);
-    
     public boolean isInValidIPClockLocation(String groupKeyCode, String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate);
     
     public List<ClockLocationRule> getClockLocationRules(String userPrincipalId, List <ClockLocationRule> clockLocationRuleObjs);

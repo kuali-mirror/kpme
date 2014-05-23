@@ -66,7 +66,6 @@ public class ClockLocationRuleLookupableHelperServiceImpl extends KpmeHrBusiness
 		}
 	}
 
-    // public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
     public List<? extends HrBusinessObjectContract> getSearchResults( Map<String, String> fieldValues) {
     	List<? extends HrBusinessObjectContract> temp = new ArrayList<HrBusinessObjectContract>();
 		temp = super.getSearchResults(fieldValues);
@@ -82,29 +81,6 @@ public class ClockLocationRuleLookupableHelperServiceImpl extends KpmeHrBusiness
 		} else {
 			return temp;
 		}
-    	
-    	/*String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-        String principalId = fieldValues.get("principalId");
-        String jobNumber = fieldValues.get("jobNumber");
-        String dept = fieldValues.get("dept");
-        String workArea = fieldValues.get("workArea");
-        String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
-        String groupKeyCode = fieldValues.get("groupKeyCode");
-        
-        if (StringUtils.contains(workArea, "%")) {
-			workArea = "";
-		}
-        
-        if (StringUtils.contains(jobNumber, "%")) {
-        	jobNumber = "";
-		}
-        
-
-        return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(groupKeyCode, GlobalVariables.getUserSession().getPrincipalId(), TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
-        		principalId, jobNumber, dept, workArea, active, showHist);
-        		*/
     }
     
 }

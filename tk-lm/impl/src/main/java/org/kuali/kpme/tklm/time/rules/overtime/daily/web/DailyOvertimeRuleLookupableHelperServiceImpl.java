@@ -15,13 +15,14 @@
  */
 package org.kuali.kpme.tklm.time.rules.overtime.daily.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
-import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
+import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper;
 import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -32,7 +33,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class DailyOvertimeRuleLookupableHelperServiceImpl extends KPMELookupableHelperServiceImpl {
+public class DailyOvertimeRuleLookupableHelperServiceImpl extends KpmeHrBusinessObjectLookupableHelper {
 
 	private static final long serialVersionUID = 2720495398967391250L;
 
@@ -66,22 +67,21 @@ public class DailyOvertimeRuleLookupableHelperServiceImpl extends KPMELookupable
 		}
 	}
 
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-    	String dept = fieldValues.get("dept");
-    	String workArea = fieldValues.get("workArea");
-    	//String location = fieldValues.get("location");
-    	String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
-        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-        String active = fieldValues.get("active");
-        String showHist = fieldValues.get("history");
-        String groupKeyCode = fieldValues.get("groupKeyCode");
-
-        if (StringUtils.contains(workArea, "%")) {
-			workArea = "";
+    public List<? extends HrBusinessObjectContract> getSearchResults(Map<String, String> fieldValues) {
+    	List<? extends HrBusinessObjectContract> temp = new ArrayList<HrBusinessObjectContract>();
+		temp = super.getSearchResults(fieldValues);
+		
+		if ( temp != null ){
+			List<DailyOvertimeRule> results = new ArrayList<DailyOvertimeRule>();
+			for ( int i = 0; i < temp.size(); i++ ){
+				DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule)temp.get(i);
+				results.add(dailyOvertimeRule);
+			}
+			
+			return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(GlobalVariables.getUserSession().getPrincipalId(), results);
+		} else {
+			return temp;
 		}
-
-        return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(groupKeyCode, GlobalVariables.getUserSession().getPrincipalId(), dept, workArea, TKUtils.formatDateString(fromEffdt), 
-        		TKUtils.formatDateString(toEffdt), active, showHist);
     }
     
 }

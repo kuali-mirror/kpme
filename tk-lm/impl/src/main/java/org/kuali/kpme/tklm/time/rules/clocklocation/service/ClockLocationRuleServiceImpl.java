@@ -175,33 +175,6 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	public void populateIPAddressesForCLR(ClockLocationRule clr){
 		clockLocationDao.populateIPAddressesForCLR(clr);
 	}
-
-    public List<ClockLocationRule> getClockLocationRules(String groupKeyCode, String userPrincipalId, LocalDate fromEffdt, LocalDate toEffdt, String principalId, String jobNumber,
-                                                         String dept, String workArea, String active, String showHistory){
-    	List<ClockLocationRule> results = new ArrayList<ClockLocationRule>();
-    	
-    	List<ClockLocationRule> clockLocationRuleObjs = clockLocationDao.getClockLocationRules(groupKeyCode, fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
-    
-    	for (ClockLocationRule clockLocationRuleObj : clockLocationRuleObjs) {
-        	String department = clockLocationRuleObj.getDept(); 
-        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getGroupKeyCode(), clockLocationRuleObj.getEffectiveLocalDate());
-        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
-        	
-        	Map<String, String> roleQualification = new HashMap<String, String>();
-        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
-        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
-        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
-        	
-        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
-    		  || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-    				  KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
-        		results.add(clockLocationRuleObj);
-        	}
-    	}
-    	
-    	return results;
-    }
     
     public List<ClockLocationRule> getClockLocationRules(String userPrincipalId, List <ClockLocationRule> clockLocationRuleObjs) {
     	List<ClockLocationRule> results = new ArrayList<ClockLocationRule>();
