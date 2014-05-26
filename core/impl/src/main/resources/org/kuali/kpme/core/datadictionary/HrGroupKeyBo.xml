@@ -197,7 +197,7 @@
 		</property>
 	</bean>
 
-	<bean id="HrGroupKey-LookupView" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+	<bean id="HrGroupKey-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
 		<property name="headerText" value="Group Key Lookup" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.groupkey.HrGroupKeyBo" />
 		<property name="criteriaFields">
