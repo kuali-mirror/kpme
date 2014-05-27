@@ -97,4 +97,14 @@ public class PositionQualificationBo extends PositionDerived implements Position
 
     }
 
+	@Override
+	public String getId() {
+		return this.getPmQualificationId();
+	}
+
+	@Override
+	public void setId(String id) {
+		this.setPmQualificationId(id);
+	}
+
 }

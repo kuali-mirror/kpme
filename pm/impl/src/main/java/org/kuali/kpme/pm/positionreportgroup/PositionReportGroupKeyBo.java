@@ -17,19 +17,11 @@ package org.kuali.kpme.pm.positionreportgroup;
 
 import org.kuali.kpme.core.api.mo.EffectiveKey;
 import org.kuali.kpme.core.bo.derived.HrBusinessObjectKey;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReportGroupBo, PositionReportGroupKeyBo> {
 
 	private static final long serialVersionUID = 3035597915412860604L;
-	
-	// the foreign key linking back to the owner
-	private String ownerId;
-
-	// the PK for the table corresponding to this BO
-	private String id;
-	
 	
 	/*
 	 * convert immutable to bo
@@ -68,47 +60,9 @@ public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReport
 	public void setOwner(PositionReportGroupBo owner) {
 		super.setOwner(owner);
 	}
-
-	@Override
-	public String getOwnerId() {
-		return ownerId;
-	}
-
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
-	}
-	
-	public String getId() {
-		return id;
-	}
-	
-	
-	public void setId(String id) {
-		this.id = id;
-	}
 	
 	public static PositionReportGroupKeyBo from(EffectiveKey im) {
-		if (im == null) {
-			return null;
-		}
-		PositionReportGroupKeyBo prgk = new PositionReportGroupKeyBo();
-		prgk.setId(im.getId());
-		prgk.setOwnerId(im.getOwnerId());
-		prgk.setVersionNumber(im.getVersionNumber());
-		prgk.setObjectId(im.getObjectId());
-		prgk.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
-		prgk.setGroupKeyCode(im.getGroupKeyCode());
-		return prgk;
+		return commonFromLogic(im, new PositionReportGroupKeyBo());
 	}
-	
-
-	public static EffectiveKey to(PositionReportGroupKeyBo bo) {
-		if (bo == null) {
-			return null;
-		}
-		return EffectiveKey.Builder.create(bo).build();
-	}
-
-
 
 }

@@ -46,4 +46,12 @@ public abstract class PositionKeyedDerived extends HrKeyedBusinessObjectDerived 
 	public void setOwner(PositionBo owner) {
 		this.owner = owner;
 	}
+	
+	public String getOwnerId() {
+		return this.getHrPositionId();
+	}
+	
+	public void setOwnerId(String ownerId) {
+		this.setHrPositionId(ownerId);
+	}
 }

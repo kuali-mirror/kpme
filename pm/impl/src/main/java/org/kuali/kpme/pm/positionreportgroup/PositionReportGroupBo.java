@@ -15,6 +15,8 @@
  */
 package org.kuali.kpme.pm.positionreportgroup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
@@ -127,10 +129,15 @@ public class PositionReportGroupBo extends HrKeyedSetBusinessObject<PositionRepo
 		prg.setPmPositionReportGroupId(im.getPmPositionReportGroupId());
 		prg.setPositionReportGroup(im.getPositionReportGroup());
 		prg.setDescription(im.getDescription());
+		
 		Set<PositionReportGroupKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), PositionReportGroupKeyBo.toBo);
 		// set prg as the owner for each of the derived effective key objects in the set
 		PositionReportGroupKeyBo.setOwnerOfDerivedCollection(prg, effectiveKeyBoSet);
 		prg.setEffectiveKeySet(effectiveKeyBoSet);
+		// set the key list, constructed from the key set
+		if(prg.effectiveKeySet != null) {
+			prg.setEffectiveKeyList(new ArrayList<PositionReportGroupKeyBo>(prg.effectiveKeySet));
+		}
 		
 		prg.setGroupKeyCodeSet(im.getGroupKeyCodeSet());
 		prg.setGroupKeySet(ModelObjectUtils.transformSet(im.getGroupKeySet(), HrGroupKeyBo.toBo));
@@ -149,12 +156,12 @@ public class PositionReportGroupBo extends HrKeyedSetBusinessObject<PositionRepo
 	}
 
 	@Override
-	public Set<PositionReportGroupKeyBo> getEffectiveKeySet(){
-		return super.getEffectiveKeySet();	
+	public List<PositionReportGroupKeyBo> getEffectiveKeyList(){
+		return super.getEffectiveKeyList();	
 	}
 
-	public void setEffectiveKeySet(Set<PositionReportGroupKeyBo> effectiveKeySet) {
-		super.setEffectiveKeySet(effectiveKeySet);
+	public void setEffectiveKeyList(List<PositionReportGroupKeyBo> effectiveKeyList) {
+		super.setEffectiveKeyList(effectiveKeyList);
 	}
 
 }

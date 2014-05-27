@@ -18,7 +18,7 @@ package org.kuali.kpme.pm.classification;
 import org.kuali.kpme.core.bo.derived.HrBusinessObjectDerived;
 import org.kuali.kpme.pm.api.classification.ClassificationDerivedContract;
 
-public class ClassificationDerived extends HrBusinessObjectDerived<ClassificationBo> implements ClassificationDerivedContract {
+public abstract class ClassificationDerived extends HrBusinessObjectDerived<ClassificationBo> implements ClassificationDerivedContract {
 	
 	private static final long serialVersionUID = -7394015906298684406L;
 
@@ -36,11 +36,19 @@ public class ClassificationDerived extends HrBusinessObjectDerived<Classificatio
 
 	@Override
 	public ClassificationBo getOwner() {
-		return (ClassificationBo) super.getOwner();
+		return super.getOwner();
 	}
 
 	public void setOwner(ClassificationBo owner) {
-		this.owner = owner;
+		super.setOwner(owner);
+	}
+	
+	public String getOwnerId() {
+		return this.getPmPositionClassId();
+	}
+	
+	public void setOwnerId(String ownerId) {
+		this.setPmPositionClassId(ownerId);
 	}
 
 }

@@ -148,4 +148,13 @@ public class PositionDepartmentBo extends PositionKeyedDerived implements Positi
 
     }
 
+	@Override
+	public String getId() {
+		return this.getPmPositionDeptId();
+	}
+
+	@Override
+	public void setId(String id) {
+		this.setPmPositionDeptId(id);
+	}
 }

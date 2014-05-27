@@ -47,5 +47,13 @@ public class ClassificationFlagBo extends ClassificationDerived implements Class
 	public void setNames(List<String> names) {
 		this.names = names;
 	}
+	@Override
+	public String getId() {
+		return this.getPmFlagId();
+	}
+	@Override
+	public void setId(String id) {
+		this.setPmFlagId(id);
+	}
 	
 }

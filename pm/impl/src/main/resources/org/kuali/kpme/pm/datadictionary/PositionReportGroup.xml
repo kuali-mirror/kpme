@@ -35,9 +35,9 @@
 			<list>
 				<bean parent="CollectionDefinition">
 					<property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo" />
-					<property name="name" value="effectiveKeySet" />
-					<property name="shortLabel" value="Effective Group Keys" />
-					<property name="label" value="Effective Group Keys" />
+					<property name="name" value="effectiveKeyList" />
+					<property name="shortLabel" value="Group Key Whitelist" />
+					<property name="label" value="Group Key Whitelist" />
 				</bean>
 			</list>
 		</property>
@@ -177,7 +177,41 @@
                   </list>
                  </property>
               </bean>
+              <bean parent="PositionReportGroup-EffectiveKeyList" />
           </list>
       </property>
     </bean>
+    
+    
+    <bean id="PositionReportGroup-EffectiveKeyList" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="List of Group Keys"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo"/>
+        <property name="propertyName" value="effectiveKeyList"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="showInactiveLines" value = "true"/>
+        <property name="renderInactiveToggleButton" value="false"/>
+        <property name="lineActions">
+        	<list>
+	    		<bean parent="Uif-DeleteLineAction"/>
+           	</list>
+      	</property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate" p:readOnly="@{!#isAddLine}">
+                	<property name="control">
+                    	<bean parent="Uif-DropdownControl" />
+               		</property>
+               		<property name="optionsFinder">
+                    	<bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
+               		</property>
+           		</bean>
+            </list>
+        </property>
+    </bean>
+    
 </beans>

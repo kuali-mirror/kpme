@@ -54,5 +54,13 @@ public class ClassificationDutyBo extends ClassificationDerived implements Class
 	public void setPercentage(BigDecimal percentage) {
 		this.percentage = percentage;
 	}
+	@Override
+	public String getId() {
+		return this.getPmDutyId();
+	}
+	@Override
+	public void setId(String id) {
+		this.setPmDutyId(id);
+	}
 	
 }

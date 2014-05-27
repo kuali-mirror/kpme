@@ -67,4 +67,12 @@ public class PstnFlagBo extends PositionDerived implements PstnFlagContract {
                 .isEquals();
 
     }
+	@Override
+	public String getId() {
+		return this.getPmFlagId();
+	}
+	@Override
+	public void setId(String id) {
+		this.setPmFlagId(id);
+	}
 }

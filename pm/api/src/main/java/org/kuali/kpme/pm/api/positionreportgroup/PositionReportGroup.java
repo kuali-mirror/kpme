@@ -16,7 +16,10 @@
 package org.kuali.kpme.pm.api.positionreportgroup;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +28,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -133,6 +137,18 @@ public final class PositionReportGroup extends AbstractDataTransferObject implem
     @Override
     public Set<EffectiveKey> getEffectiveKeySet() {
         return this.effectiveKeySet;
+    }
+    
+    // helper method to convert from key-set to  key-list 
+    public List<EffectiveKey> getEffectiveKeyList() {
+    	if (CollectionUtils.isEmpty(this.effectiveKeySet)) {
+            return Collections.emptyList();
+        }
+        List<EffectiveKey> copy = new ArrayList<EffectiveKey>();
+        for (EffectiveKey key : this.effectiveKeySet) {
+            copy.add(key);
+        }
+        return Collections.unmodifiableList(copy);
     }
 
     @Override

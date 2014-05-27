@@ -42,4 +42,11 @@ public abstract class PositionDerived extends HrBusinessObjectDerived<PositionBo
 		super.setOwner(owner);
 	}
 	
+	public String getOwnerId() {
+		return this.getHrPositionId();
+	}
+	
+	public void setOwnerId(String ownerId) {
+		this.setHrPositionId(ownerId);
+	}
 }

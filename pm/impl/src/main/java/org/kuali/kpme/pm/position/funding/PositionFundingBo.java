@@ -229,4 +229,14 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 		};
 	};
 
+	@Override
+	public String getId() {
+		return this.getPmPositionFunctionId();
+	}
+
+	@Override
+	public void setId(String id) {
+		this.setPmPositionFunctionId(id);
+	}
+
 }

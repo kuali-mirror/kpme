@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -38,7 +38,7 @@ public class GroupKeyValueFinder extends UifKeyValuesFinderBase {
 		
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
-		HrKeyedBusinessObject anHrKeyObject = (HrKeyedBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
+		HrBusinessObject anHrKeyObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
 		LocalDate aDate = LocalDate.fromDateFields(anHrKeyObject.getRelativeEffectiveDate());
 
 		if (aDate != null) {

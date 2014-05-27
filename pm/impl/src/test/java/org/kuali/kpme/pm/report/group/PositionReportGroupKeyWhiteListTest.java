@@ -17,6 +17,7 @@ package org.kuali.kpme.pm.report.group;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -44,15 +45,21 @@ public class PositionReportGroupKeyWhiteListTest extends PMIntegrationTestCase {
 	
 	
 	@Test
-	public void testEffectiveKeySetLoad() {
+	public void testEffectiveKeySetAndListLoad() {
 		PositionReportGroupBo pstnRptGrpBo  = boService.findByPrimaryKey(PositionReportGroupBo.class, Collections.singletonMap("pmPositionReportGroupId", "1"));
 		Assert.assertNotNull(pstnRptGrpBo);
+		
+		List<PositionReportGroupKeyBo> effectiveKeyList = pstnRptGrpBo.getEffectiveKeyList();
+		Assert.assertNotNull(effectiveKeyList);
+		Assert.assertEquals(effectiveKeyList.size(), 2);
+		
 		Set<PositionReportGroupKeyBo> effectiveKeySet = pstnRptGrpBo.getEffectiveKeySet(); 
 		Assert.assertNotNull(effectiveKeySet);
 		Assert.assertEquals(effectiveKeySet.size(), 2);		
 		Set<String> idSet = new HashSet<String>();
 		for(PositionReportGroupKeyBo keyBo: effectiveKeySet) {
 			idSet.add(keyBo.getId());
+			Assert.assertTrue(effectiveKeyList.contains(keyBo));
 			Assert.assertTrue( ( (keyBo.getId().equals("kpme_neeraj_test_1000")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("ISU-IA")) ) ||
 							   ( (keyBo.getId().equals("kpme_neeraj_test_1001")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("UGA-GA")) )
 							 );
@@ -65,6 +72,11 @@ public class PositionReportGroupKeyWhiteListTest extends PMIntegrationTestCase {
 		
 		pstnRptGrpBo  = boService.findByPrimaryKey(PositionReportGroupBo.class, Collections.singletonMap("pmPositionReportGroupId", "4"));
 		Assert.assertNotNull(pstnRptGrpBo);
+		
+		effectiveKeyList = pstnRptGrpBo.getEffectiveKeyList();
+		Assert.assertNotNull(effectiveKeyList);
+		Assert.assertEquals(effectiveKeyList.size(), 2);
+		
 		effectiveKeySet = pstnRptGrpBo.getEffectiveKeySet(); 
 		Assert.assertNotNull(effectiveKeySet);
 		Assert.assertEquals(effectiveKeySet.size(), 2);		
@@ -72,6 +84,7 @@ public class PositionReportGroupKeyWhiteListTest extends PMIntegrationTestCase {
 		for(PositionReportGroupKeyBo keyBo: effectiveKeySet) {
 			Assert.assertEquals(keyBo.getOwnerId(), "4");
 			idSet.add(keyBo.getId());
+			Assert.assertTrue(effectiveKeyList.contains(keyBo));
 			Assert.assertTrue( ( (keyBo.getId().equals("kpme_neeraj_test_1002")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("UGA-GA")) ) ||
 							   ( (keyBo.getId().equals("kpme_neeraj_test_1003")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("IU-IN")) )
 							 );
@@ -83,16 +96,19 @@ public class PositionReportGroupKeyWhiteListTest extends PMIntegrationTestCase {
 		
 		
 		pstnRptGrpBo  = boService.findByPrimaryKey(PositionReportGroupBo.class, Collections.singletonMap("pmPositionReportGroupId", "2"));
-		Assert.assertNotNull(pstnRptGrpBo);
-		effectiveKeySet = pstnRptGrpBo.getEffectiveKeySet(); 
-		Assert.assertTrue( (effectiveKeySet == null) || effectiveKeySet.isEmpty() );		
+		Assert.assertNotNull(pstnRptGrpBo);		
+		effectiveKeyList = pstnRptGrpBo.getEffectiveKeyList();
+		Assert.assertTrue( (effectiveKeyList == null) || effectiveKeyList.isEmpty() );
+		effectiveKeySet = pstnRptGrpBo.getEffectiveKeySet();
+		Assert.assertTrue( (effectiveKeySet == null) || effectiveKeySet.isEmpty() );
+		
 		pstnRptGrpBo  = boService.findByPrimaryKey(PositionReportGroupBo.class, Collections.singletonMap("pmPositionReportGroupId", "3"));
 		Assert.assertNotNull(pstnRptGrpBo);
+		effectiveKeyList = pstnRptGrpBo.getEffectiveKeyList();
+		Assert.assertTrue( (effectiveKeyList == null) || effectiveKeyList.isEmpty() );
 		effectiveKeySet = pstnRptGrpBo.getEffectiveKeySet(); 
 		Assert.assertTrue( (effectiveKeySet == null) || effectiveKeySet.isEmpty() );
 		
-		//
-		//Assert.notEmpty(pstnRptGrpBo.getGroupKeyCodeSet());
 	}
 	
 	

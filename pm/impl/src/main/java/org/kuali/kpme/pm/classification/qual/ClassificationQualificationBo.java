@@ -119,4 +119,14 @@ public class ClassificationQualificationBo extends ClassificationDerived impleme
 		this.typeValue = typeValue;
 	}
 
+	@Override
+	public String getId() {
+		return this.getPmClassificationQualificationId();
+	}
+
+	@Override
+	public void setId(String id) {
+		this.setPmClassificationQualificationId(id);
+	}
+
 }

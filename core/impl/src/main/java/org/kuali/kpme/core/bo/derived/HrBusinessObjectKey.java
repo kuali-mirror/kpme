@@ -15,7 +15,9 @@
  */
 package org.kuali.kpme.core.bo.derived;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.bo.derived.HrBusinessObjectKeyContract;
+import org.kuali.kpme.core.api.mo.EffectiveKey;
 import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -27,6 +29,11 @@ public abstract class HrBusinessObjectKey <O extends HrKeyedSetBusinessObject<O,
 	
 	protected String groupKeyCode;
 	protected transient HrGroupKeyBo groupKey;
+	
+	// the foreign key linking back to the owner
+	private String ownerId;
+	// the PK for the table corresponding to this BO
+	private String id;
 
 	@Override
 	public O getOwner() {
@@ -57,6 +64,65 @@ public abstract class HrBusinessObjectKey <O extends HrKeyedSetBusinessObject<O,
 
 	public void setGroupKey(HrGroupKeyBo groupKey) {
 		this.groupKey = groupKey;
+	}
+	
+	
+	@Override
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public boolean equals(Object other) {
+		boolean retVal = false;
+	    if (this == other) {
+	    	retVal = true;
+	    }
+	    else if( (other != null) && (other.getClass() == this.getClass()) ) {
+	    	if(StringUtils.equals(this.groupKeyCode, this.getClass().cast(other).groupKeyCode)) {
+	    		retVal = true;
+	    	}
+	    }	    
+	    return retVal;	
+	}
+	
+	 
+	public int hashCode() {
+		int hash = 1;
+		hash = hash * 31  + (this.groupKeyCode == null ? 0 : groupKeyCode.hashCode());
+		return hash;
+	}
+	
+	protected static <T extends HrBusinessObjectKey<?,?>> T commonFromLogic(EffectiveKey im, T keyBo) {
+		if (im == null) {
+			return null;
+		}
+		keyBo.setId(im.getId());
+		keyBo.setOwnerId(im.getOwnerId());
+		keyBo.setVersionNumber(im.getVersionNumber());
+		keyBo.setObjectId(im.getObjectId());
+		keyBo.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+		keyBo.setGroupKeyCode(im.getGroupKeyCode());
+		return keyBo;
+	}
+	
+	public static EffectiveKey to(HrBusinessObjectKey<?,?> bo) {
+		if (bo == null) {
+			return null;
+		}
+		return EffectiveKey.Builder.create(bo).build();
 	}
 
 }

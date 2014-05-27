@@ -16,6 +16,7 @@
 package org.kuali.kpme.core.bo;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -33,19 +34,32 @@ public abstract class HrKeyedSetBusinessObject<O extends HrKeyedSetBusinessObjec
 	protected transient Set<String> groupKeyCodeSet;
 	protected transient Set<HrGroupKeyBo> groupKeySet;
 	protected Set<K> effectiveKeySet;
-	private static final String EFFECTIVE_KEY_SET = "effectiveKeySet";
-
-
+	protected List<K> effectiveKeyList;
+	private static final String EFFECTIVE_KEY_LIST = "effectiveKeyList";
+	
 	@Override
 	public Set<K> getEffectiveKeySet() {
-		if(CollectionUtils.isEmpty(this.effectiveKeySet)) {
-			refreshReferenceObject(EFFECTIVE_KEY_SET);
+		if( CollectionUtils.isEmpty(this.effectiveKeySet) && CollectionUtils.isNotEmpty(this.getEffectiveKeyList()) ) {
+			this.effectiveKeySet = new HashSet<K>(this.getEffectiveKeyList()); 
 		}
 		return this.effectiveKeySet;
 	}
 	
+
 	public void setEffectiveKeySet(Set<K> effectiveKeySet) {
 		this.effectiveKeySet = effectiveKeySet;
+	}
+	
+	
+	public List<K> getEffectiveKeyList() {
+		if(CollectionUtils.isEmpty(this.effectiveKeyList)) {
+			refreshReferenceObject(EFFECTIVE_KEY_LIST);
+		}
+		return this.effectiveKeyList;
+	}
+	
+	public void setEffectiveKeyList(List<K> effectiveKeyList) {
+		this.effectiveKeyList = effectiveKeyList;
 	}
 	
 	public Set<String> getGroupKeyCodeSet() {
@@ -74,7 +88,10 @@ public abstract class HrKeyedSetBusinessObject<O extends HrKeyedSetBusinessObjec
 			// iterate over the key set and extract out the group key objects
 			Set<K> keys = this.getEffectiveKeySet();
 			for(K key : keys) {
-				computedSet.add(key.getGroupKey());
+				HrGroupKeyBo groupKey = key.getGroupKey();
+				if(groupKey != null) {
+					computedSet.add(groupKey);
+				}
 			}
 			// set it so that we dont have to compute next time
 			this.setGroupKeySet(computedSet);

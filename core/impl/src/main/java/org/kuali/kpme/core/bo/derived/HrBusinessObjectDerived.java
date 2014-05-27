@@ -29,6 +29,14 @@ public abstract class HrBusinessObjectDerived<O extends HrBusinessObject> extend
 	protected O owner;
 	private static final String OWNER = "owner";
 
+	
+	public abstract String getId();
+	public abstract void setId(String id);
+	
+	public abstract String getOwnerId();
+	public abstract void setOwnerId(String id);
+	
+	
 	@Override
 	public LocalDate getEffectiveLocalDateOfOwner() {
 		LocalDate retVal = null;

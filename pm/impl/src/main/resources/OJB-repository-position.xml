@@ -44,9 +44,9 @@
         <field-descriptor name="versionNumber"           column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
         <field-descriptor name="userPrincipalId"         column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" 		nullable="false" />
         
-        <collection-descriptor name="effectiveKeySet" 
+        <collection-descriptor name="effectiveKeyList" 
         		element-class-ref="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo"
-        		collection-class="org.apache.ojb.broker.util.collections.ManageableHashSet" 
+        		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" 
         		auto-retrieve="true" 
         		auto-update="object" 
         		auto-delete="object" 

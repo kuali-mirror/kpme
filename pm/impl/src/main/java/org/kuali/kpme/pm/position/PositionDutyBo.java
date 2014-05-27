@@ -72,5 +72,13 @@ private static final long serialVersionUID = 1L;
                 .isEquals();
 
     }
+	@Override
+	public String getId() {
+		return this.getPmDutyId();
+	}
+	@Override
+	public void setId(String id) {
+		this.setPmDutyId(id);
+	}
 	
 }
