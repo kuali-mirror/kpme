@@ -25,6 +25,7 @@ import org.kuali.kpme.pm.api.position.funding.PositionFunding;
 import org.kuali.kpme.pm.api.position.funding.PositionFundingContract;
 import org.kuali.kpme.pm.position.PositionDerived;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class PositionFundingBo extends PositionDerived implements PositionFundingContract {
@@ -51,6 +52,7 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 	// we use source on the maint document to determine which funding
 	// information is readonly
 	private String source;
+	private transient BusinessObjectService businessObjectService;
 
 	public String getPmPositionFunctionId() {
 		return pmPositionFunctionId;
@@ -72,7 +74,7 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("accountNumber", this.account);
 		fields.put("active", "true");
-		Account account = (Account) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class,
+		Account account = (Account) getBusinessObjectService().findByPrimaryKey(Account.class,
 						fields);
 		if (account != null && !account.isClosed()) {
 			this.setChart(account.getChartOfAccountsCode());
@@ -197,7 +199,6 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 		positionFundingBo.setObjectCode(im.getObjectCode());
 		positionFundingBo.setOrg(im.getOrg());
 		positionFundingBo.setOrgRefCode(im.getOrgRefCode());
-//		positionFundingBo.setOwner(PositionBo. im.getOwner());
 		positionFundingBo.setPercent(im.getPercent());
 		positionFundingBo.setPmPositionFunctionId(im.getPmPositionFunctionId());
 		positionFundingBo.setPriorityFlag(im.isPriorityFlag());
@@ -229,6 +230,17 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 		};
 	};
 
+	public BusinessObjectService getBusinessObjectService() {
+		if(businessObjectService == null) {
+			businessObjectService = KRADServiceLocator.getBusinessObjectService();
+		}
+		return businessObjectService;
+	}
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+	
 	@Override
 	public String getId() {
 		return this.getPmPositionFunctionId();
