@@ -17,8 +17,11 @@ package org.kuali.kpme.pm.classification.flag;
 
 import java.util.List;
 
+import org.kuali.kpme.pm.api.classification.flag.ClassificationFlag;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
+import org.kuali.kpme.pm.classification.ClassificationBo;
 import org.kuali.kpme.pm.classification.ClassificationDerived;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class ClassificationFlagBo extends ClassificationDerived implements ClassificationFlagContract {
 	
@@ -55,5 +58,42 @@ public class ClassificationFlagBo extends ClassificationDerived implements Class
 	public void setId(String id) {
 		this.setPmFlagId(id);
 	}
+	
+		public static ClassificationFlagBo from(ClassificationFlag im) {
+				if (im == null) {
+					return null;
+				}
+				ClassificationFlagBo classificationFlagBo = new ClassificationFlagBo();
+		
+				
+				classificationFlagBo.setPmFlagId(im.getPmFlagId());
+				classificationFlagBo.setCategory(im.getCategory());
+				classificationFlagBo.setNames(im.getNames());
+				classificationFlagBo.setPmPositionClassId(im.getPmPositionClassId());
+		        classificationFlagBo.setVersionNumber(im.getVersionNumber());
+		        classificationFlagBo.setObjectId(im.getObjectId());
+				
+				return classificationFlagBo;
+			}
+		
+			public static ClassificationFlag to(ClassificationFlagBo bo) {
+				if (bo == null) {
+					return null;
+				}
+				return ClassificationFlag.Builder.create(bo).build();
+			}
+		
+			public static final ModelObjectUtils.Transformer<ClassificationFlagBo, ClassificationFlag> toImmutable = new ModelObjectUtils.Transformer<ClassificationFlagBo, ClassificationFlag>() {
+				public ClassificationFlag transform(ClassificationFlagBo input) {
+					return ClassificationFlagBo.to(input);
+				};
+			};
+		
+			public static final ModelObjectUtils.Transformer<ClassificationFlag, ClassificationFlagBo> toBo = new ModelObjectUtils.Transformer<ClassificationFlag, ClassificationFlagBo>() {
+				public ClassificationFlagBo transform(ClassificationFlag input) {
+					return ClassificationFlagBo.from(input);
+				};
+			};
+			
 	
 }

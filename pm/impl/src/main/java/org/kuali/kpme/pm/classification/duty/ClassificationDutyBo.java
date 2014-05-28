@@ -17,8 +17,11 @@ package org.kuali.kpme.pm.classification.duty;
 
 import java.math.BigDecimal;
 
+import org.kuali.kpme.pm.api.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
+import org.kuali.kpme.pm.classification.ClassificationBo;
 import org.kuali.kpme.pm.classification.ClassificationDerived;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class ClassificationDutyBo extends ClassificationDerived implements ClassificationDutyContract {
 	
@@ -63,4 +66,42 @@ public class ClassificationDutyBo extends ClassificationDerived implements Class
 		this.setPmDutyId(id);
 	}
 	
+		public static ClassificationDutyBo from(ClassificationDuty im) {
+				if (im == null) {
+					return null;
+				}
+				ClassificationDutyBo classificationDutyBo = new ClassificationDutyBo();
+		
+				
+				classificationDutyBo.setPmDutyId(im.getPmDutyId());
+				classificationDutyBo.setName(im.getName());
+				classificationDutyBo.setDescription(im.getDescription());
+				classificationDutyBo.setPercentage(im.getPercentage());
+				
+				classificationDutyBo.setPmPositionClassId(im.getPmPositionClassId());
+		        classificationDutyBo.setVersionNumber(im.getVersionNumber());
+		        classificationDutyBo.setObjectId(im.getObjectId());
+				
+				return classificationDutyBo;
+			}
+		
+			public static ClassificationDuty to(ClassificationDutyBo bo) {
+				if (bo == null) {
+					return null;
+				}
+				return ClassificationDuty.Builder.create(bo).build();
+			}
+		
+			public static final ModelObjectUtils.Transformer<ClassificationDutyBo, ClassificationDuty> toImmutable = new ModelObjectUtils.Transformer<ClassificationDutyBo, ClassificationDuty>() {
+				public ClassificationDuty transform(ClassificationDutyBo input) {
+					return ClassificationDutyBo.to(input);
+				};
+			};
+		
+			public static final ModelObjectUtils.Transformer<ClassificationDuty, ClassificationDutyBo> toBo = new ModelObjectUtils.Transformer<ClassificationDuty, ClassificationDutyBo>() {
+				public ClassificationDutyBo transform(ClassificationDuty input) {
+					return ClassificationDutyBo.from(input);
+				};
+			};
+			
 }

@@ -16,15 +16,19 @@
 package org.kuali.kpme.pm.classification;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.location.LocationBo;
+import org.kuali.kpme.pm.api.classification.Classification;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -255,5 +259,65 @@ public class ClassificationBo extends HrBusinessObject implements Classification
 	public void setFlagList(List<ClassificationFlagBo> flagList) {
 		this.flagList = flagList;
 	}
+	
+	public static ClassificationBo from(Classification im) {
+				if (im == null) {
+					return null;
+				}
+				ClassificationBo classificationBo = new ClassificationBo();
+				classificationBo.setPmPositionClassId(im.getPmPositionClassId());
+				classificationBo.setVersionNumber(im.getVersionNumber());
+				classificationBo.setObjectId(im.getObjectId());
+		
+				classificationBo.setPoolEligible(im.getPoolEligible());
+				classificationBo.setPositionType(im.getPositionType());
+				classificationBo.setPositionReportGroup(im.getPositionReportGroup());
+				classificationBo.setLeaveEligible(im.getLeaveEligible());
+				classificationBo.setBenefitsEligible(im.getBenefitsEligible());
+				classificationBo.setClassificationTitle(im.getClassificationTitle());
+				
+				classificationBo.setPositionClass(im.getPositionClass());
+				classificationBo.setPercentTime(im.getPercentTime());
+				classificationBo.setSalaryGroup(im.getSalaryGroup());
+				classificationBo.setTenureEligible(im.getTenureEligible());
+				classificationBo.setExternalReference(im.getExternalReference());
+				classificationBo.setQualificationList(ModelObjectUtils.transform(im.getQualificationList(), ClassificationQualificationBo.toBo));
+				classificationBo.setFlagList(ModelObjectUtils.transform(im.getFlagList(), ClassificationFlagBo.toBo));
+				classificationBo.setDutyList(ModelObjectUtils.transform(im.getDutyList(), ClassificationDutyBo.toBo));
+				classificationBo.setLeavePlan(im.getLeavePlan());
+				classificationBo.setPayGrade(im.getPayGrade());
+				classificationBo.setVersionNumber(im.getVersionNumber());
+				classificationBo.setObjectId(im.getObjectId());
+				classificationBo.setActive(im.isActive());
+				classificationBo.setId(im.getId());
+				classificationBo.setEffectiveLocalDate(im.getEffectiveLocalDate());
+				if (im.getCreateTime() != null) {
+					classificationBo.setTimestamp(new Timestamp(im.getCreateTime()
+							.getMillis()));
+				}
+				classificationBo.setUserPrincipalId(im.getUserPrincipalId());
+		
+				return classificationBo;
+			}
+		
+			public static Classification to(ClassificationBo bo) {
+				if (bo == null) {
+					return null;
+				}
+				return Classification.Builder.create(bo).build();
+			}
+		
+			public static final ModelObjectUtils.Transformer<ClassificationBo, Classification> toImmutable = new ModelObjectUtils.Transformer<ClassificationBo, Classification>() {
+				public Classification transform(ClassificationBo input) {
+					return ClassificationBo.to(input);
+				};
+			};
+		
+			public static final ModelObjectUtils.Transformer<Classification, ClassificationBo> toBo = new ModelObjectUtils.Transformer<Classification, ClassificationBo>() {
+				public ClassificationBo transform(Classification input) {
+					return ClassificationBo.from(input);
+				};
+			};
+		
 
 }
