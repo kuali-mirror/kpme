@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibilityContract;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDerived;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.location.api.campus.Campus;
@@ -134,6 +135,7 @@ public class PositionResponsibilityBo extends PositionDerived implements Positio
         pr.setPercentTime(im.getPercentTime());
         pr.setVersionNumber(im.getVersionNumber());
         pr.setObjectId(im.getObjectId());
+        pr.setHrPositionId(im.getHrPositionId());
         
         return pr;
     } 
