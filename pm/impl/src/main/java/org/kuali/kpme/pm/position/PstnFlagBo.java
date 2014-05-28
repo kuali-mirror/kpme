@@ -18,7 +18,12 @@ package org.kuali.kpme.pm.position;
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.pm.api.position.PstnFlag;
 import org.kuali.kpme.pm.api.position.PstnFlagContract;
+import org.kuali.kpme.pm.api.positiontype.PositionType;
+import org.kuali.kpme.pm.positiontype.PositionTypeBo;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 
 public class PstnFlagBo extends PositionDerived implements PstnFlagContract {
@@ -67,6 +72,46 @@ public class PstnFlagBo extends PositionDerived implements PstnFlagContract {
                 .isEquals();
 
     }
+    
+    public static PstnFlag to(PstnFlagBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PstnFlag.Builder.create(bo).build();
+	}
+    
+    public static PstnFlagBo from(PstnFlag im) {
+
+		if (im == null) {
+			return null;
+		}
+
+		PstnFlagBo pstnFlagBo = new PstnFlagBo();
+		
+		pstnFlagBo.setCategory(im.getCategory());
+		pstnFlagBo.setHrPositionId(im.getHrPositionId());
+		pstnFlagBo.setNames(im.getNames());
+		pstnFlagBo.setObjectId(im.getObjectId());
+		pstnFlagBo.setPmFlagId(im.getPmFlagId());
+//		pstnFlagBo.setOwner(PositionBo.from(im.getOwner()));
+		pstnFlagBo.setVersionNumber(im.getVersionNumber());
+
+		return pstnFlagBo;
+
+	}
+    
+    public static final ModelObjectUtils.Transformer<PstnFlagBo, PstnFlag> toImmutable = new ModelObjectUtils.Transformer<PstnFlagBo, PstnFlag>() {
+		public PstnFlag transform(PstnFlagBo input) {
+			return PstnFlagBo.to(input);
+		};
+	};
+
+	public static final ModelObjectUtils.Transformer<PstnFlag, PstnFlagBo> toBo = new ModelObjectUtils.Transformer<PstnFlag, PstnFlagBo>() {
+		public PstnFlagBo transform(PstnFlag input) {
+			return PstnFlagBo.from(input);
+		};
+	};
+
 	@Override
 	public String getId() {
 		return this.getPmFlagId();
@@ -74,5 +119,7 @@ public class PstnFlagBo extends PositionDerived implements PstnFlagContract {
 	@Override
 	public void setId(String id) {
 		this.setPmFlagId(id);
+		
 	}
+	
 }

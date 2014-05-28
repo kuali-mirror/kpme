@@ -57,7 +57,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return (HrBusinessObject) PmServiceLocator.getPositionService().getPosition(id);
+		return PositionBo.from(PmServiceLocator.getPositionService().getPosition(id));
 	}
 	
 	@Override

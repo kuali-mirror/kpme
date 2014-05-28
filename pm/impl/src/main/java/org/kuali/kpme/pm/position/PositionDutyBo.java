@@ -18,7 +18,9 @@ package org.kuali.kpme.pm.position;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kpme.pm.api.position.PositionDuty;
 import org.kuali.kpme.pm.api.position.PositionDutyContract;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionDutyBo extends PositionDerived implements PositionDutyContract {
 private static final long serialVersionUID = 1L;
@@ -80,5 +82,45 @@ private static final long serialVersionUID = 1L;
 	public void setId(String id) {
 		this.setPmDutyId(id);
 	}
+	
+	    public static PositionDutyBo from(PositionDuty im) {
+		
+				if (im == null) {
+					return null;
+				}
+		
+				PositionDutyBo positionDutyBo = new PositionDutyBo();
+		
+				positionDutyBo.setDescription(im.getDescription());
+				positionDutyBo.setHrPositionId(im.getHrPositionId());
+				positionDutyBo.setName(im.getName());
+				positionDutyBo.setObjectId(im.getObjectId());
+				positionDutyBo.setPercentage(im.getPercentage());
+				positionDutyBo.setPmDutyId(im.getPmDutyId());
+				positionDutyBo.setVersionNumber(im.getVersionNumber());
+				
+				return positionDutyBo;
+		
+			}
+		
+			public static PositionDuty to(PositionDutyBo bo) {
+				if (bo == null) {
+					return null;
+				}
+				return PositionDuty.Builder.create(bo).build();
+			}
+			
+			public static final ModelObjectUtils.Transformer<PositionDutyBo, PositionDuty> toImmutable = new ModelObjectUtils.Transformer<PositionDutyBo, PositionDuty>() {
+				public PositionDuty transform(PositionDutyBo input) {
+					return PositionDutyBo.to(input);
+				};
+			};
+		
+			public static final ModelObjectUtils.Transformer<PositionDuty, PositionDutyBo> toBo = new ModelObjectUtils.Transformer<PositionDuty, PositionDutyBo>() {
+				public PositionDutyBo transform(PositionDuty input) {
+					return PositionDutyBo.from(input);
+				};
+			};
+		 
 	
 }

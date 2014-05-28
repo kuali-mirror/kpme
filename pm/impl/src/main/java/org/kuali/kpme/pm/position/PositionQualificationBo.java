@@ -17,9 +17,11 @@ package org.kuali.kpme.pm.position;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kpme.pm.api.position.PositionQualification;
 import org.kuali.kpme.pm.api.position.PositionQualificationContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionQualificationBo extends PositionDerived implements PositionQualificationContract {
 	private static final long serialVersionUID = 1L;
@@ -96,6 +98,48 @@ public class PositionQualificationBo extends PositionDerived implements Position
                 .isEquals();
 
     }
+    
+
+	public static PositionQualificationBo from(PositionQualification im) {
+
+		if (im == null) {
+			return null;
+		}
+
+		PositionQualificationBo positionQualificationBo = new PositionQualificationBo();
+
+		positionQualificationBo.setQualifier(im.getQualifier());
+		positionQualificationBo.setHrPositionId(im.getHrPositionId());
+		positionQualificationBo.setObjectId(im.getObjectId());
+		positionQualificationBo.setPmQualificationId(im.getPmQualificationId());
+		positionQualificationBo.setQualificationType(im.getQualificationType());
+		positionQualificationBo.setQualificationValue(im.getQualificationValue());
+		positionQualificationBo.setTypeValue(im.getTypeValue());
+		positionQualificationBo.setVersionNumber(im.getVersionNumber());
+		
+		
+		return positionQualificationBo;
+
+	}
+
+	public static PositionQualification to(PositionQualificationBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PositionQualification.Builder.create(bo).build();
+	}
+	
+	public static final ModelObjectUtils.Transformer<PositionQualificationBo, PositionQualification> toImmutable = new ModelObjectUtils.Transformer<PositionQualificationBo, PositionQualification>() {
+		public PositionQualification transform(PositionQualificationBo input) {
+			return PositionQualificationBo.to(input);
+		};
+	};
+
+	public static final ModelObjectUtils.Transformer<PositionQualification, PositionQualificationBo> toBo = new ModelObjectUtils.Transformer<PositionQualification, PositionQualificationBo>() {
+		public PositionQualificationBo transform(PositionQualification input) {
+			return PositionQualificationBo.from(input);
+		};
+	};
 
 	@Override
 	public String getId() {

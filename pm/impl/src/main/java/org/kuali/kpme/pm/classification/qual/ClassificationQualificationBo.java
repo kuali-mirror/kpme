@@ -18,10 +18,12 @@ package org.kuali.kpme.pm.classification.qual;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.pm.PMConstants;
+import org.kuali.kpme.pm.api.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.classification.ClassificationDerived;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ClassificationQualificationBo extends ClassificationDerived implements ClassificationQualificationContract {
@@ -119,6 +121,46 @@ public class ClassificationQualificationBo extends ClassificationDerived impleme
 		this.typeValue = typeValue;
 	}
 
+	public static ClassificationQualificationBo from(ClassificationQualification im) {
+
+		if (im == null) {
+			return null;
+		}
+
+		ClassificationQualificationBo classificationQualificationBo = new ClassificationQualificationBo();
+
+		classificationQualificationBo.setDisplayOrder(im.getDisplayOrder());
+		classificationQualificationBo.setObjectId(im.getObjectId());
+		classificationQualificationBo.setPmClassificationQualificationId(im.getPmClassificationQualificationId());
+		classificationQualificationBo.setPmPositionClassId(im.getPmPositionClassId());
+		classificationQualificationBo.setQualificationType(im.getQualificationType());
+		classificationQualificationBo.setQualificationValue(im.getQualificationValue());
+		classificationQualificationBo.setQualifier(im.getQualifier());
+		classificationQualificationBo.setVersionNumber(im.getVersionNumber());
+		
+		return classificationQualificationBo;
+
+	}
+
+	public static ClassificationQualification to(ClassificationQualificationBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return ClassificationQualification.Builder.create(bo).build();
+	}
+	
+	public static final ModelObjectUtils.Transformer<ClassificationQualificationBo, ClassificationQualification> toImmutable = new ModelObjectUtils.Transformer<ClassificationQualificationBo, ClassificationQualification>() {
+		public ClassificationQualification transform(ClassificationQualificationBo input) {
+			return ClassificationQualificationBo.to(input);
+		};
+	};
+
+	public static final ModelObjectUtils.Transformer<ClassificationQualification, ClassificationQualificationBo> toBo = new ModelObjectUtils.Transformer<ClassificationQualification, ClassificationQualificationBo>() {
+		public ClassificationQualificationBo transform(ClassificationQualification input) {
+			return ClassificationQualificationBo.from(input);
+		};
+	};
+
 	@Override
 	public String getId() {
 		return this.getPmClassificationQualificationId();
@@ -128,5 +170,4 @@ public class ClassificationQualificationBo extends ClassificationDerived impleme
 	public void setId(String id) {
 		this.setPmClassificationQualificationId(id);
 	}
-
 }

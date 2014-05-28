@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
@@ -39,9 +40,10 @@ import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.core.api.util.Truth;
 
 import com.google.common.collect.ImmutableList;
-import org.kuali.rice.core.api.util.Truth;
 
 public class PositionBo extends PositionBaseBo implements PositionContract {
 	private static final long serialVersionUID = 1L;
@@ -497,25 +499,78 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		return retVal;
 	}
 	
-//	public static PositionBo from(Position im) {
-//		if (im == null) {
-//            return null;
-//        }		
-//		PositionBo retVal = new PositionBo();
-//		
-//		retVal.setHrPositionId(im.getHrPositionId());
-//		
-//		
-//		retVal.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
-//	    retVal.setActive(im.isActive());
-//	    if (im.getCreateTime() != null) {
-//	    	retVal.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
-//	    }
-//	    retVal.setUserPrincipalId(im.getUserPrincipalId());
-//	    retVal.setVersionNumber(im.getVersionNumber());
-//	    retVal.setObjectId(im.getObjectId());
-//
-//	    return retVal;
-//	}
+	public static PositionBo from(Position im) {
+				if (im == null) {
+					return null;
+				}
+				PositionBo retVal = new PositionBo();
+		
+				retVal.setHrPositionId(im.getHrPositionId());
+				retVal.setPositionNumber(im.getPositionNumber());
+				retVal.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im
+						.getEffectiveLocalDate().toDate());
+				retVal.setActive(im.isActive());
+				if (im.getCreateTime() != null) {
+					retVal.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+				}
+				retVal.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+				retVal.setGroupKeyCode(im.getGroupKeyCode());
+				retVal.setUserPrincipalId(im.getUserPrincipalId());
+				retVal.setVersionNumber(im.getVersionNumber());
+				retVal.setObjectId(im.getObjectId());
+				retVal.setBenefitsEligible(im.getBenefitsEligible());
+				retVal.setPercentTime(im.getPercentTime());
+				retVal.setClassificationTitle(im.getClassificationTitle());
+				retVal.setSalaryGroup(im.getSalaryGroup());
+		        retVal.setQualificationList(ModelObjectUtils.transform(im.getQualificationList(), PositionQualificationBo.toBo));
+				retVal.setReportsToPrincipalId(im.getReportsToPrincipalId());
+				retVal.setLeaveEligible(im.getLeaveEligible());
+				retVal.setPositionReportGroup(im.getPositionReportGroup());
+				retVal.setPositionType(im.getPositionType());
+				retVal.setPoolEligible(im.getPoolEligible());
+				retVal.setMaxPoolHeadCount(im.getMaxPoolHeadCount());
+				retVal.setTenureEligible(im.getTenureEligible());
+				retVal.setDepartmentList(ModelObjectUtils.transform(im.getDepartmentList(), PositionDepartmentBo.toBo));
+				retVal.setPositionStatus(im.getPositionStatus());
+				retVal.setContractType(im.getContractType());
+				retVal.setRenewEligible(im.getRenewEligible());
+				retVal.setReportsToPositionId(im.getReportsToPositionId());
+				retVal.setRequiredQualList(ModelObjectUtils.transform(im.getRequiredQualList(), ClassificationQualificationBo.toBo));
+				retVal.setPositionResponsibilityList(ModelObjectUtils.transform(im.getPositionResponsibilityList(),PositionResponsibilityBo.toBo));
+				retVal.setPmPositionClassId(im.getPmPositionClassId());
+				retVal.setFundingList(ModelObjectUtils.transform(im.getFundingList(),PositionFundingBo.toBo));
+				retVal.setWorkMonths(im.getWorkMonths());
+				retVal.setTemporary(im.getTemporary());
+				retVal.setCategory(im.getCategory());
+				retVal.setLeavePlan(im.getLeavePlan());
+				retVal.setFlagList(ModelObjectUtils.transform(im.getFlagList(), PstnFlagBo.toBo));
+				retVal.setPayStep(im.getPayStep());
+				retVal.setPayGrade(im.getPayGrade());
+				retVal.setDutyList(ModelObjectUtils.transform(im.getDutyList(), PositionDutyBo.toBo));
+				retVal.setContract(im.getContract());
+				retVal.setDescription(im.getDescription());
+				retVal.setId(im.getId());
+				retVal.setEffectiveLocalDate(im.getEffectiveLocalDate());
+				return retVal;
+			}
+		
+			public static Position to(PositionBo bo) {
+				if (bo == null) {
+					return null;
+				}
+				return Position.Builder.create(bo).build();
+			}
+		
+			public static final ModelObjectUtils.Transformer<PositionBo, Position> toImmutable = new ModelObjectUtils.Transformer<PositionBo, Position>() {
+				public Position transform(PositionBo input) {
+					return PositionBo.to(input);
+				};
+			};
+		
+			public static final ModelObjectUtils.Transformer<Position, PositionBo> toBo = new ModelObjectUtils.Transformer<Position, PositionBo>() {
+				public PositionBo transform(Position input) {
+					return PositionBo.from(input);
+				};
+			};
 	
 }

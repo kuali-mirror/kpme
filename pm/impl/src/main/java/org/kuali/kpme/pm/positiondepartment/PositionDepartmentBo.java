@@ -19,9 +19,13 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.core.api.departmentaffiliation.service.DepartmentAffiliationService;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.pm.api.positiondepartment.PositionDepartment;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
+import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionKeyedDerived;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.ImmutableList;
@@ -157,4 +161,41 @@ public class PositionDepartmentBo extends PositionKeyedDerived implements Positi
 	public void setId(String id) {
 		this.setPmPositionDeptId(id);
 	}
+	
+	public static PositionDepartmentBo from(PositionDepartment im) {
+				if (im == null) {
+					return null;
+				}
+				PositionDepartmentBo pd = new PositionDepartmentBo();
+				pd.setPmPositionDeptId(im.getPmPositionDeptId());
+				pd.setDeptAfflObj(DepartmentAffiliationBo.from(im.getDeptAfflObj()));
+				pd.setGroupKeyCode(im.getGroupKeyCode());
+				pd.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+				pd.setDepartment(im.getDepartment());
+				pd.setDeptAffl(im.getDeptAffl());
+				pd.setHrPositionId(im.getHrPositionId());
+		 
+				pd.setVersionNumber(im.getVersionNumber());
+				pd.setObjectId(im.getObjectId());
+				return pd;
+			}
+			
+			public static PositionDepartment to(PositionDepartmentBo bo) {
+				if (bo == null) {
+					return null;
+				}
+				return PositionDepartment.Builder.create(bo).build();
+			}
+		
+			public static final ModelObjectUtils.Transformer<PositionDepartmentBo, PositionDepartment> toImmutable = new ModelObjectUtils.Transformer<PositionDepartmentBo, PositionDepartment>() {
+				public PositionDepartment transform(PositionDepartmentBo input) {
+					return PositionDepartmentBo.to(input);
+				};
+			};
+		
+			public static final ModelObjectUtils.Transformer<PositionDepartment, PositionDepartmentBo> toBo = new ModelObjectUtils.Transformer<PositionDepartment, PositionDepartmentBo>() {
+				public PositionDepartmentBo transform(PositionDepartment input) {
+					return PositionDepartmentBo.from(input);
+				};
+			};
 }
