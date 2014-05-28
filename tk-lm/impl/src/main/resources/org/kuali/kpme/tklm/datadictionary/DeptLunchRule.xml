@@ -22,7 +22,7 @@
 
 	<bean id="DeptLunchRule" parent="DeptLunchRule-parentBean" />
 
-	<bean id="DeptLunchRule-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
+	<bean id="DeptLunchRule-parentBean" abstract="true" parent="KPMETkKeyedBusinessObjectParent">
 		<property name="businessObjectClass" value="org.kuali.kpme.tklm.time.rules.lunch.department.DeptLunchRule" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="DeptLunchRule" />
@@ -79,31 +79,23 @@
 					</property>
 					 <property name="supportAttributes">
 		                  <list>
-		                      <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate" p:targetName="effectiveDate" />
+		                      <bean parent="SupportAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
 		                      <bean parent="SupportAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
 		                  </list>
 		             </property>
 				</bean>
-				
+ 
 	            <bean parent="RelationshipDefinition">
 	              <property name="objectAttributeName" value="job"/>
 	              <property name="primitiveAttributes">
 	                <list>
 	                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
 	                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="jobNumber" p:targetName="jobNumber"/>
-	                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="relativeEffectiveDate" p:targetName="effectiveDate"/>
+	                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
 	                </list>
 	              </property>
-	            </bean>   
-			
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="groupKey" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
-						</list>
-					</property>
-				</bean>
+	            </bean>
+	              
 			</list>
 		</property>
 	 
