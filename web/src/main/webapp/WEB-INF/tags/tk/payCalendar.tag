@@ -35,7 +35,7 @@
  	 	 	 		</div> -->
  	 	 	 		<div class="missed-punch-marker">
 						<span id="approvals-missedpunch" class='approvals-missedpunch'>
-							<span class="icon-file2"></span>
+							<span class="icon-file7"></span>
 						</span>
 					</div>
 					<div id="approvals-missedpunch-details"
@@ -57,7 +57,8 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td style="width: 250px;height: auto;">${block.timeBlock.actionDateTime}</td>
+									<td style="width: 250px;height: auto;">
+									${block.timeBlock.actionDateTime}</td>
 									<td style="width: 30px; height: auto;">${block.timeBlock.clockAction}</td>
 									<td style="height: auto">
 										<div class="warning-note-message">
