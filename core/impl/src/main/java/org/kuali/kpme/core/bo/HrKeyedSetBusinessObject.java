@@ -52,9 +52,9 @@ public abstract class HrKeyedSetBusinessObject<O extends HrKeyedSetBusinessObjec
 	
 	
 	public List<K> getEffectiveKeyList() {
-		if(CollectionUtils.isEmpty(this.effectiveKeyList)) {
-			refreshReferenceObject(EFFECTIVE_KEY_LIST);
-		}
+//		if(CollectionUtils.isEmpty(this.effectiveKeyList)) {
+//			refreshReferenceObject(EFFECTIVE_KEY_LIST);
+//		}
 		return this.effectiveKeyList;
 	}
 	

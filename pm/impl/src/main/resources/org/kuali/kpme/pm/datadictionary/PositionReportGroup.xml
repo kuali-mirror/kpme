@@ -162,6 +162,7 @@
 	<!--  Position Reporting Group Maintenance View -->
     <bean id="PositionReportGroup-MaintenanceView" parent="PositionReportGroup-MaintenanceView-parentBean"/>
     <bean id="PositionReportGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+      <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.positionreportgroup.web.PositionReportGroupMaintainableImpl" />
       <property name="headerText" value="Position Report Group Maintenance"/>
       <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo"/>
       <property name="items">
@@ -202,7 +203,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate" p:readOnly="@{!#isAddLine}">
+                <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:refreshWhenChangedPropertyNames="#dp.effectiveDate" p:readOnly="@{!#isAddLine}">
                 	<property name="control">
                     	<bean parent="Uif-DropdownControl" />
                		</property>

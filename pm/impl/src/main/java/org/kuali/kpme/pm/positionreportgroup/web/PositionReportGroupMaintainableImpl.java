@@ -15,12 +15,49 @@
  */
 package org.kuali.kpme.pm.positionreportgroup.web;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
-import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
-import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import java.util.HashSet;
+import java.util.Set;
 
-public class PositionReportGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
+import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+
+public class PositionReportGroupMaintainableImpl extends HrKeyedSetBusinessObjectMaintainableImpl<PositionReportGroupBo, PositionReportGroupKeyBo> {
+	
+	private static final String EFFECTIVE_KEY_LIST = "effectiveKeyList";
+
+	@SuppressWarnings("deprecation")
+	@Override
+    public void addNewLineToCollection(String collectionName) {
+        if (collectionName.equals(EFFECTIVE_KEY_LIST)) {
+        	PositionReportGroupKeyBo inputPositionReportGroupKey = (PositionReportGroupKeyBo)newCollectionLines.get(collectionName );
+            if ( inputPositionReportGroupKey != null ) {
+            	PositionReportGroupBo positionReportGroup = (PositionReportGroupBo)this.getBusinessObject();
+            	Set<String> groupKeyCodes = new HashSet<String>();
+            	for(PositionReportGroupKeyBo positionReportGroupKey : positionReportGroup.getEffectiveKeyList()){
+            		groupKeyCodes.add(positionReportGroupKey.getGroupKeyCode());
+            	}
+            	if(groupKeyCodes.contains(inputPositionReportGroupKey.getGroupKeyCode())){
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"effectiveKeyList", 
+            				"keyedSet.duplicate.groupKeyCode", inputPositionReportGroupKey.getGroupKeyCode());
+            		return;
+    			} 
+            	if (!ValidationUtils.validateGroupKey(inputPositionReportGroupKey.getGroupKeyCode(), positionReportGroup.getEffectiveLocalDate())) {
+    				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
+    							"error.existence", "Group key code: '" + inputPositionReportGroupKey.getGroupKeyCode() + "'");
+    				return;
+    			}
+            }
+        }
+       super.addNewLineToCollection(collectionName);
+    }
+	
+	
 	
 	private static final long serialVersionUID = 1L;
 
