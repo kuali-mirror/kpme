@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.pm.api.classification.Classification;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlag;
+import org.kuali.kpme.pm.classification.ClassificationBo;
 import org.kuali.kpme.pm.classification.ClassificationBoTest;
 
 public class ClassificationFlagBoTest {
@@ -16,7 +18,8 @@ public class ClassificationFlagBoTest {
 
 	private static Map<String, ClassificationFlag> testClassificationFlagBos;
 	public static ClassificationFlag.Builder classificationFlagBuilder = ClassificationFlag.Builder.create();
-
+	public static LocalDate currentTime = LocalDate.now();
+	
 	static{
 		testClassificationFlagBos = new HashMap<String, ClassificationFlag>();
 		
@@ -28,7 +31,7 @@ public class ClassificationFlagBoTest {
 		classificationFlagBuilder.setCategory("CAT");
 		classificationFlagBuilder.setPmFlagId("TST-CLSFCTNFLAG");
 		classificationFlagBuilder.setPmPositionClassId("TST-PMCLASSID");
-//		classificationFlagBuilder.setOwner(Classification.Builder.create(ClassificationBoTest.getClassification("TST-PMCLASSID")));
+		classificationFlagBuilder.setEffectiveLocalDateOfOwner(currentTime);
 		
 		testClassificationFlagBos.put(classificationFlagBuilder.getPmFlagId(), classificationFlagBuilder.build());
 		
@@ -38,6 +41,11 @@ public class ClassificationFlagBoTest {
     public void testNotEqualsWithGroup() {
     	ClassificationFlag immutable = ClassificationFlagBoTest.getClassificationFlag("TST-CLSFCTNFLAG");
     	ClassificationFlagBo bo = ClassificationFlagBo.from(immutable);
+    	
+    	ClassificationBo classificationBo = new ClassificationBo();
+    	classificationBo.setEffectiveLocalDate(currentTime);
+    	bo.setOwner(classificationBo);
+
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
         Assert.assertEquals(immutable, ClassificationFlagBo.to(bo));

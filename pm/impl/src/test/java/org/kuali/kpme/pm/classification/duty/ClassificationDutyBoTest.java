@@ -4,17 +4,19 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.pm.api.classification.Classification;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDuty;
+import org.kuali.kpme.pm.classification.ClassificationBo;
 import org.kuali.kpme.pm.classification.ClassificationBoTest;
 
 public class ClassificationDutyBoTest {
 
 	private static Map<String, ClassificationDuty> testClassificationDutyBos;
 	public static ClassificationDuty.Builder classificationDutyBuilder = ClassificationDuty.Builder.create();
-
+	public static LocalDate currentTime = LocalDate.now();
 	static{
 		testClassificationDutyBos = new HashMap<String, ClassificationDuty>();
 		
@@ -25,6 +27,7 @@ public class ClassificationDutyBoTest {
 		classificationDutyBuilder.setPercentage(new BigDecimal(100.0));
 		classificationDutyBuilder.setPmDutyId("TST-CLSFCTNDUTY");
 		classificationDutyBuilder.setPmPositionClassId("TST-PMCLASSID");
+		classificationDutyBuilder.setEffectiveLocalDateOfOwner(currentTime);
 //		classificationDutyBuilder.setOwner(Classification.Builder.create(ClassificationBoTest.getClassification("TST-PMCLASSID")));
 		
 		testClassificationDutyBos.put(classificationDutyBuilder.getPmDutyId(), classificationDutyBuilder.build());
@@ -35,6 +38,11 @@ public class ClassificationDutyBoTest {
     public void testNotEqualsWithGroup() {
     	ClassificationDuty immutable = ClassificationDutyBoTest.getClassificationDuty("TST-CLSFCTNDUTY");
     	ClassificationDutyBo bo = ClassificationDutyBo.from(immutable);
+    	
+    	ClassificationBo classificationBo = new ClassificationBo();
+    	classificationBo.setEffectiveLocalDate(currentTime);
+    	bo.setOwner(classificationBo);
+    	
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
         Assert.assertEquals(immutable, ClassificationDutyBo.to(bo));
