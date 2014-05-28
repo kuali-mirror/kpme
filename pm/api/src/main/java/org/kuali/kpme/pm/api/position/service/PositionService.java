@@ -18,13 +18,13 @@ package org.kuali.kpme.pm.api.position.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.kuali.kpme.pm.api.position.PositionContract;
+import org.kuali.kpme.pm.api.position.Position;
 
 
 public interface PositionService {
 
-	public PositionContract getPosition(String id);
+	public Position getPosition(String id);
 	
-	public List<? extends PositionContract> getPositions(String positionNum, String description, String groupKeyCode, String classificationTitle, String positionType,
-                                       String poolEligible, String positionStatus, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
+	public List<? extends Position> getPositions(String positionNum, String description, String groupKeyCode, String classificationTitle, String positionType,
+            String poolEligible, String positionStatus, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

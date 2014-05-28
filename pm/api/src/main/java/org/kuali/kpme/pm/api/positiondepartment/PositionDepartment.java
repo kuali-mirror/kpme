@@ -220,6 +220,7 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
             builder.setDeptAfflObj(contract.getDeptAfflObj() == null ? null : DepartmentAffiliation.Builder.create(contract.getDeptAfflObj()));
 //            builder.setInstitution(contract.getInstitution());
 //            builder.setInstitutionObj(contract.getInstitutionObj() == null ? null : Institution.Builder.create(contract.getInstitutionObj()));
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
             builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             builder.setDepartment(contract.getDepartment());
             builder.setDeptAffl(contract.getDeptAffl());
