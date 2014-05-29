@@ -42,7 +42,33 @@
 							<!-- bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/-->
 						</list>
 					</property>
-					 <property name="supportAttributes">
+					<property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+                        </list>
+                    </property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="institutionObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="institutionCode"	p:targetName="institutionCode" />
+						</list>
+					</property>
+					<property name="supportAttributes">
+                        <list>
+                            <bean parent="SupportAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
+                        </list>
+                    </property>
+				</bean> 
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="locationObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="locationId"	p:targetName="location" />
+						</list>
+					</property>
+					<property name="supportAttributes">
                         <list>
                             <bean parent="SupportAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
                         </list>

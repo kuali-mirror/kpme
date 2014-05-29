@@ -26,9 +26,10 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.service.HrServiceLocatorInternal;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 
-public class LocationInquirableImpl extends InquirableImpl {
+public class LocationInquirableImpl extends KualiInquirableImpl  {//InquirableImpl
 	
 	private static final long serialVersionUID = -828163766114475072L;
 

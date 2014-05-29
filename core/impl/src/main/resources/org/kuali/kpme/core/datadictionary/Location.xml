@@ -27,6 +27,12 @@
 		<property name="dataObjectClass" value="org.kuali.kpme.core.location.LocationBo" />
 		<property name="titleAttribute" value="location" />
 		<property name="objectLabel" value="Location" />
+		<property name="inquiryDefinition">
+			<ref bean="Location-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="Location-lookupDefinition" />
+		</property>
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="Location-hrLocationId" />
@@ -136,6 +142,33 @@
 	    </property>
 	</bean>
 	  
+	<!--  KNS Look up Definitions  -->
+
+	<bean id="Location-lookupDefinition" parent="Location-lookupDefinition-parentBean" />
+	<bean id="Location-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+		<property name="lookupableID" value="locationLookupable" />
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="hrLocationId" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="location" />
+				<bean parent="FieldDefinition" p:attributeName="description" />
+				<bean parent="FieldDefinition" p:attributeName="timezone" />
+				<bean parent="FieldDefinition" p:attributeName="timestamp" />
+				<bean parent="FieldDefinition" p:attributeName="active"/>
+			</list>
+		</property>
+		<property name="title" value="Location Lookup" />
+	</bean>
+	
 	<!-- KRAD Inquiry Definition -->
 	<bean id="Location-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Location Inquiry" />
@@ -165,6 +198,38 @@
         </property>
     </bean>
 
+
+	<!-- KNS Inquiry Definitions  -->
+  
+  	<bean id="Location-inquiryDefinition" parent="Location-inquiryDefinition-parentBean" />
+
+	<bean id="Location-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" >
+		<!--  p:inquirableClass="org.kuali.kpme.core.location.web.LocationInquirableImpl"-->
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="hrLocationId" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
+							<bean parent="FieldDefinition" p:attributeName="timezone" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+							<!-- bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+								p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/-->
+                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
+						</list>
+					</property>
+					<property name="title" value="Location" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false"/>
+		<property name="title" value="Location Inquiry" />
+	</bean>
+	
     <bean id="Location-roleMembersInquiry" parent="Uif-Disclosure-TableCollectionSection">
         <property name="headerText" value="Role Members"/>
         <property name="collectionObjectClass" value="org.kuali.kpme.core.role.location.LocationPrincipalRoleMemberBo"/>

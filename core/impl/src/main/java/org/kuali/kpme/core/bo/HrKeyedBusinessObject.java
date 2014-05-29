@@ -32,6 +32,10 @@ public abstract class HrKeyedBusinessObject extends HrBusinessObject implements 
     protected transient String locationId;
 	protected transient String institutionCode;
 	
+	// purely for KNS lookup criteria
+	protected transient InstitutionBo institutionObj;
+	protected transient LocationBo locationObj;
+	
 	@Override
 	public String getGroupKeyCode() {
 		return groupKeyCode;
