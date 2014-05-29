@@ -165,7 +165,9 @@ public class ClockAction extends TimesheetAction {
 		        if (lastClockLog == null || StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT)) {
 		            clockActionForm.setCurrentClockAction(TkConstants.CLOCK_IN);
 		        } else {
-		            if (StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_OUT) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
+		        	// KPME-3532 comment out the call to System Lunch Rule
+		            //if (StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_OUT) && TkServiceLocator.getSystemLunchRuleService().isShowLunchButton()) {
+		        	if (StringUtils.equals(lastClockLog.getClockAction(), TkConstants.LUNCH_OUT)) {
 		                clockActionForm.setCurrentClockAction(TkConstants.LUNCH_IN);
 		                clockActionForm.setShowClockButton(false);
 		            } else {
@@ -225,7 +227,10 @@ public class ClockAction extends TimesheetAction {
 		        	clockActionForm.setClockButtonEnabled(isApproverOrReviewerForCurrentAssignment);
 		        }
 		        
-		        clockActionForm.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
+		        // KPME-3532 comment out the call to System Lunch Rule, but if the system lunch rule (global) is off (line 236), it won't
+		        // get to the department lunch rule code, and it needs to, so set it true.
+		        //clockActionForm.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
+		        clockActionForm.setShowLunchButton(true);
 		        assignShowDistributeButton(clockActionForm);
 		        
 		        if (clockActionForm.isShowLunchButton()) {

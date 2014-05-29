@@ -66,17 +66,18 @@ public class MissedPunchClockActionKeyValuesFinder extends UifKeyValuesFinderBas
 		            Long jobNumber = lastClock.getJobNumber();
 		            String groupKeyCode = lastClock.getGroupKeyCode();
 		            
-		            SystemLunchRule systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(LocalDate.now());
+		            // KPME-3532 comment out the call to the System Lunch Rule
+		            //SystemLunchRule systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(LocalDate.now());
 		            DeptLunchRule departmentLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(department, workArea, HrContext.getTargetPrincipalId(), jobNumber, groupKeyCode, LocalDate.now());
-		            if (systemLunchRule == null || !systemLunchRule.getShowLunchButton()) {
-		            	availableActions.remove(TkConstants.LUNCH_OUT);
-		            	availableActions.remove(TkConstants.LUNCH_IN);
-		            } else {
+		            //if (systemLunchRule == null || !systemLunchRule.getShowLunchButton()) {
+		            //	availableActions.remove(TkConstants.LUNCH_OUT);
+		            //	availableActions.remove(TkConstants.LUNCH_IN);
+		            //} else {
 		            	if (departmentLunchRule != null) {
 			            	availableActions.remove(TkConstants.LUNCH_OUT);
 			            	availableActions.remove(TkConstants.LUNCH_IN);
 		            	}
-		            }
+		            //}
 	            }
 	        }
 		} else {
