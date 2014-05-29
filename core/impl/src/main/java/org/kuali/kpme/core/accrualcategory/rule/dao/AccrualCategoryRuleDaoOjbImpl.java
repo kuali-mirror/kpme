@@ -31,6 +31,7 @@ public class AccrualCategoryRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb imple
 	public List <AccrualCategoryRuleBo> getActiveAccrualCategoryRules(String accrualCategoryId) {
     	Criteria crit = new Criteria();
 		crit.addEqualTo("lmAccrualCategoryId", accrualCategoryId);
+		crit.addEqualTo("active", true);
 		
 		Query query = QueryFactory.newQuery(AccrualCategoryRuleBo.class, crit);
 		return (List<AccrualCategoryRuleBo>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);

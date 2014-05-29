@@ -18,7 +18,7 @@
 -->
   <bean id="ClockLocationRule" parent="ClockLocationRule-parentBean"/>
 
-  <bean id="ClockLocationRule-parentBean" abstract="true" parent="KPMETkKeyedBusinessObjectParent"><!-- KPMEHrKeyedBusinessObjectParent/KPMEHrBusinessObjectParent -->
+  <bean id="ClockLocationRule-parentBean" abstract="true" parent="KPMETkKeyedBusinessObjectParent">
     <property name="businessObjectClass" value="org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule"/>
     <property name="titleAttribute" value="id"/>
     <property name="objectLabel" value="ClockLocationRule"/>
@@ -94,17 +94,6 @@
                 </list>
               </property>
             </bean> 
-            <!-- 
-            <bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="groupKey" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="groupKeyCode" p:targetName="groupKeyCode" />
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate"/>
-					</list>
-				</property>
-			</bean>
-			-->
         </list>
     </property>        
   </bean>
