@@ -24,21 +24,19 @@
 */
 @import "../plugins/fancybox/jquery.fancybox.css";
 .missed-punch-marker {
-	width: 15px;
-	height: 15px;
+	width: 13px;
+	height: 13px;
 	margin: 1px 0 0 4px;
 	z-index: 15;
 	cursor: pointer;
 	float: left;
 	clear: none;
+	border: 1px solid #d3d3d3; 
+	font-weight: normal; 
+	color: #993333;
 }
 
-.missed-punch-marker {
-    width: 15px;
-    height: 15px;
-    margin: 1px 0 0 4px;
-    z-index: 15;
+.missed-punch-marker:hover{
+	background-color: #dadada;
     cursor: pointer;
-    float: left;
-    clear: none;
 }

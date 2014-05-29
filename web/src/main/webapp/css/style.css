@@ -43,6 +43,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-missedpunch:before{
+	content: "\e96a";
+}
 .icon-home:before {
 	content: "\e601";
 }

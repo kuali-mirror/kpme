@@ -663,7 +663,7 @@ label.error {
     background-color: #EEE5E5;
 }
 
-.approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover, .approvals-table #approvals-missedpunch:hover, .approvals-table #approvals-status:hover {
+.approvals-table #approvals-warning:hover, .approvals-table #approvals-note:hover, .approvals-table #approvals-status:hover {
     background-color: #dadada;
     cursor: pointer;
 }

@@ -27,15 +27,11 @@
         </c:forEach>
 
         <div id="${timeBlockDivId}" class="approvals-table event ${last} ${block.assignmentClass} ${error}">
-            <div id="timeblock_${block.timeBlock.tkTimeBlockId}"
-            	 class="${editableClass}">
+            <div id="timeblock_${block.timeBlock.tkTimeBlockId}" class="${editableClass}">
             	 <c:if test="${block.timeBlock.clockedByMissedPunch}">
- 	 	 	 	 	<!-- <div class="missed-punch-marker">
- 	 	 	 			<span class='icon-file2'/>
- 	 	 	 		</div> -->
- 	 	 	 		<div class="missed-punch-marker">
+ 	 	 	 		<div class="ui-corner-all missed-punch-marker">
 						<span id="approvals-missedpunch" class='approvals-missedpunch'>
-							<span class="icon-file7"></span>
+							<span class="icon-missedpunch"></span>
 						</span>
 					</div>
 					<div id="approvals-missedpunch-details"

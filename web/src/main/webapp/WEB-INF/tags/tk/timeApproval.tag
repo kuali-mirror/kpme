@@ -100,10 +100,9 @@
 				</c:if>
 				<!-- Missed Punch Marker -->
 				<c:if test="${fn:length(row.missedPunchList) > 0 }">
-					<div class="ui-state-default ui-corner-all missed-punch-marker"
-						style="float: right;">
+					<div class="ui-corner-all missed-punch-marker" style="float: right;">
 						<span id="approvals-missedpunch" class='approvals-missedpunch'>
-							<span class="icon-file2"></span>
+							<span class="icon-missedpunch"></span>
 						</span>
 					</div>
 					<div id="approvals-missedpunch-details"
