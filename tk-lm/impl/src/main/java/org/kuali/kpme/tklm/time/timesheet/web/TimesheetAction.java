@@ -15,16 +15,23 @@
  */
 package org.kuali.kpme.tklm.time.timesheet.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -38,11 +45,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimesheetAction extends CalendarFormAction {
 
@@ -118,6 +120,9 @@ public class TimesheetAction extends CalendarFormAction {
         		calendarEntry =  HrServiceLocator.getCalendarEntryService().getCalendarEntry(timesheetActionForm.getHrCalendarEntryId());
         	} else {
         		calendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
+        		DateTimeZone timeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+        		DateTime actualTime = new DateTime().toDateTime(timeZone);
+        		calendarEntry = HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(principalId, actualTime.toLocalDate().toDateTimeAtStartOfDay());
             	//the above service call returns a LEAVE calendar type when no PAY calendar type is found.
         	}
         	

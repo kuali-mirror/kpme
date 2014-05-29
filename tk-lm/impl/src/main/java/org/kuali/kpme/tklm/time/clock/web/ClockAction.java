@@ -370,8 +370,10 @@ public class ClockAction extends TimesheetAction {
                 DateTime currentCalendarEntryEndDate = ((ClockActionForm) form).getTimesheetDocument().getCalendarEntry().getEndPeriodFullDateTime();
 
                 Interval currentCalendarInterval = new Interval(currentCalendarEntryBeginDate,currentCalendarEntryEndDate);
-
-                if (!currentCalendarInterval.contains(previousClockLog.getClockDateTime())) {
+                DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(pId));
+        		DateTimeZone systemTimeZone = TKUtils.getSystemDateTimeZone();
+                
+                if (!currentCalendarInterval.contains(TKUtils.convertDateTimeToDifferentTimezone(previousClockLog.getClockDateTime(), systemTimeZone, userTimeZone))) {
                     TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(pId,currentCalendarEntryBeginDate);
                     if (prevTdh != null) {
                         previousTimeDoc =  TkServiceLocator.getTimesheetService().getTimesheetDocument(prevTdh.getDocumentId());
@@ -383,20 +385,23 @@ public class ClockAction extends TimesheetAction {
                 CalendarEntry previousCalEntry = previousTimeDoc.getCalendarEntry();
 	        	DateTime previousEndPeriodDateTime = previousCalEntry.getEndPeriodFullDateTime();
 	        	// if current time is after the end time of previous calendar entry, it means the clock action covers two calendar entries
-	        	if(currentDateTime.isAfter(previousEndPeriodDateTime.getMillis())) {
+                DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(pId));
+        		DateTimeZone systemTimeZone = TKUtils.getSystemDateTimeZone();
+	        	DateTime tzDateTime = TKUtils.convertDateTimeToDifferentTimezone(currentDateTime, systemTimeZone, userTimeZone);
+	        	
+	        	if(tzDateTime.isAfter(previousEndPeriodDateTime.getMillis())) {
 	        		
 	        		// create co, ci and co clock logs and assign the last co clock log to the form
 	        		// use the user's time zone and the system time zone to figure out the system time of endPeriodDatTime in the user's timezone
-	                DateTimeZone userTimezone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(pId));
-	        		DateTimeZone systemTimeZone = TKUtils.getSystemDateTimeZone();
 	        		// time to use to create the out clock log
-	                DateTime outLogDateTime = TKUtils.convertTimeForDifferentTimeZone(previousEndPeriodDateTime, systemTimeZone, userTimezone);
+	        		DateTime outLogDateTime = TKUtils.convertDateTimeToDifferentTimezone(previousEndPeriodDateTime, userTimeZone, systemTimeZone);
+//	                DateTime outLogDateTime = TKUtils.convertTimeForDifferentTimeZone(previousEndPeriodDateTime, systemTimeZone, userTimeZone);
 	        	        
 	                CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(previousCalEntry.getHrCalendarId(), previousCalEntry);
 	                DateTime beginNextPeriodDateTime = nextCalendarEntry.getBeginPeriodFullDateTime();
 	                // time to use to create the CI clock log
-	                DateTime inLogDateTime = TKUtils.convertTimeForDifferentTimeZone(beginNextPeriodDateTime, systemTimeZone, userTimezone);
-	                
+//	                DateTime inLogDateTime = TKUtils.convertTimeForDifferentTimeZone(beginNextPeriodDateTime, systemTimeZone, userTimeZone);
+	                DateTime inLogDateTime = TKUtils.convertDateTimeToDifferentTimezone(beginNextPeriodDateTime, userTimeZone, systemTimeZone);
 	                TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService()
 	                		.getDocumentHeader(pId, nextCalendarEntry.getBeginPeriodFullDateTime(), nextCalendarEntry.getEndPeriodFullDateTime());
 	                if(nextTdh == null) {

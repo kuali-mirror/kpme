@@ -576,6 +576,17 @@ public class TKUtils {
 		
 		return toTime;
 	}
+	
+	public static DateTime convertDateTimeToDifferentTimezone(DateTime aDateTime, DateTimeZone fromTimeZone, DateTimeZone toTimeZone) {
+		if(fromTimeZone == null || toTimeZone == null || fromTimeZone.equals(toTimeZone))
+			return aDateTime;	// no conversion is needed
+		
+		Long millisOfSysTime = toTimeZone.getMillisKeepLocal(fromTimeZone, aDateTime.getMillis());
+		DateTime toTime = new DateTime(millisOfSysTime);
+		
+		return toTime;
+	}
+
 
     public static Assignment getAssignmentWithKey(List<Assignment> assignments, AssignmentDescriptionKey assignmentDescriptionKey) {
 
