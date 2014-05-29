@@ -592,6 +592,9 @@
                 <!-- 
                 <bean parent="Uif-DataField" p:propertyName="location"/>
                 -->
+                <!-- <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/> -->
+                <bean parent="KPMEGroupKeyDataFieldLookup" p:propertyName="groupKeyCode"/>
+
                 <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
                 <bean parent="Uif-DataField" p:propertyName="positionNumber">
                     <property name="inquiry">

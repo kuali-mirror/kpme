@@ -16,6 +16,9 @@
 package org.kuali.kpme.core.assignment;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,9 +28,13 @@ import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.assignment.dao.AssignmentDaoOjbImpl;
+import org.kuali.kpme.core.assignment.web.AssignmentLookupableImpl;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +44,12 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
 
     private static final Logger LOG = Logger.getLogger(AssignmentServiceImplTest.class);
     AssignmentService assignmentService = null;
+    private static final ModelObjectUtils.Transformer<AssignmentBo, Assignment> toAssignment =
+            new ModelObjectUtils.Transformer<AssignmentBo, Assignment>() {
+                public Assignment transform(AssignmentBo input) {
+                    return AssignmentBo.to(input);
+                };
+            };
 
     @Before
     public void setUp() throws Exception {
@@ -99,6 +112,10 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
 
     @Test
     public void testSearchAssignments() throws Exception {
+        List <AssignmentBo> results = new ArrayList<AssignmentBo>();
+        List <AssignmentBo> finalResults = new ArrayList<AssignmentBo>();
+
+
         Map<String, String> formValues = new HashMap<String, String>();
         formValues.put("active", (String)"Y");
         formValues.put("history", (String)"N");
@@ -109,10 +126,16 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
         formValues.put("dept", null);
         formValues.put("workArea", null);
 
-        List<Assignment> allResults = HrServiceLocator.getAssignmentService().searchAssignments((String)"admin", formValues);
+        AssignmentDaoOjbImpl dao = HrServiceLocator.getService("assignmentDao");
+        Criteria root = dao.getCollectionCriteriaFromMap(new AssignmentBo(), formValues);
+        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
+        results.addAll(dao.getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        finalResults = AssignmentLookupableImpl.filterLookupAssignments(results, (String)"admin");
 
-       Assert.assertEquals("Search returned the wrong number of results.", 14, allResults.size());
+       Assert.assertEquals("Search returned the wrong number of results.", 14, finalResults.size());
 
+        results.clear();
+        finalResults.clear();
 
         Map<String, String> formValues2 = new HashMap<String, String>();
         formValues2.put("active", (String)"Y");
@@ -124,8 +147,15 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
         formValues2.put("dept", null);
         formValues2.put("workArea", null);
 
-        List<Assignment> restrictedResults = HrServiceLocator.getAssignmentService().searchAssignments((String)"testuser6", formValues2);
+        root = dao.getCollectionCriteriaFromMap(new AssignmentBo(), formValues2);
+        query = QueryFactory.newQuery(AssignmentBo.class, root);
+        results.addAll(dao.getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
-        Assert.assertEquals("Search returned the wrong number of results.", 5, restrictedResults.size());
+        finalResults = AssignmentLookupableImpl.filterLookupAssignments(results, (String)"testuser6");
+
+
+        //List<Assignment> restrictedResults = HrServiceLocator.getAssignmentService().searchAssignments((String)"testuser6", formValues2);
+
+        Assert.assertEquals("Search returned the wrong number of results.", 5, finalResults.size());
     }
 }

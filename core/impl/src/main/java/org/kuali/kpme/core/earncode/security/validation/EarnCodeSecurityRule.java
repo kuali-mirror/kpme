@@ -21,6 +21,7 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -52,8 +53,15 @@ import java.util.List;
             return true;
         }
 
-        if ( (departmentEarnCode.getDepartmentObj() != null)
-            && (StringUtils.equals(departmentEarnCode.getDepartmentObj().getGroupKeyCode(), departmentEarnCode.getGroupKeyCode() ) ) ) {
+        DepartmentBo dbo = departmentEarnCode.getDepartmentObj();
+
+        /* if ( (departmentEarnCode.getDepartmentObj() != null)
+            && (StringUtils.equals(departmentEarnCode.getDepartmentObj().getGroupKeyCode(), departmentEarnCode.getGroupKeyCode() ) ) ) { */
+
+        Department dept = HrServiceLocator.getDepartmentService().getDepartment(departmentEarnCode.getDept(), departmentEarnCode.getGroupKeyCode(), departmentEarnCode.getEffectiveLocalDate());
+
+        if ( (dept != null)
+                && (StringUtils.equals(dept.getGroupKeyCode(), departmentEarnCode.getGroupKeyCode() ) ) ) {
             return true;
         } else {
             this.putFieldError("dept", "error.department.groupkey.nomatch", departmentEarnCode.getDept());

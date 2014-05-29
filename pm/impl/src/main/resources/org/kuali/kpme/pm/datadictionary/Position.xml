@@ -1199,7 +1199,8 @@
         </property>
 		<property name="items">
 			<list>
-                <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true">
+                <!-- <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true"> -->
+                <bean parent="KPMEHrGroupKeyInputField" p:propertyName="groupKeyCode" p:required="true">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
                               p:fieldConversions="groupKeyCode:groupKeyCode" />
@@ -1225,4 +1226,3 @@
 	</bean>
 
 </beans>
-

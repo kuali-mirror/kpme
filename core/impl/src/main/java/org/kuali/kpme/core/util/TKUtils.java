@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.util;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.*;
@@ -22,6 +23,7 @@ import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -32,17 +34,38 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TKUtils {
 
     private static final Logger LOG = Logger.getLogger(TKUtils.class);
+
+    public static boolean singleGroupKeyExists()
+    {
+        if (getSingleGroupKey() != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static String getSingleGroupKey()
+    {
+        String singleGroupKey = null;
+
+        List<? extends HrGroupKey> groupKeyList = HrServiceLocator.getHrGroupKeyService().getAllActiveHrGroupKeys(LocalDate.now());
+        if((CollectionUtils.isNotEmpty(groupKeyList)) && (groupKeyList.size() == 1)) {
+            singleGroupKey = groupKeyList.get(0).getGroupKeyCode();
+        }
+
+        return singleGroupKey;
+    }
 
     /**
      * @param dateString the format has to be mm/dd/yyyy

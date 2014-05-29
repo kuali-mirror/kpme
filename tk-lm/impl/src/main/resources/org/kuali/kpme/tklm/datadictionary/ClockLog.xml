@@ -280,7 +280,8 @@
 						p:inquiryParameters="principalId:principalId" />
 				</property>
 			</bean>
-            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode">
+<!--        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode"> -->
+            <bean parent="KPMEGroupKeyLookupCriteriaInputField" p:propertyName="groupKeyCode">
                 <property name="quickfinder">
                     <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
                           p:fieldConversions="groupKeyCode:groupKeyCode" />

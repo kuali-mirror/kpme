@@ -92,7 +92,7 @@
     <class-descriptor class="org.kuali.kpme.core.assignment.AssignmentBo" table="TK_ASSIGNMENT_T">
         <field-descriptor name="tkAssignmentId" column="TK_ASSIGNMENT_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_ASSIGNMENT_S" />
         <field-descriptor name="principalId"    column="PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" primarykey="false" />
-        <field-descriptor name="groupKeyCode"  column="GRP_KEY_CD"        jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
+        <field-descriptor name="groupKeyCode"   column="GRP_KEY_CD"        jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
         <field-descriptor name="jobNumber"      column="JOB_NUMBER"         jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="effectiveDate"  column="EFFDT"              jdbc-type="DATE"        nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="workArea"       column="WORK_AREA"          jdbc-type="BIGINT"      nullable="false" primarykey="false" />
@@ -180,7 +180,7 @@
     <class-descriptor class="org.kuali.kpme.core.workarea.WorkAreaBo" table="TK_WORK_AREA_T">
         <field-descriptor name="tkWorkAreaId"               column="TK_WORK_AREA_ID"            jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_WORK_AREA_S" />
         <field-descriptor name="workArea"                   column="WORK_AREA"                  jdbc-type="BIGINT"      autoincrement="true" sequence-name="TK_WORK_AREA_KEY_S" primarykey="false" />
-        <field-descriptor name="groupKeyCode"  		        column="GRP_KEY_CD"         jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
+        <field-descriptor name="groupKeyCode"  		        column="GRP_KEY_CD"                 jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
         <field-descriptor name="effectiveDate"              column="EFFDT"                      jdbc-type="DATE"        nullable="true" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="active"                     column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false"    conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="description"                column="DESCR"                      jdbc-type="VARCHAR"     length="30" nullable="false" primarykey="false" />

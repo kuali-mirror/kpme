@@ -86,7 +86,7 @@
     	<property name="viewHelperServiceClass" value="org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl" />
     	<property name="criteriaFields">
 		      <list merge="true">
-		      	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode" >
+		      	<bean parent="KPMEGroupKeyLookupCriteriaInputField" p:propertyName="groupKeyCode" >
               		<property name="quickfinder">
                   		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
               		</property>
@@ -109,7 +109,9 @@
     	  	  </list>
     	</property>
     </bean>
-   
+    <bean id = "KPMEGroupKeyLookupCriteriaInputField" class = "org.kuali.kpme.core.util.GroupKeyLookupInputField" parent = "Uif-LookupCriteriaInputField"/>
+    <bean id = "KPMEGroupKeyDataFieldLookup" class = "org.kuali.kpme.core.util.GroupKeyDataField" parent = "Uif-DataField"/>
+
     <bean id="KPMEGroupKeyed-InquiryGridSection" parent="Uif-Disclosure-GridSection">
     	<property name="items">
         	<list merge="true">
@@ -128,7 +130,9 @@
     	<property name="lookupFields">
 		      <list merge="true">
 		      	<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noLookup="true"/>
-		      	<bean parent="FieldDefinition" p:attributeName="groupKeyCode" >
+		      	<!-- <bean parent="FieldDefinition" p:attributeName="groupKeyCode" > -->
+                <bean parent="KPMEGroupKeyFieldDefinition" p:attributeName="groupKeyCode" >
+
               		<!-- property name="quickfinder">
                   		<bean parent="QuickFinder" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
               		</property-->
@@ -152,6 +156,7 @@
     	  	  </list>
     	</property>
     </bean>
+    <bean id = "KPMEGroupKeyFieldDefinition" parent = "FieldDefinition" class = "org.kuali.kpme.core.util.GroupKeyFieldDefinition"/>
     
     <!-- Inquiry defination for group-keyed effective dated *Rule BO-->
     <bean id="KPMEGroupKeyed-InquirySectionDefinition" parent="InquirySectionDefinition">
@@ -162,7 +167,7 @@
        		</list>
     	</property>
     </bean>
-    
+
     <!-- MaintainableSectionDefinition for group-keyed effective dated *Rule BO-->
     <bean id="KPMEEffectiveDateGroupKeyed-MaintainableSectionDefinition" abstract="true" parent="MaintainableSectionDefinition"  >
         <property name="maintainableItems">
@@ -237,11 +242,11 @@
     	<property name="items">
         	<list merge="true">
         		<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-            	<bean parent="Uif-InputField" p:propertyName="groupKeyCode" 
-            		p:required="true"
-            	    p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
+
+            	<!-- <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate"> -->
+                <bean parent="KPMEHrGroupKeyInputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
                 	<property name="control">
-                    	<bean parent="Uif-DropdownControl" />
+                    	<bean parent="Uif-DropdownControl" p:required="true"/>
                		</property>
                		<property name="optionsFinder">
                     	<bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
@@ -250,7 +255,9 @@
        		</list>
     	</property>
     </bean>
-  	
+
+    <bean id = "KPMEHrGroupKeyInputField" parent = "Uif-InputField" class = "org.kuali.kpme.core.util.GroupKeyInputField"/>
+
   	<bean id="KPMEEffectiveDateWarning-Dialog-parentBean" parent="Uif-Yes-No-DialogGroup">
   		<property name="headerText" value="Effective date warning!"/>
 		<property name="promptText" value="A record for this object exists with a later effective date, if you continue with submission, this record will be overwritten when the future effective date takes effect.  Are you sure you want to continue?"/>

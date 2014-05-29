@@ -27,17 +27,14 @@ import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.assignment.service.AssignmentService;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
-import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.assignment.dao.AssignmentDao;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.role.KPMERole;
-import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.HrConstants;
@@ -46,7 +43,6 @@ import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -92,15 +88,11 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         return assigns;
     }
-
+/*
     @Override
-    public List<Assignment> searchAssignments(String userPrincipalId, Map<String, String> searchCriteria) {
-        List<AssignmentBo> results = new ArrayList<AssignmentBo>();
-
-    	//AssignmentDaoObjImpl.java
-        List<AssignmentBo> assignmentObjs = assignmentDao.searchAssignments(searchCriteria);
-
-        for (AssignmentBo assignmentObj : assignmentObjs) {
+    public List<Assignment> filterLookupAssignments(List<Assignment> rawResults, String userPrincipalId) {
+        List<Assignment> results = new ArrayList<Assignment>();
+        for (Assignment assignmentObj : rawResults) {
 
             String department = assignmentObj.getDept();
             String groupKeyCode = assignmentObj.getGroupKeyCode();
@@ -121,9 +113,9 @@ public class AssignmentServiceImpl implements AssignmentService {
             }
         }
 
-        return convertToImmutable(results);
+        return results;
     }
-
+*/
     public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntry payCalendarEntry) {
     	DateTime entryEndDate = payCalendarEntry.getEndPeriodLocalDateTime().toDateTime();
         if (entryEndDate.getHourOfDay() == 0) {

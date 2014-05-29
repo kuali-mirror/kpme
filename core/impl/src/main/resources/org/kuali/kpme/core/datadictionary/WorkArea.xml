@@ -178,7 +178,6 @@
         ***************************************************************************-->
         
         <!-- KRAD Lookup View -->
-        
         <bean id="WorkArea-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Work Area Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkAreaBo"/>

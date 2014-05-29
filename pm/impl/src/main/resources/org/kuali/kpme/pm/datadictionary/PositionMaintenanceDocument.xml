@@ -278,7 +278,16 @@
                         </bean>
                     </property>
                 </bean>
+                <!--
                 <bean parent="Uif-InputField" p:propertyName="groupKeyCode" id="position_groupKeyCode"
+                      p:onDocumentReadyScript="
+                        var options = jQuery('#position_groupKeyCode_control option');
+                        if (options.length == 2) {
+                            jQuery('#position_groupKeyCode_control').val(options[1].value);
+                         }"
+                      p:required="true"
+                      p:refreshWhenChangedPropertyNames="#dp.effectiveDate"> -->
+                <bean parent="KPMEHrGroupKeyInputField" p:propertyName="groupKeyCode" id="position_groupKeyCode"
                       p:onDocumentReadyScript="
                         var options = jQuery('#position_groupKeyCode_control option');
                         if (options.length == 2) {

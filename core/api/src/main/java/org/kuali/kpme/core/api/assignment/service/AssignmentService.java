@@ -139,8 +139,9 @@ public interface AssignmentService {
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'asOfDate=' + #p2")
     public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate);
 
-    List<Assignment> searchAssignments(String userPrincipalId, Map<String, String> searchCriteria);
-    
+    //public List<Assignment> filterLookupAssignments(List<Assignment> rawResults, String userPrincipalId);
+
+
     /**
      * Get all assignment descriptions for given list of Assignments
      * @param assignments

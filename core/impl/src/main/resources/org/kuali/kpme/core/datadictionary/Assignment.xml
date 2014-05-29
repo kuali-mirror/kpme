@@ -22,7 +22,9 @@
 
 	<bean id="Assignment" parent="Assignment-parentBean" />
 
-	<bean id="Assignment-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+<!-- 	<bean id="Assignment-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent"> -->
+
+    <bean id="Assignment-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.assignment.AssignmentBo" />
 		<property name="objectLabel" value="Assignment" />
 		<property name="attributes">
@@ -30,7 +32,7 @@
 				<ref bean="Assignment-tkAssignmentId" />
 				<ref bean="Assignment-principalId" />
 				<ref bean="Assignment-name" />
-                <ref bean="Assignment-groupKeyCode" />
+                <!-- <ref bean="Assignment-groupKeyCode" /> -->
 				<ref bean="Assignment-jobNumber" />
 				<ref bean="Assignment-hrJobId" />
 				<ref bean="Assignment-dept" />
@@ -136,21 +138,21 @@
     <property name="singlePageView" value="true"/>
     <property name="items">
       <list>
-  			<bean parent="Uif-Disclosure-GridSection">
+  			<bean parent="KPMEGroupKeyed-InquiryGridSection">
 		      <property name="layoutManager.numberOfColumns" value="2"/>
 		      <property name="items">
-	       	 	<list>
-					<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+	       	 	<list merge = "true">
 					<bean parent="Uif-DataField" p:propertyName="principalId" />
 					<bean parent="Uif-DataField" p:propertyName="name" />
-                    <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
+                    <!-- <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/> -->
+                    <bean parent="KPMEGroupKeyDataFieldLookup" p:propertyName="groupKeyCode"/>
 					<bean parent="Uif-DataField" p:propertyName="jobNumber" />
 					<bean parent="Uif-DataField" p:propertyName="dept" />
 					<bean parent="Uif-DataField" p:propertyName="workArea" />
 					<bean parent="Uif-DataField" p:propertyName="task" />
 					<bean parent="Uif-DataField" p:propertyName="primaryAssign" />
 					<bean parent="Uif-DataField" p:propertyName="active" />
-                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />		         	
+                    <bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 	        	</list>
 	     	 </property>
 	     	 <property name="title" value="Assignment Inquiry"/>
@@ -158,7 +160,7 @@
 	   	   <bean parent="Assignment-assignmentAccountsInquiry"/>
       </list>
     </property>
-  </bean> 
+  </bean>
   
   <bean id="Assignment-assignmentAccountsInquiry" parent="Uif-Disclosure-TableCollectionSection"
         p:layoutManager.numberOfColumns="4">
@@ -184,10 +186,10 @@
   </bean>
   
   <!--  Assignment Lookup View -->
-  <bean id="Assignment-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+  <bean id="Assignment-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
     <property name="headerText" value="Assignment Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.assignment.AssignmentBo" />
-    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.assignment.web.AssignmentLookupableHelper" />
+   <property name="viewHelperServiceClass" value="org.kuali.kpme.core.assignment.web.AssignmentLookupableImpl" />
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" >
@@ -196,17 +198,11 @@
                             p:fieldConversions="principalId:principalId"/>
             </property>        
         </bean>
-          <bean parent="Uif-LookupCriteriaInputField" p:propertyName="groupKeyCode" >
-              <property name="quickfinder">
-                  <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo"
-                        p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
-              </property>
-          </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="jobNumber" >
 			<property name="quickfinder">
             	<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.job.JobBo"
                             p:fieldConversions="principalId:principalId,jobNumber:jobNumber" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
-            </property>        
+            </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
 			<property name="quickfinder">
@@ -226,9 +222,9 @@
       </list>
     </property>
     <property name="resultFields">
-      <list>
+      <list merge = "true">
         <bean parent="Uif-DataField" p:propertyName="principalId" />
-        <bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+        <!-- <bean parent="Uif-DataField" p:propertyName="groupKeyCode" /> -->
         <bean parent="Uif-DataField" p:propertyName="jobNumber" />
         <bean parent="Uif-DataField" p:propertyName="dept" />
         <bean parent="Uif-DataField" p:propertyName="workArea" />
