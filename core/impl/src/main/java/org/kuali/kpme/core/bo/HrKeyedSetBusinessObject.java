@@ -31,30 +31,19 @@ public abstract class HrKeyedSetBusinessObject<O extends HrKeyedSetBusinessObjec
 
 	private static final long serialVersionUID = -2616362205962723831L;
 	
-	protected transient Set<String> groupKeyCodeSet;
-	protected transient Set<HrGroupKeyBo> groupKeySet;
-	protected Set<K> effectiveKeySet;
 	protected List<K> effectiveKeyList;
-	private static final String EFFECTIVE_KEY_LIST = "effectiveKeyList";
 	
 	@Override
 	public Set<K> getEffectiveKeySet() {
-		if( CollectionUtils.isEmpty(this.effectiveKeySet) && CollectionUtils.isNotEmpty(this.getEffectiveKeyList()) ) {
-			this.effectiveKeySet = new HashSet<K>(this.getEffectiveKeyList()); 
+		HashSet<K> effectiveKeySet = new HashSet<K>();
+		if(CollectionUtils.isNotEmpty(this.getEffectiveKeyList())) {
+			effectiveKeySet = new HashSet<K>(this.getEffectiveKeyList()); 
 		}
-		return this.effectiveKeySet;
-	}
-	
-
-	public void setEffectiveKeySet(Set<K> effectiveKeySet) {
-		this.effectiveKeySet = effectiveKeySet;
+		return effectiveKeySet;
 	}
 	
 	
 	public List<K> getEffectiveKeyList() {
-//		if(CollectionUtils.isEmpty(this.effectiveKeyList)) {
-//			refreshReferenceObject(EFFECTIVE_KEY_LIST);
-//		}
 		return this.effectiveKeyList;
 	}
 	
@@ -63,47 +52,31 @@ public abstract class HrKeyedSetBusinessObject<O extends HrKeyedSetBusinessObjec
 	}
 	
 	public Set<String> getGroupKeyCodeSet() {
-		if(CollectionUtils.isEmpty(this.groupKeyCodeSet) && CollectionUtils.isNotEmpty(this.getEffectiveKeySet())) {
-			Set<String> computedSet = new HashSet<String>();
+		Set<String> computedSet = new HashSet<String>();
+		Set<K> keys = this.getEffectiveKeySet();
+		if(CollectionUtils.isNotEmpty(keys)) {
 			// iterate over the key set and extract out the group key codes
-			Set<K> keys = this.getEffectiveKeySet();
 			for(K key : keys) {
 				computedSet.add(key.getGroupKeyCode());
 			}
-			// set it so that we dont have to compute next time
-			this.setGroupKeyCodeSet(computedSet);
 		}
-		
-		return this.groupKeyCodeSet;
-	}
-
-	public void setGroupKeyCodeSet(Set<String> groupKeyCodeSet) {
-		this.groupKeyCodeSet = groupKeyCodeSet;
-	}
-	
+		return computedSet;
+	}	
 	
 	public Set<HrGroupKeyBo> getGroupKeySet() {
-		if(CollectionUtils.isEmpty(this.groupKeySet) && CollectionUtils.isNotEmpty(this.getEffectiveKeySet())) {
-			Set<HrGroupKeyBo> computedSet = new HashSet<HrGroupKeyBo>();
+		Set<HrGroupKeyBo> computedSet = new HashSet<HrGroupKeyBo>();
+		Set<K> keys = this.getEffectiveKeySet();
+		if(CollectionUtils.isNotEmpty(keys)) {
 			// iterate over the key set and extract out the group key objects
-			Set<K> keys = this.getEffectiveKeySet();
 			for(K key : keys) {
 				HrGroupKeyBo groupKey = key.getGroupKey();
 				if(groupKey != null) {
 					computedSet.add(groupKey);
 				}
 			}
-			// set it so that we dont have to compute next time
-			this.setGroupKeySet(computedSet);
 		}
-		
-		return this.groupKeySet;
+		return computedSet;
 	}
-
-	public void setGroupKeySet(Set<HrGroupKeyBo> groupKeySet) {
-		this.groupKeySet = groupKeySet;
-	}
-	
 	
  
 }

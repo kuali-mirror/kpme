@@ -61,5 +61,13 @@
 		<addForeignKeyConstraint baseTableName="PM_PSTN_RPT_GRP_KEY_T" baseColumnNames="PM_PSTN_RPT_GRP_ID"
            referencedTableName="PM_PSTN_RPT_GRP_T" referencedColumnNames="PM_PSTN_RPT_GRP_ID"
            constraintName="FK_PSTN_RPT_GRP_KEY" />
-	</changeSet>  
+	</changeSet>
+	
+	<changeSet id="4" author="neerajsk" context="kpme-client-bootstrap">
+        <createIndex indexName="PM_PSTN_RPT_GRP_KEY_IDX1" tableName="PM_PSTN_RPT_GRP_KEY_T" unique="true">
+            <column name="PM_PSTN_RPT_GRP_ID" />
+            <column name="GRP_KEY_CD" />
+        </createIndex>
+    </changeSet>
+      
 </databaseChangeLog>

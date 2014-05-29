@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup;
 import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroupContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -133,14 +132,10 @@ public class PositionReportGroupBo extends HrKeyedSetBusinessObject<PositionRepo
 		Set<PositionReportGroupKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), PositionReportGroupKeyBo.toBo);
 		// set prg as the owner for each of the derived effective key objects in the set
 		PositionReportGroupKeyBo.setOwnerOfDerivedCollection(prg, effectiveKeyBoSet);
-		prg.setEffectiveKeySet(effectiveKeyBoSet);
 		// set the key list, constructed from the key set
-		if(prg.effectiveKeySet != null) {
-			prg.setEffectiveKeyList(new ArrayList<PositionReportGroupKeyBo>(prg.effectiveKeySet));
+		if(effectiveKeyBoSet != null) {
+			prg.setEffectiveKeyList(new ArrayList<PositionReportGroupKeyBo>(effectiveKeyBoSet));
 		}
-		
-		prg.setGroupKeyCodeSet(im.getGroupKeyCodeSet());
-		prg.setGroupKeySet(ModelObjectUtils.transformSet(im.getGroupKeySet(), HrGroupKeyBo.toBo));
 		
 		// finally copy over the common fields into prg from im
 		copyCommonFields(prg, im);
