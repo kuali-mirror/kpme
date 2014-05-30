@@ -139,6 +139,35 @@
             </build>
         </profile>
         <profile>
+            <id>db-copy</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>default-cli</id>
+                                <!--<phase>process-resources</phase>-->
+                                <configuration>
+
+                                    <tasks>
+                                        <ant antfile="${project.basedir}/src/main/config/dbcopy/build.xml"
+                                                dir="${project.basedir}/src/main/config/dbcopy/">
+                                            <target name="mysql"/>
+                                        </ant>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>kpme-main</id>
             <properties>
                 <kr.dataSource.driver>com.mysql.jdbc.Driver</kr.dataSource.driver>
