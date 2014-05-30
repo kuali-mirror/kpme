@@ -15,21 +15,19 @@
  */
 package org.kuali.kpme.pm.positionreportgroup.validation;
 
+import org.kuali.kpme.core.bo.validation.HrKeyedSetBusinessObjectValidation;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
-public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase {
+public class PositionReportGroupValidation extends HrKeyedSetBusinessObjectValidation<PositionReportGroupBo, PositionReportGroupKeyBo> {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-		boolean valid = false;
-		LOG.debug("entering custom validation for Position Report Group");
-		PositionReportGroupBo prg = (PositionReportGroupBo) this.getNewDataObject();
+		boolean valid = super.processCustomRouteDocumentBusinessRules(document);
 		
-		if (prg != null) {
-			valid = true;
-			//valid &= this.validateGroupKeyCode(prg);
-		}
+		LOG.debug("entering custom validation for Position Report Group");
+		// do any further custom validation here
+		
 		return valid;
 	}
 	
