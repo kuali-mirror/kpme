@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.bo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ public abstract class HrKeyedSetBusinessObject<O extends HrKeyedSetBusinessObjec
 
 	private static final long serialVersionUID = -2616362205962723831L;
 	
-	protected List<K> effectiveKeyList;
+	protected List<K> effectiveKeyList = new ArrayList<K>();
 	
 	@Override
 	public Set<K> getEffectiveKeySet() {
