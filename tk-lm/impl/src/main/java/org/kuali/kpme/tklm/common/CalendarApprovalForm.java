@@ -15,9 +15,11 @@
  */
 package org.kuali.kpme.tklm.common;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import java.util.*;
 
@@ -185,6 +187,15 @@ public abstract class CalendarApprovalForm extends ApprovalForm {
 
     public void setResultSize(Integer resultSize) {
         this.resultSize = resultSize;
+    }
+    
+    public int getPageSize() {
+    	String parameterValue = ConfigContext.getCurrentContextConfig().getProperty("kpme.tklm.approval.page.size");
+    	Integer limit = 10;
+    	if(StringUtils.isNotBlank(parameterValue)) {
+    		limit = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty("kpme.tklm.approval.page.size"));
+    	}
+    	return limit;
     }
 
 }

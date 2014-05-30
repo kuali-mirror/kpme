@@ -59,6 +59,9 @@
          false : If false hard stop to user for action clock in/out. 
     -->
     <param name="kpme.allow.clockingEmployee.from.invalidLocation">false</param>
+    
+    <!-- Number of records to display on each page on time/leave approval -->
+	<param name="kpme.tklm.approval.page.size">10</param>
 
     <!-- Specifies the option to display the FMLA YTD Column on Leave Summary.
          Yes : If true it displays FMLA YTD Column on Leave Summary.

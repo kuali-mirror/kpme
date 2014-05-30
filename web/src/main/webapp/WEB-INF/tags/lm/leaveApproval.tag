@@ -10,12 +10,16 @@
 	</c:if>
 </div>
 <div id="leave-approval">
-	<display:table name="${Form.leaveApprovalRows}"
-		requestURI="LeaveApproval.do" excludedParams="*" pagesize="20"
-		id="row" class="approvals-table" size="${Form.resultSize}"
-		partialList="true" defaultsort="0" defaultorder="ascending"
-		sort="external">
-		<%--<display:caption style="text-align:right; margin-right:205px;">
+	<%-- The pagesize of the display table needs to be the same as HrConstant.PAGE_SIZE --%>
+	<display:table name="${Form.leaveApprovalRows}" requestURI="LeaveApproval.do" excludedParams="*"
+	               pagesize="${Form.pageSize}" id="row"
+	               class="approvals-table"
+	               size="${Form.resultSize}" 
+	               partialList="true"
+	               defaultsort="0"
+	               defaultorder="ascending"
+	               sort="external">
+        <%--<display:caption style="text-align:right; margin-right:205px;">
             <div>approved/usage: <span class="approvals-approved">bold</span></div><div>planned/deferred: <span class="approvals-requested">italics</span></div>
         </display:caption>--%>
 		<%-- 		 <display:column  style="background-color: ${row.color};width:8px ; vertical-align:middle" > --%>

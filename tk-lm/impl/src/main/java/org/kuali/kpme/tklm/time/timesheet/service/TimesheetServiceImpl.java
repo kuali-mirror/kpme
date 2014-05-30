@@ -517,14 +517,11 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
     }
 
-
-
-
     public boolean isTimesheetValid(TimesheetDocument td) {
         boolean isTimeSheetValid = true;
 
         if (WorkflowTagSupport.isTimesheetApprovalButtonsDisplaying(td.getDocumentId())) {
-            if ((validateHours(td) != null && !validateHours(td).isEmpty()) || (validateTimeBlock(td) != null && !validateTimeBlock(td).isEmpty())) {
+            if (CollectionUtils.isNotEmpty(validateHours(td)) || CollectionUtils.isNotEmpty(validateHours(td))) {
                     isTimeSheetValid = false ;
                 }
         }

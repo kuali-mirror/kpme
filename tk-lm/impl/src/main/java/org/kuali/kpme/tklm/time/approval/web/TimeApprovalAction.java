@@ -15,6 +15,16 @@
  */
 package org.kuali.kpme.tklm.time.approval.web;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -40,13 +50,6 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.springframework.util.CollectionUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class TimeApprovalAction extends CalendarApprovalFormAction {
 	
@@ -213,8 +216,8 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 
         //allows all employees with active assignments in the limit set in the config to be viewable by approver
         Integer limit = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty("kpme.tklm.target.employee.time.limit"));
-        LocalDate endDate = timeApprovalActionForm.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate().minusDays(limit);
-        LocalDate beginDate = timeApprovalActionForm.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
+        LocalDate endDate = timeApprovalActionForm.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
+        LocalDate beginDate = timeApprovalActionForm.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate().minusDays(limit);
 
         return TkServiceLocator.getTimeApproveService().getTimePrincipalIdsWithSearchCriteria(workAreas, calendar, endDate, beginDate, endDate);      
 	}
@@ -225,7 +228,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 			timeApprovalActionForm.setResultSize(0);
 			timeApprovalActionForm.setOutputString(null);
 		} else {
-		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(timeApprovalActionForm, getSubListPrincipalIds(request, principalIds), docIdSearchTerm);
+		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(timeApprovalActionForm, principalIds, docIdSearchTerm);
 		    timeApprovalActionForm.setOutputString(!CollectionUtils.isEmpty(approvalRows) ? approvalRows.get(0).getOutputString() : null);
 		    final String sortField = getSortField(request);
 		    if (StringUtils.isEmpty(sortField) || StringUtils.equals(sortField, "name")) {
@@ -267,15 +270,15 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		    }
 		    
 		    String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-		    Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
-		    Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
+		    Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1) * timeApprovalActionForm.getPageSize();
+		    Integer endIndex = beginIndex + timeApprovalActionForm.getPageSize() > approvalRows.size() ? approvalRows.size() : beginIndex + timeApprovalActionForm.getPageSize();
 		    for (ApprovalTimeSummaryRow approvalTimeSummaryRow : approvalRows) {
  	 	 	 	approvalTimeSummaryRow.setMissedPunchList(getMissedPunches(approvalTimeSummaryRow.getDocumentId()));
 		    }
             List<ApprovalTimeSummaryRow> sublist = new ArrayList<ApprovalTimeSummaryRow>();
             sublist.addAll(approvalRows.subList(beginIndex, endIndex));
 		    timeApprovalActionForm.setApprovalRows(sublist);
-		    timeApprovalActionForm.setResultSize(sublist.size());
+		    timeApprovalActionForm.setResultSize(approvalRows.size());
 		}		
 	}
 	

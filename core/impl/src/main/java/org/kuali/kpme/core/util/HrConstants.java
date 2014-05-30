@@ -316,7 +316,6 @@ public class HrConstants {
 
 	public static final String LEAVE_CALENDAR_TYPE = "leaveCalendar";
 	public static final String PAY_CALENDAR_TYPE = "payCalendar";
-	public static final Integer PAGE_SIZE = 20;
 	public static final String APPROVAL_TABLE_ID = "row";
 	public static final String TASK_DEFAULT_DESP = "Default";
 	public static final int BIG_DECIMAL_SCALE = 2;

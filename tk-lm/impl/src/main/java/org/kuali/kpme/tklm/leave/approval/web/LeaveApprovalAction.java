@@ -268,13 +268,13 @@ public class LeaveApprovalAction extends CalendarApprovalFormAction {
 		    }
 		    
 			String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-			Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
-			Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > approvalRows.size() ? approvalRows.size() : beginIndex + HrConstants.PAGE_SIZE;
+			Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1) * leaveApprovalActionForm.getPageSize();
+			Integer endIndex = beginIndex + leaveApprovalActionForm.getPageSize() > approvalRows.size() ? approvalRows.size() : beginIndex + leaveApprovalActionForm.getPageSize();
 
             List<ApprovalLeaveSummaryRowContract> sublist = new ArrayList<ApprovalLeaveSummaryRowContract>();
             sublist.addAll(approvalRows.subList(beginIndex, endIndex));
 			leaveApprovalActionForm.setLeaveApprovalRows(sublist);
-			leaveApprovalActionForm.setResultSize(sublist.size());
+			leaveApprovalActionForm.setResultSize(approvalRows.size());
 		    
 		    Map<String, String> userColorMap = new HashMap<String, String>();
 	        Set<String> randomColors = new HashSet<String>();

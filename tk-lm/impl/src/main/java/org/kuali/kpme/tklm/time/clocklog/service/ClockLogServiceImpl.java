@@ -15,13 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.clocklog.service;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -36,6 +29,7 @@ import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
+import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDao;
@@ -45,6 +39,13 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ClockLogServiceImpl implements ClockLogService {
 	
@@ -195,7 +196,11 @@ public class ClockLogServiceImpl implements ClockLogService {
 
     @Override
     public ClockLog getClockLog(String tkClockLogId) {
-        return ClockLogBo.to(clockLogDao.getClockLog(tkClockLogId));
+        ClockLogBo aClockLog = clockLogDao.getClockLog(tkClockLogId);
+        if(aClockLog != null) {
+            aClockLog.setClockedByMissedPunch(isClockLogCreatedByMissedPunch(tkClockLogId));
+        }
+        return ClockLogBo.to(aClockLog);
     }
     
     @Override
@@ -230,9 +235,15 @@ public class ClockLogServiceImpl implements ClockLogService {
     }
 
     @Override
-	public String buildUnapprovedIPWarning(ClockLog cl) {
-		return "Warning: Action '" + TkConstants.CLOCK_ACTION_STRINGS.get(cl.getClockAction()) + "' taken at "
-			+ HrConstants.DateTimeFormats.FULL_DATE_TIME_FORMAT.print(cl.getClockDateTime()) + " was from an unapproved IP address - " + cl.getIpAddress();
-	}
+    public String buildUnapprovedIPWarning(ClockLog cl) {
+        return "Warning: Action '" + TkConstants.CLOCK_ACTION_STRINGS.get(cl.getClockAction()) + "' taken at "
+                + HrConstants.DateTimeFormats.FULL_DATE_TIME_FORMAT.print(cl.getClockDateTime()) + " was from an unapproved IP address - " + cl.getIpAddress();
+    }
+
+	@Override
+	public boolean isClockLogCreatedByMissedPunch(String clockLogId) {
+		MissedPunch missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(clockLogId);
+        return missedPunch != null;
+    }
 
 }

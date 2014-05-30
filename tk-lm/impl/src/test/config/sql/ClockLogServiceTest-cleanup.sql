@@ -14,4 +14,5 @@
 -- limitations under the License.
 --
 
-delete from tk_clock_log_t where tk_clock_log_id = '5000';
+delete from tk_clock_log_t where tk_clock_log_id >= '5000';
+delete from tk_missed_punch_t where tk_missed_punch_id = '5000';

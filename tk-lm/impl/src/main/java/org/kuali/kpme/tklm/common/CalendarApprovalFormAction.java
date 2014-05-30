@@ -84,15 +84,15 @@ public abstract class CalendarApprovalFormAction extends ApprovalFormAction {
         return cecs;
 	}
 	
-	protected List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {
-	    String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-	    // The paging index begins from 1, but the sublist index begins from 0.
-	    // So the logic below sets the sublist begin index to 0 if the page number is null or equals 1
-	    Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*HrConstants.PAGE_SIZE;
-	    Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > assignmentPrincipalIds.size() ? assignmentPrincipalIds.size() : beginIndex + HrConstants.PAGE_SIZE;
-	
-	    return assignmentPrincipalIds.subList(beginIndex, endIndex);
-	}
+//	protected List<String> getSubListPrincipalIds(HttpServletRequest request, List<String> assignmentPrincipalIds) {
+//	    String page = request.getParameter((new ParamEncoder(HrConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+//	    // The paging index begins from 1, but the sublist index begins from 0.
+//	    // So the logic below sets the sublist begin index to 0 if the page number is null or equals 1
+//	    Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1) * HrConstants.PAGE_SIZE;
+//	    Integer endIndex = beginIndex + HrConstants.PAGE_SIZE > assignmentPrincipalIds.size() ? assignmentPrincipalIds.size() : beginIndex + HrConstants.PAGE_SIZE;
+//	
+//	    return assignmentPrincipalIds.subList(beginIndex, endIndex);
+//	}
 
 	protected Boolean getAscending(HttpServletRequest request) {
 	    // returned value 1 = ascending; 2 = descending

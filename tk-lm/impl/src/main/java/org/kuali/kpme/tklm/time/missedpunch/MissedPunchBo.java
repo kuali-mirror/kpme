@@ -280,7 +280,12 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
 	public String getPersonName() {
 		if (StringUtils.isBlank(personName) && StringUtils.isNotBlank(principalId)) {
 			EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
-			return entityNamePrincipalName.getDefaultName().getCompositeName();
+			if (entityNamePrincipalName != null
+                    && entityNamePrincipalName.getDefaultName() != null) {
+                personName = entityNamePrincipalName.getDefaultName().getCompositeName();
+            } else {
+                return "";
+            }
 		}
 		
 		return personName;

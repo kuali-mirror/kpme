@@ -103,4 +103,11 @@ public interface ClockLogService {
      * @return
      */
     public String buildUnapprovedIPWarning(ClockLog cl);
+
+    /**
+     * Determine if a clock log was created by Missed Punch document
+     * @param clockLogId
+     * @return
+     */
+    boolean isClockLogCreatedByMissedPunch(String clockLogId);
 }

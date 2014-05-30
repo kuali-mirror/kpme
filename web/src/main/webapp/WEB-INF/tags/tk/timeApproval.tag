@@ -11,10 +11,10 @@
 	</c:if>
 </div>
 <div id="time-approval">
-	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do"
-		excludedParams="*" pagesize="20" id="row" class="approvals-table"
-		partialList="true" size="${Form.resultSize}" sort="external"
-		defaultsort="0">
+	<%-- The pagesize of the display table needs to be the same as HrConstant.PAGE_SIZE --%>
+	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do" excludedParams="*"
+	               pagesize="${Form.pageSize}" id="row"
+	               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="0">
 
 		<c:set var="nameStyle" value="" />
 		<c:if test="${row.clockedInOverThreshold}">
