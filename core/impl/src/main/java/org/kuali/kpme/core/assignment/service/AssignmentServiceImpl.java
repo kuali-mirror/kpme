@@ -438,7 +438,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public String getAssignmentDescriptionForAssignment(Assignment assignment, LocalDate asOfDate) {
-        return getAssignmentDescription(assignment.getGroupKeyCode(), assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), asOfDate);
+        return getAssignmentDescription(assignment.getPrincipalId(), assignment.getGroupKeyCode(), assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask(), asOfDate);
     }
 
 
