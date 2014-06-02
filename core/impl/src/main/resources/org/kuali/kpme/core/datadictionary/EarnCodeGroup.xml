@@ -140,7 +140,7 @@
                     </property>
                     <property name="title" value="Earn Code Group Inquiry"/>
                 </bean>
-                <!-- <bean parent="EarnCodeGroup-earnCodeGroupDefinitionInquiry"/> -->
+                <bean parent="EarnCodeGroup-earnCodeGroupDefinitionInquiry"/>
             </list>
         </property>
     </bean>
