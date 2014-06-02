@@ -105,9 +105,11 @@
 		<property name="title" value="Position Report Group Inquiry" />
 	</bean>
 
- <!--***************************************************************************
-                                Views
-     ***************************************************************************-->
+
+
+    <!--***************************************************************************
+                                   Views
+        ***************************************************************************-->
 
     <!-- Position Reporting Group Lookup View -->
 
@@ -155,9 +157,15 @@
 						</list>
 					</property>
 				</bean>
+                <bean parent = "PositionReportGroup-effectiveKeyInquiry"/>
 			</list>
 		</property>
 	</bean>
+
+    <bean id="PositionReportGroup-effectiveKeyInquiry" parent="MultiGroupKeySection">
+        <property name="headerText" value="Position Group Keys"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo"/>
+    </bean>
 
 	<!--  Position Reporting Group Maintenance View -->
     <bean id="PositionReportGroup-MaintenanceView" parent="PositionReportGroup-MaintenanceView-parentBean"/>
