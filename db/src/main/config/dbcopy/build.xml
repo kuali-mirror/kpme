@@ -64,7 +64,8 @@
         MySQL Targets
     -->
     <target name="mysql" depends="mysql-init,mysql-server,mysql-client,mysql-clean" description="Updates all MySQL environment databases" />
-	    
+    <target name="mysql-verbose" depends="mysql-init,mysql-server-verbose,mysql-client-verbose,mysql-clean" description="Updates all MySQL environment databases" />
+
     <target name="mysql-init" description="Initializes the build">
         <copy todir="" flatten="true">
             <resources>
@@ -86,7 +87,7 @@
             <arg value="-b"/>
             <arg value="-n"/>
             <arg value="-f"/>
-        	<arg value="-v"/>
+
             <arg value="-u${server.username}"/>
             <arg value="-p${server.password}"/>
         </exec>
@@ -94,8 +95,34 @@
             <arg value="-b"/>
             <arg value="-n"/>
             <arg value="-f"/>
-        	<arg value="-v"/>
         	<arg value="-D${server.schema}"/>
+            <arg value="-u${server.username}"/>
+            <arg value="-p${server.password}"/>
+        </exec>
+    </target>
+
+    <target name="mysql-server-verbose" description="Updates the server database">
+        <loadfile property="mysql.server.reset" srcFile="reset_mysql.sql">
+            <filterchain>
+                <tokenfilter>
+                    <replaceregex pattern="@schema@" replace="${server.schema}" />
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+        <exec executable="${mysql.location}" dir="" inputstring="${mysql.server.reset}">
+            <arg value="-b"/>
+            <arg value="-n"/>
+            <arg value="-f"/>
+            <arg value="-v"/>
+            <arg value="-u${server.username}"/>
+            <arg value="-p${server.password}"/>
+        </exec>
+        <exec executable="${mysql.location}" dir="mysql" input="mysql/mysql_server.sql">
+            <arg value="-b"/>
+            <arg value="-n"/>
+            <arg value="-f"/>
+            <arg value="-v"/>
+            <arg value="-D${server.schema}"/>
             <arg value="-u${server.username}"/>
             <arg value="-p${server.password}"/>
         </exec>
@@ -113,7 +140,6 @@
             <arg value="-b"/>
             <arg value="-n"/>
             <arg value="-f"/>
-        	<arg value="-v"/>
             <arg value="-u${client.username}"/>
             <arg value="-p${client.password}"/>
         </exec>
@@ -121,8 +147,34 @@
             <arg value="-b"/>
             <arg value="-n"/>
             <arg value="-f"/>
-        	<arg value="-v"/>
         	<arg value="-D${client.schema}"/>
+            <arg value="-u${client.username}"/>
+            <arg value="-p${client.password}"/>
+        </exec>
+    </target>
+
+    <target name="mysql-client-verbose" description="Updates the client database">
+        <loadfile property="mysql.client.reset" srcFile="reset_mysql.sql">
+            <filterchain>
+                <tokenfilter>
+                    <replaceregex pattern="@schema@" replace="${client.schema}" />
+                </tokenfilter>
+            </filterchain>
+        </loadfile>
+        <exec executable="${mysql.location}" dir="" inputstring="${mysql.client.reset}">
+            <arg value="-b"/>
+            <arg value="-n"/>
+            <arg value="-f"/>
+            <arg value="-v"/>
+            <arg value="-u${client.username}"/>
+            <arg value="-p${client.password}"/>
+        </exec>
+        <exec executable="${mysql.location}" dir="mysql" input="mysql/mysql_client.sql">
+            <arg value="-b"/>
+            <arg value="-n"/>
+            <arg value="-f"/>
+            <arg value="-v"/>
+            <arg value="-D${client.schema}"/>
             <arg value="-u${client.username}"/>
             <arg value="-p${client.password}"/>
         </exec>
