@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<param name="run.mode">${run.mode}</param>
+    <param name="app.code" override="false">edo</param>
+    <param name="application.id">EDO</param>
+    <param name="module.name">edo</param>
+    <param name="app.title">eDossier</param>
+    <param name="app.subtitle">A Faculty Dossier Management System</param>
+    <param name="upload.dir">/mnt/edo</param>
+
+    <param name="security.directory">/opt/java/security/${app.code}/${environment}</param>
+    <param name="settings.directory">/opt/java/settings/${app.code}/${environment}</param>
+
+    <param name="rice.logging.configure">true</param>
+    <param name="log4j.settings.path">${settings.directory}/log4j.properties</param>
+    <param name="transaction.timeout">3600</param>
+
+    <!-- keystore config -->
+    <param name="keystore.alias">hr</param>
+    <param name="keystore.location">${security.directory}/webservices-keystore</param>
+    <param name="keystore.file">${keystore.location}</param>
+  
+
+    <param name="message.persistence">true</param>
+    <param name="useQuartzDatabase" override="false">true</param>
+
+    <param name="edo.datasource.ojb.platform">Oracle9i</param>
+    <param name="edo.datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+    <param name="edo.datasource.driver.name">oracle.jdbc.OracleDriver</param>
+    <param name="edo.datasource.pool.minSize">1</param>
+    <param name="edo.datasource.pool.maxSize">50</param>
+    <param name="edo.datasource.pool.maxWait">10000</param>
+    <param name="edo.datasource.pool.validationQuery">select 1 from dual</param>
+
+    <param name="kr.datasource.ojb.platform">Oracle9i</param>
+    <param name="kr.datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+    <param name="kr.datasource.driver.name">oracle.jdbc.OracleDriver</param>
+    <param name="kr.datasource.pool.minSize">1</param>
+    <param name="kr.datasource.pool.maxSize">50</param>
+    <param name="kr.datasource.pool.maxWait">10000</param>
+    <param name="kr.datasource.pool.validationQuery">select 1 from dual</param>
+
+    <param name="rice.coreservice.additionalSpringFiles">classpath:edu/iu/uis/rice/resources/IUCoreServiceOverrideSpringBeans.xml</param>
+
+    <param name="filter.caskerb.class">edu.iu.uis.cas.filter.CASFilter</param>
+    <param name="filter.caskerb.cassvc">IU</param>
+    <param name="filtermapping.caskerb.1">*.do</param>
+
+
+    <!-- general config location params -->
+    <param name="ads.security.path">${security.directory}/ads.properties</param>
+    <param name="gds.security.path">${security.directory}/eds.properties</param>
+    
+    <!-- added the below param to wire up the edokimspringbeans file -->
+    <param name="rice.kim.additionalSpringFiles">classpath:edu/iu/uis/rice/resources/IUKimOverrideSpringBeans.xml,classpath:EdoKimSpringBeans.xml</param>
+    
+    <!-- URL properties -->
+    <param name="appserver.host">https://test.uisapp2.iu.edu</param>
+    <param name="rice.app.code">kr</param>
+    <param name="rice.env.code">snd</param>
+    <param name="rice.url">${appserver.host}/${rice.app.code}-${rice.env.code}</param>
+    <param name="rice.server.url">${rice.url}</param>
+
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/edo-${run.mode}-config.xml</param>
+    <param name="config.location">${settings.directory}/edo-${environment}-config.xml</param>
+    <param name="config.location">${settings.directory}/edo-${run.mode}-${environment}-config.xml</param>
+    <param name="config.location">${security.directory}/edo-${environment}-security.xml</param>
+    <param name="config.location">${security.directory}/edo-${run.mode}-${environment}-security.xml</param>
+
+</config>

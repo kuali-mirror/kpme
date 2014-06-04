@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+    <bean id="EDOReviewLayerDefinitionMaintenanceDocument" parent="EDOReviewLayerDefinitionMaintenanceDocument-parentBean"/>
+
+    <bean id="EDOReviewLayerDefinitionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+          p:businessObjectClass="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition"
+          p:maintainableClass="org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionMaintainableImpl"
+          p:documentAuthorizerClass="org.kuali.kpme.edo.authorization.SuperUserAuthorizer">
+        <property name="maintainableSections">
+            <list>
+                <ref bean="EDOReviewLayerDefinitionMaintenanceDocument-EDOReviewLayerDefinitionMaintenance"/>
+            </list>
+        </property>
+        <property name="documentTypeName" value="ReviewLayerDefinitionDocument"/>
+    </bean>
+
+    <!-- Maintenance Section Definitions -->
+
+    <bean id="EDOReviewLayerDefinitionMaintenanceDocument-EDOReviewLayerDefinitionMaintenance" parent="EDOReviewLayerDefinitionMaintenanceDocument-EDOReviewLayerDefinitionMaintenance-parentBean"/>
+    <bean id="EDOReviewLayerDefinitionMaintenanceDocument-EDOReviewLayerDefinitionMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="title" value="Review Layer Definition Maintenance"/>
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableFieldDefinition" p:name="nodeName" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="voteType" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+                <bean parent="MaintainableFieldDefinition" p:name="reviewLetter" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="reviewLevel" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="routeLevel" p:required="true" />
+               <!--  <bean parent="MaintainableFieldDefinition" p:name="suppNotify" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="suppNodeName" p:required="false" /> -->
+            </list>
+        </property>
+    </bean>
+
+</beans>
