@@ -487,19 +487,14 @@
 		parent="InquiryDefinition" p:inquirableClass="org.kuali.kpme.core.job.web.JobInquirableImpl">
 		<property name="inquirySections">
 			<list>
-				<bean parent="InquirySectionDefinition">
+				<bean parent="KPMEGroupKeyed-InquirySectionDefinition">
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+						<list merge="true">
 							<bean parent="FieldDefinition" p:attributeName="principalId" />
 							<bean parent="FieldDefinition" p:attributeName="name" />
 							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
-							<!-- 
-							<bean parent="FieldDefinition" p:attributeName="location" />
-							-->
-							<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
 							<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 							<bean parent="FieldDefinition" p:attributeName="hrPayType" />
 							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
@@ -615,15 +610,14 @@
 	<!-- KNS Lookup View -->
 	<bean id="Job-lookupDefinition" parent="Job-lookupDefinition-parentBean" />
 	<bean id="Job-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
+		parent="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition">
 		<property name="lookupableID" value="jobLookupable" />
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
 			</bean>
 		</property>
 		<property name="lookupFields">
-			<list>
-                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+			<list merge="true">
                 <bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="firstName" />
 				<bean parent="FieldDefinition" p:attributeName="lastName" />
@@ -640,19 +634,13 @@
 		</property>
 		<!-- More information should be added here if needed -->
 		<property name="resultFields">
-			<list>
+			<list merge="true">
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="principalName" />
 				<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 				<bean parent="FieldDefinition" p:attributeName="dept" />
-				<!-- 
-				<bean parent="FieldDefinition" p:attributeName="location" />
-				-->
-				<bean parent="FieldDefinition" p:attributeName="groupKeyCode"/>
-				
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="eligibleForLeave" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="primaryIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
