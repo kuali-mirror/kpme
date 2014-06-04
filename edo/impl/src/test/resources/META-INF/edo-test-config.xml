@@ -1,0 +1,111 @@
+<config>
+	<param name="environment" override="false">${env.code}</param><!-- set environment param here -->
+	<param name="module.name">edo</param>
+	<param name="app.code">${module.name}</param>
+	<param name="app.context.name">${app.code}-${environment}</param>
+	<param name="config.dir">/opt/java/settings/${module.name}/${environment}</param>
+	<param name="security.dir">/opt/java/security/${module.name}/${environment}</param>
+
+	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+
+	<param name="kns.test.port">9918</param>
+	<param name="rice.user">true</param>
+	<param name="test.mode">true</param>
+	<!-- end test params -->
+
+	<param name="keystore.location">${security.dir}/webservices-keystore</param>
+
+	<!-- keystore config -->
+	<param name="keystore.alias">hr</param>
+	<param name="keystore.file">${keystore.location}</param>
+
+	<param name="application.id">EDO</param>
+
+	<!-- Rice module run modes -->
+	<param name="kr.mode">LOCAL</param>
+	<param name="core.mode">LOCAL</param>
+	<param name="coreservice.mode">LOCAL</param>
+	<param name="ksb.mode">LOCAL</param>
+	<param name="kew.mode">LOCAL</param>
+	<param name="kim.mode">LOCAL</param>
+
+	<param name="edo.datasource.ojb.platform">Oracle9i</param>
+	<param name="edo.datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+	<param name="edo.datasource.driver.name">oracle.jdbc.OracleDriver</param>
+	<param name="edo.datasource.pool.minSize">1</param>
+	<param name="edo.datasource.pool.maxSize">50</param>
+	<param name="edo.datasource.pool.maxWait">10000</param>
+	<param name="edo.datasource.pool.validationQuery">select 1 from dual</param>
+
+	<param name="kr.datasource.ojb.platform">Oracle9i</param>
+	<param name="kr.datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+	<param name="kr.datasource.driver.name">oracle.jdbc.OracleDriver</param>
+	<param name="kr.datasource.pool.minSize">1</param>
+	<param name="kr.datasource.pool.maxSize">50</param>
+	<param name="kr.datasource.pool.maxWait">10000</param>
+	<param name="kr.datasource.pool.validationQuery">select 1 from dual</param>
+
+
+	<param name="datasource.ojb.platform">Oracle9i</param>
+	<param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+	<param name="datasource.driver.name">oracle.jdbc.OracleDriver</param>
+	<param name="datasource.pool.minSize">1</param>
+	<param name="datasource.pool.maxSize">50</param>
+	<param name="datasource.pool.maxWait">10000</param>
+	<param name="datasource.pool.validationQuery">select 1 from dual</param>
+
+	<!-- iu workflow params -->
+	<param name="userService.UpdateUsersFromGds">false</param>
+	<!-- end iu workflow params -->
+
+	<!-- workflow params -->
+	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
+	<param name="data.xml.pending.location">${data.xml.root.location}/pending</param>
+	<param name="data.xml.loaded.location">${data.xml.root.location}/loaded</param>
+	<param name="data.xml.problem.location">${data.xml.root.location}/problem</param>
+	<param name="attachment.dir.location">/opt/ears/</param>
+	<param name="data.xml.pollIntervalSecs">30</param>
+	<param name="initialDelaySecs">10</param>
+	<param name="workgroup.url">Workgroup.do</param>
+	<param name="workgroup.report.url">Workgroup.do</param>
+	<param name="user.url">WorkflowUser.do</param>
+	<param name="user.report.url">WorkflowUserReport.do</param>
+	<!-- end workflow XML ingester params -->
+
+	<!-- rice web app params -->
+	<param name="rice.kew.enableKENNotification">false</param>
+	<param name="production.environment.code">PRD</param>
+	<param name="externalizable.help.url">/${app.context.name}/kr/static/help/</param>
+	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="travel.externalizable.images.url">kr/static/images/</param>
+	<param name="javascript.files">kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,kr/scripts/objectInfo.js
+	</param>
+	<param name="css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
+	<param name="kr.url">/${app.context.name}/kr</param>
+	<param name="institution">iu</param>
+	<param name="version">03/19/2007 01:59 PM</param>
+	<param name="security.directory">/usr/local/rice/</param>
+	<param name="settings.directory">/usr/local/rice/</param>
+	<param name="transaction.timeout">3600</param>
+	<param name="memory.monitor.threshold">.85</param>
+	<param name="production.environment.code">prd</param>
+	<param name="maintain.users.locally">true</param>
+	<param name="log4j.reload.minutes">5</param>
+	<param name="mail.relay.server">mail.relay.server</param>
+	<param name="mailing.list.batch">mailing.list.batch</param>
+	<param name="encryption.key">7IC64w6ksLU</param>
+	<param name="kfsLocator.useAppContext">true</param>
+	<!-- end rice web app params -->
+
+	<param name="config.location">${config.dir}/${module.name}-test-${environment}-config.xml</param>
+	<param name="config.location">${security.dir}/${module.name}-test-${environment}-security.xml</param>
+
+	<!-- Setting required overrides default from KSB -->
+	<param name="useQuartzDatabase" override="true">false</param>
+	<param name="use.clearDatabaseLifecycle">false</param>
+	<param name="use.sqlDataLoaderLifecycle">false</param>
+
+	<remote.public.url>http://localhost:8080/edo-dev/</remote.public.url>
+
+</config>
