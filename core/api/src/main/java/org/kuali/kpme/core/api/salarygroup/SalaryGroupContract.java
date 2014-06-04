@@ -15,19 +15,29 @@
  */
 package org.kuali.kpme.core.api.salarygroup;
 
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
-import org.kuali.kpme.core.api.util.HrApiConstants;
-
 import java.math.BigDecimal;
+import java.util.Set;
+
+import org.kuali.kpme.core.api.mo.EffectiveKeyContract;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedSetDataTransferObject;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>SalaryGroupContract interface.</p>
  *
  */
-public interface SalaryGroupContract extends KpmeEffectiveDataTransferObject {
+public interface SalaryGroupContract extends KpmeEffectiveKeyedSetDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "SalaryGroup";
 
+	/** 
+	 * The set of EffectiveKeyContract objects that hold the aggregate "white-list" of groupkeys 
+	 * for this PostionReportGroupContract object. 
+	 * 
+	 */
+	@Override
+	public Set<? extends EffectiveKeyContract> getEffectiveKeySet();
+	
 	/**
 	 * The Primary Key of a SalaryGroup entry saved in a database
 	 * 
@@ -130,3 +140,5 @@ public interface SalaryGroupContract extends KpmeEffectiveDataTransferObject {
 	 */
 	public String getLocation();
 }
+
+

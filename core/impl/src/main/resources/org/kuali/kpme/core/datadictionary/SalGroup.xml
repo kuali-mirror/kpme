@@ -36,15 +36,25 @@
 	        <ref bean="SalaryGroup-hrSalGroupId"/>
 	        <ref bean="SalaryGroup-hrSalGroup"/>
 	        <ref bean="SalaryGroup-descr"/>
-	        <ref bean="SalaryGroup-institution"/>
-	        <ref bean="SalaryGroup-location"/>
+	        <!-- <ref bean="SalaryGroup-institution"/>
+	        <ref bean="SalaryGroup-location"/> -->
 	        <ref bean="SalaryGroup-percentTime"/>
 	        <ref bean="SalaryGroup-benefitsEligible"/>
 	        <ref bean="SalaryGroup-leaveEligible"/>
 	        <ref bean="SalaryGroup-leavePlan"/>
 		 </list>
 	    </property>
-	    <property name="objectLabel" value="SalaryGroup"/>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition">
+					<property name="dataObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroupKeyBo" />
+					<property name="name" value="effectiveKeyList" />
+					<property name="shortLabel" value="Group Key Whitelist" />
+					<property name="label" value="Group Key Whitelist" />
+				</bean>
+			</list>
+		</property>
+	    <property name="objectLabel" value="Salary Group"/>
   	</bean>
 
 <!-- Attribute Definitions -->  
@@ -95,7 +105,7 @@
 		<property name="description" value="description" />
 	</bean>
 	
-	<bean id="SalaryGroup-institution" parent="SalaryGroup-institution-parentBean" />
+<!-- 	<bean id="SalaryGroup-institution" parent="SalaryGroup-institution-parentBean" />
 	<bean id="SalaryGroup-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
         <property name="required" value="true"/>
     </bean>
@@ -103,7 +113,7 @@
 	<bean id="SalaryGroup-location" parent="SalaryGroup-location-parentBean" />
 	<bean id="SalaryGroup-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
 		<property name="required" value="true" />
-	</bean>
+	</bean> -->
 	
 	<bean id="SalaryGroup-percentTime" parent="SalaryGroup-percentTime-parentBean" />
 	<bean id="SalaryGroup-percentTime-parentBean" abstract="true" parent="AttributeDefinition">
@@ -162,18 +172,18 @@
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" />       
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
+        <!-- <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
 	    	<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		</property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
+         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location">
        		<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
 	        		 p:fieldConversions="location:location" />
 	   		 </property>
-        </bean>
+        </bean>  -->
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
@@ -187,8 +197,8 @@
 	        	 p:inquiryParameters="hrSalGroupId:hrSalGroupId"/>
     		</property>
         </bean>
-        <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="location" />
+        <!-- <bean parent="Uif-DataField" p:propertyName="institution" />
+        <bean parent="Uif-DataField" p:propertyName="location" /> -->
         <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
@@ -207,8 +217,8 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"  />
 		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />       
-		        <bean parent="FieldDefinition" p:attributeName="institution"/>
-		        <bean parent="FieldDefinition" p:attributeName="location"/>
+		        <!-- <bean parent="FieldDefinition" p:attributeName="institution"/>
+		        <bean parent="FieldDefinition" p:attributeName="location"/> -->
 		        <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N" />
 		        <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 			</list>
@@ -217,8 +227,8 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 		        <bean parent="FieldDefinition" p:attributeName="hrSalGroup"/>
-		        <bean parent="FieldDefinition" p:attributeName="institution" />
-		        <bean parent="FieldDefinition" p:attributeName="location" />
+		        <!-- <bean parent="FieldDefinition" p:attributeName="institution" />
+		        <bean parent="FieldDefinition" p:attributeName="location" /> -->
 		        <bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
@@ -240,8 +250,8 @@
                             <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                             <bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
                             <bean parent="FieldDefinition" p:attributeName="descr" />
-                            <bean parent="FieldDefinition" p:attributeName="institution" />
-                            <bean parent="FieldDefinition" p:attributeName="location" />
+                            <!-- <bean parent="FieldDefinition" p:attributeName="institution" />
+                            <bean parent="FieldDefinition" p:attributeName="location" /> -->
                             <bean parent="FieldDefinition" p:attributeName="percentTime" />
                             <bean parent="FieldDefinition" p:attributeName="benefitsEligible" />
                             <bean parent="FieldDefinition" p:attributeName="leaveEligible" />
@@ -272,8 +282,8 @@
 		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 			        <bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
 			        <bean parent="Uif-DataField" p:propertyName="descr" />
-			        <bean parent="Uif-DataField" p:propertyName="institution" />
-			        <bean parent="Uif-DataField" p:propertyName="location" />
+			        <!-- <bean parent="Uif-DataField" p:propertyName="institution" />
+			        <bean parent="Uif-DataField" p:propertyName="location" /> -->
 			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
 			        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
 			        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
@@ -284,13 +294,20 @@
 	     	 </property>
 	     	 <property name="title" value="Salary Group Inquiry"/>
 	   	   </bean>
+	   	   <bean parent = "SalaryGroup-effectiveKeyInquiry"/>
       </list>
     </property>
   </bean> 
   
+  <bean id="SalaryGroup-effectiveKeyInquiry" parent="MultiGroupKeySection">
+        <property name="headerText" value="Salary Group Keys"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroupKeyBo"/>
+   </bean>
+  
 <!--  Salary Group Maintenance View -->
   <bean id="SalaryGroup-MaintenanceView" parent="SalaryGroup-MaintenanceView-parentBean"/>
   <bean id="SalaryGroup-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+  <property name="viewHelperServiceClass" value="org.kuali.kpme.core.salarygroup.web.SalaryGroupMaintainableImpl" />
     <property name="headerText" value="Salary Group Maintenance"/>
     <property name="dataObjectClassName" value="org.kuali.kpme.core.salarygroup.SalaryGroupBo"/>
     <property name="items">
@@ -301,7 +318,7 @@
 	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:readOnly="@{document.newMaintainableObject.dataObject.hrSalGroupId ne NULL}" />
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
-		        <bean parent="Uif-InputField" p:propertyName="institution" >
+		        <!-- <bean parent="Uif-InputField" p:propertyName="institution" >
 			        <property name="quickfinder">
 		       			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
 		        			 p:fieldConversions="institutionCode:institution"/>
@@ -312,7 +329,7 @@
 			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
 			        		 p:fieldConversions="location:location" />
 			   		 </property>
-		        </bean>
+		        </bean> -->
 		        <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
 		        	 p:constraintText="Must be a number between 0 and 100.">
 		        	<property name="validCharactersConstraint">
@@ -350,7 +367,11 @@
             </list>
           </property>
         </bean>
+        <bean parent="KPMEKeyedSetBO-EffectiveKeyListSection">
+        			<property name="collectionObjectClass" value="org.kuali.kpme.core.salarygroup.SalaryGroupKeyBo"/>
+    	</bean>
       </list>
     </property>
   </bean> 
+    
 </beans>

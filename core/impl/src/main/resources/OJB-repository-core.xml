@@ -310,13 +310,37 @@
         <field-descriptor name="objectId"       column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
         <!--  new fields added to position management -->
-        <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
-        <field-descriptor name="location"    	        column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
+        <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="true" />
+        <field-descriptor name="location"    	        column="LOCATION"					 jdbc-type="VARCHAR"     length="15" 		nullable="true" />
         <field-descriptor name="percentTime"      		column="PRCT_TM"         		 jdbc-type="DECIMAL"     length="10" 		nullable="true" />
         <field-descriptor name="benefitsEligible"        column="BNFT_ELIG"           	 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="leaveEligible"          column="LV_ELIG"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="leavePlan"    			column="LV_PLN"			 		jdbc-type="VARCHAR"     length="15" 		nullable="true" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
+	 	 <collection-descriptor name="effectiveKeyList" 
+     		element-class-ref="org.kuali.kpme.core.salarygroup.SalaryGroupKeyBo"
+     		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" 
+     		auto-retrieve="true" 
+     		auto-update="object" 
+     		auto-delete="object" 
+     		proxy="false">
+         	<inverse-foreignkey field-ref="ownerId"/>
+     </collection-descriptor>
+ </class-descriptor>
+ 
+ <!-- Sal Group Key-->
+ <!-- No Business Keys defined since this is a derived business object -->	
+ <class-descriptor class="org.kuali.kpme.core.salarygroup.SalaryGroupKeyBo" table="HR_SAL_GROUP_KEY_T">
+     <field-descriptor name="id"        						   column="HR_SAL_GROUP_KEY_ID"   jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="HR_SAL_GROUP_KEY_S" />
+     <field-descriptor name="ownerId"                           column="HR_SAL_GROUP_ID"  	 jdbc-type="VARCHAR"     length="60"   		nullable="false" />
+     <field-descriptor name="groupKeyCode"  			           column="GRP_KEY_CD"        	     jdbc-type="VARCHAR"     length="30"        nullable="false" />
+     <field-descriptor name="objectId"                          column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+     <field-descriptor name="versionNumber"                     column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+     
+     <reference-descriptor name="owner" class-ref="org.kuali.kpme.core.salarygroup.SalaryGroupBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+         <foreignkey field-ref="ownerId"/>
+     </reference-descriptor>
+             
     </class-descriptor>
 
     <!-- PayType -->
