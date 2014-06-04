@@ -162,8 +162,8 @@
 		</property>
 	</bean>
 
-    <bean id="PositionReportGroup-effectiveKeyInquiry" parent="MultiGroupKeySection">
-        <property name="headerText" value="Position Group Keys"/>
+    <bean id="PositionReportGroup-effectiveKeyInquiry" parent="KPMEKeyedSetBo-InquiryViewSection">
+        <property name="headerText" value="Position Report Group Key Set"/>
         <property name="collectionObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo"/>
     </bean>
 

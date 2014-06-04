@@ -101,7 +101,7 @@
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
         <field-descriptor name="userPrincipalId"          column="USER_PRINCIPAL_ID"         jdbc-type="VARCHAR"     length="40" nullable="false" />
     </class-descriptor>
-    
+
     <!-- Position Report Group Sub Category -->
     <!-- Business Keys - [positionReportGroup : positionReportSubCat : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.pstnrptgrpsubcat.PositionReportGroupSubCategoryBo" table="PM_PSTN_RPT_GRP_SUB_CAT_T">
@@ -133,8 +133,31 @@
         <field-descriptor name="versionNumber"          column="VER_NBR"               	jdbc-type="BIGINT"      locking="true" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"      jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="academicFlag"           column="ACAD_FLAG"              jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+
+        <collection-descriptor name="effectiveKeyList"
+                               element-class-ref="org.kuali.kpme.pm.positiontype.PositionTypeGroupKeyBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true"
+                               auto-update="object"
+                               auto-delete="object"
+                               proxy="false">
+            <inverse-foreignkey field-ref="ownerId"/>
+        </collection-descriptor>
     </class-descriptor>
-    
+
+    <class-descriptor class="org.kuali.kpme.pm.positiontype.PositionTypeGroupKeyBo" table="PM_PSTN_TYP_GRP_KEY_T">
+        <field-descriptor name="id"        						   column="PM_PSTN_TYP_GRP_KEY_ID"   jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_TYP_GRP_KEY_S" />
+        <field-descriptor name="ownerId"                           column="PM_PSTN_TYP_ID"  	 jdbc-type="VARCHAR"     length="60"   		nullable="false" />
+        <field-descriptor name="groupKeyCode"  			           column="GRP_KEY_CD"        	     jdbc-type="VARCHAR"     length="30"        nullable="false" />
+        <field-descriptor name="objectId"                          column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"                     column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.positiontype.PositionTypeBo" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="ownerId"/>
+        </reference-descriptor>
+    </class-descriptor>
+
+
     <!-- Position Flag -->
     <!-- Business Keys - [positionFlagName : category : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.positionflag.PositionFlagBo" table="PM_PSTN_FLG_T">
