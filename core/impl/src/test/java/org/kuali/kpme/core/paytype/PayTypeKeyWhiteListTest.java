@@ -71,7 +71,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		
 		effectiveKeyList = payTypeBo.getEffectiveKeyList();
 		Assert.assertNotNull(effectiveKeyList);
-		Assert.assertEquals(effectiveKeyList.size(), 2);
+		Assert.assertEquals(2, effectiveKeyList.size());
 		
 		effectiveKeySet = payTypeBo.getEffectiveKeySet(); 
 		Assert.assertNotNull(effectiveKeySet);
@@ -158,7 +158,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		
 		pstnRptGrpBo  = boService.findByPrimaryKey(PayTypeBo.class, Collections.singletonMap("hrPayTypeId", "4"));
 		extractedGroupKeyCodeWithIdSet = pstnRptGrpBo.getGroupKeyCodeSet();
-		Assert.assertEquals(extractedGroupKeyCodeWithIdSet.size(), 2);
+		Assert.assertEquals(2, extractedGroupKeyCodeWithIdSet.size());
 		Assert.assertTrue(extractedGroupKeyCodeWithIdSet.contains("IU-IN"));
 		Assert.assertTrue(extractedGroupKeyCodeWithIdSet.contains("UGA-GA"));
 		
