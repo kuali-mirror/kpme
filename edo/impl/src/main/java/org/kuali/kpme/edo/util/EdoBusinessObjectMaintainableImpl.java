@@ -33,8 +33,7 @@ public abstract class EdoBusinessObjectMaintainableImpl extends KualiMaintainabl
         edoObj.setUpdatedBy(GlobalVariables.getUserSession().getPrincipalName());
 
         customSaveLogic(edoObj);
-        KRADServiceLocator.getBusinessObjectService().save(edoObj);
-//        KRADServiceLocatorWeb.getLegacyDataAdapter().save(edoObj);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().save(edoObj);
     }
 
     public abstract EdoBusinessObject getObjectById(BigDecimal id);

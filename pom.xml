@@ -34,6 +34,7 @@
         <module>core</module>
         <module>tk-lm</module>
         <module>pm</module>
+        <module>edo</module>
         <module>web</module>
         <module>env</module>
         <module>dist</module>

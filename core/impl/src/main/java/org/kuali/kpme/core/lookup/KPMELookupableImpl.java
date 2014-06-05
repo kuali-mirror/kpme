@@ -20,6 +20,7 @@ import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
@@ -32,7 +33,33 @@ public class KPMELookupableImpl extends LookupableImpl {
 
 	private static final long serialVersionUID = 7098170370881970354L;
 
-    @Override
+    public void buildViewActionLink(Link actionLink, Object model, String maintenanceMethodToCall) {
+        LookupForm lookupForm = (LookupForm) model;
+
+        Map<String, Object> actionLinkContext = actionLink.getContext();
+        Object dataObject = actionLinkContext == null ? null : actionLinkContext
+                .get(UifConstants.ContextVariableNames.LINE);
+
+        List<String> pkNames = getLegacyDataAdapter().listPrimaryKeyFieldNames(getDataObjectClass());
+
+        Properties urlParameters = new Properties();
+
+        urlParameters.setProperty(UifParameters.DATA_OBJECT_CLASS_NAME, dataObject.getClass().getName());
+        urlParameters.setProperty(UifParameters.METHOD_TO_CALL, UifConstants.MethodToCallNames.START);
+
+        Map<String, String> primaryKeyValues = KRADUtils.getPropertyKeyValuesFromDataObject(pkNames, dataObject);
+        for (String primaryKey : primaryKeyValues.keySet()) {
+            String primaryKeyValue = primaryKeyValues.get(primaryKey);
+
+            urlParameters.put(primaryKey, primaryKeyValue);
+        }
+
+        String href = UrlFactory.parameterizeUrl(KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY, urlParameters);
+        actionLink.setHref(href);
+    }
+
+
+    /*@Override
     protected String getMaintenanceActionUrl(LookupForm lookupForm, Object dataObject, String methodToCall,
                                              List<String> pkNames) {
         if (!StringUtils.equals(methodToCall, "maintenanceView")) {
@@ -52,5 +79,5 @@ public class KPMELookupableImpl extends LookupableImpl {
 
             return UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, urlParameters);
         }
-    }
+    }*/
 }

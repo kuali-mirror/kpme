@@ -44,9 +44,9 @@
     <bean id="KPMEAttributes-LookupView-ViewLink" parent="Uif-LookupResultsCollectionSection">
 		<property name="lineActions">
 			<list merge="true">
-		    	<bean parent="Uif-ActionLink" p:order="10">
-		        	<property name="actionLabel" value="view" />
-		            <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+		    	<bean parent="Uif-Link" p:order="10">
+		        	<property name="linkText" value="view" />
+		            <property name="finalizeMethodToCall" value="buildViewActionLink"/>
 		            <property name="finalizeMethodAdditionalArguments">
 		            	<list>
 		                	<value>maintenanceView</value>
