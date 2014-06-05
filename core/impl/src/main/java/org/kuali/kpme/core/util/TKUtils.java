@@ -354,7 +354,11 @@ public class TKUtils {
         if (StringUtils.isEmpty(dateTime)) {
             return null;
         }
-        return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(dateTime);
+        try {
+            return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT.parseDateTime(dateTime);
+        } catch (IllegalArgumentException e) {
+            return HrConstants.DateTimeFormats.BASIC_DATE_FORMAT_WITH_SEC.parseDateTime(dateTime);
+        }
     }
     
     /**
