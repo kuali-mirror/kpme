@@ -19,14 +19,15 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
+import org.kuali.kpme.core.bo.validation.HrKeyedSetBusinessObjectValidation;
 import org.kuali.kpme.core.paytype.PayTypeBo;
+import org.kuali.kpme.core.paytype.PayTypeKeyBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
-public class PayTypeRule extends HrKeyedBusinessObjectValidation {
+public class PayTypeRule extends HrKeyedSetBusinessObjectValidation<PayTypeBo, PayTypeKeyBo>   {
 
 	boolean validateEarnCode(String regEarnCode, LocalDate asOfDate) {
 		boolean valid = ValidationUtils.validateEarnCode(regEarnCode, asOfDate);
@@ -58,14 +59,14 @@ public class PayTypeRule extends HrKeyedBusinessObjectValidation {
     
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-		boolean valid = false;
+		boolean valid = super.processCustomRouteDocumentBusinessRules(document);
 
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		if (pbo instanceof PayTypeBo) {
 			PayTypeBo pt = (PayTypeBo) pbo;
 
 			valid = validateEarnCode(pt.getRegEarnCode(), pt.getEffectiveLocalDate());
-			valid &= validateGroupKeyCode(pt);
+//			valid &= validateGroupKeyCode(pt);
 			if (document.isOldDataObjectInDocument() && !pt.isActive()) {
 				valid &= validateActive(pt.getPayType(), pt.getEffectiveLocalDate());
 			}

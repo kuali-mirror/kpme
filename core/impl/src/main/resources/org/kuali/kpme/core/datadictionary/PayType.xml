@@ -22,15 +22,9 @@
 
 	<bean name="PayType" parent="PayType-parentBean" />
 
-	<bean id="PayType-parentBean" abstract="true" parent="KPMEHrKeyedBusinessObjectParent">
+	<bean id="PayType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
 		<property name="dataObjectClass" value="org.kuali.kpme.core.paytype.PayTypeBo" />
 		<property name="objectLabel" value="Pay Type" />
-		<property name="inquiryDefinition">
-			<ref bean="PayType-inquiryDefinition" />
-		</property>
-		<property name="lookupDefinition">
-			<ref bean="PayType-lookupDefinition" />
-		</property>
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="PayType-hrPayTypeId" />
@@ -40,6 +34,16 @@
 				<ref bean="PayType-hrEarnCodeId" />
 				<ref bean="PayType-flsaStatus" />
 				<ref bean="PayType-payFrequency" />
+			</list>
+		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition">
+					<property name="dataObjectClass" value="org.kuali.kpme.core.paytype.PayTypeKeyBo" />
+					<property name="name" value="effectiveKeyList" />
+					<property name="shortLabel" value="Group Key Whitelist" />
+					<property name="label" value="Group Key Whitelist" />
+				</bean>
 			</list>
 		</property>
 	</bean>
@@ -143,74 +147,13 @@
 		<property name="label" value="Pay Frequency" />
 	</bean>
 
-
-	<!--  Inquiry Definitions  -->
-  
-  	<bean id="PayType-inquiryDefinition" parent="PayType-inquiryDefinition-parentBean" />
-
-	<bean id="PayType-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition" 	p:inquirableClass="org.kuali.kpme.core.paytype.web.PayTypeInquirableImpl">
-		<property name="inquirySections">
-			<list>
-				<bean parent="InquirySectionDefinition">
-					<property name="numberOfColumns" value="1" />
-					<property name="inquiryFields">
-						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-							<bean parent="FieldDefinition" p:attributeName="payType" />
-							<bean parent="FieldDefinition" p:attributeName="descr" />
-							<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
-							<bean parent="FieldDefinition" p:attributeName="location" />
-							<bean parent="FieldDefinition" p:attributeName="institution" />
-							<bean parent="FieldDefinition" p:attributeName="active" />
-			                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
-			                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
-                            <bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
-						</list>
-					</property>
-					<property name="title" value="Pay Type" />
-				</bean>
-			</list>
-		</property>
-		<property name="translateCodes" value="false"/>
-		<property name="title" value="Pay Type Inquiry" />
-	</bean>
-
-	<!-- Look up Definitions  -->
-
-	<bean id="PayType-lookupDefinition" parent="PayType-lookupDefinition-parentBean" />
-	<bean id="PayType-lookupDefinition-parentBean" abstract="true"
-		parent="LookupDefinition">
-		<property name="lookupableID" value="kpmeHrBusinessObjectLookupable"></property>
-		<property name="lookupFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="payType" />
-                <bean parent="FieldDefinition" p:attributeName="descr" />				
-                <bean parent="FieldDefinition" p:attributeName="regEarnCode" />
-                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
-                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
-                <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
-                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
-			</list>
-		</property>
-		<property name="resultFields">
-			<list>
-				<bean parent="FieldDefinition" p:attributeName="payType" />
-				<bean parent="FieldDefinition" p:attributeName="descr" />
-				<bean parent="FieldDefinition" p:attributeName="regEarnCode" />
-				<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<bean parent="FieldDefinition" p:attributeName="timestamp" />
-			</list>
-		</property>
-		<property name="title" value="Pay Type Lookup" />
-	</bean>
-
+<!--***************************************************************************
+                                   KRAD Views
+        ***************************************************************************-->
 
 	<!--  KRAD Lookup view  -->
  
-  <bean id="PayType-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
+  <bean id="PayType-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
     <property name="headerText" value="Pay Type Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayTypeBo" />
     <property name="criteriaFields">
@@ -253,7 +196,7 @@
 		<property name="title" value="Pay Type Inquiry" />
 		<property name="items">
 			<list>
-				<bean parent="KPMEGroupKeyed-InquiryGridSection">
+				<bean parent="Uif-Disclosure-GridSection">
 					<property name="layoutManager.numberOfColumns" value="2" />
 					<property name="items">
 						<list merge="true">
@@ -265,19 +208,26 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent = "PayType-effectiveKeyInquiry"/>
 			</list>
 		</property>
 	</bean> 
   
-  <!--  PayType MaintView -->
+  	<bean id="PayType-effectiveKeyInquiry" parent="MultiGroupKeySection">
+    	<property name="headerText" value="Pay Type Keys"/>
+    	<property name="collectionObjectClass" value="org.kuali.kpme.core.paytype.PayTypeKeyBo"/>
+  	</bean>
+  	
+  <!--  PayType Maintenance View -->
   
   <bean id="PayType-MaintenanceView" parent="PayType-MaintenanceView-parentBean"/>
   <bean id="PayType-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
     <property name="headerText" value="Pay Type Maintenance"/>
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.paytype.web.PayTypeMaintainableImpl" />
     <property name="dataObjectClassName" value="org.kuali.kpme.core.paytype.PayTypeBo"/>
     <property name="items">
       <list>
-        <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
+        <bean parent="Uif-MaintenanceGridSection">
           <property name="items">
             <list merge="true">
 		        <bean parent="Uif-InputField" p:propertyName="payType" p:required="true" />
@@ -294,8 +244,11 @@
             </list>
           </property>
         </bean>
+        <bean parent="KPMEKeyedSetBO-EffectiveKeyListSection">
+        		<property name="collectionObjectClass" value="org.kuali.kpme.core.paytype.PayTypeKeyBo"/>
+        </bean>
       </list>
     </property>
-  </bean> 
-  
+  </bean>
+
 </beans>
