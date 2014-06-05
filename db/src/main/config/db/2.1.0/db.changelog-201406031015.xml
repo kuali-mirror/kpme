@@ -55,5 +55,20 @@
 			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
+    
+    	<changeSet id="3" author="jkakkad" context="kpme-client-bootstrap">
+		<comment>Adding the FK constraint referencing the 'owner' salary group </comment>
+		<addForeignKeyConstraint baseTableName="HR_SAL_GROUP_KEY_T" baseColumnNames="HR_SAL_GROUP_ID" 
+			referencedTableName="HR_SAL_GROUP_T" referencedColumnNames="HR_SAL_GROUP_ID" 
+			constraintName="FK_SAL_GROUP_KEY" />
+	</changeSet>
+
+	<changeSet id="4" author="jkakkad" context="kpme-client-bootstrap">
+		<createIndex indexName="HR_SAL_GROUP_KEY_IDX1" tableName="HR_SAL_GROUP_KEY_T"
+			unique="true">
+			<column name="HR_SAL_GROUP_ID" />
+			<column name="GRP_KEY_CD" />
+		</createIndex>
+	</changeSet>
 
 </databaseChangeLog>
