@@ -213,6 +213,9 @@
 	        	<value>js/maintview.js</value>
 	      	</list>
 	    </property>
+	    <property name="page">
+            <bean parent="KPMEUif-MaintenancePage"/>
+        </property>
 	</bean>
 
 <!-- The readOnly property for the dailog below has been expliclitly set to false to overcome a KRAD feature  -->
