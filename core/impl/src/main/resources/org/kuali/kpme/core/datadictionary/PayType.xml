@@ -213,7 +213,7 @@
 		</property>
 	</bean> 
   
-  	<bean id="PayType-effectiveKeyInquiry" parent="MultiGroupKeySection">
+  	<bean id="PayType-effectiveKeyInquiry" parent="KPMEKeyedSetBo-InquiryViewSection">
     	<property name="headerText" value="Pay Type Keys"/>
     	<property name="collectionObjectClass" value="org.kuali.kpme.core.paytype.PayTypeKeyBo"/>
   	</bean>
