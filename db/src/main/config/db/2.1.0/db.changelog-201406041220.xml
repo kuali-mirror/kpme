@@ -14,8 +14,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
-    <class-descriptor class="org.kuali.kpme.pm.positiontype.PositionTypeGroupKeyBo" table="PM_PSTN_TYP_GRP_KEY_T">
-        <field-descriptor name="id"        						   column="PM_PSTN_TYP_GRP_KEY_ID"   jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_TYP_GRP_KEY_S" />
 -->
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
