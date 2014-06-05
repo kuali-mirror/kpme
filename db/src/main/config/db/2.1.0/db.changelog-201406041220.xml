@@ -66,10 +66,10 @@
 </changeSet>
 
 <changeSet id="4" author="mlemons" context="kpme-client-bootstrap">
-<createIndex indexName="PM_PSTN_RPT_GRP_KEY_IDX1" tableName="PM_PSTN_TYP_GRP_KEY_T" unique="true">
-    <column name="PM_PSTN_TYP_ID" />
-    <column name="GRP_KEY_CD" />
-</createIndex>
+    <createIndex indexName="PM_PSTN_TYP_GRP_KEY_IDX1" tableName="PM_PSTN_TYP_GRP_KEY_T" unique="true">
+        <column name="PM_PSTN_TYP_ID" />
+        <column name="GRP_KEY_CD" />
+    </createIndex>
 </changeSet>
 
 </databaseChangeLog>

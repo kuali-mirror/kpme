@@ -34,6 +34,16 @@
             <ref bean="PositionType-academicFlag"/>
 	      </list>
 	    </property>
+        <property name="collections">
+            <list>
+                <bean parent="CollectionDefinition">
+                    <property name="dataObjectClass" value="org.kuali.kpme.pm.positiontype.PositionTypeGroupKeyBo" />
+                    <property name="name" value="effectiveKeyList" />
+                    <property name="shortLabel" value="Group Key Whitelist" />
+                    <property name="label" value="Group Key Whitelist" />
+                </bean>
+            </list>
+        </property>
 	    <property name="objectLabel" value="Position Type"/>
   	</bean>
 
@@ -205,7 +215,7 @@
           </property>
         </bean>
           <bean parent="KPMEKeyedSetBO-EffectiveKeyListSection">
-              <property name="collectionObjectClass" value="org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo"/>
+              <property name="collectionObjectClass" value="org.kuali.kpme.pm.positiontype.PositionTypeGroupKeyBo"/>
           </bean>
       </list>
     </property>
