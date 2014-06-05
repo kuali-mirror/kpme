@@ -20,6 +20,7 @@ import org.kuali.kpme.tklm.api.leave.accrual.PrincipalAccrualRanService;
 import org.kuali.kpme.tklm.leave.accrual.PrincipalAccrualRan;
 import org.kuali.kpme.tklm.leave.accrual.dao.PrincipalAccrualRanDao;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class PrincipalAccrualRanServiceImpl implements PrincipalAccrualRanService {
 
@@ -41,7 +42,7 @@ public class PrincipalAccrualRanServiceImpl implements PrincipalAccrualRanServic
 			par.setLastRanTs(TKUtils.getCurrentTimestamp());
 		}
 		
-		KRADServiceLocator.getBusinessObjectService().save(par);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(par);
 	}
 
 	public PrincipalAccrualRanDao getPrincipalAccrualRanDao() {

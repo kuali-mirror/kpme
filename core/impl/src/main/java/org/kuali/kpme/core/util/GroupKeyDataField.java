@@ -16,8 +16,9 @@
 package org.kuali.kpme.core.util;
 
 import org.kuali.rice.krad.uif.field.DataField;
+import org.kuali.rice.krad.uif.field.DataFieldBase;
 
-public class GroupKeyDataField extends DataField implements SingleGroupKeyField {
+public class GroupKeyDataField extends DataFieldBase implements SingleGroupKeyField, DataField {
     String singleGroupKey = null;
     public void singleGroupKeyCheck() {
         if (TKUtils.singleGroupKeyExists())
@@ -59,7 +60,7 @@ public class GroupKeyDataField extends DataField implements SingleGroupKeyField 
         return super.isAddHiddenWhenReadOnly();
     }
 
-    public String getDefaultValue() {
+    public Object getDefaultValue() {
         if (TKUtils.singleGroupKeyExists())
         {
             return singleGroupKey;

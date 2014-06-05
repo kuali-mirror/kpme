@@ -31,6 +31,7 @@ import org.kuali.kpme.tklm.utils.TkTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @FunctionalTest
 public class TimesheetDocumentHeaderTest extends KPMEWebTestCase {
@@ -52,7 +53,7 @@ public class TimesheetDocumentHeaderTest extends KPMEWebTestCase {
 		timeHeader.setDocumentStatus("F");
 		timeHeader.setBeginDateTime(new DateTime(2011, 1, 1, 0, 0, 0));
 		timeHeader.setEndDateTime(new DateTime(2011, 1, 15, 0, 0, 0));
-		KRADServiceLocator.getBusinessObjectService().save(timeHeader);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(timeHeader);
         DateTime dateTime = new DateTime(2011,1,15,0,0,0,0);
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader("admin", dateTime);
 		Assert.assertTrue(tdh!=null && StringUtils.equals(tdh.getDocumentId(),"1"));
@@ -85,7 +86,7 @@ public class TimesheetDocumentHeaderTest extends KPMEWebTestCase {
 		tdh.setBeginDate(LocalDate.now().toDate());
 		tdh.setEndDate(LocalDate.now().toDate());
 		
-		KRADServiceLocator.getBusinessObjectService().save(tdh);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(tdh);
 		
 		tdh = new TimesheetDocumentHeader();
 		tdh.setDocumentId("1000");
@@ -93,7 +94,7 @@ public class TimesheetDocumentHeaderTest extends KPMEWebTestCase {
 		tdh.setBeginDate(LocalDate.now().toDate());
 		tdh.setEndDate(LocalDate.now().toDate());
 		
-		KRADServiceLocator.getBusinessObjectService().save(tdh);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(tdh);
 		
 		tdh = new TimesheetDocumentHeader();
 		tdh.setDocumentId("2345");
@@ -101,6 +102,6 @@ public class TimesheetDocumentHeaderTest extends KPMEWebTestCase {
 		tdh.setBeginDate(LocalDate.now().toDate());
 		tdh.setEndDate(LocalDate.now().toDate());
 		
-		KRADServiceLocator.getBusinessObjectService().save(tdh);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(tdh);
 	}
 }

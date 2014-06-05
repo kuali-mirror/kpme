@@ -15,13 +15,6 @@
  */
 package org.kuali.kpme.core.earncode.group.validation;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo;
@@ -30,7 +23,10 @@ import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
+
+import java.util.*;
 
 public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 
@@ -66,7 +62,7 @@ public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 	}
 
     protected void validateEarnCode(String earnCode, int index, EarnCodeGroupBo editedEarnGroup) {
-    	BusinessObjectService businessObjectService = KRADServiceLocator.getBusinessObjectService();
+    	LegacyDataAdapter businessObjectService = KRADServiceLocatorWeb.getLegacyDataAdapter();
     	Map<String,Object> criteria = new HashMap<String,Object>();
 		criteria.put("showSummary", "Y");
 		criteria.put("active", "Y");

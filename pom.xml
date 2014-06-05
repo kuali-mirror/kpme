@@ -74,7 +74,7 @@
         <ojdbc14.jar.location>${jdbc.drivers.location}/com/oracle/${oracle.jdbc.artifactId}/${oracle.jdbc.version}/${oracle.jdbc.artifactId}-${oracle.jdbc.version}.jar</ojdbc14.jar.location>
         <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
         <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
-        <rice.version>2.3.6</rice.version>
+        <rice.version>2.4.1</rice.version>
         <selenium-java.version>2.41.0</selenium-java.version>
         <slf4j.version>1.7.2</slf4j.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
@@ -416,6 +416,14 @@
                 <artifactId>rice-core-web</artifactId>
                 <version>${rice.version}</version>
                 <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>jcl-over-slf4j</artifactId>

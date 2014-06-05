@@ -25,6 +25,7 @@ import org.kuali.kpme.core.task.dao.TaskDao;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,14 +55,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task saveTask(Task task) {
-        TaskBo bo = KRADServiceLocator.getBusinessObjectService().save(TaskBo.from(task));
+        TaskBo bo = KRADServiceLocatorWeb.getLegacyDataAdapter().save(TaskBo.from(task));
         return TaskBo.to(bo);
     }
 
     @Override
     public List<Task> saveTasks(List<Task> tasks) {
         List<TaskBo> bos = ModelObjectUtils.transform(tasks, TaskBo.toTaskBo);
-        bos = (List<TaskBo>)KRADServiceLocator.getBusinessObjectService().save(bos);
+        bos = (List<TaskBo>)KRADServiceLocatorWeb.getLegacyDataAdapter().save(bos);
         return CollectionUtils.isEmpty(bos) ? Collections.<Task>emptyList() : ModelObjectUtils.transform(bos, TaskBo.toTask);
     }
 

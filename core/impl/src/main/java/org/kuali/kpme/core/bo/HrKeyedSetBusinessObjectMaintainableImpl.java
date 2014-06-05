@@ -21,6 +21,7 @@ import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
@@ -45,12 +46,13 @@ public abstract class HrKeyedSetBusinessObjectMaintainableImpl<O extends HrKeyed
 	
 	
 	@Override
-	protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-		boolean retVal = super.performAddLineValidation(view, collectionGroup, model, addLine);
-		if(retVal && EFFECTIVE_KEY_LIST.equals(collectionGroup.getPropertyName()) && (addLine instanceof HrBusinessObjectKey) ) {
-			HrBusinessObjectKey<?,?> addedKeyBo = (HrBusinessObjectKey<?,?>) addLine;
-			if (model instanceof MaintenanceDocumentForm) {
-		        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+	protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
+                                               String collectionPath) {
+		boolean retVal = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+		if(retVal && EFFECTIVE_KEY_LIST.equals(collectionId) && (newLine instanceof HrBusinessObjectKey) ) {
+			HrBusinessObjectKey<?,?> addedKeyBo = (HrBusinessObjectKey<?,?>) newLine;
+			if (viewModel instanceof MaintenanceDocumentForm) {
+		        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) viewModel;
 		        MaintenanceDocument document = maintenanceForm.getDocument();
 		        if (document.getNewMaintainableObject().getDataObject() instanceof HrKeyedSetBusinessObject) {
 		        	HrKeyedSetBusinessObject<?,?> keyOwnerObj = (HrKeyedSetBusinessObject<?,?>) document.getNewMaintainableObject().getDataObject();

@@ -34,6 +34,7 @@ import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 /**
  * This class needs refactored - the name job test implies that it should unit test on the Job object, especially considering it's package location.
@@ -59,7 +60,7 @@ public class JobTest extends CoreUnitTestCase {
 		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
         payCalendar.setCalendarDescriptions("Test Description");
 
-		KRADServiceLocator.getBusinessObjectService().save(payCalendar);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(payCalendar);
 		Assert.assertTrue(HrServiceLocator.getCalendarService().getCalendar(payCalendar.getHrCalendarId()) != null);
 
 	}
@@ -77,7 +78,7 @@ public class JobTest extends CoreUnitTestCase {
 		payCalendarDates.setEndPeriodFullDateTime(endPeriodDateTime);
 		payCalendarDates.setCalendarName(CALENDAR_GROUP);
 
-		KRADServiceLocator.getBusinessObjectService().save(payCalendarDates);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(payCalendarDates);
 		Assert.assertTrue(HrServiceLocator.getCalendarEntryService().getCalendarEntry(payCalendarDates.getHrCalendarEntryId()) != null);
 
 	}
@@ -96,9 +97,9 @@ public class JobTest extends CoreUnitTestCase {
 		payType.setPayFrequency("M");
         payType.setUserPrincipalId("admin");
 
-		payType = (PayTypeBo) KRADServiceLocator.getBusinessObjectService().save(payType);
+		payType = (PayTypeBo) KRADServiceLocatorWeb.getLegacyDataAdapter().save(payType);
 		Assert.assertTrue(HrServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveLocalDate()) != null);
-		KRADServiceLocator.getBusinessObjectService().delete(payType);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(payType);
 	}
 
 	@Ignore

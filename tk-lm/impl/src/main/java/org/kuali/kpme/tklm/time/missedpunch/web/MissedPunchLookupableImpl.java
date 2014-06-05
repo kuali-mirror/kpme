@@ -36,13 +36,13 @@ import org.kuali.rice.core.api.search.Range;
 import org.kuali.rice.core.api.search.SearchExpressionUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.lookup.LookupView;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.krad.web.form.LookupForm;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,9 +53,9 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 	private static final long serialVersionUID = 6521192698205632171L;
 	
 	private static final Logger LOG = Logger.getLogger(MissedPunchLookupableImpl.class);
-	
-	@Override
-	public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+
+    @Override
+    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
 		List<MissedPunchBo> results = new ArrayList<MissedPunchBo>();
 		
 		LocalDate fromDate = null;
@@ -100,7 +100,7 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 			}
 		}
 		searchCriteria.remove("actionDate");
-		List<?> searchResults = super.getSearchResults(form, searchCriteria, unbounded);
+		Collection<?> searchResults = super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
 		//clear result messages, these will be re-added with the correct number of retrieved objects once filtering has been completed.
 		if(ObjectUtils.isNotNull(GlobalVariables.getMessageMap().getInfoMessagesForProperty("LookupResultMessages"))) {
 			GlobalVariables.getMessageMap().getInfoMessagesForProperty("LookupResultMessages").clear();
@@ -133,7 +133,7 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 			GlobalVariables.getMessageMap().putError("LookupResultMessages", info);			
 		}*/
 		
-		super.generateLookupResultsMessages(form, searchCriteria, results, unbounded);
+		super.generateLookupResultsMessages(searchCriteria, results, bounded, searchResultsLimit);
 		return results;
 	}
 	
@@ -213,26 +213,28 @@ public class MissedPunchLookupableImpl extends KPMELookupableImpl {
 		return results;
 	}
 
-	@Override
-	public void initSuppressAction(LookupForm lookupForm) {
-/*
- * lookupAuthorizer.canInitiateDocument(lookupForm, user) returns false in this instance, because no
- * documentTypeName can be obtained within LookupViewAuthorizeBase.canInitiateDocument(LookupForm, Person).
- * This effectively suppresses view actions.
- * 
- *      LookupViewAuthorizerBase lookupAuthorizer = (LookupViewAuthorizerBase) lookupForm.getView().getAuthorizer();
-        Person user = GlobalVariables.getUserSession().getPerson();
-        ((LookupView) lookupForm.getView()).setSuppressActions(!lookupAuthorizer.canInitiateDocument(lookupForm, user));*/
-        ((LookupView) lookupForm.getView()).setSuppressActions(false);
-	}
+    @Override
+    public boolean allowsMaintenanceNewOrCopyAction() {
+        return false;
+    }
+
+    @Override
+    public boolean allowsMaintenanceEditAction(Object dataObject) {
+        return false;
+    }
+
+    @Override
+    public boolean allowsMaintenanceDeleteAction(Object dataObject) {
+        return false;
+    }
 
 
 
 	@Override
-	protected String getActionUrlHref(LookupForm lookupForm, Object dataObject,
+	protected String getMaintenanceActionUrl(LookupForm lookupForm, Object dataObject,
 			String methodToCall, List<String> pkNames) {
 		if (!StringUtils.equals(methodToCall, "maintenanceView")) {
-			return super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
+			return super.getMaintenanceActionUrl(lookupForm, dataObject, methodToCall, pkNames);
 		} else {
 			Properties urlParameters = new Properties();
 

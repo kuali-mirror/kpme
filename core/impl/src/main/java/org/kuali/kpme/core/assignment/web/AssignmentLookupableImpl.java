@@ -27,15 +27,11 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.api.assignment.Assignment;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
@@ -89,19 +85,12 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
         return results;
     }
 
-	@Override
-	protected List<?> getSearchResults(LookupForm form,
-			Map<String, String> searchCriteria, boolean unbounded) {
+    @Override
+    protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
         String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
-        List<AssignmentBo> results = (List<AssignmentBo>) super.getSearchResults(form, searchCriteria, unbounded);
+        List<AssignmentBo> results = (List<AssignmentBo>) super.executeSearch(adjustedSearchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
 
-        List<AssignmentBo> filteredResults = filterLookupAssignments(results, userPrincipalId);
-
-
-        //return ModelObjectUtils.transform(HrServiceLocator.getAssignmentService().searchAssignments(userPrincipalId, searchCriteria), toAssignment);
-//        List<Assignment> filteredResults = HrServiceLocator.getAssignmentService().filterLookupAssignments(ModelObjectUtils.transform(results, toAssignment), userPrincipalId);
-        return filteredResults;
-        //return ModelObjectUtils.transform(filteredResults, fromAssignment);
+        return filterLookupAssignments(results, userPrincipalId);
 	}
 }

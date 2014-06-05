@@ -54,6 +54,7 @@ import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 
 @FunctionalTest
@@ -62,7 +63,7 @@ public class ClockWebTest extends KPMEWebTestCase {
     private String tbId;
 
     public Long maxDocumentId() {
-        Collection aCol = KRADServiceLocator.getBusinessObjectService().findAll(TimesheetDocumentHeader.class);
+        Collection aCol = KRADServiceLocatorWeb.getLegacyDataAdapter().findAll(TimesheetDocumentHeader.class);
         Long maxId = new Long(-1);
         Iterator<TimesheetDocumentHeader> itr = aCol.iterator();
         while (itr.hasNext()) {
@@ -76,7 +77,7 @@ public class ClockWebTest extends KPMEWebTestCase {
     }
 
     public Long maxTimeBlockId() {
-        Collection aCol = KRADServiceLocator.getBusinessObjectService().findAll(TimeBlockBo.class);
+        Collection aCol = KRADServiceLocatorWeb.getLegacyDataAdapter().findAll(TimeBlockBo.class);
         Long maxId = new Long(-1);
         Iterator<TimeBlockBo> itr = aCol.iterator();
         while (itr.hasNext()) {
@@ -184,7 +185,7 @@ public class ClockWebTest extends KPMEWebTestCase {
         GracePeriodRule gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(LocalDate.now());
         if (gpr != null && gpr.isActive()) {
             gpr.setActive(false);
-            KRADServiceLocator.getBusinessObjectService().save(gpr);
+            KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
         }
 
         // Clock in
@@ -208,7 +209,7 @@ public class ClockWebTest extends KPMEWebTestCase {
     	String gpRuleConfig = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.KPME_GRACE_PERIOD_RULE_CONFIG);
     	if(gpRuleConfig != null && gpRuleConfig.equals("CLOCK")) {
 	    	//clean clock logs
-	        KRADServiceLocator.getBusinessObjectService().deleteMatching(ClockLogBo.class, Collections.singletonMap("principalId", "admin"));
+	        KRADServiceLocatorWeb.getLegacyDataAdapter().deleteMatching(ClockLogBo.class, Collections.singletonMap("principalId", "admin"));
 	        GracePeriodRule gpr = new GracePeriodRule();
 	        //gpr.setTkGracePeriodRuleId("1");
 	        gpr.setEffectiveLocalDate(new LocalDate(2010, 1, 1));
@@ -217,7 +218,7 @@ public class ClockWebTest extends KPMEWebTestCase {
 	        gpr.setUserPrincipalId("admin");
 	        
 	        gpr.setActive(true);
-	        KRADServiceLocator.getBusinessObjectService().save(gpr);
+	        KRADServiceLocatorWeb.getLegacyDataAdapter().save(gpr);
 	
 	        // Clock in
 	        clockIn();

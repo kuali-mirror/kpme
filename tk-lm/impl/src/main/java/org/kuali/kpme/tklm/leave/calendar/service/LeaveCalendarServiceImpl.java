@@ -45,6 +45,7 @@ import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         documentHeader.setDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(HrConstants.ROUTE_STATUS.INITIATED);
 
-        KRADServiceLocator.getBusinessObjectService().save(documentHeader);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().save(documentHeader);
         
         leaveCalendarDocument = new LeaveCalendarDocument(documentHeader);
         leaveCalendarDocument.setCalendarEntry(calendarEntry);

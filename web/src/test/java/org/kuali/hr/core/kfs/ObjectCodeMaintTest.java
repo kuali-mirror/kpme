@@ -31,6 +31,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class ObjectCodeMaintTest extends KPMEWebTestCase {
 	
@@ -167,10 +168,10 @@ public class ObjectCodeMaintTest extends KPMEWebTestCase {
 		keys.put("universityFiscalYear", "2013");
 		keys.put("financialObjectCode", "3000");
 		
-		ObjectCode objectCode = (ObjectCode) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(ObjectCode.class, keys);
+		ObjectCode objectCode = (ObjectCode) KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(ObjectCode.class, keys);
 		assertNotNull("newly created sub-object code should exist", objectCode);
 		//clean up after assertion.
-		KRADServiceLocator.getBusinessObjectService().delete(objectCode);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(objectCode);
 	}
 
 }

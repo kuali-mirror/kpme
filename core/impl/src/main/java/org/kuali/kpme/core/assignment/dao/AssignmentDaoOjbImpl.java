@@ -30,14 +30,15 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.sql.Date;
 import java.util.*;
 
 
-//public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
+public class AssignmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
 //public class AssignmentDaoOjbImpl extends KpmeHrBusinessObjectLookupDaoOjbImpl implements AssignmentDao {
-public class AssignmentDaoOjbImpl extends KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl implements AssignmentDao {
+//public class AssignmentDaoOjbImpl extends KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl implements AssignmentDao {
 
     private static final Logger LOG = Logger.getLogger(AssignmentDaoOjbImpl.class);
 
@@ -45,7 +46,7 @@ public class AssignmentDaoOjbImpl extends KPMEHrGroupKeyedBusinessObjectLookupDa
     private static final String DEPT_PARAM_NAME = "dept";
 
     @SuppressWarnings("rawtypes")
-    protected Map<String, String> removeAndTransformFormProperties(Class<? extends HrBusinessObjectContract> businessObjectClass, Map formProps)
+    /*protected Map<String, String> removeAndTransformFormProperties(Class<? extends HrBusinessObjectContract> businessObjectClass, Map formProps)
     {
         HashMap<String, String> retVal = new HashMap<String, String>();
 
@@ -58,9 +59,9 @@ public class AssignmentDaoOjbImpl extends KPMEHrGroupKeyedBusinessObjectLookupDa
         // call super class method
         retVal.putAll(super.removeAndTransformFormProperties(businessObjectClass, formProps));
         return retVal;
-    }
+    }*/
 
-    @Override
+    /*@Override
     protected void processRootCriteria(Criteria rootCriteria, Class<? extends HrBusinessObjectContract> businessObjectClass, Map formProps, Map<String, String> removedProperties) {
         String dept = removedProperties.get(DEPT_PARAM_NAME);
         if (StringUtils.isNotBlank(dept)) {
@@ -77,7 +78,7 @@ public class AssignmentDaoOjbImpl extends KPMEHrGroupKeyedBusinessObjectLookupDa
         }
 
         super.processRootCriteria(rootCriteria, businessObjectClass, formProps, removedProperties);
-    }
+    }*/
 
 
      @Override
@@ -300,7 +301,7 @@ public class AssignmentDaoOjbImpl extends KPMEHrGroupKeyedBusinessObjectLookupDa
         return assignments;
     }
 
-    @Override
+    /*@Override
     @SuppressWarnings("unchecked")
     public List<AssignmentBo> searchAssignments(Map<String, String> searchCriteria) {
 
@@ -314,7 +315,7 @@ public class AssignmentDaoOjbImpl extends KPMEHrGroupKeyedBusinessObjectLookupDa
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
-    }
+    }*/
 
     @Override
     public AssignmentBo getMaxTimestampAssignment(String principalId) {

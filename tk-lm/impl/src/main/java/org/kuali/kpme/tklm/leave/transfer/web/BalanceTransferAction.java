@@ -44,6 +44,7 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -335,7 +336,7 @@ public class BalanceTransferAction extends KPMEAction {
                         balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
                         // May need to update to save the business object to KPME's tables for record keeping.
                         LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
-                        KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+                        KRADServiceLocatorWeb.getLegacyDataAdapter().save(balanceTransfer);
                         LeaveBlock.Builder builder = LeaveBlock.Builder.create(forfeitedLeaveBlock);
                         builder.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
                         LmServiceLocator.getLeaveBlockService().updateLeaveBlock(builder.build(), principalId);
@@ -419,7 +420,7 @@ public class BalanceTransferAction extends KPMEAction {
 						// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
 						// Do not submit the object to workflow for this max balance action.
 						balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
-						KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+						KRADServiceLocatorWeb.getLegacyDataAdapter().save(balanceTransfer);
 	
 						// May need to update to save the business object to KPME's tables for record keeping.
 						LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());

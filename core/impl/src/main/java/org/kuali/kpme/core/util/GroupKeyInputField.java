@@ -15,9 +15,11 @@
  */
 package org.kuali.kpme.core.util;
 
-import org.kuali.rice.krad.uif.field.InputField;
 
-public class GroupKeyInputField extends InputField  implements SingleGroupKeyField {
+import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.field.InputFieldBase;
+
+public class GroupKeyInputField extends InputFieldBase implements SingleGroupKeyField, InputField {
     String singleGroupKey = null;
     public void singleGroupKeyCheck()
     {
@@ -60,7 +62,7 @@ public class GroupKeyInputField extends InputField  implements SingleGroupKeyFie
         return super.isAddHiddenWhenReadOnly();
     }
 
-    public String getDefaultValue() {
+    public Object getDefaultValue() {
         if (TKUtils.singleGroupKeyExists())
         {
             return singleGroupKey;

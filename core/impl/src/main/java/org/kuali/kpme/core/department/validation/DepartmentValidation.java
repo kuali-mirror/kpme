@@ -34,6 +34,7 @@ import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @SuppressWarnings("deprecation")
 public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
@@ -81,7 +82,7 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		boolean valid = true;
 		
 		if (StringUtils.isNotEmpty(chart)) {
-			Chart chartObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
+			Chart chartObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Chart.class, chart);
 
 			if (chartObj == null) {
 				this.putFieldError("chart", "dept.chart.notfound", chart);
@@ -96,7 +97,7 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		boolean valid = true;
 		
 		if (StringUtils.isNotEmpty(organization)) {
-			Organization organizationObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Organization.class, organization);
+			Organization organizationObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Organization.class, organization);
 
 			if (organizationObj == null) {
 				this.putFieldError("org", "dept.org.notfound", organization);
@@ -111,8 +112,8 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		boolean valid = true;
 		
 		if (StringUtils.isNotEmpty(chart) && StringUtils.isNotEmpty(organization)) {
-			Chart chartObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
-			Organization organizationObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Organization.class, organization);
+			Chart chartObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Chart.class, chart);
+			Organization organizationObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Organization.class, organization);
 			if (chartObj != null && organizationObj != null) {
 				Chart organizationChart = organizationObj.getChartOfAccounts();
 				if (!StringUtils.equals(chartObj.getChartOfAccountsCode(), organizationChart.getChartOfAccountsCode())) {
@@ -177,7 +178,7 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 	@Override
 	public boolean processCustomAddCollectionLineBusinessRules(
 			MaintenanceDocument document, String collectionName,
-			PersistableBusinessObject line) {
+			Object line) {
 		boolean valid = true;
 		
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...

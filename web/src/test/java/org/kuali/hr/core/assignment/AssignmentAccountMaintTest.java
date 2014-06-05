@@ -45,14 +45,14 @@ public class AssignmentAccountMaintTest extends KPMEWebTestCase{
 		assignmentAccount.setFinSubObjCd(TEST_CODE);
 		assignmentAccount.setPercent(TEST_PERCENT);
         assignmentAccount.setUserPrincipalId("admin");
-		KRADServiceLocator.getBusinessObjectService().save(assignmentAccount);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(assignmentAccount);
 		assignmentAccountId = assignmentAccount.getTkAssignAcctId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {				
-		AssignmentAccount assignmentAccountObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AssignmentAccount.class, assignmentAccountId);		 
-		KRADServiceLocator.getBusinessObjectService().delete(assignmentAccountObj);
+		AssignmentAccount assignmentAccountObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(AssignmentAccount.class, assignmentAccountId);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(assignmentAccountObj);
 		super.tearDown();
 	}
 	

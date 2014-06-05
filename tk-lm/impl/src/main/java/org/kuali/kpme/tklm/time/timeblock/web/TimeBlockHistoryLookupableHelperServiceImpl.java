@@ -38,13 +38,12 @@ import org.kuali.rice.kew.api.document.DocumentStatusCategory;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.inquiry.Inquirable;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupUtils;
-import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.uif.widget.Inquiry;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.web.form.LookupForm;
 
 import java.util.*;
 
@@ -60,11 +59,7 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
     private static final String BEGIN_DATE_UPPER = KRADConstants.LOOKUP_RANGE_UPPER_BOUND_PROPERTY_PREFIX + "beginDate";
 
 
-/*	@Override
-	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
-	}*/
-	
 	private List<TimeBlockHistory> filterByPrincipalId(List<TimeBlockHistory> timeBlockHistories, String principalId) {
 		List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
 
@@ -136,11 +131,11 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
     }
 
 	@Override
-	protected String getActionUrlHref(LookupForm lookupForm, Object dataObject,
+	protected String getMaintenanceActionUrl(LookupForm lookupForm, Object dataObject,
 			String methodToCall, List<String> pkNames) {
 
 
-		String actionUrlHref = super.getActionUrlHref(lookupForm, dataObject, methodToCall, pkNames);
+		String actionUrlHref = super.getMaintenanceActionUrl(lookupForm, dataObject, methodToCall, pkNames);
 		String concreteBlockId = null;
 		if(dataObject instanceof TimeBlockHistory) {
 			TimeBlockHistory tb = (TimeBlockHistory) dataObject;
@@ -159,14 +154,23 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
 		return actionUrlHref;
 	}
 
-	@Override
-	public void initSuppressAction(LookupForm lookupForm) {
-		((LookupView) lookupForm.getView()).setSuppressActions(false);
-	}
+    @Override
+    public boolean allowsMaintenanceNewOrCopyAction() {
+        return false;
+    }
 
     @Override
-    protected List<?> getSearchResults(LookupForm form,
-                                       Map<String, String> searchCriteria, boolean unbounded) {
+    public boolean allowsMaintenanceEditAction(Object dataObject) {
+        return false;
+    }
+
+    @Override
+    public boolean allowsMaintenanceDeleteAction(Object dataObject) {
+        return false;
+    }
+
+    @Override
+    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
         List<TimeBlockHistory> results = new ArrayList<TimeBlockHistory>();
 
         if (searchCriteria.containsKey(BEGIN_DATE)) {
@@ -177,7 +181,7 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
             searchCriteria.put(DOC_STATUS_ID, resolveDocumentStatus(searchCriteria.get(DOC_STATUS_ID)));
         }
         //List<TimeBlockHistory> searchResults = new ArrayList<TimeBlockHistory>();
-        List<TimeBlockHistory> searchResults = (List<TimeBlockHistory>)super.getSearchResults(form, searchCriteria, unbounded);
+        List<TimeBlockHistory> searchResults = (List<TimeBlockHistory>)super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
 
         //convert lookup criteria for LeaveBlockHistory
         Map<String, String> leaveCriteria = new HashMap<String, String>();
@@ -202,10 +206,8 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
             leaveCriteria.put("leaveCalendarDocumentHeader.documentStatus", leaveCriteria.get(DOC_STATUS_ID));
             leaveCriteria.remove(DOC_STATUS_ID);
         }
-        LookupForm leaveBlockForm = (LookupForm)ObjectUtils.deepCopy(form);
-        leaveBlockForm.setDataObjectClassName(LeaveBlockHistory.class.getName());
         setDataObjectClass(LeaveBlockHistory.class);
-        List<LeaveBlockHistory> leaveBlocks = (List<LeaveBlockHistory>)super.getSearchResults(leaveBlockForm, LookupUtils.forceUppercase(LeaveBlockHistory.class, leaveCriteria), unbounded);
+        List<LeaveBlockHistory> leaveBlocks = (List<LeaveBlockHistory>)super.executeSearch(LookupUtils.forceUppercase(LeaveBlockHistory.class, leaveCriteria), wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
         List<TimeBlockHistory> convertedLeaveBlocks = convertLeaveBlockHistories(leaveBlocks);
         searchResults.addAll(convertedLeaveBlocks);
         for ( TimeBlockHistory searchResult : searchResults) {
@@ -215,7 +217,6 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
 
         results = filterByPrincipalId(results, GlobalVariables.getUserSession().getPrincipalId());
         results = addDetails(results);
-        sortSearchResults(form, searchResults);
 
         return results;
     }

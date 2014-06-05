@@ -29,6 +29,7 @@ import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 
@@ -257,10 +258,10 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		keys.put("financialObjectCode", "1000");
 		keys.put("financialSubObjectCode", "20");
 		
-/*		SubObjectCode subObjectCode = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubObjectCode.class, keys);
+/*		SubObjectCode subObjectCode = KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(SubObjectCode.class, keys);
 		assertNotNull("newly created sub-object code should exist", subObjectCode);
 		//clean up after assertion.
-		KRADServiceLocator.getBusinessObjectService().delete(subObjectCode);*/
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(subObjectCode);*/
 	}
 	
 	@Test
@@ -294,10 +295,10 @@ public class SubObjectCodeMaintTest extends KPMEWebTestCase {
 		keys.put("financialObjectCode", "1000");
 		keys.put("financialSubObjectCode", "30");
 		
-		SubObjectCode subObjectCode = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(SubObjectCode.class, keys);
+		SubObjectCode subObjectCode = KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(SubObjectCode.class, keys);
 		assertNotNull("newly created sub-object code should exist", subObjectCode);
 		//clean up after assertion.
-		KRADServiceLocator.getBusinessObjectService().delete(subObjectCode);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(subObjectCode);
 	}
 	
 	@Test

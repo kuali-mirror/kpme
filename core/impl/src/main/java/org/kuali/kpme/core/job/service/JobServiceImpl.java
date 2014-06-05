@@ -39,6 +39,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 /**
  * Represents an implementation of {@link JobService}.
@@ -64,7 +65,7 @@ public class JobServiceImpl implements JobService {
         if (job == null) {
             return null;
         }
-        JobBo bo = KRADServiceLocator.getBusinessObjectService().save(JobBo.from(job));
+        JobBo bo = KRADServiceLocatorWeb.getLegacyDataAdapter().save(JobBo.from(job));
         return JobBo.to(bo);
     }
 
@@ -74,7 +75,7 @@ public class JobServiceImpl implements JobService {
             return Collections.emptyList();
         }
         List<JobBo> bos = ModelObjectUtils.transform(jobList, toJobBo);
-        bos = (List<JobBo>)KRADServiceLocator.getBusinessObjectService().save(bos);
+        bos = (List<JobBo>)KRADServiceLocatorWeb.getLegacyDataAdapter().save(bos);
         return toImmutable(bos);
 
     }

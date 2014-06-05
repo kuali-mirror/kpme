@@ -57,7 +57,7 @@
 		</property>
 	</bean>
 
-    <bean id="KPMEUif-NonEffectiveBoViewLinkLookupView" parent="KPMEUif-ViewLinkLookupView">
+    <bean id="KPMEUif-NonEffectiveBoViewLinkLookupView" parent="KPMEUif-ViewLinkLookupView" abstract="true">
         <property name="maintenanceUrlMapping" value="kpme/nonEffectiveMaintenance"/>
     </bean>
 

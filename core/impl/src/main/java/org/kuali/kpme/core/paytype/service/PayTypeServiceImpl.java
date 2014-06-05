@@ -27,6 +27,7 @@ import org.kuali.kpme.core.paytype.PayTypeBo;
 import org.kuali.kpme.core.paytype.dao.PayTypeDao;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class PayTypeServiceImpl implements PayTypeService {
 
@@ -48,7 +49,7 @@ public class PayTypeServiceImpl implements PayTypeService {
         if (payType == null) {
             return null;
         }
-        PayTypeBo bo = KRADServiceLocator.getBusinessObjectService().save(PayTypeBo.from(payType));
+        PayTypeBo bo = KRADServiceLocatorWeb.getLegacyDataAdapter().save(PayTypeBo.from(payType));
 		return PayTypeBo.to(bo);
 	}
 
@@ -58,7 +59,7 @@ public class PayTypeServiceImpl implements PayTypeService {
             return Collections.emptyList();
         }
         List<PayTypeBo> bos = ModelObjectUtils.transform(payTypeList, toPayTypeBo);
-		bos = (List<PayTypeBo>)KRADServiceLocator.getBusinessObjectService().save(bos);
+		bos = (List<PayTypeBo>)KRADServiceLocatorWeb.getLegacyDataAdapter().save(bos);
         return ModelObjectUtils.transform(bos, toPayType);
 	}
 

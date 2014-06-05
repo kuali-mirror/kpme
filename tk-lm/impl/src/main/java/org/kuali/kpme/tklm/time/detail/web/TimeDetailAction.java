@@ -88,6 +88,8 @@ import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
@@ -151,10 +153,14 @@ public class TimeDetailAction extends TimesheetAction {
 		            //if the timesheet has been approved by at least one of the approvers, the employee should not be able to edit it
 		            if (StringUtils.equals(timesheetDocument.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 		            		&& timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)) {
-			        	Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(timesheetDocument.getDocumentHeader().getDocumentId(), HrConstants.DOCUMENT_ACTIONS.APPROVE);
-		        		if (!actions.isEmpty()) {
-		        			timeDetailActionForm.setDocEditable("false");  
-		        		}
+                        List<ActionTaken> actionsTaken = KewApiServiceLocator.getWorkflowDocumentService().getAllActionsTaken(timesheetDocument.getDocumentId());
+
+                        for (ActionTaken at : actionsTaken) {
+                            if (ActionType.APPROVE.equals(at.getActionTaken())) {
+                                timeDetailActionForm.setDocEditable("false");
+                                break;
+                            }
+                        }
 			        }
 	            } else if (DocumentStatus.FINAL.equals(documentStatus)) {
 	            	if(HrContext.isSystemAdmin()) {

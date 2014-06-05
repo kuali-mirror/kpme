@@ -31,16 +31,18 @@ import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupBo;
 import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 
 
 public class PositionReportGroupKeyWhiteListTest extends PMIntegrationTestCase {
 	
-	private BusinessObjectService boService;
+	private LegacyDataAdapter boService;
 	
 	@Before
     public void setUp() throws Exception {
            super.setUp();
-           boService = KRADServiceLocator.getBusinessObjectService();
+           boService = KRADServiceLocatorWeb.getLegacyDataAdapter();
     }
 	
 	

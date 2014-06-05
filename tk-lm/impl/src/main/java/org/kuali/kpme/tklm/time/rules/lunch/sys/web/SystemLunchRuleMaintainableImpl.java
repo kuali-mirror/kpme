@@ -22,6 +22,7 @@ import org.kuali.kpme.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
@@ -43,7 +44,7 @@ public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
 					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
 					oldSystemLunchRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(TKUtils.getCurrentTimestamp()));
 					oldSystemLunchRule.setEffectiveDate(sysLunchRule.getEffectiveDate());
-					KRADServiceLocator.getBusinessObjectService().save(oldSystemLunchRule);
+					KRADServiceLocatorWeb.getLegacyDataAdapter().save(oldSystemLunchRule);
 				}
 				sysLunchRule.setTimestamp(TKUtils.getCurrentTimestamp());
 				sysLunchRule.setTkSystemLunchRuleId(null);
@@ -51,7 +52,7 @@ public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
 			}
 		}
 
-		KRADServiceLocator.getBusinessObjectService().save(sysLunchRule);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(sysLunchRule);
         CacheUtils.flushCache(SystemLunchRule.CACHE_NAME);
 	}
 

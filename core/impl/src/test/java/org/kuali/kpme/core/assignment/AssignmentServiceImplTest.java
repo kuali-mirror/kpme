@@ -110,7 +110,7 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
         Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 4, not " + assignments.size(), assignments.size() == 4);
     }
 
-    @Test
+/*    @Test
     public void testSearchAssignments() throws Exception {
         List <AssignmentBo> results = new ArrayList<AssignmentBo>();
         List <AssignmentBo> finalResults = new ArrayList<AssignmentBo>();
@@ -157,5 +157,5 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
         //List<Assignment> restrictedResults = HrServiceLocator.getAssignmentService().searchAssignments((String)"testuser6", formValues2);
 
         Assert.assertEquals("Search returned the wrong number of results.", 5, finalResults.size());
-    }
+    }*/
 }

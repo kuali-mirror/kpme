@@ -34,7 +34,6 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
-import org.hsqldb.lib.StringUtil;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
@@ -202,7 +201,7 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	
     private List<String> getPrincipalIds(TimeApprovalActionForm timeApprovalActionForm) {
         List<String> workAreas = new ArrayList<String>();
-        if (StringUtil.isEmpty(timeApprovalActionForm.getSelectedWorkArea())) {
+        if (StringUtils.isEmpty(timeApprovalActionForm.getSelectedWorkArea())) {
         	for (Long workAreaKey : timeApprovalActionForm.getWorkAreaDescr().keySet()) {
         		workAreas.add(workAreaKey.toString());
         	}

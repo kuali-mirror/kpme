@@ -16,15 +16,23 @@
 package org.kuali.kpme.tklm.time.clocklog.web;
  
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
-import org.kuali.rice.krad.uif.view.LookupView;
-import org.kuali.rice.krad.web.form.LookupForm;
- 
+
 public class ClockLogLookupableImpl extends KPMELookupableImpl {
- 
- 
-   @Override
-   public void initSuppressAction(LookupForm lookupForm) {
-       ((LookupView) lookupForm.getView()).setSuppressActions(false);
-   }
+
+
+    @Override
+    public boolean allowsMaintenanceNewOrCopyAction() {
+        return false;
+    }
+
+    @Override
+    public boolean allowsMaintenanceEditAction(Object dataObject) {
+        return false;
+    }
+
+    @Override
+    public boolean allowsMaintenanceDeleteAction(Object dataObject) {
+        return false;
+    }
                 
 }

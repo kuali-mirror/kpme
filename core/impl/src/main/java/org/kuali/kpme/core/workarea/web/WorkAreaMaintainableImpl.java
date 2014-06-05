@@ -54,6 +54,7 @@ import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
@@ -168,11 +169,8 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 
 
 	@Override
-	public void applyDefaultValuesForCollectionLine(View view, Object model,
-			CollectionGroup collectionGroup, Object line) {
-		// TODO Auto-generated method stub
-		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
-		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
+	public void applyDefaultValuesForCollectionLine(CollectionGroup collectionGroup, Object line) {
+		HrBusinessObject anHrObject = (HrBusinessObject)this.getDataObject();
 		if (anHrObject.getEffectiveDate() != null && !StringUtils.isEmpty(anHrObject.getEffectiveDate().toString())) {
 			if (line instanceof TaskBo) {
 				TaskBo task = (TaskBo) line;
@@ -182,19 +180,20 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 				roleMember.setActiveFromDateValue(new Timestamp(anHrObject.getEffectiveDate().getTime()));
 			}
 		}
-		super.applyDefaultValuesForCollectionLine(view, model, collectionGroup, line);
+		super.applyDefaultValuesForCollectionLine(collectionGroup, line);
 	}
 
 	@Override
-	protected boolean performAddLineValidation(View view,CollectionGroup collectionGroup, Object model, Object addLine) {
-		boolean valid = super.performAddLineValidation(view, collectionGroup, model, addLine);
-		if (model instanceof MaintenanceDocumentForm) {
-			MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
+                                               String collectionPath) {
+		boolean valid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+		if (viewModel instanceof MaintenanceDocumentForm) {
+			MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) viewModel;
 			MaintenanceDocument document = maintenanceForm.getDocument();
 			if (document.getNewMaintainableObject().getDataObject() instanceof WorkAreaBo) {
 				WorkAreaBo workArea = (WorkAreaBo) document.getNewMaintainableObject().getDataObject();
-				if (addLine instanceof PrincipalRoleMemberBo) {
-					PrincipalRoleMemberBo roleMember = (PrincipalRoleMemberBo) addLine;
+				if (newLine instanceof PrincipalRoleMemberBo) {
+					PrincipalRoleMemberBo roleMember = (PrincipalRoleMemberBo) newLine;
 					if (roleMember != null) {
 						if (roleMember.getPrincipalId()!=null && !StringUtils.isEmpty(roleMember.getPrincipalId())) {
 							Principal person = KimApiServiceLocator.getIdentityService().getPrincipal(roleMember.getPrincipalId());
@@ -205,8 +204,8 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 							}
 						}
 					}
-				}else if(addLine instanceof PositionRoleMemberBo){
-					PositionRoleMemberBo roleMember = (PositionRoleMemberBo) addLine;
+				}else if(newLine instanceof PositionRoleMemberBo){
+					PositionRoleMemberBo roleMember = (PositionRoleMemberBo) newLine;
 					if (roleMember != null) {
 						if (roleMember.getPositionNumber()!=null && !StringUtils.isEmpty(roleMember.getPositionNumber())) {
 							PositionBaseContract position = HrServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveLocalDate());
@@ -220,9 +219,9 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 				}
 			}
 			
-			if(document.getNewMaintainableObject().getDataObject() instanceof WorkAreaBo && addLine instanceof TaskBo){
+			if(document.getNewMaintainableObject().getDataObject() instanceof WorkAreaBo && newLine instanceof TaskBo){
 				WorkAreaBo workArea = (WorkAreaBo) document.getNewMaintainableObject().getDataObject();
-				TaskBo task = (TaskBo) addLine;
+				TaskBo task = (TaskBo) newLine;
 				valid &= validateTask(task, workArea);
 
 				if (valid) {
@@ -238,8 +237,8 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 			}
 
 			//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
-			if(addLine instanceof WorkAreaPrincipalRoleMemberBo) {
-				WorkAreaPrincipalRoleMemberBo roleMember = (WorkAreaPrincipalRoleMemberBo) addLine;
+			if(newLine instanceof WorkAreaPrincipalRoleMemberBo) {
+				WorkAreaPrincipalRoleMemberBo roleMember = (WorkAreaPrincipalRoleMemberBo) newLine;
 				WorkAreaBo location = (WorkAreaBo) document.getDocumentDataObject();
 				List<WorkAreaPrincipalRoleMemberBo> existingRoleMembers = location.getPrincipalRoleMembers();
 				for(ListIterator<WorkAreaPrincipalRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {
@@ -284,8 +283,8 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 			}
 			
 			//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...
-			if(addLine instanceof WorkAreaPositionRoleMemberBo) {
-				WorkAreaPositionRoleMemberBo roleMember = (WorkAreaPositionRoleMemberBo) addLine;
+			if(newLine instanceof WorkAreaPositionRoleMemberBo) {
+				WorkAreaPositionRoleMemberBo roleMember = (WorkAreaPositionRoleMemberBo) newLine;
 				WorkAreaBo location = (WorkAreaBo) document.getDocumentDataObject();
 				List<WorkAreaPositionRoleMemberBo> existingRoleMembers = location.getPositionRoleMembers();
 				for(ListIterator<WorkAreaPositionRoleMemberBo> iter = existingRoleMembers.listIterator(); iter.hasNext(); ) {

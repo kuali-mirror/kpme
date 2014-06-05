@@ -23,8 +23,9 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class JobLookupableImpl extends KPMELookupableImpl{
             };
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
         String principalId = searchCriteria.get("principalId");
         String firstName = searchCriteria.get("firstName");
         String lastName = searchCriteria.get("lastName");

@@ -48,6 +48,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
@@ -106,25 +107,25 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	}
 	
 	@Override
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
-            Object addLine) {
-        boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
-        if (model instanceof MaintenanceDocumentForm) {
-	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
+                                               String collectionPath) {
+        boolean isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+        if (viewModel instanceof MaintenanceDocumentForm) {
+	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) viewModel;
 	        MaintenanceDocument document = maintenanceForm.getDocument();
 	        if (document.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
 	        	PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
 	        	// Duty line validation
-		        if (addLine instanceof PositionDutyBo) {
-		        	PositionDutyBo pd = (PositionDutyBo) addLine;
+		        if (newLine instanceof PositionDutyBo) {
+		        	PositionDutyBo pd = (PositionDutyBo) newLine;
 		        	boolean results = this.validateDutyListPercentage(pd, aPosition);
 		        	if(!results) {
 		        		return false;
 		        	}
 		        }
 	        	// Funding line validation
-		        if (addLine instanceof PositionFundingBo) {
-		        	PositionFundingBo pf = (PositionFundingBo) addLine;
+		        if (newLine instanceof PositionFundingBo) {
+		        	PositionFundingBo pf = (PositionFundingBo) newLine;
 		        	boolean results = this.validateAddFundingLine(pf, aPosition);
 		        	if(!results) {
 		        		return false;

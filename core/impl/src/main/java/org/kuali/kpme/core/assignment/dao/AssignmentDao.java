@@ -79,7 +79,7 @@ public interface AssignmentDao {
 
     List<AssignmentBo> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate);
 
-   List<AssignmentBo> searchAssignments(Map<String, String> searchCriteria);
+   //List<AssignmentBo> searchAssignments(Map<String, String> searchCriteria);
 
     public AssignmentBo getMaxTimestampAssignment(String principalId);
     

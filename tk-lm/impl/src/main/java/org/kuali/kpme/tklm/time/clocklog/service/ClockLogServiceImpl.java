@@ -39,6 +39,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -58,7 +59,7 @@ public class ClockLogServiceImpl implements ClockLogService {
             return null;
         }
         ClockLogBo bo = ClockLogBo.from(clockLog);
-    	bo = KRADServiceLocator.getBusinessObjectService().save(bo);
+    	bo = KRADServiceLocatorWeb.getLegacyDataAdapter().save(bo);
         return ClockLogBo.to(bo);
     }
 
@@ -106,7 +107,7 @@ public class ClockLogServiceImpl implements ClockLogService {
             processTimeBlock(principalId, documentId, clockLog, assignment, pe, clockAction, userPrincipalId);
         } else {
             //Save current clock log to get id for timeblock building
-            clockLog = KRADServiceLocator.getBusinessObjectService().save(clockLog);
+            clockLog = KRADServiceLocatorWeb.getLegacyDataAdapter().save(clockLog);
         }
         return ClockLogBo.to(clockLog);
     }
@@ -127,7 +128,7 @@ public class ClockLogServiceImpl implements ClockLogService {
             beginClockLogId = lastLog.getTkClockLogId();
         }
         //Save current clock log to get id for timeblock building
-        KRADServiceLocator.getBusinessObjectService().save(clockLog);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().save(clockLog);
         endClockLogId = clockLog.getTkClockLogId();
 
         DateTime beginDateTime = lastClockDateTime;

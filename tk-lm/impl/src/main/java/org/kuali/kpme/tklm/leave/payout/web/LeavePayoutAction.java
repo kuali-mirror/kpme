@@ -56,6 +56,7 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -345,7 +346,7 @@ public class LeavePayoutAction extends KPMEAction {
 					leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
 					// May need to update to save the business object to KPME's tables for record keeping.
 					LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
-					KRADServiceLocator.getBusinessObjectService().save(leavePayout);
+					KRADServiceLocatorWeb.getLegacyDataAdapter().save(leavePayout);
                     LeaveBlock.Builder builder = LeaveBlock.Builder.create(forfeitedLeaveBlock);
 					builder.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(builder.build(), principalId);
@@ -437,7 +438,7 @@ public class LeavePayoutAction extends KPMEAction {
 						// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
 						// Do not submit the object to workflow for this max balance action.
 						leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
-						KRADServiceLocator.getBusinessObjectService().save(leavePayout);
+						KRADServiceLocatorWeb.getLegacyDataAdapter().save(leavePayout);
 	
 						// May need to update to save the business object to KPME's tables for record keeping.
 						LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());

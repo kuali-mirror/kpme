@@ -36,7 +36,7 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.role.RoleMember;
@@ -172,22 +172,7 @@ public class PayrollApprovalJob extends BatchJob {
 		String [] roleMemberIds = new String [roleMemberIdList.size()];
 		HrServiceLocator.getKPMENotificationService().sendNotification(subject, message, roleMemberIdList.toArray(roleMemberIds));
 	}
-	
-	private boolean documentNotEnroute(String documentId) {
-		//TODO: Determine if the document has been approved by the "work area"
-		boolean documentNotInAStateToBeApproved = false;
-		
-		Collection<ActionItemActionListExtension> actionItems = KEWServiceLocator.getActionListService().getActionListForSingleDocument(documentId);
-		for (ActionItemActionListExtension actionItem : actionItems) {
-			if (!actionItem.getRouteHeader().isEnroute()) {
-				documentNotInAStateToBeApproved = true;
-				break;
-			}
-		}
-		
-		return documentNotInAStateToBeApproved;
-	}
-	
+
 	private void rescheduleJob(JobExecutionContext context) throws JobExecutionException {
 		try {
 			Scheduler scheduler = context.getScheduler();
