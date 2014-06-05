@@ -56,12 +56,12 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 		for(PayTypeKeyBo keyBo: effectiveKeySet) {
 			idSet.add(keyBo.getId());
 			Assert.assertTrue(effectiveKeyList.contains(keyBo));
-			Assert.assertTrue( ( (keyBo.getId().equals("kpme_test_1000")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("ISU-IA")) ) ||
-							   ( (keyBo.getId().equals("kpme_test_1001")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("UGA-GA")) )
+			Assert.assertTrue( ( (keyBo.getId().equals("kpme_paytype_test_1000")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("ISU-IA")) ) ||
+							   ( (keyBo.getId().equals("kpme_paytype_test_1001")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("UGA-GA")) )
 							 );
 		}		
-		Assert.assertTrue(idSet.contains("kpme_test_1000"));
-		Assert.assertTrue(idSet.contains("kpme_test_1001"));
+		Assert.assertTrue(idSet.contains("kpme_paytype_test_1000"));
+		Assert.assertTrue(idSet.contains("kpme_paytype_test_1001"));
 		
 		
 		
@@ -81,12 +81,12 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 			Assert.assertEquals(keyBo.getOwnerId(), "4");
 			idSet.add(keyBo.getId());
 			Assert.assertTrue(effectiveKeyList.contains(keyBo));
-			Assert.assertTrue( ( (keyBo.getId().equals("kpme_test_1002")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("UGA-GA")) ) ||
-							   ( (keyBo.getId().equals("kpme_test_1003")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("IU-IN")) )
+			Assert.assertTrue( ( (keyBo.getId().equals("kpme_paytype_test_1002")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("UGA-GA")) ) ||
+							   ( (keyBo.getId().equals("kpme_paytype_test_1003")) && (keyBo.getGroupKeyCode().equalsIgnoreCase("IU-IN")) )
 							 );
 		}		
-		Assert.assertTrue(idSet.contains("kpme_test_1002"));
-		Assert.assertTrue(idSet.contains("kpme_test_1003"));
+		Assert.assertTrue(idSet.contains("kpme_paytype_test_1002"));
+		Assert.assertTrue(idSet.contains("kpme_paytype_test_1003"));
 		
 		
 		
