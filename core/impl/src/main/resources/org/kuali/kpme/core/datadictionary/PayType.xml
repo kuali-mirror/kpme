@@ -230,6 +230,7 @@
         <bean parent="Uif-MaintenanceGridSection">
           <property name="items">
             <list merge="true">
+            	<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
 		        <bean parent="Uif-InputField" p:propertyName="payType" p:required="true" />
 		        <bean parent="Uif-InputField" p:propertyName="descr" />
 		         <bean parent="Uif-InputField" p:propertyName="regEarnCode" p:required="true" >
