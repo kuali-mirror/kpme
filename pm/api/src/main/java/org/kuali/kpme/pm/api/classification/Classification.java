@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -27,7 +28,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.kpme.core.api.location.Location;
+import org.kuali.kpme.core.api.mo.EffectiveKey;
+import org.kuali.kpme.core.api.mo.EffectiveKeyContract;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDuty;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlag;
@@ -70,6 +75,8 @@ import org.w3c.dom.Element;
     Classification.Elements.EFFECTIVE_LOCAL_DATE,
     Classification.Elements.CREATE_TIME,
     Classification.Elements.USER_PRINCIPAL_ID,
+    Classification.Elements.GROUP_KEY_CODE_SET,
+    Classification.Elements.GROUP_KEY_SET,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class Classification extends AbstractDataTransferObject implements ClassificationContract {
@@ -78,6 +85,9 @@ public final class Classification extends AbstractDataTransferObject implements 
 	
 	@XmlElement(name = Elements.LOCATION, required = false)
     private final String location;
+    @XmlElement(name = Elements.EFFECTIVE_KEY_SET, required = false)
+    private final Set<EffectiveKey> effectiveKeySet;
+
     @XmlElement(name = Elements.POOL_ELIGIBLE, required = false)
     private final String poolEligible;
     @XmlElement(name = Elements.POSITION_TYPE, required = false)
@@ -130,6 +140,15 @@ public final class Classification extends AbstractDataTransferObject implements 
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
+
+
+    @XmlElement(name = Elements.GROUP_KEY_CODE_SET, required = false)
+    private final Set<String> groupKeyCodeSet;
+    @XmlElement(name = Elements.GROUP_KEY_SET, required = false)
+    private final Set<HrGroupKey> groupKeySet;
+    @SuppressWarnings("unused")
+
+
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
 
@@ -139,6 +158,8 @@ public final class Classification extends AbstractDataTransferObject implements 
      */
     private Classification() {
         this.location = null;
+        this.effectiveKeySet = null;
+
         this.poolEligible = null;
         this.positionType = null;
         this.positionReportGroup = null;
@@ -165,10 +186,13 @@ public final class Classification extends AbstractDataTransferObject implements 
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
+        this.groupKeySet = null;
+        this.groupKeyCodeSet = null;
     }
 
     private Classification(Builder builder) {
         this.location = builder.getLocation();
+        this.effectiveKeySet = ModelObjectUtils.<EffectiveKey>buildImmutableCopy(builder.getEffectiveKeySet());
         this.poolEligible = builder.getPoolEligible();
         this.positionType = builder.getPositionType();
         this.positionReportGroup = builder.getPositionReportGroup();
@@ -195,11 +219,18 @@ public final class Classification extends AbstractDataTransferObject implements 
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
+        this.groupKeyCodeSet = builder.getGroupKeyCodeSet();
+        this.groupKeySet = ModelObjectUtils.<HrGroupKey>buildImmutableCopy(builder.getGroupKeySet());
     }
 
     @Override
     public String getLocation() {
         return this.location;
+    }
+
+    @Override
+    public Set<EffectiveKey> getEffectiveKeySet() {
+        return this.effectiveKeySet;
     }
 
     @Override
@@ -332,6 +363,15 @@ public final class Classification extends AbstractDataTransferObject implements 
         return this.userPrincipalId;
     }
 
+    @Override
+    public Set<String> getGroupKeyCodeSet() {
+        return this.groupKeyCodeSet;
+    }
+
+    @Override
+    public Set<HrGroupKey> getGroupKeySet() {
+        return this.groupKeySet;
+    }
 
     /**
      * A builder which can be used to construct {@link Classification} instances.  Enforces the constraints of the {@link ClassificationContract}.
@@ -342,6 +382,7 @@ public final class Classification extends AbstractDataTransferObject implements 
 		private static final long serialVersionUID = -5298550128140145929L;
 		
 		private String location;
+        private Set<EffectiveKey.Builder> effectiveKeySet;
         private String poolEligible;
         private String positionType;
         private String positionReportGroup;
@@ -368,6 +409,9 @@ public final class Classification extends AbstractDataTransferObject implements 
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
+        private Set<String> groupKeyCodeSet;
+        private Set<HrGroupKey.Builder> groupKeySet;
+
         
         private static final ModelObjectUtils.Transformer<ClassificationQualificationContract, ClassificationQualification.Builder> toClassificationQualificationBuilder = new ModelObjectUtils.Transformer<ClassificationQualificationContract, ClassificationQualification.Builder>() {
 			public ClassificationQualification.Builder transform(ClassificationQualificationContract input) {
@@ -387,6 +431,20 @@ public final class Classification extends AbstractDataTransferObject implements 
 			}
 		};
 
+        private static final ModelObjectUtils.Transformer<EffectiveKeyContract, EffectiveKey.Builder> toEffectiveKeyBuilder
+                = new ModelObjectUtils.Transformer<EffectiveKeyContract, EffectiveKey.Builder>() {
+            public EffectiveKey.Builder transform(EffectiveKeyContract input) {
+                return EffectiveKey.Builder.create(input);
+            }
+        };
+
+        private static final ModelObjectUtils.Transformer<HrGroupKeyContract, HrGroupKey.Builder> toHrGroupKeyBuilder
+                = new ModelObjectUtils.Transformer<HrGroupKeyContract, HrGroupKey.Builder>() {
+            public HrGroupKey.Builder transform(HrGroupKeyContract input) {
+                return HrGroupKey.Builder.create(input);
+            }
+        };
+
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
         }
@@ -403,6 +461,8 @@ public final class Classification extends AbstractDataTransferObject implements 
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
             builder.setLocation(contract.getLocation());
+            builder.setEffectiveKeySet(ModelObjectUtils.transformSet(contract.getEffectiveKeySet(), toEffectiveKeyBuilder));
+
             builder.setPoolEligible(contract.getPoolEligible());
             builder.setPositionType(contract.getPositionType());
             builder.setPositionReportGroup(contract.getPositionReportGroup());
@@ -429,6 +489,8 @@ public final class Classification extends AbstractDataTransferObject implements 
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
+            builder.setGroupKeyCodeSet(contract.getGroupKeyCodeSet());
+            builder.setGroupKeySet(ModelObjectUtils.transformSet(contract.getGroupKeySet(), toHrGroupKeyBuilder));
             return builder;
         }
 
@@ -439,6 +501,11 @@ public final class Classification extends AbstractDataTransferObject implements 
         @Override
         public String getLocation() {
             return this.location;
+        }
+
+        @Override
+        public Set<EffectiveKey.Builder> getEffectiveKeySet() {
+            return this.effectiveKeySet;
         }
 
         @Override
@@ -571,9 +638,24 @@ public final class Classification extends AbstractDataTransferObject implements 
             return this.userPrincipalId;
         }
 
+        @Override
+        public Set<String> getGroupKeyCodeSet() {
+            return this.groupKeyCodeSet;
+        }
+
+        @Override
+        public Set<HrGroupKey.Builder> getGroupKeySet() {
+            return this.groupKeySet;
+        }
+
         public void setLocation(String location) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.location = location;
+        }
+
+        public void setEffectiveKeySet(Set<EffectiveKey.Builder> effectiveKeySet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.effectiveKeySet = effectiveKeySet;
         }
 
         public void setPoolEligible(String poolEligible) {
@@ -706,6 +788,15 @@ public final class Classification extends AbstractDataTransferObject implements 
             this.userPrincipalId = userPrincipalId;
         }
 
+        public void setGroupKeyCodeSet(Set<String> groupKeyCodeSet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKeyCodeSet = groupKeyCodeSet;
+        }
+
+        public void setGroupKeySet(Set<HrGroupKey.Builder> groupKeySet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKeySet = groupKeySet;
+        }
     }
 
 
@@ -728,6 +819,8 @@ public final class Classification extends AbstractDataTransferObject implements 
     static class Elements {
 
         final static String LOCATION = "location";
+        final static String EFFECTIVE_KEY_SET = "effectiveKeySet";
+
         final static String POOL_ELIGIBLE = "poolEligible";
         final static String POSITION_TYPE = "positionType";
         final static String POSITION_REPORT_GROUP = "positionReportGroup";
@@ -753,6 +846,8 @@ public final class Classification extends AbstractDataTransferObject implements 
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
 
+        final static String GROUP_KEY_CODE_SET = "groupKeyCodeSet";
+        final static String GROUP_KEY_SET = "groupKeySet";
     }
 
 }

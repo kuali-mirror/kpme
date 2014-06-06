@@ -235,9 +235,32 @@
         		collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="pmPositionClassId" />
         </collection-descriptor>
-        
+
+        <collection-descriptor name="effectiveKeyList"
+                               element-class-ref="org.kuali.kpme.pm.classification.ClassificationGroupKeyBo"
+                               collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
+                               auto-retrieve="true"
+                               auto-update="object"
+                               auto-delete="object"
+                               proxy="false">
+            <inverse-foreignkey field-ref="ownerId"/>
+        </collection-descriptor>
+
     </class-descriptor>
 
+
+
+    <class-descriptor class="org.kuali.kpme.pm.classification.ClassificationGroupKeyBo" table="PM_PSTN_CL_GRP_KEY_T">
+        <field-descriptor name="id"        						   column="PM_PSTN_CL_GRP_KEY_ID"   jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_CL_GRP_KEY_S" />
+        <field-descriptor name="ownerId"                           column="PM_PSTN_CL_ID"         	 jdbc-type="VARCHAR"     length="60"   		nullable="false" />
+        <field-descriptor name="groupKeyCode"  			           column="GRP_KEY_CD"        	     jdbc-type="VARCHAR"     length="30"        nullable="false" />
+        <field-descriptor name="objectId"                          column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"                     column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+
+        <reference-descriptor name="owner" class-ref="org.kuali.kpme.pm.classification.ClassificationBo" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="ownerId"/>
+        </reference-descriptor>
+    </class-descriptor>
     <!-- Position Department-->
     <!-- Business Keys - [department : effectiveDate : timestamp] -->	
     <class-descriptor class="org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo" table="PM_PSTN_DEPT_T">

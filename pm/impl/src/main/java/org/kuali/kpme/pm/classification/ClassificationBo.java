@@ -17,10 +17,13 @@ package org.kuali.kpme.pm.classification;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.classification.Classification;
@@ -33,7 +36,7 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class ClassificationBo extends HrBusinessObject implements ClassificationContract {
+public class ClassificationBo extends HrKeyedSetBusinessObject<ClassificationBo, ClassificationGroupKeyBo> implements ClassificationContract {
 
 	private static final String LOCATION = "location";
 	private static final String INSTITUTION = "institution";
@@ -281,9 +284,21 @@ public class ClassificationBo extends HrBusinessObject implements Classification
 				classificationBo.setSalaryGroup(im.getSalaryGroup());
 				classificationBo.setTenureEligible(im.getTenureEligible());
 				classificationBo.setExternalReference(im.getExternalReference());
-				classificationBo.setQualificationList(ModelObjectUtils.transform(im.getQualificationList(), ClassificationQualificationBo.toBo));
-				classificationBo.setFlagList(ModelObjectUtils.transform(im.getFlagList(), ClassificationFlagBo.toBo));
-				classificationBo.setDutyList(ModelObjectUtils.transform(im.getDutyList(), ClassificationDutyBo.toBo));
+
+                Set<ClassificationQualificationBo> qualificationSet = ModelObjectUtils.transformSet(im.getQualificationList(), ClassificationQualificationBo.toBo);
+                ClassificationQualificationBo.setOwnerOfDerivedCollection(classificationBo, qualificationSet);
+                classificationBo.setQualificationList(new ArrayList<ClassificationQualificationBo>(qualificationSet));
+
+
+                Set<ClassificationFlagBo> flagSet = ModelObjectUtils.transformSet(im.getFlagList(), ClassificationFlagBo.toBo);
+                ClassificationFlagBo.setOwnerOfDerivedCollection(classificationBo, flagSet);
+				classificationBo.setFlagList(new ArrayList<ClassificationFlagBo>(flagSet));
+
+
+                Set<ClassificationDutyBo> dutySet = ModelObjectUtils.transformSet(im.getDutyList(), ClassificationDutyBo.toBo);
+                ClassificationDutyBo.setOwnerOfDerivedCollection(classificationBo, dutySet);
+                classificationBo.setDutyList(new ArrayList<ClassificationDutyBo>(dutySet));
+        
 				classificationBo.setLeavePlan(im.getLeavePlan());
 				classificationBo.setPayGrade(im.getPayGrade());
 				classificationBo.setVersionNumber(im.getVersionNumber());
@@ -296,7 +311,15 @@ public class ClassificationBo extends HrBusinessObject implements Classification
 							.getMillis()));
 				}
 				classificationBo.setUserPrincipalId(im.getUserPrincipalId());
-		
+
+                Set<ClassificationGroupKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), ClassificationGroupKeyBo.toBo);
+
+                ClassificationGroupKeyBo.setOwnerOfDerivedCollection(classificationBo, effectiveKeyBoSet);
+                if (effectiveKeyBoSet != null) {
+                    classificationBo.setEffectiveKeyList(new ArrayList<ClassificationGroupKeyBo>(effectiveKeyBoSet));
+                }
+
+                copyCommonFields(classificationBo, im);
 				return classificationBo;
 			}
 		
