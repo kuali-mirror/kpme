@@ -38,6 +38,7 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
@@ -134,7 +135,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     protected List<LeaveBlockBo> saveLeaveBlockBos(List<LeaveBlockBo> leaveBlocks) {
         List<LeaveBlockBo> savedLeaveBlocks = new ArrayList<LeaveBlockBo>();
 
-        Collection<LeaveBlockBo> savedObjects = (Collection<LeaveBlockBo>) KRADServiceLocatorWeb.getLegacyDataAdapter().save(leaveBlocks);
+        Collection<LeaveBlockBo> savedObjects = (Collection<LeaveBlockBo>) KNSServiceLocator.getBusinessObjectService().save(leaveBlocks);
 
         List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
         for (LeaveBlockBo leaveBlock : leaveBlocks) {
@@ -144,7 +145,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             HrServiceLocator.getHRPermissionService().updateLeaveBlockPermissions(CalendarBlockPermissions.newInstance(leaveBlock.getLmLeaveBlockId()));
         }
 
-        KRADServiceLocatorWeb.getLegacyDataAdapter().save(leaveBlockHistories);
+        KNSServiceLocator.getBusinessObjectService().save(leaveBlockHistories);
 
         savedLeaveBlocks.addAll(savedObjects);
 
@@ -165,10 +166,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockHistory.setAction(HrConstants.ACTION.DELETE);
 
         // deleting leaveblock
-        KRADServiceLocatorWeb.getLegacyDataAdapter().delete(leaveBlock);
+        KNSServiceLocator.getBusinessObjectService().delete(leaveBlock);
         
         // creating history
-        KRADServiceLocatorWeb.getLegacyDataAdapter().save(leaveBlockHistory);
+        KNSServiceLocator.getBusinessObjectService().save(leaveBlockHistory);
         
         
     }
@@ -178,13 +179,13 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	LeaveBlockBo savedLeaveBlock = null;
         LeaveBlockBo existingLB = LeaveBlockBo.from(leaveBlock);
     	// first delete and create new entry in the database
-    	KRADServiceLocatorWeb.getLegacyDataAdapter().delete(existingLB);
+    	KNSServiceLocator.getBusinessObjectService().delete(existingLB);
     	
     	// create new 
         existingLB.setLmLeaveBlockId(null);
         existingLB.setTimestamp(TKUtils.getCurrentTimestamp());
         existingLB.setPrincipalIdModified(principalId);
-    	savedLeaveBlock = KRADServiceLocatorWeb.getLegacyDataAdapter().save(existingLB);
+    	savedLeaveBlock = KNSServiceLocator.getBusinessObjectService().save(existingLB);
 
         // save history
         LeaveBlockHistory lbh = new LeaveBlockHistory(existingLB);
@@ -382,10 +383,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockHistory.setTimestampDeleted(TKUtils.getCurrentTimestamp());
         leaveBlockHistory.setAction(HrConstants.ACTION.MODIFIED);
 
-        KRADServiceLocatorWeb.getLegacyDataAdapter().save(leaveBlockBo);
+        KNSServiceLocator.getBusinessObjectService().save(leaveBlockBo);
         
         // creating history
-        KRADServiceLocatorWeb.getLegacyDataAdapter().save(leaveBlockHistory);
+        KNSServiceLocator.getBusinessObjectService().save(leaveBlockHistory);
     }    
 
     public static List<Interval> createDaySpan(DateTime beginDateTime, DateTime endDateTime, DateTimeZone zone) {
