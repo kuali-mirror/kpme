@@ -179,16 +179,22 @@
 	<bean id="HrGroupKey-InquiryView" parent="Uif-InquiryView">
 		<property name="headerText" value="GroupKey Inquiry" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.groupkey.HrGroupKeyBo" />
-		<!--<property name="viewHelperServiceClass"
-			value="org.kuali.kpme.core.groupkey.web.DataGroupInquirableImpl" />-->
+		<!--<property name="viewHelperServiceClass" value="org.kuali.kpme.core.groupkey.web.DataGroupInquirableImpl" 
+			/> -->
 		<property name="singlePageView" value="true" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-Disclosure-GridSection">
-					<property name="layoutManager.numberOfColumns" value="1" />
+					<property name="layoutManager.numberOfColumns" value="2" />
 					<property name="items">
 						<list>
-							<ref bean="HrGroupKey-DataGroupFieldsInquiry" />
+							<bean parent="Uif-DataField" p:propertyName="id" />
+							<bean parent="Uif-DataField" p:propertyName="groupKeyCode" />
+							<bean parent="Uif-DataField" p:propertyName="locationId" />
+							<bean parent="Uif-DataField" p:propertyName="campusCode" />
+							<bean parent="Uif-DataField" p:propertyName="institutionCode" />
+							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
 						</list>
 					</property>
 					<property name="title" value="GroupKey Inquiry" />
