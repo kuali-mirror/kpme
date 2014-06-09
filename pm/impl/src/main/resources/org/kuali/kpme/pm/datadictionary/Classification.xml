@@ -30,8 +30,6 @@
 	        <ref bean="Classification-pmPositionClassId"/>
 	        <ref bean="Classification-positionClass"/>
 	        <ref bean="Classification-classificationTitle"/>
-	        <ref bean="Classification-institution"/>
-	        <ref bean="Classification-location"/>
 	        <ref bean="Classification-salaryGroup"/>
             <ref bean="Classification-payGrade"/>
 	        <ref bean="Classification-percentTime"/>
@@ -109,19 +107,7 @@
 		<property name="name" value="classificationTitle" />
 		<property name="label" value="Classification Title" />
 	</bean>
-	
-	<bean id="Classification-institution" parent="Classification-institution-parentBean" />
-	<bean id="Classification-institution-parentBean" abstract="true" parent="KpmeAttributeReference-institution">
-		<property name="required" value="true" />
-		<property name="containsWildcardData" value="true"/>
-	</bean>
 
-	<bean id="Classification-location" parent="Classification-location-parentBean" />
-	<bean id="Classification-location-parentBean" abstract="true" parent="KpmeAttributeReference-location">
-		<property name="required" value="true" />
-		<property name="containsWildcardData" value="true"/>
-	</bean>
-	
 	<bean id="Classification-salaryGroup" parent="Classification-salaryGroup-parentBean" />
 	<bean id="Classification-salaryGroup-parentBean" abstract="true" parent="SalaryGroup-hrSalGroup">
 		<property name="required" value="true" />
@@ -239,19 +225,7 @@
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionClass" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="classificationTitle" />       
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-	         <property name="quickfinder">
-	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.institution.InstitutionBo"
-	        		 p:fieldConversions="institutionCode:institution"/>
-	   		 </property>
-        </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-	        <property name="quickfinder">
-					<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-						p:fieldConversions="location:location" />
-			</property>
-		</bean>
-        
+
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
        		<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
@@ -293,8 +267,6 @@
     		</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="classificationTitle" />
-        <bean parent="Uif-DataField" p:propertyName="institution" />
-        <bean parent="Uif-DataField" p:propertyName="location" />
         <bean parent="Uif-DataField" p:propertyName="salaryGroup" />
         <bean parent="Uif-DataField" p:propertyName="payGrade" />
         <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
@@ -357,6 +329,7 @@
         <property name="items">
             <list>
                 <ref bean="Cls-ClassificationInquiryPage-Section"/>
+                <bean parent = "Cls-ClassificationInquiryPage-Section-effectiveKeyInquiry"/>
                 <bean parent="PositionNavigationButton" p:navigateToPageId="Cls-QualificationsInquiryPage" p:actionLabel="Required Qualifications"/>
             </list>
         </property>
@@ -369,8 +342,6 @@
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
                 <bean parent="Uif-DataField" p:propertyName="positionClass"/>
                 <bean parent="Uif-DataField" p:propertyName="classificationTitle"/>
-                <bean parent="Uif-DataField" p:propertyName="institution"/>
-                <bean parent="Uif-DataField" p:propertyName="location"/>
 				<bean parent="Uif-DataField" p:propertyName="salaryGroup" />
                 <bean parent="Uif-DataField" p:propertyName="payGrade" />
 		        <bean parent="Uif-DataField" p:propertyName="percentTime" />
@@ -388,7 +359,12 @@
             </list>
         </property>
     </bean>
-    
+
+    <bean id = "Cls-ClassificationInquiryPage-Section-effectiveKeyInquiry" parent = "KPMEKeyedSetBo-InquiryViewSection">
+        <property name = "headerText" value = "Position Classification Group Key Set"/>
+        <property name = "collectionObjectClass" value = "org.kuali.kpme.pm.classification.ClassificationGroupKeyBo"/>
+    </bean>
+
     <!--Qualification Inquiry Section-->
     <bean id="Cls-QualificationsInquiryPage" parent="PositionInquiryPage">
         <property name="items">

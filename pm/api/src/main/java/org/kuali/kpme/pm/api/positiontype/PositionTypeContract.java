@@ -16,12 +16,14 @@
 package org.kuali.kpme.pm.api.positiontype;
 
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedSetDataTransferObject;
 
 /**
  * <p>PositionTypeContract interface</p>
  *
  */
-public interface PositionTypeContract extends KpmeEffectiveDataTransferObject {
+
+public interface PositionTypeContract extends KpmeEffectiveKeyedSetDataTransferObject {
 	
     /**
      * The primary key for a PositionType entry saved in the database

@@ -19,23 +19,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.kpme.core.api.bo.HrBusinessObjectContract;
 import org.kuali.kpme.core.api.job.Job;
-import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.job.JobBo;
-import org.kuali.kpme.core.lookup.KPMELookupableHelperServiceImpl;
-import org.kuali.kpme.core.paytype.PayTypeBo;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
-public class JobLookupableHelper extends KPMELookupableHelperServiceImpl {
+public class JobLookupableHelper extends KpmeHrBusinessObjectLookupableHelper {
 
 	private static final long serialVersionUID = 3233495722838070429L;
     private static final ModelObjectUtils.Transformer<Job, JobBo> toJobBo =
@@ -72,7 +68,8 @@ public class JobLookupableHelper extends KPMELookupableHelperServiceImpl {
     }
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends HrBusinessObjectContract> getSearchResults(Map<String, String> fieldValues) {
+    	/*
         String principalId = fieldValues.get("principalId");
         String firstName = fieldValues.get("firstName");
         String lastName = fieldValues.get("lastName");
@@ -87,6 +84,11 @@ public class JobLookupableHelper extends KPMELookupableHelperServiceImpl {
 
         return ModelObjectUtils.transform(HrServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), principalId, firstName, lastName, jobNumber, dept, positionNumber, hrPayType,
                 TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toJobBo);
+        */
+        
+        // get the unfiltered list from the superclass
+    	List<JobBo> jobObjs = (List<JobBo>) super.getSearchResults(fieldValues);
+    	return jobObjs;
     }
 
 }

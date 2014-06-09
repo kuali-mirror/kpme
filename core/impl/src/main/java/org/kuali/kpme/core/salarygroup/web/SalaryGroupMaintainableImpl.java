@@ -15,18 +15,54 @@
  */
 package org.kuali.kpme.core.salarygroup.web;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
+import org.kuali.kpme.core.salarygroup.SalaryGroupKeyBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
-public class SalaryGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
+public class SalaryGroupMaintainableImpl extends HrKeyedSetBusinessObjectMaintainableImpl<SalaryGroupBo, SalaryGroupKeyBo>{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private static final String EFFECTIVE_KEY_LIST = "effectiveKeyList";
+	 
+	@SuppressWarnings("deprecation")
+	@Override
+    public void addNewLineToCollection(String collectionName) {
+        if (collectionName.equals(EFFECTIVE_KEY_LIST)) {
+        	SalaryGroupKeyBo inputSalaryGroupKey = (SalaryGroupKeyBo)newCollectionLines.get(collectionName);
+            if ( inputSalaryGroupKey != null ) {
+            	SalaryGroupBo salaryGroup = (SalaryGroupBo)this.getBusinessObject();
+            	Set<String> groupKeyCodes = new HashSet<String>();
+            	for(SalaryGroupKeyBo salaryGroupKey : salaryGroup.getEffectiveKeyList()){
+            		groupKeyCodes.add(salaryGroupKey.getGroupKeyCode());
+            	}
+            	if(groupKeyCodes.contains(inputSalaryGroupKey.getGroupKeyCode())){
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"effectiveKeyList", 
+            				"keyedSet.duplicate.groupKeyCode", inputSalaryGroupKey.getGroupKeyCode());
+            		return;
+    			} 
+            	if (!ValidationUtils.validateGroupKey(inputSalaryGroupKey.getGroupKeyCode(), salaryGroup.getEffectiveLocalDate())) {
+    				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
+    							"error.existence", "Group key code: '" + inputSalaryGroupKey.getGroupKeyCode() + "'");
+    				return;
+    			}
+            }
+        }
+       super.addNewLineToCollection(collectionName);
+    }
+	
 	@Override
 	public HrBusinessObject getObjectById(String id) {
 		return SalaryGroupBo.from(HrServiceLocator.getSalaryGroupService().getSalaryGroup(id));

@@ -213,6 +213,9 @@
 	        	<value>js/maintview.js</value>
 	      	</list>
 	    </property>
+	    <property name="page">
+            <bean parent="KPMEUif-MaintenancePage"/>
+        </property>
 	</bean>
 
 <!-- The readOnly property for the dailog below has been expliclitly set to false to overcome a KRAD feature  -->
@@ -262,7 +265,6 @@
   		<property name="headerText" value="Effective date warning!"/>
 		<property name="promptText" value="A record for this object exists with a later effective date, if you continue with submission, this record will be overwritten when the future effective date takes effect.  Are you sure you want to continue?"/>
 	</bean>
-	
 
     <!--maintenance page with KPME document footer-->
     <bean id="KPMEUif-MaintenancePage" abstract="true" parent="Uif-MaintenancePage">
@@ -406,5 +408,20 @@
             </list>
         </property>
     </bean>
-    
+
+
+    <bean id="KPMEKeyedSetBo-InquiryViewSection" parent="Uif-Disclosure-TableCollectionSection" abstract="true">
+        <property name="headerText" value="Group Keys"/>
+        <property name="propertyName" value="effectiveKeyList"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header"> <!-- Without this, active/inactive button shows up -->
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="groupKeyCode"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

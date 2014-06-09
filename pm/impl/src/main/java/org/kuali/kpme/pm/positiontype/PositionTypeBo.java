@@ -15,19 +15,21 @@
  */
 package org.kuali.kpme.pm.positiontype;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.pm.api.positiontype.PositionType;
 import org.kuali.kpme.pm.api.positiontype.PositionTypeContract;
-//import org.kuali.kpme.tklm.time.rules.overtime.daily.DailyOvertimeRule.KeyFields;
+import org.kuali.kpme.pm.positionreportgroup.PositionReportGroupKeyBo;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PositionTypeBo extends HrBusinessObject implements PositionTypeContract {
-	
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.List;
+
+
+public class PositionTypeBo extends HrKeyedSetBusinessObject<PositionTypeBo, PositionTypeGroupKeyBo> implements PositionTypeContract {
 	static class KeyFields {
 		private static final String POSITION_TYPE = "positionType";
 		private static final String LOCATION = "location";
@@ -157,22 +159,29 @@ public class PositionTypeBo extends HrBusinessObject implements PositionTypeCont
 			return null;
 		}
 
-		PositionTypeBo positionTypeBo = new PositionTypeBo();
-		positionTypeBo.setDescription(im.getDescription());
-		positionTypeBo.setPmPositionTypeId(im.getPmPositionTypeId());
-		positionTypeBo.setPositionType(im.getPositionType());   
-		positionTypeBo.setAcademicFlag(im.isAcademicFlag());
+		PositionTypeBo pt = new PositionTypeBo();
+		pt.setDescription(im.getDescription());
+		pt.setPmPositionTypeId(im.getPmPositionTypeId());
+		pt.setPositionType(im.getPositionType());
+		pt.setAcademicFlag(im.isAcademicFlag());
 		
-		positionTypeBo.setLocation(im.getLocation()); 
-		positionTypeBo.setInstitution(im.getInstitution()); 
+		pt.setLocation(im.getLocation());
+		pt.setInstitution(im.getInstitution());
 		
 //		positionTypeBo.setGroupKeyCode(im.getGroupKeyCode()); 
 //		positionTypeBo.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
 
+        Set<PositionTypeGroupKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), PositionTypeGroupKeyBo.toBo);
+        // set pt as the owner for each of the derived effective key objects in the set
+        PositionTypeGroupKeyBo.setOwnerOfDerivedCollection(pt, effectiveKeyBoSet);
+        // set the key list, constructed from the key set
+        if(effectiveKeyBoSet != null) {
+            pt.setEffectiveKeyList(new ArrayList<PositionTypeGroupKeyBo>(effectiveKeyBoSet));
+        }
 
-		copyCommonFields(positionTypeBo, im);
+		copyCommonFields(pt, im);
 
-		return positionTypeBo;
+		return pt;
 
 	}
 
@@ -182,5 +191,14 @@ public class PositionTypeBo extends HrBusinessObject implements PositionTypeCont
 		}
 		return PositionType.Builder.create(bo).build();
 	}
+
+    @Override
+    public List<PositionTypeGroupKeyBo> getEffectiveKeyList() {
+        return super.getEffectiveKeyList();
+    }
+
+    public void setEffectiveKeyList(List<PositionTypeGroupKeyBo> effectiveKeyList) {
+        super.setEffectiveKeyList(effectiveKeyList);
+    }
 
 }

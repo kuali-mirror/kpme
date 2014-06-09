@@ -480,20 +480,26 @@
             <bean class="org.kuali.kpme.core.calendar.web.CalendarLookupableHelper"/>
         </property>
     </bean>
+    <!-- 
     <bean id="jobLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kpme.core.job.web.JobLookupableHelper"/>
         </property>
-    </bean>
-    <bean id="salaryGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    </bean>   -->
+    
+     <bean id="jobLookupableHelperService" parent="kpmeHrGroupKeyedBusinessObjectLookupableHelper" class="org.kuali.kpme.core.job.web.JobLookupableHelper" scope="prototype" />
+    <bean id="jobLookupable" class="org.kuali.kpme.core.lookup.DepartmentAdminLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.core.salarygroup.web.SalaryGroupLookupableHelper"/>
+            <ref bean="jobLookupableHelperService" />
         </property>
     </bean>
-  	
-  	
- 
     
+    <bean id="salaryGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.core.salarygroup.web.SalaryGroupLookupableHelper" parent="kpmeHrGroupKeyedBusinessObjectLookupableHelper"/>
+        </property>
+    </bean>
+  	  
 <!--     <bean id="earnCodeGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton"> -->
 <!--         <property name="lookupableHelperService"> -->
 <!--             <bean class="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupLookupableHelper"/> -->

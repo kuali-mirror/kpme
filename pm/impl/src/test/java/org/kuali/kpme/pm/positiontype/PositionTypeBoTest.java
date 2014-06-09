@@ -16,15 +16,16 @@
 package org.kuali.kpme.pm.positiontype;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-
-import javax.crypto.spec.PSource;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.mo.EffectiveKey;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBoTest;
 import org.kuali.kpme.pm.api.positiontype.PositionType;
 
@@ -32,6 +33,9 @@ public class PositionTypeBoTest {
 	private static Map<String, PositionType> testPositionTypeBos;
 	//public static PositionType.Builder positionTypeBuilder = PositionType.Builder.create("ISU-IA", "TST-PSTNTYP");
 	public static PositionType.Builder positionTypeBuilder = PositionType.Builder.create("TST-PSTNTYP");
+    public static EffectiveKey.Builder positionTypeGroupKeyBuilder = EffectiveKey.Builder.create();
+
+
 	static{
 		testPositionTypeBos = new HashMap<String, PositionType>();
 		
@@ -50,7 +54,18 @@ public class PositionTypeBoTest {
 		positionTypeBuilder.setPositionType("TST-PSTNTYP");
 		positionTypeBuilder.setUserPrincipalId("admin");
 		positionTypeBuilder.setVersionNumber(1l);
-		
+
+        // now populate the derived key object builder
+        positionTypeGroupKeyBuilder.setGroupKeyCode("ISU-IA");
+        positionTypeGroupKeyBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
+        positionTypeGroupKeyBuilder.setOwnerId(positionTypeBuilder.getPmPositionTypeId());
+        positionTypeGroupKeyBuilder.setId("derived key object 01");
+        positionTypeGroupKeyBuilder.setEffectiveLocalDateOfOwner(positionTypeBuilder.getEffectiveLocalDate());
+
+        Set<EffectiveKey.Builder> keyBuilders = new HashSet<EffectiveKey.Builder>();
+        keyBuilders.add(positionTypeGroupKeyBuilder);
+        positionTypeBuilder.setEffectiveKeySet(keyBuilders);
+
 		testPositionTypeBos.put(positionTypeBuilder.getPositionType(), positionTypeBuilder.build());
 	}
 	
@@ -60,7 +75,13 @@ public class PositionTypeBoTest {
     	PositionTypeBo bo = PositionTypeBo.from(immutable);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
-        Assert.assertEquals(immutable, PositionTypeBo.to(bo));
+
+
+        PositionType im2 = PositionTypeBo.to(bo);
+        PositionTypeBo bo2 = PositionTypeBo.from(im2);
+        PositionType im3 = PositionTypeBo.to(bo2);
+
+        Assert.assertEquals(im2, im3);
     }
 
     public static PositionType getPositionType(String positionType) {

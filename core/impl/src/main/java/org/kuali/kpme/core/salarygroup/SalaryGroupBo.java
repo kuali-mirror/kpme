@@ -15,19 +15,22 @@
  */
 package org.kuali.kpme.core.salarygroup;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Set;
+
 import org.kuali.kpme.core.api.salarygroup.SalaryGroup;
 import org.kuali.kpme.core.api.salarygroup.SalaryGroupContract;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.leaveplan.LeavePlanBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-public class SalaryGroupBo extends HrBusinessObject implements SalaryGroupContract {
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+public class SalaryGroupBo extends HrKeyedSetBusinessObject<SalaryGroupBo, SalaryGroupKeyBo> implements SalaryGroupContract {
 
 	private static final String HR_SAL_GROUP = "hrSalGroup";
 
@@ -194,23 +197,32 @@ public class SalaryGroupBo extends HrBusinessObject implements SalaryGroupContra
         sg.setHrSalGroup(im.getHrSalGroup());
         sg.setDescr(im.getDescr());
 
-        sg.setInstitution(im.getInstitution());
-        sg.setLocation(im.getLocation());
+        /*sg.setInstitution(im.getInstitution());
+        sg.setLocation(im.getLocation());*/
         sg.setPercentTime(im.getPercentTime());
         sg.setBenefitsEligible(im.getBenefitsEligible());
         sg.setLeaveEligible(im.getLeaveEligible());
         sg.setLeavePlan(im.getLeavePlan());
 
 
-        sg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
-        sg.setActive(im.isActive());
-        if (im.getCreateTime() != null) {
-            sg.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
-        }
-        sg.setUserPrincipalId(im.getUserPrincipalId());
-        sg.setVersionNumber(im.getVersionNumber());
-        sg.setObjectId(im.getObjectId());
+		Set<SalaryGroupKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), SalaryGroupKeyBo.toBo);
+		// set prg as the owner for each of the derived effective key objects in the set
+		SalaryGroupKeyBo.setOwnerOfDerivedCollection(sg, effectiveKeyBoSet);
+		// set the key list, constructed from the key set
+		if(effectiveKeyBoSet != null) {
+			sg.setEffectiveKeyList(new ArrayList<SalaryGroupKeyBo>(effectiveKeyBoSet));
+		}
+		
+//        sg.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
+//        sg.setActive(im.isActive());
+//        if (im.getCreateTime() != null) {
+//            sg.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
+//        }
+//        sg.setUserPrincipalId(im.getUserPrincipalId());
+//        sg.setVersionNumber(im.getVersionNumber());
+//        sg.setObjectId(im.getObjectId());
 
+		copyCommonFields(sg, im);
         return sg;
     }
 

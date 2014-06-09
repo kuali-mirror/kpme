@@ -15,18 +15,31 @@
  */
 package org.kuali.kpme.core.api.paytype;
 
+import java.util.Set;
+
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.mo.EffectiveKeyContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedSetDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
 /**
  * <p>PayTypeContract interface.</p>
  *
  */
-public interface PayTypeContract extends KpmeEffectiveKeyedDataTransferObject {
+public interface PayTypeContract extends KpmeEffectiveKeyedSetDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
+	
+	
+	/* 
+	 * The set of EffectiveKeyContract objects that hold the aggregate "white-list" of groupkeys 
+	 * for this PayTypeContract object. 
+	 * 
+	 */
+	@Override
+	public Set<? extends EffectiveKeyContract> getEffectiveKeySet();
 	
 	/**
 	 * The EarnCode object which is used to record regular time by this PayType

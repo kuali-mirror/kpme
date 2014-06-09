@@ -16,67 +16,70 @@
 package org.kuali.kpme.core.paytype;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class PayTypeBo extends HrKeyedBusinessObject implements PayTypeContract {
+public class PayTypeBo extends HrKeyedSetBusinessObject<PayTypeBo, PayTypeKeyBo> implements PayTypeContract {
 	static class KeyFields {
 		private static final String PAY_TYPE = "payType";
-		final static String GROUP_KEY_CODE = "groupKeyCode";
 	}
-    
+
 	public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PayType";
-    public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
-            .add(PayTypeBo.CACHE_NAME)
-            .add(JobBo.CACHE_NAME)
-            .add(AssignmentBo.CACHE_NAME)
-            .add(CalendarBlockPermissions.CACHE_NAME)
-            .build();
-    //KPME-2273/1965 Primary Business Keys List.	
-    public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-            .add(KeyFields.PAY_TYPE)
-//            .add(KeyFields.GROUP_KEY_CODE)
-            .build();
+	public static final ImmutableList<String> CACHE_FLUSH = new ImmutableList.Builder<String>()
+			.add(PayTypeBo.CACHE_NAME)
+			.add(JobBo.CACHE_NAME)
+			.add(AssignmentBo.CACHE_NAME)
+			.add(CalendarBlockPermissions.CACHE_NAME)
+			.build();
+	//KPME-2273/1965 Primary Business Keys List.	
+	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
+			.add(KeyFields.PAY_TYPE)
+			.build();
 
 	private static final long serialVersionUID = 1L;
 	private String hrPayTypeId;
 	private String payType;
 	private String descr;
 	private String regEarnCode;
-    /** Used for lookup */
+	/** Used for lookup */
 	private String hrEarnCodeId;
-    private EarnCodeBo regEarnCodeObj;
-    private Boolean ovtEarnCode;
-    
+	private EarnCodeBo regEarnCodeObj;
+	private Boolean ovtEarnCode;
+
 	private String flsaStatus;
 	private String payFrequency;
-	
+	private Set<PayTypeKeyBo> effectiveKeySet = new HashSet<PayTypeKeyBo>();
+
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-    	return  new ImmutableMap.Builder<String, Object>()
-			.put(KeyFields.PAY_TYPE, this.getPayType())
-//			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
-			.build();
+		return  new ImmutableMap.Builder<String, Object>()
+				.put(KeyFields.PAY_TYPE, this.getPayType())
+				.build();
 	}
 
-    public EarnCodeBo getRegEarnCodeObj() {
-        return regEarnCodeObj;
-    }
+	public EarnCodeBo getRegEarnCodeObj() {
+		return regEarnCodeObj;
+	}
 
-    public void setRegEarnCodeObj(EarnCodeBo regEarnCodeObj) {
-        this.regEarnCodeObj = regEarnCodeObj;
-    }
+	public void setRegEarnCodeObj(EarnCodeBo regEarnCodeObj) {
+		this.regEarnCodeObj = regEarnCodeObj;
+	}
 
 	public String getPayType() {
 		return payType;
@@ -121,14 +124,14 @@ public class PayTypeBo extends HrKeyedBusinessObject implements PayTypeContract 
 		return payType;
 	}
 
-    @Override
+	@Override
 	public Boolean isOvtEarnCode() {
 		return ovtEarnCode;
 	}
 
-    public Boolean getOvtEarnCode() {
-        return isOvtEarnCode();
-    }
+	public Boolean getOvtEarnCode() {
+		return isOvtEarnCode();
+	}
 
 	public void setOvtEarnCode(Boolean ovtEarnCode) {
 		this.ovtEarnCode = ovtEarnCode;
@@ -160,47 +163,55 @@ public class PayTypeBo extends HrKeyedBusinessObject implements PayTypeContract 
 		this.payFrequency = payFrequency;
 	}
 
-    public static PayTypeBo from(PayType im) {
-        if (im == null) {
-            return null;
-        }
-        PayTypeBo pt = new PayTypeBo();
+	public static PayTypeBo from(PayType im) {
+		if (im == null) {
+			return null;
+		}
+		PayTypeBo pt = new PayTypeBo();
 
-        pt.setHrPayTypeId(im.getHrPayTypeId());
-        pt.setPayType(im.getPayType());
+		pt.setHrPayTypeId(im.getHrPayTypeId());
+		pt.setPayType(im.getPayType());
 
-        pt.setGroupKeyCode(im.getGroupKeyCode());
-        pt.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
-        
-        pt.setDescr(im.getDescr());
-        pt.setRegEarnCode(im.getRegEarnCode());
-        pt.setHrEarnCodeId(im.getHrEarnCodeId());
-        pt.setRegEarnCodeObj(im.getRegEarnCodeObj() == null ? null : EarnCodeBo.from(im.getRegEarnCodeObj()));
-        pt.setOvtEarnCode(im.isOvtEarnCode());
-        pt.setFlsaStatus(im.getFlsaStatus());
-        pt.setPayFrequency(im.getPayFrequency());
+		pt.setDescr(im.getDescr());
+		pt.setRegEarnCode(im.getRegEarnCode());
+		pt.setHrEarnCodeId(im.getHrEarnCodeId());
+		pt.setRegEarnCodeObj(im.getRegEarnCodeObj() == null ? null : EarnCodeBo.from(im.getRegEarnCodeObj()));
+		pt.setOvtEarnCode(im.isOvtEarnCode());
+		pt.setFlsaStatus(im.getFlsaStatus());
+		pt.setPayFrequency(im.getPayFrequency());
 
-        pt.setHrEarnCodeId(im.getHrEarnCodeId());
+		pt.setHrEarnCodeId(im.getHrEarnCodeId());
 
-        pt.setOvtEarnCode(im.isOvtEarnCode());
+		pt.setOvtEarnCode(im.isOvtEarnCode());
+		
+		Set<PayTypeKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), PayTypeKeyBo.toBo);
+		// set pt as the owner for each of the derived effective key objects in the set
+		PayTypeKeyBo.setOwnerOfDerivedCollection(pt, effectiveKeyBoSet);
+		// set the key list, constructed from the key set
+		if(effectiveKeyBoSet != null) {
+			pt.setEffectiveKeyList(new ArrayList<PayTypeKeyBo>(effectiveKeyBoSet));
+		}
+		
+		copyCommonFields(pt, im);
 
-        pt.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
-        pt.setActive(im.isActive());
-        if (im.getCreateTime() != null) {
-            pt.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
-        }
-        pt.setUserPrincipalId(im.getUserPrincipalId());
-        pt.setVersionNumber(im.getVersionNumber());
-        pt.setObjectId(im.getObjectId());
+		return pt;
+	}
 
-        return pt;
-    }
+	public static PayType to(PayTypeBo bo) {
+		if (bo == null) {
+			return null;
+		}
 
-    public static PayType to(PayTypeBo bo) {
-        if (bo == null) {
-            return null;
-        }
+		return PayType.Builder.create(bo).build();
+	}
 
-        return PayType.Builder.create(bo).build();
-    }
+	@Override
+	public List<PayTypeKeyBo> getEffectiveKeyList(){
+		return super.getEffectiveKeyList();	
+	}
+
+	public void setEffectiveKeyList(List<PayTypeKeyBo> effectiveKeyList) {
+		super.setEffectiveKeyList(effectiveKeyList);
+	}
+
 }

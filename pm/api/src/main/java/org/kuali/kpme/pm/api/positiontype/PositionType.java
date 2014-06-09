@@ -16,7 +16,10 @@
 package org.kuali.kpme.pm.api.positiontype;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -30,17 +33,21 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
-import org.kuali.kpme.pm.api.positionreportgroup.PositionReportGroup.Builder;
+import org.kuali.kpme.core.api.mo.EffectiveKey;
+import org.kuali.kpme.core.api.mo.EffectiveKeyContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.springframework.expression.spel.ast.OpOr;
 import org.w3c.dom.Element;
+
 
 @XmlRootElement(name = PositionType.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PositionType.Constants.TYPE_NAME, propOrder = {
     PositionType.Elements.DESCRIPTION,
+    PositionType.Elements.EFFECTIVE_KEY_SET,
     PositionType.Elements.ACADEMIC_FLAG,
     PositionType.Elements.POSITION_TYPE,
     PositionType.Elements.PM_POSITION_TYPE_ID,
@@ -54,8 +61,8 @@ import org.w3c.dom.Element;
     
     PositionType.Elements.LOCATION,
     PositionType.Elements.INSTITUTION,
-//    PositionType.Elements.GROUP_KEY,
-//    PositionType.Elements.GROUP_KEY_CODE,
+    PositionType.Elements.GROUP_KEY_CODE_SET,
+    PositionType.Elements.GROUP_KEY_SET,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class PositionType
@@ -65,6 +72,9 @@ public final class PositionType
 
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
+
+    @XmlElement(name = Elements.EFFECTIVE_KEY_SET, required = false)
+    private final Set<EffectiveKey> effectiveKeySet;
     @XmlElement(name = Elements.ACADEMIC_FLAG, required = false)
     private final boolean academicFlag;
     @XmlElement(name = Elements.POSITION_TYPE, required = false)
@@ -90,11 +100,11 @@ public final class PositionType
     private final String location;
     @XmlElement(name = Elements.INSTITUTION, required = false)
     private final String institution;
-    
-//    @XmlElement(name = Elements.GROUP_KEY, required = false)
-//    private final HrGroupKey groupKey;
-//    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
-//    private final String groupKeyCode;
+
+    @XmlElement(name = Elements.GROUP_KEY_CODE_SET, required = false)
+    private final Set<String> groupKeyCodeSet;
+    @XmlElement(name = Elements.GROUP_KEY_SET, required = false)
+    private final Set<HrGroupKey> groupKeySet;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -105,6 +115,7 @@ public final class PositionType
      */
     private PositionType() {
         this.description = null;
+        this.effectiveKeySet = null;
         this.academicFlag = false;
         this.positionType = null;
         this.pmPositionTypeId = null;
@@ -118,12 +129,13 @@ public final class PositionType
         
         this.location = null;
         this.institution = null;
-//        this.groupKey = null;
-//        this.groupKeyCode = null;
+        this.groupKeySet = null;
+        this.groupKeyCodeSet = null;
     }
 
     private PositionType(Builder builder) {
         this.description = builder.getDescription();
+        this.effectiveKeySet = ModelObjectUtils.<EffectiveKey>buildImmutableCopy(builder.getEffectiveKeySet());
         this.academicFlag = builder.isAcademicFlag();
         this.positionType = builder.getPositionType();
         this.pmPositionTypeId = builder.getPmPositionTypeId();
@@ -137,13 +149,19 @@ public final class PositionType
         
         this.location = builder.getLocation();
         this.institution = builder.getInstitution();
-//        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
-//        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKeyCodeSet = builder.getGroupKeyCodeSet();
+        this.groupKeySet = ModelObjectUtils.<HrGroupKey>buildImmutableCopy(builder.getGroupKeySet());
+        PositionType testPt = this;
     }
 
     @Override
     public String getDescription() {
         return this.description;
+    }
+
+    @Override
+    public Set<EffectiveKey> getEffectiveKeySet() {
+        return this.effectiveKeySet;
     }
 
     @Override
@@ -206,15 +224,16 @@ public final class PositionType
         return this.institution;
     }
 
-//    @Override
-//    public HrGroupKey getGroupKey() {
-//        return this.groupKey;
-//    }
-//
-//    @Override
-//    public String getGroupKeyCode() {
-//        return this.groupKeyCode;
-//    }
+    @Override
+    public Set<String> getGroupKeyCodeSet() {
+        return this.groupKeyCodeSet;
+    }
+
+    @Override
+    public Set<HrGroupKey> getGroupKeySet() {
+        return this.groupKeySet;
+    }
+
 
 
     /**
@@ -226,6 +245,7 @@ public final class PositionType
     {
 
         private String description;
+        private Set<EffectiveKey.Builder> effectiveKeySet;
         private boolean academicFlag;
         private String positionType;
         private String pmPositionTypeId;
@@ -239,9 +259,22 @@ public final class PositionType
         
         private String location;
         private String institution;
-//        private String groupKeyCode;
-//        private HrGroupKey.Builder groupKey;
+        private Set<String> groupKeyCodeSet;
+        private Set<HrGroupKey.Builder> groupKeySet;
 
+        private static final ModelObjectUtils.Transformer<EffectiveKeyContract, EffectiveKey.Builder> toEffectiveKeyBuilder
+                = new ModelObjectUtils.Transformer<EffectiveKeyContract, EffectiveKey.Builder>() {
+            public EffectiveKey.Builder transform(EffectiveKeyContract input) {
+                return EffectiveKey.Builder.create(input);
+            }
+        };
+
+        private static final ModelObjectUtils.Transformer<HrGroupKeyContract, HrGroupKey.Builder> toHrGroupKeyBuilder
+                = new ModelObjectUtils.Transformer<HrGroupKeyContract, HrGroupKey.Builder>() {
+            public HrGroupKey.Builder transform(HrGroupKeyContract input) {
+                return HrGroupKey.Builder.create(input);
+            }
+        };
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -271,6 +304,7 @@ public final class PositionType
             Builder builder = create(contract.getPositionType());
            
             builder.setLocation(contract.getLocation());
+            builder.setEffectiveKeySet(ModelObjectUtils.transformSet(contract.getEffectiveKeySet(), toEffectiveKeyBuilder));
             builder.setInstitution(contract.getInstitution());
             
             builder.setDescription(contract.getDescription());
@@ -284,18 +318,24 @@ public final class PositionType
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            //builder.setGroupKeyCode(contract.getGroupKeyCode());
-            //builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+            builder.setGroupKeyCodeSet(contract.getGroupKeyCodeSet());
+            builder.setGroupKeySet(ModelObjectUtils.transformSet(contract.getGroupKeySet(), toHrGroupKeyBuilder));
             return builder;
         }
 
         public PositionType build() {
-            return new PositionType(this);
+            PositionType pt = new PositionType(this);
+            return pt;
         }
 
         @Override
         public String getLocation() {
             return this.location;
+        }
+
+        @Override
+        public Set<EffectiveKey.Builder> getEffectiveKeySet() {
+            return this.effectiveKeySet;
         }
 
         @Override
@@ -359,19 +399,25 @@ public final class PositionType
             return this.userPrincipalId;
         }
 
-//        @Override
-//        public HrGroupKey.Builder getGroupKey() {
-//            return this.groupKey;
-//        }
-//
-//        @Override
-//        public String getGroupKeyCode() {
-//            return this.groupKeyCode;
-//        }
+        @Override
+        public Set<String> getGroupKeyCodeSet() {
+            return this.groupKeyCodeSet;
+        }
+
+        @Override
+        public Set<HrGroupKey.Builder> getGroupKeySet() {
+            return this.groupKeySet;
+        }
 
         
         public void setLocation(String location) {
             this.location = location;
+        }
+
+
+        public void setEffectiveKeySet(Set<EffectiveKey.Builder> effectiveKeySet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.effectiveKeySet = effectiveKeySet;
         }
 
         public void setInstitution(String institution) {
@@ -433,16 +479,15 @@ public final class PositionType
             this.userPrincipalId = userPrincipalId;
         }
 
-//        public void setGroupKeyCode(String groupKeyCode) {
-//            if (StringUtils.isWhitespace(groupKeyCode)) {
-//                throw new IllegalArgumentException("groupKeyCode is blank");
-//            }
-//            this.groupKeyCode = groupKeyCode;
-//        }
-//
-//        public void setGroupKey(HrGroupKey.Builder groupKey) {
-//            this.groupKey = groupKey;
-//        }
+        public void setGroupKeyCodeSet(Set<String> groupKeyCodeSet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKeyCodeSet = groupKeyCodeSet;
+        }
+
+        public void setGroupKeySet(Set<HrGroupKey.Builder> groupKeySet) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.groupKeySet = groupKeySet;
+        }
 
     }
 
@@ -467,6 +512,7 @@ public final class PositionType
 
         //public static final String LOCATION = null;
 		final static String DESCRIPTION = "description";
+        final static String EFFECTIVE_KEY_SET = "effectiveKeySet";
         final static String ACADEMIC_FLAG = "academicFlag";
         final static String POSITION_TYPE = "positionType";
         final static String PM_POSITION_TYPE_ID = "pmPositionTypeId";
@@ -478,8 +524,8 @@ public final class PositionType
         
         final static String LOCATION = "location";
         final static String INSTITUTION = "institution";
-//        final static String GROUP_KEY = "groupKey";
-//        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY_CODE_SET = "groupKeyCodeSet";
+        final static String GROUP_KEY_SET = "groupKeySet";
 
     }
 

@@ -92,7 +92,7 @@ public class JobTest extends CoreUnitTestCase {
 		payType.setEffectiveLocalDate(LocalDate.now());
 		payType.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		// KPME-2252
-		payType.setGroupKeyCode("*-*");
+//		payType.setGroupKeyCode("*-*");
 		payType.setFlsaStatus("NE");
 		payType.setPayFrequency("M");
         payType.setUserPrincipalId("admin");

@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kpme.core.api.location.LocationContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedSetDataTransferObject;
 import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationContract;
@@ -28,7 +29,7 @@ import org.kuali.kpme.pm.api.classification.qual.ClassificationQualificationCont
  * <p>ClassificationContract interface</p>
  *
  */
-public interface ClassificationContract extends KpmeEffectiveDataTransferObject {
+public interface ClassificationContract extends KpmeEffectiveKeyedSetDataTransferObject {
 
 	/**
 	 * The identifier of the position classification

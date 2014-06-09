@@ -21,8 +21,8 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionReportGroupKeyBo extends HrBusinessObjectKey<PositionReportGroupBo, PositionReportGroupKeyBo> {
 
-	private static final long serialVersionUID = 3035597915412860604L;
-	
+    private static final long serialVersionUID = 3035597915412860604L;
+
 	/*
 	 * convert immutable to bo
 	 * 
