@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -139,8 +140,8 @@ public final class TimeHourDetail
         TimeHourDetailContract timeHourDetail = (TimeHourDetailContract) obj;
         return new EqualsBuilder()
                 .append(earnCode, timeHourDetail.getEarnCode())
-                .append(amount, timeHourDetail.getAmount())
-                .append(hours, timeHourDetail.getHours())
+                .append(KpmeUtils.nullSafeCompare(amount, timeHourDetail.getAmount()), 0)
+                .append(KpmeUtils.nullSafeCompare(hours, timeHourDetail.getHours()), 0)
                 .isEquals();
     }
 

@@ -25,6 +25,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.block.CalendarBlock;
 import org.kuali.kpme.core.block.CalendarBlockBase;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -770,7 +771,7 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
 			.append(earnCode, timeBlock.earnCode)
 			.append(beginTimestamp, timeBlock.beginTimestamp)
 			.append(endTimestamp, timeBlock.endTimestamp)
-			.append(hours, timeBlock.hours)
+			.append(KpmeUtils.nullSafeCompare(hours, timeBlock.hours), 0)
 			.append(timeHourDetails, timeBlock.timeHourDetails)
 			.append(timestamp, timeBlock.timestamp)
 			.isEquals();

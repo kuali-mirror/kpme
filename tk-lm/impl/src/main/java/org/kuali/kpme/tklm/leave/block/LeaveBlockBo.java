@@ -517,7 +517,7 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
                 .append(task, leaveBlock.task)
                 .append(earnCode, leaveBlock.earnCode)
                 .append(leaveDate, leaveBlock.leaveDate)
-                .append(leaveAmount, leaveBlock.leaveAmount)
+                .append(KpmeUtils.nullSafeCompare(leaveAmount, leaveBlock.leaveAmount), 0)
                 .append(accrualCategory, leaveBlock.accrualCategory)
                 .append(earnCode, leaveBlock.earnCode)
                 .append(description, leaveBlock.description)
