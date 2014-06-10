@@ -26,11 +26,9 @@ import org.kuali.kpme.core.lookup.KpmeHrBusinessObjectLookupableHelper;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.UrlFactory;
 
 @SuppressWarnings("deprecation")
 public class TimeCollectionRuleLookupableHelperServiceImpl extends KpmeHrBusinessObjectLookupableHelper {
@@ -49,12 +47,7 @@ public class TimeCollectionRuleLookupableHelperServiceImpl extends KpmeHrBusines
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
 		
 		params.put("tkTimeCollectionRuleId", tkTimeCollectionRuleId);
-		
-		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
-		viewUrl.setDisplayText("view");
-		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
-		customActionUrls.add(viewUrl);
-		
+
 		return customActionUrls;
 	}
 
