@@ -15,29 +15,40 @@
  */
 package org.kuali.kpme.pm.position;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBoTest;
+import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.pm.api.classification.qual.ClassificationQualification;
 import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.kpme.pm.api.position.PositionDuty;
 import org.kuali.kpme.pm.api.position.PositionQualification;
 import org.kuali.kpme.pm.api.position.PstnFlag;
+import org.kuali.kpme.pm.api.position.funding.PositionFunding;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartment;
+import org.kuali.kpme.pm.api.positionresponsibility.PositionResponsibility;
 import org.kuali.kpme.pm.classification.ClassificationBo;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBoTest;
+import org.kuali.kpme.pm.position.funding.PositionFundingBoTest;
+import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBoTest;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class PositionBoTest {
 	private static Map<String, Position> testPositionBos;
 	public static Position.Builder positionBuilder = Position.Builder.create("1", "ISU-IA");
+	
+	private BusinessObjectService mockBusinessObjectService;
 
 	static {
 		testPositionBos = new HashMap<String, Position>();
@@ -52,33 +63,58 @@ public class PositionBoTest {
 		positionBuilder.setDescription("");
 		positionBuilder.setGroupKeyCode("ISU-IA");
 		positionBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
-		positionBuilder.setHrPositionId("");
-		positionBuilder.setId("");
+		positionBuilder.setHrPositionId("KPME_TEST_00001");
+		positionBuilder.setId(positionBuilder.getHrPositionId());
 		positionBuilder.setLeaveEligible("");
 		positionBuilder.setMaxPoolHeadCount(0);
 		positionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		positionBuilder.setPayGrade("");
 		positionBuilder.setPayStep("");
 		positionBuilder.setPositionNumber("1");
+		positionBuilder.setPmPositionClassId("KPME_TEST_2000");
+		
+		List<PositionResponsibility.Builder> positionResponsilityList = new ArrayList<PositionResponsibility.Builder>();
+		PositionResponsibility.Builder responsibilityBuilder = PositionResponsibility.Builder.create(PositionResponsibilityBoTest.getPositionResponsibility("TST-PSTNRESPOPT"));
+		responsibilityBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		positionResponsilityList.add(responsibilityBuilder);
+		positionBuilder.setPositionResponsibilityList(positionResponsilityList);
+		
 		
 		List<PositionDepartment.Builder> positionDeptList = new ArrayList<PositionDepartment.Builder>();
-		positionDeptList.add(PositionDepartment.Builder.create(PositionDataBoTest.getPositionDepartment("TST-PSTNDEPT")));
+		PositionDepartment.Builder deptBuilder = PositionDepartment.Builder.create(PositionDataBoTest.getPositionDepartment("TST-PSTNDEPT"));
+		deptBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		positionDeptList.add(deptBuilder);
 		positionBuilder.setDepartmentList(positionDeptList);
 		
 		List<PstnFlag.Builder> pstnFlagList = new ArrayList<PstnFlag.Builder>();
-		pstnFlagList.add(PstnFlag.Builder.create(PstnFlagBoTest.getPstnFlag("TST-PSTNFLAG")));
+		PstnFlag.Builder flagBuilder = PstnFlag.Builder.create(PstnFlagBoTest.getPstnFlag("TST-PSTNFLAG"));
+		flagBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		pstnFlagList.add(flagBuilder);
 		positionBuilder.setFlagList(pstnFlagList);
 		
 		List<PositionDuty.Builder> positionDutyList = new ArrayList<PositionDuty.Builder>();
-		positionDutyList.add(PositionDuty.Builder.create(PositionDutyBoTest.getPositionDutyBo("TST-PSTNDUTY")));
+		PositionDuty.Builder dutyBuilder = PositionDuty.Builder.create(PositionDutyBoTest.getPositionDutyBo("TST-PSTNDUTY"));
+		dutyBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		positionDutyList.add(dutyBuilder);
 		positionBuilder.setDutyList(positionDutyList);
+		
+		List<PositionFunding.Builder> positionFundingList = new ArrayList<PositionFunding.Builder>();
+		PositionFunding.Builder fundingBuilder = PositionFunding.Builder.create(PositionFundingBoTest.getPositionFunding("9999"));
+		fundingBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		fundingBuilder.setAccount("KPME_TEST_ACCOUNT");
+		positionFundingList.add(fundingBuilder);
+		positionBuilder.setFundingList(positionFundingList);
 
 		List<PositionQualification.Builder> positionQualificationList = new ArrayList<PositionQualification.Builder>();
-		positionQualificationList.add(PositionQualification.Builder.create(PositionQualificationBoTest.getPositionQualificationBo("TST-PSTNQLFCTN")));
+		PositionQualification.Builder qualificationBuilder = PositionQualification.Builder.create(PositionQualificationBoTest.getPositionQualificationBo("TST-PSTNQLFCTN"));
+		qualificationBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		positionQualificationList.add(qualificationBuilder);
 		positionBuilder.setQualificationList(positionQualificationList);
 		
 		List<ClassificationQualification.Builder> classificationQualificationList = new ArrayList<ClassificationQualification.Builder>();
-		classificationQualificationList.add(ClassificationQualification.Builder.create(ClassificationQualificationBoTest.getClassificationQualificationBo("TST-CLASSFCTNQLFCTN")));
+		ClassificationQualification.Builder classQualBuilder = ClassificationQualification.Builder.create(ClassificationQualificationBoTest.getClassificationQualificationBo("TST-CLASSFCTNQLFCTN"));
+		classQualBuilder.setPmPositionClassId("KPME_TEST_2000");
+		classificationQualificationList.add(classQualBuilder);
 		positionBuilder.setRequiredQualList(classificationQualificationList);
 						
 		testPositionBos.put("TST-PSTN", positionBuilder.build());
@@ -88,26 +124,47 @@ public class PositionBoTest {
     public void testNotEqualsWithGroup() {
     	Position immutable = PositionBoTest.getPosition("TST-PSTN");
     	PositionBo bo = PositionBo.from(immutable);
-    	
-    	PositionBo positionBo = new PositionBo();
-    	positionBo.setEffectiveLocalDate(new LocalDate());
-    	bo.getDepartmentList().get(0).setOwner(positionBo);
-    	bo.getDutyList().get(0).setOwner(positionBo);
-    	bo.getFlagList().get(0).setOwner(positionBo);
-//    	bo.getFundingList().get(0).setOwner(positionBo);
-    	bo.getQualificationList().get(0).setOwner(positionBo);
-    	
-    	ClassificationBo classificationBo = new ClassificationBo();
-    	classificationBo.setEffectiveLocalDate(new LocalDate());
-    	bo.getRequiredQualList().get(0).setOwner(classificationBo);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
-        Assert.assertEquals(immutable, PositionBo.to(bo));
+       
+        // this is simply to prevent invocations of refresh reference 
+    	ClassificationBo classificationBo = new ClassificationBo();
+    	bo.getRequiredQualList().get(0).setOwner(classificationBo);
+    	
+    	bo.getFundingList().get(0).setBusinessObjectService(mockBusinessObjectService);
+        Position im2 = PositionBo.to(bo);
+        PositionBo bo2 = PositionBo.from(im2);
+        
+        // this is simply to prevent invocations of refresh reference 
+        bo2.getRequiredQualList().get(0).setOwner(classificationBo);
+        
+        bo2.getFundingList().get(0).setBusinessObjectService(mockBusinessObjectService);
+        Position im3 = PositionBo.to(bo2);
+        
+        Assert.assertEquals(im2, im3);
     }
 
     public static Position getPosition(String Position) {
         Position position = testPositionBos.get(Position);
         return position;
+    }
+    
+    @Before
+    public void setup() throws Exception {
+        
+        Account account = new Account();
+    	account.setAccountNumber("KPME_TEST_ACCOUNT");
+    	account.setChartOfAccountsCode("MC");
+    	account.setActive(true);
+    	
+    	Map<String, String> fields = new HashMap<String, String>();
+		fields.put("accountNumber", "KPME_TEST_ACCOUNT");
+		fields.put("active", "true");
+    	
+    	mockBusinessObjectService = mock(BusinessObjectService.class);
+        {
+            when(mockBusinessObjectService.findByPrimaryKey(Account.class, fields)).thenReturn(account);
+        }
     }
 
 }
