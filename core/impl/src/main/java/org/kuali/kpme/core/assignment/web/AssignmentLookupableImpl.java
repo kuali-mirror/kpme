@@ -21,49 +21,22 @@ import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.api.assignment.Assignment;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
 public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
-
-    private static final String ASSIGNMENT_LOOKUP_SERVICE = "assignmentLookupService";
     private static final long serialVersionUID = 774015772672806415L;
 
-    private static final ModelObjectUtils.Transformer<Assignment, AssignmentBo> fromAssignment =
-            new ModelObjectUtils.Transformer<Assignment, AssignmentBo>() {
-                public AssignmentBo transform(Assignment input) {
-                    return AssignmentBo.from(input);
-                };
-            };
-    private static final ModelObjectUtils.Transformer<AssignmentBo, Assignment> toAssignment =
-            new ModelObjectUtils.Transformer<AssignmentBo, Assignment>() {
-                public Assignment transform(AssignmentBo input) {
-                    return AssignmentBo.to(input);
-                };
-            };
 
-
-    @Override
-    protected LookupService createLookupServiceInstance() {
-        return (LookupService) KRADServiceLocatorWeb.getService(ASSIGNMENT_LOOKUP_SERVICE);
-    }
-
-    //added for testability in AssignmentServiceImplTest
-    public static List<AssignmentBo> filterLookupAssignments(List<AssignmentBo> rawResults, String userPrincipalId) {
+    protected List<AssignmentBo> filterLookupAssignments(List<AssignmentBo> rawResults, String userPrincipalId) {
         List<AssignmentBo> results = new ArrayList<AssignmentBo>();
         for (AssignmentBo assignmentObj : rawResults) {
 
@@ -89,19 +62,13 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
         return results;
     }
 
+	@SuppressWarnings("unchecked")
 	@Override
-	protected List<?> getSearchResults(LookupForm form,
-			Map<String, String> searchCriteria, boolean unbounded) {
+	protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
         List<AssignmentBo> results = (List<AssignmentBo>) super.getSearchResults(form, searchCriteria, unbounded);
-
         List<AssignmentBo> filteredResults = filterLookupAssignments(results, userPrincipalId);
-
-
-        //return ModelObjectUtils.transform(HrServiceLocator.getAssignmentService().searchAssignments(userPrincipalId, searchCriteria), toAssignment);
-//        List<Assignment> filteredResults = HrServiceLocator.getAssignmentService().filterLookupAssignments(ModelObjectUtils.transform(results, toAssignment), userPrincipalId);
         return filteredResults;
-        //return ModelObjectUtils.transform(filteredResults, fromAssignment);
 	}
 }

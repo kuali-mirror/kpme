@@ -110,52 +110,5 @@ public class AssignmentServiceImplTest extends CoreUnitTestCase {
         Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 4, not " + assignments.size(), assignments.size() == 4);
     }
 
-    @Test
-    public void testSearchAssignments() throws Exception {
-        List <AssignmentBo> results = new ArrayList<AssignmentBo>();
-        List <AssignmentBo> finalResults = new ArrayList<AssignmentBo>();
-
-
-        Map<String, String> formValues = new HashMap<String, String>();
-        formValues.put("active", (String)"Y");
-        formValues.put("history", (String)"N");
-        formValues.put("fromEffdt", null);
-        formValues.put("toEffdt", null);
-        formValues.put("principalId", null);
-        formValues.put("jobNumber", null);
-        formValues.put("dept", null);
-        formValues.put("workArea", null);
-
-        AssignmentDaoOjbImpl dao = HrServiceLocator.getService("assignmentDao");
-        Criteria root = dao.getCollectionCriteriaFromMap(new AssignmentBo(), formValues);
-        Query query = QueryFactory.newQuery(AssignmentBo.class, root);
-        results.addAll(dao.getPersistenceBrokerTemplate().getCollectionByQuery(query));
-        finalResults = AssignmentLookupableImpl.filterLookupAssignments(results, (String)"admin");
-
-       Assert.assertEquals("Search returned the wrong number of results.", 14, finalResults.size());
-
-        results.clear();
-        finalResults.clear();
-
-        Map<String, String> formValues2 = new HashMap<String, String>();
-        formValues2.put("active", (String)"Y");
-        formValues2.put("history", (String)"N");
-        formValues2.put("fromEffdt", null);
-        formValues2.put("toEffdt", null);
-        formValues2.put("principalId", null);
-        formValues2.put("jobNumber", null);
-        formValues2.put("dept", null);
-        formValues2.put("workArea", null);
-
-        root = dao.getCollectionCriteriaFromMap(new AssignmentBo(), formValues2);
-        query = QueryFactory.newQuery(AssignmentBo.class, root);
-        results.addAll(dao.getPersistenceBrokerTemplate().getCollectionByQuery(query));
-
-        finalResults = AssignmentLookupableImpl.filterLookupAssignments(results, (String)"testuser6");
-
-
-        //List<Assignment> restrictedResults = HrServiceLocator.getAssignmentService().searchAssignments((String)"testuser6", formValues2);
-
-        Assert.assertEquals("Search returned the wrong number of results.", 5, finalResults.size());
-    }
+    
 }
