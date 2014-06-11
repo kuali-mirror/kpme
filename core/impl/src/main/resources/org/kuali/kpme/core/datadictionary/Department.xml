@@ -312,6 +312,7 @@
     <bean id="Department-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Department Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.department.web.DepartmentLookupableImpl" />
 
         <property name="criteriaFields">
             <list merge="true">
