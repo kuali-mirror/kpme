@@ -268,7 +268,8 @@ public class ClockWebTest extends KPMEWebTestCase {
         // Make sure clock in button is rendered
         HtmlUnitUtil.createTempFile(page);
         Assert.assertTrue("The clock out button should have displayed", page.asText().contains("Clock Out"));
-        Assert.assertTrue("The clock out button should have displayed", page.asText().contains("Take Lunch"));
+        // KPME-3532 system lunch is always off now, so lunch button should never show up
+        // Assert.assertTrue("The clock out button should have displayed", page.asText().contains("Take Lunch"));
 
         return page;
     }

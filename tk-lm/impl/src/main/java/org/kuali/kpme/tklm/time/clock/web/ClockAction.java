@@ -227,10 +227,10 @@ public class ClockAction extends TimesheetAction {
 		        	clockActionForm.setClockButtonEnabled(isApproverOrReviewerForCurrentAssignment);
 		        }
 		        
-		        // KPME-3532 comment out the call to System Lunch Rule, but if the system lunch rule (global) is off (line 236), it won't
-		        // get to the department lunch rule code, and it needs to, so set it true.
+		        // KPME-3532 comment out the call to System Lunch Rule - system lunch is off always now so that the button
+		        // should never show up - set the show button to false
 		        //clockActionForm.setShowLunchButton(TkServiceLocator.getSystemLunchRuleService().isShowLunchButton());
-		        clockActionForm.setShowLunchButton(true);
+		        clockActionForm.setShowLunchButton(false);
 		        assignShowDistributeButton(clockActionForm);
 		        
 		        if (clockActionForm.isShowLunchButton()) {

@@ -15,26 +15,14 @@
  */
 package org.kuali.hr.time.systemlunch;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
-import org.kuali.hr.util.HtmlUnitUtil;
 import org.kuali.kpme.core.FunctionalTest;
-import org.kuali.kpme.core.util.HrTestConstants;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.time.rules.lunch.sys.SystemLunchRule;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
-import org.kuali.kpme.tklm.utils.TkTestConstants;
-
-import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 @FunctionalTest
 public class SystemLunchRuleTest extends KPMEWebTestCase {
@@ -51,7 +39,8 @@ public class SystemLunchRuleTest extends KPMEWebTestCase {
 	/**
 	 * Test if the lunch in/out button shows and if the time block is created with the correct clock action
 	 */
-	
+	// KPME-3532 system lunch is always off now, so there is no need for this test
+	/*
 	@Test
 	public void testSystemLunchRule() throws Exception {
 		
@@ -101,5 +90,5 @@ public class SystemLunchRuleTest extends KPMEWebTestCase {
     	Thread.sleep(3000);
     	Assert.assertEquals(TkConstants.LUNCH_IN, TkServiceLocator.getClockLogService().getLastClockLog("admin").getClockAction());
     	
-	}
+	} */
 }
