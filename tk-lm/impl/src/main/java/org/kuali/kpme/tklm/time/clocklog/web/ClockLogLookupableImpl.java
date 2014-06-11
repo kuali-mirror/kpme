@@ -14,17 +14,37 @@
  * limitations under the License.
  */
 package org.kuali.kpme.tklm.time.clocklog.web;
- 
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
+import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.web.form.LookupForm;
- 
+
 public class ClockLogLookupableImpl extends KPMELookupableImpl {
- 
- 
-   @Override
-   public void initSuppressAction(LookupForm lookupForm) {
-       ((LookupView) lookupForm.getView()).setSuppressActions(false);
-   }
-                
+
+	@Override
+	public void initSuppressAction(LookupForm lookupForm) {
+		((LookupView) lookupForm.getView()).setSuppressActions(false);
+	}
+
+	@Override
+	public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+		List<ClockLogBo> results = new ArrayList<ClockLogBo>();
+		List<?> searchResults = super.getSearchResults(form, searchCriteria, unbounded);
+		for (Object searchResult : searchResults) {
+			if(searchResult != null) {
+				ClockLogBo aClockLog = (ClockLogBo) searchResult;
+				aClockLog.setClockedByMissedPunch(TkServiceLocator.getClockLogService().isClockLogCreatedByMissedPunch(aClockLog.getTkClockLogId()));
+				results.add(aClockLog);
+			}
+		}
+
+		return results;
+	}
+
 }
