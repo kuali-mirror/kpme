@@ -42,7 +42,7 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.common.ApprovalFormAction;
 import org.kuali.kpme.tklm.common.LMConstants;
-import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.calendar.LeaveRequestCalendar;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveActionFormUtils;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -237,6 +237,7 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
         DateTime beginDateTime = null;
         DateTime endDateTime = null;
         String selectedPrincipal = leaveRequestApprovalActionForm.getSelectedPrincipal();
+        
         List<String> principalIds = new ArrayList<String>();
         if(bString != null && eString != null) {
         	beginDateTime = TKUtils.formatDateTimeStringNoTimezone(leaveRequestApprovalActionForm.getBeginDateString());
@@ -252,7 +253,7 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
     		if(calendarType.equalsIgnoreCase("W")) {
     			if(beginDateTime.getDayOfWeek() != DateTimeConstants.SUNDAY) {
     				endDateTime = beginDateTime.withDayOfWeek(7);
-    				beginDateTime = beginDateTime.withDayOfWeek(1).minus(1);
+    				beginDateTime = beginDateTime.withDayOfWeek(1).minusDays(1);
     			} else {
     				endDateTime = beginDateTime.plusDays(1).withDayOfWeek(7);
     				beginDateTime = beginDateTime.withDayOfWeek(1).minusDays(1);    				
@@ -291,6 +292,9 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
         	leaveRequestApprovalActionForm.setNavigationAction(null);
     	}
 
+    	beginDateTime = beginDateTime.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+    	endDateTime = endDateTime.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
+    	
     	List<String> principalIdsToSearch = new ArrayList<String>();
     	
 //        DateTime beginDateTime =  currentCE.getBeginPeriodLocalDateTime().toDateTime(HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
@@ -311,7 +315,8 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 		// set LeaveCalendar
 		Map<String, List<LeaveRequestDocument>> leaveReqDocsMap = getLeaveRequestDocsMap(principalIdsToSearch, leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm), beginDateTime.toLocalDate(), endDateTime.plusDays(1).toLocalDate());
 		Map<String, List<LeaveBlock>> leaveBlocksMap = getLeaveBlocksForDisplay(principalIdsToSearch, leaveRequestApprovalActionForm.getSelectedDept(), getWorkAreas(leaveRequestApprovalActionForm), beginDateTime.toLocalDate(), endDateTime.plusDays(1).toLocalDate());
-		leaveRequestApprovalActionForm.setLeaveRequestCalendar(new LeaveRequestCalendar(beginDateTime, endDateTime, leaveReqDocsMap, leaveBlocksMap, calendarType));
+		Map<String,List<LeaveBlockHistory>> disapprovedLBMap = getDisapprovedLeaveBlockHistory(principalIdsToSearch, beginDateTime.minusDays(1).toLocalDate());
+		leaveRequestApprovalActionForm.setLeaveRequestCalendar(new LeaveRequestCalendar(beginDateTime, endDateTime, leaveReqDocsMap, leaveBlocksMap, disapprovedLBMap, calendarType));
 
 		// generate json
 		leaveRequestApprovalActionForm.setLeaveRequestString(LeaveActionFormUtils.getLeaveRequestsJson(leaveRequestApprovalActionForm.getLeaveRequestCalendar().getRequestList()));
@@ -321,5 +326,32 @@ public class LeaveRequestApprovalAction extends ApprovalFormAction {
 		leaveRequestApprovalActionForm.setEndDateString(TKUtils.formatDateTimeLong(leaveRequestApprovalActionForm.getLeaveRequestCalendar().getEndDateTime()));		
     	
 	}
+	
+	
+    private Map<String,List<LeaveBlockHistory>> getDisapprovedLeaveBlockHistory(List<String> principalIds, LocalDate currentDate) {
+        Map<String, List<LeaveBlockHistory>> leaveBlockMaps = new HashMap<String, List<LeaveBlockHistory>>();
+		List<LeaveBlockHistory> historyList = new ArrayList<LeaveBlockHistory>();
+		List<LeaveBlockHistory> leaveBlocks = new ArrayList<LeaveBlockHistory>();
+		if(CollectionUtils.isNotEmpty(principalIds)) {
+			for(String userId : principalIds) {
+				historyList = LmServiceLocator.getLeaveBlockHistoryService()
+			        	.getLeaveBlockHistories(userId, HrConstants.REQUEST_STATUS.DISAPPROVED, HrConstants.ACTION.DELETE, currentDate);
+				for(LeaveBlockHistory lb : historyList) {
+					if(lb.getLeaveBlockType().equalsIgnoreCase(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
+							String key = lb.getLeaveLocalDate().toString();
+							if(leaveBlockMaps.containsKey(key)) {
+								leaveBlocks = leaveBlockMaps.get(key);
+							} else {
+								leaveBlocks = new ArrayList<LeaveBlockHistory>();
+							}
+							leaveBlocks.add(lb);
+							leaveBlockMaps.put(key, leaveBlocks);
+					}
+				}
+			}
+		}
+        return leaveBlockMaps;
+    }
+
 
 }
