@@ -23,6 +23,7 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.batch.BatchJob;
 import org.kuali.kpme.core.batch.BatchJobUtil;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
@@ -96,7 +97,8 @@ public class SupervisorApprovalJob extends BatchJob {
 								for(ActionRequest aRequest : requestList) {
 									if(aRequest.getActionRequested() != null 
 											&& aRequest.getActionRequested().getCode().equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ)
-											&& StringUtils.isNotBlank(aRequest.getPrincipalId())) {
+											&& StringUtils.isNotBlank(aRequest.getPrincipalId())
+											&& StringUtils.equals(aRequest.getQualifiedRoleNameLabel(), KPMERole.APPROVER.getRoleName())) {
 										TkServiceLocator.getTimesheetService().approveTimesheet(aRequest.getPrincipalId(), timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
 									}
 								}
@@ -121,8 +123,17 @@ public class SupervisorApprovalJob extends BatchJob {
 						// only approve documents in enroute status
 						if (documentStatus.equals(DocumentStatus.ENROUTE.getCode())) {
 							PrincipalHRAttributes phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(leaveCalendarDocument.getPrincipalId(), endDate.toLocalDate());
-							if(phraRecord != null && StringUtils.isNotBlank(phraRecord.getLeaveCalendar()) && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {	
-								LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+							if(phraRecord != null && StringUtils.isNotBlank(phraRecord.getLeaveCalendar()) && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {
+								// find all request actions and approve the document as the users with the request action
+								List<ActionRequest> requestList = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(leaveCalendarDocument.getDocumentId());
+								for(ActionRequest aRequest : requestList) {
+									if(aRequest.getActionRequested() != null 
+											&& aRequest.getActionRequested().getCode().equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ)
+											&& StringUtils.isNotBlank(aRequest.getPrincipalId())
+											&& StringUtils.equals(aRequest.getQualifiedRoleNameLabel(), KPMERole.APPROVER.getRoleName())) {
+										LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(aRequest.getPrincipalId(), leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+									}
+								}
 							}
 						} else if(documentStatus.equals(DocumentStatus.INITIATED.getCode()) || documentStatus.equals(DocumentStatus.SAVED.getCode())) {
 							String principalId = leaveCalendarDocument.getPrincipalId();

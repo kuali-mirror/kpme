@@ -636,6 +636,7 @@ public class TimeDetailAction extends TimesheetAction {
                 TimeBlock.Builder existingBlock = TimeBlock.Builder.create(timeBlockToUpdate);
                 existingBlock.setVersionNumber(tb.getVersionNumber());
                 existingBlock.setObjectId(tb.getObjectId());
+                existingBlock.setOvertimePref(null);
                 //existingBlock.setTkTimeBlockId(tb.getTkTimeBlockId());
         		finalNewTimeBlocks.add(existingBlock);
         	}

@@ -43,7 +43,8 @@
 	                        	</c:if>
 	                        </c:forEach>
 	                        <td valign="middle">${timeSummary.weekTotalMap[entry.key]}  </td>
-	                        <td valign="middle">${timeSummary.flsaWeekTotalMap[entry.key]}</td>
+	                        <td valign="middle"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value = "${timeSummary.flsaWeekTotalMap[entry.key]}"/></td>
+
 	                     </tr>
 	              <tbody id="weekSummary${weekString}" style="display: table-row-group;">
                   <c:forEach items="${timeSummary.weeklySections[entry.key]}" var="section">

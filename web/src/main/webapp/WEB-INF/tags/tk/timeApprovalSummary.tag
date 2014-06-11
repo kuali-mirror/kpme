@@ -44,7 +44,8 @@
 	                        	</c:if>
 	                        </c:forEach>
 	                        <td style="border-left: 2px double #666666;" valign="middle">${timeApprovalSummary.weekTotalMap[entry.key]}</td>
-	                        <td style="border-left: 2px double #666666;" valign="middle">${timeApprovalSummary.flsaWeekTotalMap[entry.key]}</td>
+	                        <td style="border-left: 2px double #666666;" valign="middle"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value = "${timeApprovalSummary.flsaWeekTotalMap[entry.key]}"/></td>
+
 	                     </tr>
 	              <tbody id="weekSummary${weekString}_${principalId}" style="display: none;">
                    <c:forEach items="${timeApprovalSummary.weeklySections[entry.key]}" var="section">

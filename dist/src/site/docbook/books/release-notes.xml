@@ -33,13 +33,7 @@
                 <itemizedlist>
                     <title>Highlights of this release include:</title>
                     <listitem>
-                        <para>Numerous Bug Fixes (listed below)</para>
-                    </listitem>
-                    <listitem>
-                        <para>Improved batch processing</para>
-                    </listitem>
-                    <listitem>
-                        <para>Improvements for clock actions spanning multiple pay periods</para>
+                        <para>Bug fixes and requested fixes from implementors</para>
                     </listitem>
                 </itemizedlist>
             </para>
@@ -66,65 +60,15 @@
         <section>
             <title>Impacting Changes</title>
             <section>
-                <title>HR Roles to KIM migration</title>
+                <title>New routing for Missed Punch</title>
                 <itemizedlist>
                     <listitem>
-                        <para>In order to better align KPME with other Kuali project, and in order
-                           to improve usability and ease of future enhancements, KPME has move to using KIM
-                           roles, permissions, and groups. </para>
-                    </listitem>
-                    <listitem>
-                        <para>If upgrading from a previous version of KPME, a groovy script is provided to
-                            generate sql that will help to migrate existing data from the HR_ROLE_T table to
-                            the KIM tables. </para>
+                        <para>To used peopleflow based routing for Missed Punch, you should reingest the
+                            appropriate workflow xml documents</para>
                     </listitem>
                 </itemizedlist>
             </section>
-            <section>
-                <title>Conversion to Joda Time</title>
-                <itemizedlist>
-                    <listitem>
-                        <para>Service calls using java.util.Date and java.sql.Date have been
-                           altered and unified to use the JodaTime library.</para>
-                    </listitem>
-                    <listitem>
-                        <para>Because of this change, previous maintenance documents that are in the
-                          process of being routed will not be loadable.  Ideally, these should be routed
-                          to completion before upgrading to KPME 2.0.0</para>
-                    </listitem>
-                </itemizedlist>
-            </section>
-            <section>
-                <title>Renaming of CalendarEntries object to CalendarEntry</title>
-                <itemizedlist>
-                    <listitem>
-                        <para>This class was renamed to be singular instead of plural.</para>
-                    </listitem>
-                    <listitem>
-                        <para>Because of this change, previous documents referencing 'CalendarEntries'
-                           will no longer be loadable. </para>
-                    </listitem>
-                </itemizedlist>
-            </section>
-            <section>
-                <title>Modularity Work</title>
-                <itemizedlist>
-                    <listitem>
-                        <para>Alot of work was done to modularize the KPME project</para>
-                    </listitem>
-                    <listitem>
-                        <para>Split into core, database, time and leave, and position management modules </para>
-                    </listitem>
-                    <listitem>
-                        <para>Depending on the method of an existing KPME installation,
-                           this may have repercussions on dependencies and spring bean configurations. </para>
-                    </listitem>
-                    <listitem>
-                        <para>Nearly every class has been relocated package-wise.  So any existing custom overrides will
-                           need to be modified. </para>
-                    </listitem>
-                </itemizedlist>
-            </section>
+
         </section>
         <section>
             <title>Contact</title>
@@ -137,222 +81,73 @@
         <title>Items Addressed in KPME ${project.version}</title>
 
 
+
         <section>
             <title>Bug Fix</title>
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2434'>KPME-2434</link>] - System Scheduled TO usage leave blocks need an assignment</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2918'>KPME-2918</link>] - submitting maint docs from dept admin tab return to rice portal</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2744'>KPME-2744</link>] - Dept lunch rule should be reapplied when editing timeblock to change assignment </para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3195'>KPME-3195</link>] - Department and Location Admins targeting an Approver</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2770'>KPME-2770</link>] - Search by filters on Time Approval tab not working</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3197'>KPME-3197</link>] - missed punch on overnight tb on first day of the pay period</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2819'>KPME-2819</link>] - Overtime goes away after distributing timeblocks</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3247'>KPME-3247</link>] - Payroll Processor job needs added to scheduler</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2838'>KPME-2838</link>] - Missed Punch Inquiry:  back button from viewing missed punch page </para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3294'>KPME-3294</link>] - Delete enroute timesheet and leave calendar </para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2846'>KPME-2846</link>] - Leave calendar:  Add leave blocks to date range outside of the leave calendar period displayed</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3299'>KPME-3299</link>] - Overlapping tb can be added</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2862'>KPME-2862</link>] - Updating Time Block whose earn code has inflate Min Hours / inflate factor</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3305'>KPME-3305</link>] - After Submitting Missed Punch doc Internet Explorer doesn't update clock status</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2870'>KPME-2870</link>] - Add principal ID and date to payout and balance transfer documents in action list</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3308'>KPME-3308</link>] - Not able to submit Leave Payout and Balance Transfer</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2874'>KPME-2874</link>] - SSTO dates without scheduled date should not have a usage leave block show up</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3311'>KPME-3311</link>] - issue with creating consecutive 24 hours timeblocks</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2881'>KPME-2881</link>] - Action list link needs to go to the approval tab for the department, work area of the leave calendar</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3333'>KPME-3333</link>] - Supervisor Approval batch process finalizes for Payroll Processor</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2906'>KPME-2906</link>] - Work Area Approver assigned by position not working</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3359'>KPME-3359</link>] - Admin can Clock In targeted employees with multiple assignments</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2914'>KPME-2914</link>] - Leave adjustment validation issue with principal id</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3361'>KPME-3361</link>] - CI/CO Issue with grace period rule</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2919'>KPME-2919</link>] - Leave Approval tab fixes</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3365'>KPME-3365</link>] - TimeSummary contains invalid getAssignment logic</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2925'>KPME-2925</link>] - Leave entry begin and end dates</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3450'>KPME-3450</link>] - Approval tab paging</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2926'>KPME-2926</link>] - Timeblock Inquiry returning extra leave blocks when fileter by doc id</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3456'>KPME-3456</link>] - Clock Log Inquiry Missed Punch is not working</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2944'>KPME-2944</link>] - Sys Schl Time Off- maint doc edit issues</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3459'>KPME-3459</link>] - Change tb with overtime's assignment should change Default Overtime Earn Code </para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2966'>KPME-2966</link>] - timezone for last clock action on time approval not correct</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3462'>KPME-3462</link>] - Approvers should not be able to approve their own missed punch docs</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2991'>KPME-2991</link>] - change overtime earn code on previous pay calendar returns to the current pay period</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3466'>KPME-3466</link>] - New clock user's Missed Punch allowing time that is greater 24 hours </para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2998'>KPME-2998</link>] - Usage validation is not working with leave blocks that record time </para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3487'>KPME-3487</link>] - Clock out on last day of pay period with MDT &amp; PDT</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3009'>KPME-3009</link>] - Salary Group KNS Lookup</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3515'>KPME-3515</link>] - Non Submitted Missed Punch documents are being initiated with validation message</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3010'>KPME-3010</link>] - Time Block Inquiry and Time Block History Inquiry view link missing on Leave Blocks</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3011'>KPME-3011</link>] - Deleted time blocks not showing up in timeblock history Inquiry</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3012'>KPME-3012</link>] - Leave Block Inquiry and history needs to show date of leave block</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3046'>KPME-3046</link>] - time detail edit timeblock to a leaveblock creates a new leave block</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3070'>KPME-3070</link>] - On timesheet when change an leave block to timeblock displays hours wrong</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3071'>KPME-3071</link>] - TB assignment colors are not showing up in summary for leave blocks</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3072'>KPME-3072</link>] - Clock assignment for user oliver</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3081'>KPME-3081</link>] - Batch End of Pay Period timezone issue with overnight tbs</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3083'>KPME-3083</link>] - missed punch stack trace error when approver tries to edit mp doc</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3101'>KPME-3101</link>] - Missed punch validation error shows Missed Action Date twice</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3104'>KPME-3104</link>] - missed punch not rendering properly in IE</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3106'>KPME-3106</link>] - Absent earn code message should not appearing on every calendar</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3108'>KPME-3108</link>] - In/Out times shows 11:59PM when changing tb from record hours to record time earn code</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3111'>KPME-3111</link>] - Time Approval filters not seeing targeted user</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3114'>KPME-3114</link>] - Missed punch allowed me to do a clock in action greater than 24 hours</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3115'>KPME-3115</link>] - missed punch inquiry look up criteria</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3116'>KPME-3116</link>] - Timesheets not correctly routing to nested Position roles for approver</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3121'>KPME-3121</link>] - Time block history inqury</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3123'>KPME-3123</link>] - user, nonsys, time approval stack trace error</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3129'>KPME-3129</link>] - Stack trace error approver going to employee's leave calendar</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3130'>KPME-3130</link>] - Timeblocks not created when clocked out on new pay period before end of pay period job is ran</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3138'>KPME-3138</link>] - year change broke LeaveBlockDisplayWebTest</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3142'>KPME-3142</link>] - Delete leave blocks on final timesheets</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3143'>KPME-3143</link>] - Department Maint Doc payroll approval filter</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3144'>KPME-3144</link>] - Creating a new work area timesheet go to exception status</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3148'>KPME-3148</link>] - target ee shows no assignment or earn codes</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3149'>KPME-3149</link>] - change time block's earn code should keep recorded time</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3151'>KPME-3151</link>] - Assignments change when a edit timeblock</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3165'>KPME-3165</link>] - Issue with Clock Location Rule and IP address with redirect</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3166'>KPME-3166</link>] - Issues with running with an oracle db</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3168'>KPME-3168</link>] - Can't add leave adjustment with Accrual Category validation</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3169'>KPME-3169</link>] - Can't edit midnight timeblock</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3172'>KPME-3172</link>] - Missed punch approval batch job not working</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3178'>KPME-3178</link>] - Can't change date for a leave block</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3179'>KPME-3179</link>] - Calendar Entry Creation widget not handling null values</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3180'>KPME-3180</link>] - Time detail and time approval summary FLSA week totals</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3181'>KPME-3181</link>] - Should not allow overlapping time record timeblocks for same earn code</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3185'>KPME-3185</link>] - ClockLocationRule lookup not working with Dept specified</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3186'>KPME-3186</link>] - work area roles effective dates missing when editing a work area</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3187'>KPME-3187</link>] - IE display issues</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3188'>KPME-3188</link>] - Move message boxes on the approval tabs to the right</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3190'>KPME-3190</link>] - issue with approver adding timeblock to ee's with different timezone's ts</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3194'>KPME-3194</link>] - database error from LeavePlanService.getLeavePlansNeedsCarryOverScheduled</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3242'>KPME-3242</link>] - stack trace error with missed punch doc</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3243'>KPME-3243</link>] - Adding ABE earn code timeblock shows up on wrong date</para>
-                    </listitem>
-                </itemizedlist>
-            </para>
-        </section>
-
-
-        <section>
-            <title>New Feature</title>
-            <para>
-                <itemizedlist>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2994'>KPME-2994</link>] - Warning about Negative Available Balance</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3119'>KPME-3119</link>] - Release 2.0.1 - Time Approval Tab add icon indicating missed punch timeblock in on timesheet</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3120'>KPME-3120</link>] - Release 2.0.1 - Time Detail- mark timeblocks with mp assoc clocks</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3518'>KPME-3518</link>] - Week Pay Calendar issue with summary FLSA week total</para>
                     </listitem>
                 </itemizedlist>
             </para>
@@ -364,242 +159,51 @@
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2822'>KPME-2822</link>] - Leave Location View Only: should not get results for Time Collection Rule and Weekly Overtime Rule</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3288'>KPME-3288</link>] - Refactor KPME Role Service Implementation code to remove duplication.</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2842'>KPME-2842</link>] - Shift Differential Lookup: Time Dept View Only user got unauthorized depts</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3341'>KPME-3341</link>] - Make methods on WorkAreaMaintinanceDocumentRule protected</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2844'>KPME-2844</link>] - Split "View KPME Record" into separate permissions for each KPME module</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3362'>KPME-3362</link>] - Approvers access to target past employees</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2858'>KPME-2858</link>] - Leave Adjustment - allowed user to adjust their own balance</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3364'>KPME-3364</link>] - Assignment maint doc:  remove required * on Primary Assignment</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2903'>KPME-2903</link>] - Missed Punch add Notes section</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3411'>KPME-3411</link>] - Update 2.0 and trunk to rice 2.3.5</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2904'>KPME-2904</link>] - Missed punch read only after submit</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3452'>KPME-3452</link>] - Click Notes, Warning, and Missed Punch icons to display instead of hover</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2908'>KPME-2908</link>] - Add Delinquent leave batch job to Run Batch Job list</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3455'>KPME-3455</link>] - Make paging limit on approval tabs configurable</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2921'>KPME-2921</link>] - Department and Location admin add and view balance transfer and payout records</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3461'>KPME-3461</link>] - Clock Action needs to increment millis from last clock log for grace period values</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2923'>KPME-2923</link>] - Change the size of principal_id and user_principal_id to 40</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3480'>KPME-3480</link>] - Decimal places for FLSA week column</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2929'>KPME-2929</link>] - Review and update system-admin-guide-basic-setup.xml</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3497'>KPME-3497</link>] - Missed Punch issues</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2930'>KPME-2930</link>] - Review and update system-admin-guide-lm-admin.xml</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3506'>KPME-3506</link>] - Department Lunch Rule Maint doc misspelled</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2931'>KPME-2931</link>] - Review and update system-admin-guide-lm-config.xml</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3516'>KPME-3516</link>] - update khr to rice 2.3.6</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2932'>KPME-2932</link>] - Review and update system-admin-guide-tk-config.xml</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3517'>KPME-3517</link>] - ClockLog timestamp label fix</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2950'>KPME-2950</link>] - Version number not filtering on build</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2951'>KPME-2951</link>] - Set up liquibase structure for potential 2.0.1 changes</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2956'>KPME-2956</link>] - Need Leave Block Inquiry and Leave Block History Inquiry</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2959'>KPME-2959</link>] - second time block added on time detail if page refreshed after add</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2960'>KPME-2960</link>] - Remove getPreviousCalendarEntry(..) from CalendarEntryService</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2971'>KPME-2971</link>] - Job Maint Doc:  In Pay Grade lookup use Salary Group filter should populate with the Job's Salary Group</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2972'>KPME-2972</link>] - GracePeriodService does not clear out milliseconds</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2973'>KPME-2973</link>] - Leave Summary- only display usage limit total if usage limits</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2978'>KPME-2978</link>] - Pay grade maint doc- needs to to come in cked as active</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2979'>KPME-2979</link>] - Job data- move salary group</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2983'>KPME-2983</link>] - Need to clear timezone cache when PrincipalHrAttribute is changed</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2988'>KPME-2988</link>] - Earn Code drop down- do not default unless regular earn code</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2989'>KPME-2989</link>] - Work Area- ot edit pref</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2992'>KPME-2992</link>] - calendar entry- throws error if cal value not in all caps</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3003'>KPME-3003</link>] - Account search- change default to closed=no</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3006'>KPME-3006</link>] - Job- comp rate field</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3007'>KPME-3007</link>] - Acct &amp; Obj code length validation</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3008'>KPME-3008</link>] - General performance work</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3013'>KPME-3013</link>] - Time Detail- overlapping timeblock error on multiple day add</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3015'>KPME-3015</link>] - day light savings time and time/leave blocks with hour entry</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3020'>KPME-3020</link>] - 2.0- accrual catego docs all route to exception</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3021'>KPME-3021</link>] - Work Area Maint Doc issues</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3022'>KPME-3022</link>] - Dept Maint Doc- did not require pay proc</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3023'>KPME-3023</link>] - salary group lookup in job blows up</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3024'>KPME-3024</link>] - Position base main doc issue</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3025'>KPME-3025</link>] - Princ Attrib- Timezone</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3026'>KPME-3026</link>] - leave calendar blowing up for user- oliver</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3028'>KPME-3028</link>] - time detail summary for semi monthly- sat not showing</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3029'>KPME-3029</link>] - OT earn code edit- if no codes, don't underline</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3032'>KPME-3032</link>] - Hrs Distrib- not seeing hrs dist button for user</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3035'>KPME-3035</link>] - Pay proc- approve button not on time detail</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3036'>KPME-3036</link>] - time detail- can't see codes in drop down as approver</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3043'>KPME-3043</link>] - Actual Time Inquiry's Actual End Time is wrong Timezone</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3044'>KPME-3044</link>] - GracePeriodRule rounding to midnight bug.</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3045'>KPME-3045</link>] - More Shift Differential problems</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3057'>KPME-3057</link>] - Earn Group Maint Doc change Show on Summary label</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3058'>KPME-3058</link>] - Add Copy to Principal HR Attribute maint doc</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3059'>KPME-3059</link>] - Add Copy to the Job maint doc</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3060'>KPME-3060</link>] - Add Copy to the Assignment maint doc</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3066'>KPME-3066</link>] - Time Detail Summary- coloring off</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3068'>KPME-3068</link>] - Leave summary doesnt include earned ytd</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3073'>KPME-3073</link>] - Time Approval Tab summary bad for semi monthly</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3078'>KPME-3078</link>] - Shift rule- over awarding</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3080'>KPME-3080</link>] - Manual Entry ee can't edit/delete timeblocks</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3082'>KPME-3082</link>] - Stack trace error that occurs sporadically</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3084'>KPME-3084</link>] - Missed Punch:Error on Close causes loop</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3091'>KPME-3091</link>] - Add approver refresh button to timesheet</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3092'>KPME-3092</link>] - batch improvements</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3093'>KPME-3093</link>] - Add Accrual Balance Action validation to Earn Code maint</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3094'>KPME-3094</link>] - Leave Block types used to calculate Leave Summary</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3109'>KPME-3109</link>] - Add Earn Code's Affects Pay earn code to Leave Block Inquiry</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3110'>KPME-3110</link>] - Leave Block Inquiries criteria</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3117'>KPME-3117</link>] - If currently clocked into, the current timesheet cannot be submitted</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3122'>KPME-3122</link>] - Need to add a pacific timezone option</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3125'>KPME-3125</link>] - NPE on Work Area maintemance document</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3126'>KPME-3126</link>] - NonExmpt ee can't plan leave on first day of period</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3127'>KPME-3127</link>] - serialization issue caused by using subList</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3139'>KPME-3139</link>] - Employee and Supervisor batch approval jobs being done before calendar entry date</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3147'>KPME-3147</link>] - Batch approval job scheduler</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3171'>KPME-3171</link>] - Rice portal for backdoor users available links on main menu tab</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3174'>KPME-3174</link>] - view leave plan attributes</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3175'>KPME-3175</link>] - Create Calendar Entry console change Pay Calendar Period</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3176'>KPME-3176</link>] - Missed punch note on Time Approval</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3177'>KPME-3177</link>] - On Time Detail add Missed Punch note to the icon</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3241'>KPME-3241</link>] - move TKUtils.getAssignemntString logic to AssignmentService</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3527'>KPME-3527</link>] - Change 'can not' to cannot in validation messages</para>
                     </listitem>
                 </itemizedlist>
             </para>
         </section>
+
 
 
 
