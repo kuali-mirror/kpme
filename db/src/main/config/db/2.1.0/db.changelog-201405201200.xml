@@ -74,24 +74,8 @@
 		
 		
 		<!-- Add Role Permissions for Create Group Key-->	
-		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0828" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Create Group Key')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0829" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Create Group Key')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
         <insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KPME0830" />
+			<column name="ROLE_PERM_ID" value="KPME0828" />
 			<column name="ROLE_ID"
 				valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
 			<column name="PERM_ID"
@@ -101,7 +85,7 @@
 			<column name="VER_NBR" value="1" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KPME0831" />
+			<column name="ROLE_PERM_ID" value="KPME0829" />
 			<column name="ROLE_ID"
 				valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
 			<column name="PERM_ID"
@@ -111,7 +95,7 @@
 			<column name="VER_NBR" value="1" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KPME0832" />
+			<column name="ROLE_PERM_ID" value="KPME0830" />
 			<column name="ROLE_ID"
 				valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
 			<column name="PERM_ID"
@@ -122,24 +106,8 @@
 		</insert>
 
 		<!-- Add Role Permissions for Edit Group Key-->
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0833" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Edit Group Key')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0834" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Edit Group Key')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KPME0835" />
+			<column name="ROLE_PERM_ID" value="KPME0831" />
 			<column name="ROLE_ID"
 				valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
 			<column name="PERM_ID"
@@ -149,7 +117,7 @@
 			<column name="VER_NBR" value="1" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KPME0836" />
+			<column name="ROLE_PERM_ID" value="KPME0832" />
 			<column name="ROLE_ID"
 				valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
 			<column name="PERM_ID"
@@ -159,7 +127,7 @@
 			<column name="VER_NBR" value="1" />
 		</insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
-			<column name="ROLE_PERM_ID" value="KPME0837" />
+			<column name="ROLE_PERM_ID" value="KPME0833" />
 			<column name="ROLE_ID"
 				valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
 			<column name="PERM_ID"
@@ -171,7 +139,7 @@
 
 		<!-- Add Role Permissions for View Group Key-->
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0838" />
+            <column name="ROLE_PERM_ID" value="KPME0834" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -179,7 +147,7 @@
             <column name="VER_NBR" value="1" />
         </insert>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0839" />
+            <column name="ROLE_PERM_ID" value="KPME0835" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -187,7 +155,7 @@
             <column name="VER_NBR" value="1" />
         </insert>	
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0840" />
+            <column name="ROLE_PERM_ID" value="KPME0836" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -195,7 +163,7 @@
             <column name="VER_NBR" value="1" />
         </insert>	
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0841" />
+            <column name="ROLE_PERM_ID" value="KPME0837" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -203,7 +171,7 @@
             <column name="VER_NBR" value="1" />
         </insert>		
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0842" />
+            <column name="ROLE_PERM_ID" value="KPME0838" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -211,7 +179,7 @@
             <column name="VER_NBR" value="1" />
         </insert>		
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0843" />
+            <column name="ROLE_PERM_ID" value="KPME0839" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -219,7 +187,7 @@
             <column name="VER_NBR" value="1" />
         </insert>		
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0844" />
+            <column name="ROLE_PERM_ID" value="KPME0840" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -227,7 +195,7 @@
             <column name="VER_NBR" value="1" />
         </insert>		
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0845" />
+            <column name="ROLE_PERM_ID" value="KPME0841" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System View Only')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -235,7 +203,7 @@
             <column name="VER_NBR" value="1" />
         </insert>	
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0846" />
+            <column name="ROLE_PERM_ID" value="KPME0842" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -243,7 +211,7 @@
             <column name="VER_NBR" value="1" />
         </insert>
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0847" />
+            <column name="ROLE_PERM_ID" value="KPME0843" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location View Only')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -251,7 +219,7 @@
             <column name="VER_NBR" value="1" />
         </insert>		
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0848" />
+            <column name="ROLE_PERM_ID" value="KPME0844" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
@@ -259,7 +227,7 @@
             <column name="VER_NBR" value="1" />
         </insert>		
 		<insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0849" />
+            <column name="ROLE_PERM_ID" value="KPME0845" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department View Only')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'View Group Key')" />
             <column name="ACTV_IND" value="Y" />
