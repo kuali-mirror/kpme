@@ -44,7 +44,7 @@ import javax.sql.DataSource;
 
 public class EdoServiceLocator implements ApplicationContextAware {
 
-	public static String SPRING_BEANS = "classpath:edo-spring-beans.xml";
+	public static String SPRING_BEANS = "classpath:org/kuali/kpme/pm/config/EdoSpringBeans.xml";
 	public static ApplicationContext SPRING_APPLICATION_CONTEXT;
 	public static final String EDO_DATASOURCE = "dataSource";
 	public static final String KR_DATASOURCE = "riceDataSource";

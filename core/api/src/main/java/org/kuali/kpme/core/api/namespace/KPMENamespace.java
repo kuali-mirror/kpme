@@ -21,7 +21,8 @@ public enum KPMENamespace {
 	KPME_HR ("KPME-HR"),
 	KPME_TK ("KPME-TK"),
 	KPME_LM ("KPME-LM"),
-	KPME_PM ("KPME-PM");
+	KPME_PM ("KPME-PM"),
+	KPME_EDO ("KPME-EDO");
 	
 	private String namespaceCode;
 	
