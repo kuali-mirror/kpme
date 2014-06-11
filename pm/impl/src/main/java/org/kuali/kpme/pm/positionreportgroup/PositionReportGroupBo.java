@@ -29,6 +29,8 @@ import com.google.common.collect.ImmutableMap;
 
 public class PositionReportGroupBo extends HrKeyedSetBusinessObject<PositionReportGroupBo, PositionReportGroupKeyBo> implements PositionReportGroupContract {
 
+	private static final long serialVersionUID = -1562521354198281362L;
+
 	private static final String POSITION_REPORT_GROUP = "positionReportGroup";
 
 	//KPME-2273/1965 Primary Business Keys List.	
@@ -36,7 +38,7 @@ public class PositionReportGroupBo extends HrKeyedSetBusinessObject<PositionRepo
 		    .add(POSITION_REPORT_GROUP)
 		    .build();
 
-	private static final long serialVersionUID = 1L;
+	
 	
 	private String pmPositionReportGroupId;
 	private String positionReportGroup;
@@ -114,10 +116,6 @@ public class PositionReportGroupBo extends HrKeyedSetBusinessObject<PositionRepo
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public static PositionReportGroupBo from(PositionReportGroup im) {
