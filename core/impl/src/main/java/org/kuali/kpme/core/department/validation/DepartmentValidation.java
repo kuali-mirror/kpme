@@ -15,8 +15,10 @@
  */
 package org.kuali.kpme.core.department.validation;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
@@ -95,13 +97,15 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 	protected boolean validateOrg(String organization) {
 		boolean valid = true;
 		
+		Map<String, Object> criteriaMap = new HashMap<String,Object>();
+		criteriaMap.put("organizationCode", organization);
+		criteriaMap.put("active", Boolean.TRUE);
 		if (StringUtils.isNotEmpty(organization)) {
-			Organization organizationObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Organization.class, organization);
-
-			if (organizationObj == null) {
+			List<Organization> organizationList = (List<Organization>) KRADServiceLocator.getBusinessObjectService().findMatching(Organization.class, criteriaMap);
+			if (organizationList == null || organizationList.isEmpty()) {
 				this.putFieldError("org", "dept.org.notfound", organization);
 				valid = false;
-			}
+			} 
 		}
 		
 		return valid;
@@ -112,14 +116,19 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		
 		if (StringUtils.isNotEmpty(chart) && StringUtils.isNotEmpty(organization)) {
 			Chart chartObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
-			Organization organizationObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Organization.class, organization);
-			if (chartObj != null && organizationObj != null) {
-				Chart organizationChart = organizationObj.getChartOfAccounts();
-				if (!StringUtils.equals(chartObj.getChartOfAccountsCode(), organizationChart.getChartOfAccountsCode())) {
-					String[] params = new String[] {organization, chart};
-					this.putFieldError("org", "dept.org.chart.notmatch", params);
+			if(chartObj != null && chartObj.isActive()) {
+				Map<String, Object> criteriaMap = new HashMap<String,Object>();
+				criteriaMap.put("organizationCode", organization);
+				criteriaMap.put("chartOfAccountsCode", chartObj.getChartOfAccountsCode());
+				Organization organizationObj = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, criteriaMap);
+				if (organizationObj == null || !organizationObj.isActive()) {
+					// chart and organization are not in sync.
 					valid = false;
-				}
+					this.putFieldError("chart", "dept.org.chart.notmatch", new String [] {organization, chart});
+				} 
+			} else {
+				valid= false;
+				this.putFieldError("chart", "dept.chart.notfound", organization);
 			}
 		}
 		
