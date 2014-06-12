@@ -182,55 +182,23 @@ public class KPMERoleServiceImpl implements KPMERoleService {
             RoleTypeService roleTypeService = getRoleTypeService(role);
 
             if (roleTypeService == null || !roleTypeService.isDerivedRoleType()) {
-                if (asOfDate.isEqual(LocalDate.now().toDateTimeAtStartOfDay())) {
-                    List<RoleMember> primaryRoleMembers = getPrimaryRoleMembers(role, qualification, LocalDate.now().toDateTimeAtStartOfDay(), true);
+                List<RoleMember> primaryRoleMembers = getPrimaryRoleMembers(role, qualification, asOfDate, activeOnly);
 
-                    // flatten into constituent group and principal role members
-                    for (RoleMember primaryRoleMember : primaryRoleMembers) {
-                        if (MemberType.PRINCIPAL.equals(primaryRoleMember.getType())) {
-                            roleMembers.add(primaryRoleMember);
-                        } else if (MemberType.GROUP.equals(primaryRoleMember.getType())) {
-                            roleMembers.add(primaryRoleMember);
-                        } else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
-                            // recursive call to get role members
-                            Map<String, String> copiedQualification = new HashMap<String, String>(qualification);
-                            copiedQualification.putAll(primaryRoleMember.getAttributes());
-                            List<RoleMembership> memberships = getRoleService().getRoleMembers(Collections.singletonList(primaryRoleMember.getMemberId()), copiedQualification);
-                            for (RoleMembership membership : memberships) {
-                                RoleMember roleMember = RoleMember.Builder.create(membership.getRoleId(), membership.getId(), membership.getMemberId(),
-                                        membership.getType(), null, null, membership.getQualifier(), "", "").build();
+                // flatten into constituent group and principal role members
+                for (RoleMember primaryRoleMember : primaryRoleMembers) {
+                    if (MemberType.PRINCIPAL.equals(primaryRoleMember.getType())) {
+                        roleMembers.add(primaryRoleMember);
+                    } else if (MemberType.GROUP.equals(primaryRoleMember.getType())) {
+                        roleMembers.add(primaryRoleMember);
+                    } else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
+                        // recursive call to get role members
+                        Map<String, String> copiedQualification = addCustomDerivedQualifications(primaryRoleMember.getAttributes(), asOfDate, activeOnly);
+                        List<RoleMembership> memberships = getRoleService().getRoleMembers(Collections.singletonList(primaryRoleMember.getMemberId()), copiedQualification);
+                        for (RoleMembership membership : memberships) {
+                            RoleMember roleMember = RoleMember.Builder.create(membership.getRoleId(), membership.getId(), membership.getMemberId(),
+                                    membership.getType(), null, null, membership.getQualifier(), "", "").build();
 
-                                roleMembers.add(roleMember);
-                            }
-                        }
-                    }
-                } else {
-                    List<Predicate> predicates = new ArrayList<Predicate>();
-                    predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, role.getId()));
-                    if (activeOnly) {
-                        predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
-                        predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
-                    }
-
-                    LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
-                    builder.setPredicateTransform(AttributeTransform.getInstance());
-                    LookupCustomizer<RoleMemberBo> lookupCustomizer = builder.build();
-                    for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
-                        Predicate predicate = equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue());
-                        predicates.add(lookupCustomizer.getPredicateTransform().apply(predicate));
-                    }
-
-                    List<RoleMember> primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
-
-                    Role positionRole = getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.DERIVED_ROLE_POSITION.getRoleName());
-                    for (RoleMember primaryRoleMember : primaryRoleMembers) {
-                        if (MemberType.PRINCIPAL.equals(primaryRoleMember.getType())) {
-                            roleMembers.add(primaryRoleMember);
-                        } else if (MemberType.GROUP.equals(primaryRoleMember.getType())) {
-                                roleMembers.add(primaryRoleMember);
-                        } else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
-                            Role nestedRole = getRoleService().getRole(primaryRoleMember.getMemberId());
-                            roleMembers.addAll(getRoleMembers(nestedRole, primaryRoleMember.getAttributes(), asOfDate, activeOnly));
+                            roleMembers.add(roleMember);
                         }
                     }
                 }
@@ -265,24 +233,49 @@ public class KPMERoleServiceImpl implements KPMERoleService {
                     predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
                 }
 
-                LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
-                builder.setPredicateTransform(AttributeTransform.getInstance());
-                LookupCustomizer<RoleMemberBo> lookupCustomizer = builder.build();
+
+                //LookupCustomizer<RoleMemberBo> lookupCustomizer = builder.build();
                 // guard for default type roles
                 if(roleTypeService != null) {
                     // get the keys (name) of the qualifiers needed for membership in this role
                     List<String> attributesForExactMatch = roleTypeService.getQualifiersForExactMatch();
                     if(CollectionUtils.isNotEmpty(attributesForExactMatch)) {
-                        for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
-                            // do not add a qualification predicate for an attribute unless it is required for matching
-                            if(attributesForExactMatch.contains(qualificationEntry.getKey())) {
-                                Predicate predicate = equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue());
-                                predicates.add(lookupCustomizer.getPredicateTransform().apply(predicate));
+                        if (attributesForExactMatch.size() <= 1) {
+                            for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
+                                // do not add a qualification predicate for an attribute unless it is required for matching
+
+                                if (attributesForExactMatch.contains(qualificationEntry.getKey())) {
+                                    predicates.add(equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue()));
+                                }
                             }
+                            primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[predicates.size()]))).getResults();
+
+                        } else {
+                            //rice's transformation doesn't work with more than one attribute.
+                            // here is a terrible hack
+                            List<RoleMember> intersectedMembers = null;
+                            for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
+                                // do not add a qualification predicate for an attribute unless it is required for matching
+
+                                if (attributesForExactMatch.contains(qualificationEntry.getKey())) {
+                                    Predicate attrPredicates = equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue());
+                                    Predicate[] tempPredicates = predicates.toArray(new Predicate[predicates.size()+1]);
+                                    tempPredicates[predicates.size()] = attrPredicates;
+                                    List<RoleMember> tempMembers = new ArrayList<RoleMember>(getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(tempPredicates)).getResults());
+                                    if (intersectedMembers == null) {
+                                        intersectedMembers = new ArrayList<>();
+                                        intersectedMembers.addAll(tempMembers);
+                                    } else {
+                                        intersectedMembers = intersect( intersectedMembers, tempMembers);
+                                    }
+                                }
+                            }
+                            primaryRoleMembers = intersectedMembers;
+
                         }
+
                     }
                 }
-                primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
             }
             else {
                 // for derived roles just add the as-of date and active only flag to a copy of the qualification
@@ -301,6 +294,15 @@ public class KPMERoleServiceImpl implements KPMERoleService {
         }
 
         return primaryRoleMembers;
+    }
+
+    protected <T> List <T> intersect (Collection <? extends T> a, Collection <? extends T> b){
+        List <T> result = new ArrayList <T> ();
+        for (T t: a){
+            if (b.remove (t)) result.add (t);
+        }
+
+        return result;
     }
 	
 	public List<RoleMember> getRoleMembersInWorkArea(String namespaceCode, String roleName, Long workArea, DateTime asOfDate, boolean isActiveOnly) {

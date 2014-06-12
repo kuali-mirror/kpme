@@ -193,7 +193,6 @@ public class KpmeRoleProxyDerivedRoleTypeServiceImpl extends DerivedRoleTypeServ
 	
 	
 	@Override
-	@Cacheable(value = "http://rice.kuali.org/kim/v2_0/RoleMemberType", key = "'{getRoleMembersCached}' + 'namespace=' + #p0 + '|' + 'roleName=' + #p1 + '|' + 'qualification=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).mapKey(#p2)  + '|' + 'asOfDate=' + #p3  + '|' + 'isActiveOnly=' + #p4")
 	public List<RoleMember> getRoleMembersCached(String namespaceCode, String roleName, Map<String, String> qualification, DateTime asOfDate, boolean isActiveOnly) {
 		
 		// the return value

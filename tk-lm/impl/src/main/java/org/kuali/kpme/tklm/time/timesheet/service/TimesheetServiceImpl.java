@@ -607,13 +607,13 @@ public class TimesheetServiceImpl implements TimesheetService {
     public List<String> validateHours(TimesheetDocument timesheetDocument) {
         List<String> errors = new ArrayList<String>();
 
-        DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(timesheetDocument.getPrincipalId()));
 
-        if (userTimeZone == null) {
-            userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
-        }
         if (timesheetDocument != null && WorkflowTagSupport.isTimesheetApprovalButtonsDisplaying(timesheetDocument.getDocumentId())) {
+            DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(timesheetDocument.getPrincipalId()));
 
+            if (userTimeZone == null) {
+                userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+            }
             String assignmentDesc = "";
             for (Assignment assignment : timesheetDocument.getAllAssignments()) {
                 //get standard hours for job on assignment
