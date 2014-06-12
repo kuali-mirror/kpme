@@ -25,7 +25,7 @@
     </c:if>
 </c:forEach>
 </head>
-<title>KPME TIME</title>
+<title>KHR TIME</title>
 
 <body>
 

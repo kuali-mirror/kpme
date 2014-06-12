@@ -53,14 +53,14 @@
             <c:if test='${selectedTab == "kpmemaintenance"}'>
                 <li class="red">
                     <a class="red" href="portal.do?selectedTab=kpmemaintenance"
-                        title="Maintenance">KPME Maintenance</a>
+                        title="Maintenance">KHR Maintenance</a>
                 </li>
             </c:if>
             <c:if test='${selectedTab != "kpmemaintenance"}'>
                 <li class="green">
                     <a class="green"
                         href="portal.do?selectedTab=kpmemaintenance"
-                        title="KPME Maintenance">KPME Maintenance</a>
+                        title="KHR Maintenance">KHR Maintenance</a>
                 </li>
             </c:if>
         </c:if>

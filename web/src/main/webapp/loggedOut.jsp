@@ -29,7 +29,7 @@
     </head>
     <body>
         <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
-            <img src="images/kpme_logo.png" />
+            <img src="images/khr_logo.png" />
             <p>You have logged out of the system.</p>
             <p>
                 <a href="portal.do?selectedTab=maintenance">Maintenance</a><br/>

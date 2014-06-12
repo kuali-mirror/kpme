@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Kuali People Management for the Enterprise</title>
+<title>Kuali HR</title>
 <meta http-equiv="X-UA-Compatible" content="IE=8" />
 <tk:tkInclude />
 <tk:tkJsInclude />
@@ -54,7 +54,7 @@
 			<div>
 				<div style="float: left;">
 					<span class="title ${backdoor}"> <img
-						src="images/kpme_logo.png" style="width: 4em;" />
+						src="images/khr_logo.png" style="width: 4em;" />
 					</span> <span class="yellowbanner"> <c:if test="${targetInUse}">
 	               You are working on 
 	                <a
