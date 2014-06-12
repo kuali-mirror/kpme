@@ -35,10 +35,7 @@ import javax.jws.WebParam;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PositionPreviousDepartmentPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTypeServiceImpl {
     private static final Logger LOG = Logger.getLogger(PositionPreviousDepartmentPeopleFlowTypeServiceImpl.class);
@@ -50,11 +47,12 @@ public class PositionPreviousDepartmentPeopleFlowTypeServiceImpl extends DataDic
             @WebParam(name = "documentContent") DocumentContent documentContent) {
         List<Map<String, String>> deptQualifiers = new ArrayList<Map<String, String>>();
         String department = getElementValue(documentContent.getApplicationContent(), "//document/oldMaintainableObject/businessObject/primaryDepartment/@value");
+        String groupKeyCode = getElementValue(documentContent.getApplicationContent(), "//document/oldMaintainableObject/businessObject/groupKeyCode/@value");
         if (StringUtils.isNotEmpty(department)) {
-
-                deptQualifiers.add(
-                        Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(),
-                                department));
+            Map<String, String> qualifiers = new HashMap<String, String>();
+            qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
+            deptQualifiers.add(qualifiers);
 
         } else {
             //try to get values from maintainable object if instance of position
@@ -64,10 +62,10 @@ public class PositionPreviousDepartmentPeopleFlowTypeServiceImpl extends DataDic
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getOldMaintainableObject().getDataObject() instanceof PositionBo) {
                         PositionBo position = (PositionBo)(md.getOldMaintainableObject().getDataObject());
-
-                        deptQualifiers.add(
-                            Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(position.getPrimaryDepartment())));
-
+                        Map<String, String> qualifiers = new HashMap<String, String>();
+                        qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), position.getPrimaryDepartment());
+                        qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), position.getGroupKeyCode());
+                        deptQualifiers.add(qualifiers);
                     }
                 }
             } catch (WorkflowException e) {

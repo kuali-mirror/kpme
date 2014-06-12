@@ -29,6 +29,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -37,6 +38,8 @@ import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.rice.core.api.criteria.LookupCustomizer;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -53,12 +56,14 @@ import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.kim.framework.type.KimTypeService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.kim.impl.common.attribute.AttributeTransform;
+import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
 public class KPMERoleServiceImpl implements KPMERoleService {
 	
-    private static final String KPME_PROXIED_ROLE_AS_OF_DATE = "KpmeProxiedRoleAsOfDate";
+    /*private static final String KPME_PROXIED_ROLE_AS_OF_DATE = "KpmeProxiedRoleAsOfDate";
 	private static final String KPME_PROXIED_ROLE_ROLE_NAME = "KpmeProxiedRoleRoleName";
-	private static final String KPME_PROXIED_ROLE_NAMESPACE_CODE = "KpmeProxiedRoleNamespaceCode";
+	private static final String KPME_PROXIED_ROLE_NAMESPACE_CODE = "KpmeProxiedRoleNamespaceCode";*/
 
 	private static final Logger LOG = Logger.getLogger(KPMERoleServiceImpl.class);
     
@@ -75,44 +80,58 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 		return principalHasRole(principalId, namespaceCode, roleName, qualification, asOfDate);
 	}
 
-	public boolean principalHasRole(String principalId, String namespaceCode, String roleName, Map<String, String> qualification, DateTime asOfDate) {
-		// the return value
-		boolean principalHasRole = false;
+    public List<RoleMember> getRoleMembers(String namespaceCode, String roleName, Map<String, String> qualification, DateTime asOfDate, boolean isActiveOnly) {
+        Role role = getRoleService().getRoleByNamespaceCodeAndName(namespaceCode, roleName);
 
-		// insert the role name and name-space code and the other method parameters into the qualification map.
-		// "KpmeProxiedRole" is used as the prefix for each method parameter's key name in the qualification.
-		qualification.put(KPME_PROXIED_ROLE_NAMESPACE_CODE, namespaceCode);
-		qualification.put(KPME_PROXIED_ROLE_ROLE_NAME, roleName);
-		if(asOfDate != null) {
-			// reset to start of the day
-			asOfDate = asOfDate.toLocalDate().toDateTimeAtStartOfDay();
-		}
-		else {
-			// default to start of today
-			asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
-		}
-		qualification.put(KPME_PROXIED_ROLE_AS_OF_DATE, asOfDate.toString());
+        return getRoleMembers(role, qualification, asOfDate, isActiveOnly);
+    }
 
-		// get the id for the KPME proxy role instance. This instance should contain only one member without 
-		// any membership qualification: a derived role whose service methods interact with the actual proxied role
-		// via KIM role services
-		String roleId = getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(),
-																				 KPMERole.KPME_PROXY_ROLE.getRoleName());
+    public boolean principalHasRole(String principalId, String namespaceCode, String roleName, Map<String, String> qualification, DateTime asOfDate) {
+        boolean principalHasRole = false;
 
-		if(roleId != null) {
-			// call the KPME role proxy's method to check if the principal has the proxied role; this will in turn will call the 
-			// derived role member's method for checking that. The derived role member's method will interact with the actual 
-			// proxied role to verify membership. 
-			principalHasRole = getRoleService().principalHasRole(principalId, Collections.singletonList(roleId), qualification);
-			
-		}
-		else {
-        	LOG.error("Role id for role name " + KPMERole.KPME_PROXY_ROLE.getRoleName() + " with namespace code " + 
-        														KPMENamespace.KPME_HR.getNamespaceCode() + " was null");
+        String roleId = getRoleService().getRoleIdByNamespaceCodeAndName(namespaceCode, roleName);
+
+        if(roleId == null) {
+            return false;
+        }
+        if (asOfDate.compareTo(LocalDate.now().toDateTimeAtStartOfDay()) == 0) {
+            principalHasRole = getRoleService().principalHasRole(principalId, Collections.singletonList(roleId), qualification);
+        } else {
+            List<RoleMember> roleMembers = getRoleMembers(namespaceCode, roleName, qualification, asOfDate, true);
+
+            for (RoleMember roleMember : roleMembers) {
+                if (MemberType.PRINCIPAL.equals(roleMember.getType())) {
+                    if (StringUtils.equals(roleMember.getMemberId(), principalId)) {
+                        principalHasRole = true;
+                        break;
+                    }
+                } else if (MemberType.GROUP.equals(roleMember.getType())) {
+                    if (HrServiceLocator.getKPMEGroupService().isMemberOfGroupWithId(principalId, roleMember.getMemberId(), asOfDate)){
+                    //if (getGroupService().isMemberOfGroup(principalId, roleMember.getMemberId())) {
+                        principalHasRole = true;
+                        break;
+                    }
+                } else if (MemberType.ROLE.equals(roleMember.getType())) {
+                    Role derivedRole = getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.DERIVED_ROLE_POSITION.getRoleName());
+                    // check if the member represents the (nested) derived role 'position'
+                    if(derivedRole != null && roleMember.getMemberId().equals(derivedRole.getId())) {
+                        // add custom attributes
+                        Map<String, String> qual = new HashMap<String, String>();
+                        qual.putAll(roleMember.getAttributes());
+                        qual.put("asOfDate", asOfDate.toString());
+                        // return true if the principal id is a member of the (nested) derived role 'position'
+                        RoleTypeService roleTypeService = getRoleTypeService(derivedRole);
+                        if(roleTypeService.hasDerivedRole(principalId, new ArrayList<String>(), derivedRole.getNamespaceCode(), derivedRole.getName(), qual)) {
+                            principalHasRole = true;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
-		return principalHasRole;
-	}
+        return principalHasRole;
+    }
 	
 	
 	public boolean principalHasRoleInWorkArea(String principalId, String namespaceCode, String roleName, Long workArea, DateTime asOfDate) {
@@ -122,13 +141,13 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 		return principalHasRole(principalId, namespaceCode, roleName, qualification, asOfDate);
 	}
 
-	public boolean principalHasRoleInDepartment(String principalId, String namespaceCode, String roleName, String department, DateTime asOfDate) {
+	public boolean principalHasRoleInDepartment(String principalId, String namespaceCode, String roleName, String department, String groupKeyCode, DateTime asOfDate) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
-		
+		qualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
 		return principalHasRole(principalId, namespaceCode, roleName, qualification, asOfDate);
 	}
-
+	
 	public boolean principalHasRoleInLocation(String principalId, String namespaceCode, String roleName, String location, DateTime asOfDate) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
@@ -142,29 +161,147 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 		return getRoleMembers(namespaceCode, roleName, qualification, asOfDate, isActiveOnly);
 	}
 
-	
-	public List<RoleMember> getRoleMembers(String namespaceCode, String roleName, Map<String, String> qualification, DateTime asOfDate, boolean isActiveOnly) {
-		// define the return value
-		List<RoleMember> returnList = new ArrayList<RoleMember>();
-		
-		// set defaults for various parameters
-		if(qualification == null) {
-			qualification = new HashMap<String, String>();
-		}		
-		if(asOfDate != null) {
-			// reset to start of the date specified
-			asOfDate = asOfDate.toLocalDate().toDateTimeAtStartOfDay();
-		}
-		else {
-			// default to start of today
-			asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
-		}		
-		// invoke the helper's (caching) logic to query the role membership
-		returnList = getRoleServiceHelper().getRoleMembersCached(namespaceCode, roleName, qualification, asOfDate, isActiveOnly);
-		
-		return returnList;
-	}
-	
+
+    /**
+     * Helper method to recursively search for role members.
+     *
+     * @param role The role
+     * @param qualification The map of role qualifiers
+     * @param asOfDate The effective date of the role
+     * @param  activeOnly or not to get only active role members
+     *
+     * @return the list of role members in {@code role}.
+     */
+    private List<RoleMember> getRoleMembers(Role role, Map<String, String> qualification, DateTime asOfDate, boolean activeOnly) {
+        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+
+        if (asOfDate == null) {
+            asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
+        }
+        if (role != null) {
+            RoleTypeService roleTypeService = getRoleTypeService(role);
+
+            if (roleTypeService == null || !roleTypeService.isDerivedRoleType()) {
+                if (asOfDate.isEqual(LocalDate.now().toDateTimeAtStartOfDay())) {
+                    List<RoleMember> primaryRoleMembers = getPrimaryRoleMembers(role, qualification, LocalDate.now().toDateTimeAtStartOfDay(), true);
+
+                    // flatten into constituent group and principal role members
+                    for (RoleMember primaryRoleMember : primaryRoleMembers) {
+                        if (MemberType.PRINCIPAL.equals(primaryRoleMember.getType())) {
+                            roleMembers.add(primaryRoleMember);
+                        } else if (MemberType.GROUP.equals(primaryRoleMember.getType())) {
+                            roleMembers.add(primaryRoleMember);
+                        } else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
+                            // recursive call to get role members
+                            Map<String, String> copiedQualification = new HashMap<String, String>(qualification);
+                            copiedQualification.putAll(primaryRoleMember.getAttributes());
+                            List<RoleMembership> memberships = getRoleService().getRoleMembers(Collections.singletonList(primaryRoleMember.getMemberId()), copiedQualification);
+                            for (RoleMembership membership : memberships) {
+                                RoleMember roleMember = RoleMember.Builder.create(membership.getRoleId(), membership.getId(), membership.getMemberId(),
+                                        membership.getType(), null, null, membership.getQualifier(), "", "").build();
+
+                                roleMembers.add(roleMember);
+                            }
+                        }
+                    }
+                } else {
+                    List<Predicate> predicates = new ArrayList<Predicate>();
+                    predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, role.getId()));
+                    if (activeOnly) {
+                        predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+                        predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
+                    }
+
+                    LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
+                    builder.setPredicateTransform(AttributeTransform.getInstance());
+                    LookupCustomizer<RoleMemberBo> lookupCustomizer = builder.build();
+                    for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
+                        Predicate predicate = equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue());
+                        predicates.add(lookupCustomizer.getPredicateTransform().apply(predicate));
+                    }
+
+                    List<RoleMember> primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
+
+                    Role positionRole = getRoleService().getRoleByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.DERIVED_ROLE_POSITION.getRoleName());
+                    for (RoleMember primaryRoleMember : primaryRoleMembers) {
+                        if (MemberType.PRINCIPAL.equals(primaryRoleMember.getType())) {
+                            roleMembers.add(primaryRoleMember);
+                        } else if (MemberType.GROUP.equals(primaryRoleMember.getType())) {
+                                roleMembers.add(primaryRoleMember);
+                        } else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
+                            Role nestedRole = getRoleService().getRole(primaryRoleMember.getMemberId());
+                            roleMembers.addAll(getRoleMembers(nestedRole, primaryRoleMember.getAttributes(), asOfDate, activeOnly));
+                        }
+                    }
+                }
+            } else {
+                Map<String, String> qual = addCustomDerivedQualifications(qualification, asOfDate, activeOnly);
+                List<RoleMembership> derivedRoleMembers = roleTypeService.getRoleMembersFromDerivedRole(role.getNamespaceCode(), role.getName(), qual);
+
+                for (RoleMembership derivedRoleMember : derivedRoleMembers) {
+                    RoleMember roleMember = RoleMember.Builder.create(derivedRoleMember.getRoleId(), derivedRoleMember.getId(), derivedRoleMember.getMemberId(),
+                            derivedRoleMember.getType(), null, null, derivedRoleMember.getQualifier(), role.getName(), role.getNamespaceCode()).build();
+
+                    roleMembers.add(roleMember);
+                }
+            }
+        }
+
+        return roleMembers;
+    }
+
+    protected List<RoleMember> getPrimaryRoleMembers(Role role, Map<String, String> qualification, DateTime asOfDate, boolean isActiveOnly) {
+        // define the return value
+        List<RoleMember> primaryRoleMembers = new ArrayList<RoleMember>();
+
+        if (role != null) {
+            RoleTypeService roleTypeService = getRoleTypeService(role);
+            // use predicate based filtering only on non-derived role.
+            if (roleTypeService == null || !roleTypeService.isDerivedRoleType()) {
+                List<Predicate> predicates = new ArrayList<Predicate>();
+                predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, role.getId()));
+                if (isActiveOnly) {
+                    predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+                    predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
+                }
+
+                LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
+                builder.setPredicateTransform(AttributeTransform.getInstance());
+                LookupCustomizer<RoleMemberBo> lookupCustomizer = builder.build();
+                // guard for default type roles
+                if(roleTypeService != null) {
+                    // get the keys (name) of the qualifiers needed for membership in this role
+                    List<String> attributesForExactMatch = roleTypeService.getQualifiersForExactMatch();
+                    if(CollectionUtils.isNotEmpty(attributesForExactMatch)) {
+                        for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
+                            // do not add a qualification predicate for an attribute unless it is required for matching
+                            if(attributesForExactMatch.contains(qualificationEntry.getKey())) {
+                                Predicate predicate = equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue());
+                                predicates.add(lookupCustomizer.getPredicateTransform().apply(predicate));
+                            }
+                        }
+                    }
+                }
+                primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
+            }
+            else {
+                // for derived roles just add the as-of date and active only flag to a copy of the qualification
+                Map<String, String> derivedRoleQualification = new HashMap<String, String>(qualification);
+                derivedRoleQualification.put("asOfDate", asOfDate.toString());
+                derivedRoleQualification.put("activeOnly", String.valueOf(isActiveOnly));
+                List<RoleMembership> derivedRoleMembers = roleTypeService.getRoleMembersFromDerivedRole(role.getNamespaceCode(), role.getName(), derivedRoleQualification);
+                // convert the role memberships into role members
+                for (RoleMembership derivedRoleMember : derivedRoleMembers) {
+                    RoleMember roleMember = RoleMember.Builder.create(derivedRoleMember.getRoleId(), derivedRoleMember.getId(), derivedRoleMember.getMemberId(),
+                            derivedRoleMember.getType(), null, null, derivedRoleMember.getQualifier(), role.getName(), role.getNamespaceCode()).build();
+
+                    primaryRoleMembers.add(roleMember);
+                }
+            }
+        }
+
+        return primaryRoleMembers;
+    }
 	
 	public List<RoleMember> getRoleMembersInWorkArea(String namespaceCode, String roleName, Long workArea, DateTime asOfDate, boolean isActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
@@ -173,10 +310,10 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 		return getRoleMembers(namespaceCode, roleName, qualification, asOfDate, isActiveOnly);
 	}
 
-	public List<RoleMember> getRoleMembersInDepartment(String namespaceCode, String roleName, String department, DateTime asOfDate, boolean isActiveOnly) {
+	public List<RoleMember> getRoleMembersInDepartment(String namespaceCode, String roleName, String department, String groupKeyCode, DateTime asOfDate, boolean isActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
-		
+        qualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
 		return getRoleMembers(namespaceCode, roleName, qualification, asOfDate, isActiveOnly);
 	}
 
@@ -251,22 +388,24 @@ public class KPMERoleServiceImpl implements KPMERoleService {
         qualifiers.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "%");
         qualifiers.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
         qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), "%");
+        qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), "%");
         List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, roleIds, qualifiers, asOfDate, isActiveOnly);
 
         for (Map<String, String> roleQualifier : roleQualifiers) {
             String department = MapUtils.getString(roleQualifier, KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName());
-            if (department != null) {
-                departments.add(department);
+            String groupKeyCode = MapUtils.getString(roleQualifier, KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName());
+            if (department != null
+                    && groupKeyCode != null) {
+                departments.add(groupKeyCode + "|" + department);
             }
         }
         
-        // TODO:
-        // Do we want to pass groupKeyCode instead of location to speed up the performance?
         List<String> locations = getLocationsForPrincipalInRoles(principalId, roleIds, asOfDate, isActiveOnly);
         departments.addAll(getDepartmentService().getDepartmentValuesWithLocations(locations, asOfDate.toLocalDate()));
 
         return new ArrayList<String>(departments);
     }
+
 
 	public List<String> getDepartmentsForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly) {
 		List<String> departments = new ArrayList<String>();		
@@ -290,6 +429,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
         qualifiers.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), "%");
         qualifiers.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
         qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), "%");
+        qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), "%");
         List<Map<String, String>> roleQualifiers = getRoleQualifiers(principalId, roleIds, qualifiers, asOfDate, isActiveOnly);
 
         for (Map<String, String> roleQualifier : roleQualifiers) {
@@ -509,5 +649,14 @@ public class KPMERoleServiceImpl implements KPMERoleService {
 	public void setRoleServiceHelper(KPMERoleServiceHelper roleServiceHelper) {
 		this.roleServiceHelper = roleServiceHelper;
 	}
+
+    protected Map<String, String> addCustomDerivedQualifications(Map<String, String> qualificiation, DateTime asOfDate, boolean activeOnly) {
+        Map<String, String> qual = new HashMap<String, String>();
+        qual.putAll(qualificiation);
+        qual.put("asOfDate", asOfDate.toString());
+        qual.put("activeOnly", Boolean.toString(activeOnly));
+
+        return qual;
+    }
 
 }

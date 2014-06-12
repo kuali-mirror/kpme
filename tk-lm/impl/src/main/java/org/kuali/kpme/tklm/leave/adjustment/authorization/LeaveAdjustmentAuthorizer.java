@@ -29,6 +29,7 @@ public class LeaveAdjustmentAuthorizer extends KPMEMaintenanceDocumentAuthorizer
 		super.addRoleQualification(dataObject, attributes);
 
 		attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), "%");
+        attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), "%");
 		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
 	}
 	

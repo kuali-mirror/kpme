@@ -217,4 +217,24 @@ public class DepartmentBo extends HrKeyedBusinessObject implements DepartmentCon
 
         return Department.Builder.create(bo).build();
     }
+
+    public String getBusinessKeyId() {
+        return getGroupKeyCode() + "|" + getDept();
+    }
+
+    public static String getDeptFromBusinessKeyId(String id) {
+        String[] temp = id.split("|");
+        if (temp.length > 1) {
+            return temp[1];
+        }
+        return null;
+    }
+
+    public static String getGroupKeycodeFromBusinessKeyId(String id) {
+        String[] temp = id.split("|");
+        if (temp.length > 1) {
+            return temp[0];
+        }
+        return null;
+    }
 }

@@ -68,8 +68,8 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		if (StringUtils.isNotBlank(department.getDept()) && 
 				department.getEffectiveDate() != null && 
 				StringUtils.isNotBlank(department.getGroupKeyCode())) {
-			List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept(), department.getGroupKeyCode());
-			if (depts != null && depts.size() > 0) {
+			int count = HrServiceLocator.getDepartmentService().getDepartmentCount(department.getDept(), department.getGroupKeyCode());
+			if (count > 0) {
 				 String[] params = new String[] {department.getDept(), department.getGroupKeyCode()};
 				 this.putFieldError("dept", "error.department.duplicate.exists", params);
 				 valid = false;

@@ -35,10 +35,7 @@ import javax.jws.WebParam;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PositionPrimaryDepartmentPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTypeServiceImpl {
     private static final Logger LOG = Logger.getLogger(PositionPrimaryDepartmentPeopleFlowTypeServiceImpl.class);
@@ -50,12 +47,12 @@ public class PositionPrimaryDepartmentPeopleFlowTypeServiceImpl extends DataDict
             @WebParam(name = "documentContent") DocumentContent documentContent) {
         List<Map<String, String>> deptQualifiers = new ArrayList<Map<String, String>>();
         String department = getElementValue(documentContent.getApplicationContent(), "//document/newMaintainableObject/businessObject/primaryDepartment/@value");
+        String groupKeyCode = getElementValue(documentContent.getApplicationContent(), "//document/newMaintainableObject/businessObject/groupKeyCode/@value");
         if (StringUtils.isNotEmpty(department)) {
-
-                deptQualifiers.add(
-                        Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(),
-                                department));
-
+            Map<String, String> qualifiers = new HashMap<String, String>();
+            qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
+            deptQualifiers.add(qualifiers);
         } else {
             //try to get values from maintainable object if instance of position
             try {
@@ -64,17 +61,18 @@ public class PositionPrimaryDepartmentPeopleFlowTypeServiceImpl extends DataDict
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
                         PositionBo position = (PositionBo)(md.getNewMaintainableObject().getDataObject());
-
-                        deptQualifiers.add(
-                            Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(position.getPrimaryDepartment())));
-
+                        Map<String, String> qualifiers = new HashMap<String, String>();
+                        qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), position.getPrimaryDepartment());
+                        qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), position.getGroupKeyCode());
+                        deptQualifiers.add(qualifiers);
                     }
                 } else {
-                    // If doc itself is instance of Position
+                    // If doc itself is instance of Position --- I don't think this is possible...
                     if (doc instanceof PositionBo) {
-                            deptQualifiers.add(
-                                    Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ((PositionBo)doc).getPrimaryDepartment())
-                            );
+                        Map<String, String> qualifiers = new HashMap<String, String>();
+                        qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ((PositionBo)doc).getPrimaryDepartment());
+                        qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), ((PositionBo)doc).getGroupKeyCode());
+                        deptQualifiers.add(qualifiers);
                     }
                 }
             } catch (WorkflowException e) {

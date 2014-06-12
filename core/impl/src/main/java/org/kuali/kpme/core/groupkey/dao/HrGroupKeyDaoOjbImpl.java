@@ -61,4 +61,59 @@ public class HrGroupKeyDaoOjbImpl extends PlatformAwareDaoBaseOjb implements HrG
 		
 		return aList;
 	}
+
+    @Override
+    public List<HrGroupKeyBo> getHrGroupKeysWithLocation(String locationId, LocalDate asOfDate) {
+        List<HrGroupKeyBo> aList = new ArrayList<HrGroupKeyBo>();
+        Criteria root = new Criteria();
+
+        root.addEqualTo("locationId", locationId);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(HrGroupKeyBo.class, asOfDate, HrGroupKeyBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(HrGroupKeyBo.class, HrGroupKeyBo.BUSINESS_KEYS, false));
+        root.addEqualTo("active", true);
+        Query query = QueryFactory.newQuery(HrGroupKeyBo.class, root);
+
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if(!c.isEmpty())
+            aList.addAll(c);
+
+        return aList;
+    }
+
+    @Override
+    public List<HrGroupKeyBo> getHrGroupKeysWithLocations(List<String> locations, LocalDate asOfDate) {
+        List<HrGroupKeyBo> aList = new ArrayList<HrGroupKeyBo>();
+        Criteria root = new Criteria();
+
+        root.addIn("locationId", locations);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(HrGroupKeyBo.class, asOfDate, HrGroupKeyBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(HrGroupKeyBo.class, HrGroupKeyBo.BUSINESS_KEYS, false));
+        root.addEqualTo("active", true);
+        Query query = QueryFactory.newQuery(HrGroupKeyBo.class, root);
+
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if(!c.isEmpty())
+            aList.addAll(c);
+
+        return aList;
+    }
+
+
+    @Override
+    public List<HrGroupKeyBo> getHrGroupKeysWithInstitution(String institutionCode, LocalDate asOfDate) {
+        List<HrGroupKeyBo> aList = new ArrayList<HrGroupKeyBo>();
+        Criteria root = new Criteria();
+
+        root.addEqualTo("institutionCode", institutionCode);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(HrGroupKeyBo.class, asOfDate, HrGroupKeyBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(HrGroupKeyBo.class, HrGroupKeyBo.BUSINESS_KEYS, false));
+        root.addEqualTo("active", true);
+        Query query = QueryFactory.newQuery(HrGroupKeyBo.class, root);
+
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if(!c.isEmpty())
+            aList.addAll(c);
+
+        return aList;
+    }
 }

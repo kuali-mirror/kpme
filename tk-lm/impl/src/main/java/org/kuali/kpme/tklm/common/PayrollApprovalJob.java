@@ -36,6 +36,8 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -167,14 +169,14 @@ public class PayrollApprovalJob extends BatchJob {
 	
     private List<RoleMember> getRoleMembersInDepartment(
 			List<Assignment> assignments, final KPMENamespace namespace) {
-		Set<String> departments = new HashSet<String>();
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+        List<KeyValue> groupKeyDepts = new ArrayList<KeyValue>();
 		for(Assignment assignment : assignments) {
-			departments.add(assignment.getDept());
+            groupKeyDepts.add(new ConcreteKeyValue(assignment.getGroupKeyCode(), assignment.getDept()));
 		}
-		for(String dept : departments) {
+		for(KeyValue grpKeyDept : groupKeyDepts) {
 			List<RoleMember> roleMembersInDepartment = new ArrayList<RoleMember>();
-			roleMembersInDepartment = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(namespace.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, LocalDate.now().toDateTime(LocalTime.now()), true);
+			roleMembersInDepartment = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(namespace.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), grpKeyDept.getValue(), grpKeyDept.getKey(), LocalDate.now().toDateTime(LocalTime.now()), true);
 			for(RoleMember roleMember : roleMembersInDepartment) {
 				if(!roleMembers.contains(roleMember)) {
 					roleMembers.add(roleMember);

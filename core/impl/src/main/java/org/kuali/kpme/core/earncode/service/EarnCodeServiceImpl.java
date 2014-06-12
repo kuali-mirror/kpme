@@ -30,6 +30,7 @@ import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.api.workarea.WorkArea;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.earncode.dao.EarnCodeDao;
 import org.kuali.kpme.core.earncode.security.EarnCodeType;
@@ -227,8 +228,10 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
 
             for (String dept : depts) {
-               Department department = HrServiceLocator.getDepartmentService().getDepartment(dept, a.getGroupKeyCode(), asOfDate);
-                if (department!= null && a.getDept().equalsIgnoreCase(department.getDept())) {
+               Department department = HrServiceLocator.getDepartmentService().getDepartment(DepartmentBo.getDeptFromBusinessKeyId(dept), DepartmentBo.getGroupKeycodeFromBusinessKeyId(dept), asOfDate);
+                if (department!= null
+                        && StringUtils.equals(a.getDept(), department.getDept())
+                        && StringUtils.equals(a.getGroupKeyCode(), department.getGroupKeyCode())) {
                    addEarnCode = true;
                     break;
                 }

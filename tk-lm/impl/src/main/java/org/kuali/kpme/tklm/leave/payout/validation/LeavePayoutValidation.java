@@ -428,7 +428,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 						String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
 
 						//logged in user may ONLY submit documents for principals in authorized departments / location.
-			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "Create Leave Payout", department, new DateTime(effectiveDate.getTime()))
+			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "Create Leave Payout", department, groupKeyCode, new DateTime(effectiveDate.getTime()))
 							|| LmServiceLocator.getLMPermissionService().isAuthorizedInLocation(userPrincipalId, "Create Leave Payout", location, new DateTime(effectiveDate.getTime()))) {
 								canCreate = true;
 								break;
@@ -439,8 +439,8 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 							for(Assignment assignment : assignments) {
 								if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
 										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
-										|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getDept(), new DateTime(effectiveDate))
-										|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), assignment.getDept(), new DateTime(effectiveDate))) {
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getDept(), assignment.getGroupKeyCode(), new DateTime(effectiveDate))
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), assignment.getDept(), assignment.getGroupKeyCode(), new DateTime(effectiveDate))) {
 									canCreate = true;
 									break;
 								}

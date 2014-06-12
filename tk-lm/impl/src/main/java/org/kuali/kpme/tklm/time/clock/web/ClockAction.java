@@ -208,14 +208,15 @@ public class ClockAction extends TimesheetAction {
 		        		if (assignment != null) {
 		        			Long workArea = assignment.getWorkArea();
                             String dept = assignment.getJob().getDept();
+                            String groupKeyCode = assignment.getJob().getGroupKeyCode();
 		        			/*String principalId = HrContext.getPrincipalId();*/
 		        			DateTime startOfToday = LocalDate.now().toDateTimeAtStartOfDay();
                             isApproverOrReviewerForCurrentAssignment =
                                     HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, startOfToday)
 		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, startOfToday)
 		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, startOfToday)
-                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, startOfToday)
-                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, startOfToday);
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, groupKeyCode, startOfToday)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, groupKeyCode, startOfToday);
 		        		}
 		        	} else {
                         if (CollectionUtils.isNotEmpty(clockActionForm.getAssignmentDescriptions().entrySet())) {

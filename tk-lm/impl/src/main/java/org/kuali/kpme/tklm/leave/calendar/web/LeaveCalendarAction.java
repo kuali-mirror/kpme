@@ -305,8 +305,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 				JobContract aJob = HrServiceLocator.getJobService().getJob(anAssignment.getPrincipalId(), anAssignment.getJobNumber(), asOfDate.toLocalDate());
 				if(aJob != null) {
 					// Payroll Processor / Payroll Processor Delegate
-				    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aJob.getDept(), asOfDate)
-					    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), aJob.getDept(), asOfDate)) {
+				    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aJob.getDept(), aJob.getGroupKeyCode(), asOfDate)
+					    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), aJob.getDept(), aJob.getGroupKeyCode(), asOfDate)) {
 				    	loggedInUserassignments.add(anAssignment);
 				    	continue;
 			        }

@@ -15,15 +15,14 @@
  */
 package org.kuali.kpme.core.workarea.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.core.workarea.WorkAreaBo;
@@ -68,10 +67,31 @@ public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkA
     }
 
     @Override
-    public List<WorkAreaBo> getWorkAreaForDepartments(List<String> departments, LocalDate asOfDate) {
+    public List<WorkAreaBo> getWorkAreaForDepartmentBusinessKeyIds(List<String> departmentBusinessKeyIds, LocalDate asOfDate) {
         Criteria root = new Criteria();
 
-        root.addIn("dept", departments);
+        Map<String, List<String>> groupKeyDeptMap = new HashMap<String, List<String>>();
+        for (String id : departmentBusinessKeyIds) {
+            String tempKey = DepartmentBo.getDeptFromBusinessKeyId(id);
+            String tempDept = DepartmentBo.getGroupKeycodeFromBusinessKeyId(id);
+
+            if (groupKeyDeptMap.containsKey(tempKey)) {
+                groupKeyDeptMap.get(tempKey).add(tempDept);
+            } else {
+                List<String> tempList = new ArrayList<String>();
+                tempList.add(tempDept);
+                groupKeyDeptMap.put(tempKey, tempList);
+            }
+        }
+        Criteria subCriteria = new Criteria();
+        for (Map.Entry<String, List<String>> entry : groupKeyDeptMap.entrySet()) {
+            Criteria bKey = new Criteria();
+            bKey.addEqualTo("groupKeyCode", entry.getKey());
+            bKey.addIn("dept", entry.getValue());
+            subCriteria.addOrCriteria(bKey);
+        }
+        root.addAndCriteria(subCriteria);
+        //root.addIn("dept", thdepartments);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkAreaBo.class, asOfDate, WorkAreaBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkAreaBo.class, WorkAreaBo.BUSINESS_KEYS, false));
 

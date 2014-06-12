@@ -72,12 +72,13 @@ public interface KPMERoleService {
 	 * @param namespaceCode The namespace of the role
 	 * @param roleName The name of the role
 	 * @param department The department qualifier
+     * @param groupKeyCode The group key code qualifier
 	 * @param asOfDate The effective date of the role
 	 * 
 	 * @return true if {@code principalId} has the role {@code roleName} for the given department, false otherwise.
 	 */
-    @Cacheable(value= RoleMember.Cache.NAME, key="'{principalHasRoleInDepartment}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'department=' + #p3 + '|' + 'asOfDate=' + #p4")
-	boolean principalHasRoleInDepartment(String principalId, String namespaceCode, String roleName, String department, DateTime asOfDate);
+	@Cacheable(value= RoleMember.Cache.NAME, key="'{principalHasRoleInDepartment}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'department=' + #p3 + '|' + 'groupKeyCode=' + #p4 + '|' +'asOfDate=' + #p5")
+	boolean principalHasRoleInDepartment(String principalId, String namespaceCode, String roleName, String department, String groupKeyCode, DateTime asOfDate);
 	
 	/**
 	 * Checks whether the given {@code principalId} has the role {@code roleName} depending on the given location.
@@ -99,11 +100,11 @@ public interface KPMERoleService {
 	 * @param namespaceCode The namespace of the role
 	 * @param roleName The name of the role
 	 * @param asOfDate The effective date of the role
-	 * @param getActiveOnly Whether or not to get only active role members
+	 * @param activeOnly Whether or not to get only active role members
 	 * 
 	 * @return the list of role members in the role {@code roleName}.
 	 */
-	List<RoleMember> getRoleMembers(String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly);
+	List<RoleMember> getRoleMembers(String namespaceCode, String roleName, DateTime asOfDate, boolean activeOnly);
 
 	/**
 	 * Gets the members of the role {@code roleName} for the given role qualifiers.
@@ -112,11 +113,11 @@ public interface KPMERoleService {
 	 * @param roleName The name of the role
 	 * @param qualification The map of role qualifiers
 	 * @param asOfDate The effective date of the role
-	 * @param getActiveOnly Whether or not to get only active role members
+	 * @param activeOnly Whether or not to get only active role members
 	 * 
 	 * @return the list of role members in the role {@code roleName}.
 	 */
-	List<RoleMember> getRoleMembers(String namespaceCode, String roleName, Map<String, String> qualification, DateTime asOfDate, boolean isActiveOnly);
+	List<RoleMember> getRoleMembers(String namespaceCode, String roleName, Map<String, String> qualification, DateTime asOfDate, boolean activeOnly);
 
 	/**
 	 * Gets the members of the role {@code roleName} for the given work area.
@@ -125,11 +126,12 @@ public interface KPMERoleService {
 	 * @param roleName The name of the role
 	 * @param workArea The work area qualifier
 	 * @param asOfDate The effective date of the role
-	 * @param getActiveOnly Whether or not to get only active role members
+	 * @param activeOnly Whether or not to get only active role members
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given work area.
 	 */
-	List<RoleMember> getRoleMembersInWorkArea(String namespaceCode, String roleName, Long workArea, DateTime asOfDate, boolean isActiveOnly);
+    @Cacheable(value= RoleMember.Cache.NAME, key="'{getRoleMembersInWorkArea}' + 'namespaceCode=' + #p0 + '|' + 'roleName=' + #p1 + '|' + 'workArea=' + #p2  + '|' + 'asOfDate=' + T(org.kuali.kpme.core.api.cache.KpmeCacheKeyUtils).dateTimeAtStartOfDate(#p3) + '|' + 'activeOnly=' + #p4")
+	List<RoleMember> getRoleMembersInWorkArea(String namespaceCode, String roleName, Long workArea, DateTime asOfDate, boolean activeOnly);
 
 	/**
 	 * Gets the members of the role {@code roleName} for the given department.
@@ -137,12 +139,13 @@ public interface KPMERoleService {
 	 * @param namespaceCode The namespace of the role
 	 * @param roleName The name of the role
 	 * @param department The department qualifier
+     * @param groupKeyCode The group key code qualifier
 	 * @param asOfDate The effective date of the role
-	 * @param getActiveOnly Whether or not to get only active role members
+	 * @param activeOnly Whether or not to get only active role members
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given department.
 	 */
-	List<RoleMember> getRoleMembersInDepartment(String namespaceCode, String roleName, String department, DateTime asOfDate, boolean isActiveOnly);
+	List<RoleMember> getRoleMembersInDepartment(String namespaceCode, String roleName, String department, String groupKeyCode, DateTime asOfDate, boolean activeOnly);
 
 	/**
 	 * Gets the members of the role {@code roleName} for the given location.
@@ -151,11 +154,11 @@ public interface KPMERoleService {
 	 * @param roleName The name of the role
 	 * @param location The location qualifier
 	 * @param asOfDate The effective date of the role
-	 * @param getActiveOnly Whether or not to get only active role members
+	 * @param activeOnly Whether or not to get only active role members
 	 * 
 	 * @return the list of role members in the role {@code roleName} for the given location.
 	 */
-	List<RoleMember> getRoleMembersInLocation(String namespaceCode, String roleName, String location, DateTime asOfDate, boolean isActiveOnly);
+	List<RoleMember> getRoleMembersInLocation(String namespaceCode, String roleName, String location, DateTime asOfDate, boolean activeOnly);
 
 	/**
 	 * Gets the work areas for the given {@code principalId} in the role {@code roleName}.
@@ -220,7 +223,7 @@ public interface KPMERoleService {
 	 * @param asOfDate The effective date of the role
 	 * @param isActiveOnly Whether or not to get only active role members
 	 * 
-	 * @return the list of departments for the given {@code principalId} in the role {@code roleName}.
+	 * @return the list of groupKeyCode and department values delimited by '|' for the given {@code principalId} in the role {@code roleName}.
 	 */
     @Cacheable(value= RoleMember.Cache.NAME, key="'{getDepartmentsForPrincipalInRole}' + 'principal=' + #p0 + '|' + 'namespace=' + #p1 + '|' + 'roleName=' + #p2  + '|' + 'asOfDate=' + #p3 + '|' + 'isActiveOnly=' + #p4")
     List<String> getDepartmentsForPrincipalInRole(String principalId, String namespaceCode, String roleName, DateTime asOfDate, boolean isActiveOnly);

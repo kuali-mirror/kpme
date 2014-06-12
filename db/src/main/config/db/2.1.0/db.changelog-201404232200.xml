@@ -21,9 +21,10 @@
     
     <changeSet id="1" author="tkagata" context="kpme-client-bootstrap">
     
-    	<dropColumn tableName="HR_DEPT_T" columnName="INSTITUTION" />
-    	<dropColumn tableName="HR_DEPT_T" columnName="LOCATION" /> 
-    	
+    	<!--<dropColumn tableName="HR_DEPT_T" columnName="INSTITUTION" />
+    	<dropColumn tableName="HR_DEPT_T" columnName="LOCATION" /> -->
+    	<dropNotNullConstraint columnName="LOCATION" tableName="HR_DEPT_T" columnDataType="VARCHAR(20)"/>
+
         <addColumn tableName="HR_DEPT_T">
             <column name="GRP_KEY_CD" type="VARCHAR(30)"/>
         </addColumn>
@@ -31,6 +32,14 @@
             <column name="GRP_KEY_CD" value="DEFAULT" />
         </update>
         <addNotNullConstraint columnName="GRP_KEY_CD" tableName="HR_DEPT_T" columnDataType="VARCHAR(30)"/>
+
+        <dropIndex tableName="HR_DEPT_T" indexName="HR_DEPT_IDX1" />
+        <createIndex indexName="HR_DEPT_IDX1" tableName="HR_DEPT_T" unique="true">
+            <column name="DEPT" />
+            <column name="GRP_KEY_CD" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
     </changeSet>
    
 </databaseChangeLog>

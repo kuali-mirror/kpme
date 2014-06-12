@@ -28,4 +28,10 @@ public interface HrGroupKeyService {
     HrGroupKey populateSubObjects(HrGroupKey groupKey, LocalDate asOfDate);
     
     List<HrGroupKey> getAllActiveHrGroupKeys(LocalDate asOfDate);
+
+    List<HrGroupKey> getHrGroupKeysWithLocation(String locationId, LocalDate asOfDate);
+
+    List<HrGroupKey> getHrGroupKeysForLocations(List<String> locations, LocalDate asOfDate);
+
+    List<HrGroupKey> getHrGroupKeysWithInstitution(String institutionCode, LocalDate asOfDate);
 }

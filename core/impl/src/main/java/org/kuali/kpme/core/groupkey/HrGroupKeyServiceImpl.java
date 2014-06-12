@@ -28,6 +28,7 @@ import org.kuali.kpme.core.api.institution.service.InstitutionService;
 import org.kuali.kpme.core.api.location.Location;
 import org.kuali.kpme.core.api.location.service.LocationService;
 import org.kuali.kpme.core.groupkey.dao.HrGroupKeyDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.campus.CampusService;
@@ -71,18 +72,11 @@ public class HrGroupKeyServiceImpl implements HrGroupKeyService {
     
     @Override
     public List<HrGroupKey> getAllActiveHrGroupKeys(LocalDate asOfDate) {
-    	
-    	List<HrGroupKey> hrGroupKeys = new ArrayList<HrGroupKey>();
     	if (asOfDate == null) {
             asOfDate = LocalDate.now();
         }
     	
-    	List<HrGroupKeyBo> hrGroupKeyBos = hrGroupKeyDao.getAllActiveHrGroupKeys(asOfDate);
-    	for (HrGroupKeyBo hrGroupKeyBo: hrGroupKeyBos) {
-    		hrGroupKeys.add(HrGroupKeyBo.to(hrGroupKeyBo));
-    	}
-    	
-    	return hrGroupKeys;
+    	return ModelObjectUtils.transform(hrGroupKeyDao.getAllActiveHrGroupKeys(asOfDate), HrGroupKeyBo.toImmutable);
     }
 
 
@@ -104,5 +98,32 @@ public class HrGroupKeyServiceImpl implements HrGroupKeyService {
 
     public void setInstitutionService(InstitutionService institutionService) {
         this.institutionService = institutionService;
+    }
+
+    @Override
+    public List<HrGroupKey> getHrGroupKeysWithInstitution(String institutionCode, LocalDate asOfDate) {
+        if (asOfDate == null) {
+            asOfDate = LocalDate.now();
+        }
+
+        return ModelObjectUtils.transform(hrGroupKeyDao.getHrGroupKeysWithInstitution(institutionCode, asOfDate), HrGroupKeyBo.toImmutable);
+    }
+
+    @Override
+    public List<HrGroupKey> getHrGroupKeysWithLocation(String locationId, LocalDate asOfDate) {
+        if (asOfDate == null) {
+            asOfDate = LocalDate.now();
+        }
+
+        return ModelObjectUtils.transform(hrGroupKeyDao.getHrGroupKeysWithLocation(locationId, asOfDate), HrGroupKeyBo.toImmutable);
+    }
+
+    @Override
+    public List<HrGroupKey> getHrGroupKeysForLocations(List<String> locations, LocalDate asOfDate) {
+        if (asOfDate == null) {
+            asOfDate = LocalDate.now();
+        }
+
+        return ModelObjectUtils.transform(hrGroupKeyDao.getHrGroupKeysWithLocations(locations, asOfDate), HrGroupKeyBo.toImmutable);
     }
 }

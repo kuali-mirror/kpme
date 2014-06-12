@@ -37,10 +37,7 @@ import javax.jws.WebParam;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTypeServiceImpl {
     private static final Logger LOG = Logger.getLogger(PayrollPeopleFlowTypeServiceImpl.class);
@@ -69,9 +66,11 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
                         Assignable assignable = (Assignable)(md.getNewMaintainableObject().getDataObject());
                         List<Assignment> assignments = assignable.getAssignments();
                         for (Assignment ac : assignments) {
-                            deptQualifiers.add(
-                                    Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(ac.getDept()))
-                            );
+                            Map<String, String> qualifiers = new HashMap<String, String>();
+                            qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ac.getDept());
+                            qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), ac.getGroupKeyCode());
+
+                            deptQualifiers.add(qualifiers);
                         }
                     }
                 } else {
@@ -79,9 +78,11 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
                     if (doc instanceof Assignable) {
                         List<Assignment> assignments = ((Assignable)doc).getAssignments();
                         for (Assignment ac : assignments) {
-                            deptQualifiers.add(
-                                    Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(ac.getDept()))
-                            );
+                            Map<String, String> qualifiers = new HashMap<String, String>();
+                            qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ac.getDept());
+                            qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), ac.getGroupKeyCode());
+
+                            deptQualifiers.add(qualifiers);
                         }
                     }
                 }

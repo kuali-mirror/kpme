@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.core.department.service;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,21 +28,25 @@ import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 public class DepartmentRoleTypeServiceImpl extends RoleTypeServiceBase {
 	
     @Override
-	public List<String> getQualifiersForExactMatch() {    
-		return Collections.singletonList(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName());
+	public List<String> getQualifiersForExactMatch() {
+    	List<String> qualifiers = new ArrayList<String>();
+    	qualifiers.add(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName());
+    	qualifiers.add(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName());
+		return qualifiers;
 	}
 	
 	@Override
 	public boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
 		boolean matches = false;
-		
 		String inputDepartment = MapUtils.getString(inputAttributes, KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName());
 		String storedDepartment = MapUtils.getString(storedAttributes, KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName());
 		
-		if (storedDepartment != null) {
-			matches = ObjectUtils.equals(inputDepartment, storedDepartment) || ObjectUtils.equals(inputDepartment, "%");
-		}
+		String inputGroupKeyCode = MapUtils.getString(inputAttributes, KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName());
+		String storedGroupKeyCode = MapUtils.getString(storedAttributes, KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName());
 		
+		matches = (ObjectUtils.equals(inputDepartment, storedDepartment) || ObjectUtils.equals(inputDepartment, "%"))
+                    && (ObjectUtils.equals(inputGroupKeyCode, storedGroupKeyCode) || ObjectUtils.equals(inputGroupKeyCode, "%"));
+
 		return matches;
 	}
 

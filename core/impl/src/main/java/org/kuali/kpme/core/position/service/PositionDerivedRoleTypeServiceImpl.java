@@ -75,14 +75,14 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
 				
 				// get the as-of date and the active flag values
 				DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
-				String asOfDateString = qualification.remove("asOfDate");
+				String asOfDateString = qualification.get("asOfDate");
 				if(asOfDateString != null) {
 					asOfDate = DateTime.parse(asOfDateString);
 				}
 				
 				@SuppressWarnings("unused")
 				boolean activeOnly = true;  // active is currently unused for this derived role , may need it in the future
-				String activeOnlyString = qualification.remove("activeOnly");
+				String activeOnlyString = qualification.get("activeOnly");
 				if(activeOnlyString != null) {
 					activeOnly = Boolean.parseBoolean(activeOnlyString);
 				}
@@ -92,7 +92,8 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
 	            List<String> principalIds = getJobService().getPrincipalIdsInPosition(positionNumber, asOfDate.toLocalDate());
 	            
 	            for (String principalId : principalIds) {
-	            	roleMembers.add(RoleMembership.Builder.create(role.getId(), null, principalId, MemberType.PRINCIPAL, qualification).build());
+                    Map<String, String> trimmedQualifications = trimQualifications(qualification);
+	            	roleMembers.add(RoleMembership.Builder.create(role.getId(), null, principalId, MemberType.PRINCIPAL, trimmedQualifications).build());
 	            }
 			}
         }
@@ -102,7 +103,15 @@ public class PositionDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBa
         
         return roleMembers;
 	}
-	
+
+    private Map<String, String> trimQualifications(Map<String, String> qualification) {
+        Map<String, String> trimmed = new HashMap<String, String>();
+        trimmed.putAll(qualification);
+        trimmed.remove("asOfDate");
+        trimmed.remove("activeOnly");
+        return trimmed;
+    }
+
     @Override
 	public boolean isDerivedRoleType() {
 		return true;

@@ -164,13 +164,14 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
                 if (assignment != null) {
                     Long workArea = assignment.getWorkArea();
                     String dept = assignment.getJob().getDept();
+                    String groupKeyCode = assignment.getGroupKeyCode();
 
                     boolean isApproverOrReviewerForCurrentAssignment =
                             HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, actionDateTime)
                                     || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, actionDateTime)
                                     || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, actionDateTime)
-                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, actionDateTime)
-                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, actionDateTime);
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, groupKeyCode, actionDateTime)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, groupKeyCode, actionDateTime);
                     if (!isApproverOrReviewerForCurrentAssignment) {
                         GlobalVariables.getMessageMap().putError("document", "clock.mp.unauthorized", GlobalVariables.getUserSession().getPrincipalName(), missedPunch.getPrincipalName());
                         //if this fails, don't bother checking the other rules

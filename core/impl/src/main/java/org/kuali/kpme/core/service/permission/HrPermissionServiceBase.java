@@ -22,6 +22,7 @@ import org.kuali.kpme.core.api.assignment.AssignmentContract;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentService;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.permission.HRPermissionService;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -106,9 +107,10 @@ public abstract class HrPermissionServiceBase {
 	 * 
 	 * @return true if {@code principalId} is authorized to perform {@code permissionName} for the given department, false otherwise.
 	 */
-    public boolean isAuthorizedInDepartment(String principalId, String permissionName, String department, DateTime asOfDate) {
+    public boolean isAuthorizedInDepartment(String principalId, String permissionName, String department, String groupKeyCode, DateTime asOfDate) {
     	Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        qualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
     	
 		return isAuthorized(principalId, permissionName, qualification, asOfDate);
     }
@@ -161,11 +163,12 @@ public abstract class HrPermissionServiceBase {
 	 * 
 	 * @return true if {@code principalId} is authorized to perform any permission templated by {@code permissionTemplateName} for the given department, false otherwise.
 	 */
-	public boolean isAuthorizedByTemplateInDepartment(String principalId, String namespaceCode, String permissionTemplateName, String department, DateTime asOfDate) {
+	public boolean isAuthorizedByTemplateInDepartment(String principalId, String namespaceCode, String permissionTemplateName, String department, String groupKeyCode, DateTime asOfDate) {
 		Map<String, String> permissionDetails = new HashMap<String, String>();
 		
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        qualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
 		
 		return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification, asOfDate);
 	}
@@ -246,8 +249,11 @@ public abstract class HrPermissionServiceBase {
     	Department departmentObj = getDepartmentService().getDepartment(department, groupKeyCode, asOfDate.toLocalDate());
     	
     	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+        if (StringUtils.isEmpty(groupKeyCode)) {
+            groupKeyCode = departmentObj != null ? departmentObj.getGroupKeyCode() : null;
+        }
     	
-        if (isAuthorizedByTemplateInDepartment(principalId, namespaceCode, permissionTemplateName, department, documentTypeName, documentId, documentStatus, asOfDate)
+        if (isAuthorizedByTemplateInDepartment(principalId, namespaceCode, permissionTemplateName, department, groupKeyCode, documentTypeName, documentId, documentStatus, asOfDate)
             	|| 
             isAuthorizedByTemplateInLocation(principalId, namespaceCode, permissionTemplateName, location, documentTypeName, documentId, documentStatus, asOfDate)
             	|| 
@@ -317,10 +323,11 @@ public abstract class HrPermissionServiceBase {
 	 * 
 	 * @return true if {@code principalId} is authorized to perform any permission templated by {@code permissionTemplateName} for the given department and document information, false otherwise.
 	 */
-    protected boolean isAuthorizedByTemplateInDepartment(String principalId, String namespaceCode, String permissionTemplateName, String department, String documentTypeName, String documentId, DocumentStatus documentStatus, DateTime asOfDate) {
+    protected boolean isAuthorizedByTemplateInDepartment(String principalId, String namespaceCode, String permissionTemplateName, String department, String groupKeyCode, String documentTypeName, String documentId, DocumentStatus documentStatus, DateTime asOfDate) {
     	Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
-    	
+        qualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
+
     	return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, qualification, asOfDate);
     }
     

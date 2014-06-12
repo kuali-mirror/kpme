@@ -150,7 +150,8 @@ import java.util.List;
 		boolean isValid = true;
 		
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-		String department = departmentEarnCode.getDept(); 
+		String department = departmentEarnCode.getDept();
+        String groupKeyCode = departmentEarnCode.getGroupKeyCode();
  
 		List<Department> departmentObjs = HrServiceLocator.getDepartmentService().getDepartments(department, departmentEarnCode.getLocation(), LocalDate.now());
 		
@@ -159,17 +160,19 @@ import java.util.List;
 			// For now, leave the line below although it's redundant (getDepartments above already takes location - created to reduce
 			// the number of departments to be returned).  
 			String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
-	
+            if (StringUtils.isEmpty(groupKeyCode)) {
+                groupKeyCode = departmentObj != null ? departmentObj.getGroupKeyCode() : null;
+            }
 	        DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
 	
 	        //TODO - performance
 			if (!HrContext.isSystemAdmin() 
-					&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, asOfDate)
-	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, asOfDate)
+					&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, groupKeyCode, asOfDate)
+	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, groupKeyCode, asOfDate)
 	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, asOfDate)
 	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, asOfDate)
-	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), location, asOfDate)
-	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), location, asOfDate)) {
+	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), department, groupKeyCode, asOfDate)
+	    			&& !HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), department, groupKeyCode, asOfDate)) {
 				this.putFieldError("dept", "error.department.permissions", department);
 				isValid = false;
 				break;

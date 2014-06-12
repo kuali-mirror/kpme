@@ -142,8 +142,8 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
         boolean isReviewerOrApprover = HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), aTimeBlock.getWorkArea(), asOfDate)
 						  		    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), aTimeBlock.getWorkArea(), asOfDate)
 						  		    	|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), aTimeBlock.getWorkArea(), asOfDate);
-        boolean isPayrollProcessor = HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), job.getDept(), asOfDate)
-		    							|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), job.getDept(), asOfDate);
+        boolean isPayrollProcessor = HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), job.getDept(), job.getGroupKeyCode(), asOfDate)
+		    							|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), job.getDept(), job.getGroupKeyCode(), asOfDate);
         
         // when the earn code is regular earn code, don't use earn code security to determine the permissions
         if (payType != null && StringUtils.equals(payType.getRegEarnCode(), aTimeBlock.getEarnCode())) {
@@ -362,6 +362,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
             
             Long workArea = timeBlock.getWorkArea();
             WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, timeBlock.getEndDateTime().toLocalDate());
+            String groupKeyCode = workAreaObj.getGroupKeyCode();
             String department = workAreaObj.getDept();
             DateTime tbDateTime = timeBlock.getBeginDateTime();	// datetime used to retrieve user roles
             
@@ -375,21 +376,21 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
 	            // when workarea's overtime edit role is employee, approver/approver delegate/payroll processor/payroll processor delegate should all have edit permission
 	            if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), "Employee")) {
             		boolean toReturn = this.isApproverForWorkArea(principalId, workArea, tbDateTime)
-            							|| this.isPayrollProcessorForDepartment(principalId, department, tbDateTime);
+            							|| this.isPayrollProcessorForDepartment(principalId, department, groupKeyCode, tbDateTime);
             		return updateCanEditOvtPerm(principalId, perms, toReturn);
 	            } else if (StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.APPROVER.getRoleName())) {
 	            	// when overtime edit role is approver, only approver/approver delegate/payroll processor/payroll processor delegate have edit permission
 	                boolean toReturn = this.isApproverForWorkArea(principalId, workArea, tbDateTime)
-	                        			|| this.isPayrollProcessorForDepartment(principalId, department, tbDateTime);
+	                        			|| this.isPayrollProcessorForDepartment(principalId, department, groupKeyCode, tbDateTime);
 	                return updateCanEditOvtPerm(principalId, perms, toReturn);
 	            } else if(StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.PAYROLL_PROCESSOR.getRoleName())) {
 	            	// when overtime edit role is Payroll processor, only payroll processor/payroll processor delegate have edit permission
-	                boolean toReturn = isPayrollProcessorForDepartment(principalId, department, tbDateTime);
+	                boolean toReturn = isPayrollProcessorForDepartment(principalId, department, groupKeyCode, tbDateTime);
 	                return updateCanEditOvtPerm(principalId, perms, toReturn);
 	            } else if(StringUtils.equals(workAreaObj.getOvertimeEditRole(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName())) {
 	            	// when overtime edit role is Time Dept Admin, only Time Dept Admin has edit permission
 	                boolean toReturn = HrServiceLocator.getKPMERoleService()
-	                		.principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, tbDateTime);
+	                		.principalHasRoleInDepartment(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, groupKeyCode, tbDateTime);
 	                return updateCanEditOvtPerm(principalId, perms, toReturn);
 	            }
             }
@@ -398,9 +399,9 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     }
     
     @Override
-    public boolean isPayrollProcessorForDepartment(String principalId, String dept, DateTime asOfDate) {
-    	return HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, asOfDate)
-    			|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, asOfDate);
+    public boolean isPayrollProcessorForDepartment(String principalId, String dept, String groupKeyCode, DateTime asOfDate) {
+    	return HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, groupKeyCode, asOfDate)
+    			|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, groupKeyCode, asOfDate);
     }
     
     @Override

@@ -1,0 +1,66 @@
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="jkakkad" context="kpme-server-bootstrap">	
+        <insert tableName="KRIM_ATTR_DEFN_T">
+            <column name="KIM_ATTR_DEFN_ID" value="KPME0008" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="groupKeyCode" />
+            <column name="CMPNT_NM" value="org.kuali.kpme.core.KPMEAttributes" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+    
+   		<insert tableName="KRIM_TYP_ATTR_T">
+            <column name="KIM_TYP_ATTR_ID" value="KPME0012" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Department')" />
+            <column name="KIM_ATTR_DEFN_ID" valueComputed="(SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'groupKeyCode')" />
+            <column name="SORT_CD" value="a" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+
+
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="2" author="jjhanso" context="kpme-server-bootstrap">
+        <sql>
+            INSERT INTO KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
+            SELECT CONCAT(ATTR_DATA_ID, 'a'), SYS_GUID(), VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, 'KPME0008', 'DEFAULT'
+            FROM KRIM_ROLE_MBR_ATTR_DATA_T
+            WHERE KIM_TYP_ID = (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Department' AND NMSPC_CD = 'KPME-WKFLW')
+              AND KIM_ATTR_DEFN_ID = (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'department' and NMSPC_CD = 'KPME-WKFLW')
+        </sql>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+</databaseChangeLog>

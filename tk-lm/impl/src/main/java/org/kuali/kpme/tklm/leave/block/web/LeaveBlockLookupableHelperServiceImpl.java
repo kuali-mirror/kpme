@@ -183,13 +183,13 @@ public class LeaveBlockLookupableHelperServiceImpl extends KPMELookupableImpl  {
 				if (HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(HrContext.getPrincipalId(), date)
 						|| HrServiceLocator.getKPMEGroupService().isMemberOfSystemViewOnlyGroup(HrContext.getPrincipalId(), date)
 						|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(HrContext.getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, date)
-						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, date)
-						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, date)
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, groupKeyCode, date)
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, groupKeyCode, date)
 						|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, date)
 						|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, date)
 						|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, date)
-						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), location, date)
-						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), location, date)
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, groupKeyCode, date)
+						|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, groupKeyCode, date)
 						|| HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(HrContext.getPrincipalId(), KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, date)) {
 					valid = true;
 				}

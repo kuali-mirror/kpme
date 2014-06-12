@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.pm.position.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.pm.position.PositionBo;
@@ -27,10 +28,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl;
 
 import javax.jws.WebParam;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTypeServiceImpl {
     private static final Logger LOG = Logger.getLogger(PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl.class);
@@ -52,8 +50,10 @@ public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends Data
 
                         for (PositionDepartmentBo positionDepartment : position.getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
-                                deptQualifiers.add(
-                                        Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getDepartment())));
+                                Map<String, String> qualifiers = new HashMap<String, String>();
+                                qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getDepartment()));
+                                qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getGroupKeyCode()));
+                                deptQualifiers.add(qualifiers);
                             }
                         }
                     }
@@ -62,8 +62,10 @@ public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends Data
                     if (doc instanceof PositionBo) {
                         for (PositionDepartmentBo positionDepartment : ((PositionBo)doc).getDepartmentList()) {
                             if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
-                                deptQualifiers.add(
-                                        Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getDepartment())));
+                                Map<String, String> qualifiers = new HashMap<String, String>();
+                                qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getDepartment()));
+                                qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getGroupKeyCode()));
+                                deptQualifiers.add(qualifiers);
                             }
                         }
                     }
@@ -73,7 +75,12 @@ public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends Data
             }
 
 
-        if (deptQualifiers.isEmpty()) {deptQualifiers.add(Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(),""));}
+        if (deptQualifiers.isEmpty()) {
+            Map<String, String> qualifiers = new HashMap<String, String>();
+            qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), StringUtils.EMPTY);
+            qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), StringUtils.EMPTY);
+            deptQualifiers.add(qualifiers);
+        }
         return deptQualifiers;
 
     }

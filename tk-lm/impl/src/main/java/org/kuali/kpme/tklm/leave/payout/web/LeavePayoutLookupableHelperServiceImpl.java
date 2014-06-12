@@ -99,11 +99,11 @@ public class LeavePayoutLookupableHelperServiceImpl extends KPMELookupableHelper
 					
 					if(job.isEligibleForLeave()) {
 						
-						String department = job != null ? job.getDept() : null;
-						String groupKeyCode = job != null ? job.getGroupKeyCode() : null;
-						Department departmentObj = job != null ? HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, effectiveLocalDate) : null;
+						String department = job.getDept();
+						String groupKeyCode = job.getGroupKeyCode();
+						Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, effectiveLocalDate);
 						String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
-			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "View Leave Payout", department, effectiveDate)
+			        	if (LmServiceLocator.getLMPermissionService().isAuthorizedInDepartment(userPrincipalId, "View Leave Payout", department, groupKeyCode, effectiveDate)
 							|| LmServiceLocator.getLMPermissionService().isAuthorizedInLocation(userPrincipalId, "View Leave Payout", location, effectiveDate)) {
 								canView = true;
 								break;
@@ -114,8 +114,8 @@ public class LeavePayoutLookupableHelperServiceImpl extends KPMELookupableHelper
 							for(Assignment assignment : assignments) {
 								if(HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
 										|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(effectiveDate))
-										|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getDept(), new DateTime(effectiveDate))
-										|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), assignment.getDept(), new DateTime(effectiveDate))) {
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), assignment.getDept(), assignment.getGroupKeyCode(), new DateTime(effectiveDate))
+										|| HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), assignment.getDept(), assignment.getGroupKeyCode(), new DateTime(effectiveDate))) {
 									canView = true;
 									break;
 								}

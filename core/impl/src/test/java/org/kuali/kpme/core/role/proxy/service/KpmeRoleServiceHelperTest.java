@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -130,19 +131,19 @@ public class KpmeRoleServiceHelperTest extends CoreUnitTestCase {
 	}
 	
 	private List<RoleMembership> getCurrentActiveApproversInWorkArea(Long workArea) {
-		return getCurrentActiveInWorkArea(workArea, KPMERole.APPROVER_PROXY_ROLE.getRoleName());
+		return getCurrentActiveInWorkArea(workArea, KPMERole.APPROVER.getRoleName());
 	}
 	
 	@SuppressWarnings("unused")
 	private List<RoleMembership> getCurrentActiveApproverDelegatesInWorkArea(Long workArea) {
-		return getCurrentActiveInWorkArea(workArea, KPMERole.APPROVER_DELEGATE_PROXY_ROLE.getRoleName());
+		return getCurrentActiveInWorkArea(workArea, KPMERole.APPROVER_DELEGATE.getRoleName());
 	}
 	
 	private boolean hasCurrentApproverRoleInWorkArea(String principalId, long workArea) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea));
 		
-		String roleId = roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_PROXY_ROLE.getRoleName());
+		String roleId = roleService.getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName());
 		return roleService.principalHasRole(principalId, Collections.singletonList(roleId), qualification);
 	}
 	
@@ -186,7 +187,7 @@ public class KpmeRoleServiceHelperTest extends CoreUnitTestCase {
 	
 	@Test
 	public void testGetRoleMembers() {
-		DateTime today = new DateTime();
+		DateTime today = LocalDate.now().toDateTimeAtStartOfDay();
 		DateTime yesterday = today.minusDays(1);
 		
 		
@@ -214,7 +215,7 @@ public class KpmeRoleServiceHelperTest extends CoreUnitTestCase {
 		List<RoleMember> roleMembersYesterday = kpmeRoleService.getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), (long) 4444, yesterday, true);
 		Assert.assertTrue(roleMembersYesterday != roleMembersCached); // should not get from cache for yesterday		
 		// checking caching with now
-		roleMembers = kpmeRoleService.getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), (long) 4444, new DateTime(), true);
+		roleMembers = kpmeRoleService.getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), (long) 4444, today, true);
 		Assert.assertTrue("Caching of role members is not working", roleMembersCached == roleMembers);
 		
 		roleMembers = kpmeRoleService.getRoleMembersInWorkArea(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), (long) 4444, DateTime.parse("2013-01-01"), true);
@@ -255,7 +256,7 @@ public class KpmeRoleServiceHelperTest extends CoreUnitTestCase {
 	public void testPrincipalHasRoleInWorkArea() {
 		
 	    boolean hasRoleInWorkArea;
-	    DateTime today = new DateTime();
+	    DateTime today = LocalDate.now().toDateTimeAtStartOfDay();
 		
 		hasRoleInWorkArea = kpmeRoleService.principalHasRoleInWorkArea("test_principal_1", KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), (long) 4444, today);
 		Assert.assertTrue(hasRoleInWorkArea);

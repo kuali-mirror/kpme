@@ -27,8 +27,11 @@ public interface DepartmentDao {
     public List<DepartmentBo> getDepartments(LocalDate asOfDate);
     public DepartmentBo getDepartment(String hrDeptId);
     public int getDepartmentCount(String department, String groupKeyCode);
-    public List<DepartmentBo> getDepartments(String department, LocalDate asOfDate);
-    public List<DepartmentBo> getDepartments(String department, String groupKeyCode);
+    public List<DepartmentBo> getDepartments(String groupKeyCode, String department, LocalDate asOfDate);
+    //public List<DepartmentBo> getDepartments(String department, String groupKeyCode);
+    public List<DepartmentBo> getDepartmentsWithGroupKeys(List<String> groupKeyCodes, LocalDate asOfDate);
+
+    List<DepartmentBo> getDepartmentsWithDepartmentAndGroupKeys(String department, List<String> groupKeyCodes, LocalDate asOfDate);
     // This is not used anywhere
     //List<DepartmentBo> getDepartments(String department, String location, String descr, String active, String showHistory, String payrollApproval);
 }

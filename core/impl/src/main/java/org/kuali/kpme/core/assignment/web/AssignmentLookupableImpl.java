@@ -49,6 +49,7 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
 
             roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
             roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
             roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 
             if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),

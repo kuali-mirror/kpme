@@ -34,13 +34,14 @@ public class WorkAreaAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
 
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
+        String groupKeyCode = StringUtils.EMPTY;
 		
 		if (dataObject instanceof WorkAreaBo) {
 			WorkAreaBo workAreaObj = (WorkAreaBo) dataObject;
 			
 			if (workAreaObj != null) {
 				department = cleanAttributeValue(workAreaObj.getDept());
-				String groupKeyCode = workAreaObj != null ? workAreaObj.getGroupKeyCode() : null;
+				groupKeyCode = workAreaObj.getGroupKeyCode();
 				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, workAreaObj.getEffectiveLocalDate());
 			
 				if (departmentObj != null) {
@@ -50,6 +51,7 @@ public class WorkAreaAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
 		}
 		
 		attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
 		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 	}
 	
