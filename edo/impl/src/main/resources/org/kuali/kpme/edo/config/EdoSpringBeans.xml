@@ -321,11 +321,6 @@
            		<value>org.kuali.kpme.edo</value>
             </list>
           </property>
-          <property name="dataDictionaryPackages">
-            <list>
-              <value>org/kuali/kpme/edo/datadictionary</value>
-            </list>
-          </property>
 	      <property name="databaseRepositoryFilePaths">
 				<list>
 	                <value>OJB-repository-edo.xml</value>

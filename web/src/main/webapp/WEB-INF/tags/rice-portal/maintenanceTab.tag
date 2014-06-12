@@ -29,6 +29,7 @@
 </td>
 <td class="content" valign="top">
     <admin:positionManagement />
+    <admin:eDossierMaint />
     <admin:personManagement/>
 </td>
 <td class="content" valign="top">
