@@ -17,11 +17,14 @@ package org.kuali.kpme.pm.positiontype.web;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObjectMaintainableImpl;
 import org.kuali.kpme.pm.positiontype.PositionTypeBo;
+import org.kuali.kpme.pm.positiontype.PositionTypeGroupKeyBo;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 
-public class PositionTypeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
-	
+//public class PositionTypeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
+
+public class PositionTypeMaintainableImpl extends HrKeyedSetBusinessObjectMaintainableImpl<PositionTypeBo, PositionTypeGroupKeyBo> {
 	private static final long serialVersionUID = 1L;
 
 	@Override

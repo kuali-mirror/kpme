@@ -15,8 +15,11 @@
  */
 package org.kuali.kpme.pm.api.positiontype;
 
+import org.kuali.kpme.core.api.mo.EffectiveKeyContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedSetDataTransferObject;
+
+import java.util.Set;
 
 /**
  * <p>PositionTypeContract interface</p>
@@ -24,7 +27,10 @@ import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedSetDataTransferObject;
  */
 
 public interface PositionTypeContract extends KpmeEffectiveKeyedSetDataTransferObject {
-	
+
+
+    public Set<? extends EffectiveKeyContract> getEffectiveKeySet();
+
     /**
      * The primary key for a PositionType entry saved in the database
      *
@@ -57,28 +63,6 @@ public interface PositionTypeContract extends KpmeEffectiveKeyedSetDataTransferO
      * @return description for PositionType
      */
 	public String getDescription();
-
-    /**
-     * The institution associated with the PositionType
-     *
-     * <p>
-     * institution of a PositionType.
-     * <p>
-     *
-     * @return institution for PositionType
-     */
-	public String getInstitution();
-
-    /**
-     * The location associated with the PositionType
-     *
-     * <p>
-     * location of a PositionType.
-     * <p>
-     *
-     * @return location for PositionType
-     */
-	public String getLocation();
 
     /**
      * The Location object associated with the PositionType

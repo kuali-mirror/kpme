@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.classification;
 
 import org.kuali.kpme.core.api.mo.EffectiveKey;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.bo.derived.HrBusinessObjectKey;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
@@ -23,6 +24,8 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
  * Created by mlemons on 6/5/14.
  */
 public class ClassificationGroupKeyBo extends HrBusinessObjectKey<ClassificationBo, ClassificationGroupKeyBo> {
+
+    private static final long serialVersionUID = 1219823278753071180L;
 
     public static final ModelObjectUtils.Transformer<EffectiveKey, ClassificationGroupKeyBo> toBo =
             new ModelObjectUtils.Transformer<EffectiveKey, ClassificationGroupKeyBo>() {

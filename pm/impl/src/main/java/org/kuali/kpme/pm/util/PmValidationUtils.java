@@ -133,9 +133,9 @@ public class PmValidationUtils {
 		return false;
 	}
 
-	public static boolean validatePositionType(String pType, String institution, String campus, LocalDate asOfDate) {
+	public static boolean validatePositionType(String pType, LocalDate asOfDate) {
 		if(asOfDate != null) {
-			List<? extends PositionTypeContract> ptList = PmServiceLocator.getPositionTypeService().getPositionTypeList(pType, institution, campus, asOfDate);
+			List<? extends PositionTypeContract> ptList = PmServiceLocator.getPositionTypeService().getPositionTypeList(pType, asOfDate);
 			return CollectionUtils.isNotEmpty(ptList);
 		}
 		return false;

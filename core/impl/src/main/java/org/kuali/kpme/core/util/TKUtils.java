@@ -55,16 +55,22 @@ public class TKUtils {
         }
     }
 
-    public static String getSingleGroupKey()
+
+    public static String getSingleGroupKey(LocalDate asOfDate)
     {
         String singleGroupKey = null;
 
-        List<? extends HrGroupKey> groupKeyList = HrServiceLocator.getHrGroupKeyService().getAllActiveHrGroupKeys(LocalDate.now());
+        List<? extends HrGroupKey> groupKeyList = HrServiceLocator.getHrGroupKeyService().getAllActiveHrGroupKeys(asOfDate);
         if((CollectionUtils.isNotEmpty(groupKeyList)) && (groupKeyList.size() == 1)) {
             singleGroupKey = groupKeyList.get(0).getGroupKeyCode();
         }
 
         return singleGroupKey;
+    }
+
+    public static String getSingleGroupKey()
+    {
+        return getSingleGroupKey(LocalDate.now());
     }
 
     /**

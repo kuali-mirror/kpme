@@ -30,10 +30,13 @@ import java.util.List;
 
 
 public class PositionTypeBo extends HrKeyedSetBusinessObject<PositionTypeBo, PositionTypeGroupKeyBo> implements PositionTypeContract {
-	static class KeyFields {
+
+    private static final long serialVersionUID = 3022125278353071180L;
+
+
+
+    static class KeyFields {
 		private static final String POSITION_TYPE = "positionType";
-		private static final String LOCATION = "location";
-		private static final String INSTITUTION = "institution";
 		//private static final String GROUP_KEY_CODE = "groupKeyCode";
 	}
 	
@@ -53,27 +56,20 @@ public class PositionTypeBo extends HrKeyedSetBusinessObject<PositionTypeBo, Pos
 	// KPME-2273/1965 Primary Business Keys List.
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 			.add(KeyFields.POSITION_TYPE)
-			.add(KeyFields.LOCATION)
-	        .add(KeyFields.INSTITUTION)
 			//.add(GROUP_KEY_CODE)
 			.build();
 
-	private static final long serialVersionUID = 1L;
 
 	private String pmPositionTypeId;
 	private String positionType;
 	private String description;
 	private boolean academicFlag;
 	
-	private String institution;
-	private String location;
 
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.POSITION_TYPE, this.getPositionType())
-				.put(KeyFields.LOCATION, this.getLocation())
-				.put(KeyFields.INSTITUTION, this.getInstitution())
 				//.put(GROUP_KEY_CODE, this.getGroupKeyCode())
 				.build();
 	}
@@ -91,11 +87,7 @@ public class PositionTypeBo extends HrKeyedSetBusinessObject<PositionTypeBo, Pos
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionType() + "_" + 
-				this.getLocation() + "_" + 
-				this.getInstitution()
-				//this.getGroupKeyCode()
-				;
+		return getPositionType();
 	}
 
 	public String getPmPositionTypeId() {
@@ -134,25 +126,6 @@ public class PositionTypeBo extends HrKeyedSetBusinessObject<PositionTypeBo, Pos
 		this.academicFlag = academicFlag;
 	}
 
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-	
-	
-	public String getLocation() {
-		return location;
-	}
-
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-
 	public static PositionTypeBo from(PositionType im) {
 
 		if (im == null) {
@@ -164,12 +137,7 @@ public class PositionTypeBo extends HrKeyedSetBusinessObject<PositionTypeBo, Pos
 		pt.setPmPositionTypeId(im.getPmPositionTypeId());
 		pt.setPositionType(im.getPositionType());
 		pt.setAcademicFlag(im.isAcademicFlag());
-		
-		pt.setLocation(im.getLocation());
-		pt.setInstitution(im.getInstitution());
-		
-//		positionTypeBo.setGroupKeyCode(im.getGroupKeyCode()); 
-//		positionTypeBo.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+
 
         Set<PositionTypeGroupKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), PositionTypeGroupKeyBo.toBo);
         // set pt as the owner for each of the derived effective key objects in the set

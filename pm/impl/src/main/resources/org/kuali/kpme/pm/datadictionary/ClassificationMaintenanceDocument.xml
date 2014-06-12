@@ -281,8 +281,7 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="positionClass" />
-				<bean parent="Uif-InputField" p:propertyName="positionType" />				
-				<bean parent="Uif-InputField" p:propertyName="location" />
+				<bean parent="Uif-InputField" p:propertyName="positionType" />
 			</list>
 		</property>
 	</bean>
