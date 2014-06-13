@@ -314,7 +314,7 @@
                 <bean parent="Uif-MaintenanceGridSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="effectiveDate">
+                            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true">
                                 <property name="validCharactersConstraint">
                                     <bean parent="BasicDatePatternConstraint"/>
                                 </property>

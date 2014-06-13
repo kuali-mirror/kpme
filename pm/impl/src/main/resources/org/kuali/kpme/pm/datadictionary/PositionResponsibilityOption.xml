@@ -144,7 +144,7 @@
         <bean parent="Uif-MaintenanceGridSection">
           <property name="items">
             <list>
-	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+	            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
 		       	<bean parent="Uif-InputField" p:propertyName="prOptionName" />
         		<bean parent="Uif-InputField" p:propertyName="prDescription" />
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>

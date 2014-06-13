@@ -244,7 +244,7 @@
   	<bean id="KPMEGroupKeyed-MaintenanceGridSection" parent="Uif-MaintenanceGridSection">
     	<property name="items">
         	<list merge="true">
-        		<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+        		<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 
             	<!-- <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate"> -->
                 <bean parent="KPMEHrGroupKeyInputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate">

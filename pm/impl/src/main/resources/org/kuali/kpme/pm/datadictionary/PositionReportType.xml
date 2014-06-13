@@ -167,7 +167,7 @@
 <!--                               <bean parent="BasicDatePatternConstraint"/> -->
 <!--                           </property> -->
 <!--                       </bean> -->
-						<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+					  <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
                       <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
                       <bean parent="Uif-InputField" p:propertyName="positionReportType" p:required="true"/>
 <!--                       <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true"> -->
