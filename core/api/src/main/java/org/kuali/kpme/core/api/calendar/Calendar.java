@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.api.util.jaxb.LocalTimeAdapter;
 import org.kuali.rice.core.api.CoreConstants;
@@ -146,6 +147,25 @@ public final class Calendar
     @Override
     public String getObjectId() {
         return this.objectId;
+    }
+
+    public int getFlsaEndDayConstant() {
+        if (this.getFlsaBeginDayConstant() == DateTimeConstants.MONDAY) {
+            return DateTimeConstants.SUNDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.TUESDAY) {
+            return DateTimeConstants.MONDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.WEDNESDAY) {
+            return DateTimeConstants.TUESDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.THURSDAY) {
+            return DateTimeConstants.WEDNESDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.FRIDAY) {
+            return DateTimeConstants.THURSDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.SATURDAY) {
+            return DateTimeConstants.FRIDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.SUNDAY) {
+            return DateTimeConstants.SATURDAY;
+        }
+        return 0;
     }
 
 

@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
@@ -112,8 +113,8 @@ public class TimeHourDetailBo extends PersistableBusinessObjectBase implements T
 		TimeHourDetailBo timeHourDetail = (TimeHourDetailBo) obj;
 		return new EqualsBuilder()
 			.append(earnCode, timeHourDetail.earnCode)
-			.append(amount, timeHourDetail.amount)
-			.append(hours, timeHourDetail.hours)
+			.append(KpmeUtils.nullSafeCompare(amount, timeHourDetail.amount), 0)
+			.append(KpmeUtils.nullSafeCompare(hours, timeHourDetail.hours), 0)
 			.isEquals();
 	}
 

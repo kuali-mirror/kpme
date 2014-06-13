@@ -37,7 +37,7 @@ public interface PositionTypeService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public List<? extends PositionType> getPositionTypeList(String positionType, String institution, String location, LocalDate asOfDate);
+	public List<? extends PositionType> getPositionTypeList(String positionType, LocalDate asOfDate);
 	
 	/**
 	 * Retrieve the latest active Position Type with given positionType and effectiveDate

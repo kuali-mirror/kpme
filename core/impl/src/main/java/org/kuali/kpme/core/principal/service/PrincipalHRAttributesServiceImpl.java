@@ -130,10 +130,12 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     		String department = jobObj != null ? jobObj.getDept() : null;
         	Department departmentObj = jobObj != null ? HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getGroupKeyCode(), jobObj.getEffectiveLocalDate()) : null;
         	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+            String groupKeyCode = departmentObj != null ? departmentObj.getGroupKeyCode() : null;
         	
         	Map<String, String> roleQualification = new HashMap<>();
         	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, principalHRAttributeObj.getPrincipalId());
-        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
         	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
         	
         	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),

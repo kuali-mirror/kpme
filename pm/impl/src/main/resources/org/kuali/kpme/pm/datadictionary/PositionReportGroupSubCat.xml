@@ -209,7 +209,7 @@
 				<bean parent="Uif-MaintenanceGridSection">
 					<property name="items">
 						<list merge="true">
-							<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+							<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
 							<bean parent="Uif-InputField" p:propertyName="pstnRptGrpSubCat" />
 							<bean parent="Uif-InputField" p:propertyName="description" />
 							<bean parent="Uif-InputField" p:propertyName="positionReportGroup">

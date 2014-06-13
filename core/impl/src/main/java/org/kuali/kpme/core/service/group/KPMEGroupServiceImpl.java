@@ -74,8 +74,40 @@ public class KPMEGroupServiceImpl implements KPMEGroupService {
 		
 		return isMemberOfGroup;
 	}
-	
-	@Override
+
+    @Override
+    public boolean isMemberOfGroupWithId(String principalId, String groupId, DateTime asOfDate) {
+        boolean isMemberOfGroup = false;
+
+        Group group = getGroupService().getGroup(groupId);
+
+        if (group != null) {
+            List<Predicate> predicates = new ArrayList<Predicate>();
+            predicates.add(equal("groupId", groupId));
+            predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+            predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", asOfDate)));
+
+            List<GroupMember> groupMembers = getGroupService().findGroupMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
+
+            for (GroupMember groupMember : groupMembers) {
+                if (MemberType.PRINCIPAL.equals(groupMember.getType())) {
+                    if (StringUtils.equals(groupMember.getMemberId(), principalId)) {
+                        isMemberOfGroup = true;
+                        break;
+                    }
+                } else if (MemberType.GROUP.equals(groupMember.getType())) {
+                    if (isMemberOfGroupWithId(principalId, groupMember.getMemberId(), asOfDate)) {
+                        isMemberOfGroup = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return isMemberOfGroup;
+    }
+
+    @Override
 	public boolean isMemberOfSystemAdministratorGroup(String principalId, DateTime asOfDate) {
     	return isMemberOfGroup(principalId, KPMEGroup.SYSTEM_ADMINISTRATOR.getGroupName(), asOfDate);
 	}

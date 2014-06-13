@@ -52,6 +52,7 @@ public class DepartmentLunchRuleAuthorizer extends KPMEMaintenanceDocumentAuthor
 		}
 		
 		attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
 		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 	}
 	

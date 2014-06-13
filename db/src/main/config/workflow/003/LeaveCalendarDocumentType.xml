@@ -112,6 +112,60 @@
             </searchingConfig>
         </ruleAttribute>
         <ruleAttribute>
+            <name>LeaveCalendarPrincipalNameSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveCalendarPrincipalNameSearchAttribute</label>
+            <description>LeaveCalendarPrincipalNameSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="principalName" title="Principal Name">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//PRINCIPALNAME/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveCalendarCalendarEntrySearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveCalendarCalendarEntrySearchAttribute</label>
+            <description>LeaveCalendarCalendarEntrySearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="calendarEntryId" title="Calendar Entry Id">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//CALENTRYID/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveCalendarGroupKeySearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveCalendarGroupKeySearchAttribute</label>
+            <description>LeaveCalendarGroupKeySearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="groupKey" title="Group Key Code">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//GROUPKEY/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
             <name>LeaveCalendarDepartmentSearchAttribute</name>
             <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
             <label>LeaveCalendarDepartmentSearchAttribute</label>

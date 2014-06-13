@@ -83,11 +83,11 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     }
 
     @Override
-    public List<Long> getWorkAreasForDepartments(List<String> departments, LocalDate asOfDate) {
-        if (CollectionUtils.isEmpty(departments)) {
+    public List<Long> getWorkAreasForDepartments(List<String> departmentBusinessKeyIds, LocalDate asOfDate) {
+        if (CollectionUtils.isEmpty(departmentBusinessKeyIds)) {
             return Collections.emptyList();
         }
-        List<WorkAreaBo> workAreas = workAreaDao.getWorkAreaForDepartments(departments, asOfDate);
+        List<WorkAreaBo> workAreas = workAreaDao.getWorkAreaForDepartmentBusinessKeyIds(departmentBusinessKeyIds, asOfDate);
         List<Long> was = new ArrayList<Long>();
         for (WorkAreaBo wa : workAreas) {
             was.add(wa.getWorkArea());

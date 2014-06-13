@@ -63,11 +63,12 @@ public interface LMPermissionService {
 	 * @param principalId The person to check the permission for
 	 * @param permissionName The name of the permission
 	 * @param department The department qualifier
+     * @param groupKeyCode The group key code qualifier
 	 * @param asOfDate The effective date of the permission
 	 * 
 	 * @return true if {@code principalId} is authorized to perform {@code permissionName} for the given department, false otherwise.
 	 */
-	boolean isAuthorizedInDepartment(String principalId, String permissionName, String department, DateTime asOfDate);
+	boolean isAuthorizedInDepartment(String principalId, String permissionName, String department, String groupKeyCode, DateTime asOfDate);
 
 	/**
 	 * Checks whether the given {@code principalId} is authorized to perform {@code permissionName} for the given location.
@@ -176,11 +177,12 @@ public interface LMPermissionService {
 	 * @param principalId The person to check the permission for
 	 * @param permissionTemplateName The name of the permission
 	 * @param department The department qualifier
+     * @param groupKeyCode The group key code qualifier
 	 * @param asOfDate The effective date of the permission
 	 * 
 	 * @return true if {@code principalId} is authorized to perform {@code permissionName} for the given department, false otherwise.
 	 */
-	boolean isAuthorizedByTemplateInDepartment(String principalId, String namespaceCode, String permissionTemplateName, String department, DateTime asOfDate);
+	boolean isAuthorizedByTemplateInDepartment(String principalId, String namespaceCode, String permissionTemplateName, String department, String groupKeyCode, DateTime asOfDate);
 
 	/**
 	 * Checks whether the given {@code principalId} is authorized to perform {@code permissionName} for the given location.

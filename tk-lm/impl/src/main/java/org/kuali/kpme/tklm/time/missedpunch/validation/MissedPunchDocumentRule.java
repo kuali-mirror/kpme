@@ -58,13 +58,26 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
         DocumentStatus documentStatus = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(document.getDocumentNumber());
         
         if (DocumentStatus.INITIATED.equals(documentStatus) || DocumentStatus.SAVED.equals(documentStatus)) {
-        	valid = validateTimesheet(missedPunch);
-        	valid &= validateClockAction(missedPunch);
-        	valid &= validateClockTime(missedPunch);
-        	valid &= validateOverLappingTimeBlocks(missedPunch, missedPunch.getTimesheetDocumentId());
-            valid &= validateTimeSheetInitiated(missedPunch);
+        	valid = runValidation(missedPunch);
         }
 	    
+        return valid;
+	}
+	/**
+	 * Runs all the customized validatoin on the given missed punch
+	 * 
+	 * @param aMissedPunch The Missed Punch to check
+	 * 
+	 * @return true if the all validation passes, false otherwise
+	 * 
+	 */
+	public boolean runValidation(MissedPunchBo aMissedPunch) {
+		boolean valid = true;
+		valid &= validateTimesheet(aMissedPunch);
+    	valid &= validateClockAction(aMissedPunch);
+    	valid &= validateClockTime(aMissedPunch);
+    	valid &= validateOverLappingTimeBlocks(aMissedPunch, aMissedPunch.getTimesheetDocumentId());
+        valid &= validateTimeSheetInitiated(aMissedPunch);
         return valid;
 	}
 	
@@ -151,13 +164,14 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
                 if (assignment != null) {
                     Long workArea = assignment.getWorkArea();
                     String dept = assignment.getJob().getDept();
+                    String groupKeyCode = assignment.getGroupKeyCode();
 
                     boolean isApproverOrReviewerForCurrentAssignment =
                             HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, actionDateTime)
                                     || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, actionDateTime)
                                     || HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, actionDateTime)
-                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, actionDateTime)
-                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, actionDateTime);
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, groupKeyCode, actionDateTime)
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(userPrincipalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, groupKeyCode, actionDateTime);
                     if (!isApproverOrReviewerForCurrentAssignment) {
                         GlobalVariables.getMessageMap().putError("document", "clock.mp.unauthorized", GlobalVariables.getUserSession().getPrincipalName(), missedPunch.getPrincipalName());
                         //if this fails, don't bother checking the other rules
@@ -178,13 +192,13 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        }
 	        
 	    	ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(missedPunch.getPrincipalId());
+	    	DateTime boundaryMin = DateTime.now().minusDays(1);
 	        if (lastClockLog != null) {
                 if( (StringUtils.isNotEmpty(missedPunch.getTkClockLogId()) && !missedPunch.getTkClockLogId().equals(lastClockLog.getTkClockLogId()))
 	        			|| StringUtils.isEmpty(missedPunch.getTkClockLogId()) ) {
 	        			
 		        	DateTime clockLogDateTime = lastClockLog.getClockDateTime();
 			        DateTime boundaryMax = clockLogDateTime.plusDays(1);
-                    DateTime boundaryMin = DateTime.now().minusDays(1);
 			        if ((!StringUtils.equals(lastClockLog.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
 			        		|| actionDateTime.isBefore(clockLogDateTime)) {
 			        	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
@@ -195,6 +209,14 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
                         GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.past24hour.date");
                         valid = false;
                     }
+	        	}
+	        } else { // if there's no previous clock log, it means the user is clocking in for the first time.
+	        	if(!StringUtils.equals(missedPunch.getClockAction(), TkConstants.CLOCK_IN)) {
+	        		GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.invalid.action", missedPunch.getClockAction());
+                    valid = false;
+	        	} else if (actionDateTime.isBefore(boundaryMin)) {
+	        		GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.past24hour.date");
+                    valid = false; 
 	        	}
 	        }
         }

@@ -16,7 +16,6 @@
 package org.kuali.kpme.pm.position;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -34,6 +33,7 @@ import org.kuali.kpme.pm.api.classification.duty.ClassificationDutyContract;
 import org.kuali.kpme.pm.api.classification.flag.ClassificationFlagContract;
 import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.kpme.pm.api.position.PositionContract;
+import org.kuali.kpme.pm.api.position.funding.PositionFunding;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
 import org.kuali.kpme.pm.position.funding.PositionFundingBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
@@ -507,22 +507,20 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		
 				retVal.setHrPositionId(im.getHrPositionId());
 				retVal.setPositionNumber(im.getPositionNumber());
-				retVal.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im
-						.getEffectiveLocalDate().toDate());
-				retVal.setActive(im.isActive());
-				if (im.getCreateTime() != null) {
-					retVal.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
-				}
 				retVal.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
 				retVal.setGroupKeyCode(im.getGroupKeyCode());
-				retVal.setUserPrincipalId(im.getUserPrincipalId());
-				retVal.setVersionNumber(im.getVersionNumber());
-				retVal.setObjectId(im.getObjectId());
+				copyCommonFields(retVal, im);
+				
 				retVal.setBenefitsEligible(im.getBenefitsEligible());
 				retVal.setPercentTime(im.getPercentTime());
 				retVal.setClassificationTitle(im.getClassificationTitle());
 				retVal.setSalaryGroup(im.getSalaryGroup());
-		        retVal.setQualificationList(ModelObjectUtils.transform(im.getQualificationList(), PositionQualificationBo.toBo));
+				
+				List<PositionQualificationBo> qualifications= ModelObjectUtils.transform(im.getQualificationList(), PositionQualificationBo.toBo);
+				PositionQualificationBo.setOwnerOfDerivedCollection(retVal, qualifications);
+				retVal.setQualificationList(qualifications);
+				
+				
 				retVal.setReportsToPrincipalId(im.getReportsToPrincipalId());
 				retVal.setLeaveEligible(im.getLeaveEligible());
 				retVal.setPositionReportGroup(im.getPositionReportGroup());
@@ -530,23 +528,44 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 				retVal.setPoolEligible(im.getPoolEligible());
 				retVal.setMaxPoolHeadCount(im.getMaxPoolHeadCount());
 				retVal.setTenureEligible(im.getTenureEligible());
-				retVal.setDepartmentList(ModelObjectUtils.transform(im.getDepartmentList(), PositionDepartmentBo.toBo));
+				
+				List<PositionDepartmentBo> departments = ModelObjectUtils.transform(im.getDepartmentList(), PositionDepartmentBo.toBo);
+				PositionDepartmentBo.setOwnerOfDerivedCollection(retVal, departments);
+				retVal.setDepartmentList(departments);
+				
 				retVal.setPositionStatus(im.getPositionStatus());
 				retVal.setContractType(im.getContractType());
 				retVal.setRenewEligible(im.getRenewEligible());
 				retVal.setReportsToPositionId(im.getReportsToPositionId());
+				
 				retVal.setRequiredQualList(ModelObjectUtils.transform(im.getRequiredQualList(), ClassificationQualificationBo.toBo));
-				retVal.setPositionResponsibilityList(ModelObjectUtils.transform(im.getPositionResponsibilityList(),PositionResponsibilityBo.toBo));
+				
+				List<PositionResponsibilityBo> responsibilities = ModelObjectUtils.transform(im.getPositionResponsibilityList(),PositionResponsibilityBo.toBo);
+				PositionResponsibilityBo.setOwnerOfDerivedCollection(retVal, responsibilities);
+				retVal.setPositionResponsibilityList(responsibilities);
+				
 				retVal.setPmPositionClassId(im.getPmPositionClassId());
-				retVal.setFundingList(ModelObjectUtils.transform(im.getFundingList(),PositionFundingBo.toBo));
+				
+				List<PositionFundingBo> fundings = ModelObjectUtils.transform(im.getFundingList(),PositionFundingBo.toBo);
+				PositionFundingBo.setOwnerOfDerivedCollection(retVal, fundings);
+				retVal.setFundingList(fundings);
+				
 				retVal.setWorkMonths(im.getWorkMonths());
 				retVal.setTemporary(im.getTemporary());
 				retVal.setCategory(im.getCategory());
 				retVal.setLeavePlan(im.getLeavePlan());
-				retVal.setFlagList(ModelObjectUtils.transform(im.getFlagList(), PstnFlagBo.toBo));
+				
+				List<PstnFlagBo> flags = ModelObjectUtils.transform(im.getFlagList(), PstnFlagBo.toBo);
+				PstnFlagBo.setOwnerOfDerivedCollection(retVal, flags);
+				retVal.setFlagList(flags);
+				
 				retVal.setPayStep(im.getPayStep());
 				retVal.setPayGrade(im.getPayGrade());
-				retVal.setDutyList(ModelObjectUtils.transform(im.getDutyList(), PositionDutyBo.toBo));
+				
+				List<PositionDutyBo> duties = ModelObjectUtils.transform(im.getDutyList(), PositionDutyBo.toBo);
+				PositionDutyBo.setOwnerOfDerivedCollection(retVal, duties);
+				retVal.setDutyList(duties);
+				
 				retVal.setContract(im.getContract());
 				retVal.setDescription(im.getDescription());
 				retVal.setId(im.getId());

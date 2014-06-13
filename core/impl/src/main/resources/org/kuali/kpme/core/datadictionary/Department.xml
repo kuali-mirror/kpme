@@ -181,7 +181,7 @@
     <!-- Department Inquiry View -->
     <bean id="Department-InquiryView" parent="Uif-InquiryView">
         <property name="headerText" value="Department Inquiry" />
-        <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo" /> 
         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.department.web.DepartmentInquirableKradImpl" />
         <property name="singlePageView" value="true" />
         <property name="items">
@@ -312,6 +312,7 @@
     <bean id="Department-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Department Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.department.web.DepartmentLookupableImpl" />
 
         <property name="criteriaFields">
             <list merge="true">
@@ -340,14 +341,18 @@
     
     <!-- KNS Lookup View -->
     <bean id="Department-lookupDefinition" parent="Department-lookupDefinition-parentBean" />
-    <bean id="Department-lookupDefinition-parentBean" abstract="true" parent="KPMEUif-GroupKeyedEffectiveDateBO-LookupDefinition">
+    <bean id="Department-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
         <property name="title" value="Department Lookup" />
         <property name="lookupableID" value="departmentLookupable" />
         <property name="defaultSort">
             <bean parent="SortDefinition" />
         </property>
         <property name="lookupFields">
-            <list merge="true">
+            <list>
+            	<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noLookup="true"/>
+                <bean parent="KPMEGroupKeyFieldDefinition" p:attributeName="groupKeyCode" />
+          		<bean parent="FieldDefinition" p:attributeName="institutionCode" />
+		        <bean parent="FieldDefinition" p:attributeName="locationId" />
                 <bean parent="FieldDefinition" p:attributeName="dept" />
                 <bean parent="FieldDefinition" p:attributeName="description" />
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
@@ -357,7 +362,9 @@
             </list>
         </property>
         <property name="resultFields">
-            <list merge="true">
+            <list> 
+            	<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+    	 	  	<bean parent="FieldDefinition" p:attributeName="groupKeyCode" />   
                 <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
                 <bean parent="FieldDefinition" p:attributeName="description" />
                 <bean parent="FieldDefinition" p:attributeName="timestamp" />

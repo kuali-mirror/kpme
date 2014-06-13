@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.util;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -521,5 +522,17 @@ public class TKUtilsTest extends TKLMIntegrationTestCase {
     public void testgetDocumentDescription() throws Exception {
         String docDescription = TKUtils.getDocumentDescription("admin",new LocalDate(2010,1,1));
         Assert.assertEquals("doc Description is wrong","admin, admin (admin)  - 01/01/2010",docDescription);
+    }
+
+    @Test
+    public void testGetSingleGroupKey()
+    {
+        assertTrue(TKUtils.getSingleGroupKey(LocalDate.now()) == null);
+
+        String singleGroupKey =TKUtils.getSingleGroupKey(new LocalDate(1960, 1, 1) );
+        assertTrue(singleGroupKey == null);
+
+        singleGroupKey =TKUtils.getSingleGroupKey(new LocalDate(1970, 1, 1) );
+        assertTrue(singleGroupKey != null);
     }
 }

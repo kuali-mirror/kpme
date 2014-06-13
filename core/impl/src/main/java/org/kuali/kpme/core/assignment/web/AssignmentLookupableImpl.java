@@ -21,45 +21,18 @@ import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.LookupService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.kpme.core.assignment.AssignmentBo;
-import org.kuali.kpme.core.api.assignment.Assignment;
-
 
 import java.util.*;
 
-@SuppressWarnings("deprecation")
 public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
-
-    private static final String ASSIGNMENT_LOOKUP_SERVICE = "assignmentLookupService";
     private static final long serialVersionUID = 774015772672806415L;
 
-    private static final ModelObjectUtils.Transformer<Assignment, AssignmentBo> fromAssignment =
-            new ModelObjectUtils.Transformer<Assignment, AssignmentBo>() {
-                public AssignmentBo transform(Assignment input) {
-                    return AssignmentBo.from(input);
-                };
-            };
-    private static final ModelObjectUtils.Transformer<AssignmentBo, Assignment> toAssignment =
-            new ModelObjectUtils.Transformer<AssignmentBo, Assignment>() {
-                public Assignment transform(AssignmentBo input) {
-                    return AssignmentBo.to(input);
-                };
-            };
 
-
-    @Override
-    protected LookupService createLookupServiceInstance() {
-        return (LookupService) KRADServiceLocatorWeb.getService(ASSIGNMENT_LOOKUP_SERVICE);
-    }
-
-    //added for testability in AssignmentServiceImplTest
-    public static List<AssignmentBo> filterLookupAssignments(List<AssignmentBo> rawResults, String userPrincipalId) {
+    protected List<AssignmentBo> filterLookupAssignments(List<AssignmentBo> rawResults, String userPrincipalId) {
         List<AssignmentBo> results = new ArrayList<AssignmentBo>();
         for (AssignmentBo assignmentObj : rawResults) {
 
@@ -72,6 +45,7 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
 
             roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
             roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
             roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 
             if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
@@ -86,11 +60,12 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
     }
 
     @Override
-    protected Collection<?> executeSearch(Map<String, String> adjustedSearchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
-        String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+    protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
 
-        List<AssignmentBo> results = (List<AssignmentBo>) super.executeSearch(adjustedSearchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
+            String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
-        return filterLookupAssignments(results, userPrincipalId);
+        List<AssignmentBo> results = (List<AssignmentBo>) super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
+        List<AssignmentBo> filteredResults = filterLookupAssignments(results, userPrincipalId);
+        return filteredResults;
 	}
 }

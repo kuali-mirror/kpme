@@ -65,7 +65,7 @@ public class HrServiceLocator implements ApplicationContextAware {
 	public static final String HR_SALARY_GROUP_SERVICE = "salaryGroupService";
 	public static final String HR_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
 	public static final String HR_ACCRUAL_CATEGORY_RULE_SERVICE = "accrualCategoryRuleService";
-    public static final String HR_GROUP_KEY_SERVICE = "HrGroupKeyService";
+    public static final String HR_GROUP_KEY_SERVICE = "hrGroupKeyService";
     public static final String HR_TASK_SERVICE = "taskService";
     public static final String HR_LOCATION_SERVICE = "locationService";
     public static final String HR_PAY_GRADE_SERVICE = "payGradeService";

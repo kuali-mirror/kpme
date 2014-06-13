@@ -32,6 +32,7 @@ public class DepartmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase 
 
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
+		String groupKeyCode = StringUtils.EMPTY;
 		
 		if (dataObject instanceof DepartmentBo) {
 			DepartmentBo departmentObj = (DepartmentBo) dataObject;
@@ -39,11 +40,13 @@ public class DepartmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase 
 			if (department != null) {
 				department = departmentObj.getDept();
 				location = departmentObj.getLocation();
+				groupKeyCode = departmentObj.getGroupKeyCode();
 			}
 		}
 		
 		attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
 		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+		attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
 	}
 
 }

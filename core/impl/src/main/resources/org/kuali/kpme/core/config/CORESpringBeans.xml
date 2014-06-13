@@ -262,6 +262,7 @@
 
     <bean id="departmentService" class="org.kuali.kpme.core.department.service.DepartmentServiceImpl">
         <property name="departmentDao" ref="departmentDao"/>
+        <property name="hrGroupKeyService" ref="hrGroupKeyService"/>
     </bean>
 
     <bean id="departmentInternalService" class="org.kuali.kpme.core.department.service.DepartmentInternalServiceImpl">
@@ -315,7 +316,7 @@
         <property name="calendarDao" ref="calendarDao"/>
     </bean>
 
-    <bean id="HrGroupKeyService" class="org.kuali.kpme.core.groupkey.HrGroupKeyServiceImpl">
+    <bean id="hrGroupKeyService" class="org.kuali.kpme.core.groupkey.HrGroupKeyServiceImpl">
         <property name="hrGroupKeyDao" ref="hrGroupKeyDao"/>
     </bean>
 

@@ -33,6 +33,9 @@ public interface KPMEGroupService {
     @Cacheable(value= GroupMember.Cache.NAME, key="'{KPME|isMemberOfGroup}' + 'principal=' + #p0 + '|' + 'groupName=' + #p1 + '|' + 'asOfDate=' + #p2")
 	boolean isMemberOfGroup(String principalId, String groupName, DateTime asOfDate);
 
+    @Cacheable(value= GroupMember.Cache.NAME, key="'{KPME|isMemberOfGroupWithId}' + 'principal=' + #p0 + '|' + 'groupId=' + #p1 + '|' + 'asOfDate=' + #p2")
+    boolean isMemberOfGroupWithId(String principalId, String groupId, DateTime asOfDate);
+
 	/**
 	 * Checks whether the given {@code principalId} is a system administrator.
 	 * 

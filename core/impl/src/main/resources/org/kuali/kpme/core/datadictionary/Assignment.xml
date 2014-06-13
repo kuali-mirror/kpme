@@ -204,12 +204,7 @@
                             p:fieldConversions="principalId:principalId,jobNumber:jobNumber" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
             </property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
-			<property name="quickfinder">
-  	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                    p:fieldConversions="dept:dept,effectiveDate:relativeEffectiveDate"/>
-            </property>        
-        </bean>
+        
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workArea" >
 			<property name="quickfinder">
   	          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.workarea.WorkAreaBo"

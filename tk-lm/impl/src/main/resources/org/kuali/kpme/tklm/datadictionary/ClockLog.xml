@@ -101,7 +101,7 @@
 		<property name="shortLabel" value="Clock Timestamp" />
 		<property name="maxLength" value="20" />
 		<property name="name" value="clockTimestamp" />
-		<property name="label" value="Clock Timestamp (MM/DD/YYYY HH:MM AM)" />
+		<property name="label" value="Clock Timestamp (MM/DD/YYYY)" />
 	</bean>
 
     <bean id="ClockLog-shortClockTimezone" parent="ClockLog-shortClockTimezone-parentBean" />

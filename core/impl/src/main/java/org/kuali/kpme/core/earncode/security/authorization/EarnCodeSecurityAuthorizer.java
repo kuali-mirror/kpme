@@ -32,17 +32,20 @@ public class EarnCodeSecurityAuthorizer extends KPMEMaintenanceDocumentAuthorize
 
 		String department = StringUtils.EMPTY;
 		String location = StringUtils.EMPTY;
+        String groupKeyCode = StringUtils.EMPTY;
 		
 		if (dataObject instanceof EarnCodeSecurityBo) {
 			EarnCodeSecurityBo earnCodeSecurityObj = (EarnCodeSecurityBo) dataObject;
 			
 			if (earnCodeSecurityObj != null) {
 				department = StringUtils.equals(earnCodeSecurityObj.getDept(), "%") ? StringUtils.EMPTY : earnCodeSecurityObj.getDept();
+                groupKeyCode = StringUtils.equals(earnCodeSecurityObj.getGroupKeyCode(), "%") ? StringUtils.EMPTY : earnCodeSecurityObj.getGroupKeyCode();
 				location = StringUtils.equals(earnCodeSecurityObj.getLocation(), "%") ? StringUtils.EMPTY : earnCodeSecurityObj.getLocation();
 			}
 		}
-		
-		attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+
+        attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
 		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 	}
 	

@@ -45,47 +45,48 @@ public class LocationKeyValueFinder extends UifKeyValuesFinderBase {
 		MaintenanceDocumentForm docForm = (MaintenanceDocumentForm) model;
 		HrBusinessObject anHrObject = (HrBusinessObject) docForm.getDocument().getNewMaintainableObject().getDataObject();
 		LocalDate aDate = anHrObject.getEffectiveLocalDate() != null ? anHrObject.getEffectiveLocalDate() : null;
-		
-		if (aDate != null) {
-			String institution = null;
-			
-			if (anHrObject instanceof ClassificationBo) {
-				ClassificationBo aClass = (ClassificationBo)anHrObject;
-				institution = aClass.getInstitution();
-			} else {
-				
-				PositionBo aClass = (PositionBo)anHrObject;		
-				if (field.getId().contains("add") || field.getId().contains("line")) {  // gets called on Additinal Departments Page
-					
-					if (field.getId().contains("add")) {
-						PositionDepartmentBo dept = (PositionDepartmentBo) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.departmentList");
-						if (StringUtils.isEmpty(dept.getInstitution())) {
-							institution = aClass.getInstitution();
-						} else {
-							institution = dept.getInstitution();						
-						}
-					} else {
-						String fieldId = field.getId();
-						int line_index = fieldId.indexOf("line");
-						int index = Integer.parseInt(fieldId.substring(line_index+4));
-						List<PositionDepartmentBo> deptList = aClass.getDepartmentList(); // holds "added" lines
-						PositionDepartmentBo aDepartment = (PositionDepartmentBo)deptList.get(index);
-						institution = aDepartment.getInstitution();
-					}
-					
-				} else { // gets called on Position Overview Page
-					institution = aClass.getInstitution();
-				}
-			}
 
-			
-			//List<String> locations = HrServiceLocator.getDepartmentService().getLocationsValuesWithInstitution(institution, aDate);
-			//if(locations != null && locations.size() > 0) {
-			//	for(String location : locations) {
-			//		options.add(new ConcreteKeyValue(location, location));						
-			//	}
-			//}
-		}
+
+
+//		if (aDate != null) {
+//			String institution = null;
+//
+//			if (anHrObject instanceof ClassificationBo) {
+//				ClassificationBo aClass = (ClassificationBo)anHrObject;
+//				institution = aClass.getInstitution();
+//			} else {
+//
+//				PositionBo aClass = (PositionBo)anHrObject;
+//				if (field.getId().contains("add") || field.getId().contains("line")) {  // gets called on Additinal Departments Page
+//
+//					if (field.getId().contains("add")) {
+//						PositionDepartmentBo dept = (PositionDepartmentBo) docForm.getNewCollectionLines().get("document.newMaintainableObject.dataObject.departmentList");
+//						if (StringUtils.isEmpty(dept.getInstitution())) {
+//							institution = aClass.getInstitution();
+//						} else {
+//							institution = dept.getInstitution();
+//						}
+//					} else {
+//						String fieldId = field.getId();
+//						int line_index = fieldId.indexOf("line");
+//						int index = Integer.parseInt(fieldId.substring(line_index+4));
+//						List<PositionDepartmentBo> deptList = aClass.getDepartmentList(); // holds "added" lines
+//						PositionDepartmentBo aDepartment = (PositionDepartmentBo)deptList.get(index);
+//						institution = aDepartment.getInstitution();
+//					}
+//				} else { // gets called on Position Overview Page
+//					institution = aClass.getInstitution();
+//				}
+//			}
+//
+//
+//			//List<String> locations = HrServiceLocator.getDepartmentService().getLocationsValuesWithInstitution(institution, aDate);
+//			//if(locations != null && locations.size() > 0) {
+//			//	for(String location : locations) {
+//			//		options.add(new ConcreteKeyValue(location, location));
+//			//	}
+//			//}
+//		}
 
 		return options;
 	}

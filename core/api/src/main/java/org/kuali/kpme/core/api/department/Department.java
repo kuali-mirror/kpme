@@ -212,6 +212,26 @@ public final class Department
         return this.userPrincipalId;
     }
 
+    public String getBusinessKeyString() {
+        return getGroupKeyCode() + "|" + getDept();
+    }
+
+    public String getDeptFromBusinessKeyId(String id) {
+        String[] temp = id.split("|");
+        if (temp.length > 1) {
+            return temp[1];
+        }
+        return null;
+    }
+
+    public String getGroupKeycodeFromBusinessKeyId(String id) {
+        String[] temp = id.split("|");
+        if (temp.length > 1) {
+            return temp[0];
+        }
+        return null;
+    }
+
 
     /**
      * A builder which can be used to construct {@link Department} instances.  Enforces the constraints of the {@link DepartmentContract}.

@@ -20,6 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetailContract;
@@ -575,7 +576,7 @@ public final class TimeBlock
                 .append(earnCode, timeBlock.earnCode)
                 .append(beginDateTime == null ? null : beginDateTime.getMillis(), timeBlock.beginDateTime == null ? null : timeBlock.beginDateTime.getMillis())
                 .append(endDateTime == null ? null : endDateTime.getMillis(), timeBlock.endDateTime == null ? null : timeBlock.endDateTime.getMillis())
-                .append(hours, timeBlock.hours)
+                .append(KpmeUtils.nullSafeCompare(hours, timeBlock.hours), 0)
                 .append(timeHourDetails, timeBlock.timeHourDetails)
                 .append(createTime == null ? null : createTime.getMillis(), timeBlock.createTime == null ? null : timeBlock.createTime.getMillis())
                 .isEquals();

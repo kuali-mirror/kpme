@@ -16,18 +16,24 @@
 package org.kuali.kpme.core.workarea.service;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl;
 import org.w3c.dom.Node;
@@ -52,12 +58,18 @@ public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowT
             @WebParam(name = "documentContent") DocumentContent documentContent) {
 
         List<Map<String, String>> workAreaQualifiers = new ArrayList<Map<String, String>>();
-        List<String> workAreas = getElementValues(documentContent.getApplicationContent(), "//WORKAREA/@value");
-        if (CollectionUtils.isNotEmpty(workAreas)) {
-            for (String workArea : workAreas) {
-                workAreaQualifiers.add(
-                        Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(),
-                        workArea));
+        String principalName = getElementValue(documentContent.getApplicationContent(), "//PRINCIPALNAME/@value");
+        String calendarEntryId = getElementValue(documentContent.getApplicationContent(), "//CALENTRYID/@value");
+        List<Assignment> assignments = new ArrayList<Assignment>();
+
+        if (StringUtils.isNotEmpty(principalName)
+                && StringUtils.isNotEmpty(calendarEntryId)) {
+            String principalId = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName).getPrincipalId();
+            CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry(calendarEntryId);
+            if (document.getDocumentTypeName().equals("TimesheetDocument")) {
+                assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForTimeCalendar(principalId, ce);
+            } else {
+                assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(principalId, ce);
             }
         } else {
             //try to get values from maintainable object if instance of assignable
@@ -67,22 +79,13 @@ public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowT
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof Assignable) {
                         Assignable assignable = (Assignable)(md.getNewMaintainableObject().getDataObject());
-                        List<Assignment> assignments = assignable.getAssignments();
-                        for (Assignment ac : assignments) {
-                            workAreaQualifiers.add(
-                                    Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(ac.getWorkArea()))
-                            );
-                        }
+                        assignments =  assignable.getAssignments();
+
                     }
                 } else {
                     // If doc itself is instance of Assignable
                     if (doc instanceof Assignable) {
-                        List<? extends AssignmentContract> assignments = ((Assignable)doc).getAssignments();
-                        for (AssignmentContract ac : assignments) {
-                            workAreaQualifiers.add(
-                                    Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(ac.getWorkArea()))
-                            );
-                        }
+                        assignments = ((Assignable)doc).getAssignments();
                     }
                 }
             } catch (WorkflowException e) {
@@ -90,8 +93,15 @@ public class WorkAreaPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowT
             }
         }
 
+        if (CollectionUtils.isNotEmpty(assignments)) {
+            for (Assignment ac : assignments) {
+                workAreaQualifiers.add(
+                        Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(ac.getWorkArea()))
+                );
+            }
+        }
+
         return workAreaQualifiers;
-        //documentContent.getSearchableContent()
 
     }
 

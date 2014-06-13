@@ -177,7 +177,7 @@ public interface AssignmentService {
     @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentDescription}' + 'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'workArea=' + #p2 + '|' + 'task=' + #p3 + '|' + 'asOfDate=' + #p4")
     public String getAssignmentDescription(String principalId, String groupKeyCode, Long jobNumber, Long workArea, Long task, LocalDate asOfDate);
 
-    @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentDescriptionForAssignment}' + 'assignmentId=' + #p0.getId() + '|' + 'asOfDate=' + #p4")
+//    @Cacheable(value= AssignmentContract.CACHE_NAME, key="'{getAssignmentDescriptionForAssignment}' + 'assignmentId=' + #p0.getId() + '|' + 'asOfDate=' + #p4")
     public String getAssignmentDescriptionForAssignment(Assignment assignment, LocalDate asOfDate);
 
     //@Cacheable(value= Assignment.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'clockOnlyAssignments=' + #p1 + '|' + 'asOfDate=' + #p2 + '|' + 'userPrincipalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId()")

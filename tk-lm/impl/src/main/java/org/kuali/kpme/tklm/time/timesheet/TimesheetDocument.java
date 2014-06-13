@@ -161,13 +161,14 @@ public class TimesheetDocument extends CalendarDocument implements TimesheetDocu
                 if (!clockOnlyAssignments || isSynchronous) {
     				Long workArea = assignment.getWorkArea();
                     String dept = assignment.getJob() == null ? StringUtils.EMPTY : assignment.getJob().getDept();
+                    String groupKeyCode = assignment.getGroupKeyCode();
         			DateTime startOfToday = LocalDate.now().toDateTimeAtStartOfDay();
                     boolean isApproverOrReviewerForCurrentAssignment =
                             HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, startOfToday)
         					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, startOfToday)
         					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, startOfToday)
-                            || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, startOfToday)
-                            || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, startOfToday);
+                            || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, groupKeyCode, startOfToday)
+                            || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), dept, groupKeyCode, startOfToday);
                     if(isApproverOrReviewerForCurrentAssignment) {
                     	assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
                     }

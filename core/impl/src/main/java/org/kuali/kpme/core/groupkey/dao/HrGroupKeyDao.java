@@ -25,4 +25,8 @@ public interface HrGroupKeyDao {
 
     HrGroupKeyBo getHrGroupKey(String groupKeyCode, LocalDate asOfDate);
     List<HrGroupKeyBo> getAllActiveHrGroupKeys(LocalDate asOfDate);
+
+    List<HrGroupKeyBo> getHrGroupKeysWithLocation(String locationId, LocalDate asOfDate);
+    List<HrGroupKeyBo> getHrGroupKeysWithLocations(List<String> locations, LocalDate asOfDate);
+    List<HrGroupKeyBo> getHrGroupKeysWithInstitution(String institutionCode, LocalDate asOfDate);
 }

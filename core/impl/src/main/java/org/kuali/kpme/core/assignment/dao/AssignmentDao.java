@@ -19,7 +19,6 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 
 import java.util.List;
-import java.util.Map;
 
 public interface AssignmentDao {
 
@@ -78,8 +77,6 @@ public interface AssignmentDao {
 	public List<AssignmentBo> getActiveAssignmentsForJob(String principalId, Long jobNumber, LocalDate asOfDate);
 
     List<AssignmentBo> findAssignmentsWithinPeriod(String principalId, LocalDate startDate, LocalDate endDate);
-
-   //List<AssignmentBo> searchAssignments(Map<String, String> searchCriteria);
 
     public AssignmentBo getMaxTimestampAssignment(String principalId);
     

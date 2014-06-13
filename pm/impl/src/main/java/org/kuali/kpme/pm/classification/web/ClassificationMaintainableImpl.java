@@ -22,9 +22,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
+import org.kuali.kpme.core.bo.HrKeyedSetBusinessObjectMaintainableImpl;
 import org.kuali.kpme.pm.api.positionflag.PositionFlagContract;
 import org.kuali.kpme.pm.api.pstnqlfrtype.PstnQlfrTypeContract;
 import org.kuali.kpme.pm.classification.ClassificationBo;
+import org.kuali.kpme.pm.classification.ClassificationGroupKeyBo;
 import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
 import org.kuali.kpme.pm.classification.flag.ClassificationFlagBo;
 import org.kuali.kpme.pm.classification.qual.ClassificationQualificationBo;
@@ -41,8 +44,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
 
+//public class PositionTypeMaintainableImpl extends HrKeyedSetBusinessObjectMaintainableImpl<PositionTypeBo, PositionTypeGroupKeyBo> {
 
-public class ClassificationMaintainableImpl extends HrDataObjectMaintainableImpl {
+public class ClassificationMaintainableImpl extends HrKeyedSetBusinessObjectMaintainableImpl<ClassificationBo, ClassificationGroupKeyBo> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -65,7 +69,7 @@ public class ClassificationMaintainableImpl extends HrDataObjectMaintainableImpl
 			aFlag.setPmPositionClassId(aClss.getPmPositionClassId());
 			aFlag.setPmFlagId(null);
 		}
-		
+        super.customSaveLogic(hrObj);
 	}
 
 	@Override

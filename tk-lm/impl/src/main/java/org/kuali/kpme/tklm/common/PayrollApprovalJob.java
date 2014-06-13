@@ -36,23 +36,18 @@ import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.role.RoleMember;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
+import org.quartz.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class PayrollApprovalJob extends BatchJob {
 
@@ -90,10 +85,20 @@ public class PayrollApprovalJob extends BatchJob {
 						
 						if(documentStatus.equals(DocumentStatus.ENROUTE.getCode())) {
 							PrincipalHRAttributes phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(timesheetDocument.getPrincipalId(), endDate.toLocalDate());
+							
 							if(phraRecord != null && phraRecord.getPayCalendar().equals(calendar.getCalendarName())) {	
-								TkServiceLocator.getTimesheetService().approveTimesheet(batchUserPrincipalId, timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.PAYROLL_JOB_APPROVE);
-								roleMembers = getRoleMembersInDepartment(timesheetDocument.getAllAssignments(), KPMENamespace.KPME_TK);
-								subject = "Payroll Batch Approved Timesheet Document " + docId;
+								// find all request actions and approve the document as the users with the request action
+								List<ActionRequest> requestList = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(docId);
+								for(ActionRequest aRequest : requestList) {
+									if(aRequest.getActionRequested() != null 
+											&& aRequest.getActionRequested().getCode().equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ)
+											&& StringUtils.isNotBlank(aRequest.getPrincipalId())
+											&& StringUtils.equals(aRequest.getQualifiedRoleNameLabel(), KPMERole.PAYROLL_PROCESSOR.getRoleName())) {
+										TkServiceLocator.getTimesheetService().approveTimesheet(aRequest.getPrincipalId(), timesheetDocument, HrConstants.BATCH_JOB_ACTIONS.PAYROLL_JOB_APPROVE);
+										roleMembers = getRoleMembersInDepartment(timesheetDocument.getAllAssignments(), KPMENamespace.KPME_TK);
+										subject = "Payroll Batch Approved Timesheet Document " + docId;
+									}
+								}
 							}
 						} else if(documentStatus.equals(DocumentStatus.INITIATED.getCode()) || documentStatus.equals(DocumentStatus.SAVED.getCode())) {
 		        			// if there are documents still not submitted by the time payroll processor approval batch job runs, we need to route the document, then reschedule the payroll processor job
@@ -117,9 +122,18 @@ public class PayrollApprovalJob extends BatchJob {
 						if (documentStatus.equals(DocumentStatus.ENROUTE.getCode())) {
 							PrincipalHRAttributes phraRecord = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(leaveCalendarDocument.getPrincipalId(), endDate.toLocalDate());
 							if(phraRecord != null && phraRecord.getLeaveCalendar().equals(calendar.getCalendarName())) {	
-								LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(batchUserPrincipalId, leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
-								roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAllAssignments(), KPMENamespace.KPME_LM);
-								subject = "Payroll Batch Approved Leave Calendar Document " + docId;
+								// find all request actions and approve the document as the users with the request action
+								List<ActionRequest> requestList = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(docId);
+								for(ActionRequest aRequest : requestList) {
+									if(aRequest.getActionRequested() != null 
+											&& aRequest.getActionRequested().getCode().equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ)
+											&& StringUtils.isNotBlank(aRequest.getPrincipalId())
+											&& StringUtils.equals(aRequest.getQualifiedRoleNameLabel(), KPMERole.PAYROLL_PROCESSOR.getRoleName())) {
+										LmServiceLocator.getLeaveCalendarService().approveLeaveCalendar(aRequest.getPrincipalId(), leaveCalendarDocument, HrConstants.BATCH_JOB_ACTIONS.PAYROLL_JOB_APPROVE);
+										roleMembers = getRoleMembersInDepartment(leaveCalendarDocument.getAssignments(), KPMENamespace.KPME_LM);
+										subject = "Payroll Batch Approved Leave Calendar Document " + docId;
+									}
+								}
 							}
 						} else if(documentStatus.equals(DocumentStatus.INITIATED.getCode()) || documentStatus.equals(DocumentStatus.SAVED.getCode())) {
 							String principalId = leaveCalendarDocument.getPrincipalId();
@@ -145,14 +159,14 @@ public class PayrollApprovalJob extends BatchJob {
 	
     private List<RoleMember> getRoleMembersInDepartment(
 			List<Assignment> assignments, final KPMENamespace namespace) {
-		Set<String> departments = new HashSet<String>();
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+        List<KeyValue> groupKeyDepts = new ArrayList<KeyValue>();
 		for(Assignment assignment : assignments) {
-			departments.add(assignment.getDept());
+            groupKeyDepts.add(new ConcreteKeyValue(assignment.getGroupKeyCode(), assignment.getDept()));
 		}
-		for(String dept : departments) {
+		for(KeyValue grpKeyDept : groupKeyDepts) {
 			List<RoleMember> roleMembersInDepartment = new ArrayList<RoleMember>();
-			roleMembersInDepartment = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(namespace.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, LocalDate.now().toDateTime(LocalTime.now()), true);
+			roleMembersInDepartment = HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(namespace.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), grpKeyDept.getValue(), grpKeyDept.getKey(), LocalDate.now().toDateTime(LocalTime.now()), true);
 			for(RoleMember roleMember : roleMembersInDepartment) {
 				if(!roleMembers.contains(roleMember)) {
 					roleMembers.add(roleMember);
@@ -172,7 +186,7 @@ public class PayrollApprovalJob extends BatchJob {
 		String [] roleMemberIds = new String [roleMemberIdList.size()];
 		HrServiceLocator.getKPMENotificationService().sendNotification(subject, message, roleMemberIdList.toArray(roleMemberIds));
 	}
-
+	
 	private void rescheduleJob(JobExecutionContext context) throws JobExecutionException {
 		try {
 			Scheduler scheduler = context.getScheduler();

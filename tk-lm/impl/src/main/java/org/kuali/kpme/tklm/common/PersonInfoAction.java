@@ -159,7 +159,7 @@ public class PersonInfoAction extends KPMEAction {
 					}
 				});
 			}
-			departmentAdmins.addAll(getDepartmentAdmins(assignment.getDept()));
+			departmentAdmins.addAll(getDepartmentAdmins(assignment.getDept(), assignment.getGroupKeyCode()));
             deptToDeptAdminPerson.put(assignment.getDept(), departmentAdmins);
 
             Set<Person> payrollProcessors = deptToPayrollPerson.get(assignment.getDept());
@@ -171,7 +171,7 @@ public class PersonInfoAction extends KPMEAction {
                     }
                 });
             }
-            payrollProcessors.addAll(getPayrollProcessors(assignment.getDept()));
+            payrollProcessors.addAll(getPayrollProcessors(assignment.getDept(), assignment.getGroupKeyCode()));
             deptToPayrollPerson.put(assignment.getDept(), payrollProcessors);
 		}
 		
@@ -222,12 +222,12 @@ public class PersonInfoAction extends KPMEAction {
 		personInfoActionForm.setSystemAdmin(HrServiceLocator.getKPMEGroupService().isMemberOfSystemAdministratorGroup(principalId, date));
 	}
 
-    private Set<Person> getDepartmentAdmins(String dept) {
+    private Set<Person> getDepartmentAdmins(String dept, String groupKeyCode) {
     	Set<Person> departmentAdmins = new HashSet<Person>();
         DateTime date = LocalDate.now().toDateTimeAtStartOfDay();
     	List<RoleMember> roleMembers = new ArrayList<RoleMember>();
-    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, date, true));
-    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, date, true));
+    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, groupKeyCode, date, true));
+    	roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, groupKeyCode, date, true));
 	        
     	for (RoleMember roleMember : roleMembers) {
     		Person person = KimApiServiceLocator.getPersonService().getPerson(roleMember.getMemberId());
@@ -239,11 +239,11 @@ public class PersonInfoAction extends KPMEAction {
         return departmentAdmins;
     }
 
-    private Set<Person> getPayrollProcessors(String dept) {
+    private Set<Person> getPayrollProcessors(String dept, String groupKeyCode) {
         Set<Person> payrollProcs = new HashSet<Person>();
         DateTime date = LocalDate.now().toDateTimeAtStartOfDay();
         List<RoleMember> roleMembers = new ArrayList<RoleMember>();
-        roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, date, true));
+        roleMembers.addAll(HrServiceLocator.getKPMERoleService().getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, groupKeyCode, date, true));
 
         for (RoleMember roleMember : roleMembers) {
             Person person = KimApiServiceLocator.getPersonService().getPerson(roleMember.getMemberId());

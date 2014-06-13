@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.missedpunch.authorization;
 
+import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.TransactionalDocumentAuthorizerBase;
@@ -36,6 +37,18 @@ public class MissedPunchDocumentAuthorizer extends TransactionalDocumentAuthoriz
     @Override
     public boolean canSendAdHocRequests(Document document, String actionRequestCd, Person user) {
         return false;
-    }	
+    }
+    
+    @Override
+    public boolean canApprove(Document document, Person user) {
+    	boolean canApprove =  super.canApprove(document, user);
+    	if(canApprove) {
+    		MissedPunchDocument missedPunchDocument = (MissedPunchDocument) document;
+    		if(missedPunchDocument.getPrincipalId().equalsIgnoreCase(user.getPrincipalId())) {
+    			canApprove = false;
+    		}
+    	}
+    	return canApprove;
+    }
 
 }

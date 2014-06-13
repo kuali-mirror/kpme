@@ -16,10 +16,7 @@
 package org.kuali.kpme.core.department.web;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -144,7 +141,10 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
     	
     	for (DepartmentPrincipalRoleMemberBo roleMember : roleList) {
     		RoleMember.Builder builder = RoleMember.Builder.create(roleMember);
-    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department.getDept()));
+            Map<String, String> attributes = new HashMap<String, String>();
+            attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department.getDept());
+            attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), department.getGroupKeyCode());
+    		builder.setAttributes(attributes);
     		
     		if (StringUtils.isBlank(roleMember.getId())) {
                 KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
@@ -154,7 +154,10 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
     	}
     	for (DepartmentPrincipalRoleMemberBo inactiveRoleMember : department.getInactiveRoleMembers()) {
     		RoleMember.Builder builder = RoleMember.Builder.create(inactiveRoleMember);
-    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(),  department.getDept()));
+            Map<String, String> attributes = new HashMap<String, String>();
+            attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department.getDept());
+            attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), department.getGroupKeyCode());
+    		builder.setAttributes(attributes);
     		
     		if (StringUtils.isBlank(inactiveRoleMember.getId())) {
     			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());

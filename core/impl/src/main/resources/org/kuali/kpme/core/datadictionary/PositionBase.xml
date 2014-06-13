@@ -200,13 +200,13 @@
     	<property name="singlePageView" value="true"/>
 		<property name="items">
 			<list>
-				<bean parent="Uif-Disclosure-GridSection">
+				<bean parent="KPMEGroupKeyed-InquiryGridSection">
 					<property name="layoutManager.numberOfColumns" value="2" />
 					<property name="items">
 						<list>
-							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
 							<bean parent="Uif-DataField" p:propertyName="positionNumber" />
 							<bean parent="Uif-DataField" p:propertyName="description" />
+							<bean parent="KPMEGroupKeyDataFieldLookup" p:propertyName="groupKeyCode"/>
 							<bean parent="Uif-DataField" p:propertyName="active" />
 						</list>
 					</property>
@@ -221,12 +221,10 @@
 	<bean id="PositionBase-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView" >
 	    <property name="headerText" value="Position Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBaseBo" />
-	    <property name="viewHelperServiceClass" value="org.kuali.kpme.core.position.web.PositionBaseLookupableImpl" />
 	    <property name="criteriaFields">
 			<list merge="true">
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionNumber" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" p:defaultValue="N"/>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
 			</list>

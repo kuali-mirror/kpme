@@ -18,27 +18,33 @@ package org.kuali.kpme.core.position.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.position.PositionBase;
 import org.kuali.kpme.core.api.position.service.PositionBaseService;
 import org.kuali.kpme.core.position.PositionBaseBo;
 import org.kuali.kpme.core.position.dao.PositionBaseDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class PositionBaseServiceImpl implements PositionBaseService {
 
 	private PositionBaseDao positionBaseDao;
 	
+	protected List<PositionBase> convertToImmutable(List<PositionBaseBo> bos) {
+		return ModelObjectUtils.transform(bos, PositionBaseBo.toImmutable);
+	}
+	
 	@Override
-	public PositionBaseBo getPosition(String hrPositionId) {
-		return positionBaseDao.getPosition(hrPositionId);
+	public PositionBase getPosition(String hrPositionId) {
+		return PositionBaseBo.to(positionBaseDao.getPosition(hrPositionId));
 	}
 
     @Override
-    public PositionBaseBo getPosition(String hrPositionNbr, LocalDate effectiveDate) {
-        return positionBaseDao.getPosition(hrPositionNbr, effectiveDate);
+    public PositionBase getPosition(String hrPositionNbr, LocalDate effectiveDate) {
+        return PositionBaseBo.to(positionBaseDao.getPosition(hrPositionNbr, effectiveDate));
     }
 
     @Override
-    public List<PositionBaseBo> getPositions(String positionNum, String positionDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
-        return positionBaseDao.getPositions(positionNum, positionDescr, fromEffdt, toEffdt, active, showHistory);
+    public List<PositionBase> getPositions(String positionNum, String positionDescr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory) {
+        return convertToImmutable(positionBaseDao.getPositions(positionNum, positionDescr, fromEffdt, toEffdt, active, showHistory));
     }
 
 	public PositionBaseDao getPositionBaseDao() {

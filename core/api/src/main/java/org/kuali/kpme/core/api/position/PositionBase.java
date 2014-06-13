@@ -196,21 +196,19 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
         private String groupKeyCode;
         private HrGroupKey.Builder groupKey;
 
-        private Builder(String positionNumber, String groupKeyCode) {
+        private Builder(String positionNumber) {
         	setPositionNumber(positionNumber);
-            setGroupKeyCode(groupKeyCode);
         }
 
-        public static Builder create(String positionNumber, String groupKeyCode) {
-            return new Builder(positionNumber, groupKeyCode);
+        public static Builder create(String positionNumber) {
+            return new Builder(positionNumber);
         }
 
         public static Builder create(PositionBaseContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            Builder builder = create(contract.getPositionNumber(), contract.getGroupKeyCode());
-//            builder.setPositionNumber(contract.getPositionNumber());
+            Builder builder = create(contract.getPositionNumber());
             builder.setHrPositionId(contract.getHrPositionId());
             builder.setDescription(contract.getDescription());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -220,6 +218,9 @@ public final class PositionBase extends AbstractDataTransferObject implements Po
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+
             return builder;
         }
 

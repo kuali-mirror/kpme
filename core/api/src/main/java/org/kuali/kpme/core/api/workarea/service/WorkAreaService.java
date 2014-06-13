@@ -88,8 +88,8 @@ public interface WorkAreaService {
      * @param asOfDate An effective date.
      * @return A List<WorkArea> that matches the provided params.
      */
-    @Cacheable(value= WorkAreaContract.CACHE_NAME, key="'{getWorkAreasForDepartments}' + 'department=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
-    public List<Long> getWorkAreasForDepartments(List<String> departments, LocalDate asOfDate);
+    @Cacheable(value= WorkAreaContract.CACHE_NAME, key="'{getWorkAreasForDepartments}' + 'departmentBusinessKeyIds=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
+    public List<Long> getWorkAreasForDepartments(List<String> departmentBusinessKeyIds, LocalDate asOfDate);
 
     /**
      * Save or Update given work area

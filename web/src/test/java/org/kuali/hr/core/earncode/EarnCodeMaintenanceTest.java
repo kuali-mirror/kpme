@@ -199,7 +199,7 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		effectiveDate.setValueAttribute("01/02/2010");
 		HtmlElement element = maintPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
-        Assert.assertTrue("Maintenance Page does not return warning about active timeblock existence.", finalPage.asText().contains("Can not inactivate earn code 'RGN'. It is used in active time blocks"));
+        Assert.assertTrue("Maintenance Page does not return warning about active timeblock existence.", finalPage.asText().contains("Cannot inactivate earn code 'RGN'. It is used in active time blocks"));
 	}
 	
 	@Test
@@ -226,7 +226,7 @@ public class EarnCodeMaintenanceTest extends KPMEWebTestCase {
 		effectiveDate.setValueAttribute("01/04/2010");
 		HtmlElement element = maintPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
-        Assert.assertTrue("Maintenance Page should not return warning about active timeblock existence.", !finalPage.asText().contains("Can not inactivate earn code 'RGN'. It is used in active time blocks"));
+        Assert.assertTrue("Maintenance Page should not return warning about active timeblock existence.", !finalPage.asText().contains("Cannot inactivate earn code 'RGN'. It is used in active time blocks"));
 	}
 	
 }

@@ -18,13 +18,13 @@
     <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
      
      
-    <channel:portalChannelTop channelTitle="KPME Project" />
+    <channel:portalChannelTop channelTitle="KHR Project" />
     <div class="body">
      
         <ul class="chan">
-                    <li><a href="http://www.kuali.org/kpme">KPME Website </a></li>
-                    <li><a href="https://wiki.kuali.org/display/KPME/" >KPME Wiki </a></li>
-                <li><a href="https://jira.kuali.org/browse/KPME" > KPME JIRA </a></li>
+                    <li><a href="http://www.kuali.org/kpme">KHR Website </a></li>
+                    <li><a href="https://wiki.kuali.org/display/KPME/" >KHR Wiki </a></li>
+                <li><a href="https://jira.kuali.org/browse/KPME" > KHR JIRA </a></li>
         </ul>
        
            

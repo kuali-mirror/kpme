@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.job.JobContract;
+import org.kuali.kpme.core.api.position.PositionBase;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
@@ -324,7 +325,7 @@ public class JobBo extends HrKeyedBusinessObject implements JobContract {
 
 	public PositionBaseBo getPositionObj() {
         if (positionObj == null) {
-            this.setPositionObj((PositionBaseBo)HrServiceLocator.getPositionService().getPosition(positionNumber, getEffectiveLocalDate()));
+            this.setPositionObj(PositionBaseBo.from((PositionBase)HrServiceLocator.getPositionService().getPosition(positionNumber, getEffectiveLocalDate())));
         }
         return positionObj;
 

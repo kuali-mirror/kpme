@@ -15,10 +15,11 @@
  */
 package org.kuali.kpme.pm.position;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.derived.HrKeyedBusinessObjectDerived;
 import org.kuali.kpme.pm.api.position.PositionKeyedDerivedContract;
 
-public abstract class PositionKeyedDerived extends HrKeyedBusinessObjectDerived implements PositionKeyedDerivedContract {
+public abstract class PositionKeyedDerived extends HrKeyedBusinessObjectDerived<PositionBo> implements PositionKeyedDerivedContract {
 	
 	private static final long serialVersionUID = -4500160649209884023L;
 	
@@ -37,7 +38,7 @@ public abstract class PositionKeyedDerived extends HrKeyedBusinessObjectDerived 
 	
 	@Override
 	public PositionBo getOwner() {
-		if(this.owner == null) {
+		if((this.owner == null) && (StringUtils.isNotBlank(this.hrPositionId)) )  {
 			refreshReferenceObject(OWNER);
 		}
 		return this.owner;

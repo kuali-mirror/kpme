@@ -25,6 +25,7 @@ import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.batch.BatchJobUtil;
 import org.kuali.kpme.core.document.calendar.CalendarDocument;
+import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
@@ -40,6 +41,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
@@ -286,7 +288,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         if (leaveCalendarDocument != null) {
             String rhid = leaveCalendarDocument.getDocumentId();
             wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);
-
+            List<ActionRequest> actionRequests = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(rhid);
+            
             if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.ROUTE)) {
                 wd.route("Routing for Approval");
             } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
@@ -304,12 +307,38 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                     wd.approve("Approving timesheet.");
                 }
             } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
-            	 Note.Builder builder = Note.Builder.create(rhid, principalId);
-            	 builder.setCreateDate(new DateTime());
-            	 builder.setText("Approved via Supervisor Approval batch job");
-            	 KewApiServiceLocator.getNoteService().createNote(builder.build());
-            	
-            	wd.superUserBlanketApprove("Batch job approving leave calendar");
+            	 boolean approverFlag = false;
+                 for (ActionRequest ar : actionRequests) {
+                 	if(StringUtils.equals(ar.getQualifiedRoleNameLabel(), KPMERole.APPROVER.getRoleName())) {
+                 		approverFlag = true;
+                 		break;
+                 	}
+                 }
+                 // if there's still action requested to be taken by approver, then approve the document with this SupervisorApproval batch job
+                 // otherwise, don't take any actions
+                 if(approverFlag) {
+ 	            	// supervisor approval job should take approve action but not finalize the document if there's payroll processor set up for this doc
+                	Note.Builder builder = Note.Builder.create(rhid, principalId);
+                	builder.setCreateDate(new DateTime());
+                	builder.setText("Approved via Supervisor Approval batch job");
+                	KewApiServiceLocator.getNoteService().createNote(builder.build());
+ 	           	 	wd.approve("Supervisor Batch job approving leave calendar on behalf of approvers.");
+                 }
+            } else if (StringUtils.equals(action, HrConstants.BATCH_JOB_ACTIONS.PAYROLL_JOB_APPROVE)) {
+            	boolean payrollProcessorFlag = false;
+                for (ActionRequest ar : actionRequests) {
+                	if(StringUtils.equals(ar.getQualifiedRoleNameLabel(), KPMERole.PAYROLL_PROCESSOR.getRoleName())) {
+                		payrollProcessorFlag = true;
+                 		break;
+                 	}
+                 }
+                 if(payrollProcessorFlag) {
+	            	Note.Builder builder = Note.Builder.create(rhid, principalId);
+	           	 	builder.setCreateDate(new DateTime());
+	           	 	builder.setText("Approved via Payroll Processor Approval batch job");
+	           	 	KewApiServiceLocator.getNoteService().createNote(builder.build());
+	            	wd.approve("Payroll Processor Batch job approving leave calendar on behalf of approvers.");
+                 }
             } else if (StringUtils.equals(action, HrConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
                 if (HrServiceLocator.getHRPermissionService().canSuperUserAdministerCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), leaveCalendarDocument) 
                 		&& !HrServiceLocator.getHRPermissionService().canApproveCalendarDocument(GlobalVariables.getUserSession().getPrincipalId(), leaveCalendarDocument)) {

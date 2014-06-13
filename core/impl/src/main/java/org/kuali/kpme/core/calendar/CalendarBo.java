@@ -148,6 +148,25 @@ public class CalendarBo extends PersistableBusinessObjectBase implements Calenda
 		}
 	}
 
+    public int getFlsaEndDayConstant() {
+        if (this.getFlsaBeginDayConstant() == DateTimeConstants.MONDAY) {
+            return DateTimeConstants.SUNDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.TUESDAY) {
+            return DateTimeConstants.MONDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.WEDNESDAY) {
+            return DateTimeConstants.TUESDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.THURSDAY) {
+            return DateTimeConstants.WEDNESDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.FRIDAY) {
+            return DateTimeConstants.THURSDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.SATURDAY) {
+            return DateTimeConstants.FRIDAY;
+        } else if (this.getFlsaBeginDayConstant() == DateTimeConstants.SUNDAY) {
+            return DateTimeConstants.SATURDAY;
+        }
+        return 0;
+    }
+
 	/**
 	 * org.joda.time.DateTimeConstants.MONDAY
 	 * ...

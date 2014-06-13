@@ -184,10 +184,12 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 	        	String department = clockLocationRuleObj.getDept(); 
 	        	Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, clockLocationRuleObj.getGroupKeyCode(), clockLocationRuleObj.getEffectiveLocalDate());
 	        	String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
-	        	
+	        	String groupKeyCode = departmentObj != null ? departmentObj.getGroupKeyCode() : null;
+
 	        	Map<String, String> roleQualification = new HashMap<String, String>();
 	        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
 	        	roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+                roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
 	        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 	        	
 	        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),

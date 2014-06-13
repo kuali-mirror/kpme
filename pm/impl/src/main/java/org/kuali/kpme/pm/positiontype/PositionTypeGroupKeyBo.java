@@ -25,6 +25,8 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
  */
 public class PositionTypeGroupKeyBo extends HrBusinessObjectKey<PositionTypeBo, PositionTypeGroupKeyBo> {
 
+    private static final long serialVersionUID = 3012823278754079280L;
+
 //    private static final long serialVersionUID = 3035597915412860604L;
 
     public static final ModelObjectUtils.Transformer<EffectiveKey, PositionTypeGroupKeyBo> toBo =

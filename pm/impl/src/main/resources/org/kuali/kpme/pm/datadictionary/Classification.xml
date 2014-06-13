@@ -64,6 +64,12 @@
 	          <property name="shortLabel" value="Flags" />
 	          <property name="label" value="Classification Flags" />
 	        </bean>
+              <bean parent="CollectionDefinition">
+                  <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificaitonGroupKeyBo" />
+                  <property name="name" value="effectiveKeyList" />
+                  <property name="shortLabel" value="Group Key Whitelist" />
+                  <property name="label" value="Group Key Whitelist" />
+              </bean>
 	      </list>
 	    </property>
 		

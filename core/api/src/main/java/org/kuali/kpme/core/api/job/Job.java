@@ -436,6 +436,7 @@ public final class Job
             builder.setStandardHours(contract.getStandardHours());
             
             builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
             
             builder.setHrSalGroup(contract.getHrSalGroup());
             builder.setCompRate(contract.getCompRate());

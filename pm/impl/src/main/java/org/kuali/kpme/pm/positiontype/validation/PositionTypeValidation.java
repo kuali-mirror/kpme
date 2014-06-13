@@ -30,34 +30,8 @@ public class PositionTypeValidation extends HrKeyedBusinessObjectValidation  {
 		LOG.debug("entering custom validation for Position Type");
 		PositionTypeBo positionType = (PositionTypeBo) this.getNewDataObject();
 		
-		if (positionType != null) {
-			valid = true;
-			//valid &= this.validateGroupKeyCode(positionType);
-			valid &= this.validateInstitution(positionType);
-			valid &= this.validateLocation(positionType);
-		}
+        valid = super.processCustomRouteDocumentBusinessRules(document);
 		return valid;
 	}
 
-	private boolean validateInstitution(PositionTypeBo positionType) {
-		if (StringUtils.isNotEmpty(positionType.getInstitution())
-				&& !ValidationUtils.validateInstitution(positionType.getInstitution(), positionType.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.institution", "error.existence", "Institution '"
-					+ positionType.getInstitution() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	private boolean validateLocation(PositionTypeBo positionType) {
-		if (StringUtils.isNotEmpty(positionType.getLocation())
-				&& !ValidationUtils.validateLocation(positionType.getLocation(), positionType.getEffectiveLocalDate())) {
-			this.putFieldError("dataObject.location", "error.existence", "Location '"
-					+ positionType.getLocation() + "'");
-			return false;
-		} else {
-			return true;
-		}
-	}
 }

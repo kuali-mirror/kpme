@@ -52,13 +52,13 @@ public class DepartmentInternalServiceImpl implements DepartmentInternalService 
                 && CollectionUtils.isEmpty(department.getRoleMembers()) && CollectionUtils.isEmpty(department.getInactiveRoleMembers())) {
             Set<RoleMember> roleMembers = new HashSet<RoleMember>();
 
-            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), department.getGroupKeyCode(), asOfDate.toDateTimeAtStartOfDay(), false));
+            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), department.getGroupKeyCode(), asOfDate.toDateTimeAtStartOfDay(), false));
+            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), department.getGroupKeyCode(), asOfDate.toDateTimeAtStartOfDay(), false));
+            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), department.getGroupKeyCode(), asOfDate.toDateTimeAtStartOfDay(), false));
 
-            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
-            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), department.getDept(), asOfDate.toDateTimeAtStartOfDay(), false));
+            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), department.getDept(), department.getGroupKeyCode(), asOfDate.toDateTimeAtStartOfDay(), false));
+            roleMembers.addAll(kpmeRoleService.getRoleMembersInDepartment(KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), department.getDept(), department.getGroupKeyCode(), asOfDate.toDateTimeAtStartOfDay(), false));
 
             for (RoleMember roleMember : roleMembers) {
                 RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);

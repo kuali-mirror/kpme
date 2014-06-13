@@ -39,9 +39,9 @@ public enum KPMERole {
 	DERIVED_ROLE_POSITION ("Derived Role : Position"),
 	
 	// PROXY roles
-	KPME_PROXY_ROLE("Derived Role : KPME Role Proxy"),
+	/*KPME_PROXY_ROLE("Derived Role : KPME Role Proxy"),
 	APPROVER_PROXY_ROLE("Derived Role: Approver Proxy"),
-	APPROVER_DELEGATE_PROXY_ROLE("Derived Role: Approver Delegate Proxy"),
+	APPROVER_DELEGATE_PROXY_ROLE("Derived Role: Approver Delegate Proxy"),*/
 	
 	// KPME-3198
 	POSITION_SYSTEM_ADMINISTRATOR ("Position System Administrator"), 

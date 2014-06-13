@@ -17,12 +17,13 @@ package org.kuali.kpme.core.bo.derived;
 
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.bo.derived.HrKeyedBusinessObjectDerivedContract;
+import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.institution.InstitutionBo;
 import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 
-public abstract class HrKeyedBusinessObjectDerived extends HrBusinessObjectDerived implements HrKeyedBusinessObjectDerivedContract {
+public abstract class HrKeyedBusinessObjectDerived<O extends HrBusinessObject> extends HrBusinessObjectDerived<O> implements HrKeyedBusinessObjectDerivedContract {
 
 	private static final long serialVersionUID = -4676316817255855400L;
 	

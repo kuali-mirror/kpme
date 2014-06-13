@@ -33,4 +33,11 @@ public class KpmeUtils {
 
         return assignmentKey;
     }
+
+    public static <T extends Comparable<? super T>> int nullSafeCompare(T s1, T s2) {
+        if(s1 == null && s2 != null) { return -1;}
+        if(s1 != null && s2 == null) { return 1;}
+        if(s1 == null) { return 0;}
+        return s1.compareTo(s2);
+    }
 }

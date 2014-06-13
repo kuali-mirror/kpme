@@ -18,6 +18,7 @@ package org.kuali.kpme.core.bo.derived;
 import java.util.Collection;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.bo.derived.HrBusinessObjectDerivedContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
@@ -62,7 +63,7 @@ public abstract class HrBusinessObjectDerived<O extends HrBusinessObject> extend
 
 	@Override
 	public O getOwner() {
-		if(this.owner == null) {
+		if((this.owner == null) && (StringUtils.isNotBlank(this.getOwnerId()))) {
 			refreshReferenceObject(OWNER);
 		}
 		return this.owner;

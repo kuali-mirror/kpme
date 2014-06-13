@@ -31,9 +31,7 @@ public interface DepartmentService {
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'hrDeptId=' + #p0")
     Department getDepartment(String hrDeptId);
     
-    // This is not used anywhere
-    //List<Department> getDepartments(String userPrincipalId, String department, String location, String descr, String active, String showHistory, String payrollApproval);
-    
+
     /**
 	 * get count of department with given department
 	 * @param department
@@ -84,17 +82,6 @@ public interface DepartmentService {
      */
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartmentsForLocations}' + 'location=' + T(org.kuali.rice.core.api.cache.CacheKeyUtils).key(#p0) + '|' + 'asOfDate=' + #p1")
     List<String> getDepartmentValuesWithLocations(List<String> locations, LocalDate asOfDate);
-
-	/**
-     * Fetch a list of Department objects as of the specified date all of which
-     * match the indicated department.
-     * 
-     * @param department
-     * @param asOfDate
-     * @return A List<Department> object
-     */
-    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartments}' + 'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-    List<Department> getDepartments(String department, LocalDate asOfDate);
     
     /**
      * Fetch a list of Department objects with given department and groupKeyCode
@@ -103,8 +90,8 @@ public interface DepartmentService {
      * @param groupKeyCode
      * @return A List<Department> object
      */
-    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartments}' + 'department=' + #p0 + '|' + 'groupKeyCode=' + #p1")
-    List<Department> getDepartments(String department, String groupKeyCode);
+    //@Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartments}' + 'department=' + #p0 + '|' + 'groupKeyCode=' + #p1")
+    //List<Department> getDepartments(String department, String groupKeyCode);
     
     /**
      * Fetch a list of Department objects as of the specified date all of which

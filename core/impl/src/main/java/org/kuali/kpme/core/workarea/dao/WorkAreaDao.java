@@ -24,7 +24,7 @@ public interface WorkAreaDao {
 
     WorkAreaBo getWorkArea(Long workArea, LocalDate asOfDate);
     List<WorkAreaBo> getWorkArea(String department, LocalDate asOfDate);
-    List<WorkAreaBo> getWorkAreaForDepartments(List<String> department, LocalDate asOfDate);
+    List<WorkAreaBo> getWorkAreaForDepartmentBusinessKeyIds(List<String> departmentBusinessKeyIds, LocalDate asOfDate);
     void saveOrUpdate(WorkAreaBo workArea);
     WorkAreaBo getWorkArea(String tkWorkAreaId);
     Long getNextWorkAreaKey();

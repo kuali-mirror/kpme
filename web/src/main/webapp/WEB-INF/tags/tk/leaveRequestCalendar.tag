@@ -21,6 +21,9 @@
 	    		${leaveReqRow.employeeName} (${leaveReqRow.principalId})
 	    	</div>	
 		</c:if>
+		<div>
+			${leaveReqRow.description}
+		</div>
 		 <div>
 		    ${leaveReqRow.leaveCode} - (${leaveReqRow.requestedHours})
 		 </div>

@@ -16,10 +16,7 @@
 package org.kuali.kpme.pm.api.positiontype;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,6 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -58,9 +56,7 @@ import org.w3c.dom.Element;
     PositionType.Elements.EFFECTIVE_LOCAL_DATE,
     PositionType.Elements.CREATE_TIME,
     PositionType.Elements.USER_PRINCIPAL_ID,
-    
-    PositionType.Elements.LOCATION,
-    PositionType.Elements.INSTITUTION,
+
     PositionType.Elements.GROUP_KEY_CODE_SET,
     PositionType.Elements.GROUP_KEY_SET,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
@@ -95,11 +91,6 @@ public final class PositionType
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    
-    @XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
-    @XmlElement(name = Elements.INSTITUTION, required = false)
-    private final String institution;
 
     @XmlElement(name = Elements.GROUP_KEY_CODE_SET, required = false)
     private final Set<String> groupKeyCodeSet;
@@ -127,8 +118,6 @@ public final class PositionType
         this.createTime = null;
         this.userPrincipalId = null;
         
-        this.location = null;
-        this.institution = null;
         this.groupKeySet = null;
         this.groupKeyCodeSet = null;
     }
@@ -147,8 +136,6 @@ public final class PositionType
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
         
-        this.location = builder.getLocation();
-        this.institution = builder.getInstitution();
         this.groupKeyCodeSet = builder.getGroupKeyCodeSet();
         this.groupKeySet = ModelObjectUtils.<HrGroupKey>buildImmutableCopy(builder.getGroupKeySet());
         PositionType testPt = this;
@@ -160,9 +147,23 @@ public final class PositionType
     }
 
     @Override
-    public Set<EffectiveKey> getEffectiveKeySet() {
+    public Set<EffectiveKey> getEffectiveKeySet()
+    {
         return this.effectiveKeySet;
     }
+
+    public List<EffectiveKey> getEffectiveKeyList() {
+        if (CollectionUtils.isEmpty(this.effectiveKeySet)) {
+            return Collections.emptyList();
+        }
+        List<EffectiveKey> copy = new ArrayList<EffectiveKey>();
+        for (EffectiveKey key: this.effectiveKeySet) {
+            copy.add(key);
+        }
+
+        return Collections.unmodifiableList(copy);
+    }
+
 
     @Override
     public boolean isAcademicFlag() {
@@ -215,16 +216,6 @@ public final class PositionType
     }
 
     @Override
-    public String getLocation() {
-        return this.location;
-    }
-    
-    @Override
-    public String getInstitution() {
-        return this.institution;
-    }
-
-    @Override
     public Set<String> getGroupKeyCodeSet() {
         return this.groupKeyCodeSet;
     }
@@ -243,6 +234,7 @@ public final class PositionType
     public final static class Builder
         implements Serializable, PositionTypeContract, ModelBuilder
     {
+        private static final long serialVersionUID = 6845248197362411410L;
 
         private String description;
         private Set<EffectiveKey.Builder> effectiveKeySet;
@@ -256,9 +248,7 @@ public final class PositionType
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        
-        private String location;
-        private String institution;
+
         private Set<String> groupKeyCodeSet;
         private Set<HrGroupKey.Builder> groupKeySet;
 
@@ -303,10 +293,8 @@ public final class PositionType
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create(contract.getPositionType());
            
-            builder.setLocation(contract.getLocation());
             builder.setEffectiveKeySet(ModelObjectUtils.transformSet(contract.getEffectiveKeySet(), toEffectiveKeyBuilder));
-            builder.setInstitution(contract.getInstitution());
-            
+
             builder.setDescription(contract.getDescription());
             builder.setAcademicFlag(contract.isAcademicFlag());
             builder.setPositionType(contract.getPositionType());
@@ -329,21 +317,10 @@ public final class PositionType
         }
 
         @Override
-        public String getLocation() {
-            return this.location;
-        }
-
-        @Override
         public Set<EffectiveKey.Builder> getEffectiveKeySet() {
             return this.effectiveKeySet;
         }
 
-        @Override
-        public String getInstitution() {
-            return this.institution;
-        }
-
-        
         @Override
         public String getDescription() {
             return this.description;
@@ -358,6 +335,8 @@ public final class PositionType
         public String getPositionType() {
             return this.positionType;
         }
+
+
 
         @Override
         public String getPmPositionTypeId() {
@@ -409,21 +388,12 @@ public final class PositionType
             return this.groupKeySet;
         }
 
-        
-        public void setLocation(String location) {
-            this.location = location;
-        }
-
 
         public void setEffectiveKeySet(Set<EffectiveKey.Builder> effectiveKeySet) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.effectiveKeySet = effectiveKeySet;
         }
 
-        public void setInstitution(String institution) {
-            this.institution = institution;
-        }
-        
         public void setDescription(String description) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.description = description;
@@ -509,8 +479,6 @@ public final class PositionType
      * 
      */
     static class Elements {
-
-        //public static final String LOCATION = null;
 		final static String DESCRIPTION = "description";
         final static String EFFECTIVE_KEY_SET = "effectiveKeySet";
         final static String ACADEMIC_FLAG = "academicFlag";
@@ -522,8 +490,6 @@ public final class PositionType
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
         
-        final static String LOCATION = "location";
-        final static String INSTITUTION = "institution";
         final static String GROUP_KEY_CODE_SET = "groupKeyCodeSet";
         final static String GROUP_KEY_SET = "groupKeySet";
 

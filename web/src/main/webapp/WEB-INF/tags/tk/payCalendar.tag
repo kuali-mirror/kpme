@@ -14,10 +14,12 @@
         </c:choose>
 
  		<c:set var="editableClass" value="event-title-false"/>
-        <c:set var="timeBlockDivId" value="doNotShow_${block.timeBlock.tkTimeBlockId}" />
+        <c:set var="doNotShow" value="doNotShow_"/>
+        <c:set var="timeBlockIdentifier" value="day${day.dayNumberDelta}_[${block.timeBlock.assignmentKey}]_${block.timeBlock.tkTimeBlockId}" />
+        <c:set var="timeBlockDivId" value="${doNotShow}${timeBlockIdentifier}"/>
         <c:if test="${Form.docEditable && block.timeBlockEditable}">
         	<c:set var="editableClass" value="event-title-true"/>
-            <c:set var="timeBlockDivId" value=""/>
+            <c:set var="timeBlockDivId" value="${timeBlockIdentifier}"/>
         </c:if>
 
         <c:forEach var="action" items="${Form.actionMessages}">

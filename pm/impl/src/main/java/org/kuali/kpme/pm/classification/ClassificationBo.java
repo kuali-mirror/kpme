@@ -25,7 +25,6 @@ import java.util.Set;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
-import org.kuali.kpme.core.location.LocationBo;
 import org.kuali.kpme.pm.api.classification.Classification;
 import org.kuali.kpme.pm.api.classification.ClassificationContract;
 import org.kuali.kpme.pm.classification.duty.ClassificationDutyBo;
@@ -38,23 +37,19 @@ import com.google.common.collect.ImmutableMap;
 
 public class ClassificationBo extends HrKeyedSetBusinessObject<ClassificationBo, ClassificationGroupKeyBo> implements ClassificationContract {
 
-	private static final String LOCATION = "location";
-	private static final String INSTITUTION = "institution";
-	private static final String CLASSIFICATION_TITLE = "classificationTitle";
+    private static final long serialVersionUID = 3012823278753071180L;
+
+
+    private static final String CLASSIFICATION_TITLE = "classificationTitle";
 	private static final String POSITION_CLASS = "positionClass";
 	
-	private static final long serialVersionUID = 1L;
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 											    .add(POSITION_CLASS)
 											    .add(CLASSIFICATION_TITLE)
-											    .add(INSTITUTION)
-											    .add(LOCATION)
 											    .build();
 	private String pmPositionClassId;
 	private String positionClass;
 	private String classificationTitle;
-	private String institution;
-	private String location;
 	// salary group fields
 	private String salaryGroup;
     private String payGrade;
@@ -74,16 +69,11 @@ public class ClassificationBo extends HrKeyedSetBusinessObject<ClassificationBo,
 	
 	// list of position flags, need to add flag maint section to Position maint doc
 	
-	private LocationBo locationObj;
-	
-	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return new ImmutableMap.Builder<String, Object>()
 				.put(POSITION_CLASS, this.getPositionClass())
 				.put(CLASSIFICATION_TITLE, this.getClassificationTitle())
-				.put(INSTITUTION, this.getInstitution())
-				.put(LOCATION, this.getLocation())
 				.build();
 	}
 	
@@ -118,21 +108,9 @@ public class ClassificationBo extends HrKeyedSetBusinessObject<ClassificationBo,
 		this.classificationTitle = classificationTitle;
 	}
 
-	public String getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
 	public String getSalaryGroup() {
 		return salaryGroup;
@@ -239,14 +217,6 @@ public class ClassificationBo extends HrKeyedSetBusinessObject<ClassificationBo,
 		this.pmPositionClassId = pmPositionClassId;
 	}
 
-	public LocationBo getLocationObj() {
-		return locationObj;
-	}
-
-	public void setLocationObj(LocationBo locationObj) {
-		this.locationObj = locationObj;
-	}
-
 	public List<ClassificationDutyBo> getDutyList() {
 		return dutyList;
 	}
@@ -285,32 +255,26 @@ public class ClassificationBo extends HrKeyedSetBusinessObject<ClassificationBo,
 				classificationBo.setTenureEligible(im.getTenureEligible());
 				classificationBo.setExternalReference(im.getExternalReference());
 
-                Set<ClassificationQualificationBo> qualificationSet = ModelObjectUtils.transformSet(im.getQualificationList(), ClassificationQualificationBo.toBo);
-                ClassificationQualificationBo.setOwnerOfDerivedCollection(classificationBo, qualificationSet);
-                classificationBo.setQualificationList(new ArrayList<ClassificationQualificationBo>(qualificationSet));
+                List<ClassificationQualificationBo> qualificationList = ModelObjectUtils.transform(im.getQualificationList(), ClassificationQualificationBo.toBo);
+                ClassificationQualificationBo.setOwnerOfDerivedCollection(classificationBo, qualificationList);
+                classificationBo.setQualificationList(qualificationList);
 
 
-                Set<ClassificationFlagBo> flagSet = ModelObjectUtils.transformSet(im.getFlagList(), ClassificationFlagBo.toBo);
-                ClassificationFlagBo.setOwnerOfDerivedCollection(classificationBo, flagSet);
-				classificationBo.setFlagList(new ArrayList<ClassificationFlagBo>(flagSet));
+                List<ClassificationFlagBo> flagList = ModelObjectUtils.transform(im.getFlagList(), ClassificationFlagBo.toBo);
+                ClassificationFlagBo.setOwnerOfDerivedCollection(classificationBo, flagList);
+				classificationBo.setFlagList(flagList);
 
 
-                Set<ClassificationDutyBo> dutySet = ModelObjectUtils.transformSet(im.getDutyList(), ClassificationDutyBo.toBo);
-                ClassificationDutyBo.setOwnerOfDerivedCollection(classificationBo, dutySet);
-                classificationBo.setDutyList(new ArrayList<ClassificationDutyBo>(dutySet));
+                List<ClassificationDutyBo> dutyList = ModelObjectUtils.transform(im.getDutyList(), ClassificationDutyBo.toBo);
+                ClassificationDutyBo.setOwnerOfDerivedCollection(classificationBo, dutyList);
+                classificationBo.setDutyList(dutyList);
         
 				classificationBo.setLeavePlan(im.getLeavePlan());
 				classificationBo.setPayGrade(im.getPayGrade());
-				classificationBo.setVersionNumber(im.getVersionNumber());
-				classificationBo.setObjectId(im.getObjectId());
-				classificationBo.setActive(im.isActive());
+
+
 				classificationBo.setId(im.getId());
 				classificationBo.setEffectiveLocalDate(im.getEffectiveLocalDate());
-				if (im.getCreateTime() != null) {
-					classificationBo.setTimestamp(new Timestamp(im.getCreateTime()
-							.getMillis()));
-				}
-				classificationBo.setUserPrincipalId(im.getUserPrincipalId());
 
                 Set<ClassificationGroupKeyBo> effectiveKeyBoSet = ModelObjectUtils.transformSet(im.getEffectiveKeySet(), ClassificationGroupKeyBo.toBo);
 

@@ -54,28 +54,6 @@ public interface ClassificationContract extends KpmeEffectiveKeyedSetDataTransfe
 	public String getClassificationTitle();
 	
 	/**
-	 * The institution associated with the Classification
-	 * 
-	 * <p>
-	 * institution for the Classification.
-	 * <p>
-	 * 
-	 * @return institution for Classification
-	 */
-	public String getInstitution();
-
-	/**
-	 * The location associated with the Classification
-	 * 
-	 * <p>
-	 * location for the Classification.
-	 * <p>
-	 * 
-	 * @return location for Classification
-	 */
-	public String getLocation();
-
-	/**
 	 * The grouping of Salary Group payroll attributes to be assigned to Position Classification
 	 * 
 	 * <p>
@@ -217,17 +195,6 @@ public interface ClassificationContract extends KpmeEffectiveKeyedSetDataTransfe
 	 * @return pmPositionClassId for Classification
 	 */
 	public String getPmPositionClassId();
-
-	/**
-	 * The Location Object associated with the Classification
-	 * 
-	 * <p>
-	 * Location object for the Classification.
-	 * <p>
-	 * 
-	 * @return locationObj for Classification
-	 */
-	public LocationContract getLocationObj();
 
 	/**
 	 * The list of ClassificationDuty Objects associated with the Classification

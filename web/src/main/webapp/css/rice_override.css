@@ -15,5 +15,6 @@
  */
 #header h1.headerImage
 {
-    background-image:   url("../images/kpme_logo.png");
+    background-image:   url("../images/khr_logo.png");
+    background-repeat: no-repeat;
 }

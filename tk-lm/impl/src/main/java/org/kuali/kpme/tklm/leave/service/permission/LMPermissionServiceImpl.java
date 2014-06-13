@@ -236,11 +236,11 @@ public class LMPermissionServiceImpl extends HrPermissionServiceBase implements 
 			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), aDept.getGroupKey().getLocationId(), LocalDate.now().toDateTimeAtStartOfDay()))
 			    	return true;
 			    // Payroll Processor
-			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aDept.getDept(), LocalDate.now().toDateTimeAtStartOfDay())) {
+			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), aDept.getDept(), aDept.getGroupKeyCode(), LocalDate.now().toDateTimeAtStartOfDay())) {
 			    	return true;
 		        }
 			    // Payroll Processor Delegate
-			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), aDept.getDept(), LocalDate.now().toDateTimeAtStartOfDay())) {
+			    if(HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName(), aDept.getDept(), aDept.getGroupKeyCode(), LocalDate.now().toDateTimeAtStartOfDay())) {
 			    	return true;
 		        }
 	    	}

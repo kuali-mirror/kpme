@@ -189,7 +189,7 @@ $(document).ready(function () {
         },
        offset: [0,120],
        effect: 'slide'
-    }).dynamic({ bottom: { direction: 'down', bounce: true } });
+    });
 
     tooltip.click(function() {
         var tip = $(this).data("tooltip");

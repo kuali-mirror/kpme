@@ -49,12 +49,14 @@
                 <ref bean="KpmeAttributes-institution"/>
                 <ref bean="KpmeAttributes-organization"/>
                 <ref bean="KpmeAttributes-positionType"/>
+                <ref bean="KpmeAttributes-groupKeyCode"/>
             </list>
         </property>
     </bean>
 
 
     <bean id="KpmeAttributes-workArea" parent="WorkArea-workArea" p:name="workArea"/>
+    <bean id="KpmeAttributes-groupKeyCode" parent="HrGroupKey-groupKeyCode" p:name="groupKeyCode"/>
     <bean id="KpmeAttributes-department" parent="Department-dept" p:name="department"/>
     <bean id="KpmeAttributes-location" parent="Location-location" p:name="location"/>
     <bean id="KpmeAttributes-position" parent="PositionBase-positionNumber" p:name="position"/>
@@ -74,6 +76,6 @@
        <property name="name" value="positionType" />
        <property name="label" value="PositionType" />
        <property name="description" value="Position Type" />
-    </bean>           
+    </bean>
 
 </beans>

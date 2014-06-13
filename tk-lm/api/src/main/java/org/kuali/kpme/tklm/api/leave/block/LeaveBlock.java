@@ -33,6 +33,7 @@ import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
@@ -572,7 +573,7 @@ public final class LeaveBlock
                 .append(task, leaveBlock.task)
                 .append(earnCode, leaveBlock.earnCode)
                 .append(leaveDateTime, leaveBlock.leaveDateTime)
-                .append(leaveAmount, leaveBlock.leaveAmount)
+                .append(KpmeUtils.nullSafeCompare(leaveAmount, leaveBlock.leaveAmount), 0)
                 .append(accrualCategory, leaveBlock.accrualCategory)
                 .append(earnCode, leaveBlock.earnCode)
                 .append(description, leaveBlock.description)

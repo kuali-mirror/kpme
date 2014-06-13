@@ -31,7 +31,7 @@
 		<property name="lookupDefinition">
 			<ref bean="HrGroupKey-lookupDefinition" />
 		</property>
-		<property name="titleAttribute" value="groupKey" />
+		<property name="titleAttribute" value="groupKeyCode" />
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="HrGroupKey-id" />

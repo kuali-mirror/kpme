@@ -15,8 +15,10 @@
  */
 package org.kuali.kpme.core.department.validation;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
@@ -31,10 +33,10 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @SuppressWarnings("deprecation")
 public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
@@ -67,8 +69,8 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		if (StringUtils.isNotBlank(department.getDept()) && 
 				department.getEffectiveDate() != null && 
 				StringUtils.isNotBlank(department.getGroupKeyCode())) {
-			List<Department> depts = HrServiceLocator.getDepartmentService().getDepartments(department.getDept(), department.getGroupKeyCode());
-			if (depts != null && depts.size() > 0) {
+			int count = HrServiceLocator.getDepartmentService().getDepartmentCount(department.getDept(), department.getGroupKeyCode());
+			if (count > 0) {
 				 String[] params = new String[] {department.getDept(), department.getGroupKeyCode()};
 				 this.putFieldError("dept", "error.department.duplicate.exists", params);
 				 valid = false;
@@ -82,7 +84,7 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		boolean valid = true;
 		
 		if (StringUtils.isNotEmpty(chart)) {
-			Chart chartObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Chart.class, chart);
+			Chart chartObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
 
 			if (chartObj == null) {
 				this.putFieldError("chart", "dept.chart.notfound", chart);
@@ -96,13 +98,15 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 	protected boolean validateOrg(String organization) {
 		boolean valid = true;
 		
+		Map<String, Object> criteriaMap = new HashMap<String,Object>();
+		criteriaMap.put("organizationCode", organization);
+		criteriaMap.put("active", Boolean.TRUE);
 		if (StringUtils.isNotEmpty(organization)) {
-			Organization organizationObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Organization.class, organization);
-
-			if (organizationObj == null) {
+			List<Organization> organizationList = (List<Organization>) KNSServiceLocator.getBusinessObjectService().findMatching(Organization.class, criteriaMap);
+			if (organizationList == null || organizationList.isEmpty()) {
 				this.putFieldError("org", "dept.org.notfound", organization);
 				valid = false;
-			}
+			} 
 		}
 		
 		return valid;
@@ -112,15 +116,20 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		boolean valid = true;
 		
 		if (StringUtils.isNotEmpty(chart) && StringUtils.isNotEmpty(organization)) {
-			Chart chartObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Chart.class, chart);
-			Organization organizationObj = KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(Organization.class, organization);
-			if (chartObj != null && organizationObj != null) {
-				Chart organizationChart = organizationObj.getChartOfAccounts();
-				if (!StringUtils.equals(chartObj.getChartOfAccountsCode(), organizationChart.getChartOfAccountsCode())) {
-					String[] params = new String[] {organization, chart};
-					this.putFieldError("org", "dept.org.chart.notmatch", params);
+			Chart chartObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
+			if(chartObj != null && chartObj.isActive()) {
+				Map<String, Object> criteriaMap = new HashMap<String,Object>();
+				criteriaMap.put("organizationCode", organization);
+				criteriaMap.put("chartOfAccountsCode", chartObj.getChartOfAccountsCode());
+				Organization organizationObj = KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, criteriaMap);
+				if (organizationObj == null || !organizationObj.isActive()) {
+					// chart and organization are not in sync.
 					valid = false;
-				}
+					this.putFieldError("chart", "dept.org.chart.notmatch", new String [] {organization, chart});
+				} 
+			} else {
+				valid= false;
+				this.putFieldError("chart", "dept.chart.notfound", organization);
 			}
 		}
 		

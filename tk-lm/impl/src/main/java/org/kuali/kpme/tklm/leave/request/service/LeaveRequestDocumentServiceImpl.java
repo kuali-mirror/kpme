@@ -38,6 +38,7 @@ import org.kuali.rice.kew.api.action.*;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.exception.UnknownDocumentIdException;
@@ -111,7 +112,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         //verify principal has an action item to approve...
         //KewApiServiceLocator.
         LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
-        
+        initiateSearchableAttributes(doc);
         //do we need to switch ids?
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
         ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
@@ -126,7 +127,8 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
 
     @Override
     public void disapproveLeave(String documentId, String principalId, String reason) {
-        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);        
+        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        initiateSearchableAttributes(doc);
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
         ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();        
         if (validActions.getValidActions().contains(ActionType.DISAPPROVE)) {
@@ -141,6 +143,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     @Override
     public void deferLeave(String documentId, String principalId, String reason) {
         LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        initiateSearchableAttributes(doc);
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
         ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();       
         if (validActions.getValidActions().contains(ActionType.CANCEL)) {
@@ -155,6 +158,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     @Override
     public void recallAndCancelLeave(String documentId, String principalId, String reason) {
         LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        initiateSearchableAttributes(doc);
         if (principalId.equals(doc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId())) {
             doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
             if(StringUtils.isNotEmpty(reason)) {
@@ -245,6 +249,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
         List<String> salGroups = new ArrayList<String>();
         CalendarEntry ce = getCalendarEntry(leaveBlock);
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(document.getLeaveBlock().getPrincipalId());
         if (ce != null) {
             List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
 
@@ -258,6 +263,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
                 }
             }
         }
+        Map<String, String> deptGroupKey = new HashMap<String, String>();
         for(Long workArea : workAreas){
             WorkArea workAreaObj = HrServiceLocator.getWorkAreaService().getWorkArea(workArea, leaveBlock.getLeaveLocalDate());
             if(deptToListOfWorkAreas.containsKey(workAreaObj.getDept())){
@@ -267,6 +273,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
                 List<Long> deptWorkAreas = new ArrayList<Long>();
                 deptWorkAreas.add(workArea);
                 deptToListOfWorkAreas.put(workAreaObj.getDept(), deptWorkAreas);
+                deptGroupKey.put(workAreaObj.getDept(), workAreaObj.getGroupKeyCode());
             }
         }
         StringBuilder sb = new StringBuilder();
@@ -274,7 +281,8 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         sb.append("<documentContext><applicationContent><").append(className).append(">");
         sb.append("<DEPARTMENTS>");
         for(Map.Entry<String, List<Long>> dept : deptToListOfWorkAreas.entrySet()){
-            sb.append("<DEPARTMENT value=\""+dept.getKey()+"\">");
+            sb.append("<DEPARTMENT value=\""+dept.getKey()+"\"/>");
+            sb.append("<GROUPKEY value=\""+deptGroupKey.get(dept.getKey())+"\">");
             for(Long workArea : dept.getValue()){
                 sb.append("<WORKAREA value=\""+workArea+"\"/>");
             }
@@ -284,7 +292,8 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         for(String salGroup : salGroups){
             sb.append("<SALGROUP value=\""+salGroup+"\"/>");
         }
-
+        sb.append("<CALENTRYID value=\""+ce.getHrCalendarEntryId()+"\"/>");
+        sb.append("<PRINCIPALNAME value=\""+principal.getPrincipalName()+"\"/>");
         sb.append("<PAYENDDATE value=\""+leaveBlock.getLeaveLocalDate()+"\"/>");
         sb.append("</").append(className).append("></applicationContent></documentContext>");
 

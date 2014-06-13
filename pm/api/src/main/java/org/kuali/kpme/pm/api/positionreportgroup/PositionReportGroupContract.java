@@ -16,9 +16,6 @@
 package org.kuali.kpme.pm.api.positionreportgroup;
 
 
-import java.util.Set;
-
-import org.kuali.kpme.core.api.mo.EffectiveKeyContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedSetDataTransferObject;
 
 /**
@@ -26,14 +23,6 @@ import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedSetDataTransferObject;
  *
  */
 public interface PositionReportGroupContract extends KpmeEffectiveKeyedSetDataTransferObject {
-	
-	/* 
-	 * The set of EffectiveKeyContract objects that hold the aggregate "white-list" of groupkeys 
-	 * for this PostionReportGroupContract object. 
-	 * 
-	 */
-	@Override
-	public Set<? extends EffectiveKeyContract> getEffectiveKeySet();
 
     /**
      * The primary key for a PositionReportGroup entry saved in the database

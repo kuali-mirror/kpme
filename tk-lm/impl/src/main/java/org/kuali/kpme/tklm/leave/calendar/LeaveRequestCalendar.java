@@ -29,6 +29,7 @@ import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
+import org.kuali.kpme.tklm.leave.block.LeaveBlockHistory;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveRequestCalendarDay;
 import org.kuali.kpme.tklm.leave.calendar.web.LeaveRequestCalendarWeek;
 import org.kuali.kpme.tklm.leave.request.approval.web.LeaveRequestApprovalRow;
@@ -44,7 +45,7 @@ public class LeaveRequestCalendar extends CalendarParent {
     private List<LeaveRequestApprovalRow> requestList = new ArrayList<LeaveRequestApprovalRow>();
     private String calendarType;
    
-    public LeaveRequestCalendar(DateTime beginDateTime, DateTime endDateTime, Map<String, List<LeaveRequestDocument>> leaveReqDocsMap, Map<String, List<LeaveBlock>> leaveBlocksMap, String calendarType) {
+    public LeaveRequestCalendar(DateTime beginDateTime, DateTime endDateTime, Map<String, List<LeaveRequestDocument>> leaveReqDocsMap, Map<String, List<LeaveBlock>> leaveBlocksMap, Map<String, List<LeaveBlockHistory>> disapprovedLBMap, String calendarType) {
     	this.calendarType = calendarType;
         setBeginDateTime(beginDateTime);
     	setEndDateTime(endDateTime);
@@ -78,6 +79,7 @@ public class LeaveRequestCalendar extends CalendarParent {
     
                List<LeaveRequestDocument> reqDocs = leaveReqDocsMap.get(currentDisplayDateTime.toLocalDate().toString());
                List<LeaveBlock> leaveBlocks = leaveBlocksMap.get(currentDisplayDateTime.toLocalDate().toString());
+               List<LeaveBlockHistory> disapprovedBlocks = disapprovedLBMap.get(currentDisplayDateTime.toLocalDate().toString());
                List<LeaveRequestApprovalRow> rowList = new ArrayList<LeaveRequestApprovalRow>();
                if (reqDocs == null) {
             	   reqDocs = Collections.emptyList();
@@ -124,11 +126,33 @@ public class LeaveRequestCalendar extends CalendarParent {
 			       			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveLocalDate()));
 			       			aRow.setRequestedHours(lb.getLeaveAmount().toString());
 			       			aRow.setRequestStatus(lb.getRequestStatusString().toLowerCase());
+			       			aRow.setDescription(lb.getDescription());
 			       			aRow.setAssignmentTitle(lb.getAssignmentTitle());
 			       			rowList.add(aRow);
             		   }
             	   }
                }
+               // Adding disapproved blocks.
+               if(disapprovedBlocks != null && !disapprovedBlocks.isEmpty()) {
+            	   for(LeaveBlockHistory lb: disapprovedBlocks) {
+            		   	String principalId = lb.getPrincipalId();
+	            	   	LeaveRequestApprovalRow aRow = new LeaveRequestApprovalRow();
+	            	   	// Set Employee Name 
+	            	    EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+	            		if(entityNamePrincipalName != null) {
+	            			aRow.setPrincipalId(principalId);
+	            			aRow.setEmployeeName(entityNamePrincipalName.getDefaultName() == null ? StringUtils.EMPTY : entityNamePrincipalName.getDefaultName().getCompositeName());
+	            		}
+		       			aRow.setLeaveCode(lb.getEarnCode());
+		       			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveLocalDate()));
+		       			aRow.setRequestedHours(lb.getLeaveAmount().toString());
+		       			aRow.setRequestStatus(lb.getRequestStatusString().toLowerCase());
+		       			aRow.setDescription(lb.getDescription());
+		       			aRow.setAssignmentTitle(lb.getAssignmentTitle());
+		       			rowList.add(aRow);
+            	   }
+               }
+               
                leaveReqCalendarDay.setLeaveReqRows(rowList);
                if(!rowList.isEmpty() && rowList.size() > 0) {
             	   requestList.addAll(rowList);

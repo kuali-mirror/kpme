@@ -50,8 +50,9 @@ public class ClockLocationRuleAuthorizer extends KPMEMaintenanceDocumentAuthoriz
 				}
 			}
 		}
-		
-		attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+
+        attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+        attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), department);
 		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 	}
 

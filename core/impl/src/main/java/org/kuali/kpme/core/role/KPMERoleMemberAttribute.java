@@ -18,7 +18,7 @@ package org.kuali.kpme.core.role;
 public enum KPMERoleMemberAttribute {
 	
 	WORK_AREA ("workArea"),
-    GROUP_KEY ("groupKey"),
+    GROUP_KEY_CODE ("groupKeyCode"),
 	DEPARTMENT ("department"),
 	LOCATION ("location"),
 	POSITION ("position"),
