@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.core.position.web;
 
+import org.kuali.kpme.core.api.position.PositionBase;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.bo.HrBusinessObject;
@@ -42,7 +43,7 @@ public class PositionBaseMaintainableServiceImpl extends HrBusinessObjectMaintai
 
     @Override
     public HrBusinessObject getObjectById(String id) {
-        return (HrBusinessObject) HrServiceLocator.getPositionService().getPosition(id);
+        return PositionBaseBo.from((PositionBase)HrServiceLocator.getPositionService().getPosition(id));
     }
 
     @Override

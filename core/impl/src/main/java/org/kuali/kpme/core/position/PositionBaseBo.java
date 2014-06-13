@@ -15,8 +15,11 @@
  */
 package org.kuali.kpme.core.position;
 
+import org.kuali.kpme.core.api.position.PositionBase;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -25,7 +28,6 @@ public class PositionBaseBo extends HrKeyedBusinessObject implements PositionBas
 	
 	static class KeyFields {
 		private static final String POSITION_NUMBER = "positionNumber";
-		private static final String GROUP_KEY_CODE = "groupKeyCode";
 	}
 
 	
@@ -33,7 +35,6 @@ public class PositionBaseBo extends HrKeyedBusinessObject implements PositionBas
 	//KPME-2273/1965 Primary Business Keys List.	
 	public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
             .add(KeyFields.POSITION_NUMBER)
-            .add(KeyFields.GROUP_KEY_CODE)
             .build();
 
 	
@@ -45,7 +46,6 @@ public class PositionBaseBo extends HrKeyedBusinessObject implements PositionBas
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
 			.put(KeyFields.POSITION_NUMBER, this.getPositionNumber())
-			.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
 	
@@ -89,30 +89,42 @@ public class PositionBaseBo extends HrKeyedBusinessObject implements PositionBas
 		this.description = description;
 	}
 	
-//	public static PositionBaseBo from(PositionBase im) {
-//		if (im == null) {
-//            return null;
-//        }		
-//		PositionBaseBo retVal = new PositionBaseBo();
-//		
-//		retVal.setHrPositionId(im.getHrPositionId());
-//		retVal.setPositionNumber(im.getPositionNumber());
-//		retVal.setDescription(im.getDescription());
-//		
-//		retVal.setEffectiveDate(im.getEffectiveLocalDate() == null ? null : im.getEffectiveLocalDate().toDate());
-//	    retVal.setActive(im.isActive());
-//	    if (im.getCreateTime() != null) {
-//	    	retVal.setTimestamp(new Timestamp(im.getCreateTime().getMillis()));
-//	    }
-//	    retVal.setUserPrincipalId(im.getUserPrincipalId());
-//	    retVal.setVersionNumber(im.getVersionNumber());
-//	    retVal.setObjectId(im.getObjectId());
-//
-//	    return retVal;
-//	}
-//	
+	public static PositionBaseBo from(PositionBase im) {
+		if (im == null) {
+            return null;
+        }		
+
+		PositionBaseBo retVal = new PositionBaseBo();
+		retVal.setHrPositionId(im.getHrPositionId());
+		retVal.setPositionNumber(im.getPositionNumber());
+		retVal.setGroupKeyCode(im.getGroupKeyCode());
+		retVal.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+		retVal.setDescription(im.getDescription());
+		copyCommonFields(retVal, im);
+
+		retVal.setId(im.getId());
+		retVal.setEffectiveLocalDate(im.getEffectiveLocalDate());
+
+	    return retVal;
+	}
 	
-	
-	
+	public static PositionBase to(PositionBaseBo bo) {
+		if (bo == null) {
+			return null;
+		}
+		return PositionBase.Builder.create(bo).build();
+	}
+
+	public static final ModelObjectUtils.Transformer<PositionBaseBo, PositionBase> toImmutable = new ModelObjectUtils.Transformer<PositionBaseBo, PositionBase>() {
+		public PositionBase transform(PositionBaseBo input) {
+			return PositionBaseBo.to(input);
+		};
+	};
+
+	public static final ModelObjectUtils.Transformer<PositionBase, PositionBaseBo> toBo = new ModelObjectUtils.Transformer<PositionBase, PositionBaseBo>() {
+		public PositionBaseBo transform(PositionBase input) {
+			return PositionBaseBo.from(input);
+		};
+	};
 	
 }

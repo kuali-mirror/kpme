@@ -18,6 +18,7 @@ package org.kuali.kpme.core.api.position.service;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.position.PositionBase;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -28,5 +29,5 @@ public interface PositionBaseService {
     @Cacheable(value= PositionBaseContract.CACHE_NAME, key="'hrPositionNbr=' + #p0  + '|' + 'effectiveDate=' + #p1")
     public PositionBaseContract getPosition(String hrPositionNbr, LocalDate effectiveDate);
     
-    List<? extends PositionBaseContract> getPositions(String positionNum, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
+    List<PositionBase> getPositions(String positionNum, String descr, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHist);
 }

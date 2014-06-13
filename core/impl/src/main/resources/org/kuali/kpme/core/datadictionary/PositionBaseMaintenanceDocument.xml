@@ -53,12 +53,10 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.core.position.PositionBaseBo"/>
     <property name="items">
       <list merge="true">
-        <bean parent="Uif-MaintenanceGridSection">
+        <bean parent="KPMEGroupKeyed-MaintenanceGridSection">
         	<property name="items">
-            	<list>
+            	<list merge = "true">
                     <bean parent="Uif-InputField" p:propertyName="positionNumber" p:readOnly="true" p:required="false"/>
-                    <!--<bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:unconditionallyReadOnly="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.NextUniquePositionNumberFinder"/>-->
-                    <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
                     <bean parent="Uif-InputField" p:propertyName="description" p:required="true"/>
                     <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
 			    </list>
