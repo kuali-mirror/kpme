@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 //@Ignore
 public class EdoConfigTest extends EdoUnitTestBase {
 
-	public void testSpringContext() throws Exception {
+	/*public void testSpringContext() throws Exception {
 		Assert.assertNotNull("Constructor message instance is null.", bootstrapConfig);
 		List<String> locations = bootstrapConfig.getConfigLocations();
 		for (String location : locations) {
 			System.out.println("location: " + location);
 			Assert.assertNotNull("location: " + location + " is null", location);
 		}
-	}
+	}*/
 	
 }

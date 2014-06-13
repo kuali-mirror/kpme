@@ -23,8 +23,8 @@ import java.util.List;
 @Transactional
 public class AuthorizationServiceImplTest extends EdoUnitTestBase {
 
-    @Autowired
-    private JtaOjbConfigurer ojbConfigurer;
+    //@Autowired
+    //private JtaOjbConfigurer ojbConfigurer;
 
 //	@Autowired
 //	@Qualifier("edo")
