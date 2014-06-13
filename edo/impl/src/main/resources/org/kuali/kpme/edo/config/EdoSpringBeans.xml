@@ -1,195 +1,73 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:beans="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:jms="http://www.springframework.org/schema/jms" xmlns:lang="http://www.springframework.org/schema/lang"
-       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:oxm="http://www.springframework.org/schema/oxm"
-       xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache.xsd
                            http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
-                           http://www.springframework.org/schema/jdbc
-                           http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
-                           http://www.springframework.org/schema/jee
-                           http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
-                           http://www.springframework.org/schema/jms
-                           http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+                           http://www.springframework.org/schema/context/spring-context-3.1.xsd
                            http://www.springframework.org/schema/lang
-                           http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
-                           http://www.springframework.org/schema/mvc
-                           http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-                           http://www.springframework.org/schema/oxm
-                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
-                           http://www.springframework.org/schema/task
-                           http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/lang/spring-lang-3.1.xsd
                            http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
                            http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+                           http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-    <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
+    <import resource="classpath:org/kuali/kpme/core/config/KPMECommonSpringBeans.xml"/>
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" value="#{bootstrapConfig.getProperties()}" />
-    </bean>
-
-    <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-        <property name="configLocations">
-            <list>
-                <value>classpath:META-INF/edo-config.xml</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
-        <property name="arguments">
-            <list>
-                <ref bean="bootstrapConfig" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="enAdsService" class="edu.iu.uis.eden.ads.AdsServiceImpl" />
-
-    <bean class="edu.iu.uis.eden.IUServiceLocatorConfigurer" />
-
-    <bean id="dataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
-        <property name="transactionManager" ref="transactionManagerXAPool" />
-        <property name="driverClassName" value="${edo.datasource.driver.name}" />
-        <property name="maxSize" value="${edo.datasource.pool.maxSize}" />
-        <property name="minSize" value="${edo.datasource.pool.minSize}" />
-        <property name="maxWait" value="${edo.datasource.pool.maxWait}" />
-        <property name="validationQuery" value="${edo.datasource.pool.validationQuery}" />
-        <property name="url" value="${edo.datasource.url}" />
-        <property name="username" value="${edo.datasource.username}" />
-        <property name="password" value="${edo.datasource.password}" />
-    </bean>
-
-    <bean id="riceDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
-        <property name="transactionManager" ref="transactionManagerXAPool" />
-        <property name="driverClassName" value="${kr.datasource.driver.name}" />
-        <property name="url" value="${kr.datasource.url}" />
-        <property name="maxSize" value="${kr.datasource.pool.maxSize}" />
-        <property name="minSize" value="${kr.datasource.pool.minSize}" />
-        <property name="maxWait" value="${kr.datasource.pool.maxWait}" />
-        <property name="validationQuery" value="${kr.datasource.pool.validationQuery}" />
-        <property name="username" value="${kr.datasource.username}" />
-        <property name="password" value="${kr.datasource.password}" />
+	<!-- caching setup (coming soon)-->
+	<!-- end cache setup -->
+	
+	
+	<bean id="dataDictionaryService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataDictionaryService" />
     </bean>
     
-    <bean id="nonTransDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${edo.datasource.driver.name}" />
-        <property name="maxWait" value="${edo.datasource.pool.maxWait}" />
-        <property name="validationQuery" value="${edo.datasource.pool.validationQuery}" />
-        <property name="url" value="${edo.datasource.url}" />
-        <property name="username" value="${edo.datasource.username}" />
-        <property name="password" value="${edo.datasource.password}" />
+    <bean id="kpme.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/edo/v2_0" />
+        <property name="serviceBus" ref="rice.ksb.import.serviceBus" />
+    </bean>
+
+    <bean id="kpme.edo.soap.service" parent="kpme.soap.service" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/edo/v2_0" />
     </bean>
     
-
-    <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
-        <property name="dataSource" ref="dataSource" />
-        <property name="nonTransactionalDataSource" ref="nonTransDataSource" />
-        <property name="serverDataSource" ref="riceDataSource"/>
-        <property name="transactionManager" ref="transactionManagerXAPool" />
-        <property name="userTransaction" ref="jtaUserTransaction" />
-    </bean>
-
-    <bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer" depends-on="coreConfigurer"/>
-
-    <bean id="kradConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer" depends-on="coreConfigurer"/>
-
-    <bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer" depends-on="coreConfigurer"/>
-
-    <bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer" depends-on="coreConfigurer"/>
     
-    <!-- kewconfigurer -->
-    <bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer" depends-on="coreConfigurer"/>
-
-    <bean id="kpmeModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
-        <property name="moduleConfiguration" ref="kpmeModuleConfiguration" />
-        <property name="kualiModuleService" ref="kualiModuleService" />
-    </bean>
-
-    <bean id="kpmeModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
-        <property name="namespaceCode" value="EDO" />
+    <bean id="kpmeEDossierModuleConfiguration" parent="kpmeEDossierModuleConfiguration-parentBean"/>
+	<bean id="kpmeEDossierModuleConfiguration-parentBean" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration" abstract="true"
+        p:namespaceCode="KPME-EDO"
+        p:initializeDataDictionary="true"
+        p:dataDictionaryService-ref="dataDictionaryService">
         <property name="packagePrefixes">
             <list>
                 <value>org.kuali.kpme.edo</value>
-                <value>org.kuali.kpme</value>
             </list>
         </property>
         <property name="databaseRepositoryFilePaths">
-            <list>
-                <value>edo-ojb-repository.xml</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="kualiModuleService" />
-    </bean>
-
-    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-        <property name="localServiceName" value="EDO-Context"/>
-        <property name="serviceNameSpaceURI" value="EDO" />
-        <property name="beanNames">
-            <set>
-                <value>edoReviewLayerDefinitionLookupable</value>
-                <value>edoPromotionAndTenureReportLookupable</value>
-            </set>
-        </property>
-    </bean>
-
-
-	<bean id="grlBeanImporter" abstract="true" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" p:singleton="true" p:mustExist="true" />
- 	<bean id="dataDictionaryService" p:serviceName="dataDictionaryService" parent="grlBeanImporter" />
-
-    <!--Lookupables-->
-    <bean id="edoReviewLayerDefinitionLookupable" class="org.kuali.kpme.edo.lookup.EdoLookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionLookupableHelper"/>
-        </property>
-    </bean>
-    
-    <bean id="edoPromotionAndTenureReportLookupable" parent="edoPromotionAndTenureReportLookupable-parentBean" scope="prototype" />
-    <bean id="edoPromotionAndTenureReportLookupable-parentBean" abstract="true" class="org.kuali.kpme.edo.lookup.EdoLookupableImpl" scope="singleton">
-        <property name="lookupableHelperService" ref="edoPromotionAndTenureReportLookupableHelperService" />
-    </bean>
-	
-	<bean id="edoPromotionAndTenureReportLookupableHelperService" parent="edoPromotionAndTenureReportLookupableHelperService-parentBean" scope="prototype" />
-	<bean id="edoPromotionAndTenureReportLookupableHelperService-parentBean" abstract="true" class="org.kuali.kpme.edo.reports.service.EdoPromotionAndTenureReportLookupableHelper">
-		<property name="promotionAndTenureReportService" ref="edoPromotionAndTenureReportViewService" />
+			<list>
+                <value>OJB-repository-edo.xml</value>
+			</list>
+		</property>
+		<property name="dataDictionaryPackages">
+			<list merge="true">
+                <value>classpath:org/kuali/kpme/edo/datadictionary/*.xml</value>
+			</list>
+		</property>
 	</bean>
     
     
-    <!--End Lookupables-->
-
-    <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true" >
-        <property name="jcdAlias" value="kradApplicationDataSource" />
-        <property name="dbPlatform" ref="dbPlatform" />
-    </bean>
-
-    <bean id="platformAwareDaoJdbc" class="org.kuali.rice.core.framework.persistence.jdbc.dao.PlatformAwareDaoBaseJdbc" abstract="true">
-        <property name="dataSource" ref="dataSource" />
-        <property name="dbPlatform" ref="dbPlatform" />
-    </bean>
-
-    <bean id="dbPlatform" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="dbPlatform" />
-    </bean>
-
-    <bean id="edoServiceLocator" class="org.kuali.kpme.edo.service.EdoServiceLocator" >
-    </bean>
-
-    <!-- DAO wrappers -->
+    <!-- eDossier DAO Definitions -->
     <bean id="edoCandidateListDao" class="org.kuali.kpme.edo.candidate.dao.EdoCandidateDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistDao"     class="org.kuali.kpme.edo.checklist.dao.EdoChecklistDaoImpl" parent="platformAwareDao" />
     <bean id="edoItemVDao"         class="org.kuali.kpme.edo.item.dao.EdoItemVDaoImpl" parent="platformAwareDao" />
@@ -210,8 +88,11 @@
     <bean id="edoWorkflowDefinitionDao" class="org.kuali.kpme.edo.workflow.dao.EdoWorkflowDefinitionDaoImpl" parent="platformAwareDao" />
     <bean id="edoDisplaySubmitButtonDao" class="org.kuali.kpme.edo.submitButton.dao.EdoDisplaySubmitButtonDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistItemDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistItemDaoImpl" parent="platformAwareDao" />
-
-    <!-- Services -->
+    <!-- end of eDossier DAO Definitions -->
+    
+    <!-- eDossier Service Definitions -->
+    <bean id="edoServiceLocator" class="org.kuali.kpme.edo.service.EdoServiceLocator" />
+    
     <bean id="edoItemService" class="org.kuali.kpme.edo.item.service.EdoItemServiceImpl">
         <property name="edoItemDao" ref="edoItemDao"/>
     </bean>
@@ -266,19 +147,16 @@
     <bean id="edoCandidateDossierService" class="org.kuali.kpme.edo.dossier.service.EdoCandidateDossierServiceImpl">
         <property name="edoCandidateDossierDao" ref="edoCandidateDossierDao"/>
     </bean>
-    <!-- EDO-33 -->
-    <bean id="authorizationService" class="org.kuali.kpme.edo.authorization.service.AuthorizationServiceImpl">
-    </bean>
+    
+    <bean id="authorizationService" class="org.kuali.kpme.edo.authorization.service.AuthorizationServiceImpl" />
 
     <bean id="dossierProcessDocumentHeaderService" class="org.kuali.kpme.edo.workflow.service.DossierProcessDocumentHeaderServiceImpl">
         <property name="dossierProcessDocumentHeaderDao" ref="dossierProcessDocumentHeaderDao"/>
     </bean>
 
-    <bean id="edoPendingSupplementalStatusService" class="org.kuali.kpme.edo.workflow.service.EdoSupplementalPendingStatusServiceImpl">
-    </bean>
+    <bean id="edoPendingSupplementalStatusService" class="org.kuali.kpme.edo.workflow.service.EdoSupplementalPendingStatusServiceImpl" />
 
-    <bean id="edoGroupService" class="org.kuali.kpme.edo.group.service.EdoGroupServiceImpl">
-    </bean>
+    <bean id="edoGroupService" class="org.kuali.kpme.edo.group.service.EdoGroupServiceImpl" />
 
     <bean id="edoGroupDefinitionService" class="org.kuali.kpme.edo.group.service.EdoGroupDefinitionServiceImpl">
         <property name="edoGroupDefinitionDao" ref="edoGroupDefinitionDao" />
@@ -292,8 +170,7 @@
         <property name="edoGroupTrackingDao" ref="edoGroupTrackingDao" />
     </bean>
 
-    <bean id="edoRoleMaintenanceService" class="org.kuali.kpme.edo.role.service.EdoRoleMaintenanceServiceImpl">
-    </bean>
+    <bean id="edoRoleMaintenanceService" class="org.kuali.kpme.edo.role.service.EdoRoleMaintenanceServiceImpl" />
 
     <bean id="edoPromotionAndTenureReportViewService" class="org.kuali.kpme.edo.reports.service.EdoPromotionAndTenureReportViewServiceImpl">
     	<property name="edoPromotionAndTenureReportViewDao" ref="edoPromotionAndTenureReportViewDao" />
@@ -307,43 +184,68 @@
     <bean id="edoDisplaySubmitButtonService" class="org.kuali.kpme.edo.submitButton.service.EdoDisplaySubmitButtonServiceImpl">
         <property name="edoDisplaySubmitButtonDao" ref="edoDisplaySubmitButtonDao"/>
     </bean>
-
-    <!-- EDO-38 -->
-       <bean id="maintenanceService" class="org.kuali.kpme.edo.service.MaintenanceServiceImpl">
-      </bean>
-      
-	<bean id="kpmeEdoModuleConfiguration" parent="kpmeEdoModuleConfiguration-parentBean"/>
-    <bean id="kpmeEdoModuleConfiguration-parentBean" class="org.kuali.kpme.core.sys.KpmeModuleConfiguration" abstract="true">
-           <property name="namespaceCode" value="KPME-EDO"/>
-           <property name="initializeDataDictionary" value="true" />
-           <property name="packagePrefixes">
-           	<list>
-           		<value>org.kuali.kpme.edo</value>
+    
+    <bean id="maintenanceService" class="org.kuali.kpme.edo.service.MaintenanceServiceImpl" />
+    <!-- end of eDossier Service Definitions -->
+    
+    
+    
+    <!-- eDossier Lookupable Definitions -->
+    <bean id="edoReviewLayerDefinitionLookupable" class="org.kuali.kpme.edo.lookup.EdoLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionLookupableHelper"/>
+        </property>
+    </bean>
+    
+    <bean id="edoPromotionAndTenureReportLookupable" parent="edoPromotionAndTenureReportLookupable-parentBean" scope="prototype" />
+    <bean id="edoPromotionAndTenureReportLookupable-parentBean" abstract="true" class="org.kuali.kpme.edo.lookup.EdoLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService" ref="edoPromotionAndTenureReportLookupableHelperService" />
+    </bean>
+	
+	<bean id="edoPromotionAndTenureReportLookupableHelperService" parent="edoPromotionAndTenureReportLookupableHelperService-parentBean" scope="prototype" />
+	<bean id="edoPromotionAndTenureReportLookupableHelperService-parentBean" abstract="true" class="org.kuali.kpme.edo.reports.service.EdoPromotionAndTenureReportLookupableHelper">
+		<property name="promotionAndTenureReportService" ref="edoPromotionAndTenureReportViewService" />
+	</bean> 
+    <!-- end of eDossier Lookupable Definitions -->
+    
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="interceptorNames">
+            <list>
+                <idref bean="matchAllTxInterceptor" />
             </list>
-          </property>
-	      <property name="databaseRepositoryFilePaths">
-				<list>
-	                <value>OJB-repository-edo.xml</value>
-				</list>
-		  </property>
-		<property name="dataDictionaryPackages">
-			<list merge="true">
-                <value>classpath:org/kuali/kpme/edo/datadictionary/*.xml</value>
-			</list>
-		</property>
-     </bean>
-
-        <bean class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
-                <property name="moduleConfiguration" ref="edoModuleConfiguration" />
-        </bean>
-
-        <bean name="edoJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-            <property name="dataSource" ref="dataSource"/>
-        </bean>
-
-        <bean id="edoNotificationService" class= "org.kuali.kpme.edo.notification.service.EdoNotificationServiceImpl" />
-
-    <import resource="classpath:edo-${run.mode}-spring-beans.xml" />
-        
+        </property>
+        <property name="beanNames">
+            <list>
+            	<idref local="edoServiceLocator"/>
+            	<idref local="edoItemService"/>
+            	<idref local="edoItemVService"/>
+            	<idref local="edoItemCountVService"/>
+            	<idref local="candidateService"/>
+            	<idref local="edoChecklistViewService"/>            	
+            	<idref local="edoChecklistService"/>
+            	<idref local="edoChecklistItemService"/>
+            	<idref local="edoItemTypeService"/>
+            	<idref local="DigitalAssetService"/>
+            	<idref local="edoDossierTypeService"/>            	
+            	<idref local="edoDossierService"/>
+            	<idref local="edoReviewLayerDefinitionService"/>
+            	<idref local="edoSupplementalTrackingService"/>
+            	<idref local="edoVoteRecordService"/>
+            	<idref local="edoCandidateDossierService"/>            	
+            	<idref local="authorizationService"/>
+            	<idref local="dossierProcessDocumentHeaderService"/>
+            	<idref local="edoPendingSupplementalStatusService"/>
+            	<idref local="edoGroupService"/>
+            	<idref local="edoGroupDefinitionService"/>            	
+            	<idref local="edoRoleResponsibilityService"/>
+            	<idref local="edoGroupTrackingService"/>
+            	<idref local="edoRoleMaintenanceService"/>
+            	<idref local="edoPromotionAndTenureReportViewService"/>
+            	<idref local="edoWorkflowDefinitionService"/>            	
+            	<idref local="edoDisplaySubmitButtonService"/>
+            	<idref local="maintenanceService"/>            	
+            </list>
+        </property>
+    </bean>
     
 </beans>
