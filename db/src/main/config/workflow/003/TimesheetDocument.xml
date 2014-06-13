@@ -112,6 +112,60 @@
             </searchingConfig>
         </ruleAttribute>
         <ruleAttribute>
+            <name>TimesheetPrincipalNameSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetPrincipalNameSearchAttribute</label>
+            <description>TimesheetPrincipalNameSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="principalName" title="Principal Name">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//PRINCIPALNAME/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetCalendarEntrySearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetCalendarEntrySearchAttribute</label>
+            <description>TimesheetCalendarEntrySearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="calendarEntryId" title="Calendar Entry Id">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//CALENTRYID/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>TimesheetGroupKeySearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>TimesheetGroupKeySearchAttribute</label>
+            <description>TimesheetGroupKeySearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="groupKey" title="Group Key Code">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//GROUPKEY/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
             <name>TimesheetDepartmentSearchAttribute</name>
             <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
             <label>TimesheetDepartmentSearchAttribute</label>

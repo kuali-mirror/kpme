@@ -16,17 +16,21 @@
 package org.kuali.kpme.core.payroll.service;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.core.api.assignment.Assignable;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentContract;
+import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.api.document.DocumentContent;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.workflow.DataDictionaryPeopleFlowTypeServiceImpl;
@@ -49,12 +53,18 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
             @WebParam(name = "document") Document document,
             @WebParam(name = "documentContent") DocumentContent documentContent) {
         List<Map<String, String>> deptQualifiers = new ArrayList<Map<String, String>>();
-        List<String> departments = getElementValues(documentContent.getApplicationContent(), "//DEPARTMENT/@value");
-        if (CollectionUtils.isNotEmpty(departments)) {
-            for (String dept : departments) {
-                deptQualifiers.add(
-                        Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(),
-                        dept));
+        String principalName = getElementValue(documentContent.getApplicationContent(), "//PRINCIPALNAME/@value");
+        String calendarEntryId = getElementValue(documentContent.getApplicationContent(), "//CALENTRYID/@value");
+        List<Assignment> assignments = new ArrayList<Assignment>();
+
+        if (StringUtils.isNotEmpty(principalName)
+                && StringUtils.isNotEmpty(calendarEntryId)) {
+            String principalId = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName).getPrincipalId();
+            CalendarEntry ce = HrServiceLocator.getCalendarEntryService().getCalendarEntry(calendarEntryId);
+            if (document.getDocumentTypeName().equals("TimesheetDocument")) {
+                assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForTimeCalendar(principalId, ce);
+            } else {
+                assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForLeaveCalendar(principalId, ce);
             }
         } else {
             //try to get values from maintainable object if instance of assignable
@@ -64,26 +74,12 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
                     MaintenanceDocument md =  (MaintenanceDocument)doc;
                     if (md.getNewMaintainableObject().getDataObject() instanceof Assignable) {
                         Assignable assignable = (Assignable)(md.getNewMaintainableObject().getDataObject());
-                        List<Assignment> assignments = assignable.getAssignments();
-                        for (Assignment ac : assignments) {
-                            Map<String, String> qualifiers = new HashMap<String, String>();
-                            qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ac.getDept());
-                            qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), ac.getGroupKeyCode());
-
-                            deptQualifiers.add(qualifiers);
-                        }
+                        assignments = assignable.getAssignments();
                     }
                 } else {
                     // If doc itself is instance of Assignable
                     if (doc instanceof Assignable) {
-                        List<Assignment> assignments = ((Assignable)doc).getAssignments();
-                        for (Assignment ac : assignments) {
-                            Map<String, String> qualifiers = new HashMap<String, String>();
-                            qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ac.getDept());
-                            qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), ac.getGroupKeyCode());
-
-                            deptQualifiers.add(qualifiers);
-                        }
+                        assignments = ((Assignable)doc).getAssignments();
                     }
                 }
             } catch (WorkflowException e) {
@@ -91,6 +87,15 @@ public class PayrollPeopleFlowTypeServiceImpl extends DataDictionaryPeopleFlowTy
             }
         }
 
+        if (CollectionUtils.isNotEmpty(assignments)) {
+            for (Assignment ac : assignments) {
+                Map<String, String> qualifiers = new HashMap<String, String>();
+                qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ac.getDept());
+                qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), ac.getGroupKeyCode());
+
+                deptQualifiers.add(qualifiers);
+            }
+        }
         return deptQualifiers;
 
     }

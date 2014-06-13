@@ -119,6 +119,60 @@
             </searchingConfig>
         </ruleAttribute>
         <ruleAttribute>
+            <name>LeaveRequestPrincipalNameSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveRequestPrincipalNameSearchAttribute</label>
+            <description>LeaveRequestPrincipalNameSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="principalName" title="Principal Name">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//PRINCIPALNAME/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveRequestCalendarEntrySearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveRequestCalendarEntrySearchAttribute</label>
+            <description>LeaveRequestCalendarEntrySearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="calendarEntryId" title="Calendar Entry Id">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//CALENTRYID/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveRequestGroupKeySearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveRequestGroupKeySearchAttribute</label>
+            <description>LeaveRequestGroupKeySearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <applicationId>KPME</applicationId>
+            <searchingConfig>
+                <fieldDef name="groupKey" title="Group Key Code">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//GROUPKEY/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
             <name>LeaveRequestDepartmentSearchAttribute</name>
             <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
             <label>LeaveRequestDepartmentSearchAttribute</label>

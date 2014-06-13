@@ -25,6 +25,8 @@ import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.ArrayList;
@@ -74,7 +76,7 @@ public class TkSearchableAttributeServiceImpl implements
 		List<Long> workAreas = new ArrayList<Long>();
 		Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
 		List<String> salGroups = new ArrayList<String>();
-
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(document.getDocumentHeader().getPrincipalId());
 		for(Assignment assign: document.getAllAssignments()){
 			if(!workAreas.contains(assign.getWorkArea())){
 				workAreas.add(assign.getWorkArea());
@@ -87,6 +89,7 @@ public class TkSearchableAttributeServiceImpl implements
 		}
 
         List<WorkArea> workAreaList = HrServiceLocator.getWorkAreaService().getWorkAreasForList(workAreas, asOfDate);
+        Map<String, String> deptGroupKey = new HashMap<String, String>();
 		for(WorkArea workAreaObj : workAreaList){
 			String department = workAreaObj != null ? workAreaObj.getDept() : null;
 			
@@ -98,6 +101,7 @@ public class TkSearchableAttributeServiceImpl implements
 					List<Long> deptWorkAreas = new ArrayList<Long>();
 					deptWorkAreas.add(workAreaObj.getWorkArea());
 					deptToListOfWorkAreas.put(department, deptWorkAreas);
+                    deptGroupKey.put(department, workAreaObj.getGroupKeyCode());
 				}
 			}
 		}
@@ -107,7 +111,7 @@ public class TkSearchableAttributeServiceImpl implements
 		sb.append("<DEPARTMENTS>");
 		for(Map.Entry<String, List<Long>> entry : deptToListOfWorkAreas.entrySet()){
 			sb.append("<DEPARTMENT value=\""+entry.getKey()+"\">");
-
+            sb.append("<GROUPKEY value=\""+deptGroupKey.get(entry.getKey())+"\"/>");
 			for(Long workArea : entry.getValue()){
 				sb.append("<WORKAREA value=\""+workArea+"\"/>");
 			}
@@ -118,6 +122,8 @@ public class TkSearchableAttributeServiceImpl implements
 			sb.append("<SALGROUP value=\""+salGroup+"\"/>");
 		}
 
+        sb.append("<CALENTRYID value=\""+document.getCalendarEntry().getHrCalendarEntryId()+"\"/>");
+        sb.append("<PRINCIPALNAME value=\""+principal.getPrincipalName()+"\"/>");
 		sb.append("<PAYENDDATE value=\""+asOfDate+"\"/>");
 		sb.append("</").append(className).append("></applicationContent></documentContext>");
 
