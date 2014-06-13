@@ -58,12 +58,12 @@
                             <c:choose>
                                 <c:when test="${earnCodeSection.isAmountEarnCode}">
                                     <tr>
-                                        <td colspan="2"  class="${not empty assignmentRow.descr?assignmentRow.cssClass: ''}">${assignmentRow.descr}</td>
+                                        <td colspan="2" class="${not empty assignmentRow.descr?assignmentRow.cssClass: ''}">${assignmentRow.descr}</td>
                                         <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
                                             <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>
                                             <c:choose>
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
-                                                     <td class="${assignmentRow.cssClass}">$${assignmentColumn.amount}</td>
+                                                     <td id="day${entry.key}_${earnCodeSection.earnCode}_${assignmentColumn.cssClass}" class="${assignmentRow.cssClass}">$${assignmentColumn.amount}</td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td></td>
@@ -83,7 +83,7 @@
                                                
                                              <c:choose>
                                                 <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
-                                                      <td class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
+                                                      <td id="day${entry.key}_${earnCodeSection.earnCode}_${assignmentColumn.cssClass}" class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td></td>

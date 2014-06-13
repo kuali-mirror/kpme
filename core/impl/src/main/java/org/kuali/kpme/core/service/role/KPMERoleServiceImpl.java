@@ -184,21 +184,23 @@ public class KPMERoleServiceImpl implements KPMERoleService {
             if (roleTypeService == null || !roleTypeService.isDerivedRoleType()) {
                 List<RoleMember> primaryRoleMembers = getPrimaryRoleMembers(role, qualification, asOfDate, activeOnly);
 
-                // flatten into constituent group and principal role members
-                for (RoleMember primaryRoleMember : primaryRoleMembers) {
-                    if (MemberType.PRINCIPAL.equals(primaryRoleMember.getType())) {
-                        roleMembers.add(primaryRoleMember);
-                    } else if (MemberType.GROUP.equals(primaryRoleMember.getType())) {
-                        roleMembers.add(primaryRoleMember);
-                    } else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
-                        // recursive call to get role members
-                        Map<String, String> copiedQualification = addCustomDerivedQualifications(primaryRoleMember.getAttributes(), asOfDate, activeOnly);
-                        List<RoleMembership> memberships = getRoleService().getRoleMembers(Collections.singletonList(primaryRoleMember.getMemberId()), copiedQualification);
-                        for (RoleMembership membership : memberships) {
-                            RoleMember roleMember = RoleMember.Builder.create(membership.getRoleId(), membership.getId(), membership.getMemberId(),
-                                    membership.getType(), null, null, membership.getQualifier(), "", "").build();
+                if (CollectionUtils.isNotEmpty(primaryRoleMembers)) {
+                    // flatten into constituent group and principal role members
+                    for (RoleMember primaryRoleMember : primaryRoleMembers) {
+                        if (MemberType.PRINCIPAL.equals(primaryRoleMember.getType())) {
+                            roleMembers.add(primaryRoleMember);
+                        } else if (MemberType.GROUP.equals(primaryRoleMember.getType())) {
+                            roleMembers.add(primaryRoleMember);
+                        } else if (MemberType.ROLE.equals(primaryRoleMember.getType())) {
+                            // recursive call to get role members
+                            Map<String, String> copiedQualification = addCustomDerivedQualifications(primaryRoleMember.getAttributes(), asOfDate, activeOnly);
+                            List<RoleMembership> memberships = getRoleService().getRoleMembers(Collections.singletonList(primaryRoleMember.getMemberId()), copiedQualification);
+                            for (RoleMembership membership : memberships) {
+                                RoleMember roleMember = RoleMember.Builder.create(membership.getRoleId(), membership.getId(), membership.getMemberId(),
+                                        membership.getType(), null, null, membership.getQualifier(), "", "").build();
 
-                            roleMembers.add(roleMember);
+                                roleMembers.add(roleMember);
+                            }
                         }
                     }
                 }
@@ -206,11 +208,13 @@ public class KPMERoleServiceImpl implements KPMERoleService {
                 Map<String, String> qual = addCustomDerivedQualifications(qualification, asOfDate, activeOnly);
                 List<RoleMembership> derivedRoleMembers = roleTypeService.getRoleMembersFromDerivedRole(role.getNamespaceCode(), role.getName(), qual);
 
-                for (RoleMembership derivedRoleMember : derivedRoleMembers) {
-                    RoleMember roleMember = RoleMember.Builder.create(derivedRoleMember.getRoleId(), derivedRoleMember.getId(), derivedRoleMember.getMemberId(),
-                            derivedRoleMember.getType(), null, null, derivedRoleMember.getQualifier(), role.getName(), role.getNamespaceCode()).build();
+                if (CollectionUtils.isNotEmpty(derivedRoleMembers)) {
+                    for (RoleMembership derivedRoleMember : derivedRoleMembers) {
+                        RoleMember roleMember = RoleMember.Builder.create(derivedRoleMember.getRoleId(), derivedRoleMember.getId(), derivedRoleMember.getMemberId(),
+                                derivedRoleMember.getType(), null, null, derivedRoleMember.getQualifier(), role.getName(), role.getNamespaceCode()).build();
 
-                    roleMembers.add(roleMember);
+                        roleMembers.add(roleMember);
+                    }
                 }
             }
         }
