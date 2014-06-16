@@ -32,7 +32,6 @@
 				<ref bean="EarnCodeSecurity-dept" />
 				<ref bean="EarnCodeSecurity-hrSalGroup" />
 				<ref bean="EarnCodeSecurity-earnCode" />
-				<ref bean="EarnCodeSecurity-location" />
 				<ref bean="EarnCodeSecurity-employee" />
 				<ref bean="EarnCodeSecurity-approver" />
 				<ref bean="EarnCodeSecurity-payrollProcessor" />
@@ -73,8 +72,6 @@
 	<bean id="EarnCodeSecurity-earnCode" parent="EarnCodeSecurity-earnCode-parentBean" />
 	<bean id="EarnCodeSecurity-earnCode-parentBean" abstract="true" parent="KpmeAttributeReference-earnCode"/>
 
-    <bean id="EarnCodeSecurity-location" parent="EarnCodeSecurity-location-parentBean" />
-	<bean id="EarnCodeSecurity-location-parentBean" abstract="true"	parent="KpmeAttributeReference-location"/>
 
 	<!-- Employee -->
 	<bean id="EarnCodeSecurity-employee" parent="EarnCodeSecurity-employee-parentBean" />
@@ -131,7 +128,6 @@
 				<property name="layoutManager.numberOfColumns" value="2" />
 				<property name="items">
           			<list merge = "true">
-                        <bean parent="Uif-DataField" p:propertyName="location" />
             			<bean parent="Uif-DataField" p:propertyName="dept" />
             			<bean parent="Uif-DataField" p:propertyName="hrSalGroup" />
             			<bean parent="Uif-DataField" p:propertyName="earnCode" >
@@ -160,20 +156,13 @@
 	<bean id="EarnCodeSecurity-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
 		<property name="headerText" value="Earn Code Security Lookup" />
         <property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo" />
-         <property name="viewHelperServiceClass" value="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.earncode.security.web.EarnCodeSecurityLookupableImpl" />
         <property name="criteriaFields">
             <list merge = "true">
-                <!--
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="location" >
-                    <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                              p:fieldConversions="location:location" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
-                    </property>
-                </bean> -->
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >
 					<property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                              p:fieldConversions="dept:dept,location:location" p:lookupParameters="location:location,relativeEffectiveDate:effectiveDate"/>
+                              p:fieldConversions="dept:dept" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     </property>
 				</bean>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="hrSalGroup" >
@@ -195,7 +184,6 @@
 		</property>
 		<property name="resultFields">
 			<list merge = "true">
-                <bean parent="Uif-DataField" p:propertyName="location" />
                 <bean parent="Uif-DataField" p:propertyName="dept" />
 				<bean parent="Uif-DataField" p:propertyName="hrSalGroup"/>
 				<bean parent="Uif-DataField" p:propertyName="earnCode" >
@@ -222,19 +210,13 @@
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo" />
 		<property name="items">
 			<list merge="true">
-				<bean parent="KPMEGroupKeyed-MaintenanceGridSection">
+				<bean parent="KPMEWildcardGroupKeyed-MaintenanceGridSection">
 					<property name="items">
 						<list merge = "true">
-                            <bean parent="Uif-InputField" p:propertyName="location" p:required="true" >
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                                          p:fieldConversions="location:location" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
-                                </property>
-                            </bean>
 							<bean parent="Uif-InputField" p:propertyName="dept" p:required="true" >
 								<property name="quickfinder">
                         			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                              			p:fieldConversions="dept:dept,location:location" p:lookupParameters="location:location,relativeEffectiveDate:effectiveDate"/>
+                              			p:fieldConversions="dept:dept" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     			</property>
 							</bean>
 							<bean parent="Uif-InputField" p:propertyName="hrSalGroup" p:required="true" >

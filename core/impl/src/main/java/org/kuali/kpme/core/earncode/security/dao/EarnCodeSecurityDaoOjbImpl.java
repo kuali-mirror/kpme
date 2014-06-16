@@ -46,93 +46,19 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		}
 	}
 
-/*
-	@SuppressWarnings({ "unchecked", "deprecation" })
-	@Override
-	public List<EarnCodeSecurityBo> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate) {
-		List<EarnCodeSecurityBo> decs = new LinkedList<EarnCodeSecurityBo>();
-
-		Criteria root = new Criteria();
-		
-		Criteria deptCrit = new Criteria();
-		Criteria salGroupCrit = new Criteria();
-		Criteria locationCrit = new Criteria();
-		
-		deptCrit.addEqualTo("dept", "%");
-		salGroupCrit.addEqualTo("hrSalGroup", "%");
-		locationCrit.addEqualTo("location", "%");
-		
-		Criteria deptCrit2 = new Criteria();
-		deptCrit2.addEqualTo("dept", department);
-		deptCrit2.addOrCriteria(deptCrit);
-		root.addAndCriteria(deptCrit2);
-		
-		Criteria salGroupCrit2 = new Criteria();
-		salGroupCrit2.addEqualTo("hrSalGroup", hrSalGroup);
-		salGroupCrit2.addOrCriteria(salGroupCrit);
-		root.addAndCriteria(salGroupCrit2);
-		
-		Criteria locationCrit2 = new Criteria();
-		if ( !location.trim().isEmpty() ){
-			locationCrit2.addEqualTo("location", location);
-			locationCrit2.addOrCriteria(locationCrit);
-			root.addAndCriteria(locationCrit2);
-		}
-		
-		Criteria activeFilter = new Criteria(); // Inner Join For Activity
-		activeFilter.addEqualTo("active", true);
-		root.addAndCriteria(activeFilter);
-        ImmutableList.Builder<String> fields = new ImmutableList.Builder<String>()
-                .add("dept")
-                .add("hrSalGroup")
-                .add("earnCode");
-        if ( !location.trim().isEmpty() ){
-            fields.add("location");
-        }
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurityBo.class, asOfDate, fields.build(), false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurityBo.class, fields.build(), false));
-		
-		root.addOrderBy("earnCode", true);
-		root.addOrderBy("dept",false);
-		root.addOrderBy("hrSalGroup",false);
-		
-		
-		Query query = QueryFactory.newQuery(EarnCodeSecurityBo.class, root);
-		
-		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-		
-		if (c != null) {
-			decs.addAll(c);
-		}
-		
-		//Now we can have duplicates so remove any that match more than once
-		Set<String> aSet = new HashSet<String>();
-		List<EarnCodeSecurityBo> aList = new ArrayList<EarnCodeSecurityBo>();
-		for(EarnCodeSecurityBo dec : decs){
-			if(!aSet.contains(dec.getEarnCode())){
-				aList.add(dec);
-				aSet.add(dec.getEarnCode());
-			} 
-		}
-		return aList;
-	}
-*/
-
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Override
-    public List<EarnCodeSecurityBo> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate, String groupKeyCode) {
+    public List<EarnCodeSecurityBo> getEarnCodeSecurities(String department, String hrSalGroup, LocalDate asOfDate, String groupKeyCode) {
         List<EarnCodeSecurityBo> decs = new LinkedList<EarnCodeSecurityBo>();
 
         Criteria root = new Criteria();
 
         Criteria deptCrit = new Criteria();
         Criteria salGroupCrit = new Criteria();
-        Criteria locationCrit = new Criteria();
         Criteria groupKeyCodeCrit = new Criteria();
 
         deptCrit.addEqualTo("dept", "%");
         salGroupCrit.addEqualTo("hrSalGroup", "%");
-        locationCrit.addEqualTo("location", "%");
         groupKeyCodeCrit.addEqualTo("groupKeyCode", "%");
 
         Criteria deptCrit2 = new Criteria();
@@ -145,17 +71,10 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
         salGroupCrit2.addOrCriteria(salGroupCrit);
         root.addAndCriteria(salGroupCrit2);
 
-        Criteria locationCrit2 = new Criteria();
-        if ( !location.trim().isEmpty() ){
-            locationCrit2.addEqualTo("location", location);
-            locationCrit2.addOrCriteria(locationCrit);
-            root.addAndCriteria(locationCrit2);
-        }
-
         Criteria groupKeyCodeCrit2 = new Criteria();
 
         //if ((groupKeyCode != null) && (! groupKeyCode.trim().isEmpty()))
-        if (! groupKeyCode.trim().isEmpty())
+        if (!groupKeyCode.trim().isEmpty() && !ValidationUtils.isWildCard(groupKeyCode.trim()))
         {
             groupKeyCodeCrit2.addEqualTo("groupKeyCode", groupKeyCode);
             groupKeyCodeCrit2.addOrCriteria(groupKeyCodeCrit);
@@ -169,9 +88,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
                 .add("dept")
                 .add("hrSalGroup")
                 .add("earnCode");
-        if ( !location.trim().isEmpty() ){
-            fields.add("location");
-        }
+
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurityBo.class, asOfDate, fields.build(), false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurityBo.class, fields.build(), false));
 
@@ -211,7 +128,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<EarnCodeSecurityBo> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
+	public List<EarnCodeSecurityBo> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, LocalDate fromEffdt, LocalDate toEffdt,
 														   String active, String showHistory, String groupKeyCode) {
 		
 		List<EarnCodeSecurityBo> results = new ArrayList<EarnCodeSecurityBo>();
@@ -230,11 +147,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
             root.addLike("UPPER(earnCode)", earnCode.toUpperCase()); // KPME-2695
         }
 
-        if (StringUtils.isNotBlank(location)) {
-            root.addLike("UPPER(location)", location.toUpperCase()); // KPME-2695
-        }
-
-        if (StringUtils.isNotBlank(groupKeyCode)) {
+        if (StringUtils.isNotBlank(groupKeyCode)  && !ValidationUtils.isWildCard(groupKeyCode.trim())) {
             root.addLike("UPPER(groupKeyCode)", groupKeyCode.toUpperCase());
         }
 
@@ -274,7 +187,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 	
 	@Override
-	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
 			String active, LocalDate effdt, String hrDeptEarnCodeId, String groupKeyCode) {
 		Criteria crit = new Criteria();
       crit.addEqualTo("dept", dept);
@@ -283,7 +196,6 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       crit.addEqualTo("employee", employee);
       crit.addEqualTo("approver", approver);
       crit.addEqualTo("payrollProcessor", payrollProcessor);
-      crit.addEqualTo("location", location);
       crit.addEqualTo("active", active);
       crit.addEqualTo("groupKeyCode", groupKeyCode);
 
@@ -317,7 +229,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	
 	
 	@Override
-	public List<EarnCodeSecurityBo> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+	public List<EarnCodeSecurityBo> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
 			String active, LocalDate effdt, String groupKeyCode) {
 	  Criteria crit = new Criteria();
       crit.addEqualTo("earnCode", earnCode);
@@ -331,7 +243,7 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
     	  crit.addEqualTo("payrollProcessor", payrollProcessor);
       }
 
-    if (StringUtils.isNotEmpty(groupKeyCode)) {
+    if (StringUtils.isNotEmpty(groupKeyCode) && !ValidationUtils.isWildCard(groupKeyCode.trim())) {
         crit.addEqualTo("groupKeyCode", groupKeyCode);
     }
 
@@ -343,20 +255,16 @@ public class EarnCodeSecurityDaoOjbImpl extends PlatformAwareDaoBaseOjb implemen
       List<EarnCodeSecurityBo> results = new ArrayList<EarnCodeSecurityBo>();
       results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
-   // dept and salGroup allow wildcards,
+   // dept, salGroup, and groupKey allow wildcards,
       List<EarnCodeSecurityBo> finalResults = new ArrayList<EarnCodeSecurityBo>();
       for(EarnCodeSecurityBo aSecurity : results) {
-    	 if((StringUtils.isNotEmpty(dept) && ValidationUtils.wildCardMatch(aSecurity.getDept(), dept))
-    		 && (StringUtils.isNotEmpty(salGroup) && ValidationUtils.wildCardMatch(aSecurity.getHrSalGroup(), salGroup))) {
-    		 // location is not a required field, it allows wild card
-    		 if(StringUtils.isEmpty(location)) {
-    			 finalResults.add(aSecurity);
-    		 } else if(ValidationUtils.wildCardMatch(aSecurity.getLocation(), location)) {
-    			 finalResults.add(aSecurity);
-    		 }
+    	 if ((StringUtils.isNotEmpty(dept) && ValidationUtils.wildCardMatch(aSecurity.getDept(), dept))
+    		 && (StringUtils.isNotEmpty(salGroup) && ValidationUtils.wildCardMatch(aSecurity.getHrSalGroup(), salGroup))
+                && (ValidationUtils.wildCardMatch(aSecurity.getGroupKeyCode(), groupKeyCode)) )
+                    {
+                     finalResults.add(aSecurity);
+                 }
     	 }
-      }
-      
       return finalResults;
 	}
 }

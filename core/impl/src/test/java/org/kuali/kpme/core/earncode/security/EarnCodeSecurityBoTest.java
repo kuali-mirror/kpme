@@ -45,7 +45,7 @@ public class EarnCodeSecurityBoTest {
 	        earnCodeSecurityBuilder.setEarnCodeType("B");
 	        earnCodeSecurityBuilder.setEmployee(true);
 	        earnCodeSecurityBuilder.setHrSalGroup("NE");
-	        earnCodeSecurityBuilder.setLocation("GA");
+	        //earnCodeSecurityBuilder.setLocation("GA");
 	        earnCodeSecurityBuilder.setPayrollProcessor(true);
 	        earnCodeSecurityBuilder.setHrEarnCodeSecurityId("KPME_TEST_0001");
 	        earnCodeSecurityBuilder.setVersionNumber(1L);

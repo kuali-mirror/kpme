@@ -452,7 +452,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), asOfDate, job.getGroupKey().getGroupKeyCode());
+        List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), asOfDate, job.getGroupKey().getGroupKeyCode());
         for (EarnCodeSecurityContract dec : decs) {
 
             boolean addEarnCode = HrServiceLocator.getEarnCodeService().addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);

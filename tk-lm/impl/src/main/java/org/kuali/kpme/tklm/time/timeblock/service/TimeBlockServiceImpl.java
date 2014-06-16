@@ -510,7 +510,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					return true;
 				}
 
-				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), timeBlock.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
+				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), timeBlock.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
 				for(EarnCodeSecurityContract dec : deptEarnCodes){
 					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;
@@ -525,7 +525,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					return true;
 				}
 
-				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getGroupKey().getLocationId(), timeBlock.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
+				List<? extends EarnCodeSecurityContract> deptEarnCodes = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), timeBlock.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
 				for(EarnCodeSecurityContract dec : deptEarnCodes){
 					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;

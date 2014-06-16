@@ -42,8 +42,8 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	}
 
 	@Override
-    public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate, String groupKeyCode) {
-        return ModelObjectUtils.transform(earnCodeSecurityDao.getEarnCodeSecurities(department, hrSalGroup, location, asOfDate, groupKeyCode),EarnCodeSecurityBo.toImmutable);
+    public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, LocalDate asOfDate, String groupKeyCode) {
+        return ModelObjectUtils.transform(earnCodeSecurityDao.getEarnCodeSecurities(department, hrSalGroup, asOfDate, groupKeyCode),EarnCodeSecurityBo.toImmutable);
 	}
 
 	@Override
@@ -54,12 +54,12 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	@Override
 	public List<EarnCodeSecurity> getEarnCodeSecuritiesByType(
 			String userPrincipalId, String dept, String salGroup,
-			String earnCode, String location, LocalDate fromEffdt,
+			String earnCode, LocalDate fromEffdt,
 			LocalDate toEffdt, String active, String showHistory,
 			String earnCodeType, String groupKeyCode) {
 		List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
 		
- 		List<EarnCodeSecurity> earnCodeSecurityObjs = ModelObjectUtils.transform(earnCodeSecurityDao.searchEarnCodeSecurities(dept, salGroup, earnCode, location, fromEffdt,
+ 		List<EarnCodeSecurity> earnCodeSecurityObjs = ModelObjectUtils.transform(earnCodeSecurityDao.searchEarnCodeSecurities(dept, salGroup, earnCode, fromEffdt,
 								toEffdt, active, showHistory, groupKeyCode),EarnCodeSecurityBo.toImmutable);
  		if(StringUtils.isBlank(earnCodeType)) {
  			results.addAll(earnCodeSecurityObjs);
@@ -68,12 +68,15 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	    		if(StringUtils.equals(earnCodeSecurityObj.getEarnCodeType(),earnCodeType) || StringUtils.equals(earnCodeType, "A")) {
                     String department = StringUtils.equals("%", earnCodeSecurityObj.getDept().trim()) ? "*" : earnCodeSecurityObj.getDept();
                     String grpKeyCode = StringUtils.equals("%", earnCodeSecurityObj.getGroupKeyCode().trim()) ? "*" : earnCodeSecurityObj.getGroupKeyCode();
-		        	String loc = StringUtils.equals("%", earnCodeSecurityObj.getLocation()) ? "*" : earnCodeSecurityObj.getLocation();
-		        	Map<String, String> roleQualification = new HashMap<String, String>();
+
+                    //String loc = StringUtils.equals("%", earnCodeSecurityObj.getLocation()) ? "*" : earnCodeSecurityObj.getLocation();
+
+                    Map<String, String> roleQualification = new HashMap<String, String>();
 		        	roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, "*"); //userPrincipalId);
                     roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
                     roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), grpKeyCode);
-		        	roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), loc);
+
+                    //roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), loc);
 		        	
 		        	if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
 		    				KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
@@ -90,18 +93,18 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	
 	@Override
 	public List<EarnCodeSecurity> searchEarnCodeSecurities(String userPrincipalId, String dept,
-			String salGroup, String earnCode, String location, LocalDate fromEffdt,
+			String salGroup, String earnCode, LocalDate fromEffdt,
 			LocalDate toEffdt, String active, String showHistory, String groupKeyCode) {
         //groupKeyAdded
-		return getEarnCodeSecuritiesByType(userPrincipalId, dept, salGroup, earnCode, location, fromEffdt, 
+		return getEarnCodeSecuritiesByType(userPrincipalId, dept, salGroup, earnCode, fromEffdt,
         		toEffdt, active, showHistory, null, groupKeyCode);
 	}
 	
 	@Override
-	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
 			String active, LocalDate effdt, String hrDeptEarnCodeId, String groupKeyCode) {
         //groupKeyAdded
-		return earnCodeSecurityDao.getEarnCodeSecurityCount(dept, salGroup, earnCode, employee, approver, payrollProcessor, location,
+		return earnCodeSecurityDao.getEarnCodeSecurityCount(dept, salGroup, earnCode, employee, approver, payrollProcessor,
 				active, effdt, hrDeptEarnCodeId, groupKeyCode);
 	}
 
@@ -113,9 +116,9 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	@Override
 	public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept,
 			String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
-			String location, String active, LocalDate effdt, String groupKeyCode) {
+			String active, LocalDate effdt, String groupKeyCode) {
         //groupKeyAdded
-		return ModelObjectUtils.transform(earnCodeSecurityDao.getEarnCodeSecurityList(dept, salGroup, earnCode, employee, approver, payrollProcessor, location, active, effdt, groupKeyCode),EarnCodeSecurityBo.toImmutable);
+		return ModelObjectUtils.transform(earnCodeSecurityDao.getEarnCodeSecurityList(dept, salGroup, earnCode, employee, approver, payrollProcessor, active, effdt, groupKeyCode),EarnCodeSecurityBo.toImmutable);
 	}
 
 }

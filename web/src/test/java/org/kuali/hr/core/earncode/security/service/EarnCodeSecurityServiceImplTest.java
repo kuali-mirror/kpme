@@ -50,7 +50,7 @@ public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 	@Test
 	public void testGetEarnCodeSecurities() throws Exception {		
 		// Testing Wildcard on department.
-		List<? extends EarnCodeSecurityContract> earnCodeSecurities = earnCodeSecurityService.getEarnCodeSecurities(TEST_LORA, TEST_SAL_GROUP_A10, TEST_LOCATION, TEST_DATE.toLocalDate(), TEST_GRP_KEY);
+		List<? extends EarnCodeSecurityContract> earnCodeSecurities = earnCodeSecurityService.getEarnCodeSecurities(TEST_LORA, TEST_SAL_GROUP_A10, TEST_DATE.toLocalDate(), TEST_GRP_KEY);
 
 		Assert.assertEquals("Wrong number of earn codes returned.", 5, earnCodeSecurities.size());
 		// Test sorting of earn codes
@@ -66,7 +66,7 @@ public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 		}
 		
 		// Testing Wildcard on dept and salGroup.
-		List<? extends EarnCodeSecurityContract> earnCodesSec1 = earnCodeSecurityService.getEarnCodeSecurities(TEST_TEST_DEPT, TEST_SAL_GROUP_A, TEST_LOCATION, TEST_DATE.toLocalDate(), TEST_GRP_KEY);
+		List<? extends EarnCodeSecurityContract> earnCodesSec1 = earnCodeSecurityService.getEarnCodeSecurities(TEST_TEST_DEPT, TEST_SAL_GROUP_A, TEST_DATE.toLocalDate(), TEST_GRP_KEY);
 		Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodesSec1.size());
 		
 		for (EarnCodeSecurityContract ec1 : earnCodesSec1) {
@@ -78,28 +78,28 @@ public class EarnCodeSecurityServiceImplTest extends KPMEWebTestCase {
 	@Ignore
 	@Test
 	public void testSearchEarnCodeSecurities() throws Exception {
-		List<? extends EarnCodeSecurityContract> allResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("admin", null, null, null, null, null, null, "Y", "N",TEST_GRP_KEY);
+		List<? extends EarnCodeSecurityContract> allResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("admin", null, null, null, null, null, "Y", "N",TEST_GRP_KEY);
 		Assert.assertEquals("Search returned the wrong number of results.", 19, allResults.size());
 		
-		List<? extends EarnCodeSecurityContract> restrictedResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("testuser6", null, null, null, null, null, null, "Y", "N", TEST_GRP_KEY);
+		List<? extends EarnCodeSecurityContract> restrictedResults = HrServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities("testuser6", null, null, null, null, null, "Y", "N", TEST_GRP_KEY);
 		Assert.assertEquals("Search returned the wrong number of results.", 11, restrictedResults.size());
 	}
 	
 	@Test
 	public void testGetEarnCodeSecurityList() throws Exception {
 		// wild card for dept and sal_group
-		List<? extends EarnCodeSecurityContract> allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XZZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate(), TEST_GRP_KEY);
+		List<? extends EarnCodeSecurityContract> allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XZZ", "Y", null, null, "Y", TEST_DATE.toLocalDate(), TEST_GRP_KEY);
 		Assert.assertEquals("Search returned the wrong number of results.", 1, allResults.size());
 		
 		// wild card for dept
-		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XYZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate(), TEST_GRP_KEY);
+		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "test", "XYZ", "Y", null, null, "Y", TEST_DATE.toLocalDate(), TEST_GRP_KEY);
 		Assert.assertEquals("Search returned the wrong number of results.", 0, allResults.size());
 		
-		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "A10", "XYZ", "Y", null, null, null, "Y", TEST_DATE.toLocalDate(), TEST_GRP_KEY);
+		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("test", "A10", "XYZ", "Y", null, null, "Y", TEST_DATE.toLocalDate(), TEST_GRP_KEY);
 		Assert.assertEquals("Search returned the wrong number of results.", 1, allResults.size());
 		
 		// wild card for loction
-		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("TEST-DEPT", "SD1", "VAC", "Y", null, null, "%", "Y", TEST_DATE.toLocalDate(), TEST_GRP_KEY);
+		allResults = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList("TEST-DEPT", "SD1", "VAC", "Y", null, null, "Y", TEST_DATE.toLocalDate(), TEST_GRP_KEY);
 		Assert.assertEquals("Search returned the wrong number of results.", 1, allResults.size());
 	}
 

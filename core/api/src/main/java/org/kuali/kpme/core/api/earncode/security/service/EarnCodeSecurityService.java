@@ -32,10 +32,9 @@ public interface EarnCodeSecurityService {
     @Cacheable(value= EarnCodeSecurityContract.CACHE_NAME,
             key="'department=' + #p0" +
                     "+ '|' + 'hrSalGroup=' + #p1" +
-                    "+ '|' + 'location=' + #p2" +
-                    "+ '|' + 'asOfDate=' + #p3" +
-                    "+ '|' + 'groupKeyCode=' + #p4")
-    public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate, String groupKeyCode);
+                    "+ '|' + 'asOfDate=' + #p2" +
+                    "+ '|' + 'groupKeyCode=' + #p3")
+    public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, LocalDate asOfDate, String groupKeyCode);
 	//public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate);
 
 
@@ -47,11 +46,11 @@ public interface EarnCodeSecurityService {
     @Cacheable(value= EarnCodeSecurityContract.CACHE_NAME, key="'hrEarnCodeSecId=' + #p0")
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
 	
-    public List<EarnCodeSecurity> getEarnCodeSecuritiesByType(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
+    public List<EarnCodeSecurity> getEarnCodeSecuritiesByType(String userPrincipalId, String dept, String salGroup, String earnCode,
     		LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String earnCodeType, String groupKeyCode);
 
     //not used anywhere, mlemons??
-	public List<EarnCodeSecurity> searchEarnCodeSecurities(String userPrincipalId, String dept, String salGroup, String earnCode, String location,
+	public List<EarnCodeSecurity> searchEarnCodeSecurities(String userPrincipalId, String dept, String salGroup, String earnCode,
 			LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory, String groupKeyCode);
 	
     /**
@@ -62,16 +61,13 @@ public interface EarnCodeSecurityService {
 	 * @param employee
 	 * @param approver
 	 * @param payrollProcessor
-	 * @param location
 	 * @param active
 	 * @param effdt
 	 * @param hrDeptEarnCodeId
      * @param groupKeyCode
      * @return int
      */
-//	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
-//          String active, LocalDate effdt, String hrDeptEarnCodeId);
-    public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+    public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
                                         String active, LocalDate effdt, String hrDeptEarnCodeId, String groupKeyCode );
 
 
@@ -92,13 +88,12 @@ public interface EarnCodeSecurityService {
 	 * @param employee
 	 * @param approver
 	 * @param payrollProcessor
-	 * @param location
 	 * @param active
 	 * @param effdt
      * @param groupKeyCode
 	 * @return
 	 */
-    public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+    public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
                                                           String active, LocalDate effdt, String groupKeyCode );
     //public List<EarnCodeSecurity> getEarnCodeSecurityList(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
     //		String active, LocalDate effdt);

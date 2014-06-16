@@ -41,14 +41,12 @@ import java.util.Collection;
     EarnCodeSecurity.Elements.APPROVER,
     EarnCodeSecurity.Elements.PAYROLL_PROCESSOR,
     EarnCodeSecurity.Elements.EARN_CODE_OBJ,
-    EarnCodeSecurity.Elements.LOCATION_OBJ,
     EarnCodeSecurity.Elements.EARN_CODE_TYPE,
     EarnCodeSecurity.Elements.DEPT,
     EarnCodeSecurity.Elements.HR_SAL_GROUP,
     EarnCodeSecurity.Elements.EARN_CODE,
     EarnCodeSecurity.Elements.JOB_OBJ,
     EarnCodeSecurity.Elements.HR_EARN_CODE_SECURITY_ID,
-    EarnCodeSecurity.Elements.LOCATION,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
     EarnCodeSecurity.Elements.ACTIVE,
@@ -77,8 +75,6 @@ public final class EarnCodeSecurity
     private final boolean payrollProcessor;
     @XmlElement(name = Elements.EARN_CODE_OBJ, required = false)
     private final EarnCode earnCodeObj;
-    @XmlElement(name = Elements.LOCATION_OBJ, required = false)
-    private final Location locationObj;
     @XmlElement(name = Elements.EARN_CODE_TYPE, required = false)
     private final String earnCodeType;
     @XmlElement(name = Elements.DEPT, required = false)
@@ -91,8 +87,6 @@ public final class EarnCodeSecurity
     private final Job jobObj;
     @XmlElement(name = Elements.HR_EARN_CODE_SECURITY_ID, required = false)
     private final String hrEarnCodeSecurityId;
-    @XmlElement(name = Elements.LOCATION, required = false)
-    private final String location;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -126,14 +120,12 @@ public final class EarnCodeSecurity
         this.approver = false;
         this.payrollProcessor = false;
         this.earnCodeObj = null;
-        this.locationObj = null;
         this.earnCodeType = null;
         this.dept = null;
         this.hrSalGroup = null;
         this.earnCode = null;
         this.jobObj = null;
         this.hrEarnCodeSecurityId = null;
-        this.location = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -152,14 +144,12 @@ public final class EarnCodeSecurity
         this.approver = builder.isApprover();
         this.payrollProcessor = builder.isPayrollProcessor();
         this.earnCodeObj = builder.getEarnCodeObj() == null ? null : builder.getEarnCodeObj().build();
-        this.locationObj = builder.getLocationObj() == null ? null : builder.getLocationObj().build();
         this.earnCodeType = builder.getEarnCodeType();
         this.dept = builder.getDept();
         this.hrSalGroup = builder.getHrSalGroup();
         this.earnCode = builder.getEarnCode();
         this.jobObj = builder.getJobObj() == null ? null : builder.getJobObj().build();
         this.hrEarnCodeSecurityId = builder.getHrEarnCodeSecurityId();
-        this.location = builder.getLocation();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -202,11 +192,6 @@ public final class EarnCodeSecurity
     }
 
     @Override
-    public Location getLocationObj() {
-        return this.locationObj;
-    }
-
-    @Override
     public String getEarnCodeType() {
         return this.earnCodeType;
     }
@@ -234,11 +219,6 @@ public final class EarnCodeSecurity
     @Override
     public String getHrEarnCodeSecurityId() {
         return this.hrEarnCodeSecurityId;
-    }
-
-    @Override
-    public String getLocation() {
-        return this.location;
     }
 
     @Override
@@ -301,14 +281,12 @@ public final class EarnCodeSecurity
         private boolean approver;
         private boolean payrollProcessor;
         private EarnCode.Builder earnCodeObj;
-        private Location.Builder locationObj;
         private String earnCodeType;
         private String dept;
         private String hrSalGroup;
         private String earnCode;
         private Job.Builder jobObj;
         private String hrEarnCodeSecurityId;
-        private String location;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -340,14 +318,12 @@ public final class EarnCodeSecurity
             builder.setApprover(contract.isApprover());
             builder.setPayrollProcessor(contract.isPayrollProcessor());
             builder.setEarnCodeObj(contract.getEarnCodeObj() == null ? null : EarnCode.Builder.create(contract.getEarnCodeObj()));
-            builder.setLocationObj(contract.getLocationObj() == null ? null : Location.Builder.create(contract.getLocationObj()));
             builder.setEarnCodeType(contract.getEarnCodeType());
             builder.setDept(contract.getDept());
             builder.setHrSalGroup(contract.getHrSalGroup());
             builder.setEarnCode(contract.getEarnCode());
             builder.setJobObj(contract.getJobObj() == null ? null : Job.Builder.create(contract.getJobObj()));
             builder.setHrEarnCodeSecurityId(contract.getHrEarnCodeSecurityId());
-            builder.setLocation(contract.getLocation());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -395,11 +371,6 @@ public final class EarnCodeSecurity
         }
 
         @Override
-        public Location.Builder getLocationObj() {
-            return this.locationObj;
-        }
-
-        @Override
         public String getEarnCodeType() {
             return this.earnCodeType;
         }
@@ -427,11 +398,6 @@ public final class EarnCodeSecurity
         @Override
         public String getHrEarnCodeSecurityId() {
             return this.hrEarnCodeSecurityId;
-        }
-
-        @Override
-        public String getLocation() {
-            return this.location;
         }
 
         @Override
@@ -509,11 +475,6 @@ public final class EarnCodeSecurity
             this.earnCodeObj = earnCodeObj;
         }
 
-        public void setLocationObj(Location.Builder locationObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.locationObj = locationObj;
-        }
-
         public void setEarnCodeType(String earnCodeType) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.earnCodeType = earnCodeType;
@@ -542,11 +503,6 @@ public final class EarnCodeSecurity
         public void setHrEarnCodeSecurityId(String hrEarnCodeSecurityId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.hrEarnCodeSecurityId = hrEarnCodeSecurityId;
-        }
-
-        public void setLocation(String location) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.location = location;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -621,14 +577,12 @@ public final class EarnCodeSecurity
         final static String APPROVER = "approver";
         final static String PAYROLL_PROCESSOR = "payrollProcessor";
         final static String EARN_CODE_OBJ = "earnCodeObj";
-        final static String LOCATION_OBJ = "locationObj";
         final static String EARN_CODE_TYPE = "earnCodeType";
         final static String DEPT = "dept";
         final static String HR_SAL_GROUP = "hrSalGroup";
         final static String EARN_CODE = "earnCode";
         final static String JOB_OBJ = "jobObj";
         final static String HR_EARN_CODE_SECURITY_ID = "hrEarnCodeSecurityId";
-        final static String LOCATION = "location";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
