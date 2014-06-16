@@ -82,10 +82,13 @@ public class TkCalendar extends CalendarParent implements TkCalendarContract {
 	                 TkCalendarDay day = new TkCalendarDay();
 	                 
 	               //Set missed punch flag
+	                 int k=0;
 	                 for(TimeBlock tb : dayBlocks){
 	                   	TimeBlockBo timeBlockBo = TimeBlockBo.from(tb);
 	                   	timeBlockBo.assignClockedByMissedPunch();
 	                   	tb = TimeBlockBo.to(timeBlockBo);
+	                   	dayBlocks.set(k, tb);
+	                   	k++;
 	         	 	 }
 	                    
 	                 day.setTimeblocks(dayBlocks);
