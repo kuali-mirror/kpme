@@ -281,7 +281,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         sb.append("<documentContext><applicationContent><").append(className).append(">");
         sb.append("<DEPARTMENTS>");
         for(Map.Entry<String, List<Long>> dept : deptToListOfWorkAreas.entrySet()){
-            sb.append("<DEPARTMENT value=\""+dept.getKey()+"\"/>");
+            sb.append("<DEPARTMENT value=\""+dept.getKey()+"\">");
             sb.append("<GROUPKEY value=\""+deptGroupKey.get(dept.getKey())+"\"/>");
             for(Long workArea : dept.getValue()){
                 sb.append("<WORKAREA value=\""+workArea+"\"/>");
