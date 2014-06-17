@@ -23,14 +23,12 @@ import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
     private static final long serialVersionUID = 774015772672806415L;
@@ -68,8 +66,34 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
 	protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
-        List<AssignmentBo> results = (List<AssignmentBo>) super.getSearchResults(form, searchCriteria, unbounded);
-        List<AssignmentBo> filteredResults = filterLookupAssignments(results, userPrincipalId);
+        Integer searchResultsLimit = null;
+
+        Collection<?> rawSearchResults;
+
+        // removed blank search values and decrypt any encrypted search values
+        Map<String, String> nonBlankSearchCriteria = processSearchCriteria(form, searchCriteria);
+
+        if (nonBlankSearchCriteria == null) {
+            return new ArrayList<Object>();
+        }
+
+        if (!unbounded) {
+            searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
+        }
+
+        rawSearchResults = getLookupService().findCollectionBySearchHelper(getDataObjectClass(),
+                nonBlankSearchCriteria, unbounded, searchResultsLimit);
+
+        if (rawSearchResults == null) {
+            rawSearchResults = new ArrayList<Object>();
+        } else {
+            sortSearchResults(form, (List<?>) rawSearchResults);
+        }
+
+        List<AssignmentBo> filteredResults = filterLookupAssignments((List<AssignmentBo>)rawSearchResults, userPrincipalId);
+
+        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
+
         return filteredResults;
 	}
 }

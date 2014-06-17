@@ -29,6 +29,8 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 
@@ -39,6 +41,7 @@ import java.util.*;
 
 //                                                  KpmeHrGroupKeyedBusinessObjectLookupableImpl {
 public class EarnCodeSecurityLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EarnCodeSecurityLookupableImpl.class);
 
     private static final long serialVersionUID = -2027765891252173556L;
 
@@ -78,22 +81,40 @@ public class EarnCodeSecurityLookupableImpl extends KpmeHrGroupKeyedBusinessObje
         return searchResults;
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         String earnCodeType = searchCriteria.get("earnCodeType");
         searchCriteria.remove("earnCodeType");
 
-        //List<EarnCodeSecurityBo> rawSearchResults = ModelObjectUtils.transform(HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecuritiesByType(GlobalVariables.getUserSession().getPrincipalId(), dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt),
-        //TKUtils.formatDateString(toEffdt), active, showHist, earnCodeType, groupKeyCode), toEarnCodeSecurityBo );
-        //parentRawSearchResults
+        Integer searchResultsLimit = null;
 
-        List<EarnCodeSecurityBo> rawSearchResults = (List<EarnCodeSecurityBo>) super.getSearchResults(form, searchCriteria, unbounded);
+        Collection<?> rawSearchResults;
 
-        List<EarnCodeSecurityBo> searchResults = filterLookupEarnCodeSecurities(rawSearchResults, earnCodeType, GlobalVariables.getUserSession().getPrincipalId());
+        // removed blank search values and decrypt any encrypted search values
+        Map<String, String> nonBlankSearchCriteria = processSearchCriteria(form, searchCriteria);
+
+        if (nonBlankSearchCriteria == null) {
+            return new ArrayList<Object>();
+        }
+
+        if (!unbounded) {
+            searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
+        }
+
+        rawSearchResults = getLookupService().findCollectionBySearchHelper(getDataObjectClass(),
+                nonBlankSearchCriteria, unbounded, searchResultsLimit);
+
+        if (rawSearchResults == null) {
+            rawSearchResults = new ArrayList<Object>();
+        } else {
+            sortSearchResults(form, (List<?>) rawSearchResults);
+        }
+
+        List<EarnCodeSecurityBo> searchResults = filterLookupEarnCodeSecurities((List<EarnCodeSecurityBo>)rawSearchResults, earnCodeType, GlobalVariables.getUserSession().getPrincipalId());
+
+        generateLookupResultsMessages(form, nonBlankSearchCriteria, searchResults, unbounded);
 
         return searchResults;
-	}
-
+    }
 }
