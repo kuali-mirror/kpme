@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.api.paytype.PayTypeContract;
@@ -29,6 +30,7 @@ import org.kuali.kpme.core.bo.HrKeyedSetBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
@@ -74,6 +76,11 @@ public class PayTypeBo extends HrKeyedSetBusinessObject<PayTypeBo, PayTypeKeyBo>
 	}
 
 	public EarnCodeBo getRegEarnCodeObj() {
+        if (this.regEarnCodeObj == null) {
+            if (StringUtils.isNotEmpty(this.getRegEarnCode())) {
+                setRegEarnCodeObj(EarnCodeBo.from(HrServiceLocator.getEarnCodeService().getEarnCode(getRegEarnCode(), getEffectiveLocalDate())));
+            }
+        }
 		return regEarnCodeObj;
 	}
 

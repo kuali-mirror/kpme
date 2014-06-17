@@ -30,9 +30,9 @@ import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.api.paytype.PayTypeContract;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -222,7 +222,7 @@ public class TimeDetailWSAction extends TimesheetAction {
     		for (Assignment a : assignments) {
     			if (a.getJob() != null
     					&& a.getJob().getPayTypeObj() != null) {
-    				PayTypeContract payType = a.getJob().getPayTypeObj();
+    				PayType payType = a.getJob().getPayTypeObj();
                     if (payType.getRegEarnCodeObj() != null) {
                         EarnCode ec = EarnCode.Builder.create(payType.getRegEarnCodeObj()).build();
                         if (ec == null
@@ -291,7 +291,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         				String approver = HrContext.isApprover() ? "Y" : null;
         				String payrollProcessor = HrContext.isPayrollProcessor() ? "Y" : null; // KPME-2532
         				
-        				List<? extends EarnCodeSecurityContract> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(
+        				List<EarnCodeSecurity> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(
         						job.getDept(), 
         						job.getHrSalGroup(), 
         						earnCode.getEarnCode(), 
