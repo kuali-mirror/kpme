@@ -196,6 +196,12 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
             }
         }
         List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
+        if (asOfDate == null) {
+            Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
+            assignmentMap.put("assignment", "");
+            assignmentMap.put("desc", "-- enter valid date range --");
+            assignments.add(assignmentMap);
+        }
         lcf.setLeaveCalendarDocument(LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcf.getDocumentId()));
         if (lcf.getLeaveCalendarDocument()!=null && asOfDate != null) {
             //check date to see if assignment is active
@@ -218,8 +224,6 @@ public class LeaveCalendarWSAction extends LeaveCalendarAction {
                     assignments.add(assignmentMap);
                 }
             }
-        }else{
-        	
         }
 
         lcf.setOutputString(JSONValue.toJSONString(assignments));

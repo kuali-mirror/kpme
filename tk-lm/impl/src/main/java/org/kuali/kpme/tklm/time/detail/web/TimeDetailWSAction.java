@@ -329,6 +329,12 @@ public class TimeDetailWSAction extends TimesheetAction {
             }
         }
         List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
+        if (asOfDate == null) {
+            Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
+            assignmentMap.put("assignment", "");
+            assignmentMap.put("desc", "-- enter valid date range --");
+            assignments.add(assignmentMap);
+        }
         if (tdaf.getTimesheetDocument() != null
                 && asOfDate != null) {
             //check date to see if assignment is active
