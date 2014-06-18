@@ -329,7 +329,7 @@
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder"
                               p:dataObjectClassName="org.kuali.kpme.pm.classification.ClassificationBo"
-                              p:lookupParameters="groupKeyCode:groupKeyCode"/>
+                              />
                     </property>
                     <property name="quickfinder.quickfinderAction.disabled"
                               value="@{#dp.process eq '' or #dp.process eq null or #dp.process eq 'Reorganization' or #dp.process eq 'Data Update' or #dp.process eq 'Change Status'}" >
