@@ -5,6 +5,7 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.dossier.EdoDossier;
 import org.kuali.kpme.edo.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.util.EdoConstants;
+import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 
 import java.math.BigDecimal;
 
@@ -19,7 +20,7 @@ import java.math.BigDecimal;
  */
 public class EdoSelectedCandidate {
     private boolean isSelected;
-    private BigDecimal candidateID;
+    private String candidateID;
     private String candidateLastname;
     private String candidateFirstname;
     private String candidateUsername;
@@ -48,15 +49,15 @@ public class EdoSelectedCandidate {
     public EdoSelectedCandidate() {}
 
     public EdoSelectedCandidate(EdoCandidate edoCandidate, Boolean isSelected) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(edoCandidate.getUserName());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(edoCandidate.getPrincipalName());
         EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(dossier.getDossierTypeID());
 
         setSelected(isSelected);
-        setCandidateID(edoCandidate.getCandidateID());
+        setCandidateID(edoCandidate.getEdoCandidateID());
         setCandidateLastname(edoCandidate.getLastName());
         setCandidateFirstname(edoCandidate.getFirstName());
-        setCandidateUsername(edoCandidate.getUserName());
-        setCandidateCampusCode(edoCandidate.getCandidacyCampus());
+        setCandidateUsername(edoCandidate.getPrincipalName());
+        //setCandidateCampusCode(edoCandidate.getCandidacyCampus());
         setCandidateDepartmentID(edoCandidate.getPrimaryDeptID());
         setCandidateSchoolID(edoCandidate.getCandidacySchool());
         setAoe(dossier.getAoeCode());
@@ -105,11 +106,11 @@ public class EdoSelectedCandidate {
         this.candidateDepartmentID = candidateDeparmentID;
     }
 
-    public BigDecimal getCandidateID() {
+    public String getCandidateID() {
         return candidateID;
     }
 
-    public void setCandidateID(BigDecimal candidateID) {
+    public void setCandidateID(String candidateID) {
         this.candidateID = candidateID;
     }
 

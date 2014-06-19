@@ -5,8 +5,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.candidate.EdoCandidate;
+import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
 import org.kuali.kpme.edo.item.EdoItem;
@@ -24,6 +25,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.util.LinkedList;

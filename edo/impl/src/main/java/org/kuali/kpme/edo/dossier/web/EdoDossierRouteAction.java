@@ -5,9 +5,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.candidate.EdoCandidate;
+import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.item.EdoItem;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -28,6 +29,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -151,7 +153,7 @@ public class EdoDossierRouteAction extends EdoAction {
                 if (candidate != null) {
                     ActionRedirect rd = new ActionRedirect(mapping.findForward("candidateSelectRedirect"));
                     rd.addParameter("nid", "Dcklst_0_0");
-                    rd.addParameter("cid", candidate.getCandidateID().toString());
+                    rd.addParameter("cid", candidate.getEdoCandidateID().toString());
                     rd.addParameter("dossier", workflowDocument.getApplicationDocumentId());
                     return rd;
                 }

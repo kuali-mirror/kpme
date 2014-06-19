@@ -7,8 +7,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.candidate.EdoCandidate;
+import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklist;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
@@ -32,6 +33,7 @@ import org.kuali.rice.krad.util.MessageMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,20 +71,21 @@ public class EdoCandidateSelectAction extends EdoAction {
         }
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate)ssn.getAttribute("selectedCandidate");
 
-        EdoCandidate candidate = EdoServiceLocator.getCandidateService().getCandidate(BigDecimal.valueOf(Integer.parseInt(cid)));
-
+        //EdoCandidate candidate = EdoServiceLocator.getCandidateService().getCandidate(BigDecimal.valueOf(Integer.parseInt(cid)));
+        EdoCandidate candidate = EdoServiceLocator.getCandidateService().getCandidate(cid);
+        
         selectedCandidate.setSelected(true);
-        selectedCandidate.setCandidateID(candidate.getCandidateID());
+        selectedCandidate.setCandidateID(candidate.getEdoCandidateID());
         selectedCandidate.setCandidateLastname(candidate.getLastName());
         selectedCandidate.setCandidateFirstname(candidate.getFirstName());
-        selectedCandidate.setCandidateUsername( candidate.getUserName() );
-        selectedCandidate.setCandidateCampusCode(candidate.getCandidacyCampus());
+        selectedCandidate.setCandidateUsername(candidate.getPrincipalName());
+        //selectedCandidate.setCandidateCampusCode(candidate.getCandidacyCampus());
         selectedCandidate.setCandidateDepartmentID(candidate.getPrimaryDeptID());
         selectedCandidate.setCandidateSchoolID(candidate.getCandidacySchool());
 
         if ("".equals(dossier)) {
             // get current dossier ID for this candidate
-            currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(candidate.getUserName());
+            currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(candidate.getPrincipalName());
         } else {
             // get the requested dossier ID for this candidate
             currentDossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(Integer.parseInt(dossier)));

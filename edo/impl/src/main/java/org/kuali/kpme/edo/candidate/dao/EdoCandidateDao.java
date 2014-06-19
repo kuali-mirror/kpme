@@ -1,22 +1,19 @@
 package org.kuali.kpme.edo.candidate.dao;
 
-import org.kuali.kpme.edo.candidate.EdoCandidate;
-
-import java.math.BigDecimal;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: tcbradley
- * Date: 10/25/12
- * Time: 1:45 PM
- * To change this template use File | Settings | File Templates.
+ * Date: 06/07/14
  */
 public interface EdoCandidateDao {
 
-    public List<EdoCandidate> getEdoCandidateList();
+    public List<EdoCandidateBo> getEdoCandidateList();
 
-    public EdoCandidate getCandidate(BigDecimal candidateID);
-    public List<EdoCandidate> getCandidateListByUsername( String userName );
-    public EdoCandidate getCandidateByUsername(String userName);
+    public EdoCandidateBo getCandidate(String candidateID);
+    public List<EdoCandidateBo> getCandidateListByUsername( String userName );
+    public EdoCandidateBo getCandidateByUsername(String userName);
+    								
+    public List<EdoCandidateBo> getEdoCandidateList(String principalName, String groupKeyCode, LocalDate fromEffdt, LocalDate toEffdt, String active, String showHistory);
 }

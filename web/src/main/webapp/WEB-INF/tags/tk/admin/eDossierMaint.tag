@@ -19,6 +19,10 @@
 	<div class="body">
 	    <strong>Maintenance</strong>
 	    <ul class="chan">
+	    	<li>
+	            <portal:portalLink displayTitle="true" title="Candidate"															
+	                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.candidate.EdoCandidateBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+	        </li>
 		</ul>
 	</div>
 <channel:portalChannelBottom />

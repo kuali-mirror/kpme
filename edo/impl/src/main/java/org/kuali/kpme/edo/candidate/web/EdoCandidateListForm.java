@@ -1,9 +1,10 @@
 package org.kuali.kpme.edo.candidate.web;
 
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.candidate.EdoCandidate;
+import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.checklist.EdoChecklist;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 
 import java.util.List;
 import java.util.SortedMap;

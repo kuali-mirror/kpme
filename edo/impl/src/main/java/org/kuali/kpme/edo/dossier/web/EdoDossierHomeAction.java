@@ -1,23 +1,23 @@
 package org.kuali.kpme.edo.dossier.web;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.candidate.EdoCandidate;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoUser;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * $HeadURL$ $Revision$ Created with IntelliJ IDEA. User: bradleyt Date: 2/14/13
@@ -54,7 +54,7 @@ public class EdoDossierHomeAction extends EdoAction {
                         dossierList.addAll(edoCandidateDossierList);
                     }
                     EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(EdoContext.getUser().getNetworkId());
-                    currentCandidateID = edoC.getCandidateID().toString();
+                    currentCandidateID = edoC.getEdoCandidateID().toString();
                 }
                 //guest role
                 if (EdoUser.getCurrentTargetRoles().contains("Guest Dossier")) {
@@ -97,7 +97,7 @@ public class EdoDossierHomeAction extends EdoAction {
                         dossierList.addAll(edoCandidateDossierList);
                     }
                     EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(EdoContext.getUser().getNetworkId());
-                    currentCandidateID = edoC.getCandidateID().toString();
+                    currentCandidateID = edoC.getEdoCandidateID().toString();
                 }
                 //guest role
                 if (EdoContext.getUser().getCurrentRoleList().contains("Guest Dossier")) {
