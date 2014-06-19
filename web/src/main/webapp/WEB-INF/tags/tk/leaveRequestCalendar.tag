@@ -16,7 +16,12 @@
 	    		${leaveReqRow.employeeName} (${leaveReqRow.principalId})
 		    </div>  
 		</c:if>
-	    <c:if test="${empty leaveReqRow.leaveRequestDocId}">
+		<c:if test="${not empty leaveReqRow.requestStatus and leaveReqRow.requestStatus eq 'disapproved'}">
+	    	<div>
+	    		Disapproved
+	    	</div>	
+		</c:if>
+		<c:if test="${empty leaveReqRow.leaveRequestDocId}">
 	    	<div>
 	    		${leaveReqRow.employeeName} (${leaveReqRow.principalId})
 	    	</div>	
