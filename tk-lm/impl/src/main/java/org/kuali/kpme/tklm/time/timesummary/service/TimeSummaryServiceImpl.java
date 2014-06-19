@@ -366,6 +366,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 				if(earnGroupSection == null){
 					earnGroupSection = new EarnGroupSection();
 					earnGroupSection.setEarnGroup(earnGroup);
+                    earnGroupSection.setEarnGroupCode(earnGroupObj == null ? OTHER_EARN_GROUP : earnGroupObj.getEarnCodeGroup());
 					for(int i =1;i<(numEntries);i++){
 						earnGroupSection.getTotals().put(i,BigDecimal.ZERO);
 						earnGroupSection.getTotals().get(i).setScale(HrConstants.BIG_DECIMAL_SCALE, HrConstants.BIG_DECIMAL_SCALE_ROUNDING);

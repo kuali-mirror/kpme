@@ -356,6 +356,11 @@ public class TimeDetailWSAction extends TimesheetAction {
                     assignmentMap.put("desc", HrServiceLocator.getAssignmentService().getAssignmentDescriptionForAssignment(a, asOfDate));
                     assignments.add(assignmentMap);
                 }
+            } else {
+                Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
+                assignmentMap.put("assignment", "");
+                assignmentMap.put("desc", "-- no assignments found --");
+                assignments.add(assignmentMap);
             }
         }
 

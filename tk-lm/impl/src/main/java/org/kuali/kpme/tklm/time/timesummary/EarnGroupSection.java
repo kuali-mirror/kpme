@@ -29,13 +29,22 @@ import org.kuali.kpme.tklm.api.time.timesummary.EarnGroupSectionContract;
 public class EarnGroupSection implements Serializable, EarnGroupSectionContract {
 
 	private static final long serialVersionUID = 2655916770367036144L;
+    private String earnGroupCode;
 	private String earnGroup;
 	private Map<String, EarnCodeSection> earnCodeToEarnCodeSectionMap = new HashMap<String, EarnCodeSection>();
 	private List<EarnCodeSection> earnCodeSections = new ArrayList<EarnCodeSection>();
 	private Map<Integer, BigDecimal> totals = new LinkedHashMap<Integer, BigDecimal>();
 	private BigDecimal earnGroupTotal = BigDecimal.ZERO;
-	
-	public String getEarnGroup() {
+
+    public String getEarnGroupCode() {
+        return earnGroupCode;
+    }
+
+    public void setEarnGroupCode(String earnGroupCode) {
+        this.earnGroupCode = earnGroupCode;
+    }
+
+    public String getEarnGroup() {
 		return earnGroup;
 	}
 	public void setEarnGroup(String earnGroup) {
