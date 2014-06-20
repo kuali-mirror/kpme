@@ -59,13 +59,14 @@ public class AssignmentLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLook
         return results;
     }
 
-    @Override
+	@Override
     protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
 
-            String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+        String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
         List<AssignmentBo> results = (List<AssignmentBo>) super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
         List<AssignmentBo> filteredResults = filterLookupAssignments(results, userPrincipalId);
+
         return filteredResults;
 	}
 }

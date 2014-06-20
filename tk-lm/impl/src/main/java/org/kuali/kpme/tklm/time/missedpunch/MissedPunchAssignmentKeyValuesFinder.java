@@ -60,10 +60,10 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 
 				Map<LocalDate, List<Assignment>> assignmentMap = timesheetDocument.getAssignmentMap();
 				List<Assignment> assignments = assignmentMap.get(mpDate);
-
-				if (assignments.size() > 1) {
-					labels.add(new ConcreteKeyValue("", ""));
-				}
+				
+//				if (assignments.size() > 1) {
+//					labels.add(new ConcreteKeyValue("", ""));
+//				}
 
 				if(missedPunchForm.getIpAddress()!=null){
 					String ipAddress = TKUtils.getIPAddressFromRequest(missedPunchForm.getIpAddress());
@@ -94,6 +94,12 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 					}
 				}
 			}
+		}
+		if(labels.size()>1){
+			List<KeyValue> newLables = new ArrayList<KeyValue>();
+			newLables.add(new ConcreteKeyValue("", ""));
+			newLables.addAll(labels);
+			labels = newLables;
 		}
 		return labels;
 	}

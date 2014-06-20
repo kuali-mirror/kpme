@@ -46,7 +46,10 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
+        <property name="lookupDefinition">
+            <ref bean="PayType-lookupDefinition" />
+        </property>
+    </bean>
 
 	<bean id="PayType-hrPayTypeId" parent="PayType-hrPayTypeId-parentBean" />
 	<bean id="PayType-hrPayTypeId-parentBean" abstract="true" parent="AttributeDefinition">
@@ -146,6 +149,37 @@
 		<property name="name" value="payFrequency" />
 		<property name="label" value="Pay Frequency" />
 	</bean>
+
+    <!-- Look up Definitions  -->
+
+    <bean id="PayType-lookupDefinition" parent="PayType-lookupDefinition-parentBean" />
+    <bean id="PayType-lookupDefinition-parentBean" abstract="true"
+          parent="LookupDefinition">
+        <property name="lookupableID" value="kpmeHrBusinessObjectLookupable"></property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="payType" />
+                <bean parent="FieldDefinition" p:attributeName="descr" />
+                <bean parent="FieldDefinition" p:attributeName="regEarnCode" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                <bean parent="FieldDefinition" p:attributeName="relativeEffectiveDate"
+                      p:noInquiry="true" p:noLookup="true" p:hidden="true" p:defaultValue=" "/>
+                <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+                <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="payType" />
+                <bean parent="FieldDefinition" p:attributeName="descr" />
+                <bean parent="FieldDefinition" p:attributeName="regEarnCode" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                <bean parent="FieldDefinition" p:attributeName="timestamp" />
+            </list>
+        </property>
+        <property name="title" value="Pay Type Lookup" />
+    </bean>
+
 
 <!--***************************************************************************
                                    KRAD Views

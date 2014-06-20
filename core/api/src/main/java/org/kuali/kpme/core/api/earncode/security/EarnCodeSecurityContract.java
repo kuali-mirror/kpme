@@ -162,26 +162,4 @@ public interface EarnCodeSecurityContract extends KpmeEffectiveKeyedDataTransfer
 	 * @return jobObj for EarnCodeSecurity
 	 */
 	public JobContract getJobObj();
-
-    /**
-     * The Location object the EarnCodeSecurity is associated with
-     *
-     * <p>
-     * If a location is defined, only entries associated with a job rcd in this location will be subject.
-     * </p>
-     *
-     * @return jobObj for EarnCodeSecurity
-     */
-    public LocationContract getLocationObj();
-
-    /**
-     * The Location name the EarnCodeSecurity is associated with
-     *
-     * <p>
-     * location of an EarnCodeSecurity
-     * </p>
-     *
-     * @return location for EarnCodeSecurity
-     */
-    public String getLocation();
 }

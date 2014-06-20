@@ -32,7 +32,6 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class EarnCodeSecurityBo extends HrKeyedBusinessObject implements EarnCodeSecurityContract {
 
-	private static final String LOCATION = "location";
 	private static final String EARN_CODE = "earnCode";
 	private static final String HR_SAL_GROUP = "hrSalGroup";
 	private static final String DEPT = "dept";
@@ -52,7 +51,6 @@ public class EarnCodeSecurityBo extends HrKeyedBusinessObject implements EarnCod
             .add(DEPT)
             .add(HR_SAL_GROUP)
             .add(EARN_CODE)
-            .add(LOCATION)
             .add(GROUP_KEY_CODE)
             .build();
     
@@ -91,14 +89,12 @@ public class EarnCodeSecurityBo extends HrKeyedBusinessObject implements EarnCod
 	private boolean employee;
 	private boolean approver;
 	private boolean payrollProcessor;  // KPME-2532
-    private String location;
 	private String earnCodeType;
 	
 	private SalaryGroupBo salaryGroupObj;
 	private DepartmentBo departmentObj;
 	private EarnCodeBo earnCodeObj;
     private JobBo jobObj;
-    private LocationBo locationObj;
 
     
     @Override
@@ -107,7 +103,6 @@ public class EarnCodeSecurityBo extends HrKeyedBusinessObject implements EarnCod
 			.put(DEPT, this.getDept())
 			.put(HR_SAL_GROUP, this.getHrSalGroup())
 			.put(EARN_CODE, this.getEarnCode())
-			.put(LOCATION, this.getLocation())
             .put(GROUP_KEY_CODE, this.getGroupKeyCode())
 			.build();
 	}
@@ -209,22 +204,6 @@ public class EarnCodeSecurityBo extends HrKeyedBusinessObject implements EarnCod
 		this.jobObj = jobObj;
 	}
 
-    public LocationBo getLocationObj() {
-        return locationObj;
-    }
-
-    public void setLocationObj(LocationBo locationObj) {
-        this.locationObj = locationObj;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
 	@Override
 	public String getUniqueKey() {
 		return dept + "_" + hrSalGroup + "_" + earnCode;
@@ -253,7 +232,6 @@ public class EarnCodeSecurityBo extends HrKeyedBusinessObject implements EarnCod
 		ecs.setApprover(im.isApprover());
 		ecs.setPayrollProcessor(im.isPayrollProcessor());
 		ecs.setEarnCodeType(im.getEarnCodeType());
-        ecs.setLocation(im.getLocation());
 
         ecs.setGroupKeyCode(im.getGroupKeyCode());
         ecs.setGroupKey(im.getGroupKey() == null ? null : HrGroupKeyBo.from(im.getGroupKey()));
@@ -262,7 +240,6 @@ public class EarnCodeSecurityBo extends HrKeyedBusinessObject implements EarnCod
 		ecs.setDepartmentObj(im.getDepartmentObj() == null ? null : DepartmentBo.from(im.getDepartmentObj()));
 		ecs.setEarnCodeObj(im.getEarnCodeObj() == null ? null : EarnCodeBo.from(im.getEarnCodeObj()));
 		ecs.setJobObj(im.getJobObj() == null ? null : JobBo.from(im.getJobObj()));
-        ecs.setLocationObj(im.getLocationObj() == null ? null : LocationBo.from(im.getLocationObj()));
 
 	    copyCommonFields(ecs, im);
 

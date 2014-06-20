@@ -55,7 +55,7 @@ public class TimeHourDetailRenderer implements TimeHourDetailRendererContract {
                     String approver = HrContext.isApprover() ? "Y" : null;
                     String payrollProcessor = HrContext.isPayrollProcessor() ? "Y" : null;
 
-                    List<? extends EarnCodeSecurityContract> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor, job.getGroupKey().getLocationId(),
+                    List<? extends EarnCodeSecurityContract> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(job.getDept(), job.getHrSalGroup(), earnCode.getEarnCode(), employee, approver, payrollProcessor,
                             "Y", tb.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
                     if(CollectionUtils.isNotEmpty(securityList)) {
                         eligibleOvertimeEarnCodeListStrings.add(earnCode.getEarnCode());

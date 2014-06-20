@@ -26,19 +26,19 @@ public interface EarnCodeSecurityDao {
 
 	public void saveOrUpdate(List<EarnCodeSecurityBo> earnCodeSecList);
 
-	public List<EarnCodeSecurityBo> getEarnCodeSecurities(String department, String hrSalGroup, String location, LocalDate asOfDate, String groupKeyCode);
+	public List<EarnCodeSecurityBo> getEarnCodeSecurities(String department, String hrSalGroup, LocalDate asOfDate, String groupKeyCode);
 
 	public EarnCodeSecurityBo getEarnCodeSecurity(String hrEarnCodeSecId);
 	
-	public List<EarnCodeSecurityBo> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, LocalDate fromEffdt, LocalDate toEffdt, 
+	public List<EarnCodeSecurityBo> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, LocalDate fromEffdt, LocalDate toEffdt,
 														   String active, String showHistory, String groupKeyCode);
 	
-	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor, String location,
+	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String payrollProcessor,
                                         String active, LocalDate effdt, String hrDeptEarnCodeId, String groupKeyCode);
 	
 	public int getNewerEarnCodeSecurityCount(String earnCode, LocalDate effdt);
 	
 	public List<EarnCodeSecurityBo> getEarnCodeSecurityList(String dept,
 			String salGroup, String earnCode, String employee, String approver, String payrollProcessor, 
-			String location, String active, LocalDate effdt, String groupKeyCode);
+			String active, LocalDate effdt, String groupKeyCode);
 }

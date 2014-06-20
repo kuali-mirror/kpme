@@ -175,8 +175,7 @@ public class TKPermissionServiceImpl extends HrPermissionServiceBase implements 
     	// use earnCodeSecurity employee/approver/payrollProcessor flags to determine if the user has edit permission to the earn code 
     	List<? extends EarnCodeSecurityContract> earnCodeSecurityList = HrServiceLocator
                   .getEarnCodeSecurityService().getEarnCodeSecurities(
-                          job.getDept(), job.getHrSalGroup(),
-                          job.getGroupKey().getLocationId(), aTimeBlock.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
+                          job.getDept(), job.getHrSalGroup(), aTimeBlock.getEndDateTime().toLocalDate(), job.getGroupKey().getGroupKeyCode());
     	// no earn code security found, then no edit permissions for roles other than sys/location admins
     	if(CollectionUtils.isEmpty(earnCodeSecurityList))
     		return false; 

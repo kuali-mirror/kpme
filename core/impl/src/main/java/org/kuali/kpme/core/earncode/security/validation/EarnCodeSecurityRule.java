@@ -20,6 +20,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
@@ -38,6 +39,16 @@ import java.util.List;
 
 //public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
     public class EarnCodeSecurityRule extends HrKeyedBusinessObjectValidation {
+
+    protected boolean validateGroupKeyCode(EarnCodeSecurityBo departmentEarnCode) {
+        if (StringUtils.equals(departmentEarnCode.getGroupKeyCode(), HrConstants.WILDCARD_CHARACTER)) {
+            return true;
+        }
+
+        return super.validateGroupKeyCode(departmentEarnCode);
+    }
+
+
 	private boolean validateSalGroup(EarnCodeSecurityBo departmentEarnCode ) {
 		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getHrSalGroup(), departmentEarnCode.getEffectiveLocalDate())) {
 			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getHrSalGroup()+ "'");
@@ -118,6 +129,11 @@ import java.util.List;
 	}
 
 	private boolean validateLocation(EarnCodeSecurityBo departmentEarnCode) {
+        if (StringUtils.equals(departmentEarnCode.getGroupKeyCode(), HrConstants.WILDCARD_CHARACTER))
+        {
+            return true;
+        }
+
         if (StringUtils.equals(departmentEarnCode.getLocation(), HrConstants.WILDCARD_CHARACTER))
         {
             return true;

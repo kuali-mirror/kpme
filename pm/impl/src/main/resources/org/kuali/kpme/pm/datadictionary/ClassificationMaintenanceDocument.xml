@@ -97,7 +97,7 @@
 		p:headerText="Classification">
 		<property name="items">
 			<list>	
-				<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 
 		        <bean parent="Uif-InputField" p:propertyName="positionClass" />
 		        <bean parent="Uif-InputField" p:propertyName="classificationTitle" />
@@ -153,7 +153,7 @@
 		        			 p:fieldConversions="leavePlan:leavePlan"/>
 		   		 	</property>
 		   		</bean>
-		   		<bean parent="Uif-InputField" p:propertyName="payGrade">
+		   		<bean parent="Uif-InputField" p:propertyName="payGrade" p:required="false">
                      <property name="quickfinder">
                          <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.paygrade.PayGradeBo"
                                p:fieldConversions="payGrade:payGrade"

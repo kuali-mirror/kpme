@@ -61,7 +61,7 @@
     <bean id="KpmeAttributes-location" parent="Location-location" p:name="location"/>
     <bean id="KpmeAttributes-position" parent="PositionBase-positionNumber" p:name="position"/>
     <bean id="KpmeAttributes-institution" parent="Institution-institutionCode" p:name="institution"/>
-    <bean id="KpmeAttributes-organization" parent="Organization-chartOfAccountsCode" p:name="organization"/>
+    <bean id="KpmeAttributes-organization" parent="Organization-organizationCode" p:name="organization"/>
     <!-- 
     <bean id="KpmeAttributes-positionType" parent="PositionType-positionType" p:name="positionType"/>   -->
     

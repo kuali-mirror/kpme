@@ -1,10 +1,10 @@
 HR_DEPT_ID,DEPT,DESCRIPTION,PYRLL_APPRVL,EFFDT,ACTIVE,USER_PRINCIPAL_ID,GRP_KEY_CD
-1,CA-DEPT,California Dept,N,2010-01-01,Y,admin,DEFAULT
-2,CA-LEAVE,California Leave Dept,N,2010-01-01,Y,admin,DEFAULT
-3,CA-TIME,California Time Dept,N,2010-01-01,Y,admin,DEFAULT
-4,CO-DEPT,Colorado Dept,N,2010-01-01,Y,admin,DEFAULT
-5,CO-LEAVE,Colorado Leave Dept,N,2010-01-01,Y,admin,DEFAULT
-6,CO-TIME,Colorado Time Dept,N,2010-01-01,Y,admin,DEFAULT
+1,CA-DEPT,California Dept,N,2010-01-01,Y,admin,IU-IN
+2,CA-LEAVE,California Leave Dept,N,2010-01-01,Y,admin,IU-IN
+3,CA-TIME,California Time Dept,N,2010-01-01,Y,admin,IU-IN
+4,CO-DEPT,Colorado Dept,N,2010-01-01,Y,admin,IU-IN
+5,CO-LEAVE,Colorado Leave Dept,N,2010-01-01,Y,admin,IU-IN
+6,CO-TIME,Colorado Time Dept,N,2010-01-01,Y,admin,IU-IN
 7,GA-DEPT,Georgia Dept,N,2010-01-01,Y,admin,UGA-GA
 8,GA-LEAVE,Georgia Leave Dept,N,2010-01-01,Y,admin,UGA-GA
 9,GA-TIME,Georgia Time Dept,N,2010-01-01,Y,admin,UGA-GA

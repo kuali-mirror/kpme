@@ -30,9 +30,9 @@ import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
-import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.api.job.JobContract;
-import org.kuali.kpme.core.api.paytype.PayTypeContract;
+import org.kuali.kpme.core.api.paytype.PayType;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -222,7 +222,7 @@ public class TimeDetailWSAction extends TimesheetAction {
     		for (Assignment a : assignments) {
     			if (a.getJob() != null
     					&& a.getJob().getPayTypeObj() != null) {
-    				PayTypeContract payType = a.getJob().getPayTypeObj();
+    				PayType payType = a.getJob().getPayTypeObj();
                     if (payType.getRegEarnCodeObj() != null) {
                         EarnCode ec = EarnCode.Builder.create(payType.getRegEarnCodeObj()).build();
                         if (ec == null
@@ -291,14 +291,13 @@ public class TimeDetailWSAction extends TimesheetAction {
         				String approver = HrContext.isApprover() ? "Y" : null;
         				String payrollProcessor = HrContext.isPayrollProcessor() ? "Y" : null; // KPME-2532
         				
-        				List<? extends EarnCodeSecurityContract> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(
+        				List<EarnCodeSecurity> securityList = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityList(
         						job.getDept(), 
         						job.getHrSalGroup(), 
         						earnCode.getEarnCode(), 
         						employee, 
         						approver, 
-        						payrollProcessor, 
-        						job.getGroupKey().getLocationId(),
+        						payrollProcessor,
         						"Y", tb.getEndDateTime().toLocalDate(), job.getGroupKeyCode());
         				if(CollectionUtils.isNotEmpty(securityList)) {
         					Map<String, Object> earnCodeMap = new HashMap<String, Object>();
@@ -330,6 +329,12 @@ public class TimeDetailWSAction extends TimesheetAction {
             }
         }
         List<Map<String, Object>> assignments = new ArrayList<Map<String, Object>>();
+        if (asOfDate == null) {
+            Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
+            assignmentMap.put("assignment", "");
+            assignmentMap.put("desc", "-- enter valid date range --");
+            assignments.add(assignmentMap);
+        }
         if (tdaf.getTimesheetDocument() != null
                 && asOfDate != null) {
             //check date to see if assignment is active
@@ -351,6 +356,11 @@ public class TimeDetailWSAction extends TimesheetAction {
                     assignmentMap.put("desc", HrServiceLocator.getAssignmentService().getAssignmentDescriptionForAssignment(a, asOfDate));
                     assignments.add(assignmentMap);
                 }
+            } else {
+                Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
+                assignmentMap.put("assignment", "");
+                assignmentMap.put("desc", "-- no assignments found --");
+                assignments.add(assignmentMap);
             }
         }
 

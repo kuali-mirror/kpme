@@ -1,4 +1,4 @@
 PM_CNTRCT_TYP_ID,NAME,DESCRIPTION,EFFDT,ACTIVE,USER_PRINCIPAL_ID,VER_NBR,GRP_KEY_CD
-1,Fiscal,Fiscal Contract,2010-01-01,Y,admin,1,DEFAULT
-2,Academic,Academic Contract,2010-01-01,Y,admin,1,DEFAULT
+1,Fiscal,Fiscal Contract,2010-01-01,Y,admin,1,IU-IN
+2,Academic,Academic Contract,2010-01-01,Y,admin,1,IU-IN
 3,Law,Law Contract,2010-01-01,Y,admin,1,UGA-GA

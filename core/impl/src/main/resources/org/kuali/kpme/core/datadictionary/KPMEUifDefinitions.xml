@@ -239,25 +239,43 @@
     		</list>
   		</property>
   	</bean>
-  	 
+
+    <bean id = "KPMEGroupKeyed-MaintenanceGridSection-GroupKey" parent="KPMEHrGroupKeyInputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
+        <property name="optionsFinder">
+            <bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
+        </property>
+    </bean>
+
   	<!-- KPME-3403 per Jerry Neal's suggestion -->
-  	<bean id="KPMEGroupKeyed-MaintenanceGridSection" parent="Uif-MaintenanceGridSection">
+  	<bean id="KPMEWildcardGroupKeyed-MaintenanceGridSection" parent="Uif-MaintenanceGridSection">
     	<property name="items">
         	<list merge="true">
         		<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 
-            	<!-- <bean parent="Uif-InputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate"> -->
-                <bean parent="KPMEHrGroupKeyInputField" p:propertyName="groupKeyCode" p:required="true" p:refreshWhenChangedPropertyNames="#dp.effectiveDate">
-                	<property name="control">
-                    	<bean parent="Uif-DropdownControl" p:required="true"/>
-               		</property>
-               		<property name="optionsFinder">
-                    	<bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
-               		</property>
-           		</bean>
+                <bean parent = "KPMEGroupKeyed-MaintenanceGridSection-GroupKey">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
+                    </property>
+                </bean>
        		</list>
     	</property>
     </bean>
+
+    <!-- KPME-3403 per Jerry Neal's suggestion -->
+    <bean id="KPMEGroupKeyed-MaintenanceGridSection" parent="Uif-MaintenanceGridSection">
+        <property name="items">
+            <list merge="true">
+                <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+
+                <bean parent = "KPMEGroupKeyed-MaintenanceGridSection-GroupKey">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:required="true"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 
     <bean id = "KPMEHrGroupKeyInputField" parent = "Uif-InputField" class = "org.kuali.kpme.core.util.GroupKeyInputField"/>
 

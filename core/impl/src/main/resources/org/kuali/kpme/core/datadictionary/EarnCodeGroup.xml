@@ -44,6 +44,11 @@
 	        	</bean>
 			</list>
 		</property>
+
+        <property name="lookupDefinition">
+            <ref bean="EarnCodeGroup-lookupDefinition" />
+        </property>
+
 	</bean>
 
 	<!-- Attribute Definitions -->
@@ -112,7 +117,35 @@
 		<property name="name" value="warningText" />
 		<property name="label" value="Warning Text" />
 	</bean>
-	
+
+    <!-- KNS lookup -->
+
+    <bean id="EarnCodeGroup-lookupDefinition" parent="EarnCodeGroup-lookupDefinition-parentBean" />
+    <bean id="EarnCodeGroup-lookupDefinition-parentBean" abstract="true"
+          parent="LookupDefinition">
+        <property name="lookupableID" value="kpmeHrBusinessObjectLookupable"></property>
+        <property name="lookupFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="earnCodeGroup" />
+                <bean parent="FieldDefinition" p:attributeName="descr" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="FieldDefinition" p:attributeName="earnCodeGroup" />
+                <bean parent="FieldDefinition" p:attributeName="descr" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+                <bean parent="FieldDefinition" p:attributeName="timestamp" />
+                <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="FieldDefinition" p:attributeName="warningText" />
+            </list>
+        </property>
+        <property name="title" value="Earn Code Group Lookup" />
+    </bean>
+
 		<!--***************************************************************************
                                                         Views
         ***************************************************************************-->
@@ -243,4 +276,7 @@
             </list>
         </property>
     </bean>
+
+
+
 </beans>
