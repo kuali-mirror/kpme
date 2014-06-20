@@ -42,6 +42,7 @@ public class TimeSummary implements Serializable, TimeSummaryContract {
 	private Map<String, BigDecimal> flsaWeekTotalMap = new LinkedHashMap<String, BigDecimal>();
 	private Map<String, Map<Integer, BigDecimal>> weeklyWorkedHours = new LinkedHashMap<String, Map<Integer, BigDecimal>>();
 	private Map<String, String> weekDates = new LinkedHashMap<String, String>();
+    private Map<String, Integer> weekDateToCalendarDayInt = new HashMap<>();
 
 	public BigDecimal getGrandTotal() {
 		return grandTotal;
@@ -207,7 +208,12 @@ public class TimeSummary implements Serializable, TimeSummaryContract {
 	public void setTimeSummaryHeader(Map<Integer, String> timeSummaryHeader) {
 		this.timeSummaryHeader = timeSummaryHeader;
 	}
-	
-	
-	
+
+    public Map<String, Integer> getWeekDateToCalendarDayInt() {
+        return weekDateToCalendarDayInt;
+    }
+
+    public void setWeekDateToCalendarDayInt(Map<String, Integer> weekDateToCalendarDayInt) {
+        this.weekDateToCalendarDayInt = weekDateToCalendarDayInt;
+    }
 }

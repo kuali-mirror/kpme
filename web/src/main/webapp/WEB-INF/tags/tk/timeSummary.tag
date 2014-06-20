@@ -37,15 +37,17 @@
                         <td style="border-left: none">${entry.key}<br/>${timeSummary.weekDates[entry.key]}</td>
                         <c:set var="weekHours" value="${entry.value}"/>
                         <c:forEach items="${timeSummary.timeSummaryHeader}" var="hour">
+                            <c:set var="idDayKey" value="Week${weekInt}_day${hour.key}"/>
+                            <c:set var="idVal" value="day${timeSummary.weekDateToCalendarDayInt[idDayKey]}_weekTotal"/>
                             <c:if test="${weekHours[hour.key] != null and not empty weekHours[hour.key]}">
-                                <td>${weekHours[hour.key]}</td>
+                                <td id="${idVal}">${weekHours[hour.key]}</td>
                             </c:if>
                             <c:if test="${weekHours[hour.key] == null or empty weekHours[hour.key]}">
-                                <td style="background: rgb(224, 235, 225)">${weekHours[hour.key]}</td>
+                                <td id="${idVal}" style="background: rgb(224, 235, 225)">${weekHours[hour.key]}</td>
                             </c:if>
                         </c:forEach>
-                        <td valign="middle">${timeSummary.weekTotalMap[entry.key]}  </td>
-                        <td valign="middle"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value = "${timeSummary.flsaWeekTotalMap[entry.key]}"/></td>
+                        <td id="${weekString}_total" valign="middle">${timeSummary.weekTotalMap[entry.key]}  </td>
+                        <td id="${weekString}_flsa_total" valign="middle"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value = "${timeSummary.flsaWeekTotalMap[entry.key]}"/></td>
 
                      </tr>
 	              <tbody id="weekSummary${weekString}" style="display: table-row-group;">
@@ -63,12 +65,14 @@
                                         <td colspan="2" class="${not empty assignmentRow.descr?assignmentRow.cssClass: ''}">${assignmentRow.descr}</td>
                                         <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
                                             <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>
+                                            <c:set var="idDayKey" value="Week${weekInt}_day${entry.key}"/>
+                                            <c:set var="idVal" value="day${timeSummary.weekDateToCalendarDayInt[idDayKey]}_${earnCodeSection.earnCode}_${assignmentColumn.cssClass}"/>
                                             <c:choose>
                                                 <c:when test="${assignmentColumn.amount ne '0.00' and assignmentColumn.amount != 0}">
-                                                     <td id="day${(entry.key + ((weekInt - 1)*7))}_${earnCodeSection.earnCode}_${assignmentColumn.cssClass}" class="${assignmentRow.cssClass}">$${assignmentColumn.amount}</td>
+                                                     <td id="${idVal}" class="${assignmentRow.cssClass}">$${assignmentColumn.amount}</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td></td>
+                                                    <td id="${idVal}"></td>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
@@ -81,18 +85,19 @@
                                         <tr>
                                            <td colspan="2" class="${not empty assignmentRow.descr?assignmentRow.cssClass: ''}">${assignmentRow.descr}</td>
                                            <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
-                                            	<c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>   
-                                               
+                                             <c:set var="assignmentColumn" value="${assignmentRow.assignmentColumns[entry.key]}"/>
+                                             <c:set var="idDayKey" value="Week${weekInt}_day${entry.key}"/>
+                                             <c:set var="idVal" value="day${timeSummary.weekDateToCalendarDayInt[idDayKey]}_${earnCodeSection.earnCode}_${assignmentColumn.cssClass}"/>
                                              <c:choose>
                                                 <c:when test="${assignmentColumn.total ne '0.00' and assignmentColumn.total != 0}">
-                                                      <td id="day${(entry.key + ((weekInt - 1)*7))}_${earnCodeSection.earnCode}_${assignmentColumn.cssClass}" class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
+                                                      <td id="${idVal}" class="${assignmentColumn.cssClass}">${assignmentColumn.total}</td>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <td></td>
+                                                    <td id="${idVal}"></td>
                                                 </c:otherwise>
                                             </c:choose>
                                             </c:forEach>
-                                            <td>${assignmentRow.periodTotal}</td>
+                                            <td id="${weekString}_${earnCodeSection.earnCode}_${assignmentColumn.cssClass}_total">${assignmentRow.periodTotal}</td>
                                             <td/>
                                         </tr>
                                     </c:if>
@@ -103,16 +108,18 @@
                     <tr style="font-weight: bold;border-bottom-style: double;border-top-style: double;">
                         <td class="earnGroupTotalRow" colspan="2">${section.earnGroup} Totals</td>
                         <c:forEach items="${timeSummary.timeSummaryHeader}" var="entry">
+                            <c:set var="idDayKey" value="Week${weekInt}_day${entry.key}"/>
+                            <c:set var="idVal" value="day${timeSummary.weekDateToCalendarDayInt[idDayKey]}_${section.earnGroupCode}_total"/>
                         	 <c:choose>
                                 <c:when test="${section.totals[entry.key] ne '0.00' and section.totals[entry.key] != 0}">
-                                    <td id="day${(entry.key + ((weekInt - 1)*7))}_${section.earnGroupCode}_total" class="earnGroupTotalRow">${section.totals[entry.key]}</td>
+                                    <td id="${idVal}" class="earnGroupTotalRow">${section.totals[entry.key]}</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td class="earnGroupTotalRow"></td>
+                                    <td id="${idVal}" class="earnGroupTotalRow"></td>
                                 </c:otherwise>
                              </c:choose>
                         </c:forEach>
-                         <td>${section.earnGroupTotal}</td>
+                         <td id="${weekString}_${section.earnGroupCode}_total">${section.earnGroupTotal}</td>
                          <td/>
                     </tr>
                 </c:forEach>
@@ -121,7 +128,7 @@
               <tr>
               <td colspan="2" style="color: #993333;font-weight: bold;">Pay Period Total</td>
               <td colspan="7"></td>
-              <td  colspan="2" style="font-weight: bold;">${timeSummary.grandTotal}</td>
+              <td id="payPeriodGrandTotal" colspan="2" style="font-weight: bold;">${timeSummary.grandTotal}</td>
               </tr>
 
             </tbody>

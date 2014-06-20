@@ -431,12 +431,14 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      */
     private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate, Set<String> regularEarnCodes, TimeSummary timeSummary,DateTimeZone timezone) {
         List<BigDecimal> hours = new ArrayList<BigDecimal>();
-        Map<Integer, BigDecimal> weekHours = new TreeMap<Integer, BigDecimal>();
+        Map<Integer, BigDecimal> weekHours;
         Map<String, BigDecimal> weekTotalMap = new LinkedHashMap<String, BigDecimal>();
+        Map<String, Integer> weekDateToCalendarDayInt = new HashMap<String, Integer>();
 
         BigDecimal periodTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
 
         int i=0;
+        int dayInt=0;
         for (FlsaWeek week : aggregate.getFlsaWeeks(timezone, DateTimeConstants.SUNDAY, true)) {
         	weekHours = new TreeMap<Integer, BigDecimal>();
         	
@@ -454,8 +456,11 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
                         weeklyTotal = weeklyTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
                         periodTotal = periodTotal.add(block.getHours(), HrConstants.MATH_CONTEXT);
                     }
+
                 }
                 weekHours.put(ldDay, totalForDay);
+                weekDateToCalendarDayInt.put(("Week"+(i+1)+"_day"+ldDay), dayInt);
+                dayInt++;
                 hours.add(totalForDay);
             }
             i++;
@@ -466,6 +471,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         hours.add(periodTotal);
         timeSummary.setGrandTotal(periodTotal);
         timeSummary.setWeekTotalMap(weekTotalMap);
+        timeSummary.setWeekDateToCalendarDayInt(weekDateToCalendarDayInt);
         return hours;
     }
 
