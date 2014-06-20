@@ -73,6 +73,7 @@
 	        </bean>
 	      </list>
 	    </property>
+        <!--
         <property name="relationships">
             <list>
                 <bean parent="RelationshipDefinition">
@@ -88,13 +89,13 @@
                     <property name="primitiveAttributes">
                         <list>
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="defaultOvertimeEarnCode" p:targetName="earnCode" />
-                            <!-- <bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode" p:targetName="ovtEarnCode" /> -->
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="ovtEarnCode" p:targetName="ovtEarnCode" />
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
                         </list>
                     </property>
                 </bean>
             </list>
-        </property>
+        </property> -->
         <property name="lookupDefinition">
             <ref bean="WorkArea-lookupDefinition" />
         </property>
@@ -223,19 +224,10 @@
         <property name="resultFields">
             <list merge = "true">
                 <bean parent="Uif-DataField" p:propertyName="dept">
-                	<!-- <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                              p:inquiryParameters="dept:dept"/>
-                    </property> -->
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="workArea" />
                 <bean parent="Uif-DataField" p:propertyName="description" />
-                <bean parent="Uif-DataField" p:propertyName="defaultOvertimeEarnCode" >	
-            		<!-- <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo"
-                              p:inquiryParameters="defaultOvertimeEarnCode:earnCode,ovtEarnCode:ovtEarnCode,effectiveDate:effectiveDate"/>
-                    </property> -->
-                </bean>
+<!--                <bean parent="Uif-DataField" p:propertyName="defaultOvertimeEarnCode" > -->
                 <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
                 <bean parent="Uif-DataField" p:propertyName="active" />
             </list>
@@ -266,7 +258,7 @@
                 <bean parent="FieldDefinition" p:attributeName="dept" />
                 <bean parent="FieldDefinition" p:attributeName="workArea" />
                 <bean parent="FieldDefinition" p:attributeName="description" />
-                <bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
+                <!-- <bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" /> -->
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
                 <bean parent="FieldDefinition" p:attributeName="active" />
             </list>
