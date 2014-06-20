@@ -3,7 +3,7 @@ package org.kuali.kpme.edo.item.web;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.checklist.EdoChecklist;
+import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.item.EdoItemV;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * Time: 10:03 AM
  */
 public class EdoSectionSummaryForm extends EdoForm {
-    private List<EdoChecklist> checklistView = EdoServiceLocator.getChecklistViewService().getCheckListView("IU", "ALL", "ALL");
+    private List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL");
     private FormFile uploadFile;
     private int checklistItemID;
     private int itemID;
@@ -53,11 +53,11 @@ public class EdoSectionSummaryForm extends EdoForm {
         this.uploadFile = file;
     }
 
-    public List<EdoChecklist> getChecklistView() {
+    public List<EdoChecklistV> getChecklistView() {
         return checklistView;
     }
 
-    public void setChecklistView(List<EdoChecklist> checklistView) {
+    public void setChecklistView(List<EdoChecklistV> checklistView) {
         this.checklistView = checklistView;
     }
 

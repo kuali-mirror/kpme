@@ -20,7 +20,7 @@ import java.util.TreeSet;
  */
 public class EdoReviewLetterForm extends EdoForm {
 
-    // private List<EdoChecklist> checklistView = EdoServiceLocator.getChecklistViewService().getCheckListView("IU", "ALL", "ALL");
+    // private List<EdoChecklist> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL");
     private FormFile uploadFile;
     private int checklistItemID;
     private int itemID;

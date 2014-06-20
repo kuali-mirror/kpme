@@ -1,18 +1,12 @@
 package org.kuali.kpme.edo.checklist.service;
 
-import org.kuali.kpme.edo.checklist.EdoChecklistItem;
+import java.util.List;
 
-import java.math.BigDecimal;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 
-/**
- * $HeadURL$
- * $Revision$
- * Created with IntelliJ IDEA.
- * User: bradleyt
- * Date: 5/22/14
- * Time: 10:06 AM
- */
 public interface EdoChecklistItemService {
 
-    public EdoChecklistItem getChecklistItemByID(BigDecimal checklistItemId);
+    public EdoChecklistItem getChecklistItemByID(String checklistItemId);
+    public List<EdoChecklistItem> getChecklistItemsBySectionID(String sectionId, LocalDate asOfDate);
 }

@@ -1,5 +1,18 @@
 package org.kuali.kpme.edo.item.web;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
@@ -10,24 +23,22 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.checklist.EdoChecklist;
+import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.item.EdoItem;
 import org.kuali.kpme.edo.item.EdoItemTracker;
 import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.util.*;
+import org.kuali.kpme.edo.util.EdoConstants;
+import org.kuali.kpme.edo.util.EdoContext;
+import org.kuali.kpme.edo.util.EdoItemVDateComparator;
+import org.kuali.kpme.edo.util.EdoItemVDateDescComparator;
+import org.kuali.kpme.edo.util.EdoRule;
+import org.kuali.kpme.edo.util.EdoUtils;
+import org.kuali.kpme.edo.util.QueryParams;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * $HeadURL$
@@ -49,7 +60,7 @@ public class EdoChecklistItemAction extends EdoAction {
         MessageMap msgmap = GlobalVariables.getMessageMap();
         BigDecimal checklistItemId = null;
         int currentTreeNodeID;
-        List<EdoChecklist> checklistView;
+        List<EdoChecklistV> checklistView;
         List<EdoItemV> itemList;
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate) request.getSession().getAttribute("selectedCandidate");
         String itemListJSON = "";
@@ -73,7 +84,7 @@ public class EdoChecklistItemAction extends EdoAction {
 
         // set page request variables for title and description
         checklistView = cliForm.getChecklistView();
-        for (EdoChecklist chklist : checklistView ) {
+        for (EdoChecklistV chklist : checklistView ) {
             checklistItemId = chklist.getChecklistItemID();
             if ( checklistItemId.intValue() == currentTreeNodeID ) {
                 request.setAttribute("nodeID", currentTreeNodeID );
@@ -151,7 +162,7 @@ public class EdoChecklistItemAction extends EdoAction {
         LOG.info("Items sorted");
 
         // update edoItems with new row indexes
-        EdoServiceLocator.getChecklistViewService().saveOrUpdate(itemsToUpdate);
+        EdoServiceLocator.getChecklistVService().saveOrUpdate(itemsToUpdate);
 
         // update json
         // not happy about the code below since it involves too much handcrafted json.
@@ -371,7 +382,7 @@ public class EdoChecklistItemAction extends EdoAction {
             }
             // these attributes will need to be updated for both new file and replacement
             // but we can't update until the old file is removed, as above
-            EdoChecklist edoChecklist = EdoServiceLocator.getChecklistViewService().getChecklistItemByID(BigDecimal.valueOf(checklistItemID));
+            EdoChecklistV edoChecklist = EdoServiceLocator.getChecklistVService().getChecklistItemByID(BigDecimal.valueOf(checklistItemID));
           //  if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName())) {
           if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName()) || StringUtils.equals(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName())) {
 	

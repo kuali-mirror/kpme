@@ -6,7 +6,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.checklist.EdoChecklist;
+import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.item.count.EdoItemCountV;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +33,7 @@ public class EdoSectionSummaryAction  extends EdoAction {
         BigDecimal checklistSectionId = null;
         int currentTreeNodeID;
         int currentSectionId;
-        List<EdoChecklist> checklistView;
+        List<EdoChecklistV> checklistView;
         List<EdoItemCountV> itemCount;
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate) request.getSession().getAttribute("selectedCandidate");
         String itemCountJSON = "";
@@ -49,8 +49,8 @@ public class EdoSectionSummaryAction  extends EdoAction {
 
         // set page request variables for title and description
         checklistView = cliForm.getChecklistView();
-        List<EdoChecklist> currentCheckListSection = new LinkedList<EdoChecklist>();
-        for (EdoChecklist chklist : checklistView ) {
+        List<EdoChecklistV> currentCheckListSection = new LinkedList<EdoChecklistV>();
+        for (EdoChecklistV chklist : checklistView ) {
             checklistSectionId = chklist.getChecklistSectionID();
             if ( checklistSectionId.intValue() == currentSectionId ) {
                 currentCheckListSection.add(chklist);
@@ -72,7 +72,7 @@ public class EdoSectionSummaryAction  extends EdoAction {
 
         int count = 0;
 
-        for (EdoChecklist checklistItem : currentCheckListSection) {
+        for (EdoChecklistV checklistItem : currentCheckListSection) {
             if (itemCountVMap.containsKey(checklistItem.getChecklistItemID())) {
                 String itemJSON = itemCountVMap.get(checklistItem.getChecklistItemID()).getItemCountJSON() + ",";
                 itemJSON = itemJSON.replace("[", "[\"" + count + "\",");

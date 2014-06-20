@@ -22,16 +22,50 @@
         <field-descriptor name="versionNumber"  column="VER_NBR"               	jdbc-type="BIGINT"  locking="true" />
 	</class-descriptor>
 	
-    <class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklistItem" table="EDO_CHECKLIST_ITEM_T">
-        <field-descriptor name="checklistItemID" column="checklist_item_id" jdbc-type="NUMERIC" primarykey="true" />
-        <field-descriptor name="checklistSectionID" column="checklist_section_id" jdbc-type="NUMERIC" precision="4" scale="0" primarykey="false" />
-        <field-descriptor name="checklistItemName" column="checklist_item_name" jdbc-type="VARCHAR" length="200" primarykey="false" />
-        <field-descriptor name="itemDescription" column="description" jdbc-type="CLOB" primarykey="false" />
-        <field-descriptor name="required" column="required" jdbc-type="TINYINT" primarykey="false" />
-        <field-descriptor name="checklistItemOrdinal" column="checklist_item_section_ordinal" jdbc-type="NUMERIC" primarykey="false" />
-    </class-descriptor>
+    <class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklistItemBo" table="EDO_CHECKLIST_ITEM_T">
+		<field-descriptor name="checklistItemID" column="CHECKLIST_ITEM_ID" jdbc-type="VARCHAR" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_CHECKLIST_ITEM_S" />
+		<field-descriptor name="checklistSectionID" column="CHECKLIST_SECTION_ID" jdbc-type="VARCHAR" nullable="false" primarykey="false" />
+		<field-descriptor name="checklistItemName" column="CHECKLIST_ITEM_NAME" jdbc-type="VARCHAR" nullable="false" length="200" primarykey="false" />
+		<field-descriptor name="itemDescription" column="DESCRIPTION" jdbc-type="VARCHAR" primarykey="false" />
+		<field-descriptor name="required" column="REQUIRED" jdbc-type="VARCHAR" nullable="false" primarykey="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="checklistItemOrdinal" column="CHECKLIST_ITEM_ORDINAL" jdbc-type="TINYINT" nullable="false" primarykey="false" />
+		<field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="true"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklistBo" table="EDO_CHECKLIST_T">
+		<field-descriptor name="checklistID" column="CHECKLIST_ID" jdbc-type="VARCHAR" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_CHECKLIST_S" />
+		<field-descriptor name="dossierTypeCode" column="DOSSIER_TYP_CD" jdbc-type="VARCHAR" nullable="false" length="2" primarykey="false" />
+		<field-descriptor name="departmentID" column="DEPARTMENT_ID" jdbc-type="VARCHAR" nullable="false" length="12" primarykey="false" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" primarykey="false" />
+		<field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="true"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="groupKeyCode"  				column="GRP_KEY_CD"        		jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo" table="EDO_CHECKLIST_SECTION_T">
+		<field-descriptor name="checklistSectionID" column="CHECKLIST_SECTION_ID" jdbc-type="VARCHAR" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_CHECKLIST_SECTION_S" />
+		<field-descriptor name="checklistID" column="CHECKLIST_ID" jdbc-type="VARCHAR" nullable="false" primarykey="false" />
+		<field-descriptor name="checklistSectionName" column="CHECKLIST_SECTION_NAME" jdbc-type="VARCHAR" nullable="false" length="200" primarykey="false" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" primarykey="false" />
+		<field-descriptor name="checklistSectionOrdinal" column="CHECKLIST_SECTION_ORDINAL" jdbc-type="TINYINT" nullable="false" primarykey="false" />
+		<field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="true"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
+	</class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklist" table="EDO_CHECKLIST_V">
+    <class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklistV" table="EDO_CHECKLIST_V">
         <field-descriptor name="checklistItemID" column="checklist_item_id" jdbc-type="NUMERIC" primarykey="true" />
         <field-descriptor name="checklistDescription" column="checklist_desc" jdbc-type="CLOB" primarykey="false" />
         <field-descriptor name="departmentID" column="department_ID" jdbc-type="VARCHAR" length="12" primarykey="false" />

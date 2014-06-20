@@ -5,7 +5,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.checklist.EdoChecklist;
+import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class EdoCandidateListAction extends EdoAction {
 
-    private List<EdoChecklist> checklistView;
+    private List<EdoChecklistV> checklistView;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

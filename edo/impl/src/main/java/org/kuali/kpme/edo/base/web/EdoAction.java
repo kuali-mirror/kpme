@@ -7,7 +7,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.checklist.EdoChecklist;
+import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoDossier;
 import org.kuali.kpme.edo.item.EdoItemTracker;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
@@ -38,11 +38,11 @@ public class EdoAction extends KualiAction {
 
     protected Config config;
     private EdoSelectedCandidate selectedCandidate;
-    public HashMap<String, List<EdoChecklist>> checklistHash;
+    public HashMap<String, List<EdoChecklistV>> checklistHash;
     private PermissionService permissionService;
     static final Logger LOG = Logger.getLogger(EdoAction.class);
 
-    public HashMap<String, List<EdoChecklist>> getChecklistHash() {
+    public HashMap<String, List<EdoChecklistV>> getChecklistHash() {
         return checklistHash;
     }
 
@@ -70,7 +70,7 @@ public class EdoAction extends KualiAction {
 
         // setup the checklist for the currently selected candidate for navigation display
         if (selectedCandidate.isSelected()) {
-            SortedMap<String, List<EdoChecklist>> checklistHash = EdoServiceLocator.getChecklistViewService().getCheckListHash(selectedCandidate.getCandidateCampusCode(),selectedCandidate.getCandidateSchoolID(),selectedCandidate.getCandidateDepartmentID() );
+            SortedMap<String, List<EdoChecklistV>> checklistHash = EdoServiceLocator.getChecklistVService().getCheckListHash(selectedCandidate.getCandidateCampusCode(),selectedCandidate.getCandidateSchoolID(),selectedCandidate.getCandidateDepartmentID() );
             request.setAttribute("checklisthash", checklistHash);
         } else {
             request.setAttribute("checklisthash", null);

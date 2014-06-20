@@ -69,6 +69,7 @@
     
     <!-- eDossier DAO Definitions -->
     <bean id="edoCandidateListDao" class="org.kuali.kpme.edo.candidate.dao.EdoCandidateDaoImpl" parent="platformAwareDao" />
+    <bean id="edoChecklistVDao"     class="org.kuali.kpme.edo.checklist.dao.EdoChecklistVDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistDao"     class="org.kuali.kpme.edo.checklist.dao.EdoChecklistDaoImpl" parent="platformAwareDao" />
     <bean id="edoItemVDao"         class="org.kuali.kpme.edo.item.dao.EdoItemVDaoImpl" parent="platformAwareDao" />
     <bean id="edoItemDao"          class="org.kuali.kpme.edo.item.dao.EdoItemDaoImpl" parent="platformAwareDao" />
@@ -88,6 +89,7 @@
     <bean id="edoWorkflowDefinitionDao" class="org.kuali.kpme.edo.workflow.dao.EdoWorkflowDefinitionDaoImpl" parent="platformAwareDao" />
     <bean id="edoDisplaySubmitButtonDao" class="org.kuali.kpme.edo.submitButton.dao.EdoDisplaySubmitButtonDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistItemDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistItemDaoImpl" parent="platformAwareDao" />
+    <bean id="edoChecklistSectionDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistSectionDaoImpl" parent="platformAwareDao" />
     <!-- end of eDossier DAO Definitions -->
     
     <!-- eDossier Service Definitions -->
@@ -105,8 +107,8 @@
     <bean id="candidateService" class="org.kuali.kpme.edo.candidate.service.CandidateServiceImpl">
             <property name="edoCandidateListDao" ref="edoCandidateListDao"/>
     </bean>
-    <bean id="edoChecklistViewService" class="org.kuali.kpme.edo.checklist.service.EdoChecklistServiceImpl">
-        <property name="edoChecklistDao" ref="edoChecklistDao"/>
+    <bean id="edoChecklistVService" class="org.kuali.kpme.edo.checklist.service.EdoChecklistVServiceImpl">
+        <property name="edoChecklistVDao" ref="edoChecklistVDao"/>
     </bean>
 
     <bean id="edoChecklistService" class="org.kuali.kpme.edo.checklist.service.EdoChecklistServiceImpl">
@@ -115,6 +117,10 @@
 
     <bean id="edoChecklistItemService" class="org.kuali.kpme.edo.checklist.service.EdoChecklistItemServiceImpl">
         <property name="edoChecklistItemDao" ref="edoChecklistItemDao" />
+    </bean>
+    
+    <bean id="edoChecklistSectionService" class="org.kuali.kpme.edo.checklist.service.EdoChecklistSectionServiceImpl">
+        <property name="edoChecklistSectionDao" ref="edoChecklistSectionDao" />
     </bean>
 
     <bean id="edoItemTypeService" class="org.kuali.kpme.edo.item.type.service.EdoItemTypeServiceImpl">
@@ -221,7 +227,7 @@
             	<idref local="edoItemVService"/>
             	<idref local="edoItemCountVService"/>
             	<idref local="candidateService"/>
-            	<idref local="edoChecklistViewService"/>            	
+            	<idref local="edoChecklistVService"/>            	
             	<idref local="edoChecklistService"/>
             	<idref local="edoChecklistItemService"/>
             	<idref local="edoItemTypeService"/>

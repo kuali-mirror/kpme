@@ -2,7 +2,7 @@ package org.kuali.kpme.edo.candidate.web;
 
 import org.kuali.kpme.edo.base.web.EdoForm;
 import org.kuali.kpme.edo.candidate.EdoCandidateBo;
-import org.kuali.kpme.edo.checklist.EdoChecklist;
+import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 
@@ -19,8 +19,8 @@ import java.util.SortedMap;
 public class EdoCandidateListForm extends EdoForm {
 
     private List<EdoCandidate> candidateLists = EdoServiceLocator.getCandidateService().getCandidateList();
-    private List<EdoChecklist> checklistView = EdoServiceLocator.getChecklistViewService().getCheckListView("BL", "SPEA", "SPEA");
-    private SortedMap<String, List<EdoChecklist>> checklistHash = EdoServiceLocator.getChecklistViewService().getCheckListHash("BL","SPEA","SPEA");
+    private List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("BL", "SPEA", "SPEA");
+    private SortedMap<String, List<EdoChecklistV>> checklistHash = EdoServiceLocator.getChecklistVService().getCheckListHash("BL","SPEA","SPEA");
 
     public void setCandidateLists( List<EdoCandidate> list) {
         candidateLists = list;
@@ -30,11 +30,11 @@ public class EdoCandidateListForm extends EdoForm {
         return candidateLists;
     }
 
-    public List<EdoChecklist> getChecklistView() {
+    public List<EdoChecklistV> getChecklistView() {
         return checklistView;
     }
 
-    public SortedMap<String, List<EdoChecklist>> getChecklistHash() {
+    public SortedMap<String, List<EdoChecklistV>> getChecklistHash() {
         return checklistHash;
     }
 }

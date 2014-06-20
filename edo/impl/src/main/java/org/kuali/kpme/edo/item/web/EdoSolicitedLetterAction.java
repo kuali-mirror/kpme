@@ -9,9 +9,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.item.EdoItem;
 import org.kuali.kpme.edo.item.EdoItemTracker;
 import org.kuali.kpme.edo.item.EdoItemV;
@@ -79,9 +79,11 @@ public class EdoSolicitedLetterAction extends EdoAction {
 
         ssn.setAttribute("currentNodeID", Integer.parseInt(ssn.getAttribute("nid").toString().split("_")[2]));
         currentTreeNodeID = Integer.parseInt(ssn.getAttribute("nid").toString().split("_")[2]);
+        // KPME-3685 now checklist item id is string, but keep integer value above to not break other code
+        String currentTreeNodeID_s = ssn.getAttribute("nid").toString().split("_")[2];
 
         // set page request variables for title and description
-        EdoChecklistItem checklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemByID(BigDecimal.valueOf(currentTreeNodeID));
+        EdoChecklistItem checklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemByID(currentTreeNodeID_s);
         request.setAttribute("nodeID", currentTreeNodeID );
         request.setAttribute("itemName", checklistItem.getChecklistItemName());
         request.setAttribute("itemDescription", checklistItem.getItemDescription());

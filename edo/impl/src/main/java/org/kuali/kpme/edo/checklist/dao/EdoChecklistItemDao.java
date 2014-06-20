@@ -1,8 +1,9 @@
 package org.kuali.kpme.edo.checklist.dao;
 
-import org.kuali.kpme.edo.checklist.EdoChecklistItem;
+import java.util.List;
 
-import java.math.BigDecimal;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.checklist.EdoChecklistItemBo;
 
 /**
  * $HeadURL$
@@ -14,5 +15,6 @@ import java.math.BigDecimal;
  */
 public interface EdoChecklistItemDao {
 
-    public EdoChecklistItem getChecklistItemByID(BigDecimal checklistItemID);
+    public EdoChecklistItemBo getChecklistItemByID(String checklistItemID);
+    public List<EdoChecklistItemBo> getChecklistItemsBySectionID(String sectionID, LocalDate asOfDate);
 }

@@ -172,7 +172,7 @@ public class EdoDossierRouteAction extends EdoAction {
           
            if(routed) {
         	   //update edo_item_t table - set addendum_routed to 0 for supplemental category
-               BigDecimal checklistItemID = EdoServiceLocator.getChecklistViewService().getChecklistItemByName(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getChecklistItemID();
+               BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getChecklistItemID();
                List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(BigDecimal.valueOf(edoDossierRouteForm.getDossierId()), checklistItemID);
               if(!edoItems.isEmpty()) {
                for(EdoItem edoItem : edoItems) {
@@ -255,7 +255,7 @@ public class EdoDossierRouteAction extends EdoAction {
        
         if(routed) {
      	   //update edo_item_t table - set addendum_routed to 0 for Reconsider category
-            BigDecimal checklistItemID = EdoServiceLocator.getChecklistViewService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
+            BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
             List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(BigDecimal.valueOf(edoDossierRouteForm.getDossierId()), checklistItemID);
            if(!edoItems.isEmpty()) {
             for(EdoItem edoItem : edoItems) {
