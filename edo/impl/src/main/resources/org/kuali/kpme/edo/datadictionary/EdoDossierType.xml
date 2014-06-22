@@ -1,0 +1,181 @@
+<!-- Copyright 2004-2014 The Kuali Foundation Licensed under the Educational 
+	Community License, Version 2.0 (the "License"); you may not use this file 
+	except in compliance with the License. You may obtain a copy of the License 
+	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+	law or agreed to in writing, software distributed under the License is distributed 
+	on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+	express or implied. See the License for the specific language governing permissions 
+	and limitations under the License. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="EdoDossierType" parent="EdoDossierType-parentBean" />
+
+	<bean id="EdoDossierType-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent"> <!--KPMEHrBusinessObjectParent   DataObjectEntry -->
+		<property name="dataObjectClass" value="org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo" />
+		<property name="objectLabel" value="eDossier Dossier Type" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="EdoDossierType-edoDossierTypeID" />
+				<ref bean="EdoDossierType-dossierTypeCode" />
+				<ref bean="EdoDossierType-dossierTypeName" />
+				<ref bean="EdoDossierType-documentTypeName" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="EdoDossierType-edoDossierTypeID" parent="EdoDossierType-edoDossierTypeID-parentBean" />
+	<bean id="EdoDossierType-edoDossierTypeID-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Dossier Type Id" />
+		<property name="maxLength" value="60" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="60" />
+		</property>
+		<property name="name" value="edoDossierTypeID" />
+		<property name="label" value="Dossier Type Id" />
+	</bean>
+
+	<bean id="EdoDossierType-dossierTypeCode" parent="EdoDossierType-dossierTypeCode-parentBean" />
+	<bean id="EdoDossierType-dossierTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="dossierTypeCode" />
+		<property name="shortLabel" value="dossierTypeCode" />
+		<property name="summary" value="lastName" />
+		<property name="label" value="Dossier Type Code" />
+		<property name="description" value="Dossier Type Code" />
+		<property name="minLength" value="2" />
+		<property name="maxLength" value="2" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="2" />
+		</property>
+	</bean>
+
+	<bean id="EdoDossierType-dossierTypeName" parent="EdoDossierType-dossierTypeName-parentBean" />
+	<bean id="EdoDossierType-dossierTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="dossierTypeName" />
+		<property name="shortLabel" value="dossier Type Name" />
+		<property name="summary" value="DossierTypeName" />
+		<property name="label" value="Dossier Type Name" />
+		<property name="description" value="Dossier Type Name" />
+		<property name="minLength" value="1" />
+		<property name="maxLength" value="64" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="EdoDossierType-documentTypeName" parent="EdoDossierType-documentTypeName-parentBean" />
+	<bean id="EdoDossierType-documentTypeName-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="documentTypeName" />
+		<property name="label" value="Document Type Name" />
+		<property name="shortLabel" value="Document Type Name" />
+		<property name="forceUppercase" value="true" />
+		<property name="maxLength" value="21" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint">
+				<property name="allowWhitespace" value="true" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="21" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="21" />
+		</property>
+	</bean>
+
+
+	<!--*************************************************************************** 
+		Views *************************************************************************** -->
+
+	<!-- KRAD Lookup view -->
+
+	<bean id="EdoEdoDossierType-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+		<property name="headerText" value="eDossier EdoDossierType Lookup" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo" />
+		<property name="criteriaFields">
+			<list>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dossierTypeCode" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="documentTypeName" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="dossierTypeName" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+			</list>
+		</property>
+		<property name="resultFields">
+			<list merge="true">
+				<bean parent="Uif-DataField" p:propertyName="dossierTypeCode" />
+				<bean parent="Uif-DataField" p:propertyName="documentTypeName" />
+				<bean parent="Uif-DataField" p:propertyName="dossierTypeName" />
+				<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+				<bean parent="Uif-DataField" p:propertyName="active"/>
+			</list>
+		</property>
+	</bean>
+
+	<!--EdoDossierType Inquiry View -->
+	<bean id="EdoDossierType-inquiryView" parent="Uif-InquiryView">
+		<property name="headerText" value="eDossier DossierType Inquiry" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo" />
+		<property name="singlePageView" value="true" />
+		<property name="title" value="eDossier Dossier Type Inquiry" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-Disclosure-GridSection">
+					<property name="layoutManager.numberOfColumns" value="2" />
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-DataField" p:propertyName="dossierTypeCode" />
+							<bean parent="Uif-DataField" p:propertyName="documentTypeName" />
+							<bean parent="Uif-DataField" p:propertyName="dossierTypeName" />
+							<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+							<bean parent="Uif-DataField" p:propertyName="active" />
+							<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- EdoDossierType Maintenance View -->
+
+	<bean id="EdoDossierType-MaintenanceView" parent="EdoDossierType-MaintenanceView-parentBean" />
+	<bean id="EdoDossierType-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView"><!-- KPMEEffectiveDateBO-MaintenanceView -->
+		<property name="headerText" value="eDossier Dossier Type Maintenance" />
+		<property name="dataObjectClassName" value="org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-MaintenanceGridSection"><!-- Uif-MaintenanceGridSection -->
+					<property name="items">
+						<list merge="true">
+							<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="dossierTypeCode" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="documentTypeName" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="dossierTypeName" p:required="true" />
+							<bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" p:required="true" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

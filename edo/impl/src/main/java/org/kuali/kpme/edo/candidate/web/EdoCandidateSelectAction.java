@@ -8,13 +8,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
+import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
 import org.kuali.kpme.edo.dossier.EdoDossier;
-import org.kuali.kpme.edo.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -171,7 +172,7 @@ public class EdoCandidateSelectAction extends EdoAction {
 
         } else {
 
-            EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(currentDossier.getDossierTypeID());
+            EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(currentDossier.getDossierTypeID().toString());
             selectedCandidate.setCandidateDossierID( currentDossier.getDossierID() );
             selectedCandidate.setAoe( currentDossier.getAoeCode() );
             selectedCandidate.setRankSought( currentDossier.getRankSought() );

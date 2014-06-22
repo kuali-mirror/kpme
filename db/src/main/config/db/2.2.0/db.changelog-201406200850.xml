@@ -21,34 +21,26 @@
 
 
 	<changeSet id="1-oracle" author="xichen" dbms="oracle" context="kpme-client-bootstrap">
-		<comment>KPME-3385 SQLs added for required changes</comment>
-		<createSequence sequenceName="EDO_CANDIDATE_S"
+		<createSequence sequenceName="EDO_DOSSIER_TYPE_T"
 			startValue="1" />
 	</changeSet>
 	<changeSet id="1-mysql" author="xichen" dbms="mysql" context="kpme-client-bootstrap">
-		<comment>KPME-3385 SQLs added for required changes</comment>
 		<sql>
-			CREATE TABLE EDO_CANDIDATE_S (
+			CREATE TABLE EDO_DOSSIER_TYPE_S (
 			ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID)
 			) ENGINE MyISAM;
-			ALTER TABLE EDO_CANDIDATE_S AUTO_INCREMENT = 1;
+			ALTER TABLE EDO_DOSSIER_TYPE_S AUTO_INCREMENT = 1;
 		</sql>
 	</changeSet>
 	<changeSet id="2" author="xichen" context="kpme-client-bootstrap">
-		<comment>KPME-3540 EdoCandidate object</comment>
-		<createTable tableName="EDO_CANDIDATE_T">
-			<column name="EDO_CANDIDATE_ID" type="VARCHAR(60)">
+		<comment>KPME-3570 EdoDossierType object</comment>
+		<createTable tableName="EDO_DOSSIER_TYPE_T">
+			<column name="EDO_DOSSIER_TYPE_ID" type="VARCHAR(60)">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
-			<column name="PRNCPL_NM" type="VARCHAR(100)" />
-			<column name="LAST_NAME" type="VARCHAR(45)" />
-			<column name="FIRST_NAME" type="VARCHAR(45)" />
-			<column name="PRIMARY_DEPARTMENT_ID" type="VARCHAR(12)" />
-			<column name="TNP_DEPARTMENT_ID" type="VARCHAR(12)" />
-			<column name="CANDIDACY_SCHOOL" type="VARCHAR(12)" />
-			<column name="GRP_KEY_CD" type="VARCHAR(30)" value="DEFAULT" >
-				<constraints nullable="false"/>
-			</column>
+			<column name="dossier_type_code" type="VARCHAR(2)" />
+			<column name="doc_type_name" type="VARCHAR(64)" />
+			<column name="dossier_type_name" type="VARCHAR(45)" />
 			<column name="USER_PRINCIPAL_ID" type="VARCHAR(40)"/>
 			<column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00" />
 			<column name="EFFDT" type="DATE">

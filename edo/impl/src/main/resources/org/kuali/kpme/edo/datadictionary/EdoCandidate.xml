@@ -197,15 +197,16 @@
                               p:fieldConversions="principalName:principalName"/>
                     </property>
                 </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="firstName" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lastName" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="primaryDeptID">
+					<property name="quickfinder">
+						<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
+							p:fieldConversions="dept:primaryDeptID" />
+					</property>
+				</bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="history" />
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
-				<!-- <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lastName" 
-					/> <bean parent="Uif-LookupCriteriaInputField" p:propertyName="firstName" 
-					/> <bean parent="Uif-LookupCriteriaInputField" p:propertyName="primaryDeptID"> -->
-				<!-- <property name="quickfinder"> <bean parent="Uif-QuickFinderByScript" 
-					p:dataObjectClassName="org.kuali.kpme.core.earncode.EarnCodeBo" p:fieldConversions="earnCode:primaryDeptID"/> 
-					</property> -->
-				<!-- </bean> -->
 			</list>
 		</property>
 		<property name="resultFields">
@@ -218,7 +219,12 @@
 				</bean>
 				<bean parent="Uif-DataField" p:propertyName="lastName" />
 				<bean parent="Uif-DataField" p:propertyName="firstName" />
-				<bean parent="Uif-DataField" p:propertyName="primaryDeptID" />
+				<bean parent="Uif-DataField" p:propertyName="primaryDeptID" >
+					<property name="inquiry">
+						<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
+									p:inquiryParameters="primaryDeptID:dept,groupKeyCode:groupKeyCode,effectiveDate:effectiveDate" />
+					</property>
+		        </bean>
 				<bean parent="Uif-DataField" p:propertyName="tnpDeptID" />
 				<bean parent="Uif-DataField" p:propertyName="candidacySchool" />
 			</list>

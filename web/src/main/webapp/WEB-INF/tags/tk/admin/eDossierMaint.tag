@@ -19,11 +19,15 @@
 	<div class="body">
 	    <strong>Maintenance</strong>
 	    <ul class="chan">
-		    <li>
+	    	<li>
 	            <portal:portalLink displayTitle="true" title="Candidate"															
 	                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.candidate.EdoCandidateBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
 	        </li>
 	        <li>
+	            <portal:portalLink displayTitle="true" title="Dossier Type"															
+	                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+	        </li>
+	         <li>
 	         	<portal:portalLink displayTitle="true" title="Checklist" 
 	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.checklist.EdoChecklistBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
 	        </li>

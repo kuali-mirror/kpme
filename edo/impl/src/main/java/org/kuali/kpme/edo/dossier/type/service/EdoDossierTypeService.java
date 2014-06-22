@@ -1,8 +1,6 @@
 package org.kuali.kpme.edo.dossier.type.service;
 
-import org.kuali.kpme.edo.dossier.type.EdoDossierType;
-
-import java.math.BigDecimal;
+import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import java.util.List;
 
 /**
@@ -19,8 +17,15 @@ import java.util.List;
  */
 public interface EdoDossierTypeService {
 
-    public EdoDossierType getEdoDossierType(BigDecimal dossierTypeID);
+    public EdoDossierType getEdoDossierTypeById(String edoDossierTypeID);
+    
     public List<EdoDossierType> getEdoDossierTypeList();
+    
     public void saveOrUpdate( EdoDossierType dossierType );
-    public EdoDossierType getEdoDossierType(String dossierTypeName);
+    
+    public EdoDossierType getEdoDossierTypeByName(String dossierTypeName);
+    
+    public EdoDossierType getEdoDossierTypeByCode(String dossierTypeCode);
+    
 }
+

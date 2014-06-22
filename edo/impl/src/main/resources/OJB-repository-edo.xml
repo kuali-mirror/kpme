@@ -18,7 +18,9 @@
 		<field-descriptor name="active"         column="ACTIVE"           		jdbc-type="VARCHAR" length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="groupKeyCode"  	column="GRP_KEY_CD"        	    jdbc-type="VARCHAR" length="30"     nullable="false" />
         <field-descriptor name="effectiveDate"  column="EFFDT"    		 		jdbc-type="DATE"    nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-		<field-descriptor name="objectId"       column="OBJ_ID"                	jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="objectId"       column="OBJ_ID"                	jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber"  column="VER_NBR"               	jdbc-type="BIGINT"  locking="true" />
 	</class-descriptor>
 	
@@ -147,15 +149,17 @@
         <field-descriptor name="updatedBy" column="updated_by" jdbc-type="NUMERIC" precision="34" scale="0" nullable="false" primarykey="false" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.edo.dossier.type.EdoDossierType" table="EDO_DOSSIER_TYPE_T">
-        <field-descriptor name="dossierTypeID" 		column="dossier_type_id" 	jdbc-type="NUMERIC" precision="4" scale="0" nullable="false" primarykey="true" />
-        <field-descriptor name="dossierTypeName" 	column="dossier_type_name" 	jdbc-type="VARCHAR" length="45" nullable="false" primarykey="false" />
-        <field-descriptor name="createDate" 		column="create_date" 		jdbc-type="DATE" 	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion" primarykey="false" />
-        <field-descriptor name="createdBy" 			column="created_by" 		jdbc-type="NUMERIC" precision="4" nullable="false" primarykey="false" />
-        <field-descriptor name="lastUpdated" 		column="last_update_date" 	jdbc-type="DATE" 	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion" primarykey="false" />
-        <field-descriptor name="updatedBy" 			column="updated_by" 		jdbc-type="NUMERIC" precision="34" scale="0" nullable="false" primarykey="false" />
+    <class-descriptor class="org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo" table="EDO_DOSSIER_TYPE_T">
+        <field-descriptor name="edoDossierTypeID" 	column="edo_dossier_type_id" 	jdbc-type="VARCHAR" length="60" 	primarykey="true" autoincrement="true" sequence-name="EDO_DOSSIER_TYPE_S" />
         <field-descriptor name="dossierTypeCode" 	column="dossier_type_code" 	jdbc-type="CHAR" 	length="2" nullable="false" primarykey="false" />
         <field-descriptor name="documentTypeName" 	column="doc_type_name" 		jdbc-type="VARCHAR" length="64" nullable="false" primarykey="false" />
+        <field-descriptor name="dossierTypeName" 	column="dossier_type_name" 	jdbc-type="VARCHAR" length="45" nullable="false" primarykey="false" />
+        <field-descriptor name="effectiveDate"  	column="EFFDT"    		 	jdbc-type="DATE"    nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+		<field-descriptor name="active"         	column="ACTIVE"           	jdbc-type="VARCHAR" length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="objectId"       	column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber"  	column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.edo.dossier.EdoDossier" table="EDO_DOSSIER_T">

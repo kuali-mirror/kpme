@@ -3,9 +3,10 @@ package org.kuali.kpme.edo.dossier.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.dossier.EdoDossier;
 import org.kuali.kpme.edo.dossier.dao.EdoDossierDao;
-import org.kuali.kpme.edo.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
@@ -54,7 +55,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
 
     protected boolean initiateWorkflowDocument(String principalId, Integer dossierId, String dossierType) {
         //this is returning null
-    	EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(dossierType);
+    	EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeByName(dossierType);
         Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
         String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getWorkflowId();
 
@@ -75,7 +76,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
     //initiate work flow document for Supplemental Document
     protected boolean initiateSuppWorkflowDocument(String principalId, Integer dossierId, String dossierType, Collection<String> authorizedNodes ) {
       
-    	EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(dossierType);
+    	EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeByName(dossierType);
         Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
         String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getWorkflowId();
 
@@ -94,7 +95,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         return routed;
     }
     protected boolean initiateReconsiderWorkflowDocument(String principalId, Integer dossierId, String dossierType, Collection<EdoReviewLayerDefinition> moveNodes) {
-    	EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(dossierType);
+    	EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeByName(dossierType);
         Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
         boolean routed = false;
 
@@ -490,7 +491,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
     public boolean approveSupplemental(String principalId, Integer dossierId, String dossierType) {
         WorkflowDocument workflowDocument = null;
         boolean routed = false;
-        EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(dossierType);
+        EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeByName(dossierType);
         if (ObjectUtils.isNotNull(dossierId)) {
             //Get the document header.
             List<DossierProcessDocumentHeader> documentHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeaderByDocType(dossierId, dossierTypeObj.getDocumentTypeName());

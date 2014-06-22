@@ -52,11 +52,10 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
 			.build();
 	}
 	
-	
 	@Override
 	public String getUniqueKey() {
+		
 		return getPrincipalName();
-
 	}
 	     
 	private String edoCandidateID;
@@ -66,9 +65,9 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
     private String primaryDeptID ;
     private String tnpDeptID;
     private String candidacySchool;
-    private String candidacyCampus;
-    
+   
     private transient Person principal;
+    
     @Override
 	public String getId() {
 		return this.getEdoCandidateID();
@@ -142,14 +141,6 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
         this.candidacySchool = candidacySchool;
     }
 
-    public String getCandidacyCampus() {
-        return candidacyCampus;
-    }
-
-    public void setCandidacyCampus(String candidacyCampus) {
-        this.candidacyCampus = candidacyCampus;
-    }
-
     public String getCandidateJSONString() {
         ArrayList<String> tmp = new ArrayList<String>();
         Type tmpType = new TypeToken<List<String>>() {}.getType();
@@ -182,9 +173,6 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
         edoCandidateBo.setGroupKeyCode(edoCandidate.getGroupKeyCode());
         edoCandidateBo.setGroupKey(HrGroupKeyBo.from(edoCandidate.getGroupKey()));
         
-        
-        
-     
         // finally copy over the common fields into edoCandidateBo from im
         copyCommonFields(edoCandidateBo, edoCandidate);
 

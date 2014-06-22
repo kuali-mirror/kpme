@@ -2,7 +2,6 @@ package org.kuali.kpme.edo.candidate.service;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.candidate.dao.EdoCandidateDao;

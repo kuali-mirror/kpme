@@ -3,9 +3,10 @@ package org.kuali.kpme.edo.candidate;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.dossier.EdoDossier;
-import org.kuali.kpme.edo.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
+import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 
 import java.math.BigDecimal;
 
@@ -50,7 +51,7 @@ public class EdoSelectedCandidate {
 
     public EdoSelectedCandidate(EdoCandidate edoCandidate, Boolean isSelected) {
         EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(edoCandidate.getPrincipalName());
-        EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(dossier.getDossierTypeID());
+        EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getDossierTypeID().toString());
 
         setSelected(isSelected);
         setCandidateID(edoCandidate.getEdoCandidateID());

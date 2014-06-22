@@ -3,7 +3,7 @@ package org.kuali.kpme.edo.dossier.type.dao;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.edo.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.math.BigDecimal;
@@ -32,17 +32,17 @@ public class EdoDossierTypeDaoImpl extends PlatformAwareDaoBaseOjb implements Ed
      * @param   dossierTypeID   the ID number of the record desired
      * @return                  an object of EdoDossierType
      */
-    public EdoDossierType getEdoDossierType(BigDecimal dossierTypeID){
+    public EdoDossierTypeBo getEdoDossierTypeById(String edoDossierTypeID){
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("dossierTypeID", dossierTypeID);
+        cConditions.addEqualTo("edoDossierTypeID", edoDossierTypeID);
 
-        Query query = QueryFactory.newQuery(EdoDossierType.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoDossierTypeBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
             if (c.size() == 1) {
-                return (EdoDossierType)c.toArray()[0];
+                return (EdoDossierTypeBo)c.toArray()[0];
             }
         }
 
@@ -54,13 +54,13 @@ public class EdoDossierTypeDaoImpl extends PlatformAwareDaoBaseOjb implements Ed
      *
      * @return      a List of EdoDossierType objects
      */
-    public List<EdoDossierType> getEdoDossierTypeList() {
+    public List<EdoDossierTypeBo> getEdoDossierTypeList() {
 
-        List<EdoDossierType> dossierTypeList = new LinkedList<EdoDossierType>();
+        List<EdoDossierTypeBo> dossierTypeList = new LinkedList<EdoDossierTypeBo>();
 
         Criteria cConditions = new Criteria();
 
-        Query query = QueryFactory.newQuery(EdoDossierType.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoDossierTypeBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
@@ -72,14 +72,19 @@ public class EdoDossierTypeDaoImpl extends PlatformAwareDaoBaseOjb implements Ed
         return null;
     }
 
-    public void saveOrUpdate(EdoDossierType dossierType) {
+    public void saveOrUpdate(EdoDossierTypeBo dossierType) {
         this.getPersistenceBrokerTemplate().store(dossierType);
     }
 
-    public EdoDossierType getEdoDossierType(String dossierTypeName) {
+    public EdoDossierTypeBo getEdoDossierTypeByName(String dossierTypeName) {
         Criteria crit = new Criteria();
         crit.addEqualTo("dossierTypeName", dossierTypeName);
-        return (EdoDossierType) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(EdoDossierType.class, crit));
+        return (EdoDossierTypeBo) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(EdoDossierTypeBo.class, crit));
     }
 
+    public EdoDossierTypeBo getEdoDossierTypeByCode(String dossierTypeCode) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo("dossierTypeCode", dossierTypeCode);
+        return (EdoDossierTypeBo) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(EdoDossierTypeBo.class, crit));
+    }
 }

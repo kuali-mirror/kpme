@@ -2,9 +2,11 @@ package org.kuali.kpme.edo.dossier.type.web;
 
 import java.util.Date;
 import java.util.List;
+
 import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
 
 import java.math.BigDecimal;
 
@@ -27,7 +29,7 @@ public class EdoDossierTypeForm extends EdoForm {
     private List<EdoDossierType> dossierTypeList = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeList();
 
     public EdoDossierType getEdoDossierType(BigDecimal dossierTypeID) {
-        return EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(dossierTypeID);
+        return EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossierTypeID.toString());
     }
 
     public List<EdoDossierType> getEdoDossierTypeList() {

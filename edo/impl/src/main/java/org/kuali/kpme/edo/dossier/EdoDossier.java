@@ -1,7 +1,8 @@
 package org.kuali.kpme.edo.dossier;
 
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -62,7 +63,7 @@ public class EdoDossier {
 
     public EdoDossierType getDossierType() {
         if (ObjectUtils.isNull(dossierType) && ObjectUtils.isNotNull(dossierTypeID)) {
-            this.dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierType(dossierTypeID);
+            this.dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossierTypeID.toString());
             return dossierType;
         } else {
             return this.dossierType;

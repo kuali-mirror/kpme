@@ -20,9 +20,6 @@ import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.name.EntityName;
-import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class EdoCandidateMaintainableImpl extends HrBusinessObjectMaintainableImpl {
