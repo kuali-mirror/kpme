@@ -23,6 +23,7 @@ import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.checklist.EdoChecklistItemBo;
 
 public class EdoDossierTypeBoTest {
 	private static Map<String, EdoDossierType> testEdoDossierTypeBos;
@@ -30,7 +31,7 @@ public class EdoDossierTypeBoTest {
 	
 	static {
 		testEdoDossierTypeBos = new HashMap<String, EdoDossierType>();
-		edoDossierTypeBuilder.setEdoDossierTypeID("1000");
+		edoDossierTypeBuilder.setEdoDossierTypeID("1003");
 		edoDossierTypeBuilder.setDossierTypeCode("cc");
 		edoDossierTypeBuilder.setDocumentTypeName("documentName");
 		edoDossierTypeBuilder.setDossierTypeName("dossierTypeName");
@@ -43,20 +44,19 @@ public class EdoDossierTypeBoTest {
 		edoDossierTypeBuilder.setCreateTime(DateTime.now());
 		
 		// Set GroupKeycode Object
-		testEdoDossierTypeBos.put(edoDossierTypeBuilder.getDocumentTypeName(), edoDossierTypeBuilder.build());
+		testEdoDossierTypeBos.put(edoDossierTypeBuilder.getDossierTypeCode(), edoDossierTypeBuilder.build());
 	}
 	
 	@Test
     public void testNotEqualsWithGroup() {
-		EdoDossierType immutable = EdoDossierTypeBoTest.getEdoDossierType("TST-PrincipalName");
+		EdoDossierType immutable = EdoDossierTypeBoTest.getEdoDossierType("cc");
 		EdoDossierTypeBo bo = EdoDossierTypeBo.from(immutable);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
-        // could not get HrGroupKeyService which is in CORESpringBean
         //Assert.assertEquals(immutable, EdoDossierTypeBo.to(bo));
     }
 
-    public static EdoDossierType getEdoDossierType(String principalName) {
-        return testEdoDossierTypeBos.get(principalName);
+    public static EdoDossierType getEdoDossierType(String dossierTypeCode) {
+        return testEdoDossierTypeBos.get(dossierTypeCode);
     }
 }
