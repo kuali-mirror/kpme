@@ -50,7 +50,7 @@ public class EdoDossierTypeBo extends HrBusinessObject implements EdoDossierType
 	
 	@Override
 	public String getUniqueKey() {
-		return this.getDossierTypeCode();
+		return this.getEdoDossierTypeID();
 	}
 
     private String edoDossierTypeID;
@@ -58,6 +58,25 @@ public class EdoDossierTypeBo extends HrBusinessObject implements EdoDossierType
     private String dossierTypeName;
     private String documentTypeName;
   
+    @Override
+	public boolean isActive() {
+		return super.isActive();
+	}
+
+	@Override
+	public void setActive(boolean active) {
+		super.setActive(active);
+	}
+	
+	@Override
+	public String getObjectId() {
+		return super.getObjectId();
+	}
+
+	@Override
+	public Long getVersionNumber() {
+		return super.getVersionNumber();
+	}
 
     @Override
    	public String getId() {
@@ -130,11 +149,13 @@ public class EdoDossierTypeBo extends HrBusinessObject implements EdoDossierType
     }
 
     public static EdoDossierType to(EdoDossierTypeBo bo) {
+    	System.out.println("EdoDossierTypeBo, id: " + bo.getId());
+    	System.out.println("EdoDossierTypeBo, id: " + bo.toString());
         if (bo == null) {
             return null;
         }
-        
+        System.out.println("Immutable, EdoDossierType, id: " + EdoDossierType.Builder.create(bo).build().toString());
         return EdoDossierType.Builder.create(bo).build();
     }
-    
+   
 }
