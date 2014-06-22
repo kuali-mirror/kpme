@@ -122,7 +122,6 @@ public final class EdoDossierType
         return this.dossierTypeName;
     }
 
-
     @Override
     public Long getVersionNumber() {
         return this.versionNumber;
@@ -351,14 +350,11 @@ public final class EdoDossierType
         final static String DOSSIER_TYPE_CODE = "dossierTypeCode";
         final static String DOCUMENT_TYPE_NAME = "documentTypeName";
         final static String DOSSIER_TYPE_NAME = "dossierTypeName";
-        
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        
-
     }
 
 }

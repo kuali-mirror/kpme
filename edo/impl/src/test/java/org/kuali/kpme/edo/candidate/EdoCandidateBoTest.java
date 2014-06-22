@@ -22,7 +22,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBoTest;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 
 public class EdoCandidateBoTest {
@@ -37,14 +38,17 @@ public class EdoCandidateBoTest {
 		edoCandidateBuilder.setFirstName("firstName");
 		edoCandidateBuilder.setLastName("lastName");
 		edoCandidateBuilder.setCandidacySchool("test-candidacy-school");
-		
+		edoCandidateBuilder.setPrimaryDeptID("PHY");
+		edoCandidateBuilder.setTnpDeptID("PHY");
 		edoCandidateBuilder.setVersionNumber(1L);
 		edoCandidateBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		edoCandidateBuilder.setActive(true);
 		edoCandidateBuilder.setEffectiveLocalDate(new LocalDate(2012, 3, 1));
 		edoCandidateBuilder.setCreateTime(DateTime.now());
+		edoCandidateBuilder.setId(edoCandidateBuilder.getEdoCandidateID());
 		
 		// Set GroupKeycode Object
+		edoCandidateBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
 		testEdoCandidateBos.put(edoCandidateBuilder.getPrincipalName(), edoCandidateBuilder.build());
 	}
 	
@@ -54,8 +58,7 @@ public class EdoCandidateBoTest {
 		EdoCandidateBo bo = EdoCandidateBo.from(immutable);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
-        // could not get HrGroupKeyService which is in CORESpringBean
-        //Assert.assertEquals(immutable, EdoCandidateBo.to(bo));
+        Assert.assertEquals(immutable, EdoCandidateBo.to(bo));
     }
 
     public static EdoCandidate getEdoCandidate(String principalName) {

@@ -149,12 +149,10 @@ public class EdoDossierTypeBo extends HrBusinessObject implements EdoDossierType
     }
 
     public static EdoDossierType to(EdoDossierTypeBo bo) {
-    	System.out.println("EdoDossierTypeBo, id: " + bo.getId());
-    	System.out.println("EdoDossierTypeBo, id: " + bo.toString());
         if (bo == null) {
             return null;
         }
-        System.out.println("Immutable, EdoDossierType, id: " + EdoDossierType.Builder.create(bo).build().toString());
+       
         return EdoDossierType.Builder.create(bo).build();
     }
    

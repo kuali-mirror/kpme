@@ -25,10 +25,10 @@ import org.w3c.dom.Element;
 @XmlType(name = EdoCandidate.Constants.TYPE_NAME, propOrder = {
     
     EdoCandidate.Elements.CANDIDACY_SCHOOL,
-    EdoCandidate.Elements.EDO_CANDIDATE_I_D,
+    EdoCandidate.Elements.EDO_CANDIDATE_ID,
     EdoCandidate.Elements.PRINCIPAL_NAME,
-    EdoCandidate.Elements.PRIMARY_DEPT_I_D,
-    EdoCandidate.Elements.TNP_DEPT_I_D,
+    EdoCandidate.Elements.PRIMARY_DEPT_ID,
+    EdoCandidate.Elements.TNP_DEPT_ID,
     EdoCandidate.Elements.FIRST_NAME,
     EdoCandidate.Elements.LAST_NAME,
     CoreConstants.CommonElements.VERSION_NUMBER,
@@ -46,13 +46,13 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
 {    
     @XmlElement(name = Elements.CANDIDACY_SCHOOL, required = false)
     private final String candidacySchool;
-    @XmlElement(name = Elements.EDO_CANDIDATE_I_D, required = false)
+    @XmlElement(name = Elements.EDO_CANDIDATE_ID, required = false)
     private final String edoCandidateID;
     @XmlElement(name = Elements.PRINCIPAL_NAME, required = false)
     private final String principalName;
-    @XmlElement(name = Elements.PRIMARY_DEPT_I_D, required = false)
+    @XmlElement(name = Elements.PRIMARY_DEPT_ID, required = false)
     private final String primaryDeptID;
-    @XmlElement(name = Elements.TNP_DEPT_I_D, required = false)
+    @XmlElement(name = Elements.TNP_DEPT_ID, required = false)
     private final String tnpDeptID;
     @XmlElement(name = Elements.FIRST_NAME, required = false)
     private final String firstName;
@@ -119,7 +119,6 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
         this.groupKeyCode = builder.getGroupKeyCode();
-        //this.groupKey = builder.getGroupKey();
         this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
@@ -458,10 +457,10 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      */
     static class Elements {
         final static String CANDIDACY_SCHOOL = "candidacySchool";
-        final static String EDO_CANDIDATE_I_D = "edoCandidateID";
+        final static String EDO_CANDIDATE_ID = "edoCandidateID";
         final static String PRINCIPAL_NAME = "principalName";
-        final static String PRIMARY_DEPT_I_D = "primaryDeptID";
-        final static String TNP_DEPT_I_D = "tnpDeptID";
+        final static String PRIMARY_DEPT_ID = "primaryDeptID";
+        final static String TNP_DEPT_ID = "tnpDeptID";
         final static String FIRST_NAME = "firstName";
         final static String LAST_NAME = "lastName";
         final static String ACTIVE = "active";

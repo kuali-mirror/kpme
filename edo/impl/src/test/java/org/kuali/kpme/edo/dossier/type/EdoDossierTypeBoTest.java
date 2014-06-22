@@ -42,7 +42,7 @@ public class EdoDossierTypeBoTest {
 		edoDossierTypeBuilder.setActive(true);
 		edoDossierTypeBuilder.setEffectiveLocalDate(new LocalDate(2012, 3, 1));
 		edoDossierTypeBuilder.setCreateTime(DateTime.now());
-		
+		edoDossierTypeBuilder.setId(edoDossierTypeBuilder.getEdoDossierTypeID());
 		// Set GroupKeycode Object
 		testEdoDossierTypeBos.put(edoDossierTypeBuilder.getDossierTypeCode(), edoDossierTypeBuilder.build());
 	}
@@ -53,7 +53,7 @@ public class EdoDossierTypeBoTest {
 		EdoDossierTypeBo bo = EdoDossierTypeBo.from(immutable);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
-        //Assert.assertEquals(immutable, EdoDossierTypeBo.to(bo));
+        Assert.assertEquals(immutable, EdoDossierTypeBo.to(bo));
     }
 
     public static EdoDossierType getEdoDossierType(String dossierTypeCode) {
