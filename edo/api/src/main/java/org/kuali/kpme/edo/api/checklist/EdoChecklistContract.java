@@ -8,12 +8,12 @@ public interface EdoChecklistContract extends KpmeEffectiveKeyedDataTransferObje
 	 * The identifier of the EdoChecklist
 	 * 
 	 * <p>
-	 * checklistID of the EdoChecklist
+	 * edoChecklistID of the EdoChecklist
 	 * <p>
 	 * 
-	 * @return checklistID for EdoChecklist
+	 * @return edoChecklistID for EdoChecklist
 	 */
-	public String getChecklistID();
+	public String getEdoChecklistID();
 
 	/**
 	 * The dossier type code of the EdoChecklist
@@ -36,6 +36,17 @@ public interface EdoChecklistContract extends KpmeEffectiveKeyedDataTransferObje
 	 * @return departmentID for EdoChecklist
 	 */
 	public String getDepartmentID();
+	
+	/**
+	 * The organization code that this EdoChecklist is associated with
+	 * 
+	 * <p>
+	 * organizationCode of the EdoChecklist
+	 * <p>
+	 * 
+	 * @return organizationCode for EdoChecklist
+	 */
+	public String getOrganizationCode();
 
 	/**
 	 * The description of the EdoChecklist

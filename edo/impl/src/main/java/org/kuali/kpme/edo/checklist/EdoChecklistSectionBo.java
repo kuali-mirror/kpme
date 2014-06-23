@@ -23,8 +23,8 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
 		private static final String EDO_CHECKLIST_SECTION = "checklistSectionName";
 	}
 	
-	private String checklistSectionID;
-	private String checklistID;
+	private String edoChecklistSectionID;
+	private String edoChecklistID;
     private String checklistSectionName;
 	private String description;
     private int checklistSectionOrdinal;
@@ -55,17 +55,17 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
 	
 	@Override
 	public String getId() {
-		return  getChecklistSectionID();
+		return  getEdoChecklistSectionID();
 	}
 
 	@Override
 	public void setId(String checklistSectionID) {
-		setChecklistSectionID(checklistSectionID);
+		setEdoChecklistSectionID(checklistSectionID);
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getChecklistSectionID();
+		return getEdoChecklistSectionID();
 	}
 	
 	@Override
@@ -75,20 +75,20 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
 				.build();
 	}
 
-    public String getChecklistSectionID() {
-		return checklistSectionID;
+    public String getEdoChecklistSectionID() {
+		return edoChecklistSectionID;
 	}
 
-	public void setChecklistSectionID(String checklistSectionID) {
-		this.checklistSectionID = checklistSectionID;
+	public void setEdoChecklistSectionID(String edoChecklistSectionID) {
+		this.edoChecklistSectionID = edoChecklistSectionID;
 	}
 
-	public String getChecklistID() {
-		return checklistID;
+	public String getEdoChecklistID() {
+		return edoChecklistID;
 	}
 
-	public void setChecklistID(String checklistID) {
-		this.checklistID = checklistID;
+	public void setEdoChecklistID(String edoChecklistID) {
+		this.edoChecklistID = edoChecklistID;
 	}
 
 	public String getDescription() {
@@ -120,8 +120,8 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
             return null;
         }
         EdoChecklistSectionBo ecls = new EdoChecklistSectionBo();
-        ecls.setChecklistSectionID(im.getChecklistSectionID());
-        ecls.setChecklistID(im.getChecklistID());
+        ecls.setEdoChecklistSectionID(im.getEdoChecklistSectionID());
+        ecls.setEdoChecklistID(im.getEdoChecklistID());
         ecls.setDescription(im.getDescription());
         ecls.setChecklistSectionName(im.getChecklistSectionName());
         ecls.setChecklistSectionOrdinal(im.getChecklistSectionOrdinal());

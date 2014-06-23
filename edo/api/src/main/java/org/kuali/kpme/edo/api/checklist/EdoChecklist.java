@@ -20,9 +20,10 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = EdoChecklist.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = EdoChecklist.Constants.TYPE_NAME, propOrder = {
-    EdoChecklist.Elements.CHECKLIST_I_D,
-    EdoChecklist.Elements.DOSSIER_TYPE_CODE,
     EdoChecklist.Elements.DESCRIPTION,
+    EdoChecklist.Elements.EDO_CHECKLIST_I_D,
+    EdoChecklist.Elements.DOSSIER_TYPE_CODE,
+    EdoChecklist.Elements.ORGANIZATION_CODE,
     EdoChecklist.Elements.DEPARTMENT_I_D,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
@@ -40,12 +41,14 @@ public final class EdoChecklist
     implements EdoChecklistContract
 {
 
-    @XmlElement(name = Elements.CHECKLIST_I_D, required = false)
-    private final String checklistID;
-    @XmlElement(name = Elements.DOSSIER_TYPE_CODE, required = false)
-    private final String dossierTypeCode;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
+    @XmlElement(name = Elements.EDO_CHECKLIST_I_D, required = false)
+    private final String edoChecklistID;
+    @XmlElement(name = Elements.DOSSIER_TYPE_CODE, required = false)
+    private final String dossierTypeCode;
+    @XmlElement(name = Elements.ORGANIZATION_CODE, required = false)
+    private final String organizationCode;
     @XmlElement(name = Elements.DEPARTMENT_I_D, required = false)
     private final String departmentID;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -75,9 +78,10 @@ public final class EdoChecklist
      * 
      */
     private EdoChecklist() {
-        this.checklistID = null;
-        this.dossierTypeCode = null;
         this.description = null;
+        this.edoChecklistID = null;
+        this.dossierTypeCode = null;
+        this.organizationCode = null;
         this.departmentID = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -91,9 +95,10 @@ public final class EdoChecklist
     }
 
     private EdoChecklist(Builder builder) {
-        this.checklistID = builder.getChecklistID();
-        this.dossierTypeCode = builder.getDossierTypeCode();
         this.description = builder.getDescription();
+        this.edoChecklistID = builder.getEdoChecklistID();
+        this.dossierTypeCode = builder.getDossierTypeCode();
+        this.organizationCode = builder.getOrganizationCode();
         this.departmentID = builder.getDepartmentID();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -107,8 +112,13 @@ public final class EdoChecklist
     }
 
     @Override
-    public String getChecklistID() {
-        return this.checklistID;
+    public String getDescription() {
+        return this.description;
+    }
+
+    @Override
+    public String getEdoChecklistID() {
+        return this.edoChecklistID;
     }
 
     @Override
@@ -117,8 +127,8 @@ public final class EdoChecklist
     }
 
     @Override
-    public String getDescription() {
-        return this.description;
+    public String getOrganizationCode() {
+        return this.organizationCode;
     }
 
     @Override
@@ -180,9 +190,10 @@ public final class EdoChecklist
         implements Serializable, EdoChecklistContract, ModelBuilder
     {
 
-        private String checklistID;
-        private String dossierTypeCode;
         private String description;
+        private String edoChecklistID;
+        private String dossierTypeCode;
+        private String organizationCode;
         private String departmentID;
         private Long versionNumber;
         private String objectId;
@@ -209,9 +220,10 @@ public final class EdoChecklist
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-            builder.setChecklistID(contract.getChecklistID());
-            builder.setDossierTypeCode(contract.getDossierTypeCode());
             builder.setDescription(contract.getDescription());
+            builder.setEdoChecklistID(contract.getEdoChecklistID());
+            builder.setDossierTypeCode(contract.getDossierTypeCode());
+            builder.setOrganizationCode(contract.getOrganizationCode());
             builder.setDepartmentID(contract.getDepartmentID());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -230,8 +242,13 @@ public final class EdoChecklist
         }
 
         @Override
-        public String getChecklistID() {
-            return this.checklistID;
+        public String getDescription() {
+            return this.description;
+        }
+
+        @Override
+        public String getEdoChecklistID() {
+            return this.edoChecklistID;
         }
 
         @Override
@@ -240,8 +257,8 @@ public final class EdoChecklist
         }
 
         @Override
-        public String getDescription() {
-            return this.description;
+        public String getOrganizationCode() {
+            return this.organizationCode;
         }
 
         @Override
@@ -294,9 +311,14 @@ public final class EdoChecklist
             return this.groupKey;
         }
 
-        public void setChecklistID(String checklistID) {
+        public void setDescription(String description) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.checklistID = checklistID;
+            this.description = description;
+        }
+
+        public void setEdoChecklistID(String edoChecklistID) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.edoChecklistID = edoChecklistID;
         }
 
         public void setDossierTypeCode(String dossierTypeCode) {
@@ -304,9 +326,9 @@ public final class EdoChecklist
             this.dossierTypeCode = dossierTypeCode;
         }
 
-        public void setDescription(String description) {
+        public void setOrganizationCode(String organizationCode) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.description = description;
+            this.organizationCode = organizationCode;
         }
 
         public void setDepartmentID(String departmentID) {
@@ -380,9 +402,10 @@ public final class EdoChecklist
      */
     static class Elements {
 
-        final static String CHECKLIST_I_D = "checklistID";
-        final static String DOSSIER_TYPE_CODE = "dossierTypeCode";
         final static String DESCRIPTION = "description";
+        final static String EDO_CHECKLIST_I_D = "edoChecklistID";
+        final static String DOSSIER_TYPE_CODE = "dossierTypeCode";
+        final static String ORGANIZATION_CODE = "organizationCode";
         final static String DEPARTMENT_I_D = "departmentID";
         final static String ACTIVE = "active";
         final static String ID = "id";

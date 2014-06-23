@@ -14,7 +14,7 @@
 -- limitations under the License.
 --
 
-delete from EDO_CHECKLIST_T where CHECKLIST_ID = 'CHECKLIST_ID_0001';
+delete from EDO_CHECKLIST_T where EDO_CHECKLIST_ID = 'EDO_CHECKLIST_ID_0001';
 
-insert into EDO_CHECKLIST_T (`CHECKLIST_ID`, `DOSSIER_TYP_CD`, `DEPARTMENT_ID`, `DESCRIPTION`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `GRP_KEY_CD`) values ('CHECKLIST_ID_0001', 'TA', 'DEFAULT', 'Testing Immutable EdoChecklist', '2012-01-01', 'Y', now(), null, '1', 'ISU-IA');
+insert into EDO_CHECKLIST_T (`EDO_CHECKLIST_ID`, `DOSSIER_TYP_CD`, `DEPARTMENT_ID`, `ORG_CD`, `DESCRIPTION`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `GRP_KEY_CD`) values ('EDO_CHECKLIST_ID_0001', 'TA', 'DEFAULT', 'DEFAULT', 'Testing Immutable EdoChecklist', '2012-01-01', 'Y', now(), null, '1', 'ISU-IA');
 

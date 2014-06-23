@@ -23,12 +23,12 @@ public class EdoChecklistSectionServiceImpl implements EdoChecklistSectionServic
         this.edoChecklistSectionDao = edoChecklistSectionDao;
     }
 
-    public EdoChecklistSection getChecklistSectionByID(String checklistSectionID ) {
-    	return EdoChecklistSectionBo.to(edoChecklistSectionDao.getChecklistSectionByID(checklistSectionID));
+    public EdoChecklistSection getChecklistSectionByID(String edoChecklistSectionID) {
+    	return EdoChecklistSectionBo.to(edoChecklistSectionDao.getChecklistSectionByID(edoChecklistSectionID));
     }
     
-    public List<EdoChecklistSection> getChecklistSectionsByChecklistID(String checklistId, LocalDate asOfDate) {        
-        List<EdoChecklistSectionBo> bos = edoChecklistSectionDao.getChecklistSectionsByChecklistID(checklistId, asOfDate);
+    public List<EdoChecklistSection> getChecklistSectionsByChecklistID(String edoChecklistID, LocalDate asOfDate) {        
+        List<EdoChecklistSectionBo> bos = edoChecklistSectionDao.getChecklistSectionsByChecklistID(edoChecklistID, asOfDate);
 		return convertToImmutable(bos);
     }
 }

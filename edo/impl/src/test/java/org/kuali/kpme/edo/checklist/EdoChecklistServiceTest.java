@@ -28,7 +28,7 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoChecklistServiceTest extends EdoUnitTestBase {
 
-	private final String checklistId = "CHECKLIST_ID_0001";
+	private final String edoChecklistId = "EDO_CHECKLIST_ID_0001";
 
 	@Before
 	public void setUp() throws Exception {
@@ -44,7 +44,7 @@ public class EdoChecklistServiceTest extends EdoUnitTestBase {
 	@Test
 	public void testGetEdoChecklistById() throws Exception {
 
-		EdoChecklist edoChecklist = EdoServiceLocator.getChecklistService().getChecklistByID(checklistId);
+		EdoChecklist edoChecklist = EdoServiceLocator.getChecklistService().getChecklistByID(edoChecklistId);
 		assertEquals("TA", edoChecklist.getDossierTypeCode());
 		assertEquals("DEFAULT", edoChecklist.getDepartmentID());
 	}

@@ -25,9 +25,10 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 		private static final String GROUP_KEY_CODE = "groupKeyCode";
 	}
 	
-	private String checklistID;
+	private String edoChecklistID;
     private String dossierTypeCode;
     private String departmentID;
+    private String organizationCode;
     private String description;
   
 
@@ -44,25 +45,25 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
     
 	@Override
 	public String getId() {
-		return getChecklistID();
+		return getEdoChecklistID();
 	}
 
 	@Override
 	public void setId(String checklistID) {
-		setChecklistID(checklistID);
+		setEdoChecklistID(checklistID);
 	}
 	
 	@Override
 	protected String getUniqueKey() {
-		return this.getChecklistID();
+		return this.getEdoChecklistID();
 	}
 
-	public String getChecklistID() {
-		return checklistID;
+	public String getEdoChecklistID() {
+		return edoChecklistID;
 	}
 
-	public void setChecklistID(String checklistID) {
-		this.checklistID = checklistID;
+	public void setEdoChecklistID(String edoChecklistID) {
+		this.edoChecklistID = edoChecklistID;
 	}
 
 	public String getDossierTypeCode() {
@@ -81,6 +82,14 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 		this.departmentID = departmentID;
 	}
 
+	public String getOrganizationCode() {
+		return organizationCode;
+	}
+
+	public void setOrganizationCode(String organizationCode) {
+		this.organizationCode = organizationCode;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -94,9 +103,10 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
             return null;
         }
         EdoChecklistBo eclt = new EdoChecklistBo();
-        eclt.setChecklistID(im.getChecklistID());
+        eclt.setEdoChecklistID(im.getEdoChecklistID());
         eclt.setDossierTypeCode(im.getDossierTypeCode());
         eclt.setDepartmentID(im.getDepartmentID());
+        eclt.setOrganizationCode(im.getOrganizationCode());
         eclt.setDescription(im.getDescription());
         eclt.setGroupKeyCode(im.getGroupKeyCode());        
         eclt.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));

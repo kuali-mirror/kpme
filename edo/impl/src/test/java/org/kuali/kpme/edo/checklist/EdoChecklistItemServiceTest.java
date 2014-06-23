@@ -31,8 +31,8 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoChecklistItemServiceTest extends EdoUnitTestBase {
 
-	private final String checklistItemId = "CHECKLIST_ITEM_ID_0001";
-	private final String sectionId = "CHECKLIST_SECTION_ID_0001";
+	private final String edoChecklistItemId = "EDO_CHECKLIST_ITEM_ID_0001";
+	private final String edoCheckListSectionId = "EDO_CHECKLIST_SECTION_ID_0001";
 
 	@Before
 	public void setUp() throws Exception {
@@ -48,7 +48,7 @@ public class EdoChecklistItemServiceTest extends EdoUnitTestBase {
 	@Test
 	public void testGetEdoChecklistItemById() throws Exception {
 
-		EdoChecklistItem edoChecklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemByID(checklistItemId);
+		EdoChecklistItem edoChecklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemByID(edoChecklistItemId);
 		assertEquals("testEdoChecklistItem1", edoChecklistItem.getChecklistItemName());
 	}
 	
@@ -57,7 +57,7 @@ public class EdoChecklistItemServiceTest extends EdoUnitTestBase {
 
 		LocalDate  asOfDate = new LocalDate(2012,1,1);
 		
-		List<EdoChecklistItem> items = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionID(sectionId, asOfDate);
+		List<EdoChecklistItem> items = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionID(edoCheckListSectionId, asOfDate);
 		assertEquals("returned the correct number of results", 2, items.size());
 	}
 }

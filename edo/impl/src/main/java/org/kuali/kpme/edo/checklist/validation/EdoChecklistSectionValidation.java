@@ -18,9 +18,7 @@ package org.kuali.kpme.edo.checklist.validation;
 import java.util.List;
 
 import org.kuali.kpme.edo.api.checklist.EdoChecklist;
-import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
-import org.kuali.kpme.edo.checklist.EdoChecklistItemBo;
 import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -45,9 +43,9 @@ public class EdoChecklistSectionValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateChecklistID(EdoChecklistSectionBo checklistSection) {
 
-		System.out.println("checklist id "+checklistSection.getChecklistID());
-		EdoChecklist aSection = EdoServiceLocator.getChecklistService().getChecklistByID(checklistSection.getChecklistID()) ;
-		String errorMes = "Checklist '"+ checklistSection.getChecklistID() + "'";
+		System.out.println("checklist id "+checklistSection.getEdoChecklistID());
+		EdoChecklist aSection = EdoServiceLocator.getChecklistService().getChecklistByID(checklistSection.getEdoChecklistID()) ;
+		String errorMes = "Checklist '"+ checklistSection.getEdoChecklistID() + "'";
 		if(aSection == null) {
 			System.out.println("check list doesn't exist");
 			this.putFieldError("dataObject.edoChecklist", "error.existence", errorMes);
@@ -61,7 +59,7 @@ public class EdoChecklistSectionValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateSectionOrdinal(EdoChecklistSectionBo checklistSection) {
 
-		List<EdoChecklistSection> sections = EdoServiceLocator.getChecklistSectionService().getChecklistSectionsByChecklistID(checklistSection.getChecklistID(), checklistSection.getEffectiveLocalDate());
+		List<EdoChecklistSection> sections = EdoServiceLocator.getChecklistSectionService().getChecklistSectionsByChecklistID(checklistSection.getEdoChecklistID(), checklistSection.getEffectiveLocalDate());
 		for (EdoChecklistSection section : sections) {
 			if (checklistSection.getChecklistSectionOrdinal() == section.getChecklistSectionOrdinal()) {
 				// error.checklist.ordinal.exist ={0} '{1}' is already in use.

@@ -35,22 +35,22 @@ public class EdoChecklistSectionBoTest {
 		edoEdoChecklistSectionBuilder.setChecklistSectionOrdinal(3);
 		edoEdoChecklistSectionBuilder.setUserPrincipalId("admin");
 		
-		edoEdoChecklistSectionBuilder.setChecklistSectionID("CHECKLIST_SECTION_ID_0001");
-		edoEdoChecklistSectionBuilder.setChecklistID("CHECKLIST_ID_0001");
+		edoEdoChecklistSectionBuilder.setEdoChecklistSectionID("EDO_CHECKLIST_SECTION_ID_0001");
+		edoEdoChecklistSectionBuilder.setEdoChecklistID("EDO_CHECKLIST_ID_0001");
 		
 		edoEdoChecklistSectionBuilder.setVersionNumber(1L);
 		edoEdoChecklistSectionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		edoEdoChecklistSectionBuilder.setActive(true);
-		edoEdoChecklistSectionBuilder.setId(edoEdoChecklistSectionBuilder.getChecklistSectionID());
+		edoEdoChecklistSectionBuilder.setId(edoEdoChecklistSectionBuilder.getEdoChecklistSectionID());
 		edoEdoChecklistSectionBuilder.setEffectiveLocalDate(new LocalDate(2014, 3, 1));
 		edoEdoChecklistSectionBuilder.setCreateTime(DateTime.now());
 		
-		testEdoChecklistSectionBos.put(edoEdoChecklistSectionBuilder.getChecklistSectionID(), edoEdoChecklistSectionBuilder.build());
+		testEdoChecklistSectionBos.put(edoEdoChecklistSectionBuilder.getEdoChecklistSectionID(), edoEdoChecklistSectionBuilder.build());
 	}
 	
     @Test
     public void testNotEqualsWithGroup() {
-    	EdoChecklistSection immutable = EdoChecklistSectionBoTest.getEdoChecklistSection("CHECKLIST_SECTION_ID_0001");
+    	EdoChecklistSection immutable = EdoChecklistSectionBoTest.getEdoChecklistSection("EDO_CHECKLIST_SECTION_ID_0001");
     	EdoChecklistSectionBo bo = EdoChecklistSectionBo.from(immutable);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));

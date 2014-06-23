@@ -33,10 +33,10 @@
 	
 	<changeSet id="2" author="tkagata" context="kpme-client-bootstrap">
         <createTable tableName="EDO_CHECKLIST_ITEM_T">
-            <column name="CHECKLIST_ITEM_ID" type="VARCHAR(60)">
+            <column name="EDO_CHECKLIST_ITEM_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="CHECKLIST_SECTION_ID" type="VARCHAR(60)">
+            <column name="EDO_CHECKLIST_SECTION_ID" type="VARCHAR(60)">
                 <constraints nullable="false" />
             </column>
             <column name="CHECKLIST_ITEM_NAME" type="VARCHAR(255)">

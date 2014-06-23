@@ -19,8 +19,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = EdoChecklistSection.Constants.TYPE_NAME, propOrder = {
     EdoChecklistSection.Elements.CHECKLIST_SECTION_ORDINAL,
-    EdoChecklistSection.Elements.CHECKLIST_SECTION_I_D,
-    EdoChecklistSection.Elements.CHECKLIST_I_D,
+    EdoChecklistSection.Elements.EDO_CHECKLIST_SECTION_I_D,
+    EdoChecklistSection.Elements.EDO_CHECKLIST_I_D,
     EdoChecklistSection.Elements.DESCRIPTION,
     EdoChecklistSection.Elements.CHECKLIST_SECTION_NAME,
     CoreConstants.CommonElements.VERSION_NUMBER,
@@ -39,10 +39,10 @@ public final class EdoChecklistSection
 
     @XmlElement(name = Elements.CHECKLIST_SECTION_ORDINAL, required = false)
     private final int checklistSectionOrdinal;
-    @XmlElement(name = Elements.CHECKLIST_SECTION_I_D, required = false)
-    private final String checklistSectionID;
-    @XmlElement(name = Elements.CHECKLIST_I_D, required = false)
-    private final String checklistID;
+    @XmlElement(name = Elements.EDO_CHECKLIST_SECTION_I_D, required = false)
+    private final String edoChecklistSectionID;
+    @XmlElement(name = Elements.EDO_CHECKLIST_I_D, required = false)
+    private final String edoChecklistID;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
     @XmlElement(name = Elements.CHECKLIST_SECTION_NAME, required = false)
@@ -71,8 +71,8 @@ public final class EdoChecklistSection
      */
     private EdoChecklistSection() {
         this.checklistSectionOrdinal = 0;
-        this.checklistSectionID = null;
-        this.checklistID = null;
+        this.edoChecklistSectionID = null;
+        this.edoChecklistID = null;
         this.description = null;
         this.checklistSectionName = null;
         this.versionNumber = null;
@@ -86,8 +86,8 @@ public final class EdoChecklistSection
 
     private EdoChecklistSection(Builder builder) {
         this.checklistSectionOrdinal = builder.getChecklistSectionOrdinal();
-        this.checklistSectionID = builder.getChecklistSectionID();
-        this.checklistID = builder.getChecklistID();
+        this.edoChecklistSectionID = builder.getEdoChecklistSectionID();
+        this.edoChecklistID = builder.getEdoChecklistID();
         this.description = builder.getDescription();
         this.checklistSectionName = builder.getChecklistSectionName();
         this.versionNumber = builder.getVersionNumber();
@@ -105,13 +105,13 @@ public final class EdoChecklistSection
     }
 
     @Override
-    public String getChecklistSectionID() {
-        return this.checklistSectionID;
+    public String getEdoChecklistSectionID() {
+        return this.edoChecklistSectionID;
     }
 
     @Override
-    public String getChecklistID() {
-        return this.checklistID;
+    public String getEdoChecklistID() {
+        return this.edoChecklistID;
     }
 
     @Override
@@ -169,8 +169,8 @@ public final class EdoChecklistSection
     {
 
         private int checklistSectionOrdinal;
-        private String checklistSectionID;
-        private String checklistID;
+        private String edoChecklistSectionID;
+        private String edoChecklistID;
         private String description;
         private String checklistSectionName;
         private Long versionNumber;
@@ -197,8 +197,8 @@ public final class EdoChecklistSection
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
             builder.setChecklistSectionOrdinal(contract.getChecklistSectionOrdinal());
-            builder.setChecklistSectionID(contract.getChecklistSectionID());
-            builder.setChecklistID(contract.getChecklistID());
+            builder.setEdoChecklistSectionID(contract.getEdoChecklistSectionID());
+            builder.setEdoChecklistID(contract.getEdoChecklistID());
             builder.setDescription(contract.getDescription());
             builder.setChecklistSectionName(contract.getChecklistSectionName());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -221,13 +221,13 @@ public final class EdoChecklistSection
         }
 
         @Override
-        public String getChecklistSectionID() {
-            return this.checklistSectionID;
+        public String getEdoChecklistSectionID() {
+            return this.edoChecklistSectionID;
         }
 
         @Override
-        public String getChecklistID() {
-            return this.checklistID;
+        public String getEdoChecklistID() {
+            return this.edoChecklistID;
         }
 
         @Override
@@ -280,14 +280,14 @@ public final class EdoChecklistSection
             this.checklistSectionOrdinal = checklistSectionOrdinal;
         }
 
-        public void setChecklistSectionID(String checklistSectionID) {
+        public void setEdoChecklistSectionID(String edoChecklistSectionID) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.checklistSectionID = checklistSectionID;
+            this.edoChecklistSectionID = edoChecklistSectionID;
         }
 
-        public void setChecklistID(String checklistID) {
+        public void setEdoChecklistID(String edoChecklistID) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.checklistID = checklistID;
+            this.edoChecklistID = edoChecklistID;
         }
 
         public void setDescription(String description) {
@@ -357,8 +357,8 @@ public final class EdoChecklistSection
     static class Elements {
 
         final static String CHECKLIST_SECTION_ORDINAL = "checklistSectionOrdinal";
-        final static String CHECKLIST_SECTION_I_D = "checklistSectionID";
-        final static String CHECKLIST_I_D = "checklistID";
+        final static String EDO_CHECKLIST_SECTION_I_D = "edoChecklistSectionID";
+        final static String EDO_CHECKLIST_I_D = "edoChecklistID";
         final static String DESCRIPTION = "description";
         final static String CHECKLIST_SECTION_NAME = "checklistSectionName";
         final static String ACTIVE = "active";

@@ -15,7 +15,7 @@ public class EdoChecklistServiceImpl implements EdoChecklistService {
         this.edoChecklistDao = edoChecklistDao;
     }
 
-    public EdoChecklist getChecklistByID(String checklistID ) {
-    	return EdoChecklistBo.to(edoChecklistDao.getChecklistByID(checklistID));
+    public EdoChecklist getChecklistByID(String edoChecklistID) {
+    	return EdoChecklistBo.to(edoChecklistDao.getChecklistByID(edoChecklistID));
     }
 }

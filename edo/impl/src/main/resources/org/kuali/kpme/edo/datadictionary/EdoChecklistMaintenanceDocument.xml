@@ -26,10 +26,11 @@
 
 	<bean id="EdoChecklistMaintenanceDocument" parent="EdoChecklistMaintenanceDocument-parentBean" />
 
-	<bean id="EdoChecklistMaintenanceDocument-parentBean" abstract="true"
-		parent="uifMaintenanceDocumentEntry" p:dataObjectClass="org.kuali.kpme.edo.checklist.EdoChecklistBo"
-		p:maintainableClass="org.kuali.kpme.edo.checklist.web.EdoChecklistMaintainableImpl" >
+	<bean id="EdoChecklistMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"> 
+		<property name="dataObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistBo" />
+		<property name="maintainableClass" value="org.kuali.kpme.edo.checklist.web.EdoChecklistMaintainableImpl" />
 		<property name="documentTypeName" value="EdoChecklistDocumentType" />
+		<property name="businessRulesClass" value="org.kuali.kpme.edo.checklist.validation.EdoChecklistValidation"/>
 	</bean>
 
 

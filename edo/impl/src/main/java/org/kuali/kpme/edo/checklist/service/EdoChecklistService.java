@@ -4,5 +4,5 @@ import org.kuali.kpme.edo.api.checklist.EdoChecklist;
 
 public interface EdoChecklistService {
 
-    public EdoChecklist getChecklistByID(String checklistId);
+    public EdoChecklist getChecklistByID(String edoChecklistID);
 }

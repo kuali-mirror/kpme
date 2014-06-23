@@ -16,10 +16,10 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
  */
 public class EdoChecklistDaoImpl extends PlatformAwareDaoBaseOjb implements EdoChecklistDao {
 
-    public EdoChecklistBo getChecklistByID(String checklistID) {
+    public EdoChecklistBo getChecklistByID(String edoChecklistID) {
 
         Criteria cConditions = new Criteria();
-        cConditions.addEqualTo("checklist_id", checklistID);
+        cConditions.addEqualTo("edo_checklist_id", edoChecklistID);
 
         QueryByCriteria query = QueryFactory.newQuery(EdoChecklistBo.class, cConditions);
 		return (EdoChecklistBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);

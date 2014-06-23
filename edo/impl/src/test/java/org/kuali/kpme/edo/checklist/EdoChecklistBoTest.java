@@ -32,7 +32,7 @@ public class EdoChecklistBoTest {
 	
 	static {
 		testEdoChecklistBos = new HashMap<String, EdoChecklist>();
-		edoEdoChecklistBuilder.setChecklistID("CHECKLIST_ID_0001");
+		edoEdoChecklistBuilder.setEdoChecklistID("EDO_CHECKLIST_ID_0001");
 		edoEdoChecklistBuilder.setDescription("Testing Immutable EdoChecklist");
 		edoEdoChecklistBuilder.setDepartmentID("DEFAULT");
 		edoEdoChecklistBuilder.setDossierTypeCode("AB");
@@ -41,18 +41,18 @@ public class EdoChecklistBoTest {
 		edoEdoChecklistBuilder.setVersionNumber(1L);
 		edoEdoChecklistBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		edoEdoChecklistBuilder.setActive(true);
-		edoEdoChecklistBuilder.setId(edoEdoChecklistBuilder.getChecklistID());
+		edoEdoChecklistBuilder.setId(edoEdoChecklistBuilder.getEdoChecklistID());
 		edoEdoChecklistBuilder.setEffectiveLocalDate(new LocalDate(2014, 3, 1));
 		edoEdoChecklistBuilder.setCreateTime(DateTime.now());
 		
 		// Set GroupKey Object
 		edoEdoChecklistBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
-		testEdoChecklistBos.put(edoEdoChecklistBuilder.getChecklistID(), edoEdoChecklistBuilder.build());
+		testEdoChecklistBos.put(edoEdoChecklistBuilder.getEdoChecklistID(), edoEdoChecklistBuilder.build());
 	}
 	
     @Test
     public void testNotEqualsWithGroup() {
-    	EdoChecklist immutable = EdoChecklistBoTest.getEdoChecklist("CHECKLIST_ID_0001");
+    	EdoChecklist immutable = EdoChecklistBoTest.getEdoChecklist("EDO_CHECKLIST_ID_0001");
     	EdoChecklistBo bo = EdoChecklistBo.from(immutable);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));

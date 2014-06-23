@@ -24,8 +24,8 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 		private static final String EDO_CHECKLIST_ITEM = "checklistItemName";
 	}
 	
-	private String checklistItemID;
-    private String checklistSectionID;
+	private String edoChecklistItemID;
+    private String edoChecklistSectionID;
     private String checklistItemName;
     private String itemDescription;
     private boolean required;
@@ -57,17 +57,17 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 	
 	@Override
 	public String getId() {
-		return  getChecklistItemID();
+		return  getEdoChecklistItemID();
 	}
 
 	@Override
-	public void setId(String checklistItemID) {
-		setChecklistItemID(checklistItemID);
+	public void setId(String edoChecklistItemID) {
+		setEdoChecklistItemID(edoChecklistItemID);
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getChecklistItemID();
+		return getEdoChecklistItemID();
 	}
 	
 	@Override
@@ -77,20 +77,20 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 				.build();
 	}
 
-    public String getChecklistItemID() {
-        return checklistItemID;
+    public String getEdoChecklistItemID() {
+        return edoChecklistItemID;
     }
 
-    public void setChecklistItemID(String checklistItemID) {
-        this.checklistItemID = checklistItemID;
+    public void setEdoChecklistItemID(String edoChecklistItemID) {
+        this.edoChecklistItemID = edoChecklistItemID;
     }
 
-    public String getChecklistSectionID() {
-        return checklistSectionID;
+    public String getEdoChecklistSectionID() {
+        return edoChecklistSectionID;
     }
 
-    public void setChecklistSectionID(String checklistSectionID) {
-        this.checklistSectionID = checklistSectionID;
+    public void setEdoChecklistSectionID(String edoChecklistSectionID) {
+        this.edoChecklistSectionID = edoChecklistSectionID;
     }
 
     public String getChecklistItemName() {
@@ -130,8 +130,8 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
             return null;
         }
         EdoChecklistItemBo ecli = new EdoChecklistItemBo();
-        ecli.setChecklistItemID(im.getChecklistItemID());
-        ecli.setChecklistSectionID(im.getChecklistSectionID());
+        ecli.setEdoChecklistItemID(im.getEdoChecklistItemID());
+        ecli.setEdoChecklistSectionID(im.getEdoChecklistSectionID());
         ecli.setChecklistItemName(im.getChecklistItemName());
         ecli.setItemDescription(im.getItemDescription());
         ecli.setChecklistItemOrdinal(im.getChecklistItemOrdinal());

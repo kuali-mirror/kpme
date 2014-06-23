@@ -27,8 +27,8 @@
 		<property name="objectLabel" value="Checklist Item" />
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="EdoChecklistItem-checklistItemID" />
-				<ref bean="EdoChecklistItem-checklistSectionID" />
+				<ref bean="EdoChecklistItem-edoChecklistItemID" />
+				<ref bean="EdoChecklistItem-edoChecklistSectionID" />
 				<ref bean="EdoChecklistItem-checklistItemName" />
 				<ref bean="EdoChecklistItem-itemDescription" />
 				<ref bean="EdoChecklistItem-required" />
@@ -39,25 +39,25 @@
 
     <!-- Attribute Definitions -->
     
-	<bean id="EdoChecklistItem-checklistItemID" parent="EdoChecklistItem-checklistItemID-parentBean" />
-	<bean id="EdoChecklistItem-checklistItemID-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="EdoChecklistItem-edoChecklistItemID" parent="EdoChecklistItem-edoChecklistItemID-parentBean" />
+	<bean id="EdoChecklistItem-edoChecklistItemID-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="shortLabel" value="id"/>
 	    <property name="maxLength" value="60" />
 	    <property name="controlField">
 	      <bean parent="Uif-TextControl" p:size="60"/>
 	    </property>
-		<property name="name" value="checklistItemID" />
+		<property name="name" value="edoChecklistItemID" />
 		<property name="label" value="Checklist Item Id" />
 	</bean>
 	
-	<bean id="EdoChecklistItem-checklistSectionID" parent="EdoChecklistItem-checklistSectionID-parentBean" />
-	<bean id="EdoChecklistItem-checklistSectionID-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="EdoChecklistItem-edoChecklistSectionID" parent="EdoChecklistItem-edoChecklistSectionID-parentBean" />
+	<bean id="EdoChecklistItem-edoChecklistSectionID-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="shortLabel" value="section id"/>
 	    <property name="maxLength" value="60" />
 	    <property name="controlField">
 	      <bean parent="Uif-TextControl" p:size="10"/>
 	    </property>
-		<property name="name" value="checklistSectionID" />
+		<property name="name" value="edoChecklistSectionID" />
 		<property name="label" value="Checklist Section Id" />
 	</bean>
 
@@ -123,6 +123,12 @@
     <property name="dataObjectClassName" value="org.kuali.kpme.edo.checklist.EdoChecklistItemBo" />
     <property name="criteriaFields">
       <list merge="true">
+      	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="edoChecklistSectionID" >
+      		<property name="quickfinder">
+          			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo"
+                		p:fieldConversions="edoChecklistSectionID:edoChecklistSectionID" />
+       		</property>
+      	</bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="checklistItemName" />  
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="itemDescription" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="required" />
@@ -131,7 +137,12 @@
     </property>
     <property name="resultFields">
       <list merge="true">
-      	<bean parent="Uif-DataField" p:propertyName="checklistSectionID" />
+      	<bean parent="Uif-DataField" p:propertyName="edoChecklistSectionID" >
+      		<property name="inquiry">
+				<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo"
+						p:inquiryParameters="edoChecklistSectionID:edoChecklistSectionID,effectiveDate:effectiveDate" />
+			</property>
+      	</bean>
         <bean parent="Uif-DataField" p:propertyName="checklistItemName" />
         <bean parent="Uif-DataField" p:propertyName="itemDescription" />
         <bean parent="Uif-DataField" p:propertyName="required"/>
@@ -154,7 +165,7 @@
 				<property name="layoutManager.numberOfColumns" value="2" />
 				<property name="items">
 					<list merge="true">
-						<bean parent="Uif-DataField" p:propertyName="checklistSectionID" />
+						<bean parent="Uif-DataField" p:propertyName="edoChecklistSectionID" />
 						<bean parent="Uif-DataField" p:propertyName="checklistItemName" />
 						<bean parent="Uif-DataField" p:propertyName="itemDescription" />
 						<bean parent="Uif-DataField" p:propertyName="required" />
@@ -179,10 +190,10 @@
           <property name="items">
             <list merge="true">
             	<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
-            	<bean parent="Uif-InputField" p:propertyName="checklistSectionID" p:required="true" >
+            	<bean parent="Uif-InputField" p:propertyName="edoChecklistSectionID" p:required="true" >
             		<property name="quickfinder">
                			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo"
-                     		p:fieldConversions="checklistSectionID:checklistSectionID" />
+                     		p:fieldConversions="edoChecklistSectionID:edoChecklistSectionID" />
             		</property>
             	</bean>
 		        <bean parent="Uif-InputField" p:propertyName="checklistItemName" p:required="true" />
