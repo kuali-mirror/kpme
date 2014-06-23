@@ -52,7 +52,11 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
             .add(PositionBaseContract.CACHE_NAME)
             .add(PositionContract.CACHE_NAME)
             .build();
-	
+
+    public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
+            .add(KeyFields.POSITION_NUMBER)
+            .build();
+
 	private List<PositionQualificationBo> qualificationList = new LinkedList<PositionQualificationBo>();
     private List<PositionDutyBo> dutyList = new LinkedList<PositionDutyBo>();
     private List<PstnFlagBo> flagList = new LinkedList<PstnFlagBo>();
