@@ -45,7 +45,7 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
 			valid &= this.validateReportingGroup(clss);
 			valid &= this.validatePositionType(clss);
 			valid &= this.validatePercentTime(clss);
-            valid &= this.validatePayGrade(clss);
+//            valid &= this.validatePayGrade(clss);
 		}
 
         valid &= super.processCustomRouteDocumentBusinessRules(document);
@@ -146,7 +146,7 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
 		return true;
 	}
 
-    private boolean validatePayGrade(ClassificationBo clss) {
+    /*private boolean validatePayGrade(ClassificationBo clss) {
         if (StringUtils.isNotEmpty(clss.getPayGrade()) && !ValidationUtils.validatePayGrade(clss.getPayGrade(), clss.getSalaryGroup(), clss.getEffectiveLocalDate())) {
             String[] params = new String[2];
             params[0] = clss.getPayGrade();
@@ -156,6 +156,6 @@ public class ClassificationValidation extends HrKeyedBusinessObjectValidation {
         } else {
             return true;
         }
-    }
+    }*/
 	
 }
