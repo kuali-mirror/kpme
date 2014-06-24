@@ -758,7 +758,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
                 builder.setEarnCode(earnCode.getEarnCode());
             }
             
-            LmServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
+            LmServiceLocator.getLeaveBlockService().updateLeaveBlock(builder.build(), principalId);
             generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
             
             lcf.setLeaveAmount(null);
