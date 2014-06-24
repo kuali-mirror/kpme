@@ -265,7 +265,7 @@
     <bean id="KPMEGroupKeyed-MaintenanceGridSection" parent="Uif-MaintenanceGridSection">
         <property name="items">
             <list merge="true">
-                <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+                <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
 
                 <bean parent = "KPMEGroupKeyed-MaintenanceGridSection-GroupKey">
                     <property name="control">
