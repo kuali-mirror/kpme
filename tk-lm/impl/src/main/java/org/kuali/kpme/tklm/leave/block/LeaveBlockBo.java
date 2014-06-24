@@ -277,6 +277,10 @@ public class LeaveBlockBo extends CalendarBlock implements Assignable, LeaveBloc
 		return accrualGenerated;
 	}
 
+    public Boolean getAccrualGenerated() {
+        return accrualGenerated;
+    }
+
 	public void setAccrualGenerated(Boolean accrualGenerated) {
 		this.accrualGenerated = accrualGenerated;
 	}
