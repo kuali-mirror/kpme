@@ -15,18 +15,6 @@
  */
 package org.kuali.kpme.core.service.role;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThan;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.in;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.isNull;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
-
-import java.util.*;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
@@ -34,12 +22,11 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.department.DepartmentService;
-import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.workarea.service.WorkAreaService;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.rice.core.api.criteria.LookupCustomizer;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -56,8 +43,11 @@ import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
 import org.kuali.rice.kim.framework.type.KimTypeService;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
-import org.kuali.rice.kim.impl.common.attribute.AttributeTransform;
-import org.kuali.rice.kim.impl.role.RoleMemberBo;
+
+import javax.xml.namespace.QName;
+import java.util.*;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
 public class KPMERoleServiceImpl implements KPMERoleService {
 	

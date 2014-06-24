@@ -33,6 +33,9 @@
             <docHandler>${kuali.docHandler.url.prefix}/kpme/missedPunch?methodToCall=docHandler</docHandler>
             <active>true</active>
             <routingVersion>1</routingVersion>
+            <security>
+                <securityAttribute class="org.kuali.kpme.tklm.time.missedpunch.authorization.MissedPunchSecurityFilterAttribute" />
+            </security>
             <attributes>
                 <attribute>
                     <name>MissedPunchDataDictionarySearchableAttribute</name>

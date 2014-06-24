@@ -19,11 +19,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
+import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
 @SuppressWarnings("deprecation")
-public class EarnCodeSecurityAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
+public class EarnCodeSecurityAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = 7352157020861633853L;
 

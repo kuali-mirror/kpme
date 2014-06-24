@@ -31,6 +31,7 @@
     	<property name="businessRulesClass" value="org.kuali.kpme.core.earncode.group.validation.EarnCodeGroupValidation"/>
     	<property name="maintainableClass" value="org.kuali.kpme.core.earncode.group.web.EarnCodeGroupMaintainableImpl"/>
 		<property name="documentTypeName" value="EarnCodeGroupDocumentType" />
+        <property name="documentAuthorizerClass" value="org.kuali.kpme.core.earncode.group.authorization.EarnCodeGroupAuthorizer" />
 	</bean>
 
 </beans>

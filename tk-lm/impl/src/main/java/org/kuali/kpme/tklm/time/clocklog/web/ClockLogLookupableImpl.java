@@ -15,14 +15,22 @@
  */
 package org.kuali.kpme.tklm.time.clocklog.web;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.workarea.WorkAreaBo;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.uif.view.LookupView;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class ClockLogLookupableImpl extends KPMELookupableImpl {
@@ -34,17 +42,71 @@ public class ClockLogLookupableImpl extends KPMELookupableImpl {
 
 	@Override
 	public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
-		List<ClockLogBo> results = new ArrayList<ClockLogBo>();
-		List<?> searchResults = super.getSearchResults(form, searchCriteria, unbounded);
-		for (Object searchResult : searchResults) {
+        String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+
+        Integer searchResultsLimit = null;
+
+        Collection<?> rawSearchResults;
+
+        // removed blank search values and decrypt any encrypted search values
+        Map<String, String> nonBlankSearchCriteria = processSearchCriteria(form, searchCriteria);
+
+        if (nonBlankSearchCriteria == null) {
+            return new ArrayList<Object>();
+        }
+
+        if (!unbounded) {
+            searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
+        }
+
+        rawSearchResults = getLookupService().findCollectionBySearchHelper(getDataObjectClass(),
+                nonBlankSearchCriteria, unbounded, searchResultsLimit);
+
+        if (rawSearchResults == null) {
+            rawSearchResults = new ArrayList<Object>();
+        } else {
+            sortSearchResults(form, (List<?>) rawSearchResults);
+        }
+
+        List<ClockLogBo> filteredResults = filterLookupResults((List<ClockLogBo>)rawSearchResults, userPrincipalId);
+
+        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
+
+		for (ClockLogBo searchResult : filteredResults) {
 			if(searchResult != null) {
-				ClockLogBo aClockLog = (ClockLogBo) searchResult;
-				aClockLog.setClockedByMissedPunch(TkServiceLocator.getClockLogService().isClockLogCreatedByMissedPunch(aClockLog.getTkClockLogId()));
-				results.add(aClockLog);
+                searchResult.setClockedByMissedPunch(TkServiceLocator.getClockLogService().isClockLogCreatedByMissedPunch(searchResult.getTkClockLogId()));
 			}
 		}
 
-		return results;
+		return filteredResults;
 	}
+
+    protected List<ClockLogBo> filterLookupResults(List<ClockLogBo> rawResults, String userPrincipalId) {
+        List<ClockLogBo> results = new ArrayList<ClockLogBo>();
+        for (ClockLogBo clockLogObj : rawResults) {
+
+
+            String department = clockLogObj.getDept();
+            String groupKeyCode = clockLogObj.getGroupKeyCode();
+            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, clockLogObj.getClockDateTime().toLocalDate());
+            String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+
+            Map<String, String> roleQualification = new HashMap<String, String>();
+
+            roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+            roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
+            roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+
+            if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                    KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+                    || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                    KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+                results.add(clockLogObj);
+            }
+        }
+
+        return results;
+    }
 
 }

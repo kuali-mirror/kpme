@@ -523,7 +523,7 @@
     <bean id="Job-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Job Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.job.JobBo"/>
-        <!-- property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobLookupableImpl"/-->
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.job.web.JobLookupableImpl"/>
         <property name="criteriaFields">
             <list merge="true">
                 <!-- bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" p:ranged="true"/-->
@@ -584,12 +584,6 @@
                               p:inquiryParameters="deptObj.hrDeptId:hrDeptId"/>
                     </property>
                 </bean>
-                <!-- 
-                <bean parent="Uif-DataField" p:propertyName="location"/>
-                -->
-                <!-- <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/> -->
-                <bean parent="KPMEGroupKeyDataFieldLookup" p:propertyName="groupKeyCode"/>
-
                 <bean parent="Uif-DataField" p:propertyName="groupKeyCode"/>
                 <bean parent="Uif-DataField" p:propertyName="positionNumber">
                     <property name="inquiry">

@@ -18,10 +18,11 @@ package org.kuali.kpme.core.earncode.group.authorization;
 import java.util.Map;
 
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
+import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 
 @SuppressWarnings("deprecation")
-public class EarnCodeGroupAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
+public class EarnCodeGroupAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = 8092424933121303702L;
 
