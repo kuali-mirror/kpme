@@ -33,6 +33,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
@@ -168,15 +169,28 @@ import java.util.List;
 		String principalId = GlobalVariables.getUserSession().getPrincipalId();
 		String department = departmentEarnCode.getDept();
         String groupKeyCode = departmentEarnCode.getGroupKeyCode();
- 
-		List<Department> departmentObjs = HrServiceLocator.getDepartmentService().getDepartments(department, departmentEarnCode.getLocation(), LocalDate.now());
-		
+
+        List<Department> departmentObjs = new ArrayList<Department>();
+        if ( (StringUtils.equals(groupKeyCode, HrConstants.WILDCARD_CHARACTER)) && (StringUtils.equals(department, HrConstants.WILDCARD_CHARACTER)) )
+        {
+            departmentObjs = HrServiceLocator.getDepartmentService().getDepartments(LocalDate.now());
+        }
+        else if (StringUtils.equals(department, HrConstants.WILDCARD_CHARACTER))
+        {
+            departmentObjs = HrServiceLocator.getDepartmentService().getDepartmentsWithGroupKey(groupKeyCode, LocalDate.now());
+        }
+        else
+        {
+            departmentObjs = HrServiceLocator.getDepartmentService().getDepartments(department, departmentEarnCode.getLocation(), LocalDate.now());
+        }
+
+
 		for (Department departmentObj : departmentObjs) {
 			// KPME-3376
 			// For now, leave the line below although it's redundant (getDepartments above already takes location - created to reduce
 			// the number of departments to be returned).  
 			String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
-            if (StringUtils.isEmpty(groupKeyCode)) {
+            if ( (StringUtils.isEmpty(groupKeyCode)) || (StringUtils.equals(departmentEarnCode.getGroupKeyCode(), HrConstants.WILDCARD_CHARACTER))) {
                 groupKeyCode = departmentObj != null ? departmentObj.getGroupKeyCode() : null;
             }
 	        DateTime asOfDate = LocalDate.now().toDateTimeAtStartOfDay();
