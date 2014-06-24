@@ -21,8 +21,10 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.department.DepartmentContract;
+import org.kuali.kpme.core.api.util.HrApiConstants;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
@@ -223,7 +225,8 @@ public class DepartmentBo extends HrKeyedBusinessObject implements DepartmentCon
     }
 
     public static String getDeptFromBusinessKeyId(String id) {
-        String[] temp = id.split("|");
+        String[] temp = StringUtils.split(id, '|');
+
         if (temp.length > 1) {
             return temp[1];
         }
@@ -231,7 +234,7 @@ public class DepartmentBo extends HrKeyedBusinessObject implements DepartmentCon
     }
 
     public static String getGroupKeycodeFromBusinessKeyId(String id) {
-        String[] temp = id.split("|");
+        String[] temp = StringUtils.split(id, '|');
         if (temp.length > 1) {
             return temp[0];
         }

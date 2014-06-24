@@ -231,43 +231,47 @@ public class KPMERoleServiceImpl implements KPMERoleService {
                 //LookupCustomizer<RoleMemberBo> lookupCustomizer = builder.build();
                 // guard for default type roles
                 if(roleTypeService != null) {
-                    // get the keys (name) of the qualifiers needed for membership in this role
-                    List<String> attributesForExactMatch = roleTypeService.getQualifiersForExactMatch();
-                    if(CollectionUtils.isNotEmpty(attributesForExactMatch)) {
-                        if (attributesForExactMatch.size() <= 1) {
-                            for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
-                                // do not add a qualification predicate for an attribute unless it is required for matching
+                    if (MapUtils.isEmpty(qualification)) {
+                        primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[predicates.size()]))).getResults();
+                    } else {
+                        // get the keys (name) of the qualifiers needed for membership in this role
+                        List<String> attributesForExactMatch = roleTypeService.getQualifiersForExactMatch();
+                        if (CollectionUtils.isNotEmpty(attributesForExactMatch)) {
+                            if (attributesForExactMatch.size() <= 1) {
+                                for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
+                                    // do not add a qualification predicate for an attribute unless it is required for matching
 
-                                if (attributesForExactMatch.contains(qualificationEntry.getKey())) {
-                                    predicates.add(equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue()));
-                                }
-                            }
-                            primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[predicates.size()]))).getResults();
-
-                        } else {
-                            //rice's transformation doesn't work with more than one attribute.
-                            // here is a terrible hack
-                            List<RoleMember> intersectedMembers = null;
-                            for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
-                                // do not add a qualification predicate for an attribute unless it is required for matching
-
-                                if (attributesForExactMatch.contains(qualificationEntry.getKey())) {
-                                    Predicate attrPredicates = equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue());
-                                    Predicate[] tempPredicates = predicates.toArray(new Predicate[predicates.size()+1]);
-                                    tempPredicates[predicates.size()] = attrPredicates;
-                                    List<RoleMember> tempMembers = new ArrayList<RoleMember>(getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(tempPredicates)).getResults());
-                                    if (intersectedMembers == null) {
-                                        intersectedMembers = new ArrayList<>();
-                                        intersectedMembers.addAll(tempMembers);
-                                    } else {
-                                        intersectedMembers = intersect( intersectedMembers, tempMembers);
+                                    if (attributesForExactMatch.contains(qualificationEntry.getKey())) {
+                                        predicates.add(equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue()));
                                     }
                                 }
+                                primaryRoleMembers = getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[predicates.size()]))).getResults();
+
+                            } else {
+                                //rice's transformation doesn't work with more than one attribute.
+                                // here is a terrible hack
+                                List<RoleMember> intersectedMembers = null;
+                                for (Map.Entry<String, String> qualificationEntry : qualification.entrySet()) {
+                                    // do not add a qualification predicate for an attribute unless it is required for matching
+
+                                    if (attributesForExactMatch.contains(qualificationEntry.getKey())) {
+                                        Predicate attrPredicates = equal("attributes[" + qualificationEntry.getKey() + "]", qualificationEntry.getValue());
+                                        Predicate[] tempPredicates = predicates.toArray(new Predicate[predicates.size() + 1]);
+                                        tempPredicates[predicates.size()] = attrPredicates;
+                                        List<RoleMember> tempMembers = new ArrayList<RoleMember>(getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(tempPredicates)).getResults());
+                                        if (intersectedMembers == null) {
+                                            intersectedMembers = new ArrayList<>();
+                                            intersectedMembers.addAll(tempMembers);
+                                        } else {
+                                            intersectedMembers = intersect(intersectedMembers, tempMembers);
+                                        }
+                                    }
+                                }
+                                primaryRoleMembers = intersectedMembers;
+
                             }
-                            primaryRoleMembers = intersectedMembers;
 
                         }
-
                     }
                 }
             }
@@ -332,7 +336,7 @@ public class KPMERoleServiceImpl implements KPMERoleService {
         		String roleName = role.getName();
         		String namespaceCode = role.getNamespaceCode();
         		
-        		Map<String, String> qualifiers = new HashMap<String, String>();        
+        		Map<String, String> qualifiers = new HashMap<String, String>();
                 // empty qualifier map will match any attribute in the predicate query, i.e. will work like wildcarded entries
                 List<Map<String, String>> roleQualifiers = new ArrayList<Map<String, String>>();
             	List<RoleMember> principalAndGroupRoleMembers = getRoleMembers(namespaceCode, roleName, qualifiers, asOfDate, isActiveOnly);

@@ -72,8 +72,8 @@ public class WorkAreaDaoOjbImpl extends PlatformAwareDaoBaseOjb implements WorkA
 
         Map<String, List<String>> groupKeyDeptMap = new HashMap<String, List<String>>();
         for (String id : departmentBusinessKeyIds) {
-            String tempKey = DepartmentBo.getDeptFromBusinessKeyId(id);
-            String tempDept = DepartmentBo.getGroupKeycodeFromBusinessKeyId(id);
+            String tempKey = DepartmentBo.getGroupKeycodeFromBusinessKeyId(id);
+            String tempDept = DepartmentBo.getDeptFromBusinessKeyId(id);
 
             if (groupKeyDeptMap.containsKey(tempKey)) {
                 groupKeyDeptMap.get(tempKey).add(tempDept);
