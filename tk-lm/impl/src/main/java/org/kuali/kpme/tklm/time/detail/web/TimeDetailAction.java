@@ -756,7 +756,7 @@ public class TimeDetailAction extends TimesheetAction {
                 builder.setEarnCode(earnCode.getEarnCode());
             }
             
-            LmServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
+            LmServiceLocator.getLeaveBlockService().updateLeaveBlock(builder.build(), principalId);
         }
         
         List<LeaveBlock> leaveBlocks = TimesheetUtils.getLeaveBlocksForTimesheet(tdaf.getTimesheetDocument());

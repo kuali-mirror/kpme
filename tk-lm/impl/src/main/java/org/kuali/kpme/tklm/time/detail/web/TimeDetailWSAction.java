@@ -146,6 +146,7 @@ public class TimeDetailWSAction extends TimesheetAction {
             Map<String, EarnCode> regEarnCodes = getRegularEarnCodes(assignments);
             for (Assignment assignment : assignments) {
             	if (assignment.getJobNumber().equals(key.getJobNumber()) &&
+                        assignment.getGroupKeyCode().equals(key.getGroupKeyCode()) &&
             			assignment.getWorkArea().equals(key.getWorkArea()) &&
             			assignment.getTask().equals(key.getTask())) {
             		List<EarnCode> earnCodes = new ArrayList<EarnCode>();

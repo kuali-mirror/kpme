@@ -508,6 +508,7 @@ $(function () {
 				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
 				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
 				.done(this.showFieldByEarnCodeType())
+                .done(this.fetchAssignmentsForDay(leaveBlock.get('leaveDate'), leaveBlock.get("assignment")))
 				.done(_(leaveBlock).leaveBlockFillInForm());
         },
         /**
