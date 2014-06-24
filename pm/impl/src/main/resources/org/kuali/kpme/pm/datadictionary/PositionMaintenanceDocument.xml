@@ -37,7 +37,8 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="PositionMaintenanceDocumentType" />
-
+<!--         <property name = "documentAuthorizerClass" value="org.kuali.kpme.core.XXXXXXXX"/> -->
+        <property name = "documentAuthorizerClass" value="org.kuali.kpme.pm.position.authorization.PositionAuthorizer"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

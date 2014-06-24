@@ -1,28 +1,28 @@
-HR_DEPT_ID,DEPT,DESCRIPTION,PYRLL_APPRVL,EFFDT,ACTIVE,USER_PRINCIPAL_ID,GRP_KEY_CD
-1,CA-DEPT,California Dept,N,2010-01-01,Y,admin,IU-IN
-2,CA-LEAVE,California Leave Dept,N,2010-01-01,Y,admin,IU-IN
-3,CA-TIME,California Time Dept,N,2010-01-01,Y,admin,IU-IN
-4,CO-DEPT,Colorado Dept,N,2010-01-01,Y,admin,IU-IN
-5,CO-LEAVE,Colorado Leave Dept,N,2010-01-01,Y,admin,IU-IN
-6,CO-TIME,Colorado Time Dept,N,2010-01-01,Y,admin,IU-IN
-7,GA-DEPT,Georgia Dept,N,2010-01-01,Y,admin,UGA-GA
-8,GA-LEAVE,Georgia Leave Dept,N,2010-01-01,Y,admin,UGA-GA
-9,GA-TIME,Georgia Time Dept,N,2010-01-01,Y,admin,UGA-GA
-10,IA-DEPT,Iowa Dept,N,2010-01-01,Y,admin,ISU-IA
-11,IA-EC,Earn Code Dept,N,2010-01-01,Y,admin,ISU-IA
-12,IA-LEAVE,Iowa Leave Dept,N,2010-01-01,Y,admin,ISU-IA
-13,IA-TIME,Iowa Time Dept,N,2010-01-01,Y,admin,ISU-IA
-14,IN-CAL,Calendar Dept,N,2010-01-01,Y,admin,IU-IN
-15,IN-DEPT,Indiana Dept,N,2010-01-01,Y,admin,IU-IN
-16,IN-DLUN,Lunch Ded Dept,N,2010-01-01,Y,admin,IU-IN
-17,IN-DOT,Daily OT Dept,N,2010-01-01,Y,admin,IU-IN
-18,IN-EC,Earn Code Dept,N,2010-01-01,Y,admin,IU-IN
-19,IN-LEAVE,Indiana Leave Dept,N,2010-01-01,Y,admin,IU-IN
-20,IN-OVT,Weekly OT Dept,N,2010-01-01,Y,admin,IU-IN
-21,IN-SFDF,Shift Diff Dept,N,2010-01-01,Y,admin,IU-IN
-22,IN-TCOLL,Time Collection Dept,N,2010-01-01,Y,admin,IU-IN
-23,IN-TIME,Indiana Time Dept,N,2010-01-01,Y,admin,IU-IN
-24,IT-HR,UT Human Resources,N,2010-01-01,Y,admin,Utah-UT
-25,MU-DEPT1,MU Test Department,Y,2010-01-01,Y,admin,MU-MOH
-26,MU-DEPT2,MU Test Department,Y,2010-01-01,Y,admin,MU-MOH
-27,MU-DEPT3,MU Test Department 3,N,2010-01-01,Y,admin,MU-MOH
+HR_DEPT_ID,DEPT,DESCRIPTION,PYRLL_APPRVL,EFFDT,ACTIVE,USER_PRINCIPAL_ID,GRP_KEY_CD,ORG
+1,CA-DEPT,California Dept,N,2010-01-01,Y,admin,IU-IN,ORG2
+2,CA-LEAVE,California Leave Dept,N,2010-01-01,Y,admin,IU-IN,ORG2
+3,CA-TIME,California Time Dept,N,2010-01-01,Y,admin,IU-IN,ORG2
+4,CO-DEPT,Colorado Dept,N,2010-01-01,Y,admin,IU-IN,ORG2
+5,CO-LEAVE,Colorado Leave Dept,N,2010-01-01,Y,admin,IU-IN,ORG2
+6,CO-TIME,Colorado Time Dept,N,2010-01-01,Y,admin,IU-IN,ORG2
+7,GA-DEPT,Georgia Dept,N,2010-01-01,Y,admin,UGA-GA,GA-ORG1
+8,GA-LEAVE,Georgia Leave Dept,N,2010-01-01,Y,admin,UGA-GA,GA-ORG1
+9,GA-TIME,Georgia Time Dept,N,2010-01-01,Y,admin,UGA-GA,GA-ORG1
+10,IA-DEPT,Iowa Dept,N,2010-01-01,Y,admin,ISU-IA,IA-ORG1
+11,IA-EC,Earn Code Dept,N,2010-01-01,Y,admin,ISU-IA,ORG1
+12,IA-LEAVE,Iowa Leave Dept,N,2010-01-01,Y,admin,ISU-IA,IA-ORG1
+13,IA-TIME,Iowa Time Dept,N,2010-01-01,Y,admin,ISU-IA,IA-ORG1
+14,IN-CAL,Calendar Dept,N,2010-01-01,Y,admin,IU-IN,ORG1
+15,IN-DEPT,Indiana Dept,N,2010-01-01,Y,admin,IU-IN,IN-ORG1
+16,IN-DLUN,Lunch Ded Dept,N,2010-01-01,Y,admin,IU-IN,ORG1
+17,IN-DOT,Daily OT Dept,N,2010-01-01,Y,admin,IU-IN,ORG1
+18,IN-EC,Earn Code Dept,N,2010-01-01,Y,admin,IU-IN,ORG1
+19,IN-LEAVE,Indiana Leave Dept,N,2010-01-01,Y,admin,IU-IN,IN-ORG1
+20,IN-OVT,Weekly OT Dept,N,2010-01-01,Y,admin,IU-IN,ORG1
+21,IN-SFDF,Shift Diff Dept,N,2010-01-01,Y,admin,IU-IN,ORG1
+22,IN-TCOLL,Time Collection Dept,N,2010-01-01,Y,admin,IU-IN,ORG1
+23,IN-TIME,Indiana Time Dept,N,2010-01-01,Y,admin,IU-IN,IN-ORG1
+24,IT-HR,UT Human Resources,N,2010-01-01,Y,admin,Utah-UT,ORG2
+25,MU-DEPT1,MU Test Department,Y,2010-01-01,Y,admin,MU-MOH,ORG2
+26,MU-DEPT2,MU Test Department,Y,2010-01-01,Y,admin,MU-MOH,ORG2
+27,MU-DEPT3,MU Test Department 3,N,2010-01-01,Y,admin,MU-MOH,ORG2
