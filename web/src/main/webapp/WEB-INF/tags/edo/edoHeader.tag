@@ -1,4 +1,4 @@
-<%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
+<%@ include file="/WEB-INF/jsp/EdoTldHeader.jsp"%>
 
 <%@ attribute name="tabId" required="false"%>
 <%@ attribute name="nocache" required="false"%>
@@ -154,6 +154,6 @@
 		</div>
 		<jsp:doBody />
 	</div>
-	<tk:tkFooter />
+	<edo:edoFooter />
 </body>
 </html>

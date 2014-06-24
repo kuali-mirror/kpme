@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
@@ -53,7 +54,8 @@ public class EdoDossierHomeAction extends EdoAction {
                     if (edoCandidateDossierList != null) {
                         dossierList.addAll(edoCandidateDossierList);
                     }
-                    EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(EdoContext.getUser().getNetworkId());
+//                    EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(EdoContext.getUser().getNetworkId());
+                    EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(HrContext.getPrincipalName());
                     currentCandidateID = edoC.getEdoCandidateID().toString();
                 }
                 //guest role
@@ -73,6 +75,7 @@ public class EdoDossierHomeAction extends EdoAction {
                     // List<EdoCandidateDossier> edoCandidateDossierList =
                     // EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByUsername(EdoContext.getUser().getNetworkId());
                     List<EdoCandidateDossier> edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByUsername(EdoUser.getCurrentTargetPerson().getPrincipalName());
+                    
 
                     if (edoCandidateDossierList != null) {
                         dossierList.addAll(edoCandidateDossierList);
@@ -80,8 +83,10 @@ public class EdoDossierHomeAction extends EdoAction {
                 }
             } else {
 
-                if (EdoContext.getUser().getCurrentRoleList().contains("Candidate Delegate")) {
-                    List<String> candidateList = EdoServiceLocator.getEdoMaintenanceService().getDelegatesCandidateList(EdoContext.getUser().getEmplId());
+//                if (EdoContext.getUser().getCurrentRoleList().contains("Candidate Delegate")) {
+                if (HrContext.isUserCandidateDelegate()) {
+//                    List<String> candidateList = EdoServiceLocator.getEdoMaintenanceService().getDelegatesCandidateList(EdoContext.getUser().getEmplId());
+                    List<String> candidateList = EdoServiceLocator.getEdoMaintenanceService().getDelegatesCandidateList(HrContext.getTargetPrincipalId());
                     for (String candidate : candidateList) {
                         Person person = KimApiServiceLocator.getPersonService().getPerson(candidate);
                         List<EdoCandidateDossier> edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDelegateDossierByUsername(person.getPrincipalName());
@@ -91,17 +96,22 @@ public class EdoDossierHomeAction extends EdoAction {
                     }
                 }
 
-                if (EdoContext.getUser().getCurrentRoleList().contains("Candidate")) {
-                    List<EdoCandidateDossier> edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByUsername(EdoContext.getUser().getNetworkId());
+//                if (EdoContext.getUser().getCurrentRoleList().contains("Candidate")) {
+                if (HrContext.isUserCandidate()) {
+//                    List<EdoCandidateDossier> edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByUsername(EdoContext.getUser().getNetworkId());
+                    List<EdoCandidateDossier> edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByUsername(HrContext.getTargetName());
                     if (edoCandidateDossierList != null) {
                         dossierList.addAll(edoCandidateDossierList);
                     }
-                    EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(EdoContext.getUser().getNetworkId());
+//                    EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(EdoContext.getUser().getNetworkId());
+                    EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(HrContext.getPrincipalName());
                     currentCandidateID = edoC.getEdoCandidateID().toString();
                 }
                 //guest role
-                if (EdoContext.getUser().getCurrentRoleList().contains("Guest Dossier")) {
-                    List<String> dossierIdsList = EdoServiceLocator.getEdoMaintenanceService().getGuestDossierList(EdoContext.getUser().getEmplId());
+//                if (EdoContext.getUser().getCurrentRoleList().contains("Guest Dossier")) {
+                if (HrContext.isUserGuestDossier()) {
+//                    List<String> dossierIdsList = EdoServiceLocator.getEdoMaintenanceService().getGuestDossierList(EdoContext.getUser().getEmplId());
+                    List<String> dossierIdsList = EdoServiceLocator.getEdoMaintenanceService().getGuestDossierList(HrContext.getPrincipalId());
                     for (String dossierId : dossierIdsList) {
 
                         EdoCandidateDossier edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByDossierId(dossierId);
@@ -112,9 +122,10 @@ public class EdoDossierHomeAction extends EdoAction {
                     }
                 }
 
-                if (EdoContext.getUser().getCurrentRoleList().contains("Super User")) {
-
-                     List<EdoCandidateDossier> edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByUsername(EdoContext.getUser().getNetworkId());
+//                if (EdoContext.getUser().getCurrentRoleList().contains("Super User")) {
+                if (HrContext.isUserEdoSuperUser()) {
+//                     List<EdoCandidateDossier> edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByUsername(EdoContext.getUser().getNetworkId());
+                     List<EdoCandidateDossier> edoCandidateDossierList = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossierByUsername(HrContext.getPrincipalName());
 
                     if (edoCandidateDossierList != null) {
                         dossierList.addAll(edoCandidateDossierList);

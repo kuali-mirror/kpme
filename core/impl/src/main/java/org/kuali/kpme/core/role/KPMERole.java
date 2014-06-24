@@ -65,7 +65,13 @@ public enum KPMERole {
 	HR_ORG_APPROVER ("HR Organization Approver"),
 	FISCAL_ORG_APPROVER ("Fiscal Organization Approver"),
 	DEPARTMENT_APPROVER ("Department Approver"),
-	FISCAL_DEPARTMENT_APPROVER ("Fiscal Department Approver");
+	FISCAL_DEPARTMENT_APPROVER ("Fiscal Department Approver"),
+	
+	// eDossier roles
+	CANDIDATE ("Candidate"),
+	CANDIDATE_DELEGATE ("Candidate Delegate"),
+	GUEST_DOSSIER ("Guest Dossier"),
+	EDO_SUPER_USER ("Edo Super User");
 	
 	private String roleName;
 	

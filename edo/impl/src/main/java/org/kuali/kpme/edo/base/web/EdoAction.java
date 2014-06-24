@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoDossier;
@@ -24,6 +25,7 @@ import org.kuali.rice.krad.exception.AuthorizationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -53,6 +55,9 @@ public class EdoAction extends KualiAction {
         config = ConfigContext.getCurrentContextConfig();
         Map<String, String> permissionDetails = new HashMap<String, String>();
 
+//      String pId = EdoContext.getUser().getEmplId();
+        String pId = HrContext.getPrincipalId();
+        
         // setup the selected candidate object for the current session
         HttpSession ssn = request.getSession();
         if (ssn.isNew() || (null == ssn.getAttribute("selectedCandidate")) ) {
@@ -75,13 +80,16 @@ public class EdoAction extends KualiAction {
         } else {
             request.setAttribute("checklisthash", null);
         }
-        List<String> currRoles =  EdoContext.getUser().getCurrentRoleList();
-        request.setAttribute("currRoles",currRoles);
-    	request.setAttribute("emplId", EdoContext.getUser().getEmplId());
-       	request.setAttribute("fullName", EdoContext.getUser().getName()); 
-        request.setAttribute("userName", EdoContext.getUser().getNetworkId());
-        request.setAttribute("deptName", EdoContext.getUser().getDeptName());
-        request.setAttribute("isCandidateSelected", selectedCandidate.isSelected());
+        
+        if(EdoContext.getUser() != null) {
+	        List<String> currRoles =  EdoContext.getUser().getCurrentRoleList();
+	        request.setAttribute("currRoles",currRoles);
+	    	request.setAttribute("emplId", EdoContext.getUser().getEmplId());
+	       	request.setAttribute("fullName", EdoContext.getUser().getName()); 
+	        request.setAttribute("userName", EdoContext.getUser().getNetworkId());
+	        request.setAttribute("deptName", EdoContext.getUser().getDeptName());
+	        request.setAttribute("isCandidateSelected", selectedCandidate.isSelected());
+        }
         //this is for displaying the supplemental items
         if(selectedCandidate.isSelected() == true)
         {
@@ -93,31 +101,31 @@ public class EdoAction extends KualiAction {
 		     }
         }
         //edo - 134 - Role check is replaced with permission check
-        if(hasPermission(EdoContext.getUser().getEmplId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_LOGIN_PERMISSION))
+        if(hasPermission(pId, EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_LOGIN_PERMISSION))
         {
             //if(isAuthorized(EdoContext.getUser().getEmplId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_CANDIDATE_PERMISSION, new HashMap<String, String>()))
-            if(getPermissionService().isAuthorized(EdoContext.getUser().getEmplId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_CANDIDATE_PERMISSION, new HashMap<String, String>()))
+            if(getPermissionService().isAuthorized(pId, EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_CANDIDATE_PERMISSION, new HashMap<String, String>()))
             {
 	        	edoForm.setUseCandidateScreen(true);
 	        	edoForm.setUseHelpScreen(true);
 	        }
-	        if(isAuthorized(EdoContext.getUser().getEmplId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_REVIEWER_PERMISSION, new HashMap<String, String>()))
+	        if(isAuthorized(pId, EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_REVIEWER_PERMISSION, new HashMap<String, String>()))
 	        {
 	        	edoForm.setUseReviewerScreen(true);
 	        	edoForm.setUseHelpScreen(true);
 	        }
-	        if(isAuthorized(EdoContext.getUser().getEmplId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_GEN_ADMIN_PERMISSION, new HashMap<String, String>()))
+	        if(isAuthorized(pId, EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_GEN_ADMIN_PERMISSION, new HashMap<String, String>()))
 	        {
 	        	edoForm.setUseGenAdminScreen(true);
 	        	edoForm.setUseHelpScreen(true);
 	        }
 	        //check to see if the logged in user has assign delegate permission
-	        if(isAuthorized(EdoContext.getUser().getEmplId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_ASSIGN_DELEGATE_PERMISSION, new HashMap<String, String>()))
+	        if(isAuthorized(pId, EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_ASSIGN_DELEGATE_PERMISSION, new HashMap<String, String>()))
 	        {
 	        	
 	        	edoForm.setUseAssignDelegateFunc(true);
 	        }
-	        if(isAuthorized(EdoContext.getUser().getEmplId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_ASSIGN_GUEST_PERMISSION, new HashMap<String, String>()))
+	        if(isAuthorized(pId, EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_ASSIGN_GUEST_PERMISSION, new HashMap<String, String>()))
 	        {
 	        	
 	        	edoForm.setUseAssignGuestFunc(true);
@@ -125,7 +133,7 @@ public class EdoAction extends KualiAction {
 
             List<String> roleIds = new LinkedList<String>();
             roleIds.add(KimApiServiceLocator.getRoleService().getRoleIdByNamespaceCodeAndName(EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPERUSER_ROLE));
-            if (KimApiServiceLocator.getRoleService().principalHasRole(EdoContext.getUser().getEmplId(),roleIds, new HashMap<String, String>())) {
+            if (KimApiServiceLocator.getRoleService().principalHasRole(pId,roleIds, new HashMap<String, String>())) {
                 edoForm.setCanManageGroups(true);
             }
 
@@ -144,16 +152,16 @@ public class EdoAction extends KualiAction {
             //
             if (selectedCandidate.isSelected()) {
                 // check for edit dossier permissions
-                if (EdoServiceLocator.getAuthorizationService().isAuthorizedToEditDossier_W(EdoContext.getUser().getEmplId(), selectedCandidate.getCandidateDossierID().intValue())) {
+                if (EdoServiceLocator.getAuthorizationService().isAuthorizedToEditDossier_W(pId, selectedCandidate.getCandidateDossierID().intValue())) {
                     edoForm.setUseEditDossierFunc(true);
                 }
                 // check for review letter upload perms
-                if (EdoServiceLocator.getAuthorizationService().isAuthorizedToUploadReviewLetter_W(EdoContext.getUser().getEmplId(), selectedCandidate.getCandidateDossierID().intValue()) ) {
+                if (EdoServiceLocator.getAuthorizationService().isAuthorizedToUploadReviewLetter_W(pId, selectedCandidate.getCandidateDossierID().intValue()) ) {
                     edoForm.setHasUploadReviewLetter(true);
                 }
 
                 // set flag for external letter upload for current dossier department
-                if (EdoServiceLocator.getAuthorizationService().isAuthorizedToUploadExternalLetter_W(EdoContext.getUser().getEmplId(), selectedCandidate.getCandidateDossierID().intValue()) ) {
+                if (EdoServiceLocator.getAuthorizationService().isAuthorizedToUploadExternalLetter_W(pId, selectedCandidate.getCandidateDossierID().intValue()) ) {
                     edoForm.setHasUploadExternalLetterByDept(true);
                 }
 
