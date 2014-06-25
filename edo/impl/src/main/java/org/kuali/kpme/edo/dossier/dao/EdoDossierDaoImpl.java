@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -25,28 +25,28 @@ import java.util.List;
  */
 public class EdoDossierDaoImpl  extends PlatformAwareDaoBaseOjb implements EdoDossierDao {
 
-    public EdoDossier getCurrentDossier(String userName ) {
+    public EdoDossierBo getCurrentDossier(String userName ) {
         Criteria cConditions = new Criteria();
 
         cConditions.addEqualTo("candidateUsername", userName );
         cConditions.addIn("dossierStatus", EdoConstants.DOSSIER_STATUS_CURRENT);
 
-        Query query = QueryFactory.newQuery(EdoDossier.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoDossierBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
-            return (EdoDossier)c.toArray()[0];
+            return (EdoDossierBo)c.toArray()[0];
         }
         return null;
        
     }
 
-    public List<EdoDossier> getDossierList() {
-        List<EdoDossier> dossierList = new LinkedList<EdoDossier>();
+    public List<EdoDossierBo> getDossierList() {
+        List<EdoDossierBo> dossierList = new LinkedList<EdoDossierBo>();
 
         Criteria cConditions = new Criteria();
 
-        Query query = QueryFactory.newQuery(EdoDossier.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoDossierBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
@@ -55,26 +55,26 @@ public class EdoDossierDaoImpl  extends PlatformAwareDaoBaseOjb implements EdoDo
         return dossierList;
     }
 
-    public EdoDossier getDossierById( BigDecimal dossierId ) {
+    public EdoDossierBo getDossierById( BigDecimal dossierId ) {
         Criteria cConditions = new Criteria();
 
         cConditions.addEqualTo("dossierID", dossierId);
 
-        Query query = QueryFactory.newQuery(EdoDossier.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoDossierBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
             if (c.size() == 1) {
-                return (EdoDossier)c.toArray()[0];
+                return (EdoDossierBo)c.toArray()[0];
             }
         }
         return null;
     }
 
-    public void saveOrUpdate(EdoDossier edoDossier) {
+    public void saveOrUpdate(EdoDossierBo edoDossier) {
         this.getPersistenceBrokerTemplate().store(edoDossier);
     }
-    public EdoDossier getDossierByDossierId( String dossierId ) {
+    public EdoDossierBo getDossierByDossierId( String dossierId ) {
     	if (StringUtils.isNotEmpty(dossierId)) {
             BigDecimal id = new BigDecimal(dossierId);
 
@@ -82,20 +82,20 @@ public class EdoDossierDaoImpl  extends PlatformAwareDaoBaseOjb implements EdoDo
 
             criteria.addEqualTo("dossierID", id);
 
-            Query query = QueryFactory.newQuery(EdoDossier.class, criteria);
-            return (EdoDossier) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+            Query query = QueryFactory.newQuery(EdoDossierBo.class, criteria);
+            return (EdoDossierBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
         }
         return null;
     }
     
     //to populate the drop down on guest page
-    public List<EdoDossier> getDossierListByUserName(String userName) {
-    	 List<EdoDossier> dossierList = new ArrayList<EdoDossier>();
+    public List<EdoDossierBo> getDossierListByUserName(String userName) {
+    	 List<EdoDossierBo> dossierList = new ArrayList<EdoDossierBo>();
 
          Criteria cConditions = new Criteria();
          cConditions.addEqualTo("candidateUsername", userName);
 
-         Query query = QueryFactory.newQuery(EdoDossier.class, cConditions);
+         Query query = QueryFactory.newQuery(EdoDossierBo.class, cConditions);
          Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
          if (c != null && c.size() != 0) {
@@ -105,14 +105,14 @@ public class EdoDossierDaoImpl  extends PlatformAwareDaoBaseOjb implements EdoDo
     	
     }
 
-    public EdoDossier getDossier(String documentId) {
+    public EdoDossierBo getDossier(String documentId) {
         Criteria crit = new Criteria();
 
         crit.addLike("documentID", documentId);
 
-        Query query = QueryFactory.newQuery(EdoDossier.class, crit);
+        Query query = QueryFactory.newQuery(EdoDossierBo.class, crit);
 
-        return (EdoDossier) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        return (EdoDossierBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
 }

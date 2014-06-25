@@ -2,8 +2,7 @@ package org.kuali.kpme.edo.candidate;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.dossier.EdoDossier;
-import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
@@ -50,8 +49,8 @@ public class EdoSelectedCandidate {
     public EdoSelectedCandidate() {}
 
     public EdoSelectedCandidate(EdoCandidate edoCandidate, Boolean isSelected) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(edoCandidate.getPrincipalName());
-        EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getDossierTypeID().toString());
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(edoCandidate.getPrincipalName());
+        EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierTypeID());
 
         setSelected(isSelected);
         setCandidateID(edoCandidate.getEdoCandidateID());
@@ -63,7 +62,7 @@ public class EdoSelectedCandidate {
         setCandidateSchoolID(edoCandidate.getCandidacySchool());
         setAoe(dossier.getAoeCode());
         setDossierTypeCode(dossierType.getDossierTypeCode());
-        setCandidateDossierID(dossier.getDossierID());
+        setCandidateDossierID(new BigDecimal(dossier.getEdoDossierID()));
         setDossierWorkflowId(dossier.getWorkflowId());
     }
 

@@ -6,7 +6,6 @@ import java.util.List;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
 
 import java.math.BigDecimal;
 

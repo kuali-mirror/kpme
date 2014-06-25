@@ -4,9 +4,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.dossier.dao.EdoDossierDao;
-import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
@@ -38,18 +37,18 @@ public class EdoDossierServiceImpl implements EdoDossierService {
     private static final Logger LOG = Logger.getLogger(EdoDossierServiceImpl.class);
     private EdoDossierDao edoDossierDao;
 
-    public EdoDossier getCurrentDossier( String userName ) {
+    public EdoDossierBo getCurrentDossier( String userName ) {
         return edoDossierDao.getCurrentDossier(userName);
     }
 
-    public List<EdoDossier> getDossierList() {
+    public List<EdoDossierBo> getDossierList() {
         return edoDossierDao.getDossierList();
     }
 
-    public EdoDossier getDossierById( BigDecimal dossierId ) {
+    public EdoDossierBo getDossierById( BigDecimal dossierId ) {
         return edoDossierDao.getDossierById(dossierId);
     }
-    public EdoDossier getDossierByDossierId( String dossierId ) {
+    public EdoDossierBo getDossierByDossierId( String dossierId ) {
     	 return edoDossierDao.getDossierByDossierId( dossierId );
     }
 
@@ -119,7 +118,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
     }
 
     private WorkflowDocument createWorkflowDocument(String principalId, String dossierId, String documentTypeName) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
         DocumentUpdate.Builder documentUpdateBuilder = DocumentUpdate.Builder.create();
         documentUpdateBuilder.setApplicationDocumentId(dossierId);
         DocumentContentUpdate.Builder documentContentBuilder = DocumentContentUpdate.Builder.create();
@@ -137,19 +136,19 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(documentHeader);
 
         //Update the dossier table
-        dossier.setDocumentID(workflowDocument.getDocumentId());
+        //dossier.setDocumentID(workflowDocument.getDocumentId());
         dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.SUBMITTED);
         // dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.PENDING);
-        dossier.setLastUpdated(EdoUtils.getNow());
+        //dossier.setLastUpdated(EdoUtils.getNow());
         Principal submitter = KimApiServiceLocator.getIdentityService().getPrincipal(EdoContext.getPrincipalId());
-        dossier.setUpdatedBy(submitter.getPrincipalName());
+        //dossier.setUpdatedBy(submitter.getPrincipalName());
         EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
 
         return workflowDocument;
     }
     
     private WorkflowDocument createSuppWorkflowDocument(String principalId, String dossierId, String documentTypeName, Collection<String> authorizedNodes) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
         DocumentUpdate.Builder documentUpdateBuilder = DocumentUpdate.Builder.create();
         documentUpdateBuilder.setApplicationDocumentId(dossierId);
         DocumentContentUpdate.Builder documentContentBuilder = DocumentContentUpdate.Builder.create();
@@ -169,7 +168,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
     }
     
     private WorkflowDocument createReconsiderWorkflowDocument(String principalId, String dossierId, String documentTypeName, Collection<EdoReviewLayerDefinition> authorizedNodes) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
         DocumentUpdate.Builder documentUpdateBuilder = DocumentUpdate.Builder.create();
         documentUpdateBuilder.setApplicationDocumentId(dossierId);
         DocumentContentUpdate.Builder documentContentBuilder = DocumentContentUpdate.Builder.create();
@@ -186,10 +185,10 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(documentHeader);
         
         //Update the dossier table
-        dossier.setDocumentID(workflowDocument.getDocumentId());
-        dossier.setLastUpdated(EdoUtils.getNow());
+        //dossier.setDocumentID(workflowDocument.getDocumentId());
+        //dossier.setLastUpdated(EdoUtils.getNow());
         Principal submitter = KimApiServiceLocator.getIdentityService().getPrincipal(EdoContext.getPrincipalId());
-        dossier.setUpdatedBy(submitter.getPrincipalName());
+        //dossier.setUpdatedBy(submitter.getPrincipalName());
         EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
 
         return workflowDocument;
@@ -199,7 +198,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         WorkflowDocument workflowDocument = null;
         boolean routed = false;
         if (ObjectUtils.isNotNull(dossierId)) {
-            EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
+            EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
             String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getWorkflowId();
 
             //Get the document header.
@@ -250,9 +249,9 @@ public class EdoDossierServiceImpl implements EdoDossierService {
                     else {
                         dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.SUBMITTED);
                     }
-                    dossier.setLastUpdated(EdoUtils.getNow());
+                    //dossier.setLastUpdated(EdoUtils.getNow());
                     Principal submitter = KimApiServiceLocator.getIdentityService().getPrincipal(EdoContext.getPrincipalId());
-                    dossier.setUpdatedBy(submitter.getPrincipalName());
+                    //dossier.setUpdatedBy(submitter.getPrincipalName());
                     EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
                 }
 
@@ -329,11 +328,11 @@ public class EdoDossierServiceImpl implements EdoDossierService {
                     workflowDocument.returnToPreviousNode("Returning to candidate", routeHeaderValue.getInitialRouteNodeInstances().get(0).getName());
 
                     //Update the dossier
-                    EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
+                    EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
                     dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.OPEN);
-                    dossier.setLastUpdated(EdoUtils.getNow());
+                    //dossier.setLastUpdated(EdoUtils.getNow());
                     Principal submitter = KimApiServiceLocator.getIdentityService().getPrincipal(EdoContext.getPrincipalId());
-                    dossier.setUpdatedBy(submitter.getPrincipalName());
+                    //dossier.setUpdatedBy(submitter.getPrincipalName());
                     EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
 
                     //Update that we have finished the routing process.
@@ -348,7 +347,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         WorkflowDocument workflowDocument = null;
         WorkflowDocument dossierWorkflowDocument = null;
         boolean routed = false;
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
         // resolve the supplemental doc type from the dossierType
         String suppDocType = getSupplementalDocTypeMap().get(dossierType);
         if (ObjectUtils.isNotNull(dossierId)) {
@@ -422,17 +421,17 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         this.edoDossierDao = edoDossierDao;
     }
 
-    public void saveOrUpdate(EdoDossier edoDossier) {
+    public void saveOrUpdate(EdoDossierBo edoDossier) {
         edoDossierDao.saveOrUpdate(edoDossier);
     }
     //to populate the dossier drop down on the assign delegate page
-    public List<EdoDossier> getDossierListByUserName(String userName) {
+    public List<EdoDossierBo> getDossierListByUserName(String userName) {
     	return edoDossierDao.getDossierListByUserName(userName);
     }
     //supplemental tracking table
     public void populateSuppTrackingTable( List<String> previousNodes, Integer dossierId) {
     	 List<BigDecimal> previousLevels = new ArrayList<BigDecimal>();
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId));
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId));
          //for this previous nodes get the review level from the review level def table
          for(String previousNode : previousNodes ) {
             EdoReviewLayerDefinition previousLevelReviewLayerDef = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(dossier.getWorkflowId(), previousNode);
@@ -551,14 +550,16 @@ public class EdoDossierServiceImpl implements EdoDossierService {
     public boolean isRoutedAsReconsiderDocument(Integer dossierId) {
         boolean isRouted = false;
 
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId));
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId));
         if (dossier == null) {
             LOG.info("Dossier ID is invalid: " + dossierId.toString());
             return isRouted;
         }
         if (dossier.getDossierStatus().equals(EdoConstants.DOSSIER_STATUS.RECONSIDERATION)) {
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossier.getDocumentID());
-            if (documentHeader != null) {
+        	//TODO: take care of dossier.getDocumentID()
+            //DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossier.getDocumentID());
+        	DossierProcessDocumentHeader documentHeader = null;
+        	if (documentHeader != null) {
                 if (documentHeader.getDocumentStatus().equals("R")) {
                     isRouted = true;
                 }
@@ -567,7 +568,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         return isRouted;
     }
 
-    public EdoDossier getDossier(String documentId) {
+    public EdoDossierBo getDossier(String documentId) {
         return edoDossierDao.getDossier(documentId);
     }
 

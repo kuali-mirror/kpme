@@ -1,7 +1,7 @@
 package org.kuali.kpme.edo.util;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 
 import java.util.Collection;
@@ -10,7 +10,7 @@ public final class EdoWorkflowUtils {
 
 	private EdoWorkflowUtils() {}
 	
-	public static String generateApplicationContent(EdoDossier dossier) {
+	public static String generateApplicationContent(EdoDossierBo dossier) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<dossier>");
 		sb.append("<principalId>");
@@ -20,10 +20,10 @@ public final class EdoWorkflowUtils {
 		sb.append(dossier.getDepartmentID());
 		sb.append("</departmentId>");
 		sb.append("<schoolId>");
-		sb.append(dossier.getSchoolID());
+		sb.append(dossier.getOrganizationCode());
 		sb.append("</schoolId>");
 		sb.append("<campusId>");
-		sb.append(dossier.getCampusCode());
+		//sb.append(dossier.getCampusCode());
 		sb.append("</campusId>");
         sb.append("<workflowId>");
         sb.append(dossier.getWorkflowId());
@@ -32,7 +32,7 @@ public final class EdoWorkflowUtils {
 		return sb.toString();
 	}
 
-    public static String generateSuppDocApplicationContent(EdoDossier dossier, Collection<String> authorizedNodes) {
+    public static String generateSuppDocApplicationContent(EdoDossierBo dossier, Collection<String> authorizedNodes) {
         StringBuilder sb = new StringBuilder();
         sb.append("<dossier>");
 		sb.append("<principalId>");
@@ -42,10 +42,10 @@ public final class EdoWorkflowUtils {
 		sb.append(dossier.getDepartmentID());
 		sb.append("</departmentId>");
 		sb.append("<schoolId>");
-		sb.append(dossier.getSchoolID());
+		sb.append(dossier.getOrganizationCode());
 		sb.append("</schoolId>");
 		sb.append("<campusId>");
-		sb.append(dossier.getCampusCode());
+		//sb.append(dossier.getCampusCode());
 		sb.append("</campusId>");
         sb.append("<workflowId>");
         sb.append(dossier.getWorkflowId());
@@ -60,7 +60,7 @@ public final class EdoWorkflowUtils {
         sb.append("</dossier>");
         return sb.toString();
     }
-    public static String generateReconsiderApplicationContent(EdoDossier dossier, Collection<EdoReviewLayerDefinition> moveNodes) {
+    public static String generateReconsiderApplicationContent(EdoDossierBo dossier, Collection<EdoReviewLayerDefinition> moveNodes) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<dossier>");
 		sb.append("<principalId>");
@@ -70,10 +70,10 @@ public final class EdoWorkflowUtils {
 		sb.append(dossier.getDepartmentID());
 		sb.append("</departmentId>");
 		sb.append("<schoolId>");
-		sb.append(dossier.getSchoolID());
+		sb.append(dossier.getOrganizationCode());
 		sb.append("</schoolId>");
 		sb.append("<campusId>");
-		sb.append(dossier.getCampusCode());
+		//sb.append(dossier.getCampusCode());
 		sb.append("</campusId>");
         sb.append("<workflowId>");
         sb.append(dossier.getWorkflowId());

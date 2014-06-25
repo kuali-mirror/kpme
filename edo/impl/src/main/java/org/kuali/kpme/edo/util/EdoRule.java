@@ -4,7 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.item.EdoItem;
 import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
@@ -170,9 +170,11 @@ public class EdoRule {
         if (dossierId != null) {
             DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId.intValue());
             if (documentHeader != null) {
-                EdoDossier eDossier = EdoServiceLocator.getEdoDossierService().getDossier(documentHeader.getDocumentId());
+                EdoDossierBo eDossier = EdoServiceLocator.getEdoDossierService().getDossier(documentHeader.getDocumentId());
                 String workflowId = eDossier.getWorkflowId();
-                DocumentRouteHeaderValue dossierRouteHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(eDossier.getDocumentID());
+                //TODO: take care of dossier.getDocumentID()
+                //DocumentRouteHeaderValue dossierRouteHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(eDossier.getDocumentID());
+                DocumentRouteHeaderValue dossierRouteHeader = null;
                 String currentLevel = dossierRouteHeader.getCurrentRouteLevelName();
                 /* List<String> currentNodeNames = KewApiServiceLocator.getWorkflowDocumentService().getCurrentRouteNodeNames(documentHeader.getDocumentId());
 

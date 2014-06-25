@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.authorization.service;
 
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.util.EdoUser;
 import org.kuali.rice.kew.api.action.ActionType;
 
@@ -14,7 +14,7 @@ public interface AuthorizationService {
 	public List<String> getRoleList(String emplid);
 
     public boolean isAuthorizedToEditDossier(String principalId, Integer dossierId);
-    public boolean isAuthorizedToEditDossier(String principalId, EdoDossier dossier);
+    public boolean isAuthorizedToEditDossier(String principalId, EdoDossierBo dossier);
     public boolean isAuthorizedToEditAoe(String principalId, Integer dossierId);
     public List<BigDecimal> getAuthorizedLevels(String principalId, String permissionTemplate);
     public boolean isAuthorizedToVote(String principalId, Integer dossierId);
@@ -30,7 +30,7 @@ public interface AuthorizationService {
 
     // wrappers for chair delegate checks
     public boolean isAuthorizedToEditDossier_W(String principalId, Integer dossierId);
-    public boolean isAuthorizedToEditDossier_W(String principalId, EdoDossier dossier);
+    public boolean isAuthorizedToEditDossier_W(String principalId, EdoDossierBo dossier);
     public boolean isAuthorizedToEditAoe_W(String principalId, Integer dossierId);
     public List<BigDecimal> getAuthorizedLevels_W(String principalId, String permissionTemplate);
     public boolean isAuthorizedToVote_W(String principalId, Integer dossierId);

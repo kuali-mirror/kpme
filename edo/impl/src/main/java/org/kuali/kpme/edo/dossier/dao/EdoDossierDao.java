@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.dossier.dao;
 
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,11 +16,11 @@ import java.util.List;
  */
 public interface EdoDossierDao {
 
-    public EdoDossier getCurrentDossier( String userName );
-    public List<EdoDossier> getDossierList();
-    public EdoDossier getDossierById( BigDecimal dossierId );
-    public void saveOrUpdate(EdoDossier edoDossier);
-    public List<EdoDossier> getDossierListByUserName(String userName);
-    public EdoDossier getDossierByDossierId( String dossierId );
-    public EdoDossier getDossier(String documentId);
+    public EdoDossierBo getCurrentDossier( String userName );
+    public List<EdoDossierBo> getDossierList();
+    public EdoDossierBo getDossierById( BigDecimal dossierId );
+    public void saveOrUpdate(EdoDossierBo edoDossier);
+    public List<EdoDossierBo> getDossierListByUserName(String userName);
+    public EdoDossierBo getDossierByDossierId( String dossierId );
+    public EdoDossierBo getDossier(String documentId);
 }

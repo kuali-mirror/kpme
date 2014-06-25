@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kpme.core.KPMEIntegrationTestCase;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.core.impl.config.module.CoreConfigurer;
@@ -32,7 +32,7 @@ public class EdoUnitTestBase extends KPMEIntegrationTestCase{
 	@Autowired
 	protected KEWConfigurer kewConfigurer;*/
 	
-	protected EdoDossier testDossier = null;
+	protected EdoDossierBo testDossier = null;
 
     @Override
     public String getModuleName() {

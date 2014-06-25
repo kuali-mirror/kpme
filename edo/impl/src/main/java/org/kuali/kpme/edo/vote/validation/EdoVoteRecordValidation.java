@@ -1,7 +1,7 @@
 package org.kuali.kpme.edo.vote.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.vote.EdoVoteRecord;
@@ -12,19 +12,19 @@ import java.math.BigDecimal;
 public class EdoVoteRecordValidation {
 
     public static boolean validateVoteRecord(EdoVoteRecord voteRecord) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(voteRecord.getDossierId()));
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(voteRecord.getDossierId()));
 
         if (StringUtils.equals(voteRecord.getVoteType(), EdoConstants.VOTE_TYPE_MULTIPLE)) {
-            if (dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
-                dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
+            if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
+                dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
 
                 validateCount(voteRecord.getYesCountTenure(), "yes");
                 validateCount(voteRecord.getNoCountTenure(), "no");
                 validateCount(voteRecord.getAbsentCountTenure(), "absent");
                 validateCount(voteRecord.getAbstainCountTenure(), "abstain");
             }
-            if (dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_PROMOTION) ||
-                dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
+            if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_PROMOTION) ||
+                dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
 
                 validateCount(voteRecord.getYesCountPromotion(), "yes");
                 validateCount(voteRecord.getNoCountPromotion(), "no");
@@ -39,13 +39,13 @@ public class EdoVoteRecordValidation {
 
         } else if (StringUtils.equals(voteRecord.getVoteType(), EdoConstants.VOTE_TYPE_SINGLE)) {
 
-            if (dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
-                dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
+            if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
+                dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
 
                 validateCount(voteRecord.getYesCountTenure(), voteRecord.getNoCountTenure());
             }
-            if (dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_PROMOTION) ||
-                dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
+            if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_PROMOTION) ||
+                dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
 
                 validateCount(voteRecord.getYesCountPromotion(), voteRecord.getNoCountPromotion());
             }
@@ -59,18 +59,18 @@ public class EdoVoteRecordValidation {
     }
 
     private static void validateTotalCount(EdoVoteRecord voteRecord) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(voteRecord.getDossierId()));
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(voteRecord.getDossierId()));
 
-        if (dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
-            dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
+        if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
+            dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
 
             Integer total = voteRecord.getYesCountTenure() + voteRecord.getNoCountTenure() + voteRecord.getAbsentCountTenure() + voteRecord.getAbstainCountTenure();
             if (total < 1) {
                 GlobalVariables.getMessageMap().putError(EdoConstants.ErrorKeys.ERROR_KEYS,"error.vote.multiple.zero");
             }
         }
-        if (dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_PROMOTION) ||
-                dossier.getDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
+        if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_PROMOTION) ||
+                dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
             Integer total = voteRecord.getYesCountPromotion() + voteRecord.getNoCountPromotion() + voteRecord.getAbsentCountPromotion() + voteRecord.getAbstainCountPromotion();
             if (total < 1) {
                 GlobalVariables.getMessageMap().putError(EdoConstants.ErrorKeys.ERROR_KEYS,"error.vote.multiple.zero");

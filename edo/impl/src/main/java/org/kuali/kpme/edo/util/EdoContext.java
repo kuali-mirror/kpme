@@ -4,7 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.edo.base.web.EdoForm;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.permission.EDOPermissionTemplate;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.submitButton.EdoSubmitButton;
@@ -334,10 +334,12 @@ public class EdoContext {
     	if(EdoContext.getUser().getCurrentRoleList().contains("Super User") || EdoContext.getUser().getCurrentRoleList().contains("Final Administrator")) {
     	EdoSelectedCandidate selectedCandidate = getSelectedCandidate();
         if (selectedCandidate != null) {
-        	EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossierById(selectedCandidate.getCandidateDossierID());
+        	EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(selectedCandidate.getCandidateDossierID());
         	if(ObjectUtils.isNotNull(dossier) && !StringUtils.equals(dossier.getDossierStatus(),"CLOSED")) {
-        	DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossier.getDocumentID());
-        	if(documentHeader != null) {
+        	//TODO: take care of dossier.getDocumentID(), documentID is not in EdoDossier
+        	//DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossier.getDocumentID());
+        	DossierProcessDocumentHeader documentHeader = null;
+        		if(documentHeader != null) {
             	//check if document is finalized or not
             	if(StringUtils.equals(documentHeader.getDocumentStatus(), "F")) {
             		return true;

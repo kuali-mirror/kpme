@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.edo.base.web.EdoForm;
 import org.kuali.kpme.edo.candidate.guest.EdoCandidateGuest;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 
 public class EdoAssignCandidateGuestForm extends EdoForm {
 	/**
@@ -31,7 +31,7 @@ public class EdoAssignCandidateGuestForm extends EdoForm {
 	private Date endDate;
 	//create a drop down for allowing candidated pick which eDossier they have to assign guest
 	 private BigDecimal dossierId;
-	 private List<EdoDossier> dossierDropDown = new ArrayList<EdoDossier>();
+	 private List<EdoDossierBo> dossierDropDown = new ArrayList<EdoDossierBo>();
 	 private String dossierIdToDelete;
 	
 	@Override
@@ -148,11 +148,11 @@ public class EdoAssignCandidateGuestForm extends EdoForm {
 		this.dossierId = dossierId;
 	}
 
-	public List<EdoDossier> getDossierDropDown() {
+	public List<EdoDossierBo> getDossierDropDown() {
 		return dossierDropDown;
 	}
 
-	public void setDossierDropDown(List<EdoDossier> dossierDropDown) {
+	public void setDossierDropDown(List<EdoDossierBo> dossierDropDown) {
 		this.dossierDropDown = dossierDropDown;
 	}
 

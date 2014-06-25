@@ -1,5 +1,13 @@
 package org.kuali.kpme.edo.candidate.web;
 
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -10,12 +18,10 @@ import org.apache.struts.action.ActionRedirect;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
-import org.kuali.kpme.edo.dossier.EdoDossier;
-import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -30,14 +36,7 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
+//import org.kuali.kpme.edo.dossier.type.EdoDossierType;
 
 /**
  * $HeadURL$
@@ -59,7 +58,7 @@ public class EdoCandidateSelectAction extends EdoAction {
 
         String cid = request.getParameter("cid");
         String dossier = null;
-        EdoDossier currentDossier;
+        EdoDossierBo currentDossier;
         edoCandidateSelectForm.setAoe();
 
         if (request.getParameterMap().containsKey("dossier")) {
@@ -151,7 +150,7 @@ public class EdoCandidateSelectAction extends EdoAction {
         boolean canViewDossier = false;
         if (CollectionUtils.isNotEmpty(dossierList)) {
             for (EdoCandidateDossier dossierTmp : dossierList) {
-                if (dossierTmp.getDossierId().compareTo(currentDossier.getDossierID()) == 0) {
+                if (dossierTmp.getDossierId().compareTo(new BigDecimal(currentDossier.getEdoDossierID())) == 0) {
                     canViewDossier = true;
                     break;
                 }
@@ -172,37 +171,37 @@ public class EdoCandidateSelectAction extends EdoAction {
 
         } else {
 
-            EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(currentDossier.getDossierTypeID().toString());
-            selectedCandidate.setCandidateDossierID( currentDossier.getDossierID() );
+            EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(currentDossier.getEdoDossierTypeID());
+            selectedCandidate.setCandidateDossierID( new BigDecimal(currentDossier.getEdoDossierID()) );
             selectedCandidate.setAoe( currentDossier.getAoeCode() );
             selectedCandidate.setRankSought( currentDossier.getRankSought() );
             selectedCandidate.setDossierTypeCode(dossierType.getDossierTypeCode());
             selectedCandidate.setDossierTypeName(dossierType.getDossierTypeName());
             selectedCandidate.setDossierStatus(currentDossier.getDossierStatus());
             selectedCandidate.setDossierWorkflowId(currentDossier.getWorkflowId());
-            if (EdoRule.validateDossierForSubmission(checklistView, currentDossier.getDossierID())) {
+            if (EdoRule.validateDossierForSubmission(checklistView, new BigDecimal(currentDossier.getEdoDossierID()))) {
                 request.setAttribute("isValidDossier", 1);
             } else {
                 request.setAttribute("isValidDossier", 0);
             }
             // what does this do - TC
             // tcb: this provides the node drop down lists for super actions to route/return a dossier
-            if (currentDossier != null && currentDossier.getDossierID() != null) {
-                DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(currentDossier.getDossierID().intValue());
+            if (currentDossier != null && currentDossier.getEdoDossierID() != null) {
+                DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(currentDossier.getEdoDossierID());
                 if (documentHeader != null) {
-                    edoCandidateSelectForm.setFutureNodes(KEWServiceLocator.getRouteNodeService().findFutureNodeNames(currentDossier.getDocumentID()));
-                    edoCandidateSelectForm.setPreviousNodes(KEWServiceLocator.getRouteNodeService().findPreviousNodeNames(currentDossier.getDocumentID()));
+                    //edoCandidateSelectForm.setFutureNodes(KEWServiceLocator.getRouteNodeService().findFutureNodeNames(currentDossier.getDocumentID()));
+                    //edoCandidateSelectForm.setPreviousNodes(KEWServiceLocator.getRouteNodeService().findPreviousNodeNames(currentDossier.getDocumentID()));
                 }
             }
 
             // for candidate supplemental submit button
-            if (EdoRule.dossierHasSupplementalsPending(currentDossier.getDossierID())) {
+            if (EdoRule.dossierHasSupplementalsPending(new BigDecimal(currentDossier.getEdoDossierID()))) {
                 request.setAttribute("dossierHasSupplementalsPending", true);
             } else {
                 request.setAttribute("dossierHasSupplementalsPending", false);
             }
             //for candidate reconsider  submit button
-            if (EdoRule.dossierHasReconsiderPending(currentDossier.getDossierID())) {
+            if (EdoRule.dossierHasReconsiderPending(new BigDecimal(currentDossier.getEdoDossierID()))) {
                 request.setAttribute("dossierHasReconsiderPending", true);
             } else {
                 request.setAttribute("dossierHasReconsiderPending", false);
@@ -236,7 +235,7 @@ public class EdoCandidateSelectAction extends EdoAction {
             }
             request.setAttribute("guidelineURL", ConfigContext.getCurrentContextConfig().getProperty("edo.pt.guidelines.url"));
 
-            request.setAttribute("dossierReadyForRoute", EdoRule.isDossierReadyForRoute(currentDossier.getDossierID()));
+            request.setAttribute("dossierReadyForRoute", EdoRule.isDossierReadyForRoute(new BigDecimal(currentDossier.getEdoDossierID())));
 
             return super.execute(mapping, form, request, response);
 
@@ -251,10 +250,10 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
         dossier.setAoeCode(csf.getSelectedAoe());
-        dossier.setLastUpdated(sqlTimestamp);
-        dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
+        //dossier.setLastUpdated(sqlTimestamp);
+        //dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
         EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
         HttpSession session = request.getSession();
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate)session.getAttribute("selectedCandidate");
@@ -285,10 +284,10 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
         dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.CLOSED);
-        dossier.setLastUpdated(sqlTimestamp);
-        dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
+        //dossier.setLastUpdated(sqlTimestamp);
+        //dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
         EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
         HttpSession session = request.getSession();
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate)session.getAttribute("selectedCandidate");
@@ -306,10 +305,10 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
+        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
         dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.RECONSIDERATION);
-        dossier.setLastUpdated(sqlTimestamp);
-        dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
+        //dossier.setLastUpdated(sqlTimestamp);
+        //dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
         EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
         HttpSession session = request.getSession();
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate)session.getAttribute("selectedCandidate");

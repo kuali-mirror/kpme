@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.dossier.service;
 
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.rice.kew.api.action.ActionType;
 
 import java.math.BigDecimal;
@@ -18,19 +18,19 @@ import java.util.Map;
  */
 public interface EdoDossierService {
 
-    public EdoDossier getCurrentDossier( String userName );
-    public List<EdoDossier> getDossierList();
-    public EdoDossier getDossierById( BigDecimal dossierId );
-    public void saveOrUpdate(EdoDossier edoDossier);
+    public EdoDossierBo getCurrentDossier( String userName );
+    public List<EdoDossierBo> getDossierList();
+    public EdoDossierBo getDossierById( BigDecimal dossierId );
+    public void saveOrUpdate(EdoDossierBo edoDossier);
     //to populate the dossier drop down on the assign delegate page
-    public List<EdoDossier> getDossierListByUserName(String userName);
-    public EdoDossier getDossierByDossierId( String dossierId );
+    public List<EdoDossierBo> getDossierListByUserName(String userName);
+    public EdoDossierBo getDossierByDossierId( String dossierId );
     public boolean routeDocument(String principalId, Integer dossierId, String dossierType);
     public boolean returnToCandidate(String principalId, Integer dossierId, String dossierType);
     public boolean superUserAction(String principalId, Integer dossierId, String dossierType, ActionType superUserAction, String node);
     public boolean routeSupplementalDocument(String principalId, Integer dossierId, String dossierType);
     public Map<String, String> getSupplementalDocTypeMap();
-    public EdoDossier getDossier(String documentId);
+    public EdoDossierBo getDossier(String documentId);
     public boolean approveSupplemental(String principalId, Integer dossierId, String dossierType);
     public boolean routeReconsiderDocument(String principalId, Integer dossierId, String dossierType);
     public boolean isRoutedAsReconsiderDocument(Integer dossierId);

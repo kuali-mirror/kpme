@@ -2,7 +2,7 @@ package org.kuali.kpme.edo.workflow.postprocessor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoUtils;
@@ -23,6 +23,8 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.ksb.api.KsbApiServiceLocator;
 
 import javax.xml.namespace.QName;
+
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,14 +45,14 @@ public class DossierPostProcessor extends DefaultPostProcessor {
         	if(!(StringUtils.equals(document.getDocumentTypeName(), "TenureSupplementalProcessDocument") || StringUtils.equals(document.getDocumentTypeName(), "PromotionSupplementalProcessDocument"))) {
         	
             //Update the dossier table
-            EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getDossier(document.getDocumentId());
+            EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossier(document.getDocumentId());
             if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
             	dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.SUBMITTED);
-                Principal approver = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getUpdatedBy());
+                Principal approver = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalname());
             	//make a permission check
             	if(KimApiServiceLocator.getPermissionService().isAuthorized(approver.getPrincipalId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPER_USER_APPROVE_TENURE_SUPP_PERMISSION, new HashMap<String, String>()) || 
             	   KimApiServiceLocator.getPermissionService().isAuthorized(approver.getPrincipalId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPER_USER_APPROVE_PROMOTION_SUPP_PERMISSION, new HashMap<String, String>())) {
-                       List<DossierProcessDocumentHeader> pendingSuppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(dossier.getDossierID().intValue());
+                       List<DossierProcessDocumentHeader> pendingSuppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(Integer.valueOf(dossier.getEdoDossierID()));
                         if (CollectionUtils.isNotEmpty(pendingSuppDocHeaders)) {
                         for(DossierProcessDocumentHeader pendingSuppDocHeader : pendingSuppDocHeaders) {
 	                        	WorkflowDocumentActionsService documentActionsService = (WorkflowDocumentActionsService)KsbApiServiceLocator.getMessageHelper().getServiceAsynchronously(new QName(KewApiConstants.Namespaces.KEW_NAMESPACE_2_0, KewApiConstants.ServiceNames.WORKFLOW_DOCUMENT_ACTIONS_SERVICE_SOAP), "EDO");
@@ -71,7 +73,7 @@ public class DossierPostProcessor extends DefaultPostProcessor {
                         List<String> principalIds = KimApiServiceLocator.getGroupService().getMemberPrincipalIds(group.getId());
                         String subject = "Workflow Notification";
                         String content = "This is an FYI email notification : "
-                        		+ "Final reviewer voting for Candidate  " + dossier.getCandidateUsername()
+                        		+ "Final reviewer voting for Candidate  " + dossier.getCandidatePrincipalId()
     							+ " has been completed, you can review their dossier at http://edossier.iu.edu.\n\n"
     							+ "For additional help or feedback, email <edossier@indiana.edu>.";        				
                         String testEmailAddresses = new String();
@@ -116,7 +118,7 @@ public class DossierPostProcessor extends DefaultPostProcessor {
             	dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.SUBMITTED);
                 }
             }
-            dossier.setLastUpdated(EdoUtils.getNow());
+            //dossier.setLastUpdated(EdoUtils.getNow());
             EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
             
         	}

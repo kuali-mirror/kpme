@@ -10,8 +10,7 @@ import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.candidate.delegate.EdoCandidateDelegate;
 import org.kuali.kpme.edo.candidate.delegate.EdoChairDelegate;
 import org.kuali.kpme.edo.candidate.guest.EdoCandidateGuest;
-import org.kuali.kpme.edo.dossier.EdoDossier;
-import org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.role.EDORole;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -32,6 +31,9 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.core.api.delegation.DelegationType;
+
+
+
 
 
 
@@ -377,13 +379,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         //first get the dossier list of the candidate
         List<RoleMembership> guests = new ArrayList<RoleMembership>();
         List<EdoCandidateGuest> candidateGuestsList = new ArrayList<EdoCandidateGuest>();
-        List<EdoDossier> edossierList = EdoServiceLocator.getEdoDossierService().getDossierListByUserName(userName);
+        List<EdoDossierBo> edossierList = EdoServiceLocator.getEdoDossierService().getDossierListByUserName(userName);
         //loop through the dossierlist and get the app guest for dossier
 
-        for (EdoDossier edossier : edossierList) {
+        for (EdoDossierBo edossier : edossierList) {
             List<RoleMembership> candidateGuests = new ArrayList<RoleMembership>();
             HashMap<String, String> qualifications = new HashMap<String, String>();
-            qualifications.put(EdoConstants.ROLE_GUEST_DOSSIER_ID, edossier.getDossierID().toString());
+            qualifications.put(EdoConstants.ROLE_GUEST_DOSSIER_ID, edossier.getEdoDossierID().toString());
             List<String> roleIds = new ArrayList<String>();
             String roleId = getRoleService().getRoleIdByNamespaceCodeAndName(EdoConstants.EDO_NAME_SPACE, EdoConstants.CANDIDATE_GUEST_ROLE);
             if (StringUtils.isNotBlank(roleId)) {
@@ -407,11 +409,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             candidateGuest.setGuestDossierId(edoCandidateGuest.getQualifier());
             candidateGuest.getGuestDossierId().putAll(edoCandidateGuest.getQualifier());
             //make a call to edo dossier table to fecth dossier and then get dossier type
-            EdoDossier edossier = EdoServiceLocator.getEdoDossierService().getDossierByDossierId(candidateGuest.getGuestDossierId().get(EdoConstants.ROLE_GUEST_DOSSIER_ID));
+            EdoDossierBo edossier = EdoServiceLocator.getEdoDossierService().getDossierByDossierId(candidateGuest.getGuestDossierId().get(EdoConstants.ROLE_GUEST_DOSSIER_ID));
             if (edossier != null) {
                 candidateGuest.setDossierStatus(edossier.getDossierStatus());
                 //now fetch the dossier type
-                EdoDossierType edossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(edossier.getDossierTypeID().toString());
+                EdoDossierType edossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(edossier.getEdoDossierTypeID().toString());
                 candidateGuest.setDossierType(edossierType.getDossierTypeName());
             }
             candidateGuestsList.add(candidateGuest);

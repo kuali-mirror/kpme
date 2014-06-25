@@ -9,7 +9,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.dossier.EdoDossier;
+import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.item.EdoItemTracker;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -94,7 +94,7 @@ public class EdoAction extends KualiAction {
         if(selectedCandidate.isSelected() == true)
         {
         //edo-74
-		     EdoDossier currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(selectedCandidate.getCandidateUsername());
+		     EdoDossierBo currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(selectedCandidate.getCandidateUsername());
 		     if(currentDossier != null)
 		     {
 		     request.setAttribute("candidateDossierStatus", currentDossier.getDossierStatus());
