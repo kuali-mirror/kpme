@@ -55,7 +55,7 @@ public class EdoVoteRecordServiceImpl implements EdoVoteRecordService {
 
     public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(Integer dossierId) {
         EdoReviewLayerDefinition rld = null;
-        String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getWorkflowId();
+        String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getWorkflowId();
 
         Collection<EdoReviewLayerDefinition> reviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId);
         List<EdoReviewLayerDefinition> voteRecordLayerDefinitions = new LinkedList<EdoReviewLayerDefinition>();

@@ -5,6 +5,7 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
+import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 
 import java.math.BigDecimal;
@@ -49,7 +50,7 @@ public class EdoSelectedCandidate {
     public EdoSelectedCandidate() {}
 
     public EdoSelectedCandidate(EdoCandidate edoCandidate, Boolean isSelected) {
-        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(edoCandidate.getPrincipalName());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(edoCandidate.getPrincipalName());
         EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierTypeID());
 
         setSelected(isSelected);

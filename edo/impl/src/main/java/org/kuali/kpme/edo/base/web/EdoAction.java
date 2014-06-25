@@ -1,5 +1,16 @@
 package org.kuali.kpme.edo.base.web;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -7,9 +18,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.item.EdoItemTracker;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -21,13 +32,6 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -94,7 +98,7 @@ public class EdoAction extends KualiAction {
         if(selectedCandidate.isSelected() == true)
         {
         //edo-74
-		     EdoDossierBo currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(selectedCandidate.getCandidateUsername());
+		     EdoDossier currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(selectedCandidate.getCandidateUsername());
 		     if(currentDossier != null)
 		     {
 		     request.setAttribute("candidateDossierStatus", currentDossier.getDossierStatus());
@@ -166,7 +170,7 @@ public class EdoAction extends KualiAction {
                 }
 
                 // set flag for viewing the vote record, by level
-                String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(selectedCandidate.getCandidateDossierID()).getWorkflowId();
+                String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(selectedCandidate.getCandidateDossierID().toString()).getWorkflowId();
 
                 List<BigDecimal> authorizedViewVoteRecordLevels = EdoContext.getAuthorizedViewVoteRecordLevels();
                 List<BigDecimal> authorizedViewReviewLetterLevels = EdoContext.getAuthorizedViewReviewLetterLevels();

@@ -8,7 +8,7 @@ import org.kuali.rice.core.impl.config.property.ConfigFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 //@Ignore
-public class EdoConfigTest extends EdoUnitTestBase {
+//public class EdoConfigTest extends EdoUnitTestBase {
 
 	/*public void testSpringContext() throws Exception {
 		Assert.assertNotNull("Constructor message instance is null.", bootstrapConfig);
@@ -19,4 +19,4 @@ public class EdoConfigTest extends EdoUnitTestBase {
 		}
 	}*/
 	
-}
+//}

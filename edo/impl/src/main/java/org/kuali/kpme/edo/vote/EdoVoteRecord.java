@@ -207,7 +207,7 @@ public class EdoVoteRecord {
 
     public EdoReviewLayerDefinition getReviewLayerDefinition() {
         if (ObjectUtils.isNull(reviewLayerDefinition) && reviewLayerDefinitionId != null) {
-            String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(this.dossierId)).getWorkflowId();
+            String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(this.dossierId.toString()).getWorkflowId();
             this.reviewLayerDefinition = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(workflowId, reviewLayerDefinitionId);
         }
         return reviewLayerDefinition;

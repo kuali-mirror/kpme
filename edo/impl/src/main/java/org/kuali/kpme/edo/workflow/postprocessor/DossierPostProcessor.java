@@ -119,7 +119,7 @@ public class DossierPostProcessor extends DefaultPostProcessor {
                 }
             }
             //dossier.setLastUpdated(EdoUtils.getNow());
-            EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
+            EdoServiceLocator.getEdoDossierService().saveOrUpdate(EdoDossierBo.to(dossier));
             
         	}
         }

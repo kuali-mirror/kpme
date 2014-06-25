@@ -1,6 +1,7 @@
 package org.kuali.kpme.edo.vote.validation;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -12,9 +13,11 @@ import java.math.BigDecimal;
 public class EdoVoteRecordValidation {
 
     public static boolean validateVoteRecord(EdoVoteRecord voteRecord) {
-        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(voteRecord.getDossierId()));
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(voteRecord.getDossierId().toString());
 
         if (StringUtils.equals(voteRecord.getVoteType(), EdoConstants.VOTE_TYPE_MULTIPLE)) {
+        	//TODO: need to take care of edoDossierType issue
+        	/*
             if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
                 dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
 
@@ -31,14 +34,15 @@ public class EdoVoteRecordValidation {
                 validateCount(voteRecord.getAbsentCountPromotion(), "absent");
                 validateCount(voteRecord.getAbstainCountPromotion(), "abstain");
                 validateAoeCode(voteRecord.getAoeCode());
-            }
+            }*/
             // check for all zeroes
             validateTotalCount(voteRecord);
 
             return GlobalVariables.getMessageMap().getErrorCount() < 1;
 
         } else if (StringUtils.equals(voteRecord.getVoteType(), EdoConstants.VOTE_TYPE_SINGLE)) {
-
+        	//TODO: need to take care of edoDossierType issue
+        	/*
             if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
                 dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
 
@@ -49,7 +53,7 @@ public class EdoVoteRecordValidation {
 
                 validateCount(voteRecord.getYesCountPromotion(), voteRecord.getNoCountPromotion());
             }
-
+			*/
             validateAoeCode(voteRecord.getAoeCode());
 
             return GlobalVariables.getMessageMap().getErrorCount() < 1;
@@ -59,8 +63,9 @@ public class EdoVoteRecordValidation {
     }
 
     private static void validateTotalCount(EdoVoteRecord voteRecord) {
-        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(voteRecord.getDossierId()));
-
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(voteRecord.getDossierId().toString());
+      //TODO: need to take care of edoDossierType issue
+    	/*
         if (dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
             dossier.getEdoDossierType().getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {
 
@@ -75,7 +80,7 @@ public class EdoVoteRecordValidation {
             if (total < 1) {
                 GlobalVariables.getMessageMap().putError(EdoConstants.ErrorKeys.ERROR_KEYS,"error.vote.multiple.zero");
             }
-        }
+        }*/
         return;
     }
 

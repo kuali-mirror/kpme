@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.candidate.delegate.EdoCandidateDelegate;
 import org.kuali.kpme.edo.candidate.delegate.EdoChairDelegate;
@@ -31,6 +32,7 @@ import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.core.api.delegation.DelegationType;
+
 
 
 
@@ -409,7 +411,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             candidateGuest.setGuestDossierId(edoCandidateGuest.getQualifier());
             candidateGuest.getGuestDossierId().putAll(edoCandidateGuest.getQualifier());
             //make a call to edo dossier table to fecth dossier and then get dossier type
-            EdoDossierBo edossier = EdoServiceLocator.getEdoDossierService().getDossierByDossierId(candidateGuest.getGuestDossierId().get(EdoConstants.ROLE_GUEST_DOSSIER_ID));
+            EdoDossier edossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(candidateGuest.getGuestDossierId().get(EdoConstants.ROLE_GUEST_DOSSIER_ID));
             if (edossier != null) {
                 candidateGuest.setDossierStatus(edossier.getDossierStatus());
                 //now fetch the dossier type

@@ -3,6 +3,7 @@ package org.kuali.kpme.edo.authorization.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.permission.EDOKimAttributes;
 import org.kuali.kpme.edo.permission.EDOPermissionTemplate;
@@ -194,7 +195,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             //Get the current document header
             DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
             List<BigDecimal> authorizedEditLevels = getAuthorizedLevels(principalId, EDOPermissionTemplate.EDIT_VOTE_RECORD.getPermissionTemplateName());
-            String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getWorkflowId();
+            String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getWorkflowId();
 
             if (documentHeader != null) {
                 //Get the current nodes
@@ -231,7 +232,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             //Get the current document header
             DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
             List<BigDecimal> authorizedEditLevels = getAuthorizedLevels(principalId, EDOPermissionTemplate.UPLOAD_REVIEW_LETTER.getPermissionTemplateName());
-            String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getWorkflowId();
+            String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getWorkflowId();
 
             if (documentHeader != null) {
                 //Get the current nodes
@@ -268,8 +269,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         String dossierCampusId = null;
 
         if (StringUtils.isNotEmpty(principalId) && dossierId != null) {
-            dossierDepartmentId = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getDepartmentID();
-            dossierSchoolId    = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getOrganizationCode();
+            dossierDepartmentId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getDepartmentID();
+            dossierSchoolId    = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getOrganizationCode();
             //dossierCampusId    = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(dossierId)).getCampusCode();
             Map<String, String> qualification = new HashMap<String, String>();
 
@@ -311,7 +312,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             List<String> authorizedIds = new LinkedList<String>();
 
             //Get the dossier.
-            EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
+            EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString());
             Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalname());
 
             if (principal != null) {
@@ -358,11 +359,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     public boolean isAuthorizedToEditAoe(String principalId, Integer dossierId) {
         if (dossierId != null && StringUtils.isNotEmpty(principalId)) {
-            EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(new BigDecimal(dossierId));
+            EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString());
 
             if (dossier != null
                         && StringUtils.equals(dossier.getDossierStatus(), EdoConstants.DOSSIER_STATUS.OPEN)
-                        && isAuthorizedToEditDossier(principalId, dossier)) {
+                        && isAuthorizedToEditDossier(principalId, EdoDossierBo.from(dossier))) {
                 return true;
             }
         }

@@ -29,7 +29,7 @@ public class EdoVoteRecordAction extends EdoAction {
         ActionForward forward = super.execute(mapping, form, request, response);
         EdoVoteRecordForm voteRecordForm = (EdoVoteRecordForm) form;
         EdoSelectedCandidate selectedCandidate = EdoContext.getSelectedCandidate();
-        String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(selectedCandidate.getCandidateDossierID()).getWorkflowId();
+        String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(selectedCandidate.getCandidateDossierID().toString()).getWorkflowId();
         List<EdoReviewLayerDefinition> reviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionsByWorkflowId(workflowId);
 
         //Collection<EdoReviewLayerDefinition> reviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions();
@@ -138,7 +138,7 @@ public class EdoVoteRecordAction extends EdoAction {
         EdoVoteRecordForm voteRecordForm = (EdoVoteRecordForm) form;
 
         EdoSelectedCandidate selectedCandidate = EdoContext.getSelectedCandidate();
-        String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(selectedCandidate.getCandidateDossierID()).getWorkflowId();
+        String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(selectedCandidate.getCandidateDossierID().toString()).getWorkflowId();
 
         EdoReviewLayerDefinition reviewLayerDefinition = null;
         if (voteRecordForm.getReviewLayerDefinitionId() != null) {

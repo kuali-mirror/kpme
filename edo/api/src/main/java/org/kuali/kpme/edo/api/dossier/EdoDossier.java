@@ -1,18 +1,20 @@
-
-
 package org.kuali.kpme.edo.api.dossier;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -41,6 +43,8 @@ import org.w3c.dom.Element;
     EdoDossier.Elements.EFFECTIVE_LOCAL_DATE,
     EdoDossier.Elements.CREATE_TIME,
     EdoDossier.Elements.USER_PRINCIPAL_ID,
+    EdoDossier.Elements.GROUP_KEY_CODE,
+    EdoDossier.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class EdoDossier
@@ -88,6 +92,10 @@ public final class EdoDossier
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
+    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
+    private final String groupKeyCode;
+    @XmlElement(name = Elements.GROUP_KEY, required = false)
+    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -117,6 +125,8 @@ public final class EdoDossier
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
+        this.groupKeyCode = null;
+        this.groupKey = null;
     }
 
     private EdoDossier(Builder builder) {
@@ -140,6 +150,8 @@ public final class EdoDossier
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
+        this.groupKeyCode = builder.getGroupKeyCode();
+        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
@@ -242,13 +254,21 @@ public final class EdoDossier
         return this.userPrincipalId;
     }
 
+    @Override
+    public String getGroupKeyCode() {
+        return this.groupKeyCode;
+    }
+
+    @Override
+    public HrGroupKey getGroupKey() {
+        return this.groupKey;
+    }
 
     /**
      * A builder which can be used to construct {@link EdoDossier} instances.  Enforces the constraints of the {@link EdoDossierContract}.
      * 
      */
-    public final static class Builder
-        implements Serializable, EdoDossierContract, ModelBuilder
+    public final static class Builder implements Serializable, EdoDossierContract, ModelBuilder
     {
 
         private String workflowId;
@@ -271,6 +291,8 @@ public final class EdoDossier
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
+        private String groupKeyCode;
+        private HrGroupKey.Builder groupKey;
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -281,6 +303,16 @@ public final class EdoDossier
             return new Builder();
         }
 
+        private Builder(String candidatePrincipalname) {
+            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setCandidatePrincipalname(candidatePrincipalname);
+        }
+
+        public static Builder create(String candidatePrincipalname) {
+            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+            return new Builder(candidatePrincipalname);
+        }
+        
         public static Builder create(EdoDossierContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
@@ -307,6 +339,8 @@ public final class EdoDossier
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
+            builder.setGroupKeyCode(contract.getGroupKeyCode());
+            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
@@ -414,6 +448,16 @@ public final class EdoDossier
             return this.userPrincipalId;
         }
 
+        @Override
+        public String getGroupKeyCode() {
+            return this.groupKeyCode;
+        }
+        
+        @Override
+        public HrGroupKey.Builder getGroupKey() {
+            return this.groupKey;
+        }
+        
         public void setWorkflowId(String workflowId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.workflowId = workflowId;
@@ -514,6 +558,16 @@ public final class EdoDossier
             this.userPrincipalId = userPrincipalId;
         }
 
+        public void setGroupKeyCode(String groupKeyCode) {
+            if (StringUtils.isWhitespace(groupKeyCode)) {
+                throw new IllegalArgumentException("groupKeyCode is blank");
+            }
+            this.groupKeyCode = groupKeyCode;
+        }
+
+        public void setGroupKey(HrGroupKey.Builder groupKey) {
+            this.groupKey = groupKey;
+        }
     }
 
 
@@ -553,7 +607,8 @@ public final class EdoDossier
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-
+        final static String GROUP_KEY_CODE = "groupKeyCode";
+        final static String GROUP_KEY = "groupKey";
     }
 
 }

@@ -2,6 +2,7 @@ package org.kuali.kpme.edo.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.base.web.EdoForm;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
@@ -16,6 +17,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -334,7 +336,7 @@ public class EdoContext {
     	if(EdoContext.getUser().getCurrentRoleList().contains("Super User") || EdoContext.getUser().getCurrentRoleList().contains("Final Administrator")) {
     	EdoSelectedCandidate selectedCandidate = getSelectedCandidate();
         if (selectedCandidate != null) {
-        	EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossierById(selectedCandidate.getCandidateDossierID());
+        	EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(selectedCandidate.getCandidateDossierID().toString());
         	if(ObjectUtils.isNotNull(dossier) && !StringUtils.equals(dossier.getDossierStatus(),"CLOSED")) {
         	//TODO: take care of dossier.getDocumentID(), documentID is not in EdoDossier
         	//DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossier.getDocumentID());

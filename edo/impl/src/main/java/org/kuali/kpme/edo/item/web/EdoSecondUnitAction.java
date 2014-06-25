@@ -193,7 +193,7 @@ public class EdoSecondUnitAction extends EdoAction {
         EdoSelectedCandidate candidate = (EdoSelectedCandidate)request.getSession().getAttribute("selectedCandidate");
         String candidateUsername = candidate.getCandidateUsername();
         BigDecimal dossierID     = candidate.getCandidateDossierID();
-        String workflowId        = EdoServiceLocator.getEdoDossierService().getDossierById(dossierID).getWorkflowId();
+        String workflowId        = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierID.toString()).getWorkflowId();
 
         EdoItem item = new EdoItem();
         EdoItem originalItem = new EdoItem();

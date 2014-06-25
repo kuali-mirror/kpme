@@ -17,7 +17,7 @@ package org.kuali.kpme.edo.api.dossier;
 
 import java.util.Date;
 
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
 
@@ -25,7 +25,7 @@ import org.kuali.kpme.core.api.util.HrApiConstants;
  * <p>EdoCandidateContract interface</p>
  *
  */
-public interface EdoDossierContract extends KpmeEffectiveDataTransferObject {
+public interface EdoDossierContract extends KpmeEffectiveKeyedDataTransferObject {
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "EdoDossierTypeContract";
 
@@ -38,19 +38,6 @@ public interface EdoDossierContract extends KpmeEffectiveDataTransferObject {
 	public String getCandidatePrincipalname();
 
 	public String getOrganizationCode();
-
-	/*public void setEdoDossierType(EdoDossierType edoDossierType) {
-		this.edoDossierType = edoDossierType;
-	}
-
-	public EdoDossierType getEdoDossierType() {
-        if (ObjectUtils.isNull(edoDossierType) && ObjectUtils.isNotNull(edoDossierTypeID)) {
-            this.edoDossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(edoDossierTypeID.toString());
-            return edoDossierType;
-        } else {
-            return this.edoDossierType;
-        }
-    }*/
 
     public String getAoeCode();
 

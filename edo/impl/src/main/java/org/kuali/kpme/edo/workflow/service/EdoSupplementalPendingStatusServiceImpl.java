@@ -134,7 +134,7 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
 	public boolean hasAddedSupplementalReviewLetter(String supplementalDocumentId) {
 
 		BigDecimal dossierId = EdoContext.getSelectedCandidate().getCandidateDossierID();
-        String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(dossierId).getWorkflowId();
+        String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getWorkflowId();
 
 		Map<BigDecimal, EdoReviewLayerDefinition> reviewLevelMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId));
 		Document document = KewApiServiceLocator.getWorkflowDocumentService().getDocument(supplementalDocumentId);
@@ -183,7 +183,7 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
 		EdoSelectedCandidate selectedCandidate = EdoContext.getSelectedCandidate();
 		Document document = KewApiServiceLocator.getWorkflowDocumentService().getDocument(supplementalDocumentId);
 		DateTime documentCreated = document.getDateCreated();
-        String workflowId = EdoServiceLocator.getEdoDossierService().getDossierById(selectedCandidate.getCandidateDossierID()).getWorkflowId();
+        String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(selectedCandidate.getCandidateDossierID().toString()).getWorkflowId();
 
 		Collection<EdoReviewLayerDefinition> reviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId);
 		for (EdoReviewLayerDefinition reviewLayerDefinition : reviewLayerDefinitions) {

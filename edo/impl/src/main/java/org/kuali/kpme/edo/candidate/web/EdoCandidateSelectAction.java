@@ -16,6 +16,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
+import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
@@ -58,7 +59,7 @@ public class EdoCandidateSelectAction extends EdoAction {
 
         String cid = request.getParameter("cid");
         String dossier = null;
-        EdoDossierBo currentDossier;
+        EdoDossier currentDossier;
         edoCandidateSelectForm.setAoe();
 
         if (request.getParameterMap().containsKey("dossier")) {
@@ -85,10 +86,10 @@ public class EdoCandidateSelectAction extends EdoAction {
 
         if ("".equals(dossier)) {
             // get current dossier ID for this candidate
-            currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(candidate.getPrincipalName());
+            currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(candidate.getPrincipalName());
         } else {
             // get the requested dossier ID for this candidate
-            currentDossier = EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(Integer.parseInt(dossier)));
+            currentDossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossier);
         }
         // check for permission to view current dossier
         //Get the full dossier list that is open/submitted.
@@ -250,8 +251,9 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
-        dossier.setAoeCode(csf.getSelectedAoe());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(csf.getCandidateUsername());
+        // TODO: need to take care of the settings
+        //dossier.setAoeCode(csf.getSelectedAoe());
         //dossier.setLastUpdated(sqlTimestamp);
         //dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
         EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
@@ -284,8 +286,9 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
-        dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.CLOSED);
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(csf.getCandidateUsername());
+     // TODO: need to take care of the settings
+        //dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.CLOSED);
         //dossier.setLastUpdated(sqlTimestamp);
         //dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
         EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
@@ -305,8 +308,9 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossier(csf.getCandidateUsername());
-        dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.RECONSIDERATION);
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(csf.getCandidateUsername());
+     // TODO: need to take care of the settings
+        //dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.RECONSIDERATION);
         //dossier.setLastUpdated(sqlTimestamp);
         //dossier.setUpdatedBy(EdoContext.getUser().getNetworkId());
         EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);

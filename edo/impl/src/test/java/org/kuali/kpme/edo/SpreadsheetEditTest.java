@@ -189,7 +189,7 @@ public class SpreadsheetEditTest {
     }
 
     /* A bit extreme but the following helps keep me from checking username & password into CVS */
-
+/*
     Map<String,String> readParameters(String ... inputFiles) throws Exception {
 
         Map<String,String> params=new HashMap<String, String>();
@@ -220,7 +220,7 @@ public class SpreadsheetEditTest {
 
         return params;
     }
-
+*/
     public class NamespaceFilter extends XMLFilterImpl {
 
         private static final String NAMESPACE = "http://rice.kuali.org/core/impl/config";
@@ -239,7 +239,7 @@ public class SpreadsheetEditTest {
     }
 
 
-    @Test
+    /*@Test
     public void testReadData() throws Exception {
 
         Map<String,String> params=readParameters("/opt/java/settings/edo/stg/edo-stg-config.xml","/opt/java/security/edo/stg/edo-stg-security.xml");
@@ -267,7 +267,7 @@ public class SpreadsheetEditTest {
         }
 
 
-
+ }*/
         /*
 
         WorkAreaDaoSpringOjbImpl workAreaDao=new WorkAreaDaoSpringOjbImpl();
@@ -275,7 +275,7 @@ public class SpreadsheetEditTest {
           */
 
 
-    }
+   
 
 
 

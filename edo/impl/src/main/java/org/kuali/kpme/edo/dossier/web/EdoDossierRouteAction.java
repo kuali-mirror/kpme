@@ -51,7 +51,7 @@ public class EdoDossierRouteAction extends EdoAction {
         }
         // update the selectedCandidate instance with the new dossier status
         if (isRouted) {
-            EdoContext.getSelectedCandidate().setDossierStatus(EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(edoDossierRouteForm.getDossierId() )).getDossierStatus());
+            EdoContext.getSelectedCandidate().setDossierStatus(EdoServiceLocator.getEdoDossierService().getEdoDossierById(edoDossierRouteForm.getDossierId().toString()).getDossierStatus());
         } else {
             msgmap.putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.route.general");
         }
@@ -78,7 +78,7 @@ public class EdoDossierRouteAction extends EdoAction {
 
         // update the selectedCandidate instance with the new dossier status
         if (isRouted) {
-            EdoContext.getSelectedCandidate().setDossierStatus(EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(edoDossierRouteForm.getDossierId() )).getDossierStatus());
+            EdoContext.getSelectedCandidate().setDossierStatus(EdoServiceLocator.getEdoDossierService().getEdoDossierById(edoDossierRouteForm.getDossierId().toString()).getDossierStatus());
         } else {
             msgmap.putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.route.general");
         }
@@ -99,7 +99,7 @@ public class EdoDossierRouteAction extends EdoAction {
 
         // update the selectedCandidate instance with the new dossier status
         if (isRouted) {
-            EdoContext.getSelectedCandidate().setDossierStatus(EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(edoDossierRouteForm.getDossierId())).getDossierStatus());
+            EdoContext.getSelectedCandidate().setDossierStatus(EdoServiceLocator.getEdoDossierService().getEdoDossierById(edoDossierRouteForm.getDossierId().toString()).getDossierStatus());
         } else {
             msgmap.putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.route.general");
         }
@@ -120,7 +120,7 @@ public class EdoDossierRouteAction extends EdoAction {
 
         // update the selectedCandidate instance with the new dossier status
         if (isRouted) {
-            EdoContext.getSelectedCandidate().setDossierStatus(EdoServiceLocator.getEdoDossierService().getDossierById(BigDecimal.valueOf(edoDossierRouteForm.getDossierId())).getDossierStatus());
+            EdoContext.getSelectedCandidate().setDossierStatus(EdoServiceLocator.getEdoDossierService().getEdoDossierById(edoDossierRouteForm.getDossierId().toString()).getDossierStatus());
         } else {
             msgmap.putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.route.general");
         }
