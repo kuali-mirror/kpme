@@ -84,10 +84,12 @@ public class MissedPunchDocumentController extends TransactionalDocumentControll
         if (lastClock != null && !StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT)) {
         	MissedPunch lastMissedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
 	        if (lastMissedPunch != null) {
+                missedPunch.setGroupKeyCode(lastMissedPunch.getGroupKeyCode());
 	        	missedPunch.setJobNumber(lastMissedPunch.getJobNumber());
 	        	missedPunch.setWorkArea(lastMissedPunch.getWorkArea());
 	        	missedPunch.setTask(lastMissedPunch.getTask());
 	        } else {
+                missedPunch.setGroupKeyCode(lastClock.getGroupKeyCode());
 	        	missedPunch.setJobNumber(lastClock.getJobNumber());
 	        	missedPunch.setWorkArea(lastClock.getWorkArea());
 	        	missedPunch.setTask(lastClock.getTask());
