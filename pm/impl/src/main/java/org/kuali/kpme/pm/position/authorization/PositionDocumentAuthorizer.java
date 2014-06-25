@@ -15,7 +15,6 @@
  */
 package org.kuali.kpme.pm.position.authorization;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
@@ -27,7 +26,6 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
-import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,9 +33,14 @@ import java.util.Map;
 /**
  * Created by mlemons on 6/23/14.
  */
-public class PositionAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
+public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
     private static final long serialVersionUID = 1362536674228377102L;
+    
+    @Override
+    public boolean canEdit(Document document, Person user) {
+        return super.canEdit(document, user) || canApprove(document, user);
+    }
 
     public boolean canCopy(Document document, Person user) {
         //document.
