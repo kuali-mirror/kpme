@@ -29,6 +29,7 @@ import org.kuali.kpme.core.api.block.CalendarBlockPermissions;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
+import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurityContract;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.permission.HRPermissionService;
@@ -414,9 +415,9 @@ public class TimesheetServiceImpl implements TimesheetService {
         String earnTypeCode = EarnCodeType.TIME.getCode();
 
         TimeCollectionRule tcr = null;
-        if(a.getJob() != null)
-        	tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(a.getDept(), a.getWorkArea(), a.getJob().getHrPayType(), a.getGroupKeyCode(), asOfDate);
-
+        if(a.getJob() != null) {
+            tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(a.getDept(), a.getWorkArea(), a.getJob().getHrPayType(), a.getGroupKeyCode(), asOfDate);
+        }
         boolean isClockUser = tcr == null || tcr.isClockUserFl();
         boolean isUsersTimesheet = StringUtils.equals(HrContext.getPrincipalId(),a.getPrincipalId());
 
@@ -452,8 +453,8 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
 
         //  get all earn codes by user security, then we'll filter on accrual category first as we process them.
-        List<? extends EarnCodeSecurityContract> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), asOfDate, job.getGroupKey().getGroupKeyCode());
-        for (EarnCodeSecurityContract dec : decs) {
+        List<EarnCodeSecurity> decs = HrServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), asOfDate, job.getGroupKey().getGroupKeyCode());
+        for (EarnCodeSecurity dec : decs) {
 
             boolean addEarnCode = HrServiceLocator.getEarnCodeService().addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
             if (addEarnCode) {
@@ -479,7 +480,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	                        //  the fmla earn codes=no do not require any exclusion
 	                        //  the only action required is if the fmla user flag=no: exclude those codes with fmla=yes.
 	                        if ( (fmlaEligible || ec.getFmla().equals("N")) ) {
-	                        	if (ec.getAccrualCategory() == null
+	                        	if (StringUtils.isEmpty(ec.getAccrualCategory())
 	                        		|| (listAccrualCategories.contains(ec.getAccrualCategory())
 	                         	 		&& HrConstants.ACCRUAL_BALANCE_ACTION.USAGE.equals(ec.getAccrualBalanceAction()))) {
 	                            // go on, we are allowing these three combinations: YY, YN, NN
@@ -669,10 +670,11 @@ public class TimesheetServiceImpl implements TimesheetService {
         for (List<FlsaWeek> flsaWeekParts : flsaWeeks) {
             boolean printWeek = true;
             BigDecimal weekTotal = new BigDecimal(0.00);
+            FlsaWeek lastWeekPart = flsaWeekParts.get(flsaWeekParts.size() - 1);
             for (FlsaWeek flsaWeekPart : flsaWeekParts) {
 
                 //if flsa week doesn't end during this pay period do not validate.
-                if (flsaWeekPart.equals(flsaWeekParts.get(flsaWeekParts.size() - 1))) {
+                if (flsaWeekPart == lastWeekPart) {
                     Integer lastFlsaDayOfWeek = flsaWeekPart.getFlsaDays().get(flsaWeekPart.getFlsaDays().size() - 1).getFlsaDate().getDayOfWeek();
 
                     Integer flsaWeekEndDayOfWeek = TkConstants.FLSA_WEEK_END_DAY.get(tkTimeBlockAggregate.getPayCalendar().getFlsaBeginDay());

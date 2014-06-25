@@ -29,7 +29,6 @@ import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.api.earncode.EarnCode;
-import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
 import org.kuali.kpme.core.api.job.JobContract;
 import org.kuali.kpme.core.api.paytype.PayType;
@@ -71,7 +70,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         // validates the selected earn code exists on every day within the date range
         errors = TimeDetailValidationUtil.validateEarnCode(tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate());
         if(errors.isEmpty()) {
-            EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(),
+            EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(),
             																TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
 	        if(ec != null && ec.getLeavePlan() != null) {    // leave blocks changes
 	    		errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
@@ -155,17 +154,9 @@ public class TimeDetailWSAction extends TimesheetAction {
             				earnCodes.add(regEarnCodes.get(assignment.getAssignmentKey()));
             			}
             		} else {
-            			LocalDate endDate = tdaf.getTimesheetDocument().getDocEndDate();
-            			if(StringUtils.isNotBlank(tdaf.getEndDate())) {
-            				LocalDate tempDate = TKUtils.formatDateString(tdaf.getEndDate());
-            				if(tempDate != null) {
-            					endDate = tempDate;
-            				}
-            			}
-            			
             			// use endDate to grab earn codes
             			List<EarnCode> aList = TkServiceLocator.getTimesheetService()
-            					.getEarnCodesForTime(assignment, endDate, tdaf.getTimeBlockReadOnly());
+            					.getEarnCodesForTime(assignment, asOfDate, tdaf.getTimeBlockReadOnly());
             			
             			for(EarnCode anEarnCode : aList) {
             				// kpme-2570, overtime earn codes should not show in adding/editing time block widget's earn code option list
@@ -279,7 +270,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
-        List<? extends EarnCodeContract> overtimeEarnCodes = HrServiceLocator.getEarnCodeService().getOvertimeEarnCodes(LocalDate.now());
+        List<EarnCode> overtimeEarnCodes = HrServiceLocator.getEarnCodeService().getOvertimeEarnCodes(LocalDate.now());
         List<Map<String, Object>> overtimeEarnCodeList = new LinkedList<Map<String, Object>>();
         
         if(StringUtils.isNotEmpty(tdaf.getTkTimeBlockId())) {
@@ -287,7 +278,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         	if(tb != null) {
         		JobContract job = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), tb.getJobNumber(), tb.getEndDateTime().toLocalDate());
         		if(job != null) {
-        			for (EarnCodeContract earnCode : overtimeEarnCodes) {
+        			for (EarnCode earnCode : overtimeEarnCodes) {
         				String employee = HrContext.isActiveEmployee() ? "Y" : null;
         				String approver = HrContext.isApprover() ? "Y" : null;
         				String payrollProcessor = HrContext.isPayrollProcessor() ? "Y" : null; // KPME-2532
