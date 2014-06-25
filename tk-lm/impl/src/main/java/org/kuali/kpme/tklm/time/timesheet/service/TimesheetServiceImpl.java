@@ -16,6 +16,7 @@
 package org.kuali.kpme.tklm.time.timesheet.service;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -670,7 +671,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         for (List<FlsaWeek> flsaWeekParts : flsaWeeks) {
             boolean printWeek = true;
             BigDecimal weekTotal = new BigDecimal(0.00);
-            FlsaWeek lastWeekPart = flsaWeekParts.get(flsaWeekParts.size() - 1);
+            FlsaWeek lastWeekPart = CollectionUtils.isNotEmpty(flsaWeekParts) ? flsaWeekParts.get(flsaWeekParts.size() - 1) : null;
             for (FlsaWeek flsaWeekPart : flsaWeekParts) {
 
                 //if flsa week doesn't end during this pay period do not validate.
