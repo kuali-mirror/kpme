@@ -197,22 +197,27 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         document.getDocumentHeader().setDocumentDescription("Edit Position");
         super.processAfterEdit(document, requestParameters);
     }
+	
+	
+	protected void setupNewPositionRecord(MaintenanceDocument document) {
+		PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
+        aPosition.setProcess("New");
+        String positionNumber = KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("hr_position_s", PositionBo.class).toString();
+        aPosition.setPositionNumber(positionNumber);
+        
+        document.getDocumentHeader().setDocumentDescription("New Position");
+	}
+	
+	
 	@Override 
 	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
-        aPosition.setProcess("New");
-
-        document.getDocumentHeader().setDocumentDescription("New Position");
+		setupNewPositionRecord(document);
 		super.processAfterNew(document, requestParameters);
 	}
 	
 	@Override
 	public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> parameters) {
-        PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
-        aPosition.setProcess("New");
-        aPosition.setPositionNumber(null);
-
-        document.getDocumentHeader().setDocumentDescription("New Position");
+		setupNewPositionRecord(document);
 		super.processAfterCopy(document, parameters);
 	}
 
@@ -335,7 +340,8 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         KRADServiceLocator.getNoteService().saveNoteList(noteList);
     }
 
-    public boolean compareCollections(Object coll1, Object coll2) {
+    @SuppressWarnings("rawtypes")
+	public boolean compareCollections(Object coll1, Object coll2) {
         if (coll1 == coll2)
             return true;
 
