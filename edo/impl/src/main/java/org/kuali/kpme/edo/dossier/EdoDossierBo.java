@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
-import org.kuali.kpme.edo.api.dossier.EdoDossier;
+//import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.EdoDossierContract;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
@@ -31,7 +31,7 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
             .build();
 	
 	//public static final String CACHE_NAME = HrConstants.CacheNamespace.NAMESPACE_PREFIX + "PrincipalHRAttributes";
-
+/*
 	public static final ModelObjectUtils.Transformer<EdoDossierBo, EdoDossier> toImmutable = new ModelObjectUtils.Transformer<EdoDossierBo, EdoDossier>() {
 		public EdoDossier transform(EdoDossierBo input) {
 			return EdoDossierBo.to(input);
@@ -42,7 +42,7 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 		public EdoDossierBo transform(EdoDossier input) {
 			return EdoDossierBo.from(input);
 		};
-	};
+	};*/
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -210,7 +210,7 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
     	}
     	return principal.getPrincipalId();
     }
-    
+   /*
     public static EdoDossierBo from(EdoDossier edoDossier) {
         if (edoDossier == null) {
             return null;
@@ -241,6 +241,6 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 
         return EdoDossier.Builder.create(bo).build();
     }
-
+*/
     
 }
