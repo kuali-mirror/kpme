@@ -1,9 +1,9 @@
 package org.kuali.kpme.edo.item.type.dao;
 
-import org.kuali.kpme.edo.item.type.EdoItemType;
-
-import java.math.BigDecimal;
 import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.item.type.EdoItemTypeBo;
 
 /**
  * $HeadURL$
@@ -16,9 +16,8 @@ import java.util.List;
  */
 public interface EdoItemTypeDao {
 
-    public EdoItemType getItemType( BigDecimal itemTypeID );
-    public BigDecimal getItemTypeID( String itemTypeName );
-    public List<EdoItemType> getItemTypeList();
-    public void saveOrUpdate( EdoItemType itemType );
-    public List<EdoItemType> getItemTypes(String itemTypeName);
+    public EdoItemTypeBo getItemType(String edoItemTypeID);
+    public String getItemTypeID(String itemTypeName, LocalDate asOfDate);
+    public List<EdoItemTypeBo> getItemTypeList(LocalDate asOfDate);
+    public void saveOrUpdate(EdoItemTypeBo itemType);
 }

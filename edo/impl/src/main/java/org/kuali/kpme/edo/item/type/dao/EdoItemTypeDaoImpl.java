@@ -1,16 +1,16 @@
 package org.kuali.kpme.edo.item.type.dao;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.edo.item.type.EdoItemType;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.util.OjbSubQueryUtil;
+import org.kuali.kpme.edo.item.type.EdoItemTypeBo;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
  * $HeadURL$
@@ -29,36 +29,42 @@ public class EdoItemTypeDaoImpl extends PlatformAwareDaoBaseOjb  implements EdoI
      * @param   itemTypeID  the database ID of the requested item type
      * @return              an object of EdoItemType, null on error or no data
      */
-    public EdoItemType getItemType( BigDecimal itemTypeID ) {
+    public EdoItemTypeBo getItemType(String edoItemTypeID) {
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("itemTypeID", itemTypeID);
+        cConditions.addEqualTo("edoItemTypeID", edoItemTypeID);
 
-        Query query = QueryFactory.newQuery(EdoItemType.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoItemTypeBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
             if (c.size() == 1) {
-                return (EdoItemType)c.toArray()[0];
+                return (EdoItemTypeBo)c.toArray()[0];
             }
         }
         return null;
     }
 
-    public BigDecimal getItemTypeID( String itemTypeName ) {
+    public String getItemTypeID(String itemTypeName, LocalDate asOfDate) {
 
         Criteria cConditions = new Criteria();
 
         cConditions.addEqualTo("itemTypeName", itemTypeName);
+        cConditions.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoItemTypeBo.class, asOfDate, EdoItemTypeBo.BUSINESS_KEYS, false));
+        cConditions.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoItemTypeBo.class, EdoItemTypeBo.BUSINESS_KEYS, false));
 
-        Query query = QueryFactory.newQuery(EdoItemType.class, cConditions);
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        cConditions.addAndCriteria(activeFilter);
+        
+        Query query = QueryFactory.newQuery(EdoItemTypeBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
             if (c.size() == 1) {
-                EdoItemType tmpItemType = (EdoItemType)c.toArray()[0];
-                return tmpItemType.getItemTypeID();
+                EdoItemTypeBo tmpItemType = (EdoItemTypeBo)c.toArray()[0];
+                return tmpItemType.getEdoItemTypeID();
             }
         }
         return null;
@@ -69,13 +75,19 @@ public class EdoItemTypeDaoImpl extends PlatformAwareDaoBaseOjb  implements EdoI
      *
      * @return      a List object of EdoItemType objects, null on error or no data
      */
-    public List<EdoItemType> getItemTypeList() {
+    public List<EdoItemTypeBo> getItemTypeList(LocalDate asOfDate) {
 
-        List<EdoItemType> itemTypeList = new LinkedList<EdoItemType>();
+        List<EdoItemTypeBo> itemTypeList = new LinkedList<EdoItemTypeBo>();
 
         Criteria cConditions = new Criteria();
+        cConditions.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoItemTypeBo.class, asOfDate, EdoItemTypeBo.BUSINESS_KEYS, false));
+        cConditions.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoItemTypeBo.class, EdoItemTypeBo.BUSINESS_KEYS, false));
 
-        Query query = QueryFactory.newQuery(EdoItemType.class, cConditions);
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        cConditions.addAndCriteria(activeFilter);
+        
+        Query query = QueryFactory.newQuery(EdoItemTypeBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
@@ -92,23 +104,8 @@ public class EdoItemTypeDaoImpl extends PlatformAwareDaoBaseOjb  implements EdoI
      *
      * @param   itemType    the object of EdoItemType to save or update
      */
-    public void saveOrUpdate( EdoItemType itemType ) {
+    public void saveOrUpdate(EdoItemTypeBo itemType) {
         this.getPersistenceBrokerTemplate().store( itemType );
     }
 
-    public List<EdoItemType> getItemTypes(String itemTypeName) {
-        List<EdoItemType> itemTypeList = new LinkedList<EdoItemType>();
-
-        Criteria criteria = new Criteria();
-
-        if (StringUtils.isNotEmpty(itemTypeName)) {
-            criteria.addLike("itemTypeName", itemTypeName);
-        }
-
-        Query query = QueryFactory.newQuery(EdoItemType.class, criteria);
-
-        itemTypeList.addAll(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
-
-        return itemTypeList;
-    }
 }

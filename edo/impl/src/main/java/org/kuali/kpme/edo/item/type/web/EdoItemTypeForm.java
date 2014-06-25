@@ -1,8 +1,10 @@
 package org.kuali.kpme.edo.item.type.web;
 
+import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.kpme.edo.api.item.type.EdoItemType;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.item.type.EdoItemType;
+import org.kuali.kpme.edo.item.type.EdoItemTypeBo;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -21,32 +23,32 @@ import java.util.List;
 
 public class EdoItemTypeForm extends EdoForm {
 
-    public BigDecimal itemTypeID;
+    public String edoItemTypeID;
     public String itemTypeName;
     public String itemTypeDescription;
     public String itemTypeInstructions;
-    public boolean itemTypeExtAvailability = false;
+    public boolean itemTypeExtAvailable = false;
     public BigDecimal updatedBy;
     public BigDecimal createdBy;
     public String createDate = DateFormat.getDateInstance(DateFormat.SHORT).format( new Date() );
     public String lastUpdated = createDate;
 
-    private List<EdoItemType> itemTypeList = EdoServiceLocator.getEdoItemTypeService().getItemTypeList();
+    private List<EdoItemType> itemTypeList = EdoServiceLocator.getEdoItemTypeService().getItemTypeList(LocalDate.now());
 
-    public EdoItemType getItemType(BigDecimal itemTypeID) {
-        return EdoServiceLocator.getEdoItemTypeService().getItemType(itemTypeID);
+    public EdoItemType getItemType(String edoItemTypeID) {
+        return EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeID);
     }
 
     public List<EdoItemType> getItemTypeList() {
         return itemTypeList;
     }
 
-    public BigDecimal getItemTypeID() {
-        return itemTypeID;
+    public String getEdoItemTypeID() {
+        return edoItemTypeID;
     }
 
-    public void setItemTypeID(BigDecimal itemTypeID) {
-        this.itemTypeID = itemTypeID;
+    public void setEdoItemTypeID(String edoItemTypeID) {
+        this.edoItemTypeID = edoItemTypeID;
     }
 
     public String getItemTypeName() {
@@ -73,18 +75,18 @@ public class EdoItemTypeForm extends EdoForm {
         this.itemTypeInstructions = itemTypeInstructions;
     }
 
-    public Boolean getItemTypeExtAvailability() {
-        return itemTypeExtAvailability;
+    public Boolean isItemTypeExtAvailability() {
+        return itemTypeExtAvailable;
     }
 
-    public void setItemTypeExtAvailability(String itemTypeExtAvailability) {
-        if ((itemTypeExtAvailability == "on") ||
-            (itemTypeExtAvailability == "true") ||
-            (itemTypeExtAvailability == "yes") )
+    public void setItemTypeExtAvailability(String itemTypeExtAvailable) {
+        if ((itemTypeExtAvailable == "on") ||
+            (itemTypeExtAvailable == "true") ||
+            (itemTypeExtAvailable == "yes") )
         {
-            this.itemTypeExtAvailability = true;
+            this.itemTypeExtAvailable = true;
         } else {
-            this.itemTypeExtAvailability = false;
+            this.itemTypeExtAvailable = false;
         }
     }
 

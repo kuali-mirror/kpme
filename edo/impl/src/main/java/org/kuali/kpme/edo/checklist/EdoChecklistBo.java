@@ -22,7 +22,9 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 	private static final long serialVersionUID = -3737008004782110416L;
 	
 	static class KeyFields {
+		private static final String EDO_CHECKLIST_ID = "edoChecklistID";
 		private static final String GROUP_KEY_CODE = "groupKeyCode";
+		private static final String DOSSIER_TYPE_CD = "dossierTypeCode";
 	}
 	
 	private String edoChecklistID;
@@ -33,13 +35,17 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
   
 
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-			//.add(KeyFields.GROUP_KEY_CODE)
+    		.add(KeyFields.EDO_CHECKLIST_ID)
+    		.add(KeyFields.GROUP_KEY_CODE)
+    		.add(KeyFields.DOSSIER_TYPE_CD)
 			.build();
 	
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
-				//.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
+				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistID())
+				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
+				.put(KeyFields.DOSSIER_TYPE_CD, this.getDepartmentID())
 				.build();
 	}
     

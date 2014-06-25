@@ -21,6 +21,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
@@ -362,7 +363,10 @@ public class EdoChecklistItemAction extends EdoAction {
             // set attributes unique to a new file in the DB
             if (isNewFile) {
                 item.setCreateDate(sqlTimestamp);
-                item.setItemTypeID(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT));
+                // TODO when item is ready, uncomment out the line below
+                //item.setItemTypeID(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT));
+                LocalDate currentDate = LocalDate.now();
+                item.setItemTypeID(new BigDecimal(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT, currentDate)));
                 item.setCreatedBy(uploadUsername);
                 item.setCreateDate(sqlTimestamp);
                 item.setDossierID(dossierID);

@@ -1,10 +1,17 @@
 package org.kuali.kpme.edo.item.type.service;
 
-import org.kuali.kpme.edo.item.type.EdoItemType;
-import org.kuali.kpme.edo.item.type.dao.EdoItemTypeDao;
-
-import java.math.BigDecimal;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.item.type.EdoItemType;
+import org.kuali.kpme.edo.item.type.EdoItemTypeBo;
+import org.kuali.kpme.edo.item.type.dao.EdoItemTypeDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * $HeadURL$
@@ -18,28 +25,44 @@ import java.util.List;
 public class EdoItemTypeServiceImpl implements EdoItemTypeService {
 
     private EdoItemTypeDao edoItemTypeDao;
-
-    public List<EdoItemType> getItemTypeList() {
-        return edoItemTypeDao.getItemTypeList();
-    }
-
-    public EdoItemType getItemType( BigDecimal itemTypeID ) {
-        return edoItemTypeDao.getItemType( itemTypeID );
-    }
-
-    public void setEdoItemTypeDao( EdoItemTypeDao itemType ) {
+    
+    protected List<EdoItemType> convertToImmutable(List<EdoItemTypeBo> bos) {
+		return ModelObjectUtils.transform(bos, EdoItemTypeBo.toImmutable);
+	}
+    
+    public void setEdoItemTypeDao(EdoItemTypeDao itemType) {
         this.edoItemTypeDao = itemType;
     }
 
-    public void saveOrUpdate( EdoItemType itemTypeObj ) {
-        this.edoItemTypeDao.saveOrUpdate( itemTypeObj );
+    public List<EdoItemType> getItemTypeList(LocalDate asOfDate) {
+    	List<EdoItemTypeBo> bos = edoItemTypeDao.getItemTypeList(asOfDate);
+        return convertToImmutable(bos);
     }
 
-    public List<EdoItemType> getItemTypes(String itemTypeName) {
-        return this.edoItemTypeDao.getItemTypes(itemTypeName);
+    public EdoItemType getItemType(String edoItemTypeID) {        
+        return EdoItemTypeBo.to(edoItemTypeDao.getItemType(edoItemTypeID));
     }
 
-    public BigDecimal getItemTypeID( String itemTypeName ) {
-        return this.edoItemTypeDao.getItemTypeID( itemTypeName );
+    public void saveOrUpdate(EdoItemType itemTypeObj) {
+        this.edoItemTypeDao.saveOrUpdate(EdoItemTypeBo.from(itemTypeObj));
+    }
+
+    public String getItemTypeID(String itemTypeName, LocalDate asOfDate) {
+        return this.edoItemTypeDao.getItemTypeID(itemTypeName, asOfDate);
+    }
+    
+    public String getEdoItemTypeJSONString(EdoItemType aType) {
+    	
+    	 ArrayList<String> tmp = new ArrayList<String>();
+         Type tmpType = new TypeToken<List<String>>() {}.getType();
+         Gson gson = new Gson();
+
+         tmp.add(aType.getEdoItemTypeID().toString());
+         tmp.add(aType.getItemTypeName());
+         tmp.add(aType.getItemTypeDescription());
+         tmp.add(aType.getItemTypeInstructions());
+         tmp.add(String.valueOf(aType.isItemTypeExtAvailable()));
+
+         return gson.toJson(tmp, tmpType).toString();
     }
 }

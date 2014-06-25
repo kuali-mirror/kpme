@@ -9,6 +9,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.item.EdoItem;
@@ -111,7 +112,10 @@ public class EdoExternalLetterAction extends EdoAction {
         boolean replaceFile = false;
         boolean isNewFile = true;
         BigDecimal itemID = BigDecimal.ZERO;
-        int itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER).intValue();
+        // TODO When item is ready, uncomment the line below
+        // String itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER);
+        LocalDate currentDate = LocalDate.now();
+        int itemTypeID = Integer.parseInt(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER, currentDate));
 
         FormFile uploadFile = externalLetterForm.getUploadFile();
         int checklistItemID = externalLetterForm.getChecklistItemID();

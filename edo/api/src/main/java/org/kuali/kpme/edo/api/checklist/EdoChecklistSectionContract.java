@@ -55,7 +55,7 @@ public interface EdoChecklistSectionContract extends KpmeEffectiveDataTransferOb
    
 
     /**
-	 * Indicates the order of the EdoChecklistSection to appear
+	 * Indicates the order in which the EdoChecklistSection is displayed
 	 * 
 	 * <p>
 	 * checklistSectionOrdinal of the EdoChecklistSection

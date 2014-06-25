@@ -64,7 +64,7 @@ public interface EdoChecklistItemContract extends KpmeEffectiveDataTransferObjec
     public boolean isRequired();
 
     /**
-	 * Indicates in which order this EdoChecklistItem was uploaded 
+	 * Indicates the order in which this EdoChecklistItem is displayed 
 	 * 
 	 * <p>
 	 * checklistItemOrdinal of the EdoChecklistItem
