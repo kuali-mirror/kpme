@@ -420,7 +420,7 @@ public class TimeDetailAction extends TimesheetAction {
         
         if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
         	EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
-        	if(ec != null && (ec.getLeavePlan() != null || (ec.getEligibleForAccrual().equals("N") && ec.getAccrualBalanceAction().equals("U")) )) {
+        	if(ec != null && (StringUtils.isNotEmpty(ec.getLeavePlan()) || (ec.getEligibleForAccrual().equals("N") && ec.getAccrualBalanceAction().equals("U")) )) {
         		//leave blocks changes
             	List<String> errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
             	if(errors.isEmpty()) {
@@ -698,7 +698,7 @@ public class TimeDetailAction extends TimesheetAction {
 		
 		//	KPME-3070: Code for creating new time block and deleting existing leave block starts here
 		EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
-		if (ec == null || ec.getLeavePlan() == null) {
+		if (ec == null || StringUtils.isEmpty(ec.getLeavePlan())) {
 			//	delete leave block code will come here
 			LmServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, HrContext.getPrincipalId());
 			

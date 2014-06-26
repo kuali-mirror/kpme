@@ -72,7 +72,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         if(errors.isEmpty()) {
             EarnCode ec = HrServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(),
             																TKUtils.formatDateTimeStringNoTimezone(tdaf.getEndDate()).toLocalDate());
-	        if(ec != null && ec.getLeavePlan() != null) {    // leave blocks changes
+	        if(ec != null && StringUtils.isNotEmpty(ec.getLeavePlan())) {    // leave blocks changes
 	    		errors = TimeDetailValidationUtil.validateLeaveEntry(tdaf);
 	    	} else {	// time blocks changes
 	    		errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
