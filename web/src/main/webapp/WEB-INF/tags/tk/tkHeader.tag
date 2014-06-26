@@ -44,6 +44,8 @@
 	<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
     <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
     <c:set var="anyApprover" value="<%=org.kuali.kpme.core.util.HrContext.isAnyApprover()%>"/>
+    <c:set var="payroll" value="<%=org.kuali.kpme.core.util.HrContext.isAnyPayrollProcessor()%>"/>
+    <c:set var="deptAdmin" value="<%=org.kuali.kpme.tklm.time.util.TkContext.isDepartmentAdmin()%>"/>
 
 	<input type="hidden" id="tabId" value="${tabId}" />
 
@@ -89,7 +91,7 @@
                                     </tr>
                                 </table>
                             </c:when>
-                            <c:when test="${anyApprover}">
+                            <c:when test="${anyApprover || payroll || deptAdmin}">
                                 <table align="left" width="100%">
                                     <tr>
                                         <td width="10%"></td>
