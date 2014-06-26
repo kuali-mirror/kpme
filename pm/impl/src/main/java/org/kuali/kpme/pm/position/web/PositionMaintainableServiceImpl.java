@@ -59,8 +59,20 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	public HrBusinessObject getObjectById(String id) {
 		return PositionBo.from(PmServiceLocator.getPositionService().getPosition(id));
 	}
-	
-	@Override
+
+    @Override
+    public void customInactiveSaveLogicNewEffective(HrBusinessObject oldHrObj) {
+        PositionBo bo = (PositionBo)oldHrObj;
+        bo.setDepartmentList(null);
+        bo.setDutyList(null);
+        bo.setPositionResponsibilityList(null);
+        bo.setQualificationList(null);
+        bo.setFlagList(null);
+        bo.setFundingList(null);
+        bo.setRequiredQualList(null);
+    }
+
+    @Override
 	public void customSaveLogic(HrBusinessObject hrObj){
 		PositionBo aPosition = (PositionBo) hrObj;
 		for(PositionQualificationBo aQual : aPosition.getQualificationList()) {

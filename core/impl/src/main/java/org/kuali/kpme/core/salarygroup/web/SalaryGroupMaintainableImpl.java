@@ -21,10 +21,13 @@ import java.util.Set;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.HrKeyedSetBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.derived.HrBusinessObjectKey;
 import org.kuali.kpme.core.salarygroup.SalaryGroupBo;
 import org.kuali.kpme.core.salarygroup.SalaryGroupKeyBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -36,14 +39,13 @@ public class SalaryGroupMaintainableImpl extends HrKeyedSetBusinessObjectMaintai
 	private static final long serialVersionUID = 1L;
 
 	private static final String EFFECTIVE_KEY_LIST = "effectiveKeyList";
-	 
-	@SuppressWarnings("deprecation")
+
 	@Override
-    public void addNewLineToCollection(String collectionName) {
-        if (collectionName.equals(EFFECTIVE_KEY_LIST)) {
-        	SalaryGroupKeyBo inputSalaryGroupKey = (SalaryGroupKeyBo)newCollectionLines.get(collectionName);
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
+        if (addLine instanceof SalaryGroupKeyBo) {
+        	SalaryGroupKeyBo inputSalaryGroupKey = (SalaryGroupKeyBo)addLine;
             if ( inputSalaryGroupKey != null ) {
-            	SalaryGroupBo salaryGroup = (SalaryGroupBo)this.getBusinessObject();
+            	SalaryGroupBo salaryGroup = (SalaryGroupBo)this.getDataObject();
             	Set<String> groupKeyCodes = new HashSet<String>();
             	for(SalaryGroupKeyBo salaryGroupKey : salaryGroup.getEffectiveKeyList()){
             		groupKeyCodes.add(salaryGroupKey.getGroupKeyCode());
@@ -60,7 +62,7 @@ public class SalaryGroupMaintainableImpl extends HrKeyedSetBusinessObjectMaintai
     			}
             }
         }
-       super.addNewLineToCollection(collectionName);
+       super.processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
     }
 	
 	@Override

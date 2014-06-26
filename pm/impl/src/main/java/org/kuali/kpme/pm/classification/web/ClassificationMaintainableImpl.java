@@ -52,8 +52,17 @@ public class ClassificationMaintainableImpl extends HrKeyedSetBusinessObjectMain
 	public HrBusinessObject getObjectById(String id) {
 		return (HrBusinessObject) PmServiceLocator.getClassificationService().getClassificationById(id);
 	}
-	
-	@Override
+
+    @Override
+    public void customInactiveSaveLogicNewEffective(HrBusinessObject oldHrObj) {
+        super.customInactiveSaveLogicNewEffective(oldHrObj);
+        ClassificationBo bo = (ClassificationBo)oldHrObj;
+        bo.setQualificationList(null);
+        bo.setDutyList(null);
+        bo.setFlagList(null);
+    }
+
+    @Override
 	public void customSaveLogic(HrBusinessObject hrObj){
 		ClassificationBo aClss = (ClassificationBo) hrObj;
 		for(ClassificationQualificationBo aQual : aClss.getQualificationList()) {
