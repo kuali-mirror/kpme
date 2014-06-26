@@ -139,8 +139,8 @@ public class TkConstants {
     static {
         ClOCK_ACTIONS.add("CI");
         ClOCK_ACTIONS.add("CO");
-        ClOCK_ACTIONS.add("LI"); // Coming back for Lunch
-        ClOCK_ACTIONS.add("LO"); // Leaving for Lunch
+        //ClOCK_ACTIONS.add("LI"); // Coming back for Lunch
+        //ClOCK_ACTIONS.add("LO"); // Leaving for Lunch
     }
 
     /**
@@ -150,23 +150,23 @@ public class TkConstants {
 
     static {
         Set<String> ci = new HashSet<String>();
-        ci.add(LUNCH_OUT);
+        //ci.add(LUNCH_OUT);
         ci.add(CLOCK_OUT);
 
         Set<String> co = new HashSet<String>();
         co.add(CLOCK_IN);
 
-        Set<String> li = new HashSet<String>();
+        /*Set<String> li = new HashSet<String>();
         li.add(CLOCK_OUT);
         li.add(LUNCH_OUT);
 
         Set<String> lo = new HashSet<String>();
-        lo.add(LUNCH_IN);
+        lo.add(LUNCH_IN);*/
 
         CLOCK_ACTION_TRANSITION_MAP.put(CLOCK_IN, ci);
         CLOCK_ACTION_TRANSITION_MAP.put(CLOCK_OUT, co);
-        CLOCK_ACTION_TRANSITION_MAP.put(LUNCH_IN, li);
-        CLOCK_ACTION_TRANSITION_MAP.put(LUNCH_OUT, lo);
+        //CLOCK_ACTION_TRANSITION_MAP.put(LUNCH_IN, li);
+        //CLOCK_ACTION_TRANSITION_MAP.put(LUNCH_OUT, lo);
     }
 
     // available Clock actions to choose from when user's modifying an existing Missed Punch Document based on
@@ -179,19 +179,19 @@ public class TkConstants {
 
         Set<String> co = new HashSet<String>();
         co.add(CLOCK_OUT);
-        co.add(LUNCH_OUT);
+        //co.add(LUNCH_OUT);
 
-        Set<String> li = new HashSet<String>();
-        li.add(LUNCH_IN);
+        //Set<String> li = new HashSet<String>();
+        //li.add(LUNCH_IN);
 
-        Set<String> lo = new HashSet<String>();
-        lo.add(CLOCK_OUT);
-        lo.add(LUNCH_OUT);
+        //Set<String> lo = new HashSet<String>();
+        //lo.add(CLOCK_OUT);
+        //lo.add(LUNCH_OUT);
 
         CLOCK_AVAILABLE_ACTION_MAP.put(CLOCK_IN, ci);
         CLOCK_AVAILABLE_ACTION_MAP.put(CLOCK_OUT, co);
-        CLOCK_AVAILABLE_ACTION_MAP.put(LUNCH_IN, li);
-        CLOCK_AVAILABLE_ACTION_MAP.put(LUNCH_OUT, lo);
+        //CLOCK_AVAILABLE_ACTION_MAP.put(LUNCH_IN, li);
+        //CLOCK_AVAILABLE_ACTION_MAP.put(LUNCH_OUT, lo);
     }
     
     public static final Map<String, String> CLOCK_ACTION_STRINGS = new HashMap<String, String>(4);
@@ -199,8 +199,8 @@ public class TkConstants {
     static {
         CLOCK_ACTION_STRINGS.put(CLOCK_IN, "Clock In");
         CLOCK_ACTION_STRINGS.put(CLOCK_OUT, "Clock Out");
-        CLOCK_ACTION_STRINGS.put(LUNCH_IN, "Lunch In"); // Coming back for Lunch
-        CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
+        //CLOCK_ACTION_STRINGS.put(LUNCH_IN, "Lunch In"); // Coming back for Lunch
+        //CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
     }
 
     // document ID request parameter name

@@ -59,26 +59,26 @@ public class MissedPunchClockActionKeyValuesFinder extends UifKeyValuesFinderBas
 	                    TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) :
 	                    TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.CLOCK_OUT));
 	
-	            if (lastClock != null) {
-	            	JobContract jobObj = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), lastClock.getJobNumber(), LocalDate.now());
-		            String department = jobObj != null ? jobObj.getDept() : null;
-	            	Long workArea = lastClock.getWorkArea();
-		            Long jobNumber = lastClock.getJobNumber();
-		            String groupKeyCode = lastClock.getGroupKeyCode();
+	            //if (lastClock != null) {
+	            	//JobContract jobObj = HrServiceLocator.getJobService().getJob(HrContext.getTargetPrincipalId(), lastClock.getJobNumber(), LocalDate.now());
+		            //String department = jobObj != null ? jobObj.getDept() : null;
+	            	//Long workArea = lastClock.getWorkArea();
+		            //Long jobNumber = lastClock.getJobNumber();
+		            //String groupKeyCode = lastClock.getGroupKeyCode();
 		            
 		            // KPME-3532 comment out the call to the System Lunch Rule
 		            //SystemLunchRule systemLunchRule = TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(LocalDate.now());
-		            DeptLunchRule departmentLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(department, workArea, HrContext.getTargetPrincipalId(), jobNumber, groupKeyCode, LocalDate.now());
+		            //DeptLunchRule departmentLunchRule = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(department, workArea, HrContext.getTargetPrincipalId(), jobNumber, groupKeyCode, LocalDate.now());
 		            //if (systemLunchRule == null || !systemLunchRule.getShowLunchButton()) {
 		            //	availableActions.remove(TkConstants.LUNCH_OUT);
 		            //	availableActions.remove(TkConstants.LUNCH_IN);
 		            //} else {
-		            	if (departmentLunchRule != null) {
-			            	availableActions.remove(TkConstants.LUNCH_OUT);
-			            	availableActions.remove(TkConstants.LUNCH_IN);
-		            	}
+		            //	if (departmentLunchRule != null) {
+			        //    	availableActions.remove(TkConstants.LUNCH_OUT);
+			        //    	availableActions.remove(TkConstants.LUNCH_IN);
+		            //	}
 		            //}
-	            }
+	            //}
 	        }
 		} else {
 			availableActions.addAll(TkConstants.CLOCK_ACTION_STRINGS.keySet());

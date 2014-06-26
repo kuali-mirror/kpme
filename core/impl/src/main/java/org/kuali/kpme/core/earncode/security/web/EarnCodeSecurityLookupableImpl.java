@@ -17,6 +17,7 @@ package org.kuali.kpme.core.earncode.security.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.api.earncode.security.EarnCodeSecurity;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.earncode.security.EarnCodeSecurityBo;
@@ -67,6 +68,12 @@ public class EarnCodeSecurityLookupableImpl extends KpmeHrGroupKeyedBusinessObje
                 roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, "*"); //userPrincipalId);
                 roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
                 roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), grpKeyCode);
+
+                HrGroupKey gk = HrServiceLocator.getHrGroupKeyService().getHrGroupKey(grpKeyCode, ecs.getEffectiveLocalDate());
+                if (gk != null) {
+                    roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), gk.getLocationId());
+                }
+
 
                 if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
                         KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
