@@ -77,9 +77,9 @@
                                                 <option value="" selected="selected">Go To...</option>
                                                 <option value="${ConfigProperties.application.url}/portal.do?selectedTab=main">
                                                     KHR Menu</option>
-                                                <option value="${ConfigProperties.rice.server.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.application.url}/kew/ActionList.do">
+                                                <option value="${ConfigProperties.application.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.rice.server.url}/kew/ActionList.do">
                                                     Action List</option>
-                                                <option value="${ConfigProperties.rice.server.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.application.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do">
+                                                <option value="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.rice.server.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do">
                                                     Doc Search</option>
                                                 <option value="${ConfigProperties.application.url}/portal.do?selectedTab=kpmemaintenance">
                                                     KHR Maintenance</option>
@@ -97,9 +97,9 @@
                                                     ONCHANGE="location = this.options[this.selectedIndex].value;"
                                                     style="width: 150px">
                                             <option value="" selected="selected">Go To...</option>
-                                            <option value="${ConfigProperties.rice.server.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.application.url}/kew/ActionList.do">
+                                            <option value="${ConfigProperties.application.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.rice.server.url}/kew/ActionList.do">
                                                 Action List</option>
-                                            <option value="${ConfigProperties.rice.server.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.application.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do">
+                                            <option value="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.rice.server.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do">
                                                 Doc Search</option>
                                         </select></td>
                                     </tr>
