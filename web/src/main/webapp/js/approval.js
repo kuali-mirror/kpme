@@ -187,7 +187,7 @@ $(document).ready(function () {
           def:     ",",
           tooltip: "click,mouseleave"
         },
-       offset: [0,120],
+       offset: [0,300],
        effect: 'slide'
     });
 
@@ -198,6 +198,25 @@ $(document).ready(function () {
         else
             tip.show();
     });
+    
+    
+    var tooltip_sat = $(" .approvals-missedpunch-sat").tooltip({
+        events: {
+          def:     ",",
+          tooltip: "click,mouseleave"
+        },
+       offset: [0,-200],
+       effect: 'slide'
+    });
+    
+    tooltip_sat.click(function() {
+        var tip = $(this).data("tooltip");
+        if (tip.isShown(true))
+            tip.hide();
+        else
+            tip.show();
+    });
+    
 
 //    $('span[id^=showDetailButton]').click(function (e) {
 //
