@@ -18,7 +18,6 @@ package org.kuali.kpme.tklm.time.missedpunch;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -27,7 +26,6 @@ import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -68,7 +66,7 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 				if(missedPunchForm.getIpAddress()!=null){
 					String ipAddress = TKUtils.getIPAddressFromRequest(missedPunchForm.getIpAddress());
 
-					Map<String, String> assignmentDescMap = timesheetDocument.getAssignmentDescriptions(true, LocalDate.now());
+					Map<String, String> assignmentDescMap = timesheetDocument.getAssignmentDescriptions(true, mpDate);
 					String targetPrincipalId = HrContext.getTargetPrincipalId(); 	            
 					String principalId = HrContext.getPrincipalId();
 					if(targetPrincipalId.equals(principalId)){
@@ -77,8 +75,8 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 							Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(entry.getKey()), LocalDate.now());
 							String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
 							if(StringUtils.equals(allowActionFromInvalidLocaiton, "false")) {
-								boolean isInValid = TkServiceLocator.getClockLocationRuleService().isInValidIPClockLocation(assignment.getGroupKeyCode(), assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ipAddress, currentDateTime.toLocalDate());
-								if(!isInValid){
+								boolean isInvalid = TkServiceLocator.getClockLocationRuleService().isInvalidIPClockLocation(assignment.getGroupKeyCode(), assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ipAddress, currentDateTime.toLocalDate());
+								if(!isInvalid){
 									labels.add(new ConcreteKeyValue(assignment.getAssignmentKey(),assignment.getAssignmentDescription()));
 								}
 							}
@@ -101,6 +99,9 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 			newLables.addAll(labels);
 			labels = newLables;
 		}
+        if(labels.size()==0){
+            labels.add(new ConcreteKeyValue("", "--- No asssignments for date  ---"));
+        }
 		return labels;
 	}
 
