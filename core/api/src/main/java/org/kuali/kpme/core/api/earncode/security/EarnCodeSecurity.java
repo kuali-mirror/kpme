@@ -302,7 +302,7 @@ public final class EarnCodeSecurity
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -310,7 +310,7 @@ public final class EarnCodeSecurity
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setSalaryGroupObj(contract.getSalaryGroupObj() == null ? null : SalaryGroup.Builder.create(contract.getSalaryGroupObj()));
             builder.setDepartmentObj(contract.getDepartmentObj() == null ? null : Department.Builder.create(contract.getDepartmentObj()));
@@ -446,107 +446,107 @@ public final class EarnCodeSecurity
         }
 
         public void setSalaryGroupObj(SalaryGroup.Builder salaryGroupObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.salaryGroupObj = salaryGroupObj;
         }
 
         public void setDepartmentObj(Department.Builder departmentObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.departmentObj = departmentObj;
         }
 
         public void setEmployee(boolean employee) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.employee = employee;
         }
 
         public void setApprover(boolean approver) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.approver = approver;
         }
 
         public void setPayrollProcessor(boolean payrollProcessor) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.payrollProcessor = payrollProcessor;
         }
 
         public void setEarnCodeObj(EarnCode.Builder earnCodeObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCodeObj = earnCodeObj;
         }
 
         public void setEarnCodeType(String earnCodeType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCodeType = earnCodeType;
         }
 
         public void setDept(String dept) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.dept = dept;
         }
 
         public void setHrSalGroup(String hrSalGroup) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrSalGroup = hrSalGroup;
         }
 
         public void setEarnCode(String earnCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCode = earnCode;
         }
 
         public void setJobObj(Job.Builder jobObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.jobObj = jobObj;
         }
 
         public void setHrEarnCodeSecurityId(String hrEarnCodeSecurityId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrEarnCodeSecurityId = hrEarnCodeSecurityId;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 
         public void setGroupKeyCode(String groupKeyCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKeyCode = groupKeyCode;
         }
 
         public void setGroupKey(HrGroupKey.Builder groupKey) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKey = groupKey;
         }
 

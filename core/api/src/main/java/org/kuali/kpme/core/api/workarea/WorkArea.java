@@ -533,12 +533,12 @@ public final class WorkArea
         }
 
         public void setGroupKeyCode(String groupKeyCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKeyCode = groupKeyCode;
         }
 
         public void setGroupKey(HrGroupKey.Builder groupKey) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKey = groupKey;
         }
     }

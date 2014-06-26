@@ -156,7 +156,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -164,7 +164,7 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setCampusObj(builder.getCampusObj() == null ? null : Campus.Builder.create(builder.getCampusObj().build()));
             builder.setPositionResponsibilityOption(contract.getPositionResponsibilityOption());
@@ -222,42 +222,42 @@ public final class PositionResponsibility extends AbstractDataTransferObject imp
         }
 
         public void setCampusObj(Campus.Builder campusObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.campusObj = campusObj;
         }
 
         public void setPositionResponsibilityOption(String positionResponsibilityOption) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionResponsibilityOption = positionResponsibilityOption;
         }
 
         public void setPercentTime(BigDecimal percentTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.percentTime = percentTime;
         }
 
         public void setPositionResponsibilityId(String positionResponsibilityId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionResponsibilityId = positionResponsibilityId;
         }
         
         public void setHrPositionId(String hrPositionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrPositionId = hrPositionId;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDateOfOwner = effectiveLocalDateOfOwner;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 

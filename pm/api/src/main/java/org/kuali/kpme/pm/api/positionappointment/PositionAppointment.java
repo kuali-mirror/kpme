@@ -201,13 +201,13 @@ public final class PositionAppointment
         private HrGroupKey.Builder groupKey;
 
         private Builder(String groupKeyCode, String positionAppointment) {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+
         	setGroupKeyCode(groupKeyCode);
         	setPositionAppointment(positionAppointment);
         }
 
         public static Builder create(String groupKeyCode, String positionAppointment) {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder(groupKeyCode,positionAppointment);
         }
 
@@ -215,7 +215,7 @@ public final class PositionAppointment
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create(contract.getGroupKeyCode(),contract.getPositionAppointment());
             builder.setPositionAppointment(contract.getPositionAppointment());
             builder.setDescription(contract.getDescription());
@@ -296,7 +296,7 @@ public final class PositionAppointment
         }
 
         public void setPositionAppointment(String positionAppointment) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
         	if (StringUtils.isWhitespace(positionAppointment)) {
                 throw new IllegalArgumentException("positionAppointment is blank");
             }
@@ -304,47 +304,47 @@ public final class PositionAppointment
         }
 
         public void setDescription(String description) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.description = description;
         }
 
         public void setPmPositionAppointmentId(String pmPositionAppointmentId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionAppointmentId = pmPositionAppointmentId;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 

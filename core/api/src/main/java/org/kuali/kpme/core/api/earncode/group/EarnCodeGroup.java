@@ -19,12 +19,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.rice.core.api.CoreConstants;
@@ -62,7 +58,8 @@ public final class EarnCodeGroup
     private final String descr;
     @XmlElement(name = Elements.WARNING_TEXT, required = false)
     private final String warningText;
-    @XmlElement(name = Elements.EARN_CODE_GROUPS, required = false)
+    @XmlElementWrapper(name = Elements.EARN_CODE_GROUPS, required = false)
+    @XmlElement(name = Elements.EARN_CODE_GROUP_DEF, required = false)
     private final List<EarnCodeGroupDefinition> earnCodeGroups;
     @XmlElement(name = Elements.HR_EARN_CODE_GROUP_ID, required = false)
     private final String hrEarnCodeGroupId;
@@ -213,7 +210,7 @@ public final class EarnCodeGroup
         }
 
         public static Builder create(String earnCodeGroup) {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder(earnCodeGroup);
         }
 
@@ -221,7 +218,7 @@ public final class EarnCodeGroup
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create(contract.getEarnCodeGroup());
             builder.setDescr(contract.getDescr());
             builder.setWarningText(contract.getWarningText());
@@ -306,62 +303,62 @@ public final class EarnCodeGroup
         }
 
         public void setEarnCodeGroup(String earnCodeGroup) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCodeGroup = earnCodeGroup;
         }
 
         public void setDescr(String descr) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.descr = descr;
         }
 
         public void setWarningText(String warningText) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.warningText = warningText;
         }
 
         public void setEarnCodeGroups(List<EarnCodeGroupDefinition.Builder> earnCodeGroups) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCodeGroups = earnCodeGroups;
         }
 
         public void setHrEarnCodeGroupId(String hrEarnCodeGroupId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrEarnCodeGroupId = hrEarnCodeGroupId;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 
@@ -390,6 +387,7 @@ public final class EarnCodeGroup
         final static String DESCR = "descr";
         final static String WARNING_TEXT = "warningText";
         final static String EARN_CODE_GROUPS = "earnCodeGroups";
+        final static String EARN_CODE_GROUP_DEF = "earnCodeGroupDefinitions";
         final static String HR_EARN_CODE_GROUP_ID = "hrEarnCodeGroupId";
         final static String ACTIVE = "active";
         final static String ID = "id";

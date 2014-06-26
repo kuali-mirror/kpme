@@ -271,7 +271,7 @@ public final class PositionType
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
         
@@ -282,7 +282,7 @@ public final class PositionType
         }
 
         public static Builder create(String positionType) {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder(positionType);
         }
 
@@ -290,7 +290,7 @@ public final class PositionType
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create(contract.getPositionType());
            
             builder.setEffectiveKeySet(ModelObjectUtils.transformSet(contract.getEffectiveKeySet(), toEffectiveKeyBuilder));
@@ -390,72 +390,72 @@ public final class PositionType
 
 
         public void setEffectiveKeySet(Set<EffectiveKey.Builder> effectiveKeySet) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveKeySet = effectiveKeySet;
         }
 
         public void setDescription(String description) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.description = description;
         }
 
         public void setAcademicFlag(boolean academicFlag) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.academicFlag = academicFlag;
         }
 
         public void setPositionType(String positionType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionType = positionType;
         }
 
         public void setPmPositionTypeId(String pmPositionTypeId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionTypeId = pmPositionTypeId;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 
         public void setGroupKeyCodeSet(Set<String> groupKeyCodeSet) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKeyCodeSet = groupKeyCodeSet;
         }
 
         public void setGroupKeySet(Set<HrGroupKey.Builder> groupKeySet) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKeySet = groupKeySet;
         }
 

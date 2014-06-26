@@ -15,47 +15,64 @@
  */
 package org.kuali.kpme.core.earncode.group.web;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
+import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupBo;
 import org.kuali.kpme.core.earncode.group.EarnCodeGroupDefinitionBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
-public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
+public class EarnCodeGroupMaintainableImpl extends HrDataObjectMaintainableImpl {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-    public void addNewLineToCollection(String collectionName) {
-        if (collectionName.equals("earnCodeGroups")) {
-        	EarnCodeGroupDefinitionBo definition = (EarnCodeGroupDefinitionBo)newCollectionLines.get(collectionName );
-            if ( definition != null ) {
-            	EarnCodeGroupBo earnGroup = (EarnCodeGroupBo)this.getBusinessObject();
-            	Set<String> earnCodes = new HashSet<String>();
-            	for(EarnCodeGroupDefinitionBo earnGroupDef : earnGroup.getEarnCodeGroups()){
-            		earnCodes.add(earnGroupDef.getEarnCode());
-            	}
-            	if(earnCodes.contains(definition.getEarnCode())){
-            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
-            				"earngroup.duplicate.earncode",definition.getEarnCode());
-            		return;
-    			} 
-            	if (!ValidationUtils.validateEarnCode(definition.getEarnCode().toUpperCase(), earnGroup.getEffectiveLocalDate())) {
-    				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
-    							"error.existence", "Earncode '" + definition.getEarnCode()+ "'");
-    				return;
-    			} 
+    protected boolean performAddLineValidation(View view,
+                                 CollectionGroup collectionGroup, Object model, Object addLine) {
+        boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
+        //if (collectionName.equals("earnCodeGroups")) {
+        if (model instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+            MaintenanceDocument document = maintenanceForm.getDocument();
+            if (document.getNewMaintainableObject().getDataObject() instanceof EarnCodeGroupBo) {
+                EarnCodeGroupBo earnCodeGroupBo = (EarnCodeGroupBo) document.getNewMaintainableObject().getDataObject();
+
+                if (addLine instanceof EarnCodeGroupDefinitionBo) {
+                    EarnCodeGroupDefinitionBo definition = (EarnCodeGroupDefinitionBo) addLine;
+                    if (definition != null) {
+                        EarnCodeGroupBo earnGroup = (EarnCodeGroupBo) this.getDataObject();
+                        Set<String> earnCodes = new HashSet<String>();
+                        for (EarnCodeGroupDefinitionBo earnGroupDef : earnGroup.getEarnCodeGroups()) {
+                            earnCodes.add(earnGroupDef.getEarnCode());
+                        }
+                        if (earnCodes.contains(definition.getEarnCode())) {
+                            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "earnCodeGroups",
+                                    "earngroup.duplicate.earncode", definition.getEarnCode());
+                            return false;
+                        }
+                        if (!ValidationUtils.validateEarnCode(definition.getEarnCode().toUpperCase(), earnGroup.getEffectiveLocalDate())) {
+                            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "earnCodeGroups",
+                                    "error.existence", "Earncode '" + definition.getEarnCode() + "'");
+                            return false;
+                        }
+                    }
+                }
             }
         }
-       super.addNewLineToCollection(collectionName);
+        return true;
     }
 	
 //	@Override
@@ -80,5 +97,11 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
             definition.setHrEarnCodeGroupDefId(null);
             definition.setHrEarnCodeGroupId(ecg.getHrEarnCodeGroupId());
         }
+    }
+
+    @Override
+    public void customInactiveSaveLogicNewEffective(HrBusinessObject oldHrObj) {
+        EarnCodeGroupBo bo = (EarnCodeGroupBo)oldHrObj;
+        bo.setEarnCodeGroups(new ArrayList<EarnCodeGroupDefinitionBo>());
     }
 }

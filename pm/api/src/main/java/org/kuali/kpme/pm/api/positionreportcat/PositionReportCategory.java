@@ -203,13 +203,13 @@ public final class PositionReportCategory
         private String userPrincipalId;
 
         private Builder( String positionReportCat, String positionReportType) {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+
         	setPositionReportCat(positionReportCat);
         	setPositionReportType(positionReportType);
         }
 
         public static Builder create( String positionReportCat, String positionReportType) {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder(positionReportCat,positionReportType);
         }
 
@@ -217,7 +217,7 @@ public final class PositionReportCategory
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create(contract.getPositionReportCat(),contract.getPositionReportType());
             builder.setDescription(contract.getDescription());
             builder.setPmPositionReportCatId(contract.getPmPositionReportCatId());
@@ -297,7 +297,7 @@ public final class PositionReportCategory
         }
 
         public void setPositionReportCat(String positionReportCat) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
         	if (StringUtils.isWhitespace(positionReportCat)) {
                 throw new IllegalArgumentException("positionReportCat is blank");
             }
@@ -305,22 +305,22 @@ public final class PositionReportCategory
         }
 
         public void setDescription(String description) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.description = description;
         }
 
         public void setPmPositionReportCatId(String pmPositionReportCatId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionReportCatId = pmPositionReportCatId;
         }
 
         public void setPrtObj(PositionReportType.Builder prtObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.prtObj = prtObj;
         }
 
         public void setPositionReportType(String positionReportType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
         	if (StringUtils.isWhitespace(positionReportType)) {
                 throw new IllegalArgumentException("positionReportType is blank");
             }
@@ -328,37 +328,37 @@ public final class PositionReportCategory
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 

@@ -39,7 +39,7 @@ public abstract class HrDataObjectMaintainableImpl extends MaintainableImpl {
 	public void saveDataObject() {
 		HrBusinessObject hrObj = (HrBusinessObject) this.getDataObject();
 		if(hrObj.getId()!=null){
-			HrBusinessObject oldHrObj = (HrBusinessObject) ObjectUtils.deepCopy(this.getObjectById(hrObj.getId()));
+			HrBusinessObject oldHrObj = this.getObjectById(hrObj.getId());
 			if(oldHrObj!= null){
 				//if the effective dates are the same do not create a new row just inactivate the old one
 				if(hrObj.getEffectiveDate().equals(oldHrObj.getEffectiveDate())){

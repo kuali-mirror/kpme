@@ -18,10 +18,13 @@ package org.kuali.kpme.core.api.accrualcategory;
 import com.google.common.collect.ImmutableList;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
 import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
@@ -31,6 +34,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 
 @XmlRootElement(name = AccrualCategory.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
@@ -54,8 +58,7 @@ import java.util.Collection;
         AccrualCategory.Elements.RELATIVE_EFFECTIVE_DATE,
         AccrualCategory.Elements.USER_PRINCIPAL_ID,
         AccrualCategory.Elements.CREATE_TIME,
-        AccrualCategory.Elements.EXTENSION,
-        AccrualCategory.Elements.NEW_COLLECTION_RECORD,
+        AccrualCategory.Elements.ACCRUAL_CATEGORY_RULES,
         CoreConstants.CommonElements.VERSION_NUMBER,
         CoreConstants.CommonElements.OBJECT_ID,
         AccrualCategory.Elements.ACTIVE,
@@ -103,6 +106,9 @@ public final class AccrualCategory
     @XmlElement(name = Elements.CREATE_TIME, required = false)
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private final DateTime createTime;
+    @XmlElementWrapper(name = Elements.ACCRUAL_CATEGORY_RULES, required = false)
+    @XmlElement(name = Elements.ACCRUAL_CATEGORY_RULE, required = false)
+    private final List<AccrualCategoryRule> accrualCategoryRules;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -138,6 +144,7 @@ public final class AccrualCategory
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
+        this.accrualCategoryRules = null;
     }
 
     private AccrualCategory(Builder builder) {
@@ -161,6 +168,7 @@ public final class AccrualCategory
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
+        this.accrualCategoryRules = ModelObjectUtils.<AccrualCategoryRule>buildImmutableCopy(builder.getAccrualCategoryRules());
     }
 
     @Override
@@ -263,6 +271,10 @@ public final class AccrualCategory
         return this.active;
     }
 
+    @Override
+    public List<AccrualCategoryRule> getAccrualCategoryRules() {
+        return accrualCategoryRules;
+    }
 
     /**
      * A builder which can be used to construct {@link AccrualCategory} instances.  Enforces the constraints of the {@link AccrualCategoryContract}.
@@ -292,13 +304,20 @@ public final class AccrualCategory
         private Long versionNumber;
         private String objectId;
         private boolean active;
+        private List<AccrualCategoryRule.Builder> accrualCategoryRules;
+
+        private static final ModelObjectUtils.Transformer<AccrualCategoryRuleContract, AccrualCategoryRule.Builder> toAccrualCategoryRuleBuilder = new ModelObjectUtils.Transformer<AccrualCategoryRuleContract, AccrualCategoryRule.Builder>() {
+            public AccrualCategoryRule.Builder transform(AccrualCategoryRuleContract input) {
+                return AccrualCategoryRule.Builder.create(input);
+            }
+        };
 
         private Builder() {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -306,7 +325,7 @@ public final class AccrualCategory
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setHasRules(contract.getHasRules());
             builder.setMinPercentWorked(contract.getMinPercentWorked());
@@ -328,6 +347,7 @@ public final class AccrualCategory
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
+            builder.setAccrualCategoryRules(ModelObjectUtils.transform(contract.getAccrualCategoryRules(), toAccrualCategoryRuleBuilder));
             return builder;
         }
 
@@ -435,103 +455,112 @@ public final class AccrualCategory
             return this.active;
         }
 
+        @Override
+        public List<AccrualCategoryRule.Builder> getAccrualCategoryRules() {
+            return accrualCategoryRules;
+        }
+
+        public void setAccrualCategoryRules(List<AccrualCategoryRule.Builder> accrualCategoryRules) {
+            this.accrualCategoryRules = accrualCategoryRules;
+        }
+
         public void setHasRules(String hasRules) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hasRules = hasRules;
         }
 
         public void setMinPercentWorked(BigDecimal minPercentWorked) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.minPercentWorked = minPercentWorked;
         }
 
         public void setLmAccrualCategoryId(String lmAccrualCategoryId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.lmAccrualCategoryId = lmAccrualCategoryId;
         }
 
         public void setLeavePlan(String leavePlan) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.leavePlan = leavePlan;
         }
 
         public void setAccrualCategory(String accrualCategory) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.accrualCategory = accrualCategory;
         }
 
         public void setDescr(String descr) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.descr = descr;
         }
 
         public void setAccrualEarnInterval(String accrualEarnInterval) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.accrualEarnInterval = accrualEarnInterval;
         }
 
         public void setProration(String proration) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.proration = proration;
         }
 
         public void setDonation(String donation) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.donation = donation;
         }
 
         public void setShowOnGrid(String showOnGrid) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.showOnGrid = showOnGrid;
         }
 
         public void setUnitOfTime(String unitOfTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.unitOfTime = unitOfTime;
         }
 
         public void setEarnCode(String earnCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCode = earnCode;
         }
 
         public void setEarnCodeObj(EarnCodeContract earnCodeObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCodeObj = earnCodeObj;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
@@ -573,12 +602,11 @@ public final class AccrualCategory
         final static String EFFECTIVE_DATE = "effectiveDate";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String RELATIVE_EFFECTIVE_DATE = "relativeEffectiveDate";
-        final static String BUSINESS_KEY_VALUES_MAP = "businessKeyValuesMap";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
         final static String CREATE_TIME = "createTime";
-        final static String EXTENSION = "extension";
-        final static String NEW_COLLECTION_RECORD = "newCollectionRecord";
         final static String ACTIVE = "active";
+        final static String ACCRUAL_CATEGORY_RULES = "accrualCategoryRules";
+        final static String ACCRUAL_CATEGORY_RULE = "accrualCategoryRule";
     }
 
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()

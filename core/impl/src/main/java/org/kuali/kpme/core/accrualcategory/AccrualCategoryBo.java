@@ -32,6 +32,7 @@ import org.kuali.kpme.core.util.HrConstants;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 public class AccrualCategoryBo extends HrBusinessObject implements AccrualCategoryContract {
     private static final String ACCRUAL_CATEGORY = "accrualCategory";
@@ -210,7 +211,7 @@ public class AccrualCategoryBo extends HrBusinessObject implements AccrualCatego
 		return getLmAccrualCategoryId();
 	}
 
-    public static AccrualCategoryBo from(org.kuali.kpme.core.api.accrualcategory.AccrualCategory im) {
+    public static AccrualCategoryBo from(AccrualCategory im) {
         if (im == null) {
             return null;
         }
@@ -240,7 +241,7 @@ public class AccrualCategoryBo extends HrBusinessObject implements AccrualCatego
         ac.setUserPrincipalId(im.getUserPrincipalId());
         ac.setVersionNumber(im.getVersionNumber());
         ac.setObjectId(im.getObjectId());
-
+        ac.setAccrualCategoryRules(ModelObjectUtils.transform(im.getAccrualCategoryRules(), AccrualCategoryRuleBo.toBo));
         return ac;
     }
 

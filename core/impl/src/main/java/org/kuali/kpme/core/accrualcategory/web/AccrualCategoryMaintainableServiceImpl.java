@@ -23,6 +23,8 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.ArrayList;
+
 /**
  * Override the Maintenance page behavior for Leave Accrual Category object
  * 
@@ -73,5 +75,11 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
             accrualCategoryRule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         }
         super.prepareForSave();
+    }
+
+    @Override
+    public void customInactiveSaveLogicNewEffective(HrBusinessObject oldHrObj) {
+        AccrualCategoryBo bo = (AccrualCategoryBo)oldHrObj;
+        bo.setAccrualCategoryRules(new ArrayList<AccrualCategoryRuleBo>());
     }
 }

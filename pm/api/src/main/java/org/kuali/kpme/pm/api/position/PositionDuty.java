@@ -154,7 +154,7 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -162,7 +162,7 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setName(contract.getName());
             builder.setDescription(contract.getDescription());
@@ -221,42 +221,42 @@ public final class PositionDuty extends AbstractDataTransferObject implements Po
         }
 
         public void setName(String name) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.name = name;
         }
 
         public void setDescription(String description) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.description = description;
         }
 
         public void setPercentage(BigDecimal percentage) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.percentage = percentage;
         }
 
         public void setPmDutyId(String pmDutyId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmDutyId = pmDutyId;
         }
         
         public void setHrPositionId(String hrPositionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrPositionId = hrPositionId;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDateOfOwner = effectiveLocalDateOfOwner;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 

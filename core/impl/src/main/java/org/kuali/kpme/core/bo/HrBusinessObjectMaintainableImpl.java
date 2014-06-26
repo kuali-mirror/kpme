@@ -51,6 +51,7 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 					oldHrObj.setEffectiveDate(hrObj.getEffectiveDate());
 					oldHrObj.setActive(false);
 					oldHrObj.setId(null);
+                    customInactiveSaveLogicNewEffective(oldHrObj);
 				}
 				KRADServiceLocator.getBusinessObjectService().save(oldHrObj);
 			}
@@ -70,10 +71,8 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
             try {
                 String cacheName = (String)hrObj.getClass().getDeclaredField("CACHE_NAME").get(hrObj);
                 CacheUtils.flushCache(cacheName);
-            } catch (NoSuchFieldException ex) {
+            } catch (NoSuchFieldException | IllegalAccessException ex) {
                 // no cache name found
-                LOG.warn("No cache name found for object: " + hrObj.getClass().getName());
-            } catch (IllegalAccessException ex) {
                 LOG.warn("No cache name found for object: " + hrObj.getClass().getName());
             }
             // no cache name found
@@ -84,7 +83,8 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
     }
 	
 	public abstract HrBusinessObject getObjectById(String id);
-	public void customSaveLogic(HrBusinessObject hrObj){};
+	public void customSaveLogic(HrBusinessObject hrObj){}
+    public void customInactiveSaveLogicNewEffective(HrBusinessObject oldHrObj) {}
 
     @Override
     public void prepareForSave() {

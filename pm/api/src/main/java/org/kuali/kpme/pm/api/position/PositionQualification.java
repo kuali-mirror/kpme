@@ -165,7 +165,7 @@ public final class PositionQualification extends AbstractDataTransferObject impl
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -173,7 +173,7 @@ public final class PositionQualification extends AbstractDataTransferObject impl
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setQualificationValue(contract.getQualificationValue());
             builder.setQualificationType(contract.getQualificationType());
@@ -237,47 +237,47 @@ public final class PositionQualification extends AbstractDataTransferObject impl
         }
 
         public void setQualificationValue(String qualificationValue) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.qualificationValue = qualificationValue;
         }
 
         public void setQualificationType(String qualificationType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.qualificationType = qualificationType;
         }
 
         public void setPmQualificationId(String pmQualificationId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmQualificationId = pmQualificationId;
         }
 
         public void setTypeValue(String typeValue) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.typeValue = typeValue;
         }
 
         public void setQualifier(String qualifier) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.qualifier = qualifier;
         }
         
         public void setHrPositionId(String hrPositionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrPositionId = hrPositionId;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDateOfOwner = effectiveLocalDateOfOwner;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
