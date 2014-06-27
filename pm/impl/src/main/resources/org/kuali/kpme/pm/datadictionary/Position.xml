@@ -490,7 +490,7 @@
         </property>
         <property name="singlePageView" value="false"/>
         <property name="header">
-            <bean parent="KPME-Uif-InquiryViewHeader"/>
+            <bean parent="Position-InquiryViewHeader"/>
         </property>
         <property name="stickyHeader" value="true"/>
         <property name="applyDirtyCheck" value="false"/>
@@ -522,9 +522,9 @@
     </bean>
 
     <!--Position Inquiry Header-->
-    <bean id="KPME-Uif-InquiryViewHeader" abstract="true" parent="Uif-ViewHeader">
+    <bean id="Position-InquiryViewHeader" abstract="true" parent="Uif-ViewHeader">
         <property name="lowerGroup">
-            <bean parent="Uif-OverviewSection"/>
+            <bean parent="Position-OverviewLowerGroupSection"/>
         </property>
     </bean>
 
