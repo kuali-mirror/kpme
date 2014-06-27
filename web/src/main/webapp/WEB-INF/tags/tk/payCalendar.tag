@@ -33,8 +33,9 @@
             	 <c:if test="${block.timeBlock.clockedByMissedPunch}">
  	 	 	 		<div class="ui-corner-all missed-punch-marker">
 						<c:choose>
-							<c:when	test="${block.timeBlock.actionDateTime.dayOfWeek == 6}">
-								<span class='approvals-missedpunch-sat'> 
+							<c:when test="${not empty block.timeBlock.actionDateTime
+							                && block.timeBlock.actionDateTime.dayOfWeek == 6}">
+								<span class='approvals-missedpunch-sat'>
 									<span class="icon-missedpunch"></span>
 								</span>
 							</c:when>
