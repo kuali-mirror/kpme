@@ -300,7 +300,7 @@ public interface PositionContract extends PositionBaseContract {
      * @return List departmentList for Position
      */
     public List<? extends PositionDepartmentContract> getDepartmentList();
-    
+
     /**
      * The Position Status
      *
@@ -311,7 +311,7 @@ public interface PositionContract extends PositionBaseContract {
      * @return positionStatus for Position
      */
     public String getPositionStatus();
-    
+
     /**
      * The Position ID that the current Position reports to
      *
@@ -333,7 +333,7 @@ public interface PositionContract extends PositionBaseContract {
      * @return reportsToPrincipalId for Position
      */
 	public String getReportsToPrincipalId();
-    
+
     /**
      * The date the Position is expected to end
      *
@@ -388,7 +388,7 @@ public interface PositionContract extends PositionBaseContract {
      * @return contractType for Position
      */
     public String getContractType();
-    
+
     /**
      * The Position Pay Grade
      *
@@ -410,6 +410,11 @@ public interface PositionContract extends PositionBaseContract {
      * @return payStep for Position
      */
     public String getPayStep();
-    
 
+
+    String getPositionClass();
+    String getAppointmentType();
+    String getReportsToWorkingTitle();
+    String getPrimaryDepartment();
+    String getProcess();
 }

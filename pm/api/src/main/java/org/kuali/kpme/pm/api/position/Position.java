@@ -76,6 +76,11 @@ import org.w3c.dom.Element;
     Position.Elements.PAY_GRADE,
     Position.Elements.DUTY_LIST,
     Position.Elements.CONTRACT,
+    Position.Elements.POSITION_CLASS,
+    Position.Elements.APPOINTMENT_TYPE,
+    Position.Elements.REPORTS_TO_WORKING_TITLE,
+    Position.Elements.PRIMARY_DEPARTMENT,
+    Position.Elements.PROCESS,
     Position.Elements.POSITION_NUMBER,
     Position.Elements.HR_POSITION_ID,
     Position.Elements.DESCRIPTION,
@@ -167,6 +172,16 @@ public final class Position extends AbstractDataTransferObject implements Positi
     private final List<PositionDuty> dutyList;
     @XmlElement(name = Elements.CONTRACT, required = false)
     private final String contract;
+    @XmlElement(name = Elements.POSITION_CLASS, required = false)
+    private final String positionClass;
+    @XmlElement(name = Elements.APPOINTMENT_TYPE, required = false)
+    private final String appointmentType;
+    @XmlElement(name = Elements.REPORTS_TO_WORKING_TITLE, required = false)
+    private final String reportsToWorkingTitle;
+    @XmlElement(name = Elements.PRIMARY_DEPARTMENT, required = false)
+    private final String primaryDepartment;
+    @XmlElement(name = Elements.PROCESS, required = false)
+    private final String process;
     @XmlElement(name = Elements.POSITION_NUMBER, required = false)
     private final String positionNumber;
     @XmlElement(name = Elements.HR_POSITION_ID, required = false)
@@ -233,6 +248,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
         this.dutyList = null;
         this.contract = null;
         this.positionNumber = null;
+        this.positionClass = null;
+        this.appointmentType = null;
+        this.reportsToWorkingTitle = null;
+        this.primaryDepartment = null;
+        this.process = null;
         this.hrPositionId = null;
         this.description = null;
         this.versionNumber = null;
@@ -281,6 +301,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
         this.dutyList = ModelObjectUtils.<PositionDuty>buildImmutableCopy(builder.getDutyList());
         this.contract = builder.getContract();
         this.positionNumber = builder.getPositionNumber();
+        this.positionClass = builder.getPositionClass();
+        this.appointmentType = builder.getAppointmentType();
+        this.reportsToWorkingTitle = builder.getReportsToWorkingTitle();
+        this.primaryDepartment = builder.getPrimaryDepartment();
+        this.process = builder.getProcess();
         this.hrPositionId = builder.getHrPositionId();
         this.description = builder.getDescription();
         this.versionNumber = builder.getVersionNumber();
@@ -445,6 +470,31 @@ public final class Position extends AbstractDataTransferObject implements Positi
     }
 
     @Override
+    public String getPositionClass() {
+        return this.positionClass;
+    }
+
+    @Override
+    public String getAppointmentType() {
+        return this.appointmentType;
+    }
+
+    @Override
+    public String getReportsToWorkingTitle() {
+        return this.reportsToWorkingTitle;
+    }
+
+    @Override
+    public String getPrimaryDepartment() {
+        return this.primaryDepartment;
+    }
+
+    @Override
+    public String getProcess() {
+        return this.process;
+    }
+
+    @Override
     public String getPayGrade() {
         return this.payGrade;
     }
@@ -559,6 +609,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
         private String leavePlan;
         private List<PstnFlag.Builder> flagList;
         private String payStep;
+        private String positionClass;
+        private String appointmentType;
+        private String reportsToWorkingTitle;
+        private String primaryDepartment;
+        private String process;
         private String payGrade;
         private List<PositionDuty.Builder> dutyList;
         private String contract;
@@ -661,6 +716,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
             builder.setLeavePlan(contract.getLeavePlan());
             builder.setFlagList(ModelObjectUtils.transform(contract.getFlagList(), toPstnFlagBuilder));
             builder.setPayStep(contract.getPayStep());
+            builder.setPositionClass(contract.getPositionClass());
+            builder.setAppointmentType(contract.getAppointmentType());
+            builder.setReportsToWorkingTitle(contract.getReportsToWorkingTitle());
+            builder.setPrimaryDepartment(contract.getPrimaryDepartment());
+            builder.setProcess(contract.getProcess());
             builder.setPayGrade(contract.getPayGrade());
             builder.setDutyList(ModelObjectUtils.transform(contract.getDutyList(), toPositionDutyBuilder));
             builder.setContract(contract.getContract());
@@ -675,6 +735,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
             builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+
             return builder;
         }
 
@@ -830,6 +891,31 @@ public final class Position extends AbstractDataTransferObject implements Positi
         @Override
         public String getPayStep() {
             return this.payStep;
+        }
+
+        @Override
+        public String getPositionClass() {
+            return this.positionClass;
+        }
+
+        @Override
+        public String getAppointmentType() {
+            return this.appointmentType;
+        }
+
+        @Override
+        public String getReportsToWorkingTitle() {
+            return this.reportsToWorkingTitle;
+        }
+
+        @Override
+        public String getPrimaryDepartment() {
+            return this.primaryDepartment;
+        }
+
+        @Override
+        public String getProcess() {
+            return this.process;
         }
 
         @Override
@@ -1057,6 +1143,27 @@ public final class Position extends AbstractDataTransferObject implements Positi
             this.payStep = payStep;
         }
 
+        public void setPositionClass(String positionClass) {
+            this.positionClass = positionClass;
+        }
+
+        public void setAppointmentType(String appointmentType) {
+            this.appointmentType = appointmentType;
+        }
+
+        public void setReportsToWorkingTitle(String reportsToWorkingTitle) {
+            this.reportsToWorkingTitle = reportsToWorkingTitle;
+        }
+
+        public void setPrimaryDepartment(String primaryDepartment) {
+            this.primaryDepartment = primaryDepartment;
+        }
+
+        public void setProcess(String process) {
+            this.process = process;
+        }
+
+
         public void setPayGrade(String payGrade) {
 
             this.payGrade = payGrade;
@@ -1192,6 +1299,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
         final static String FLAG_LIST = "flagList";
         final static String FLAG = "flag";
         final static String PAY_STEP = "payStep";
+        final static String POSITION_CLASS = "positionClass";
+        final static String APPOINTMENT_TYPE = "appointmentType";
+        final static String REPORTS_TO_WORKING_TITLE = "reportsToWorkingTitle";
+        final static String PRIMARY_DEPARTMENT = "primaryDepartment";
+        final static String PROCESS = "process";
         final static String PAY_GRADE = "payGrade";
         final static String DUTY_LIST = "dutyList";
         final static String DUTY = "duty";

@@ -105,7 +105,8 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
     private transient boolean displayResponsibility;
     private transient boolean displayFunding;
     private transient boolean displayAdHocRecipients;*/
-   
+
+    @Override
     public List<PositionDutyBo> getDutyList() {
     	if(CollectionUtils.isEmpty(dutyList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
     		List<? extends ClassificationDutyContract> aList = PmServiceLocator.getClassificationDutyService().getDutyListForClassification(this.getPmPositionClassId());
@@ -127,6 +128,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		return dutyList;
 	}
 
+    @Override
 	public List<PositionResponsibilityBo> getPositionResponsibilityList() {
 		return positionResponsibilityList;
 	}
@@ -139,6 +141,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.dutyList = dutyList;
 	}
 
+    @Override
 	public List<PositionQualificationBo> getQualificationList() {
 		return qualificationList;
 	}
@@ -147,6 +150,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.qualificationList = qualificationList;
 	}
 
+    @Override
 	public List<PstnFlagBo> getFlagList() {
 		if(CollectionUtils.isEmpty(flagList) && StringUtils.isNotEmpty(this.getPmPositionClassId())) {
     		List<? extends ClassificationFlagContract> aList = PmServiceLocator.getClassificationFlagService().getFlagListForClassification(this.getPmPositionClassId());
@@ -170,7 +174,8 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 	public void setFlagList(List<PstnFlagBo> flagList) {
 		this.flagList = flagList;
 	}
-	
+
+    @Override
 	public String getPmPositionClassId() {
 		return pmPositionClassId;
 	}
@@ -179,6 +184,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.pmPositionClassId = id;
 	}
 
+    @Override
     public String getPositionClass() {
         if (StringUtils.isBlank(positionClass) && StringUtils.isNotBlank(pmPositionClassId)) {
             ClassificationContract classification = PmServiceLocator.getClassificationService().getClassificationById(this.pmPositionClassId);
@@ -193,6 +199,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
 	public List<ClassificationQualificationBo> getRequiredQualList() {
 		if(StringUtils.isNotEmpty(this.getPmPositionClassId())) {
 			// when Position Classification Id is changed, change the requiredQualList with it
@@ -214,6 +221,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 			requiredQualList = aList;
 	}
 
+    @Override
 	public List<PositionFundingBo> getFundingList() {
 		return fundingList;
 	}
@@ -222,6 +230,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.fundingList = fundingList;
 	}
 
+    @Override
 	public String getCategory() {
 		return category;
 	}
@@ -229,7 +238,8 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-   
+
+    @Override
     public String getSalaryGroup() {
         return salaryGroup;
     }
@@ -238,6 +248,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.salaryGroup = salaryGroup;
     }
 
+    @Override
     public String getClassificationTitle() {
         return classificationTitle;
     }
@@ -247,6 +258,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
     }
 
 
+    @Override
     public BigDecimal getPercentTime() {
         return percentTime;
     }
@@ -255,6 +267,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.percentTime = percentTime;
     }
 
+    @Override
     public String getBenefitsEligible() {
         return benefitsEligible;
     }
@@ -263,6 +276,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.benefitsEligible = benefitsEligible;
     }
 
+    @Override
     public String getLeaveEligible() {
         return leaveEligible;
     }
@@ -271,6 +285,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.leaveEligible = leaveEligible;
     }
 
+    @Override
     public String getLeavePlan() {
         return leavePlan;
     }
@@ -279,6 +294,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.leavePlan = leavePlan;
     }
 
+    @Override
     public String getPositionReportGroup() {
         return positionReportGroup;
     }
@@ -287,6 +303,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.positionReportGroup = positionReportGroup;
     }
 
+    @Override
     public String getPositionType() {
         return positionType;
     }
@@ -295,6 +312,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.positionType = positionType;
     }
 
+    @Override
     public String getPoolEligible() {
         return poolEligible;
     }
@@ -303,6 +321,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.poolEligible = poolEligible;
     }
 
+    @Override
     public int getMaxPoolHeadCount() {
         return maxPoolHeadCount;
     }
@@ -311,6 +330,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.maxPoolHeadCount = maxPoolHeadCount;
     }
 
+    @Override
     public String getTenureEligible() {
         return tenureEligible;
     }
@@ -319,6 +339,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.tenureEligible = tenureEligible;
     }
 
+    @Override
     public int getWorkMonths() {
         return workMonths;
     }
@@ -327,6 +348,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.workMonths = workMonths;
     }
 
+    @Override
     public List<PositionDepartmentBo> getDepartmentList() {
         return departmentList;
     }
@@ -335,6 +357,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.departmentList = departmentList;
     }
 
+    @Override
 	public String getProcess() {
 		return process;
 	}
@@ -343,6 +366,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.process = process;
 	}
 
+    @Override
 	public String getPositionStatus() {
 		return positionStatus;
 	}
@@ -351,9 +375,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.positionStatus = positionStatus;
 	}
 
-    public void setPrimaryDepartment () {
-
-    }
+    @Override
 	public String getPrimaryDepartment() {
 
 		if (this.primaryDepartment == null && this.departmentList != null && this.departmentList.size() > 0) {
@@ -373,6 +395,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
         this.primaryDepartment = primaryDepartment;
     }
 
+    @Override
 	public String getReportsToPositionId() {
 		return reportsToPositionId;
 	}
@@ -381,6 +404,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.reportsToPositionId = reportsToPositionId;
 	}
 
+    @Override
 	public String getReportsToPrincipalId() {
 		return reportsToPrincipalId;
 	}
@@ -397,6 +421,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.expectedEndDate = expectedEndDate;
 	}
 
+    @Override
 	public String getRenewEligible() {
 		return renewEligible;
 	}
@@ -405,6 +430,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.renewEligible = renewEligible;
 	}
 
+    @Override
 	public String getTemporary() {
 		return temporary;
 	}
@@ -413,6 +439,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.temporary = temporary;
 	}
 
+    @Override
 	public String getContract() {
 		return contract;
 	}
@@ -421,6 +448,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.contract = contract;
 	}
 
+    @Override
 	public String getContractType() {
 		return contractType;
 	}
@@ -429,6 +457,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.contractType = contractType;
 	}
 
+    @Override
 	public String getAppointmentType() {
 		return appointmentType;
 	}
@@ -437,6 +466,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.appointmentType = appointmentType;
 	}
 
+    @Override
 	public String getPayGrade() {
 		return payGrade;
 	}
@@ -445,6 +475,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.payGrade = payGrade;
 	}
 
+    @Override
 	public String getPayStep() {
 		return payStep;
 	}
@@ -453,6 +484,7 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 		this.payStep = payStep;
 	}
 
+    @Override
 	public String getReportsToWorkingTitle() {
 		return reportsToWorkingTitle;
 	}
@@ -524,7 +556,6 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 				PositionQualificationBo.setOwnerOfDerivedCollection(retVal, qualifications);
 				retVal.setQualificationList(qualifications);
 				
-				
 				retVal.setReportsToPrincipalId(im.getReportsToPrincipalId());
 				retVal.setLeaveEligible(im.getLeaveEligible());
 				retVal.setPositionReportGroup(im.getPositionReportGroup());
@@ -532,7 +563,12 @@ public class PositionBo extends PositionBaseBo implements PositionContract {
 				retVal.setPoolEligible(im.getPoolEligible());
 				retVal.setMaxPoolHeadCount(im.getMaxPoolHeadCount());
 				retVal.setTenureEligible(im.getTenureEligible());
-				
+                retVal.setPositionClass(im.getPositionClass());
+                retVal.setAppointmentType(im.getAppointmentType());
+                retVal.setReportsToWorkingTitle(im.getReportsToWorkingTitle());
+                retVal.setPrimaryDepartment(im.getPrimaryDepartment());
+                retVal.setProcess(im.getProcess());
+
 				List<PositionDepartmentBo> departments = ModelObjectUtils.transform(im.getDepartmentList(), PositionDepartmentBo.toBo);
 				PositionDepartmentBo.setOwnerOfDerivedCollection(retVal, departments);
 				retVal.setDepartmentList(departments);

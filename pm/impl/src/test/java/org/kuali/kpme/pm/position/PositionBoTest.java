@@ -46,78 +46,85 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class PositionBoTest {
 	private static Map<String, Position> testPositionBos;
-	public static Position.Builder positionBuilder = Position.Builder.create("1", "ISU-IA");
+	public static Position.Builder builder = Position.Builder.create("1", "ISU-IA");
 	
 	private BusinessObjectService mockBusinessObjectService;
 
 	static {
 		testPositionBos = new HashMap<String, Position>();
 
-		positionBuilder.setActive(true);
-		positionBuilder.setBenefitsEligible("N");
-		positionBuilder.setCategory("");
-		positionBuilder.setClassificationTitle("");
-		positionBuilder.setContract("");
-		positionBuilder.setContractType("");
-		positionBuilder.setCreateTime(DateTime.now());
-		positionBuilder.setDescription("");
-		positionBuilder.setGroupKeyCode("ISU-IA");
-		positionBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
-		positionBuilder.setHrPositionId("KPME_TEST_00001");
-		positionBuilder.setId(positionBuilder.getHrPositionId());
-		positionBuilder.setLeaveEligible("");
-		positionBuilder.setMaxPoolHeadCount(0);
-		positionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
-		positionBuilder.setPayGrade("");
-		positionBuilder.setPayStep("");
-		positionBuilder.setPositionNumber("1");
-		positionBuilder.setPmPositionClassId("KPME_TEST_2000");
+		builder.setActive(true);
+		builder.setBenefitsEligible("N");
+		builder.setCategory("category");
+		builder.setClassificationTitle("classTitle");
+		builder.setContract("contract");
+		builder.setContractType("contractType");
+		builder.setCreateTime(DateTime.now());
+		builder.setDescription("desc");
+		builder.setGroupKeyCode("ISU-IA");
+		builder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
+		builder.setHrPositionId("KPME_TEST_00001");
+		builder.setId(builder.getHrPositionId());
+		builder.setLeaveEligible("leaveEligible");
+		builder.setMaxPoolHeadCount(0);
+		builder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
+		builder.setPayGrade("XH");
+		builder.setPayStep("YY");
+		builder.setPositionNumber("1");
+        builder.setPositionClass("positionClass");
+        builder.setAppointmentType("appt");
+        builder.setReportsToWorkingTitle("rptToWorkTitle");
+        builder.setPrimaryDepartment("dept1");
+        builder.setProcess("process");
+
+
+		builder.setPmPositionClassId("KPME_TEST_2000");
 		
 		List<PositionResponsibility.Builder> positionResponsilityList = new ArrayList<PositionResponsibility.Builder>();
 		PositionResponsibility.Builder responsibilityBuilder = PositionResponsibility.Builder.create(PositionResponsibilityBoTest.getPositionResponsibility("TST-PSTNRESPOPT"));
-		responsibilityBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		responsibilityBuilder.setHrPositionId(builder.getHrPositionId());
 		positionResponsilityList.add(responsibilityBuilder);
-		positionBuilder.setPositionResponsibilityList(positionResponsilityList);
+		builder.setPositionResponsibilityList(positionResponsilityList);
 		
 		
 		List<PositionDepartment.Builder> positionDeptList = new ArrayList<PositionDepartment.Builder>();
 		PositionDepartment.Builder deptBuilder = PositionDepartment.Builder.create(PositionDataBoTest.getPositionDepartment("TST-PSTNDEPT"));
-		deptBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		deptBuilder.setHrPositionId(builder.getHrPositionId());
 		positionDeptList.add(deptBuilder);
-		positionBuilder.setDepartmentList(positionDeptList);
+		builder.setDepartmentList(positionDeptList);
 		
 		List<PstnFlag.Builder> pstnFlagList = new ArrayList<PstnFlag.Builder>();
 		PstnFlag.Builder flagBuilder = PstnFlag.Builder.create(PstnFlagBoTest.getPstnFlag("TST-PSTNFLAG"));
-		flagBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		flagBuilder.setHrPositionId(builder.getHrPositionId());
 		pstnFlagList.add(flagBuilder);
-		positionBuilder.setFlagList(pstnFlagList);
+		builder.setFlagList(pstnFlagList);
 		
 		List<PositionDuty.Builder> positionDutyList = new ArrayList<PositionDuty.Builder>();
 		PositionDuty.Builder dutyBuilder = PositionDuty.Builder.create(PositionDutyBoTest.getPositionDutyBo("TST-PSTNDUTY"));
-		dutyBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		dutyBuilder.setHrPositionId(builder.getHrPositionId());
 		positionDutyList.add(dutyBuilder);
-		positionBuilder.setDutyList(positionDutyList);
+		builder.setDutyList(positionDutyList);
 		
 		List<PositionFunding.Builder> positionFundingList = new ArrayList<PositionFunding.Builder>();
 		PositionFunding.Builder fundingBuilder = PositionFunding.Builder.create(PositionFundingBoTest.getPositionFunding("9999"));
-		fundingBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		fundingBuilder.setHrPositionId(builder.getHrPositionId());
 		fundingBuilder.setAccount("KPME_TEST_ACCOUNT");
 		positionFundingList.add(fundingBuilder);
-		positionBuilder.setFundingList(positionFundingList);
+		builder.setFundingList(positionFundingList);
 
 		List<PositionQualification.Builder> positionQualificationList = new ArrayList<PositionQualification.Builder>();
 		PositionQualification.Builder qualificationBuilder = PositionQualification.Builder.create(PositionQualificationBoTest.getPositionQualificationBo("TST-PSTNQLFCTN"));
-		qualificationBuilder.setHrPositionId(positionBuilder.getHrPositionId());
+		qualificationBuilder.setHrPositionId(builder.getHrPositionId());
 		positionQualificationList.add(qualificationBuilder);
-		positionBuilder.setQualificationList(positionQualificationList);
+		builder.setQualificationList(positionQualificationList);
 		
 		List<ClassificationQualification.Builder> classificationQualificationList = new ArrayList<ClassificationQualification.Builder>();
 		ClassificationQualification.Builder classQualBuilder = ClassificationQualification.Builder.create(ClassificationQualificationBoTest.getClassificationQualificationBo("TST-CLASSFCTNQLFCTN"));
 		classQualBuilder.setPmPositionClassId("KPME_TEST_2000");
 		classificationQualificationList.add(classQualBuilder);
-		positionBuilder.setRequiredQualList(classificationQualificationList);
+		builder.setRequiredQualList(classificationQualificationList);
 						
-		testPositionBos.put("TST-PSTN", positionBuilder.build());
+		testPositionBos.put("TST-PSTN", builder.build());
 	}
 	
 	@Test
