@@ -33,6 +33,9 @@
             <docHandler>${kuali.docHandler.url.prefix}/kpme/missedPunch?methodToCall=docHandler</docHandler>
             <active>true</active>
             <routingVersion>1</routingVersion>
+            <security>
+                <securityAttribute name="MissedPunchSecurityFilterAttribute" />
+            </security>
             <attributes>
                 <attribute>
                     <name>MissedPunchDataDictionarySearchableAttribute</name>
@@ -68,6 +71,14 @@
             <label>Test Data Dictionary Searchable Attribute</label>
             <description>DD searchable attribute for testing purposes</description>
             <type>SearchableAttribute</type>
+            <applicationId>KPME</applicationId>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>MissedPunchSecurityFilterAttribute</name>
+            <className>{http://kpme.kuali.org/tklm/v2_0}missedPunchDocSearchSecurity</className>
+            <label>MissedPunchSecurityFilterAttribute</label>
+            <description>MissedPunchSecurityFilterAttribute</description>
+            <type>DocumentSecurityAttribute</type>
             <applicationId>KPME</applicationId>
         </ruleAttribute>
         

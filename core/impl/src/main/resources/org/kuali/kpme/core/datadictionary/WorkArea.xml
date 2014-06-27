@@ -206,6 +206,7 @@
         <bean id="WorkArea-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
         <property name="headerText" value="Work Area Lookup"/>
         <property name="dataObjectClassName" value="org.kuali.kpme.core.workarea.WorkAreaBo"/>
+        <property name="viewHelperServiceClass" value="org.kuali.kpme.core.workarea.web.WorkAreaLookupableImpl" />
         <property name="criteriaFields">
         	<list merge="true">
          		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="dept" >

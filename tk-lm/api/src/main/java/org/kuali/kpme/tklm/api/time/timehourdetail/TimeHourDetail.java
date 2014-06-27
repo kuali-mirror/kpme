@@ -162,11 +162,11 @@ public final class TimeHourDetail
         private String objectId;
 
         private Builder() {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -174,7 +174,7 @@ public final class TimeHourDetail
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setHours(contract.getHours());
             builder.setTkTimeBlockId(contract.getTkTimeBlockId());
@@ -226,37 +226,37 @@ public final class TimeHourDetail
         }
 
         public void setHours(BigDecimal hours) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hours = hours;
         }
 
         public void setTkTimeBlockId(String tkTimeBlockId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.tkTimeBlockId = tkTimeBlockId;
         }
 
         public void setTkTimeHourDetailId(String tkTimeHourDetailId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.tkTimeHourDetailId = tkTimeHourDetailId;
         }
 
         public void setEarnCode(String earnCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCode = earnCode;
         }
 
         public void setAmount(BigDecimal amount) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.amount = amount;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 

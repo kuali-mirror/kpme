@@ -164,6 +164,8 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
 
     public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, String timeblockId, String overtimePref) {
         List<String> errors = new ArrayList<String>();
+        LocalDate savedStartDate = TKUtils.formatDateString(startDateS);
+        LocalDate savedEndDate = TKUtils.formatDateString(endDateS);
 
         if (timesheetDocument == null) {
             errors.add("No timesheet document found.");
@@ -239,6 +241,19 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         //------------------------
 
         //------------------------
+        // check if the overnight shift is across days
+        //------------------------
+        if (acrossDays && hours == null && amount == null) {
+            if (savedEndDate.isAfter(savedStartDate)
+                    && startTemp.getHourOfDay() > endTemp.getHourOfDay()
+                    && !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
+                    && endTemp.getHourOfDay() == 0)) {
+                errors.add("The \"apply to each day\" box should not be checked.");
+            }
+        }
+        if (errors.size() > 0) return errors;
+
+        //------------------------
         // check if the begin / end time are valid
         //------------------------
         if ((startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0)) {
@@ -251,20 +266,6 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
         // check if there is a weekend day when the include weekends flag is checked
         //--------------------------------
        
-        if (errors.size() > 0) return errors;
-
-        //------------------------
-        // check if the overnight shift is across days
-        //------------------------
-        if (acrossDays && hours == null && amount == null) {
-        	if (startTemp.getHourOfDay() > endTemp.getHourOfDay()
-                    && !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
-                    && endTemp.getHourOfDay() == 0)) {
-                errors.add("The \"apply to each day\" box should not be checked.");
-            }
-        }
-        if (errors.size() > 0) return errors;
-
         //------------------------
         // Amount cannot be zero
         //------------------------

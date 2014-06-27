@@ -32,18 +32,29 @@
             <div id="timeblock_${block.timeBlock.tkTimeBlockId}" class="${editableClass}">
             	 <c:if test="${block.timeBlock.clockedByMissedPunch}">
  	 	 	 		<div class="ui-corner-all missed-punch-marker">
-						<span id="approvals-missedpunch" class='approvals-missedpunch'>
-							<span class="icon-missedpunch"></span>
-						</span>
+						<c:choose>
+							<c:when test="${not empty block.timeBlock.actionDateTime
+							                && block.timeBlock.actionDateTime.dayOfWeek == 6}">
+								<span class='approvals-missedpunch-sat'>
+									<span class="icon-missedpunch"></span>
+								</span>
+							</c:when>
+							<c:otherwise>
+								<span class='approvals-missedpunch'>
+									<span class="icon-missedpunch"></span>
+								</span>
+							</c:otherwise>
+						</c:choose>
+
 					</div>
 					<div id="approvals-missedpunch-details"
 						class="approvals-missedpunch-details"
-						style="display: none; float: right; margin-left: 20px;">
+						style="display: none;height:105px">
 						<table>
 							<thead>
 								<tr>
 									<th colspan="3"
-										style="font-size: 1.2em; font-weight: bold; text-align: left; border-bottom: none;">
+										style="font-size: 1.2em; font-weight: bold; text-align: left; ">
 										Missed Punch:
 									</th>
 								</tr>
@@ -55,15 +66,13 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td style="width: 250px;height: auto;">
-									${block.timeBlock.actionDateTime}</td>
-									<td style="width: 30px; height: auto;">${block.timeBlock.clockAction}</td>
-									<td style="height: auto">
-										<div class="warning-note-message">
+									<td style="width:200px;height:auto;">
+										${block.timeBlock.actionDateTime}</td>
+									<td style="width:30px;height:auto;">${block.timeBlock.clockAction}</td>
+									<td style="width:300px;height:auto;text-align:left">	
                         					${block.timeBlock.assignmentValue}
 											<br/>Doc Id: ${block.timeBlock.missedPunchDocId}
 											&nbsp;Doc Status: ${block.timeBlock.missedPunchDocStatus}
-									</div>
 									</td>
 								</tr>
 							</tbody>

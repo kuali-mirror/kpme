@@ -508,6 +508,7 @@ $(function () {
 				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
 				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
 				.done(this.showFieldByEarnCodeType())
+                .done(this.fetchAssignmentsForDay(leaveBlock.get('leaveDate'), leaveBlock.get("assignment")))
 				.done(_(leaveBlock).leaveBlockFillInForm());
         },
         /**
@@ -765,6 +766,7 @@ $(function () {
             var assignment = _.isString(e) ? e : this.$("#selectedAssignment option:selected").val();
             // We want to remember what the previous selected earn code was.
 			var earnCode = this.$('#selectedEarnCode option:selected').val();
+            var startDateVal = _.isUndefined(startDate) ? this.$("#startDate").val() : startDate;
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
             // For more information: http://documentcloud.github.com/backbone/#Collection-fetch
@@ -774,7 +776,7 @@ $(function () {
                 data : {
                     selectedAssignment : assignment,
                     timeBlockReadOnly : isTimeBlockReadOnly,
-                    startDate : startDate,
+                    startDate : startDateVal,
                     documentId : docId,
                     selectedEarnCode : timeBlockEarnCode
                 }

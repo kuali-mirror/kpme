@@ -30,6 +30,7 @@
     	<property name="businessRulesClass" value="org.kuali.kpme.core.workarea.validation.WorkAreaMaintenanceDocumentRule"/>
     	<property name="maintainableClass" value="org.kuali.kpme.core.workarea.web.WorkAreaMaintainableImpl"/>
 		<property name="documentTypeName" value="WorkAreaMaintenanceDocumentType" />
+        <property name="documentAuthorizerClass" value="org.kuali.kpme.core.workarea.authorization.WorkAreaAuthorizer" />
 	</bean>
 	
 </beans>

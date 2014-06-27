@@ -162,12 +162,12 @@ public final class EarnCodeGroupDefinition
         private String userPrincipalId;
 
         private Builder(String earnCode) {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+
         	setEarnCode(earnCode);
         }
 
         public static Builder create(String earnCode) {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder(earnCode);
         }
 
@@ -175,7 +175,7 @@ public final class EarnCodeGroupDefinition
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create(contract.getEarnCode());
             builder.setHrEarnCodeGroupId(contract.getHrEarnCodeGroupId());
             builder.setHrEarnCodeGroupDefId(contract.getHrEarnCodeGroupDefId());
@@ -238,47 +238,47 @@ public final class EarnCodeGroupDefinition
         }
 
         public void setEarnCode(String earnCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCode = earnCode;
         }
 
         public void setHrEarnCodeGroupId(String hrEarnCodeGroupId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrEarnCodeGroupId = hrEarnCodeGroupId;
         }
 
         public void setHrEarnCodeGroupDefId(String hrEarnCodeGroupDefId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrEarnCodeGroupDefId = hrEarnCodeGroupDefId;
         }
 
         public void setEarnCodeDesc(String earnCodeDesc) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCodeDesc = earnCodeDesc;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 

@@ -461,6 +461,7 @@ public class AccrualServiceImpl implements AccrualService {
 		if(StringUtils.isNotBlank(primaryAssignmentId)) {
             Assignment primAssignment = HrServiceLocator.getAssignmentService().getAssignment(primaryAssignmentId);
 			if(primAssignment != null) {
+                aLeaveBlock.setGroupKeyCode(primAssignment.getGroupKeyCode());
 				aLeaveBlock.setWorkArea(primAssignment.getWorkArea());
 				aLeaveBlock.setJobNumber(primAssignment.getJobNumber());
 		        aLeaveBlock.setTask(primAssignment.getTask());

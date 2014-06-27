@@ -15,11 +15,13 @@
  */
 package org.kuali.kpme.core.api.accrualcategory;
 
+import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
 import org.kuali.kpme.core.api.earncode.EarnCodeContract;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * <p>AccrualCategoryContract interface.</p>
@@ -72,7 +74,7 @@ public interface AccrualCategoryContract extends KpmeEffectiveDataTransferObject
 	 * 
 	 * @return accrualCategoryRules for AccrualCategory
 	 */
-	//public List<? extends AccrualCategoryRuleContract> getAccrualCategoryRules();
+	public List<? extends AccrualCategoryRuleContract> getAccrualCategoryRules();
 	
 	/**
 	 * The Primary Key of an AccrualCategory entry saved in a database

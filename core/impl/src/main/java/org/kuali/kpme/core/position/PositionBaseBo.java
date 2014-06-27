@@ -26,8 +26,8 @@ import com.google.common.collect.ImmutableMap;
 
 public class PositionBaseBo extends HrKeyedBusinessObject implements PositionBaseContract {
 	
-	static class KeyFields {
-		private static final String POSITION_NUMBER = "positionNumber";
+	protected static class KeyFields {
+		public static final String POSITION_NUMBER = "positionNumber";
 	}
 
 	

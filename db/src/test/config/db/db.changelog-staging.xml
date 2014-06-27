@@ -76,6 +76,12 @@
         <loadData tableName="HR_GRP_KEY_T" file="src/test/config/db/staging/hr_grp_key_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
+
+        <loadData tableName="CA_ORG_T" file="src/test/config/db/staging/ca_org_t.csv">
+            <column name="EFFDT" header="EFFDT" type="DATE" />
+        </loadData>
+
+
         <loadData tableName="HR_DEPT_T" file="src/test/config/db/staging/hr_dept_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>

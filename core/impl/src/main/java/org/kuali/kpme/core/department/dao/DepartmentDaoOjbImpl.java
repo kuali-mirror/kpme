@@ -205,7 +205,9 @@ public class DepartmentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements Dep
     public List<DepartmentBo> getDepartmentsWithDepartmentAndGroupKeys(String department, List<String> groupKeyCodes, LocalDate asOfDate) {
         Criteria root = new Criteria();
         root.addEqualTo("dept", department);
+
         root.addIn("groupKeyCode", groupKeyCodes);
+
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DepartmentBo.class, asOfDate, DepartmentBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DepartmentBo.class, DepartmentBo.BUSINESS_KEYS, false));
 

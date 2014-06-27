@@ -121,7 +121,8 @@ public final class TimeBlock
     private final String userPrincipalId;
     @XmlElement(name = Elements.TK_TIME_BLOCK_ID, required = false)
     private final String tkTimeBlockId;
-    @XmlElement(name = Elements.TIME_HOUR_DETAILS, required = false)
+    @XmlElementWrapper(name = Elements.TIME_HOUR_DETAILS, required = false)
+    @XmlElement(name = Elements.TIME_HOUR_DETAIL, required = false)
     private final List<TimeHourDetail> timeHourDetails;
     @XmlElement(name = Elements.PUSH_BACKWARD, required = false)
     private final Boolean pushBackward;
@@ -643,7 +644,7 @@ public final class TimeBlock
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -651,7 +652,7 @@ public final class TimeBlock
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setHours(contract.getHours());
             builder.setEndDateTime(contract.getEndDateTime());
@@ -953,22 +954,22 @@ public final class TimeBlock
         }
 
         public void setHours(BigDecimal hours) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hours = hours;
         }
 
         public void setEndDateTime(DateTime endDateTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.endDateTime = endDateTime;
         }
 
         public void setClockLogCreated(Boolean clockLogCreated) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.clockLogCreated = clockLogCreated;
         }
 
         public void setBeginDateTime(DateTime beginDateTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.beginDateTime = beginDateTime;
         }
 
@@ -981,173 +982,173 @@ public final class TimeBlock
         }
 
         public void setEndTime(LocalTime endTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.endTime = endTime;
         }
 
         public void setAmount(BigDecimal amount) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.amount = amount;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 
         public void setTkTimeBlockId(String tkTimeBlockId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.tkTimeBlockId = tkTimeBlockId;
         }
 
         public void setTimeHourDetails(List<TimeHourDetail.Builder> timeHourDetails) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.timeHourDetails = timeHourDetails;
         }
 
         public void setPushBackward(Boolean pushBackward) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pushBackward = pushBackward;
         }
 
         public void setBeginTimeDisplay(DateTime beginTimeDisplay) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.beginTimeDisplay = beginTimeDisplay;
         }
 
         public void setBeginTimeDisplayDateOnlyString(String beginTimeDisplayDateOnlyString) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.beginTimeDisplayDateOnlyString = beginTimeDisplayDateOnlyString;
         }
 
         public void setBeginTimeDisplayTimeOnlyString(String beginTimeDisplayTimeOnlyString) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.beginTimeDisplayTimeOnlyString = beginTimeDisplayTimeOnlyString;
         }
 
         public void setEndTimeDisplayDateOnlyString(String endTimeDisplayDateOnlyString) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.endTimeDisplayDateOnlyString = endTimeDisplayDateOnlyString;
         }
 
         public void setEndTimeDisplayTimeOnlyString(String endTimeDisplayTimeOnlyString) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.endTimeDisplayTimeOnlyString = endTimeDisplayTimeOnlyString;
         }
 
         public void setEndTimeDisplay(DateTime endTimeDisplay) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.endTimeDisplay = endTimeDisplay;
         }
 
         public void setClockLogBeginId(String clockLogBeginId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.clockLogBeginId = clockLogBeginId;
         }
 
         public void setClockLogEndId(String clockLogEndId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.clockLogEndId = clockLogEndId;
         }
 
         public void setAssignmentKey(String assignmentKey) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.assignmentKey = assignmentKey;
         }
 
         public void setAssignmentDescription(String assignmentDescription) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.assignmentDescription = assignmentDescription;
         }
 
         public void setEarnCodeType(String earnCodeType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCodeType = earnCodeType;
         }
 
 
         public void setPrincipalId(String principalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.principalId = principalId;
         }
 
         public void setOvertimePref(String overtimePref) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.overtimePref = overtimePref;
         }
 
         public void setActualBeginTimeString(String actualBeginTimeString) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.actualBeginTimeString = actualBeginTimeString;
         }
 
         public void setActualEndTimeString(String actualEndTimeString) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.actualEndTimeString = actualEndTimeString;
         }
 
         public void setLunchDeleted(boolean lunchDeleted) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.lunchDeleted = lunchDeleted;
         }
 
         public void setHrCalendarBlockId(String hrCalendarBlockId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrCalendarBlockId = hrCalendarBlockId;
         }
 
         public void setBeginTime(LocalTime beginTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.beginTime = beginTime;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setWorkArea(Long workArea) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.workArea = workArea;
         }
 
         public void setJobNumber(Long jobNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.jobNumber = jobNumber;
         }
 
         public void setTask(Long task) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.task = task;
         }
 
         public void setEarnCode(String earnCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCode = earnCode;
         }
 
         public void setConcreteBlockType(String concreteBlockType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.concreteBlockType = concreteBlockType;
         }
 
         public void setConcreteBlockId(String concreteBlockId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.concreteBlockId = concreteBlockId;
         }
 
         public void setDocumentId(String documentId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.documentId = documentId;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
@@ -1208,6 +1209,7 @@ public final class TimeBlock
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
         final static String TK_TIME_BLOCK_ID = "tkTimeBlockId";
         final static String TIME_HOUR_DETAILS = "timeHourDetails";
+        final static String TIME_HOUR_DETAIL = "timeHourDetail";
         final static String PUSH_BACKWARD = "pushBackward";
         final static String BEGIN_TIME_DISPLAY = "beginTimeDisplay";
         final static String BEGIN_TIME_DISPLAY_DATE_ONLY_STRING = "beginTimeDisplayDateOnlyString";

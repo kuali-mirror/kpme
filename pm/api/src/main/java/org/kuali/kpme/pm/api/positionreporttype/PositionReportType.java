@@ -190,7 +190,7 @@ public final class PositionReportType
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create(contract.getPositionReportType());
             builder.setDescription(contract.getDescription());
             builder.setPmPositionReportTypeId(contract.getPmPositionReportTypeId());
@@ -266,47 +266,47 @@ public final class PositionReportType
         }
 
         public void setDescription(String description) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.description = description;
         }
 
         public void setPmPositionReportTypeId(String pmPositionReportTypeId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionReportTypeId = pmPositionReportTypeId;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 

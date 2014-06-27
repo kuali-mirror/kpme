@@ -111,15 +111,36 @@ public class DepartmentServiceImpl implements DepartmentService {
         return ModelObjectUtils.transform(departmentObjs, toDepartment);
     }
 
+    @Override
+    public List<Department> getDepartmentsWithGroupKey(String groupKeyCode, LocalDate asOfDate)
+    {
+        List<String> groupKeyCodes = new ArrayList<String>();
+        groupKeyCodes.add(groupKeyCode);
+
+        List<DepartmentBo> departmentObjs = departmentDao.getDepartmentsWithGroupKeys(groupKeyCodes, asOfDate);
+
+        return ModelObjectUtils.transform(departmentObjs, toDepartment);
+    }
+
 
     @Override
     public List<Department> getDepartments(String department, String location, LocalDate asOfDate) {
         List<HrGroupKey> groupKeys = hrGroupKeyService.getHrGroupKeysWithLocation(location, asOfDate);
         List<String> groupKeyCodes = getGroupKeyCodesFromList(groupKeys);
     	List<DepartmentBo> departmentObjs = departmentDao.getDepartmentsWithDepartmentAndGroupKeys(department, groupKeyCodes, asOfDate);
-    	
+
         return ModelObjectUtils.transform(departmentObjs, toDepartment);
     }
+
+
+    @Override
+    public List<Department> getDepartments(LocalDate asOfDate)
+    {
+        List<DepartmentBo> departmentObjs = departmentDao.getDepartments(asOfDate);
+
+        return ModelObjectUtils.transform(departmentObjs, toDepartment);
+    }
+
 
     public void setHrGroupKeyService(HrGroupKeyService hrGroupKeyService) {
         this.hrGroupKeyService = hrGroupKeyService;

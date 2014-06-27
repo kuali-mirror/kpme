@@ -19,12 +19,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+
 import org.joda.time.LocalDate;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
@@ -49,7 +45,8 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
 	
 	@XmlElement(name = Elements.CATEGORY, required = false)
     private final String category;
-    @XmlElement(name = Elements.NAMES, required = false)
+    @XmlElementWrapper(name = Elements.NAMES, required = false)
+    @XmlElement(name = Elements.NAME, required = false)
     private final List<String> names;
     @XmlElement(name = Elements.PM_FLAG_ID, required = false)
     private final String pmFlagId;
@@ -145,7 +142,7 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -153,7 +150,7 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setCategory(contract.getCategory());
             builder.setNames(contract.getNames());
@@ -205,37 +202,37 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
         }
 
         public void setCategory(String category) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.category = category;
         }
 
         public void setNames(List<String> names) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.names = names;
         }
 
         public void setPmFlagId(String pmFlagId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmFlagId = pmFlagId;
         }
 
         public void setPmPositionClassId(String pmPositionClassId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionClassId = pmPositionClassId;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDateOfOwner = effectiveLocalDateOfOwner;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
@@ -262,6 +259,7 @@ public final class ClassificationFlag extends AbstractDataTransferObject impleme
 
         final static String CATEGORY = "category";
         final static String NAMES = "names";
+        final static String NAME = "name";
         final static String PM_FLAG_ID = "pmFlagId";
         final static String PM_POSITION_CLASS_ID = "pmPositionClassId";
         final static String EFFECTIVE_LOCAL_DATE_OF_OWNER = "effectiveLocalDateOfOwner";

@@ -68,7 +68,7 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 
 	}
 	
-	public boolean isInValidIPClockLocation(String groupKeyCode, String dept, Long workArea,String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate){
+	public boolean isInvalidIPClockLocation(String groupKeyCode, String dept, Long workArea, String principalId, Long jobNumber, String ipAddress, LocalDate asOfDate){
 		Boolean isInValid = true;
 		
 		List<ClockLocationRule> lstClockLocationRules = getClockLocationRule(groupKeyCode, dept, workArea, principalId, jobNumber, asOfDate);

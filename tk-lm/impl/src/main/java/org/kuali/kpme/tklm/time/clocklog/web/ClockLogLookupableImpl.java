@@ -15,14 +15,19 @@
  */
 package org.kuali.kpme.tklm.time.clocklog.web;
 
+import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.lookup.KPMELookupableImpl;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ClockLogLookupableImpl extends KPMELookupableImpl {
 
@@ -46,16 +51,44 @@ public class ClockLogLookupableImpl extends KPMELookupableImpl {
     protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
 
         List<ClockLogBo> results = new ArrayList<ClockLogBo>();
-		Collection<?> searchResults = super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
-		for (Object searchResult : searchResults) {
-			if(searchResult != null) {
-				ClockLogBo aClockLog = (ClockLogBo) searchResult;
-				aClockLog.setClockedByMissedPunch(TkServiceLocator.getClockLogService().isClockLogCreatedByMissedPunch(aClockLog.getTkClockLogId()));
-				results.add(aClockLog);
-			}
-		}
+        Collection<?> searchResults = super.executeSearch(searchCriteria, wildcardAsLiteralSearchCriteria, bounded, searchResultsLimit);
+        for (Object searchResult : searchResults) {
+            if(searchResult != null) {
+                ClockLogBo aClockLog = (ClockLogBo) searchResult;
+                aClockLog.setClockedByMissedPunch(TkServiceLocator.getClockLogService().isClockLogCreatedByMissedPunch(aClockLog.getTkClockLogId()));
+                results.add(aClockLog);
+            }
+        }
 
-		return results;
-	}
+        return filterLookupResults(results, HrContext.getPrincipalId()) ;
+    }
+
+    protected List<ClockLogBo> filterLookupResults(List<ClockLogBo> rawResults, String userPrincipalId) {
+        List<ClockLogBo> results = new ArrayList<ClockLogBo>();
+        for (ClockLogBo clockLogObj : rawResults) {
+
+
+            String department = clockLogObj.getDept();
+            String groupKeyCode = clockLogObj.getGroupKeyCode();
+            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, groupKeyCode, clockLogObj.getClockDateTime().toLocalDate());
+            String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
+
+            Map<String, String> roleQualification = new HashMap<String, String>();
+
+            roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
+            roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKeyCode);
+            roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+
+            if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                    KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
+                    || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(userPrincipalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                    KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification)) {
+                results.add(clockLogObj);
+            }
+        }
+
+        return results;
+    }
 
 }

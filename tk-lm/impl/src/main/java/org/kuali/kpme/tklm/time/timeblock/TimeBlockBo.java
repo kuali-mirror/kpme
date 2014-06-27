@@ -295,6 +295,10 @@ public class TimeBlockBo extends CalendarBlock implements TimeBlockContract {
         return clockLogCreated;
     }
 
+    public Boolean getClockLogCreated() {
+        return clockLogCreated;
+    }
+
     public void setClockLogCreated(Boolean clockLogCreated) {
         this.clockLogCreated = clockLogCreated;
     }

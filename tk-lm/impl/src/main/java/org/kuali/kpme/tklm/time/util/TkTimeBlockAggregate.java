@@ -462,12 +462,12 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 				calendarEndsBeforeFlsa = !calendarEndSameAsFlsa && !calendarEndsAfterFlsa;
 			}
 			
-			if (index == currentWeeks.size() - 1 && !currentWeek.isLastWeekFull()) {
-				if(calendarEndSameAsFlsa && calendarEndsAfterFlsa) {
+			//if (index == currentWeeks.size() - 1 && !currentWeek.isLastWeekFull()) {
+				/*if(calendarEndSameAsFlsa && calendarEndsAfterFlsa) {
 					// do nothing
 				} else if (calendarEndsBeforeFlsa) {
 					flsaWeeks.add(new ArrayList<FlsaWeek>());
-				}
+				}*/
 				
 				
 				/*CalendarEntry nextCalendarEntry = HrServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
@@ -491,7 +491,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 						}
 					 }
 				}*/
-			}
+			//}
 			
 			flsaWeeks.add(flsaWeek);
 		}

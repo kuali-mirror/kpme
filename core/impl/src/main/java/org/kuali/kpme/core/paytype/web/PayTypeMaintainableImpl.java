@@ -34,4 +34,6 @@ public class PayTypeMaintainableImpl extends HrKeyedSetBusinessObjectMaintainabl
 		return PayTypeBo.from(HrServiceLocator.getPayTypeService().getPayType(id));
 	}
 
+
+
 }

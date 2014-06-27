@@ -454,7 +454,7 @@ implements PayTypeContract
 		}
 
 		public void setEffectiveKeySet(Set<EffectiveKey.Builder> effectiveKeySet) {
-			// TODO add validation of input value if required and throw IllegalArgumentException if needed
+
 			this.effectiveKeySet = effectiveKeySet;
 		}
 
@@ -526,12 +526,12 @@ implements PayTypeContract
 		}
 
 		public void setGroupKeyCodeSet(Set<String> groupKeyCodeSet) {
-			// TODO add validation of input value if required and throw IllegalArgumentException if needed
+
 			this.groupKeyCodeSet = groupKeyCodeSet;
 		}
 
 		public void setGroupKeySet(Set<HrGroupKey.Builder> groupKeySet) {
-			// TODO add validation of input value if required and throw IllegalArgumentException if needed
+
 			this.groupKeySet = groupKeySet;
 		}
 

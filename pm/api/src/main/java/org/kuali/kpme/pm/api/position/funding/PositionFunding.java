@@ -243,7 +243,7 @@ public final class PositionFunding extends AbstractDataTransferObject implements
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -251,7 +251,7 @@ public final class PositionFunding extends AbstractDataTransferObject implements
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setSubObjectCode(contract.getSubObjectCode());
             builder.setPmPositionFunctionId(contract.getPmPositionFunctionId());
@@ -357,82 +357,82 @@ public final class PositionFunding extends AbstractDataTransferObject implements
         }
 
         public void setSubObjectCode(String subObjectCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.subObjectCode = subObjectCode;
         }
 
         public void setPmPositionFunctionId(String pmPositionFunctionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionFunctionId = pmPositionFunctionId;
         }
 
         public void setPriorityFlag(boolean priorityFlag) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.priorityFlag = priorityFlag;
         }
 
         public void setObjectCode(String objectCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectCode = objectCode;
         }
 
         public void setOrgRefCode(String orgRefCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.orgRefCode = orgRefCode;
         }
 
         public void setAccount(String account) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.account = account;
         }
 
         public void setSubAccount(String subAccount) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.subAccount = subAccount;
         }
 
         public void setOrg(String org) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.org = org;
         }
 
         public void setAmount(BigDecimal amount) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.amount = amount;
         }
 
         public void setChart(String chart) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.chart = chart;
         }
 
         public void setSource(String source) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.source = source;
         }
 
         public void setPercent(BigDecimal percent) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.percent = percent;
         }
         
         public void setHrPositionId(String hrPositionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrPositionId = hrPositionId;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDateOfOwner = effectiveLocalDateOfOwner;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 

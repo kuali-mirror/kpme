@@ -79,7 +79,8 @@ public final class Assignment
     private static final long serialVersionUID = -8869596129477285844L;
     @XmlElement(name = Elements.NAME, required = false)
     private final String name;
-    @XmlElement(name = Elements.ASSIGNMENT_ACCOUNTS, required = false)
+    @XmlElementWrapper(name = Elements.ASSIGNMENT_ACCOUNTS, required = false)
+    @XmlElement(name = Elements.ASSIGNMENT_ACCOUNT, required = false)
     private final List<AssignmentAccount> assignmentAccounts;
     @XmlElement(name = Elements.PRINCIPAL_ID, required = true)
     private final String principalId;
@@ -676,6 +677,7 @@ public final class Assignment
 
         final static String NAME = "name";
         final static String ASSIGNMENT_ACCOUNTS = "assignmentAccounts";
+        final static String ASSIGNMENT_ACCOUNT = "assignmentAccount";
         final static String PRINCIPAL_ID = "principalId";
         final static String JOB = "job";
         final static String JOB_NUMBER = "jobNumber";

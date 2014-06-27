@@ -25,7 +25,9 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
-public abstract class HrKeyedSetBusinessObjectMaintainableImpl<O extends HrKeyedSetBusinessObject<O, K>, K extends HrBusinessObjectKey<O, K>> extends HrBusinessObjectMaintainableImpl {
+import java.util.ArrayList;
+
+public abstract class HrKeyedSetBusinessObjectMaintainableImpl<O extends HrKeyedSetBusinessObject<O, K>, K extends HrBusinessObjectKey<O, K>> extends HrDataObjectMaintainableImpl {
 
 	private static final long serialVersionUID = -1831580725621204948L;
 	
@@ -43,9 +45,14 @@ public abstract class HrKeyedSetBusinessObjectMaintainableImpl<O extends HrKeyed
             key.setOwnerId(owner.getId());
         }
     }
-	
-	
-	@Override
+
+    @Override
+    public void customInactiveSaveLogicNewEffective(HrBusinessObject oldHrObj) {
+        O bo = (O) oldHrObj;
+        bo.setEffectiveKeyList(new ArrayList<K>());
+    }
+
+    @Override
 	protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
                                                String collectionPath) {
 		boolean retVal = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);

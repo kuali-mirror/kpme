@@ -200,11 +200,11 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         private String objectId;
 
         private Builder() {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -212,7 +212,7 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
 //            builder.setLocation(contract.getLocation());
             builder.setPmPositionDeptId(contract.getPmPositionDeptId());
@@ -295,42 +295,42 @@ public final class PositionDepartment extends AbstractDataTransferObject impleme
         }
 
         public void setPmPositionDeptId(String pmPositionDeptId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionDeptId = pmPositionDeptId;
         }
 
         public void setDeptAfflObj(DepartmentAffiliation.Builder deptAfflObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.deptAfflObj = deptAfflObj;
         }
 
         public void setDepartment(String department) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.department = department;
         }
 
         public void setDeptAffl(String deptAffl) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.deptAffl = deptAffl;
         }
         
         public void setHrPositionId(String hrPositionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrPositionId = hrPositionId;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDateOfOwner = effectiveLocalDateOfOwner;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 

@@ -121,7 +121,9 @@
 	</bean>
 
     <bean id="Classification-payGrade" parent="Classification-payGrade-parentBean" />
-    <bean id="Classification-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade" />
+    <bean id="Classification-payGrade-parentBean" abstract="true" parent="KpmeAttributeReference-payGrade" >
+    	<property name="required" value="false"/>
+    </bean>
 
 	<bean id="Classification-percentTime" parent="Classification-percentTime-parentBean" />
 	<bean id="Classification-percentTime-parentBean" abstract="true" parent="AttributeDefinition">

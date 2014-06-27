@@ -30,6 +30,8 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
+import java.util.ArrayList;
+
 /**
  * Override the Maintenance page behavior for Assignment object
  * 
@@ -67,6 +69,12 @@ public class AssignmentMaintainableServiceImpl extends HrDataObjectMaintainableI
             assignAcct.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         }
         super.prepareForSave();
+    }
+
+    @Override
+    public void customInactiveSaveLogicNewEffective(HrBusinessObject oldHrObj) {
+        AssignmentBo bo = (AssignmentBo)oldHrObj;
+        bo.setAssignmentAccounts(new ArrayList<AssignmentAccountBo>());
     }
 
 	@Override

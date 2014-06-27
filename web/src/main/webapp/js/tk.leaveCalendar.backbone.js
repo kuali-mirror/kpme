@@ -653,6 +653,7 @@ $(function () {
             var assignment = _.isString(e) ? e : this.$("#selectedAssignment option:selected").val();
             // We want to remember what the previous selected earn code was.
             var earnCode = this.$('#selectedEarnCode option:selected').val();
+            var startDateVal = _.isUndefined(startDate) ? this.$("#startDate").val() : startDate;
             
             /*var startDate = this.$("#startDate").val();
             var endDate = this.$("#endDate").val();*/
@@ -665,7 +666,7 @@ $(function () {
                 async : false,
                 data : {
                     selectedAssignment : assignment,
-                    startDate : startDate,
+                    startDate : startDateVal,
                     documentId : docId,
                     selectedEarnCode : leaveBlockEarnCode,
                     timeBlockReadOnly : isTimeBlockReadOnly

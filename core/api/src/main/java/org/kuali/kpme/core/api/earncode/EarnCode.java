@@ -426,7 +426,7 @@ public final class EarnCode
         }
 
         public static Builder create(String earnCode) {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder(earnCode);
         }
 
@@ -434,7 +434,7 @@ public final class EarnCode
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create(contract.getEarnCode());
             builder.setAccrualBalanceAction(contract.getAccrualBalanceAction());
             builder.setFractionalTimeAllowed(contract.getFractionalTimeAllowed());
@@ -636,162 +636,162 @@ public final class EarnCode
         }
 
         public void setAccrualBalanceAction(String accrualBalanceAction) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.accrualBalanceAction = accrualBalanceAction;
         }
 
         public void setFractionalTimeAllowed(String fractionalTimeAllowed) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.fractionalTimeAllowed = fractionalTimeAllowed;
         }
 
         public void setRoundingOption(String roundingOption) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.roundingOption = roundingOption;
         }
 
         public void setEligibleForAccrual(String eligibleForAccrual) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.eligibleForAccrual = eligibleForAccrual;
         }
 
         public void setAffectPay(String affectPay) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.affectPay = affectPay;
         }
 
         public void setAllowScheduledLeave(String allowScheduledLeave) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.allowScheduledLeave = allowScheduledLeave;
         }
 
         public void setFmla(String fmla) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.fmla = fmla;
         }
 
         public void setWorkmansComp(String workmansComp) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.workmansComp = workmansComp;
         }
 
         public void setDefaultAmountofTime(Long defaultAmountofTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.defaultAmountofTime = defaultAmountofTime;
         }
 
         public void setAllowNegativeAccrualBalance(String allowNegativeAccrualBalance) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.allowNegativeAccrualBalance = allowNegativeAccrualBalance;
         }
 
         public void setEarnCode(String earnCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCode = earnCode;
         }
 
         public void setDescription(String description) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.description = description;
         }
 
         public void setHrEarnCodeId(String hrEarnCodeId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrEarnCodeId = hrEarnCodeId;
         }
 
         public void setAccrualCategory(String accrualCategory) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.accrualCategory = accrualCategory;
         }
 
         public void setAccrualCategoryObj(AccrualCategory.Builder accrualCategoryObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.accrualCategoryObj = accrualCategoryObj;
         }
 
         public void setInflateMinHours(BigDecimal inflateMinHours) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.inflateMinHours = inflateMinHours;
         }
 
         public void setRollupToEarnCode(String rollupToEarnCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.rollupToEarnCode = rollupToEarnCode;
         }
 
         public void setLeavePlan(String leavePlan) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.leavePlan = leavePlan;
         }
 
         public void setRollupToEarnCodeObj(EarnCode.Builder rollupToEarnCodeObj) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.rollupToEarnCodeObj = rollupToEarnCodeObj;
         }
 
         public void setCountsAsRegularPay(String countsAsRegularPay) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.countsAsRegularPay = countsAsRegularPay;
         }
 
         public void setUsageLimit(String usageLimit) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.usageLimit = usageLimit;
         }
 
         public void setRecordMethod(String recordMethod) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.recordMethod = recordMethod;
         }
 
         public void setInflateFactor(BigDecimal inflateFactor) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.inflateFactor = inflateFactor;
         }
 
         public void setOvtEarnCode(boolean ovtEarnCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.ovtEarnCode = ovtEarnCode;
         }
 
         public void setEarnCodeType(String earnCodeType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.earnCodeType = earnCodeType;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 

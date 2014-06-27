@@ -32,15 +32,15 @@ public class AccrualCategoryInquirableImpl extends KPMEInquirableImpl {
 
     @Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		AccrualCategoryContract ac = null;
+		AccrualCategoryBo ac = null;
 		if(StringUtils.isNotBlank((String)fieldValues.get("lmAccrualCategoryId"))) {
-			ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("lmAccrualCategoryId"));
+			ac = AccrualCategoryBo.from(HrServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("lmAccrualCategoryId")));
 			
 		} else if(StringUtils.isNotBlank((String)fieldValues.get("accrualCategory"))) {
 			String accrualCategory = (String)fieldValues.get("accrualCategory");
             String effDate = (String) fieldValues.get("effectiveDate");
             LocalDate effectiveDate = StringUtils.isBlank(effDate) ? LocalDate.now() : TKUtils.formatDateString(effDate);
-		    ac = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, effectiveDate);
+		    ac = AccrualCategoryBo.from(HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, effectiveDate));
 		} else {
 			ac = (AccrualCategoryBo) super.getBusinessObject(fieldValues);
 		}

@@ -23,10 +23,12 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.cache.CacheUtils;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class HrDataObjectMaintainableImpl extends MaintainableImpl {
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HrDataObjectMaintainableImpl.class);
@@ -51,8 +53,10 @@ public abstract class HrDataObjectMaintainableImpl extends MaintainableImpl {
 					oldHrObj.setEffectiveDate(hrObj.getEffectiveDate());
 					oldHrObj.setActive(false);
 					oldHrObj.setId(null);
+                    customInactiveSaveLogicNewEffective(oldHrObj);
 				}
-				KRADServiceLocatorWeb.getLegacyDataAdapter().save(oldHrObj);
+
+                KRADServiceLocatorWeb.getLegacyDataAdapter().save(oldHrObj);
 			}
 		}
 		hrObj.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -84,7 +88,8 @@ public abstract class HrDataObjectMaintainableImpl extends MaintainableImpl {
     }
 	
 	public abstract HrBusinessObject getObjectById(String id);
-	public void customSaveLogic(HrBusinessObject hrObj){};
+	public void customSaveLogic(HrBusinessObject hrObj){}
+    public void customInactiveSaveLogicNewEffective(HrBusinessObject oldHrObj) {}
 
     @Override
     public void prepareForSave() {

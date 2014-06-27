@@ -290,7 +290,7 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
 
 
         public void setPstnRptGrpSubCat(String pstnRptGrpSubCat) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pstnRptGrpSubCat = pstnRptGrpSubCat;
         }
 
@@ -302,7 +302,7 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
         }
 
         public void setPmPstnRptGrpSubCatId(String pmPstnRptGrpSubCatId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPstnRptGrpSubCatId = pmPstnRptGrpSubCatId;
         }
 
@@ -314,42 +314,42 @@ public final class PositionReportGroupSubCategory extends AbstractDataTransferOb
         }
 
         public void setDescription(String description) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.description = description;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 

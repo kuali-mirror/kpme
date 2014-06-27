@@ -19,12 +19,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -81,6 +76,11 @@ import org.w3c.dom.Element;
     Position.Elements.PAY_GRADE,
     Position.Elements.DUTY_LIST,
     Position.Elements.CONTRACT,
+    Position.Elements.POSITION_CLASS,
+    Position.Elements.APPOINTMENT_TYPE,
+    Position.Elements.REPORTS_TO_WORKING_TITLE,
+    Position.Elements.PRIMARY_DEPARTMENT,
+    Position.Elements.PROCESS,
     Position.Elements.POSITION_NUMBER,
     Position.Elements.HR_POSITION_ID,
     Position.Elements.DESCRIPTION,
@@ -109,7 +109,8 @@ public final class Position extends AbstractDataTransferObject implements Positi
     private final String classificationTitle;
     @XmlElement(name = Elements.SALARY_GROUP, required = false)
     private final String salaryGroup;
-    @XmlElement(name = Elements.QUALIFICATION_LIST, required = false)
+    @XmlElementWrapper(name = Elements.QUALIFICATION_LIST, required = false)
+    @XmlElement(name = Elements.QUALIFICATION, required = false)
     private final List<PositionQualification> qualificationList;
     @XmlElement(name = Elements.REPORTS_TO_PRINCIPAL_ID, required = false)
     private final String reportsToPrincipalId;
@@ -125,7 +126,8 @@ public final class Position extends AbstractDataTransferObject implements Positi
     private final int maxPoolHeadCount;
     @XmlElement(name = Elements.TENURE_ELIGIBLE, required = false)
     private final String tenureEligible;
-    @XmlElement(name = Elements.DEPARTMENT_LIST, required = false)
+    @XmlElementWrapper(name = Elements.DEPARTMENT_LIST, required = false)
+    @XmlElement(name = Elements.DEPARTMENT, required = false)
     private final List<PositionDepartment> departmentList;
     @XmlElement(name = Elements.POSITION_STATUS, required = false)
     private final String positionStatus;
@@ -137,13 +139,16 @@ public final class Position extends AbstractDataTransferObject implements Positi
     private final DateTime expectedEndDateTime;
     @XmlElement(name = Elements.REPORTS_TO_POSITION_ID, required = false)
     private final String reportsToPositionId;
-    @XmlElement(name = Elements.REQUIRED_QUAL_LIST, required = false)
+    @XmlElementWrapper(name = Elements.REQUIRED_QUAL_LIST, required = false)
+    @XmlElement(name = Elements.REQUIRED_QUAL, required = false)
     private final List<ClassificationQualification> requiredQualList;
-    @XmlElement(name = Elements.POSITION_RESPONSIBILITY_LIST, required = false)
+    @XmlElementWrapper(name = Elements.POSITION_RESPONSIBILITY_LIST, required = false)
+    @XmlElement(name = Elements.POSITION_RESPONSIBILITY, required = false)
     private final List<PositionResponsibility> positionResponsibilityList;
     @XmlElement(name = Elements.PM_POSITION_CLASS_ID, required = false)
     private final String pmPositionClassId;
-    @XmlElement(name = Elements.FUNDING_LIST, required = false)
+    @XmlElementWrapper(name = Elements.FUNDING_LIST, required = false)
+    @XmlElement(name = Elements.FUNDING, required = false)
     private final List<PositionFunding> fundingList;
 //    @XmlElement(name = Elements.INSTITUTION, required = false)
 //    private final String institution;
@@ -155,16 +160,28 @@ public final class Position extends AbstractDataTransferObject implements Positi
     private final String category;
     @XmlElement(name = Elements.LEAVE_PLAN, required = false)
     private final String leavePlan;
-    @XmlElement(name = Elements.FLAG_LIST, required = false)
+    @XmlElementWrapper(name = Elements.FLAG_LIST, required = false)
+    @XmlElement(name = Elements.FLAG, required = false)
     private final List<PstnFlag> flagList;
     @XmlElement(name = Elements.PAY_STEP, required = false)
     private final String payStep;
     @XmlElement(name = Elements.PAY_GRADE, required = false)
     private final String payGrade;
-    @XmlElement(name = Elements.DUTY_LIST, required = false)
+    @XmlElementWrapper(name = Elements.DUTY_LIST, required = false)
+    @XmlElement(name = Elements.DUTY, required = false)
     private final List<PositionDuty> dutyList;
     @XmlElement(name = Elements.CONTRACT, required = false)
     private final String contract;
+    @XmlElement(name = Elements.POSITION_CLASS, required = false)
+    private final String positionClass;
+    @XmlElement(name = Elements.APPOINTMENT_TYPE, required = false)
+    private final String appointmentType;
+    @XmlElement(name = Elements.REPORTS_TO_WORKING_TITLE, required = false)
+    private final String reportsToWorkingTitle;
+    @XmlElement(name = Elements.PRIMARY_DEPARTMENT, required = false)
+    private final String primaryDepartment;
+    @XmlElement(name = Elements.PROCESS, required = false)
+    private final String process;
     @XmlElement(name = Elements.POSITION_NUMBER, required = false)
     private final String positionNumber;
     @XmlElement(name = Elements.HR_POSITION_ID, required = false)
@@ -231,6 +248,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
         this.dutyList = null;
         this.contract = null;
         this.positionNumber = null;
+        this.positionClass = null;
+        this.appointmentType = null;
+        this.reportsToWorkingTitle = null;
+        this.primaryDepartment = null;
+        this.process = null;
         this.hrPositionId = null;
         this.description = null;
         this.versionNumber = null;
@@ -279,6 +301,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
         this.dutyList = ModelObjectUtils.<PositionDuty>buildImmutableCopy(builder.getDutyList());
         this.contract = builder.getContract();
         this.positionNumber = builder.getPositionNumber();
+        this.positionClass = builder.getPositionClass();
+        this.appointmentType = builder.getAppointmentType();
+        this.reportsToWorkingTitle = builder.getReportsToWorkingTitle();
+        this.primaryDepartment = builder.getPrimaryDepartment();
+        this.process = builder.getProcess();
         this.hrPositionId = builder.getHrPositionId();
         this.description = builder.getDescription();
         this.versionNumber = builder.getVersionNumber();
@@ -443,6 +470,31 @@ public final class Position extends AbstractDataTransferObject implements Positi
     }
 
     @Override
+    public String getPositionClass() {
+        return this.positionClass;
+    }
+
+    @Override
+    public String getAppointmentType() {
+        return this.appointmentType;
+    }
+
+    @Override
+    public String getReportsToWorkingTitle() {
+        return this.reportsToWorkingTitle;
+    }
+
+    @Override
+    public String getPrimaryDepartment() {
+        return this.primaryDepartment;
+    }
+
+    @Override
+    public String getProcess() {
+        return this.process;
+    }
+
+    @Override
     public String getPayGrade() {
         return this.payGrade;
     }
@@ -557,6 +609,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
         private String leavePlan;
         private List<PstnFlag.Builder> flagList;
         private String payStep;
+        private String positionClass;
+        private String appointmentType;
+        private String reportsToWorkingTitle;
+        private String primaryDepartment;
+        private String process;
         private String payGrade;
         private List<PositionDuty.Builder> dutyList;
         private String contract;
@@ -659,6 +716,11 @@ public final class Position extends AbstractDataTransferObject implements Positi
             builder.setLeavePlan(contract.getLeavePlan());
             builder.setFlagList(ModelObjectUtils.transform(contract.getFlagList(), toPstnFlagBuilder));
             builder.setPayStep(contract.getPayStep());
+            builder.setPositionClass(contract.getPositionClass());
+            builder.setAppointmentType(contract.getAppointmentType());
+            builder.setReportsToWorkingTitle(contract.getReportsToWorkingTitle());
+            builder.setPrimaryDepartment(contract.getPrimaryDepartment());
+            builder.setProcess(contract.getProcess());
             builder.setPayGrade(contract.getPayGrade());
             builder.setDutyList(ModelObjectUtils.transform(contract.getDutyList(), toPositionDutyBuilder));
             builder.setContract(contract.getContract());
@@ -673,6 +735,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
             builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
+
             return builder;
         }
 
@@ -831,6 +894,31 @@ public final class Position extends AbstractDataTransferObject implements Positi
         }
 
         @Override
+        public String getPositionClass() {
+            return this.positionClass;
+        }
+
+        @Override
+        public String getAppointmentType() {
+            return this.appointmentType;
+        }
+
+        @Override
+        public String getReportsToWorkingTitle() {
+            return this.reportsToWorkingTitle;
+        }
+
+        @Override
+        public String getPrimaryDepartment() {
+            return this.primaryDepartment;
+        }
+
+        @Override
+        public String getProcess() {
+            return this.process;
+        }
+
+        @Override
         public String getPayGrade() {
             return this.payGrade;
         }
@@ -906,167 +994,188 @@ public final class Position extends AbstractDataTransferObject implements Positi
         }
 
 //        public void setLocation(String location) {
-//            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+//
 //            this.location = location;
 //        }
 
         public void setBenefitsEligible(String benefitsEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.benefitsEligible = benefitsEligible;
         }
 
         public void setPercentTime(BigDecimal percentTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.percentTime = percentTime;
         }
 
         public void setClassificationTitle(String classificationTitle) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.classificationTitle = classificationTitle;
         }
 
         public void setSalaryGroup(String salaryGroup) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.salaryGroup = salaryGroup;
         }
 
         public void setQualificationList(List<PositionQualification.Builder> qualificationList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.qualificationList = qualificationList;
         }
 
         public void setReportsToPrincipalId(String reportsToPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.reportsToPrincipalId = reportsToPrincipalId;
         }
 
         public void setLeaveEligible(String leaveEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.leaveEligible = leaveEligible;
         }
 
         public void setPositionReportGroup(String positionReportGroup) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionReportGroup = positionReportGroup;
         }
 
         public void setPositionType(String positionType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionType = positionType;
         }
 
         public void setPoolEligible(String poolEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.poolEligible = poolEligible;
         }
 
         public void setMaxPoolHeadCount(int maxPoolHeadCount) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.maxPoolHeadCount = maxPoolHeadCount;
         }
 
         public void setTenureEligible(String tenureEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.tenureEligible = tenureEligible;
         }
 
         public void setDepartmentList(List<PositionDepartment.Builder> departmentList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.departmentList = departmentList;
         }
 
         public void setPositionStatus(String positionStatus) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionStatus = positionStatus;
         }
 
         public void setContractType(String contractType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.contractType = contractType;
         }
 
         public void setRenewEligible(String renewEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.renewEligible = renewEligible;
         }
 
         public void setExpectedEndDateTime(DateTime expectedEndDateTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.expectedEndDateTime = expectedEndDateTime;
         }
 
         public void setReportsToPositionId(String reportsToPositionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.reportsToPositionId = reportsToPositionId;
         }
 
         public void setRequiredQualList(List<ClassificationQualification.Builder> requiredQualList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.requiredQualList = requiredQualList;
         }
 
         public void setPositionResponsibilityList(List<PositionResponsibility.Builder> positionResponsibilityList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionResponsibilityList = positionResponsibilityList;
         }
 
         public void setPmPositionClassId(String pmPositionClassId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionClassId = pmPositionClassId;
         }
 
         public void setFundingList(List<PositionFunding.Builder> fundingList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.fundingList = fundingList;
         }
 
 //        public void setInstitution(String institution) {
-//            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+//
 //            this.institution = institution;
 //        }
 
         public void setWorkMonths(int workMonths) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.workMonths = workMonths;
         }
 
         public void setTemporary(String temporary) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.temporary = temporary;
         }
 
         public void setCategory(String category) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.category = category;
         }
 
         public void setLeavePlan(String leavePlan) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.leavePlan = leavePlan;
         }
 
         public void setFlagList(List<PstnFlag.Builder> flagList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.flagList = flagList;
         }
 
         public void setPayStep(String payStep) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.payStep = payStep;
         }
 
+        public void setPositionClass(String positionClass) {
+            this.positionClass = positionClass;
+        }
+
+        public void setAppointmentType(String appointmentType) {
+            this.appointmentType = appointmentType;
+        }
+
+        public void setReportsToWorkingTitle(String reportsToWorkingTitle) {
+            this.reportsToWorkingTitle = reportsToWorkingTitle;
+        }
+
+        public void setPrimaryDepartment(String primaryDepartment) {
+            this.primaryDepartment = primaryDepartment;
+        }
+
+        public void setProcess(String process) {
+            this.process = process;
+        }
+
+
         public void setPayGrade(String payGrade) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.payGrade = payGrade;
         }
 
         public void setDutyList(List<PositionDuty.Builder> dutyList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.dutyList = dutyList;
         }
 
         public void setContract(String contract) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.contract = contract;
         }
 
@@ -1078,47 +1187,47 @@ public final class Position extends AbstractDataTransferObject implements Positi
         }
 
         public void setHrPositionId(String hrPositionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.hrPositionId = hrPositionId;
         }
 
         public void setDescription(String description) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.description = description;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
         
@@ -1160,6 +1269,7 @@ public final class Position extends AbstractDataTransferObject implements Positi
         final static String CLASSIFICATION_TITLE = "classificationTitle";
         final static String SALARY_GROUP = "salaryGroup";
         final static String QUALIFICATION_LIST = "qualificationList";
+        final static String QUALIFICATION = "qualification";
         final static String REPORTS_TO_PRINCIPAL_ID = "reportsToPrincipalId";
         final static String LEAVE_ELIGIBLE = "leaveEligible";
         final static String POSITION_REPORT_GROUP = "positionReportGroup";
@@ -1168,24 +1278,35 @@ public final class Position extends AbstractDataTransferObject implements Positi
         final static String MAX_POOL_HEAD_COUNT = "maxPoolHeadCount";
         final static String TENURE_ELIGIBLE = "tenureEligible";
         final static String DEPARTMENT_LIST = "departmentList";
+        final static String DEPARTMENT = "department";
         final static String POSITION_STATUS = "positionStatus";
         final static String CONTRACT_TYPE = "contractType";
         final static String RENEW_ELIGIBLE = "renewEligible";
         final static String EXPECTED_END_DATE_TIME = "expectedEndDateTime";
         final static String REPORTS_TO_POSITION_ID = "reportsToPositionId";
         final static String REQUIRED_QUAL_LIST = "requiredQualList";
+        final static String REQUIRED_QUAL = "requiredQual";
         final static String POSITION_RESPONSIBILITY_LIST = "positionResponsibilityList";
+        final static String POSITION_RESPONSIBILITY = "positionResponsibility";
         final static String PM_POSITION_CLASS_ID = "pmPositionClassId";
         final static String FUNDING_LIST = "fundingList";
+        final static String FUNDING = "funding";
 //        final static String INSTITUTION = "institution";
         final static String WORK_MONTHS = "workMonths";
         final static String TEMPORARY = "temporary";
         final static String CATEGORY = "category";
         final static String LEAVE_PLAN = "leavePlan";
         final static String FLAG_LIST = "flagList";
+        final static String FLAG = "flag";
         final static String PAY_STEP = "payStep";
+        final static String POSITION_CLASS = "positionClass";
+        final static String APPOINTMENT_TYPE = "appointmentType";
+        final static String REPORTS_TO_WORKING_TITLE = "reportsToWorkingTitle";
+        final static String PRIMARY_DEPARTMENT = "primaryDepartment";
+        final static String PROCESS = "process";
         final static String PAY_GRADE = "payGrade";
         final static String DUTY_LIST = "dutyList";
+        final static String DUTY = "duty";
         final static String CONTRACT = "contract";
         final static String POSITION_NUMBER = "positionNumber";
         final static String HR_POSITION_ID = "hrPositionId";

@@ -25,6 +25,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 
 import com.google.common.collect.ImmutableMap;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 
 public class AccrualCategoryRuleBo extends HrBusinessObject implements AccrualCategoryRuleContract {
@@ -274,5 +275,17 @@ public class AccrualCategoryRuleBo extends HrBusinessObject implements AccrualCa
 
         return AccrualCategoryRule.Builder.create(bo).build();
     }
+
+    public static final ModelObjectUtils.Transformer<AccrualCategoryRuleBo, AccrualCategoryRule> toImmutable = new ModelObjectUtils.Transformer<AccrualCategoryRuleBo, AccrualCategoryRule>() {
+        public AccrualCategoryRule transform(AccrualCategoryRuleBo input) {
+            return AccrualCategoryRuleBo.to(input);
+        };
+    };
+
+    public static final ModelObjectUtils.Transformer<AccrualCategoryRule, AccrualCategoryRuleBo> toBo = new ModelObjectUtils.Transformer<AccrualCategoryRule, AccrualCategoryRuleBo>() {
+        public AccrualCategoryRuleBo transform(AccrualCategoryRule input) {
+            return AccrualCategoryRuleBo.from(input);
+        };
+    };
 
 }

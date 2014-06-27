@@ -345,32 +345,32 @@ public final class PayStep
         }
 
         public void setCompRate(BigDecimal compRate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.compRate = compRate;
         }
 
         public void setStepNumber(int stepNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.stepNumber = stepNumber;
         }
 
         public void setPayGrade(String payGrade) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.payGrade = payGrade;
         }
 
         public void setPmPayStepId(String pmPayStepId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPayStepId = pmPayStepId;
         }
 
         public void setServiceUnit(String serviceUnit) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.serviceUnit = serviceUnit;
         }
 
         public void setPayStep(String payStep) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
         	if (StringUtils.isWhitespace(payStep)) {
                 throw new IllegalArgumentException("payStep is blank");
             }
@@ -378,47 +378,47 @@ public final class PayStep
         }
 
         public void setSalaryGroup(String salaryGroup) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.salaryGroup = salaryGroup;
         }
 
         public void setServiceAmount(int serviceAmount) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.serviceAmount = serviceAmount;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
     }

@@ -62,6 +62,18 @@ public interface DepartmentService {
     List<Department> getDepartmentsWithLocation(String location, LocalDate asOfDate);
 
     /**
+     * Fetches a list of Department objects as of the specified date all of which
+     * belong to the indicated location.
+     *
+     * @param location The search criteria
+     * @param asOfDate Effective date
+     * @return A List<Department> object.
+     */
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'groupKeyCode=' + #p0 + '|' + 'asOfDate=' + #p1")
+    List<Department> getDepartmentsWithGroupKey(String groupKeyCode, LocalDate asOfDate);
+
+
+    /**
      * Fetches a list of departments as of the specified date all of which
      * belong to the indicated location.
      *
@@ -104,4 +116,17 @@ public interface DepartmentService {
      */
     @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartments}' + 'department=' + #p0 + '|' + 'location=' + #p1 + '|' + 'asOfDate=' + #p2")
     List<Department> getDepartments(String department, String location, LocalDate asOfDate);
+
+
+    /**
+     * Fetch a list of Department objects as of the specified date all of which
+     * match the indicated department and location.
+     *
+     * @param department
+     * @param location
+     * @param asOfDate
+     * @return A List<Department> object
+     */
+    @Cacheable(value=DepartmentContract.CACHE_NAME, key="'{getDepartments}' + 'asOfDate=' + #p0")
+    List<Department> getDepartments(LocalDate asOfDate);
 }

@@ -20,12 +20,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
@@ -104,13 +100,16 @@ public final class Classification extends AbstractDataTransferObject implements 
     private final String tenureEligible;
     @XmlElement(name = Elements.EXTERNAL_REFERENCE, required = false)
     private final String externalReference;
-    @XmlElement(name = Elements.QUALIFICATION_LIST, required = false)
+    @XmlElementWrapper(name = Elements.QUALIFICATION_LIST, required = false)
+    @XmlElement(name = Elements.QUALIFICATION, required = false)
     private final List<ClassificationQualification> qualificationList;
     @XmlElement(name = Elements.PM_POSITION_CLASS_ID, required = false)
     private final String pmPositionClassId;
-    @XmlElement(name = Elements.FLAG_LIST, required = false)
+    @XmlElementWrapper(name = Elements.FLAG_LIST, required = false)
+    @XmlElement(name = Elements.FLAG, required = false)
     private final List<ClassificationFlag> flagList;
-    @XmlElement(name = Elements.DUTY_LIST, required = false)
+    @XmlElementWrapper(name = Elements.DUTY_LIST, required = false)
+    @XmlElement(name = Elements.DUTY, required = false)
     private final List<ClassificationDuty> dutyList;
     @XmlElement(name = Elements.LEAVE_PLAN, required = false)
     private final String leavePlan;
@@ -418,7 +417,7 @@ public final class Classification extends AbstractDataTransferObject implements 
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -426,7 +425,7 @@ public final class Classification extends AbstractDataTransferObject implements 
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setEffectiveKeySet(ModelObjectUtils.transformSet(contract.getEffectiveKeySet(), toEffectiveKeyBuilder));
 
@@ -601,137 +600,137 @@ public final class Classification extends AbstractDataTransferObject implements 
         }
 
         public void setEffectiveKeySet(Set<EffectiveKey.Builder> effectiveKeySet) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveKeySet = effectiveKeySet;
         }
 
         public void setPoolEligible(String poolEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.poolEligible = poolEligible;
         }
 
         public void setPositionType(String positionType) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionType = positionType;
         }
 
         public void setPositionReportGroup(String positionReportGroup) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionReportGroup = positionReportGroup;
         }
 
         public void setLeaveEligible(String leaveEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.leaveEligible = leaveEligible;
         }
 
         public void setBenefitsEligible(String benefitsEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.benefitsEligible = benefitsEligible;
         }
 
         public void setClassificationTitle(String classificationTitle) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.classificationTitle = classificationTitle;
         }
 
         public void setPositionClass(String positionClass) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.positionClass = positionClass;
         }
 
         public void setPercentTime(BigDecimal percentTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.percentTime = percentTime;
         }
 
         public void setSalaryGroup(String salaryGroup) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.salaryGroup = salaryGroup;
         }
 
         public void setTenureEligible(String tenureEligible) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.tenureEligible = tenureEligible;
         }
 
         public void setExternalReference(String externalReference) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.externalReference = externalReference;
         }
 
         public void setQualificationList(List<ClassificationQualification.Builder> qualificationList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.qualificationList = qualificationList;
         }
 
         public void setPmPositionClassId(String pmPositionClassId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.pmPositionClassId = pmPositionClassId;
         }
 
         public void setFlagList(List<ClassificationFlag.Builder> flagList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.flagList = flagList;
         }
 
         public void setDutyList(List<ClassificationDuty.Builder> dutyList) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.dutyList = dutyList;
         }
 
         public void setLeavePlan(String leavePlan) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.leavePlan = leavePlan;
         }
 
         public void setPayGrade(String payGrade) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.payGrade = payGrade;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 
         public void setGroupKeyCodeSet(Set<String> groupKeyCodeSet) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKeyCodeSet = groupKeyCodeSet;
         }
 
         public void setGroupKeySet(Set<HrGroupKey.Builder> groupKeySet) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKeySet = groupKeySet;
         }
     }
@@ -769,9 +768,12 @@ public final class Classification extends AbstractDataTransferObject implements 
         final static String TENURE_ELIGIBLE = "tenureEligible";
         final static String EXTERNAL_REFERENCE = "externalReference";
         final static String QUALIFICATION_LIST = "qualificationList";
+        final static String QUALIFICATION = "qualification";
         final static String PM_POSITION_CLASS_ID = "pmPositionClassId";
         final static String FLAG_LIST = "flagList";
+        final static String FLAG = "flag";
         final static String DUTY_LIST = "dutyList";
+        final static String DUTY = "duty";
         final static String LEAVE_PLAN = "leavePlan";
         final static String PAY_GRADE = "payGrade";
         final static String ACTIVE = "active";

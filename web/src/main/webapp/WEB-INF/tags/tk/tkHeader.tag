@@ -43,7 +43,9 @@
 	
 	<c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
     <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
-
+    <c:set var="anyApprover" value="<%=org.kuali.kpme.core.util.HrContext.isAnyApprover()%>"/>
+    <c:set var="payroll" value="<%=org.kuali.kpme.core.util.HrContext.isAnyPayrollProcessor()%>"/>
+    <c:set var="deptAdmin" value="<%=org.kuali.kpme.tklm.time.util.TkContext.isDepartmentAdmin()%>"/>
 
 	<input type="hidden" id="tabId" value="${tabId}" />
 
@@ -66,28 +68,46 @@
 						</c:if>
 					</span>
 					<div class="go-to-portal">
-						<c:if test="${systemAdmin || locationAdmin}">
-							<table align="left" width="100%">
-								<tr>
-									<td width="10%"></td>	
-									<td><select id="goToPortal" name="goToPortal"
-										ONCHANGE="location = this.options[this.selectedIndex].value;"
-										style="width: 150px">
-											<option value="" selected="selected">Go To...</option>
-											<option value="${ConfigProperties.application.url}/portal.do?selectedTab=main">
-												KHR Menu</option>
-											<option value="${ConfigProperties.application.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.application.url}/kew/ActionList.do">
-												Action List</option>	
-											<option value="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.application.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do">
-												Doc Search</option>
-											<option value="${ConfigProperties.application.url}/portal.do?selectedTab=kpmemaintenance">
-												KHR Maintenance</option>
-											<option value="${ConfigProperties.application.url}/portal.do?selectedTab=riceadministration">
-												Rice Administration</option>
-									</select></td>
-								</tr>
-							</table>
-						</c:if>
+                        <c:choose>
+                            <c:when test="${systemAdmin || locationAdmin}">
+                                <table align="left" width="100%">
+                                    <tr>
+                                        <td width="10%"></td>
+                                        <td><select id="goToPortal" name="goToPortal"
+                                            ONCHANGE="location = this.options[this.selectedIndex].value;"
+                                            style="width: 150px">
+                                                <option value="" selected="selected">Go To...</option>
+                                                <option value="${ConfigProperties.application.url}/portal.do?selectedTab=main">
+                                                    KHR Menu</option>
+                                                <option value="${ConfigProperties.application.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.rice.server.url}/kew/ActionList.do">
+                                                    Action List</option>
+                                                <option value="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.rice.server.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do">
+                                                    Doc Search</option>
+                                                <option value="${ConfigProperties.application.url}/portal.do?selectedTab=kpmemaintenance">
+                                                    KHR Maintenance</option>
+                                                <option value="${ConfigProperties.application.url}/portal.do?selectedTab=riceadministration">
+                                                    Rice Administration</option>
+                                        </select></td>
+                                    </tr>
+                                </table>
+                            </c:when>
+                            <c:when test="${anyApprover || payroll || deptAdmin}">
+                                <table align="left" width="100%">
+                                    <tr>
+                                        <td width="10%"></td>
+                                        <td><select id="goToPortal" name="goToPortal"
+                                                    ONCHANGE="location = this.options[this.selectedIndex].value;"
+                                                    style="width: 150px">
+                                            <option value="" selected="selected">Go To...</option>
+                                            <option value="${ConfigProperties.application.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.rice.server.url}/kew/ActionList.do">
+                                                Action List</option>
+                                            <option value="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.rice.server.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do">
+                                                Doc Search</option>
+                                        </select></td>
+                                    </tr>
+                                </table>
+                            </c:when>
+                        </c:choose>
 					</div>
 				</div>
 				<div class="person-info" style="float: right;">

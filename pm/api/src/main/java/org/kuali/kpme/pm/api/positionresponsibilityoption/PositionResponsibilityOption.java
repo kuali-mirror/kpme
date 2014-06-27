@@ -179,7 +179,7 @@ public final class PositionResponsibilityOption
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -187,7 +187,7 @@ public final class PositionResponsibilityOption
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setPrDescription(contract.getPrDescription());
             builder.setPrOptionId(contract.getPrOptionId());
@@ -257,52 +257,52 @@ public final class PositionResponsibilityOption
         }
 
         public void setPrDescription(String prDescription) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.prDescription = prDescription;
         }
 
         public void setPrOptionId(String prOptionId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.prOptionId = prOptionId;
         }
 
         public void setPrOptionName(String prOptionName) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.prOptionName = prOptionName;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.active = active;
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDate = effectiveLocalDate;
         }
 
         public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.createTime = createTime;
         }
 
         public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.userPrincipalId = userPrincipalId;
         }
 

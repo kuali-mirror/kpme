@@ -607,5 +607,11 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 		}
 		super.prepareForSave();
 	}
-	
+
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        super.processAfterCopy(document, requestParameters);
+        WorkAreaBo workArea = (WorkAreaBo)document.getNewMaintainableObject().getDataObject();
+        workArea.setWorkArea(HrServiceLocator.getWorkAreaService().getNextWorkAreaKey());
+    }
 }

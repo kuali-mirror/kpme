@@ -140,11 +140,11 @@ public final class EffectiveKey extends AbstractDataTransferObject implements Ef
         private HrGroupKey.Builder groupKey;
 
         private Builder() {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+
         }
 
         public static Builder create() {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+
             return new Builder();
         }
 
@@ -152,7 +152,7 @@ public final class EffectiveKey extends AbstractDataTransferObject implements Ef
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create();
             builder.setId(contract.getId());
             builder.setOwnerId(contract.getOwnerId());
@@ -204,37 +204,37 @@ public final class EffectiveKey extends AbstractDataTransferObject implements Ef
         }
 
         public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.id = id;
         }
 
         public void setOwnerId(String ownerId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.ownerId = ownerId;
         }
 
         public void setEffectiveLocalDateOfOwner(LocalDate effectiveLocalDateOfOwner) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.effectiveLocalDateOfOwner = effectiveLocalDateOfOwner;
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
 
         public void setObjectId(String objectId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.objectId = objectId;
         }
 
         public void setGroupKeyCode(String groupKeyCode) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKeyCode = groupKeyCode;
         }
 
         public void setGroupKey(HrGroupKey.Builder groupKey) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.groupKey = groupKey;
         }
 

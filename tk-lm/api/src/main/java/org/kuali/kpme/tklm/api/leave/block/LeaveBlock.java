@@ -657,7 +657,7 @@ public final class LeaveBlock
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
-            // TODO if create() is modified to accept required parameters, this will need to be modified
+
             Builder builder = create(contract.getPrincipalId(), contract.getEarnCode(), contract.getLeaveAmount());
             builder.setTask(contract.getTask());
             builder.setAccrualCategoryRule(contract.getAccrualCategoryRule() == null ? null : AccrualCategoryRule.Builder.create(contract.getAccrualCategoryRule()));
@@ -1185,7 +1185,7 @@ public final class LeaveBlock
         }
 
         public void setVersionNumber(Long versionNumber) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+
             this.versionNumber = versionNumber;
         }
     }

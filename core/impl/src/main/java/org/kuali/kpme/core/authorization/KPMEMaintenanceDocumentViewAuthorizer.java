@@ -45,12 +45,13 @@ public class KPMEMaintenanceDocumentViewAuthorizer extends MaintenanceDocumentAu
     @Override
     public boolean canMaintain(Object dataObject, Person user) {
 		Map<String, String> permissionDetails = new HashMap<String, String>();
+        Map<String, String> roleQualifications = getRoleQualification(dataObject, user.getPrincipalId());
 		permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
 		return !permissionExistsByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(), 
 										   KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(), permissionDetails)
 				|| isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), 
 										  KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(), user.getPrincipalId(), 
-										  permissionDetails, null);
+										  permissionDetails, roleQualifications);
     }
 
 

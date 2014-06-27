@@ -178,7 +178,7 @@
               	 <property name="headerText" value="Position Report Sub Category Maintenance" />
                  <property name="items">
                   <list merge="true">
-                  	  <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+                  	  <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true"/>
                       <bean parent="Uif-InputField" p:propertyName="positionReportSubCat" p:required="true" />
                       <bean parent="Uif-InputField" p:propertyName="description" p:required="false"/>
                       <bean parent="Uif-InputField" p:propertyName="positionReportCat" p:required="true">
