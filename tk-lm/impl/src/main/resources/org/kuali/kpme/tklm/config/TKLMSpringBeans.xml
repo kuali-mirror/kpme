@@ -287,6 +287,12 @@
           p:localServiceName="missedPunchDocSearchCustomizer"
           p:serviceInterface="org.kuali.rice.kew.framework.document.search.DocumentSearchCustomizer" />
 
+    <bean id="missedPunchDocSearchSecurity" class="org.kuali.kpme.tklm.time.missedpunch.authorization.MissedPunchSecurityFilterAttribute"/>
+    <bean id="missedPunchDocSearchSecurity.exporter" parent="kpme.tklm.callback.service"
+          p:callbackService-ref="missedPunchDocSearchSecurity"
+          p:localServiceName="missedPunchDocSearchSecurity"
+          p:serviceInterface="org.kuali.rice.kew.framework.document.security.DocumentSecurityAttribute" />
+
     <bean id="kpme.tklm.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
         <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/tklm/v2_0" />
         <property name="serviceBus" ref="rice.ksb.import.serviceBus" />
