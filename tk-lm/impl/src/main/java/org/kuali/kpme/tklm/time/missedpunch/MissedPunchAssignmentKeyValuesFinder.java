@@ -82,7 +82,8 @@ public class MissedPunchAssignmentKeyValuesFinder extends UifKeyValuesFinderBase
 							}
 						}
 					}else{
-						for (Assignment assignment : assignments) {
+						for (Map.Entry<String, String> entry : assignmentDescMap.entrySet()) {
+							Assignment assignment = timesheetDocument.getAssignment(AssignmentDescriptionKey.get(entry.getKey()), LocalDate.now());
 							labels.add(new ConcreteKeyValue(assignment.getAssignmentKey(),assignment.getAssignmentDescription()));
 						}
 					}
