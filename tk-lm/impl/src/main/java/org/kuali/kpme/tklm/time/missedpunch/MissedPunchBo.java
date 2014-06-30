@@ -133,7 +133,10 @@ public class MissedPunchBo extends PersistableBusinessObjectBase implements Miss
 	}
 	
     public Date getRelativeEffectiveDate() {
-        return getActionDate();
+        if(getActionDate()!=null)
+        	return getActionDate();
+        else 
+        	return new Date();
     }
 
     public void setRelativeEffectiveDate(Date relativeEffectiveDate) {
