@@ -36,31 +36,43 @@ import java.util.Map;
 public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
     private static final long serialVersionUID = 1362536674228377102L;
-    
+
+    /*
     @Override
     public boolean canEdit(Document document, Person user) {
         return super.canEdit(document, user) || canApprove(document, user);
     }
+*/
+    public boolean canCopy (Object dataObject, Person user)
+    {
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
+
+
+        if (isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.COPY_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(),
+                user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId())))
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     public boolean canCopy(Document document, Person user) {
-        //document.
-        //MaintenanceDocument doc =
         if (document instanceof org.kuali.rice.krad.maintenance.MaintenanceDocumentBase)
         {
             Object dataObject = ((MaintenanceDocumentBase) document).getDocumentDataObject();
 
             if (dataObject != null)
             {
-                Map<String, String> permissionDetails = new HashMap<String, String>();
-                permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
-
-
-                return isAuthorizedByTemplate(document, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-                        "Copy Position", user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId()));
+                if (!canCopy(dataObject, user))
+                {
+                    return false;
+                }
             }
         }
 
-        return super.canMaintain(document, user);
+        return canMaintain(document, user);
     }
 
     @Override

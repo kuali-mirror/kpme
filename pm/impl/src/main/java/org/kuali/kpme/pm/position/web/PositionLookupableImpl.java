@@ -21,9 +21,20 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl;
+import org.kuali.kpme.core.position.authorization.PositionBaseAuthorizer;
 import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
+import org.kuali.kpme.pm.position.PositionBo;
+import org.kuali.kpme.pm.position.authorization.PositionDocumentAuthorizer;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizer;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.rice.krad.service.DataObjectAuthorizationService;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.LookupView;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PositionLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
@@ -69,5 +80,23 @@ public class PositionLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookup
      * documentTypeName can be obtained within LookupViewAuthorizeBase.canInitiateDocument(LookupForm, Person).
      */
         ((LookupView) lookupForm.getView()).setSuppressActions(false);
+    }
+
+
+    @Override
+    public void getMaintenanceActionLink(Action actionLink, Object model, String maintenanceMethodToCall)
+    {
+        super.getMaintenanceActionLink(actionLink, model, maintenanceMethodToCall);
+        if (StringUtils.equals(actionLink.getActionLabel(), "copy"))
+        {
+            DocumentDictionaryService documentDictionaryService = KRADServiceLocatorWeb.getDocumentDictionaryService();
+            Map<String, Object> context = actionLink.getContext();
+            PositionBo bo = ((PositionBo)context.get((String)"line"));
+            if (!(((PositionDocumentAuthorizer)(documentDictionaryService.getDocumentAuthorizer(this.getMaintenanceDocumentTypeName()))).canCopy(bo,GlobalVariables.getUserSession().getPerson())))
+            {
+                actionLink.setRender(false);
+                return;
+            }
+        }
     }
 }

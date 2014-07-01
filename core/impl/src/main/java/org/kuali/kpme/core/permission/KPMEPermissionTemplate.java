@@ -18,6 +18,7 @@ package org.kuali.kpme.core.permission;
 public enum KPMEPermissionTemplate {
 	
 	CREATE_KPME_MAINTENANCE_DOCUMENT ("Create KPME Maintenance Document"),
+    COPY_KPME_MAINTENANCE_DOCUMENT ("Copy KPME Maintenance Document"),
 	EDIT_KPME_MAINTENANCE_DOCUMENT ("Edit KPME Maintenance Document"),
 	VIEW_KPME_RECORD ("View KPME Record");
 	
