@@ -131,6 +131,8 @@
 				value="Disapprove Selected" name="actionOn_Disapprove" />&nbsp;&nbsp;
 			<input type="submit" id="actionOn_Defer" class="approve"
 				value="Defer Selected" name="actionOn_Defer" />
+			<input type="button" id='requestApprovalRefresh' value="Refresh"
+           		class="ui-button ui-widget ui-state-default ui-corner-all"/>	
 		</div>
 
 		<html:textarea property="leaveRequestString"

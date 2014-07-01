@@ -17,7 +17,9 @@ var FORM0 = "leaveRequestApproval";
 var FORM1 = "leaveRequestApproval-form";
 var FORM2 = "multiLeaveRequestApproval-form";
 $(function () {
-	
+	$("#requestApprovalRefresh").click(function(){
+        location.replace('LeaveRequestApproval.do');
+    });
 	 /**
 	 * ====================
 	 * Models
