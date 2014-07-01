@@ -355,7 +355,6 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
             }
             
             Interval currentClockInInterval = new Interval(lastClockDateTime, currentTime);
-            System.out.println("11111is regular " + isRegularEarnCode + "\nselected earncode:  " + selectedEarnCode);
             if (isRegularEarnCode && addedTimeblockInterval.overlaps(currentClockInInterval)) {
                  errors.add("The time block you are trying to add overlaps with the current clock action.");
                  return errors;
@@ -459,7 +458,6 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
                     }
 
                     for (Interval interval : intervals) {
-                    	System.out.println("is regular " + isRegularEarnCode + "\ninterval: " + interval + "\ntimeblock: " + timeBlockInterval + "\nselected earncode:  " + selectedEarnCode);
                         if (isRegularEarnCode && timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
                         	errors.add("The time block you are trying to add overlaps with an existing time block.");
                             return errors;
