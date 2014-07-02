@@ -40,12 +40,11 @@ public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAutho
 
     private static final long serialVersionUID = 1362536674228377102L;
 
-    /*
     @Override
     public boolean canEdit(Document document, Person user) {
         return super.canEdit(document, user) || canApprove(document, user);
     }
-*/
+
     public boolean canView(Object dataObject, Person user)
     {
         Map<String, String> permissionDetails = new HashMap<String, String>();
