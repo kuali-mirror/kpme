@@ -21,9 +21,12 @@ import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.pm.api.position.Position;
+import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 
@@ -43,14 +46,32 @@ public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAutho
         return super.canEdit(document, user) || canApprove(document, user);
     }
 */
+    public boolean canView(Object dataObject, Person user)
+    {
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
+
+        Map<String, String> q = getRoleQualification(dataObject, user.getPrincipalId());
+
+        if (isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(),
+                user.getPrincipalId(), permissionDetails, q ))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean canCopy (Object dataObject, Person user)
     {
         Map<String, String> permissionDetails = new HashMap<String, String>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
 
 
+        Map<String, String> q = getRoleQualification(dataObject, user.getPrincipalId());
+
         if (isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.COPY_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(),
-                user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId())))
+                user.getPrincipalId(), permissionDetails, q))
         {
             return true;
         }
@@ -79,7 +100,7 @@ public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAutho
     protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
         super.addRoleQualification(dataObject, attributes);
 
-        if (dataObject instanceof PositionBo) {
+        if ( (dataObject instanceof PositionBo) || (dataObject instanceof PositionContract) || (dataObject instanceof Position)) {
             PositionBo positionObj = (PositionBo) dataObject;
 
             if (positionObj != null) {
