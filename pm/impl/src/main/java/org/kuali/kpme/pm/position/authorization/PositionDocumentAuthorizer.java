@@ -29,6 +29,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,14 +42,32 @@ public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAutho
     private static final long serialVersionUID = 1362536674228377102L;
 
     @Override
-    public boolean canEdit(Document document, Person user) {
-        return super.canEdit(document, user) || canApprove(document, user);
+    public boolean canEdit(Document document, Person user)
+    {
+        if (super.canEdit(document, user) || canApprove(document, user))
+        {
+            return true;
+        }
+
+        Object dataObject = ((MaintenanceDocumentBase) document).getDocumentDataObject();
+
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME,  getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
+        permissionDetails.put(KimConstants.AttributeConstants.ROUTE_STATUS_CODE,  ((MaintenanceDocumentBase)document).getDocumentHeader().getWorkflowDocument().getStatus().getCode() );
+
+        if (isAuthorizedByTemplate(dataObject, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT,
+                user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId())))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public boolean canView(Object dataObject, Person user)
     {
         Map<String, String> permissionDetails = new HashMap<String, String>();
-        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()) );
 
         Map<String, String> q = getRoleQualification(dataObject, user.getPrincipalId());
 
