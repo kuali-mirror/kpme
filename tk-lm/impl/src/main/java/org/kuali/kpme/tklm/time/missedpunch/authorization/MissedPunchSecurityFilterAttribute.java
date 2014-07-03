@@ -16,8 +16,6 @@
 package org.kuali.kpme.tklm.time.missedpunch.authorization;
 
 
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
@@ -34,7 +32,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MissedPunchSecurityFilterAttribute implements DocumentSecurityAttribute {
-    @Override
+   
+	private static final long serialVersionUID = 2553961332039285881L;
+
+	@Override
     public boolean isAuthorizedForDocument(String principalId, Document document) {
         try {
             MissedPunchDocument mpd = (MissedPunchDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(document.getDocumentId());
@@ -50,17 +51,16 @@ public class MissedPunchSecurityFilterAttribute implements DocumentSecurityAttri
             roleQualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), workArea.toString());
             roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKey);
             roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+            
+            Map<String, String> permissionDetails = new HashMap<String, String>();
+            permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentTypeByClass(MissedPunchDocument.class));
 
             return (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
                      KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
                    || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(principalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-                      KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification));
+                      KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), permissionDetails, roleQualification));
         } catch (WorkflowException e) {
             return false;
         }
-        //(!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-        //        KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
-        //        || KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(principalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-        //        KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>(), roleQualification))
     }
 }
