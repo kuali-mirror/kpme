@@ -474,7 +474,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 	        trigger.setJobGroup(jobGroupName);
 	        trigger.setJobName(jobName);
 
-	        LOG.info("Scheduing " + jobDetail.getFullName() + " to be run on " + jobDate);
+	        LOG.info("Scheduling " + jobDetail.getFullName() + " to be run on " + jobDate);
 	        this.updateStatus(jobDetail, BatchJobService.SCHEDULED_JOB_STATUS_CODE);
 	        getScheduler().scheduleJob(jobDetail, trigger);
     	}
