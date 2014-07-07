@@ -87,7 +87,7 @@
 							<td>${job.payGrade }</td>
 							<td>${job.standardHours }</td>
 							<td>${job.payTypeObj.descr}</td>
-							<td>${job.groupKey.locationId }</td>o
+							<td>${job.groupKey.locationId }</td>
 							<td><fmt:formatNumber value="${job.compRate }"
 									type="currency" /></td>
 							<td>${job.effectiveLocalDate }</td>

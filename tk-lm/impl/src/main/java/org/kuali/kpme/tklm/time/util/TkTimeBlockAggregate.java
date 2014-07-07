@@ -84,6 +84,11 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
         this(timeBlocks, payCalendarEntry, payCalendar, useUserTimeZone, 
         		useUserTimeZone ? TKUtils.getDaySpanForCalendarEntry(payCalendarEntry) : TKUtils.getDaySpanForCalendarEntry(payCalendarEntry, TKUtils.getSystemDateTimeZone()));
 	}
+    
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, Calendar payCalendar, boolean useUserTimeZone, DateTimeZone userTimeZone) {
+        this(timeBlocks, payCalendarEntry, payCalendar, useUserTimeZone, 
+        		useUserTimeZone ? TKUtils.getDaySpanForCalendarEntry(payCalendarEntry, userTimeZone) : TKUtils.getDaySpanForCalendarEntry(payCalendarEntry, TKUtils.getSystemDateTimeZone()));
+	}
 
     public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, Calendar payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
     	this.payCalendarEntry = payCalendarEntry;
@@ -106,7 +111,6 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
 						if(beginTime.getHourOfDay() < dayInt.getStart().getHourOfDay()) {
 							builder.setPushBackward(true);
 						}
-
 						dayTimeBlocks.add(builder.build());
 					}
 				}

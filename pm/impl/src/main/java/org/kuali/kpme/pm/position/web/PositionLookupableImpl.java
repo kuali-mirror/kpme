@@ -21,14 +21,42 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl;
+import org.kuali.kpme.core.position.authorization.PositionBaseAuthorizer;
+import org.kuali.kpme.pm.api.position.Position;
 import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.api.positiondepartment.PositionDepartmentContract;
+import org.kuali.kpme.pm.position.PositionBo;
+import org.kuali.kpme.pm.position.authorization.PositionDocumentAuthorizer;
+import org.kuali.rice.krad.lookup.LookupForm;
+import org.kuali.rice.krad.lookup.LookupView;
+import org.kuali.rice.krad.service.DocumentDictionaryService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.element.Link;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PositionLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
 
 	private static final long serialVersionUID = 8658536323175048980L;
 
+    protected List<PositionContract> filterLookupPositions(List<PositionContract> rawResults)
+    {
+        DocumentDictionaryService documentDictionaryService = KRADServiceLocatorWeb.getDocumentDictionaryService();
+
+        List<PositionContract> results = new ArrayList<PositionContract>();
+        for (PositionContract positionObj : rawResults)
+        {
+            if  ( ((PositionDocumentAuthorizer)(documentDictionaryService.getDocumentAuthorizer(this.getMaintenanceDocumentTypeName()))).canView(positionObj, GlobalVariables.getUserSession().getPerson()) )
+            {
+                results.add(positionObj);
+            }
+        }
+
+        return results;
+    }
+    
     @Override
     protected Collection<?> executeSearch(Map<String, String> searchCriteria, List<String> wildcardAsLiteralSearchCriteria, boolean bounded, Integer searchResultsLimit) {
 		List<PositionContract> retVal = new ArrayList<PositionContract>();
@@ -56,7 +84,30 @@ public class PositionLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookup
 	        	}
 	        }
         }
-        return retVal;
-    }  
+        List<PositionContract> results = filterLookupPositions(retVal);
 
+        return results;
+    }
+
+
+    @Override
+    public boolean allowsMaintenanceNewOrCopyAction() {
+        return false;
+    }
+
+    @Override
+    public void buildMaintenanceActionLink(Link actionLink, Object model, String maintenanceMethodToCall) {
+        super.buildMaintenanceActionLink(actionLink, model, maintenanceMethodToCall);
+        if (StringUtils.equals(actionLink.getLinkText(), "copy"))
+        {
+            DocumentDictionaryService documentDictionaryService = KRADServiceLocatorWeb.getDocumentDictionaryService();
+            Map<String, Object> context = actionLink.getContext();
+            PositionBo bo = ((PositionBo)context.get((String)"line"));
+            if ( ! (((PositionDocumentAuthorizer)(documentDictionaryService.getDocumentAuthorizer(this.getMaintenanceDocumentTypeName()))).canCopy(bo, GlobalVariables.getUserSession().getPerson()))  )
+            {
+                actionLink.setRender(false);
+                return;
+            }
+        }
+    }
 }

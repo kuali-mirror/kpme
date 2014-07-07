@@ -461,7 +461,7 @@ public class TimeDetailValidationUtil extends CalendarValidationUtil {
                         if (isRegularEarnCode && timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {
                         	errors.add("The time block you are trying to add overlaps with an existing time block.");
                             return errors;
-                        }else if(timeBlock.getEarnCode().equals(selectedEarnCode) && timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)){
+                        }else if(timeBlockInterval.overlaps(interval) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)){
                         	errors.add("The time block you are trying to add overlaps with an existing time block.");
                         	return errors;
                         }

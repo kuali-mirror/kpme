@@ -37,7 +37,9 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="PositionMaintenanceDocumentType" />
-        <property name = "documentAuthorizerClass" value="org.kuali.kpme.pm.position.authorization.PositionDocumentAuthorizer"/>
+        <property name="documentAuthorizerClass" value="org.kuali.kpme.pm.position.authorization.PositionDocumentAuthorizer"/>
+        <property name="documentPresentationControllerClass" value="org.kuali.kpme.pm.position.authorization.PositionMaintenanceDocumentPresentationController" />
+
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
@@ -80,7 +82,7 @@
 		</property>
 		<property name="singlePageView" value="false" />
 		<property name="header">
-			<bean parent="KPME-Uif-DocumentViewHeader" />
+			<bean parent="Position-DocumentViewHeader" />
 		</property>
 		<property name="stickyHeader" value="true" />
 		<!--
@@ -862,7 +864,7 @@
 	</bean>
 
 	<!-- KPME Document View Header -->
-	<bean id="KPME-Uif-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
+	<bean id="Position-DocumentViewHeader" abstract="true" parent="Uif-ViewHeader">
 		<property name="rightGroup">
 			<bean parent="Uif-DocumentInfoGroup">
 				<property name="cssClasses">
@@ -873,7 +875,7 @@
 			</bean>
 		</property>
 		<property name="lowerGroup">
-			<bean parent="Uif-OverviewSection" />
+			<bean parent="Position-OverviewLowerGroupSection" />
 		</property>
 	</bean>
 
@@ -908,17 +910,17 @@
 		</property>
 	</bean>
 
-	<bean id="Uif-OverviewSection" parent="Uif-VerticalBoxSection"
+	<bean id="Position-OverviewLowerGroupSection" parent="Uif-VerticalBoxSection"
 		p:readOnly="true">
 		<property name="items">
 			<list>
 				<bean parent="Uif-Message" p:messageText="[b]Position Overview[/b]" />
-				<bean parent="Uif-PositionOverviewSection" />
+				<bean parent="Position-OverviewSection" />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="Uif-PositionOverviewSection" parent="Uif-GridGroup"
+	<bean id="Position-OverviewSection" parent="Uif-GridGroup"
 		p:layoutManager.numberOfColumns="4"
 		p:layoutManager.applyDefaultCellWidths="true">
 		<property name="headerText" value="Position Overview" />

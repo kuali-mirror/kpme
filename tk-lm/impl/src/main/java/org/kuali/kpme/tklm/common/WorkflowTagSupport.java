@@ -98,8 +98,9 @@ public class WorkflowTagSupport implements WorkflowTagSupportContract {
 
     public static boolean isLeaveCalendarRouteButtonEnabled(String documentId) {
     	LeaveCalendarDocument leaveCalendarDocument = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-        return isRouteButtonEnabled(documentId) && isNotDelinquent(documentId) 
-        		&& (HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus() 
+
+        return isRouteButtonEnabled(documentId)
+        		&& (HrServiceLocator.getHRPermissionService().canViewLeaveTabsWithEStatus()
         		&& DateTime.now().toDate().compareTo(leaveCalendarDocument.getDocumentHeader().getEndDate()) > 0);
     }
 

@@ -16,9 +16,12 @@
 package org.kuali.kpme.tklm.time.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -39,7 +42,15 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 		if(StringUtils.equals(action, TkConstants.ACTIONS.ADD_TIME_BLOCK) || StringUtils.equals(action, TkConstants.ACTIONS.CLOCK_OUT)){
             List<TimeBlock> updatedTimeBlocks = new ArrayList<TimeBlock>();
             Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(payEntry.getHrCalendarId());
-            TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, payEntry, calendar, true);
+            
+            DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(principalId));
+            if(userTimeZone == null)
+            	userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+            
+            List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(payEntry, userTimeZone);
+            
+            TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, leaveBlocks, payEntry, calendar, true, dayIntervals);
+
             //
             // Need to run LunchRule first - It will reduce hours in some instances
 

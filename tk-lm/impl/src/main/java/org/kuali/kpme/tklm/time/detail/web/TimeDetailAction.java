@@ -571,7 +571,7 @@ public class TimeDetailAction extends TimesheetAction {
         	
         	if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.TIME_ENTRY)){
         		if(ec != null &&  StringUtils.equals(ec.getRecordMethod(), HrConstants.RECORD_METHOD.TIME)) {
-	        		if (HrContext.isAnyAdmin() || HrContext.isAnyApprover() || HrContext.isAnyPayrollProcessor()) {
+	        		if (HrContext.isAnyAdmin() || HrContext.isAnyApprover() || HrContext.isAnyPayrollProcessor() || HrContext.isReviewer()) {
 		                startTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(startTime, LocalDate.fromDateFields(tdaf.getBeginCalendarEntryDate()));
 		                endTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endTime, LocalDate.fromDateFields(tdaf.getBeginCalendarEntryDate()));
 		            }

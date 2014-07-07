@@ -94,9 +94,10 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
 		timeSummary.setTimeSummaryHeader(getHeaderForSummary(calendarEntry, timeSummary));
 		
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId()), true);
+		String userTZ = HrServiceLocator.getTimezoneService().getUserTimezone(principalId);
+		DateTimeZone userTimeZone = DateTimeZone.forID(userTZ);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, HrServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId()), true, userTimeZone);
 
-		DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(principalId));
         if (userTimeZone == null) {
             userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         }
@@ -123,7 +124,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		Map<String, BigDecimal> flsaWeekTotal = getHoursToFlsaWeekMap(tkTimeBlockAggregate, principalId, null, regularEarnCodes, userTimeZone);
 		timeSummary.setFlsaWeekTotalMap(flsaWeekTotal);
 
-        Map<String,List<EarnGroupSection>> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getTimeSummaryHeader().size()+1, 
+        Map<String,List<EarnGroupSection>> earnGroupSections = getEarnGroupSections(principalId, tkTimeBlockAggregate, timeSummary.getTimeSummaryHeader().size()+1, 
         			dayArrangements, calendarEntry.getEndPeriodFullDateTime().toLocalDate(), calendarEntry.getEndPeriodFullDateTime().toLocalDate());
         timeSummary.setWeeklySections(earnGroupSections);
         
@@ -255,11 +256,13 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @param asOfDate
      * @return
      */
-	public Map<String, List<EarnGroupSection>> getEarnGroupSections(TkTimeBlockAggregate tkTimeBlockAggregate, int numEntries, List<Boolean> dayArrangements, LocalDate asOfDate, LocalDate docEndDate){
+	public Map<String, List<EarnGroupSection>> getEarnGroupSections(String principalId, TkTimeBlockAggregate tkTimeBlockAggregate, int numEntries, List<Boolean> dayArrangements, LocalDate asOfDate, LocalDate docEndDate){
 		List<EarnGroupSection> earnGroupSections = new ArrayList<EarnGroupSection>();
 		Map<String, List<EarnGroupSection>> weeklyEarnGroupSections = new LinkedHashMap<String, List<EarnGroupSection>>();
 		Map<String, List<EarnCodeSection>> earnCodeSections = new LinkedHashMap<String, List<EarnCodeSection>>();
-		DateTimeZone userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+		 
+		String userTz =	HrServiceLocator.getTimezoneService().getUserTimezone(principalId);
+		DateTimeZone userTimeZone = DateTimeZone.forID(userTz);
 		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(userTimeZone, DateTimeConstants.SUNDAY, true);
 		Map<String, EarnCodeSection> earnCodeToEarnCodeSection = new TreeMap<String, EarnCodeSection>();
 		Map<String, EarnGroupSection> earnGroupToEarnGroupSection = new HashMap<String, EarnGroupSection>();

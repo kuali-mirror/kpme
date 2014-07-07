@@ -46,7 +46,13 @@ public class TaskServiceImpl implements TaskService {
         	taskObj = new TaskBo();
         	taskObj.setActive(true);
         	taskObj.setEffectiveLocalDate(asOfDate);
-        	taskObj.setTask(task);
+        	// zero out null tasks
+        	if(task != null) {
+        		taskObj.setTask(task);
+        	}
+        	else {
+        		taskObj.setTask(0L);
+        	}
         	taskObj.setDescription(HrConstants.TASK_DEFAULT_DESP);
         	taskObj.setTkTaskId("0");
         }

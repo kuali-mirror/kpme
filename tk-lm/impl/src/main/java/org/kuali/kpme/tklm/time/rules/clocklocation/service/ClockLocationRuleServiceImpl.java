@@ -156,7 +156,14 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 
         // 8 : dept, -1, %        , job
 		clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, dept, -1L, "%", -1L, asOfDate);
+		if(!clockLocationRule.isEmpty()){
+			return clockLocationRule;
+		}
+		
+		//9 : %, -1, % , -1
+		clockLocationRule = clockLocationDao.getClockLocationRule(groupKeyCode, "%", -1L, "%", -1L, asOfDate);
 		return clockLocationRule;
+
 	}
 
 	@Override

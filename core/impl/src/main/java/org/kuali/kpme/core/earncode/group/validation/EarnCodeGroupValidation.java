@@ -47,7 +47,7 @@ public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 			if(earnGroup.getShowSummary()) {
 				validateEarnCode(earnGroupDef.getEarnCode().toUpperCase(), index, earnGroup);
 			}
-			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode(), earnGroup.getEffectiveLocalDate())) {
+			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode().toUpperCase(), earnGroup.getEffectiveLocalDate())) {
 				this.putFieldError("earnCodeGroups["+index+"].earnCode", "error.existence", "Earncode '" + earnGroupDef.getEarnCode()+ "'");
 			}
 			earnCodes.add(earnGroupDef.getEarnCode());

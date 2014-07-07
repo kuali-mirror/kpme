@@ -21,11 +21,15 @@ import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.pm.api.position.Position;
+import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,38 +40,85 @@ import java.util.Map;
 public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
     private static final long serialVersionUID = 1362536674228377102L;
-    
+
     @Override
-    public boolean canEdit(Document document, Person user) {
-        return super.canEdit(document, user) || canApprove(document, user);
+    public boolean canEdit(Document document, Person user)
+    {
+        if (super.canEdit(document, user) || canApprove(document, user))
+        {
+            return true;
+        }
+
+        Object dataObject = ((MaintenanceDocumentBase) document).getDocumentDataObject();
+
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME,  getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
+        permissionDetails.put(KimConstants.AttributeConstants.ROUTE_STATUS_CODE,  ((MaintenanceDocumentBase)document).getDocumentHeader().getWorkflowDocument().getStatus().getCode() );
+
+        if (isAuthorizedByTemplate(dataObject, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT,
+                user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId())))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean canView(Object dataObject, Person user)
+    {
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()) );
+
+        Map<String, String> q = getRoleQualification(dataObject, user.getPrincipalId());
+
+        if (isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(),
+                user.getPrincipalId(), permissionDetails, q ))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean canCopy (Object dataObject, Person user)
+    {
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
+
+
+        Map<String, String> q = getRoleQualification(dataObject, user.getPrincipalId());
+
+        if (isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.COPY_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(),
+                user.getPrincipalId(), permissionDetails, q))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public boolean canCopy(Document document, Person user) {
-        //document.
-        //MaintenanceDocument doc =
         if (document instanceof org.kuali.rice.krad.maintenance.MaintenanceDocumentBase)
         {
             Object dataObject = ((MaintenanceDocumentBase) document).getDocumentDataObject();
 
             if (dataObject != null)
             {
-                Map<String, String> permissionDetails = new HashMap<String, String>();
-                permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
-
-
-                return isAuthorizedByTemplate(document, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
-                        "Copy Position", user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId()));
+                if (!canCopy(dataObject, user))
+                {
+                    return false;
+                }
             }
         }
 
-        return super.canMaintain(document, user);
+        return canMaintain(document, user);
     }
 
     @Override
     protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
         super.addRoleQualification(dataObject, attributes);
 
-        if (dataObject instanceof PositionBo) {
+        if ( (dataObject instanceof PositionBo) || (dataObject instanceof PositionContract) || (dataObject instanceof Position)) {
             PositionBo positionObj = (PositionBo) dataObject;
 
             if (positionObj != null) {

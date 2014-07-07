@@ -38,7 +38,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 	
 	private boolean validatePayCalendar(PrincipalHRAttributesBo principalHRAttr) {
 		if (StringUtils.isNotEmpty(principalHRAttr.getPayCalendar())
-				&& !ValidationUtils.validateCalendarByType(principalHRAttr.getPayCalendar(), "Pay")) {
+				&& !ValidationUtils.validateCalendarByType(principalHRAttr.getPayCalendar().toUpperCase(), "Pay")) {
 			this.putFieldError("payCalendar", "error.existence",
 					"Pay Calendar '" + principalHRAttr.getPayCalendar() + "'");
 			return false;
