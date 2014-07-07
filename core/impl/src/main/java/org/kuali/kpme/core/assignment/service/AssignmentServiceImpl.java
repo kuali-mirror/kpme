@@ -421,7 +421,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         Set<Assignment> assignmentSet = new HashSet<Assignment>();
         List<Assignment> assignmentList = new ArrayList<Assignment>();
 
-        Map<LocalDate, List<Assignment>> assignmentMap = getAssignmentHistoryBetweenDays(principalId, startDate, endDate);
+        Map<LocalDate, List<Assignment>> assignmentMap = getAssignmentHistoryBetweenDaysInternal(principalId, startDate, endDate, HrConstants.FLSA_STATUS_EXEMPT, true);
 
         //loop through every entry in the map, and add unique assignments to the set of recent active assignments
         for (Map.Entry<LocalDate, List<Assignment>> entry : assignmentMap.entrySet()) {
