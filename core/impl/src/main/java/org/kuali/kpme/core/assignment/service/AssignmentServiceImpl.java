@@ -413,15 +413,16 @@ public class AssignmentServiceImpl implements AssignmentService {
         LocalDate startDate = LocalDate.now().minusDays(limit);
         LocalDate endDate = LocalDate.now();
 
-        return getRecentAssignments(principalId,startDate,endDate);
+        return getRecentAssignmentsBetweenDays(principalId, startDate, endDate);
     }
 
     @Override
-    public List<Assignment> getRecentAssignments(String principalId, LocalDate startDate, LocalDate endDate) {
+    public List<Assignment> getRecentAssignmentsBetweenDays(String principalId, LocalDate startDate, LocalDate endDate) {
         Set<Assignment> assignmentSet = new HashSet<Assignment>();
         List<Assignment> assignmentList = new ArrayList<Assignment>();
 
-        Map<LocalDate, List<Assignment>> assignmentMap = getAssignmentHistoryBetweenDaysInternal(principalId, startDate, endDate, HrConstants.FLSA_STATUS_EXEMPT, true);
+        Map<LocalDate, List<Assignment>> assignmentMap = getAssignmentHistoryBetweenDaysInternal(principalId, startDate, endDate, StringUtils.EMPTY, false);
+        //getAssignmentHistoryBetweenDays(principalId, startDate, endDate);
 
         //loop through every entry in the map, and add unique assignments to the set of recent active assignments
         for (Map.Entry<LocalDate, List<Assignment>> entry : assignmentMap.entrySet()) {

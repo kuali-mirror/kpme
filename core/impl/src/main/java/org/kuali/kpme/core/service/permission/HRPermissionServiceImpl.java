@@ -125,7 +125,7 @@ public class HRPermissionServiceImpl extends HrPermissionServiceBase implements 
                 //only allows routing/editing of timesheets with active assignments in the pay period
                 LocalDate startDate = calendarDocument.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate();
                 LocalDate endDate = calendarDocument.getCalendarEntry().getEndPeriodFullDateTime().toLocalDate();
-                List<Assignment> assignmentsActiveInCalendarEntry= HrServiceLocator.getAssignmentService().getRecentAssignments(calendarDocument.getPrincipalId(),startDate,endDate);
+                List<Assignment> assignmentsActiveInCalendarEntry= HrServiceLocator.getAssignmentService().getRecentAssignmentsBetweenDays(calendarDocument.getPrincipalId(), startDate, endDate);
                 for (Assignment assignment : calendarDocument.getAllAssignments()) {
                     if (assignmentsActiveInCalendarEntry.contains(assignment)) {
                         assignments.add(assignment);
