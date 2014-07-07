@@ -1,15 +1,21 @@
 package org.kuali.kpme.edo.dossier.web;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.candidate.EdoCandidateBo;
-import org.kuali.kpme.edo.item.EdoItem;
+import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -26,12 +32,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 public class EdoDossierRouteAction extends EdoAction {
 
@@ -173,12 +173,13 @@ public class EdoDossierRouteAction extends EdoAction {
            if(routed) {
         	   //update edo_item_t table - set addendum_routed to 0 for supplemental category
                BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getChecklistItemID();
-               List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(BigDecimal.valueOf(edoDossierRouteForm.getDossierId()), checklistItemID);
+               List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierRouteForm.getDossierId()+"", checklistItemID.toString());
               if(!edoItems.isEmpty()) {
                for(EdoItem edoItem : edoItems) {
+            	   EdoItemBo edoItemBo = EdoItemBo.from(edoItem);
             	   //update
-            	   edoItem.setAddendumRouted(BigDecimal.ZERO);
-            	   EdoServiceLocator.getEdoItemService().saveOrUpdate(edoItem);
+            	   edoItemBo.setRouted(true);
+            	   EdoServiceLocator.getEdoItemService().saveOrUpdate(edoItemBo);
                	}
               }
         	 
@@ -255,13 +256,14 @@ public class EdoDossierRouteAction extends EdoAction {
        
         if(routed) {
      	   //update edo_item_t table - set addendum_routed to 0 for Reconsider category
-            BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
-            List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(BigDecimal.valueOf(edoDossierRouteForm.getDossierId()), checklistItemID);
+           BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
+           List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierRouteForm.getDossierId()+"", checklistItemID.toString());
            if(!edoItems.isEmpty()) {
-            for(EdoItem edoItem : edoItems) {
+             for(EdoItem edoItem : edoItems) {
+               EdoItemBo edoItemBo = EdoItemBo.from(edoItem);
          	   //update
-         	   edoItem.setAddendumRouted(BigDecimal.ZERO);
-         	   EdoServiceLocator.getEdoItemService().saveOrUpdate(edoItem);
+               edoItemBo.setRouted(true);
+         	   EdoServiceLocator.getEdoItemService().saveOrUpdate(edoItemBo);
             	}
              }
      	 

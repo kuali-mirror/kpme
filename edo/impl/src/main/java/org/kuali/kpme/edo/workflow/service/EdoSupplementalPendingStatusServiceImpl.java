@@ -160,13 +160,13 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
 		EdoItemV mostCurrentLetter = new EdoItemV();
 
 		for (EdoItemV letter : letters) {
-			if (letter.getUploadDate().after(maxDate)) {
-				maxDate = letter.getUploadDate();
+			if (letter.getActionTimestamp().after(maxDate)) {
+				maxDate = new Date(letter.getActionTimestamp().getTime());
 				mostCurrentLetter = letter;
 			}
 		}
 
-		DateTime ltrUpdatedDT = new DateTime(mostCurrentLetter.getUploadDate());
+		DateTime ltrUpdatedDT = new DateTime(mostCurrentLetter.getActionTimestamp());
 
 		if (documentCreated.isAfter(ltrUpdatedDT)) {
 			return false;

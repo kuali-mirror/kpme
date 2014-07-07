@@ -6,8 +6,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.item.EdoItem;
+import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.QueryParams;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -47,9 +48,9 @@ public class EdoDeleteConfirmAction extends EdoAction {
         List<String> params = itemData.getParameterValues("itemID");
 
         if (op.equalsIgnoreCase("confirm")) {
-            List<EdoItem> itemList = new LinkedList<EdoItem>();
+            List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
             for (String id : params) {
-                EdoItem item = EdoServiceLocator.getEdoItemDao().getEdoItem(BigDecimal.valueOf(Integer.parseInt(id)));
+                EdoItem item = EdoServiceLocator.getEdoItemService().getEdoItem(id);
 
                 // delete file from the file system
                 File itemFile = new File(item.getFileLocation());
@@ -75,7 +76,7 @@ public class EdoDeleteConfirmAction extends EdoAction {
                     LOG.warn("Missing file from file system [" + item.getFileLocation() + "]");
                 }
                 // all is well with the file system, delete the item from the database
-                EdoServiceLocator.getEdoItemDao().deleteItem(item);
+                EdoServiceLocator.getEdoItemService().deleteItem(item);
             }
         }
 

@@ -9,10 +9,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.apache.struts.upload.FormFile;
+import org.joda.time.DateTime;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.item.EdoItem;
+import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoUtils;
@@ -51,7 +53,7 @@ public class EdoPostFileAction extends EdoAction {
         EdoChecklistItemForm edoPostFileForm = (EdoChecklistItemForm)form;
         FormFile uploadFile = edoPostFileForm.getUploadFile();
         int checklistItemID = edoPostFileForm.getChecklistItemID();
-        EdoItem item = new EdoItem();
+        EdoItem.Builder item = EdoItem.Builder.create();
         String uploadUsername = EdoContext.getUser().getNetworkId();
         config = ConfigContext.getCurrentContextConfig();
         MessageMap msgmap = GlobalVariables.getMessageMap();
@@ -108,22 +110,17 @@ public class EdoPostFileAction extends EdoAction {
                         item.setFileName(fileName);
                         item.setFileLocation(uploadPath + File.separator + storeFileName);
                         item.setContentType(contentType);
-                        item.setCreateDate(sqlTimestamp);
+                        item.setActionFullDateTime(new DateTime(sqlTimestamp));
                         // TODO: this will need to be a dynamic value, not hard coded
-                        item.setItemTypeID(BigDecimal.valueOf(1));
-                        item.setAddendumRouted(BigDecimal.ZERO);
-                        item.setUploaderUsername(uploadUsername);
-                        item.setUploadDate(sqlTimestamp);
-                        item.setCreatedBy(uploadUsername);
-                        item.setUpdatedBy(uploadUsername);
-                        item.setCreateDate(sqlTimestamp);
-                        item.setLastUpdateDate(sqlTimestamp);
-                        item.setDossierID(dossierID);
-                        item.setChecklistItemID( BigDecimal.valueOf(checklistItemID) );
-                        Integer nextRowIndexNum = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(BigDecimal.valueOf(checklistItemID), uploadUsername);
+                        item.setEdoItemTypeID("1");
+                        item.setRouted(true);
+                        item.setUserPrincipalId(uploadUsername);
+                        item.setEdoDossierID(dossierID.toString());
+                        item.setEdoChecklistItemID(checklistItemID+"");
+                        Integer nextRowIndexNum = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(checklistItemID+"", uploadUsername);
                         item.setRowIndex(nextRowIndexNum);
 
-                        EdoServiceLocator.getEdoItemService().saveOrUpdate(item);
+                        EdoServiceLocator.getEdoItemService().saveOrUpdate(item.build());
 
                     } catch (Exception e) {
                         LOG.error("An exception occurred writing the file: [" + e.getMessage() + "]");

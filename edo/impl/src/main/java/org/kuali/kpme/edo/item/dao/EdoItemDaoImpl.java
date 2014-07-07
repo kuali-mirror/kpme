@@ -1,17 +1,16 @@
 package org.kuali.kpme.edo.item.dao;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.edo.item.EdoItem;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
-
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kpme.edo.item.EdoItemBo;
+import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
  * $HeadURL$
@@ -24,56 +23,44 @@ import java.util.List;
  */
 public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDao {
 
-    public EdoItem getEdoItem(BigDecimal itemID) {
+    public EdoItemBo getEdoItem(String edoItemID) {
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("itemID", itemID);
+        cConditions.addEqualTo("edo_Item_id", edoItemID);
 
-        Query query = QueryFactory.newQuery(EdoItem.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
             if (c.size() == 1) {
-                return (EdoItem)c.toArray()[0];
+                return (EdoItemBo)c.toArray()[0];
             }
         }
         return null;
     }
 
-    public List<EdoItem> getItemList( BigDecimal checklistSectionID ) {
-
-        List<EdoItem> itemList = new LinkedList<EdoItem>();
-
-        Criteria cConditions = new Criteria();
-
-        cConditions.addEqualTo("checklistSectionID", checklistSectionID);
-
-        Query query = QueryFactory.newQuery(EdoItem.class, cConditions);
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
-        if (c != null && c.size() != 0) {
-            if (c.size() == 1) {
-                itemList.addAll(c);
-                return itemList;
-            }
-        }
-        return null;
-    }
-
-    public void saveOrUpdate(EdoItem item) {
+    public void saveOrUpdate(EdoItemBo item) {
         this.getPersistenceBrokerTemplate().store(item);
     }
+    
+    public void saveOrUpdate(List<EdoItemBo> edoItems) {
+    	if (edoItems != null && edoItems.size() > 0 ) {
+            for (EdoItemBo edoItem : edoItems) {
+                this.getPersistenceBrokerTemplate().store(edoItem);
+            }
+        }
+    }
 
-    public void deleteItem(EdoItem item) {
+    public void deleteItem(EdoItemBo item) {
         this.getPersistenceBrokerTemplate().delete(item);
     }
 
-    private static final String rowIndexQuery = "select max(row_index) AS row_index from EDO_ITEM_T where CHECKLIST_ITEM_ID = ? and UPLOADER_USERNAME = ?";
+    private static final String rowIndexQuery = "select max(row_index) AS row_index from EDO_ITEM_T where EDO_CHECKLIST_ITEM_ID = ? and USER_PRINCIPAL_ID = ?";
 
     @Override
-    public Integer getNextRowIndexNum(BigDecimal checklistItemId, String uploader) {
+    public Integer getNextRowIndexNum(String edoChecklistItemId, String uploader) {
 
-        SqlRowSet sqlResult = EdoServiceLocator.getEdoJdbcTemplate().queryForRowSet(rowIndexQuery, new Object[] { checklistItemId, uploader });
+        SqlRowSet sqlResult = EdoServiceLocator.getEdoJdbcTemplate().queryForRowSet(rowIndexQuery, new Object[] {edoChecklistItemId, uploader});
         if (sqlResult.next()) {
             return sqlResult.getInt("row_index") + 1;
         } else {
@@ -83,15 +70,15 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     }
 
     @Override
-    public List<EdoItem> getPendingItemsByDossierId(BigDecimal dossierId, BigDecimal checklistItemID) {
-        List<EdoItem> itemList = new LinkedList<EdoItem>();
+    public List<EdoItemBo> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemID) {
+        List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("dossierID", dossierId);
-        cConditions.addEqualTo("checklist_item_id", checklistItemID);
-        cConditions.addEqualTo("addendum_routed", 1);
+        cConditions.addEqualTo("edo_dossier_id", edoDossierId);
+        cConditions.addEqualTo("edo_checklist_item_id", edoChecklistItemID);
+        cConditions.addEqualTo("routed", true);
 
-        Query query = QueryFactory.newQuery(EdoItem.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
@@ -103,15 +90,15 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     }
     
     @Override
-    public List<EdoItem> getItemsByDossierIdForAddendumFalgZero( BigDecimal dossierId, BigDecimal checklistItemID) {
-    	 List<EdoItem> itemList = new LinkedList<EdoItem>();
+    public List<EdoItemBo> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID) {
+    	 List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
          Criteria cConditions = new Criteria();
 
-         cConditions.addEqualTo("dossierID", dossierId);
-         cConditions.addEqualTo("checklist_item_id", checklistItemID);
-         cConditions.addEqualTo("addendum_routed", 0);
+         cConditions.addEqualTo("edo_dossier_id", edoDossierId);
+         cConditions.addEqualTo("edo_checklist_item_id", edoChecklistItemID);
+         cConditions.addEqualTo("routed", false);
 
-         Query query = QueryFactory.newQuery(EdoItem.class, cConditions);
+         Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
          Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
          if (c != null && c.size() != 0) {
@@ -123,16 +110,16 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     	
     }
 
-    public List<EdoItem> getPendingLettersByDossierId( BigDecimal dossierId, BigDecimal reviewLayerDefinitionId ) {
-        List<EdoItem> letterList = new LinkedList<EdoItem>();
+    public List<EdoItemBo> getPendingLettersByDossierId( String edoDossierId, String edoChecklistItemID ) {
+        List<EdoItemBo> letterList = new LinkedList<EdoItemBo>();
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("dossierID", dossierId);
-        cConditions.addEqualTo("review_layer_def_id", reviewLayerDefinitionId);
+        cConditions.addEqualTo("edo_dossier_id", edoDossierId);
+        cConditions.addEqualTo("edo_review_layer_def_id", edoChecklistItemID);
         cConditions.addIsNull("layer_level");
 
-        Query query = QueryFactory.newQuery(EdoItem.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {

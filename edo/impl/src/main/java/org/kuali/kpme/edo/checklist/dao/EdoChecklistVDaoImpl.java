@@ -1,14 +1,19 @@
 package org.kuali.kpme.edo.checklist.dao;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.item.EdoItem;
+import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * $HeadURL$
@@ -129,13 +134,13 @@ public class EdoChecklistVDaoImpl extends PlatformAwareDaoBaseOjb implements Edo
 
     }
 
-    public EdoChecklistV getChecklistItemByID( BigDecimal checklistItemID ) {
+    public EdoChecklistV getChecklistItemByID(String edoChecklistItemID) {
 
         EdoChecklistV checkList = new EdoChecklistV();
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("checklist_item_id", checklistItemID);
+        cConditions.addEqualTo("edo_checklist_item_id", edoChecklistItemID);
 
         QueryByCriteria query = QueryFactory.newQuery(EdoChecklistV.class, cConditions);
 
@@ -175,16 +180,16 @@ public class EdoChecklistVDaoImpl extends PlatformAwareDaoBaseOjb implements Edo
     }
 
     @Override
-    public void saveOrUpdate(List<EdoItem> edoItems) {
+    public void saveOrUpdate(List<EdoItemBo> edoItems) {
         if (edoItems != null && edoItems.size() > 0 ) {
-            for (EdoItem edoItem : edoItems) {
+            for (EdoItemBo edoItem : edoItems) {
                 this.getPersistenceBrokerTemplate().store(edoItem);
             }
         }
     }
 
     @Override
-    public void saveOrUpdate(EdoItem edoItem) {
+    public void saveOrUpdate(EdoItemBo edoItem) {
         this.getPersistenceBrokerTemplate().store(edoItem);
     }
 }

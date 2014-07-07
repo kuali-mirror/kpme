@@ -1,9 +1,8 @@
 package org.kuali.kpme.edo.item.dao;
 
-import org.kuali.kpme.edo.item.EdoItem;
-
-import java.math.BigDecimal;
 import java.util.List;
+
+import org.kuali.kpme.edo.item.EdoItemBo;
 
 /**
  * $HeadURL$
@@ -16,12 +15,14 @@ import java.util.List;
  */
 public interface EdoItemDao {
 
-    public EdoItem getEdoItem(BigDecimal itemID);
-    public List<EdoItem> getItemList( BigDecimal checklistSectionID );
-    public void saveOrUpdate( EdoItem item );
-    public void deleteItem( EdoItem item );
-    public Integer getNextRowIndexNum(BigDecimal checklistItemId, String uploader);
-    public List<EdoItem> getPendingItemsByDossierId( BigDecimal dossierId, BigDecimal checklistItemID );
-    public List<EdoItem> getItemsByDossierIdForAddendumFalgZero( BigDecimal dossierId, BigDecimal checklistItemID);
-    public List<EdoItem> getPendingLettersByDossierId( BigDecimal dossierId, BigDecimal reviewLayerDefinitionId );
+    public EdoItemBo getEdoItem(String edoItemID);
+    /*  This will be needed when we remove view, but remove it for now since it's not used it
+    public List<EdoItemBo> getItemList(String edoChecklistSectionID); */
+    public void saveOrUpdate(EdoItemBo item);
+    public void saveOrUpdate(List<EdoItemBo> edoItems);
+    public void deleteItem(EdoItemBo item);
+    public Integer getNextRowIndexNum(String edoChecklistItemId, String uploader);
+    public List<EdoItemBo> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemID);
+    public List<EdoItemBo> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID);
+    public List<EdoItemBo> getPendingLettersByDossierId(String edoDossierId, String edoReviewLayerDefinitionId);
 }

@@ -1,15 +1,16 @@
 package org.kuali.kpme.edo.item;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import org.kuali.kpme.edo.api.item.EdoItem;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * $HeadURL$
@@ -21,100 +22,87 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class EdoItemV implements Comparable<EdoItemV> {
-    private BigDecimal itemID;
-    private String uploaderUsername;
-    private BigDecimal itemTypeID;
-    private BigDecimal checklistItemID;
-    private BigDecimal dossierID;
-   // private Date uploadDate;
-    //edo-69
-    private Timestamp uploadDate;
+
+    private String edoItemID;
+    private String edoItemTypeID;
+    private String edoChecklistItemID;
+    private String edoDossierID;
+   
     private String fileName;
     private String fileLocation;
     private String notes;
-    private BigDecimal addendumRouted;
-    private Date createDate;
-    private String createdBy;
-    private Date lastUpdateDate;
-    private String updatedBy;
-    private String layerLevel;
+    private Timestamp actionTimestamp;
+    private String userPrincipalId;
+
     private String contentType;
-    private BigDecimal checklistSectionID;
+    private String edoChecklistSectionID;
     private String itemTypeName;
     private String typeDescription;
     private String instructions;
-    private BigDecimal extAvailability;
+    private boolean extAvailable;
     private Integer rowIndex;
-    private BigDecimal reviewLayerDefID;
+    private String edoReviewLayerDefID;
     private String reviewLayerDescription;
     private BigDecimal reviewLevel;
     private String fileDescription;
-
+    private boolean routed;
+    private String action;
+    private boolean active;
+    
     public EdoItemV() {}
 
     public EdoItemV(EdoItem edoItem) {
-        this.uploadDate = edoItem.getUploadDate();
         this.fileName = edoItem.getFileName();
         this.fileLocation = edoItem.getFileLocation();
         this.notes = edoItem.getNotes();
-        this.addendumRouted = edoItem.getAddendumRouted();
-        this.createDate = edoItem.getCreateDate();
-        this.createdBy = edoItem.getCreatedBy();
-        this.lastUpdateDate = edoItem.getLastUpdateDate();
-        this.updatedBy = edoItem.getUpdatedBy();
-        this.layerLevel = edoItem.getLayerLevel();
+        this.routed = edoItem.isRouted();
         this.contentType = edoItem.getContentType();
         this.rowIndex = edoItem.getRowIndex();
-        this.reviewLayerDefID = edoItem.getReviewLayerDefID();
+        this.edoReviewLayerDefID = edoItem.getEdoReviewLayerDefID();
         this.fileDescription = edoItem.getFileDescription();
+        this.userPrincipalId = edoItem.getUserPrincipalId();
+        this.actionTimestamp = new Timestamp(edoItem.getActionFullDateTime().getMillis());    
     }
 
 
-    public BigDecimal getItemID() {
-        return itemID;
+    public String getEdoItemID() {
+        return edoItemID;
     }
 
-    public void setItemID(BigDecimal itemID) {
-        this.itemID = itemID;
+    public void setEdoItemID(String edoItemID) {
+        this.edoItemID = edoItemID;
     }
 
-    public BigDecimal getItemTypeID() {
-        return itemTypeID;
+    public String getEdoItemTypeID() {
+        return edoItemTypeID;
     }
 
-    public void setItemTypeID(BigDecimal itemTypeID) {
-        this.itemTypeID = itemTypeID;
+    public void setEdoItemTypeID(String edoItemTypeID) {
+        this.edoItemTypeID = edoItemTypeID;
     }
 
-    public BigDecimal getChecklistItemID() {
-        return checklistItemID;
+    public String getEdoChecklistItemID() {
+        return edoChecklistItemID;
     }
 
-    public void setChecklistItemID(BigDecimal checklistItemID) {
-        this.checklistItemID = checklistItemID;
+    public void setEdoChecklistItemID(String edoChecklistItemID) {
+        this.edoChecklistItemID = edoChecklistItemID;
     }
 
-    public BigDecimal getDossierID() {
-        return dossierID;
+    public String getEdoDossierID() {
+        return edoDossierID;
     }
 
-    public void setDossierID(BigDecimal dossierID) {
-        this.dossierID = dossierID;
+    public void setEdoDossierID(String edoDossierID) {
+        this.edoDossierID = edoDossierID;
     }
 
-  /* public Date getUploadDate() {
-        return uploadDate;
-    }
-
-    public void setUploadDate(Date uploadDate) {
-        this.uploadDate = uploadDate;
-    }*/
-   public Timestamp getUploadDate() {
-		return uploadDate;
+   public Timestamp getActionTimestamp() {
+		return actionTimestamp;
 	}
 
-	public void setUploadDate(Timestamp uploadDate) {
-		this.uploadDate = uploadDate;
+	public void setActionTimestamp(Timestamp actionTimestamp) {
+		this.actionTimestamp = actionTimestamp;
 	}
     
 
@@ -142,60 +130,36 @@ public class EdoItemV implements Comparable<EdoItemV> {
         this.notes = notes;
     }
 
-    public BigDecimal getAddendumRouted() {
-        return addendumRouted;
+    public boolean isRouted() {
+		return routed;
+	}
+
+	public void setRouted(boolean routed) {
+		this.routed = routed;
+	}
+
+	public String getUserPrincipalId() {
+        return userPrincipalId;
     }
 
-    public void setAddendumRouted(BigDecimal isRouted) {
-        this.addendumRouted = isRouted;
+    public void setUserPrincipalId(String userPrincipalId) {
+        this.userPrincipalId = userPrincipalId;
+    }
+    
+    public String getAction() {
+        return action;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public void setAction(String action) {
+        this.action = action;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public String getEdoChecklistSectionID() {
+        return edoChecklistSectionID;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    public void setLastUpdateDate(Date lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public String getLayerLevel() {
-        return layerLevel;
-    }
-
-    public void setLayerLevel(String layerLevel) {
-        this.layerLevel = layerLevel;
-    }
-
-    public BigDecimal getChecklistSectionID() {
-        return checklistSectionID;
-    }
-
-    public void setChecklistSectionID(BigDecimal checklistSectionID) {
-        this.checklistSectionID = checklistSectionID;
+    public void setEdoChecklistSectionID(String edoChecklistSectionID) {
+        this.edoChecklistSectionID = edoChecklistSectionID;
     }
 
     public String getItemTypeName() {
@@ -222,28 +186,20 @@ public class EdoItemV implements Comparable<EdoItemV> {
         this.instructions = instructions;
     }
 
-    public BigDecimal getExtAvailability() {
-        return extAvailability;
+    public boolean isExtAvailable() {
+        return extAvailable;
     }
 
-    public void setExtAvailability(BigDecimal extAvailability) {
-        this.extAvailability = extAvailability;
+    public void setExtAvailable(boolean extAvailable) {
+        this.extAvailable = extAvailable;
     }
 
-    public String getUploaderUsername() {
-        return uploaderUsername;
+    public String getEdoReviewLayerDefID() {
+        return edoReviewLayerDefID;
     }
 
-    public void setUploaderUsername(String uploaderUsername) {
-        this.uploaderUsername = uploaderUsername;
-    }
-
-    public BigDecimal getReviewLayerDefID() {
-        return reviewLayerDefID;
-    }
-
-    public void setReviewLayerDefID(BigDecimal reviewLayerDefID) {
-        this.reviewLayerDefID = reviewLayerDefID;
+    public void setEdoReviewLayerDefID(String edoReviewLayerDefID) {
+        this.edoReviewLayerDefID = edoReviewLayerDefID;
     }
 
     public String getReviewLayerDescription() {
@@ -269,34 +225,42 @@ public class EdoItemV implements Comparable<EdoItemV> {
     public void setFileDescription(String fileDescription) {
         this.fileDescription = fileDescription;
     }
+    
+    public boolean isActive() {
+    	return active;
+    }
+    
+    public void setActive(boolean active) {
+    	this.active = active;
+    }
 
     public String getItemJSONString() {
         ArrayList<String> tmp = new ArrayList<String>();
         Type tmpType = new TypeToken<List<String>>() {}.getType();
         Gson gson = new Gson();
-        String uploadString = new SimpleDateFormat("yyyy-MM-dd hh:mma").format(this.getUploadDate());
+        String uploadString = new SimpleDateFormat("yyyy-MM-dd hh:mma").format(this.getActionTimestamp());
 
         tmp.add(this.getRowIndex() == null ? "1" : this.getRowIndex().toString());
-        tmp.add(this.getItemID().toString());
+        tmp.add(this.getEdoItemID());
         tmp.add(this.getItemTypeName());
-        tmp.add(this.getItemTypeID().toString());
+        tmp.add(this.getEdoItemTypeID());
         tmp.add(this.getFileName());
         tmp.add(this.getFileLocation());
-        tmp.add(this.getUploaderUsername());
-        tmp.add(this.getChecklistItemID().toString());
-        tmp.add(this.getChecklistSectionID().toString());
-        tmp.add(this.getLayerLevel());
-        tmp.add(this.getExtAvailability().toString());
+        tmp.add(this.getEdoChecklistItemID());
+        tmp.add(this.getEdoChecklistSectionID());
+        tmp.add(this.isExtAvailable() == true ? "Y" : "N");
         tmp.add(uploadString);
-        tmp.add(this.getUpdatedBy());
+        tmp.add(this.getUserPrincipalId());
         tmp.add("");
-        tmp.add(this.getDossierID().toString());
-        tmp.add(this.getReviewLayerDefID() == null ? "" : this.getReviewLayerDefID().toString());
+        tmp.add(this.getEdoDossierID());
+        tmp.add(this.getEdoReviewLayerDefID() == null ? "" : this.getEdoReviewLayerDefID());
         tmp.add(this.getReviewLayerDescription());
         tmp.add(this.getReviewLevel() == null ? "" : this.getReviewLevel().toString());
-        tmp.add(this.getAddendumRouted() == null ? "" : this.getAddendumRouted().toString());
+        tmp.add(this.isRouted() == true ? "Y" : "N");
         tmp.add(this.getFileDescription());
 
+        // TODO Find out if we need to add action and active and if so, where
+        
         return gson.toJson(tmp, tmpType);
     }
 

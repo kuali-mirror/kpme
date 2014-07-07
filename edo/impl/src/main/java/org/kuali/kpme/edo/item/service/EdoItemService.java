@@ -1,11 +1,11 @@
 package org.kuali.kpme.edo.item.service;
 
-import org.kuali.kpme.edo.item.EdoItem;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
+
+import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.item.EdoItemBo;
 
 /**
  * $HeadURL$
@@ -17,13 +17,18 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface EdoItemService {
-    public EdoItem getEdoItem( BigDecimal itemID );
-    public List<EdoItem> getItemList(BigDecimal checklistSectionID);
-    public void saveOrUpdate( EdoItem item );
-    public EdoItem getFile( BigDecimal itemID, ByteArrayOutputStream bao) throws IOException;
-    public Integer getNextRowIndexNum(BigDecimal checklistItemId, String uploader);
-    public List<EdoItem> getPendingItemsByDossierId( BigDecimal dossierId, BigDecimal checklistItemID);
-    public List<EdoItem> getItemsByDossierIdForAddendumFalgZero( BigDecimal dossierId, BigDecimal checklistItemID);
-    public boolean isReviewLetterPendingRoute( BigDecimal dossierId, BigDecimal reviewLayerDefintionId );
-    public void updateLetterAsLevelRouted( BigDecimal dossierId, BigDecimal reviewLayerDefinitionId );
+    public EdoItem getEdoItem(String edoItemID);
+    public EdoItemBo getEdoItemBo(String edoItemID);
+    /*  This will be needed when we remove view, but remove it for now since it's not used it
+    public List<EdoItem> getItemList(String edoChecklistSectionID); */
+    public void saveOrUpdate(EdoItemBo itemBo);
+    public void saveOrUpdate(EdoItem item);
+    public void saveOrUpdate(List<EdoItem> edoItems);
+    public EdoItem getFile(String edoItemID, ByteArrayOutputStream bao) throws IOException;
+    public Integer getNextRowIndexNum(String edoChecklistItemId, String uploader);
+    public List<EdoItem> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemID);
+    public List<EdoItem> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID);
+    public boolean isReviewLetterPendingRoute(String edoDossierId, String edoReviewLayerDefintionId);
+    public void updateLetterAsLevelRouted(String edoDossierId, String edoReviewLayerDefinitionId);
+    public void deleteItem(EdoItem item);
 }

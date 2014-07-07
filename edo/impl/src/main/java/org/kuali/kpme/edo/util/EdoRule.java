@@ -1,22 +1,21 @@
 package org.kuali.kpme.edo.util;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
-import org.kuali.kpme.edo.item.EdoItem;
 import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.List;
 
 public class EdoRule {
 	//Far:933
@@ -145,21 +144,21 @@ public class EdoRule {
 
     public static boolean dossierHasSupplementalsPending( BigDecimal dossierId ) {
         BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getChecklistItemID();
-        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(dossierId,checklistItemID);
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(dossierId.toString(),checklistItemID.toString());
         boolean hasPending = CollectionUtils.isNotEmpty(itemList);
 
         return hasPending;
     }
     public static boolean dossierHasReconsiderPending( BigDecimal dossierId ) {
         BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
-        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(dossierId,checklistItemID);
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(dossierId.toString(),checklistItemID.toString());
         boolean hasPending = CollectionUtils.isNotEmpty(itemList);
 
         return hasPending;
     }
     public static boolean canUploadFileUnderReconsiderCategory( BigDecimal dossierId ) {
     	  BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
-          List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemsByDossierIdForAddendumFalgZero(dossierId,checklistItemID);
+          List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemsByDossierIdForAddendumFalgZero(dossierId.toString(),checklistItemID.toString());
           boolean canUploadReconsiderItems = CollectionUtils.isEmpty(itemList);
 
           return canUploadReconsiderItems;

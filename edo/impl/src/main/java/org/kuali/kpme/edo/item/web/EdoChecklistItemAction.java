@@ -21,11 +21,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.item.EdoItem;
+import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.item.EdoItemTracker;
 import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
@@ -148,12 +150,12 @@ public class EdoChecklistItemAction extends EdoAction {
         List<EdoItemV> itemVs = new ArrayList<EdoItemV>();
         for (EdoItemV edoItemV : itemlist) {
             Integer oldIndex = edoItemV.getRowIndex();
-            Integer newIndex = itemIndexMap.get(edoItemV.getItemID());
-            EdoItem edoItem = new EdoItem(edoItemV);
+            Integer newIndex = itemIndexMap.get(edoItemV.getEdoItemID());
+            EdoItemBo edoItemBo = new EdoItemBo(edoItemV);
             if (oldIndex.compareTo(newIndex) != 0) {
                 edoItemV.setRowIndex(newIndex);
-                edoItem.setRowIndex(newIndex);
-                itemsToUpdate.add(edoItem);
+                edoItemBo.setRowIndex(newIndex);
+                itemsToUpdate.add(EdoItemBo.to(edoItemBo));
             }
 
             itemVs.add(edoItemV);
@@ -162,8 +164,10 @@ public class EdoChecklistItemAction extends EdoAction {
         Collections.sort(itemVs);
         LOG.info("Items sorted");
 
+        // use EdoItem service instead
         // update edoItems with new row indexes
-        EdoServiceLocator.getChecklistVService().saveOrUpdate(itemsToUpdate);
+        // EdoServiceLocator.getChecklistVService().saveOrUpdate(itemsToUpdate));
+        EdoServiceLocator.getEdoItemService().saveOrUpdate(itemsToUpdate);
 
         // update json
         // not happy about the code below since it involves too much handcrafted json.
@@ -228,10 +232,10 @@ public class EdoChecklistItemAction extends EdoAction {
         List<String> params = itemData.getParameterValues("itemID");
 
         for (String id : params) {
-            EdoItem item = EdoServiceLocator.getEdoItemDao().getEdoItem(BigDecimal.valueOf(Integer.parseInt(id)));
+            EdoItem item = EdoServiceLocator.getEdoItemService().getEdoItem(id);
             if (deleteFileFromFS(item)) {
                 // all is well with the file system, delete the item from the database
-                EdoServiceLocator.getEdoItemDao().deleteItem(item);
+                EdoServiceLocator.getEdoItemService().deleteItem(item);
                 LOG.info("File deleted [" + item.getFileName() + "]");
             }
         }
@@ -267,11 +271,13 @@ public class EdoChecklistItemAction extends EdoAction {
         String newFilename = edoChecklistItemForm.getNewFilename();
         String fileDescription = edoChecklistItemForm.getFileDescription();
         BigDecimal itemID = BigDecimal.valueOf(edoChecklistItemForm.getItemID());
-        EdoItem item = EdoServiceLocator.getEdoItemService().getEdoItem(itemID);
+        // We need to get EdoitemBo for update
+        // EdoItem item = EdoServiceLocator.getEdoItemService().getEdoItem(itemID.toString());
+        EdoItemBo itemBo = EdoServiceLocator.getEdoItemService().getEdoItemBo(itemID.toString());
 
-        item.setFileName(newFilename);
-        item.setFileDescription(fileDescription);
-        EdoServiceLocator.getEdoItemService().saveOrUpdate(item);
+        itemBo.setFileName(newFilename);
+        itemBo.setFileDescription(fileDescription);
+        EdoServiceLocator.getEdoItemService().saveOrUpdate(itemBo);
 
         ActionForward fwd = mapping.findForward("basic");
 
@@ -308,8 +314,10 @@ public class EdoChecklistItemAction extends EdoAction {
         String candidateUsername = candidate.getCandidateUsername();
         BigDecimal dossierID     = candidate.getCandidateDossierID();
 
-        EdoItem item = new EdoItem();
-        EdoItem originalItem = new EdoItem();
+        EdoItem.Builder item = EdoItem.Builder.create();
+        // originalItem doesn't get used except to get item id
+        //EdoItem originalItem = new EdoItem();
+        String originalItemID = null;
 
         if (ServletFileUpload.isMultipartContent(request)) {
             DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -362,23 +370,24 @@ public class EdoChecklistItemAction extends EdoAction {
 
             // set attributes unique to a new file in the DB
             if (isNewFile) {
-                item.setCreateDate(sqlTimestamp);
+                item.setActionFullDateTime(new DateTime(sqlTimestamp));
                 // TODO when item is ready, uncomment out the line below
                 //item.setItemTypeID(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT));
                 LocalDate currentDate = LocalDate.now();
-                item.setItemTypeID(new BigDecimal(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT, currentDate)));
-                item.setCreatedBy(uploadUsername);
-                item.setCreateDate(sqlTimestamp);
-                item.setDossierID(dossierID);
-                item.setChecklistItemID( BigDecimal.valueOf(checklistItemID) );
-                Integer nextRowIndexNum = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(BigDecimal.valueOf(checklistItemID), uploadUsername);
+                item.setEdoItemTypeID(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT, currentDate));
+                item.setUserPrincipalId(uploadUsername);
+                item.setEdoDossierID(dossierID.toString());
+                item.setEdoChecklistItemID(checklistItemID+"");
+                Integer nextRowIndexNum = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(checklistItemID+"", uploadUsername);
                 item.setRowIndex(nextRowIndexNum);
             }
             // if a replacement, get the existing file information from the DB record
             if (replaceFile) {
-                item = EdoServiceLocator.getEdoItemService().getEdoItem(itemID);
-                originalItem = item;
-                if (!deleteFileFromFS(item)) {
+                EdoItem edoItem = EdoServiceLocator.getEdoItemService().getEdoItem(itemID.toString());
+                // originalItem doesn't get used except to get item id
+                //originalItem = edoItem;
+                originalItemID = edoItem.getEdoItemID();
+                if (!deleteFileFromFS(edoItem)) {
                     // error deleting the file; report it and return
                     ActionForward fwd = mapping.findForward("basic");
                     return fwd;
@@ -386,23 +395,21 @@ public class EdoChecklistItemAction extends EdoAction {
             }
             // these attributes will need to be updated for both new file and replacement
             // but we can't update until the old file is removed, as above
-            EdoChecklistV edoChecklist = EdoServiceLocator.getChecklistVService().getChecklistItemByID(BigDecimal.valueOf(checklistItemID));
+            EdoChecklistV edoChecklist = EdoServiceLocator.getChecklistVService().getChecklistItemByID(checklistItemID+"");
           //  if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName())) {
           if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName()) || StringUtils.equals(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName())) {
 	
-            	item.setAddendumRouted(BigDecimal.ONE);
+            	item.setRouted(false);
             }
             else {
-            	item.setAddendumRouted(BigDecimal.ZERO);
+            	item.setRouted(true);
             }
             item.setFileName(fileName);
             item.setFileLocation(uploadPath + File.separator + storeFileName);
             item.setContentType(contentType);
-            item.setUploaderUsername(uploadUsername);
-            item.setUploadDate(sqlTimestamp);
-            item.setUpdatedBy(uploadUsername);
-            item.setLastUpdateDate(sqlTimestamp);
-            item.setReviewLayerDefID(BigDecimal.ZERO);
+            item.setUserPrincipalId(uploadUsername);
+            item.setActionFullDateTime(new DateTime(sqlTimestamp));
+            item.setEdoReviewLayerDefID("0");
 
             if (StringUtils.isNotBlank(storeFileName)) {
                 File newFile = new File(uploadPath, storeFileName);
@@ -431,8 +438,8 @@ public class EdoChecklistItemAction extends EdoAction {
 
             // if this is a new file or we are replacing the file, update the db; otherwise, don't do anything
             if (isNewFile || replaceFile) {
-                EdoServiceLocator.getEdoItemService().saveOrUpdate(item);
-                LOG.info("File entry [" + item.getItemID() + "][" + item.getFileName() + "] updated/saved to the database.");
+                EdoServiceLocator.getEdoItemService().saveOrUpdate(item.build());
+                LOG.info("File entry [" + item.getEdoItemID() + "][" + item.getFileName() + "] updated/saved to the database.");
             }
         }
 
@@ -442,8 +449,8 @@ public class EdoChecklistItemAction extends EdoAction {
         // As a workaround, we update the java EdoItemV list with the new EdoItemV object for json output.
         if (replaceFile) {
             for (EdoItemV itemV : itemList) {
-                if (itemV.getItemID().compareTo(originalItem.getItemID()) == 0) {
-                    EdoItemV newItemV = new EdoItemV(item);
+                if (itemV.getEdoItemID().equals(originalItemID)) {
+                    EdoItemV newItemV = new EdoItemV(item.build());
                     newItemV = convertItemV(itemV, newItemV);
                     itemList.remove(itemV);
                     itemList.add(newItemV);
@@ -506,20 +513,21 @@ public class EdoChecklistItemAction extends EdoAction {
     }
 
     private EdoItemV convertItemV(EdoItemV oldItemV, EdoItemV newItemV) {
-        newItemV.setItemID(oldItemV.getItemID());
-        newItemV.setUploaderUsername(oldItemV.getUploaderUsername());
-        newItemV.setItemTypeID(oldItemV.getItemTypeID());
-        newItemV.setDossierID(oldItemV.getDossierID());
+        newItemV.setEdoItemID(oldItemV.getEdoItemID());
+        newItemV.setUserPrincipalId(oldItemV.getUserPrincipalId());
+        newItemV.setEdoItemTypeID(oldItemV.getEdoItemTypeID());
+        newItemV.setEdoDossierID(oldItemV.getEdoDossierID());
         newItemV.setNotes(oldItemV.getNotes());
-        newItemV.setLayerLevel(oldItemV.getLayerLevel());
-        newItemV.setChecklistSectionID(oldItemV.getChecklistSectionID());
-        newItemV.setChecklistItemID(oldItemV.getChecklistItemID());
+        newItemV.setEdoChecklistSectionID(oldItemV.getEdoChecklistSectionID());
+        newItemV.setEdoChecklistItemID(oldItemV.getEdoChecklistItemID());
         newItemV.setItemTypeName(oldItemV.getItemTypeName());
         newItemV.setTypeDescription(oldItemV.getTypeDescription());
         newItemV.setInstructions(oldItemV.getInstructions());
-        newItemV.setExtAvailability(oldItemV.getExtAvailability());
+        newItemV.setExtAvailable(oldItemV.isExtAvailable());
         newItemV.setReviewLayerDescription(oldItemV.getReviewLayerDescription());
         newItemV.setReviewLevel(oldItemV.getReviewLevel());
+        newItemV.setAction(oldItemV.getAction());
+        newItemV.setActive(oldItemV.isActive());
 
         return newItemV;
     }

@@ -1,35 +1,35 @@
 package org.kuali.kpme.edo.item.web;
 
+import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.candidate.EdoCandidateBo;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
-import org.kuali.kpme.edo.item.EdoItem;
 import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
+import org.kuali.kpme.edo.util.EdoUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.io.ByteArrayOutputStream;
-import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * $HeadURL$ $Revision$ Created with IntelliJ IDEA. User: bradleyt Date: 3/18/13
@@ -64,20 +64,19 @@ public class EdoDownloadFileAction extends EdoAction {
             int currentTreeNodeID = Integer.parseInt(nidParam.split("_")[2]);
 
             List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList(selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID));
-            BigDecimal itemId1 = new BigDecimal(itemId);
             boolean found = false;
             for (EdoItemV item1 : itemList) {
 
                 //comparison of big decimals
-                int result = item1.getItemID().compareTo(itemId1);
-                if( result == 0 ) {
+                if(item1.getEdoItemID().equals(itemId)) {
                     found = true;
                     LOG.info("Download file action invoked");
                     if (StringUtils.isNotBlank(itemId)) {
                         ByteArrayOutputStream bao = new ByteArrayOutputStream();
                         try {
-                            EdoItem item = EdoServiceLocator.getEdoItemService().getFile(BigDecimal.valueOf(Integer.parseInt(itemId)), bao);
-                            String newFileName = item.getFileName().replaceAll(" ", "_").replaceAll(",", "_") + "_" + item.getFilenameFromPath();
+                            EdoItem item = EdoServiceLocator.getEdoItemService().getFile(itemId, bao);
+                            String fileName = EdoUtils.getFilenameFromPath(item.getFileLocation());
+                            String newFileName = item.getFileName().replaceAll(" ", "_").replaceAll(",", "_") + "_" + fileName;
                             String contentType = item.getContentType();
                             LOG.info("Starting file download [" + item.getFileName() + "] content-type: [" + contentType + "]");
                             response.setContentType(contentType);
@@ -110,7 +109,7 @@ public class EdoDownloadFileAction extends EdoAction {
     private EdoSelectedCandidate getItemSelectedCandidate(BigDecimal itemId) {
 
         EdoItemV item = EdoServiceLocator.getEdoItemVService().getEdoItem(itemId);
-        EdoCandidateDossier dossier = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossier(item.getDossierID());
+        EdoCandidateDossier dossier = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossier(new BigDecimal(item.getEdoDossierID()));
         EdoCandidate candidate = EdoServiceLocator.getCandidateService().getCandidateByUsername(dossier.getUsername());
 
         EdoSelectedCandidate selectedCandidate = new EdoSelectedCandidate(candidate, true);

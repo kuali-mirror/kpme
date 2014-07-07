@@ -297,8 +297,8 @@ public class EdoDossierServiceImpl implements EdoDossierService {
                 // update any pending review letters
                 for (String node : workflowDocument.getCurrentNodeNames() ) {
                     EdoReviewLayerDefinition rld = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(dossier.getWorkflowId(), node);
-                    if (EdoServiceLocator.getEdoItemService().isReviewLetterPendingRoute(new BigDecimal(dossierId), rld.getId()) ) {
-                        EdoServiceLocator.getEdoItemService().updateLetterAsLevelRouted( new BigDecimal(dossierId), rld.getId() );
+                    if (EdoServiceLocator.getEdoItemService().isReviewLetterPendingRoute(dossierId.toString(), rld.getId().toString())) {
+                        EdoServiceLocator.getEdoItemService().updateLetterAsLevelRouted(dossierId.toString(), rld.getId().toString());
                     }
                 }
                 //Update that we have finished the routing process.

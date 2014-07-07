@@ -1,7 +1,7 @@
 package org.kuali.kpme.edo.checklist.service;
 
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.item.EdoItem;
+import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.checklist.dao.EdoChecklistVDao;
 
 import java.math.BigDecimal;
@@ -36,8 +36,8 @@ public class EdoChecklistVServiceImpl implements EdoChecklistVService {
         this.edoChecklistVDao = edoChecklistVDao;
     }
 
-    public EdoChecklistV getChecklistItemByID( BigDecimal checklistItemID ) {
-        return edoChecklistVDao.getChecklistItemByID( checklistItemID );
+    public EdoChecklistV getChecklistItemByID(String edoChecklistItemID) {
+        return edoChecklistVDao.getChecklistItemByID(edoChecklistItemID);
     }
 
     @Override
@@ -45,14 +45,16 @@ public class EdoChecklistVServiceImpl implements EdoChecklistVService {
 
         return edoChecklistVDao.getChecklistItemByName(name);
     }
-
+    
+    // These should be in EdoItem service
+    /*
     @Override
-    public void saveOrUpdate(List<EdoItem> edoItems) {
+    public void saveOrUpdate(List<EdoItemBo> edoItems) {
     	edoChecklistVDao.saveOrUpdate(edoItems);
     }
 
     @Override
-    public void saveOrUpdate(EdoItem edoItem) {
+    public void saveOrUpdate(EdoItemBo edoItem) {
     	edoChecklistVDao.saveOrUpdate(edoItem);
-    }
+    }*/
 }

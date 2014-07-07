@@ -1,11 +1,10 @@
 package org.kuali.kpme.edo.checklist.service;
 
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.item.EdoItem;
-
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.SortedMap;
+
+import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.checklist.EdoChecklistV;
 
 /**
  * $HeadURL$
@@ -20,8 +19,9 @@ public interface EdoChecklistVService {
 
     public List<EdoChecklistV> getCheckListView(String campusCode, String schoolID, String departmentID);
     public SortedMap<String, List<EdoChecklistV>> getCheckListHash(String campusCode, String schoolID, String departmentID);
-    public EdoChecklistV getChecklistItemByID( BigDecimal checklistItemID );
+    public EdoChecklistV getChecklistItemByID(String edoChecklistItemID);
     public EdoChecklistV getChecklistItemByName( String name );
-    public void saveOrUpdate(List<EdoItem> edoItems);
-    public void saveOrUpdate(EdoItem edoItem);
+    // These should be in EdoItem service
+    //public void saveOrUpdate(List<EdoItem> edoItems);
+    //public void saveOrUpdate(EdoItem edoItem);
 }

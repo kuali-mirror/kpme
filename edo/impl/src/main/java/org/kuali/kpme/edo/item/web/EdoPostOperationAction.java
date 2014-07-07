@@ -7,9 +7,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.item.EdoItem;
+import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.QueryParams;
@@ -99,7 +100,7 @@ public class EdoPostOperationAction extends EdoAction {
         List<String> params = itemData.getParameterValues("itemID");
 
         for (String id : params) {
-            EdoItem item = EdoServiceLocator.getEdoItemDao().getEdoItem(BigDecimal.valueOf(Integer.parseInt(id)));
+            EdoItem item = EdoItemBo.to(EdoServiceLocator.getEdoItemDao().getEdoItem(id));
 
             // delete file from the file system
             File itemFile = new File(item.getFileLocation());
@@ -125,7 +126,7 @@ public class EdoPostOperationAction extends EdoAction {
                 }
                 if (fsOK) {
                     // all is well with the file system, delete the item from the database
-                    EdoServiceLocator.getEdoItemDao().deleteItem(item);
+                    EdoServiceLocator.getEdoItemDao().deleteItem(EdoItemBo.from(item));
                 }
             } else {
                 msgmap.putError(EdoConstants.ErrorKeys.ERROR_KEYS,"error.fileDelete.invalid", "The file does not exist");

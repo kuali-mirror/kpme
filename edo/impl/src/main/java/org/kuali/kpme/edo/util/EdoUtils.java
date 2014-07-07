@@ -62,5 +62,11 @@ public class EdoUtils {
 
         return uploadPath;
     }
+    
+    // This method used to be on EdoItem
+    public static String getFilenameFromPath(String fileLocation) {
+        String[] pathElements = fileLocation.split("/");
+        return pathElements[pathElements.length - 1];
+    }
 
 }

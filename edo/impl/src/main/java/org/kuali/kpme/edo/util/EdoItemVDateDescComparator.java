@@ -17,7 +17,7 @@ public class EdoItemVDateDescComparator implements Comparator<EdoItemV> {
     @Override
     public int compare(EdoItemV item1, EdoItemV item2 ) {
 
-        return item2.getCreateDate().compareTo(item1.getCreateDate());
+        return item2.getActionTimestamp().compareTo(item1.getActionTimestamp());
 
     }
 }
