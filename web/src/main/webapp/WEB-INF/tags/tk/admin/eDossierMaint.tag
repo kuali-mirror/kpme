@@ -21,27 +21,37 @@
 	    <ul class="chan">
 	    	<li>
 	            <portal:portalLink displayTitle="true" title="Candidate"															
-	                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.candidate.EdoCandidateBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+	                   url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.candidate.EdoCandidateBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
 	        </li>
+	        
 	        <li>
 	            <portal:portalLink displayTitle="true" title="Dossier Type"															
-	                               url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+	                   url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
 	        </li>
-	         <li>
+	        
+	        <li>
 	         	<portal:portalLink displayTitle="true" title="Checklist" 
 	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.checklist.EdoChecklistBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
 	        </li>
+	        
 	        <li>
 	         	<portal:portalLink displayTitle="true" title="Checklist Section" 
 	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.checklist.EdoChecklistSectionBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
 	        </li>
+	        
 	    	<li>
 	         	<portal:portalLink displayTitle="true" title="Checklist Item" 
 	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.checklist.EdoChecklistItemBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
 	        </li>
+	        
 	        <li>
 	         	<portal:portalLink displayTitle="true" title="Item Type" 
 	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.item.type.EdoItemTypeBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
+	        </li>
+	   
+	        <li>
+	        	<portal:portalLink displayTitle="true" title="Initiate eDossier"
+	        			url="${ConfigProperties.application.url}/kpme/edoDossier?methodToCall=docHandler&command=initiate&viewId=EdoDossier-DocumentView&docTypeName=EdoDossierDocumentType" />
 	        </li>
 		</ul>
 	</div>

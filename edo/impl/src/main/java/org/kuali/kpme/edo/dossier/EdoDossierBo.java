@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableMap;
 public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierContract {
 
 	static class KeyFields {
-		private static final String CANDIDATE_PRINCIPAL_NAME = "candidatePrincipalname";
+		private static final String CANDIDATE_PRINCIPAL_NAME = "candidatePrincipalName";
 	}
 	
 	private static final long serialVersionUID = 6843318899816055301L;
@@ -47,7 +47,7 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
     	return  new ImmutableMap.Builder<String, Object>()
-			.put(KeyFields.CANDIDATE_PRINCIPAL_NAME, this.getCandidatePrincipalname())
+			.put(KeyFields.CANDIDATE_PRINCIPAL_NAME, this.getCandidatePrincipalName())
 			.build();
 	}
 	
@@ -63,13 +63,13 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 	@Override
 	public String getUniqueKey() {
 		
-		return getCandidatePrincipalname();
+		return getCandidatePrincipalName();
 	}
 	
     private String edoDossierID;
     private String edoDossierTypeID;
     private String edoChecklistID;
-    private String candidatePrincipalname;
+    private String candidatePrincipalName;
     private String aoeCode;
     private String departmentID;
     private String organizationCode;
@@ -106,12 +106,12 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 		this.edoChecklistID = edoChecklistID;
 	}
 
-	public String getCandidatePrincipalname() {
-		return candidatePrincipalname;
+	public String getCandidatePrincipalName() {
+		return candidatePrincipalName;
 	}
 
-	public void setCandidatePrincipalname(String candidatePrincipalname) {
-		this.candidatePrincipalname = candidatePrincipalname;
+	public void setCandidatePrincipalName(String candidatePrincipalName) {
+		this.candidatePrincipalName = candidatePrincipalName;
 	}
 
 	public String getOrganizationCode() {
@@ -204,7 +204,7 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
     }
 
     public String getCandidatePrincipalId() {
-    	Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(this.getCandidatePrincipalname());
+    	Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(this.getCandidatePrincipalName());
     	if(principal == null) {
     		throw new IllegalArgumentException("Principal not found in KIM");
     	}
@@ -220,7 +220,7 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
         edoDossierBo.setEdoDossierID(edoDossier.getEdoDossierID());
         edoDossierBo.setEdoDossierTypeID(edoDossier.getEdoDossierTypeID());
         edoDossierBo.setEdoChecklistID(edoDossier.getEdoChecklistID());
-        edoDossierBo.setCandidatePrincipalname(edoDossier.getCandidatePrincipalname());
+        edoDossierBo.setCandidatePrincipalName(edoDossier.getCandidatePrincipalName());
         edoDossierBo.setAoeCode(edoDossier.getAoeCode());
         edoDossierBo.setDepartmentID(edoDossier.getDepartmentID());
         edoDossierBo.setSecondaryUnit(edoDossier.getSecondaryUnit());

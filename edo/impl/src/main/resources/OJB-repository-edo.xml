@@ -168,8 +168,8 @@
     <class-descriptor class="org.kuali.kpme.edo.dossier.EdoDossierBo" table="EDO_DOSSIER_T">
     	<field-descriptor name="edoDossierID" 		column="edo_dossier_id"  	jdbc-type="VARCHAR" length="60" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_DOSSIER_S" />
         <field-descriptor name="edoDossierTypeID" 	column="edo_dossier_type_id" jdbc-type="VARCHAR" nullable="false"/>
-        <field-descriptor name="edoChecklistID" 		column="edo_checklist_id" 	jdbc-type="VARCHAR" nullable="false"/>
-        <field-descriptor name="candidatePrincipalname" column="candidate_principalname" jdbc-type="VARCHAR" length="100" nullable="false"/>
+        <field-descriptor name="edoChecklistID" 	column="edo_checklist_id" 	jdbc-type="VARCHAR" nullable="false"/>
+        <field-descriptor name="candidatePrincipalName" column="candidate_principalname" jdbc-type="VARCHAR" length="100" nullable="false"/>
         <field-descriptor name="departmentID" 		column="department_id" 		jdbc-type="VARCHAR" length="12" nullable="false"/>
         <field-descriptor name="secondaryUnit" 		column="secondary_unit" 	jdbc-type="VARCHAR" length="12" nullable="true"/>
         <field-descriptor name="aoeCode" 			column="aoe_code" 			jdbc-type="CHAR" 	length="1" nullable="true"/>    
@@ -183,7 +183,38 @@
         <field-descriptor name="objectId"       	column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber"  	column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
     </class-descriptor>
-    
+  
+  	<class-descriptor class="org.kuali.kpme.edo.dossier.EdoDossierDocument" table="EDO_DOSSIER_DOCUMENT_T">
+    	<field-descriptor name="documentNumber" 		column="doc_hdr_id"  		jdbc-type="VARCHAR" nullable="false" primarykey="true" />
+        <field-descriptor name="edoDossierID" 		column="edo_dossier_id" 	jdbc-type="VARCHAR" nullable="false" />
+        <field-descriptor name="objectId"       	column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber"  	column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
+        <!-- 
+        <field-descriptor name="documentStatus" 	column="DOCUMENT_STATUS" 	jdbc-type="VARCHAR" nullable="false" />
+        <field-descriptor name="documentTypeName" 	column="DOC_TYPE_NAME" 		jdbc-type="VARCHAR" length="100" nullable="false" />
+        <field-descriptor name="principalId" 		column="principal_id" 		jdbc-type="VARCHAR" length="100" nullable="false" />
+        -->
+        <!-- 														
+        <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="false" auto-delete="false" proxy="true" >
+	       	<foreignkey field-ref="documentNumber" />
+	   	</reference-descriptor>
+        -->
+        <reference-descriptor name="edoDossier" class-ref="org.kuali.kpme.edo.dossier.EdoDossierBo" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <foreignkey field-ref="edoDossierID" />
+        </reference-descriptor>
+    </class-descriptor>
+      
+    <!--  
+    <class-descriptor class="org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader" table="EDO_DOSSIER_DOCUMENT_T">
+        <field-descriptor name="documentId" column="document_id" jdbc-type="VARCHAR" length="14" nullable="false" primarykey="true" />
+        <field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="40" />
+        <field-descriptor name="dossierId" column="dossier_id" jdbc-type="INTEGER" precision="4" scale="0" />
+        <field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="documentTypeName" column="doc_type_name" jdbc-type="VARCHAR" length="64" nullable="false" primarykey="false" />
+    </class-descriptor>
+	-->
     <class-descriptor class="org.kuali.kpme.edo.vote.EdoVoteRecord" table="EDO_VOTE_RECORD_T">
            <field-descriptor name="voteRecordId"    column="vote_record_id"    jdbc-type="INTEGER"    nullable="false"    primarykey="true"/>
            <field-descriptor name="dossierId"    column="dossier_id"    jdbc-type="INTEGER"    nullable="false"/>
@@ -266,16 +297,6 @@
         </reference-descriptor>
     </class-descriptor> 
     
-    <class-descriptor class="org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader" table="EDO_DOSSIER_DOCUMENT_T">
-        <field-descriptor name="documentId" column="document_id" jdbc-type="VARCHAR" length="14" nullable="false" primarykey="true" />
-        <field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="40" />
-        <field-descriptor name="dossierId" column="dossier_id" jdbc-type="INTEGER" precision="4" scale="0" />
-        <field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="documentTypeName" column="doc_type_name" jdbc-type="VARCHAR" length="64" nullable="false" primarykey="false" />
-    </class-descriptor>
-
     <class-descriptor class="org.kuali.kpme.edo.supplemental.EdoSupplementalTracking" table="EDO_SUPPLEMENTAL_TRACKING_T">
         <field-descriptor name="supplementalTrackingId" column="supplemental_tracking_id" jdbc-type="NUMERIC" precision="4" scale="0" nullable="false" primarykey="true" />
         <field-descriptor name="dossierId" column="dossier_id" jdbc-type="NUMERIC" precision="3" scale="0" nullable="false" primarykey="false" />

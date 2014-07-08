@@ -86,7 +86,7 @@ public class EdoCandidateSelectAction extends EdoAction {
 
         if ("".equals(dossier)) {
             // get current dossier ID for this candidate
-            currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(candidate.getPrincipalName());
+            currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalName(candidate.getPrincipalName());
         } else {
             // get the requested dossier ID for this candidate
             currentDossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossier);
@@ -220,7 +220,7 @@ public class EdoCandidateSelectAction extends EdoAction {
                 DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(selectedCandidate.getCandidateDossierID().intValue());
 
                 if (documentHeader != null) {
-                    List<DossierProcessDocumentHeader> suppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(documentHeader.getDossierId());
+                    List<DossierProcessDocumentHeader> suppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(new Integer(documentHeader.getEdoDossierId()));
                     if (CollectionUtils.isNotEmpty(suppDocHeaders)) {
                         boolean hasAddedVoteRecord = false;
                         boolean hasAddedReviewLetter = false;
@@ -251,7 +251,7 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(csf.getCandidateUsername());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalName(csf.getCandidateUsername());
         // TODO: need to take care of the settings
         //dossier.setAoeCode(csf.getSelectedAoe());
         //dossier.setLastUpdated(sqlTimestamp);
@@ -286,7 +286,7 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(csf.getCandidateUsername());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalName(csf.getCandidateUsername());
      // TODO: need to take care of the settings
         //dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.CLOSED);
         //dossier.setLastUpdated(sqlTimestamp);
@@ -308,7 +308,7 @@ public class EdoCandidateSelectAction extends EdoAction {
         new java.sql.Time(t);
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(t);
 
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(csf.getCandidateUsername());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalName(csf.getCandidateUsername());
      // TODO: need to take care of the settings
         //dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.RECONSIDERATION);
         //dossier.setLastUpdated(sqlTimestamp);

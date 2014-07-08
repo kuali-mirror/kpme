@@ -47,9 +47,9 @@ public class EdoDossierServiceTest extends EdoUnitTestBase {
 	@Test
 	public void testGetCurrentDossierPrincipalname() throws Exception {
 
-		EdoDossier edoDossier = (EdoDossier)EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname("admin");
+		EdoDossier edoDossier = (EdoDossier)EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalName("admin");
 		
-		assertEquals("admin", edoDossier.getCandidatePrincipalname());
+		assertEquals("admin", edoDossier.getCandidatePrincipalName());
 	}
 	
 	@Test
@@ -57,7 +57,7 @@ public class EdoDossierServiceTest extends EdoUnitTestBase {
 
 		EdoDossier edoDossier = (EdoDossier)EdoServiceLocator.getEdoDossierService().getEdoDossierById("1000");
 		
-		assertEquals("admin", edoDossier.getCandidatePrincipalname());
+		assertEquals("admin", edoDossier.getCandidatePrincipalName());
 	}
 	
 	@Test
@@ -69,8 +69,8 @@ public class EdoDossierServiceTest extends EdoUnitTestBase {
 		assertTrue(edoDossiers.size() == 2);
 		
 		if ( edoDossiers.size() == 2) {
-			assertEquals("admin", edoDossiers.get(0).getCandidatePrincipalname());
-			assertEquals("earncode", edoDossiers.get(1).getCandidatePrincipalname());
+			assertEquals("admin", edoDossiers.get(0).getCandidatePrincipalName());
+			assertEquals("earncode", edoDossiers.get(1).getCandidatePrincipalName());
 		}
 	}
 	

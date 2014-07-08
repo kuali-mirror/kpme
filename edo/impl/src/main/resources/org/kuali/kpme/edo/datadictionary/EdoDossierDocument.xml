@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2004-2014 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="EdoDossierDocument" parent="EdoDossierDocument-parentBean" />
+	<bean id="EdoDossierDocument-parentBean" abstract="true" parent="uifTransactionalDocumentEntry"><!-- TransactionalDocumentEntry -->
+		<property name="documentTypeName" value="EdoDossierDocumentType" />
+		<property name="documentClass" value="org.kuali.kpme.edo.dossier.EdoDossierDocument" />
+		<!-- 
+        <property name="businessRulesClass" value="org.kuali.kpme.tklm.time.missedpunch.validation.MissedPunchDocumentRule" />
+        <property name="documentAuthorizerClass" value="org.kuali.kpme.edo.dossier.authorization.EdoDossierDocumentAuthorizer" />
+        -->        
+        <property name="workflowAttributes">
+            <ref bean="EdoDossierDocument-workflowAttributes"/>
+        </property>
+      
+	</bean>
+	
+    <!--  Document View -->
+    
+    <bean id="EdoDossier-DocumentView" parent="EdoDossier-DocumentView-parentBean" />
+    <bean id="EdoDossier-DocumentView-parentBean" abstract="true" parent="Uif-TransactionalDocumentView">
+        <property name="headerText" value="eDossier" />
+        <property name="formClass" value="org.kuali.kpme.edo.dossier.web.EdoDossierForm" />
+        <property name="documentClass" value="org.kuali.kpme.edo.dossier.EdoDossierDocument"/>
+        <property name="items">
+            <list merge="true">
+	            <bean parent="Uif-DocumentPage">
+	                <property name="items">
+	                    <list merge="true">
+                            <bean parent="Uif-Disclosure-GridSection" p:headerText="eDossier">
+                                <property name="items">
+                                    <list merge="true">
+			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.candidatePrincipalName" >
+			                            	<property name="quickfinder">
+						                        <bean parent="Uif-QuickFinderByScript"
+						                              p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
+						                              p:fieldConversions="principalName:edoDossier.candidatePrincipalName"/>
+						                    </property>
+						                </bean>
+			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.edoDossierTypeID" >
+			                            	<property name="quickfinder">
+						               			<bean parent="Uif-QuickFinderByScript" 
+						               				  p:dataObjectClassName="org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo"
+						                     		  p:fieldConversions="edoDossierTypeID:edoDossier.edoDossierTypeID" />
+						            		</property>
+			                            </bean>
+			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.edoChecklistID" >
+			                            	<property name="quickfinder">
+						               			<bean parent="Uif-QuickFinderByScript" 
+						               				  p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistBo"
+						                     		  p:fieldConversions="edoChecklistSID:edoDossier.edoChecklistID" />
+						            		</property>
+						            	</bean>
+			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.departmentID" >
+			                            	<property name="quickfinder">
+												<bean parent="Uif-QuickFinderByScript" 
+													p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
+			                        				p:fieldConversions="dept:edoDossier.departmentID"/>
+											</property>
+										</bean>
+			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.secondaryUnit" >
+			                            	<property name="quickfinder">
+												<bean parent="Uif-QuickFinderByScript" 
+													p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
+			                        				p:fieldConversions="dept:edoDossier.secondaryUnit"/>
+											</property>
+										</bean>
+			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.organizationCode" >
+			                            	<property name="quickfinder">
+												<bean parent="Uif-QuickFinderByScript" 
+													p:dataObjectClassName="org.kuali.kpme.core.kfs.coa.businessobject.Organization"
+			                        				p:fieldConversions="organizationCode:edoDossier.organizationCode"/>
+											</property>
+										</bean>
+										<bean parent="Uif-InputField" p:propertyName="edoDossier.aoeCode"  />
+                                    	<bean parent="Uif-InputField" p:propertyName="edoDossier.currentRank" />
+                                    	<bean parent="Uif-InputField" p:propertyName="edoDossier.rankSought" />
+                                    	<bean parent="Uif-InputField" p:propertyName="edoDossier.dueDate" />
+                                    	<bean parent="Uif-InputField" p:propertyName="edoDossier.dossierStatus" />
+                                    	<bean parent="Uif-InputField" p:propertyName="edoDossier.workflowId" />
+                                    </list>
+                                </property>
+                            </bean>
+	                    </list>
+	                </property>
+	                <!-- Override default footer, remove all actions, add back action.
+                            This view is only used to render an inquiry. 
+                    <property name="footer">
+                        <bean parent="Uif-DocumentPageFooter">
+                            <property name="items">
+                                <list merge="true">
+                                    <bean id="MissedPunch-UifBackAction" parent="Uif-BackAction"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    -->
+	            </bean>
+            </list>
+        </property>
+
+
+    </bean>
+
+    <!-- Workflow attributes. -->
+
+    <bean id="EdoDossierDocument-workflowAttributes" parent="EdoDossierDocument-workflowAttributes-parentBean"/>
+    <bean id="EdoDossierDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes">
+        <property name="searchingTypeDefinitions">
+            <ref bean="EdoDossierDocument-searchingTypeDefinitions"/>
+        </property>
+    </bean>
+    
+    <bean id="EdoDossierDocument-searchingTypeDefinitions" parent="EdoDossierDocument-searchingTypeDefinitions-parentBean"/>
+    <bean id="EdoDossierDocument-searchingTypeDefinitions-parentBean" abstract="true" class="org.springframework.beans.factory.config.ListFactoryBean">
+        <property name="sourceList">
+            <list>
+              
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute" p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.edo.dossier.EdoDossierDocument"/>
+                            <property name="attributeName" value="candidatePrincipalName"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>candidatePrincipalName</value>
+                        </list>
+                    </property>
+                </bean>
+                
+                <bean class="org.kuali.rice.krad.datadictionary.SearchingTypeDefinition">
+                    <property name="searchingAttribute">
+                        <bean class="org.kuali.rice.krad.datadictionary.SearchingAttribute" p:showAttributeInResultSet="true">
+                            <property name="businessObjectClassName" value="org.kuali.kpme.edo.dossier.EdoDossierDocument"/>
+                            <property name="attributeName" value="departmentID"/>
+                        </bean>
+                    </property>
+                    <property name="documentValues">
+                        <list>
+                            <value>departmentID</value>
+                        </list>
+                    </property>
+                </bean>
+               
+            </list>
+        </property>
+    </bean>
+    
+    <!-- 
+    <bean id="EdoDossier-SubmitView" parent="EdoDossier-SubmitView-parentBean" />
+    <bean id="EdoDossier-SubmitView-parentBean" abstract="true" parent="Uif-FormView">
+        <property name="formClass" value="org.kuali.kpme.edo.dossier.web.EdoDossierForm" />		  
+        <property name="headerText" value="eDossier" />
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="singlePageView" value="true" />
+        <property name="page">
+            <bean parent="Uif-Page">
+                <property name="items">
+                    <list merge="true">
+                        <bean parent="Uif-GridGroup">
+							<property name="items">
+								<list merge="true">
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.candidatePrincipalName" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoDossierTypeID" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoChecklistID" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.aoeCode" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.departmentID" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.secondaryUnit" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.organizationCode" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.currentRank" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.rankSought" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.dueDate" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.dossierStatus" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.workflowId" />
+								</list>
+							</property>
+                        </bean>
+                        <bean parent="Uif-FooterBase" p:align="center">
+                            <property name="items">
+                                <list merge="true">
+                                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="submit" p:actionLabel="Submit" />
+                                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Close" 
+                                        p:actionScript="var hash = top.window.location.toString(); 
+                                        				hash = hash.replace('#&amp;' + kradVariables.LIGHTBOX_PARAM + '=true', '');
+                                                        hash = hash.replace('&amp;' + kradVariables.LIGHTBOX_PARAM + '=true', '');
+                                                        hash = hash.replace(kradVariables.LIGHTBOX_PARAM + '=true&amp;', '');
+                                                        top.window.location.replace(hash);" />
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    -->
+    
+   
+</beans>

@@ -50,7 +50,7 @@ public class EdoSelectedCandidate {
     public EdoSelectedCandidate() {}
 
     public EdoSelectedCandidate(EdoCandidate edoCandidate, Boolean isSelected) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(edoCandidate.getPrincipalName());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalName(edoCandidate.getPrincipalName());
         EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierTypeID());
 
         setSelected(isSelected);

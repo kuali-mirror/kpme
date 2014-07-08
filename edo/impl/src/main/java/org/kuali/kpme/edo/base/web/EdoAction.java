@@ -93,7 +93,7 @@ public class EdoAction extends KualiAction {
         if(selectedCandidate.isSelected() == true)
         {
         //edo-74
-		     EdoDossier currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalname(selectedCandidate.getCandidateUsername());
+		     EdoDossier currentDossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalName(selectedCandidate.getCandidateUsername());
 		     if(currentDossier != null)
 		     {
 		     request.setAttribute("candidateDossierStatus", currentDossier.getDossierStatus());

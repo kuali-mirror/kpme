@@ -71,7 +71,7 @@ public final class EdoDossier
     @XmlElement(name = Elements.EDO_DOSSIER_TYPE_ID, required = false)
     private final String edoDossierTypeID;
     @XmlElement(name = Elements.CANDIDATE_PRINCIPALNAME, required = false)
-    private final String candidatePrincipalname;
+    private final String candidatePrincipalName;
     @XmlElement(name = Elements.EDO_CHECKLIST_ID, required = false)
     private final String edoChecklistID;
     @XmlElement(name = Elements.DUE_DATE, required = false)
@@ -114,7 +114,7 @@ public final class EdoDossier
         this.organizationCode = null;
         this.edoDossierID = null;
         this.edoDossierTypeID = null;
-        this.candidatePrincipalname = null;
+        this.candidatePrincipalName = null;
         this.edoChecklistID = null;
         this.dueDate = null;
         this.aoeCode = null;
@@ -139,7 +139,7 @@ public final class EdoDossier
         this.organizationCode = builder.getOrganizationCode();
         this.edoDossierID = builder.getEdoDossierID();
         this.edoDossierTypeID = builder.getEdoDossierTypeID();
-        this.candidatePrincipalname = builder.getCandidatePrincipalname();
+        this.candidatePrincipalName = builder.getCandidatePrincipalName();
         this.edoChecklistID = builder.getEdoChecklistID();
         this.dueDate = builder.getDueDate();
         this.aoeCode = builder.getAoeCode();
@@ -200,8 +200,8 @@ public final class EdoDossier
     }
 
     @Override
-    public String getCandidatePrincipalname() {
-        return this.candidatePrincipalname;
+    public String getCandidatePrincipalName() {
+        return this.candidatePrincipalName;
     }
 
     @Override
@@ -280,7 +280,7 @@ public final class EdoDossier
         private String organizationCode;
         private String edoDossierID;
         private String edoDossierTypeID;
-        private String candidatePrincipalname;
+        private String candidatePrincipalName;
         private String edoChecklistID;
         private Date dueDate;
         private String aoeCode;
@@ -303,14 +303,14 @@ public final class EdoDossier
             return new Builder();
         }
 
-        private Builder(String candidatePrincipalname) {
+        private Builder(String candidatePrincipalName) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
-        	setCandidatePrincipalname(candidatePrincipalname);
+        	setCandidatePrincipalName(candidatePrincipalName);
         }
 
-        public static Builder create(String candidatePrincipalname) {
+        public static Builder create(String candidatePrincipalName) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(candidatePrincipalname);
+            return new Builder(candidatePrincipalName);
         }
         
         public static Builder create(EdoDossierContract contract) {
@@ -328,7 +328,7 @@ public final class EdoDossier
             builder.setOrganizationCode(contract.getOrganizationCode());
             builder.setEdoDossierID(contract.getEdoDossierID());
             builder.setEdoDossierTypeID(contract.getEdoDossierTypeID());
-            builder.setCandidatePrincipalname(contract.getCandidatePrincipalname());
+            builder.setCandidatePrincipalName(contract.getCandidatePrincipalName());
             builder.setEdoChecklistID(contract.getEdoChecklistID());
             builder.setDueDate(contract.getDueDate());
             builder.setAoeCode(contract.getAoeCode());
@@ -394,8 +394,8 @@ public final class EdoDossier
         }
 
         @Override
-        public String getCandidatePrincipalname() {
-            return this.candidatePrincipalname;
+        public String getCandidatePrincipalName() {
+            return this.candidatePrincipalName;
         }
 
         @Override
@@ -503,9 +503,9 @@ public final class EdoDossier
             this.edoDossierTypeID = edoDossierTypeID;
         }
 
-        public void setCandidatePrincipalname(String candidatePrincipalname) {
+        public void setCandidatePrincipalName(String candidatePrincipalName) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.candidatePrincipalname = candidatePrincipalname;
+            this.candidatePrincipalName = candidatePrincipalName;
         }
 
         public void setEdoChecklistID(String edoChecklistID) {
@@ -598,7 +598,7 @@ public final class EdoDossier
         final static String ORGANIZATION_CODE = "organizationCode";
         final static String EDO_DOSSIER_ID = "edoDossierID";
         final static String EDO_DOSSIER_TYPE_ID = "edoDossierTypeID";
-        final static String CANDIDATE_PRINCIPALNAME = "candidatePrincipalname";
+        final static String CANDIDATE_PRINCIPALNAME = "candidatePrincipalName";
         final static String EDO_CHECKLIST_ID = "edoChecklistID";
         final static String DUE_DATE = "dueDate";
         final static String AOE_CODE = "aoeCode";

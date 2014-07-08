@@ -48,7 +48,7 @@ public class DossierPostProcessor extends DefaultPostProcessor {
             EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossier(document.getDocumentId());
             if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
             	dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.SUBMITTED);
-                Principal approver = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalname());
+                Principal approver = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalName());
             	//make a permission check
             	if(KimApiServiceLocator.getPermissionService().isAuthorized(approver.getPrincipalId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPER_USER_APPROVE_TENURE_SUPP_PERMISSION, new HashMap<String, String>()) || 
             	   KimApiServiceLocator.getPermissionService().isAuthorized(approver.getPrincipalId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPER_USER_APPROVE_PROMOTION_SUPP_PERMISSION, new HashMap<String, String>())) {

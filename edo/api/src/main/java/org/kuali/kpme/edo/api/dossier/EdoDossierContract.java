@@ -35,7 +35,7 @@ public interface EdoDossierContract extends KpmeEffectiveKeyedDataTransferObject
 
 	public String getEdoChecklistID();
 
-	public String getCandidatePrincipalname();
+	public String getCandidatePrincipalName();
 
 	public String getOrganizationCode();
 

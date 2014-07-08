@@ -19,7 +19,7 @@ import org.kuali.rice.kew.api.action.ActionType;
 public interface EdoDossierService {
 	public EdoDossier getEdoDossierById( String edoDossierID );
 
-    public EdoDossier getCurrentDossierPrincipalname( String candidatePrincipalname );
+    public EdoDossier getCurrentDossierPrincipalName( String candidatePrincipalName );
     
     public List<EdoDossier> getDossierList();
    

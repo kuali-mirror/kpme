@@ -54,7 +54,7 @@ public class EdoVoteRecordAction extends EdoAction {
             DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(selectedCandidate.getCandidateDossierID().intValue());
             EdoReviewLayerDefinition currentReviewLayerDefinition = null;
             if (documentHeader != null) {
-                currentDossierId = documentHeader.getDossierId();
+                currentDossierId = new Integer(documentHeader.getEdoDossierId());
                 List<String> currentNodes = KEWServiceLocator.getRouteNodeService().getCurrentRouteNodeNames(documentHeader.getDocumentId());
                 Set<String> currentNodesSet = new HashSet<String>();
                 currentNodesSet.addAll(currentNodes);

@@ -228,6 +228,16 @@ public class EdoConstants {
         DOSSIER_STATUS_CURRENT.add(DOSSIER_STATUS.CLOSED);
         DOSSIER_STATUS_CURRENT.add(DOSSIER_STATUS.RECONSIDERATION);
     }
+   
+    public static final Map<String, String> EDO_DOSSIER_STATUS = new HashMap<String, String>(5);
+    static {
+    	EDO_DOSSIER_STATUS.put("OPEN", "OPEN");
+    	EDO_DOSSIER_STATUS.put("PENDING", "PENDING");
+    	EDO_DOSSIER_STATUS.put("SUBMITTED", "SUBMITTED");
+    	EDO_DOSSIER_STATUS.put("CLOSED", "CLOSED");
+    	EDO_DOSSIER_STATUS.put("RECONSIDERATION", "RECONSIDERATION");
+    }
+    
 
     public static final class ROUTING_NODE_NAMES {
         public static final String INITIATED = "Initiated";
@@ -287,6 +297,13 @@ public class EdoConstants {
     static {
         VOTE_ROUNDS.put(VOTE_ROUND_SUBMITTED_CODE, VOTE_ROUND_SUBMITTED_NAME);
         VOTE_ROUNDS.put(VOTE_ROUND_RECONSIDERATION_CODE, VOTE_ROUND_RECONSIDERATION_NAME);
+    }
+    
+    public static final Map<String, String> RANK = new HashMap<String, String>(3);
+    static {
+    	RANK.put("Assistant Professor", "Assistant Professor");
+    	RANK.put("Associate Professor", "Associate Professor");
+    	RANK.put("Professor", "Professor");
     }
     
 }

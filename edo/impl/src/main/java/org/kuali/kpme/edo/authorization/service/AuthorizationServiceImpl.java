@@ -313,7 +313,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
             //Get the dossier.
             EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString());
-            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalname());
+            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalName());
 
             if (principal != null) {
                 authorizedIds.add(principal.getPrincipalId());
@@ -333,7 +333,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             List<String> authorizedIds = new LinkedList<String>();
 
             //Get the dossier.
-            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalname());
+            Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalName());
 
             if (principal != null) {
                 authorizedIds.add(principal.getPrincipalId());

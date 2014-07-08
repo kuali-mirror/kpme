@@ -142,7 +142,7 @@ public class EdoSecondUnitAction extends EdoAction {
         DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(selectedCandidate.getCandidateDossierID().intValue());
 
         if (documentHeader != null) {
-            List<DossierProcessDocumentHeader> suppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(documentHeader.getDossierId());
+            List<DossierProcessDocumentHeader> suppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(new Integer(documentHeader.getEdoDossierId()));
             if (CollectionUtils.isNotEmpty(suppDocHeaders)) {
                 boolean isWaiting = false;
                 for (DossierProcessDocumentHeader docHeader : suppDocHeaders) {

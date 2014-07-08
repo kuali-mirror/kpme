@@ -34,7 +34,7 @@ public class EdoDossierBoTest {
 		testEdoDossierBos = new HashMap<String, EdoDossier>();
 		
 		edoDossierBuilder.setEdoDossierID("001");
-		edoDossierBuilder.setCandidatePrincipalname("admin");
+		edoDossierBuilder.setCandidatePrincipalName("admin");
 		edoDossierBuilder.setEdoDossierTypeID("1003");
 		edoDossierBuilder.setEdoChecklistID("1000");
 		
@@ -55,7 +55,7 @@ public class EdoDossierBoTest {
 		// Set GroupKeycode Object
 		edoDossierBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
 		
-		testEdoDossierBos.put(edoDossierBuilder.getCandidatePrincipalname(), edoDossierBuilder.build());
+		testEdoDossierBos.put(edoDossierBuilder.getCandidatePrincipalName(), edoDossierBuilder.build());
 	}
 	
 	@Test
@@ -67,7 +67,7 @@ public class EdoDossierBoTest {
         Assert.assertEquals(immutable, EdoDossierBo.to(bo));
     }
 
-    public static EdoDossier getEdoDossier(String candidatePrincipalname) {
-        return testEdoDossierBos.get(candidatePrincipalname);
+    public static EdoDossier getEdoDossier(String candidatePrincipalName) {
+        return testEdoDossierBos.get(candidatePrincipalName);
     }
 }

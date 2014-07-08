@@ -15,10 +15,10 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 public class EdoDossierDaoImpl  extends PlatformAwareDaoBaseOjb implements EdoDossierDao {
 
-    public EdoDossierBo getCurrentDossierPrincipalname(String candidatePrincipalname) {
+    public EdoDossierBo getCurrentDossierPrincipalName(String candidatePrincipalName) {
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("candidatePrincipalname", candidatePrincipalname );
+        cConditions.addEqualTo("candidatePrincipalName", candidatePrincipalName );
         cConditions.addIn("dossierStatus", EdoConstants.DOSSIER_STATUS_CURRENT);
 
         Query query = QueryFactory.newQuery(EdoDossierBo.class, cConditions);

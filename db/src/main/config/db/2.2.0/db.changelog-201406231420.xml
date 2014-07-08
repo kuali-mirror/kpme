@@ -46,7 +46,7 @@
 			<column name="aoe_code" type="VARCHAR(1)" />
 			<column name="current_rank" type="VARCHAR(32)" />
 			<column name="rank_sought" type="VARCHAR(32)" />
-			<column name="document_id" type="VARCHAR(60)" />
+			
 			<column name="dossier_status" type="VARCHAR(12)" />
 			<column name="workflow_id" type="VARCHAR(25)" />
 			<column name="due_date" type="DATETIME" >

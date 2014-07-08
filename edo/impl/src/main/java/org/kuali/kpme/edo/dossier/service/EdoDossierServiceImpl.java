@@ -48,8 +48,8 @@ public class EdoDossierServiceImpl implements EdoDossierService {
     private static final Logger LOG = Logger.getLogger(EdoDossierServiceImpl.class);
     private EdoDossierDao edoDossierDao;
 
-    public EdoDossier getCurrentDossierPrincipalname( String candidatePrincipalname ) {
-    	EdoDossierBo edoDossierBo = edoDossierDao.getCurrentDossierPrincipalname(candidatePrincipalname);
+    public EdoDossier getCurrentDossierPrincipalName( String candidatePrincipalName ) {
+    	EdoDossierBo edoDossierBo = edoDossierDao.getCurrentDossierPrincipalName(candidatePrincipalName);
     	
     	if ( edoDossierBo == null){
     		return null;
@@ -157,7 +157,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         DossierProcessDocumentHeader documentHeader = new DossierProcessDocumentHeader();
         documentHeader.setDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(workflowDocument.getStatus().getCode());
-        documentHeader.setDossierId(new Integer(dossierId));
+        documentHeader.setEdoDossierId(dossierId);
         documentHeader.setPrincipalId(principalId);
         documentHeader.setDocumentTypeName(documentTypeName);
         EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(documentHeader);
@@ -187,7 +187,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         DossierProcessDocumentHeader documentHeader = new DossierProcessDocumentHeader();
         documentHeader.setDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(workflowDocument.getStatus().getCode());
-        documentHeader.setDossierId(new Integer(dossierId));
+        documentHeader.setEdoDossierId(dossierId);
         documentHeader.setPrincipalId(principalId);
         documentHeader.setDocumentTypeName(documentTypeName);
         EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(documentHeader);
@@ -208,7 +208,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         DossierProcessDocumentHeader documentHeader = new DossierProcessDocumentHeader();
         documentHeader.setDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(workflowDocument.getStatus().getCode());
-        documentHeader.setDossierId(new Integer(dossierId));
+        documentHeader.setEdoDossierId(dossierId);
         documentHeader.setPrincipalId(principalId);
         documentHeader.setDocumentTypeName(documentTypeName);
         EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(documentHeader);
@@ -233,7 +233,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
             //Get the document header.
             DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
             boolean isResubmission = false;
-            String candidatePrincipalId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getCandidatePrincipalname();
+            String candidatePrincipalId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getCandidatePrincipalName();
             Principal candidatePrincipal = KimApiServiceLocator.getIdentityService().getPrincipal(candidatePrincipalId);
 
             if (ObjectUtils.isNotNull(documentHeader)) {

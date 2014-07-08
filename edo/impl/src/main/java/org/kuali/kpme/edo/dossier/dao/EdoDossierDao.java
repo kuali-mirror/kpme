@@ -9,7 +9,7 @@ public interface EdoDossierDao {
 
 	public EdoDossierBo getEdoDossierById(String edoDossierId);
 	
-    public EdoDossierBo getCurrentDossierPrincipalname(String candidatePrincipalname);
+    public EdoDossierBo getCurrentDossierPrincipalName(String candidatePrincipalName);
     
     public List<EdoDossierBo> getDossierList();
     
