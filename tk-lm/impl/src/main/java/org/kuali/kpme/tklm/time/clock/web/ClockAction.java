@@ -38,6 +38,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.Assignment;
@@ -104,6 +106,11 @@ public class ClockAction extends TimesheetAction {
         TimesheetDocument timesheetDocument = clockActionForm.getTimesheetDocument();
         clockActionForm.setShowClockButton(true);
         if (timesheetDocument != null) {
+        	DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy");
+        	String fromDateString = formatter.print(timesheetDocument.getCalendarEntry().getBeginPeriodLocalDateTime());
+        	String toDateString = formatter.print(timesheetDocument.getCalendarEntry().getEndPeriodLocalDateTime());
+        	
+        	clockActionForm.setDistributionPeriod(fromDateString +" - "+toDateString);
 	        if (!timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
 	                && !timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
         	

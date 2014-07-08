@@ -34,8 +34,8 @@
         	 </c:if>
              
          <span class="header-title">
-          <fmt:formatDate value="${Form.timesheetDocument.calendarEntry.beginPeriodDate}" pattern="MM/dd/yyyy"/> -
-          <fmt:formatDate value="${Form.timesheetDocument.calendarEntry.endPeriodDate}" pattern="MM/dd/yyyy"/>
+          ${Form.distributionPeriod}
+          
          </span>
              
           <c:if test="${Form.nextDocumentId ne null}">
