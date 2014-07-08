@@ -255,6 +255,13 @@ Insert into EDO_CHECKLIST_SECTION_T
  Values
    (5, 1, 'Supplemental items', sysdate, 1,
     sysdate, 1, 'Supplemental Items', 5);
+
+INSERT INTO "EDO_CHECKLIST_SECTION_T"("CHECKLIST_SECTION_ID", "CHECKLIST_ID", "DESCRIPTION", "CREATE_DATE", "CREATED_BY", "LAST_UPDATE_DATE", "UPDATED_BY", "CHECKLIST_SECTION_NAME", "CHECKLIST_SECTION_ORDINAL")
+  VALUES(21, 1, 'Reconsideration items', TO_DATE('2014-01-22 08:00:00','YYYY-MM-DD HH24:MI:SS'), 1, TO_DATE('2014-01-22 08:00:00','YYYY-MM-DD HH24:MI:SS'), 1, 'Reconsideration Items', 6)                                                           ;
+
+INSERT INTO "EDO_CHECKLIST_ITEM_T"("CHECKLIST_SECTION_ID", "DESCRIPTION", "REQUIRED", "CREATE_DATE", "CREATED_BY", "LAST_UPDATE_DATE", "UPDATED_BY", "CHECKLIST_ITEM_NAME", "CHECKLIST_ITEM_SECTION_ORDINAL")
+  VALUES(21, 'Include any items in support of the reconsideration of the dossier', 0, TO_DATE('2014-01-22 00:00:00','YYYY-MM-DD HH24:MI:SS'), 1, TO_DATE('1014-01-22 00:00:00','YYYY-MM-DD HH24:MI:SS'), 1, 'Reconsideration Supporting Items', 1) ;
+
 COMMIT;
 
 Insert into EDO_CHECKLIST_T
@@ -263,184 +270,6 @@ Insert into EDO_CHECKLIST_T
    (1, 'XX', 'ALL', 'Standard PnT checklist', sysdate,
     1, sysdate, 1, 'ALL', 'IU',
     sysdate);
-COMMIT;
-
-----------------------------------------  EDO_DOSSIER_T
-
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, ROUTING_ID, CREATE_DATE, LAST_UPDATE_DATE, DOCUMENT_ID, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (28, 1, 1, 'BL',
-    'UITS', 'UITS', 'Lecturer', 'Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    123456, sysdate, sysdate, '000234', 'OPEN',
-    'lee55', 'lee55', 'lee55');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (6, 1, 1, 'BL',
-    'BL-FINS', 'BL-ARSC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'rickettr', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (7, 2, 1, 'BL',
-    'BL-THTR', 'BL-ARSC', 'Associate Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'lpisano', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (8, 2, 1, 'BL',
-    'BL-FINS', 'BL-ARSC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'onakagaw', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (9, 1, 1, 'BL',
-    'BL-THTR', 'BL-ARSC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'pbrunner', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (10, 1, 1, 'BL',
-    'BL-THTR', 'BL-ARSC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'tlabolt', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (11, 2, 1, 'BL',
-    'BL-THTR', 'BL-ARSC', 'Associate Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'lpisano', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (12, 1, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'ahackenb', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (13, 1, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'amaltese', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (14, 1, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'hschertz', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (15, 1, 1, 'BL',
-    'BL-ELPS', 'BL-EDUC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'amcc', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (16, 1, 1, 'BL',
-    'BL-ISTE', 'BL-EDUC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'choyonj', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (17, 1, 1, 'BL',
-    'BL-ISTE', 'BL-EDUC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'rkhaynes', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (18, 1, 1, 'BL',
-    'BL-LGED', 'BL-EDUC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'dadomat', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (19, 1, 1, 'BL',
-    'BL-LGED', 'BL-EDUC', 'Assistant Professor', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'blsamuel', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (20, 2, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'gabuck', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (21, 2, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'egalindo', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (22, 2, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'gbutera', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (23, 1, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'nrmalae', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (24, 1, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'aknshah', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (25, 1, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'mcwhitak', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (26, 1, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'dpirkola', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, CREATE_DATE, LAST_UPDATE_DATE, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (27, 1, 1, 'BL',
-    'BL-CRIN', 'BL-EDUC', 'Associate Professor', 'Full Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    sysdate, sysdate, 'OPEN', 'smccammo', 'nrmalae', 'nrmalae');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, AOE_CODE, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, ROUTING_ID, CREATE_DATE, LAST_UPDATE_DATE, DOCUMENT_ID, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (2, 1, 1, 'B', 'BL',
-    'UITS', 'UITS', 'Lecturer', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    234567, sysdate, sysdate, '000345', 'OPEN',
-    'rpiercy', 'bradleyt', 'bradleyt');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, AOE_CODE, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, ROUTING_ID, CREATE_DATE, LAST_UPDATE_DATE, DOCUMENT_ID, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (3, 1, 1, 'R', 'BL',
-    'UITS', 'UITS', 'Associate Professor', 'Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    345678, sysdate, sysdate, '000456', 'OPEN',
-    'rpembry', 'bradleyt', 'bradleyt');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, AOE_CODE, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, ROUTING_ID, CREATE_DATE, LAST_UPDATE_DATE, DOCUMENT_ID, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (4, 1, 1, 'B', 'BL',
-    'SPEA', 'SPEA', 'Lecturer', 'Associate Professor', TO_DATE('12/31/2012 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    456789, sysdate, sysdate, '000567', 'CLOSED',
-    'bradleyt', 'bradleyt', 'bradleyt');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, AOE_CODE, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, ROUTING_ID, CREATE_DATE, LAST_UPDATE_DATE, DOCUMENT_ID, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (5, 1, 1, 'R', 'BL',
-    'UITS', 'UITS', 'Lecturer', 'Associate Professor', TO_DATE('12/31/2010 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    123654, sysdate, sysdate, '000123', 'CLOSED',
-    'rpembry', 'bradleyt', 'bradleyt');
-Insert into EDO_DOSSIER_T
-   (DOSSIER_ID, DOSSIER_TYPE_ID, CHECKLIST_ID, AOE_CODE, CAMPUS_CODE, DEPARTMENT_ID, SCHOOL_ID, CURRENT_RANK, RANK_SOUGHT, DUE_DATE, ROUTING_ID, CREATE_DATE, LAST_UPDATE_DATE, DOCUMENT_ID, DOSSIER_STATUS, CANDIDATE_USERNAME, CREATED_BY, UPDATED_BY)
- Values
-   (1, 1, 1, 'B', 'BL',
-    'SPEA', 'SPEA', 'Lecturer', 'Associate Professor', TO_DATE('12/31/2013 00:00:00', 'MM/DD/YYYY HH24:MI:SS'),
-    123456, sysdate, sysdate, '000234', 'OPEN',
-    'bradleyt', 'bradleyt', 'bradleyt');
 COMMIT;
 
 ----------------------------------------  EDO_DOSSIER_TYPE_T
@@ -466,6 +295,17 @@ Insert into EDO_DOSSIER_TYPE_T
    (2, 'Promotion', sysdate, 1, sysdate,
     1, 'PR');
 COMMIT;
+
+Insert into EDO.EDO_DOSSIER_TYPE_T (DOSSIER_TYPE_ID,DOSSIER_TYPE_NAME,CREATE_DATE,CREATED_BY,LAST_UPDATE_DATE,UPDATED_BY,DOSSIER_TYPE_CODE,DOC_TYPE_NAME)
+values (7,'Tenure Promotion Supplemental',sysdate,1,sysdate,1,'SS','TenureSupplementalProcessDocument');
+
+Insert into EDO.EDO_DOSSIER_TYPE_T (DOSSIER_TYPE_ID,DOSSIER_TYPE_NAME,CREATE_DATE,CREATED_BY,LAST_UPDATE_DATE,UPDATED_BY,DOSSIER_TYPE_CODE,DOC_TYPE_NAME)
+values (5,'Tenure Supplemental',sysdate,1,sysdate,1,'TS','TenureSupplementalProcessDocument');
+
+Insert into EDO.EDO_DOSSIER_TYPE_T (DOSSIER_TYPE_ID,DOSSIER_TYPE_NAME,CREATE_DATE,CREATED_BY,LAST_UPDATE_DATE,UPDATED_BY,DOSSIER_TYPE_CODE,DOC_TYPE_NAME)
+values (6,'Promotion Supplemental',sysdate,1,sysdate,1,'PS','PromotionSupplementalProcessDocument');
+
+commit;
 
 ----------------------------------------  EDO_ITEM_TYPE_T
 
@@ -495,3 +335,38 @@ Insert into EDO_ITEM_TYPE_T
    (5, 'Addendumxx', 'Document submitted by faculty in support of review, after dossier has been submitted for consideration.', 0,
     sysdate, sysdate);
 COMMIT;
+
+
+----------------------------------------------------------------- EDO_AREA_OF_EXCELLENCE_T
+
+Insert into EDO_AREA_OF_EXCELLENCE_T( area_of_excellence_type_id, option_key, option_value, create_date, created_by, last_update_date, updated_by )
+Values ( 1, 'R', 'Research/Creative Activity', sysdate, 'EDO', sysdate, 'EDO' );
+Insert into EDO_AREA_OF_EXCELLENCE_T( area_of_excellence_type_id, option_key, option_value, create_date, created_by, last_update_date, updated_by )
+Values ( 2, 'T', 'Teaching', sysdate, 'EDO', sysdate, 'EDO' );
+Insert into EDO_AREA_OF_EXCELLENCE_T( area_of_excellence_type_id, option_key, option_value, create_date, created_by, last_update_date, updated_by )
+Values ( 3, 'S', 'Service Engagement', sysdate, 'EDO', sysdate, 'EDO' );
+Insert into EDO_AREA_OF_EXCELLENCE_T( area_of_excellence_type_id, option_key, option_value, create_date, created_by, last_update_date, updated_by )
+Values ( 4, 'B', 'Balanced Case', sysdate, 'EDO', sysdate, 'EDO' );
+
+COMMIT;
+
+-------------------------------------------------- EDO_SUPP_REVIEW_LAYER_DEF_T
+
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(1,2,'supplDeptLevelAck','Y');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(2,2,'supplDeptLevel','N');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(3,3,'supplSchoolLevelAck','Y');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(4,3,'supplSchoolLevel','N');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(5,4,'supplDeanAck','Y');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(6,4,'supplDean','N');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(7,5,'supplCampusLevelAck','Y');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(8,5,'supplCampusLevel','N');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(9,6,'supplViceProvostAck','Y');
+insert into EDO_SUPP_REVIEW_LAYER_DEF_T(SUPP_REVIEW_LAYER_DEF_ID,REVIEW_LAYER_DEF_ID,SUPPLEMENTAL_NODE_NAME,ACKNOWLEDGE_FLAG) values(10,6,'supplViceProvost','N');
+
+
+-------------------------------------------------- EDO_REVIEW_LAYER_DEF_T
+
+Insert into EDO.EDO_REVIEW_LAYER_DEF_T (REVIEW_LAYER_DEF_ID,NODE_NAME,VOTE_TYPE,REVIEW_LETTER,CREATE_DATE,CREATED_BY,LAST_UPDATED_DATE,UPDATED_BY,OBJ_ID,VER_NBR,ROUTE_LEVEL,REVIEW_LEVEL,SUPP_NOTIFY,SUPPLEMENTAL_NODE_NAME)
+values (12,'CandidateFYI','None','N',to_date('11-SEP-13','DD-MON-RR'),'nrmalae',to_date('11-SEP-13','DD-MON-RR'),'nrmalae',null,null,1,null,null,null);
+
+
