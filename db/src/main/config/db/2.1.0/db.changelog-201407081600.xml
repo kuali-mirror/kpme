@@ -193,7 +193,7 @@
         </createIndex>
 
 
-        <createIndex indexName="TK_SHIFT_DIFFERENTIAL_RL_IDX2" tableName="TK_SHIFT_DIFFERENTIAL_RL_T" unique="true">
+        <createIndex indexName="TK_SHIFT_DIFFERENTIAL_RL_IDX2" tableName="TK_SHIFT_DIFFERENTIAL_RL_T" unique="false">
             <column name = "END_TS"/>
             <column name = "BEGIN_TS"/>
             <column name = "PY_CALENDAR_GROUP"/>
