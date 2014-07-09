@@ -15,20 +15,6 @@
  */
 package org.kuali.kpme.tklm.time.detail.web;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
@@ -41,7 +27,6 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.AccrualCategoryContract;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRuleContract;
@@ -78,11 +63,7 @@ import org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
 import org.kuali.kpme.tklm.time.timesheet.web.TimesheetAction;
-import org.kuali.kpme.tklm.time.timesummary.AssignmentColumn;
-import org.kuali.kpme.tklm.time.timesummary.AssignmentRow;
-import org.kuali.kpme.tklm.time.timesummary.EarnCodeSection;
-import org.kuali.kpme.tklm.time.timesummary.EarnGroupSection;
-import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
+import org.kuali.kpme.tklm.time.timesummary.*;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -95,6 +76,12 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -780,6 +767,7 @@ public class TimeDetailAction extends TimesheetAction {
         // persist any potential changes without making hundreds of DB calls.
         List<TimeBlock> referenceTimeBlocks = TimesheetUtils.getReferenceTimeBlocks(timeBlocks);
 
+        List<TimeBlock.Builder> timeBlockBuilders = new ArrayList<TimeBlock.Builder>();
         TimeBlock.Builder updatedTimeBlock = null;
         List<TimeHourDetail.Builder> oldDetailList = new ArrayList<TimeHourDetail.Builder>();
         String oldAssignmenString = "";
@@ -790,9 +778,12 @@ public class TimeDetailAction extends TimesheetAction {
             	oldDetailList = updatedTimeBlock.getTimeHourDetails();
             	oldAssignmenString = updatedTimeBlock.getAssignmentKey();
                 updatedTimeBlock.setJobNumber(assignmentKey.getJobNumber());
+                updatedTimeBlock.setGroupKeyCode(assignmentKey.getGroupKeyCode());
                 updatedTimeBlock.setWorkArea(assignmentKey.getWorkArea());
                 updatedTimeBlock.setTask(assignmentKey.getTask());
-                break;
+                timeBlockBuilders.add(updatedTimeBlock);
+            } else {
+                timeBlockBuilders.add(TimeBlock.Builder.create(tb));
             }
         }
         
@@ -811,7 +802,7 @@ public class TimeDetailAction extends TimesheetAction {
         
         Set<String> earnCodes = new HashSet<String>();
         if (updatedTimeBlock != null) {
-            Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(updatedTimeBlock.getAssignmentDescription()), updatedTimeBlock.getBeginDateTime().toLocalDate());
+            Assignment assignment = tdaf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(updatedTimeBlock.getAssignmentKey()), updatedTimeBlock.getBeginDateTime().toLocalDate());
 
             List<EarnCode> validEarnCodes = TkServiceLocator.getTimesheetService().getEarnCodesForTime(assignment, updatedTimeBlock.getBeginDateTime().toLocalDate(), true);
             for (EarnCode e : validEarnCodes) {
@@ -823,7 +814,7 @@ public class TimeDetailAction extends TimesheetAction {
         		&& earnCodes.contains(updatedTimeBlock.getEarnCode())) {
             List<LeaveBlock> leaveBlocks = TimesheetUtils.getLeaveBlocksForTimesheet(tdaf.getTimesheetDocument());
 
-            TimesheetUtils.processTimeBlocksWithRuleChange(timeBlocks, referenceTimeBlocks, leaveBlocks, tdaf.getTimesheetDocument().getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
+            TimesheetUtils.processTimeBlocksWithRuleChange(ModelObjectUtils.<TimeBlock>buildImmutableCopy(timeBlockBuilders), referenceTimeBlocks, leaveBlocks, tdaf.getTimesheetDocument().getCalendarEntry(), tdaf.getTimesheetDocument(), HrContext.getPrincipalId());
             generateTimesheetChangedNotification(HrContext.getPrincipalId(), HrContext.getTargetPrincipalId(), tdaf.getDocumentId());
         }
         
