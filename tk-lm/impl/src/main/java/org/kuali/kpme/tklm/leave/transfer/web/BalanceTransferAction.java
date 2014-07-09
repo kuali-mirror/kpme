@@ -295,7 +295,7 @@ public class BalanceTransferAction extends KPMEAction {
 		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","balanceTransfer.transferAmount.adjust");
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 
-		List<LeaveBlockBo> eligibleTransfers = (List<LeaveBlockBo>) request.getSession().getAttribute("eligibilities");
+		List<LeaveBlock> eligibleTransfers = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
 		if(eligibleTransfers != null && !eligibleTransfers.isEmpty()) {
 			
 			Collections.sort(eligibleTransfers, new Comparator() {
@@ -316,7 +316,7 @@ public class BalanceTransferAction extends KPMEAction {
 			LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 			
 			String principalId = lcd == null ? null : lcd.getPrincipalId();
-			LeaveBlockBo leaveBlock = eligibleTransfers.get(0);
+			LeaveBlockBo leaveBlock = LeaveBlockBo.from(eligibleTransfers.get(0));
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
             AccrualCategoryRuleContract aRule = leaveBlock.getAccrualCategoryRule();
 			if(aRule != null) {
@@ -382,7 +382,7 @@ public class BalanceTransferAction extends KPMEAction {
 		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","balanceTransfer.transferAmount.adjust");
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 
-		List<LeaveBlockBo> eligibleTransfers = (List<LeaveBlockBo>) request.getSession().getAttribute("eligibilities");
+		List<LeaveBlock> eligibleTransfers = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
 		if(eligibleTransfers != null && !eligibleTransfers.isEmpty()) {
 			
 			Collections.sort(eligibleTransfers, new Comparator() {
@@ -403,7 +403,7 @@ public class BalanceTransferAction extends KPMEAction {
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
 			String principalId = tsd == null ? null : tsd.getPrincipalId();
 			
-			LeaveBlockBo leaveBlock = eligibleTransfers.get(0);
+			LeaveBlockBo leaveBlock = LeaveBlockBo.from(eligibleTransfers.get(0));
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
             AccrualCategoryRuleContract accrualRule = leaveBlock.getAccrualCategoryRule();
 			if(accrualRule != null) {
