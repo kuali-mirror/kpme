@@ -2,6 +2,7 @@ package org.kuali.kpme.edo.item.dao;
 
 import java.util.List;
 
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.item.EdoItemBo;
 
 /**
@@ -16,8 +17,7 @@ import org.kuali.kpme.edo.item.EdoItemBo;
 public interface EdoItemDao {
 
     public EdoItemBo getEdoItem(String edoItemID);
-    /*  This will be needed when we remove view, but remove it for now since it's not used it
-    public List<EdoItemBo> getItemList(String edoChecklistSectionID); */
+    public List<EdoItemBo> getItemList(String edoDossierID, String checklistItemID);
     public void saveOrUpdate(EdoItemBo item);
     public void saveOrUpdate(List<EdoItemBo> edoItems);
     public void deleteItem(EdoItemBo item);
@@ -25,4 +25,7 @@ public interface EdoItemDao {
     public List<EdoItemBo> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemID);
     public List<EdoItemBo> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID);
     public List<EdoItemBo> getPendingLettersByDossierId(String edoDossierId, String edoReviewLayerDefinitionId);
+    
+    public List<EdoItemBo> getReviewLetterEdoItems(String edoDossierId, String edoReviewLayerDefinitionId);
+    public List<EdoItemBo> getListOfEdoItems(List<String> idList);
 }

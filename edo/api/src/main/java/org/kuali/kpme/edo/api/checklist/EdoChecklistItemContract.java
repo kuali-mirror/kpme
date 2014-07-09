@@ -53,7 +53,7 @@ public interface EdoChecklistItemContract extends KpmeEffectiveDataTransferObjec
     public String getItemDescription();
 
     /**
-	 * Indicates if an item is required for the EdoChecklistItem(Category)
+	 * Indicates if the EdoChecklistItem is required (for section/category)
 	 * 
 	 * <p>
 	 * required of the EdoChecklistItem

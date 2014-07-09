@@ -211,11 +211,11 @@ public class EdoRule {
                     //if dossier status is reconsider the list size should be greate than one
                     if (reviewLayerDefinition.isReviewLetter()) {
                     	if(StringUtils.equals(eDossier.getDossierStatus(),EdoConstants.DOSSIER_STATUS.RECONSIDERATION)) {
-                            canRoute = canRoute && EdoServiceLocator.getEdoItemVService().getEdoItemVs(dossierId, reviewLayerDefinition.getReviewLayerDefinitionId(), "Review Letter").size() > 1;
+                            canRoute = canRoute && EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 1;
 
                     	}
                     	if(StringUtils.equals(eDossier.getDossierStatus(),EdoConstants.DOSSIER_STATUS.SUBMITTED)) {
-                            canRoute = canRoute && EdoServiceLocator.getEdoItemVService().getEdoItemVs(dossierId, reviewLayerDefinition.getReviewLayerDefinitionId(), "Review Letter").size() > 0;
+                            canRoute = canRoute && EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 0;
 
                     	}
                     	

@@ -1,31 +1,31 @@
 package org.kuali.kpme.edo.item.web;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import java.io.File;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.item.EdoItemBo;
-import org.kuali.kpme.edo.item.EdoItemV;
+import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.QueryParams;
 import org.kuali.kpme.edo.web.EdoPostOperationForm;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * $HeadURL$
@@ -134,12 +134,12 @@ public class EdoPostOperationAction extends EdoAction {
             }
         }
 
-        List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList( selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID) );
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
 
         if (itemList != null && itemList.size() > 0) {
-            Collections.sort(itemList);
-            for ( EdoItemV item : itemList ) {
-                itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+        	Collections.sort(itemList);
+            for (EdoItem item : itemList) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
             }
         }
 

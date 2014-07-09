@@ -108,36 +108,6 @@
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.edo.item.EdoItemV" table="EDO_ITEM_V">
-        <field-descriptor name="edoItemID" column="edo_item_id" jdbc-type="VARCHAR" nullable="false" primarykey="true" />
-        <field-descriptor name="edoDossierID" column="edo_dossier_id" jdbc-type="VARCHAR" nullable="false" primarykey="false" />
-        <field-descriptor name="fileName" column="file_name" jdbc-type="VARCHAR" length="1024" nullable="false" primarykey="false" />
-        <field-descriptor name="fileLocation" column="file_location" jdbc-type="VARCHAR" length="1024" nullable="false" primarykey="false" />
-        <field-descriptor name="notes" column="notes" jdbc-type="VARCHAR" length="1000" primarykey="false" />
-        <field-descriptor name="routed" column="routed" jdbc-type="VARCHAR" length="1" nullable="false" primarykey="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="layerLevel" column="layer_level" jdbc-type="VARCHAR" length="16" nullable="false" primarykey="false" />
-        <field-descriptor name="createDate" column="create_date" jdbc-type="TIMESTAMP" nullable="false" primarykey="false" />
-        <field-descriptor name="contentType" column="content_type" jdbc-type="VARCHAR" length="128" primarykey="false" />
-        <field-descriptor name="edoChecklistSectionID" column="edo_checklist_section_id" jdbc-type="VARCHAR" nullable="false" primarykey="false" />
-        <field-descriptor name="edoChecklistItemID" column="edo_checklist_item_id" jdbc-type="VARCHAR" nullable="false" primarykey="false" />
-        <field-descriptor name="edoItemTypeID" column="edo_item_type_id" jdbc-type="VARCHAR" nullable="false" primarykey="false" />
-        <field-descriptor name="itemTypeName" column="item_type_name" jdbc-type="VARCHAR" length="32" primarykey="false" />
-        <field-descriptor name="typeDescription" column="description" jdbc-type="CLOB" primarykey="false" />
-        <field-descriptor name="reviewLayerDescription" column="review_layer_description" jdbc-type="CLOB" primarykey="false" />
-        <field-descriptor name="edoReviewLayerDefID" column="edo_review_layer_def_id" jdbc-type="VARCHAR" primarykey="false" />
-        <field-descriptor name="reviewLevel" column="review_level" jdbc-type="NUMERIC" precision="4" scale="0" nullable="false" primarykey="false" />
-        <field-descriptor name="instructions" column="instructions" jdbc-type="VARCHAR" primarykey="false" />
-        <field-descriptor name="extAvailable" column="ext_available" jdbc-type="VARCHAR" length="1" nullable="false" primarykey="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="rowIndex" column="row_index" nullable="false" />
-        <field-descriptor name="fileDescription" column="file_description" jdbc-type="VARCHAR" length="1000" primarykey="false" />
-        <field-descriptor name="action" column="action" jdbc-type="VARCHAR" length="255" primarykey="false" />
-        <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="actionTimestamp"        column="ACTION_TIMESTAMP"        jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
-        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
-        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
-        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
-    </class-descriptor>
-
     <class-descriptor class="org.kuali.kpme.edo.item.type.EdoItemTypeBo" table="EDO_ITEM_TYPE_T">
         <field-descriptor name="edoItemTypeID" column="EDO_ITEM_TYPE_ID" jdbc-type="VARCHAR" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_ITEM_TYPE_S" />
         <field-descriptor name="itemTypeName" column="ITEM_TYPE_NAME" jdbc-type="VARCHAR" length="32" nullable="false" primarykey="false" />

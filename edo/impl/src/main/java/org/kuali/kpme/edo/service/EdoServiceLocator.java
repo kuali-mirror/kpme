@@ -20,9 +20,7 @@ import org.kuali.kpme.edo.group.service.EdoGroupTrackingService;
 import org.kuali.kpme.edo.group.service.EdoRoleResponsibilityService;
 import org.kuali.kpme.edo.item.count.service.EdoItemCountVService;
 import org.kuali.kpme.edo.item.dao.EdoItemDao;
-import org.kuali.kpme.edo.item.dao.EdoItemVDao;
 import org.kuali.kpme.edo.item.service.EdoItemService;
-import org.kuali.kpme.edo.item.service.EdoItemVService;
 import org.kuali.kpme.edo.item.type.dao.EdoItemTypeDao;
 import org.kuali.kpme.edo.item.type.service.EdoItemTypeService;
 import org.kuali.kpme.edo.notification.service.EdoNotificationService;
@@ -56,7 +54,6 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static final String EDO_CHECKLIST_V_DAO = "edoChecklistVDao";
     public static final String EDO_CHECKLIST_ITEM_DAO = "edoChecklistItemDao";
 	public static final String EDO_ITEM_DAO = "edoItemDao";
-    public static final String EDO_ITEM_V_DAO = "edoItemVDao";
     public static final String EDO_ITEM_COUNT_V_DAO = "edoItemCountVDao";
     public static final String EDO_DOSSIER_TYPE_DAO = "edoDossierTypeDao";
     public static final String EDO_ITEM_TYPE_DAO = "edoItemTypeDao";
@@ -69,7 +66,6 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static final String CHECKLIST_SECTION_SERVICE = "edoChecklistSectionService";
     public static final String CHECKLIST_SERVICE = "edoChecklistService";
     public static final String ITEM_SERVICE = "edoItemService";
-    public static final String ITEM_V_SERVICE = "edoItemVService";
     public static final String ITEM_COUNT_V_SERVICE = "edoItemCountVService";
     public static final String DOSSIER_TYPE_SERVICE = "edoDossierTypeService";
     public static final String DOSSIER_SERVICE = "edoDossierService";
@@ -156,14 +152,6 @@ public class EdoServiceLocator implements ApplicationContextAware {
 
     public static EdoItemService getEdoItemService(){
         return (EdoItemService)SPRING_APPLICATION_CONTEXT.getBean(ITEM_SERVICE);
-    }
-
-    public static EdoItemVDao getEdoItemVDao() {
-        return (EdoItemVDao)SPRING_APPLICATION_CONTEXT.getBean(EDO_ITEM_V_DAO);
-    }
-
-    public static EdoItemVService getEdoItemVService(){
-        return (EdoItemVService)SPRING_APPLICATION_CONTEXT.getBean(ITEM_V_SERVICE);
     }
 
     public static EdoItemCountVService getEdoItemCountVService(){

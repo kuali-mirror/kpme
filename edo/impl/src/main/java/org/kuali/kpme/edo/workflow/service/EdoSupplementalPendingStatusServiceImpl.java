@@ -1,11 +1,20 @@
 package org.kuali.kpme.edo.workflow.service;
 
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -19,9 +28,6 @@ import org.kuali.rice.kew.api.document.Document;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * $HeadURL$ $Revision$ Created with IntelliJ IDEA. User: bradleyt Date: 9/20/13
@@ -149,24 +155,24 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
             return false;
         }
 
-		List<EdoItemV> letters = EdoServiceLocator.getEdoItemVService().getEdoItemVs(dossierId,	reviewLevelMap.get(highestAuthorizedViewReviewLevel).getReviewLayerDefinitionId(), "Review Letter");
+		List<EdoItem> letters = EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLevelMap.get(highestAuthorizedViewReviewLevel).getReviewLayerDefinitionId().toString());
 
         // no letters?  then obviously hasn't added any letters
         if (CollectionUtils.isEmpty(letters)) {
             return false;
         }
 
-		Date maxDate = new Date(1000);
-		EdoItemV mostCurrentLetter = new EdoItemV();
+		DateTime maxDate = new DateTime(new Date(1000));
+		EdoItem.Builder mostCurrentLetter = EdoItem.Builder.create();
 
-		for (EdoItemV letter : letters) {
-			if (letter.getActionTimestamp().after(maxDate)) {
-				maxDate = new Date(letter.getActionTimestamp().getTime());
-				mostCurrentLetter = letter;
+		for (EdoItem letter : letters) {
+			if (letter.getActionFullDateTime().isAfter(maxDate)) {
+				maxDate = letter.getActionFullDateTime();
+				mostCurrentLetter = EdoItem.Builder.create(letter);
 			}
 		}
 
-		DateTime ltrUpdatedDT = new DateTime(mostCurrentLetter.getActionTimestamp());
+		DateTime ltrUpdatedDT = mostCurrentLetter.getActionFullDateTime();
 
 		if (documentCreated.isAfter(ltrUpdatedDT)) {
 			return false;

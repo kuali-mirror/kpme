@@ -29,12 +29,11 @@ import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.item.EdoItemTracker;
-import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
-import org.kuali.kpme.edo.util.EdoItemVDateComparator;
-import org.kuali.kpme.edo.util.EdoItemVDateDescComparator;
+import org.kuali.kpme.edo.util.EdoItemDateComparator;
+import org.kuali.kpme.edo.util.EdoItemDateDescComparator;
 import org.kuali.kpme.edo.util.EdoRule;
 import org.kuali.kpme.edo.util.EdoUtils;
 import org.kuali.kpme.edo.util.QueryParams;
@@ -64,7 +63,7 @@ public class EdoChecklistItemAction extends EdoAction {
         BigDecimal checklistItemId = null;
         int currentTreeNodeID;
         List<EdoChecklistV> checklistView;
-        List<EdoItemV> itemList;
+        List<EdoItem> itemList;
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate) request.getSession().getAttribute("selectedCandidate");
         String itemListJSON = "";
         EdoChecklistItemForm cliForm = (EdoChecklistItemForm) form;
@@ -97,18 +96,18 @@ public class EdoChecklistItemAction extends EdoAction {
             }
         }
 
-        itemList = EdoServiceLocator.getEdoItemVService().getItemList( selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID) );
+        itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
         cliForm.setItemList(itemList);
         cliForm.setChecklistItemID(currentTreeNodeID);
 
         if (itemList != null && itemList.size() > 0) {
             if (EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME.equals(request.getAttribute("itemName"))) {
-                Collections.sort(itemList, new EdoItemVDateDescComparator());
+                Collections.sort(itemList, new EdoItemDateDescComparator());
             } else {
                 Collections.sort(itemList);
             }
-            for ( EdoItemV item : itemList ) {
-                itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+            for (EdoItem item : itemList) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
             }
         }
         request.setAttribute("itemlistJSON", itemListJSON);
@@ -131,7 +130,7 @@ public class EdoChecklistItemAction extends EdoAction {
 
     public ActionForward updateIndex(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         EdoChecklistItemForm cliForm = (EdoChecklistItemForm) form;
-        List<EdoItemV> itemlist = cliForm.getItemList();
+        List<EdoItem> itemlist = cliForm.getItemList();
 
         Map<String, String[]> map = request.getParameterMap();
         Map<BigDecimal, Integer> itemIndexMap = new HashMap<BigDecimal, Integer>();
@@ -147,21 +146,24 @@ public class EdoChecklistItemAction extends EdoAction {
         }
 
         List<EdoItem> itemsToUpdate = new ArrayList<EdoItem>();
-        List<EdoItemV> itemVs = new ArrayList<EdoItemV>();
-        for (EdoItemV edoItemV : itemlist) {
-            Integer oldIndex = edoItemV.getRowIndex();
-            Integer newIndex = itemIndexMap.get(edoItemV.getEdoItemID());
-            EdoItemBo edoItemBo = new EdoItemBo(edoItemV);
+        List<EdoItem> jsonItems = new ArrayList<EdoItem>();
+        for (EdoItem edoItem : itemlist) {
+            Integer oldIndex = edoItem.getRowIndex();
+            Integer newIndex = itemIndexMap.get(edoItem.getEdoItemID());
+            EdoItemBo edoItemBo = EdoItemBo.from(edoItem);
             if (oldIndex.compareTo(newIndex) != 0) {
-                edoItemV.setRowIndex(newIndex);
+            	// use edoItemBo instead
+            	//edoItem.setRowIndex(newIndex);
                 edoItemBo.setRowIndex(newIndex);
                 itemsToUpdate.add(EdoItemBo.to(edoItemBo));
             }
 
-            itemVs.add(edoItemV);
+            //jsonItems.add(edoItem);
+            jsonItems.add(EdoItemBo.to(edoItemBo));
         }
 
-        Collections.sort(itemVs);
+        // Collections doesn't seem to work on immutable objects
+        Collections.sort(jsonItems);
         LOG.info("Items sorted");
 
         // use EdoItem service instead
@@ -173,8 +175,8 @@ public class EdoChecklistItemAction extends EdoAction {
         // not happy about the code below since it involves too much handcrafted json.
         // will circle back in the future to figure out how to use gson to create the data structure datatables needs.
         String itemListJSON = "";
-        for ( EdoItemV item : itemVs ) {
-            itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+        for (EdoItem item : jsonItems) {
+            itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
         }
         itemListJSON = "[" + itemListJSON.substring(0, itemListJSON.length()-1) + "]";
 
@@ -240,13 +242,13 @@ public class EdoChecklistItemAction extends EdoAction {
             }
         }
 
-        List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList( selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID) );
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
         cliForm.setItemList(itemList);
 
         if (itemList != null && itemList.size() > 0) {
-            Collections.sort(itemList, new EdoItemVDateComparator());
-            for ( EdoItemV item : itemList ) {
-                itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+            Collections.sort(itemList, new EdoItemDateComparator());
+            for (EdoItem item : itemList ) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
             }
         }
 
@@ -371,8 +373,6 @@ public class EdoChecklistItemAction extends EdoAction {
             // set attributes unique to a new file in the DB
             if (isNewFile) {
                 item.setActionFullDateTime(new DateTime(sqlTimestamp));
-                // TODO when item is ready, uncomment out the line below
-                //item.setItemTypeID(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT));
                 LocalDate currentDate = LocalDate.now();
                 item.setEdoItemTypeID(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT, currentDate));
                 item.setUserPrincipalId(uploadUsername);
@@ -443,17 +443,16 @@ public class EdoChecklistItemAction extends EdoAction {
             }
         }
 
-        List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList(selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID));
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
         // The code above can't fetch the latest change from db for some reason.
         // It's probably related the transactions but not 100% positive.
         // As a workaround, we update the java EdoItemV list with the new EdoItemV object for json output.
         if (replaceFile) {
-            for (EdoItemV itemV : itemList) {
-                if (itemV.getEdoItemID().equals(originalItemID)) {
-                    EdoItemV newItemV = new EdoItemV(item.build());
-                    newItemV = convertItemV(itemV, newItemV);
-                    itemList.remove(itemV);
-                    itemList.add(newItemV);
+            for (EdoItem oldItem : itemList) {
+                if (oldItem.getEdoItemID().equals(originalItemID)) {
+                    EdoItem.Builder newItem = EdoItem.Builder.create(item);
+                    itemList.remove(oldItem);
+                    itemList.add(newItem.build());
                     // since we can only update one item at a time, break the loop once the update is done.
                     break;
                 }
@@ -462,9 +461,9 @@ public class EdoChecklistItemAction extends EdoAction {
         edoChecklistItemForm.setItemList(itemList);
 
         if (itemList != null && itemList.size() > 0) {
-            Collections.sort(itemList);
-            for ( EdoItemV itemV : itemList ) {
-                itemListJSON = itemListJSON.concat(itemV.getItemJSONString() + ",");
+        	Collections.sort(itemList);
+            for (EdoItem itm : itemList) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(itm) + ",");
             }
         }
 
@@ -512,24 +511,5 @@ public class EdoChecklistItemAction extends EdoAction {
         return fsOK;
     }
 
-    private EdoItemV convertItemV(EdoItemV oldItemV, EdoItemV newItemV) {
-        newItemV.setEdoItemID(oldItemV.getEdoItemID());
-        newItemV.setUserPrincipalId(oldItemV.getUserPrincipalId());
-        newItemV.setEdoItemTypeID(oldItemV.getEdoItemTypeID());
-        newItemV.setEdoDossierID(oldItemV.getEdoDossierID());
-        newItemV.setNotes(oldItemV.getNotes());
-        newItemV.setEdoChecklistSectionID(oldItemV.getEdoChecklistSectionID());
-        newItemV.setEdoChecklistItemID(oldItemV.getEdoChecklistItemID());
-        newItemV.setItemTypeName(oldItemV.getItemTypeName());
-        newItemV.setTypeDescription(oldItemV.getTypeDescription());
-        newItemV.setInstructions(oldItemV.getInstructions());
-        newItemV.setExtAvailable(oldItemV.isExtAvailable());
-        newItemV.setReviewLayerDescription(oldItemV.getReviewLayerDescription());
-        newItemV.setReviewLevel(oldItemV.getReviewLevel());
-        newItemV.setAction(oldItemV.getAction());
-        newItemV.setActive(oldItemV.isActive());
-
-        return newItemV;
-    }
 }
 

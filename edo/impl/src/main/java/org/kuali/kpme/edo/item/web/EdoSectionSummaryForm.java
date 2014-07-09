@@ -1,14 +1,14 @@
 package org.kuali.kpme.edo.item.web;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.struts.upload.FormFile;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoForm;
 import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.item.count.EdoItemCountV;
-import org.kuali.kpme.edo.item.EdoItemV;
-
-import java.util.LinkedList;
-import java.util.List;
+import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 /**
  * $HeadURL$
@@ -26,7 +26,7 @@ public class EdoSectionSummaryForm extends EdoForm {
     private String outputJson;
     private String nidFwd;
     private String formData;
-    List<EdoItemV> itemList = new LinkedList<EdoItemV>();
+    List<EdoItem> itemList = new LinkedList<EdoItem>();
     List<EdoItemCountV> itemCount = new LinkedList<EdoItemCountV>();
 
     public List<EdoItemCountV> getItemCount() {
@@ -85,11 +85,11 @@ public class EdoSectionSummaryForm extends EdoForm {
         this.outputJson = outputJson;
     }
 
-    public List<EdoItemV> getItemList() {
+    public List<EdoItem> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<EdoItemV> itemList) {
+    public void setItemList(List<EdoItem> itemList) {
         this.itemList = itemList;
     }
 

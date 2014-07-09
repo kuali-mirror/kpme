@@ -1,14 +1,14 @@
 package org.kuali.kpme.edo.item.web;
 
-import org.apache.struts.upload.FormFile;
-import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.item.EdoItemV;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
+
+import org.apache.struts.upload.FormFile;
+import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.base.web.EdoForm;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 
 /**
  * $HeadURL$
@@ -28,7 +28,7 @@ public class EdoReviewLetterForm extends EdoForm {
     private String nidFwd;
     private String formData;
     private int selectedRvwLayer;
-    Collection<EdoItemV> itemList = new LinkedList<EdoItemV>();
+    Collection<EdoItem> itemList = new LinkedList<EdoItem>();
     Collection<EdoReviewLayerDefinition> layerList = new TreeSet<EdoReviewLayerDefinition>();
     private boolean canSeeAcknowledgeAction = false;
     private boolean canSeeAcknowledgeWithNoAction = false;
@@ -97,11 +97,11 @@ public class EdoReviewLetterForm extends EdoForm {
         this.outputJson = outputJson;
     }
 
-    public Collection<EdoItemV> getItemList() {
+    public Collection<EdoItem> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<EdoItemV> itemList) {
+    public void setItemList(List<EdoItem> itemList) {
         this.itemList = itemList;
     }
 

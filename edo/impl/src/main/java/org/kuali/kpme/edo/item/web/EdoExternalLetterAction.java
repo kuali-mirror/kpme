@@ -1,5 +1,17 @@
 package org.kuali.kpme.edo.item.web;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -14,24 +26,18 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.item.EdoItemTracker;
-import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.util.*;
+import org.kuali.kpme.edo.util.EdoConstants;
+import org.kuali.kpme.edo.util.EdoContext;
+import org.kuali.kpme.edo.util.EdoRule;
+import org.kuali.kpme.edo.util.EdoUtils;
+import org.kuali.kpme.edo.util.QueryParams;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * $HeadURL$
@@ -50,7 +56,7 @@ public class EdoExternalLetterAction extends EdoAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         int currentTreeNodeID;
-        List<EdoItemV> itemList;
+        List<EdoItem> itemList;
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate) request.getSession().getAttribute("selectedCandidate");
         String itemListJSON = "";
         String workflowId = selectedCandidate.getDossierWorkflowId();
@@ -85,14 +91,14 @@ public class EdoExternalLetterAction extends EdoAction {
         request.setAttribute("itemDescription", "External Review letters");
         request.setAttribute("checklistItemID", currentTreeNodeID );
 
-        itemList = EdoServiceLocator.getEdoItemVService().getItemList( selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID) );
+        itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
         externalLetterForm.setItemList(itemList);
         externalLetterForm.setChecklistItemID(currentTreeNodeID);
 
         if (CollectionUtils.isNotEmpty(itemList)) {
-            Collections.sort(itemList);
-            for ( EdoItemV item : itemList ) {
-                itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+        	Collections.sort(itemList);
+            for (EdoItem item : itemList ) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
             }
         }
         request.setAttribute("itemlistJSON", itemListJSON);
@@ -253,13 +259,13 @@ public class EdoExternalLetterAction extends EdoAction {
             }
         }
 
-        List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList(selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID));
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
         externalLetterForm.setItemList(itemList);
 
         if (CollectionUtils.isNotEmpty(itemList)) {
-            Collections.sort(itemList);
-            for ( EdoItemV itemV : itemList ) {
-                itemListJSON = itemListJSON.concat(itemV.getItemJSONString() + ",");
+        	Collections.sort(itemList);
+            for (EdoItem item : itemList) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
             }
         }
 
@@ -305,13 +311,13 @@ public class EdoExternalLetterAction extends EdoAction {
             }
         }
 
-        List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList( selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID) );
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
         cliForm.setItemList(itemList);
 
         if (itemList != null && itemList.size() > 0) {
-            Collections.sort(itemList);
-            for ( EdoItemV item : itemList ) {
-                itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+        	Collections.sort(itemList);
+            for (EdoItem item : itemList) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
             }
         }
 

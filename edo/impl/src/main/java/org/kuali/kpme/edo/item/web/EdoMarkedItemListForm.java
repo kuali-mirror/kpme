@@ -1,12 +1,12 @@
 package org.kuali.kpme.edo.item.web;
 
-import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.item.EdoItemV;
-
 import java.util.LinkedList;
 import java.util.List;
+
+import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.base.web.EdoForm;
+import org.kuali.kpme.edo.checklist.EdoChecklistV;
+import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 /**
  * $HeadURL$
@@ -20,7 +20,7 @@ public class EdoMarkedItemListForm extends EdoForm {
 
     private List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL");
     private int checklistItemID;
-    List<EdoItemV> itemList = new LinkedList<EdoItemV>();
+    List<EdoItem> itemList = new LinkedList<EdoItem>();
 
     public List<EdoChecklistV> getChecklistView() {
         return checklistView;
@@ -34,11 +34,11 @@ public class EdoMarkedItemListForm extends EdoForm {
         this.checklistItemID = checklistItemID;
     }
 
-    public List<EdoItemV> getItemList() {
+    public List<EdoItem> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<EdoItemV> itemList) {
+    public void setItemList(List<EdoItem> itemList) {
         this.itemList = itemList;
     }
 

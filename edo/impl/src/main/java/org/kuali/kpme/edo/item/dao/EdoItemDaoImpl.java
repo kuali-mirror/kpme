@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -35,6 +36,25 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
             if (c.size() == 1) {
                 return (EdoItemBo)c.toArray()[0];
             }
+        }
+        return null;
+    }
+    
+    public List<EdoItemBo> getItemList(String edoDossierID, String edoChecklistItemID) {
+
+    	List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
+
+        Criteria cConditions = new Criteria();
+
+        cConditions.addEqualTo("edo_checklist_item_id", edoChecklistItemID);
+        cConditions.addEqualTo("edo_dossier_id", edoDossierID);
+
+        Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null && c.size() != 0) {
+            itemList.addAll(c);
+            return itemList;
         }
         return null;
     }
@@ -110,7 +130,7 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     	
     }
 
-    public List<EdoItemBo> getPendingLettersByDossierId( String edoDossierId, String edoChecklistItemID ) {
+    public List<EdoItemBo> getPendingLettersByDossierId(String edoDossierId, String edoChecklistItemID) {
         List<EdoItemBo> letterList = new LinkedList<EdoItemBo>();
 
         Criteria cConditions = new Criteria();
@@ -127,6 +147,36 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
         }
 
         return letterList;
+    }
+    
+    public List<EdoItemBo> getReviewLetterEdoItems(String edoDossierId, String edoReviewLayerDefinitionId) {
+        List<EdoItemBo> items = new LinkedList<EdoItemBo>();
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("edo_dossier_id", edoDossierId);
+        criteria.addEqualTo("edo_review_layer_def_id", edoReviewLayerDefinitionId);
+
+        Query query = QueryFactory.newQuery(EdoItemBo.class, criteria);
+
+        items.addAll(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
+
+        return items;
+    }
+    
+    public List<EdoItemBo> getListOfEdoItems(List<String> idList) {
+    	Criteria cConditions = new Criteria();
+        List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
+
+        cConditions.addColumnIn("edo_item_id", idList);
+
+        Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (CollectionUtils.isNotEmpty(c)) {
+            itemList.addAll(c);
+            return itemList;
+        }
+        return null;
     }
 
 }

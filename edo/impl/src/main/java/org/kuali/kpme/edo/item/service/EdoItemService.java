@@ -19,8 +19,7 @@ import org.kuali.kpme.edo.item.EdoItemBo;
 public interface EdoItemService {
     public EdoItem getEdoItem(String edoItemID);
     public EdoItemBo getEdoItemBo(String edoItemID);
-    /*  This will be needed when we remove view, but remove it for now since it's not used it
-    public List<EdoItem> getItemList(String edoChecklistSectionID); */
+    public List<EdoItem> getItemList(String edoDossierID, String checklistItemID);
     public void saveOrUpdate(EdoItemBo itemBo);
     public void saveOrUpdate(EdoItem item);
     public void saveOrUpdate(List<EdoItem> edoItems);
@@ -31,4 +30,8 @@ public interface EdoItemService {
     public boolean isReviewLetterPendingRoute(String edoDossierId, String edoReviewLayerDefintionId);
     public void updateLetterAsLevelRouted(String edoDossierId, String edoReviewLayerDefinitionId);
     public void deleteItem(EdoItem item);
+    
+    public List<EdoItem> getReviewLetterEdoItems(String edoDossierId, String edoReviewLayerDefinitionId);
+    public List<EdoItem> getListOfEdoItems(List<String> idList);
+    public String getItemJSONString(EdoItem item);
 }

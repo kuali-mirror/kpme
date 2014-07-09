@@ -217,6 +217,11 @@ public final class EdoItem
     public String getObjectId() {
         return this.objectId;
     }
+    
+    @Override
+    public int compareTo(EdoItemContract eic) {
+        return (this.getRowIndex() - eic.getRowIndex());
+    }
 
 
     /**
@@ -464,6 +469,11 @@ public final class EdoItem
         public void setObjectId(String objectId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.objectId = objectId;
+        }
+        
+        @Override
+        public int compareTo(EdoItemContract eic) {
+            return (this.getRowIndex() - eic.getRowIndex());
         }
 
     }

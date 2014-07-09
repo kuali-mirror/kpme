@@ -1,13 +1,13 @@
 package org.kuali.kpme.edo.item.web;
 
-import org.apache.struts.upload.FormFile;
-import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.item.EdoItemV;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.struts.upload.FormFile;
+import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.base.web.EdoForm;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 
 /**
  * $HeadURL$
@@ -26,7 +26,7 @@ public class EdoExternalLetterForm extends EdoForm {
     private String outputJson;
     private String nidFwd;
     private String formData;
-    List<EdoItemV> itemList = new LinkedList<EdoItemV>();
+    List<EdoItem> itemList = new LinkedList<EdoItem>();
     Collection<EdoReviewLayerDefinition> layerList = new LinkedList<EdoReviewLayerDefinition>();
 
     public Collection<EdoReviewLayerDefinition> getLayerList() {
@@ -77,11 +77,11 @@ public class EdoExternalLetterForm extends EdoForm {
         this.outputJson = outputJson;
     }
 
-    public List<EdoItemV> getItemList() {
+    public List<EdoItem> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<EdoItemV> itemList) {
+    public void setItemList(List<EdoItem> itemList) {
         this.itemList = itemList;
     }
 

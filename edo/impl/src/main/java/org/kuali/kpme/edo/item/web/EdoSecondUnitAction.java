@@ -28,7 +28,6 @@ import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.item.EdoItemTracker;
-import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -58,7 +57,7 @@ public class EdoSecondUnitAction extends EdoAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         int currentTreeNodeID;
-        List<EdoItemV> itemList;
+        List<EdoItem> itemList;
         String itemListJSON = "";
         EdoSecondUnitForm reviewLetterForm = (EdoSecondUnitForm) form;
 
@@ -116,17 +115,20 @@ public class EdoSecondUnitAction extends EdoAction {
         currentTreeNodeID = Integer.parseInt(ssn.getAttribute("nid").toString().split("_")[2]);
         reviewLetterForm.setChecklistItemID(currentTreeNodeID);
 
-        itemList = EdoServiceLocator.getEdoItemVService().getItemList( selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID) );
+        itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
 
         // filter list of letters for display, based upon authorizedViewReviewLetterLevel
         if (CollectionUtils.isNotEmpty(itemList)) {
-            Collections.sort(itemList);
+        	Collections.sort(itemList);
             // copy the itemList because we can't "remove" an item while iterating over it
-            List<EdoItemV> copy = new ArrayList<EdoItemV>(itemList);
-            for ( EdoItemV item : copy ) {
+            List<EdoItem> copy = new ArrayList<EdoItem>(itemList);
+            for (EdoItem item : copy) {
                 // only display review levels allowed by policy
-                if (item.getReviewLevel().compareTo(highestAuthorizedViewReviewLevel) < 1 ) {
-                    itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+            	// Now there is no view that we have to get review level from EdoReviewLayerDefinitionService
+            	// TODO when review level is ready, pass string review layer definition id
+            	BigDecimal reviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(new BigDecimal(item.getEdoReviewLayerDefID())).getReviewLevel();
+                if (reviewLevel.compareTo(highestAuthorizedViewReviewLevel) < 1 ) {
+                    itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
                 } else {
                     itemList.remove(item);
                 }
@@ -340,19 +342,18 @@ public class EdoSecondUnitAction extends EdoAction {
             highestAuthorizedViewReviewLevel = Collections.max(authorizedViewReviewLetterLevels);
         }
 
-        List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList(selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID));
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
         // filter list of letters for display, based upon authorizedViewReviewLetterLevel
         // from EDO-196
         // The code above can't fetch the latest change from db for some reason.
         // It's probably related the transactions but not 100% positive.
         // As a workaround, we update the java EdoItemV list with the new EdoItemV object for json output.
         if (replaceFile) {
-            for (EdoItemV itemV : itemList) {
-                if (itemV.getEdoItemID().equals(originalItemID)) {
-                    EdoItemV newItemV = new EdoItemV(item.build());
-                    newItemV = convertItemV(itemV, newItemV);
-                    itemList.remove(itemV);
-                    itemList.add(newItemV);
+            for (EdoItem oldItem : itemList) {
+                if (oldItem.getEdoItemID().equals(originalItemID)) {
+                    EdoItem.Builder newItem = EdoItem.Builder.create(item);
+                    itemList.remove(oldItem);
+                    itemList.add(newItem.build());
                     // since we can only update one item at a time, break the loop once the update is done.
                     break;
                 }
@@ -360,13 +361,16 @@ public class EdoSecondUnitAction extends EdoAction {
         }
 
         if (CollectionUtils.isNotEmpty(itemList)) {
-            Collections.sort(itemList);
+        	Collections.sort(itemList);
             // copy the itemList because we can't "remove" an item while iterating over it
-            List<EdoItemV> copy = new ArrayList<EdoItemV>(itemList);
-            for ( EdoItemV tmpItem : copy ) {
+            List<EdoItem> copy = new ArrayList<EdoItem>(itemList);
+            for (EdoItem tmpItem : copy) {
                 // only display review levels allowed by policy
-                if (tmpItem.getReviewLevel().compareTo(highestAuthorizedViewReviewLevel) < 1 ) {
-                    itemListJSON = itemListJSON.concat(tmpItem.getItemJSONString() + ",");
+            	// Now there is no view that we have to get review level from EdoReviewLayerDefinitionService
+            	// TODO when review level is ready, pass string review layer definition id
+            	BigDecimal reviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(new BigDecimal(tmpItem.getEdoReviewLayerDefID())).getReviewLevel();
+                if (reviewLevel.compareTo(highestAuthorizedViewReviewLevel) < 1 ) {
+                    itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(tmpItem) + ",");
                 } else {
                     itemList.remove(item);
                 }
@@ -417,13 +421,13 @@ public class EdoSecondUnitAction extends EdoAction {
             }
         }
 
-        List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList( selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID) );
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
         cliForm.setItemList(itemList);
 
         if (itemList != null && itemList.size() > 0) {
-            Collections.sort(itemList);
-            for ( EdoItemV item : itemList ) {
-                itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+        	Collections.sort(itemList);
+            for (EdoItem item : itemList) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
             }
         }
 
@@ -472,27 +476,6 @@ public class EdoSecondUnitAction extends EdoAction {
             LOG.warn("Missing file from file system [" + item.getFileLocation() + "]");
         }
         return fsOK;
-    }
-
-    private EdoItemV convertItemV(EdoItemV oldItemV, EdoItemV newItemV) {
-        newItemV.setEdoItemID(oldItemV.getEdoItemID());
-        newItemV.setUserPrincipalId(oldItemV.getUserPrincipalId());
-        newItemV.setEdoItemTypeID(oldItemV.getEdoItemTypeID());
-        newItemV.setEdoDossierID(oldItemV.getEdoDossierID());
-        newItemV.setNotes(oldItemV.getNotes());
-        newItemV.setEdoChecklistSectionID(oldItemV.getEdoChecklistSectionID());
-        newItemV.setEdoChecklistItemID(oldItemV.getEdoChecklistItemID());
-        newItemV.setItemTypeName(oldItemV.getItemTypeName());
-        newItemV.setTypeDescription(oldItemV.getTypeDescription());
-        newItemV.setInstructions(oldItemV.getInstructions());
-        newItemV.setExtAvailable(oldItemV.isExtAvailable());
-        newItemV.setReviewLayerDescription(oldItemV.getReviewLayerDescription());
-        newItemV.setReviewLevel(oldItemV.getReviewLevel());
-        newItemV.setAction(oldItemV.getAction());
-        newItemV.setActionTimestamp(oldItemV.getActionTimestamp());
-        newItemV.setActive(oldItemV.isActive());
-
-        return newItemV;
     }
 
 }

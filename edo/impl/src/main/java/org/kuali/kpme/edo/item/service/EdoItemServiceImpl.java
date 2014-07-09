@@ -4,14 +4,26 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.item.dao.EdoItemDao;
+import org.kuali.kpme.edo.item.type.service.EdoItemTypeService;
+import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * $HeadURL$
@@ -25,6 +37,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoItemService {
 
     private EdoItemDao edoItemDao;
+    private EdoItemTypeService edoItemTypeService = EdoServiceLocator.getEdoItemTypeService();
     
     protected List<EdoItem> convertToImmutable(List<EdoItemBo> bos) {
 		return ModelObjectUtils.transform(bos, EdoItemBo.toImmutable);
@@ -44,6 +57,11 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
         
     public  EdoItemBo getEdoItemBo(String edoItemID) {
         return edoItemDao.getEdoItem(edoItemID);
+    }
+    
+    public List<EdoItem> getItemList(String edoDossierID, String edoChecklistItemID) {
+        List<EdoItemBo> bos = edoItemDao.getItemList(edoDossierID, edoChecklistItemID);
+    	return convertToImmutable(bos);
     }
     
     public void saveOrUpdate(EdoItemBo itemBo) {
@@ -90,7 +108,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     
     @Override
     public List<EdoItem> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID) {
-    	List <EdoItemBo> bos = this.edoItemDao.getItemsByDossierIdForAddendumFalgZero(edoDossierId, edoChecklistItemID);
+    	List<EdoItemBo> bos = this.edoItemDao.getItemsByDossierIdForAddendumFalgZero(edoDossierId, edoChecklistItemID);
     	return convertToImmutable(bos);
     }
 
@@ -123,6 +141,50 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     
     public void deleteItem(EdoItem item) {
     	this.edoItemDao.deleteItem(EdoItemBo.from(item));
+    }
+    
+    public List<EdoItem> getReviewLetterEdoItems(String edoDossierId, String edoReviewLayerDefinitionId) {
+    	List<EdoItemBo> bos = this.edoItemDao.getReviewLetterEdoItems(edoDossierId, edoReviewLayerDefinitionId);
+    	List<EdoItemBo> returnedBos = new ArrayList<EdoItemBo>();
+    	
+    	for (EdoItemBo bo : bos) {
+    		String itemTypeName = edoItemTypeService.getItemType(bo.getEdoItemID()).getItemTypeName();
+    		if (StringUtils.equals(itemTypeName, "Review Letter")) {
+    			returnedBos.add(bo);
+    		}
+    	}
+
+    	return convertToImmutable(returnedBos);
+    }
+    
+    public List<EdoItem> getListOfEdoItems(List<String> idList) {
+    	List<EdoItemBo> bos = this.edoItemDao.getListOfEdoItems(idList);
+    	return convertToImmutable(bos);
+    }
+    
+    public String getItemJSONString(EdoItem item) {
+    	ArrayList<String> tmp = new ArrayList<String>();
+        Type tmpType = new TypeToken<List<String>>() {}.getType();
+        Gson gson = new Gson();
+        String uploadString = new SimpleDateFormat("yyyy-MM-dd hh:mma").format(new Timestamp(item.getActionFullDateTime().getMillis()));
+
+        tmp.add(item.getRowIndex()+"");
+        tmp.add(item.getEdoItemID());
+        tmp.add(item.getEdoItemTypeID());
+        tmp.add(item.getFileName());
+        tmp.add(item.getFileLocation());
+        tmp.add(item.getEdoChecklistItemID());
+        tmp.add(uploadString);
+        tmp.add(item.getUserPrincipalId());
+        tmp.add("");
+        tmp.add(item.getEdoDossierID());
+        tmp.add(item.getEdoReviewLayerDefID() == null ? "" : item.getEdoReviewLayerDefID());
+        tmp.add(item.isRouted() == true ? "Y" : "N");
+        tmp.add(item.getFileDescription());
+        tmp.add(item.getAction());
+        tmp.add(item.isActive() == true ? "Y" : "N");
+
+        return gson.toJson(tmp, tmpType);
     }
 
 }

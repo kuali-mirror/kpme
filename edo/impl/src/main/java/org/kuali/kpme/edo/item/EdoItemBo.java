@@ -40,23 +40,6 @@ public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemC
  
     public EdoItemBo() {}
 
-    public EdoItemBo(EdoItemV edoItemV) {
-        this.edoItemID = edoItemV.getEdoItemID();
-        this.edoItemTypeID = edoItemV.getEdoItemTypeID();
-        this.edoChecklistItemID = edoItemV.getEdoChecklistItemID();
-        this.edoDossierID = edoItemV.getEdoDossierID();
-        this.fileName = edoItemV.getFileName();
-        this.fileLocation = edoItemV.getFileLocation();
-        this.notes = edoItemV.getNotes();       		
-        this.contentType = edoItemV.getContentType();
-        this.edoReviewLayerDefID = edoItemV.getEdoReviewLayerDefID();
-        this.fileDescription = edoItemV.getFileDescription();   
-        this.actionTimestamp = edoItemV.getActionTimestamp();
-        this.userPrincipalId = edoItemV.getUserPrincipalId();
-        this.action = edoItemV.getAction();
-        this.active = edoItemV.isActive();
-    }
-
 	public String getId() {
 		return getEdoItemID();
 	}
@@ -195,7 +178,11 @@ public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemC
 
     public DateTime getActionFullDateTime() {
         return actionTimestamp != null ? new DateTime(actionTimestamp) : null;
-    }	
+    }
+    
+    public int compareTo(EdoItemContract eic) {
+    	return (this.getRowIndex() - eic.getRowIndex());
+    }
 
 	public static EdoItemBo from(EdoItem im) {
         if (im == null) {

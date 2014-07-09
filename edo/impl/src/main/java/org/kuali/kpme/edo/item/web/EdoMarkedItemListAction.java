@@ -1,20 +1,23 @@
 package org.kuali.kpme.edo.item.web;
 
-import org.apache.log4j.Logger;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.item.EdoItemTracker;
-import org.kuali.kpme.edo.item.EdoItemV;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.rice.core.api.config.property.Config;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
-import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.base.web.EdoAction;
+import org.kuali.kpme.edo.item.EdoItemTracker;
+import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.rice.core.api.config.property.Config;
 
 /**
  * $HeadURL$
@@ -33,7 +36,7 @@ public class EdoMarkedItemListAction extends EdoAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         int currentTreeNodeID;
-        List<EdoItemV> itemList;
+        List<EdoItem> itemList;
         String itemListJSON = "";
         EdoMarkedItemListForm cliForm = (EdoMarkedItemListForm) form;
         HttpSession ssn = request.getSession();
@@ -49,14 +52,18 @@ public class EdoMarkedItemListAction extends EdoAction {
         currentTreeNodeID = Integer.parseInt(ssn.getAttribute("nid").toString().split("_")[2]);
         EdoItemTracker itemTracker = (EdoItemTracker) ssn.getAttribute("itemTracker");
 
-        itemList = EdoServiceLocator.getEdoItemVService().getListOfEdoItems(itemTracker.getItemsMarked());
+        // TODO just pass itemTracker.getItemsMarked() when ItemTracker is ready (uncomment the line below).  
+        // For now, we will convert an array of BigDecimal to an array of String
+        // itemList = EdoServiceLocator.getEdoItemService().getListOfEdoItems(itemTracker.getItemsMarked());
+        itemList = EdoServiceLocator.getEdoItemService().getListOfEdoItems(convertToListOfString(itemTracker.getItemsMarked()));
+       
         cliForm.setItemList(itemList);
         cliForm.setChecklistItemID(currentTreeNodeID);
 
         if (itemList != null && itemList.size() > 0) {
-            Collections.sort(itemList);
-            for ( EdoItemV item : itemList ) {
-                itemListJSON = itemListJSON.concat(item.getItemJSONString() + ",");
+        	Collections.sort(itemList);
+            for (EdoItem item : itemList) {
+                itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
             }
         }
         request.setAttribute("itemlistJSON", itemListJSON);
@@ -67,6 +74,14 @@ public class EdoMarkedItemListAction extends EdoAction {
         request.setAttribute("itemTracker", itemTracker.getItemTrackerJSONString());
 
         return super.execute(mapping, cliForm, request, response);
+    }
+    
+    private List<String> convertToListOfString(List<BigDecimal> bds) {
+    	List<String> trackerIDs = new ArrayList<String>();
+        for (BigDecimal bd: bds) {
+        	trackerIDs.add(bd.toString());
+        }
+        return trackerIDs;
     }
 
 }

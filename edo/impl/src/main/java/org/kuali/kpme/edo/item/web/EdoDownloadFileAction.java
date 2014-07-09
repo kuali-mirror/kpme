@@ -19,7 +19,6 @@ import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
-import org.kuali.kpme.edo.item.EdoItemV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -46,7 +45,7 @@ public class EdoDownloadFileAction extends EdoAction {
 
         MessageMap msgmap = GlobalVariables.getMessageMap();
         String itemId = request.getParameter("itemID");
-        EdoSelectedCandidate selectedCandidate = getItemSelectedCandidate(new BigDecimal(itemId));
+        EdoSelectedCandidate selectedCandidate = getItemSelectedCandidate(itemId);
 
         if (canViewDossier(selectedCandidate.getCandidateDossierID())) {
 
@@ -63,9 +62,9 @@ public class EdoDownloadFileAction extends EdoAction {
             }
             int currentTreeNodeID = Integer.parseInt(nidParam.split("_")[2]);
 
-            List<EdoItemV> itemList = EdoServiceLocator.getEdoItemVService().getItemList(selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentTreeNodeID));
+            List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemList(selectedCandidate.getCandidateDossierID().toString(), currentTreeNodeID+"");
             boolean found = false;
-            for (EdoItemV item1 : itemList) {
+            for (EdoItem item1 : itemList) {
 
                 //comparison of big decimals
                 if(item1.getEdoItemID().equals(itemId)) {
@@ -106,9 +105,9 @@ public class EdoDownloadFileAction extends EdoAction {
         return fwd;
     }
 
-    private EdoSelectedCandidate getItemSelectedCandidate(BigDecimal itemId) {
+    private EdoSelectedCandidate getItemSelectedCandidate(String itemId) {
 
-        EdoItemV item = EdoServiceLocator.getEdoItemVService().getEdoItem(itemId);
+        EdoItem item = EdoServiceLocator.getEdoItemService().getEdoItem(itemId);
         EdoCandidateDossier dossier = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossier(new BigDecimal(item.getEdoDossierID()));
         EdoCandidate candidate = EdoServiceLocator.getCandidateService().getCandidateByUsername(dossier.getUsername());
 
