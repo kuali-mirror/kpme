@@ -35,8 +35,8 @@
 			<html:hidden property="assignmentList" value="${Form.assignDescriptionsList}"/>
 			<html:hidden property="distributeAssignList" value="${Form.distributeAssignList}" />
 			<html:hidden property="originalAssignment" value="${Form.currentAssignmentDescription}"/>
-			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginDate}"/>
-			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endDate}"/>			
+			<html:hidden property="beginTimestamp" value="${Form.currentTimeBlock.beginDateTime}"/>
+			<html:hidden property="endTimestamp" value="${Form.currentTimeBlock.endDateTime}"/>			
 			<html:hidden property="beginDateOnly" value="${Form.currentTimeBlock.beginTimeDisplayDateOnlyString}"/>
 			<html:hidden property="beginTimeOnly" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}"/>
 			<html:hidden property="endDateOnly" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString}"/>
