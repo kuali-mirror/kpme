@@ -57,7 +57,7 @@ public class EarnCodeGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 		Criteria earnCodeJoin = new Criteria();
 		
 		earnCodeJoin.addEqualToField("hrEarnCodeGroupId", Criteria.PARENT_QUERY_PREFIX + "hrEarnCodeGroupId");
-		earnCodeJoin.addEqualTo("earnCode", earnCode);
+		earnCodeJoin.addEqualTo("UPPER(earnCode)", earnCode.toUpperCase());
 		ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnCodeGroupDefinitionBo.class, earnCodeJoin);
 		earnCodeSubQuery.setAttributes(new String[]{"hr_earn_code_group_id"});
 		
@@ -82,7 +82,7 @@ public class EarnCodeGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 		Criteria earnCodeJoin = new Criteria();
 
 		earnCodeJoin.addEqualToField("hrEarnCodeGroupId", Criteria.PARENT_QUERY_PREFIX + "hrEarnCodeGroupId");
-		earnCodeJoin.addEqualTo("earnCode", earnCode);
+		earnCodeJoin.addEqualTo("UPPER(earnCode)", earnCode.toUpperCase());
 		ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnCodeGroupDefinitionBo.class, earnCodeJoin);
 		earnCodeSubQuery.setAttributes(new String[]{"hr_earn_code_group_id"});
 		
@@ -108,7 +108,7 @@ public class EarnCodeGroupDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 		Criteria earnCodeJoin = new Criteria();
 
 		earnCodeJoin.addEqualToField("hrEarnCodeGroupId", Criteria.PARENT_QUERY_PREFIX + "hrEarnCodeGroupId");
-		earnCodeJoin.addEqualTo("earnCode", earnCode);
+		earnCodeJoin.addEqualTo("UPPER(earnCode)", earnCode.toUpperCase());
 		ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnCodeGroupDefinitionBo.class, earnCodeJoin);
 		earnCodeSubQuery.setAttributes(new String[]{"hr_earn_code_group_id"});
 		
