@@ -1,16 +1,18 @@
 package org.kuali.kpme.edo.vote.dao;
 
-import org.kuali.kpme.edo.vote.EdoVoteRecord;
+import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
+import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface EdoVoteRecordDao {
+	public EdoVoteRecordBo getEdoVoteRecord(String edoVoteRecordID);
 
-    public EdoVoteRecord getVoteRecord(BigDecimal voteRecordId);
-    public List<EdoVoteRecord> getVoteRecords(Integer dossierId);
-    public List<EdoVoteRecord> getVoteRecords(Integer dossierId, List<BigDecimal> reviewLayerDefinitionIds);
-    public void saveOrUpdate(EdoVoteRecord voteRecord);
-    public List<EdoVoteRecord> getVoteRecords(Integer dossierId, BigDecimal reviewLayerDefinitionId);
-    public EdoVoteRecord getVoteRecordMostCurrentRound(Integer dossierId, BigDecimal reviewLayerDefinitionId);
+
+    public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID);
+    public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID, List<String> edoReviewLayerDefinitionIDs);
+    public void saveOrUpdate(EdoVoteRecordBo voteRecord);
+    public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID, String edoReviewLayerDefinitionID);
+    public EdoVoteRecordBo getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionID);
     }

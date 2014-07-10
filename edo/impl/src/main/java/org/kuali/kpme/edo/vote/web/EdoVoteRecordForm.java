@@ -1,10 +1,11 @@
 package org.kuali.kpme.edo.vote.web;
 
+import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.item.web.EdoChecklistItemForm;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.util.EdoConstants;
-import org.kuali.kpme.edo.vote.EdoVoteRecord;
+import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ public class EdoVoteRecordForm extends EdoChecklistItemForm {
     private EdoReviewLayerDefinition currentReviewLayerDefinition;
     private EdoReviewLayerDefinition principalReviewLayerDefinition;
     private EdoVoteRecord currentVoteRecord;
-    private BigDecimal reviewLayerDefinitionId;
-    private BigDecimal voteRecordId;
+    private String reviewLayerDefinitionId;
+    private String voteRecordId;
     private Integer yesCountTenure;
     private Integer noCountTenure;
     private Integer abstainCountTenure;
@@ -68,19 +69,19 @@ public class EdoVoteRecordForm extends EdoChecklistItemForm {
         this.currentVoteRecord = voteRecord;
     }
 
-    public BigDecimal getReviewLayerDefinitionId() {
+    public String getReviewLayerDefinitionId() {
         return reviewLayerDefinitionId;
     }
 
-    public void setReviewLayerDefinitionId(BigDecimal reviewLayerDefinitionId) {
+    public void setReviewLayerDefinitionId(String reviewLayerDefinitionId) {
         this.reviewLayerDefinitionId = reviewLayerDefinitionId;
     }
 
-    public BigDecimal getVoteRecordId() {
+    public String getVoteRecordId() {
         return voteRecordId;
     }
 
-    public void setVoteRecordId(BigDecimal voteRecordId) {
+    public void setVoteRecordId(String voteRecordId) {
         this.voteRecordId = voteRecordId;
     }
 

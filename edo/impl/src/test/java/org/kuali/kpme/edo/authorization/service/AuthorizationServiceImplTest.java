@@ -9,7 +9,7 @@ import org.kuali.kpme.edo.EdoUnitTestBase;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
-import org.kuali.kpme.edo.vote.EdoVoteRecord;
+import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.kpme.edo.vote.dao.EdoVoteRecordDao;
 import org.kuali.rice.core.framework.persistence.ojb.JtaOjbConfigurer;
 import org.kuali.rice.kew.api.WorkflowDocument;

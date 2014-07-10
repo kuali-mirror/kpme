@@ -5,6 +5,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
@@ -13,13 +14,14 @@ import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoRule;
 import org.kuali.kpme.edo.util.EdoUtils;
-import org.kuali.kpme.edo.vote.EdoVoteRecord;
+import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.kpme.edo.vote.validation.EdoVoteRecordValidation;
 import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.*;
 
 public class EdoVoteRecordAction extends EdoAction {
@@ -47,7 +49,7 @@ public class EdoVoteRecordAction extends EdoAction {
             voteRecordForm.setSelectedCandidate(selectedCandidate);
 
             //Get the vote records that the user is able to see.
-            List<EdoVoteRecord> voteRecords = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(selectedCandidate.getCandidateDossierID().intValue(), voteRecordLayerDefinitions);
+            List<EdoVoteRecord> voteRecords = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(selectedCandidate.getCandidateDossierID().toString(), voteRecordLayerDefinitions);
             voteRecordForm.setVoteRecords(voteRecords);
 
             //Determine the current review layer definition
@@ -71,7 +73,7 @@ public class EdoVoteRecordAction extends EdoAction {
 
                 //Determine the current vote record.
                 for (EdoVoteRecord voteRecord : voteRecords) {
-                    if (currentReviewLayerDefinition != null && voteRecord.getReviewLayerDefinitionId().equals(currentReviewLayerDefinition.getId())) {
+                    if (currentReviewLayerDefinition != null && voteRecord.getEdoReviewLayerDefinitionID().equals(currentReviewLayerDefinition.getId().toString())) {
                         voteRecordForm.setCurrentVoteRecord(voteRecord);
                     }
                 }
@@ -92,7 +94,7 @@ public class EdoVoteRecordAction extends EdoAction {
                     for (EdoReviewLayerDefinition reviewLayerDefinition : voteRecordLayerDefinitions) {
                         if (reviewLayerDefinition.getReviewLevel() != null && reviewLayerDefinition.getReviewLevel().equals(EdoContext.getPrincipalMaxReviewLevel())) {
                             voteRecordForm.setPrincipalReviewLayerDefinition(reviewLayerDefinition);
-                            EdoVoteRecord vr = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(selectedCandidate.getCandidateDossierID().intValue(),reviewLayerDefinition.getId());
+                            EdoVoteRecord vr = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(selectedCandidate.getCandidateDossierID().toString(),reviewLayerDefinition.getId().toString());
                             voteRecordForm.setCurrentVoteRound(vr.getVoteRound());
                             voteRecordForm.setCurrentVoteSubRound(vr.getVoteSubRound());
                         }
@@ -106,7 +108,7 @@ public class EdoVoteRecordAction extends EdoAction {
                 EdoReviewLayerDefinition firstNegativeRLD = null;
                 // if the RECONSIDER dossier has not been submitted by the candidate, there is no eDoc, so find first negative vote without reference to route level
                 if (documentHeader == null) {
-                    firstNegativeRLD = EdoServiceLocator.getEdoVoteRecordService().findFirstNegativeReviewLayerByVote(selectedCandidate.getCandidateDossierID().intValue());
+                    firstNegativeRLD = EdoServiceLocator.getEdoVoteRecordService().findFirstNegativeReviewLayerByVote(selectedCandidate.getCandidateDossierID().toString());
                 } else {
                     // otherwise, use the current review layer as determined from workflow, as above
                     firstNegativeRLD = currentReviewLayerDefinition;
@@ -118,7 +120,7 @@ public class EdoVoteRecordAction extends EdoAction {
                             && (reviewLayerDefinition.getReviewLevel().compareTo(EdoContext.getPrincipalMaxReviewLevel()) < 1 )
                             && reviewLayerDefinition.getId().equals(firstNegativeRLD.getId())) {
                         voteRecordForm.setPrincipalReviewLayerDefinition(reviewLayerDefinition);
-                        EdoVoteRecord vr = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(selectedCandidate.getCandidateDossierID().intValue(),reviewLayerDefinition.getId());
+                        EdoVoteRecord vr = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(selectedCandidate.getCandidateDossierID().toString(),reviewLayerDefinition.getId().toString());
                         voteRecordForm.setCurrentVoteRound(vr.getVoteRound());
                     }
                 }
@@ -146,57 +148,70 @@ public class EdoVoteRecordAction extends EdoAction {
         }
 
         if (selectedCandidate != null && reviewLayerDefinition != null) {
-            EdoVoteRecord voteRecord = new EdoVoteRecord();
+            EdoVoteRecordBo voteRecordBo = new EdoVoteRecordBo();
+            EdoVoteRecord.Builder builder = EdoVoteRecord.Builder.create();
+            EdoVoteRecord voteRecordImmutable =  builder.build();
+        	
             //If this is an update
             if (voteRecordForm.getVoteRecordId() != null) {
-                voteRecord = EdoServiceLocator.getEdoVoteRecordService().getVoteRecord(voteRecordForm.getVoteRecordId());
+            	voteRecordImmutable = EdoServiceLocator.getEdoVoteRecordService().getEdoVoteRecord(voteRecordForm.getVoteRecordId());
+                voteRecordBo = EdoVoteRecordBo.from(voteRecordImmutable);
             } else {
                 String[] voteParts = voteRecordForm.getVoteRoundString().split("\\.");
-                voteRecord.setCreatedAt(EdoUtils.getNowTS());
-                voteRecord.setCreatedBy(EdoContext.getUser().getNetworkId());
-                voteRecord.setDossierId(selectedCandidate.getCandidateDossierID().intValue());
-                voteRecord.setReviewLayerDefinitionId(reviewLayerDefinition.getReviewLayerDefinitionId());
-                voteRecord.setVoteType(reviewLayerDefinition.getVoteType());
-                voteRecord.setVoteRound(Integer.parseInt(voteParts[0]));
-                voteRecord.setVoteSubRound(Integer.parseInt(voteParts[1]));
+//                voteRecord.setCreatedAt(EdoUtils.getNowTS());
+//                voteRecord.setCreatedBy(EdoContext.getUser().getNetworkId());
+//                voteRecord.setDossierId(selectedCandidate.getCandidateDossierID().intValue());
+//                voteRecord.setReviewLayerDefinitionId(reviewLayerDefinition.getReviewLayerDefinitionId());
+                
+                voteRecordBo.setTimestamp(EdoUtils.getNowTS());
+                voteRecordBo.setUserPrincipalId(EdoContext.getUser().getNetworkId());
+                voteRecordBo.setEdoDossierID(selectedCandidate.getCandidateDossierID().toString());
+                voteRecordBo.setEdoReviewLayerDefinitionID(reviewLayerDefinition.getReviewLayerDefinitionId().toString());
+                
+                voteRecordBo.setVoteType(reviewLayerDefinition.getVoteType());
+                voteRecordBo.setVoteRound(Integer.parseInt(voteParts[0]));
+                voteRecordBo.setVoteSubRound(Integer.parseInt(voteParts[1]));
             }
 
             //Update fields.
             if (selectedCandidate.getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) || selectedCandidate.getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)) {
                 // tenure votes
-                if (voteRecord.getVoteType().equals(EdoConstants.VOTE_TYPE_SINGLE)) {
-                    voteRecord.setAbsentCountTenure(0);
-                    voteRecord.setAbstainCountTenure(0);
+                if (voteRecordBo.getVoteType().equals(EdoConstants.VOTE_TYPE_SINGLE)) {
+                	voteRecordBo.setAbsentCount(0);
+                	voteRecordBo.setAbstainCount(0);
                 } else {
-                    voteRecord.setAbsentCountTenure(voteRecordForm.getAbsentCountTenure());
-                    voteRecord.setAbstainCountTenure(voteRecordForm.getAbstainCountTenure());
+                	voteRecordBo.setAbsentCount(voteRecordForm.getAbsentCountTenure());
+                	voteRecordBo.setAbstainCount(voteRecordForm.getAbstainCountTenure());
                 }
-                voteRecord.setNoCountTenure(voteRecordForm.getNoCountTenure());
-                voteRecord.setYesCountTenure(voteRecordForm.getYesCountTenure());
+                voteRecordBo.setNoCount(voteRecordForm.getNoCountTenure());
+                voteRecordBo.setYesCount(voteRecordForm.getYesCountTenure());
             }
             if (selectedCandidate.getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_PROMOTION) || selectedCandidate.getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)) {
 
                 // promotion votes
-                if (voteRecord.getVoteType().equals(EdoConstants.VOTE_TYPE_SINGLE)) {
-                    voteRecord.setAbsentCountPromotion(0);
-                    voteRecord.setAbstainCountPromotion(0);
+                if (voteRecordBo.getVoteType().equals(EdoConstants.VOTE_TYPE_SINGLE)) {
+                	voteRecordBo.setAbsentCount(0);
+                	voteRecordBo.setAbstainCount(0);
                 } else {
-                    voteRecord.setAbsentCountPromotion(voteRecordForm.getAbsentCountPromotion());
-                    voteRecord.setAbstainCountPromotion(voteRecordForm.getAbstainCountPromotion());
+                	voteRecordBo.setAbsentCount(voteRecordForm.getAbsentCountPromotion());
+                	voteRecordBo.setAbstainCount(voteRecordForm.getAbstainCountPromotion());
                 }
-                voteRecord.setNoCountPromotion(voteRecordForm.getNoCountPromotion());
-                voteRecord.setYesCountPromotion(voteRecordForm.getYesCountPromotion());
+                voteRecordBo.setNoCount(voteRecordForm.getNoCountPromotion());
+                voteRecordBo.setYesCount(voteRecordForm.getYesCountPromotion());
             }
 
-            voteRecord.setAoeCode(voteRecordForm.getAoeCode());
-            voteRecord.setUpdatedAt(EdoUtils.getNowTS());
-            voteRecord.setUpdatedBy(EdoContext.getUser().getNetworkId());
+            voteRecordBo.setAoeCode(voteRecordForm.getAoeCode());
+//            voteRecord.setUpdatedAt(EdoUtils.getNowTS());
+//            voteRecord.setUpdatedBy(EdoContext.getUser().getNetworkId());
+            voteRecordBo.setTimestamp(EdoUtils.getNowTS());
+            voteRecordBo.setUserPrincipalId(EdoContext.getUser().getNetworkId());
 
-            if (!EdoVoteRecordValidation.validateVoteRecord(voteRecord)) {
+            if (!EdoVoteRecordValidation.validateVoteRecord(voteRecordBo)) {
                 return mapping.findForward("basic");
             }
 
-            EdoServiceLocator.getEdoVoteRecordService().saveOrUpdate(voteRecord);
+            //EdoServiceLocator.getEdoVoteRecordService().saveOrUpdate(voteRecordBo);
+            EdoServiceLocator.getEdoVoteRecordService().saveOrUpdate(EdoVoteRecordBo.to(voteRecordBo));
         }
 
         String prevPage = request.getHeader("REFERER");

@@ -14,13 +14,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.TagSupport;
-import org.kuali.kpme.edo.vote.EdoVoteRecord;
+import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -197,19 +198,26 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
 				voteRecordLayerDefinitions.add(reviewLayerDefinition);
 			}
 		}
-		List<EdoVoteRecord> voteRecords = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(selectedCandidate.getCandidateDossierID().intValue(), voteRecordLayerDefinitions);
+		List<EdoVoteRecord> voteRecords = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(selectedCandidate.getCandidateDossierID().toString(), voteRecordLayerDefinitions);
 
-		Date maxDate = new Date(1000);
-		EdoVoteRecord mostCurrentVoteRecord = new EdoVoteRecord();
+		//Date maxDate = new Date(1000);
+		DateTime maxDate = new DateTime(1000);
+		//EdoVoteRecord mostCurrentVoteRecord = new EdoVoteRecord();
+		EdoVoteRecord.Builder builder = EdoVoteRecord.Builder.create();
+        EdoVoteRecord mostCurrentVoteRecord =  builder.build();
 
 		for (EdoVoteRecord voteRec : voteRecords) {
-			if (voteRec.getUpdatedAt().after(maxDate)) {
-				maxDate = voteRec.getUpdatedAt();
+//			if (voteRec.getUpdatedAt().after(maxDate)) {
+//				maxDate = voteRec.getUpdatedAt();
+//				mostCurrentVoteRecord = voteRec;
+//			}
+			
+			if (voteRec.getCreateTime().isAfter(maxDate)) {
+				maxDate = voteRec.getCreateTime();
 				mostCurrentVoteRecord = voteRec;
 			}
 		}
-		DateTime vrUpdatedDT = new DateTime(
-				mostCurrentVoteRecord.getUpdatedAt());
+		DateTime vrUpdatedDT = new DateTime(mostCurrentVoteRecord.getCreateTime());
 
 		if (documentCreated.isAfter(vrUpdatedDT)) {
 			// supp doc created after last updated vote record, so has NOT added

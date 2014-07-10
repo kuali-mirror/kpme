@@ -193,11 +193,11 @@ public class EdoRule {
                     if (!reviewLayerDefinition.getVoteType().equals(EdoConstants.VOTE_TYPE_NONE)) {
                         //canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.intValue(), reviewLayerDefinition.getReviewLayerDefinitionId()).size() > 0;
                         if(StringUtils.equals(eDossier.getDossierStatus(),EdoConstants.DOSSIER_STATUS.RECONSIDERATION)) {
-                            canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.intValue(), reviewLayerDefinition.getReviewLayerDefinitionId()).size() > 1;
+                            canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 1;
 
                     	}
                     	if(StringUtils.equals(eDossier.getDossierStatus(),EdoConstants.DOSSIER_STATUS.SUBMITTED)) {
-                            canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.intValue(), reviewLayerDefinition.getReviewLayerDefinitionId()).size() > 0;
+                            canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 0;
 
                     	}
                     }

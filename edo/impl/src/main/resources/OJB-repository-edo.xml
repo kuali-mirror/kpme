@@ -155,7 +155,7 @@
     </class-descriptor>
   
   	<class-descriptor class="org.kuali.kpme.edo.dossier.EdoDossierDocument" table="EDO_DOSSIER_DOCUMENT_T">
-    	<field-descriptor name="documentNumber" 		column="doc_hdr_id"  		jdbc-type="VARCHAR" nullable="false" primarykey="true" />
+    	<field-descriptor name="documentNumber" 	column="doc_hdr_id"  		jdbc-type="VARCHAR" nullable="false" primarykey="true" />
         <field-descriptor name="edoDossierID" 		column="edo_dossier_id" 	jdbc-type="VARCHAR" nullable="false" />
         <field-descriptor name="objectId"       	column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber"  	column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
@@ -173,41 +173,28 @@
             <foreignkey field-ref="edoDossierID" />
         </reference-descriptor>
     </class-descriptor>
-      
-    <!--  
-    <class-descriptor class="org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader" table="EDO_DOSSIER_DOCUMENT_T">
-        <field-descriptor name="documentId" column="document_id" jdbc-type="VARCHAR" length="14" nullable="false" primarykey="true" />
-        <field-descriptor name="principalId" column="principal_id" jdbc-type="VARCHAR" length="40" />
-        <field-descriptor name="dossierId" column="dossier_id" jdbc-type="INTEGER" precision="4" scale="0" />
-        <field-descriptor name="documentStatus" column="document_status" jdbc-type="VARCHAR" length="1" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="documentTypeName" column="doc_type_name" jdbc-type="VARCHAR" length="64" nullable="false" primarykey="false" />
-    </class-descriptor>
-	-->
-    <class-descriptor class="org.kuali.kpme.edo.vote.EdoVoteRecord" table="EDO_VOTE_RECORD_T">
-           <field-descriptor name="voteRecordId"    column="vote_record_id"    jdbc-type="INTEGER"    nullable="false"    primarykey="true"/>
-           <field-descriptor name="dossierId"    column="dossier_id"    jdbc-type="INTEGER"    nullable="false"/>
-           <field-descriptor name="reviewLayerDefinitionId"    column="review_layer_id"    jdbc-type="NUMERIC"    nullable="false"/>
-           <field-descriptor name="voteType"    column="vote_type"    jdbc-type="VARCHAR"    length="45"    nullable="false"/>
-           <field-descriptor name="yesCountTenure"    column="yes_count_tenure"    jdbc-type="INTEGER"/>
-           <field-descriptor name="noCountTenure"    column="no_count_tenure"    jdbc-type="INTEGER"/>
-           <field-descriptor name="absentCountTenure"    column="absent_count_tenure"    jdbc-type="INTEGER"/>
-           <field-descriptor name="abstainCountTenure"    column="abstain_count_tenure"    jdbc-type="INTEGER"/>
-           <field-descriptor name="yesCountPromotion"    column="yes_count_promotion"    jdbc-type="INTEGER"/>
-           <field-descriptor name="noCountPromotion"    column="no_count_promotion"    jdbc-type="INTEGER"/>
-           <field-descriptor name="absentCountPromotion"    column="absent_count_promotion"    jdbc-type="INTEGER"/>
-           <field-descriptor name="abstainCountPromotion"    column="abstain_count_promotion"    jdbc-type="INTEGER"/>
-           <field-descriptor name="aoeCode"    column="aoe_code"    jdbc-type="VARCHAR"    length="1" />
-           <field-descriptor name="createdAt"    column="created_at"    jdbc-type="TIMESTAMP"/>
-           <field-descriptor name="updatedAt"    column="updated_at"    jdbc-type="TIMESTAMP"/>
-           <field-descriptor name="createdBy"    column="created_by"    jdbc-type="VARCHAR"    length="45"/>
-           <field-descriptor name="voteCategory"    column="vote_category"    jdbc-type="VARCHAR"    length="16"    nullable="true" />
-           <field-descriptor name="voteRound"    column="vote_round"    jdbc-type="INTEGER" />
-           <field-descriptor name="voteSubRound"    column="vote_subround"    jdbc-type="INTEGER" />
-           <reference-descriptor name="reviewLayerDefinition"    class-ref="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition"    auto-retrieve="true"    auto-update="none"    auto-delete="none"    proxy="true">
-           		<foreignkey field-ref="reviewLayerDefinitionId" />
-           </reference-descriptor>
+    
+    <class-descriptor class="org.kuali.kpme.edo.vote.EdoVoteRecordBo" table="EDO_VOTE_RECORD_T">
+		<field-descriptor name="edoVoteRecordID" 	column="edo_vote_record_id" jdbc-type="VARCHAR" length="60" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_DOSSIER_S" />
+	    <field-descriptor name="edoDossierID"    	column="edo_dossier_id"    	jdbc-type="VARCHAR" length="60" nullable="false" />
+	    <field-descriptor name="edoReviewLayerDefinitionID"    column="EDO_REVIEW_LAYER_DEF_ID"    jdbc-type="VARCHAR"  length="60"   nullable="false" />
+	    <field-descriptor name="voteType"   		column="vote_type"    		jdbc-type="VARCHAR" length="45" nullable="false" />
+	    <field-descriptor name="aoeCode"    		column="aoe_code"    		jdbc-type="VARCHAR" length="1" />
+	    <field-descriptor name="yesCount"    		column="yes_count"   		jdbc-type="INTEGER" />
+	    <field-descriptor name="noCount"    		column="no_count"    		jdbc-type="INTEGER" />
+	    <field-descriptor name="absentCount"    	column="absent_count"    	jdbc-type="INTEGER" />
+	    <field-descriptor name="abstainCount"    	column="abstain_count"    	jdbc-type="INTEGER" />
+	    <field-descriptor name="voteRound"    		column="vote_round"    		jdbc-type="INTEGER" />
+	    <field-descriptor name="voteSubRound"    	column="vote_subround"    	jdbc-type="INTEGER" />
+        <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
+        <field-descriptor name="objectId"       	column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber"  	column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
+        <!--   
+        <reference-descriptor name="reviewLayerDefinition"    class-ref="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition"    auto-retrieve="true"    auto-update="none"    auto-delete="none"    proxy="true">
+        	<foreignkey field-ref="reviewLayerDefinitionId" />
+        </reference-descriptor>
+        -->
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.edo.dossier.EdoCandidateDossier" table="EDO_CANDIDATEDOSSIER_V">

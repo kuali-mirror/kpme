@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.dossier.dao.EdoDossierDao;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
@@ -24,7 +25,7 @@ import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoUtils;
 import org.kuali.kpme.edo.util.TagSupport;
-import org.kuali.kpme.edo.vote.EdoVoteRecord;
+import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -558,10 +559,13 @@ public class EdoDossierServiceImpl implements EdoDossierService {
             Collection<EdoReviewLayerDefinition> edoReviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId);
             for(EdoReviewLayerDefinition edoReviewLayerDefinition : edoReviewLayerDefinitions){
                //get vote record of the most current round for each and every review layer def id
-                EdoVoteRecord edoVoteRecord = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(dossierId, edoReviewLayerDefinition.getReviewLayerDefinitionId());
-                if((edoVoteRecord.getNoCountTenure() != null && edoVoteRecord.getYesCountTenure() != null && (edoVoteRecord.getNoCountTenure() > edoVoteRecord.getYesCountTenure())) ||
-                    (edoVoteRecord.getNoCountPromotion() != null && edoVoteRecord.getYesCountPromotion() != null && (edoVoteRecord.getNoCountPromotion() > edoVoteRecord.getYesCountPromotion()))) {
-                    //if(edoVoteRecord.getNoCountTenure() > edoVoteRecord.getYesCountTenure()) {
+                EdoVoteRecord edoVoteRecord = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(dossierId.toString(), edoReviewLayerDefinition.getReviewLayerDefinitionId().toString());
+//              if((edoVoteRecord.getNoCountTenure() != null && edoVoteRecord.getYesCountTenure() != null && (edoVoteRecord.getNoCountTenure() > edoVoteRecord.getYesCountTenure())) ||
+//                    (edoVoteRecord.getNoCountPromotion() != null && edoVoteRecord.getYesCountPromotion() != null && (edoVoteRecord.getNoCountPromotion() > edoVoteRecord.getYesCountPromotion()))) {
+//                
+                if((edoVoteRecord.getNoCount() != null && edoVoteRecord.getYesCount() != null && (edoVoteRecord.getNoCount() > edoVoteRecord.getYesCount())) ) {
+                        
+                	//if(edoVoteRecord.getNoCountTenure() > edoVoteRecord.getYesCountTenure()) {
                     //add node to the authorized nodes
                     authorizedNodes.add(edoReviewLayerDefinition);
                     //we need the first node - which has the negative vote
