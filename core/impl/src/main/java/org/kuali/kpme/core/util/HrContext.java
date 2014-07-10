@@ -387,7 +387,21 @@ public class HrContext {
     public static boolean isUserFiscalDepartmentApprover(){
     	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.FISCAL_DEPARTMENT_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
     }
-    
+    public static boolean isUserOrTargetPositionSystemViewOnly(){
+
+        if (HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_PM.getNamespaceCode(), KPMERole.POSITION_SYSTEM_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay()))
+        {
+            return true;
+        }
+
+        if (HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_PM.getNamespaceCode(), KPMERole.POSITION_SYSTEM_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay()))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public static boolean isPositionModuleEnabled() {
     	String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.module.status");
     	if(StringUtils.equals(status, "On")) {
