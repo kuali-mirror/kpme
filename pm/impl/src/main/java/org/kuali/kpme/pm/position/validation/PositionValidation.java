@@ -26,6 +26,7 @@ import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDutyBo;
 import org.kuali.kpme.pm.position.funding.PositionFundingBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
+import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.util.PmValidationUtils;
@@ -47,6 +48,7 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			valid &= this.validateOverviewPage(aPosition);
 			valid &= this.validateClassificationPage(aPosition);
 			valid &= this.validateDutyListPercentage(aPosition);
+			valid &= this.validateResponsibilityListPercentage(aPosition);
 			valid &= this.validatePrimaryDepartment(aPosition);
             valid &= this.validateProcess(aPosition, oldPosition);
             valid &= this.validateFundingLines(aPosition);
@@ -73,6 +75,26 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 
+	protected boolean validateResponsibilityListPercentage(PositionBo aPosition) {
+		if (CollectionUtils.isNotEmpty(aPosition.getPositionResponsibilityList())) {
+			BigDecimal sum = BigDecimal.ZERO;
+			for (PositionResponsibilityBo aResp : aPosition.getPositionResponsibilityList()) {
+				if (aResp != null && aResp.getPercentTime() != null) {
+					sum = sum.add(aResp.getPercentTime());
+				}
+			}
+			if (sum.compareTo(new BigDecimal(100)) > 0) {
+				String[] parameters = new String[1];
+				parameters[0] = sum.toString();
+				this.putFieldError("dataObject.positionResponsibilityList",
+						"responsibility.percenttime.exceedsMaximum", parameters);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	
 	// KPME-3016  
 	// Now each section is its own page that if you want to show errors globally, you have to catch them globally
 	protected boolean validateOverviewPage(PositionBo aPosition) {
