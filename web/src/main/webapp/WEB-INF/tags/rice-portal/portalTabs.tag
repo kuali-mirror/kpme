@@ -18,6 +18,12 @@
 <%@ attribute name="selectedTab" required="true"%>
 
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
+    <c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
+
+    <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
+    <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
+
     <c:set var="KOHRAcademicHrAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRAcademicHrAdmin()%>' />
     <c:set var="KOHRInstitutionViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRInstitutionViewOnly()%>' />
     <c:set var="KOHRLocationAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRLocationAdmin()%>' />
@@ -66,7 +72,7 @@
 		</c:if>
 
         <%-- Maintenance --%>
-        <c:if test="${systemAdmin || globalViewOnly || KOHRInstitutionAdmin || KOHRAcademicHrAdmin || KOHRInstitutionViewOnly || KOHRLocationAdmin || KOHRLocationViewOnly ||
+        <c:if test="${systemAdmin || globalViewOnly || locationAdmin || locationViewOnly || KOHRInstitutionAdmin || KOHRAcademicHrAdmin || KOHRInstitutionViewOnly || KOHRLocationAdmin || KOHRLocationViewOnly ||
             KOHRLocationAdmin || KOHROrgAdmin || KOHROrgViewOnly || HRDepartmentAdmin || HRDepartmentViewOnly || HRInstitutionApprover ||
             academicHRInstitutionApprover || budgetApprover || payrollApprover || HRlocationApprover || academicHRLocationApprover || fiscalLocationApprover ||
             HROrgApprover || fiscalOrgApprover || departmentApprover || fiscalDeptApprover}">
