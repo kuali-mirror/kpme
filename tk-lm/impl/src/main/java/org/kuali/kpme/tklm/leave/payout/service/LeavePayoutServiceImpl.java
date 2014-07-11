@@ -28,6 +28,7 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
@@ -39,6 +40,7 @@ import org.kuali.kpme.tklm.leave.payout.dao.LeavePayoutDao;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -204,6 +206,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			leavePayout.setAccrualCategoryRule(accrualCategoryRule);
 			leavePayout.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			leavePayout.setPrincipalId(principalId);
+            leavePayout.setUserPrincipalId(HrContext.getPrincipalId());
 			leavePayout.setEarnCode(accrualRule.getMaxPayoutEarnCode());
 
 		}
@@ -342,7 +345,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 
 	@Override
 	public void saveOrUpdate(LeavePayout payout) {
-		leavePayoutDao.saveOrUpdate(payout);
+        KRADServiceLocator.getBusinessObjectService().save(payout);
 	}
 
 	@Override

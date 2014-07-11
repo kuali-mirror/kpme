@@ -36,14 +36,12 @@ import org.kuali.kpme.tklm.api.leave.timeoff.SystemScheduledTimeOffContract;
 import org.kuali.kpme.tklm.leave.block.LeaveBlockBo;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
-import org.kuali.kpme.tklm.leave.timeoff.SystemScheduledTimeOff;
 import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.validation.BalanceTransferValidationUtils;
 import org.kuali.kpme.tklm.leave.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -335,7 +333,7 @@ public class BalanceTransferAction extends KPMEAction {
                         balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
                         // May need to update to save the business object to KPME's tables for record keeping.
                         LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
-                        KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+                        LmServiceLocator.getBalanceTransferService().saveOrUpdate(balanceTransfer);
                         LeaveBlock.Builder builder = LeaveBlock.Builder.create(forfeitedLeaveBlock);
                         builder.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
                         LmServiceLocator.getLeaveBlockService().updateLeaveBlock(builder.build(), principalId);
@@ -419,7 +417,7 @@ public class BalanceTransferAction extends KPMEAction {
 						// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
 						// Do not submit the object to workflow for this max balance action.
 						balanceTransfer = LmServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
-						KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+						LmServiceLocator.getBalanceTransferService().saveOrUpdate(balanceTransfer);
 	
 						// May need to update to save the business object to KPME's tables for record keeping.
 						LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
