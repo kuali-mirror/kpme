@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 /**
  * $HeadURL$
@@ -18,13 +16,10 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
  */
 public class EdoMarkedItemListForm extends EdoForm {
 
-    private List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL");
+	/* This is not used anywhere in EdoMarkedItemListAction
+    private List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL"); */
     private int checklistItemID;
     List<EdoItem> itemList = new LinkedList<EdoItem>();
-
-    public List<EdoChecklistV> getChecklistView() {
-        return checklistView;
-    }
 
     public int getChecklistItemID() {
         return checklistItemID;

@@ -23,10 +23,10 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.item.EdoItemTracker;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
@@ -62,7 +62,7 @@ public class EdoChecklistItemAction extends EdoAction {
         MessageMap msgmap = GlobalVariables.getMessageMap();
         BigDecimal checklistItemId = null;
         int currentTreeNodeID;
-        List<EdoChecklistV> checklistView;
+        List<EdoChecklistItem> checklistItems;
         List<EdoItem> itemList;
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate) request.getSession().getAttribute("selectedCandidate");
         String itemListJSON = "";
@@ -85,13 +85,13 @@ public class EdoChecklistItemAction extends EdoAction {
         }
 
         // set page request variables for title and description
-        checklistView = cliForm.getChecklistView();
-        for (EdoChecklistV chklist : checklistView ) {
-            checklistItemId = chklist.getChecklistItemID();
+        checklistItems = cliForm.getChecklistItems();
+        for (EdoChecklistItem checklistItem : checklistItems ) {
+            checklistItemId = new BigDecimal(checklistItem.getEdoChecklistItemID());
             if ( checklistItemId.intValue() == currentTreeNodeID ) {
                 request.setAttribute("nodeID", currentTreeNodeID );
-                request.setAttribute("itemName", chklist.getChecklistItemName() );
-                request.setAttribute("itemDescription", chklist.getItemDescription());
+                request.setAttribute("itemName", checklistItem.getChecklistItemName() );
+                request.setAttribute("itemDescription", checklistItem.getItemDescription());
                 request.setAttribute("checklistItemID", checklistItemId.intValue() );
             }
         }
@@ -395,9 +395,9 @@ public class EdoChecklistItemAction extends EdoAction {
             }
             // these attributes will need to be updated for both new file and replacement
             // but we can't update until the old file is removed, as above
-            EdoChecklistV edoChecklist = EdoServiceLocator.getChecklistVService().getChecklistItemByID(checklistItemID+"");
+            EdoChecklistItem edoChecklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemByID(checklistItemID+"");
           //  if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName())) {
-          if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName()) || StringUtils.equals(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName())) {
+          if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklistItem.getChecklistItemName()) || StringUtils.equals(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME, edoChecklistItem.getChecklistItemName())) {
 	
             	item.setRouted(false);
             }

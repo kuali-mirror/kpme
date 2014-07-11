@@ -16,13 +16,12 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
-import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -54,7 +53,7 @@ public class EdoCandidateSelectAction extends EdoAction {
 
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL");
+        List<EdoChecklistItem> checklistItems = EdoServiceLocator.getChecklistItemService().getChecklistItems("IU-IN", "ALL", "ALL");
         EdoCandidateSelectForm edoCandidateSelectForm = (EdoCandidateSelectForm) form;
 
         String cid = request.getParameter("cid");
@@ -180,7 +179,7 @@ public class EdoCandidateSelectAction extends EdoAction {
             selectedCandidate.setDossierTypeName(dossierType.getDossierTypeName());
             selectedCandidate.setDossierStatus(currentDossier.getDossierStatus());
             selectedCandidate.setDossierWorkflowId(currentDossier.getWorkflowId());
-            if (EdoRule.validateDossierForSubmission(checklistView, new BigDecimal(currentDossier.getEdoDossierID()))) {
+            if (EdoRule.validateDossierForSubmission(checklistItems, new BigDecimal(currentDossier.getEdoDossierID()))) {
                 request.setAttribute("isValidDossier", 1);
             } else {
                 request.setAttribute("isValidDossier", 0);
@@ -196,13 +195,13 @@ public class EdoCandidateSelectAction extends EdoAction {
             }
 
             // for candidate supplemental submit button
-            if (EdoRule.dossierHasSupplementalsPending(new BigDecimal(currentDossier.getEdoDossierID()))) {
+            if (EdoRule.dossierHasSupplementalsPending(currentDossier.getEdoDossierID())) {
                 request.setAttribute("dossierHasSupplementalsPending", true);
             } else {
                 request.setAttribute("dossierHasSupplementalsPending", false);
             }
             //for candidate reconsider  submit button
-            if (EdoRule.dossierHasReconsiderPending(new BigDecimal(currentDossier.getEdoDossierID()))) {
+            if (EdoRule.dossierHasReconsiderPending(currentDossier.getEdoDossierID())) {
                 request.setAttribute("dossierHasReconsiderPending", true);
             } else {
                 request.setAttribute("dossierHasReconsiderPending", false);

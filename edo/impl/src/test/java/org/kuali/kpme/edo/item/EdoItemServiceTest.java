@@ -18,6 +18,7 @@ package org.kuali.kpme.edo.item;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -31,9 +32,10 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoItemServiceTest extends EdoUnitTestBase {
 
-	private final String edoItemID = "EDO_ITEM_ID_0001";
-	private final String edoChecklistItemID = "EDO_CHECKLIST_ITEM_ID_0001";
-	private final String edoDossierID = "EDO_DOSSIER_ID_0001";
+	private final String edoItemID = "1000";
+	private final String edoChecklistItemID = "1000";
+	private final String edoDossierID = "1000";
+	private final String edoReviewLayerDefID = "2000";
 	private final String uploader = "admin";
 	
 	@Before
@@ -96,5 +98,27 @@ public class EdoItemServiceTest extends EdoUnitTestBase {
 		edoItem = EdoServiceLocator.getEdoItemService().getEdoItem(edoItemID);
 		assertNull(edoItem);
 	}	
+	
+	// TODO Do this unit test when Catherine is done with Review Layer Definition module.
+	/*
+	@Test
+	public void testGetReviewLetterEdoItems() throws Exception {
+
+		List<EdoItem> items = EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(edoDossierID, edoReviewLayerDefID);
+		assertEquals("returned the correct number of results", 2, items.size());
+	}*/
+	
+	@Test
+	public void testGetListOfEdoItems() throws Exception {
+
+		List<String> idList = new ArrayList<String>();
+		idList.add("1000");
+		idList.add("1002");
+
+	    List<EdoItem> items = EdoServiceLocator.getEdoItemService().getListOfEdoItems(idList);
+	    assertEquals("returned the correct number of results", 2, items.size());
+	}
+
+
 
 }

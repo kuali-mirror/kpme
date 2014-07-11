@@ -64,14 +64,6 @@ public class EdoSecondUnitForm extends EdoForm {
         this.uploadFile = file;
     }
 
-    //public List<EdoChecklist> getChecklistView() {
-    //    return checklistView;
-    //}
-
-    //public void setChecklistView(List<EdoChecklist> checklistView) {
-    //    this.checklistView = checklistView;
-    //}
-
     public int getChecklistItemID() {
         return checklistItemID;
     }

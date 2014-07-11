@@ -14,11 +14,9 @@
 -- limitations under the License.
 --
 
-delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID = 'EDO_ITEMTYPE_ID_0001';
-delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID = 'EDO_ITEMTYPE_ID_0002';
-delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID = 'EDO_ITEMTYPE_ID_0003';
+delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID >= '1000';
 
-insert into EDO_ITEM_TYPE_T (`EDO_ITEM_TYPE_ID`, `ITEM_TYPE_NAME`, `DESCRIPTION`, `INSTRUCTIONS`, `EXT_AVAILABLE`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('EDO_ITEMTYPE_ID_0001', 'Supporting Document', '', '', 'Y', '2012-01-01', 'Y', now(), null, '1');
-insert into EDO_ITEM_TYPE_T (`EDO_ITEM_TYPE_ID`, `ITEM_TYPE_NAME`, `DESCRIPTION`, `INSTRUCTIONS`, `EXT_AVAILABLE`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('EDO_ITEMTYPE_ID_0002', 'Review Letter', '', '', 'Y', '2012-01-01', 'Y', now(), null, '1');
-insert into EDO_ITEM_TYPE_T (`EDO_ITEM_TYPE_ID`, `ITEM_TYPE_NAME`, `DESCRIPTION`, `INSTRUCTIONS`, `EXT_AVAILABLE`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('EDO_ITEMTYPE_ID_0003', 'Appeal', '', '', 'Y', '2012-01-01', 'Y', now(), null, '1');
+insert into EDO_ITEM_TYPE_T (`EDO_ITEM_TYPE_ID`, `ITEM_TYPE_NAME`, `DESCRIPTION`, `INSTRUCTIONS`, `EXT_AVAILABLE`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1000', 'Supporting Document', '', '', 'Y', '2012-01-01', 'Y', now(), null, '1');
+insert into EDO_ITEM_TYPE_T (`EDO_ITEM_TYPE_ID`, `ITEM_TYPE_NAME`, `DESCRIPTION`, `INSTRUCTIONS`, `EXT_AVAILABLE`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1001', 'Review Letter', '', '', 'Y', '2012-01-01', 'Y', now(), null, '1');
+insert into EDO_ITEM_TYPE_T (`EDO_ITEM_TYPE_ID`, `ITEM_TYPE_NAME`, `DESCRIPTION`, `INSTRUCTIONS`, `EXT_AVAILABLE`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1002', 'Appeal', '', '', 'Y', '2012-01-01', 'Y', now(), null, '1');
 

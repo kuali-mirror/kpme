@@ -171,9 +171,9 @@ public class EdoDossierRouteAction extends EdoAction {
            Boolean routed =  EdoServiceLocator.getEdoDossierService().routeSupplementalDocument(principal.getPrincipalId(), edoDossierRouteForm.getDossierId(), edoDossierRouteForm.getDossierType());
           
            if(routed) {
-        	   //update edo_item_t table - set addendum_routed to 0 for supplemental category
-               BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getChecklistItemID();
-               List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierRouteForm.getDossierId()+"", checklistItemID.toString());
+        	  //update edo_item_t table - set addendum_routed to 0 for supplemental category
+        	  String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierRouteForm.getDossierId()+"", EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getEdoChecklistItemID();
+              List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierRouteForm.getDossierId()+"", edoChecklistItemID);
               if(!edoItems.isEmpty()) {
                for(EdoItem edoItem : edoItems) {
             	   EdoItemBo edoItemBo = EdoItemBo.from(edoItem);
@@ -255,9 +255,9 @@ public class EdoDossierRouteAction extends EdoAction {
         	 Boolean routed =  EdoServiceLocator.getEdoDossierService().routeReconsiderDocument(principal.getPrincipalId(), edoDossierRouteForm.getDossierId(), edoDossierRouteForm.getDossierType());
        
         if(routed) {
-     	   //update edo_item_t table - set addendum_routed to 0 for Reconsider category
-           BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
-           List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierRouteForm.getDossierId()+"", checklistItemID.toString());
+     	   //update edo_item_t table - set addendum_routed to 0 for Reconsider category           
+           String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierRouteForm.getDossierId()+"", EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemID();
+           List<EdoItem> edoItems = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierRouteForm.getDossierId()+"", edoChecklistItemID);
            if(!edoItems.isEmpty()) {
              for(EdoItem edoItem : edoItems) {
                EdoItemBo edoItemBo = EdoItemBo.from(edoItem);

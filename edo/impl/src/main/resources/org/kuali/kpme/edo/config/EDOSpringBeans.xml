@@ -69,7 +69,6 @@
     
     <!-- eDossier DAO Definitions -->
     <bean id="edoCandidateListDao" class="org.kuali.kpme.edo.candidate.dao.EdoCandidateDaoImpl" parent="platformAwareDao" />
-    <bean id="edoChecklistVDao"     class="org.kuali.kpme.edo.checklist.dao.EdoChecklistVDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistDao"     class="org.kuali.kpme.edo.checklist.dao.EdoChecklistDaoImpl" parent="platformAwareDao" />
     <bean id="edoItemDao"          class="org.kuali.kpme.edo.item.dao.EdoItemDaoImpl" parent="platformAwareDao" />
     <bean id="edoItemTypeDao"      class="org.kuali.kpme.edo.item.type.dao.EdoItemTypeDaoImpl" parent="platformAwareDao" />
@@ -102,9 +101,6 @@
     </bean>
     <bean id="candidateService" class="org.kuali.kpme.edo.candidate.service.CandidateServiceImpl">
             <property name="edoCandidateListDao" ref="edoCandidateListDao"/>
-    </bean>
-    <bean id="edoChecklistVService" class="org.kuali.kpme.edo.checklist.service.EdoChecklistVServiceImpl">
-        <property name="edoChecklistVDao" ref="edoChecklistVDao"/>
     </bean>
 
     <bean id="edoChecklistService" class="org.kuali.kpme.edo.checklist.service.EdoChecklistServiceImpl">
@@ -221,8 +217,7 @@
             	<idref local="edoServiceLocator"/>
             	<idref local="edoItemService"/>
             	<idref local="edoItemCountVService"/>
-            	<idref local="candidateService"/>
-            	<idref local="edoChecklistVService"/>            	
+            	<idref local="candidateService"/>            	
             	<idref local="edoChecklistService"/>
             	<idref local="edoChecklistItemService"/>
             	<idref local="edoItemTypeService"/>

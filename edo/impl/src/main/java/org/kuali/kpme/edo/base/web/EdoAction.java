@@ -1,5 +1,16 @@
 package org.kuali.kpme.edo.base.web;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -7,9 +18,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.item.EdoItemTracker;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -22,12 +33,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.exception.AuthorizationException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
-import java.util.*;
-
 /**
  * Created with IntelliJ IDEA.
  * User: lfox
@@ -39,11 +44,11 @@ public class EdoAction extends KualiAction {
 
     protected Config config;
     private EdoSelectedCandidate selectedCandidate;
-    public HashMap<String, List<EdoChecklistV>> checklistHash;
+    public HashMap<String, List<EdoChecklistItem>> checklistHash;
     private PermissionService permissionService;
     static final Logger LOG = Logger.getLogger(EdoAction.class);
 
-    public HashMap<String, List<EdoChecklistV>> getChecklistHash() {
+    public HashMap<String, List<EdoChecklistItem>> getChecklistHash() {
         return checklistHash;
     }
 
@@ -74,7 +79,9 @@ public class EdoAction extends KualiAction {
 
         // setup the checklist for the currently selected candidate for navigation display
         if (selectedCandidate.isSelected()) {
-            SortedMap<String, List<EdoChecklistV>> checklistHash = EdoServiceLocator.getChecklistVService().getCheckListHash(selectedCandidate.getCandidateCampusCode(),selectedCandidate.getCandidateSchoolID(),selectedCandidate.getCandidateDepartmentID() );
+        	// TODO When EdoSelectedCandidate is ready, pass its group key 
+            // SortedMap<String, List<EdoChecklistItem>> checklistHash = EdoServiceLocator.getChecklistItemService().getCheckListHash(selectedCandidate.getc.getCandidateGroupKey(), selectedCandidate.getCandidateSchoolID(), selectedCandidate.getCandidateDepartmentID());
+        	SortedMap<String, List<EdoChecklistItem>> checklistHash = EdoServiceLocator.getChecklistItemService().getCheckListHash(null, selectedCandidate.getCandidateSchoolID(), selectedCandidate.getCandidateDepartmentID());
             request.setAttribute("checklisthash", checklistHash);
         } else {
             request.setAttribute("checklisthash", null);
@@ -192,7 +199,7 @@ public class EdoAction extends KualiAction {
                     edoForm.setHasViewReviewLetterCurrentDossier(true);
                 }
                 //when can candidate upload files under reconsider category
-                if (EdoRule.canUploadFileUnderReconsiderCategory(selectedCandidate.getCandidateDossierID())) {
+                if (EdoRule.canUploadFileUnderReconsiderCategory(selectedCandidate.getCandidateDossierID().toString())) {
                 	edoForm.setCanUploadReconsiderItems(true);
                 } 
                 

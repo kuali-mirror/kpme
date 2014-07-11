@@ -7,9 +7,7 @@ import java.util.List;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 /**
  * $HeadURL$
@@ -21,7 +19,8 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
  */
 public class EdoSolicitedLetterForm extends EdoForm {
 
-    private List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL");
+	/* This is not used anywhere in EdoSolicitedLetterAction
+    private List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL"); */
     private FormFile uploadFile;
     private int checklistItemID;
     private int itemID;
@@ -33,14 +32,6 @@ public class EdoSolicitedLetterForm extends EdoForm {
 
     public Collection<EdoReviewLayerDefinition> getLayerList() {
         return this.layerList;
-    }
-
-    public List<EdoChecklistV> getChecklistView() {
-        return checklistView;
-    }
-
-    public void setChecklistView(List<EdoChecklistV> checklistView) {
-        this.checklistView = checklistView;
     }
 
     public void setLayerList(Collection<EdoReviewLayerDefinition> reviewLayerDefinitions) {

@@ -7,8 +7,8 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.item.EdoItem;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
@@ -117,15 +117,16 @@ public class EdoRule {
         return isValid;
     }
 
-    public static boolean validateDossierForSubmission( List<EdoChecklistV> checklistView, BigDecimal dossierId ) {
+    public static boolean validateDossierForSubmission(List<EdoChecklistItem> checklistItems, BigDecimal dossierId) {
         boolean isReady = false;
         int requiredSectionCount = 0;
         BigDecimal generalSectionId = BigDecimal.ZERO;
 
         // get the ID of the General section (required) from the DB
-        for (EdoChecklistV checklist : checklistView ) {
-            if (checklist.getChecklistSectionName().equals(EdoConstants.EDO_GENERAL_SECTION_NAME)) {
-                generalSectionId = checklist.getChecklistSectionID();
+        for (EdoChecklistItem checklistItem : checklistItems) {
+        	String sectionName = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionID()).getChecklistSectionName();
+            if (sectionName.equals(EdoConstants.EDO_GENERAL_SECTION_NAME)) {
+                generalSectionId = new BigDecimal(checklistItem.getEdoChecklistSectionID());
             }
         }
 
@@ -142,23 +143,23 @@ public class EdoRule {
         return isReady;
     }
 
-    public static boolean dossierHasSupplementalsPending( BigDecimal dossierId ) {
-        BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getChecklistItemID();
-        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(dossierId.toString(),checklistItemID.toString());
+    public static boolean dossierHasSupplementalsPending(String edoDossierId) {
+        String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getEdoChecklistItemID();
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierId, edoChecklistItemID);
         boolean hasPending = CollectionUtils.isNotEmpty(itemList);
 
         return hasPending;
     }
-    public static boolean dossierHasReconsiderPending( BigDecimal dossierId ) {
-        BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
-        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(dossierId.toString(),checklistItemID.toString());
+    public static boolean dossierHasReconsiderPending(String edoDossierId) {
+    	String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemID();
+        List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierId, edoChecklistItemID);
         boolean hasPending = CollectionUtils.isNotEmpty(itemList);
 
         return hasPending;
     }
-    public static boolean canUploadFileUnderReconsiderCategory( BigDecimal dossierId ) {
-    	  BigDecimal checklistItemID = EdoServiceLocator.getChecklistVService().getChecklistItemByName(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getChecklistItemID();
-          List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemsByDossierIdForAddendumFalgZero(dossierId.toString(),checklistItemID.toString());
+    public static boolean canUploadFileUnderReconsiderCategory(String edoDossierId) {
+    	  String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemID();
+          List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemsByDossierIdForAddendumFalgZero(edoDossierId, edoChecklistItemID);
           boolean canUploadReconsiderItems = CollectionUtils.isEmpty(itemList);
 
           return canUploadReconsiderItems;
@@ -203,9 +204,9 @@ public class EdoRule {
                     }
 
                     //Determine if the review letter is required and recorded.
-                   /* if (reviewLayerDefinition.isReviewLetter()) {
+                    /*if (reviewLayerDefinition.isReviewLetter()) {
                         //TODO: We should change this to use the id of the review letter and correlate it in the layer definition.
-                        canRoute = canRoute && EdoServiceLocator.getEdoItemVService().getEdoItemVs(dossierId, reviewLayerDefinition.getReviewLayerDefinitionId(), "Review Letter").size() > 0;
+                        canRoute = canRoute && EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 0;
                     }*/
                     //check for dossier status
                     //if dossier status is reconsider the list size should be greate than one

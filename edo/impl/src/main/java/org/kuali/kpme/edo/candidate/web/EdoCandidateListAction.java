@@ -4,8 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.dossier.EdoCandidateDossier;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class EdoCandidateListAction extends EdoAction {
 
-    private List<EdoChecklistV> checklistView;
+    private List<EdoChecklistItem> checklistItems;
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -39,7 +39,7 @@ public class EdoCandidateListAction extends EdoAction {
         List<EdoCandidateDossier> dossierList = new LinkedList<EdoCandidateDossier>();
         String dossierListJSON = "";
 
-        checklistView = edoCandidateListForm.getChecklistView();
+        checklistItems = edoCandidateListForm.getChecklistItems();
 
         //When the user is a super user, get all open dossiers
         if (EdoContext.getUser().getCurrentRoleList().contains(EdoConstants.ROLE_SUPER_USER) || EdoContext.getUser().getCurrentRoleList().contains(EdoConstants.ROLE_FINAL_ADMINISTRATOR)) {
@@ -100,7 +100,7 @@ public class EdoCandidateListAction extends EdoAction {
             }
         }
         request.setAttribute("candidateJSON", dossierListJSON);
-        request.setAttribute("checklist", checklistView);
+        request.setAttribute("checklist", checklistItems);
 
         return super.execute(mapping, form, request, response);
     }

@@ -1,22 +1,24 @@
 package org.kuali.kpme.edo.item.web;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.base.web.EdoAction;
-import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
-import org.kuali.kpme.edo.item.count.EdoItemCountV;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
+import org.kuali.kpme.edo.base.web.EdoAction;
+import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
+import org.kuali.kpme.edo.item.count.EdoItemCountV;
+import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 /**
  * $HeadURL$
@@ -33,7 +35,7 @@ public class EdoSectionSummaryAction  extends EdoAction {
         BigDecimal checklistSectionId = null;
         int currentTreeNodeID;
         int currentSectionId;
-        List<EdoChecklistV> checklistView;
+        List<EdoChecklistItem> checklistItems;
         List<EdoItemCountV> itemCount;
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate) request.getSession().getAttribute("selectedCandidate");
         String itemCountJSON = "";
@@ -48,14 +50,17 @@ public class EdoSectionSummaryAction  extends EdoAction {
         currentSectionId = Integer.parseInt(ssn.getAttribute("nid").toString().split("_")[2]);
 
         // set page request variables for title and description
-        checklistView = cliForm.getChecklistView();
-        List<EdoChecklistV> currentCheckListSection = new LinkedList<EdoChecklistV>();
-        for (EdoChecklistV chklist : checklistView ) {
-            checklistSectionId = chklist.getChecklistSectionID();
+        checklistItems = cliForm.getChecklistItems();
+        // currentCheckListSection is a list of EdoChecklistItems as a result of removing EdochecklistV, but the variable is used in
+        // several places, so we are not changing the name although it's misleading (not a list of Checklist Section)
+        List<EdoChecklistItem> currentCheckListSection = new LinkedList<EdoChecklistItem>();
+        for (EdoChecklistItem checklistItem : checklistItems) {
+            checklistSectionId = new BigDecimal(checklistItem.getEdoChecklistSectionID());
             if ( checklistSectionId.intValue() == currentSectionId ) {
-                currentCheckListSection.add(chklist);
+                currentCheckListSection.add(checklistItem);
                 request.setAttribute("nodeID", currentSectionId );
-                request.setAttribute("sectionName", chklist.getChecklistSectionName() );
+                EdoChecklistSection section = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionID());
+                request.setAttribute("sectionName", section.getChecklistSectionName());
                 request.setAttribute("checklistSectionID", checklistSectionId.intValue() );
                 request.setAttribute("nidFwd", ssn.getAttribute("nid"));
             }
@@ -72,17 +77,17 @@ public class EdoSectionSummaryAction  extends EdoAction {
 
         int count = 0;
 
-        for (EdoChecklistV checklistItem : currentCheckListSection) {
-            if (itemCountVMap.containsKey(checklistItem.getChecklistItemID())) {
-                String itemJSON = itemCountVMap.get(checklistItem.getChecklistItemID()).getItemCountJSON() + ",";
+        for (EdoChecklistItem checklistItem : currentCheckListSection) {
+            if (itemCountVMap.containsKey(checklistItem.getEdoChecklistItemID())) {
+                String itemJSON = itemCountVMap.get(checklistItem.getEdoChecklistItemID()).getItemCountJSON() + ",";
                 itemJSON = itemJSON.replace("[", "[\"" + count + "\",");
                 itemCountJSON = itemCountJSON.concat(itemJSON);
                 count++;
             } else {
                 EdoItemCountV itemCountV = new EdoItemCountV();
-                itemCountV.setChecklistItemId(checklistItem.getChecklistItemID());
+                itemCountV.setChecklistItemId(new BigDecimal(checklistItem.getEdoChecklistItemID()));
                 itemCountV.setChecklistItemName(checklistItem.getChecklistItemName());
-                itemCountV.setChecklistSectionId(checklistItem.getChecklistSectionID());
+                itemCountV.setChecklistSectionId(new BigDecimal(checklistItem.getEdoChecklistSectionID()));
                 itemCountV.setDocCount(BigDecimal.ZERO);
                 itemCountV.setDossierId(selectedCandidate.getCandidateDossierID());
                 String itemJSON = itemCountV.getItemCountJSON() + ",";

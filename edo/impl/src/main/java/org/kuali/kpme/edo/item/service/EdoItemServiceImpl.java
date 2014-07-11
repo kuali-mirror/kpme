@@ -19,6 +19,7 @@ import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.item.dao.EdoItemDao;
 import org.kuali.kpme.edo.item.type.service.EdoItemTypeService;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
+import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -149,7 +150,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     	
     	for (EdoItemBo bo : bos) {
     		String itemTypeName = edoItemTypeService.getItemType(bo.getEdoItemID()).getItemTypeName();
-    		if (StringUtils.equals(itemTypeName, "Review Letter")) {
+    		if (StringUtils.equals(itemTypeName, EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER)) {
     			returnedBos.add(bo);
     		}
     	}

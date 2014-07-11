@@ -32,7 +32,7 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoItemTypeServiceTest extends EdoUnitTestBase {
 
-	private final String edoItemTypeID = "EDO_ITEMTYPE_ID_0001"; 
+	private final String edoItemTypeID = "1000"; 
 	LocalDate asOfDate = new LocalDate(2012,1,1);
 
 	@Before
@@ -65,7 +65,7 @@ public class EdoItemTypeServiceTest extends EdoUnitTestBase {
 	public void testGetItemTypeID() throws Exception {
 
 		String itemTypeId = EdoServiceLocator.getEdoItemTypeService().getItemTypeID("Review Letter", asOfDate);
-		assertEquals("EDO_ITEMTYPE_ID_0002", itemTypeId);
+		assertEquals("1001", itemTypeId);
 	}
 	
 	@Test

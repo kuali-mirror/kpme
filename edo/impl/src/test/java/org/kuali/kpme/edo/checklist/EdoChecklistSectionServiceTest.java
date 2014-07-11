@@ -31,8 +31,8 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoChecklistSectionServiceTest extends EdoUnitTestBase {
 
-	private final String edoChecklistSectionId = "EDO_CHECKLIST_SECTION_ID_0001";
-	private final String edoChecklistId = "EDO_CHECKLIST_ID_0001";
+	private final String edoChecklistSectionId = "1000";
+	private final String edoChecklistId = "1000";
 
 	@Before
 	public void setUp() throws Exception {

@@ -17,6 +17,9 @@ package org.kuali.kpme.edo.checklist;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +31,7 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoChecklistServiceTest extends EdoUnitTestBase {
 
-	private final String edoChecklistId = "EDO_CHECKLIST_ID_0001";
+	private final String edoChecklistId = "1000";
 
 	@Before
 	public void setUp() throws Exception {
@@ -47,5 +50,14 @@ public class EdoChecklistServiceTest extends EdoUnitTestBase {
 		EdoChecklist edoChecklist = EdoServiceLocator.getChecklistService().getChecklistByID(edoChecklistId);
 		assertEquals("TA", edoChecklist.getDossierTypeCode());
 		assertEquals("DEFAULT", edoChecklist.getDepartmentID());
+	}
+	
+	@Test
+	public void getChecklists() throws Exception {
+		
+		LocalDate  asOfDate = new LocalDate(2012,1,1);
+		
+		List<EdoChecklist> edoChecklists = EdoServiceLocator.getChecklistService().getChecklists("IU-IN", "DEFAULT", "ENGINEERING", asOfDate);
+		assertEquals("returned the correct number of results", 1, edoChecklists.size());
 	}
 }

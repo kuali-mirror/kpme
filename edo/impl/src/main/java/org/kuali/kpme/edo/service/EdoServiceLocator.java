@@ -3,11 +3,9 @@ package org.kuali.kpme.edo.service;
 import org.kuali.kpme.edo.authorization.service.AuthorizationService;
 import org.kuali.kpme.edo.candidate.dao.EdoCandidateDao;
 import org.kuali.kpme.edo.candidate.service.CandidateService;
-import org.kuali.kpme.edo.checklist.dao.EdoChecklistVDao;
 import org.kuali.kpme.edo.checklist.dao.EdoChecklistItemDao;
 import org.kuali.kpme.edo.checklist.service.EdoChecklistItemService;
 import org.kuali.kpme.edo.checklist.service.EdoChecklistSectionService;
-import org.kuali.kpme.edo.checklist.service.EdoChecklistVService;
 import org.kuali.kpme.edo.checklist.service.EdoChecklistService;
 import org.kuali.kpme.edo.dossier.dao.EdoDossierDao;
 import org.kuali.kpme.edo.dossier.service.EdoCandidateDossierService;
@@ -51,7 +49,6 @@ public class EdoServiceLocator implements ApplicationContextAware {
 	public static final String DATA_DICTIONARY_SERVICE = "dataDictionaryService";
 	
 	public static final String EDO_CANDIDATE_LIST_DAO = "edoCandidateListDao";
-    public static final String EDO_CHECKLIST_V_DAO = "edoChecklistVDao";
     public static final String EDO_CHECKLIST_ITEM_DAO = "edoChecklistItemDao";
 	public static final String EDO_ITEM_DAO = "edoItemDao";
     public static final String EDO_ITEM_COUNT_V_DAO = "edoItemCountVDao";
@@ -61,7 +58,6 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static final String EDO_PROMOTIONANDTENURE_REPORT_VIEW_DAO = "edoPromotionAndTenureReportViewDao";
 
     public static final String CANDIDATE_SERVICE = "candidateService";
-    public static final String CHECKLIST_V_SERVICE = "edoChecklistVService";
     public static final String CHECKLIST_ITEM_SERVICE = "edoChecklistItemService";
     public static final String CHECKLIST_SECTION_SERVICE = "edoChecklistSectionService";
     public static final String CHECKLIST_SERVICE = "edoChecklistService";
@@ -122,16 +118,8 @@ public class EdoServiceLocator implements ApplicationContextAware {
 		return (CandidateService)SPRING_APPLICATION_CONTEXT.getBean(CANDIDATE_SERVICE);
 	}
 
-    public static EdoChecklistVDao getEdoChecklistVDao(){
-        return (EdoChecklistVDao)SPRING_APPLICATION_CONTEXT.getBean(EDO_CHECKLIST_V_DAO);
-    }
-
     public static EdoChecklistItemDao getEdoChecklistItemDao() {
         return (EdoChecklistItemDao)SPRING_APPLICATION_CONTEXT.getBean(EDO_CHECKLIST_ITEM_DAO);
-    }
-
-    public static EdoChecklistVService getChecklistVService(){
-        return (EdoChecklistVService)SPRING_APPLICATION_CONTEXT.getBean(CHECKLIST_V_SERVICE);
     }
 
     public static EdoChecklistItemService getChecklistItemService() {

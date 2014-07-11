@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.struts.upload.FormFile;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.checklist.EdoChecklistV;
 import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -22,7 +22,7 @@ import org.kuali.kpme.edo.util.EdoConstants;
  */
 public class EdoChecklistItemForm extends EdoForm {
 
-    private List<EdoChecklistV> checklistView = EdoServiceLocator.getChecklistVService().getCheckListView("IU", "ALL", "ALL");
+    private List<EdoChecklistItem> checklistItems = EdoServiceLocator.getChecklistItemService().getChecklistItems("IU-IN", "ALL", "ALL");
     private FormFile uploadFile;
     private int checklistItemID;
     private int itemID;
@@ -66,15 +66,15 @@ public class EdoChecklistItemForm extends EdoForm {
         this.uploadFile = file;
     }
 
-    public List<EdoChecklistV> getChecklistView() {
-        return checklistView;
-    }
+    public List<EdoChecklistItem> getChecklistItems() {
+		return checklistItems;
+	}
 
-    public void setChecklistView(List<EdoChecklistV> checklistView) {
-        this.checklistView = checklistView;
-    }
+	public void setChecklistItems(List<EdoChecklistItem> checklistItems) {
+		this.checklistItems = checklistItems;
+	}
 
-    public int getChecklistItemID() {
+	public int getChecklistItemID() {
         return checklistItemID;
     }
 

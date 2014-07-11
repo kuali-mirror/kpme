@@ -68,25 +68,6 @@
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
 	</class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklistV" table="EDO_CHECKLIST_V">
-        <field-descriptor name="checklistItemID" column="checklist_item_id" jdbc-type="NUMERIC" primarykey="true" />
-        <field-descriptor name="checklistDescription" column="checklist_desc" jdbc-type="CLOB" primarykey="false" />
-        <field-descriptor name="departmentID" column="department_ID" jdbc-type="VARCHAR" length="12" primarykey="false" />
-        <field-descriptor name="schoolID" column="school_id" jdbc-type="VARCHAR" length="12" primarykey="false" />
-        <field-descriptor name="campusCode" column="campus_code" jdbc-type="CHAR" length="2" primarykey="false" />
-        <field-descriptor name="dossierTypeCode" column="dossier_type_code" jdbc-type="CHAR" length="2" primarykey="false" />
-        <field-descriptor name="effectiveDate" column="effective_date" jdbc-type="DATE" primarykey="false" />
-        <field-descriptor name="checklistSectionName" column="checklist_section_name" jdbc-type="VARCHAR" length="24" primarykey="false" />
-        <field-descriptor name="checklistSectionID" column="checklist_section_id" jdbc-type="NUMERIC" precision="4" scale="0" primarykey="false" />
-        <field-descriptor name="checklistItemID" column="checklist_item_id" jdbc-type="NUMERIC" precision="4" scale="0" primarykey="false" />
-        <field-descriptor name="sectionDescription" column="section_desc" jdbc-type="VARCHAR" length="24" primarykey="false" />
-        <field-descriptor name="checklistItemName" column="checklist_item_name" jdbc-type="VARCHAR" length="200" primarykey="false" />
-        <field-descriptor name="itemDescription" column="item_desc" jdbc-type="CLOB" primarykey="false" />
-        <field-descriptor name="required" column="required" jdbc-type="TINYINT" primarykey="false" />
-        <field-descriptor name="checklistItemOrdinal" column="checklist_item_section_ordinal" jdbc-type="NUMERIC" primarykey="false" />
-        <field-descriptor name="checklistSectionOrdinal" column="checklist_section_ordinal" jdbc-type="NUMERIC" primarykey="false" />
-    </class-descriptor>
-
     <class-descriptor class="org.kuali.kpme.edo.item.EdoItemBo" table="EDO_ITEM_T">
         <field-descriptor name="edoItemID" column="EDO_ITEM_ID" jdbc-type="VARCHAR" nullable="false" primarykey="true" />
         <field-descriptor name="edoDossierID" column="EDO_DOSSIER_ID" jdbc-type="VARCHAR" nullable="false" primarykey="false" />

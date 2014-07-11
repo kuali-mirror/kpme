@@ -14,4 +14,4 @@
 -- limitations under the License.
 --
 
-delete from EDO_CHECKLIST_T where EDO_CHECKLIST_ID = 'EDO_CHECKLIST_ID_0001';
+delete from EDO_CHECKLIST_T where EDO_CHECKLIST_ID >= '1000';

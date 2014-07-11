@@ -18,6 +18,7 @@ package org.kuali.kpme.edo.checklist;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.SortedMap;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
@@ -31,8 +32,9 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoChecklistItemServiceTest extends EdoUnitTestBase {
 
-	private final String edoChecklistItemId = "EDO_CHECKLIST_ITEM_ID_0001";
-	private final String edoCheckListSectionId = "EDO_CHECKLIST_SECTION_ID_0001";
+	private final String edoChecklistItemId = "1000";
+	private final String edoCheckListSectionId = "2000";
+	private final String edoDossierId = "2000";
 
 	@Before
 	public void setUp() throws Exception {
@@ -59,5 +61,19 @@ public class EdoChecklistItemServiceTest extends EdoUnitTestBase {
 		
 		List<EdoChecklistItem> items = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionID(edoCheckListSectionId, asOfDate);
 		assertEquals("returned the correct number of results", 2, items.size());
+	}
+	
+	@Test
+	public void testGetChecklistItems() throws Exception {
+	
+		List<EdoChecklistItem> items = EdoServiceLocator.getChecklistItemService().getChecklistItems("IU-IN", "DEFAULT", "ENGINEERING");
+		assertEquals("returned the correct number of results", 4, items.size());
+	}
+	
+	@Test
+	public void testGetChecklistItemByDossierID() throws Exception {
+	
+		EdoChecklistItem item = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, "testEdoChecklistItem4"); 
+		assertEquals("Testing Immutable EdoChecklistItem4", item.getItemDescription());
 	}
 }

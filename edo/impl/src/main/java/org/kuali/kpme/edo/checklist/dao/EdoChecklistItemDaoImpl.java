@@ -3,15 +3,15 @@ package org.kuali.kpme.edo.checklist.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.paygrade.PayGradeBo;
 import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.edo.checklist.EdoChecklistItemBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -53,7 +53,7 @@ public class EdoChecklistItemDaoImpl extends PlatformAwareDaoBaseOjb implements 
 		List<EdoChecklistItemBo> results = new ArrayList<EdoChecklistItemBo>();
     	Criteria root = new Criteria();
 
-    	root.addEqualTo("edoChecklistSectionID", edoChecklistSectionID);
+    	root.addEqualTo("edo_checklist_Section_id", edoChecklistSectionID);
     	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistItemBo.class, asOfDate, EdoChecklistItemBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistItemBo.class, EdoChecklistItemBo.BUSINESS_KEYS, false));
         
@@ -65,5 +65,24 @@ public class EdoChecklistItemDaoImpl extends PlatformAwareDaoBaseOjb implements 
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
+    }
+    
+    public List<EdoChecklistItemBo> getChecklistItemsBySectionIDs(List<String> idList, LocalDate asOfDate) {
+
+        List<EdoChecklistItemBo> results = new LinkedList<EdoChecklistItemBo>();
+        Criteria root = new Criteria();
+
+        root.addColumnIn("edo_checklist_Section_id", idList);
+    	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistItemBo.class, asOfDate, EdoChecklistItemBo.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistItemBo.class, EdoChecklistItemBo.BUSINESS_KEYS, false));
+
+        Query query = QueryFactory.newQuery(EdoChecklistItemBo.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (CollectionUtils.isNotEmpty(c)) {
+        	results.addAll(c);
+            return results;
+        }
+        return null;
     }
 }

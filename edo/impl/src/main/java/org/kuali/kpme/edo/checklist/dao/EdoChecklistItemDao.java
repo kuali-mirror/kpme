@@ -17,4 +17,6 @@ public interface EdoChecklistItemDao {
 
     public EdoChecklistItemBo getChecklistItemByID(String edoChecklistItemID);
     public List<EdoChecklistItemBo> getChecklistItemsBySectionID(String edoChecklistSectionID, LocalDate asOfDate);
+    
+    public List<EdoChecklistItemBo> getChecklistItemsBySectionIDs(List<String> idList, LocalDate asOfDate);
 }

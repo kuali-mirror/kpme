@@ -14,6 +14,4 @@
 -- limitations under the License.
 --
 
-delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID = 'EDO_ITEMTYPE_ID_0001';
-delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID = 'EDO_ITEMTYPE_ID_0002';
-delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID = 'EDO_ITEMTYPE_ID_0003';
+delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID >= '1000';
