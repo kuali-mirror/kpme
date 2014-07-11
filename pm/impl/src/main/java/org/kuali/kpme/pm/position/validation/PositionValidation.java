@@ -21,17 +21,23 @@ import java.util.ListIterator;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.department.Department;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.pm.PMConstants;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDutyBo;
+import org.kuali.kpme.pm.position.authorization.PositionDocumentAuthorizer;
 import org.kuali.kpme.pm.position.funding.PositionFundingBo;
 import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.util.ValidationUtils;
 import org.kuali.kpme.pm.util.PmValidationUtils;
+import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class PositionValidation extends MaintenanceDocumentRuleBase {
@@ -45,18 +51,35 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 
 		if (aPosition != null) {
 			valid = true;
+            valid &= this.canEdit(document);
 			valid &= this.validateOverviewPage(aPosition);
 			valid &= this.validateClassificationPage(aPosition);
 			valid &= this.validateDutyListPercentage(aPosition);
 			valid &= this.validateResponsibilityListPercentage(aPosition);
 			valid &= this.validatePrimaryDepartment(aPosition);
+            valid &= this.validatPrimaryDepartmentExistence(aPosition);
             valid &= this.validateProcess(aPosition, oldPosition);
             valid &= this.validateFundingLines(aPosition);
+
 		}
 		return valid;
 	}
 
-	protected boolean validateDutyListPercentage(PositionBo aPosition) {
+    protected boolean canEdit(MaintenanceDocument document) {
+        DocumentAuthorizer auth = KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentAuthorizer(document);
+        boolean valid = true;
+        if (auth != null) {
+            valid = auth.canEdit(document, GlobalVariables.getUserSession().getActualPerson());
+        }
+        if (!valid) {
+            this.putFieldError("dataObject.primaryDepartment", "error.primaryDepartment.invalid");
+        }
+        return valid;
+
+    }
+
+
+    protected boolean validateDutyListPercentage(PositionBo aPosition) {
 		if (CollectionUtils.isNotEmpty(aPosition.getDutyList())) {
 			BigDecimal sum = BigDecimal.ZERO;
 			for (PositionDutyBo aDuty : aPosition.getDutyList()) {
@@ -155,6 +178,15 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 		
 		return true;
 	}
+
+    protected  boolean validatPrimaryDepartmentExistence(PositionBo aPosition) {
+        Department dept = HrServiceLocator.getDepartmentService().getDepartment(aPosition.getPrimaryDepartment(), aPosition.getGroupKeyCode(), aPosition.getEffectiveLocalDate());
+        if (dept == null) {
+            this.putFieldError("dataObject.primaryDepartment","error.existence", "Primary Department '" + aPosition.getPrimaryDepartment() + "'");
+            return false;
+        }
+        return true;
+    }
 	
 	protected boolean validateClassificationPage(PositionBo aPosition) {
 
