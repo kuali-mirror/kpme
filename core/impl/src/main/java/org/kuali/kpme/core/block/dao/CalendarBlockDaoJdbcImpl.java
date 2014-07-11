@@ -107,6 +107,7 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 			cBlock.setOvertimePref(rs.getString("OVERTIME_PREF"));
 			cBlock.setLunchDeleted(rs.getBoolean("LUNCH_DELETED"));
 			cBlock.setTask(rs.getLong("TASK"));
+            cBlock.setGroupKeyCode(rs.getString("GRP_KEY_CD"));
 			cBlock.setWorkArea(rs.getLong("WORK_AREA"));
 			cBlock.setTimestamp(rs.getTimestamp("TIMESTAMP"));
 			return cBlock;

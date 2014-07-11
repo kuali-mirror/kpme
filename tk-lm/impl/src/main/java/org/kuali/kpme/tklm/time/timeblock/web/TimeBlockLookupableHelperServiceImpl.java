@@ -185,6 +185,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KPMELookupableImpl {
             tBlock.setWorkArea(leaveBlock.getWorkArea());
             AssignmentDescriptionKey assignKey = AssignmentDescriptionKey.get(leaveBlock.getAssignmentKey());
             tBlock.setWorkArea(assignKey.getWorkArea());
+            tBlock.setGroupKeyCode(assignKey.getGroupKeyCode());
             tBlock.setJobNumber(assignKey.getJobNumber());
             tBlock.setTask(assignKey.getTask());
             tBlock.setOvertimePref(leaveBlock.getOvertimePref());
