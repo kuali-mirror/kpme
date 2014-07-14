@@ -9,7 +9,7 @@
 
 --  Changeset src/main/config/db/1.1.0/db.changelog-201207131332.xml::1::kbtaylor::(Checksum: 3:7fbf2b88e3d83b395ab9795f771f2111)
 --  Adding Rice group bootstrap data
-INSERT INTO `KRNS_NMSPC_T` (`ACTV_IND`, `APPL_NMSPC_CD`, `NM`, `NMSPC_CD`, `OBJ_ID`) VALUES ('Y', 'KPME', 'KPME Workflow Group', 'KPME-WKFLW', UUID());
+INSERT INTO `KRCR_NMSPC_T` (`ACTV_IND`, `APPL_ID`, `NM`, `NMSPC_CD`, `OBJ_ID`) VALUES ('Y', 'KPME', 'KPME Workflow Group', 'KPME-WKFLW', UUID());
 
 
 --  Changeset src/main/config/db/1.1.0/db.changelog-201207131332.xml::2::kbtaylor::(Checksum: 3:b71833bd45a4fe5b473ca723936a083d)
@@ -1617,24 +1617,6 @@ INSERT INTO `KRMS_TERM_RSLVR_PARM_SPEC_T` (`NM`, `TERM_RSLVR_ID`, `TERM_RSLVR_PA
 --  Changeset src/main/config/db/2.0.0/db.changelog-201308141600.xml::1::yingzhou::(Checksum: 3:c098e469eb5058321c5f3d482693b7e0)
 --  Adding positon as a type attribute to Work Area
 INSERT INTO `KRIM_TYP_ATTR_T` (`ACTV_IND`, `KIM_ATTR_DEFN_ID`, `KIM_TYP_ATTR_ID`, `KIM_TYP_ID`, `OBJ_ID`, `SORT_CD`, `VER_NBR`) VALUES ('Y', (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'position'), 'KPME0005', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Work Area'), UUID(), 'a', '1');
-
-
---  Changeset src/main/config/db/2.0.0/db.changelog-201308291900.xml::1::vchauhan::(Checksum: 3:efe4f905c16d6a51ad96c6dc77489ab0)
---  Change Value for Documents Type
-UPDATE `KREW_DOC_TYP_T` SET `APPL_ID` = 'KPME', `DOC_TYP_NM` = 'OrganizationMaintenanceDocumentType' WHERE DOC_TYP_NM='ORGN' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'));
-
-UPDATE `KREW_DOC_TYP_T` SET `APPL_ID` = 'KPME', `DOC_TYP_NM` = 'AccountMaintenanceDocumentType' WHERE DOC_TYP_NM='ACCT' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'));
-
-UPDATE `KREW_DOC_TYP_T` SET `APPL_ID` = 'KPME', `DOC_TYP_NM` = 'SubObjectCodeMaintenanceDocumentType' WHERE DOC_TYP_NM='SOBJ'  and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'));
-
-UPDATE `KREW_DOC_TYP_T` SET `APPL_ID` = 'KPME', `DOC_TYP_NM` = 'SubAccountMaintenanceDocumentType' WHERE DOC_TYP_NM='SACC' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'));
-
-UPDATE `KREW_DOC_TYP_T` SET `APPL_ID` = 'KPME', `DOC_TYP_NM` = 'ProjectCodeMaintenanceDocumentType', `LBL` = 'Project Code' WHERE DOC_TYP_NM='PROJ' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'));
-
-UPDATE `KREW_DOC_TYP_T` SET `APPL_ID` = 'KPME', `DOC_TYP_NM` = 'ObjectCodeMaintenanceDocumentType' WHERE DOC_TYP_NM='OBJT' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'));
-
-UPDATE `KREW_DOC_TYP_T` SET `APPL_ID` = 'KPME', `DOC_TYP_NM` = 'ChartMaintenanceDocumentType' WHERE DOC_TYP_NM='COAT' and (APPL_ID IS NULL or APPL_ID NOT IN ('KFS'));
-
 
 --  Changeset src/main/config/db/2.0.0/db.changelog-201309101500.xml::1::jjhanso::(Checksum: 3:b1d146d02093a6eaf186d467a47af164)
 INSERT INTO `KRIM_PERM_T` (`ACTV_IND`, `DESC_TXT`, `NM`, `NMSPC_CD`, `OBJ_ID`, `PERM_ID`, `PERM_TMPL_ID`, `VER_NBR`) VALUES ('Y', 'Allows users to create a Position Base', 'Create Position Base', 'KPME-HR', UUID(), 'KPME0088', (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Create KPME Maintenance Document'), '1');
