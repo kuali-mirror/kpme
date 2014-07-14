@@ -25,6 +25,9 @@
     <section xml:id="overview" xreflabel="Overview">
         <title>Overview</title>
         <para>Welcome to ${project.name} ${project.version}! </para>
+        <para>The KHR Team is happy to announce the release of version 2.1 of Kuali Human Resources (KHR).  
+            This release is an exciting milestone in the short history of KHR, with our new Position Management
+            module we are releasing the first piece of our core, traditional human resources modules! </para>
         <section>
             <title>Impacting Changes and Release Highlights</title>
             <para>This version of KHR is a minor release consisting new modules, bug fixes, and
