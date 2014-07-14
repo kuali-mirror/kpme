@@ -43,6 +43,11 @@
                     <listitem><para>Created immutable model objects for most of the Business Objects</para></listitem>
                     <listitem><para>Derived objects and changres to lookups (refactoring)</para></listitem>
                     <listitem><para>Added more options to the dropdown list that takes user back to the Rice portal (KPME-3327)</para></listitem>
+                    <listitem><para>Restructured the layout of our default portal (KPME-3278)</para></listitem>
+                    <listitem><para>Renamed KPME to KHR and changed the logo</para></listitem>
+                    <listitem><para>Add "newer" record validation to all maintenance documents (KPME-2702)</para></listitem>
+                    <listitem><para>Move userPrincipalId to HrBUsinessObject and persist the value to databas (KPME-2624)</para></listitem>
+                    <listitem><para>Move Service interfaces to API (KPME-2509)</para></listitem>
                 </itemizedlist>
             </para>
             <para>
@@ -66,6 +71,14 @@
                     <listitem><para>Add icon to mark timeblocsk with missed punch associated clocks (KPME-2975)</para></listitem>
                     <listitem><para>Missed Punch routing now uses PeopleFlow (KPME-3265)</para></listitem>
                     <listitem><para>Added paramater options fo applying Grace Period Rules to time blocks (KPME-3457)</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <title>Leave Management:</title>
+                    <listitem><para>Added configuration option to no display the Leave Summary's FMLA YTD Column (KPME-3263)</para></listitem>
+                    <listitem><para>Added feature to download approved leave requests (KPME-2996)</para></listitem>
+                    <listitem><para>Improved Approve Leave Request interface (KPME-2995)</para></listitem>
                 </itemizedlist>
             </para>
         </section>
