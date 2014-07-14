@@ -2,10 +2,705 @@
 --  Update Database Script
 --  *********************************************************************
 --  Change Log: src/main/resources/db.changelog.xml
---  Ran at: 7/14/14 8:12 AM
+--  Ran at: 7/14/14 10:51 AM
 --  Against: tk@localhost@jdbc:mysql://localhost/tk
 --  Liquibase version: 2.0.5
 --  *********************************************************************
+
+--  Changeset src/main/config/db/rice/db.changelog-1.0.3.xml::rice-client-1.0.3-mysql::kbtaylor::(Checksum: 3:2ca3f2617003585e6abfd44e92abeccb)
+# -----------------------------------------------------------------------
+# KRNS_ADHOC_RTE_ACTN_RECIP_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_ADHOC_RTE_ACTN_RECIP_T
+(
+      RECIP_TYP_CD DECIMAL(1)
+        , ACTN_RQST_CD VARCHAR(30)
+        , ACTN_RQST_RECIP_ID VARCHAR(70)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , DOC_HDR_ID VARCHAR(14)
+    
+    , CONSTRAINT KRNS_ADHOC_RTE_ACTN_RECIP_TP1 PRIMARY KEY(RECIP_TYP_CD,ACTN_RQST_CD,ACTN_RQST_RECIP_ID,DOC_HDR_ID)
+
+    , CONSTRAINT KRNS_ADHOC_RTE_ACTN_RECIP_TC0 UNIQUE (OBJ_ID)
+
+    , INDEX KRNS_ADHOC_RTE_ACTN_RECIP_T2 (DOC_HDR_ID)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_ATT_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_ATT_T
+(
+      NTE_ID DECIMAL(14)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , MIME_TYP VARCHAR(255)
+        , FILE_NM VARCHAR(250)
+        , ATT_ID VARCHAR(36)
+        , FILE_SZ DECIMAL(14)
+        , ATT_TYP_CD VARCHAR(2)
+    
+    , CONSTRAINT KRNS_ATT_TP1 PRIMARY KEY(NTE_ID)
+
+    , CONSTRAINT KRNS_ATT_TC0 UNIQUE (OBJ_ID)
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_DOC_HDR_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_DOC_HDR_T
+(
+      DOC_HDR_ID VARCHAR(14)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , FDOC_DESC VARCHAR(40)
+        , ORG_DOC_HDR_ID VARCHAR(10)
+        , TMPL_DOC_HDR_ID VARCHAR(14)
+        , EXPLANATION VARCHAR(400)
+    
+    , CONSTRAINT KRNS_DOC_HDR_TP1 PRIMARY KEY(DOC_HDR_ID)
+
+    , CONSTRAINT KRNS_DOC_HDR_TC0 UNIQUE (OBJ_ID)
+
+    , INDEX KRNS_DOC_HDR_TI3 (ORG_DOC_HDR_ID)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_LOOKUP_RSLT_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_LOOKUP_RSLT_T
+(
+      LOOKUP_RSLT_ID VARCHAR(14)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , PRNCPL_ID VARCHAR(40) NOT NULL
+        , LOOKUP_DT DATETIME NOT NULL
+        , SERIALZD_RSLTS LONGTEXT
+    
+    , CONSTRAINT KRNS_LOOKUP_RSLT_TP1 PRIMARY KEY(LOOKUP_RSLT_ID)
+
+    , CONSTRAINT KRNS_LOOKUP_RSLT_TC0 UNIQUE (OBJ_ID)
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_LOOKUP_SEL_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_LOOKUP_SEL_T
+(
+      LOOKUP_RSLT_ID VARCHAR(14)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , PRNCPL_ID VARCHAR(40) NOT NULL
+        , LOOKUP_DT DATETIME NOT NULL
+        , SEL_OBJ_IDS LONGTEXT
+    
+    , CONSTRAINT KRNS_LOOKUP_SEL_TP1 PRIMARY KEY(LOOKUP_RSLT_ID)
+
+    , CONSTRAINT KRNS_LOOKUP_SEL_TC0 UNIQUE (OBJ_ID)
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_MAINT_DOC_ATT_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_MAINT_DOC_ATT_T
+(
+      DOC_HDR_ID VARCHAR(14)
+        , ATT_CNTNT LONGBLOB NOT NULL
+        , FILE_NM VARCHAR(150)
+        , CNTNT_TYP VARCHAR(255)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+    
+    , CONSTRAINT KRNS_MAINT_DOC_ATT_TP1 PRIMARY KEY(DOC_HDR_ID)
+
+    , CONSTRAINT KRNS_MAINT_DOC_ATT_TC0 UNIQUE (OBJ_ID)
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_MAINT_DOC_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_MAINT_DOC_T
+(
+      DOC_HDR_ID VARCHAR(14)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , DOC_CNTNT LONGTEXT
+    
+    , CONSTRAINT KRNS_MAINT_DOC_TP1 PRIMARY KEY(DOC_HDR_ID)
+
+    , CONSTRAINT KRNS_MAINT_DOC_TC0 UNIQUE (OBJ_ID)
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_MAINT_LOCK_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_MAINT_LOCK_T
+(
+      MAINT_LOCK_REP_TXT VARCHAR(500)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , DOC_HDR_ID VARCHAR(14) NOT NULL
+        , MAINT_LOCK_ID VARCHAR(14)
+    
+    , CONSTRAINT KRNS_MAINT_LOCK_TP1 PRIMARY KEY(MAINT_LOCK_ID)
+
+    , CONSTRAINT KRNS_MAINT_LOCK_TC0 UNIQUE (OBJ_ID)
+
+    , INDEX KRNS_MAINT_LOCK_TI2 (DOC_HDR_ID)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_NTE_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_NTE_T
+(
+      NTE_ID DECIMAL(14)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , RMT_OBJ_ID VARCHAR(36) NOT NULL
+        , AUTH_PRNCPL_ID VARCHAR(40) NOT NULL
+        , POST_TS DATETIME NOT NULL
+        , NTE_TYP_CD VARCHAR(4) NOT NULL
+        , TXT VARCHAR(800)
+        , PRG_CD VARCHAR(1)
+        , TPC_TXT VARCHAR(40)
+    
+    , CONSTRAINT KRNS_NTE_TP1 PRIMARY KEY(NTE_ID)
+
+    , CONSTRAINT KRNS_NTE_TC0 UNIQUE (OBJ_ID)
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_NTE_TYP_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_NTE_TYP_T
+(
+      NTE_TYP_CD VARCHAR(4)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , TYP_DESC_TXT VARCHAR(100)
+        , ACTV_IND VARCHAR(1)
+    
+    , CONSTRAINT KRNS_NTE_TYP_TP1 PRIMARY KEY(NTE_TYP_CD)
+
+    , CONSTRAINT KRNS_NTE_TYP_TC0 UNIQUE (OBJ_ID)
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_PESSIMISTIC_LOCK_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_PESSIMISTIC_LOCK_T
+(
+      PESSIMISTIC_LOCK_ID DECIMAL(14)
+        , OBJ_ID VARCHAR(36) NOT NULL
+        , VER_NBR DECIMAL(8) default 1 NOT NULL
+        , LOCK_DESC_TXT VARCHAR(4000)
+        , DOC_HDR_ID VARCHAR(14) NOT NULL
+        , GNRT_DT DATETIME NOT NULL
+        , PRNCPL_ID VARCHAR(40) NOT NULL
+    
+    , CONSTRAINT KRNS_PESSIMISTIC_LOCK_TP1 PRIMARY KEY(PESSIMISTIC_LOCK_ID)
+
+    , CONSTRAINT KRNS_PESSIMISTIC_LOCK_TC0 UNIQUE (OBJ_ID)
+
+    , INDEX KRNS_PESSIMISTIC_LOCK_TI1 (DOC_HDR_ID)
+    , INDEX KRNS_PESSIMISTIC_LOCK_TI2 (PRNCPL_ID)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_SESN_DOC_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_SESN_DOC_T
+(
+      SESN_DOC_ID VARCHAR(40)
+        , DOC_HDR_ID VARCHAR(14)
+        , PRNCPL_ID VARCHAR(40)
+        , IP_ADDR VARCHAR(60)
+        , SERIALZD_DOC_FRM LONGBLOB
+        , LAST_UPDT_DT DATETIME
+        , CONTENT_ENCRYPTED_IND CHAR(1) default 'N'
+    
+    , CONSTRAINT KRNS_SESN_DOC_TP1 PRIMARY KEY(SESN_DOC_ID,DOC_HDR_ID,PRNCPL_ID,IP_ADDR)
+
+
+    , INDEX KRNS_SESN_DOC_TI1 (LAST_UPDT_DT)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_BAM_PARM_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_BAM_PARM_T
+(
+      BAM_PARM_ID DECIMAL(14)
+        , BAM_ID DECIMAL(14) NOT NULL
+        , PARM LONGTEXT NOT NULL
+    
+    , CONSTRAINT KRSB_BAM_PARM_TP1 PRIMARY KEY(BAM_PARM_ID)
+
+
+    , INDEX KREW_BAM_PARM_TI1 (BAM_ID)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_BAM_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_BAM_T
+(
+      BAM_ID DECIMAL(14)
+        , SVC_NM VARCHAR(255) NOT NULL
+        , SVC_URL VARCHAR(500) NOT NULL
+        , MTHD_NM VARCHAR(2000) NOT NULL
+        , THRD_NM VARCHAR(500) NOT NULL
+        , CALL_DT DATETIME NOT NULL
+        , TGT_TO_STR VARCHAR(2000) NOT NULL
+        , SRVR_IND DECIMAL(1) NOT NULL
+        , EXCPN_TO_STR VARCHAR(2000)
+        , EXCPN_MSG LONGTEXT
+    
+    , CONSTRAINT KRSB_BAM_TP1 PRIMARY KEY(BAM_ID)
+
+
+    , INDEX KRSB_BAM_TI1 (SVC_NM, MTHD_NM(255))
+    , INDEX KRSB_BAM_TI2 (SVC_NM)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_MSG_PYLD_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_MSG_PYLD_T
+(
+      MSG_QUE_ID DECIMAL(14)
+        , MSG_PYLD LONGTEXT NOT NULL
+    
+    , CONSTRAINT KRSB_MSG_PYLD_TP1 PRIMARY KEY(MSG_QUE_ID)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_MSG_QUE_T
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_MSG_QUE_T
+(
+      MSG_QUE_ID DECIMAL(14)
+        , DT DATETIME NOT NULL
+        , EXP_DT DATETIME
+        , PRIO DECIMAL(8) NOT NULL
+        , STAT_CD CHAR(1) NOT NULL
+        , RTRY_CNT DECIMAL(8) NOT NULL
+        , IP_NBR VARCHAR(2000) NOT NULL
+        , SVC_NM VARCHAR(255)
+        , SVC_NMSPC VARCHAR(255) NOT NULL
+        , SVC_MTHD_NM VARCHAR(2000)
+        , APP_VAL_ONE VARCHAR(2000)
+        , APP_VAL_TWO VARCHAR(2000)
+        , VER_NBR DECIMAL(8) default 0
+    
+    , CONSTRAINT KRSB_MSG_QUE_TP1 PRIMARY KEY(MSG_QUE_ID)
+
+
+    , INDEX KRSB_MSG_QUE_TI1 (SVC_NM, SVC_MTHD_NM(255))
+    , INDEX KRSB_MSG_QUE_TI2 (SVC_NMSPC, STAT_CD, IP_NBR(255), DT)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_BLOB_TRIGGERS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_BLOB_TRIGGERS
+(
+      TRIGGER_NAME VARCHAR(80)
+        , TRIGGER_GROUP VARCHAR(80)
+        , BLOB_DATA LONGBLOB
+    
+    , CONSTRAINT KRSB_QRTZ_BLOB_TRIGGERSP1 PRIMARY KEY(TRIGGER_NAME,TRIGGER_GROUP)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_CALENDARS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_CALENDARS
+(
+      CALENDAR_NAME VARCHAR(80)
+        , CALENDAR LONGBLOB NOT NULL
+    
+    , CONSTRAINT KRSB_QRTZ_CALENDARSP1 PRIMARY KEY(CALENDAR_NAME)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_CRON_TRIGGERS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_CRON_TRIGGERS
+(
+      TRIGGER_NAME VARCHAR(80)
+        , TRIGGER_GROUP VARCHAR(80)
+        , CRON_EXPRESSION VARCHAR(80) NOT NULL
+        , TIME_ZONE_ID VARCHAR(80)
+    
+    , CONSTRAINT KRSB_QRTZ_CRON_TRIGGERSP1 PRIMARY KEY(TRIGGER_NAME,TRIGGER_GROUP)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_FIRED_TRIGGERS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_FIRED_TRIGGERS
+(
+      ENTRY_ID VARCHAR(95)
+        , TRIGGER_NAME VARCHAR(80) NOT NULL
+        , TRIGGER_GROUP VARCHAR(80) NOT NULL
+        , IS_VOLATILE VARCHAR(1) NOT NULL
+        , INSTANCE_NAME VARCHAR(80) NOT NULL
+        , FIRED_TIME DECIMAL(13) NOT NULL
+        , PRIORITY DECIMAL(13) NOT NULL
+        , STATE VARCHAR(16) NOT NULL
+        , JOB_NAME VARCHAR(80)
+        , JOB_GROUP VARCHAR(80)
+        , IS_STATEFUL VARCHAR(1)
+        , REQUESTS_RECOVERY VARCHAR(1)
+    
+    , CONSTRAINT KRSB_QRTZ_FIRED_TRIGGERSP1 PRIMARY KEY(ENTRY_ID)
+
+
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI1 (JOB_GROUP)
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI2 (JOB_NAME)
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI3 (REQUESTS_RECOVERY)
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI4 (IS_STATEFUL)
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI5 (TRIGGER_GROUP)
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI6 (INSTANCE_NAME)
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI7 (TRIGGER_NAME)
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI8 (TRIGGER_NAME, TRIGGER_GROUP)
+    , INDEX KRSB_QRTZ_FIRED_TRIGGERS_TI9 (IS_VOLATILE)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_JOB_DETAILS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_JOB_DETAILS
+(
+      JOB_NAME VARCHAR(80)
+        , JOB_GROUP VARCHAR(80)
+        , DESCRIPTION VARCHAR(120)
+        , JOB_CLASS_NAME VARCHAR(128) NOT NULL
+        , IS_DURABLE VARCHAR(1) NOT NULL
+        , IS_VOLATILE VARCHAR(1) NOT NULL
+        , IS_STATEFUL VARCHAR(1) NOT NULL
+        , REQUESTS_RECOVERY VARCHAR(1) NOT NULL
+        , JOB_DATA LONGBLOB
+    
+    , CONSTRAINT KRSB_QRTZ_JOB_DETAILSP1 PRIMARY KEY(JOB_NAME,JOB_GROUP)
+
+
+    , INDEX KRSB_QRTZ_JOB_DETAILS_TI1 (REQUESTS_RECOVERY)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_JOB_LISTENERS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_JOB_LISTENERS
+(
+      JOB_NAME VARCHAR(80)
+        , JOB_GROUP VARCHAR(80)
+        , JOB_LISTENER VARCHAR(80)
+    
+    , CONSTRAINT KRSB_QRTZ_JOB_LISTENERSP1 PRIMARY KEY(JOB_NAME,JOB_GROUP,JOB_LISTENER)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_LOCKS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_LOCKS
+(
+      LOCK_NAME VARCHAR(40)
+    
+    , CONSTRAINT KRSB_QRTZ_LOCKSP1 PRIMARY KEY(LOCK_NAME)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_PAUSED_TRIGGER_GRPS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_PAUSED_TRIGGER_GRPS
+(
+      TRIGGER_GROUP VARCHAR(80)
+    
+    , CONSTRAINT KRSB_QRTZ_PAUSED_TRIGGER_GRP1 PRIMARY KEY(TRIGGER_GROUP)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_SCHEDULER_STATE
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_SCHEDULER_STATE
+(
+      INSTANCE_NAME VARCHAR(80)
+        , LAST_CHECKIN_TIME DECIMAL(13) NOT NULL
+        , CHECKIN_INTERVAL DECIMAL(13) NOT NULL
+    
+    , CONSTRAINT KRSB_QRTZ_SCHEDULER_STATEP1 PRIMARY KEY(INSTANCE_NAME)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_SIMPLE_TRIGGERS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_SIMPLE_TRIGGERS
+(
+      TRIGGER_NAME VARCHAR(80)
+        , TRIGGER_GROUP VARCHAR(80)
+        , REPEAT_COUNT DECIMAL(7) NOT NULL
+        , REPEAT_INTERVAL DECIMAL(12) NOT NULL
+        , TIMES_TRIGGERED DECIMAL(7) NOT NULL
+    
+    , CONSTRAINT KRSB_QRTZ_SIMPLE_TRIGGERSP1 PRIMARY KEY(TRIGGER_NAME,TRIGGER_GROUP)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_TRIGGERS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_TRIGGERS
+(
+      TRIGGER_NAME VARCHAR(80)
+        , TRIGGER_GROUP VARCHAR(80)
+        , JOB_NAME VARCHAR(80) NOT NULL
+        , JOB_GROUP VARCHAR(80) NOT NULL
+        , IS_VOLATILE VARCHAR(1) NOT NULL
+        , DESCRIPTION VARCHAR(120)
+        , NEXT_FIRE_TIME DECIMAL(13)
+        , PREV_FIRE_TIME DECIMAL(13)
+        , PRIORITY DECIMAL(13)
+        , TRIGGER_STATE VARCHAR(16) NOT NULL
+        , TRIGGER_TYPE VARCHAR(8) NOT NULL
+        , START_TIME DECIMAL(13) NOT NULL
+        , END_TIME DECIMAL(13)
+        , CALENDAR_NAME VARCHAR(80)
+        , MISFIRE_INSTR DECIMAL(2)
+        , JOB_DATA LONGBLOB
+    
+    , CONSTRAINT KRSB_QRTZ_TRIGGERSP1 PRIMARY KEY(TRIGGER_NAME,TRIGGER_GROUP)
+
+
+    , INDEX KRSB_QRTZ_TRIGGERS_TI1 (NEXT_FIRE_TIME)
+    , INDEX KRSB_QRTZ_TRIGGERS_TI2 (NEXT_FIRE_TIME, TRIGGER_STATE)
+    , INDEX KRSB_QRTZ_TRIGGERS_TI3 (TRIGGER_STATE)
+    , INDEX KRSB_QRTZ_TRIGGERS_TI4 (IS_VOLATILE)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRSB_QRTZ_TRIGGER_LISTENERS
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_QRTZ_TRIGGER_LISTENERS
+(
+      TRIGGER_NAME VARCHAR(80)
+        , TRIGGER_GROUP VARCHAR(80)
+        , TRIGGER_LISTENER VARCHAR(80)
+    
+    , CONSTRAINT KRSB_QRTZ_TRIGGER_LISTENERSP1 PRIMARY KEY(TRIGGER_NAME,TRIGGER_GROUP,TRIGGER_LISTENER)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KR_QRTZ_PAUSED_TRIGGERS_GRPS
+# -----------------------------------------------------------------------
+CREATE TABLE KR_QRTZ_PAUSED_TRIGGERS_GRPS
+(
+      TRIGGER_GROUP VARCHAR(80)
+    
+    , CONSTRAINT KR_QRTZ_PAUSED_TRIGGERS_GRPP1 PRIMARY KEY(TRIGGER_GROUP)
+
+
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+# -----------------------------------------------------------------------
+# KRNS_LOCK_S
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_LOCK_S
+(
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+) ENGINE MyISAM;
+
+ALTER TABLE KRNS_LOCK_S auto_increment = 2000;
+
+# -----------------------------------------------------------------------
+# KRNS_LOOKUP_RSLT_S
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_LOOKUP_RSLT_S
+(
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+) ENGINE MyISAM;
+
+ALTER TABLE KRNS_LOOKUP_RSLT_S auto_increment = 2000;
+
+# -----------------------------------------------------------------------
+# KRNS_MAINT_LOCK_S
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_MAINT_LOCK_S
+(
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+) ENGINE MyISAM;
+
+ALTER TABLE KRNS_MAINT_LOCK_S auto_increment = 2000;
+
+# -----------------------------------------------------------------------
+# KRNS_NTE_S
+# -----------------------------------------------------------------------
+CREATE TABLE KRNS_NTE_S
+(
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+) ENGINE MyISAM;
+
+ALTER TABLE KRNS_NTE_S auto_increment = 2020;
+
+# -----------------------------------------------------------------------
+# KRSB_BAM_PARM_S
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_BAM_PARM_S
+(
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+) ENGINE MyISAM;
+
+ALTER TABLE KRSB_BAM_PARM_S auto_increment = 2000;
+
+# -----------------------------------------------------------------------
+# KRSB_BAM_S
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_BAM_S
+(
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+) ENGINE MyISAM;
+
+ALTER TABLE KRSB_BAM_S auto_increment = 2000;
+
+# -----------------------------------------------------------------------
+# KRSB_MSG_QUE_S
+# -----------------------------------------------------------------------
+CREATE TABLE KRSB_MSG_QUE_S
+(
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+) ENGINE MyISAM;
+
+ALTER TABLE KRSB_MSG_QUE_S auto_increment = 121;
+
+--
+-- KRNS_NTE_TYP_T
+--
+
+
+INSERT INTO KRNS_NTE_TYP_T (ACTV_IND,NTE_TYP_CD,OBJ_ID,TYP_DESC_TXT,VER_NBR)
+  VALUES ('Y','BO','53680C68F5A9AD9BE0404F8189D80A6C','DOCUMENT BUSINESS OBJECT',1);
+
+INSERT INTO KRNS_NTE_TYP_T (ACTV_IND,NTE_TYP_CD,OBJ_ID,TYP_DESC_TXT,VER_NBR)
+  VALUES ('Y','DH','53680C68F5AAAD9BE0404F8189D80A6C','DOCUMENT HEADER',1);
+
+--
+-- KRSB_QRTZ_LOCKS
+--
+
+
+INSERT INTO KRSB_QRTZ_LOCKS (LOCK_NAME)
+  VALUES ('CALENDAR_ACCESS');
+
+INSERT INTO KRSB_QRTZ_LOCKS (LOCK_NAME)
+  VALUES ('JOB_ACCESS');
+
+INSERT INTO KRSB_QRTZ_LOCKS (LOCK_NAME)
+  VALUES ('MISFIRE_ACCESS');
+
+INSERT INTO KRSB_QRTZ_LOCKS (LOCK_NAME)
+  VALUES ('STATE_ACCESS');
+
+INSERT INTO KRSB_QRTZ_LOCKS (LOCK_NAME)
+  VALUES ('TRIGGER_ACCESS');
+
+ALTER TABLE KRNS_ATT_T
+    ADD CONSTRAINT KRNS_ATT_TR1
+    FOREIGN KEY (NTE_ID)
+    REFERENCES KRNS_NTE_T (NTE_ID);
+
+ALTER TABLE KRNS_MAINT_DOC_T
+    ADD CONSTRAINT KRNS_MAINT_DOC_TR1
+    FOREIGN KEY (DOC_HDR_ID)
+    REFERENCES KRNS_DOC_HDR_T (DOC_HDR_ID);
+
+ALTER TABLE KRNS_NTE_T
+    ADD CONSTRAINT KRNS_NTE_TR1
+    FOREIGN KEY (NTE_TYP_CD)
+    REFERENCES KRNS_NTE_TYP_T (NTE_TYP_CD);
+
+ALTER TABLE KRSB_QRTZ_BLOB_TRIGGERS
+    ADD CONSTRAINT KRSB_QRTZ_BLOB_TRIGGERS_TR1
+    FOREIGN KEY (TRIGGER_NAME, TRIGGER_GROUP)
+    REFERENCES KRSB_QRTZ_TRIGGERS (TRIGGER_NAME, TRIGGER_GROUP);
+
+ALTER TABLE KRSB_QRTZ_CRON_TRIGGERS
+    ADD CONSTRAINT KRSB_QRTZ_CRON_TRIGGERS_TR1
+    FOREIGN KEY (TRIGGER_NAME, TRIGGER_GROUP)
+    REFERENCES KRSB_QRTZ_TRIGGERS (TRIGGER_NAME, TRIGGER_GROUP);
+
+ALTER TABLE KRSB_QRTZ_JOB_LISTENERS
+    ADD CONSTRAINT KRSB_QUARTZ_JOB_LISTENERS_TR1
+    FOREIGN KEY (JOB_NAME, JOB_GROUP)
+    REFERENCES KRSB_QRTZ_JOB_DETAILS (JOB_NAME, JOB_GROUP);
+
+ALTER TABLE KRSB_QRTZ_SIMPLE_TRIGGERS
+    ADD CONSTRAINT KRSB_QRTZ_SIMPLE_TRIGGERS_TR1
+    FOREIGN KEY (TRIGGER_NAME, TRIGGER_GROUP)
+    REFERENCES KRSB_QRTZ_TRIGGERS (TRIGGER_NAME, TRIGGER_GROUP);
+
+ALTER TABLE KRSB_QRTZ_TRIGGER_LISTENERS
+    ADD CONSTRAINT KRSB_QRTZ_TRIGGER_LISTENE_TR1
+    FOREIGN KEY (TRIGGER_NAME, TRIGGER_GROUP)
+    REFERENCES KRSB_QRTZ_TRIGGERS (TRIGGER_NAME, TRIGGER_GROUP);
+
 
 --  Changeset src/main/config/db/1.0.0/db.changelog-201103021059.xml::1::djunk::(Checksum: 3:d937839ff2e963bf39a7667e811ece95)
 CREATE TABLE `CA_ACCOUNT_T` (`FIN_COA_CD` VARCHAR(2) DEFAULT '' NOT NULL, `ACCOUNT_NBR` VARCHAR(10) DEFAULT '' NOT NULL, `OBJ_ID` VARCHAR(36) NOT NULL, `VER_NBR` DECIMAL(8,0) DEFAULT 1 NOT NULL, `ACCOUNT_NM` VARCHAR(40) NULL, `ORG_CD` VARCHAR(10) NULL, `ACCT_CREATE_DT` DATETIME NULL, `ACCT_EFFECT_DT` DATETIME NULL, `ACCT_EXPIRATION_DT` DATETIME NULL, `ACCT_CLOSED_IND` VARCHAR(1) NULL) ENGINE INNODB;
@@ -1772,6 +2467,112 @@ DELETE FROM `QRTZ_LOCKS`;
 INSERT INTO `HR_ROLES_T` (`ACTIVE`, `EFFDT`, `HR_ROLES_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `TIMESTAMP`, `USER_PRINCIPAL_ID`) VALUES ('Y', '2010-01-01', 1, 'admin', 'TK_SYS_ADMIN', NOW(), 'admin');
 
 
+--  Changeset src/main/config/db/rice/db.changelog-2.0.0.xml::rice-client-2.0.0-mysql::kbtaylor::(Checksum: 3:7c2bf7efc0819cb268286971b4ffab39)
+--
+-- Copyright 2005-2013 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+-- 
+-- mysql-2010-04-15.sql
+-- 
+
+
+ALTER TABLE KRNS_SESN_DOC_T ADD (OBJ_ID VARCHAR(36));
+
+ALTER TABLE KRNS_SESN_DOC_T ADD (VER_NBR DECIMAL(8) DEFAULT 0);
+
+-- 
+-- mysql-2011-06-06.sql
+-- 
+
+
+ALTER TABLE KRSB_MSG_QUE_T CHANGE SVC_NMSPC APPL_ID VARCHAR(255);
+
+-- 
+-- mysql-2012-01-19c.sql
+-- 
+
+--
+-- KULRICE-5856: KRNS_DOC_HDR_T.FDOC_DESC column is only 40 char
+--
+
+ALTER TABLE KRNS_DOC_HDR_T MODIFY FDOC_DESC VARCHAR(255);
+
+
+--  Changeset src/main/config/db/rice/db.changelog-2.1.0.xml::rice-client-2.1.0-mysql::kbtaylor::(Checksum: 3:5c1e287f3d9a093391789673c4d7103c)
+--
+-- Copyright 2005-2013 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+
+
+
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-- mysql-2012-04-19.sql
+-- 
+
+
+CREATE TABLE KRNS_MAINT_DOC_ATT_LST_T  (
+    ATT_ID      VARCHAR(40) NOT NULL,
+	DOC_HDR_ID	VARCHAR(14) NOT NULL,
+	ATT_CNTNT 	LONGBLOB NOT NULL,
+	FILE_NM   	VARCHAR(150) NULL,
+	CNTNT_TYP 	VARCHAR(255) NULL,
+	OBJ_ID    	VARCHAR(36) NOT NULL,
+	VER_NBR   	DECIMAL(8,0) NOT NULL DEFAULT 0,
+	PRIMARY KEY(ATT_ID),
+	CONSTRAINT KRNS_MAINT_DOC_ATT_LST_FK1 FOREIGN KEY (DOC_HDR_ID) REFERENCES KRNS_MAINT_DOC_T (DOC_HDR_ID)
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
+
+ALTER TABLE KRNS_MAINT_DOC_ATT_LST_T
+	ADD CONSTRAINT KRNS_MAINT_DOC_ATT_LST_TC0
+	UNIQUE (OBJ_ID);
+
+CREATE INDEX KRNS_MAINT_DOC_ATT__LST_TI1 ON KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID);
+
+create table KRNS_MAINT_DOC_ATT_S (
+  ID BIGINT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
+) ENGINE MyISAM;
+
+ALTER TABLE KRNS_MAINT_DOC_ATT_S AUTO_INCREMENT = 10000;
+
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-- mysql-2012-05-17.sql
+-- 
+
+
+
+-- KULRICE-7237: KRNS_NTE_T is selected by a field with no indexes - full table scan every time
+CREATE INDEX KRNS_NTE_TI1 ON KRNS_NTE_T (RMT_OBJ_ID);
+
+
 --  Changeset src/main/config/db/1.2.0/db.changelog-201105311625.xml::1::yingzhou::(Checksum: 3:d9b96a4ccfda9de583ee21454eeb0f2c)
 --  kpme-564: added validation for max value of Shift Hours, changed db schema, added new test to DepartmentLunchRuleMaintTest
 ALTER TABLE `TK_DEPT_LUNCH_RL_T` MODIFY `SHIFT_HOURS` DECIMAL(3,1);
@@ -2219,6 +3020,61 @@ CREATE UNIQUE INDEX `TK_TIME_COLLECTION_RL_IDX1` ON `TK_TIME_COLLECTION_RL_T`(`D
 CREATE UNIQUE INDEX `TK_WORK_AREA_IDX1` ON `TK_WORK_AREA_T`(`WORK_AREA`, `EFFDT`, `TIMESTAMP`);
 
 CREATE UNIQUE INDEX `TK_WORK_AREA_IDX2` ON `TK_WORK_AREA_T`(`WORK_AREA`, `EFFDT`, `TIMESTAMP`, `ACTIVE`);
+
+
+--  Changeset src/main/config/db/rice/db.changelog-2.1.2.xml::rice-client-2.1.2-mysql::jjhanso::(Checksum: 3:15b71c91074b6c98c9145202fe2f55bd)
+--
+-- Copyright 2005-2013 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+--
+-- KULRICE-7378 - MySQL Upgrade script for Rice 2.0 is dropping not null constraints
+--
+
+--
+-- NOTE - This is only an issue for the MySQL scripts, so that is why there is no corresponding
+--        2012-010-24.sql script for Oracle.
+--
+
+ALTER TABLE KRSB_MSG_QUE_T MODIFY APPL_ID VARCHAR(255) NOT NULL;
+
+
+--  Changeset src/main/config/db/rice/db.changelog-2.1.3.xml::rice-client-2.1.3-mysql::jjhanso::(Checksum: 3:934a86975afb3948b36578d407de250d)
+--
+-- Copyright 2005-2013 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+--
+-- KULRICE-8573: Add session id to locks and delete these locks when session is destroyed.
+--
+
+ALTER TABLE KRNS_PESSIMISTIC_LOCK_T ADD COLUMN SESN_ID VARCHAR(40) NOT NULL DEFAULT '';
 
 
 --  Changeset src/main/config/db/1.5.0/db.changelog-201111230938.xml::1-mysql::lee55::(Checksum: 3:584a4f66918a24b54cbe45a329abdacf)
@@ -3226,6 +4082,93 @@ CREATE UNIQUE INDEX `TK_CLOCK_LOG_IDX1` ON `TK_CLOCK_LOG_T`(`DOCUMENT_ID`, `PRIN
 --  Changeset src/main/config/db/1.5.2/db.changelog-201306040955.xml::1::jjhanso::(Checksum: 3:b30026913328f03fcc68a36d219825bd)
 --  KPME-2445: Adding indexes for dept lunch rule
 CREATE UNIQUE INDEX `TK_DEPT_LUNCH_RL_IDX1` ON `TK_DEPT_LUNCH_RL_T`(`DEPT`, `WORK_AREA`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `TIMESTAMP`);
+
+
+--  Changeset src/main/config/db/rice/db.changelog-2.2.2.xml::rice-client-2.2.2-mysql::jjhanso::(Checksum: 3:bb398afb1073b32fbef258f2fb0ba613)
+--
+-- Copyright 2005-2013 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+--
+--     KULRICE-9179: KRAD_MSG_T not in client dataset upgrade scripts
+--
+
+CREATE TABLE IF NOT EXISTS KRAD_MSG_T
+(
+	NMSPC_CD VARCHAR(20) NOT NULL,
+	CMPNT_CD VARCHAR(100) NOT NULL,
+	MSG_KEY VARCHAR(100) NOT NULL,
+	LOC VARCHAR(80) NOT NULL,
+	OBJ_ID VARCHAR(36) NOT NULL,
+	VER_NBR DECIMAL(8) NOT NULL DEFAULT 1,
+	MSG_DESC VARCHAR(255),
+	TXT VARCHAR(4000),
+	PRIMARY KEY (NMSPC_CD,CMPNT_CD,MSG_KEY,loc),
+	UNIQUE KRAD_MSG_TC0(OBJ_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+--  Changeset src/main/config/db/rice/db.changelog-2.2.4.xml::rice-client-2.2.4-mysql::jjhanso::(Checksum: 3:870d4892309e52c64de385f9e5520584)
+--
+-- Copyright 2005-2013 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+--
+-- KULRICE-9288  - Column 'SESN_ID' cannot be null causes issues
+--
+
+UPDATE KRNS_PESSIMISTIC_LOCK_T SET SESN_ID = 'undefined' WHERE SESN_ID IS NULL OR SESN_ID = '';
+
+ALTER TABLE KRNS_PESSIMISTIC_LOCK_T ALTER COLUMN SESN_ID SET DEFAULT 'undefined';
+
+
+--  Changeset src/main/config/db/rice/db.changelog-2.3.1.xml::rice-client-2.3.1-mysql::jjhanso::(Checksum: 3:070007360f9eebb95832c1bc46c5d324)
+--
+-- Copyright 2005-2013 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+--
+-- KULRICE-9288  - Column 'SESN_ID' cannot be null causes issues
+--;
 
 
 --  Changeset src/main/config/db/2.0.0/db.changelog-201302211114.xml::1-mysql::dgodfrey::(Checksum: 3:0d9caf4578e3974157081886e1cc5082)
