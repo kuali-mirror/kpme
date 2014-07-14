@@ -14,7 +14,10 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.checklist.service.EdoChecklistItemService;
 import org.kuali.kpme.edo.item.EdoItemBo;
 import org.kuali.kpme.edo.item.dao.EdoItemDao;
 import org.kuali.kpme.edo.item.type.service.EdoItemTypeService;
@@ -39,6 +42,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
 
     private EdoItemDao edoItemDao;
     private EdoItemTypeService edoItemTypeService = EdoServiceLocator.getEdoItemTypeService();
+    private EdoChecklistItemService edoChecklistItemService = EdoServiceLocator.getChecklistItemService();
     
     protected List<EdoItem> convertToImmutable(List<EdoItemBo> bos) {
 		return ModelObjectUtils.transform(bos, EdoItemBo.toImmutable);
@@ -186,6 +190,17 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
         tmp.add(item.isActive() == true ? "Y" : "N");
 
         return gson.toJson(tmp, tmpType);
+    }
+    
+    public int getItemCount(String edoDossierId, String edoChecklistSectionId) {
+    	int count = 0;
+    	List<EdoChecklistItem> checklistItems = edoChecklistItemService.getChecklistItemsBySectionID(edoChecklistSectionId, LocalDate.now());
+    	for (EdoChecklistItem checklistItem : checklistItems) {
+    		String checklistItemId = checklistItem.getEdoChecklistItemId();
+    		List<EdoItem> items = this.getItemList(edoDossierId, checklistItemId);
+    		count = count + items.size();
+    	}
+    	return count;
     }
 
 }

@@ -197,14 +197,6 @@
         <field-descriptor name="workflowId" column="workflow_id" jdbc-type="VARCHAR" length="25" nullable="false"/>
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.edo.item.count.EdoItemCountV" table="EDO_ITEM_COUNT_V">
-		<field-descriptor name="dossierId" column="dossier_id" jdbc-type="NUMERIC" precision="4" scale="0" nullable="false" primarykey="true" />
-        <field-descriptor name="checklistItemId" column="checklist_item_id" jdbc-type="NUMERIC" precision="4" scale="0" nullable="false" primarykey="true" />
-        <field-descriptor name="checklistSectionId" column="checklist_section_id" jdbc-type="NUMERIC" precision="4" scale="0" nullable="false" primarykey="false" />
-        <field-descriptor name="docCount" column="doc_count" jdbc-type="NUMERIC" precision="4" scale="0" nullable="false" />
-		<field-descriptor name="checklistItemName" column="checklist_item_name" jdbc-type="VARCHAR" length="200" nullable="false"/>
-    </class-descriptor>
-
     <class-descriptor class="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" table="EDO_REVIEW_LAYER_DEF_T">
     	<field-descriptor name="edoReviewLayerDefinitionId" column="edo_review_layer_def_id" jdbc-type="VARCHAR" length="60" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_REVIEW_LAYER_DEF_S" />
         <field-descriptor name="nodeName" 			column="node_name" 		jdbc-type="VARCHAR" length="30" nullable="false"/>

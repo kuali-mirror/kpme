@@ -1,10 +1,8 @@
 package org.kuali.kpme.edo.item.web;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +15,6 @@ import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 /**
@@ -36,7 +33,7 @@ public class EdoSectionSummaryAction  extends EdoAction {
         int currentTreeNodeID;
         int currentSectionId;
         List<EdoChecklistItem> checklistItems;
-        List<EdoItemCountV> itemCount;
+        int itemCount;
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate) request.getSession().getAttribute("selectedCandidate");
         String itemCountJSON = "";
         EdoSectionSummaryForm cliForm = (EdoSectionSummaryForm) form;
@@ -66,14 +63,15 @@ public class EdoSectionSummaryAction  extends EdoAction {
             }
         }
 
-        itemCount = EdoServiceLocator.getEdoItemCountVService().getItemCount(selectedCandidate.getCandidateDossierID(), BigDecimal.valueOf(currentSectionId));
+        itemCount = EdoServiceLocator.getEdoItemService().getItemCount(selectedCandidate.getCandidateDossierID().toString(), currentSectionId+"");
         cliForm.setItemCount(itemCount);
         cliForm.setChecklistItemID(currentSectionId);
 
+        /* KPME-3705 comment out this section since we are redesigning the GUI
         Map<BigDecimal, EdoItemCountV> itemCountVMap = new HashMap<BigDecimal, EdoItemCountV>();
         for (EdoItemCountV itemCountV : itemCount) {
             itemCountVMap.put(itemCountV.getChecklistItemId(), itemCountV);
-        }
+        } 
 
         int count = 0;
 
@@ -95,7 +93,7 @@ public class EdoSectionSummaryAction  extends EdoAction {
                 itemCountJSON = itemCountJSON.concat(itemJSON);
                 count++;
             }
-        }
+        } */
 
         request.setAttribute("itemcount", itemCount);
         request.setAttribute("itemcountJSON", itemCountJSON);

@@ -7,7 +7,6 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 
@@ -32,15 +31,8 @@ public class EdoChecklistItemForm extends EdoForm {
     private String newFilename;
     private String fileDescription;
     List<EdoItem> itemList = new LinkedList<EdoItem>();
-    List<EdoItemCountV> itemCount = new LinkedList<EdoItemCountV>();
-
-    public List<EdoItemCountV> getItemCount() {
-        return itemCount;
-    }
-
-    public void setItemCount(List<EdoItemCountV> itemCount) {
-        this.itemCount = itemCount;
-    }
+    /* itemCount is not used in EdochecklistItemAction
+    List<EdoItemCountV> itemCount = new LinkedList<EdoItemCountV>(); */
 
     public String getFormData() {
         return formData;

@@ -79,15 +79,13 @@ public class EdoItemServiceTest extends EdoUnitTestBase {
     	List <EdoItem> items = EdoServiceLocator.getEdoItemService().getItemsByDossierIdForAddendumFalgZero(edoDossierID, edoChecklistItemID);
     	assertEquals("returned the correct number of results", 2, items.size());
     }
-    
-	// TODO find out getEdoJdbcTemplate() in EdoServiceLocator - no bean defined for this
-	/*
+
     @Test
 	public void testGetNextRowIndexNum() throws Exception {
 		
 		int nextRow = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(edoChecklistItemID, uploader);
-		assertEquals("2", nextRow);
-	}*/
+		assertEquals(4, nextRow);
+	}
 	
 	@Test
 	public void testDeleteItem() throws Exception {

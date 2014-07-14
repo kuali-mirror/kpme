@@ -11,7 +11,6 @@ import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
-import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -131,9 +130,11 @@ public class EdoRule {
         }
 
         // get the item counts for this dossier and save the number of line items (non-zero counts)
-        List<EdoItemCountV> itemCount = EdoServiceLocator.getEdoItemCountVService().getItemCount(dossierId, generalSectionId);
-        if (CollectionUtils.isNotEmpty(itemCount)) {
-            requiredSectionCount = itemCount.size();
+        // KPME-3705
+         // List<EdoItemCountV> itemCount = EdoServiceLocator.getEdoItemCountVService().getItemCount(dossierId, generalSectionId);
+        int itemCount = EdoServiceLocator.getEdoItemService().getItemCount(dossierId.toString(), generalSectionId.toString());
+        if (itemCount > 0) {
+            requiredSectionCount = itemCount;
         }
         // if the required item count from above is equal to the number of categories in General, then dossier is valid
         if (requiredSectionCount == EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_COUNT) {

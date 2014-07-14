@@ -16,7 +16,6 @@ import org.kuali.kpme.edo.group.service.EdoGroupDefinitionService;
 import org.kuali.kpme.edo.group.service.EdoGroupService;
 import org.kuali.kpme.edo.group.service.EdoGroupTrackingService;
 import org.kuali.kpme.edo.group.service.EdoRoleResponsibilityService;
-import org.kuali.kpme.edo.item.count.service.EdoItemCountVService;
 import org.kuali.kpme.edo.item.dao.EdoItemDao;
 import org.kuali.kpme.edo.item.service.EdoItemService;
 import org.kuali.kpme.edo.item.type.dao.EdoItemTypeDao;
@@ -51,7 +50,6 @@ public class EdoServiceLocator implements ApplicationContextAware {
 	public static final String EDO_CANDIDATE_LIST_DAO = "edoCandidateListDao";
     public static final String EDO_CHECKLIST_ITEM_DAO = "edoChecklistItemDao";
 	public static final String EDO_ITEM_DAO = "edoItemDao";
-    public static final String EDO_ITEM_COUNT_V_DAO = "edoItemCountVDao";
     public static final String EDO_DOSSIER_TYPE_DAO = "edoDossierTypeDao";
     public static final String EDO_ITEM_TYPE_DAO = "edoItemTypeDao";
     public static final String EDO_DOSSIER_DAO = "edoDossier";
@@ -62,7 +60,6 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static final String CHECKLIST_SECTION_SERVICE = "edoChecklistSectionService";
     public static final String CHECKLIST_SERVICE = "edoChecklistService";
     public static final String ITEM_SERVICE = "edoItemService";
-    public static final String ITEM_COUNT_V_SERVICE = "edoItemCountVService";
     public static final String DOSSIER_TYPE_SERVICE = "edoDossierTypeService";
     public static final String DOSSIER_SERVICE = "edoDossierService";
     public static final String CANDIDATEDOSSIER_SERVICE = "edoCandidateDossierService";
@@ -140,10 +137,6 @@ public class EdoServiceLocator implements ApplicationContextAware {
 
     public static EdoItemService getEdoItemService(){
         return (EdoItemService)SPRING_APPLICATION_CONTEXT.getBean(ITEM_SERVICE);
-    }
-
-    public static EdoItemCountVService getEdoItemCountVService(){
-        return (EdoItemCountVService)SPRING_APPLICATION_CONTEXT.getBean(ITEM_COUNT_V_SERVICE);
     }
 
     public static EdoDossierTypeDao getEdoDossierTypeDao() {

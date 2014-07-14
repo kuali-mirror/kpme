@@ -34,4 +34,8 @@ public interface EdoItemService {
     public List<EdoItem> getReviewLetterEdoItems(String edoDossierId, String edoReviewLayerDefinitionId);
     public List<EdoItem> getListOfEdoItems(List<String> idList);
     public String getItemJSONString(EdoItem item);
+    
+    // From EdoItemCountVService
+    // public List<EdoItemCountV> getItemCount(BigDecimal dossierId, BigDecimal checklistSectionId);
+    public int getItemCount(String edoDossierId, String edoChecklistSectionId);
 }

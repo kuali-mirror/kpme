@@ -7,7 +7,6 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.item.count.EdoItemCountV;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 /**
@@ -27,13 +26,11 @@ public class EdoSectionSummaryForm extends EdoForm {
     private String nidFwd;
     private String formData;
     List<EdoItem> itemList = new LinkedList<EdoItem>();
-    List<EdoItemCountV> itemCount = new LinkedList<EdoItemCountV>();
-
-    public List<EdoItemCountV> getItemCount() {
-        return itemCount;
-    }
-
-    public void setItemCount(List<EdoItemCountV> itemCount) {
+    /* KPME-3705 This has been changed to int count from EdoItemService
+    List<EdoItemCountV> itemCount = new LinkedList<EdoItemCou ntV>(); */
+    private int itemCount;
+    
+    public void setItemCount(int itemCount) {
         this.itemCount = itemCount;
     }
 

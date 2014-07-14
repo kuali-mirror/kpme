@@ -76,7 +76,6 @@
     <bean id="edoDossierDao"       class="org.kuali.kpme.edo.dossier.dao.EdoDossierDaoImpl" parent="platformAwareDao" />
     <bean id="edoVoteRecordDao"    class="org.kuali.kpme.edo.vote.dao.EdoVoteRecordDaoImpl"  parent="platformAwareDao" />
     <bean id="edoCandidateDossierDao" class="org.kuali.kpme.edo.dossier.dao.EdoCandidateDossierDaoImpl" parent="platformAwareDao" />
-    <bean id="edoItemCountVDao"    class="org.kuali.kpme.edo.item.count.dao.EdoItemCountVDaoImpl" parent="platformAwareDao" />
     <bean id="edoReviewLayerDefinitionDao" class="org.kuali.kpme.edo.reviewlayerdef.dao.EdoReviewLayerDefinitionDaoImpl" parent="platformAwareDao" />
     <bean id="dossierProcessDocumentHeaderDao" class="org.kuali.kpme.edo.workflow.dao.DossierProcessDocumentHeaderDaoImpl" parent="platformAwareDao" />
     <bean id="edoSupplementalTrackingDao" class="org.kuali.kpme.edo.supplemental.dao.EdoSupplementalTrackingDaoImpl" parent="platformAwareDao" />
@@ -95,9 +94,6 @@
     
     <bean id="edoItemService" class="org.kuali.kpme.edo.item.service.EdoItemServiceImpl">
         <property name="edoItemDao" ref="edoItemDao"/>
-    </bean>
-    <bean id="edoItemCountVService" class="org.kuali.kpme.edo.item.count.service.EdoItemCountVServiceImpl">
-        <property name="edoItemCountVDao" ref="edoItemCountVDao"/>
     </bean>
     <bean id="candidateService" class="org.kuali.kpme.edo.candidate.service.CandidateServiceImpl">
             <property name="edoCandidateListDao" ref="edoCandidateListDao"/>
@@ -205,6 +201,10 @@
 		<property name="promotionAndTenureReportService" ref="edoPromotionAndTenureReportViewService" />
 	</bean> 
     <!-- end of eDossier Lookupable Definitions -->
+
+    <bean name="edoJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="kpmeDataSource"/>
+    </bean>
     
     <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
         <property name="interceptorNames">
@@ -216,7 +216,6 @@
             <list>
             	<idref local="edoServiceLocator"/>
             	<idref local="edoItemService"/>
-            	<idref local="edoItemCountVService"/>
             	<idref local="candidateService"/>            	
             	<idref local="edoChecklistService"/>
             	<idref local="edoChecklistItemService"/>
