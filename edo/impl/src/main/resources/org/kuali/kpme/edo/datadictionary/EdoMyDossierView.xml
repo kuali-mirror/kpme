@@ -1,0 +1,212 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+                    
+	<bean id="Edo-MyDossierView" parent="Edo-MyDossierView-parent"/>
+	<bean id="Edo-MyDossierView-parent" parent="Edo-View">
+ 
+	    <property name="parentLocation">
+	      <bean parent="Uif-RicePortalParentLocation"/>
+	    </property>
+		<property name="singlePageView" value="true"/>
+	   
+<!-- 	    <property name="navigation"> -->
+<!-- 	      <ref bean="Edo-HomePageLayout-NavMenu"/> -->
+<!-- 	    </property> -->
+
+	 	<property name="cssClasses">
+	      <list merge="true">
+	        <value>demo-kradSampleAppDemo</value>
+	      </list>
+	    </property>
+	    
+	    <property name="page">
+	    	<bean parent="Uif-Page">
+	      		<property name="items">
+	      			<list>
+	      				<ref bean="Edo-MyDossierView-Page" />
+	      			</list>
+	      		</property>
+	    	</bean>
+	    </property>
+	  </bean>
+	  
+	  
+	  <bean id="Edo-MyDossierView-Page" parent="Uif-HorizontalBoxGroup">
+			<property name="cssClasses">
+		      <list merge="true">
+		        <value>demo-demoGroup</value>
+		      </list>
+		   	</property>
+		    <property name="items">
+		      <list>
+<!-- 		        <ref bean="Edo-MyDossierView-Page-Row1"/> -->
+		        <ref bean="Edo-MyDossierView-Page-Row1-Column2" />
+<!-- 		        <ref bean="Edo-MyDossierView-Page-Row2"/> -->
+		      </list>
+		    </property>
+	  </bean>
+	  
+	   <bean id="Edo-MyDossierView-Page-Row1" parent="Uif-VerticalBoxGroup">
+		   <property name="cssClasses">
+		      <list merge="true">
+		        <value>demo-demoRow</value>
+		      </list>
+		    </property>
+	  		<property name="items">
+		      <list>
+		      	<bean parent="Uif-Message" p:messageText="Submit for Review section" />
+		      	<ref bean="Edo-MyDossierView-Page-Row1-Column2"/>
+		      </list>
+		    </property>
+	  </bean>
+	  
+	  <bean id="Edo-MyDossierView-Page-Row1-Column2" parent="Uif-HorizontalBoxGroup">
+	  	<property name="cssClasses">
+	      <list merge="true">
+	        <value>demo-demoGroup</value>
+	      </list>
+	    </property>
+	    <property name="items">
+	      <list>
+	      	<bean parent="Uif-Message" p:messageText="Dossier check list section. Should be populated dynamically by the check List and items of the dossier" />
+	      	<bean parent="Uif-VerticalBoxGroup" id="Edo-MyDossierView-Page-Row1-Column2-Row2">
+		      	<property name="cssClasses">
+			      <list merge="true">
+			        <value>demo-demoRow</value>
+			      </list>
+			    </property>
+	      		<property name="items">
+			      <list>
+			      	<bean id="Edo-MyDossierView-Page-Row1-Column2-Row2-Column1" parent="Edo-LinkMessageGroup">
+			      		<property name="items">
+				            <list>
+				              <bean parent="Uif-Link" p:linkText="Assign a Guest"
+				                    p:href="kradsampleapp?viewId=KradMaintenanceSample-PageR1C2"/>
+				              <bean parent="Uif-Message" p:messageText="Assign a colleague or mentor to review your eDossier."/>
+				            </list>
+			          </property>
+			      	</bean>
+			      	<bean id="Edo-MyDossierView-Page-Row1-Column2-Row2-Column2" parent="Edo-LinkMessageGroup">
+			      		<property name="items">
+			      			<list>
+				              <bean parent="Uif-Link" p:linkText="Assign a Candidate Delegate"
+				                    p:href="kradsampleapp?viewId=KradMaintenanceSample-PageR1C2"/>
+				              <bean parent="Uif-Message" p:messageText="Assign an assistant to help prepare your eDossier."/>
+				            </list>
+				        </property>
+			      	</bean>
+			      </list>
+			    </property>
+			</bean>
+		  </list>
+	    </property>
+	  </bean>
+	
+	 <bean id="Edo-MyDossierView-Page-Row2" parent="Uif-VerticalBoxGroup">
+	 	<property name="cssClasses">
+	      <list merge="true">
+	        <value>demo-demoGroup</value>
+	      </list>
+	    </property>
+	 	<property name="items">
+	      <list>
+	        <ref bean="Edo-MyDossierView-Page-Row2-Column1"/>
+	        <ref bean="Edo-MyDossierView-Page-Row2-Column2"/>
+	        <ref bean="Edo-MyDossierView-Page-Row2-Column3"/>
+	      </list>
+	    </property>
+	 </bean>	  
+	  
+	 <bean id="Edo-MyDossierView-Page-Row2-Column1" parent="Uif-HorizontalBoxGroup">
+	 	<property name="cssClasses">
+		      <list merge="true">
+		        <value>demo-demoRow</value>
+		      </list>
+		</property>
+	 	<property name="items">
+	      <list>
+	      	<bean id="Edo-MyDossierView-Page-Row2-Column1-Item1" parent="Edo-LinkMessageGroup">
+	      		<property name="items">
+	      			<list>
+		              <bean parent="Uif-Link" p:linkText="All Files"
+		                    p:href="kradsampleapp?viewId=KradMaintenanceSample-PageR1C2"/>
+		              <bean parent="Uif-Message" p:messageText="Coming soon."/>
+		            </list>
+		        </property>
+	      	</bean>
+	        <bean id="Edo-MyDossierView-Page-Row2-Column1-Item2" parent="Edo-LinkMessageGroup">
+	      		<property name="items">
+	      			<list>
+		              <bean parent="Uif-Link" p:linkText="Export"
+		                    p:href="kradsampleapp?viewId=KradMaintenanceSample-PageR1C2"/>
+		              <bean parent="Uif-Message" p:messageText="Export items for external review."/>
+		            </list>
+		        </property>
+	      	</bean>
+	      </list>
+	    </property>
+	 </bean>
+	 
+	 <bean id="Edo-MyDossierView-Page-Row2-Column2" parent="Uif-HorizontalBoxGroup">
+	 	<property name="cssClasses">
+		      <list merge="true">
+		        <value>demo-demoRow</value>
+		      </list>
+		    </property>
+	 	<property name="items">
+	      <list>
+	        <bean id="Edo-MyDossierView-Page-Row2-Column2-Item1" parent="Edo-LinkMessageGroup">
+	      		<property name="items">
+	      			<list>
+		              <bean parent="Uif-Link" p:linkText="Promotion and Tenure Guidelines"
+		                    p:href="kradsampleapp?viewId=KradMaintenanceSample-PageR1C2"/>
+		              <bean parent="Uif-Message" p:messageText="View the guidelines."/>
+		            </list>
+		        </property>
+	      	</bean>
+	        <bean id="Edo-MyDossierView-Page-Row2-Column2-Item2" parent="Edo-LinkMessageGroup">
+	      		<property name="items">
+	      			<list>
+		              <bean parent="Uif-Link" p:linkText="Supplemental Items"
+		                    p:href="kradsampleapp?viewId=KradMaintenanceSample-PageR1C2"/>
+		              <bean parent="Uif-Message" p:messageText="Items to include after your eDossier is submitted."/>
+		            </list>
+		        </property>
+	      	</bean>
+	      </list>
+	    </property>
+	 </bean>
+	 
+	 <bean id="Edo-MyDossierView-Page-Row2-Column3" parent="Uif-HorizontalBoxGroup">
+	 	<property name="cssClasses">
+		      <list merge="true">
+		        <value>demo-demoRow</value>
+		      </list>
+		    </property>
+	 	<property name="items">
+	      <list>
+		      <bean id="Edo-MyDossierView-Page-Row2-Column3-Item1" parent="Edo-LinkMessageGroup">
+		      		<property name="items">
+		      			<list>
+			              <bean parent="Uif-Link" p:linkText="Sample eDossier"
+			                    p:href="kradsampleapp?viewId=KradMaintenanceSample-PageR1C2"/>
+			              <bean parent="Uif-Message" p:messageText="Get started by viewing a sample."/>
+			            </list>
+			        </property>
+		      </bean>
+		      <bean id="Edo-MyDossierView-Page-Row2-Column3-Item2" parent="Edo-LinkMessageGroup">
+		      		<property name="items">
+		      			<list>
+			              <bean parent="Uif-Link" p:linkText="Submit your eDossier" 
+			                    p:href="kradsampleapp?viewId=KradMaintenanceSample-PageR1C2"/>
+			              <bean parent="Uif-Message" p:messageText="After your eDossier is complete this will be active."/>
+			            </list>
+			        </property>
+		      </bean>  
+	      </list>
+	    </property>
+	 </bean>
+	  
+</beans>

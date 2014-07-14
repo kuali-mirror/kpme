@@ -21,7 +21,12 @@
 	<div class="body">
 	    <ul class="chan">
 	    	<li>
-	        	<a href="EdoDossierHome.do">eDossier Home</a>
+	        	<a href="EdoDossierHome.do">eDossier Home (older version)</a>
+	    	</li>
+	    	<li>
+	    		<a class="portal_link" target="_blank" 
+	    			href="${ConfigProperties.application.url}/kpme/edoHome?viewId=Edo-HomePageLayout&methodToCall=start">
+	    			eDossier Home (KRAD version with UXI design)</a>
 	    	</li>
 	    </ul>
 	</div>

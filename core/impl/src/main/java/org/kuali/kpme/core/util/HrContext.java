@@ -400,6 +400,11 @@ public class HrContext {
     		return false;
     	}
     }
+   
+    public static boolean isTargetingUser() {
+    	 String principalId = (String) GlobalVariables.getUserSession().retrieveObject(HrConstants.TK_TARGET_USER_PERSON);
+    	 return StringUtils.isNotBlank(principalId) ? true : false;
+    }
     
     public static boolean isUserCandidateDelegate() {
     	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), 
