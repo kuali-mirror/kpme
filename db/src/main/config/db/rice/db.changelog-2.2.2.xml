@@ -23,7 +23,11 @@
     <changeSet id="rice-server-2.2.2-oracle" author="jjhanso" dbms="oracle" context="rice-server-bootstrap">
         <sqlFile path="src/main/config/db/rice/2.2.2/oracle/update_final_oracle.sql" endDelimiter="\n/\s*\n|\n/\s*$" />
     </changeSet>
-    
+
+    <changeSet id="rice-client-2.2.2-oracle" author="jjhanso" dbms="oracle" context="rice-client-bootstrap">
+        <sqlFile path="src/main/config/db/rice/2.2.2/oracle/update_client_final_oracle.sql" endDelimiter="\n/\s*\n|\n/\s*$" />
+    </changeSet>
+
     <changeSet id="rice-server-2.2.2-mysql" author="jjhanso" dbms="mysql" context="rice-server-bootstrap">
         <sqlFile path="src/main/config/db/rice/2.2.2/mysql/update_final_mysql.sql" />
     </changeSet>
@@ -32,20 +36,12 @@
         <sqlFile path="src/main/config/db/rice/2.2.2/mysql/update_client_final_mysql.sql" />
     </changeSet>
 
-    <changeSet id="rice-client-2.2.2-oracle" author="jjhanso" dbms="oracle" context="rice-client-bootstrap">
-        <sqlFile path="src/main/config/db/rice/2.2.2/oracle/update_client_final_oracle.sql" />
-    </changeSet>
-
-    <changeSet id="rice-client-2.2.2-oracle" author="jjhanso" dbms="oracle" context="rice-client-bootstrap">
-        <sqlFile path="src/main/config/db/rice/2.2.2/oracle/update_client_final_oracle.sql" />
-    </changeSet>
-
     <changeSet id="rice-cleanup-client-2.2.2-oracle" author="jjhanso" dbms="oracle" context="rice-client-bootstrap">
-        <sqlFile path="src/main/config/db/rice/2.2.2/oracle/cleanup_client_final_oracle.sql" />
+        <sqlFile path="src/main/config/db/rice/2.2.2/oracle/cleanup_client_final_oracle.sql" endDelimiter="\n/\s*\n|\n/\s*$" />
     </changeSet>
 
     <changeSet id="rice-cleanup-2.2.2-oracle" author="jjhanso" dbms="oracle" context="rice-server-bootstrap">
-        <sqlFile path="src/main/config/db/rice/2.2.2/oracle/cleanup_final_oracle.sql" />
+        <sqlFile path="src/main/config/db/rice/2.2.2/oracle/cleanup_final_oracle.sql" endDelimiter="\n/\s*\n|\n/\s*$" />
     </changeSet>
 
 </databaseChangeLog>

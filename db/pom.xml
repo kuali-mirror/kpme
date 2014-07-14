@@ -35,6 +35,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>${oracle.jdbc.artifactId}</artifactId>
+            <version>${oracle.jdbc.version}</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>
@@ -132,6 +138,13 @@
                                 <groupId>mysql</groupId>
                                 <artifactId>mysql-connector-java</artifactId>
                                 <version>${mysql.jdbc.version}</version>
+                                <scope>runtime</scope>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.oracle</groupId>
+                                <artifactId>${oracle.jdbc.artifactId}</artifactId>
+                                <version>${oracle.jdbc.version}</version>
+                                <scope>runtime</scope>
                             </dependency>
                         </dependencies>
                     </plugin>

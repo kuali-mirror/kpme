@@ -19,7 +19,10 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="mlemons" context="kpme-client-bootstrap">
+    <changeSet id="1" author="mlemons" dbms="mysql" context="kpme-client-bootstrap">
+        <dropIndex tableName="HR_PAYTYPE_T" indexName="HR_PAYTYPE_IDX1" />
+    </changeSet>
+    <changeSet id="2" author="mlemons" context="kpme-client-bootstrap">
         <createIndex indexName="PM_PSTN_APPOINTMENT_IDX1" tableName="PM_PSTN_APPOINTMENT_T" unique="true">
             <column name="PSTN_APPOINTMENT" />
             <column name="GRP_KEY_CD" />
@@ -79,7 +82,7 @@
         </createIndex>
 
 
-        <dropIndex tableName="HR_PAYTYPE_T" indexName="HR_PAYTYPE_IDX1" />
+        <!--<dropIndex tableName="HR_PAYTYPE_T" indexName="HR_PAYTYPE_IDX1" />-->
         <createIndex indexName="HR_PAYTYPE_IDX1" tableName="HR_PAYTYPE_T" unique="true">
             <column name="PAYTYPE" />
             <column name="EFFDT" />
@@ -164,6 +167,7 @@
 
 
         <dropIndex tableName="TK_WORK_AREA_T" indexName="TK_WORK_AREA_IDX1" />
+        <dropIndex tableName="TK_WORK_AREA_T" indexName="TK_WORK_AREA_IDX2" />
         <createIndex indexName="TK_WORK_AREA_IDX1" tableName="TK_WORK_AREA_T" unique="true">
             <column name="WORK_AREA" />
             <column name="EFFDT" />
