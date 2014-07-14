@@ -20,7 +20,7 @@ public class EdoAdminGroupMembersForm extends EdoForm {
     private List<String> departmentSelectList;
     private List<String> schoolSelectList;
     private List<String> campusSelectList;
-    private Map<BigDecimal,String> reviewLevelSelectList;
+    private Map<String,String> reviewLevelSelectList;
     private FormFile UploadMbrFile;
     private String memberData;
 
@@ -48,11 +48,11 @@ public class EdoAdminGroupMembersForm extends EdoForm {
         this.campusSelectList = campusSelectList;
     }
 
-    public Map<BigDecimal,String> getReviewLevelSelectList() {
+    public Map<String,String> getReviewLevelSelectList() {
         return reviewLevelSelectList;
     }
 
-    public void setReviewLevelSelectList(Map<BigDecimal,String> reviewLevelSelectList) {
+    public void setReviewLevelSelectList(Map<String,String> reviewLevelSelectList) {
         this.reviewLevelSelectList = reviewLevelSelectList;
     }
 

@@ -56,7 +56,7 @@ public class EdoDossierHomeAction extends EdoAction {
                     }
 //                    EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(EdoContext.getUser().getNetworkId());
                     EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(HrContext.getPrincipalName());
-                    currentCandidateID = edoC.getEdoCandidateID().toString();
+                    currentCandidateID = edoC.getEdoCandidateId().toString();
                 }
                 //guest role
                 if (EdoUser.getCurrentTargetRoles().contains("Guest Dossier")) {
@@ -105,7 +105,7 @@ public class EdoDossierHomeAction extends EdoAction {
                     }
 //                    EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(EdoContext.getUser().getNetworkId());
                     EdoCandidate edoC = EdoServiceLocator.getCandidateService().getCandidateByUsername(HrContext.getPrincipalName());
-                    currentCandidateID = edoC.getEdoCandidateID().toString();
+                    currentCandidateID = edoC.getEdoCandidateId().toString();
                 }
                 //guest role
 //                if (EdoContext.getUser().getCurrentRoleList().contains("Guest Dossier")) {

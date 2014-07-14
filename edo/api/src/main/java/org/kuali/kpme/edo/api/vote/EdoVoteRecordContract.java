@@ -5,11 +5,11 @@ import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 
 public interface EdoVoteRecordContract extends KpmeEffectiveDataTransferObject {
    
-	public String getEdoVoteRecordID();
+	public String getEdoVoteRecordId();
 
-	public String getEdoDossierID();
+	public String getEdoDossierId();
 
-	public String getEdoReviewLayerDefinitionID();
+	public String getEdoReviewLayerDefinitionId();
 
     public String getVoteType();
     

@@ -19,9 +19,9 @@
 		<property name="objectLabel" value="eDossier" />
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="EdoDossier-edoDossierID" />
-				<ref bean="EdoDossier-edoDossierTypeID" />
-				<ref bean="EdoDossier-edoChecklistID" />
+				<ref bean="EdoDossier-edoDossierId" />
+				<ref bean="EdoDossier-edoDossierTypeId" />
+				<ref bean="EdoDossier-edoChecklistId" />
 				<ref bean="EdoDossier-candidatePrincipalName" />
 				<ref bean="EdoDossier-aoeCode" />
 				<ref bean="EdoDossier-departmentID" />
@@ -37,8 +37,8 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<bean id="EdoDossier-edoDossierID" parent="EdoDossier-edoDossierID-parentBean" />
-	<bean id="EdoDossier-edoDossierID-parentBean" abstract="true"
+	<bean id="EdoDossier-edoDossierId" parent="EdoDossier-edoDossierId-parentBean" />
+	<bean id="EdoDossier-edoDossierId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Dossier Id" />
 		<property name="maxLength" value="60" />
@@ -48,12 +48,12 @@
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
-		<property name="name" value="edoDossierID" />
+		<property name="name" value="edoDossierId" />
 		<property name="label" value="Dossier Id" />
 	</bean>
 
-	<bean id="EdoDossier-edoDossierTypeID" parent="EdoDossier-edoDossierTypeID-parentBean" />
-	<bean id="EdoDossier-edoDossierTypeID-parentBean" abstract="true"
+	<bean id="EdoDossier-edoDossierTypeId" parent="EdoDossier-edoDossierTypeId-parentBean" />
+	<bean id="EdoDossier-edoDossierTypeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Dossier Type Id" />
 		<property name="maxLength" value="60" />
@@ -63,12 +63,12 @@
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
-		<property name="name" value="edoDossierTypeID" />
+		<property name="name" value="edoDossierTypeId" />
 		<property name="label" value="Dossier Type Id" />
 	</bean>
 
-	<bean id="EdoDossier-edoChecklistID" parent="EdoDossier-edoChecklistID-parentBean" />
-	<bean id="EdoDossier-edoChecklistID-parentBean" abstract="true"
+	<bean id="EdoDossier-edoChecklistId" parent="EdoDossier-edoChecklistId-parentBean" />
+	<bean id="EdoDossier-edoChecklistId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Dossier Checklist Id" />
 		<property name="maxLength" value="60" />
@@ -78,7 +78,7 @@
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="20" />
 		</property>
-		<property name="name" value="edoChecklistID" />
+		<property name="name" value="edoChecklistId" />
 		<property name="label" value="Dossier Checklist Id" />
 	</bean>
 		
@@ -337,8 +337,8 @@
 							<property name="items">
 								<list merge="true">
 									<bean parent="Uif-InputField" p:propertyName="edoDossier.candidatePrincipalName" />
-									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoDossierTypeID" />
-									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoChecklistID" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoDossierTypeId" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoChecklistId" />
 									<bean parent="Uif-InputField" p:propertyName="edoDossier.aoeCode" />
 									<bean parent="Uif-InputField" p:propertyName="edoDossier.departmentID" />
 									<bean parent="Uif-InputField" p:propertyName="edoDossier.secondaryUnit" />

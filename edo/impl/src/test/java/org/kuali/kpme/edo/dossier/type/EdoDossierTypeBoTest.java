@@ -30,7 +30,7 @@ public class EdoDossierTypeBoTest {
 	
 	static {
 		testEdoDossierTypeBos = new HashMap<String, EdoDossierType>();
-		edoDossierTypeBuilder.setEdoDossierTypeID("1003");
+		edoDossierTypeBuilder.setEdoDossierTypeId("1003");
 		edoDossierTypeBuilder.setDossierTypeCode("cc");
 		edoDossierTypeBuilder.setDocumentTypeName("documentName");
 		edoDossierTypeBuilder.setDossierTypeName("dossierTypeName");
@@ -41,7 +41,7 @@ public class EdoDossierTypeBoTest {
 		edoDossierTypeBuilder.setActive(true);
 		edoDossierTypeBuilder.setEffectiveLocalDate(new LocalDate(2012, 3, 1));
 		edoDossierTypeBuilder.setCreateTime(DateTime.now());
-		edoDossierTypeBuilder.setId(edoDossierTypeBuilder.getEdoDossierTypeID());
+		edoDossierTypeBuilder.setId(edoDossierTypeBuilder.getEdoDossierTypeId());
 		// Set GroupKeycode Object
 		testEdoDossierTypeBos.put(edoDossierTypeBuilder.getDossierTypeCode(), edoDossierTypeBuilder.build());
 	}

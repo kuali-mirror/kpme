@@ -5,8 +5,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+//import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -42,12 +43,11 @@ public class EdoVoteRecordServiceImpl implements EdoVoteRecordService {
 
             //Get the review layer ids for vote record.
             for(EdoReviewLayerDefinition reviewLayerDefinition : edoReviewLayerDefinitions) {
-            	System.out.println("get in here!!!!!!!!!");
                 if (authorizedViewLevels.contains(reviewLayerDefinition.getReviewLevel())) {
-                    reviewLayerIds.add(reviewLayerDefinition.getReviewLayerDefinitionId().toString());
+                    reviewLayerIds.add(reviewLayerDefinition.getEdoReviewLayerDefinitionId());
                 }
             }
-            System.out.println("number of voteRecord returned>>>>>>" + edoVoteRecordDao.getVoteRecords(edoDossierID, reviewLayerIds).size());
+            
             return ModelObjectUtils.transform(edoVoteRecordDao.getVoteRecords(edoDossierID, reviewLayerIds), EdoVoteRecordBo.toImmutable);  
         }
 
@@ -79,7 +79,7 @@ public class EdoVoteRecordServiceImpl implements EdoVoteRecordService {
             }
         }
         for (EdoReviewLayerDefinition voteRLD : voteRecordLayerDefinitions) {
-            EdoVoteRecord voteRecord = getVoteRecordMostCurrentRound(edoDossierID, voteRLD.getReviewLayerDefinitionId().toString());
+            EdoVoteRecord voteRecord = getVoteRecordMostCurrentRound(edoDossierID, voteRLD.getEdoReviewLayerDefinitionId());
             if (isNegativeVote(voteRecord)) {
                 if (rld == null) {
                     rld = voteRLD;
@@ -93,8 +93,8 @@ public class EdoVoteRecordServiceImpl implements EdoVoteRecordService {
         return rld;
     }
 
-    public EdoVoteRecord getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionID) {
-    	EdoVoteRecordBo edoVoteRecordBo = edoVoteRecordDao.getVoteRecordMostCurrentRound(edoDossierID, edoReviewLayerDefinitionID);
+    public EdoVoteRecord getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionId) {
+    	EdoVoteRecordBo edoVoteRecordBo = edoVoteRecordDao.getVoteRecordMostCurrentRound(edoDossierID, edoReviewLayerDefinitionId);
     	
     	if ( edoVoteRecordBo == null){
     		return null;
@@ -105,9 +105,9 @@ public class EdoVoteRecordServiceImpl implements EdoVoteRecordService {
     	return builder.build();
     }
 
-    public List<EdoVoteRecord> getVoteRecords(String edoDossierID, String edoReviewLayerDefinitionID) {
+    public List<EdoVoteRecord> getVoteRecords(String edoDossierID, String edoReviewLayerDefinitionId) {
     	
-    	return ModelObjectUtils.transform(edoVoteRecordDao.getVoteRecords(edoDossierID, edoReviewLayerDefinitionID), EdoVoteRecordBo.toImmutable); 
+    	return ModelObjectUtils.transform(edoVoteRecordDao.getVoteRecords(edoDossierID, edoReviewLayerDefinitionId), EdoVoteRecordBo.toImmutable); 
     }
 
     public void setEdoVoteRecordDao(EdoVoteRecordDao edoVoteRecordDao) {

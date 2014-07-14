@@ -2,7 +2,7 @@ package org.kuali.kpme.edo.util;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 
 import java.util.Collection;
 
@@ -60,7 +60,7 @@ public final class EdoWorkflowUtils {
         sb.append("</dossier>");
         return sb.toString();
     }
-    public static String generateReconsiderApplicationContent(EdoDossierBo dossier, Collection<EdoReviewLayerDefinition> moveNodes) {
+    public static String generateReconsiderApplicationContent(EdoDossierBo dossier, Collection<EdoReviewLayerDefinitionBo> moveNodes) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<dossier>");
 		sb.append("<principalId>");
@@ -83,7 +83,7 @@ public final class EdoWorkflowUtils {
 		sb.append("</dossierStatus>");
 		sb.append("<moveNodes>");
         if (CollectionUtils.isNotEmpty(moveNodes)) {
-            for (EdoReviewLayerDefinition node : moveNodes) {
+            for (EdoReviewLayerDefinitionBo node : moveNodes) {
                 sb.append("<moveNodeRouteLevel>" + node.getRouteLevel() + "</moveNodeRouteLevel>"); 
                 sb.append("<moveNodeReviewLevel>" + node.getReviewLevel() + "</moveNodeReviewLevel>");
             }

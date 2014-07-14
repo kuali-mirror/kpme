@@ -18,7 +18,7 @@
 		<property name="objectLabel" value="eDossier Dossier Type" />
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="EdoDossierType-edoDossierTypeID" />
+				<ref bean="EdoDossierType-edoDossierTypeId" />
 				<ref bean="EdoDossierType-dossierTypeCode" />
 				<ref bean="EdoDossierType-dossierTypeName" />
 				<ref bean="EdoDossierType-documentTypeName" />
@@ -27,8 +27,8 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<bean id="EdoDossierType-edoDossierTypeID" parent="EdoDossierType-edoDossierTypeID-parentBean" />
-	<bean id="EdoDossierType-edoDossierTypeID-parentBean" abstract="true"
+	<bean id="EdoDossierType-edoDossierTypeId" parent="EdoDossierType-edoDossierTypeId-parentBean" />
+	<bean id="EdoDossierType-edoDossierTypeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Dossier Type Id" />
 		<property name="maxLength" value="60" />
@@ -38,7 +38,7 @@
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
-		<property name="name" value="edoDossierTypeID" />
+		<property name="name" value="edoDossierTypeId" />
 		<property name="label" value="Dossier Type Id" />
 	</bean>
 

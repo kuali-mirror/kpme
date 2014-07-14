@@ -112,11 +112,11 @@ public class EdoPostFileAction extends EdoAction {
                         item.setContentType(contentType);
                         item.setActionFullDateTime(new DateTime(sqlTimestamp));
                         // TODO: this will need to be a dynamic value, not hard coded
-                        item.setEdoItemTypeID("1");
+                        item.setEdoItemTypeId("1");
                         item.setRouted(true);
                         item.setUserPrincipalId(uploadUsername);
-                        item.setEdoDossierID(dossierID.toString());
-                        item.setEdoChecklistItemID(checklistItemID+"");
+                        item.setEdoDossierId(dossierID.toString());
+                        item.setEdoChecklistItemId(checklistItemID+"");
                         Integer nextRowIndexNum = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(checklistItemID+"", uploadUsername);
                         item.setRowIndex(nextRowIndexNum);
 

@@ -11,7 +11,7 @@ import com.google.common.collect.ImmutableMap;
 /**
  * $HeadURL$
  * $Revision$
- * Created with IntelliJ IDEA.
+ * Created with IntelliJ IDEA.f
  * User: bradleyt
  * Date: 5/22/14
  * Time: 9:54 AM
@@ -20,12 +20,12 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
 
 	
 	static class KeyFields {
-		private static final String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionID";
-		private static final String EDO_CHECKLIST_ID = "edoChecklistID";
+		private static final String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionId";
+		private static final String EDO_CHECKLIST_ID = "edoChecklistId";
 	}
 	
-	private String edoChecklistSectionID;
-	private String edoChecklistID;
+	private String edoChecklistSectionId;
+	private String edoChecklistId;
     private String checklistSectionName;
 	private String description;
     private int checklistSectionOrdinal;
@@ -57,41 +57,41 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
 	
 	@Override
 	public String getId() {
-		return  getEdoChecklistSectionID();
+		return  getEdoChecklistSectionId();
 	}
 
 	@Override
 	public void setId(String checklistSectionID) {
-		setEdoChecklistSectionID(checklistSectionID);
+		setEdoChecklistSectionId(checklistSectionID);
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getEdoChecklistSectionID();
+		return getEdoChecklistSectionId();
 	}
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_CHECKLIST_SECTION_ID, this.getEdoChecklistSectionID())
-				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistID())
+				.put(KeyFields.EDO_CHECKLIST_SECTION_ID, this.getEdoChecklistSectionId())
+				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistId())
 				.build();
 	}
 
-    public String getEdoChecklistSectionID() {
-		return edoChecklistSectionID;
+    public String getEdoChecklistSectionId() {
+		return edoChecklistSectionId;
 	}
 
-	public void setEdoChecklistSectionID(String edoChecklistSectionID) {
-		this.edoChecklistSectionID = edoChecklistSectionID;
+	public void setEdoChecklistSectionId(String edoChecklistSectionId) {
+		this.edoChecklistSectionId = edoChecklistSectionId;
 	}
 
-	public String getEdoChecklistID() {
-		return edoChecklistID;
+	public String getEdoChecklistId() {
+		return edoChecklistId;
 	}
 
-	public void setEdoChecklistID(String edoChecklistID) {
-		this.edoChecklistID = edoChecklistID;
+	public void setEdoChecklistId(String edoChecklistId) {
+		this.edoChecklistId = edoChecklistId;
 	}
 
 	public String getDescription() {
@@ -123,8 +123,8 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
             return null;
         }
         EdoChecklistSectionBo ecls = new EdoChecklistSectionBo();
-        ecls.setEdoChecklistSectionID(im.getEdoChecklistSectionID());
-        ecls.setEdoChecklistID(im.getEdoChecklistID());
+        ecls.setEdoChecklistSectionId(im.getEdoChecklistSectionId());
+        ecls.setEdoChecklistId(im.getEdoChecklistId());
         ecls.setDescription(im.getDescription());
         ecls.setChecklistSectionName(im.getChecklistSectionName());
         ecls.setChecklistSectionOrdinal(im.getChecklistSectionOrdinal());

@@ -26,7 +26,7 @@ public interface EdoCandidateContract extends KpmeEffectiveKeyedDataTransferObje
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "EdoCandidateContract";
 
-	public String getEdoCandidateID();
+	public String getEdoCandidateId();
 
 	public String getLastName();
 

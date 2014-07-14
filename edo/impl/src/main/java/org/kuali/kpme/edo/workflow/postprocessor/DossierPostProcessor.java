@@ -52,7 +52,7 @@ public class DossierPostProcessor extends DefaultPostProcessor {
             	//make a permission check
             	if(KimApiServiceLocator.getPermissionService().isAuthorized(approver.getPrincipalId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPER_USER_APPROVE_TENURE_SUPP_PERMISSION, new HashMap<String, String>()) || 
             	   KimApiServiceLocator.getPermissionService().isAuthorized(approver.getPrincipalId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPER_USER_APPROVE_PROMOTION_SUPP_PERMISSION, new HashMap<String, String>())) {
-                       List<DossierProcessDocumentHeader> pendingSuppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(Integer.valueOf(dossier.getEdoDossierID()));
+                       List<DossierProcessDocumentHeader> pendingSuppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(Integer.valueOf(dossier.getEdoDossierId()));
                         if (CollectionUtils.isNotEmpty(pendingSuppDocHeaders)) {
                         for(DossierProcessDocumentHeader pendingSuppDocHeader : pendingSuppDocHeaders) {
 	                        	WorkflowDocumentActionsService documentActionsService = (WorkflowDocumentActionsService)KsbApiServiceLocator.getMessageHelper().getServiceAsynchronously(new QName(KewApiConstants.Namespaces.KEW_NAMESPACE_2_0, KewApiConstants.ServiceNames.WORKFLOW_DOCUMENT_ACTIONS_SERVICE_SOAP), "EDO");

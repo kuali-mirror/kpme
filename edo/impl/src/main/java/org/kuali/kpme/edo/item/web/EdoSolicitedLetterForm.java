@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 
 /**
  * $HeadURL$
@@ -28,13 +28,13 @@ public class EdoSolicitedLetterForm extends EdoForm {
     private String nidFwd;
     private String formData;
     List<EdoItem> itemList = new LinkedList<EdoItem>();
-    Collection<EdoReviewLayerDefinition> layerList = new LinkedList<EdoReviewLayerDefinition>();
+    Collection<EdoReviewLayerDefinitionBo> layerList = new LinkedList<EdoReviewLayerDefinitionBo>();
 
-    public Collection<EdoReviewLayerDefinition> getLayerList() {
+    public Collection<EdoReviewLayerDefinitionBo> getLayerList() {
         return this.layerList;
     }
 
-    public void setLayerList(Collection<EdoReviewLayerDefinition> reviewLayerDefinitions) {
+    public void setLayerList(Collection<EdoReviewLayerDefinitionBo> reviewLayerDefinitions) {
         this.layerList = reviewLayerDefinitions;
     }
 

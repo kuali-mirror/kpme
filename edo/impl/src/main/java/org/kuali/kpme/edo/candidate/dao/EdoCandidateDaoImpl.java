@@ -28,11 +28,11 @@ public class EdoCandidateDaoImpl extends PlatformAwareDaoBaseOjb implements EdoC
 
     private static final Logger LOG = Logger.getLogger(EdoCandidateDaoImpl.class);
 
-    public EdoCandidateBo getCandidate(String edoCandidateID) {
+    public EdoCandidateBo getCandidate(String edoCandidateId) {
     	
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edoCandidateID", edoCandidateID);
+        cConditions.addEqualTo("edoCandidateId", edoCandidateId);
 
         Query query = QueryFactory.newQuery(EdoCandidateBo.class, cConditions);
         

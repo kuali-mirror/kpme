@@ -50,10 +50,10 @@ public class EdoDossierTypeBo extends HrBusinessObject implements EdoDossierType
 	
 	@Override
 	public String getUniqueKey() {
-		return this.getEdoDossierTypeID();
+		return this.getEdoDossierTypeId();
 	}
 
-    private String edoDossierTypeID;
+    private String edoDossierTypeId;
     private String dossierTypeCode;
     private String dossierTypeName;
     private String documentTypeName;
@@ -80,19 +80,19 @@ public class EdoDossierTypeBo extends HrBusinessObject implements EdoDossierType
 
     @Override
    	public String getId() {
-   		return this.getEdoDossierTypeID();
+   		return this.getEdoDossierTypeId();
    	}
    	@Override
    	public void setId(String id) {
-   		setEdoDossierTypeID(id);
+   		setEdoDossierTypeId(id);
    	}
     
-    public String getEdoDossierTypeID() {
-		return edoDossierTypeID;
+    public String getEdoDossierTypeId() {
+		return edoDossierTypeId;
 	}
 
-	public void setEdoDossierTypeID(String edoDossierTypeID) {
-		this.edoDossierTypeID = edoDossierTypeID;
+	public void setEdoDossierTypeId(String edoDossierTypeId) {
+		this.edoDossierTypeId = edoDossierTypeId;
 	}
 
 	public String getDossierTypeName() {
@@ -124,7 +124,7 @@ public class EdoDossierTypeBo extends HrBusinessObject implements EdoDossierType
         Type tmpType = new TypeToken<List<String>>() {}.getType();
         Gson gson = new Gson();
 
-        tmp.add(this.getEdoDossierTypeID().toString());
+        tmp.add(this.getEdoDossierTypeId().toString());
         tmp.add(this.getDossierTypeName());
         tmp.add(this.getDossierTypeCode());
        
@@ -137,7 +137,7 @@ public class EdoDossierTypeBo extends HrBusinessObject implements EdoDossierType
         }
         EdoDossierTypeBo edoDossierTypeBo = new EdoDossierTypeBo();
         
-        edoDossierTypeBo.setEdoDossierTypeID(edoDossierType.getEdoDossierTypeID());
+        edoDossierTypeBo.setEdoDossierTypeId(edoDossierType.getEdoDossierTypeId());
         edoDossierTypeBo.setDossierTypeCode(edoDossierType.getDossierTypeCode());
         edoDossierTypeBo.setDocumentTypeName(edoDossierType.getDocumentTypeName());
         edoDossierTypeBo.setDossierTypeName(edoDossierType.getDossierTypeName());

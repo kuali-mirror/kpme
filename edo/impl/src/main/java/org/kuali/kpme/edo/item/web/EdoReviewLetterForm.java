@@ -7,8 +7,9 @@ import java.util.TreeSet;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.base.web.EdoForm;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 
 /**
  * $HeadURL$

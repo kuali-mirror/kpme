@@ -4,8 +4,8 @@
 
     <bean id="EDOReviewLayerDefinition" parent="EDOReviewLayerDefinition-parentBean"/>
     <bean id="EDOReviewLayerDefinition-parentBean" abstract="true" parent="BusinessObjectEntry">
-        <property name="businessObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition"/>
-        <property name="titleAttribute" value="reviewLayerDefinitionId"/>
+        <property name="businessObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo"/>
+        <property name="titleAttribute" value="edoReviewLayerDefinitionId"/>
         <property name="objectLabel" value="EDOReviewLayerDefinition"/>
         <property name="lookupDefinition">
             <ref bean="EDOReviewLayerDefinition-lookupDefinition"/>
@@ -22,11 +22,12 @@
                 <ref bean="EDOReviewLayerDefinition-routeLevel"/>
                 <ref bean="EDOReviewLayerDefinition-reviewLevel"/>
                <!--  <ref bean="EDOReviewLayerDefinition-suppNotify"/>
-                <ref bean="EDOReviewLayerDefinition-suppNodeName"/> -->
+                <ref bean="EDOReviewLayerDefinition-suppNodeName"/> 
                 <ref bean="EDOReviewLayerDefinition-createDate"/>
                 <ref bean="EDOReviewLayerDefinition-createdBy"/>
                 <ref bean="EDOReviewLayerDefinition-lastUpdated"/>
                 <ref bean="EDOReviewLayerDefinition-updatedBy"/>
+                -->
             </list>
         </property>
     </bean>
@@ -148,7 +149,7 @@
         <property name="name" value="suppNodeName"/>
         <property name="label" value="Supplemental Node Name"/>
     </bean> -->
-
+<!-- 
     <bean id="EDOReviewLayerDefinition-createDate" parent="EDOReviewLayerDefinition-createDate-parentBean" />
     <bean id="EDOReviewLayerDefinition-createDate-parentBean" abstract="true"
           parent="AttributeDefinition">
@@ -216,7 +217,7 @@
         <property name="name" value="updatedBy" />
         <property name="label" value="Updated By" />
     </bean>
-
+-->
     <!-- -->
     <!-- Lookup Definition: -->
     <!-- -->
@@ -240,9 +241,10 @@
                 <bean parent="FieldDefinition" p:attributeName="reviewLevel"/>
                 <bean parent="FieldDefinition" p:attributeName="routeLevel"/>
                 <!-- <bean parent="FieldDefinition" p:attributeName="suppNotify"/>
-                <bean parent="FieldDefinition" p:attributeName="suppNodeName"/> -->
+                <bean parent="FieldDefinition" p:attributeName="suppNodeName"/>
                 <bean parent="FieldDefinition" p:attributeName="lastUpdated"/>
                 <bean parent="FieldDefinition" p:attributeName="updatedBy"/>
+                 -->
             </list>
         </property>
         <property name="title" value="Review Layer Definition Lookup"/>
@@ -266,11 +268,12 @@
                             <bean parent="FieldDefinition" p:attributeName="reviewLevel"/>
                             <bean parent="FieldDefinition" p:attributeName="routeLevel"/>
                             <!-- <bean parent="FieldDefinition" p:attributeName="suppNotify"/>
-                            <bean parent="FieldDefinition" p:attributeName="suppNodeName"/> -->
+                            <bean parent="FieldDefinition" p:attributeName="suppNodeName"/> 
                             <bean parent="FieldDefinition" p:attributeName="createDate"/>
                             <bean parent="FieldDefinition" p:attributeName="createdBy"/>
                             <bean parent="FieldDefinition" p:attributeName="lastUpdated"/>
                             <bean parent="FieldDefinition" p:attributeName="updatedBy"/>
+                            -->
                         </list>
                     </property>
                 </bean>

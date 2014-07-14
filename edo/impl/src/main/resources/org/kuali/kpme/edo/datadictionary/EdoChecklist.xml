@@ -27,7 +27,7 @@
 		<property name="objectLabel" value="Checklist" />
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="EdoChecklist-edoChecklistID" />
+				<ref bean="EdoChecklist-edoChecklistId" />
 				<ref bean="EdoChecklist-dossierTypeCode" />
 				<ref bean="EdoChecklist-departmentID" />
 				<ref bean="EdoChecklist-organizationCode" />
@@ -38,14 +38,14 @@
 
     <!-- Attribute Definitions -->
     
-	<bean id="EdoChecklist-edoChecklistID" parent="EdoChecklist-edoChecklistID-parentBean" />
-	<bean id="EdoChecklist-edoChecklistID-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="EdoChecklist-edoChecklistId" parent="EdoChecklist-edoChecklistId-parentBean" />
+	<bean id="EdoChecklist-edoChecklistId-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="shortLabel" value="id"/>
 	    <property name="maxLength" value="60" />
 	    <property name="controlField">
 	      <bean parent="Uif-TextControl" p:size="60"/>
 	    </property>
-		<property name="name" value="edoChecklistID" />
+		<property name="name" value="edoChecklistId" />
 		<property name="label" value="Checklist Id" />
 	</bean>
 	

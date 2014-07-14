@@ -3,7 +3,7 @@ package org.kuali.kpme.edo.vote.web;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.item.web.EdoChecklistItemForm;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 
@@ -16,8 +16,8 @@ public class EdoVoteRecordForm extends EdoChecklistItemForm {
 
     private List<EdoVoteRecord> voteRecords = new ArrayList<EdoVoteRecord>();
     private EdoSelectedCandidate selectedCandidate;
-    private EdoReviewLayerDefinition currentReviewLayerDefinition;
-    private EdoReviewLayerDefinition principalReviewLayerDefinition;
+    private EdoReviewLayerDefinitionBo currentReviewLayerDefinition;
+    private EdoReviewLayerDefinitionBo principalReviewLayerDefinition;
     private EdoVoteRecord currentVoteRecord;
     private String reviewLayerDefinitionId;
     private String voteRecordId;
@@ -53,11 +53,11 @@ public class EdoVoteRecordForm extends EdoChecklistItemForm {
         this.selectedCandidate = selectedCandidate;
     }
 
-    public EdoReviewLayerDefinition getCurrentReviewLayerDefinition() {
+    public EdoReviewLayerDefinitionBo getCurrentReviewLayerDefinition() {
         return currentReviewLayerDefinition;
     }
 
-    public void setCurrentReviewLayerDefinition(EdoReviewLayerDefinition reviewLayerDefinition) {
+    public void setCurrentReviewLayerDefinition(EdoReviewLayerDefinitionBo reviewLayerDefinition) {
         this.currentReviewLayerDefinition = reviewLayerDefinition;
     }
 
@@ -185,11 +185,11 @@ public class EdoVoteRecordForm extends EdoChecklistItemForm {
         return areaOfExcellenceChoices;
     }
 
-    public EdoReviewLayerDefinition getPrincipalReviewLayerDefinition() {
+    public EdoReviewLayerDefinitionBo getPrincipalReviewLayerDefinition() {
         return principalReviewLayerDefinition;
     }
 
-    public void setPrincipalReviewLayerDefinition(EdoReviewLayerDefinition principalReviewLayerDefinition) {
+    public void setPrincipalReviewLayerDefinition(EdoReviewLayerDefinitionBo principalReviewLayerDefinition) {
         this.principalReviewLayerDefinition = principalReviewLayerDefinition;
     }
 

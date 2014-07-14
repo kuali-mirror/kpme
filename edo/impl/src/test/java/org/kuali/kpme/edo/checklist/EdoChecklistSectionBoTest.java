@@ -35,17 +35,17 @@ public class EdoChecklistSectionBoTest {
 		edoEdoChecklistSectionBuilder.setChecklistSectionOrdinal(3);
 		edoEdoChecklistSectionBuilder.setUserPrincipalId("admin");
 		
-		edoEdoChecklistSectionBuilder.setEdoChecklistSectionID("EDO_CHECKLIST_SECTION_ID_0001");
-		edoEdoChecklistSectionBuilder.setEdoChecklistID("EDO_CHECKLIST_ID_0001");
+		edoEdoChecklistSectionBuilder.setEdoChecklistSectionId("EDO_CHECKLIST_SECTION_ID_0001");
+		edoEdoChecklistSectionBuilder.setEdoChecklistId("EDO_CHECKLIST_ID_0001");
 		
 		edoEdoChecklistSectionBuilder.setVersionNumber(1L);
 		edoEdoChecklistSectionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		edoEdoChecklistSectionBuilder.setActive(true);
-		edoEdoChecklistSectionBuilder.setId(edoEdoChecklistSectionBuilder.getEdoChecklistSectionID());
+		edoEdoChecklistSectionBuilder.setId(edoEdoChecklistSectionBuilder.getEdoChecklistSectionId());
 		edoEdoChecklistSectionBuilder.setEffectiveLocalDate(new LocalDate(2014, 3, 1));
 		edoEdoChecklistSectionBuilder.setCreateTime(DateTime.now());
 		
-		testEdoChecklistSectionBos.put(edoEdoChecklistSectionBuilder.getEdoChecklistSectionID(), edoEdoChecklistSectionBuilder.build());
+		testEdoChecklistSectionBos.put(edoEdoChecklistSectionBuilder.getEdoChecklistSectionId(), edoEdoChecklistSectionBuilder.build());
 	}
 	
     @Test

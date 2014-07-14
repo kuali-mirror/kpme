@@ -2,7 +2,7 @@ package org.kuali.kpme.edo.reviewlayerdef.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoUser;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -34,8 +34,8 @@ public class EdoReviewLayerDefinitionLookupableHelper extends KualiLookupableHel
             }
         }
 
-        EdoReviewLayerDefinition edoReviewLayerDefinition = (EdoReviewLayerDefinition) businessObject;
-        BigDecimal reviewLayerDefinitionId = edoReviewLayerDefinition.getReviewLayerDefinitionId();
+        EdoReviewLayerDefinitionBo edoReviewLayerDefinition = (EdoReviewLayerDefinitionBo) businessObject;
+        String reviewLayerDefinitionId = edoReviewLayerDefinition.getEdoReviewLayerDefinitionId();
 
         Properties params = new Properties();
         params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
@@ -49,6 +49,7 @@ public class EdoReviewLayerDefinitionLookupableHelper extends KualiLookupableHel
         return customActionUrls;
     }
 
+    /*
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String nodeName = fieldValues.get("nodeName");
@@ -56,5 +57,5 @@ public class EdoReviewLayerDefinitionLookupableHelper extends KualiLookupableHel
         String reviewLetter = fieldValues.get("reviewLetter");
 
         return EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(nodeName, voteType, reviewLetter);
-    }
+    }*/
 }

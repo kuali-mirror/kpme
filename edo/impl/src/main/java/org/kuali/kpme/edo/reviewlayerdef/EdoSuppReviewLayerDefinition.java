@@ -18,7 +18,7 @@ public class EdoSuppReviewLayerDefinition extends EdoBusinessObject {
     private String workflowId;
     private String workflowQualifier;
     
-    private EdoReviewLayerDefinition reviewLayerDefinition;
+    private EdoReviewLayerDefinitionBo reviewLayerDefinition;
     
     public BigDecimal getSuppReviewLayerDefinitionId() {
 		return suppReviewLayerDefinitionId;
@@ -84,11 +84,13 @@ public class EdoSuppReviewLayerDefinition extends EdoBusinessObject {
     public void setId(BigDecimal id) {
         setSuppReviewLayerDefinitionId(id);
     }
-    public EdoReviewLayerDefinition getReviewLayerDefinition() {
+    
+    /*As a general piece of information.  The BusinessObjectService should never be called from a Business Object.
+    public EdoReviewLayerDefinitionBo getReviewLayerDefinition() {
         if (ObjectUtils.isNull(reviewLayerDefinition) && reviewLayerDefinitionId != null) {
             this.reviewLayerDefinition = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(workflowId, reviewLayerDefinitionId);
         }
         return reviewLayerDefinition;
-    }
+    }*/
 
 }

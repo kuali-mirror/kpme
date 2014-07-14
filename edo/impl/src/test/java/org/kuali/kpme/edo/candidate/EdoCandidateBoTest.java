@@ -32,7 +32,7 @@ public class EdoCandidateBoTest {
 	
 	static {
 		testEdoCandidateBos = new HashMap<String, EdoCandidate>();
-		edoCandidateBuilder.setEdoCandidateID("1000");
+		edoCandidateBuilder.setEdoCandidateId("1000");
 		edoCandidateBuilder.setPrincipalName("TST-PrincipalName");
 		edoCandidateBuilder.setUserPrincipalId("admin");
 		edoCandidateBuilder.setFirstName("firstName");
@@ -45,7 +45,7 @@ public class EdoCandidateBoTest {
 		edoCandidateBuilder.setActive(true);
 		edoCandidateBuilder.setEffectiveLocalDate(new LocalDate(2012, 3, 1));
 		edoCandidateBuilder.setCreateTime(DateTime.now());
-		edoCandidateBuilder.setId(edoCandidateBuilder.getEdoCandidateID());
+		edoCandidateBuilder.setId(edoCandidateBuilder.getEdoCandidateId());
 		
 		// Set GroupKeycode Object
 		edoCandidateBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));

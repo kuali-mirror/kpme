@@ -51,10 +51,10 @@ public class EdoSelectedCandidate {
 
     public EdoSelectedCandidate(EdoCandidate edoCandidate, Boolean isSelected) {
         EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getCurrentDossierPrincipalName(edoCandidate.getPrincipalName());
-        EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierTypeID());
+        EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierTypeId());
 
         setSelected(isSelected);
-        setCandidateID(edoCandidate.getEdoCandidateID());
+        setCandidateID(edoCandidate.getEdoCandidateId());
         setCandidateLastname(edoCandidate.getLastName());
         setCandidateFirstname(edoCandidate.getFirstName());
         setCandidateUsername(edoCandidate.getPrincipalName());
@@ -63,7 +63,7 @@ public class EdoSelectedCandidate {
         setCandidateSchoolID(edoCandidate.getCandidacySchool());
         setAoe(dossier.getAoeCode());
         setDossierTypeCode(dossierType.getDossierTypeCode());
-        setCandidateDossierID(new BigDecimal(dossier.getEdoDossierID()));
+        setCandidateDossierID(new BigDecimal(dossier.getEdoDossierId()));
         setDossierWorkflowId(dossier.getWorkflowId());
     }
 

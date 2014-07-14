@@ -23,7 +23,7 @@ public class EdoItemTypeBo extends HrBusinessObject implements EdoItemTypeContra
 		private static final String EDO_ITEM_TYPE = "itemTypeName";
 	}
 	
-	private String edoItemTypeID;
+	private String edoItemTypeId;
     private String itemTypeName;
     private String itemTypeDescription;
     private String itemTypeInstructions;
@@ -55,17 +55,17 @@ public class EdoItemTypeBo extends HrBusinessObject implements EdoItemTypeContra
 	
 	@Override
 	public String getId() {
-		return  getEdoItemTypeID();
+		return  getEdoItemTypeId();
 	}
 
 	@Override
-	public void setId(String edoItemTypeID) {
-		setEdoItemTypeID(edoItemTypeID);
+	public void setId(String edoItemTypeId) {
+		setEdoItemTypeId(edoItemTypeId);
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getEdoItemTypeID();
+		return getEdoItemTypeId();
 	}
 	
 	@Override
@@ -76,19 +76,19 @@ public class EdoItemTypeBo extends HrBusinessObject implements EdoItemTypeContra
 	}
 
     public void EdoItemType() throws ParseException {
-        this.setEdoItemTypeID(null);
+        this.setEdoItemTypeId(null);
         this.setItemTypeName(null);
         this.setItemTypeDescription(null);
         this.setItemTypeExtAvailable(false);
         this.setItemTypeInstructions(null);
     }
 
-    public String getEdoItemTypeID() {
-        return edoItemTypeID;
+    public String getEdoItemTypeId() {
+        return edoItemTypeId;
     }
 
-    public void setEdoItemTypeID(String edoItemTypeID) {
-        this.edoItemTypeID = edoItemTypeID;
+    public void setEdoItemTypeId(String edoItemTypeId) {
+        this.edoItemTypeId = edoItemTypeId;
     }
 
     public String getItemTypeName() {
@@ -128,7 +128,7 @@ public class EdoItemTypeBo extends HrBusinessObject implements EdoItemTypeContra
             return null;
         }
         EdoItemTypeBo eit = new EdoItemTypeBo();
-        eit.setEdoItemTypeID(im.getEdoItemTypeID());
+        eit.setEdoItemTypeId(im.getEdoItemTypeId());
         eit.setItemTypeName(im.getItemTypeName());
         eit.setItemTypeDescription(im.getItemTypeDescription());
         eit.setItemTypeInstructions(im.getItemTypeInstructions());

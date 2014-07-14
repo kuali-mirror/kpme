@@ -43,8 +43,8 @@ public class EdoChecklistItemValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateSectionID(EdoChecklistItemBo checklistItem) {
 		
-		EdoChecklistSection aSection = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionID()) ;
-		String errorMes = "Checklist Section '"+ checklistItem.getEdoChecklistSectionID() + "'";
+		EdoChecklistSection aSection = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionId()) ;
+		String errorMes = "Checklist Section '"+ checklistItem.getEdoChecklistSectionId() + "'";
 		if(aSection == null) {
 			this.putFieldError("dataObject.edoChecklistSection", "error.existence", errorMes);
 			return false;
@@ -55,7 +55,7 @@ public class EdoChecklistItemValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateChecklistOrdinal(EdoChecklistItemBo checklistItem) {
 
-		List<EdoChecklistItem> listItems = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionID(checklistItem.getEdoChecklistSectionID(), checklistItem.getEffectiveLocalDate());
+		List<EdoChecklistItem> listItems = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionID(checklistItem.getEdoChecklistSectionId(), checklistItem.getEffectiveLocalDate());
 		for (EdoChecklistItem listItem : listItems) {
 			if (listItem.getChecklistItemOrdinal() == checklistItem.getChecklistItemOrdinal()) {
 				// error.checklist.ordinal.exist ={0} '{1}' is already in use.

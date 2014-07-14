@@ -13,6 +13,6 @@ public interface EdoVoteRecordDao {
     public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID);
     public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID, List<String> edoReviewLayerDefinitionIDs);
     public void saveOrUpdate(EdoVoteRecordBo voteRecord);
-    public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID, String edoReviewLayerDefinitionID);
-    public EdoVoteRecordBo getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionID);
+    public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID, String edoReviewLayerDefinitionId);
+    public EdoVoteRecordBo getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionId);
     }

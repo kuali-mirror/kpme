@@ -43,12 +43,12 @@ public class EdoItemTypeValidation extends MaintenanceDocumentRuleBase {
 		
 		if (!StringUtils.isEmpty(itemId)) {
 			
-			if (StringUtils.isEmpty(edoItemType.getEdoItemTypeID())) { // New or Copy
+			if (StringUtils.isEmpty(edoItemType.getEdoItemTypeId())) { // New or Copy
 				// error.itemtype.exist = Item Type '{0}' already exists.
 				this.putFieldError("dataObject.edoItemType", "error.itemtype.exist", edoItemType.getItemTypeName());
 				return false;
 			} else {
-				if (!itemId.equals(edoItemType.getEdoItemTypeID())) {
+				if (!itemId.equals(edoItemType.getEdoItemTypeId())) {
 					// error.itemtype.exist = Item Type '{0}' already exists.
 					this.putFieldError("dataObject.edoItemType", "error.itemtype.exist", edoItemType.getItemTypeName());
 					return false;

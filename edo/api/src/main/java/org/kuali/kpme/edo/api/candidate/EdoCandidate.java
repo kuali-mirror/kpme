@@ -46,7 +46,7 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     @XmlElement(name = Elements.CANDIDACY_SCHOOL, required = false)
     private final String candidacySchool;
     @XmlElement(name = Elements.EDO_CANDIDATE_ID, required = false)
-    private final String edoCandidateID;
+    private final String edoCandidateId;
     @XmlElement(name = Elements.PRINCIPAL_NAME, required = false)
     private final String principalName;
     @XmlElement(name = Elements.PRIMARY_DEPT_ID, required = false)
@@ -85,7 +85,7 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      */
     private EdoCandidate() {
         this.candidacySchool = null;
-        this.edoCandidateID = null;
+        this.edoCandidateId = null;
         this.principalName = null;
         this.primaryDeptID = null;
         this.tnpDeptID = null;
@@ -104,7 +104,7 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     
     private EdoCandidate(Builder builder) {
         this.candidacySchool = builder.getCandidacySchool();
-        this.edoCandidateID = builder.getEdoCandidateID();
+        this.edoCandidateId = builder.getEdoCandidateId();
         this.principalName = builder.getPrincipalName();
         this.primaryDeptID = builder.getPrimaryDeptID();
         this.tnpDeptID = builder.getTnpDeptID();
@@ -127,8 +127,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     }
 
     @Override
-    public String getEdoCandidateID() {
-        return this.edoCandidateID;
+    public String getEdoCandidateId() {
+        return this.edoCandidateId;
     }
 
     @Override
@@ -210,7 +210,7 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     public final static class Builder implements Serializable, EdoCandidateContract, ModelBuilder
     {
         private String candidacySchool;
-        private String edoCandidateID;
+        private String edoCandidateId;
         private String principalName;
         private String primaryDeptID;
         private String tnpDeptID;
@@ -252,7 +252,7 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
             builder.setCandidacySchool(contract.getCandidacySchool());
-            builder.setEdoCandidateID(contract.getEdoCandidateID());
+            builder.setEdoCandidateId(contract.getEdoCandidateId());
             builder.setPrincipalName(contract.getPrincipalName());
             builder.setPrimaryDeptID(contract.getPrimaryDeptID());
             builder.setTnpDeptID(contract.getTnpDeptID());
@@ -281,8 +281,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         }
 
         @Override
-        public String getEdoCandidateID() {
-            return this.edoCandidateID;
+        public String getEdoCandidateId() {
+            return this.edoCandidateId;
         }
 
         @Override
@@ -360,9 +360,9 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             this.candidacySchool = candidacySchool;
         }
 
-        public void setEdoCandidateID(String edoCandidateID) {
+        public void setEdoCandidateId(String edoCandidateId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoCandidateID = edoCandidateID;
+            this.edoCandidateId = edoCandidateId;
         }
 
         public void setPrincipalName(String principalName) {
@@ -456,7 +456,7 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      */
     static class Elements {
         final static String CANDIDACY_SCHOOL = "candidacySchool";
-        final static String EDO_CANDIDATE_ID = "edoCandidateID";
+        final static String EDO_CANDIDATE_ID = "edoCandidateId";
         final static String PRINCIPAL_NAME = "principalName";
         final static String PRIMARY_DEPT_ID = "primaryDeptID";
         final static String TNP_DEPT_ID = "tnpDeptID";

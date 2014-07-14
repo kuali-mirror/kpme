@@ -3,15 +3,14 @@ package org.kuali.kpme.edo.reports.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.reports.EdoPromotionAndTenureReport;
 import org.kuali.kpme.edo.reports.dao.EdoPromotionAndTenureReportViewDao;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionService;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;

@@ -17,7 +17,7 @@ public interface EdoChecklistItemContract extends KpmeEffectiveDataTransferObjec
 	 * 
 	 * @return edoChecklistItemID for EdoChecklistItem
 	 */
-    public String getEdoChecklistItemID();
+    public String getEdoChecklistItemId();
 
     /**
 	 * The checklist section id that this EdoChecklistItem is associated with
@@ -28,7 +28,7 @@ public interface EdoChecklistItemContract extends KpmeEffectiveDataTransferObjec
 	 * 
 	 * @return edoChecklistSectionID for EdoChecklistItem
 	 */
-    public String getEdoChecklistSectionID();
+    public String getEdoChecklistSectionId();
     
     /**
 	 * The name of the EdoChecklistItem

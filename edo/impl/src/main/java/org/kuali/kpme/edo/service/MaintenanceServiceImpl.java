@@ -387,7 +387,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         for (EdoDossierBo edossier : edossierList) {
             List<RoleMembership> candidateGuests = new ArrayList<RoleMembership>();
             HashMap<String, String> qualifications = new HashMap<String, String>();
-            qualifications.put(EdoConstants.ROLE_GUEST_DOSSIER_ID, edossier.getEdoDossierID().toString());
+            qualifications.put(EdoConstants.ROLE_GUEST_DOSSIER_ID, edossier.getEdoDossierId().toString());
             List<String> roleIds = new ArrayList<String>();
             String roleId = getRoleService().getRoleIdByNamespaceCodeAndName(EdoConstants.EDO_NAME_SPACE, EdoConstants.CANDIDATE_GUEST_ROLE);
             if (StringUtils.isNotBlank(roleId)) {
@@ -415,7 +415,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             if (edossier != null) {
                 candidateGuest.setDossierStatus(edossier.getDossierStatus());
                 //now fetch the dossier type
-                EdoDossierType edossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(edossier.getEdoDossierTypeID().toString());
+                EdoDossierType edossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(edossier.getEdoDossierTypeId().toString());
                 candidateGuest.setDossierType(edossierType.getDossierTypeName());
             }
             candidateGuestsList.add(candidateGuest);

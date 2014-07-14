@@ -33,7 +33,7 @@ public class EdoItemTypeDaoImpl extends PlatformAwareDaoBaseOjb  implements EdoI
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edoItemTypeID", edoItemTypeID);
+        cConditions.addEqualTo("edoItemTypeId", edoItemTypeID);
 
         Query query = QueryFactory.newQuery(EdoItemTypeBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -64,7 +64,7 @@ public class EdoItemTypeDaoImpl extends PlatformAwareDaoBaseOjb  implements EdoI
         if (c != null && c.size() != 0) {
             if (c.size() == 1) {
                 EdoItemTypeBo tmpItemType = (EdoItemTypeBo)c.toArray()[0];
-                return tmpItemType.getEdoItemTypeID();
+                return tmpItemType.getEdoItemTypeId();
             }
         }
         return null;

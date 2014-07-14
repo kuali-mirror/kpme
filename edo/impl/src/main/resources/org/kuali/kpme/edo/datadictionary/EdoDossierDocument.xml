@@ -58,18 +58,18 @@
 						                              p:fieldConversions="principalName:edoDossier.candidatePrincipalName"/>
 						                    </property>
 						                </bean>
-			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.edoDossierTypeID" >
+			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.edoDossierTypeId" >
 			                            	<property name="quickfinder">
 						               			<bean parent="Uif-QuickFinderByScript" 
 						               				  p:dataObjectClassName="org.kuali.kpme.edo.dossier.type.EdoDossierTypeBo"
-						                     		  p:fieldConversions="edoDossierTypeID:edoDossier.edoDossierTypeID" />
+						                     		  p:fieldConversions="edoDossierTypeId:edoDossier.edoDossierTypeId" />
 						            		</property>
 			                            </bean>
-			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.edoChecklistID" >
+			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.edoChecklistId" >
 			                            	<property name="quickfinder">
 						               			<bean parent="Uif-QuickFinderByScript" 
 						               				  p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistBo"
-						                     		  p:fieldConversions="edoChecklistSID:edoDossier.edoChecklistID" />
+						                     		  p:fieldConversions="edoChecklistSID:edoDossier.edoChecklistId" />
 						            		</property>
 						            	</bean>
 			                            <bean parent="Uif-InputField" p:propertyName="edoDossier.departmentID" >
@@ -184,8 +184,8 @@
 							<property name="items">
 								<list merge="true">
 									<bean parent="Uif-InputField" p:propertyName="edoDossier.candidatePrincipalName" />
-									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoDossierTypeID" />
-									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoChecklistID" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoDossierTypeId" />
+									<bean parent="Uif-InputField" p:propertyName="edoDossier.edoChecklistId" />
 									<bean parent="Uif-InputField" p:propertyName="edoDossier.aoeCode" />
 									<bean parent="Uif-InputField" p:propertyName="edoDossier.departmentID" />
 									<bean parent="Uif-InputField" p:propertyName="edoDossier.secondaryUnit" />

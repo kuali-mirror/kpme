@@ -58,7 +58,7 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
 		return getPrincipalName();
 	}
 	     
-	private String edoCandidateID;
+	private String edoCandidateId;
     private String lastName ;
     private String firstName;
     private String principalName;
@@ -70,11 +70,11 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
     
     @Override
 	public String getId() {
-		return this.getEdoCandidateID();
+		return this.getEdoCandidateId();
 	}
 	@Override
 	public void setId(String id) {
-		setEdoCandidateID(id);
+		setEdoCandidateId(id);
 	}
 
 	public Person getPrincipal() {
@@ -109,12 +109,12 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
 		this.principalName = principalName;
 	}
 
-	public String getEdoCandidateID() {
-        return edoCandidateID;
+	public String getEdoCandidateId() {
+        return edoCandidateId;
     }
 
-    public void setEdoCandidateID(String edoCandidateID) {
-        this.edoCandidateID = edoCandidateID;
+    public void setEdoCandidateId(String edoCandidateId) {
+        this.edoCandidateId = edoCandidateId;
     }
 
     public String getPrimaryDeptID() {
@@ -146,7 +146,7 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
         Type tmpType = new TypeToken<List<String>>() {}.getType();
         Gson gson = new Gson();
 
-        tmp.add(this.getEdoCandidateID().toString());
+        tmp.add(this.getEdoCandidateId().toString());
         tmp.add(this.getFirstName() + " " + this.getLastName());
         tmp.add(this.getLastName());
         tmp.add(this.getFirstName());
@@ -162,7 +162,7 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
         }
         EdoCandidateBo edoCandidateBo = new EdoCandidateBo();
         
-        edoCandidateBo.setEdoCandidateID(edoCandidate.getEdoCandidateID());
+        edoCandidateBo.setEdoCandidateId(edoCandidate.getEdoCandidateId());
         edoCandidateBo.setPrincipalName(edoCandidate.getPrincipalName());
         edoCandidateBo.setLastName(edoCandidate.getLastName());
         edoCandidateBo.setFirstName(edoCandidate.getFirstName());

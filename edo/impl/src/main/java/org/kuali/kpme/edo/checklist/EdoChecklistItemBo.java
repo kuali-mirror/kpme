@@ -21,12 +21,12 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 	private static final long serialVersionUID = -3737008004782110416L;
 	
 	static class KeyFields {
-		private static final String EDO_CHECKLIST_ITEM_ID = "edoChecklistItemID";
-		private static final String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionID";
+		private static final String EDO_CHECKLIST_ITEM_ID = "edoChecklistItemId";
+		private static final String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionId";
 	}
 	
-	private String edoChecklistItemID;
-    private String edoChecklistSectionID;
+	private String edoChecklistItemId;
+    private String edoChecklistSectionId;
     private String checklistItemName;
     private String itemDescription;
     private boolean required;
@@ -59,41 +59,41 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 	
 	@Override
 	public String getId() {
-		return  getEdoChecklistItemID();
+		return  getEdoChecklistItemId();
 	}
 
 	@Override
-	public void setId(String edoChecklistItemID) {
-		setEdoChecklistItemID(edoChecklistItemID);
+	public void setId(String edoChecklistItemId) {
+		setEdoChecklistItemId(edoChecklistItemId);
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getEdoChecklistItemID();
+		return getEdoChecklistItemId();
 	}
 	
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_CHECKLIST_ITEM_ID, this.getEdoChecklistItemID())
-				.put(KeyFields.EDO_CHECKLIST_SECTION_ID, this.getEdoChecklistSectionID())
+				.put(KeyFields.EDO_CHECKLIST_ITEM_ID, this.getEdoChecklistItemId())
+				.put(KeyFields.EDO_CHECKLIST_SECTION_ID, this.getEdoChecklistSectionId())
 				.build();
 	}
 
-    public String getEdoChecklistItemID() {
-        return edoChecklistItemID;
+    public String getEdoChecklistItemId() {
+        return edoChecklistItemId;
     }
 
-    public void setEdoChecklistItemID(String edoChecklistItemID) {
-        this.edoChecklistItemID = edoChecklistItemID;
+    public void setEdoChecklistItemId(String edoChecklistItemId) {
+        this.edoChecklistItemId = edoChecklistItemId;
     }
 
-    public String getEdoChecklistSectionID() {
-        return edoChecklistSectionID;
+    public String getEdoChecklistSectionId() {
+        return edoChecklistSectionId;
     }
 
-    public void setEdoChecklistSectionID(String edoChecklistSectionID) {
-        this.edoChecklistSectionID = edoChecklistSectionID;
+    public void setEdoChecklistSectionId(String edoChecklistSectionId) {
+        this.edoChecklistSectionId = edoChecklistSectionId;
     }
 
     public String getChecklistItemName() {
@@ -133,8 +133,8 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
             return null;
         }
         EdoChecklistItemBo ecli = new EdoChecklistItemBo();
-        ecli.setEdoChecklistItemID(im.getEdoChecklistItemID());
-        ecli.setEdoChecklistSectionID(im.getEdoChecklistSectionID());
+        ecli.setEdoChecklistItemId(im.getEdoChecklistItemId());
+        ecli.setEdoChecklistSectionId(im.getEdoChecklistSectionId());
         ecli.setChecklistItemName(im.getChecklistItemName());
         ecli.setItemDescription(im.getItemDescription());
         ecli.setChecklistItemOrdinal(im.getChecklistItemOrdinal());

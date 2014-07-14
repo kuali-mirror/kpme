@@ -75,7 +75,7 @@ public class EdoCandidateSelectAction extends EdoAction {
         EdoCandidate candidate = EdoServiceLocator.getCandidateService().getCandidate(cid);
         
         selectedCandidate.setSelected(true);
-        selectedCandidate.setCandidateID(candidate.getEdoCandidateID());
+        selectedCandidate.setCandidateID(candidate.getEdoCandidateId());
         selectedCandidate.setCandidateLastname(candidate.getLastName());
         selectedCandidate.setCandidateFirstname(candidate.getFirstName());
         selectedCandidate.setCandidateUsername(candidate.getPrincipalName());
@@ -150,7 +150,7 @@ public class EdoCandidateSelectAction extends EdoAction {
         boolean canViewDossier = false;
         if (CollectionUtils.isNotEmpty(dossierList)) {
             for (EdoCandidateDossier dossierTmp : dossierList) {
-                if (dossierTmp.getDossierId().compareTo(new BigDecimal(currentDossier.getEdoDossierID())) == 0) {
+                if (dossierTmp.getDossierId().compareTo(new BigDecimal(currentDossier.getEdoDossierId())) == 0) {
                     canViewDossier = true;
                     break;
                 }
@@ -171,37 +171,37 @@ public class EdoCandidateSelectAction extends EdoAction {
 
         } else {
 
-            EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(currentDossier.getEdoDossierTypeID());
-            selectedCandidate.setCandidateDossierID( new BigDecimal(currentDossier.getEdoDossierID()) );
+            EdoDossierType dossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(currentDossier.getEdoDossierTypeId());
+            selectedCandidate.setCandidateDossierID( new BigDecimal(currentDossier.getEdoDossierId()) );
             selectedCandidate.setAoe( currentDossier.getAoeCode() );
             selectedCandidate.setRankSought( currentDossier.getRankSought() );
             selectedCandidate.setDossierTypeCode(dossierType.getDossierTypeCode());
             selectedCandidate.setDossierTypeName(dossierType.getDossierTypeName());
             selectedCandidate.setDossierStatus(currentDossier.getDossierStatus());
             selectedCandidate.setDossierWorkflowId(currentDossier.getWorkflowId());
-            if (EdoRule.validateDossierForSubmission(checklistItems, new BigDecimal(currentDossier.getEdoDossierID()))) {
+            if (EdoRule.validateDossierForSubmission(checklistItems, new BigDecimal(currentDossier.getEdoDossierId()))) {
                 request.setAttribute("isValidDossier", 1);
             } else {
                 request.setAttribute("isValidDossier", 0);
             }
             // what does this do - TC
             // tcb: this provides the node drop down lists for super actions to route/return a dossier
-            if (currentDossier != null && currentDossier.getEdoDossierID() != null) {
-                DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(currentDossier.getEdoDossierID());
+            if (currentDossier != null && currentDossier.getEdoDossierId() != null) {
+                DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(currentDossier.getEdoDossierId());
                 if (documentHeader != null) {
-                    //edoCandidateSelectForm.setFutureNodes(KEWServiceLocator.getRouteNodeService().findFutureNodeNames(currentDossier.getDocumentID()));
-                    //edoCandidateSelectForm.setPreviousNodes(KEWServiceLocator.getRouteNodeService().findPreviousNodeNames(currentDossier.getDocumentID()));
+                    //edoCandidateSelectForm.setFutureNodes(KEWServiceLocator.getRouteNodeService().findFutureNodeNames(currentDossier.getDocumentId()));
+                    //edoCandidateSelectForm.setPreviousNodes(KEWServiceLocator.getRouteNodeService().findPreviousNodeNames(currentDossier.getDocumentId()));
                 }
             }
 
             // for candidate supplemental submit button
-            if (EdoRule.dossierHasSupplementalsPending(currentDossier.getEdoDossierID())) {
+            if (EdoRule.dossierHasSupplementalsPending(currentDossier.getEdoDossierId())) {
                 request.setAttribute("dossierHasSupplementalsPending", true);
             } else {
                 request.setAttribute("dossierHasSupplementalsPending", false);
             }
             //for candidate reconsider  submit button
-            if (EdoRule.dossierHasReconsiderPending(currentDossier.getEdoDossierID())) {
+            if (EdoRule.dossierHasReconsiderPending(currentDossier.getEdoDossierId())) {
                 request.setAttribute("dossierHasReconsiderPending", true);
             } else {
                 request.setAttribute("dossierHasReconsiderPending", false);
@@ -235,7 +235,7 @@ public class EdoCandidateSelectAction extends EdoAction {
             }
             request.setAttribute("guidelineURL", ConfigContext.getCurrentContextConfig().getProperty("edo.pt.guidelines.url"));
 
-            request.setAttribute("dossierReadyForRoute", EdoRule.isDossierReadyForRoute(new BigDecimal(currentDossier.getEdoDossierID())));
+            request.setAttribute("dossierReadyForRoute", EdoRule.isDossierReadyForRoute(new BigDecimal(currentDossier.getEdoDossierId())));
 
             return super.execute(mapping, form, request, response);
 

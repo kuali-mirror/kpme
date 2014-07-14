@@ -44,7 +44,7 @@ public class EdoDossierDaoImpl  extends PlatformAwareDaoBaseOjb implements EdoDo
     public EdoDossierBo getEdoDossierById( String edoDossierId ) {
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edoDossierID", edoDossierId);
+        cConditions.addEqualTo("edoDossierId", edoDossierId);
         
 
         Query query = QueryFactory.newQuery(EdoDossierBo.class, cConditions);

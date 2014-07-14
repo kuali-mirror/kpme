@@ -15,8 +15,8 @@ public class CandidateServiceImpl implements CandidateService {
 	}
 
 	
-    public EdoCandidate getCandidate(String edoCandidateID) {
-    	EdoCandidateBo edoCandidateBo = edoCandidateDao.getCandidate(edoCandidateID);
+    public EdoCandidate getCandidate(String edoCandidateId) {
+    	EdoCandidateBo edoCandidateBo = edoCandidateDao.getCandidate(edoCandidateId);
     	
     	if ( edoCandidateBo == null){
     		return null;

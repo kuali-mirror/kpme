@@ -40,14 +40,14 @@ public class EdoDossierTypeAction extends EdoAction {
         }
         request.setAttribute("dossierTypesJSON", dossierTypeListJSON);
 
-        dossierTypeObj.setEdoDossierTypeID(((EdoDossierTypeForm) form).dossierTypeID.toString());
+        dossierTypeObj.setEdoDossierTypeId(((EdoDossierTypeForm) form).dossierTypeID.toString());
         dossierTypeObj.setDossierTypeCode(((EdoDossierTypeForm) form).dossierTypeCode);
         dossierTypeObj.setDossierTypeName(((EdoDossierTypeForm) form).dossierTypeName);
         //dossierTypeObj.setLastUpdated(((EdoDossierTypeForm) form).lastUpdated);
 
-        if (dossierTypeObj.getEdoDossierTypeID() != null) {
-            if (dossierTypeObj.getEdoDossierTypeID().equals(BigDecimal.ZERO)) {
-                dossierTypeObj.setEdoDossierTypeID(null);
+        if (dossierTypeObj.getEdoDossierTypeId() != null) {
+            if (dossierTypeObj.getEdoDossierTypeId().equals(BigDecimal.ZERO)) {
+                dossierTypeObj.setEdoDossierTypeId(null);
             }
             EdoServiceLocator.getEdoDossierTypeService().saveOrUpdate(dossierTypeObj.to(dossierTypeObj));
         }
@@ -62,7 +62,7 @@ public class EdoDossierTypeAction extends EdoAction {
                 //((EdoDossierTypeForm) form).dossierTypeCode = dossierTypeObj.getLastUpdated().toString();
                 ((EdoDossierTypeForm) form).dossierTypeCode = dossierTypeObj.getDossierTypeCode();
                 ((EdoDossierTypeForm) form).dossierTypeName =  dossierTypeObj.getDossierTypeName();
-                ((EdoDossierTypeForm) form).dossierTypeID = new BigDecimal(dossierTypeObj.getEdoDossierTypeID());
+                ((EdoDossierTypeForm) form).dossierTypeID = new BigDecimal(dossierTypeObj.getEdoDossierTypeId());
             }
         }
 

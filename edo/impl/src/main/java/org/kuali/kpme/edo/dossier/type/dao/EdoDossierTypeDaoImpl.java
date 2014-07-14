@@ -35,7 +35,7 @@ public class EdoDossierTypeDaoImpl extends PlatformAwareDaoBaseOjb implements Ed
     public EdoDossierTypeBo getEdoDossierTypeById(String edoDossierTypeID){
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edoDossierTypeID", edoDossierTypeID);
+        cConditions.addEqualTo("edoDossierTypeId", edoDossierTypeID);
 
         Query query = QueryFactory.newQuery(EdoDossierTypeBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);

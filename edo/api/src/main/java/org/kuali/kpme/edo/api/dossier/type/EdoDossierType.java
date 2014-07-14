@@ -42,7 +42,7 @@ public final class EdoDossierType
 {
 
     @XmlElement(name = Elements.EDO_DOSSIER_TYPE_ID, required = false)
-    private final String edoDossierTypeID;
+    private final String edoDossierTypeId;
     @XmlElement(name = Elements.DOSSIER_TYPE_CODE, required = false)
     private final String dossierTypeCode;
     @XmlElement(name = Elements.DOCUMENT_TYPE_NAME, required = false)
@@ -74,7 +74,7 @@ public final class EdoDossierType
      * 
      */
     private EdoDossierType() { 
-        this.edoDossierTypeID = null;
+        this.edoDossierTypeId = null;
         this.dossierTypeCode = null;
         this.documentTypeName = null;
         this.dossierTypeName = null; 
@@ -89,7 +89,7 @@ public final class EdoDossierType
 
     private EdoDossierType(Builder builder) {
         
-        this.edoDossierTypeID = builder.getEdoDossierTypeID();
+        this.edoDossierTypeId = builder.getEdoDossierTypeId();
         this.dossierTypeCode = builder.getDossierTypeCode();
         this.documentTypeName = builder.getDocumentTypeName();
         this.dossierTypeName = builder.getDossierTypeName();
@@ -103,8 +103,8 @@ public final class EdoDossierType
     }
 
     @Override
-    public String getEdoDossierTypeID() {
-        return this.edoDossierTypeID;
+    public String getEdoDossierTypeId() {
+        return this.edoDossierTypeId;
     }
 
     @Override
@@ -165,7 +165,7 @@ public final class EdoDossierType
     public final static class Builder
         implements Serializable, EdoDossierTypeContract, ModelBuilder
     { 
-        private String edoDossierTypeID;
+        private String edoDossierTypeId;
         private String dossierTypeCode;
         private String documentTypeName;
         private String dossierTypeName;
@@ -195,7 +195,7 @@ public final class EdoDossierType
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create(contract.getDossierTypeCode());
 
-            builder.setEdoDossierTypeID(contract.getEdoDossierTypeID());
+            builder.setEdoDossierTypeId(contract.getEdoDossierTypeId());
             builder.setDossierTypeCode(contract.getDossierTypeCode());
             builder.setDocumentTypeName(contract.getDocumentTypeName());
             builder.setDossierTypeName(contract.getDossierTypeName());
@@ -216,8 +216,8 @@ public final class EdoDossierType
 
 
         @Override
-        public String getEdoDossierTypeID() {
-            return this.edoDossierTypeID;
+        public String getEdoDossierTypeId() {
+            return this.edoDossierTypeId;
         }
 
         @Override
@@ -270,9 +270,9 @@ public final class EdoDossierType
             return this.userPrincipalId;
         }
 
-        public void setEdoDossierTypeID(String edoDossierTypeID) {
+        public void setEdoDossierTypeId(String edoDossierTypeId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoDossierTypeID = edoDossierTypeID;
+            this.edoDossierTypeId = edoDossierTypeId;
         }
 
         public void setDossierTypeCode(String dossierTypeCode) {
@@ -346,7 +346,7 @@ public final class EdoDossierType
      */
     static class Elements {
 
-        final static String EDO_DOSSIER_TYPE_ID = "edoDossierTypeID";
+        final static String EDO_DOSSIER_TYPE_ID = "edoDossierTypeId";
         final static String DOSSIER_TYPE_CODE = "dossierTypeCode";
         final static String DOCUMENT_TYPE_NAME = "documentTypeName";
         final static String DOSSIER_TYPE_NAME = "dossierTypeName";

@@ -35,17 +35,17 @@ public class EdoChecklistSectionValidation extends MaintenanceDocumentRuleBase {
 		EdoChecklistSectionBo checklistSection = (EdoChecklistSectionBo) this.getNewDataObject();
 		
 		if (checklistSection != null) {
-			isValid &= validateChecklistID(checklistSection);
+			isValid &= validateChecklistId(checklistSection);
 			isValid &= validateSectionOrdinal(checklistSection);
 		}
 		return isValid;
 	}
 	
-	private boolean validateChecklistID(EdoChecklistSectionBo checklistSection) {
+	private boolean validateChecklistId(EdoChecklistSectionBo checklistSection) {
 
-		System.out.println("checklist id "+checklistSection.getEdoChecklistID());
-		EdoChecklist aSection = EdoServiceLocator.getChecklistService().getChecklistByID(checklistSection.getEdoChecklistID()) ;
-		String errorMes = "Checklist '"+ checklistSection.getEdoChecklistID() + "'";
+		System.out.println("checklist id "+checklistSection.getEdoChecklistId());
+		EdoChecklist aSection = EdoServiceLocator.getChecklistService().getChecklistByID(checklistSection.getEdoChecklistId()) ;
+		String errorMes = "Checklist '"+ checklistSection.getEdoChecklistId() + "'";
 		if(aSection == null) {
 			System.out.println("check list doesn't exist");
 			this.putFieldError("dataObject.edoChecklist", "error.existence", errorMes);
@@ -59,7 +59,7 @@ public class EdoChecklistSectionValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateSectionOrdinal(EdoChecklistSectionBo checklistSection) {
 
-		List<EdoChecklistSection> sections = EdoServiceLocator.getChecklistSectionService().getChecklistSectionsByChecklistID(checklistSection.getEdoChecklistID(), checklistSection.getEffectiveLocalDate());
+		List<EdoChecklistSection> sections = EdoServiceLocator.getChecklistSectionService().getChecklistSectionsByChecklistID(checklistSection.getEdoChecklistId(), checklistSection.getEffectiveLocalDate());
 		for (EdoChecklistSection section : sections) {
 			if (checklistSection.getChecklistSectionOrdinal() == section.getChecklistSectionOrdinal()) {
 				// error.checklist.ordinal.exist ={0} '{1}' is already in use.

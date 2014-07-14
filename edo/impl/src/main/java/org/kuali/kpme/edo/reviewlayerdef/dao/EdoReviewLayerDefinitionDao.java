@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.reviewlayerdef.dao;
 
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinition;
 
 import java.math.BigDecimal;
@@ -8,36 +8,39 @@ import java.util.List;
 import java.util.Set;
 
 public interface EdoReviewLayerDefinitionDao {
-
-    public EdoReviewLayerDefinition getReviewLayerDefinition(BigDecimal reviewLayerDefinitionID);
-    public EdoReviewLayerDefinition getReviewLayerDefinition(String workflowId, BigDecimal reviewLayerDefinitionID);
-    public EdoReviewLayerDefinition getReviewLayerDefinition(String workflowId, String nodeName, BigDecimal routeLevel);
-    public EdoReviewLayerDefinition getReviewLayerDefinition(String workflowId, String nodeName);
-
-    public List<EdoReviewLayerDefinition> getReviewLayerDefinitions();
-    public List<EdoReviewLayerDefinition> getReviewLayerDefinitions(Set<String> nodeNames);
-    public List<EdoReviewLayerDefinition> getReviewLayerDefinitions(String workflowId);
-    public List<EdoReviewLayerDefinition> getReviewLayerDefinitions(String nodeName, String voteType, String reviewLetter);
-    public List<EdoReviewLayerDefinition> getReviewLayerDefinitions(String workflowId, Set<String> nodeNames);
-
-    public void saveOrUpdate(EdoReviewLayerDefinition reviewLayerDefinition);
-
+	// commented out by IU
+	//public EdoReviewLayerDefinition getReviewLayerDefinition(String nodeName, BigDecimal routeLevel);
+    //public EdoReviewLayerDefinition getReviewLayerDefinition(String nodeName);
+    //public BigDecimal getMaxRouteLevel();
+	// end of commented out by IU
+	
+	// commented out by Tango
+	//public EdoReviewLayerDefinitionBo getReviewLayerDefinition(String workflowId, BigDecimal reviewLayerDefinitionId);
+	//public EdoReviewLayerDefinitionBo getReviewLayerDefinition(String workflowId, String nodeName, String routeLevel);
+	// ********************* end of commented out by Tango ***********************
+	
+    public EdoReviewLayerDefinitionBo getReviewLayerDefinitionById(String reviewLayerDefinitionId);
+    public EdoReviewLayerDefinitionBo getReviewLayerDefinition(String workflowId, String nodeName);
+    public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitions();
+    
+    public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitions(Set<String> nodeNames);
+    public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitions(String workflowId);
+    public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitions(String nodeName, String voteType, String reviewLetter);
+    public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitions(String workflowId, Set<String> nodeNames);
+    public void saveOrUpdate(EdoReviewLayerDefinitionBo reviewLayerDefinition);
     public List<String> getValidReviewLevelNodeNames();
     public List<String> getValidReviewLevelNodeNames(String workflowId);
 
 
-    //public EdoReviewLayerDefinition getReviewLayerDefinition(String nodeName, BigDecimal routeLevel);
-    //public EdoReviewLayerDefinition getReviewLayerDefinition(String nodeName);
-
-    //public BigDecimal getMaxRouteLevel();
-    public List<EdoReviewLayerDefinition> getReviewLayerDefinitionsToMax(BigDecimal maxReviewLevel);
+    
+    public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitionsToMax(String maxReviewLevel);
     //supplemental auth nodes
-    public List<String> getAuthorizedSupplementalNodes(BigDecimal reviewLayerDefinitionId);
+    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
     public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(BigDecimal reviewLayerDefinitionID);
-    public EdoReviewLayerDefinition getReviewLayerDefinitionBySupplementalNode(String suppNodeName);
+    public EdoReviewLayerDefinitionBo getReviewLayerDefinitionBySupplementalNode(String suppNodeName);
     public List<String> getDistinctWorkflowIds();
-    public List<EdoReviewLayerDefinition> getReviewLayerDefinitionsByWorkflowId(String workflowId);
+    public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitionsByWorkflowId(String workflowId);
     public String getLevelQualifierByWorkflowId(String workflowId, String nodeName);
     public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName);
-    public List<EdoReviewLayerDefinition> getRouteLevelsWithReviewLayers();
+    public List<EdoReviewLayerDefinitionBo> getRouteLevelsWithReviewLayers();
 }

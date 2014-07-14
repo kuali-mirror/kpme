@@ -3,6 +3,7 @@ package org.kuali.kpme.edo.admin.web;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
@@ -10,9 +11,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.group.EdoGroup;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.kim.api.group.Group;
@@ -24,6 +26,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.StringReader;
@@ -151,7 +154,7 @@ public class EdoAdminGroupMembersAction extends EdoAction {
             if (rld.getVoteType().equals("None")) {
                 continue;
             }
-            rldMap.put(rld.getDescription().toUpperCase(),rld.getReviewLayerDefinitionId());
+            rldMap.put(rld.getDescription().toUpperCase(), new BigDecimal(rld.getEdoReviewLayerDefinitionId()));
         }
 
         for (List<String> csv_rec : csv_records) {
@@ -208,9 +211,9 @@ public class EdoAdminGroupMembersAction extends EdoAction {
                 msgmap.putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.group.addmember.noprincipal", username);
                 continue;
             }
-            EdoReviewLayerDefinition rld = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition( BigDecimal.valueOf(Integer.parseInt(rec.get(3))));
+            EdoReviewLayerDefinition rld = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById(rec.get(3));
             String nodeName = rld.getNodeName().toUpperCase();
-            BigDecimal reviewLevel = rld.getReviewLevel();
+            BigDecimal reviewLevel = new BigDecimal(rld.getReviewLevel());
             String dossierType = rec.get(5);
             String workflowAction = rec.get(7);
 

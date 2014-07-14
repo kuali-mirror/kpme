@@ -8,12 +8,12 @@ public interface EdoChecklistContract extends KpmeEffectiveKeyedDataTransferObje
 	 * The identifier of the EdoChecklist
 	 * 
 	 * <p>
-	 * edoChecklistID of the EdoChecklist
+	 * edoChecklistId of the EdoChecklist
 	 * <p>
 	 * 
-	 * @return edoChecklistID for EdoChecklist
+	 * @return edoChecklistId for EdoChecklist
 	 */
-	public String getEdoChecklistID();
+	public String getEdoChecklistId();
 
 	/**
 	 * The dossier type code of the EdoChecklist

@@ -35,7 +35,7 @@ public interface EdoDossierDocumentContract extends TransactionalDocument, Sessi
 	 * 
 	 * @return tkMissedPunchId for MissedPunchDocument
 	 */
-	public String getEdoDossierID();
+	public String getEdoDossierId();
 
 	/**
 	 * The MissedPunch object associated with the MissedPunchDocument

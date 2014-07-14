@@ -53,11 +53,11 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 	
 	@Override
 	public String getId() {
-		return this.getEdoDossierID();
+		return this.getEdoDossierId();
 	}
 	@Override
 	public void setId(String id) {
-		setEdoDossierID(id);
+		setEdoDossierId(id);
 	}
 		
 	@Override
@@ -66,9 +66,9 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 		return getCandidatePrincipalName();
 	}
 	
-    private String edoDossierID;
-    private String edoDossierTypeID;
-    private String edoChecklistID;
+    private String edoDossierId;
+    private String edoDossierTypeId;
+    private String edoChecklistId;
     private String candidatePrincipalName;
     private String aoeCode;
     private String departmentID;
@@ -82,28 +82,30 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 
     private EdoDossierType edoDossierType;
    
-	public String getEdoDossierID() {
-		return edoDossierID;
+	
+
+	public String getEdoDossierId() {
+		return edoDossierId;
 	}
 
-	public void setEdoDossierID(String edoDossierID) {
-		this.edoDossierID = edoDossierID;
+	public void setEdoDossierId(String edoDossierId) {
+		this.edoDossierId = edoDossierId;
 	}
 
-	public String getEdoDossierTypeID() {
-		return edoDossierTypeID;
+	public String getEdoDossierTypeId() {
+		return edoDossierTypeId;
 	}
 
-	public void setEdoDossierTypeID(String edoDossierTypeID) {
-		this.edoDossierTypeID = edoDossierTypeID;
+	public void setEdoDossierTypeId(String edoDossierTypeId) {
+		this.edoDossierTypeId = edoDossierTypeId;
 	}
 
-	public String getEdoChecklistID() {
-		return edoChecklistID;
+	public String getEdoChecklistId() {
+		return edoChecklistId;
 	}
 
-	public void setEdoChecklistID(String edoChecklistID) {
-		this.edoChecklistID = edoChecklistID;
+	public void setEdoChecklistId(String edoChecklistId) {
+		this.edoChecklistId = edoChecklistId;
 	}
 
 	public String getCandidatePrincipalName() {
@@ -127,8 +129,8 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
 	}
 
 	public EdoDossierType getEdoDossierType() {
-        if (ObjectUtils.isNull(edoDossierType) && ObjectUtils.isNotNull(edoDossierTypeID)) {
-            this.edoDossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(edoDossierTypeID.toString());
+        if (ObjectUtils.isNull(edoDossierType) && ObjectUtils.isNotNull(edoDossierTypeId)) {
+            this.edoDossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(edoDossierTypeId.toString());
             return edoDossierType;
         } else {
             return this.edoDossierType;
@@ -217,9 +219,9 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
         }
         EdoDossierBo edoDossierBo = new EdoDossierBo();
         
-        edoDossierBo.setEdoDossierID(edoDossier.getEdoDossierID());
-        edoDossierBo.setEdoDossierTypeID(edoDossier.getEdoDossierTypeID());
-        edoDossierBo.setEdoChecklistID(edoDossier.getEdoChecklistID());
+        edoDossierBo.setEdoDossierId(edoDossier.getEdoDossierId());
+        edoDossierBo.setEdoDossierTypeId(edoDossier.getEdoDossierTypeId());
+        edoDossierBo.setEdoChecklistId(edoDossier.getEdoChecklistId());
         edoDossierBo.setCandidatePrincipalName(edoDossier.getCandidatePrincipalName());
         edoDossierBo.setAoeCode(edoDossier.getAoeCode());
         edoDossierBo.setDepartmentID(edoDossier.getDepartmentID());

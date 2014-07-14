@@ -24,10 +24,10 @@ import org.w3c.dom.Element;
 @XmlType(name = EdoVoteRecord.Constants.TYPE_NAME, propOrder = {
     EdoVoteRecord.Elements.VOTE_SUB_ROUND,
     EdoVoteRecord.Elements.ABSTAIN_COUNT,
-    EdoVoteRecord.Elements.EDO_VOTE_RECORD_I_D,
-    EdoVoteRecord.Elements.EDO_DOSSIER_I_D,
+    EdoVoteRecord.Elements.EDO_VOTE_RECORD_ID,
+    EdoVoteRecord.Elements.EDO_DOSSIER_ID,
     EdoVoteRecord.Elements.ABSENT_COUNT,
-    EdoVoteRecord.Elements.EDO_REVIEW_LAYER_DEFINITION_I_D,
+    EdoVoteRecord.Elements.EDO_REVIEW_LAYER_DEFINITION_ID,
     EdoVoteRecord.Elements.NO_COUNT,
     EdoVoteRecord.Elements.VOTE_ROUND,
     EdoVoteRecord.Elements.YES_COUNT,
@@ -51,14 +51,14 @@ public final class EdoVoteRecord
     private final Integer voteSubRound;
     @XmlElement(name = Elements.ABSTAIN_COUNT, required = false)
     private final Integer abstainCount;
-    @XmlElement(name = Elements.EDO_VOTE_RECORD_I_D, required = false)
-    private final String edoVoteRecordID;
-    @XmlElement(name = Elements.EDO_DOSSIER_I_D, required = false)
-    private final String edoDossierID;
+    @XmlElement(name = Elements.EDO_VOTE_RECORD_ID, required = false)
+    private final String edoVoteRecordId;
+    @XmlElement(name = Elements.EDO_DOSSIER_ID, required = false)
+    private final String edoDossierId;
     @XmlElement(name = Elements.ABSENT_COUNT, required = false)
     private final Integer absentCount;
-    @XmlElement(name = Elements.EDO_REVIEW_LAYER_DEFINITION_I_D, required = false)
-    private final String edoReviewLayerDefinitionID;
+    @XmlElement(name = Elements.EDO_REVIEW_LAYER_DEFINITION_ID, required = false)
+    private final String edoReviewLayerDefinitionId;
     @XmlElement(name = Elements.NO_COUNT, required = false)
     private final Integer noCount;
     @XmlElement(name = Elements.VOTE_ROUND, required = false)
@@ -94,10 +94,10 @@ public final class EdoVoteRecord
     private EdoVoteRecord() {
         this.voteSubRound = null;
         this.abstainCount = null;
-        this.edoVoteRecordID = null;
-        this.edoDossierID = null;
+        this.edoVoteRecordId = null;
+        this.edoDossierId = null;
         this.absentCount = null;
-        this.edoReviewLayerDefinitionID = null;
+        this.edoReviewLayerDefinitionId = null;
         this.noCount = null;
         this.voteRound = null;
         this.yesCount = null;
@@ -115,10 +115,10 @@ public final class EdoVoteRecord
     private EdoVoteRecord(Builder builder) {
         this.voteSubRound = builder.getVoteSubRound();
         this.abstainCount = builder.getAbstainCount();
-        this.edoVoteRecordID = builder.getEdoVoteRecordID();
-        this.edoDossierID = builder.getEdoDossierID();
+        this.edoVoteRecordId = builder.getEdoVoteRecordId();
+        this.edoDossierId = builder.getEdoDossierId();
         this.absentCount = builder.getAbsentCount();
-        this.edoReviewLayerDefinitionID = builder.getEdoReviewLayerDefinitionID();
+        this.edoReviewLayerDefinitionId = builder.getEdoReviewLayerDefinitionId();
         this.noCount = builder.getNoCount();
         this.voteRound = builder.getVoteRound();
         this.yesCount = builder.getYesCount();
@@ -144,13 +144,13 @@ public final class EdoVoteRecord
     }
 
     @Override
-    public String getEdoVoteRecordID() {
-        return this.edoVoteRecordID;
+    public String getEdoVoteRecordId() {
+        return this.edoVoteRecordId;
     }
 
     @Override
-    public String getEdoDossierID() {
-        return this.edoDossierID;
+    public String getEdoDossierId() {
+        return this.edoDossierId;
     }
 
     @Override
@@ -159,8 +159,8 @@ public final class EdoVoteRecord
     }
 
     @Override
-    public String getEdoReviewLayerDefinitionID() {
-        return this.edoReviewLayerDefinitionID;
+    public String getEdoReviewLayerDefinitionId() {
+        return this.edoReviewLayerDefinitionId;
     }
 
     @Override
@@ -234,10 +234,10 @@ public final class EdoVoteRecord
 
         private Integer voteSubRound;
         private Integer abstainCount;
-        private String edoVoteRecordID;
-        private String edoDossierID;
+        private String edoVoteRecordId;
+        private String edoDossierId;
         private Integer absentCount;
-        private String edoReviewLayerDefinitionID;
+        private String edoReviewLayerDefinitionId;
         private Integer noCount;
         private Integer voteRound;
         private Integer yesCount;
@@ -260,18 +260,18 @@ public final class EdoVoteRecord
             return new Builder();
         }
 
-        private Builder(String edoDossierID, String edoReviewLayerDefinitionID, String voteType, Integer voteRound, Integer voteSubRound) {
+        private Builder(String edoDossierId, String edoReviewLayerDefinitionId, String voteType, Integer voteRound, Integer voteSubRound) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
-        	setEdoDossierID(edoDossierID);
-        	setEdoReviewLayerDefinitionID(edoReviewLayerDefinitionID);
+        	setEdoDossierId(edoDossierId);
+        	setEdoReviewLayerDefinitionId(edoReviewLayerDefinitionId);
         	setVoteType(voteType);
         	setVoteRound(voteRound);
         	setVoteSubRound(voteSubRound);
         }
 
-        public static Builder create(String edoDossierID, String edoReviewLayerDefinitionID, String voteType, Integer voteRound, Integer voteSubRound) {
+        public static Builder create(String edoDossierId, String edoReviewLayerDefinitionId, String voteType, Integer voteRound, Integer voteSubRound) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(edoDossierID, edoReviewLayerDefinitionID, voteType, voteRound, voteSubRound);
+            return new Builder(edoDossierId, edoReviewLayerDefinitionId, voteType, voteRound, voteSubRound);
         }
         
         
@@ -283,10 +283,10 @@ public final class EdoVoteRecord
             Builder builder = create();
             builder.setVoteSubRound(contract.getVoteSubRound());
             builder.setAbstainCount(contract.getAbstainCount());
-            builder.setEdoVoteRecordID(contract.getEdoVoteRecordID());
-            builder.setEdoDossierID(contract.getEdoDossierID());
+            builder.setEdoVoteRecordId(contract.getEdoVoteRecordId());
+            builder.setEdoDossierId(contract.getEdoDossierId());
             builder.setAbsentCount(contract.getAbsentCount());
-            builder.setEdoReviewLayerDefinitionID(contract.getEdoReviewLayerDefinitionID());
+            builder.setEdoReviewLayerDefinitionId(contract.getEdoReviewLayerDefinitionId());
             builder.setNoCount(contract.getNoCount());
             builder.setVoteRound(contract.getVoteRound());
             builder.setYesCount(contract.getYesCount());
@@ -317,13 +317,13 @@ public final class EdoVoteRecord
         }
 
         @Override
-        public String getEdoVoteRecordID() {
-            return this.edoVoteRecordID;
+        public String getEdoVoteRecordId() {
+            return this.edoVoteRecordId;
         }
 
         @Override
-        public String getEdoDossierID() {
-            return this.edoDossierID;
+        public String getEdoDossierId() {
+            return this.edoDossierId;
         }
 
         @Override
@@ -332,8 +332,8 @@ public final class EdoVoteRecord
         }
 
         @Override
-        public String getEdoReviewLayerDefinitionID() {
-            return this.edoReviewLayerDefinitionID;
+        public String getEdoReviewLayerDefinitionId() {
+            return this.edoReviewLayerDefinitionId;
         }
 
         @Override
@@ -406,14 +406,14 @@ public final class EdoVoteRecord
             this.abstainCount = abstainCount;
         }
 
-        public void setEdoVoteRecordID(String edoVoteRecordID) {
+        public void setEdoVoteRecordId(String edoVoteRecordId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoVoteRecordID = edoVoteRecordID;
+            this.edoVoteRecordId = edoVoteRecordId;
         }
 
-        public void setEdoDossierID(String edoDossierID) {
+        public void setEdoDossierId(String edoDossierId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoDossierID = edoDossierID;
+            this.edoDossierId = edoDossierId;
         }
 
         public void setAbsentCount(Integer absentCount) {
@@ -421,9 +421,9 @@ public final class EdoVoteRecord
             this.absentCount = absentCount;
         }
 
-        public void setEdoReviewLayerDefinitionID(String edoReviewLayerDefinitionID) {
+        public void setEdoReviewLayerDefinitionId(String edoReviewLayerDefinitionId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoReviewLayerDefinitionID = edoReviewLayerDefinitionID;
+            this.edoReviewLayerDefinitionId = edoReviewLayerDefinitionId;
         }
 
         public void setNoCount(Integer noCount) {
@@ -509,10 +509,10 @@ public final class EdoVoteRecord
 
         final static String VOTE_SUB_ROUND = "voteSubRound";
         final static String ABSTAIN_COUNT = "abstainCount";
-        final static String EDO_VOTE_RECORD_I_D = "edoVoteRecordID";
-        final static String EDO_DOSSIER_I_D = "edoDossierID";
+        final static String EDO_VOTE_RECORD_ID = "edoVoteRecordId";
+        final static String EDO_DOSSIER_ID = "edoDossierId";
         final static String ABSENT_COUNT = "absentCount";
-        final static String EDO_REVIEW_LAYER_DEFINITION_I_D = "edoReviewLayerDefinitionID";
+        final static String EDO_REVIEW_LAYER_DEFINITION_ID = "edoReviewLayerDefinitionId";
         final static String NO_COUNT = "noCount";
         final static String VOTE_ROUND = "voteRound";
         final static String YES_COUNT = "yesCount";

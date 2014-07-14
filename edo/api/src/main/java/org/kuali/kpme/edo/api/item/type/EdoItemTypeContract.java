@@ -12,12 +12,12 @@ public interface EdoItemTypeContract extends KpmeEffectiveDataTransferObject {
 	 * The identifier of the EdoItemType
 	 * 
 	 * <p>
-	 * edoItemTypeID of the EdoItemType
+	 * edoItemTypeId of the EdoItemType
 	 * <p>
 	 * 
-	 * @return edoItemTypeID for EdoItemType
+	 * @return edoItemTypeId for EdoItemType
 	 */
-    public String getEdoItemTypeID();
+    public String getEdoItemTypeId();
 
     /**
 	 * The name of the EdoItemType

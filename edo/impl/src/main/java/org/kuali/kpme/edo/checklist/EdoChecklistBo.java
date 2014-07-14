@@ -22,12 +22,12 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 	private static final long serialVersionUID = -3737008004782110416L;
 	
 	static class KeyFields {
-		private static final String EDO_CHECKLIST_ID = "edoChecklistID";
+		private static final String EDO_CHECKLIST_ID = "edoChecklistId";
 		private static final String GROUP_KEY_CODE = "groupKeyCode";
 		private static final String DOSSIER_TYPE_CD = "dossierTypeCode";
 	}
 	
-	private String edoChecklistID;
+	private String edoChecklistId;
     private String dossierTypeCode;
     private String departmentID;
     private String organizationCode;
@@ -43,7 +43,7 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistID())
+				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistId())
 				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.put(KeyFields.DOSSIER_TYPE_CD, this.getDepartmentID())
 				.build();
@@ -51,25 +51,25 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
     
 	@Override
 	public String getId() {
-		return getEdoChecklistID();
+		return getEdoChecklistId();
 	}
 
 	@Override
-	public void setId(String checklistID) {
-		setEdoChecklistID(checklistID);
+	public void setId(String checklistId) {
+		setEdoChecklistId(checklistId);
 	}
 	
 	@Override
 	protected String getUniqueKey() {
-		return this.getEdoChecklistID();
+		return this.getEdoChecklistId();
 	}
 
-	public String getEdoChecklistID() {
-		return edoChecklistID;
+	public String getEdoChecklistId() {
+		return edoChecklistId;
 	}
 
-	public void setEdoChecklistID(String edoChecklistID) {
-		this.edoChecklistID = edoChecklistID;
+	public void setEdoChecklistId(String edoChecklistId) {
+		this.edoChecklistId = edoChecklistId;
 	}
 
 	public String getDossierTypeCode() {
@@ -109,7 +109,7 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
             return null;
         }
         EdoChecklistBo eclt = new EdoChecklistBo();
-        eclt.setEdoChecklistID(im.getEdoChecklistID());
+        eclt.setEdoChecklistId(im.getEdoChecklistId());
         eclt.setDossierTypeCode(im.getDossierTypeCode());
         eclt.setDepartmentID(im.getDepartmentID());
         eclt.setOrganizationCode(im.getOrganizationCode());

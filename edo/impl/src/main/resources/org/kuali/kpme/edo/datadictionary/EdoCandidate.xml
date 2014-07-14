@@ -18,7 +18,7 @@
 		<property name="objectLabel" value="eDossier Candidate" />
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="EdoCandidate-edoCandidateID" />
+				<ref bean="EdoCandidate-edoCandidateId" />
 				<ref bean="EdoCandidate-principalName" />
 				<ref bean="EdoCandidate-lastName" />
 				<ref bean="EdoCandidate-firstName" />
@@ -30,8 +30,8 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-	<bean id="EdoCandidate-edoCandidateID" parent="EdoCandidate-edoCandidateID-parentBean" />
-	<bean id="EdoCandidate-edoCandidateID-parentBean" abstract="true"
+	<bean id="EdoCandidate-edoCandidateId" parent="EdoCandidate-edoCandidateId-parentBean" />
+	<bean id="EdoCandidate-edoCandidateId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Candidate Id" />
 		<property name="maxLength" value="60" />
@@ -41,7 +41,7 @@
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="60" />
 		</property>
-		<property name="name" value="edoCandidateID" />
+		<property name="name" value="edoCandidateId" />
 		<property name="label" value="Candidate Id" />
 	</bean>
 
@@ -189,12 +189,11 @@
 		<property name="dataObjectClassName" value="org.kuali.kpme.edo.candidate.EdoCandidateBo" />
 		<property name="criteriaFields">
 			<list merge="true">
-				<!-- bean parent="Uif-LookupCriteriaInputField" p:propertyName="edoCandidateID" /-->
+				<!-- bean parent="Uif-LookupCriteriaInputField" p:propertyName="edoCandidateId" /-->
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" >
 					<property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript"
-                              p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person"
-                              p:fieldConversions="principalName:principalName"/>
+                              p:dataObjectClassName="org.kuali.rice.kim.api.identity.Person" />
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="firstName" />

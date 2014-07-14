@@ -18,13 +18,8 @@ package org.kuali.kpme.edo.vote;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.groupkey.HrGroupKeyBoTest;
-import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 
 public class EdoVoteRecordBoTest {
@@ -35,9 +30,9 @@ public class EdoVoteRecordBoTest {
 	static {
 		testEdoVoteRecordBo = new HashMap<String, EdoVoteRecord>();
 		
-		edoVoteRecordBuilder.setEdoVoteRecordID("1000");
-		edoVoteRecordBuilder.setEdoDossierID("1000");
-		edoVoteRecordBuilder.setEdoReviewLayerDefinitionID("1000");;
+		edoVoteRecordBuilder.setEdoVoteRecordId("1000");
+		edoVoteRecordBuilder.setEdoDossierId("1000");
+		edoVoteRecordBuilder.setEdoReviewLayerDefinitionId("1000");;
 		edoVoteRecordBuilder.setVoteType("tenure");
 		edoVoteRecordBuilder.setAoeCode("P");
 		edoVoteRecordBuilder.setYesCount(10);
@@ -51,9 +46,9 @@ public class EdoVoteRecordBoTest {
 		edoVoteRecordBuilder.setVersionNumber(1L);
 		edoVoteRecordBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		
-		edoVoteRecordBuilder.setId(edoVoteRecordBuilder.getEdoVoteRecordID());
+		edoVoteRecordBuilder.setId(edoVoteRecordBuilder.getEdoVoteRecordId());
 		
-		testEdoVoteRecordBo.put(edoVoteRecordBuilder.getEdoVoteRecordID(), edoVoteRecordBuilder.build());
+		testEdoVoteRecordBo.put(edoVoteRecordBuilder.getEdoVoteRecordId(), edoVoteRecordBuilder.build());
 	}
 	
 	@Test
@@ -65,8 +60,8 @@ public class EdoVoteRecordBoTest {
         Assert.assertEquals(immutable, EdoVoteRecordBo.to(bo));
     }
 
-    public static EdoVoteRecord getEdoVoteRecord(String edoVoteRecordID) {
-        return testEdoVoteRecordBo.get(edoVoteRecordID);
+    public static EdoVoteRecord getEdoVoteRecord(String edoVoteRecordId) {
+        return testEdoVoteRecordBo.get(edoVoteRecordId);
     }
     
 }

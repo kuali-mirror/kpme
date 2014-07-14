@@ -149,7 +149,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     	List<EdoItemBo> returnedBos = new ArrayList<EdoItemBo>();
     	
     	for (EdoItemBo bo : bos) {
-    		String itemTypeName = edoItemTypeService.getItemType(bo.getEdoItemID()).getItemTypeName();
+    		String itemTypeName = edoItemTypeService.getItemType(bo.getEdoItemId()).getItemTypeName();
     		if (StringUtils.equals(itemTypeName, EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER)) {
     			returnedBos.add(bo);
     		}
@@ -170,16 +170,16 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
         String uploadString = new SimpleDateFormat("yyyy-MM-dd hh:mma").format(new Timestamp(item.getActionFullDateTime().getMillis()));
 
         tmp.add(item.getRowIndex()+"");
-        tmp.add(item.getEdoItemID());
-        tmp.add(item.getEdoItemTypeID());
+        tmp.add(item.getEdoItemId());
+        tmp.add(item.getEdoItemTypeId());
         tmp.add(item.getFileName());
         tmp.add(item.getFileLocation());
-        tmp.add(item.getEdoChecklistItemID());
+        tmp.add(item.getEdoChecklistItemId());
         tmp.add(uploadString);
         tmp.add(item.getUserPrincipalId());
         tmp.add("");
-        tmp.add(item.getEdoDossierID());
-        tmp.add(item.getEdoReviewLayerDefID() == null ? "" : item.getEdoReviewLayerDefID());
+        tmp.add(item.getEdoDossierId());
+        tmp.add(item.getEdoReviewLayerDefId() == null ? "" : item.getEdoReviewLayerDefId());
         tmp.add(item.isRouted() == true ? "Y" : "N");
         tmp.add(item.getFileDescription());
         tmp.add(item.getAction());

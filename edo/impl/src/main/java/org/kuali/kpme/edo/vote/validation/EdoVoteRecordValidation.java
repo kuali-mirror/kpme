@@ -14,8 +14,8 @@ import java.math.BigDecimal;
 public class EdoVoteRecordValidation {
 
     public static boolean validateVoteRecord(EdoVoteRecordBo voteRecord) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(voteRecord.getEdoDossierID());
-        EdoDossierType edoDossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierID());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(voteRecord.getEdoDossierId());
+        EdoDossierType edoDossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierId());
         
         if (StringUtils.equals(voteRecord.getVoteType(), EdoConstants.VOTE_TYPE_MULTIPLE)) {
         	validateCount(voteRecord.getYesCount(), "yes");
@@ -73,8 +73,8 @@ public class EdoVoteRecordValidation {
     }
 
     private static void validateTotalCount(EdoVoteRecordBo voteRecord) {
-        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(voteRecord.getEdoDossierID());
-        EdoDossierType edoDossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierTypeID());
+        EdoDossier dossier = EdoServiceLocator.getEdoDossierService().getEdoDossierById(voteRecord.getEdoDossierId());
+        EdoDossierType edoDossierType = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeById(dossier.getEdoDossierTypeId());
         
         if (edoDossierType.getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE) ||
         		edoDossierType.getDossierTypeName().equals(EdoConstants.VoteType.VOTE_TYPE_TENURE_PROMOTION)    ) {

@@ -16,9 +16,7 @@
 package org.kuali.kpme.edo.vote;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +25,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.edo.EdoUnitTestBase;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 
 @IntegrationTest
 public class EdoVoteRecordServiceTest extends EdoUnitTestBase {	
-
+	
 	@Before
 	public void setUp() throws Exception {
 		
@@ -52,7 +51,7 @@ public class EdoVoteRecordServiceTest extends EdoUnitTestBase {
 
 		EdoVoteRecord edoVoteRecord = (EdoVoteRecord)EdoServiceLocator.getEdoVoteRecordService().getEdoVoteRecord("1000");
 		
-		assertEquals("1000", edoVoteRecord.getEdoVoteRecordID());
+		assertEquals("1000", edoVoteRecord.getEdoVoteRecordId());
 	}
 	
 	@Test
@@ -71,18 +70,35 @@ public class EdoVoteRecordServiceTest extends EdoUnitTestBase {
 	@Test
 	public void testGetVoteRecords() throws Exception {
 		List<EdoVoteRecord> edoVoteRecords = new ArrayList<EdoVoteRecord>();
+		//Map<String, EdoReviewLayerDefinition> testReviewlayerDefinitionBo;
+		
+		//testReviewlayerDefinitionBo = new HashMap<String, EdoReviewLayerDefinition>();
+		
+		EdoReviewLayerDefinition.Builder edoReviewLayerDefinitionBuilder = EdoReviewLayerDefinition.Builder.create();
+		edoReviewLayerDefinitionBuilder.setEdoReviewLayerDefinitionId("1000");
+		edoReviewLayerDefinitionBuilder.setNodeName("testNodeName");
+		edoReviewLayerDefinitionBuilder.setVoteType("tenure");
+		edoReviewLayerDefinitionBuilder.setDescription("description");
+		edoReviewLayerDefinitionBuilder.setReviewLetter(true);
+		edoReviewLayerDefinitionBuilder.setReviewLevel("1");
+		edoReviewLayerDefinitionBuilder.setRouteLevel("1");
+		edoReviewLayerDefinitionBuilder.setWorkflowId("1000");
+		edoReviewLayerDefinitionBuilder.setWorkflowQualifier("workflowQualifier");	
+		edoReviewLayerDefinitionBuilder.setUserPrincipalId("admin");
+		edoReviewLayerDefinitionBuilder.setVersionNumber(1L);
+		edoReviewLayerDefinitionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
+		edoReviewLayerDefinitionBuilder.setId(edoReviewLayerDefinitionBuilder.getEdoReviewLayerDefinitionId());
+		
+		EdoReviewLayerDefinition edoReviewLayerDefinition1 = edoReviewLayerDefinitionBuilder.build();
+		
+		
+		EdoReviewLayerDefinitionBo edoReviewLayerDefinition2 = new EdoReviewLayerDefinitionBo();
+		edoReviewLayerDefinition2.setEdoReviewLayerDefinitionId("1001");
+		edoReviewLayerDefinition2.setReviewLevel("1");
+		
 		List<EdoReviewLayerDefinition> edoReviewLayerDefinitions = new ArrayList<EdoReviewLayerDefinition>();
-		
-		EdoReviewLayerDefinition edoReviewLayerDefinition1 = new EdoReviewLayerDefinition();
-		edoReviewLayerDefinition1.setReviewLayerDefinitionId(new BigDecimal(1000));
-		edoReviewLayerDefinition1.setReviewLevel(new BigDecimal(1));
-		
-		EdoReviewLayerDefinition edoReviewLayerDefinition2 = new EdoReviewLayerDefinition();
-		edoReviewLayerDefinition2.setReviewLayerDefinitionId(new BigDecimal(1001));
-		edoReviewLayerDefinition2.setReviewLevel(new BigDecimal(1));
-		
 		edoReviewLayerDefinitions.add(edoReviewLayerDefinition1);
-		edoReviewLayerDefinitions.add(edoReviewLayerDefinition2);
+		//edoReviewLayerDefinitions.add(edoReviewLayerDefinition2);
 		
 		edoVoteRecords = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords("1000", edoReviewLayerDefinitions);
 		// TODO: getVoteRecords needs setup authorizedViewLevels. 	
@@ -95,10 +111,10 @@ public class EdoVoteRecordServiceTest extends EdoUnitTestBase {
 	}
 	
 	@Test
-	public void testGetVoteRecordsByEdoReviewLayerDefinitionID() throws Exception {
+	public void testGetVoteRecordsByEdoReviewLayerDefinitionId() throws Exception {
 		EdoVoteRecord edoVoteRecord = (EdoVoteRecord)EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound("1000", "1001");
 		
-		assertEquals("1003", edoVoteRecord.getEdoVoteRecordID());
+		assertEquals("1003", edoVoteRecord.getEdoVoteRecordId());
 	}
 	
 	@Test

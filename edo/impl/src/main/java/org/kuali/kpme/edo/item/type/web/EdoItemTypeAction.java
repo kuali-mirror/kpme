@@ -42,7 +42,7 @@ public class EdoItemTypeAction extends EdoAction {
         }
         request.setAttribute("itemTypesJSON", itemTypeListJSON);
 
-        itemTypeObj.setEdoItemTypeID(((EdoItemTypeForm) form).getEdoItemTypeID());
+        itemTypeObj.setEdoItemTypeId(((EdoItemTypeForm) form).getEdoItemTypeID());
         itemTypeObj.setItemTypeExtAvailable( ((EdoItemTypeForm) form).isItemTypeExtAvailability() );
         itemTypeObj.setItemTypeDescription(((EdoItemTypeForm) form).getItemTypeDescription());
         itemTypeObj.setItemTypeName(((EdoItemTypeForm) form).getItemTypeName());
@@ -50,9 +50,9 @@ public class EdoItemTypeAction extends EdoAction {
         itemTypeObj.setUserPrincipalId(((EdoItemTypeForm) form).getUpdatedBy()+"");
         itemTypeObj.setCreateTime(DateTime.parse(((EdoItemTypeForm) form).getLastUpdated()));
 
-        if (itemTypeObj.getEdoItemTypeID() != null) {
-            if (itemTypeObj.getEdoItemTypeID().equals("0")) {
-                itemTypeObj.setEdoItemTypeID(null);
+        if (itemTypeObj.getEdoItemTypeId() != null) {
+            if (itemTypeObj.getEdoItemTypeId().equals("0")) {
+                itemTypeObj.setEdoItemTypeId(null);
             } 
             // update the last-updated field
             // itemTypeObj.setLastUpdated( new Date() );
@@ -74,7 +74,7 @@ public class EdoItemTypeAction extends EdoAction {
                 ((EdoItemTypeForm) form).itemTypeExtAvailable = edoItemType.isItemTypeExtAvailable();
                 ((EdoItemTypeForm) form).itemTypeDescription = edoItemType.getItemTypeDescription();
                 ((EdoItemTypeForm) form).itemTypeName =  edoItemType.getItemTypeName();
-                ((EdoItemTypeForm) form).edoItemTypeID = edoItemType.getEdoItemTypeID();
+                ((EdoItemTypeForm) form).edoItemTypeID = edoItemType.getEdoItemTypeId();
                 // TODO Make sure the code below works right - For example, EdoItemType only has user principal id, so
                 // setting it to updatedBy and createdBy may not work correctly.  Same for lastUpdated and createDate.
                 ((EdoItemTypeForm) form).lastUpdated =  DateFormat.getDateInstance(DateFormat.SHORT).format(edoItemType.getCreateTime());

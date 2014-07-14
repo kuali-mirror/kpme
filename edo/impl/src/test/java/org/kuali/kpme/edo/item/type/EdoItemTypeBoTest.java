@@ -30,7 +30,7 @@ public class EdoItemTypeBoTest {
 	
 	static {
 		testEdoItemTypeBos = new HashMap<String, EdoItemType>();
-		edoItemTypeBoBuilder.setEdoItemTypeID("EDO_ITEMTYPE_ID_0001");
+		edoItemTypeBoBuilder.setEdoItemTypeId("EDO_ITEMTYPE_ID_0001");
 		edoItemTypeBoBuilder.setItemTypeName("Testing Immutable EdoItemType");
 		edoItemTypeBoBuilder.setItemTypeDescription("Testing Immutable EdoItemType Description");
 		edoItemTypeBoBuilder.setItemTypeInstructions("");
@@ -39,11 +39,11 @@ public class EdoItemTypeBoTest {
 		edoItemTypeBoBuilder.setVersionNumber(1L);
 		edoItemTypeBoBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		edoItemTypeBoBuilder.setActive(true);
-		edoItemTypeBoBuilder.setId(edoItemTypeBoBuilder.getEdoItemTypeID());
+		edoItemTypeBoBuilder.setId(edoItemTypeBoBuilder.getEdoItemTypeId());
 		edoItemTypeBoBuilder.setEffectiveLocalDate(new LocalDate(2014, 3, 1));
 		edoItemTypeBoBuilder.setCreateTime(DateTime.now());
 
-		testEdoItemTypeBos.put(edoItemTypeBoBuilder.getEdoItemTypeID(), edoItemTypeBoBuilder.build());
+		testEdoItemTypeBos.put(edoItemTypeBoBuilder.getEdoItemTypeId(), edoItemTypeBoBuilder.build());
 	}
 	
     @Test

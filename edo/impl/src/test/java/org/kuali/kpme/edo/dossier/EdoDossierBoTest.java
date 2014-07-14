@@ -33,10 +33,10 @@ public class EdoDossierBoTest {
 	static {
 		testEdoDossierBos = new HashMap<String, EdoDossier>();
 		
-		edoDossierBuilder.setEdoDossierID("001");
+		edoDossierBuilder.setEdoDossierId("001");
 		edoDossierBuilder.setCandidatePrincipalName("admin");
-		edoDossierBuilder.setEdoDossierTypeID("1003");
-		edoDossierBuilder.setEdoChecklistID("1000");
+		edoDossierBuilder.setEdoDossierTypeId("1003");
+		edoDossierBuilder.setEdoChecklistId("1000");
 		
 		edoDossierBuilder.setAoeCode("P");
 		edoDossierBuilder.setDepartmentID("deptID");
@@ -51,7 +51,7 @@ public class EdoDossierBoTest {
 		edoDossierBuilder.setActive(true);
 		edoDossierBuilder.setEffectiveLocalDate(new LocalDate(2012, 3, 1));
 		edoDossierBuilder.setCreateTime(DateTime.now());
-		edoDossierBuilder.setId(edoDossierBuilder.getEdoDossierID());
+		edoDossierBuilder.setId(edoDossierBuilder.getEdoDossierId());
 		// Set GroupKeycode Object
 		edoDossierBuilder.setGroupKey(HrGroupKey.Builder.create(HrGroupKeyBoTest.getTestHrGroupKey("ISU-IA")));
 		

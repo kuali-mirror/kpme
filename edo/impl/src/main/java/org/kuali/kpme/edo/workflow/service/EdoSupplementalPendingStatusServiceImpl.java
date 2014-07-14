@@ -14,14 +14,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.TagSupport;
-import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -143,7 +142,8 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
 		BigDecimal dossierId = EdoContext.getSelectedCandidate().getCandidateDossierID();
         String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getWorkflowId();
 
-		Map<BigDecimal, EdoReviewLayerDefinition> reviewLevelMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId));
+		Map<String, EdoReviewLayerDefinition> reviewLevelMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId));
+		
 		Document document = KewApiServiceLocator.getWorkflowDocumentService().getDocument(supplementalDocumentId);
 		DateTime documentCreated = document.getDateCreated();
 
@@ -156,7 +156,7 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
             return false;
         }
 
-		List<EdoItem> letters = EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLevelMap.get(highestAuthorizedViewReviewLevel).getReviewLayerDefinitionId().toString());
+		List<EdoItem> letters = EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLevelMap.get(highestAuthorizedViewReviewLevel).getEdoReviewLayerDefinitionId());
 
         // no letters?  then obviously hasn't added any letters
         if (CollectionUtils.isEmpty(letters)) {

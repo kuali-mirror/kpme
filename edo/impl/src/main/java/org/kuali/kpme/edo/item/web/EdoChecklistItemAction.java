@@ -87,7 +87,7 @@ public class EdoChecklistItemAction extends EdoAction {
         // set page request variables for title and description
         checklistItems = cliForm.getChecklistItems();
         for (EdoChecklistItem checklistItem : checklistItems ) {
-            checklistItemId = new BigDecimal(checklistItem.getEdoChecklistItemID());
+            checklistItemId = new BigDecimal(checklistItem.getEdoChecklistItemId());
             if ( checklistItemId.intValue() == currentTreeNodeID ) {
                 request.setAttribute("nodeID", currentTreeNodeID );
                 request.setAttribute("itemName", checklistItem.getChecklistItemName() );
@@ -149,7 +149,7 @@ public class EdoChecklistItemAction extends EdoAction {
         List<EdoItem> jsonItems = new ArrayList<EdoItem>();
         for (EdoItem edoItem : itemlist) {
             Integer oldIndex = edoItem.getRowIndex();
-            Integer newIndex = itemIndexMap.get(edoItem.getEdoItemID());
+            Integer newIndex = itemIndexMap.get(edoItem.getEdoItemId());
             EdoItemBo edoItemBo = EdoItemBo.from(edoItem);
             if (oldIndex.compareTo(newIndex) != 0) {
             	// use edoItemBo instead
@@ -374,10 +374,10 @@ public class EdoChecklistItemAction extends EdoAction {
             if (isNewFile) {
                 item.setActionFullDateTime(new DateTime(sqlTimestamp));
                 LocalDate currentDate = LocalDate.now();
-                item.setEdoItemTypeID(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT, currentDate));
+                item.setEdoItemTypeId(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT, currentDate));
                 item.setUserPrincipalId(uploadUsername);
-                item.setEdoDossierID(dossierID.toString());
-                item.setEdoChecklistItemID(checklistItemID+"");
+                item.setEdoDossierId(dossierID.toString());
+                item.setEdoChecklistItemId(checklistItemID+"");
                 Integer nextRowIndexNum = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(checklistItemID+"", uploadUsername);
                 item.setRowIndex(nextRowIndexNum);
             }
@@ -386,7 +386,7 @@ public class EdoChecklistItemAction extends EdoAction {
                 EdoItem edoItem = EdoServiceLocator.getEdoItemService().getEdoItem(itemID.toString());
                 // originalItem doesn't get used except to get item id
                 //originalItem = edoItem;
-                originalItemID = edoItem.getEdoItemID();
+                originalItemID = edoItem.getEdoItemId();
                 if (!deleteFileFromFS(edoItem)) {
                     // error deleting the file; report it and return
                     ActionForward fwd = mapping.findForward("basic");
@@ -409,7 +409,7 @@ public class EdoChecklistItemAction extends EdoAction {
             item.setContentType(contentType);
             item.setUserPrincipalId(uploadUsername);
             item.setActionFullDateTime(new DateTime(sqlTimestamp));
-            item.setEdoReviewLayerDefID("0");
+            item.setEdoReviewLayerDefId("0");
 
             if (StringUtils.isNotBlank(storeFileName)) {
                 File newFile = new File(uploadPath, storeFileName);
@@ -439,7 +439,7 @@ public class EdoChecklistItemAction extends EdoAction {
             // if this is a new file or we are replacing the file, update the db; otherwise, don't do anything
             if (isNewFile || replaceFile) {
                 EdoServiceLocator.getEdoItemService().saveOrUpdate(item.build());
-                LOG.info("File entry [" + item.getEdoItemID() + "][" + item.getFileName() + "] updated/saved to the database.");
+                LOG.info("File entry [" + item.getEdoItemId() + "][" + item.getFileName() + "] updated/saved to the database.");
             }
         }
 
@@ -449,7 +449,7 @@ public class EdoChecklistItemAction extends EdoAction {
         // As a workaround, we update the java EdoItemV list with the new EdoItemV object for json output.
         if (replaceFile) {
             for (EdoItem oldItem : itemList) {
-                if (oldItem.getEdoItemID().equals(originalItemID)) {
+                if (oldItem.getEdoItemId().equals(originalItemID)) {
                     EdoItem.Builder newItem = EdoItem.Builder.create(item);
                     itemList.remove(oldItem);
                     itemList.add(newItem.build());

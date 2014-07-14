@@ -20,7 +20,7 @@ public class EdoVoteRecordDaoImpl extends PlatformAwareDaoBaseOjb implements Edo
     public EdoVoteRecordBo getEdoVoteRecord(String edoVoteRecordID) {
  
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("edoVoteRecordID", edoVoteRecordID);
+        criteria.addEqualTo("edoVoteRecordId", edoVoteRecordID);
 
         Query query = QueryFactory.newQuery(EdoVoteRecordBo.class, criteria);
 
@@ -33,7 +33,7 @@ public class EdoVoteRecordDaoImpl extends PlatformAwareDaoBaseOjb implements Edo
         List<EdoVoteRecordBo> voteRecords = new ArrayList<EdoVoteRecordBo>();
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("edoDossierID", edoDossierID);
+        criteria.addEqualTo("edoDossierId", edoDossierID);
 
         QueryByCriteria query = QueryFactory.newQuery(EdoVoteRecordBo.class, criteria);
         // TODO: add sorting after reviewLayerDefinition is done
@@ -56,8 +56,8 @@ public class EdoVoteRecordDaoImpl extends PlatformAwareDaoBaseOjb implements Edo
 
         if (ObjectUtils.isNotNull(edoDossierID) && CollectionUtils.isNotEmpty(edoReviewLayerDefinitionIDs)) {
             Criteria criteria = new Criteria();
-            criteria.addEqualTo("edoDossierID", edoDossierID);
-            criteria.addIn("edoReviewLayerDefinitionID", edoReviewLayerDefinitionIDs);
+            criteria.addEqualTo("edoDossierId", edoDossierID);
+            criteria.addIn("edoReviewLayerDefinitionId", edoReviewLayerDefinitionIDs);
 
             QueryByCriteria query = QueryFactory.newQuery(EdoVoteRecordBo.class, criteria);
             // TODO: add sorting after reviewLayerDefinition is done
@@ -77,13 +77,13 @@ public class EdoVoteRecordDaoImpl extends PlatformAwareDaoBaseOjb implements Edo
         return voteRecords;
     }
 
-    public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID, String edoReviewLayerDefinitionID) {
+    public List<EdoVoteRecordBo> getVoteRecords(String edoDossierID, String edoReviewLayerDefinitionId) {
         List<EdoVoteRecordBo> voteRecords = new ArrayList<EdoVoteRecordBo>();
 
-        if (ObjectUtils.isNotNull(edoDossierID) && edoReviewLayerDefinitionID != null) {
+        if (ObjectUtils.isNotNull(edoDossierID) && edoReviewLayerDefinitionId != null) {
             Criteria criteria = new Criteria();
-            criteria.addEqualTo("edoDossierID", edoDossierID);
-            criteria.addEqualTo("edoReviewLayerDefinitionID", edoReviewLayerDefinitionID);
+            criteria.addEqualTo("edoDossierId", edoDossierID);
+            criteria.addEqualTo("edoReviewLayerDefinitionId", edoReviewLayerDefinitionId);
 
             QueryByCriteria query = QueryFactory.newQuery(EdoVoteRecordBo.class, criteria);
             query.addOrderByAscending("vote_round");
@@ -99,13 +99,13 @@ public class EdoVoteRecordDaoImpl extends PlatformAwareDaoBaseOjb implements Edo
         return voteRecords;
     }
 
-    public EdoVoteRecordBo getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionID) {
+    public EdoVoteRecordBo getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionId) {
         EdoVoteRecordBo voteRecord = new EdoVoteRecordBo();
 
-        if (ObjectUtils.isNotNull(edoDossierID) && edoReviewLayerDefinitionID != null) {
+        if (ObjectUtils.isNotNull(edoDossierID) && edoReviewLayerDefinitionId != null) {
             Criteria criteria = new Criteria();
-            criteria.addEqualTo("edoDossierID", edoDossierID);
-            criteria.addEqualTo("edoReviewLayerDefinitionID", edoReviewLayerDefinitionID);
+            criteria.addEqualTo("edoDossierId", edoDossierID);
+            criteria.addEqualTo("edoReviewLayerDefinitionId", edoReviewLayerDefinitionId);
 
             QueryByCriteria query = QueryFactory.newQuery(EdoVoteRecordBo.class, criteria);
             query.addOrderByDescending("vote_round");

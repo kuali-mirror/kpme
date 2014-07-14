@@ -24,10 +24,11 @@ import org.apache.struts.upload.FormFile;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.item.EdoItemTracker;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -65,7 +66,7 @@ public class EdoExternalLetterAction extends EdoAction {
         Collection<EdoReviewLayerDefinition> authorizedReviewLevels = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId);
 
         List<BigDecimal> reviewLevels = EdoContext.getAuthorizedUploadExternalLetterLevels();
-        Map<BigDecimal, EdoReviewLayerDefinition> lvlMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap( EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId) );
+        Map<String, EdoReviewLayerDefinition> lvlMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap( EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId) );
 
         for ( BigDecimal lvl : reviewLevels ) {
             authorizedReviewLevels.add(lvlMap.get(lvl));
@@ -199,12 +200,12 @@ public class EdoExternalLetterAction extends EdoAction {
             // set attributes unique to a new file in the DB
             if (isNewFile) {
                 // TODO: this will need to be a dynamic value, not hard coded; see declarations above
-                item.setEdoItemTypeID(itemTypeID+"");
+                item.setEdoItemTypeId(itemTypeID+"");
                 item.setRouted(true);
                 item.setUserPrincipalId(uploadUsername);
                 item.setActionFullDateTime(new DateTime(sqlTimestamp));
-                item.setEdoDossierID(dossierID.toString());
-                item.setEdoChecklistItemID(checklistItemID+"");
+                item.setEdoDossierId(dossierID.toString());
+                item.setEdoChecklistItemId(checklistItemID+"");
                 Integer nextRowIndexNum = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(checklistItemID+"", uploadUsername);
                 item.setRowIndex(nextRowIndexNum);
 
@@ -225,7 +226,7 @@ public class EdoExternalLetterAction extends EdoAction {
             item.setContentType(contentType);
             item.setUserPrincipalId(uploadUsername);
             item.setActionFullDateTime(new DateTime(sqlTimestamp));
-            item.setEdoReviewLayerDefID("0");
+            item.setEdoReviewLayerDefId("0");
 
             if (StringUtils.isNotBlank(storeFileName)) {
                 File newFile = new File(uploadPath, storeFileName);
@@ -255,7 +256,7 @@ public class EdoExternalLetterAction extends EdoAction {
             // if this is a new file or we are replacing the file, update the db; otherwise, don't do anything
             if (isNewFile || replaceFile) {
                 EdoServiceLocator.getEdoItemService().saveOrUpdate(item.build());
-                LOG.info("File entry [" + item.getEdoItemID() + "][" + item.getFileName() + "] updated/saved to the database.");
+                LOG.info("File entry [" + item.getEdoItemId() + "][" + item.getFileName() + "] updated/saved to the database.");
             }
         }
 

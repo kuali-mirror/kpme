@@ -67,13 +67,13 @@ public final class EdoDossier
     @XmlElement(name = Elements.ORGANIZATION_CODE, required = false)
     private final String organizationCode;
     @XmlElement(name = Elements.EDO_DOSSIER_ID, required = false)
-    private final String edoDossierID;
+    private final String edoDossierId;
     @XmlElement(name = Elements.EDO_DOSSIER_TYPE_ID, required = false)
-    private final String edoDossierTypeID;
+    private final String edoDossierTypeId;
     @XmlElement(name = Elements.CANDIDATE_PRINCIPALNAME, required = false)
     private final String candidatePrincipalName;
     @XmlElement(name = Elements.EDO_CHECKLIST_ID, required = false)
-    private final String edoChecklistID;
+    private final String edoChecklistId;
     @XmlElement(name = Elements.DUE_DATE, required = false)
     private final Date dueDate;
     @XmlElement(name = Elements.AOE_CODE, required = false)
@@ -112,10 +112,10 @@ public final class EdoDossier
         this.currentRank = null;
         this.departmentID = null;
         this.organizationCode = null;
-        this.edoDossierID = null;
-        this.edoDossierTypeID = null;
+        this.edoDossierId = null;
+        this.edoDossierTypeId = null;
         this.candidatePrincipalName = null;
-        this.edoChecklistID = null;
+        this.edoChecklistId = null;
         this.dueDate = null;
         this.aoeCode = null;
         this.versionNumber = null;
@@ -137,10 +137,10 @@ public final class EdoDossier
         this.currentRank = builder.getCurrentRank();
         this.departmentID = builder.getDepartmentID();
         this.organizationCode = builder.getOrganizationCode();
-        this.edoDossierID = builder.getEdoDossierID();
-        this.edoDossierTypeID = builder.getEdoDossierTypeID();
+        this.edoDossierId = builder.getEdoDossierId();
+        this.edoDossierTypeId = builder.getEdoDossierTypeId();
         this.candidatePrincipalName = builder.getCandidatePrincipalName();
-        this.edoChecklistID = builder.getEdoChecklistID();
+        this.edoChecklistId = builder.getEdoChecklistId();
         this.dueDate = builder.getDueDate();
         this.aoeCode = builder.getAoeCode();
         this.versionNumber = builder.getVersionNumber();
@@ -190,13 +190,13 @@ public final class EdoDossier
     }
 
     @Override
-    public String getEdoDossierID() {
-        return this.edoDossierID;
+    public String getEdoDossierId() {
+        return this.edoDossierId;
     }
 
     @Override
-    public String getEdoDossierTypeID() {
-        return this.edoDossierTypeID;
+    public String getEdoDossierTypeId() {
+        return this.edoDossierTypeId;
     }
 
     @Override
@@ -205,8 +205,8 @@ public final class EdoDossier
     }
 
     @Override
-    public String getEdoChecklistID() {
-        return this.edoChecklistID;
+    public String getEdoChecklistId() {
+        return this.edoChecklistId;
     }
 
     @Override
@@ -278,10 +278,10 @@ public final class EdoDossier
         private String currentRank;
         private String departmentID;
         private String organizationCode;
-        private String edoDossierID;
-        private String edoDossierTypeID;
+        private String edoDossierId;
+        private String edoDossierTypeId;
         private String candidatePrincipalName;
-        private String edoChecklistID;
+        private String edoChecklistId;
         private Date dueDate;
         private String aoeCode;
         private Long versionNumber;
@@ -326,10 +326,10 @@ public final class EdoDossier
             builder.setCurrentRank(contract.getCurrentRank());
             builder.setDepartmentID(contract.getDepartmentID());
             builder.setOrganizationCode(contract.getOrganizationCode());
-            builder.setEdoDossierID(contract.getEdoDossierID());
-            builder.setEdoDossierTypeID(contract.getEdoDossierTypeID());
+            builder.setEdoDossierId(contract.getEdoDossierId());
+            builder.setEdoDossierTypeId(contract.getEdoDossierTypeId());
             builder.setCandidatePrincipalName(contract.getCandidatePrincipalName());
-            builder.setEdoChecklistID(contract.getEdoChecklistID());
+            builder.setEdoChecklistId(contract.getEdoChecklistId());
             builder.setDueDate(contract.getDueDate());
             builder.setAoeCode(contract.getAoeCode());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -384,13 +384,13 @@ public final class EdoDossier
         }
 
         @Override
-        public String getEdoDossierID() {
-            return this.edoDossierID;
+        public String getEdoDossierId() {
+            return this.edoDossierId;
         }
 
         @Override
-        public String getEdoDossierTypeID() {
-            return this.edoDossierTypeID;
+        public String getEdoDossierTypeId() {
+            return this.edoDossierTypeId;
         }
 
         @Override
@@ -399,8 +399,8 @@ public final class EdoDossier
         }
 
         @Override
-        public String getEdoChecklistID() {
-            return this.edoChecklistID;
+        public String getEdoChecklistId() {
+            return this.edoChecklistId;
         }
 
         @Override
@@ -493,14 +493,14 @@ public final class EdoDossier
             this.organizationCode = organizationCode;
         }
 
-        public void setEdoDossierID(String edoDossierID) {
+        public void setEdoDossierId(String edoDossierId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoDossierID = edoDossierID;
+            this.edoDossierId = edoDossierId;
         }
 
-        public void setEdoDossierTypeID(String edoDossierTypeID) {
+        public void setEdoDossierTypeId(String edoDossierTypeId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoDossierTypeID = edoDossierTypeID;
+            this.edoDossierTypeId = edoDossierTypeId;
         }
 
         public void setCandidatePrincipalName(String candidatePrincipalName) {
@@ -508,9 +508,9 @@ public final class EdoDossier
             this.candidatePrincipalName = candidatePrincipalName;
         }
 
-        public void setEdoChecklistID(String edoChecklistID) {
+        public void setEdoChecklistId(String edoChecklistId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoChecklistID = edoChecklistID;
+            this.edoChecklistId = edoChecklistId;
         }
 
         public void setDueDate(Date dueDate) {
@@ -596,10 +596,10 @@ public final class EdoDossier
         final static String CURRENT_RANK = "currentRank";
         final static String DEPARTMENT_ID = "departmentID";
         final static String ORGANIZATION_CODE = "organizationCode";
-        final static String EDO_DOSSIER_ID = "edoDossierID";
-        final static String EDO_DOSSIER_TYPE_ID = "edoDossierTypeID";
+        final static String EDO_DOSSIER_ID = "edoDossierId";
+        final static String EDO_DOSSIER_TYPE_ID = "edoDossierTypeId";
         final static String CANDIDATE_PRINCIPALNAME = "candidatePrincipalName";
-        final static String EDO_CHECKLIST_ID = "edoChecklistID";
+        final static String EDO_CHECKLIST_ID = "edoChecklistId";
         final static String DUE_DATE = "dueDate";
         final static String AOE_CODE = "aoeCode";
         final static String ACTIVE = "active";

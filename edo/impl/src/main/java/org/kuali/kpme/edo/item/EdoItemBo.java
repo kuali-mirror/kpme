@@ -13,7 +13,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 /**
  * $HeadURL$
  * $Revision$
- * Created with IntelliJ IDEA.
+ * Created with IntelliJ IdEA.
  * User: bradleyt
  * Date: 11/16/12
  * Time: 3:50 PM
@@ -21,10 +21,10 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  */
 public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemContract {
    
-	private String edoItemID;
-	private String edoItemTypeID;
-	private String edoChecklistItemID;
-	private String edoDossierID;
+	private String edoItemId;
+	private String edoItemTypeId;
+	private String edoChecklistItemId;
+	private String edoDossierId;
 	private String fileName;
 	private String fileLocation;
 	private String notes;
@@ -33,7 +33,7 @@ public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemC
 	private String userPrincipalId;
 	private String contentType;
 	private int rowIndex;
-	private String edoReviewLayerDefID;
+	private String edoReviewLayerDefId;
 	private String fileDescription;
 	private String action;
     private boolean active;
@@ -41,43 +41,43 @@ public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemC
     public EdoItemBo() {}
 
 	public String getId() {
-		return getEdoItemID();
+		return getEdoItemId();
 	}
 
 	public void setId(String id) {
-		setEdoItemID(id);
+		setEdoItemId(id);
 	}
 
-	public String getEdoItemID() {
-		return edoItemID;
+	public String getEdoItemId() {
+		return edoItemId;
 	}
 
-	public void setEdoItemID(String edoItemID) {
-		this.edoItemID = edoItemID;
+	public void setEdoItemId(String edoItemId) {
+		this.edoItemId = edoItemId;
 	}
 
-	public String getEdoItemTypeID() {
-		return edoItemTypeID;
+	public String getEdoItemTypeId() {
+		return edoItemTypeId;
 	}
 
-	public void setEdoItemTypeID(String edoItemTypeID) {
-		this.edoItemTypeID = edoItemTypeID;
+	public void setEdoItemTypeId(String edoItemTypeId) {
+		this.edoItemTypeId = edoItemTypeId;
 	}
 
-	public String getEdoChecklistItemID() {
-		return edoChecklistItemID;
+	public String getEdoChecklistItemId() {
+		return edoChecklistItemId;
 	}
 
-	public void setEdoChecklistItemID(String edoChecklistItemID) {
-		this.edoChecklistItemID = edoChecklistItemID;
+	public void setEdoChecklistItemId(String edoChecklistItemId) {
+		this.edoChecklistItemId = edoChecklistItemId;
 	}
 
-	public String getEdoDossierID() {
-		return edoDossierID;
+	public String getEdoDossierId() {
+		return edoDossierId;
 	}
 
-	public void setEdoDossierID(String edoDossierID) {
-		this.edoDossierID = edoDossierID;
+	public void setEdoDossierId(String edoDossierId) {
+		this.edoDossierId = edoDossierId;
 	}
 
 	public String getFileName() {
@@ -136,12 +136,12 @@ public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemC
 		this.rowIndex = rowIndex;
 	}
 
-	public String getEdoReviewLayerDefID() {
-		return edoReviewLayerDefID;
+	public String getEdoReviewLayerDefId() {
+		return edoReviewLayerDefId;
 	}
 
-	public void setEdoReviewLayerDefID(String edoReviewLayerDefID) {
-		this.edoReviewLayerDefID = edoReviewLayerDefID;
+	public void setEdoReviewLayerDefId(String edoReviewLayerDefId) {
+		this.edoReviewLayerDefId = edoReviewLayerDefId;
 	}
 
 	public String getFileDescription() {
@@ -189,17 +189,17 @@ public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemC
             return null;
         }
         EdoItemBo it = new EdoItemBo();
-        it.setEdoItemID(im.getEdoItemID());
-        it.setEdoItemTypeID(im.getEdoItemTypeID());
-        it.setEdoChecklistItemID(im.getEdoChecklistItemID());
-        it.setEdoDossierID(im.getEdoDossierID());
+        it.setEdoItemId(im.getEdoItemId());
+        it.setEdoItemTypeId(im.getEdoItemTypeId());
+        it.setEdoChecklistItemId(im.getEdoChecklistItemId());
+        it.setEdoDossierId(im.getEdoDossierId());
         it.setFileName(im.getFileName());
         it.setFileLocation(im.getFileLocation());
         it.setNotes(im.getNotes());
         it.setRouted(im.isRouted());
         it.setContentType(im.getContentType());
         it.setRowIndex(im.getRowIndex());
-        it.setEdoReviewLayerDefID(im.getEdoReviewLayerDefID());
+        it.setEdoReviewLayerDefId(im.getEdoReviewLayerDefId());
         it.setFileDescription(im.getFileDescription());
         it.setActive(im.isActive());
         it.setUserPrincipalId(im.getUserPrincipalId());

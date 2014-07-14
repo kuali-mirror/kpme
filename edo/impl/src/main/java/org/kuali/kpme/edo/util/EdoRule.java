@@ -9,9 +9,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.item.count.EdoItemCountV;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -124,9 +124,9 @@ public class EdoRule {
 
         // get the ID of the General section (required) from the DB
         for (EdoChecklistItem checklistItem : checklistItems) {
-        	String sectionName = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionID()).getChecklistSectionName();
+        	String sectionName = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionId()).getChecklistSectionName();
             if (sectionName.equals(EdoConstants.EDO_GENERAL_SECTION_NAME)) {
-                generalSectionId = new BigDecimal(checklistItem.getEdoChecklistSectionID());
+                generalSectionId = new BigDecimal(checklistItem.getEdoChecklistSectionId());
             }
         }
 
@@ -144,21 +144,21 @@ public class EdoRule {
     }
 
     public static boolean dossierHasSupplementalsPending(String edoDossierId) {
-        String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getEdoChecklistItemID();
+        String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
         List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierId, edoChecklistItemID);
         boolean hasPending = CollectionUtils.isNotEmpty(itemList);
 
         return hasPending;
     }
     public static boolean dossierHasReconsiderPending(String edoDossierId) {
-    	String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemID();
+    	String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
         List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierId, edoChecklistItemID);
         boolean hasPending = CollectionUtils.isNotEmpty(itemList);
 
         return hasPending;
     }
     public static boolean canUploadFileUnderReconsiderCategory(String edoDossierId) {
-    	  String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemID();
+    	  String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
           List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemsByDossierIdForAddendumFalgZero(edoDossierId, edoChecklistItemID);
           boolean canUploadReconsiderItems = CollectionUtils.isEmpty(itemList);
 
@@ -194,11 +194,11 @@ public class EdoRule {
                     if (!reviewLayerDefinition.getVoteType().equals(EdoConstants.VOTE_TYPE_NONE)) {
                         //canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.intValue(), reviewLayerDefinition.getReviewLayerDefinitionId()).size() > 0;
                         if(StringUtils.equals(eDossier.getDossierStatus(),EdoConstants.DOSSIER_STATUS.RECONSIDERATION)) {
-                            canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 1;
+                            canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.toString(), reviewLayerDefinition.getEdoReviewLayerDefinitionId()).size() > 1;
 
                     	}
                     	if(StringUtils.equals(eDossier.getDossierStatus(),EdoConstants.DOSSIER_STATUS.SUBMITTED)) {
-                            canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 0;
+                            canRoute = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords(dossierId.toString(), reviewLayerDefinition.getEdoReviewLayerDefinitionId()).size() > 0;
 
                     	}
                     }
@@ -212,11 +212,11 @@ public class EdoRule {
                     //if dossier status is reconsider the list size should be greate than one
                     if (reviewLayerDefinition.isReviewLetter()) {
                     	if(StringUtils.equals(eDossier.getDossierStatus(),EdoConstants.DOSSIER_STATUS.RECONSIDERATION)) {
-                            canRoute = canRoute && EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 1;
+                            canRoute = canRoute && EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLayerDefinition.getEdoReviewLayerDefinitionId()).size() > 1;
 
                     	}
                     	if(StringUtils.equals(eDossier.getDossierStatus(),EdoConstants.DOSSIER_STATUS.SUBMITTED)) {
-                            canRoute = canRoute && EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLayerDefinition.getReviewLayerDefinitionId().toString()).size() > 0;
+                            canRoute = canRoute && EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(dossierId.toString(), reviewLayerDefinition.getEdoReviewLayerDefinitionId()).size() > 0;
 
                     	}
                     	

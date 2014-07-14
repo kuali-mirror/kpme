@@ -14,10 +14,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.dossier.dao.EdoDossierDao;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.supplemental.EdoSupplementalTracking;
@@ -25,7 +26,6 @@ import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoUtils;
 import org.kuali.kpme.edo.util.TagSupport;
-import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -136,7 +136,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
                 //workflowDocument.move(MovePoint.create(EdoConstants.ROUTING_NODE_NAMES.INITIATED, moveNode.getRouteLevel().intValue()), "");
             	//Initiated document has to be saved before its routed using the move command
             	//workflowDocument.saveDocument("");
-            	workflowDocument.move(MovePoint.create(EdoConstants.ROUTING_NODE_NAMES.INITIATED, moveNode.getRouteLevel().intValue()), "This document is routed/moved to" +  moveNode.getNodeName());
+            	workflowDocument.move(MovePoint.create(EdoConstants.ROUTING_NODE_NAMES.INITIATED, new Integer(moveNode.getRouteLevel())), "This document is routed/moved to" +  moveNode.getNodeName());
             }
             //Update that we have finished the routing process.
             routed = true;
@@ -402,7 +402,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
                         // generate a list of node names
                        for (EdoReviewLayerDefinition rvwLayer : validReviewLayers) {
                            // authorizedNodes.add(EdoServiceLocator.getEdoReviewLayerDefinitionService().buildNodeMap(validReviewLayers).get(rvwLayer.getNodeName())); //this is throwing null pointer exception
-                           authorizedNodes.addAll(EdoServiceLocator.getEdoReviewLayerDefinitionService().getAuthorizedSupplementalNodes(rvwLayer.getReviewLayerDefinitionId()));
+                           authorizedNodes.addAll(EdoServiceLocator.getEdoReviewLayerDefinitionService().getAuthorizedSupplementalNodes(rvwLayer.getEdoReviewLayerDefinitionId()));
 
                        }
                     }
@@ -466,7 +466,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
          for(String previousNode : previousNodes ) {
             EdoReviewLayerDefinition previousLevelReviewLayerDef = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(dossier.getWorkflowId(), previousNode);
             if(previousLevelReviewLayerDef.getReviewLevel() != null){
-                previousLevels.add(previousLevelReviewLayerDef.getReviewLevel());
+                previousLevels.add(new BigDecimal(previousLevelReviewLayerDef.getReviewLevel()));
          	}
          }
          //once we get the previous levels
@@ -559,7 +559,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
             Collection<EdoReviewLayerDefinition> edoReviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId);
             for(EdoReviewLayerDefinition edoReviewLayerDefinition : edoReviewLayerDefinitions){
                //get vote record of the most current round for each and every review layer def id
-                EdoVoteRecord edoVoteRecord = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(dossierId.toString(), edoReviewLayerDefinition.getReviewLayerDefinitionId().toString());
+                EdoVoteRecord edoVoteRecord = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(dossierId.toString(), edoReviewLayerDefinition.getEdoReviewLayerDefinitionId());
 //              if((edoVoteRecord.getNoCountTenure() != null && edoVoteRecord.getYesCountTenure() != null && (edoVoteRecord.getNoCountTenure() > edoVoteRecord.getYesCountTenure())) ||
 //                    (edoVoteRecord.getNoCountPromotion() != null && edoVoteRecord.getYesCountPromotion() != null && (edoVoteRecord.getNoCountPromotion() > edoVoteRecord.getYesCountPromotion()))) {
 //                

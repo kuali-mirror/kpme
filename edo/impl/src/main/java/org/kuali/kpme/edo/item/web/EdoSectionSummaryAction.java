@@ -55,11 +55,11 @@ public class EdoSectionSummaryAction  extends EdoAction {
         // several places, so we are not changing the name although it's misleading (not a list of Checklist Section)
         List<EdoChecklistItem> currentCheckListSection = new LinkedList<EdoChecklistItem>();
         for (EdoChecklistItem checklistItem : checklistItems) {
-            checklistSectionId = new BigDecimal(checklistItem.getEdoChecklistSectionID());
+            checklistSectionId = new BigDecimal(checklistItem.getEdoChecklistSectionId());
             if ( checklistSectionId.intValue() == currentSectionId ) {
                 currentCheckListSection.add(checklistItem);
                 request.setAttribute("nodeID", currentSectionId );
-                EdoChecklistSection section = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionID());
+                EdoChecklistSection section = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionId());
                 request.setAttribute("sectionName", section.getChecklistSectionName());
                 request.setAttribute("checklistSectionID", checklistSectionId.intValue() );
                 request.setAttribute("nidFwd", ssn.getAttribute("nid"));
@@ -78,16 +78,16 @@ public class EdoSectionSummaryAction  extends EdoAction {
         int count = 0;
 
         for (EdoChecklistItem checklistItem : currentCheckListSection) {
-            if (itemCountVMap.containsKey(checklistItem.getEdoChecklistItemID())) {
-                String itemJSON = itemCountVMap.get(checklistItem.getEdoChecklistItemID()).getItemCountJSON() + ",";
+            if (itemCountVMap.containsKey(checklistItem.getEdoChecklistItemId())) {
+                String itemJSON = itemCountVMap.get(checklistItem.getEdoChecklistItemId()).getItemCountJSON() + ",";
                 itemJSON = itemJSON.replace("[", "[\"" + count + "\",");
                 itemCountJSON = itemCountJSON.concat(itemJSON);
                 count++;
             } else {
                 EdoItemCountV itemCountV = new EdoItemCountV();
-                itemCountV.setChecklistItemId(new BigDecimal(checklistItem.getEdoChecklistItemID()));
+                itemCountV.setChecklistItemId(new BigDecimal(checklistItem.getEdoChecklistItemId()));
                 itemCountV.setChecklistItemName(checklistItem.getChecklistItemName());
-                itemCountV.setChecklistSectionId(new BigDecimal(checklistItem.getEdoChecklistSectionID()));
+                itemCountV.setChecklistSectionId(new BigDecimal(checklistItem.getEdoChecklistSectionId()));
                 itemCountV.setDocCount(BigDecimal.ZERO);
                 itemCountV.setDossierId(selectedCandidate.getCandidateDossierID());
                 String itemJSON = itemCountV.getItemCountJSON() + ",";

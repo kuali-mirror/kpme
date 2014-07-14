@@ -25,7 +25,7 @@ public class EdoDossierDocument extends TransactionalDocumentBase implements Edo
 
 	private static final long serialVersionUID = -8759488155644037099L;
 	
-	private String edoDossierID;
+	private String edoDossierId;
 	private String documentTypeName;
 	private EdoDossierBo edoDossier = new EdoDossierBo();
 
@@ -48,12 +48,12 @@ public class EdoDossierDocument extends TransactionalDocumentBase implements Edo
 		this.documentTypeName = documentTypeName;
 	}
 
-	public String getEdoDossierID() {
-		return edoDossierID;
+	public String getEdoDossierId() {
+		return edoDossierId;
 	}
 
-	public void setEdoDossierID(String edoDossierID) {
-		this.edoDossierID = edoDossierID;
+	public void setEdoDossierId(String edoDossierId) {
+		this.edoDossierId = edoDossierId;
 	}
 
     //helper methods!!!!
@@ -65,12 +65,12 @@ public class EdoDossierDocument extends TransactionalDocumentBase implements Edo
         return edoDossier.getCandidatePrincipalId();
     }
     
-    public String getEdoDossierTypeID() {
-		return edoDossier.getEdoDossierTypeID();
+    public String getEdoDossierTypeId() {
+		return edoDossier.getEdoDossierTypeId();
 	}
     
-    public String getEdoChecklistID() {
-		return edoDossier.getEdoChecklistID();
+    public String getEdoChecklistId() {
+		return edoDossier.getEdoChecklistId();
 	}
     
     public String getAoeCode() {

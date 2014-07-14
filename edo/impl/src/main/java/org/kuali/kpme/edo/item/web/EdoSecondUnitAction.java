@@ -25,10 +25,11 @@ import org.apache.struts.upload.FormFile;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.api.item.EdoItem;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.item.EdoItemTracker;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
@@ -63,14 +64,14 @@ public class EdoSecondUnitAction extends EdoAction {
 
         EdoSelectedCandidate selectedCandidate = (EdoSelectedCandidate) request.getSession().getAttribute("selectedCandidate");
         String workflowId = selectedCandidate.getDossierWorkflowId();
-        Map<BigDecimal, EdoReviewLayerDefinition> lvlMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap( EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId) );
+        Map<String, EdoReviewLayerDefinition> lvlMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap( EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId) );
 
         //figure out the dossier's current level
         //BigDecimal dossierCurrentRouteLevel = EdoServiceLocator.getDossierProcessDocumentHeaderService().getCurrentRouteLevel(selectedCandidate.getCandidateDossierID().intValue());
         String dossierCurrentRouteLevelName = EdoServiceLocator.getDossierProcessDocumentHeaderService().getCurrentRouteLevelName(selectedCandidate.getCandidateDossierID().intValue());
 
         //BigDecimal dossierCurrentReviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildRouteLevelMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions()).get(dossierCurrentRouteLevel).getReviewLevel();
-        BigDecimal dossierCurrentReviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelByRouteMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId)).get(dossierCurrentRouteLevelName);
+        String dossierCurrentReviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelByRouteMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId)).get(dossierCurrentRouteLevelName);
 
 
         // authorized View review letter levels set up
@@ -126,8 +127,8 @@ public class EdoSecondUnitAction extends EdoAction {
                 // only display review levels allowed by policy
             	// Now there is no view that we have to get review level from EdoReviewLayerDefinitionService
             	// TODO when review level is ready, pass string review layer definition id
-            	BigDecimal reviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(new BigDecimal(item.getEdoReviewLayerDefID())).getReviewLevel();
-                if (reviewLevel.compareTo(highestAuthorizedViewReviewLevel) < 1 ) {
+            	String reviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById(item.getEdoReviewLayerDefId()).getReviewLevel();
+                if (new BigDecimal(reviewLevel).compareTo(highestAuthorizedViewReviewLevel) < 1 ) {
                     itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(item) + ",");
                 } else {
                     itemList.remove(item);
@@ -183,7 +184,7 @@ public class EdoSecondUnitAction extends EdoAction {
         boolean replaceFile = false;
         boolean isNewFile = true;
         BigDecimal itemID = BigDecimal.ZERO;
-        BigDecimal itemReviewLayerID = null;
+        String itemReviewLayerID = null;
         LocalDate currentDate = LocalDate.now();
         String itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER, currentDate);
 
@@ -267,19 +268,19 @@ public class EdoSecondUnitAction extends EdoAction {
             if (isNewFile) {
                 item.setActionFullDateTime(new DateTime(sqlTimestamp));
                 // TODO: this will need to be a dynamic value, not hard coded; see declarations above
-                item.setEdoItemTypeID(itemTypeID);
+                item.setEdoItemTypeId(itemTypeID);
                 item.setRouted(true);
                 item.setUserPrincipalId(uploadUsername);
-                item.setEdoDossierID(dossierID.toString());
-                item.setEdoChecklistItemID(checklistItemID+"");
+                item.setEdoDossierId(dossierID.toString());
+                item.setEdoChecklistItemId(checklistItemID+"");
                 Integer nextRowIndexNum = EdoServiceLocator.getEdoItemService().getNextRowIndexNum(checklistItemID+"", uploadUsername);
                 item.setRowIndex(nextRowIndexNum);
 
                 if (selectedRvwLayer != 0) {
                     // translate review layer to DB ID for insert
-                    Map<BigDecimal, EdoReviewLayerDefinition> lvlMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId));
-                    itemReviewLayerID = lvlMap.get(BigDecimal.valueOf(selectedRvwLayer)).getReviewLayerDefinitionId();
-                    item.setEdoReviewLayerDefID(itemReviewLayerID.toString());
+                    Map<String, EdoReviewLayerDefinition> lvlMap = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId));
+                    itemReviewLayerID = lvlMap.get(BigDecimal.valueOf(selectedRvwLayer)).getEdoReviewLayerDefinitionId();
+                    item.setEdoReviewLayerDefId(itemReviewLayerID.toString());
                 }
             }
             // if a replacement, get the existing file information from the DB record
@@ -287,7 +288,7 @@ public class EdoSecondUnitAction extends EdoAction {
                 EdoItem edoItem = EdoServiceLocator.getEdoItemService().getEdoItem(itemID.toString());
                 // originalItem doesn't get used except to get item id
                 // originalItem = edoItem;
-                originalItemID = edoItem.getEdoItemID();
+                originalItemID = edoItem.getEdoItemId();
                 if (!deleteFileFromFS(edoItem)) {
                     // error deleting the file; report it and return
                     ActionForward fwd = mapping.findForward("basic");
@@ -330,7 +331,7 @@ public class EdoSecondUnitAction extends EdoAction {
             // if this is a new file or we are replacing the file, update the db; otherwise, don't do anything
             if (isNewFile || replaceFile) {
                 EdoServiceLocator.getEdoItemService().saveOrUpdate(item.build());
-                LOG.info("File entry [" + item.getEdoItemID() + "][" + item.getFileName() + "] updated/saved to the database.");
+                LOG.info("File entry [" + item.getEdoItemId() + "][" + item.getFileName() + "] updated/saved to the database.");
             }
         }
 
@@ -350,7 +351,7 @@ public class EdoSecondUnitAction extends EdoAction {
         // As a workaround, we update the java EdoItemV list with the new EdoItemV object for json output.
         if (replaceFile) {
             for (EdoItem oldItem : itemList) {
-                if (oldItem.getEdoItemID().equals(originalItemID)) {
+                if (oldItem.getEdoItemId().equals(originalItemID)) {
                     EdoItem.Builder newItem = EdoItem.Builder.create(item);
                     itemList.remove(oldItem);
                     itemList.add(newItem.build());
@@ -368,8 +369,8 @@ public class EdoSecondUnitAction extends EdoAction {
                 // only display review levels allowed by policy
             	// Now there is no view that we have to get review level from EdoReviewLayerDefinitionService
             	// TODO when review level is ready, pass string review layer definition id
-            	BigDecimal reviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(new BigDecimal(tmpItem.getEdoReviewLayerDefID())).getReviewLevel();
-                if (reviewLevel.compareTo(highestAuthorizedViewReviewLevel) < 1 ) {
+            	String reviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById(tmpItem.getEdoReviewLayerDefId()).getReviewLevel();
+                if (new BigDecimal(reviewLevel).compareTo(highestAuthorizedViewReviewLevel) < 1 ) {
                     itemListJSON = itemListJSON.concat(EdoServiceLocator.getEdoItemService().getItemJSONString(tmpItem) + ",");
                 } else {
                     itemList.remove(item);

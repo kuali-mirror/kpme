@@ -2,6 +2,7 @@ package org.kuali.kpme.edo.util;
 
 import org.joda.time.DateTime;
 import org.kuali.kpme.edo.EdoBusinessObject;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -36,6 +37,6 @@ public abstract class EdoBusinessObjectMaintainableImpl extends KualiMaintainabl
         KRADServiceLocatorWeb.getLegacyDataAdapter().save(edoObj);
     }
 
-    public abstract EdoBusinessObject getObjectById(BigDecimal id);
+    //public abstract EdoReviewLayerDefinitionBo getObjectById(BigDecimal id);
     public void customSaveLogic(EdoBusinessObject edoObj){};
 }

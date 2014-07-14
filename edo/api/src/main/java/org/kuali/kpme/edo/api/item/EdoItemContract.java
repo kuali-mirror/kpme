@@ -15,7 +15,7 @@ public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoI
 	 * 
 	 * @return edoItemID for EdoItem
 	 */
-    public String getEdoItemID();
+    public String getEdoItemId();
 
     /**
 	 * The item type id that the EdoItem is associated with
@@ -26,7 +26,7 @@ public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoI
 	 * 
 	 * @return edoItemTypeID for EdoItem
 	 */
-    public String getEdoItemTypeID();
+    public String getEdoItemTypeId();
 
     /**
 	 * The checklist item id that the EdoItem is associated with
@@ -37,7 +37,7 @@ public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoI
 	 * 
 	 * @return edoChecklistItemID for EdoItem
 	 */
-    public String getEdoChecklistItemID();
+    public String getEdoChecklistItemId();
 
     /**
 	 * The dossier id that the EdoItem is associated with
@@ -48,7 +48,7 @@ public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoI
 	 * 
 	 * @return edoDossierID for EdoItem
 	 */
-    public String getEdoDossierID();
+    public String getEdoDossierId();
    
     /**
 	 * The name of the uploaded file
@@ -125,7 +125,7 @@ public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoI
 	 * 
 	 * @return edoReviewLayerDefID for EdoItem
 	 */
-    public String getEdoReviewLayerDefID();
+    public String getEdoReviewLayerDefId();
 
     /**
 	 * The description of the uploaded file

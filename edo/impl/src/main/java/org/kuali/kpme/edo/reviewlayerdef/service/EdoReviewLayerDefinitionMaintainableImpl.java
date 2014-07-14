@@ -1,6 +1,7 @@
 package org.kuali.kpme.edo.reviewlayerdef.service;
 
 import org.kuali.kpme.edo.EdoBusinessObject;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoBusinessObjectMaintainableImpl;
 
@@ -10,8 +11,8 @@ public class EdoReviewLayerDefinitionMaintainableImpl extends EdoBusinessObjectM
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public EdoBusinessObject getObjectById(BigDecimal id) {
+    /*@Override
+    public EdoReviewLayerDefinitionBo getObjectById( id) {
         return EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(id);
-    }
+    }*/
 }

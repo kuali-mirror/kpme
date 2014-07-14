@@ -57,7 +57,7 @@ public class EdoItemTypeServiceImpl implements EdoItemTypeService {
          Type tmpType = new TypeToken<List<String>>() {}.getType();
          Gson gson = new Gson();
 
-         tmp.add(aType.getEdoItemTypeID().toString());
+         tmp.add(aType.getEdoItemTypeId().toString());
          tmp.add(aType.getItemTypeName());
          tmp.add(aType.getItemTypeDescription());
          tmp.add(aType.getItemTypeInstructions());

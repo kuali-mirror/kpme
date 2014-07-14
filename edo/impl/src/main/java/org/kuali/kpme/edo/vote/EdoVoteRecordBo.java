@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecordContract;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -19,16 +19,16 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
 
 
 	static class KeyFields {
-		private static final String EDO_DOSSIER_ID = "edoDossierID";
-		private static final String EDO_REVIEW_LAYER_DEFINITION_ID = "edoReviewLayerDefinitionID";
+		private static final String EDO_DOSSIER_ID = "edoDossierId";
+		private static final String EDO_REVIEW_LAYER_DEFINITION_ID = "edoReviewLayerDefinitionId";
 		private static final String VOTE_TYPE = "voteType";
 		private static final String VOTE_ROUND = "voteRound";
 		private static final String VOTE_SUB_ROUND = "voteSubRound";
 	}
 	
-    private String edoVoteRecordID;
-    private String edoDossierID;
-    private String edoReviewLayerDefinitionID;
+    private String edoVoteRecordId;
+    private String edoDossierId;
+    private String edoReviewLayerDefinitionId;
     private String voteType;
     private String aoeCode;
     private String aoeDescription;
@@ -41,7 +41,7 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
     private Integer voteRound;
     private Integer voteSubRound;
    
-    private EdoReviewLayerDefinition reviewLayerDefinition;
+    private EdoReviewLayerDefinitionBo reviewLayerDefinition;
 
     
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
@@ -55,8 +55,8 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_DOSSIER_ID, this.getEdoDossierID())
-				.put(KeyFields.EDO_REVIEW_LAYER_DEFINITION_ID, this.getEdoReviewLayerDefinitionID())
+				.put(KeyFields.EDO_DOSSIER_ID, this.getEdoDossierId())
+				.put(KeyFields.EDO_REVIEW_LAYER_DEFINITION_ID, this.getEdoReviewLayerDefinitionId())
 				.put(KeyFields.VOTE_TYPE, this.getVoteType())
 				.put(KeyFields.VOTE_ROUND, this.getVoteRound())
 				.put(KeyFields.VOTE_SUB_ROUND, this.getVoteSubRound())
@@ -65,41 +65,41 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
     
 	@Override
 	public String getId() {
-		return getEdoVoteRecordID();
+		return getEdoVoteRecordId();
 	}
 
 	@Override
-	public void setId(String edoVoteRecordID) {
-		setEdoVoteRecordID(edoVoteRecordID);
+	public void setId(String edoVoteRecordId) {
+		setEdoVoteRecordId(edoVoteRecordId);
 	}
 	
 	@Override
 	protected String getUniqueKey() {
-		return this.getEdoVoteRecordID();
+		return this.getEdoVoteRecordId();
 	}
 	
-    public String getEdoVoteRecordID() {
-		return edoVoteRecordID;
+    public String getEdoVoteRecordId() {
+		return edoVoteRecordId;
 	}
 
-	public void setEdoVoteRecordID(String edoVoteRecordID) {
-		this.edoVoteRecordID = edoVoteRecordID;
+	public void setEdoVoteRecordId(String edoVoteRecordId) {
+		this.edoVoteRecordId = edoVoteRecordId;
 	}
 
-	public String getEdoDossierID() {
-		return edoDossierID;
+	public String getEdoDossierId() {
+		return edoDossierId;
 	}
 
-	public void setEdoDossierID(String edoDossierID) {
-		this.edoDossierID = edoDossierID;
+	public void setEdoDossierId(String edoDossierId) {
+		this.edoDossierId = edoDossierId;
 	}
 
-	public String getEdoReviewLayerDefinitionID() {
-		return edoReviewLayerDefinitionID;
+	public String getEdoReviewLayerDefinitionId() {
+		return edoReviewLayerDefinitionId;
 	}
 
-	public void setEdoReviewLayerDefinitionID(String edoReviewLayerDefinitionID) {
-		this.edoReviewLayerDefinitionID = edoReviewLayerDefinitionID;
+	public void setEdoReviewLayerDefinitionId(String edoReviewLayerDefinitionId) {
+		this.edoReviewLayerDefinitionId = edoReviewLayerDefinitionId;
 	}
 
 	public String getVoteType() {
@@ -176,13 +176,14 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
 		this.abstainCount = abstainCount;
 	}
 
-	public EdoReviewLayerDefinition getReviewLayerDefinition() {
-        if (ObjectUtils.isNull(reviewLayerDefinition) && edoReviewLayerDefinitionID != null) {
-            String workflowID = EdoServiceLocator.getEdoDossierService().getEdoDossierById(this.edoDossierID.toString()).getWorkflowId();
-            this.reviewLayerDefinition = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(workflowID, edoReviewLayerDefinitionID);
+	/*
+	public EdoReviewLayerDefinitionBo getReviewLayerDefinition() {
+        if (ObjectUtils.isNull(reviewLayerDefinition) && edoReviewLayerDefinitionId != null) {
+            String workflowID = EdoServiceLocator.getEdoDossierService().getEdoDossierById(this.edoDossierId.toString()).getWorkflowId();
+            this.reviewLayerDefinition = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(workflowID, edoReviewLayerDefinitionId);
         }
         return reviewLayerDefinition;
-    }
+    }*/
     
    
 	public static EdoVoteRecordBo from(EdoVoteRecord edoVoteRecord) {
@@ -191,10 +192,10 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
         }
         EdoVoteRecordBo edoVoteRecordBo = new EdoVoteRecordBo();
         
-        edoVoteRecordBo.setEdoVoteRecordID(edoVoteRecord.getEdoVoteRecordID());
+        edoVoteRecordBo.setEdoVoteRecordId(edoVoteRecord.getEdoVoteRecordId());
         
-        edoVoteRecordBo.setEdoDossierID(edoVoteRecord.getEdoDossierID());
-        edoVoteRecordBo.setEdoReviewLayerDefinitionID(edoVoteRecord.getEdoReviewLayerDefinitionID());
+        edoVoteRecordBo.setEdoDossierId(edoVoteRecord.getEdoDossierId());
+        edoVoteRecordBo.setEdoReviewLayerDefinitionId(edoVoteRecord.getEdoReviewLayerDefinitionId());
         edoVoteRecordBo.setVoteType(edoVoteRecord.getVoteType());
         edoVoteRecordBo.setAoeCode(edoVoteRecord.getAoeCode());
         

@@ -177,12 +177,12 @@ public class EdoAction extends KualiAction {
                 List<BigDecimal> authorizedViewVoteRecordLevels = EdoContext.getAuthorizedViewVoteRecordLevels();
                 List<BigDecimal> authorizedViewReviewLetterLevels = EdoContext.getAuthorizedViewReviewLetterLevels();
                 List<String> routeNodeNames = EdoServiceLocator.getEdoReviewLayerDefinitionService().getValidReviewLevelNodeNames(workflowId);
-                List<BigDecimal> authLevelVoteNodeIntersect = new LinkedList<BigDecimal>();
-                List<BigDecimal> authLevelReviewNodeIntersect = new LinkedList<BigDecimal>();
+                List<String> authLevelVoteNodeIntersect = new LinkedList<String>();
+                List<String> authLevelReviewNodeIntersect = new LinkedList<String>();
 
                 // if there is an intersection between authorizedViewVoteRecordLevels and routeNodeNames (mapped), then allow viewing of the vote record for that level
                 for (String nodeName : routeNodeNames) {
-                    BigDecimal nodeLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelByRouteMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId)).get(nodeName);
+                    String nodeLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelByRouteMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId)).get(nodeName);
                     if (authorizedViewVoteRecordLevels.contains(nodeLevel)) {
                         authLevelVoteNodeIntersect.add(nodeLevel);
                     }

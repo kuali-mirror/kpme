@@ -44,7 +44,7 @@ public final class EdoChecklist
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
     @XmlElement(name = Elements.EDO_CHECKLIST_I_D, required = false)
-    private final String edoChecklistID;
+    private final String edoChecklistId;
     @XmlElement(name = Elements.DOSSIER_TYPE_CODE, required = false)
     private final String dossierTypeCode;
     @XmlElement(name = Elements.ORGANIZATION_CODE, required = false)
@@ -79,7 +79,7 @@ public final class EdoChecklist
      */
     private EdoChecklist() {
         this.description = null;
-        this.edoChecklistID = null;
+        this.edoChecklistId = null;
         this.dossierTypeCode = null;
         this.organizationCode = null;
         this.departmentID = null;
@@ -96,7 +96,7 @@ public final class EdoChecklist
 
     private EdoChecklist(Builder builder) {
         this.description = builder.getDescription();
-        this.edoChecklistID = builder.getEdoChecklistID();
+        this.edoChecklistId = builder.getEdoChecklistId();
         this.dossierTypeCode = builder.getDossierTypeCode();
         this.organizationCode = builder.getOrganizationCode();
         this.departmentID = builder.getDepartmentID();
@@ -117,8 +117,8 @@ public final class EdoChecklist
     }
 
     @Override
-    public String getEdoChecklistID() {
-        return this.edoChecklistID;
+    public String getEdoChecklistId() {
+        return this.edoChecklistId;
     }
 
     @Override
@@ -191,7 +191,7 @@ public final class EdoChecklist
     {
 
         private String description;
-        private String edoChecklistID;
+        private String edoChecklistId;
         private String dossierTypeCode;
         private String organizationCode;
         private String departmentID;
@@ -221,7 +221,7 @@ public final class EdoChecklist
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
             builder.setDescription(contract.getDescription());
-            builder.setEdoChecklistID(contract.getEdoChecklistID());
+            builder.setEdoChecklistId(contract.getEdoChecklistId());
             builder.setDossierTypeCode(contract.getDossierTypeCode());
             builder.setOrganizationCode(contract.getOrganizationCode());
             builder.setDepartmentID(contract.getDepartmentID());
@@ -247,8 +247,8 @@ public final class EdoChecklist
         }
 
         @Override
-        public String getEdoChecklistID() {
-            return this.edoChecklistID;
+        public String getEdoChecklistId() {
+            return this.edoChecklistId;
         }
 
         @Override
@@ -316,9 +316,9 @@ public final class EdoChecklist
             this.description = description;
         }
 
-        public void setEdoChecklistID(String edoChecklistID) {
+        public void setEdoChecklistId(String edoChecklistId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoChecklistID = edoChecklistID;
+            this.edoChecklistId = edoChecklistId;
         }
 
         public void setDossierTypeCode(String dossierTypeCode) {
@@ -403,7 +403,7 @@ public final class EdoChecklist
     static class Elements {
 
         final static String DESCRIPTION = "description";
-        final static String EDO_CHECKLIST_I_D = "edoChecklistID";
+        final static String EDO_CHECKLIST_I_D = "edoChecklistId";
         final static String DOSSIER_TYPE_CODE = "dossierTypeCode";
         final static String ORGANIZATION_CODE = "organizationCode";
         final static String DEPARTMENT_I_D = "departmentID";

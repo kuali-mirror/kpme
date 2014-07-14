@@ -37,7 +37,7 @@ public class EdoChecklistSectionDaoImpl extends PlatformAwareDaoBaseOjb implemen
 		List<EdoChecklistSectionBo> results = new ArrayList<EdoChecklistSectionBo>();
     	Criteria root = new Criteria();
 
-    	root.addEqualTo("edoChecklistID", edoChecklistID);
+    	root.addEqualTo("edoChecklistId", edoChecklistID);
     	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistSectionBo.class, asOfDate, EdoChecklistSectionBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistSectionBo.class, EdoChecklistSectionBo.BUSINESS_KEYS, false));
         

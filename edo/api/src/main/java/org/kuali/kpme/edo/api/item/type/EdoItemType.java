@@ -40,7 +40,7 @@ public final class EdoItemType
     @XmlElement(name = Elements.ITEM_TYPE_EXT_AVAILABLE, required = false)
     private final boolean itemTypeExtAvailable;
     @XmlElement(name = Elements.EDO_ITEM_TYPE_I_D, required = false)
-    private final String edoItemTypeID;
+    private final String edoItemTypeId;
     @XmlElement(name = Elements.ITEM_TYPE_NAME, required = false)
     private final String itemTypeName;
     @XmlElement(name = Elements.ITEM_TYPE_INSTRUCTIONS, required = false)
@@ -71,7 +71,7 @@ public final class EdoItemType
      */
     private EdoItemType() {
         this.itemTypeExtAvailable = false;
-        this.edoItemTypeID = null;
+        this.edoItemTypeId = null;
         this.itemTypeName = null;
         this.itemTypeInstructions = null;
         this.itemTypeDescription = null;
@@ -86,7 +86,7 @@ public final class EdoItemType
 
     private EdoItemType(Builder builder) {
         this.itemTypeExtAvailable = builder.isItemTypeExtAvailable();
-        this.edoItemTypeID = builder.getEdoItemTypeID();
+        this.edoItemTypeId = builder.getEdoItemTypeId();
         this.itemTypeName = builder.getItemTypeName();
         this.itemTypeInstructions = builder.getItemTypeInstructions();
         this.itemTypeDescription = builder.getItemTypeDescription();
@@ -105,8 +105,8 @@ public final class EdoItemType
     }
 
     @Override
-    public String getEdoItemTypeID() {
-        return this.edoItemTypeID;
+    public String getEdoItemTypeId() {
+        return this.edoItemTypeId;
     }
 
     @Override
@@ -169,7 +169,7 @@ public final class EdoItemType
     {
 
         private boolean itemTypeExtAvailable;
-        private String edoItemTypeID;
+        private String edoItemTypeId;
         private String itemTypeName;
         private String itemTypeInstructions;
         private String itemTypeDescription;
@@ -197,7 +197,7 @@ public final class EdoItemType
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
             builder.setItemTypeExtAvailable(contract.isItemTypeExtAvailable());
-            builder.setEdoItemTypeID(contract.getEdoItemTypeID());
+            builder.setEdoItemTypeId(contract.getEdoItemTypeId());
             builder.setItemTypeName(contract.getItemTypeName());
             builder.setItemTypeInstructions(contract.getItemTypeInstructions());
             builder.setItemTypeDescription(contract.getItemTypeDescription());
@@ -221,8 +221,8 @@ public final class EdoItemType
         }
 
         @Override
-        public String getEdoItemTypeID() {
-            return this.edoItemTypeID;
+        public String getEdoItemTypeId() {
+            return this.edoItemTypeId;
         }
 
         @Override
@@ -280,9 +280,9 @@ public final class EdoItemType
             this.itemTypeExtAvailable = itemTypeExtAvailable;
         }
 
-        public void setEdoItemTypeID(String edoItemTypeID) {
+        public void setEdoItemTypeId(String edoItemTypeId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoItemTypeID = edoItemTypeID;
+            this.edoItemTypeId = edoItemTypeId;
         }
 
         public void setItemTypeName(String itemTypeName) {
@@ -357,7 +357,7 @@ public final class EdoItemType
     static class Elements {
 
         final static String ITEM_TYPE_EXT_AVAILABLE = "itemTypeExtAvailable";
-        final static String EDO_ITEM_TYPE_I_D = "edoItemTypeID";
+        final static String EDO_ITEM_TYPE_I_D = "edoItemTypeId";
         final static String ITEM_TYPE_NAME = "itemTypeName";
         final static String ITEM_TYPE_INSTRUCTIONS = "itemTypeInstructions";
         final static String ITEM_TYPE_DESCRIPTION = "itemTypeDescription";

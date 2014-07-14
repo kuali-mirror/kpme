@@ -12,7 +12,7 @@
     <bean id="EDOReviewLayerDefinitionMaintenanceDocument" parent="EDOReviewLayerDefinitionMaintenanceDocument-parentBean"/>
 
     <bean id="EDOReviewLayerDefinitionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-          p:businessObjectClass="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinition"
+          p:businessObjectClass="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo"
           p:maintainableClass="org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionMaintainableImpl"
           p:documentAuthorizerClass="org.kuali.kpme.edo.authorization.SuperUserAuthorizer">
         <property name="maintainableSections">

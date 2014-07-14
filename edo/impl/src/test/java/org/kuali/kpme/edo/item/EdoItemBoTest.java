@@ -33,17 +33,17 @@ public class EdoItemBoTest {
 	
 	static {
 		testEdoItemBos = new HashMap<String, EdoItem>();
-		edoEdoItemBuilder.setEdoItemID("EDO_ITEM_ID_0001");
-		edoEdoItemBuilder.setEdoItemTypeID("EDO_ITEM_TYPE_ID_0001");
-		edoEdoItemBuilder.setEdoChecklistItemID("EDO_CHECKLIST_ID_0001");
-		edoEdoItemBuilder.setEdoDossierID("EDO_DOSSIER_ID_0001");
+		edoEdoItemBuilder.setEdoItemId("EDO_ITEM_ID_0001");
+		edoEdoItemBuilder.setEdoItemTypeId("EDO_ITEM_TYPE_ID_0001");
+		edoEdoItemBuilder.setEdoChecklistItemId("EDO_CHECKLIST_ID_0001");
+		edoEdoItemBuilder.setEdoDossierId("EDO_DOSSIER_ID_0001");
 		edoEdoItemBuilder.setFileName("myResearch");
 		edoEdoItemBuilder.setFileLocation("");
 		edoEdoItemBuilder.setNotes("");
 		edoEdoItemBuilder.setRouted(true);
 		edoEdoItemBuilder.setContentType("");
 		edoEdoItemBuilder.setRowIndex(1);
-		edoEdoItemBuilder.setEdoReviewLayerDefID("");
+		edoEdoItemBuilder.setEdoReviewLayerDefId("");
 		edoEdoItemBuilder.setFileDescription("");
 		edoEdoItemBuilder.setAction("Delete File");
 		edoEdoItemBuilder.setUserPrincipalId("admin");
@@ -52,7 +52,7 @@ public class EdoItemBoTest {
 		edoEdoItemBuilder.setActive(true);
 		edoEdoItemBuilder.setActionFullDateTime(new DateTime(2014, 3, 1, 0, 0));
 		
-		testEdoItemBos.put(edoEdoItemBuilder.getEdoItemID(), edoEdoItemBuilder.build());
+		testEdoItemBos.put(edoEdoItemBuilder.getEdoItemId(), edoEdoItemBuilder.build());
 	}
 	
     @Test

@@ -57,7 +57,7 @@ public final class EdoItem
     @XmlElement(name = Elements.EDO_ITEM_TYPE_I_D, required = false)
     private final String edoItemTypeID;
     @XmlElement(name = Elements.EDO_CHECKLIST_ITEM_I_D, required = false)
-    private final String edoChecklistItemID;
+    private final String edoChecklistItemId;
     @XmlElement(name = Elements.FILE_LOCATION, required = false)
     private final String fileLocation;
     @XmlElement(name = Elements.EDO_DOSSIER_I_D, required = false)
@@ -71,7 +71,7 @@ public final class EdoItem
     @XmlElement(name = Elements.ROUTED, required = false)
     private final boolean routed;
     @XmlElement(name = Elements.EDO_ITEM_I_D, required = false)
-    private final String edoItemID;
+    private final String edoItemId;
     @XmlElement(name = Elements.NOTES, required = false)
     private final String notes;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -94,14 +94,14 @@ public final class EdoItem
         this.fileDescription = null;
         this.edoReviewLayerDefID = null;
         this.edoItemTypeID = null;
-        this.edoChecklistItemID = null;
+        this.edoChecklistItemId = null;
         this.fileLocation = null;
         this.edoDossierID = null;
         this.action = null;
         this.rowIndex = null;
         this.active = false;
         this.routed = false;
-        this.edoItemID = null;
+        this.edoItemId = null;
         this.notes = null;
         this.versionNumber = null;
         this.objectId = null;
@@ -113,16 +113,16 @@ public final class EdoItem
         this.actionFullDateTime = builder.getActionFullDateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
         this.fileDescription = builder.getFileDescription();
-        this.edoReviewLayerDefID = builder.getEdoReviewLayerDefID();
-        this.edoItemTypeID = builder.getEdoItemTypeID();
-        this.edoChecklistItemID = builder.getEdoChecklistItemID();
+        this.edoReviewLayerDefID = builder.getEdoReviewLayerDefId();
+        this.edoItemTypeID = builder.getEdoItemTypeId();
+        this.edoChecklistItemId = builder.getEdoChecklistItemId();
         this.fileLocation = builder.getFileLocation();
-        this.edoDossierID = builder.getEdoDossierID();
+        this.edoDossierID = builder.getEdoDossierId();
         this.action = builder.getAction();
         this.rowIndex = builder.getRowIndex();
         this.active = builder.isActive();
         this.routed = builder.isRouted();
-        this.edoItemID = builder.getEdoItemID();
+        this.edoItemId = builder.getEdoItemId();
         this.notes = builder.getNotes();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
@@ -154,18 +154,18 @@ public final class EdoItem
     }
 
     @Override
-    public String getEdoReviewLayerDefID() {
+    public String getEdoReviewLayerDefId() {
         return this.edoReviewLayerDefID;
     }
 
     @Override
-    public String getEdoItemTypeID() {
+    public String getEdoItemTypeId() {
         return this.edoItemTypeID;
     }
 
     @Override
-    public String getEdoChecklistItemID() {
-        return this.edoChecklistItemID;
+    public String getEdoChecklistItemId() {
+        return this.edoChecklistItemId;
     }
 
     @Override
@@ -174,7 +174,7 @@ public final class EdoItem
     }
 
     @Override
-    public String getEdoDossierID() {
+    public String getEdoDossierId() {
         return this.edoDossierID;
     }
 
@@ -199,8 +199,8 @@ public final class EdoItem
     }
 
     @Override
-    public String getEdoItemID() {
-        return this.edoItemID;
+    public String getEdoItemId() {
+        return this.edoItemId;
     }
 
     @Override
@@ -239,14 +239,14 @@ public final class EdoItem
         private String fileDescription;
         private String edoReviewLayerDefID;
         private String edoItemTypeID;
-        private String edoChecklistItemID;
+        private String edoChecklistItemId;
         private String fileLocation;
         private String edoDossierID;
         private String action;
         private Integer rowIndex;
         private boolean active;
         private boolean routed;
-        private String edoItemID;
+        private String edoItemId;
         private String notes;
         private Long versionNumber;
         private String objectId;
@@ -271,16 +271,16 @@ public final class EdoItem
             builder.setActionFullDateTime(contract.getActionFullDateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
             builder.setFileDescription(contract.getFileDescription());
-            builder.setEdoReviewLayerDefID(contract.getEdoReviewLayerDefID());
-            builder.setEdoItemTypeID(contract.getEdoItemTypeID());
-            builder.setEdoChecklistItemID(contract.getEdoChecklistItemID());
+            builder.setEdoReviewLayerDefId(contract.getEdoReviewLayerDefId());
+            builder.setEdoItemTypeId(contract.getEdoItemTypeId());
+            builder.setEdoChecklistItemId(contract.getEdoChecklistItemId());
             builder.setFileLocation(contract.getFileLocation());
-            builder.setEdoDossierID(contract.getEdoDossierID());
+            builder.setEdoDossierId(contract.getEdoDossierId());
             builder.setAction(contract.getAction());
             builder.setRowIndex(contract.getRowIndex());
             builder.setActive(contract.isActive());
             builder.setRouted(contract.isRouted());
-            builder.setEdoItemID(contract.getEdoItemID());
+            builder.setEdoItemId(contract.getEdoItemId());
             builder.setNotes(contract.getNotes());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
@@ -317,18 +317,18 @@ public final class EdoItem
         }
 
         @Override
-        public String getEdoReviewLayerDefID() {
+        public String getEdoReviewLayerDefId() {
             return this.edoReviewLayerDefID;
         }
 
         @Override
-        public String getEdoItemTypeID() {
+        public String getEdoItemTypeId() {
             return this.edoItemTypeID;
         }
 
         @Override
-        public String getEdoChecklistItemID() {
-            return this.edoChecklistItemID;
+        public String getEdoChecklistItemId() {
+            return this.edoChecklistItemId;
         }
 
         @Override
@@ -337,7 +337,7 @@ public final class EdoItem
         }
 
         @Override
-        public String getEdoDossierID() {
+        public String getEdoDossierId() {
             return this.edoDossierID;
         }
 
@@ -362,8 +362,8 @@ public final class EdoItem
         }
 
         @Override
-        public String getEdoItemID() {
-            return this.edoItemID;
+        public String getEdoItemId() {
+            return this.edoItemId;
         }
 
         @Override
@@ -406,19 +406,19 @@ public final class EdoItem
             this.fileDescription = fileDescription;
         }
 
-        public void setEdoReviewLayerDefID(String edoReviewLayerDefID) {
+        public void setEdoReviewLayerDefId(String edoReviewLayerDefID) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.edoReviewLayerDefID = edoReviewLayerDefID;
         }
 
-        public void setEdoItemTypeID(String edoItemTypeID) {
+        public void setEdoItemTypeId(String edoItemTypeID) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.edoItemTypeID = edoItemTypeID;
         }
 
-        public void setEdoChecklistItemID(String edoChecklistItemID) {
+        public void setEdoChecklistItemId(String edoChecklistItemId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoChecklistItemID = edoChecklistItemID;
+            this.edoChecklistItemId = edoChecklistItemId;
         }
 
         public void setFileLocation(String fileLocation) {
@@ -426,7 +426,7 @@ public final class EdoItem
             this.fileLocation = fileLocation;
         }
 
-        public void setEdoDossierID(String edoDossierID) {
+        public void setEdoDossierId(String edoDossierID) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.edoDossierID = edoDossierID;
         }
@@ -451,9 +451,9 @@ public final class EdoItem
             this.routed = routed;
         }
 
-        public void setEdoItemID(String edoItemID) {
+        public void setEdoItemId(String edoItemId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoItemID = edoItemID;
+            this.edoItemId = edoItemId;
         }
 
         public void setNotes(String notes) {
@@ -504,14 +504,14 @@ public final class EdoItem
         final static String FILE_DESCRIPTION = "fileDescription";
         final static String EDO_REVIEW_LAYER_DEF_I_D = "edoReviewLayerDefID";
         final static String EDO_ITEM_TYPE_I_D = "edoItemTypeID";
-        final static String EDO_CHECKLIST_ITEM_I_D = "edoChecklistItemID";
+        final static String EDO_CHECKLIST_ITEM_I_D = "edoChecklistItemId";
         final static String FILE_LOCATION = "fileLocation";
         final static String EDO_DOSSIER_I_D = "edoDossierID";
         final static String ACTION = "action";
         final static String ROW_INDEX = "rowIndex";
         final static String ACTIVE = "active";
         final static String ROUTED = "routed";
-        final static String EDO_ITEM_I_D = "edoItemID";
+        final static String EDO_ITEM_I_D = "edoItemId";
         final static String NOTES = "notes";
 
     }

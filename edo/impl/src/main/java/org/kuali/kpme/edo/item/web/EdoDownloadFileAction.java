@@ -67,7 +67,7 @@ public class EdoDownloadFileAction extends EdoAction {
             for (EdoItem item1 : itemList) {
 
                 //comparison of big decimals
-                if(item1.getEdoItemID().equals(itemId)) {
+                if(item1.getEdoItemId().equals(itemId)) {
                     found = true;
                     LOG.info("Download file action invoked");
                     if (StringUtils.isNotBlank(itemId)) {
@@ -108,7 +108,7 @@ public class EdoDownloadFileAction extends EdoAction {
     private EdoSelectedCandidate getItemSelectedCandidate(String itemId) {
 
         EdoItem item = EdoServiceLocator.getEdoItemService().getEdoItem(itemId);
-        EdoCandidateDossier dossier = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossier(new BigDecimal(item.getEdoDossierID()));
+        EdoCandidateDossier dossier = EdoServiceLocator.getEdoCandidateDossierService().getCandidateDossier(new BigDecimal(item.getEdoDossierId()));
         EdoCandidate candidate = EdoServiceLocator.getCandidateService().getCandidateByUsername(dossier.getUsername());
 
         EdoSelectedCandidate selectedCandidate = new EdoSelectedCandidate(candidate, true);

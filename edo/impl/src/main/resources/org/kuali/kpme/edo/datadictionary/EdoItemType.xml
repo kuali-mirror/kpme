@@ -27,7 +27,7 @@
 		<property name="objectLabel" value="Item Type" />
 		<property name="attributes">
 			<list merge="true">
-				<ref bean="EdoItemType-edoItemTypeID" />
+				<ref bean="EdoItemType-edoItemTypeId" />
 				<ref bean="EdoItemType-itemTypeName" />
 				<ref bean="EdoItemType-itemTypeDescription" />
 				<ref bean="EdoItemType-itemTypeInstructions" />
@@ -38,14 +38,14 @@
 
     <!-- Attribute Definitions -->
     
-	<bean id="EdoItemType-edoItemTypeID" parent="EdoItemType-edoItemTypeID-parentBean" />
-	<bean id="EdoItemType-edoItemTypeID-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="EdoItemType-edoItemTypeId" parent="EdoItemType-edoItemTypeId-parentBean" />
+	<bean id="EdoItemType-edoItemTypeId-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="shortLabel" value="id"/>
 	    <property name="maxLength" value="60" />
 	    <property name="controlField">
 	      <bean parent="Uif-TextControl" p:size="60"/>
 	    </property>
-		<property name="name" value="edoItemTypeID" />
+		<property name="name" value="edoItemTypeId" />
 		<property name="label" value="Item Type Id" />
 	</bean>
 
@@ -147,7 +147,7 @@
 				<property name="layoutManager.numberOfColumns" value="2" />
 				<property name="items">
 					<list merge="true">
-						<bean parent="Uif-DataField" p:propertyName="edoItemTypeID" />
+						<bean parent="Uif-DataField" p:propertyName="edoItemTypeId" />
 						<bean parent="Uif-DataField" p:propertyName="itemTypeName" />
 						<bean parent="Uif-DataField" p:propertyName="itemTypeDescription" />
 						<bean parent="Uif-DataField" p:propertyName="itemTypeInstructions" />

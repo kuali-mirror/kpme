@@ -26,7 +26,7 @@ public interface EdoDossierTypeContract extends KpmeEffectiveDataTransferObject 
 	
 	public static final String CACHE_NAME = HrApiConstants.CacheNamespace.NAMESPACE_PREFIX + "EdoDossierTypeContract";
 
-	public String getEdoDossierTypeID();
+	public String getEdoDossierTypeId();
 	
 	public String getDossierTypeCode();
 	
