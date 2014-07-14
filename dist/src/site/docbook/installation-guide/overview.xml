@@ -19,10 +19,10 @@
             runtime. However, it has been most actively tested on:
             <itemizedlist>
                 <listitem>
-                    <para>Windows (XP and 7)</para>
+                    <para>Windows (7 and 8)</para>
                 </listitem>
                 <listitem>
-                    <para>Mac OS X (10.6 and 10.7)</para>
+                    <para>Mac OS X (10.6+)</para>
                 </listitem>
                 <listitem>
                     <para>Linux (Ubuntu)</para>
@@ -30,7 +30,7 @@
             </itemizedlist></para>
         <para>
             Note that while Ubuntu Linux is the distribution most frequently used for testing, other Linux distributions such as Fedora, Red Hat Enterprise 
-            Linux, CentOS, Debian, Gentoo, and others should also be able to run KPME.
+            Linux, CentOS, Debian, Gentoo, Arch, and others should also be able to run KPME.
         </para>
         <para>
             Additionally, KPME will likely work on other Unix operating systems such as Oracle Solaris and IBM AIX, although the software has not
