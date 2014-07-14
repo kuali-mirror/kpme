@@ -23,6 +23,7 @@ import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.derived.HrBusinessObjectDerived;
@@ -151,12 +152,36 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 		        		return false;
 		        	}
 		        }
+		        
+		        //Department validation
+		        if(addLine instanceof PositionDepartmentBo) {
+		        	PositionDepartmentBo pd = (PositionDepartmentBo) addLine;
+		        	boolean results = this.validateAdditionalDepartmentList(pd,aPosition);
+		        	if(!results){
+		        		return false;
+		        	}
+		        }
 	        }
         }
 
         return isValid;
     }
 	
+	private boolean validateAdditionalDepartmentList(PositionDepartmentBo pd,
+			PositionBo aPosition) {
+		
+		//Will only be validated if effective local date in position is not null
+		if(aPosition.getEffectiveLocalDate()!=null && pd != null){
+			Department department = HrServiceLocator.getDepartmentService().getDepartment(pd.getDepartment(), pd.getGroupKeyCode(), aPosition.getEffectiveLocalDate());
+			if(department == null){
+				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.departmentList'].department", "error.existence", "Position Department '" + pd.getDepartment() + "'");
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	private boolean validateDutyListPercentage(PositionDutyBo pd, PositionBo aPosition) {
 		if(CollectionUtils.isNotEmpty(aPosition.getDutyList()) && pd.getPercentage() != null) {
 			BigDecimal sum = pd.getPercentage();

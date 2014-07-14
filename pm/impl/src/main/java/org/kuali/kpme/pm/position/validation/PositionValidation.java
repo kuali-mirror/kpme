@@ -18,6 +18,7 @@ package org.kuali.kpme.pm.position.validation;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +26,8 @@ import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.pm.PMConstants;
+import org.kuali.kpme.pm.api.classification.ClassificationContract;
+import org.kuali.kpme.pm.classification.ClassificationBo;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.kpme.pm.position.PositionDutyBo;
 import org.kuali.kpme.pm.position.authorization.PositionDocumentAuthorizer;
@@ -33,6 +36,7 @@ import org.kuali.kpme.pm.positiondepartment.PositionDepartmentBo;
 import org.kuali.kpme.pm.positionresponsibility.PositionResponsibilityBo;
 import org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo;
 import org.kuali.kpme.core.util.ValidationUtils;
+import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.kpme.pm.util.PmValidationUtils;
 import org.kuali.rice.krad.document.DocumentAuthorizer;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -60,12 +64,36 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
             valid &= this.validatPrimaryDepartmentExistence(aPosition);
             valid &= this.validateProcess(aPosition, oldPosition);
             valid &= this.validateFundingLines(aPosition);
+            valid &= this.validateAdditionalDepartments(aPosition);
 
 		}
 		return valid;
 	}
 
-    protected boolean canEdit(MaintenanceDocument document) {
+    private boolean validateAdditionalDepartments(PositionBo aPosition) {
+		List<PositionDepartmentBo> posDeptList = aPosition.getDepartmentList();
+		boolean flag = false;
+		int i=0;
+		for (PositionDepartmentBo pd : posDeptList) {
+			if(pd.getGroupKeyCode().equals(aPosition.getGroupKeyCode())){
+				if(aPosition.getEffectiveLocalDate()!=null){
+					Department department = HrServiceLocator.getDepartmentService().getDepartment(pd.getDepartment(), pd.getGroupKeyCode(), aPosition.getEffectiveLocalDate());
+					if(department == null){
+						this.putFieldError("document.newMaintainableObject.dataObject.departmentList[" + i + "].groupKeyCode", "error.existence", "Position Department '" + pd.getDepartment() + "'");
+						return false;
+					} 
+				}
+			}else{
+				flag = false;
+				this.putFieldError("document.newMaintainableObject.dataObject.departmentList[" + i + "].groupKeyCode","error.existence", "Position Department '" + pd.getDepartment() + "'");
+				return flag;
+			}
+			i++;
+		}
+		return true;
+	}
+
+	protected boolean canEdit(MaintenanceDocument document) {
         DocumentAuthorizer auth = KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentAuthorizer(document);
         boolean valid = true;
         if (auth != null) {
@@ -206,6 +234,16 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			} 
 		}
 		
+		//validate Group Key
+		ClassificationContract classification = PmServiceLocator.getClassificationService().getClassificationById(aPosition.getPmPositionClassId());
+		Set<String> groupKeyCodes = classification.getGroupKeyCodeSet();
+		if(!groupKeyCodes.contains(aPosition.getGroupKeyCode())){
+			String[] parameters = new String[2];
+			parameters[0] = classification.getPositionClass();
+			parameters[1] = aPosition.getGroupKeyCode();
+			this.putFieldError("dataObject.pmPositionClassId", "error.classication.groupkey.invalid.sync", parameters);
+			return false;
+		}
 		return true;
 	}
 	
