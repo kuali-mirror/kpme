@@ -156,6 +156,7 @@
 
 
 
+        <comment>Permissions for Department Affiliation</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
             <column name="ROLE_PERM_ID" value="KPME0910" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
@@ -174,28 +175,12 @@
             <column name="VER_NBR" value="1" />
         </insert>
 
+
+
+
+        <comment>Permissions for Institution</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
             <column name="ROLE_PERM_ID" value="KPME0912" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Edit Organization')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0913" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Create Organization')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-
-
-
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0914" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Edit Institution')" />
             <column name="ACTV_IND" value="Y" />
@@ -204,7 +189,7 @@
         </insert>
 
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0915" />
+            <column name="ROLE_PERM_ID" value="KPME0913" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Create Institution')" />
             <column name="ACTV_IND" value="Y" />
@@ -212,9 +197,32 @@
             <column name="VER_NBR" value="1" />
         </insert>
 
+
+
+
+        <comment>Permissions for Organization</comment>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0914" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Edit Organization')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0915" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Create Organization')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+
         <insert tableName="KRIM_ROLE_PERM_T">
             <column name="ROLE_PERM_ID" value="KPME0916" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Location Administrator')" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Edit Organization')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -223,17 +231,16 @@
 
         <insert tableName="KRIM_ROLE_PERM_T">
             <column name="ROLE_PERM_ID" value="KPME0917" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'KOHR Location Administrator')" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Create Organization')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
 
-
         <insert tableName="KRIM_ROLE_PERM_T">
             <column name="ROLE_PERM_ID" value="KPME0918" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Edit Organization')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -242,31 +249,13 @@
 
         <insert tableName="KRIM_ROLE_PERM_T">
             <column name="ROLE_PERM_ID" value="KPME0919" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-PM' AND ROLE_NM = 'Position System Administrator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Create Organization')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
 
-
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0920" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Edit Organization')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0921" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-HR' AND NM = 'Create Organization')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
 
 
         <modifySql dbms="mysql">

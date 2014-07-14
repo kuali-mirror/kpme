@@ -24,13 +24,14 @@
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
-                           
+
   <bean id="InstitutionMaintenanceDocument" parent="InstitutionMaintenanceDocument-parentBean"/>
 
   <bean id="InstitutionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.kpme.core.institution.InstitutionBo"
   		p:maintainableClass="org.kuali.kpme.core.institution.web.InstitutionMaintainableImpl"
-        p:documentAuthorizerClass="org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
+        p:documentAuthorizerClass="org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase"
+          >
   		<!-- p:businessRulesClass="org.kuali.kpme.core.institution.validation.InstitutionValidation" -->
     <property name="maintainableSections">
       <list>
