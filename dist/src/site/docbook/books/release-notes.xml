@@ -26,24 +26,57 @@
         <title>Overview</title>
         <para>Welcome to ${project.name} ${project.version}! </para>
         <section>
-            <title>Release Highlights</title>
-            <para>This version of KPME is a patch release consisting of bug fixes and small items
-                needed by Kuali application partners.</para>
+            <title>Impacting Changes and Release Highlights</title>
+            <para>This version of KHR is a minor release consisting new modules, bug fixes, and
+                items needed by Kuali application partners.</para>
             <para>
                 <itemizedlist>
-                    <title>Highlights of this release include:</title>
-                    <listitem>
-                        <para>Bug fixes and requested fixes from implementors</para>
-                    </listitem>
+                    <title>Position Management:</title>
+                    <listitem><para>New! Position Management Module</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <title>Core:</title>
+                    <listitem><para>Group key added, single and multiple</para></listitem>
+                    <listitem><para>Converted most of the HR/Payroll maintenance documents to KRAD (KPME-3227)</para></listitem>
+                    <listitem><para>Created immutable model objects for most of the Business Objects</para></listitem>
+                    <listitem><para>Derived objects and changres to lookups (refactoring)</para></listitem>
+                    <listitem><para>Added more options to the dropdown list that takes user back to the Rice portal (KPME-3327)</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <title>Timekeeping and Leave Management:</title>
+                    <listitem><para>Changed the top navigation section of approval pages (KPME-3328)</para></listitem>
+                    <listitem><para>Lookup/view of scheduled batch jobs (KPME-3343)</para></listitem>
+                    <listitem><para>Added Holiday Premium to system scheduled time off (KPME-3161)</para></listitem>
+                    <listitem><para>Warning and Rules Recalculation (KPME-3494)</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <title>Timekeeping:</title>
+                    <listitem><para>Shif differential rule rewrite (KPME-3158)</para></listitem>
+                    <listitem><para>Timesheet not ready for approval criteria added (KPME-2997)</para></listitem>
+                    <listitem><para>Removed system lunch rule (KPME-3532)</para></listitem>
+                    <listitem><para>Added system configuration option to CLock Location Rule for hard stop for clock-in (KPME-3262)</para></listitem>
+                    <listitem><para>Changed the default page size for Lookup results for KRAD maintenance documents (KPME-3102)</para></listitem>
+                    <listitem><para>Time Approval Tab add icon indicating missed punch timeblock in on timesheet (KPME-3085)</para></listitem>
+                    <listitem><para>Add icon to mark timeblocsk with missed punch associated clocks (KPME-2975)</para></listitem>
+                    <listitem><para>Missed Punch routing now uses PeopleFlow (KPME-3265)</para></listitem>
+                    <listitem><para>Added paramater options fo applying Grace Period Rules to time blocks (KPME-3457)</para></listitem>
                 </itemizedlist>
             </para>
         </section>
         <section>
             <title>Download</title>
-            <para>KPME ${project.version} can be downloaded from the Kuali website at <link xlink:show="new" xlink:href="http://www.kuali.org/download/kpme">http://www.kuali.org/download/kpme</link>.</para>
+            <para>KHR ${project.version} can be downloaded from the Kuali website at <link
+                    xlink:show="new" xlink:href="http://www.kuali.org/download/kpme"
+                    >http://www.kuali.org/download/kpme</link>.</para>
             <para>There is a single zip file which contains both the source and binaries.  Please read the Installation Guide for
                 more details on setup of these downloads</para>
-            <para>Applications can also consume KPME from the maven site at <link
+            <para>Applications can also consume KHR from the maven site at <link
                     xlink:href="http://search.maven.org/#search|ga|1|org.kuali.kpme"
                     >http://search.maven.org/#search|ga|1|org.kuali.kpme</link>.</para>
         </section>
@@ -58,27 +91,14 @@
                 any outdated information.</para>
         </section>
         <section>
-            <title>Impacting Changes</title>
-            <section>
-                <title>New routing for Missed Punch</title>
-                <itemizedlist>
-                    <listitem>
-                        <para>To used peopleflow based routing for Missed Punch, you should reingest the
-                            appropriate workflow xml documents</para>
-                    </listitem>
-                </itemizedlist>
-            </section>
-
-        </section>
-        <section>
             <title>Contact</title>
-            <para>If you encounter any difficulty, please don't hesitate to contact the KPME team on
+            <para>If you encounter any difficulty, please don't hesitate to contact the KHR team on
                 our public collaboration mailing list at <email>kpme.tech.collab@kuali.org</email>.
-                Please indicate that you are using the ${project.version} version of KPME.</para>
+                Please indicate that you are using the ${project.version} version of KHR.</para>
         </section>
     </section>
     <section xml:id="items_addressed_in_kpme">
-        <title>Items Addressed in KPME ${project.version}</title>
+        <title>Items Addressed in KHR ${project.version}</title>
 
 
 
@@ -87,67 +107,7 @@
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2918'>KPME-2918</link>] - submitting maint docs from dept admin tab return to rice portal</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3195'>KPME-3195</link>] - Department and Location Admins targeting an Approver</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3197'>KPME-3197</link>] - missed punch on overnight tb on first day of the pay period</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3247'>KPME-3247</link>] - Payroll Processor job needs added to scheduler</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3294'>KPME-3294</link>] - Delete enroute timesheet and leave calendar </para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3299'>KPME-3299</link>] - Overlapping tb can be added</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3305'>KPME-3305</link>] - After Submitting Missed Punch doc Internet Explorer doesn't update clock status</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3308'>KPME-3308</link>] - Not able to submit Leave Payout and Balance Transfer</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3311'>KPME-3311</link>] - issue with creating consecutive 24 hours timeblocks</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3333'>KPME-3333</link>] - Supervisor Approval batch process finalizes for Payroll Processor</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3359'>KPME-3359</link>] - Admin can Clock In targeted employees with multiple assignments</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3361'>KPME-3361</link>] - CI/CO Issue with grace period rule</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3365'>KPME-3365</link>] - TimeSummary contains invalid getAssignment logic</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3450'>KPME-3450</link>] - Approval tab paging</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3456'>KPME-3456</link>] - Clock Log Inquiry Missed Punch is not working</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3459'>KPME-3459</link>] - Change tb with overtime's assignment should change Default Overtime Earn Code </para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3462'>KPME-3462</link>] - Approvers should not be able to approve their own missed punch docs</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3466'>KPME-3466</link>] - New clock user's Missed Punch allowing time that is greater 24 hours </para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3487'>KPME-3487</link>] - Clock out on last day of pay period with MDT &amp; PDT</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3515'>KPME-3515</link>] - Non Submitted Missed Punch documents are being initiated with validation message</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3518'>KPME-3518</link>] - Week Pay Calendar issue with summary FLSA week total</para>
+                        <para/>
                     </listitem>
                 </itemizedlist>
             </para>
@@ -159,46 +119,7 @@
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3288'>KPME-3288</link>] - Refactor KPME Role Service Implementation code to remove duplication.</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3341'>KPME-3341</link>] - Make methods on WorkAreaMaintinanceDocumentRule protected</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3362'>KPME-3362</link>] - Approvers access to target past employees</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3364'>KPME-3364</link>] - Assignment maint doc:  remove required * on Primary Assignment</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3411'>KPME-3411</link>] - Update 2.0 and trunk to rice 2.3.5</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3452'>KPME-3452</link>] - Click Notes, Warning, and Missed Punch icons to display instead of hover</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3455'>KPME-3455</link>] - Make paging limit on approval tabs configurable</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3461'>KPME-3461</link>] - Clock Action needs to increment millis from last clock log for grace period values</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3480'>KPME-3480</link>] - Decimal places for FLSA week column</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3497'>KPME-3497</link>] - Missed Punch issues</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3506'>KPME-3506</link>] - Department Lunch Rule Maint doc misspelled</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3516'>KPME-3516</link>] - update khr to rice 2.3.6</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3517'>KPME-3517</link>] - ClockLog timestamp label fix</para>
-                    </listitem>
-                    <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3527'>KPME-3527</link>] - Change 'can not' to cannot in validation messages</para>
+                        <para/>
                     </listitem>
                 </itemizedlist>
             </para>
