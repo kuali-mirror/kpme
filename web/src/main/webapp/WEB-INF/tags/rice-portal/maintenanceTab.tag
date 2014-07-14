@@ -70,11 +70,11 @@
 
 <td class="content" valign="top">
     <admin:hrPayroll />
-    <admin:hrData />
+    <%--<admin:hrData />--%>
 </td>
 <td class="content" valign="top">
     <admin:positionManagement />
-    <admin:personManagement/>
+    <%--<admin:personManagement/>--%>
 </td>
 <td class="content" valign="top">
     <admin:financial />
