@@ -193,6 +193,14 @@
           p:legacyDataAdapter-ref="kpmeKeyedLegacyDataAdapter"/>
 
 
+    <alias
+            alias="kradApplicationDataSource"
+            name="kpmeDataSource"/>
+    <bean
+            id="jpaPersistenceUnitName"
+            class="java.lang.String">
+        <constructor-arg value="kpme"/>
+    </bean>
     <!--<bean id="lookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl">
     	<property name="lookupDao">
       		<ref bean="lookupDao"/>

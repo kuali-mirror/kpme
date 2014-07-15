@@ -78,17 +78,15 @@
 
     <bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer">
         <property name="dataSource" ref="riceDataSource" />
-        <!--<property name="properties" ref="configProperties" />-->
     </bean>
 
     <bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
         <property name="dataSource" ref="riceDataSource" />
-       <!-- <property name="properties" ref="configProperties" />-->
     </bean>
 
-    <!--<bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer">
+    <bean id="kenConfigurer" class="org.kuali.rice.ken.impl.config.KENConfigurer">
         <property name="dataSource" ref="riceDataSource" />
-    </bean>-->
+    </bean>
 
     <!--<bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/>-->
 
