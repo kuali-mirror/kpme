@@ -30,7 +30,6 @@ import org.kuali.kpme.core.api.accrualcategory.AccrualCategory;
 import org.kuali.kpme.core.api.accrualcategory.rule.AccrualCategoryRule;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
-import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.override.EmployeeOverrideContract;
@@ -42,7 +41,6 @@ import org.kuali.kpme.tklm.leave.transfer.BalanceTransfer;
 import org.kuali.kpme.tklm.leave.transfer.dao.BalanceTransferDao;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -212,7 +210,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			bt.setAccrualCategoryRule(accrualCategoryRule);
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);
-            bt.setUserPrincipalId(HrContext.getPrincipalId());
 			if(ObjectUtils.isNotNull(transferConversionFactor))
 				bt.setAmountTransferred(bt.getTransferAmount().multiply(transferConversionFactor).setScale(2, RoundingMode.HALF_UP));
 			else
@@ -401,12 +398,14 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	@Override
 	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
 			LocalDate beginPeriodDate, LocalDate endPeriodDate) {
+		// TODO Auto-generated method stub
 		return balanceTransferDao.getBalanceTransfers(viewPrincipal, beginPeriodDate, endPeriodDate);
 	}
 
 	@Override
 	public void saveOrUpdate(BalanceTransfer balanceTransfer) {
-        KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+		// TODO Auto-generated method stub
+		balanceTransferDao.saveOrUpdate(balanceTransfer);
 	}
 	
     public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, LocalDate fromEffdt, LocalDate toEffdt) {

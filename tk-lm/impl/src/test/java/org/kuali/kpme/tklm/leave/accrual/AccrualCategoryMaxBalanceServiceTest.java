@@ -207,7 +207,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 		usage.setBlockId(0L);
 		
-		/*KRADServiceLocator.getBusinessObjectService().save(usage);*/
+		/*KRADServiceLocatorWeb.getLegacyDataAdapter().save(usage);*/
 		LmServiceLocator.getLeaveBlockService().saveLeaveBlock(LeaveBlockBo.to(usage), TS_USER_ID);
 		
 		maxBalanceViolations = eligibilityTestHelper(decEntry, USER_ID);
@@ -230,7 +230,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 		usage.setBlockId(0L);
 		
-		KRADServiceLocator.getBusinessObjectService().save(usage);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(usage);
 		
 		assertEquals(5, maxBalanceViolations.get(HrConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());*/
 		
@@ -351,7 +351,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 		usage.setBlockId(0L);
 		
-		//KRADServiceLocator.getBusinessObjectService().save(usage);
+		//KRADServiceLocatorWeb.getLegacyDataAdapter().save(usage);
         LmServiceLocator.getLeaveBlockService().saveLeaveBlock(LeaveBlockBo.to(usage), TS_USER_ID);
 		
 		
@@ -385,7 +385,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends TKLMIntegrationTestCas
 		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 		usage.setBlockId(0L);
 		
-	 //KRADServiceLocator.getBusinessObjectService().save(usage);
+	 //KRADServiceLocatorWeb.getLegacyDataAdapter().save(usage);
         LmServiceLocator.getLeaveBlockService().saveLeaveBlock(LeaveBlockBo.to(usage), TS_USER_ID);
 		
 		maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);

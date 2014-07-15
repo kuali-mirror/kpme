@@ -25,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.CoreUnitTestCase;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -36,7 +37,7 @@ public class PayTypeKeyWhiteListTest extends CoreUnitTestCase {
 	@Before
     public void setUp() throws Exception {
            super.setUp();
-           boService = KRADServiceLocator.getBusinessObjectService();
+           boService = KNSServiceLocator.getBusinessObjectService();
     }
 	
 	

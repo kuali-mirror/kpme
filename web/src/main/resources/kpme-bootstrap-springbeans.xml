@@ -60,6 +60,9 @@
     <bean id="positionConfigurer" class="org.kuali.kpme.core.sys.KpmeModuleConfigurer">
         <constructor-arg type="java.lang.String" value="pm"/>
     </bean>
-
+    
+	<bean id="eDossierConfigurer" class="org.kuali.kpme.core.sys.KpmeModuleConfigurer">
+        <constructor-arg type="java.lang.String" value="edo"/>
+    </bean>
     <import resource="classpath:OverrideSpringBeans.xml" />
 </beans>

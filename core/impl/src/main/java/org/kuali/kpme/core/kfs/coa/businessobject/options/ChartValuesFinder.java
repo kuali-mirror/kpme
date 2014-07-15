@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -40,7 +41,7 @@ public class ChartValuesFinder extends KeyValuesBase {
 	
     public List getKeyValues() {
     	
-    	Collection<Chart> chartCodes = KRADServiceLocator.getKeyValuesService().findAll(Chart.class);
+    	Collection<Chart> chartCodes = KNSServiceLocator.getKeyValuesService().findAll(Chart.class);
 
     	List<KeyValue> chartKeyLabels = new ArrayList<KeyValue>();
         chartKeyLabels.add(new ConcreteKeyValue("", ""));

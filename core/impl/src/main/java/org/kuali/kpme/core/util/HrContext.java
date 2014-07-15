@@ -31,6 +31,10 @@ public class HrContext {
 	public static String getPrincipalId() {
 		return GlobalVariables.getUserSession().getPrincipalId();
 	}
+	
+	public static String getPrincipalName() {
+		return GlobalVariables.getUserSession().getPerson().getPrincipalName();
+	}
 
     public static String getTargetPrincipalId() {
         String principalId = (String) GlobalVariables.getUserSession().retrieveObject(HrConstants.TK_TARGET_USER_PERSON);
@@ -387,21 +391,7 @@ public class HrContext {
     public static boolean isUserFiscalDepartmentApprover(){
     	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.FISCAL_DEPARTMENT_APPROVER.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay());
     }
-    public static boolean isUserOrTargetPositionSystemViewOnly(){
-
-        if (HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), KPMENamespace.KPME_PM.getNamespaceCode(), KPMERole.POSITION_SYSTEM_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay()))
-        {
-            return true;
-        }
-
-        if (HrServiceLocator.getKPMERoleService().principalHasRole(getTargetPrincipalId(), KPMENamespace.KPME_PM.getNamespaceCode(), KPMERole.POSITION_SYSTEM_VIEW_ONLY.getRoleName(), LocalDate.now().toDateTimeAtStartOfDay()))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
+    
     public static boolean isPositionModuleEnabled() {
     	String status = ConfigContext.getCurrentContextConfig().getProperty("kpme.pm.module.status");
     	if(StringUtils.equals(status, "On")) {
@@ -410,4 +400,40 @@ public class HrContext {
     		return false;
     	}
     }
+   
+    public static boolean isTargetingUser() {
+    	 String principalId = (String) GlobalVariables.getUserSession().retrieveObject(HrConstants.TK_TARGET_USER_PERSON);
+    	 return StringUtils.isNotBlank(principalId) ? true : false;
+    }
+    
+    public static boolean isUserCandidateDelegate() {
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), 
+    			KPMENamespace.KPME_EDO.getNamespaceCode(), 
+    			KPMERole.CANDIDATE_DELEGATE.getRoleName(), 
+    			LocalDate.now().toDateTimeAtStartOfDay());
+    }
+    
+    public static boolean isUserCandidate() {
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), 
+    			KPMENamespace.KPME_EDO.getNamespaceCode(), 
+    			KPMERole.CANDIDATE.getRoleName(), 
+    			LocalDate.now().toDateTimeAtStartOfDay());
+    }
+    
+    public static boolean isUserGuestDossier() {
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), 
+    			KPMENamespace.KPME_EDO.getNamespaceCode(), 
+    			KPMERole.GUEST_DOSSIER.getRoleName(), 
+    			LocalDate.now().toDateTimeAtStartOfDay());
+    }
+    
+    public static boolean isUserEdoSuperUser() {
+    	return HrServiceLocator.getKPMERoleService().principalHasRole(getPrincipalId(), 
+    			KPMENamespace.KPME_EDO.getNamespaceCode(), 
+    			KPMERole.EDO_SUPER_USER.getRoleName(), 
+    			LocalDate.now().toDateTimeAtStartOfDay());
+    }
+    
+    
+    
 }

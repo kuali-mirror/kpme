@@ -19,15 +19,6 @@
 <div class="body">
     <ul class="chan">
         <li>
-            <portal:portalLink displayTitle="true" title="Timesheet "
-                               url="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.kew.url}/DocumentSearch.do?documentTypeName=TimesheetDocument"/>
-        </li>
-        <li>
-            <portal:portalLink displayTitle="true" title="Leave Calendar"
-                               url="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.kew.url}/DocumentSearch.do?documentTypeName=LeaveCalendarDocument"/>
-        </li>
-
-        <li>
             <portal:portalLink displayTitle="true" title="Clock Log"
                                url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.time.clocklog.ClockLogBo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
@@ -36,19 +27,19 @@
                                url="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.kew.url}/DocumentSearch.do?documentTypeName=MissedPunchDocumentType"/>
         </li>
         <li>
-            <portal:portalLink displayTitle="true" title="Time Block"
+            <portal:portalLink displayTitle="true" title="Time Block Inquiry"
                                url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.time.timeblock.TimeBlockBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
         <li>
-            <portal:portalLink displayTitle="true" title="Time Block History"
+            <portal:portalLink displayTitle="true" title="Time Block History Inquiry"
                                url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.time.timeblock.TimeBlockHistory&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
         <li>
-            <portal:portalLink displayTitle="true" title="Leave Block"
+            <portal:portalLink displayTitle="true" title="Leave Block Inquiry"
                                url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.leave.block.LeaveBlockBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
         <li>
-            <portal:portalLink displayTitle="true" title="Leave Block History"
+            <portal:portalLink displayTitle="true" title="Leave Block History Inquiry"
                                url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.tklm.leave.block.LeaveBlockHistory&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
 	</ul>

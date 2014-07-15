@@ -27,7 +27,7 @@ import org.kuali.kpme.core.api.leaveplan.LeavePlanContract;
 import org.kuali.kpme.core.api.principal.PrincipalHRAttributes;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
         if (accrualCategory == null) {
             return null;
         }
-        return AccrualCategoryBo.to(KRADServiceLocator.getBusinessObjectService().save(AccrualCategoryBo.from(accrualCategory)));
+        return AccrualCategoryBo.to(KRADServiceLocatorWeb.getLegacyDataAdapter().save(AccrualCategoryBo.from(accrualCategory)));
 	}
 
 	public AccrualCategoryDao getAccrualCategoryDao() {

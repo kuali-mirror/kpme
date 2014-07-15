@@ -36,9 +36,13 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 		
 		root.addEqualTo("groupKeyCode", groupKeyCode);
 		root.addEqualTo("dept", dept);
-		root.addEqualTo("workArea", workArea);
+		if(!workArea.equals(-1L)){
+			root.addEqualTo("workArea", workArea);
+		}
 		root.addEqualTo("principalId", principalId);
-		root.addEqualTo("jobNumber", jobNumber);
+		if(!jobNumber.equals(-1L)){
+			root.addEqualTo("jobNumber", jobNumber);
+		}
 		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(ClockLocationRule.class, asOfDate, ClockLocationRule.BUSINESS_KEYS, false));
 		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ClockLocationRule.class, ClockLocationRule.BUSINESS_KEYS, false));
 		//root.addEqualTo("active", true);

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="Edo-ApplicationHeader" parent="Edo-ApplicationHeader-parent"/>
+    <bean id="Edo-ApplicationHeader-parent" parent="Uif-ApplicationHeaderBase">
+        <property name="applicationNavigation.brandImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/logo-khr.png"/>
+        </property>
+    </bean>
+    
+    <bean id="Edo-CommonHeader" parent="Edo-CommonHeader-parentBean" />
+	<bean id="Edo-CommonHeader-parentBean" abstract="true"
+		parent="Uif-ViewHeader" >	
+		<property name="title" value="eDossier"/>	
+		<property name="upperGroup">
+			<bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="uif-documentInfo">
+<!-- 			p:additionalCssClasses="edo-header" > -->
+<!-- 			p:additionalCssClasses="uif-documentInfo"> -->
+				<property name="cssClasses">
+			      <list merge="true">
+			        <value>edo-header</value>
+			      </list>
+			    </property>
+				<property name="items">
+					<list>
+						<bean parent="Uif-MessageField" p:label="Employee Name" p:messageText="@{employeeName}" />
+						<bean parent="Uif-MessageField" p:label="Employee ID" p:messageText="@{employeeId}" />
+						<bean parent="Uif-MessageField" p:label="User Name" p:messageText="@{userName}" />
+						<bean parent="Uif-MessageField" p:label="User Department" p:messageText="@{userDept}"  />
+						<bean parent="Uif-MessageField" p:label="Target Employee Name" p:messageText="@{targetEmployeeName}" p:render="@{targetFlag}"/>
+						<bean parent="Uif-MessageField" p:label="Target Employee Id" p:messageText="@{targetEmployeeId}" p:render="@{targetFlag}"/>	
+						
+						<bean parent="Uif-ActionBar">
+							<property name="items">
+								<list>
+									<bean parent="Uif-Link" p:linkText="My eDossier"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-MyDossierView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-folder-open2" p:render="@{myDossierVisible}"/>
+									
+									<bean parent="Uif-Link" p:linkText="Candidate Delegates"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoCandidateDelegates?viewId=Edo-CandidateDelegatesView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-rocket2" p:render="@{candidateDelegatesVisible}"/>
+									
+									<bean parent="Uif-Link" p:linkText="Guest"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoGuests?viewId=Edo-GuestView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-eye-open" p:render="@{guestVisible}"/>
+									
+									<bean parent="Uif-Link" p:linkText="Export"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-ExportView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-share2" />
+									 
+									<bean parent="Uif-Link" p:linkText="All Files"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-AllFilesView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-list4" />	
+									
+									<bean parent="Uif-Link" p:linkText="Help"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-HelpView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-question-sign" />
+
+								</list>
+							</property>
+						</bean>					
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+    
+    <bean id="Edo-View" abstract="true" parent="Edo-View-parent"/>
+  	<bean id="Edo-View-parent" abstract="true" parent="Uif-FormView" >
+  		<property name="additionalCssFiles">
+			<list>
+				<value>css/edo.css</value>
+			</list>
+		</property>
+        <property name="applicationHeader" ref="Edo-ApplicationHeader"/> 
+        <property name="parentLocation">
+		      <bean parent="Uif-RicePortalParentLocation"/>
+	    </property>
+	    <property name="header" ref="Edo-CommonHeader" />
+<!-- 	    <property name="headerText" value="eDossier"/> -->
+	    <property name="stickyApplicationHeader" value="true" />
+	    <property name="stickyFooter" value ="true" />
+	    <property name="unifiedHeader" value="false" />
+	    <property name="breadcrumbs.render" value="false"/>     
+    </bean>
+    
+    <bean id="Edo-PersonSearch" parent="Edo-PersonSearch-parent"/>
+  	<bean id="Edo-PersonSearch-parent" abstract="true" parent="Uif-QuickFinderByScript">
+  	  <property name="dataObjectClassName" value="org.kuali.kpme.core.department.DepartmentBo" />
+    </bean>
+    
+    <bean id="Edo-LinkMessageGroup" abstract="true" parent="Uif-VerticalBoxGroup">
+	    <property name="cssClasses">
+	      <list merge="true">
+	        <value>demo-demoGroup</value>
+	      </list>
+	    </property>
+	    <property name="items">
+	      <list>
+	        <bean parent="Uif-Link"/>
+	        <bean parent="Uif-Message"/>
+	      </list>
+	    </property>
+  	</bean>
+    
+</beans>

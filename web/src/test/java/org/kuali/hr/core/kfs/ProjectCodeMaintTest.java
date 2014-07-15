@@ -33,6 +33,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class ProjectCodeMaintTest extends KPMEWebTestCase {
 	
@@ -192,9 +193,9 @@ public class ProjectCodeMaintTest extends KPMEWebTestCase {
 
 		assertTrue("page should contain active account existence error", !resultPage.asText().contains("error(s)"));
 		
-		ProjectCode projectCode = (ProjectCode) KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(ProjectCode.class, "PRJ-CODE");
+		ProjectCode projectCode = (ProjectCode) KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(ProjectCode.class, "PRJ-CODE");
 		assertNotNull("newly created sub-object code should exist", projectCode);
 		//clean up after assertion.
-		KRADServiceLocator.getBusinessObjectService().delete(projectCode);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(projectCode);
 	}
 }

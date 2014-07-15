@@ -51,7 +51,9 @@ import org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockDao;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.math.BigDecimal;
@@ -211,15 +213,15 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         }
 
         //List<TimeBlockBo> savedTimeBlocks = timeBlockDao.saveOrUpdate(alteredTimeBlocks);
-        List<TimeBlockBo> savedTimeBlocks = (List<TimeBlockBo>) KRADServiceLocator.getBusinessObjectService().save(alteredTimeBlocks);
+        List<TimeBlockBo> savedTimeBlocks = (List<TimeBlockBo>) KNSServiceLocator.getBusinessObjectService().save(alteredTimeBlocks);
 
         for (TimeBlockBo timeBlock : savedTimeBlocks) {
         	if(!timeBlockIds.contains(timeBlock.getTkTimeBlockId())) {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.ADD_TIME_BLOCK));
-	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
+	            KNSServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
         	} else {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.UPDATE_TIME_BLOCK));
-	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
+                KNSServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
         	}
         }
         return ModelObjectUtils.transform(savedTimeBlocks, toTimeBlock);
@@ -234,7 +236,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                  HrServiceLocator.getHRPermissionService().updateTimeBlockPermissions(CalendarBlockPermissions.newInstance(tb.getTkTimeBlockId()));
              }
 	         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
-             savedTimeBlocks.add(KRADServiceLocator.getBusinessObjectService().save(tbBo));
+             savedTimeBlocks.add(KNSServiceLocator.getBusinessObjectService().save(tbBo));
 	         for(TimeBlockHistory tbh : tbBo.getTimeBlockHistories()){
 	        	 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 	         }
@@ -248,7 +250,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         if (tb == null) {
             return null;
         }
-	    return TimeBlockBo.to(KRADServiceLocator.getBusinessObjectService().save(TimeBlockBo.from(tb)));
+	    return TimeBlockBo.to(KNSServiceLocator.getBusinessObjectService().save(TimeBlockBo.from(tb)));
     }
 
 
@@ -314,7 +316,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     @Override
     public void deleteTimeBlock(TimeBlock timeBlock) {
-        KRADServiceLocator.getBusinessObjectService().delete(TimeBlockBo.from(timeBlock));
+        KNSServiceLocator.getBusinessObjectService().delete(TimeBlockBo.from(timeBlock));
     }
 
     @Override
@@ -574,7 +576,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         // mark the lunch deleted as Y
         tb.setLunchDeleted(true);
         // save the change
-        KRADServiceLocator.getBusinessObjectService().save(tb);
+        KNSServiceLocator.getBusinessObjectService().save(tb);
         // remove the related time hour detail row with the lunch deduction
         TkServiceLocator.getTimeHourDetailService().removeTimeHourDetail(thd.getTkTimeHourDetailId());
     }

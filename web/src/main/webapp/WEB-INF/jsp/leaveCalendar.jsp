@@ -20,7 +20,7 @@
 
 <tk:tkHeader tabId="leaveCalendar" nocache="true">
    
- 	<script type="text/javascript" src="themes/kboot/scripts/kboot.2.3.6.min.js"></script>
+ 	<script type="text/javascript" src="themes/kboot/scripts/kboot.2.4.2.min.js"></script>
  	
     <html:form action="/LeaveCalendar.do" method="POST">
         <html:hidden property="reloadValue" value="" styleId="reloadValue"/>

@@ -31,11 +31,12 @@ import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.pm.api.position.funding.PositionFunding;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.LegacyDataAdapter;
 import org.mockito.Mockito;
 
 public class PositionFundingBoTest {
 
-	private static BusinessObjectService businessObjectService;
+	private static LegacyDataAdapter businessObjectService;
 	private static Map<String, PositionFunding> testPositionFundingBos;
 	public static PositionFunding.Builder PositionFundingBuilder = PositionFunding.Builder.create();
 	private static final LocalDate currentTime = new LocalDate();
@@ -62,7 +63,6 @@ public class PositionFundingBoTest {
 		PositionBo positionBo = new PositionBo();
 		positionBo.setEffectiveLocalDate(currentTime);
 		bo.setOwner(positionBo);
-		bo.setBusinessObjectService(businessObjectService);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));
         Assert.assertEquals(immutable, PositionFundingBo.to(bo));
@@ -76,10 +76,6 @@ public class PositionFundingBoTest {
     	account.setChartOfAccountsCode("MC");
     	account.setActive(true);
     	
-    	businessObjectService = mock(BusinessObjectService.class);
-        {
-            when( businessObjectService.findByPrimaryKey(Mockito.any(Class.class), Mockito.anyMap())).thenReturn(account);
-        }
     }
 	
     public static PositionFunding getPositionFunding(String account) {

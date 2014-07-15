@@ -24,6 +24,7 @@ import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.timehourdetail.dao.TimeHourDetailDao;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class TimeHourDetailServiceImpl implements TimeHourDetailService {
     private static final ModelObjectUtils.Transformer<TimeHourDetailBo, TimeHourDetail> toTimeHourDetail =
@@ -59,7 +60,7 @@ public class TimeHourDetailServiceImpl implements TimeHourDetailService {
 		td.setHours(tb.getHours());
 		td.setAmount(tb.getAmount());
 
-		TimeHourDetailBo timeHourDetailBo = KRADServiceLocator.getBusinessObjectService().save(td);
+		TimeHourDetailBo timeHourDetailBo = KRADServiceLocatorWeb.getLegacyDataAdapter().save(td);
 
 		return TimeHourDetailBo.to(timeHourDetailBo);
 	}

@@ -27,6 +27,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 /**
  * A temporary Service class to serialize the Object into XML file
@@ -41,7 +42,7 @@ public class TimeBlockSerializerService {
 	 */
 	public void serializeToXML() throws FileNotFoundException {
 		// Fetching data using BO service
-		Collection timeBlocks = KRADServiceLocator.getBusinessObjectService()
+		Collection timeBlocks = KRADServiceLocatorWeb.getLegacyDataAdapter()
 				.findAll(TimeBlockBo.class);
 		Iterator<TimeBlockBo> itr = timeBlocks.iterator();
 		while (itr.hasNext()) {
@@ -59,7 +60,7 @@ public class TimeBlockSerializerService {
 
 	public void serializeToCSV() throws FileNotFoundException {
 		// Fetching data using BO service
-		Collection timeBlocks = KRADServiceLocator.getBusinessObjectService()
+		Collection timeBlocks = KRADServiceLocatorWeb.getLegacyDataAdapter()
 				.findAll(TimeBlockBo.class);
 		Iterator<TimeBlockBo> itr = timeBlocks.iterator();
 		while (itr.hasNext()) {

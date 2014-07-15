@@ -23,7 +23,6 @@ import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.bo.derived.HrBusinessObjectDerived;
@@ -42,6 +41,7 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -49,6 +49,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
@@ -119,45 +120,27 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	}
 	
 	@Override
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
-            Object addLine) {
-        boolean isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
-        if (model instanceof MaintenanceDocumentForm) {
-	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
+                                               String collectionPath) {
+        boolean isValid = super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
+        if (viewModel instanceof MaintenanceDocumentForm) {
+	        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) viewModel;
 	        MaintenanceDocument document = maintenanceForm.getDocument();
 	        if (document.getNewMaintainableObject().getDataObject() instanceof PositionBo) {
 	        	PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
 	        	// Duty line validation
-		        if (addLine instanceof PositionDutyBo) {
-		        	PositionDutyBo pd = (PositionDutyBo) addLine;
+		        if (newLine instanceof PositionDutyBo) {
+		        	PositionDutyBo pd = (PositionDutyBo) newLine;
 		        	boolean results = this.validateDutyListPercentage(pd, aPosition);
 		        	if(!results) {
 		        		return false;
 		        	}
 		        }
 	        	// Funding line validation
-		        if (addLine instanceof PositionFundingBo) {
-		        	PositionFundingBo pf = (PositionFundingBo) addLine;
+		        if (newLine instanceof PositionFundingBo) {
+		        	PositionFundingBo pf = (PositionFundingBo) newLine;
 		        	boolean results = this.validateAddFundingLine(pf, aPosition);
 		        	if(!results) {
-		        		return false;
-		        	}
-		        }
-		        
-		        // Responsibility validation
-		        if(addLine instanceof PositionResponsibilityBo) {
-		        	PositionResponsibilityBo pr = (PositionResponsibilityBo) addLine;
-		        	boolean results = this.validatePositionResponsibilityListPercentage(pr, aPosition);
-		        	if(!results) {
-		        		return false;
-		        	}
-		        }
-		        
-		        //Department validation
-		        if(addLine instanceof PositionDepartmentBo) {
-		        	PositionDepartmentBo pd = (PositionDepartmentBo) addLine;
-		        	boolean results = this.validateAdditionalDepartmentList(pd,aPosition);
-		        	if(!results){
 		        		return false;
 		        	}
 		        }
@@ -167,21 +150,6 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
         return isValid;
     }
 	
-	private boolean validateAdditionalDepartmentList(PositionDepartmentBo pd,
-			PositionBo aPosition) {
-		
-		//Will only be validated if effective local date in position is not null
-		if(aPosition.getEffectiveLocalDate()!=null && pd != null){
-			Department department = HrServiceLocator.getDepartmentService().getDepartment(pd.getDepartment(), pd.getGroupKeyCode(), aPosition.getEffectiveLocalDate());
-			if(department == null){
-				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.departmentList'].department", "error.existence", "Position Department '" + pd.getDepartment() + "'");
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	private boolean validateDutyListPercentage(PositionDutyBo pd, PositionBo aPosition) {
 		if(CollectionUtils.isNotEmpty(aPosition.getDutyList()) && pd.getPercentage() != null) {
 			BigDecimal sum = pd.getPercentage();
@@ -198,22 +166,6 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 		return true;
 	}
 	
-	private boolean validatePositionResponsibilityListPercentage(PositionResponsibilityBo pd, PositionBo aPosition) {
-		if(CollectionUtils.isNotEmpty(aPosition.getPositionResponsibilityList()) && pd.getPercentTime() != null) {
-			BigDecimal sum = pd.getPercentTime();
-			for(PositionResponsibilityBo aResponsibility : aPosition.getPositionResponsibilityList()) {
-				if(aResponsibility != null && aResponsibility.getPercentTime() != null) {
-					sum = sum.add(aResponsibility.getPercentTime());
-				}
-			}
-			if(sum.compareTo(new BigDecimal(100)) > 0) {
-				GlobalVariables.getMessageMap().putError("newCollectionLines['document.newMaintainableObject.dataObject.positionResponsibilityList'].percentTime", "responsibility.percenttime.exceedsMaximum", sum.toString());
-				return false;
-			}
-		}		
-		return true;
-	}
-
 	protected boolean validateAddFundingLine(PositionFundingBo pf, PositionBo aPosition) {
     	if(StringUtils.isNotEmpty(pf.getAccount())) {
     		boolean results = ValidationUtils.validateAccount(pf.getChart(), pf.getAccount());
@@ -264,7 +216,7 @@ public class PositionMaintainableServiceImpl extends HrDataObjectMaintainableImp
 	protected void setupNewPositionRecord(MaintenanceDocument document) {
 		PositionBo aPosition = (PositionBo) document.getNewMaintainableObject().getDataObject();
         aPosition.setProcess("New");
-        String positionNumber = KRADServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("hr_position_s", PositionBo.class).toString();
+        String positionNumber = KNSServiceLocator.getSequenceAccessorService().getNextAvailableSequenceNumber("hr_position_s", PositionBo.class).toString();
         aPosition.setPositionNumber(positionNumber);
         
         document.getDocumentHeader().setDocumentDescription("New Position");

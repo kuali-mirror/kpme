@@ -27,7 +27,7 @@
     <packaging>pom</packaging>
 <!--    <name>Kualii People Management for the Enterprise</name> -->
 	<name>Kuali HR</name>
-    <version>2.1.1-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
     <description>Kuali People Management for the Enterprise (KPME) is an open-source, comprehensive HR/Payroll System built by higher education for higher education.</description>
     <url>http://${kuali.site.hostname}/kpme/${project.version}</url>
     <modules>
@@ -35,17 +35,14 @@
         <module>core</module>
         <module>tk-lm</module>
         <module>pm</module>
+        <module>edo</module>
         <module>web</module>
         <module>env</module>
         <module>dist</module>
         <module>tools</module>
-        <!--<module>ui-test</module>-->
+        <module>ui-test</module>
     </modules>
     <properties>
-        <!-- These properties modify the release process -->
-        <kuali.release.goals>deploy</kuali.release.goals>
-        <kuali.release.arguments>-DskipTests -Dorg.xml.sax.driver=com.sun.org.apache.xerces.internal.parsers.SAXParser</kuali.release.arguments>
-
         <apache.cxf.version>2.7.0</apache.cxf.version>
         <build.version>${project.name} :: ${project.version} :: ${kuali.build.timestamp}</build.version>
         <docbook.src>${basedir}/src/site/docbook</docbook.src>
@@ -69,6 +66,8 @@
         <json-simple.version>1.1.1</json-simple.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.11</junit.version>
+        <kuali.release.goals>pre-site deploy</kuali.release.goals>
+        <kuali.release.arguments>-DskipTests</kuali.release.arguments>
         <log4j.version>1.2.16</log4j.version>
         <mockito.version>1.9.0</mockito.version>
         <mysql.jdbc.version>5.1.23</mysql.jdbc.version>
@@ -77,7 +76,7 @@
         <ojdbc14.jar.location>${jdbc.drivers.location}/com/oracle/${oracle.jdbc.artifactId}/${oracle.jdbc.version}/${oracle.jdbc.artifactId}-${oracle.jdbc.version}.jar</ojdbc14.jar.location>
         <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
         <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
-        <rice.version>2.3.6</rice.version>
+        <rice.version>2.4.2-SNAPSHOT</rice.version>
         <selenium-java.version>2.41.0</selenium-java.version>
         <slf4j.version>1.7.2</slf4j.version>
         <spring-modules-ojb.version>0.8a</spring-modules-ojb.version>
@@ -330,6 +329,10 @@
                         <artifactId>xml-apis</artifactId>
                     </exclusion>-->
                     <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>servlet-api</artifactId>
+                    </exclusion>
+                    <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-api</artifactId>
                     </exclusion>
@@ -419,6 +422,14 @@
                 <artifactId>rice-core-web</artifactId>
                 <version>${rice.version}</version>
                 <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>jcl-over-slf4j</artifactId>

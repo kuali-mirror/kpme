@@ -106,5 +106,46 @@
     	  class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="dataDictionaryService" />
     </bean>
-    
+
+    <bean id="dataObjectService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataObjectService" />
+    </bean>
+
+    <bean id="persistenceService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="persistenceService" />
+    </bean>
+
+    <bean id="lookupCriteriaGenerator"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupCriteriaGenerator" />
+    </bean>
+
+    <bean id="maintenanceDocumentDaoOjb"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="maintenanceDocumentDaoOjb" />
+    </bean>
+
+    <bean id="dataObjectMetaDataService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="dataObjectMetaDataService" />
+    </bean>
+
+    <bean id="documentDao"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="documentDao" />
+    </bean>
+
+    <bean id="viewDictionaryService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="viewDictionaryService" />
+    </bean>
+
+    <bean id="kradLegacyDataAdapter"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kradLegacyDataAdapter" />
+    </bean>
+
+
 </beans>

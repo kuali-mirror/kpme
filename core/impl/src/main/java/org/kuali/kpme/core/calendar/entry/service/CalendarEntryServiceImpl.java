@@ -31,6 +31,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.util.List;
@@ -122,7 +123,7 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
             newEntry.setBatchEmployeeApprovalFullDateTime(plusSemiMonth(calendarEntry.getBatchEmployeeApprovalFullDateTime()));
             newEntry.setBatchSupervisorApprovalFullDateTime(plusSemiMonth(calendarEntry.getBatchSupervisorApprovalFullDateTime()));
         }
-        KRADServiceLocator.getBusinessObjectService().save(newEntry);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().save(newEntry);
         return getNextCalendarEntryByCalendarId(calendarEntry.getHrCalendarId(), calendarEntry);
     }
 

@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.kuali.kpme</groupId>
         <artifactId>kpme</artifactId>
-        <version>2.1.1-SNAPSHOT</version>
+        <version>2.2.0-SNAPSHOT</version>
     </parent>
     <name>KPME DB</name>
     <artifactId>kpme-db</artifactId>
@@ -35,12 +35,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>${oracle.jdbc.artifactId}</artifactId>
-            <version>${oracle.jdbc.version}</version>
-            <scope>runtime</scope>
-        </dependency>-->
     </dependencies>
     <build>
         <pluginManagement>
@@ -138,14 +132,7 @@
                                 <groupId>mysql</groupId>
                                 <artifactId>mysql-connector-java</artifactId>
                                 <version>${mysql.jdbc.version}</version>
-                                <scope>runtime</scope>
                             </dependency>
-                            <!--<dependency>
-                                <groupId>com.oracle</groupId>
-                                <artifactId>${oracle.jdbc.artifactId}</artifactId>
-                                <version>${oracle.jdbc.version}</version>
-                                <scope>runtime</scope>
-                            </dependency>-->
                         </dependencies>
                     </plugin>
                 </plugins>
@@ -165,8 +152,9 @@
                                 <configuration>
 
                                     <tasks>
-                                        <ant antfile="${project.basedir}/src/main/config/dbcopy/build.xml" dir="${project.basedir}/src/main/config/dbcopy/">
-                                            <target name="mysql" />
+                                        <ant antfile="${project.basedir}/src/main/config/dbcopy/build.xml"
+                                                dir="${project.basedir}/src/main/config/dbcopy/">
+                                            <target name="mysql"/>
                                         </ant>
                                     </tasks>
                                 </configuration>
@@ -444,7 +432,7 @@
                                     <password>${kpme.dataSource.password}</password>
                                     <!--<dropFirst>true</dropFirst>-->
                                     <clearCheckSums>false</clearCheckSums>
-                                    <contexts>rice-client-bootstrap,kpme-client-bootstrap</contexts>
+                                    <contexts>kpme-client-bootstrap</contexts>
                                     <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-install.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>
@@ -514,7 +502,7 @@
                                     <!--<dropFirst>false</dropFirst>-->
                                     <clearCheckSums>false</clearCheckSums>
                                     <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
-                                    <contexts>rice-client-bootstrap,kpme-client-bootstrap</contexts>
+                                    <contexts>kpme-client-bootstrap</contexts>
                                     <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-upgrade.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>

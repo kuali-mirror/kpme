@@ -67,6 +67,8 @@ import org.kuali.kpme.tklm.time.detail.web.ActionFormUtils;
 import org.kuali.kpme.tklm.time.util.TkContext;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
@@ -815,10 +817,13 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	
 	                //if the leave Calendar has been approved by at least one of the approvers, the employee should not be able to edit it
 	                if (StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId()) && DocumentStatus.ENROUTE.equals(documentStatus)) {
-	                    Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(lcd.getDocumentId(), HrConstants.DOCUMENT_ACTIONS.APPROVE);
-	                    if(!actions.isEmpty()) {
-	                        leaveForm.setDocEditable(false);
-	                    }
+                        List<ActionTaken> actionsTaken = KewApiServiceLocator.getWorkflowDocumentService().getAllActionsTaken(lcd.getDocumentId());
+                        for (ActionTaken at : actionsTaken) {
+                            if (ActionType.APPROVE.equals(at.getActionTaken())) {
+                                leaveForm.setDocEditable(false);
+                                break;
+                            }
+                        }
 	                }
 	            }
 	        }

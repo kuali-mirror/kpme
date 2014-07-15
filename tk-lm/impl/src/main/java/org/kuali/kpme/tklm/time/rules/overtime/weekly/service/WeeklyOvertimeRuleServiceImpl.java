@@ -48,6 +48,7 @@ import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -499,7 +500,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 			if (index == 0 && currentWeekParts.size() > 1) {
 				FlsaWeek previousFlsaWeek = currentWeekParts.get(0);
 				for (FlsaDay flsaDay : previousFlsaWeek.getFlsaDays()) {
-					KRADServiceLocator.getBusinessObjectService().save(ModelObjectUtils.transform(flsaDay.getAppliedTimeBlocks(), toTimeBlockBo));
+					KRADServiceLocatorWeb.getLegacyDataAdapter().save(ModelObjectUtils.transform(flsaDay.getAppliedTimeBlocks(), toTimeBlockBo));
                     //TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(flsaDay.getAppliedTimeBlocks());
 				}
 			}
@@ -507,7 +508,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 			if (index == flsaWeeks.size() - 1 && currentWeekParts.size() > 1) {
 				FlsaWeek nextFlsaWeek = currentWeekParts.get(currentWeekParts.size() - 1);
 				for (FlsaDay flsaDay : nextFlsaWeek.getFlsaDays()) {
-					KRADServiceLocator.getBusinessObjectService().save(ModelObjectUtils.transform(flsaDay.getAppliedTimeBlocks(), toTimeBlockBo));
+					KRADServiceLocatorWeb.getLegacyDataAdapter().save(ModelObjectUtils.transform(flsaDay.getAppliedTimeBlocks(), toTimeBlockBo));
                     //TkServiceLocator.getTimeBlockService().saveOrUpdateTimeBlocks(flsaDay.getAppliedTimeBlocks());
 				}
 			}

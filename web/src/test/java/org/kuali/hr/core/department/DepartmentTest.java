@@ -43,6 +43,6 @@ public class DepartmentTest extends KPMEWebTestCase {
 		dept.setActive(true);
         dept.setLocation("BL");
         dept.setUserPrincipalId("admin");
-		KRADServiceLocator.getBusinessObjectService().save(dept);*/
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(dept);*/
 	}
 }

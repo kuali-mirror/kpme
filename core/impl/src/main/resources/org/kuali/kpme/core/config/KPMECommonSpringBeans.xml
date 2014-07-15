@@ -60,55 +60,6 @@
         <property name="dbPlatform" ref="dbPlatform" />
     </bean>
 
-    <!--<bean name="springContext" class="org.kuali.kpme.core.sys.context.SpringContext" />-->
-
-    <!--<bean id="dbPlatform" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="dbPlatform" />
-    </bean>
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
-    </bean>
-
-    <bean id="transactionAdvisor" class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
-        <property name="classFilter" ref="transactionAdvisorClassFilter" />
-        <property name="transactionInterceptor" ref="transactionInterceptor" />
-    </bean>
-
-    <bean id="transactionAdvisorClassFilter" class="org.kuali.rice.core.impl.util.spring.ClassOrMethodAnnotationFilter">
-        <constructor-arg value="org.springframework.transaction.annotation.Transactional" />
-    </bean>
-
-    <bean id="transactionInterceptor" class="org.kuali.rice.core.framework.persistence.jta.KualiTransactionInterceptor">
-        <property name="transactionManager" ref="transactionManager" />
-        <property name="transactionAttributeSource" ref="transactionAttributeSource" />
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
-        <property name="userTransaction">
-            <ref local="userTransaction" />
-        </property>
-        <property name="transactionManager">
-            <ref local="jtaTransactionManager" />
-        </property>
-    </bean>
-
-    <bean id="transactionTemplate"
-          class="org.springframework.transaction.support.TransactionTemplate"
-          p:transactionManager-ref="transactionManager"/>
-
-    <bean id="userTransaction" class="org.kuali.rice.core.framework.persistence.jta.UserTransactionFactoryBean" lazy-init="true" />
-
-    <bean id="jtaTransactionManager" class="org.kuali.rice.core.framework.persistence.jta.TransactionManagerFactoryBean" lazy-init="true" />
-
-    <bean id="transactionAttributeSource" class="org.kuali.rice.core.impl.util.spring.AnnotationAndNameMatchingTransactionAttributeSource">
-        <property name="annotationTransactionAttributeSource" ref="annotationTransactionAttributeSource" />
-        <property name="transactionTimeout" value="${transaction.timeout}" />
-    </bean>
-
-    <bean id="annotationTransactionAttributeSource" class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
-
-    <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />-->
-
     <bean id="kpme.serviceExporter" abstract="true" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
           p:serviceBus-ref="rice.ksb.import.serviceBus" />
 
@@ -159,30 +110,90 @@
     
 	<!-- common lookup service beans for KNS/KRAD hr business object lookup -->
 
-	<!-- the below service is wired with a DAO that injects the effective date and timestamp subqueries into lookup -->
-  	<bean id="kpmeHrBusinessObjectLookupService" parent="lookupService">
-    	<property name="lookupDao">
-       		<bean parent="lookupDao">
-				<property name="lookupDaoOjb">
-					<bean parent="lookupDaoOjb" class="org.kuali.kpme.core.bo.dao.KpmeHrBusinessObjectLookupDaoOjbImpl" />
-				</property>
-			</bean>
-    	</property>
-	</bean>
-	
-	<!-- the below service is wired with a DAO that injects the institution and location subqueries for group key (in addition to the date/timestamp subqueries of the above parent DAO) -->
-    <bean id="kpmeHrGroupKeyedBusinessObjectLookupService" parent="lookupService">
-    	<property name="lookupDao">
-       		<bean parent="lookupDao">
-				<property name="lookupDaoOjb">
-					<bean parent="lookupDaoOjb" class="org.kuali.kpme.core.bo.dao.KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl" />
-				</property>
-			</bean>
-    	</property>
-	</bean>   
+    <bean id="kpmeLookupDaoOjb" parent="platformAwareDao" class="org.kuali.kpme.core.bo.dao.KpmeHrBusinessObjectLookupDaoOjbImpl">
+        <property name="persistenceStructureService" ref="persistenceStructureService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    </bean>
+    <bean id="kpmeKeyedLookupDaoOjb" parent="platformAwareDao" class="org.kuali.kpme.core.bo.dao.KPMEHrGroupKeyedBusinessObjectLookupDaoOjbImpl">
+        <property name="persistenceStructureService" ref="persistenceStructureService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="dataDictionaryService" ref="dataDictionaryService"/>
+    </bean>
+
+
+
     
-<!--  parent beans for the above common beans for KNS/KRAD hr business object lookup; copied and pasted from KRAD spring bean file --> 
-    <bean id="lookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl">
+<!--  parent beans for the above common beans for KNS/KRAD hr business object lookup; copied and pasted from KRAD spring bean file -->
+    <!--<bean id="lookupService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="lookupService" />
+    </bean>-->
+
+    <bean id="knsLegacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="knsLegacyDataAdapter" />
+    </bean>
+
+    <bean id="legacyDataAdapter" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="legacyDataAdapter" />
+    </bean>
+
+
+
+    <bean id="kpmeKnsLegacyDataAdapter"  class="org.kuali.rice.krad.service.impl.KNSLegacyDataAdapterImpl"
+          p:dataObjectService-ref="dataObjectService"
+          p:businessObjectService-ref="businessObjectService"
+          p:persistenceService-ref="persistenceService"
+          p:lookupDao-ref="kpmeLookupDaoOjb"
+          p:lookupCriteriaGenerator-ref="lookupCriteriaGenerator"
+          p:maintenanceDocumentDaoOjb-ref="maintenanceDocumentDaoOjb"
+          p:persistenceStructureService-ref="persistenceStructureService"
+          p:kualiModuleService-ref="kualiModuleService"
+          p:dataDictionaryService-ref="dataDictionaryService"
+          p:dataObjectMetaDataService-ref="dataObjectMetaDataService"
+          p:kualiConfigurationService-ref="kualiConfigurationService"
+          p:databasePlatform-ref="dbPlatform"
+          p:documentDao-ref="documentDao"
+          p:dateTimeService-ref="dateTimeService"
+          p:viewDictionaryService-ref="viewDictionaryService"/>
+
+    <bean id="kpmeKeyedKnsLegacyDataAdapter"  class="org.kuali.rice.krad.service.impl.KNSLegacyDataAdapterImpl"
+          p:dataObjectService-ref="dataObjectService"
+          p:businessObjectService-ref="businessObjectService"
+          p:persistenceService-ref="persistenceService"
+          p:lookupDao-ref="kpmeLookupDaoOjb"
+          p:lookupCriteriaGenerator-ref="lookupCriteriaGenerator"
+          p:maintenanceDocumentDaoOjb-ref="maintenanceDocumentDaoOjb"
+          p:persistenceStructureService-ref="persistenceStructureService"
+          p:kualiModuleService-ref="kualiModuleService"
+          p:dataDictionaryService-ref="dataDictionaryService"
+          p:dataObjectMetaDataService-ref="dataObjectMetaDataService"
+          p:kualiConfigurationService-ref="kualiConfigurationService"
+          p:databasePlatform-ref="dbPlatform"
+          p:documentDao-ref="documentDao"
+          p:dateTimeService-ref="dateTimeService"
+          p:viewDictionaryService-ref="viewDictionaryService"/>
+
+    <bean id="kpmeLegacyDataAdapter" class="org.kuali.rice.krad.service.impl.LegacyDataAdapterImpl"
+          p:kradLegacyDataAdapter-ref="kradLegacyDataAdapter"
+          p:knsLegacyDataAdapter-ref="kpmeKnsLegacyDataAdapter"/>
+
+    <bean id="kpmeKeyedLegacyDataAdapter" class="org.kuali.rice.krad.service.impl.LegacyDataAdapterImpl"
+          p:kradLegacyDataAdapter-ref="kradLegacyDataAdapter"
+          p:knsLegacyDataAdapter-ref="kpmeKeyedKnsLegacyDataAdapter"/>
+
+
+    <!-- the below service is wired with a DAO that injects the effective date and timestamp subqueries into lookup -->
+    <bean id="kpmeHrBusinessObjectLookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl"
+          p:kualiConfigurationService-ref="kualiConfigurationService"
+          p:legacyDataAdapter-ref="kpmeLegacyDataAdapter"/>
+
+    <!-- the below service is wired with a DAO that injects the institution and location subqueries for group key (in addition to the date/timestamp subqueries of the above parent DAO) -->
+    <bean id="kpmeHrGroupKeyedBusinessObjectLookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl"
+          p:kualiConfigurationService-ref="kualiConfigurationService"
+          p:legacyDataAdapter-ref="kpmeKeyedLegacyDataAdapter"/>
+
+
+    <!--<bean id="lookupService" class="org.kuali.rice.krad.service.impl.LookupServiceImpl">
     	<property name="lookupDao">
       		<ref bean="lookupDao"/>
     	</property>
@@ -198,7 +209,7 @@
     	<property name="persistenceStructureService" ref="persistenceStructureService"/>
     	<property name="dateTimeService" ref="dateTimeService"/>
     	<property name="dataDictionaryService" ref="dataDictionaryService"/>
-  	</bean>
+  	</bean>-->
   	
     <!-- the abpve beans were in CORESpringBeans.xml -->
 </beans>

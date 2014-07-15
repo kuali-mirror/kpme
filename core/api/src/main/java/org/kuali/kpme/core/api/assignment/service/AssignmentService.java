@@ -191,26 +191,7 @@ public interface AssignmentService {
 
     public List<Assignment> filterAssignmentListForUser(String userPrincipalId, List<Assignment> assignments);
 
-    /**
-     * Get list of assignments for a user for a period between the current date and the current date minus the value
-     * assigned to the configuration property kpme.tklm.target.employee.time.limit
-     *
-     * This list is unfiltered for FLSA status
-     *
-     * @param principalId principalId of user
-     * @return list of Assignments
-     */
-    @Cacheable(value= Assignment.CACHE_NAME, key="'{getRecentAssignments}' + 'principalId=' + #p0")
     public List<Assignment> getRecentAssignments(String principalId);
 
-    /**
-     * Get list of assignments for a user for a period between the start and end dates
-     *
-     * This list is unfiltered for FLSA status
-     *
-     * @param principalId principalId of user
-     * @return list of Assignments
-     */
-    @Cacheable(value= Assignment.CACHE_NAME, key="'{getRecentAssignmentsBetweenDays}' + 'principalId=' + #p0 + '|' + 'startDate=' + #p1 + '|' + 'endDate=' + #p2")
-    public List<Assignment> getRecentAssignmentsBetweenDays(String principalId, LocalDate startDate, LocalDate endDate);
+    public List<Assignment> getRecentAssignments(String principalId, LocalDate startDate, LocalDate endDate);
 }

@@ -37,13 +37,13 @@ public class WorkAreaMaintenanceTest extends KPMEWebTestCase {
 		workArea.setOvertimeEditRole("Employee");
 		workArea.setEffectiveLocalDate(LocalDate.now());
         workArea.setUserPrincipalId("admin");
-		KRADServiceLocator.getBusinessObjectService().save(workArea);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(workArea);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		WorkArea workArea = (WorkArea)KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WorkArea.class, 1111);
-		KRADServiceLocator.getBusinessObjectService().delete(workArea);
+		WorkArea workArea = (WorkArea)KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(WorkArea.class, 1111);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(workArea);
 		super.tearDown();
 	}
 	

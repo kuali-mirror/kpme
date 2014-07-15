@@ -30,6 +30,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 @FunctionalTest
 public class WeeklyOvertimeRuleMaintenanceTest extends KPMEWebTestCase {
@@ -73,15 +74,15 @@ public class WeeklyOvertimeRuleMaintenanceTest extends KPMEWebTestCase {
 		weeklyOvertimeRule.setStep(TEST_NO);
 		weeklyOvertimeRule.setTimestamp(TKUtils.getCurrentTimestamp());
 		weeklyOvertimeRule.setUserPrincipalId(TEST_CODE);	
-		KRADServiceLocator.getBusinessObjectService().save(weeklyOvertimeRule);		
+		KRADServiceLocatorWeb.getLegacyDataAdapter().save(weeklyOvertimeRule);
 		weeklyOvertimeRuleId=weeklyOvertimeRule.getTkWeeklyOvertimeRuleId();		
 	}
 
 	@Override
 	public void tearDown() throws Exception {	
 		//clean up
-		WeeklyOvertimeRule weeklyOvertimeRuleObj= KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WeeklyOvertimeRule.class, weeklyOvertimeRuleId);			
-		KRADServiceLocator.getBusinessObjectService().delete(weeklyOvertimeRuleObj);				
+		WeeklyOvertimeRule weeklyOvertimeRuleObj= KRADServiceLocatorWeb.getLegacyDataAdapter().findBySinglePrimaryKey(WeeklyOvertimeRule.class, weeklyOvertimeRuleId);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(weeklyOvertimeRuleObj);
 		super.tearDown();
 	}
 

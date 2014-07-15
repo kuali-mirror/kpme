@@ -370,11 +370,11 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	@Override
 	public boolean processCustomAddCollectionLineBusinessRules(
 			MaintenanceDocument document, String collectionName,
-			PersistableBusinessObject line) {
+			Object line) {
 		boolean valid = false;
 		LOG.debug("entering custom add assignment account business rules");
 		PersistableBusinessObject assignmentPbo = (PersistableBusinessObject) this.getNewDataObject();
-		PersistableBusinessObject pbo = line;
+		Object pbo = line;
 		if (pbo instanceof AssignmentAccountBo) {
 			AssignmentAccountBo assignmentAccount = (AssignmentAccountBo) pbo;
 			if (assignmentAccount != null) {

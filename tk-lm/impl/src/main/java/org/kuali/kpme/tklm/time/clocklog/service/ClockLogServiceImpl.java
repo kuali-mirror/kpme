@@ -39,6 +39,7 @@ import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -58,7 +59,7 @@ public class ClockLogServiceImpl implements ClockLogService {
             return null;
         }
         ClockLogBo bo = ClockLogBo.from(clockLog);
-    	bo = KRADServiceLocator.getBusinessObjectService().save(bo);
+    	bo = KRADServiceLocatorWeb.getLegacyDataAdapter().save(bo);
         return ClockLogBo.to(bo);
     }
 
@@ -70,8 +71,11 @@ public class ClockLogServiceImpl implements ClockLogService {
     @Override
     public synchronized ClockLog processClockLog(String principalId, String documentId, DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, String clockAction, boolean runRules, String userPrincipalId) {
         // process rules
-    	DateTime roundedClockDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockDateTime, pe.getBeginPeriodFullDateTime().toLocalDate());
-    	
+    	DateTime roundedClockDateTime = clockDateTime;
+    	String gpRuleConfig = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.KPME_GRACE_PERIOD_RULE_CONFIG);
+    	if(StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
+    		roundedClockDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockDateTime, pe.getBeginPeriodFullDateTime().toLocalDate());
+    	}
         ClockLog lastClockLog = null;
         if (StringUtils.equals(clockAction, TkConstants.LUNCH_OUT)) {
             lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(assignment.getPrincipalId(), TkConstants.CLOCK_IN);
@@ -103,7 +107,7 @@ public class ClockLogServiceImpl implements ClockLogService {
             processTimeBlock(principalId, documentId, clockLog, assignment, pe, clockAction, userPrincipalId);
         } else {
             //Save current clock log to get id for timeblock building
-            clockLog = KRADServiceLocator.getBusinessObjectService().save(clockLog);
+            clockLog = KRADServiceLocatorWeb.getLegacyDataAdapter().save(clockLog);
         }
         return ClockLogBo.to(clockLog);
     }
@@ -124,7 +128,7 @@ public class ClockLogServiceImpl implements ClockLogService {
             beginClockLogId = lastLog.getTkClockLogId();
         }
         //Save current clock log to get id for timeblock building
-        KRADServiceLocator.getBusinessObjectService().save(clockLog);
+        KRADServiceLocatorWeb.getLegacyDataAdapter().save(clockLog);
         endClockLogId = clockLog.getTkClockLogId();
 
         DateTime beginDateTime = lastClockDateTime;

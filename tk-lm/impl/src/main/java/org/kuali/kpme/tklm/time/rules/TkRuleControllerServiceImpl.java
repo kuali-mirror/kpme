@@ -43,7 +43,7 @@ public class TkRuleControllerServiceImpl implements TkRuleControllerService {
             List<TimeBlock> updatedTimeBlocks = new ArrayList<TimeBlock>();
             Calendar calendar = HrServiceLocator.getCalendarService().getCalendar(payEntry.getHrCalendarId());
             
-            DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(timesheetDocument.getPrincipalId()));
+            DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(principalId));
             if(userTimeZone == null)
             	userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
             

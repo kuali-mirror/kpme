@@ -838,13 +838,7 @@
 		<property name="items">
 			<list>
 				<bean parent="KPMEUif-DocumentNotesSection"
-					p:disclosure.defaultOpen="true" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #parent.readOnly}">
-					<property name="lineActions">
-					<list>
-		       			<bean parent="Uif-DeleteLineAction" p:render="@{isAddedCollectionItem(#line)}"/>
-		 			</list>
-					</property>	 	
-				</bean>
+					p:disclosure.defaultOpen="true" p:readOnly="@{#dp.process eq '' or #dp.process eq null or #parent.readOnly}"/>
 			</list>
 		</property>
 	</bean>

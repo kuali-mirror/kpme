@@ -65,12 +65,6 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 			return deptLunchRule;
 		}
 		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule(dept, -1L, "%", -1L, groupKeyCode, asOfDate);
-		
-		// check for % department
-		if(deptLunchRule!=null){
-			return deptLunchRule;
-		}
-		deptLunchRule = deptLunchRuleDao.getDepartmentLunchRule("%", -1L, "%", -1L, groupKeyCode, asOfDate);
 		return deptLunchRule;
 	}
 	

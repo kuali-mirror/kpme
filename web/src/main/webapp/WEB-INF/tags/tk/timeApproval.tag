@@ -3,6 +3,7 @@
 <jsp:useBean id="tagSupport"
 	class="org.kuali.kpme.tklm.common.TagSupport" />
 
+
 <div style="float: right;">
 	<c:if test="${fn:length(Form.approvalRows) != 0}">
 		<tk:approveSelectedButton refreshId="leaveRefresh"
@@ -130,12 +131,11 @@
 										<div class="warning-note-message">
 											${aMp.assignmentValue}
 											<br/>Doc Id: 
-                                                <c:if test="${Form.missedPunchPermissions[aMp.missedPunchDocId]}">
-                                                    <a href="${ConfigProperties.kew.url}/DocHandler.do?command=displayDocSearchView&docId=${aMp.missedPunchDocId}" target="_blank">
-                                                    ${aMp.missedPunchDocId}</a>
-                                                </c:if>
+											<%-- <a href="changeTargetPerson.do?${aMp.missedPunchUserTargetURLParams}&targetUrl=kew/DocHandler.do?command=displayDocSearchView&docId=${aMp.missedPunchDocId}&returnUrl=TimeApproval.do%3FselectedPayCalendarGroup=${Form.selectedPayCalendarGroup}%26selectedDept=${Form.selectedDept}%26selectedWorkArea=${Form.selectedWorkArea}"> --%>
+											<a href="${ConfigProperties.kew.url}/DocHandler.do?command=displayDocSearchView&docId=${aMp.missedPunchDocId}" target="_blank">
+											${aMp.missedPunchDocId}</a>
 											&nbsp;Doc Status: <span id="approvals-status" class="approvals-status">${aMp.missedPunchDocStatus}</span>
-									    </div>
+									</div>
 									</td>
 								</tr>
 							</c:forEach>

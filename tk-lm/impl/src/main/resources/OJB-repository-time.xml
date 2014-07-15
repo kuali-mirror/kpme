@@ -333,9 +333,9 @@
         <field-descriptor name="objectId"               column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
 
-        <reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <!--<reference-descriptor name="documentHeader" class-ref="org.kuali.rice.krad.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="documentNumber" />
-        </reference-descriptor>
+        </reference-descriptor>-->
         
         <reference-descriptor name="missedPunch" class-ref="org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo" auto-retrieve="true" auto-update="object" auto-delete="object">
             <foreignkey field-ref="tkMissedPunchId" />

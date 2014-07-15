@@ -33,6 +33,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -83,7 +84,7 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		boolean valid = true;
 		
 		if (StringUtils.isNotEmpty(chart)) {
-			Chart chartObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
+			Chart chartObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
 
 			if (chartObj == null) {
 				this.putFieldError("chart", "dept.chart.notfound", chart);
@@ -101,7 +102,7 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		criteriaMap.put("organizationCode", organization);
 		criteriaMap.put("active", Boolean.TRUE);
 		if (StringUtils.isNotEmpty(organization)) {
-			List<Organization> organizationList = (List<Organization>) KRADServiceLocator.getBusinessObjectService().findMatching(Organization.class, criteriaMap);
+			List<Organization> organizationList = (List<Organization>) KNSServiceLocator.getBusinessObjectService().findMatching(Organization.class, criteriaMap);
 			if (organizationList == null || organizationList.isEmpty()) {
 				this.putFieldError("org", "dept.org.notfound", organization);
 				valid = false;
@@ -115,12 +116,12 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		boolean valid = true;
 		
 		if (StringUtils.isNotEmpty(chart) && StringUtils.isNotEmpty(organization)) {
-			Chart chartObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
+			Chart chartObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
 			if(chartObj != null && chartObj.isActive()) {
 				Map<String, Object> criteriaMap = new HashMap<String,Object>();
 				criteriaMap.put("organizationCode", organization);
 				criteriaMap.put("chartOfAccountsCode", chartObj.getChartOfAccountsCode());
-				Organization organizationObj = KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, criteriaMap);
+				Organization organizationObj = KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, criteriaMap);
 				if (organizationObj == null || !organizationObj.isActive()) {
 					// chart and organization are not in sync.
 					valid = false;
@@ -186,7 +187,7 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 	@Override
 	public boolean processCustomAddCollectionLineBusinessRules(
 			MaintenanceDocument document, String collectionName,
-			PersistableBusinessObject line) {
+			Object line) {
 		boolean valid = true;
 		
 		//TODO: Do we really need to use member type, id, role id? If there are duplicate role names listed in the drop downs, this is just going to cause confusion...

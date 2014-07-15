@@ -32,6 +32,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 
 public class OrganizationMaintTest extends KPMEWebTestCase {
 	//TODO: find constant in outside scope, or define one outside of this scope.
@@ -157,10 +158,10 @@ public class OrganizationMaintTest extends KPMEWebTestCase {
 		keys.put("chartOfAccountsCode", "UA");
 		keys.put("organizationCode", "A-ORG-CD");
 		
-		Organization organization = (Organization) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, keys);
+		Organization organization = (Organization) KRADServiceLocatorWeb.getLegacyDataAdapter().findByPrimaryKey(Organization.class, keys);
 		assertNotNull("newly created sub-object code should exist", organization);
 		//clean up after assertion.
-		KRADServiceLocator.getBusinessObjectService().delete(organization);
+		KRADServiceLocatorWeb.getLegacyDataAdapter().delete(organization);
 	}
 
 }
