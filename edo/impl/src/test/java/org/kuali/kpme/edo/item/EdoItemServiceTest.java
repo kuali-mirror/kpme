@@ -35,7 +35,7 @@ public class EdoItemServiceTest extends EdoUnitTestBase {
 	private final String edoItemID = "1000";
 	private final String edoChecklistItemID = "1000";
 	private final String edoDossierID = "1000";
-	private final String edoReviewLayerDefID = "2000";
+	private final String edoReviewLayerDefID = "1000";
 	private final String uploader = "admin";
 	
 	@Before
@@ -97,14 +97,12 @@ public class EdoItemServiceTest extends EdoUnitTestBase {
 		assertNull(edoItem);
 	}	
 	
-	// TODO Do this unit test when Catherine is done with Review Layer Definition module.
-	/*
 	@Test
 	public void testGetReviewLetterEdoItems() throws Exception {
 
 		List<EdoItem> items = EdoServiceLocator.getEdoItemService().getReviewLetterEdoItems(edoDossierID, edoReviewLayerDefID);
-		assertEquals("returned the correct number of results", 2, items.size());
-	}*/
+		assertEquals("returned the correct number of results", 1, items.size());
+	}
 	
 	@Test
 	public void testGetListOfEdoItems() throws Exception {

@@ -15,9 +15,12 @@
 --
 
 delete from EDO_ITEM_T where EDO_ITEM_ID >= '1000';
--- delete from EDO_REVIEW_LAYER_DEF_T where review_layer_def_id >= '2000';
+delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID >= '2000';
 
-insert into EDO_ITEM_T (`edo_item_id`, `edo_dossier_id`, `edo_checklist_item_id`, `file_name`, `file_location`, `notes`, `routed`, `edo_item_type_id`, `content_type`, `row_index`, `edo_review_layer_def_id`, `file_description`, `action`, `USER_PRINCIPAL_ID`, `ACTIVE`, `ACTION_TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1000', '1000', '1000', '', '', '', 'Y', '1000', '', 1, '1000', 'testEdoItemFileDescription', 'UPLOAD FILE', 'admin', 'Y', now(), null, '1');
-insert into EDO_ITEM_T (`edo_item_id`, `edo_dossier_id`, `edo_checklist_item_id`, `file_name`, `file_location`, `notes`, `routed`, `edo_item_type_id`, `content_type`, `row_index`, `edo_review_layer_def_id`, `file_description`, `action`, `USER_PRINCIPAL_ID`, `ACTIVE`, `ACTION_TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1001', '1000', '1000', '', '', '', 'N', '1000', '', 2, '', 'testEdoItemFileDescription', 'UPLOAD FILE', 'admin', 'Y', now(), null, '1');
-insert into EDO_ITEM_T (`edo_item_id`, `edo_dossier_id`, `edo_checklist_item_id`, `file_name`, `file_location`, `notes`, `routed`, `edo_item_type_id`, `content_type`, `row_index`, `edo_review_layer_def_id`, `file_description`, `action`, `USER_PRINCIPAL_ID`, `ACTIVE`, `ACTION_TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1002', '1000', '1000', '', '', '', 'N', '1001', '', 3, '', 'testEdoItemFileDescription', 'UPLOAD FILE', 'admin', 'Y', now(), null, '1');
+insert into EDO_ITEM_T (`edo_item_id`, `edo_dossier_id`, `edo_checklist_item_id`, `file_name`, `file_location`, `notes`, `routed`, `edo_item_type_id`, `content_type`, `row_index`, `edo_review_layer_def_id`, `file_description`, `action`, `USER_PRINCIPAL_ID`, `ACTIVE`, `ACTION_TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1000', '1000', '1000', '', '', '', 'Y', '2000', '', 1, '1000', 'testEdoItemFileDescription', 'UPLOAD FILE', 'admin', 'Y', now(), null, '1');
+insert into EDO_ITEM_T (`edo_item_id`, `edo_dossier_id`, `edo_checklist_item_id`, `file_name`, `file_location`, `notes`, `routed`, `edo_item_type_id`, `content_type`, `row_index`, `edo_review_layer_def_id`, `file_description`, `action`, `USER_PRINCIPAL_ID`, `ACTIVE`, `ACTION_TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1001', '1000', '1000', '', '', '', 'N', '1001', '', 2, '', 'testEdoItemFileDescription', 'UPLOAD FILE', 'admin', 'Y', now(), null, '1');
+insert into EDO_ITEM_T (`edo_item_id`, `edo_dossier_id`, `edo_checklist_item_id`, `file_name`, `file_location`, `notes`, `routed`, `edo_item_type_id`, `content_type`, `row_index`, `edo_review_layer_def_id`, `file_description`, `action`, `USER_PRINCIPAL_ID`, `ACTIVE`, `ACTION_TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1002', '1000', '1000', '', '', '', 'N', '1002', '', 3, '', 'testEdoItemFileDescription', 'UPLOAD FILE', 'admin', 'Y', now(), null, '1');
+
+
+insert into EDO_ITEM_TYPE_T (`EDO_ITEM_TYPE_ID`, `ITEM_TYPE_NAME`, `DESCRIPTION`, `INSTRUCTIONS`, `EXT_AVAILABLE`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('2000', 'Review Letter', '', '', 'Y', '2012-01-01', 'Y', now(), null, '1');
 

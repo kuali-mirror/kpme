@@ -15,3 +15,6 @@
 --
 
 delete from EDO_CHECKLIST_ITEM_T where EDO_CHECKLIST_ITEM_ID >= '1000';
+delete from EDO_CHECKLIST_T where EDO_CHECKLIST_ID >= '2000';
+delete from EDO_CHECKLIST_SECTION_T where EDO_CHECKLIST_SECTION_ID >= '2000';
+delete from EDO_DOSSIER_T where edo_dossier_id >= '2000';

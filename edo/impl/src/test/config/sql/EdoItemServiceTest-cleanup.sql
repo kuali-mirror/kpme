@@ -15,3 +15,4 @@
 --
 
 delete from EDO_ITEM_T where EDO_ITEM_ID >= '1000';
+delete from EDO_ITEM_TYPE_T where EDO_ITEM_TYPE_ID >= '2000';
