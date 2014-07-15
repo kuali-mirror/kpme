@@ -24,6 +24,7 @@ import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
+import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointment;
@@ -38,7 +39,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 
 @SuppressWarnings("deprecation")
-public class PositionAppointmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
+public class PositionAppointmentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = 7842865077640195329L;
 	
@@ -48,15 +49,6 @@ public class PositionAppointmentAuthorizer extends KPMEMaintenanceDocumentAuthor
         if (dataObject instanceof PositionAppointmentBo)
         {
             attributes.put(KPMERoleMemberAttribute.INSTITUION.getRoleMemberAttributeName(), ((PositionAppointmentBo)dataObject).getInstitution() );
-
-/*
-            HrGroupKey gk = HrServiceLocator.getHrGroupKeyService().getHrGroupKey(( (PositionAppointmentBo)dataObject).getGroupKeyCode(), LocalDate.now() );
-
-            if (gk != null)
-            {
-
-            }
-*/
 
             attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(),  ((PositionAppointmentBo)dataObject).getLocation());
 
