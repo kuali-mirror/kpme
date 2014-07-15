@@ -16,10 +16,26 @@
 package org.kuali.kpme.pm.positionappointment.authorization;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
+import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.pm.api.positionappointment.PositionAppointment;
+import org.kuali.kpme.pm.positionappointment.PositionAppointmentBo;
+import org.kuali.kpme.core.api.institution.Institution;
+import org.kuali.kpme.pm.positionappointment.web.PositionAppointmentMaintainableImpl;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+
 
 @SuppressWarnings("deprecation")
 public class PositionAppointmentAuthorizer extends KPMEMaintenanceDocumentAuthorizerBase {
@@ -29,6 +45,60 @@ public class PositionAppointmentAuthorizer extends KPMEMaintenanceDocumentAuthor
 	protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
 		super.addRoleQualification(dataObject, attributes);
 
-		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
+        if (dataObject instanceof PositionAppointmentBo)
+        {
+            attributes.put(KPMERoleMemberAttribute.INSTITUION.getRoleMemberAttributeName(), ((PositionAppointmentBo)dataObject).getInstitution() );
+
+/*
+            HrGroupKey gk = HrServiceLocator.getHrGroupKeyService().getHrGroupKey(( (PositionAppointmentBo)dataObject).getGroupKeyCode(), LocalDate.now() );
+
+            if (gk != null)
+            {
+
+            }
+*/
+
+            attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(),  ((PositionAppointmentBo)dataObject).getLocation());
+
+            attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), ((PositionAppointmentBo)dataObject).getGroupKeyCode() );
+        }
 	}
+
+    @Override
+    public boolean canMaintain(Object dataObject, Person user) {
+        return super.canMaintain(dataObject, user);
+    }
+
+    @Override
+    public boolean canCopy(Document document, Person user) {
+
+        Object dbo = (((MaintenanceDocument)document).getDocumentDataObject());
+        if ( dbo instanceof PositionAppointmentBo)
+        {
+            return canMaintain((PositionAppointmentBo)dbo, user);
+        }
+
+        return false;
+    }
+
+    public boolean canView(Object dataObject, Person user)
+    {
+        Map<String, String> permissionDetails = new HashMap<String, String>();
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
+
+
+        Map<String, String> roleQualifiers = getRoleQualification(dataObject, user.getPrincipalId());
+        if (KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(user.getPrincipalId(), KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), permissionDetails, roleQualifiers)) {
+            return true;
+        }
+
+        if (KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(user.getPrincipalId(), KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(), permissionDetails, roleQualifiers)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

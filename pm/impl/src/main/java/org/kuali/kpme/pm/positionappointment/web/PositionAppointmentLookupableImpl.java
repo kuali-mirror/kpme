@@ -16,6 +16,7 @@
 package org.kuali.kpme.pm.positionappointment.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +28,11 @@ import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointment;
 import org.kuali.kpme.pm.api.positionappointment.PositionAppointmentContract;
 import org.kuali.kpme.pm.positionappointment.PositionAppointmentBo;
+import org.kuali.kpme.pm.positionappointment.authorization.PositionAppointmentAuthorizer;
 import org.kuali.kpme.pm.service.base.PmServiceLocator;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
@@ -42,11 +46,24 @@ public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
 		};
 	};
 
+    protected List<PositionAppointmentBo> filterLookupPositionAppointments(List<PositionAppointmentBo> rawResults, Person user)
+    {
+        List<PositionAppointmentBo> returnList = new ArrayList<PositionAppointmentBo>();
+        for (PositionAppointmentBo positionAppointmentObj : rawResults)
+        {
+            if (((PositionAppointmentAuthorizer)(getDocumentDictionaryService().getDocumentAuthorizer(this.getMaintenanceDocumentTypeName()))).canView((Object) positionAppointmentObj, user))
+            {
+                returnList.add(positionAppointmentObj);
+            }
+        }
+        return returnList;
+    }
+
 	@Override
 	public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
 
 		//return super.getSearchResults(form, searchCriteria, bounded);
-
+/*
 		String description = searchCriteria.get("description");
 		String fromEffdt = TKUtils.getFromDateString(searchCriteria.get("effectiveDate"));
 		String toEffdt = TKUtils.getToDateString(searchCriteria.get("effectiveDate"));
@@ -59,10 +76,14 @@ public class PositionAppointmentLookupableImpl extends KPMELookupableImpl {
 
 		List<PositionAppointmentBo> posApptContrasts = ModelObjectUtils.transform(PmServiceLocator.getPositionAppointmentService().getPositionAppointmentList
 				(positionAppointment, description, groupKeyCode, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist), toPositionAppointmentBo);
+*/
 
+        List<PositionAppointmentBo> posApptContrasts = (List<PositionAppointmentBo>)super.getSearchResults(form, searchCriteria, bounded);
+
+        List<PositionAppointmentBo> filteredResults = filterLookupPositionAppointments(posApptContrasts, GlobalVariables.getUserSession().getPerson());
 		// TODO: Filter the result by institution and location here
 
-		return posApptContrasts;
+		return filteredResults;
 	}
 
 }
