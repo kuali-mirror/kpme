@@ -42,6 +42,9 @@
         <!--<module>ui-test</module>-->
     </modules>
     <properties>
+        <kuali.release.goals>deploy</kuali.release.goals>
+        <kuali.release.arguments>-DskipTests</kuali.release.arguments>
+
         <apache.cxf.version>2.7.0</apache.cxf.version>
         <build.version>${project.name} :: ${project.version} :: ${kuali.build.timestamp}</build.version>
         <docbook.src>${basedir}/src/site/docbook</docbook.src>
