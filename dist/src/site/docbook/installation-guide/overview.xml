@@ -59,7 +59,7 @@
                 <listitem>
                     <para>
                         <emphasis role="bold">Subversion Repository</emphasis> - 
-                        <link xlink:href="http://svn.kuali.org/repos/kpme/tags/${project.artifactId}-${project.version}">http://svn.kuali.org/repos/kpme/tags/${project.artifactId}-${project.version}</link>
+                        <link xlink:href="http://svn.kuali.org/repos/kpme/tags/${project.parent.artifactId}-${project.version}">http://svn.kuali.org/repos/kpme/tags/${project.parent.artifactId}-${project.version}</link>
                     </para>
                 </listitem>
             </orderedlist>
