@@ -203,39 +203,45 @@ public class ClockWebTest extends KPMEWebTestCase {
         Assert.assertTrue("The seconds on timestamp should be preserved", lastClockLog.getCreateTime().getSecondOfMinute() != 0);
     }
 
-    @Test
-    public void testClockActionWithGracePeriodRule() throws Exception {
-    	String gpRuleConfig = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.KPME_GRACE_PERIOD_RULE_CONFIG);
-    	if(gpRuleConfig != null && gpRuleConfig.equals("CLOCK")) {
-	    	//clean clock logs
-	        KRADServiceLocator.getBusinessObjectService().deleteMatching(ClockLogBo.class, Collections.singletonMap("principalId", "admin"));
-	        GracePeriodRule gpr = new GracePeriodRule();
-	        //gpr.setTkGracePeriodRuleId("1");
-	        gpr.setEffectiveLocalDate(new LocalDate(2010, 1, 1));
-	        gpr.setHourFactor(new BigDecimal(3));
-	        gpr.setTimestamp(TKUtils.getCurrentTimestamp());
-	        gpr.setUserPrincipalId("admin");
-	        
-	        gpr.setActive(true);
-	        KRADServiceLocator.getBusinessObjectService().save(gpr);
-	
-	        // Clock in
-	        clockIn();
-	        // Make sure clock out button is rendered
-	        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
-	        // Make sure both timestamps preserve seconds
-	        Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() == 0);
-	        Assert.assertTrue("The seconds on timestamp should be preserved", lastClockLog.getCreateTime().getSecondOfMinute() != 0);
-	
-	        // Clock out
-	        clockOut();
-	        // Make sure both timestamps preserve seconds
-	        lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
-	        Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", lastClockLog.getClockDateTime().getSecondOfMinute() == 0);
-	        Assert.assertTrue("The seconds on timestamp should be preserved", lastClockLog.getCreateTime().getSecondOfMinute() != 0);
+	@Test
+	public void testClockActionWithGracePeriodRule() throws Exception {
+		// clean clock logs
+		KRADServiceLocator.getBusinessObjectService().deleteMatching(
+				ClockLogBo.class,
+				Collections.singletonMap("principalId", "admin"));
+		GracePeriodRule gpr = new GracePeriodRule();
+		// gpr.setTkGracePeriodRuleId("1");
+		gpr.setEffectiveLocalDate(new LocalDate(2010, 1, 1));
+		gpr.setHourFactor(new BigDecimal(3));
+		gpr.setTimestamp(TKUtils.getCurrentTimestamp());
+		gpr.setUserPrincipalId("admin");
 
-    	}
-    }
+		gpr.setActive(true);
+		KRADServiceLocator.getBusinessObjectService().save(gpr);
+
+		// Clock in
+		clockIn();
+		// Make sure clock out button is rendered
+		ClockLog lastClockLog = TkServiceLocator.getClockLogService()
+				.getLastClockLog("admin");
+		// Make sure both timestamps preserve seconds
+		Assert.assertTrue(
+				"The seconds on clock timestamp should NOT be preserved",
+				lastClockLog.getClockDateTime().getSecondOfMinute() == 0);
+		Assert.assertTrue("The seconds on timestamp should be preserved",
+				lastClockLog.getCreateTime().getSecondOfMinute() != 0);
+
+		// Clock out
+		clockOut();
+		// Make sure both timestamps preserve seconds
+		lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(
+				"admin");
+		Assert.assertTrue(
+				"The seconds on clock timestamp should NOT be preserved",
+				lastClockLog.getClockDateTime().getSecondOfMinute() == 0);
+		Assert.assertTrue("The seconds on timestamp should be preserved",
+				lastClockLog.getCreateTime().getSecondOfMinute() != 0);
+	}
     
     
 	@Test

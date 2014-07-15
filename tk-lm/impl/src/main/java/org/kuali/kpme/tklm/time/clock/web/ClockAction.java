@@ -332,10 +332,8 @@ public class ClockAction extends TimesheetAction {
         
         LocalDate beginDate = LocalDate.now();
         DateTime clockTimeWithGraceRule = new DateTime(beginDate.toDateTimeAtCurrentTime());
-        String gpRuleConfig = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.KPME_GRACE_PERIOD_RULE_CONFIG);
-        if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
-   	 		clockTimeWithGraceRule = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeWithGraceRule, beginDate);
-        }
+        clockTimeWithGraceRule = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeWithGraceRule, beginDate);
+       
         // validate if there's any overlapping with existing time blocks
         if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
             ClockLog lastLog = null;
@@ -439,9 +437,10 @@ public class ClockAction extends TimesheetAction {
 	        			// validation with previous calendar entry
 	        			// the datetime for the new clock log that's about to be created with grace period rule applied
 	        			DateTime endDateTime = new DateTime(outLogDateTime.getMillis());
-	        			if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
-	        				endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(outLogDateTime, previousCalEntry.getBeginPeriodFullDateTime().toLocalDate());
-	        			}
+	        			endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(outLogDateTime, previousCalEntry.getBeginPeriodFullDateTime().toLocalDate());
+//	        			if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
+//	        				endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(outLogDateTime, previousCalEntry.getBeginPeriodFullDateTime().toLocalDate());
+//	        			}
 	        			if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
                             endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
                         }
@@ -454,9 +453,11 @@ public class ClockAction extends TimesheetAction {
 	        			// validation with the next calendar entry
 		   	             // the datetime for the new clock log that's about to be created with grace period rule applied
 	        			endDateTime = currentDateTime;
-	        			if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
-	        				endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(currentDateTime, nextCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
-	        			}
+	        			endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(currentDateTime, nextCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+	        			
+//	        			if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
+//	        				endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(currentDateTime, nextCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+//	        			}
                         if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
                             endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
                         }
@@ -491,12 +492,17 @@ public class ClockAction extends TimesheetAction {
 	                if (lastLog != null) {
 		   	            // the datetime for the new clock log that's about to be created with grace period rule applied
 	                	DateTime endDateTime  = new DateTime();
-	                	if(gpRuleConfig!=null && gpRuleConfig.equals("CLOCK")){
-	                		endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endDateTime, caf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
-                            if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
-                                endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
-                            }
+	                	endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endDateTime, caf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
+	                	if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
+                            endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
                         }
+	                	
+//	                	if(gpRuleConfig!=null && gpRuleConfig.equals("CLOCK")){
+//	                		endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endDateTime, caf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
+//                            if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
+//                                endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
+//                            }
+//                        }
 		   	         	boolean validation = this.validateOverlapping(caf.getTimesheetDocument().getAsOfDate(), caf.getTimesheetDocument().getTimeBlocks(), lastLog.getClockDateTime(), endDateTime,assignment);
 	        			if(!validation) {
 	        				 caf.setErrorMessage(TIME_BLOCK_OVERLAP_ERROR);
