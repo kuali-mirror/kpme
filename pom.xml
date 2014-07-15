@@ -39,7 +39,7 @@
         <module>env</module>
         <module>dist</module>
         <module>tools</module>
-        <module>ui-test</module>
+        <!--<module>ui-test</module>-->
     </modules>
     <properties>
         <apache.cxf.version>2.7.0</apache.cxf.version>
