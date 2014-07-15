@@ -27,7 +27,7 @@
     <packaging>pom</packaging>
 <!--    <name>Kualii People Management for the Enterprise</name> -->
 	<name>Kuali HR</name>
-    <version>2.1.0</version>
+    <version>2.1.1-SNAPSHOT</version>
     <description>Kuali People Management for the Enterprise (KPME) is an open-source, comprehensive HR/Payroll System built by higher education for higher education.</description>
     <url>http://${kuali.site.hostname}/kpme/${project.version}</url>
     <modules>
@@ -1073,8 +1073,8 @@
         </repository>
     </repositories>
     <scm>
-        <connection>scm:${project.scm.vendor}:${project.scm.url}/tags/kpme-2.1.0</connection>
-        <developerConnection>scm:${project.scm.vendor}:${project.scm.url}/tags/kpme-2.1.0</developerConnection>
-        <url>${project.scm.url}/tags/kpme-2.1.0</url>
+        <connection>scm:${project.scm.vendor}:${project.scm.url}</connection>
+        <developerConnection>scm:${project.scm.vendor}:${project.scm.url}</developerConnection>
+        <url>${project.scm.url}</url>
     </scm>
 </project>

@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.kuali.kpme</groupId>
         <artifactId>kpme-pm</artifactId>
-        <version>2.1.0</version>
+        <version>2.1.1-SNAPSHOT</version>
     </parent>
     <name>KPME Position Management API</name>
     <artifactId>kpme-pm-api</artifactId>
