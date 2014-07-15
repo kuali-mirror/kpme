@@ -43,7 +43,7 @@
 
 <tk:tkHeader tabId="clock">
 
-    <script type="text/javascript" src="themes/kboot/scripts/kboot.2.4.1.min.js"></script>
+    <script type="text/javascript" src="themes/kboot/scripts/kboot.2.4.2.min.js"></script>
 
 
 	<html:form action="/Clock.do">
