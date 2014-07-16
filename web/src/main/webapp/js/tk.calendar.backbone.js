@@ -179,7 +179,8 @@ $(function () {
             "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
             "click #ts-route-button" : "forfeitBalanceOnSubmit",
             "click span[id^=weekSummary]" : "showWeekSummary",
-            "change #startDate" : "updateAssignmentsEarnCodesForDate"
+            "change #startDate" : "updateAssignmentsEarnCodesForDate",
+            "change #endDate" : "updateAssignmentsEarnCodesForDate"
         },
 
         initialize : function () {
@@ -707,11 +708,14 @@ $(function () {
                 assignment = this.$('#selectedAssignment option:selected').val();
             }
             var asOfDate = _.isString(e) ? e : $('#startDate').val();
+            var asOfDateEnd = _.isString(e) ? e : $('#endDate').val();
+
             assignmentsForStartDay.fetch({
                 // Make the ajax call not async to be able to filter the assignments
                 async : false,
                 data : {
-                    startDate : asOfDate
+                    startDate : asOfDate,
+                    endDate : asOfDateEnd
                 }
             });
 
