@@ -63,6 +63,14 @@
 
 </c:if>
 
+<c:set var = "setupAndReports" value = "false"/>
+<c:if test="${systemAdmin || globalViewOnly  || positionSystemViewOnly || locationAdmin || locationViewOnly || KOHRInstitutionAdmin || KOHRAcademicHrAdmin || KOHRInstitutionViewOnly || KOHRLocationAdmin || KOHRLocationViewOnly ||
+    	KOHRLocationAdmin ||  HRInstitutionApprover ||	academicHRInstitutionApprover || budgetApprover || payrollApprover || HRlocationApprover || academicHRLocationApprover || fiscalLocationApprover || HROrgApprover || fiscalOrgApprover || departmentApprover || fiscalDeptApprover || locationAdmin || locationViewOnly}">
+
+    <c:set var = "setupAndReports" value = "true"/>
+
+</c:if>
+
 
 <c:if test="${not allowed}">
     <jsp:forward page="portal.do?selectedTab=main"/>
@@ -78,6 +86,9 @@
 </td>
 <td class="content" valign="top">
     <admin:financial />
-    <admin:workflow />
-    <admin:notification />
+
+    <c:if test="setupAndReports">
+        <admin:workflow />
+        <admin:notification />
+    </c:if>
 </td>
