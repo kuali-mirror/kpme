@@ -44,7 +44,7 @@
     <properties>
         <!-- These properties modify the release process -->
         <kuali.release.goals>deploy</kuali.release.goals>
-        <kuali.release.arguments>-DskipTests</kuali.release.arguments>
+        <kuali.release.arguments>-DskipTests -Dorg.xml.sax.driver=com.sun.org.apache.xerces.internal.parsers.SAXParser</kuali.release.arguments>
 
         <apache.cxf.version>2.7.0</apache.cxf.version>
         <build.version>${project.name} :: ${project.version} :: ${kuali.build.timestamp}</build.version>

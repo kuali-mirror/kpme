@@ -71,11 +71,8 @@ public class ClockLogServiceImpl implements ClockLogService {
     @Override
     public synchronized ClockLog processClockLog(String principalId, String documentId, DateTime clockDateTime, Assignment assignment, CalendarEntry pe, String ip, LocalDate asOfDate, String clockAction, boolean runRules, String userPrincipalId) {
         // process rules
-    	DateTime roundedClockDateTime = clockDateTime;
-    	String gpRuleConfig = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.KPME_GRACE_PERIOD_RULE_CONFIG);
-    	if(StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
-    		roundedClockDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockDateTime, pe.getBeginPeriodFullDateTime().toLocalDate());
-    	}
+    	DateTime roundedClockDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockDateTime, pe.getBeginPeriodFullDateTime().toLocalDate());
+    	
         ClockLog lastClockLog = null;
         if (StringUtils.equals(clockAction, TkConstants.LUNCH_OUT)) {
             lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(assignment.getPrincipalId(), TkConstants.CLOCK_IN);

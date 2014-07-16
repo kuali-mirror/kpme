@@ -47,7 +47,9 @@
         <loadData tableName="KRIM_ENTITY_NM_T" file="src/test/config/db/staging/krim_entity_nm_t.csv" />
         <loadData tableName="KRIM_ENTITY_EMAIL_T" file="src/test/config/db/staging/krim_entity_email_t.csv" />
         <loadData tableName="KRIM_PRNCPL_T" file="src/test/config/db/staging/krim_prncpl_t.csv" />
-        <loadData tableName="KRIM_ROLE_MBR_T" file="src/test/config/db/staging/krim_role_mbr_t.csv" />
+        <loadData tableName="KRIM_ROLE_MBR_T" file="src/test/config/db/staging/krim_role_mbr_t.csv" >
+            <column name="ACTV_FRM_DT" header="ACTV_FRM_DT" type="DATE"/>
+        </loadData>
         <loadData tableName="KRIM_ROLE_MBR_ATTR_DATA_T" file="src/test/config/db/staging/krim_role_mbr_attr_data_t.csv" />
         <loadData tableName="KRLC_CMP_T" file="src/test/config/db/staging/krlc_cmp_t.csv" />
     </changeSet>
@@ -72,6 +74,7 @@
             <column name="BATCH_END_PAY_PERIOD_DATE" header="BATCH_END_PAY_PERIOD_DATE" type="DATETIME" />
             <column name="BATCH_EMPLOYEE_APPROVAL_DATE" header="BATCH_EMPLOYEE_APPROVAL_DATE" type="DATETIME" />
             <column name="BATCH_SUPERVISOR_APPROVAL_DATE" header="BATCH_SUPERVISOR_APPROVAL_DATE" type="DATETIME" />
+            <column name="BATCH_PAYROLL_APPROVAL_DATE" header="BATCH_PAYROLL_APPROVAL_DATE" type="DATETIME" />
         </loadData>
         <loadData tableName="HR_GRP_KEY_T" file="src/test/config/db/staging/hr_grp_key_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
@@ -128,17 +131,22 @@
     <changeSet id="5" author="kbtaylor" context="kpme-client-staging">
         <loadData tableName="LM_ACCRUAL_CATEGORY_T" file="src/test/config/db/staging/lm_accrual_category_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
         </loadData>
         <loadData tableName="LM_ACCRUAL_CATEGORY_RULES_T" file="src/test/config/db/staging/lm_accrual_category_rules_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
         </loadData>
         <loadData tableName="LM_LEAVE_PLAN_T" file="src/test/config/db/staging/lm_leave_plan_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
+            <column name="BATCH_CARRY_OVER_START_TIME" header="BATCH_CARRY_OVER_START_TIME" type="DATE" />
         </loadData>
         <loadData tableName="LM_SYS_SCHD_TIMEOFF_T" file="src/test/config/db/staging/lm_sys_schd_timeoff_t.csv">
             <column name="ACCR_DT" header="ACCR_DT" type="DATE" />
             <column name="SCH_TIME_OFF_DT" header="SCH_TIME_OFF_DT" type="DATE" />
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
         </loadData>
     </changeSet>
     
@@ -149,18 +157,24 @@
         <loadData tableName="TK_ASSIGN_ACCT_T" file="src/test/config/db/staging/tk_assign_acct_t.csv" />
         <loadData tableName="TK_DEPT_LUNCH_RL_T" file="src/test/config/db/staging/tk_dept_lunch_rl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
         </loadData>
         <loadData tableName="TK_SHIFT_DIFFERENTIAL_RL_T" file="src/test/config/db/staging/tk_shift_differential_rl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="BEGIN_TS" header="BEGIN_TS" type="TIME" />
+            <column name="END_TS" header="END_TS" type="TIME" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
         </loadData>
         <loadData tableName="TK_TASK_T" file="src/test/config/db/staging/tk_task_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
         </loadData>
         <loadData tableName="TK_TIME_COLLECTION_RL_T" file="src/test/config/db/staging/tk_time_collection_rl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
         <loadData tableName="TK_WEEKLY_OVERTIME_RL_T" file="src/test/config/db/staging/tk_weekly_overtime_rl_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
         </loadData>
         <loadData tableName="TK_WORK_AREA_T" file="src/test/config/db/staging/tk_work_area_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
@@ -184,6 +198,7 @@
         </loadData>
         <loadData tableName="PM_PSTN_FLG_T" file="src/test/config/db/staging/pm_pstn_flg_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" header="TIMESTAMP" type="DATETIME" />
         </loadData>
         <loadData tableName="PM_PSTN_QLFR_TYP_T" file="src/test/config/db/staging/pm_pstn_qlfr_typ_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />

@@ -56,7 +56,6 @@ import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -306,7 +305,7 @@ public class LeavePayoutAction extends KPMEAction {
 		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","leavePayout.transferAmount.adjust");
 		LeavePayoutForm btf = (LeavePayoutForm) form;
 
-		List<LeaveBlockBo> eligiblePayouts = (List<LeaveBlockBo>) request.getSession().getAttribute("eligibilities");
+		List<LeaveBlock> eligiblePayouts = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
 		if(!eligiblePayouts.isEmpty()) {
 			
 			Collections.sort(eligiblePayouts, new Comparator() {
@@ -327,7 +326,7 @@ public class LeavePayoutAction extends KPMEAction {
 			LeaveCalendarDocument lcd = LmServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 			
 			String principalId = lcd == null ? null : lcd.getPrincipalId();
-			LeaveBlockBo leaveBlock = eligiblePayouts.get(0);
+			LeaveBlockBo leaveBlock = LeaveBlockBo.from(eligiblePayouts.get(0));
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
             AccrualCategoryRuleContract accrualRule = leaveBlock.getAccrualCategoryRule();
 			if(accrualRule != null) {
@@ -346,7 +345,7 @@ public class LeavePayoutAction extends KPMEAction {
 					leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
 					// May need to update to save the business object to KPME's tables for record keeping.
 					LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());
-					KRADServiceLocatorWeb.getLegacyDataAdapter().save(leavePayout);
+                    LmServiceLocator.getLeavePayoutService().saveOrUpdate(leavePayout);
                     LeaveBlock.Builder builder = LeaveBlock.Builder.create(forfeitedLeaveBlock);
 					builder.setRequestStatus(HrConstants.REQUEST_STATUS.APPROVED);
 					LmServiceLocator.getLeaveBlockService().updateLeaveBlock(builder.build(), principalId);
@@ -400,7 +399,7 @@ public class LeavePayoutAction extends KPMEAction {
 		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","leavePayout.transferAmount.adjust");
 		LeavePayoutForm btf = (LeavePayoutForm) form;
 
-		List<LeaveBlockBo> eligiblePayouts = (List<LeaveBlockBo>) request.getSession().getAttribute("eligibilities");
+		List<LeaveBlock> eligiblePayouts = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
 		if(!eligiblePayouts.isEmpty()) {
 			
 			Collections.sort(eligiblePayouts, new Comparator() {
@@ -421,7 +420,7 @@ public class LeavePayoutAction extends KPMEAction {
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
 			String principalId = tsd == null ? null : tsd.getPrincipalId();
 			
-			LeaveBlockBo leaveBlock = eligiblePayouts.get(0);
+			LeaveBlockBo leaveBlock = LeaveBlockBo.from(eligiblePayouts.get(0));
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
 			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
             AccrualCategoryRuleContract accrualRule = leaveBlock.getAccrualCategoryRule();
@@ -438,7 +437,7 @@ public class LeavePayoutAction extends KPMEAction {
 						// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
 						// Do not submit the object to workflow for this max balance action.
 						leavePayout = LmServiceLocator.getLeavePayoutService().payout(leavePayout);
-						KRADServiceLocatorWeb.getLegacyDataAdapter().save(leavePayout);
+                        LmServiceLocator.getLeavePayoutService().saveOrUpdate(leavePayout);
 	
 						// May need to update to save the business object to KPME's tables for record keeping.
 						LeaveBlock forfeitedLeaveBlock = LmServiceLocator.getLeaveBlockService().getLeaveBlock(leavePayout.getForfeitedLeaveBlockId());

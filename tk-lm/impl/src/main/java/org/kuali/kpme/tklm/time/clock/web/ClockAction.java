@@ -38,6 +38,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.kpme.core.api.assignment.Assignment;
@@ -104,6 +106,11 @@ public class ClockAction extends TimesheetAction {
         TimesheetDocument timesheetDocument = clockActionForm.getTimesheetDocument();
         clockActionForm.setShowClockButton(true);
         if (timesheetDocument != null) {
+        	DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd/yyyy");
+        	String fromDateString = formatter.print(timesheetDocument.getCalendarEntry().getBeginPeriodLocalDateTime());
+        	String toDateString = formatter.print(timesheetDocument.getCalendarEntry().getEndPeriodLocalDateTime());
+        	
+        	clockActionForm.setDistributionPeriod(fromDateString +" - "+toDateString);
 	        if (!timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.ENROUTE)
 	                && !timesheetDocument.getDocumentHeader().getDocumentStatus().equals(HrConstants.ROUTE_STATUS.FINAL)) {
         	
@@ -294,14 +301,16 @@ public class ClockAction extends TimesheetAction {
         String ip = TKUtils.getIPAddressFromRequest(request);
 
         Assignment assignment = caf.getTimesheetDocument().getAssignment(AssignmentDescriptionKey.get(caf.getSelectedAssignment()), LocalDate.now());
-        
+                
         // check if User takes action from Valid location.
-        String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
-        if(StringUtils.equals(allowActionFromInvalidLocaiton, "false")) {
-	        boolean isInValid = TkServiceLocator.getClockLocationRuleService().isInvalidIPClockLocation(assignment.getGroupKeyCode(), assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ip, currentDateTime.toLocalDate());
-	        if(isInValid){
-	        	caf.setErrorMessage("Could not take the action as Action taken from  "+ ip + ",  is not a valid IP address.");
-	            return mapping.findForward("basic");
+        if(pId.equalsIgnoreCase(GlobalVariables.getUserSession().getPrincipalId())) {
+	        String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
+	        if(StringUtils.equals(allowActionFromInvalidLocaiton, "false")) {
+		        boolean isInValid = TkServiceLocator.getClockLocationRuleService().isInvalidIPClockLocation(assignment.getGroupKeyCode(), assignment.getDept(), assignment.getWorkArea(), assignment.getPrincipalId(), assignment.getJobNumber(), ip, currentDateTime.toLocalDate());
+		        if(isInValid){
+		        	caf.setErrorMessage("Could not take the action as Action taken from  "+ ip + ",  is not a valid IP address.");
+		            return mapping.findForward("basic");
+		        }
 	        }
         }
         
@@ -323,10 +332,8 @@ public class ClockAction extends TimesheetAction {
         
         LocalDate beginDate = LocalDate.now();
         DateTime clockTimeWithGraceRule = new DateTime(beginDate.toDateTimeAtCurrentTime());
-        String gpRuleConfig = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.KPME_GRACE_PERIOD_RULE_CONFIG);
-        if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
-   	 		clockTimeWithGraceRule = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeWithGraceRule, beginDate);
-        }
+        clockTimeWithGraceRule = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeWithGraceRule, beginDate);
+       
         // validate if there's any overlapping with existing time blocks
         if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
             ClockLog lastLog = null;
@@ -430,9 +437,10 @@ public class ClockAction extends TimesheetAction {
 	        			// validation with previous calendar entry
 	        			// the datetime for the new clock log that's about to be created with grace period rule applied
 	        			DateTime endDateTime = new DateTime(outLogDateTime.getMillis());
-	        			if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
-	        				endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(outLogDateTime, previousCalEntry.getBeginPeriodFullDateTime().toLocalDate());
-	        			}
+	        			endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(outLogDateTime, previousCalEntry.getBeginPeriodFullDateTime().toLocalDate());
+//	        			if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
+//	        				endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(outLogDateTime, previousCalEntry.getBeginPeriodFullDateTime().toLocalDate());
+//	        			}
 	        			if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
                             endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
                         }
@@ -445,9 +453,11 @@ public class ClockAction extends TimesheetAction {
 	        			// validation with the next calendar entry
 		   	             // the datetime for the new clock log that's about to be created with grace period rule applied
 	        			endDateTime = currentDateTime;
-	        			if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
-	        				endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(currentDateTime, nextCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
-	        			}
+	        			endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(currentDateTime, nextCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+	        			
+//	        			if(gpRuleConfig!=null && StringUtils.equals(gpRuleConfig, TkConstants.GRACE_PERIOD_RULE_CONFIG.CLOCK_ENTRY)){
+//	        				endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(currentDateTime, nextCalendarEntry.getBeginPeriodFullDateTime().toLocalDate());
+//	        			}
                         if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
                             endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
                         }
@@ -482,12 +492,17 @@ public class ClockAction extends TimesheetAction {
 	                if (lastLog != null) {
 		   	            // the datetime for the new clock log that's about to be created with grace period rule applied
 	                	DateTime endDateTime  = new DateTime();
-	                	if(gpRuleConfig!=null && gpRuleConfig.equals("CLOCK")){
-	                		endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endDateTime, caf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
-                            if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
-                                endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
-                            }
+	                	endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endDateTime, caf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
+	                	if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
+                            endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
                         }
+	                	
+//	                	if(gpRuleConfig!=null && gpRuleConfig.equals("CLOCK")){
+//	                		endDateTime = TkServiceLocator.getGracePeriodService().processGracePeriodRule(endDateTime, caf.getCalendarEntry().getBeginPeriodFullDateTime().toLocalDate());
+//                            if (lastLog.getClockDateTime().withMillisOfSecond(0).equals(endDateTime.withMillisOfSecond(0))) {
+//                                endDateTime = endDateTime.withMillisOfSecond(lastLog.getClockDateTime().getMillisOfSecond() + 1);
+//                            }
+//                        }
 		   	         	boolean validation = this.validateOverlapping(caf.getTimesheetDocument().getAsOfDate(), caf.getTimesheetDocument().getTimeBlocks(), lastLog.getClockDateTime(), endDateTime,assignment);
 	        			if(!validation) {
 	        				 caf.setErrorMessage(TIME_BLOCK_OVERLAP_ERROR);

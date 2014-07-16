@@ -26,7 +26,7 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PayStepMaintenanceDocument" parent="PayStepMaintenanceDocument-parentBean"/>
-  <bean id="PayStepMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+  <bean id="PayStepMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocument">
   		<property name="dataObjectClass" value="org.kuali.kpme.core.paystep.PayStepBo"/>
   		<property name="businessRulesClass" value="org.kuali.kpme.core.paystep.validation.PayStepValidation"/>
   		<property name="maintainableClass" value="org.kuali.kpme.core.paystep.web.PayStepMaintainableImpl"/>

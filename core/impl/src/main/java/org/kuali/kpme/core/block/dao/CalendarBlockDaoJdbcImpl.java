@@ -49,11 +49,11 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
-				String query = "SELECT begin_ts, end_ts, lm_leave_block_id as c_block_id, 'Leave' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, principal_id_modified as user_principal_id, timestamp, task, work_area, earn_code, " +
+				String query = "SELECT begin_ts, end_ts, lm_leave_block_id as c_block_id, 'Leave' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, principal_id_modified as user_principal_id, timestamp, task, grp_key_cd, work_area, earn_code, " +
 								"'N' as lunch_deleted, null as overtime_pref, null as hours, leave_amount as amount " +
 								 "FROM lm_leave_block_t " +
 								 "UNION " +
-								 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code, " +
+								 "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, grp_key_cd, work_area, earn_code, " +
 								"lunch_deleted, ovt_pref as overtime_pref, hours, amount " +
 								 "FROM tk_time_block_t;";
 				
@@ -74,7 +74,7 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn)
 					throws SQLException {
-				String query = "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, work_area, earn_code " +
+				String query = "SELECT begin_ts, end_ts, tk_time_block_id as c_block_id, 'Time' as c_block_type, document_id, job_number, obj_id, ver_nbr, principal_id, user_principal_id, timestamp, task, grp_key_cd, work_area, earn_code " +
 						 		"FROM tk_time_block_t";
 				
 				return conn.prepareStatement(query);
@@ -107,6 +107,7 @@ public class CalendarBlockDaoJdbcImpl extends PlatformAwareDaoBaseJdbc implement
 			cBlock.setOvertimePref(rs.getString("OVERTIME_PREF"));
 			cBlock.setLunchDeleted(rs.getBoolean("LUNCH_DELETED"));
 			cBlock.setTask(rs.getLong("TASK"));
+            cBlock.setGroupKeyCode(rs.getString("GRP_KEY_CD"));
 			cBlock.setWorkArea(rs.getLong("WORK_AREA"));
 			cBlock.setTimestamp(rs.getTimestamp("TIMESTAMP"));
 			return cBlock;

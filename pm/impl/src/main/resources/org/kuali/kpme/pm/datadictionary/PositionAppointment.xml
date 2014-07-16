@@ -81,8 +81,12 @@
   <!-- Position Appointment Lookup View -->
  
   <bean id="PositionAppointment-LookupView" parent="KPMEUif-GroupKeyedEffectiveDateBOLookupView">
+
     <property name="headerText" value="Position Appointment Lookup" />
     <property name="dataObjectClassName" value="org.kuali.kpme.pm.positionappointment.PositionAppointmentBo" />
+
+    <property name="viewHelperServiceClass" value="org.kuali.kpme.pm.positionappointment.web.PositionAppointmentLookupableImpl" />
+
     <property name="criteriaFields">
       <list merge="true">
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionAppointment" />

@@ -792,7 +792,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0009"/>
-            <where>AGENDA_ITM_ID = "KPME0008"</where>
+            <where>AGENDA_ITM_ID = 'KPME0008'</where>
         </update>
 
         <comment>Create Route To Primary Department Admin Rule</comment>
@@ -847,7 +847,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0010"/>
-            <where>AGENDA_ITM_ID = "KPME0009"</where>
+            <where>AGENDA_ITM_ID = 'KPME0009'</where>
         </update>
 
         <comment>Create Notify Previous Fiscal Department Approver Rule</comment>
@@ -902,7 +902,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0011"/>
-            <where>AGENDA_ITM_ID = "KPME0010"</where>
+            <where>AGENDA_ITM_ID = 'KPME0010'</where>
         </update>
 
         <comment>Create Notify Additional Fiscal Department Approvers Rule</comment>
@@ -957,7 +957,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0012"/>
-            <where>AGENDA_ITM_ID = "KPME0011"</where>
+            <where>AGENDA_ITM_ID = 'KPME0011'</where>
         </update>
 
         <comment>Create Route To Primary Fiscal Department Approver Rule</comment>
@@ -1012,7 +1012,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0013"/>
-            <where>AGENDA_ITM_ID = "KPME0012"</where>
+            <where>AGENDA_ITM_ID = 'KPME0012'</where>
         </update>
 
         <comment>Create Previous Department Approver Rule</comment>
@@ -1067,7 +1067,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0014"/>
-            <where>AGENDA_ITM_ID = "KPME0013"</where>
+            <where>AGENDA_ITM_ID = 'KPME0013'</where>
         </update>
 
         <comment>Create Primary Department Approver Rule</comment>
@@ -1122,7 +1122,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0015"/>
-            <where>AGENDA_ITM_ID = "KPME0014"</where>
+            <where>AGENDA_ITM_ID = 'KPME0014'</where>
         </update>
 
         <comment>Create Additional Organization HR Approvers Rule</comment>
@@ -1177,7 +1177,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0016"/>
-            <where>AGENDA_ITM_ID = "KPME0015"</where>
+            <where>AGENDA_ITM_ID = 'KPME0015'</where>
         </update>
 
         <comment>Create Organization HR Approver Rule</comment>
@@ -1232,7 +1232,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0017"/>
-            <where>AGENDA_ITM_ID = "KPME0016"</where>
+            <where>AGENDA_ITM_ID = 'KPME0016'</where>
         </update>
 
         <comment>Create Academic Location Rule</comment>
@@ -1325,7 +1325,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0018"/>
-            <where>AGENDA_ITM_ID = "KPME0017"</where>
+            <where>AGENDA_ITM_ID = 'KPME0017'</where>
         </update>
 
         <comment>Create Academic Institution Rule</comment>
@@ -1380,7 +1380,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0019"/>
-            <where>AGENDA_ITM_ID = "KPME0018"</where>
+            <where>AGENDA_ITM_ID = 'KPME0018'</where>
         </update>
 
         <comment>Create Location Rule</comment>
@@ -1473,7 +1473,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0020"/>
-            <where>AGENDA_ITM_ID = "KPME0019"</where>
+            <where>AGENDA_ITM_ID = 'KPME0019'</where>
         </update>
 
         <comment>Create Institution Rule</comment>
@@ -1528,7 +1528,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0021"/>
-            <where>AGENDA_ITM_ID = "KPME0020"</where>
+            <where>AGENDA_ITM_ID = 'KPME0020'</where>
         </update>
 
         <comment>Create Initiator Rule</comment>
@@ -1583,7 +1583,7 @@
 
         <update tableName="KRMS_AGENDA_ITM_T">
             <column name="ALWAYS" value = "KPME0022"/>
-            <where>AGENDA_ITM_ID = "KPME0021"</where>
+            <where>AGENDA_ITM_ID = 'KPME0021'</where>
         </update>
 
     </changeSet>

@@ -207,8 +207,8 @@
         </update>
 
         <addNotNullConstraint columnName="GRP_KEY_CD" tableName="TK_TIME_BLOCK_HIST_T" columnDataType="VARCHAR(30)"/>
-
-        <createIndex indexName="TK_TIME_BLOCK_HIST_IDX1" tableName="TK_TIME_BLOCK_T" unique="false">
+        <dropIndex indexName="TK_TIME_BLOCK_HIST_IDX3" tableName="TK_TIME_BLOCK_HIST_T" />
+        <createIndex indexName="TK_TIME_BLOCK_HIST_IDX3" tableName="TK_TIME_BLOCK_HIST_T" unique="false">
             <column name="PRINCIPAL_ID" />
             <column name="DOCUMENT_ID" />
             <column name="GRP_KEY_CD" />

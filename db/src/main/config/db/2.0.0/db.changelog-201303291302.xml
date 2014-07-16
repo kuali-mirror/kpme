@@ -19,10 +19,16 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    
-    <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
-        <comment>Converting Work Area roles</comment>
+
+    <changeSet id="1-oracle" author="kbtaylor" dbms="oracle" context="kpme-client-bootstrap">
+        <modifyDataType tableName="TK_WORK_AREA_T" columnName="OVERTIME_EDIT_ROLE" newDataType="VARCHAR(80)" />
+    </changeSet>
+    <changeSet id="1-mysql" author="kbtaylor" dbms="mysql" context="kpme-client-bootstrap">
         <modifyDataType tableName="TK_WORK_AREA_T" columnName="OVERTIME_EDIT_ROLE" newDataType="VARCHAR(80) NOT NULL" />
+    </changeSet>
+    <changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>Converting Work Area roles</comment>
+
         <update tableName="TK_WORK_AREA_T">
             <column name="OVERTIME_EDIT_ROLE" value="Employee"/>
             <where>OVERTIME_EDIT_ROLE = 'TK_EMPLOYEE'</where>

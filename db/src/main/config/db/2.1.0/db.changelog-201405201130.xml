@@ -35,10 +35,6 @@
 		<addColumn tableName="PM_PSTN_RPT_GRP_SUB_CAT_T">
 			<column name="INSTITUTION" type="VARCHAR(15)" />
 		</addColumn>
-		<dropNotNullConstraint tableName="PM_PSTN_RPT_GRP_SUB_CAT_T"
-			columnName="LOCATION" columnDataType="VARCHAR(15)" />
-		<dropNotNullConstraint tableName="PM_PSTN_RPT_GRP_SUB_CAT_T"
-			columnName="INSTITUTION" columnDataType="VARCHAR(15)" />
 	</changeSet>
 
 	<changeSet id="2" author="umehta" context="kpme-client-bootstrap">

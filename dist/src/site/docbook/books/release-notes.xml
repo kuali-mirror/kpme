@@ -18,32 +18,81 @@
 -->
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
-        <title>${project.name} ${project.version} Release Notes</title>
+        <title>${project.parent.name} ${project.version} Release Notes</title>
         <edition>${project.version}</edition>
         <pubdate>Released: ${docbook.build.timestamp}</pubdate>
     </info>
     <section xml:id="overview" xreflabel="Overview">
         <title>Overview</title>
-        <para>Welcome to ${project.name} ${project.version}! </para>
+        <para>Welcome to ${project.parent.name} ${project.version}! </para>
+        <para>The KHR Team is happy to announce the release of version 2.1 of Kuali Human Resources (KHR).  
+            This release is an exciting milestone in the short history of KHR, with our new Position Management
+            module we are releasing the first piece of our core, traditional human resources modules! </para>
         <section>
-            <title>Release Highlights</title>
-            <para>This version of KPME is a patch release consisting of bug fixes and small items
-                needed by Kuali application partners.</para>
+            <title>Impacting Changes and Release Highlights</title>
+            <para>This version of KHR is a minor release consisting new modules, bug fixes, and
+                items needed by Kuali application partners.</para>
             <para>
                 <itemizedlist>
-                    <title>Highlights of this release include:</title>
-                    <listitem>
-                        <para>Bug fixes and requested fixes from implementors</para>
-                    </listitem>
+                    <title>Position Management:</title>
+                    <listitem><para>New! Position Management Module</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <title>Core:</title>
+                    <listitem><para>Group key added, single and multiple</para></listitem>
+                    <listitem><para>Converted most of the HR/Payroll maintenance documents to KRAD (KPME-3227)</para></listitem>
+                    <listitem><para>Created immutable model objects for most of the Business Objects</para></listitem>
+                    <listitem><para>Derived objects and changres to lookups (refactoring)</para></listitem>
+                    <listitem><para>Added more options to the dropdown list that takes user back to the Rice portal (KPME-3327)</para></listitem>
+                    <listitem><para>Restructured the layout of our default portal (KPME-3278)</para></listitem>
+                    <listitem><para>Renamed KPME to KHR and changed the logo</para></listitem>
+                    <listitem><para>Add "newer" record validation to all maintenance documents (KPME-2702)</para></listitem>
+                    <listitem><para>Move userPrincipalId to HrBUsinessObject and persist the value to databas (KPME-2624)</para></listitem>
+                    <listitem><para>Move Service interfaces to API (KPME-2509)</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <title>Timekeeping and Leave Management:</title>
+                    <listitem><para>Changed the top navigation section of approval pages (KPME-3328)</para></listitem>
+                    <listitem><para>Lookup/view of scheduled batch jobs (KPME-3343)</para></listitem>
+                    <listitem><para>Added Holiday Premium to system scheduled time off (KPME-3161)</para></listitem>
+                    <listitem><para>Warning and Rules Recalculation (KPME-3494)</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <title>Timekeeping:</title>
+                    <listitem><para>Shif differential rule rewrite (KPME-3158)</para></listitem>
+                    <listitem><para>Timesheet not ready for approval criteria added (KPME-2997)</para></listitem>
+                    <listitem><para>Removed system lunch rule (KPME-3532)</para></listitem>
+                    <listitem><para>Added system configuration option to CLock Location Rule for hard stop for clock-in (KPME-3262)</para></listitem>
+                    <listitem><para>Changed the default page size for Lookup results for KRAD maintenance documents (KPME-3102)</para></listitem>
+                    <listitem><para>Time Approval Tab add icon indicating missed punch timeblock in on timesheet (KPME-3085)</para></listitem>
+                    <listitem><para>Add icon to mark timeblocsk with missed punch associated clocks (KPME-2975)</para></listitem>
+                    <listitem><para>Missed Punch routing now uses PeopleFlow (KPME-3265)</para></listitem>
+                    <listitem><para>Added paramater options fo applying Grace Period Rules to time blocks (KPME-3457)</para></listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <title>Leave Management:</title>
+                    <listitem><para>Added configuration option to no display the Leave Summary's FMLA YTD Column (KPME-3263)</para></listitem>
+                    <listitem><para>Added feature to download approved leave requests (KPME-2996)</para></listitem>
+                    <listitem><para>Improved Approve Leave Request interface (KPME-2995)</para></listitem>
                 </itemizedlist>
             </para>
         </section>
         <section>
             <title>Download</title>
-            <para>KPME ${project.version} can be downloaded from the Kuali website at <link xlink:show="new" xlink:href="http://www.kuali.org/download/kpme">http://www.kuali.org/download/kpme</link>.</para>
+            <para>KHR ${project.version} can be downloaded from the Kuali website at <link
+                    xlink:show="new" xlink:href="http://www.kuali.org/download/kpme"
+                    >http://www.kuali.org/download/kpme</link>.</para>
             <para>There is a single zip file which contains both the source and binaries.  Please read the Installation Guide for
                 more details on setup of these downloads</para>
-            <para>Applications can also consume KPME from the maven site at <link
+            <para>Applications can also consume KHR from the maven site at <link
                     xlink:href="http://search.maven.org/#search|ga|1|org.kuali.kpme"
                     >http://search.maven.org/#search|ga|1|org.kuali.kpme</link>.</para>
         </section>
@@ -58,28 +107,14 @@
                 any outdated information.</para>
         </section>
         <section>
-            <title>Impacting Changes</title>
-            <section>
-                <title>New routing for Missed Punch</title>
-                <itemizedlist>
-                    <listitem>
-                        <para>To used peopleflow based routing for Missed Punch, you should reingest the
-                            appropriate workflow xml documents</para>
-                    </listitem>
-                </itemizedlist>
-            </section>
-
-        </section>
-        <section>
             <title>Contact</title>
-            <para>If you encounter any difficulty, please don't hesitate to contact the KPME team on
+            <para>If you encounter any difficulty, please don't hesitate to contact the KHR team on
                 our public collaboration mailing list at <email>kpme.tech.collab@kuali.org</email>.
-                Please indicate that you are using the ${project.version} version of KPME.</para>
+                Please indicate that you are using the ${project.version} version of KHR.</para>
         </section>
     </section>
     <section xml:id="items_addressed_in_kpme">
-        <title>Items Addressed in KPME ${project.version}</title>
-
+        <title>Items Addressed in KHR ${project.version}</title>
 
 
         <section>
@@ -87,67 +122,145 @@
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2918'>KPME-2918</link>] - submitting maint docs from dept admin tab return to rice portal</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3657'>KPME-3657</link>] - Grace rule not being applied when Reviewer role edits timeblock</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3195'>KPME-3195</link>] - Department and Location Admins targeting an Approver</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3658'>KPME-3658</link>] - inapprover1 time approval stace trace error</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3197'>KPME-3197</link>] - missed punch on overnight tb on first day of the pay period</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3661'>KPME-3661</link>] - Weird characters on person info tab</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3247'>KPME-3247</link>] - Payroll Processor job needs added to scheduler</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3662'>KPME-3662</link>] - clock location rule not triggering with dept wildcard</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3294'>KPME-3294</link>] - Delete enroute timesheet and leave calendar </para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3664'>KPME-3664</link>] - Time Summary not showing timeblocks when ee and approver have different timezones</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3299'>KPME-3299</link>] - Overlapping tb can be added</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3665'>KPME-3665</link>] - Clock out gives stack trace error</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3305'>KPME-3305</link>] - After Submitting Missed Punch doc Internet Explorer doesn't update clock status</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3666'>KPME-3666</link>] - Internet Explorer issues with icons</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3308'>KPME-3308</link>] - Not able to submit Leave Payout and Balance Transfer</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3667'>KPME-3667</link>] - approvers can't access missed punch documents to approve them</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3311'>KPME-3311</link>] - issue with creating consecutive 24 hours timeblocks</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3669'>KPME-3669</link>] - update staging data for missed punch permissions</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3333'>KPME-3333</link>] - Supervisor Approval batch process finalizes for Payroll Processor</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3670'>KPME-3670</link>] - Not able to submit Leave calendars for approval</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3359'>KPME-3359</link>] - Admin can Clock In targeted employees with multiple assignments</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3671'>KPME-3671</link>] - Approver Delegate shows as approver for both work areas</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3361'>KPME-3361</link>] - CI/CO Issue with grace period rule</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3674'>KPME-3674</link>] - approve missed punch stack trace error</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3365'>KPME-3365</link>] - TimeSummary contains invalid getAssignment logic</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3676'>KPME-3676</link>] - Lunch Deduction Rule is not being applied</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3450'>KPME-3450</link>] - Approval tab paging</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3677'>KPME-3677</link>] - Error with distribute timeblocks button</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3456'>KPME-3456</link>] - Clock Log Inquiry Missed Punch is not working</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3678'>KPME-3678</link>] - stack trace error with transfer leave on approval time user</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3459'>KPME-3459</link>] - Change tb with overtime's assignment should change Default Overtime Earn Code </para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3679'>KPME-3679</link>] - stack trace error with payout on approval</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3462'>KPME-3462</link>] - Approvers should not be able to approve their own missed punch docs</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3680'>KPME-3680</link>] - stack trace error with losing leave on approval time user</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3466'>KPME-3466</link>] - New clock user's Missed Punch allowing time that is greater 24 hours </para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3682'>KPME-3682</link>] - Max balance payout on requests text appearing that shouldn't</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3487'>KPME-3487</link>] - Clock out on last day of pay period with MDT &amp; PDT</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3683'>KPME-3683</link>] - Issues to available assignments with clock location rule</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3515'>KPME-3515</link>] - Non Submitted Missed Punch documents are being initiated with validation message</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3684'>KPME-3684</link>] - access to missed punch link from icon on time approval page</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3518'>KPME-3518</link>] - Week Pay Calendar issue with summary FLSA week total</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3685'>KPME-3685</link>] - stack trace error with change to assignment on clock logged timeblock</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3687'>KPME-3687</link>] - Group Key lookup doesn't need Group Key ID</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3688'>KPME-3688</link>] - Position Document's Responsibility section allows more then 100%</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3689'>KPME-3689</link>] - adding timeblock issue with targeting employees with later timezones</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3691'>KPME-3691</link>] - Delete Position document notes</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3692'>KPME-3692</link>] - max balance lose leave gives stack trace error</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3693'>KPME-3693</link>] - Issues permissions for the position related maint docs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3695'>KPME-3695</link>] - permissions on shift differential rule type document</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3696'>KPME-3696</link>] - Permissions for Organization, Institution, Department Affiliation</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3699'>KPME-3699</link>] - Position document validation with group key and department</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3701'>KPME-3701</link>] - stack trace error with timesheet and leave blocks</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+
+
+        <section>
+            <title>New Feature</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2003'>KPME-2003</link>] - Distribute Hours form - no way to delete extra (unneeded) assignment rows</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2975'>KPME-2975</link>] - Time Detail- mark timeblocks with mp assoc clocks</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2995'>KPME-2995</link>] - Approver Leave Request Interface</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2996'>KPME-2996</link>] - save approved leave requests to external calendar</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2997'>KPME-2997</link>] - Timesheet not ready for approval criteria</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3085'>KPME-3085</link>] - Time Approval Tab add icon indicating missed punch timeblock in on timesheet</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3161'>KPME-3161</link>] - Holiday Premium for SSTO</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3164'>KPME-3164</link>] - Scheduled job to check for employee's clocked in certain number of hours</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3338'>KPME-3338</link>] - create immutable model objects for remaining Core BOs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3343'>KPME-3343</link>] - View of the batch job scheduled</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3375'>KPME-3375</link>] - Create a grouping key to separate data for larger institutions</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3385'>KPME-3385</link>] - Create new Shift Differential Rule Type document</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3494'>KPME-3494</link>] - Warning and rule recalc</para>
                     </listitem>
                 </itemizedlist>
             </para>
@@ -159,31 +272,481 @@
             <para>
                 <itemizedlist>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3288'>KPME-3288</link>] - Refactor KPME Role Service Implementation code to remove duplication.</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2118'>KPME-2118</link>] - Institution Maintenance Document </para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3341'>KPME-3341</link>] - Make methods on WorkAreaMaintinanceDocumentRule protected</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2119'>KPME-2119</link>] - Position Report Type maint doc</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3362'>KPME-3362</link>] - Approvers access to target past employees</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2120'>KPME-2120</link>] - Position Report Category maint doc</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3364'>KPME-3364</link>] - Assignment maint doc:  remove required * on Primary Assignment</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2121'>KPME-2121</link>] - Position Report Sub Category maint doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2122'>KPME-2122</link>] - Position Reporting Group Sub Categories maint doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2123'>KPME-2123</link>] - Position Reporting Group maint doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2209'>KPME-2209</link>] - Add Position Management section to maintenance tab</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2223'>KPME-2223</link>] - Pay Step Maint Doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2224'>KPME-2224</link>] - Pay Grade maint doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2241'>KPME-2241</link>] - Salary Group maint doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2244'>KPME-2244</link>] - Position Type Maint Doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2245'>KPME-2245</link>] - Position Classification Maint Doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2246'>KPME-2246</link>] - Position Data</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2252'>KPME-2252</link>] - Pay Type</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2267'>KPME-2267</link>] - Position Flags</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2276'>KPME-2276</link>] - Position Qualifier Type</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2360'>KPME-2360</link>] - Position Classification Maint doc - Utilize features from KRAD 2.3 in table collections to display different options for different lines</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2368'>KPME-2368</link>] - Rice fix needed: Convert promptBeforeValidation calls to KRAD equivalent by deploying a KRAD maintenance doc action controller.</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2376'>KPME-2376</link>] - Research using KRMS for Position Transaction</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2379'>KPME-2379</link>] - Change Campus to Location</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2414'>KPME-2414</link>] - Maintenance Tab Position Management section links alpha order</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2454'>KPME-2454</link>] - Location needs to allow wildcard</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2457'>KPME-2457</link>] - Process Maintenance Documents</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2463'>KPME-2463</link>] - Position maintenance</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2509'>KPME-2509</link>] - Move Service interfaces to API and annotate if necessary</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2583'>KPME-2583</link>] - Put Classification fields on Position in pm module.</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2588'>KPME-2588</link>] - Calendar Entry: add Calendar Type as a lookup field</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2624'>KPME-2624</link>] - Move userPrincipalId to HrBusinessObject and persist the value to database</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2644'>KPME-2644</link>] - Earn Code Document: not correctly validating accrual category</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2686'>KPME-2686</link>] - Review default values on required columns of Position</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2689'>KPME-2689</link>] - PositionAppointmentLookupableImpl not working</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2691'>KPME-2691</link>] - Remove or Fix TimeDetailTestUtils.buildDetailActionForm</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2706'>KPME-2706</link>] - PositionReportSubCategory lookup page: quick finder of Postion Report Category gives stack trace error. </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2707'>KPME-2707</link>] - Position Department Doc: Department quick finder gives stack trace error</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2708'>KPME-2708</link>] - Position Classification lookup page: Position Type quick finder gives error</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2710'>KPME-2710</link>] - Salary Group lookup pag: Institution and location not included in the search logic</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2837'>KPME-2837</link>] - Rename EQUAL_TO_FIELDS in bos to BUSINESS_KEYS</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2948'>KPME-2948</link>] - Add version to the KPME delivered portal</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2949'>KPME-2949</link>] - 2.0.x to trunk merges</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2952'>KPME-2952</link>] - Set up liquibase structure for 2.1.0 changes</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2954'>KPME-2954</link>] - Add Position Channel back to Portal</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2957'>KPME-2957</link>] - Position Document UX POC Work</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2958'>KPME-2958</link>] - Position Maint Doc - Utilize features from KRAD 2.3 in table collections to display different options for different lines</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-2977'>KPME-2977</link>] - Accrl Cat - issues if you use same value for mult leave plans</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3000'>KPME-3000</link>] - Add missing tests to TKUtilsTest</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3001'>KPME-3001</link>] - PM Position Report Sub Category Lookup -  no input box for 'Position Report Category' or 'Position Report Type' </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3017'>KPME-3017</link>] - Miscellaneous small issues related to Position and Position Classification maint docs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3018'>KPME-3018</link>] - Dynamically change the control for Qualification type in Qualification List on Position and Classification docs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3031'>KPME-3031</link>] - absent not showing on leave calendar for time leave elig ee</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3040'>KPME-3040</link>] - Add missing tests to PmValidationUtilsTest</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3041'>KPME-3041</link>] - Finalize business keys for the following BOs (or maybe move them out of the HR BO hierarchy)</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3042'>KPME-3042</link>] - Create indexes for business key columns for HR business object tables.</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3051'>KPME-3051</link>] - Position type academic flag</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3052'>KPME-3052</link>] - Add Pay Grade to Position Classification</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3053'>KPME-3053</link>] - Data changes to Position Classification doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3054'>KPME-3054</link>] - Change the size of major fields to be 50 in Position Management tables</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3055'>KPME-3055</link>] - Make Position Doc's Department Affiliation drop down</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3056'>KPME-3056</link>] - Remove Position Department from Position Management console's menu</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3062'>KPME-3062</link>] - Move Department Affiliation to Core module</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3064'>KPME-3064</link>] - Remove Position Process pages for editing positions</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3086'>KPME-3086</link>] - Convert Position Report Sub Category to KRAD</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3087'>KPME-3087</link>] - Convert Position Report Group to KRAD</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3088'>KPME-3088</link>] - Convert Position Report Category to KRAD</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3089'>KPME-3089</link>] - Convert Position Report Type to KRAD</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3090'>KPME-3090</link>] - PositionResponsibility should NOT be a subclass of HrBusinessObject</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3093'>KPME-3093</link>] - Add Accrual Balance Action validation to Earn Code maint</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3094'>KPME-3094</link>] - Leave Block types used to calculate Leave Summary</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3095'>KPME-3095</link>] - Change validationPatterns in KRAD docs to validationContraints</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3098'>KPME-3098</link>] - Remove fields from Salary Group Lookup</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3099'>KPME-3099</link>] - Remove fields from Position Classification Lookup</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3102'>KPME-3102</link>] - Change the default page size for Lookup results for KRAD maint docs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3131'>KPME-3131</link>] - Position Document Classification section: Position Classification ID should be Classification</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3132'>KPME-3132</link>] - Position doc Qualification section format read only required quals</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3133'>KPME-3133</link>] - Position Classification Qualifications qualifier auto selected and accept spaces</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3134'>KPME-3134</link>] - Position's Qualification section auto selected qualifier </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3135'>KPME-3135</link>] - Position Flags should not be allow duplicate flags to be added</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3136'>KPME-3136</link>] - Position Document Funding's section scrolling issue</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3137'>KPME-3137</link>] - Position Document's Notes and Attachments section</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3140'>KPME-3140</link>] - Position Doc:stack trace when selected Flag Category</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3141'>KPME-3141</link>] - Position Doc: Location dropdown should filter by Institution</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3146'>KPME-3146</link>] - Replace all BO-specific KNS and KRAD lookup helpers, lookupable impls and DAOs with a single generalized helper, impl and DAO.</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3152'>KPME-3152</link>] - Next section links on Position document </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3153'>KPME-3153</link>] - Remove Institution and Location from Position Responsibility section</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3154'>KPME-3154</link>] - Add position required fields to Overview section</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3155'>KPME-3155</link>] - Position Document Department section add line fields</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3156'>KPME-3156</link>] - Position Document Funding Section</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3158'>KPME-3158</link>] - Shift Differential Rule</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3182'>KPME-3182</link>] - Position: Contract Type does not exist error </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3183'>KPME-3183</link>] - Position Doc: move Temporary, Contract, and Contract Type up in the order</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3184'>KPME-3184</link>] - Department Table needs Institution as a new field</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3189'>KPME-3189</link>] - Position Lookup: Add Primary Department as search field</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3192'>KPME-3192</link>] - Rice fix needed: Position Doc: Required fields are not indicated on Edit </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3198'>KPME-3198</link>] - Position Roles</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3227'>KPME-3227</link>] - KRAD HR/Payroll Maintenance Doc Conversion</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3248'>KPME-3248</link>] - Position Qualifier Type maint doc Select Values </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3252'>KPME-3252</link>] - update trunk to use rice 2.3.4 snapshot</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3254'>KPME-3254</link>] - Pay Grade maint doc validation on the Rate attributes</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3255'>KPME-3255</link>] - Pay Grade maint doc fixes needed</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3259'>KPME-3259</link>] - Add feed back messages to actions taken on Maitenance page</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3260'>KPME-3260</link>] - Add Calculate Leave Accruals for employees with seledcted leave plan option in  Maintenance page for Admin</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3261'>KPME-3261</link>] - Modular use of Position Base </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3262'>KPME-3262</link>] - Clock Location Rule add system config option for hard stop for clock in</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3263'>KPME-3263</link>] - Option to not display the Leave Summary's FMLA YTD Column</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3264'>KPME-3264</link>] - Data dictionary refactoring</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3265'>KPME-3265</link>] - Missed punch routing to use People Flow</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3269'>KPME-3269</link>] - Position document display working title of Reports To Position #</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3270'>KPME-3270</link>] - Position document attribute lookups that should include wildcards</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3271'>KPME-3271</link>] - Format view of Position document</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3272'>KPME-3272</link>] - Stop using autoSearch in all krad xml files untile the bug is fixed by rice</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3273'>KPME-3273</link>] - Override DocPresentationControllerBean to fix displaying cancel link after submission</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3278'>KPME-3278</link>] - KPME Default Portal Restructure</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3289'>KPME-3289</link>] - Add missing attributes to data dictionary to accomodate recent Rice changes</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3290'>KPME-3290</link>] - Change Position Classification sections to similar format of Position doc</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3291'>KPME-3291</link>] - Add configuration parameters for displaying Position document sections</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3292'>KPME-3292</link>] - Position document add Process to Position Overview section</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3295'>KPME-3295</link>] - Find a way to stop the error popup window showing up on KRAD maint docs </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3298'>KPME-3298</link>] - Editable fields on Position document for selected Process </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3300'>KPME-3300</link>] - Remove New from the Process drop down for edited documents</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3302'>KPME-3302</link>] - KRAD documents initated from the Time &amp; Leave Admin page should return to that page</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3304'>KPME-3304</link>] - Make all the collection objects under Position to extend PersistableBusinessObjectBase</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3312'>KPME-3312</link>] - A couple of issues related to roles in multiple KRAD documents</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3313'>KPME-3313</link>] - Create a hierarchy for "Derived" bos used in business object like Position and Classification</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3315'>KPME-3315</link>] - Position document shows wrong error message</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3316'>KPME-3316</link>] - Make Active field not required on maintenance documents</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3319'>KPME-3319</link>] - Position Classification search and lookup remove External Reference</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3320'>KPME-3320</link>] - Salary Group maint doc should not allow salary group name change</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3322'>KPME-3322</link>] - TK/LM Admin Action tab returns to portal</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3323'>KPME-3323</link>] - clock log inquiry should be a KRAD inquiry</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3324'>KPME-3324</link>] - Add "Principal Name" to the Change Target Person channel</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3325'>KPME-3325</link>] - Position document:  Warning with change of Process</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3327'>KPME-3327</link>] - Add options to Time/Leave portal drop down to rice portal</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3328'>KPME-3328</link>] - Filters, Search, Top Navigation for Approval tabs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3329'>KPME-3329</link>] - Select All column and approval buttons on approval tabs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3330'>KPME-3330</link>] - Position Flag lookup page throws error</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3332'>KPME-3332</link>] - Add fields used in timeApproval page to MissedPunch</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3334'>KPME-3334</link>] - Leave Request Approval page throws error</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3335'>KPME-3335</link>] - Clock page display active assignments</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3336'>KPME-3336</link>] - Replace assignment list with an Assignment History map on time detail and leave calendar</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3337'>KPME-3337</link>] - Available assignments with Clock Location Rule</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3346'>KPME-3346</link>] - stack trace error with KNS maint docs from TKLM Admin page</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3357'>KPME-3357</link>] - Change private methods in PositionValidation to protected</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3367'>KPME-3367</link>] - Add more tests to ActionFormUtilsTest</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3368'>KPME-3368</link>] - Reformat Funding section of Position document</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3369'>KPME-3369</link>] - Lookups on KRAD documents</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3370'>KPME-3370</link>] - Fiscal Years</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3374'>KPME-3374</link>] - Add unit tests for LeaveActionFormUtils</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3394'>KPME-3394</link>] - create immutable model objects for remaining Position BOs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3397'>KPME-3397</link>] - WorkArea adding role error with inactive roles </para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3398'>KPME-3398</link>] - Missed punch popup window not showing details in both time approval and calendar</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3406'>KPME-3406</link>] - KPME Maintenance menu reorder</para>
                     </listitem>
                     <listitem>
                         <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3411'>KPME-3411</link>] - Update 2.0 and trunk to rice 2.3.5</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3452'>KPME-3452</link>] - Click Notes, Warning, and Missed Punch icons to display instead of hover</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3420'>KPME-3420</link>] - Create unit test for PrincipalHRAttributesBo from and too methods</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3455'>KPME-3455</link>] - Make paging limit on approval tabs configurable</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3435'>KPME-3435</link>] - KHR Developer Setup Guide Update</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3461'>KPME-3461</link>] - Clock Action needs to increment millis from last clock log for grace period values</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3438'>KPME-3438</link>] - Create tests for TimesheetUtils</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3480'>KPME-3480</link>] - Decimal places for FLSA week column</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3439'>KPME-3439</link>] - Add more tests for PrincipalHRAttributesBoTest</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3440'>KPME-3440</link>] - Create a super inquiry view for all the bos that have groupKey</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3449'>KPME-3449</link>] - Select Multiple Group Keys on Position maint docs</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3457'>KPME-3457</link>] - Grace Period Rule Configuration</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3460'>KPME-3460</link>] - Add correct name space and permission to KPME Position Management Agenda </para>
                     </listitem>
                     <listitem>
                         <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3497'>KPME-3497</link>] - Missed Punch issues</para>
@@ -192,20 +755,53 @@
                         <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3506'>KPME-3506</link>] - Department Lunch Rule Maint doc misspelled</para>
                     </listitem>
                     <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3513'>KPME-3513</link>] - Group Key Default configuration</para>
+                    </listitem>
+                    <listitem>
                         <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3516'>KPME-3516</link>] - update khr to rice 2.3.6</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3517'>KPME-3517</link>] - ClockLog timestamp label fix</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3528'>KPME-3528</link>] - Remove Owner backlinks from Classification derived immutables</para>
                     </listitem>
                     <listitem>
-                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3527'>KPME-3527</link>] - Change 'can not' to cannot in validation messages</para>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3529'>KPME-3529</link>] - Missed Punch Icon change</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3532'>KPME-3532</link>] - Remove System Lunch Rule</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3535'>KPME-3535</link>] - EarnCodeGroup inquiry does not show collection of EarnCodeGroupDefinition</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3543'>KPME-3543</link>] - Remove department from the Assignment lookup</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3550'>KPME-3550</link>] - Change KPME images and references on UI to KHR</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3563'>KPME-3563</link>] - Create from/to static methods for PositionBaseBO interconversion to immutable, and also remove GrpKey from BK.</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3590'>KPME-3590</link>] - Improve time summary html id fields for automated testing validations</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3600'>KPME-3600</link>] - Add Link Timesheet doc search</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3602'>KPME-3602</link>] - Add access to "Go To" drop down links</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3608'>KPME-3608</link>] - Permissions issues with time and leave maint docs and inquiries</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3697'>KPME-3697</link>] - Add view only roles to View Position permission</para>
+                    </listitem>
+                    <listitem>
+                        <para>[<link xlink:href='https://jira.kuali.org/browse/KPME-3704'>KPME-3704</link>] - generate and test sql scripts</para>
                     </listitem>
                 </itemizedlist>
             </para>
         </section>
-
-
-
 
     </section>
 </article>
