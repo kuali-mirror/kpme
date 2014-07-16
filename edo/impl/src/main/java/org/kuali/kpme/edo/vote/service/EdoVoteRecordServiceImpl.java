@@ -66,6 +66,7 @@ public class EdoVoteRecordServiceImpl implements EdoVoteRecordService {
         return isNegative;
     }
 
+    /*
     public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(String edoDossierID) {
         EdoReviewLayerDefinition rld = null;
         String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(edoDossierID).getWorkflowId();
@@ -92,7 +93,7 @@ public class EdoVoteRecordServiceImpl implements EdoVoteRecordService {
         }
         return rld;
     }
-
+*/
     public EdoVoteRecord getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionId) {
     	EdoVoteRecordBo edoVoteRecordBo = edoVoteRecordDao.getVoteRecordMostCurrentRound(edoDossierID, edoReviewLayerDefinitionId);
     	

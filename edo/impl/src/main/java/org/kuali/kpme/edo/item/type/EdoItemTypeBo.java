@@ -1,9 +1,6 @@
 package org.kuali.kpme.edo.item.type;
 
-import java.lang.reflect.Type;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.item.type.EdoItemType;
@@ -12,8 +9,6 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class EdoItemTypeBo extends HrBusinessObject implements EdoItemTypeContract {
 

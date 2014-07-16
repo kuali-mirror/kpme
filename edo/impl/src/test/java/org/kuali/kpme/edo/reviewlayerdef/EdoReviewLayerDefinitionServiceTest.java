@@ -17,6 +17,9 @@ package org.kuali.kpme.edo.reviewlayerdef;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,75 +52,51 @@ public class EdoReviewLayerDefinitionServiceTest extends EdoUnitTestBase {
 		assertEquals("1000", edoReviewlayerDifinition.getEdoReviewLayerDefinitionId());
 	}
 	
-	/*
+	@Test
+	public void testGetReviewLayerDefinitionByWorkflowIdAndNodeName() throws Exception {
+		EdoReviewLayerDefinition edoReviewlayerDifinition = (EdoReviewLayerDefinition)EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition("1000", "nodeName");
+		
+		assertEquals("1000", edoReviewlayerDifinition.getEdoReviewLayerDefinitionId());
+	}
+	
+	@Test
+	public void testGetReviewLayerDefinitions() throws Exception {
+		
+		Collection<EdoReviewLayerDefinition> edoReviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions();
+		assertEquals(3, edoReviewLayerDefinitions.size());
+	}
+	
+	@Test
+	public void testGetReviewLayerDefinitionsByWorkflowId() throws Exception {
+		Collection<EdoReviewLayerDefinition> edoReviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionsByWorkflowId("1000");
+		
+		assertEquals(2, edoReviewLayerDefinitions.size());
+	}
+	
 	@Test
 	public void testSaveOrUpdate() throws Exception {
-		EdoVoteRecord immutable = (EdoVoteRecord)EdoServiceLocator.getEdoVoteRecordService().getEdoVoteRecord("1004");
-		EdoVoteRecordBo edoVoteRecordBo = EdoVoteRecordBo.from(immutable);
+		EdoReviewLayerDefinition immutable = (EdoReviewLayerDefinition)EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById("1010");
+		EdoReviewLayerDefinitionBo edoReviewLayerDefinitionBo = EdoReviewLayerDefinitionBo.from(immutable);
 		assertEquals("P", immutable.getVoteType());
 		
-		edoVoteRecordBo.setVoteType("T");
-		EdoServiceLocator.getEdoVoteRecordService().saveOrUpdate(EdoVoteRecord.Builder.create(edoVoteRecordBo).build());
+		edoReviewLayerDefinitionBo.setVoteType("T");
+		EdoServiceLocator.getEdoReviewLayerDefinitionService().saveOrUpdate(EdoReviewLayerDefinition.Builder.create(edoReviewLayerDefinitionBo).build());
 		
-		immutable = (EdoVoteRecord)EdoServiceLocator.getEdoVoteRecordService().getEdoVoteRecord("1004");
+		immutable = (EdoReviewLayerDefinition)EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById("1010");
 		assertEquals("T", immutable.getVoteType());
 	}
 	
 	@Test
-	public void testGetVoteRecords() throws Exception {
-		List<EdoVoteRecord> edoVoteRecords = new ArrayList<EdoVoteRecord>();
-		//Map<String, EdoReviewLayerDefinition> testReviewlayerDefinitionBo;
+	public void testGetReviewLayerDefinitionByNodeNameVoteTypeAndReviewLetter() throws Exception {
+		Collection<EdoReviewLayerDefinition> edoReviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions("nodeName", "T", "Y");
 		
-		//testReviewlayerDefinitionBo = new HashMap<String, EdoReviewLayerDefinition>();
+		assertEquals(1, edoReviewLayerDefinitions.size());
 		
-		EdoReviewLayerDefinition.Builder edoReviewLayerDefinitionBuilder = EdoReviewLayerDefinition.Builder.create();
-		edoReviewLayerDefinitionBuilder.setEdoReviewLayerDefinitionId("1000");
-		edoReviewLayerDefinitionBuilder.setNodeName("testNodeName");
-		edoReviewLayerDefinitionBuilder.setVoteType("tenure");
-		edoReviewLayerDefinitionBuilder.setDescription("description");
-		edoReviewLayerDefinitionBuilder.setReviewLetter(true);
-		edoReviewLayerDefinitionBuilder.setReviewLevel("1");
-		edoReviewLayerDefinitionBuilder.setRouteLevel("1");
-		edoReviewLayerDefinitionBuilder.setWorkflowId("1000");
-		edoReviewLayerDefinitionBuilder.setWorkflowQualifier("workflowQualifier");	
-		edoReviewLayerDefinitionBuilder.setUserPrincipalId("admin");
-		edoReviewLayerDefinitionBuilder.setVersionNumber(1L);
-		edoReviewLayerDefinitionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
-		edoReviewLayerDefinitionBuilder.setId(edoReviewLayerDefinitionBuilder.getEdoReviewLayerDefinitionId());
-		
-		EdoReviewLayerDefinition edoReviewLayerDefinition1 = edoReviewLayerDefinitionBuilder.build();
-		
-		
-		EdoReviewLayerDefinitionBo edoReviewLayerDefinition2 = new EdoReviewLayerDefinitionBo();
-		edoReviewLayerDefinition2.setEdoReviewLayerDefinitionId("1001");
-		edoReviewLayerDefinition2.setReviewLevel("1");
-		
-		List<EdoReviewLayerDefinition> edoReviewLayerDefinitions = new ArrayList<EdoReviewLayerDefinition>();
-		edoReviewLayerDefinitions.add(edoReviewLayerDefinition1);
-		
-		
-		edoVoteRecords = EdoServiceLocator.getEdoVoteRecordService().getVoteRecords("1000", edoReviewLayerDefinitions);
-		
+		if ( edoReviewLayerDefinitions.size() == 1 ){
+			for ( EdoReviewLayerDefinition edoReviewLayerDefinition : edoReviewLayerDefinitions){
+				assertEquals("1000", edoReviewLayerDefinition.getEdoReviewLayerDefinitionId());
+			}
+		}
+		//assertEquals("1000", edoReviewLayerDefinitions.contains(o).getEdoReviewLayerDefinitionId());
 	}
-	
-	@Test
-	public void testGetVoteRecordsByEdoReviewLayerDefinitionId() throws Exception {
-		EdoVoteRecord edoVoteRecord = (EdoVoteRecord)EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound("1000", "1001");
-		
-		assertEquals("1003", edoVoteRecord.getEdoVoteRecordID());
-	}
-	
-	@Test
-	public void testIsNegativeVote() throws Exception {
-		boolean isNegative = true;
-		
-		EdoVoteRecord aPositiveEdoVoteRecord = (EdoVoteRecord)EdoServiceLocator.getEdoVoteRecordService().getEdoVoteRecord("1000");
-		isNegative = EdoServiceLocator.getEdoVoteRecordService().isNegativeVote(aPositiveEdoVoteRecord);
-		assertEquals(false, isNegative);
-		
-		EdoVoteRecord aNegativeEdoVoteRecord = (EdoVoteRecord)EdoServiceLocator.getEdoVoteRecordService().getEdoVoteRecord("1002");
-		isNegative = EdoServiceLocator.getEdoVoteRecordService().isNegativeVote(aNegativeEdoVoteRecord);
-		assertEquals(true, isNegative);
-	}
-	*/
 }

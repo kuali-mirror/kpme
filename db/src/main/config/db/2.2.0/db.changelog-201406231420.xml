@@ -43,6 +43,9 @@
 			<column name="candidate_principalname" type="VARCHAR(45)" />
 			<column name="department_id" type="VARCHAR(12)" />
 			<column name="secondary_unit" type="VARCHAR(12)" />
+			<column name="ORG_CD" type="VARCHAR(10)">
+                <constraints nullable="false" />
+            </column>
 			<column name="aoe_code" type="VARCHAR(1)" />
 			<column name="current_rank" type="VARCHAR(32)" />
 			<column name="rank_sought" type="VARCHAR(32)" />
@@ -52,7 +55,7 @@
 			<column name="due_date" type="DATETIME" >
 				<constraints nullable="false"/>
 			</column>
-			<column name="GRP_KEY_CD" type="VARCHAR(30)" value="DEFAULT" >
+			<column name="GRP_KEY_CD" type="VARCHAR(30)" value="DEFAULT" defaultValue="DEFAULT" >
 				<constraints nullable="false"/>
 			</column>
 			<column name="USER_PRINCIPAL_ID" type="VARCHAR(40)"/>

@@ -4,11 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecordContract;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -41,9 +38,6 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
     private Integer voteRound;
     private Integer voteSubRound;
    
-    private EdoReviewLayerDefinitionBo reviewLayerDefinition;
-
-    
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
     		.add(KeyFields.EDO_DOSSIER_ID)
     		.add(KeyFields.EDO_REVIEW_LAYER_DEFINITION_ID)
@@ -175,16 +169,6 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
 	public void setAbstainCount(Integer abstainCount) {
 		this.abstainCount = abstainCount;
 	}
-
-	/*
-	public EdoReviewLayerDefinitionBo getReviewLayerDefinition() {
-        if (ObjectUtils.isNull(reviewLayerDefinition) && edoReviewLayerDefinitionId != null) {
-            String workflowID = EdoServiceLocator.getEdoDossierService().getEdoDossierById(this.edoDossierId.toString()).getWorkflowId();
-            this.reviewLayerDefinition = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(workflowID, edoReviewLayerDefinitionId);
-        }
-        return reviewLayerDefinition;
-    }*/
-    
    
 	public static EdoVoteRecordBo from(EdoVoteRecord edoVoteRecord) {
         if (edoVoteRecord == null) {

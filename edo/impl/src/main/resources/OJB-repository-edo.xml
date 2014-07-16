@@ -123,6 +123,8 @@
         <field-descriptor name="candidatePrincipalName" column="candidate_principalname" jdbc-type="VARCHAR" length="100" nullable="false"/>
         <field-descriptor name="departmentID" 		column="department_id" 		jdbc-type="VARCHAR" length="12" nullable="false"/>
         <field-descriptor name="secondaryUnit" 		column="secondary_unit" 	jdbc-type="VARCHAR" length="12" nullable="true"/>
+        <field-descriptor name="organizationCode" 	column="ORG_CD" 			jdbc-type="VARCHAR" nullable="false" length="10" primarykey="false" />
+		
         <field-descriptor name="aoeCode" 			column="aoe_code" 			jdbc-type="CHAR" 	length="1" nullable="true"/>    
         <field-descriptor name="currentRank" 		column="current_rank" 		jdbc-type="VARCHAR" length="32" nullable="false"/>
         <field-descriptor name="rankSought" 		column="rank_sought" 		jdbc-type="VARCHAR" length="32" nullable="false"/>										
@@ -213,6 +215,8 @@
         <field-descriptor name="lastUpdated" column="last_updated_date" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
         <field-descriptor name="updatedBy" column="updated_by" jdbc-type="VARCHAR" precision="16" scale="0" nullable="false"/>
         -->
+        <field-descriptor name="effectiveDate"  	column="EFFDT"    		 	jdbc-type="DATE"    nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+		<field-descriptor name="active"         	column="ACTIVE"           	jdbc-type="VARCHAR" length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
