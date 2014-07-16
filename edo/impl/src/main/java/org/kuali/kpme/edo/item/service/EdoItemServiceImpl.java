@@ -153,7 +153,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     	List<EdoItemBo> returnedBos = new ArrayList<EdoItemBo>();
     	
     	for (EdoItemBo bo : bos) {
-    		String itemTypeName = edoItemTypeService.getItemType(bo.getEdoItemId()).getItemTypeName();
+    		String itemTypeName = edoItemTypeService.getItemType(bo.getEdoItemTypeId()).getItemTypeName();
     		if (StringUtils.equals(itemTypeName, EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER)) {
     			returnedBos.add(bo);
     		}
