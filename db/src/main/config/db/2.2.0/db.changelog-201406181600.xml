@@ -42,7 +42,7 @@
             <column name="DEPARTMENT_ID" type="VARCHAR(12)">
                 <constraints nullable="false" />
             </column>
-            <column name="ORG_CD" type="VARCHAR(10)">
+            <column name="ORG_CD" type="VARCHAR(10)" defaultValue="DEFAULT">
                 <constraints nullable="false" />
             </column>
             <column name="DESCRIPTION" type="VARCHAR(255)" />
