@@ -16,6 +16,7 @@
 package org.kuali.hr.core.paytype;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.KPMEWebTestCase;
 import org.kuali.hr.util.HtmlUnitUtil;
@@ -28,7 +29,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class PayTypeMaintenanceTest extends KPMEWebTestCase {
 	
 	private static Long payTypeId = 1L;//id entered in the bootstrap SQL
-	
+
+    @Ignore
 	@Test
 	public void testPayTypeMaintenancePage() throws Exception{	
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HrTestConstants.Urls.PAYTYPE_MAINT_URL);

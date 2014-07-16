@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.edo.EdoUnitTestBase;
@@ -43,7 +44,8 @@ public class EdoDossierServiceTest extends EdoUnitTestBase {
 		
 		super.tearDown();
 	}
-	
+
+    @Ignore
 	@Test
 	public void testGetCurrentDossierPrincipalname() throws Exception {
 
