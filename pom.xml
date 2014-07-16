@@ -98,7 +98,7 @@
         <mysql.host>localhost</mysql.host>
         <mysql.dba.username>root</mysql.dba.username>
         <mysql.dba.password>NONE</mysql.dba.password>
-        <project.scm.url>https://svn.kuali.org/repos/kpme/trunk</project.scm.url>
+        <project.scm.url>https://svn.kuali.org/repos/kpme/branches/kpme-2.2</project.scm.url>
         <kpme.java2ws.phase>process-classes</kpme.java2ws.phase>
         <wsdl.dir>${project.build.directory}/wsdl</wsdl.dir>
         <project.java.version>1.7</project.java.version>
