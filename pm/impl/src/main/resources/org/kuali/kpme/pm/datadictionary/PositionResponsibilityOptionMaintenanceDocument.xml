@@ -25,7 +25,7 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PositionResponsibilityOptionMaintenanceDocument" parent="PositionResponsibilityOptionMaintenanceDocument-parentBean"/>
-  <bean id="PositionResponsibilityOptionMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+  <bean id="PositionResponsibilityOptionMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocument">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.positionResponsibilityOption.PositionResponsibilityOptionBo"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.positionResponsibilityOption.service.PositionResponsibilityOptionMaintainableImpl"/>  
     <property name="documentTypeName" value="PositionResponsibilityOptionMaintenanceDocumentType"/>

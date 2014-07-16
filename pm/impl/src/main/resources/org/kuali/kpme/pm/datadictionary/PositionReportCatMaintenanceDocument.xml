@@ -26,7 +26,7 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PositionReportCatMaintenanceDocument" parent="PositionReportCatMaintenanceDocument-parentBean"/>
-  <bean id="PositionReportCatMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+  <bean id="PositionReportCatMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocument">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.positionreportcat.PositionReportCategoryBo"/>
     <property name="businessRulesClass" value="org.kuali.kpme.pm.positionreportcat.validation.PositionReportCatValidation"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.positionreportcat.web.PositionReportCatMaintainableImpl"/>

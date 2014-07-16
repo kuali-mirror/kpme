@@ -14,6 +14,6 @@ public interface EdoVoteRecordService {
     public List<EdoVoteRecord> getVoteRecords(String edoDossierID, String edoReviewLayerDefinitionId);
     public EdoVoteRecord getVoteRecordMostCurrentRound(String edoDossierID, String edoReviewLayerDefinitionId);
     public boolean isNegativeVote(EdoVoteRecord edoVoteRecord);
-    public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(String edoDossierID);
+    //public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(String edoDossierID);
     
 }

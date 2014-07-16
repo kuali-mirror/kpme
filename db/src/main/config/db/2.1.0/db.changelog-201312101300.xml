@@ -25,8 +25,13 @@
     <changeSet id="2" author="jwillia" context="kpme-client-bootstrap">
         <renameTable newTableName="HR_DEPT_AFFL_T" oldTableName="PM_PSTN_DEPT_AFFL_T"/>
     </changeSet>
-    <changeSet id="3" author="jwillia" context="kpme-client-bootstrap">
+    <changeSet id="3-mysql" author="jwillia" dbms="mysql"  context="kpme-client-bootstrap">
         <renameTable newTableName="HR_DEPT_AFFL_S" oldTableName="PM_PSTN_DEPT_AFFL_S"/>
+    </changeSet>
+    <changeSet id="3-mysql" author="jwillia" dbms="oracle"  context="kpme-client-bootstrap">
+        <sql>
+            rename PM_PSTN_DEPT_AFFL_S to HR_DEPT_AFFL_S;
+        </sql>
     </changeSet>
     <changeSet id="4" author="jwillia" context="kpme-client-bootstrap">
         <renameColumn tableName="PM_PSTN_DEPT_T" newColumnName="DEPT_AFFL_TYP" oldColumnName="PSTN_DEPT_AFFL_TYP" columnDataType="VARCHAR(60)"/>

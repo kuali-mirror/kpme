@@ -21,7 +21,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
   <bean id="ClassificationMaintenanceDocument" parent="ClassificationMaintenanceDocument-parentBean"/>
-  <bean id="ClassificationMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+  <bean id="ClassificationMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocument">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.classification.ClassificationBo"/>
     <property name="documentTypeName" value="ClassificationMaintenanceDocumentType" />
     <property name="businessRulesClass" value="org.kuali.kpme.pm.classification.validation.ClassificationValidation"/>

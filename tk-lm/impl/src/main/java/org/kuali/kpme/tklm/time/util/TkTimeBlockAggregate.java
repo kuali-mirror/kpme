@@ -568,6 +568,7 @@ public class TkTimeBlockAggregate implements TkTimeBlockAggregateContract {
                         }
 						timeBlock.setAssignmentKey(lb.getAssignmentKey());
 						timeBlock.setJobNumber(lb.getJobNumber());
+                        timeBlock.setGroupKeyCode(lb.getGroupKeyCode());
 						timeBlock.setWorkArea(lb.getWorkArea());
 						timeBlock.setTask(lb.getTask());
 						timeBlock.setEarnCode(lb.getEarnCode());

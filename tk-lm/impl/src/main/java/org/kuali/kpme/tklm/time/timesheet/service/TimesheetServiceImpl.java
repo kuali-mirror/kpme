@@ -110,7 +110,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     protected void timesheetAction(String action, String principalId, TimesheetDocument timesheetDocument) {
         WorkflowDocument wd = null;
         if (timesheetDocument != null) {
-            TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(timesheetDocument, timesheetDocument.getAsOfDate());
+            //TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(timesheetDocument, timesheetDocument.getAsOfDate());
             String rhid = timesheetDocument.getDocumentId();
             wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);
             List<ActionRequest> actionRequests = KewApiServiceLocator.getWorkflowDocumentService().getPendingActionRequests(rhid);

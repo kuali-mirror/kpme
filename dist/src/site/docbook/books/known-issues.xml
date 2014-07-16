@@ -2,7 +2,7 @@
 <article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
     <info>
         <title>
-            <para>${project.name} ${project.version} Known Issues</para>
+            <para>${project.parent.name} ${project.version} Known Issues</para>
         </title>
         <titleabbrev>Known Issues</titleabbrev>
     </info>

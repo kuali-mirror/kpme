@@ -28,20 +28,21 @@ public interface EdoReviewLayerDefinitionService {
     // no alteration needed
     public void saveOrUpdate(EdoReviewLayerDefinition reviewLayerDefinition);
     public Collection<EdoReviewLayerDefinition> getReviewLayerDefinitionsToMax(String maxRouteLevel);
-    // no alteration needed; id passed in
-    //get the supplemental nodes (authorized nodes)
-    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
     public Map<String,String> getReviewLayerDefinitionDescriptionsByWorkflow(String workflowId);
     public List<EdoReviewLayerDefinition> getRouteLevelsWithReviewLayers();
     public List<String> getDistinctWorkflowIds();
     public String getLevelQualifierByWorkflowId(String workflowId, String nodeName);
     
+    // moved to here from EdoVoteRecordService
+    public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(String edoDossierID);
+    
+    // TODO: move the following three methods to 
+    // no alteration needed; id passed to EdoSuppReviewLayerDefinition module
+    //get the supplemental nodes (authorized nodes)
     public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(BigDecimal reviewLayerDefinitionId);
+    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
     public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName);
     
-    
-    
-   
     
  // commented out by IU
  	// public EdoReviewLayerDefinition getReviewLayerDefinition(String nodeName , BigDecimal routeLevel);  // DONE

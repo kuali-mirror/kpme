@@ -78,6 +78,7 @@ public class ClockActionForm extends TimesheetActionForm {
     private String newETCol;
     private String newHrsCol;
 	private String errorMessage;
+	private String distributionPeriod;
 
 
  // this is for the ajax call
@@ -469,5 +470,13 @@ public class ClockActionForm extends TimesheetActionForm {
 	public boolean getShowClockButton() {
 		return showClockButton;
 	}
-	
+
+	public String getDistributionPeriod() {
+		return distributionPeriod;
+	}
+
+	public void setDistributionPeriod(String distributionPeriod) {
+		this.distributionPeriod = distributionPeriod;
+	}
+
 }

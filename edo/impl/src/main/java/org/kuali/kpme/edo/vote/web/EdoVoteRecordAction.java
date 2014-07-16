@@ -1,5 +1,15 @@
 package org.kuali.kpme.edo.vote.web;
 
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -19,12 +29,6 @@ import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.kpme.edo.vote.validation.EdoVoteRecordValidation;
 import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 public class EdoVoteRecordAction extends EdoAction {
 
@@ -110,7 +114,7 @@ public class EdoVoteRecordAction extends EdoAction {
                 EdoReviewLayerDefinition firstNegativeRLD = null;
                 // if the RECONSIDER dossier has not been submitted by the candidate, there is no eDoc, so find first negative vote without reference to route level
                 if (documentHeader == null) {
-                    firstNegativeRLD = EdoServiceLocator.getEdoVoteRecordService().findFirstNegativeReviewLayerByVote(selectedCandidate.getCandidateDossierID().toString());
+                    firstNegativeRLD = EdoServiceLocator.getEdoReviewLayerDefinitionService().findFirstNegativeReviewLayerByVote(selectedCandidate.getCandidateDossierID().toString());
                 } else {
                     // otherwise, use the current review layer as determined from workflow, as above
                     firstNegativeRLD = currentReviewLayerDefinition;

@@ -3,8 +3,6 @@ package org.kuali.kpme.edo.reviewlayerdef;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinitionContract;
-import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
-import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
@@ -16,11 +14,15 @@ public class EdoReviewLayerDefinitionBo extends HrBusinessObject implements EdoR
     
     static class KeyFields {
 		private static final String NODE_NAME = "nodeName";
+		private static final String REVIEW_LEVEL = "reviewLevel";
+		private static final String ROUTE_LEVEL = "routeLevel";
 		private static final String WORK_FLOW_ID = "workflowId";
 	}
     
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
 			.add(KeyFields.NODE_NAME)
+			.add(KeyFields.REVIEW_LEVEL)
+			.add(KeyFields.ROUTE_LEVEL)
 			.add(KeyFields.WORK_FLOW_ID)
 			.build();
     
@@ -73,6 +75,8 @@ public class EdoReviewLayerDefinitionBo extends HrBusinessObject implements EdoR
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.NODE_NAME, this.getNodeName())
+				.put(KeyFields.REVIEW_LEVEL, this.getReviewLevel())
+				.put(KeyFields.ROUTE_LEVEL, this.getRouteLevel())
 				.put(KeyFields.WORK_FLOW_ID, this.getWorkflowId())
 				.build();
 	}

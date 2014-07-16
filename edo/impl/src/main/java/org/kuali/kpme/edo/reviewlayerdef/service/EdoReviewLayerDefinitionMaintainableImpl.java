@@ -1,13 +1,11 @@
 package org.kuali.kpme.edo.reviewlayerdef.service;
 
-import org.kuali.kpme.edo.EdoBusinessObject;
+import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.util.EdoBusinessObjectMaintainableImpl;
 
-import java.math.BigDecimal;
-
-public class EdoReviewLayerDefinitionMaintainableImpl extends EdoBusinessObjectMaintainableImpl {
+public class EdoReviewLayerDefinitionMaintainableImpl extends HrBusinessObjectMaintainableImpl  { //EdoBusinessObjectMaintainableImpl
 
     private static final long serialVersionUID = 1L;
 
@@ -15,4 +13,9 @@ public class EdoReviewLayerDefinitionMaintainableImpl extends EdoBusinessObjectM
     public EdoReviewLayerDefinitionBo getObjectById( id) {
         return EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(id);
     }*/
+    
+    @Override
+	public HrBusinessObject getObjectById(String id) {
+		return EdoReviewLayerDefinitionBo.from(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById(id));
+	}
 }

@@ -48,6 +48,11 @@
 	         	<portal:portalLink displayTitle="true" title="Item Type" 
 	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.item.type.EdoItemTypeBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
 	        </li>
+	        
+	        <li>
+	            <portal:portalLink displayTitle="true" title="Review Layer Defination"															
+	                   url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+	        </li>
 		</ul>
 		
 		<ul class="chan">

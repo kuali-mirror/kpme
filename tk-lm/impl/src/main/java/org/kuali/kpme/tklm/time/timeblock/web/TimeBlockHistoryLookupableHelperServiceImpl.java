@@ -237,6 +237,7 @@ public class TimeBlockHistoryLookupableHelperServiceImpl extends KPMELookupableI
             tBlock.setWorkArea(history.getWorkArea());
             AssignmentDescriptionKey assignKey = AssignmentDescriptionKey.get(history.getAssignmentKey());
             tBlock.setWorkArea(assignKey.getWorkArea());
+            tBlock.setGroupKeyCode(assignKey.getGroupKeyCode());
             tBlock.setJobNumber(assignKey.getJobNumber());
             tBlock.setTask(assignKey.getTask());
             tBlock.setOvertimePref(history.getOvertimePref());

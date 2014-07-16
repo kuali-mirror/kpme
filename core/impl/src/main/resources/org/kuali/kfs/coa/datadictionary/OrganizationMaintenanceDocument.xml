@@ -18,8 +18,14 @@
 -->
   <bean id="OrganizationMaintenanceDocument" parent="OrganizationMaintenanceDocument-parentBean"/>
 
+    <!-- p:documentAuthorizerClass="org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer"
+        p:documentAuthorizerClass="org.kuali.kpme.core.kfs.coa.businessobject.authorization.OrganizationAuthorizer"
+    -->
   <bean id="OrganizationMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  p:businessRulesClass="org.kuali.kpme.core.kfs.coa.businessobject.validation.OrganizationValidation">
+        p:businessRulesClass="org.kuali.kpme.core.kfs.coa.businessobject.validation.OrganizationValidation"
+        p:documentAuthorizerClass="org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentAuthorizerBase"
+        >
+
     <property name="businessObjectClass" value="org.kuali.kpme.core.kfs.coa.businessobject.Organization"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="preserveLockingKeysOnCopy" value="true" />
@@ -52,6 +58,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="OrganizationMaintenanceDocumentType"/>
+
 <!-- 
     <property name="businessRulesClass" value="org.kuali.kfs.coa.document.validation.impl.OrgRule"/>
     <property name="documentAuthorizerClass" value="org.kuali.kfs.coa.document.authorization.OrganizationDocumentAuthorizer"/>

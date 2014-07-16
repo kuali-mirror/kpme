@@ -27,7 +27,7 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     public EdoItemBo getEdoItem(String edoItemID) {
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edo_Item_id", edoItemID);
+        cConditions.addEqualTo("edoItemId", edoItemID);
 
         Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -46,8 +46,8 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edo_checklist_item_id", edoChecklistItemID);
-        cConditions.addEqualTo("edo_dossier_id", edoDossierID);
+        cConditions.addEqualTo("edoChecklistItemId", edoChecklistItemID);
+        cConditions.addEqualTo("edoDossierId", edoDossierID);
 
         Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -153,8 +153,8 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
         List<EdoItemBo> items = new LinkedList<EdoItemBo>();
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("edo_dossier_id", edoDossierId);
-        criteria.addEqualTo("edo_review_layer_def_id", edoReviewLayerDefinitionId);
+        criteria.addEqualTo("edoDossierId", edoDossierId);
+        criteria.addEqualTo("edoReviewLayerDefId", edoReviewLayerDefinitionId);
 
         Query query = QueryFactory.newQuery(EdoItemBo.class, criteria);
 

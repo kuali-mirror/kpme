@@ -32,8 +32,8 @@
         <sqlFile path="src/main/config/db/rice/2.3.1/mysql/update_client_final_mysql.sql" />
     </changeSet>
 
-    <changeSet id="rice-client-2.3.1-oracle" author="jjhanso" dbms="oracle" context="rice-client-bootstrap">
-        <sqlFile path="src/main/config/db/rice/2.3.1/oracle/update_client_final_oracle.sql" />
-    </changeSet>
+    <!--<changeSet id="rice-client-2.3.1-oracle" author="jjhanso" dbms="oracle" context="rice-client-bootstrap">
+        <sqlFile path="src/main/config/db/rice/2.3.1/oracle/update_client_final_oracle.sql" endDelimiter="\n/\s*\n|\n/\s*$" />
+    </changeSet>-->
 
 </databaseChangeLog>

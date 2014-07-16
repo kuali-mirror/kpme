@@ -29,5 +29,6 @@
         <property name="dataObjectClass" value="org.kuali.kpme.core.departmentaffiliation.DepartmentAffiliationBo"/>
         <property name="maintainableClass" value="org.kuali.kpme.core.departmentaffiliation.web.DepartmentAffiliationMaintainableImpl"/>
         <property name="documentTypeName" value="DepartmentAffiliationMaintenanceDocumentType"/>
+        <property name="documentAuthorizerClass" value="org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer" />
     </bean>
 </beans>

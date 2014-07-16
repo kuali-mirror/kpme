@@ -45,6 +45,10 @@ public class AssignmentDescriptionKey {
 		
 		return new AssignmentDescriptionKey();
 	}
+
+    public static AssignmentDescriptionKey create(String groupKeyCode, Long jobNumer, Long workArea, Long task) {
+        return new AssignmentDescriptionKey(groupKeyCode, jobNumer, workArea, task);
+    }
 	
 	public AssignmentDescriptionKey() {
 	}
@@ -58,8 +62,8 @@ public class AssignmentDescriptionKey {
         }
     }
 
-	public AssignmentDescriptionKey(String GroupKeyCode, Long jobNumer, Long workArea, Long task) {
-        this.groupKeyCode = GroupKeyCode;
+	public AssignmentDescriptionKey(String groupKeyCode, Long jobNumer, Long workArea, Long task) {
+        this.groupKeyCode = groupKeyCode;
 		this.jobNumber = jobNumer;
 		this.workArea = workArea;
 		this.task = task;

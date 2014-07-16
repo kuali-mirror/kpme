@@ -26,12 +26,12 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
 public class KPMEMaintenanceDocumentViewAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
 	private static final long serialVersionUID = -7611928075734193316L;
 
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public boolean canCreate(Class boClass, Person user) {
         Map<String, String> permissionDetails = new HashMap<String, String>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(boClass));

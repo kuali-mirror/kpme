@@ -19,6 +19,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.kuali.kpme.core.api.KPMEConstants;
+import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.util.KpmeUtils;
 import org.kuali.kpme.tklm.api.common.TkConstants;
@@ -820,7 +821,7 @@ public final class TimeBlock
 
         @Override
         public String getAssignmentKey() {
-            return this.assignmentKey;
+            return AssignmentDescriptionKey.create(this.getGroupKeyCode(), this.getJobNumber(), this.getWorkArea(), this.getTask()).toAssignmentKeyString();
         }
 
         @Override

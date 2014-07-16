@@ -25,7 +25,7 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PstnContractTypeMaintenanceDocument" parent="PstnContractTypeMaintenanceDocument-parentBean"/>
-  <bean id="PstnContractTypeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+  <bean id="PstnContractTypeMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocument">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.pstncontracttype.PstnContractTypeBo"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.pstncontracttype.web.PstnContractTypeMaintainableImpl"/>  
     <property name="documentTypeName" value="PstnContractTypeMaintenanceDocumentType"/>

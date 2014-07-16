@@ -1,12 +1,14 @@
 package org.kuali.kpme.edo.workflow;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kpme.edo.EdoUnitTestBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 
 public class TenureDocumentTest extends EdoUnitTestBase {
-	
+
+    @Ignore
 	@Test
 	public void testSuppmentalRouteModule() throws Exception {
 		

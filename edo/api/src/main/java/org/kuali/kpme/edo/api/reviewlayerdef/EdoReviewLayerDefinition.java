@@ -238,15 +238,17 @@ public final class EdoReviewLayerDefinition
             return new Builder();
         }
 
-        private Builder(String nodeName, String voteType) {
+        private Builder(String nodeName, String reviewLevel, String routeLevel, String workflowId) {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
         	setNodeName(nodeName);
-        	setVoteType(voteType);
+        	setReviewLevel(reviewLevel);
+        	setRouteLevel(routeLevel);
+        	setWorkflowId(workflowId);
         }
 
-        public static Builder create(String nodeName, String voteType) {
+        public static Builder create(String nodeName, String reviewLevel, String routeLevel, String workflowId) {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(nodeName, voteType);
+            return new Builder(nodeName, reviewLevel, routeLevel, workflowId);
         }
         
         

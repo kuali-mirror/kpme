@@ -25,7 +25,7 @@
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PstnQlfrTypeMaintenanceDocument" parent="PstnQlfrTypeMaintenanceDocument-parentBean"/>
-  <bean id="PstnQlfrTypeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+  <bean id="PstnQlfrTypeMaintenanceDocument-parentBean" abstract="true" parent="KPMEHrBusinessObjectMaintenanceDocument">
     <property name="dataObjectClass" value="org.kuali.kpme.pm.pstnqlfrtype.PstnQlfrTypeBo"/>
     <property name="maintainableClass" value="org.kuali.kpme.pm.pstnqlfrtype.web.PstnQlfrTypeMaintainableImpl"/>  
     <property name="documentTypeName" value="PstnQlfrTypeMaintenanceDocumentType" />

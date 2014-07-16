@@ -26,10 +26,8 @@ import org.kuali.kpme.pm.api.position.PositionContract;
 import org.kuali.kpme.pm.position.PositionBo;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
-import org.kuali.rice.krad.util.KRADConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,24 +42,22 @@ public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAutho
     @Override
     public boolean canEdit(Document document, Person user)
     {
-        if (super.canEdit(document, user) || canApprove(document, user))
-        {
-            return true;
-        }
-
         Object dataObject = ((MaintenanceDocumentBase) document).getDocumentDataObject();
 
         Map<String, String> permissionDetails = new HashMap<String, String>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME,  getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
         permissionDetails.put(KimConstants.AttributeConstants.ROUTE_STATUS_CODE,  ((MaintenanceDocumentBase)document).getDocumentHeader().getWorkflowDocument().getStatus().getCode() );
 
-        if (isAuthorizedByTemplate(dataObject, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT,
-                user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId())))
-        {
-            return true;
-        }
+        boolean canEdit = !permissionExistsByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                org.kuali.kpme.core.api.permission.KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(), permissionDetails)
+                || isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                org.kuali.kpme.core.api.permission.KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(), user.getPrincipalId(),
+                permissionDetails, getRoleQualification(dataObject, user.getPrincipalId()));
 
-        return false;
+        if (!canEdit) {
+            canEdit = canApprove(document, user);
+        }
+        return canEdit;
     }
 
     public boolean canView(Object dataObject, Person user)
@@ -71,13 +67,9 @@ public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAutho
 
         Map<String, String> q = getRoleQualification(dataObject, user.getPrincipalId());
 
-        if (isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(),
-                user.getPrincipalId(), permissionDetails, q ))
-        {
-            return true;
-        }
+        return isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(),
+                user.getPrincipalId(), permissionDetails, q);
 
-        return false;
     }
 
     public boolean canCopy (Object dataObject, Person user)
@@ -132,8 +124,15 @@ public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAutho
                     attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), departmentObj.getGroupKey().getLocationId());
 
                     attributes.put(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), departmentObj.getOrg());
+
+                    attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), departmentObj.getGroupKeyCode());
+                } else {
+                    attributes.put(KPMERoleMemberAttribute.INSTITUION.getRoleMemberAttributeName(), "%");
+                    attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), "%");
+                    attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), "%");
+                    attributes.put(KPMERoleMemberAttribute.ORGANIZATION.getRoleMemberAttributeName(), "%");
+                    attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), "%");
                 }
-                attributes.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), positionObj.getGroupKeyCode());
             }
         }
     }
@@ -145,13 +144,13 @@ public class PositionDocumentAuthorizer extends KPMEMaintenanceDocumentViewAutho
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, getDocumentDictionaryService().getMaintenanceDocumentTypeName(dataObject.getClass()));
 
 
-        if (isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(),
-                user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId())))
-        {
-            return true;
-        }
+        return isAuthorizedByTemplate(dataObject, KPMENamespace.KPME_WKFLW.getNamespaceCode(), KPMEPermissionTemplate.EDIT_KPME_MAINTENANCE_DOCUMENT.getPermissionTemplateName(),
+                user.getPrincipalId(), permissionDetails, getRoleQualification(dataObject, user.getPrincipalId()));
 
-        return false;
-        //return super.canMaintain(dataObject, user);
+    }
+
+    @Override
+    public boolean canRoute(Document document, Person user) {
+        return super.canRoute(document, user);
     }
 }

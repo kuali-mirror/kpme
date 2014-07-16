@@ -168,7 +168,7 @@
 					</c:if>
 					<c:if test="${maxedLeaveRow.payoutable}">
 						<c:choose>
-							<c:when test="${Form.currentTimesheet}">ClockLocationRuleLookupTest
+							<c:when test="${Form.currentTimesheet}">
 								<input type="button" id="lm-payout-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
 							</c:when>
 							<c:otherwise>

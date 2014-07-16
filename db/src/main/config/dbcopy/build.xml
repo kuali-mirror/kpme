@@ -56,7 +56,7 @@
     <!-- 
         Oracle Properties 
     -->
-    <property name="sqlplus.location" value="sqlplus"/>
+    <property name="sqlplus.location" value="/java/db/client/sqlplus/sqlplus"/>
     <property name="db.host" value="localhost"/>
     <property name="db.sid" value="XE"/>
 

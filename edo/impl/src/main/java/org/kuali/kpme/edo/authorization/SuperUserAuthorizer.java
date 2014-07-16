@@ -33,51 +33,42 @@ public class SuperUserAuthorizer implements MaintenanceDocumentAuthorizer, Docum
     }
 
     @Override
-    public boolean canReceiveAdHoc(Document document, Person user,
-                                   String actionRequestCode) {
+    public boolean canReceiveAdHoc(Document document, Person user, String actionRequestCode) {
         return isSuperUser();
     }
 
     @Override
-    public boolean canAddNoteAttachment(Document document,
-                                        String attachmentTypeCode, Person user) {
+    public boolean canAddNoteAttachment(Document document, String attachmentTypeCode, Person user) {
         return isSuperUser();
     }
 
     @Override
-    public boolean canDeleteNoteAttachment(Document document,
-                                           String attachmentTypeCode, String createdBySelfOnly, Person user) {
+    public boolean canDeleteNoteAttachment(Document document, String attachmentTypeCode, String createdBySelfOnly, Person user) {
         return isSuperUser();
     }
 
     @Override
-    public boolean canViewNoteAttachment(Document document,
-                                         String attachmentTypeCode, Person user) {
+    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
         return isSuperUser();
     }
 
     @Override
-    public boolean canViewNoteAttachment(Document document,
-                                         String attachmentTypeCode, String authorUniversalIdentifier, Person user) {
+    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, String authorUniversalIdentifier, Person user) {
         return isSuperUser();
     }
 
     @Override
-    public boolean canSendAdHocRequests(Document document,
-                                        String actionRequestCd, Person user) {
+    public boolean canSendAdHocRequests(Document document, String actionRequestCd, Person user) {
         return isSuperUser();
     }
 
     @Override
-    public boolean isAuthorized(BusinessObject businessObject,
-                                String namespaceCode, String permissionName, String principalId) {
+    public boolean isAuthorized(BusinessObject businessObject, String namespaceCode, String permissionName, String principalId) {
         return isSuperUser();
     }
 
     @Override
-    public boolean isAuthorizedByTemplate(BusinessObject businessObject,
-                                          String namespaceCode, String permissionTemplateName,
-                                          String principalId) {
+    public boolean isAuthorizedByTemplate(BusinessObject businessObject, String namespaceCode, String permissionTemplateName, String principalId) {
         return isSuperUser();
     }
 
@@ -99,14 +90,12 @@ public class SuperUserAuthorizer implements MaintenanceDocumentAuthorizer, Docum
     }
 
     @Override
-    public Map<String, String> getCollectionItemRoleQualifications(
-                                                                          BusinessObject collectionItemBusinessObject) {
+    public Map<String, String> getCollectionItemRoleQualifications(BusinessObject collectionItemBusinessObject) {
         return new HashMap<String, String>();
     }
 
     @Override
-    public Map<String, String> getCollectionItemPermissionDetails(
-                                                                         BusinessObject collectionItemBusinessObject) {
+    public Map<String, String> getCollectionItemPermissionDetails(BusinessObject collectionItemBusinessObject) {
         return new HashMap<String, String>();
     }
 
@@ -126,8 +115,7 @@ public class SuperUserAuthorizer implements MaintenanceDocumentAuthorizer, Docum
     }
 
     @Override
-    public boolean canCreateOrMaintain(MaintenanceDocument maintenanceDocument,
-                                       Person user) {
+    public boolean canCreateOrMaintain(MaintenanceDocument maintenanceDocument, Person user) {
         return isSuperUser();
     }
 

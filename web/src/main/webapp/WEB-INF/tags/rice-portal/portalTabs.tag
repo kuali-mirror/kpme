@@ -21,39 +21,36 @@
     <c:set var="systemAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isSystemAdmin()%>' />
     <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
 
-    <c:set var="kohrAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserKOHRInstitutionAdmin()%>' />
+    <c:set var="positionSystemViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetPositionSystemViewOnly()%>' />
 
-    <c:set var="academicAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserKOHRAcademicHrAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
+    <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
 
-    <c:set var="institutionViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserKOHRInstitutionViewOnly()%>' />
+    <c:set var="KOHRAcademicHrAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRAcademicHrAdmin()%>' />
 
+    <c:set var="KOHRInstitutionAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRInstitutionAdmin()%>' />
 
-    <c:set var = "KOHRLocationViewOnly" value = "<%=org.kuali.kpme.core.util.HrContext.isUserKOHRLocationViewOnly()%>"/>
-    <c:set var = "KOHRLocationAdmin" value = "<%=org.kuali.kpme.core.util.HrContext.isUserKOHRLocationAdmin()%>"/>
-
-
-    <c:set var="orgViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserKOHROrgViewOnly()%>' />
-    <c:set var="orgAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isTargetKOHROrgAdmin()%>' />
-
-    <c:set var="deptAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserHRDepartmentAdmin()%>' />
-    <c:set var="deptViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserHRDepartmentViewOnly()%>' />
-
-
-    <c:set var="departmentAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isDepartmentAdmin()%>' />
-
-
-    <c:set var="departmentViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isDepartmentViewOnly()%>' />
-    <c:set var="approver" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAnyApprover()%>' />
-    <c:set var="payrollProcessor" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAnyPayrollProcessor()%>' />
-    <c:set var="orgApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHROrgApprover()%>' />
-    <c:set var="reviewer" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetReviewer()%>' />
-    <c:set var="targetActiveEmployee" value='<%=org.kuali.kpme.core.util.HrContext.isTargetActiveEmployee()%>' />
-    <c:set var="targetSynchronous" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isTargetSynchronous()%>' />
-    <c:set var="fiscalDeptApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserFiscalDepartmentApprover()%>' />
-    <c:set var="fiscalOrgApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserFiscalOrgApprover()%>' />
-
-
+    <c:set var="KOHRInstitutionViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRInstitutionViewOnly()%>' />
+    <c:set var="KOHRLocationAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRLocationAdmin()%>' />
+    <c:set var="KOHRLocationViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRLocationViewOnly()%>' />
+    <c:set var="KOHRLocationAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHRLocationAdmin()%>' />
+    <c:set var="KOHROrgAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHROrgAdmin()%>' />
+    <c:set var="KOHROrgViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHROrgViewOnly()%>' />
+    <c:set var="HRDepartmentAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHRDepartmentAdmin()%>' />
+    <c:set var="HRDepartmentViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHRDepartmentViewOnly()%>' />
+    <c:set var="HRInstitutionApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHRInstitutionApprover()%>' />
+    <c:set var="academicHRInstitutionApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAcademicHRInstitutionApprover()%>' />
+    <c:set var="budgetApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetBudgetApprover()%>' />
+    <c:set var="payrollApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetPayrollApprover()%>' />
+    <c:set var="HRlocationApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHRLocationApprover()%>' />
+    <c:set var="academicHRLocationApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAcademicHRLocationApprover()%>' />
+    <c:set var="fiscalLocationApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetFiscalLocationApprover()%>' />
+    <c:set var="HROrgApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHROrgApprover()%>' />
+    <c:set var="fiscalOrgApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetFiscalOrgApprover()%>' />
+    <c:set var="departmentApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetDepartmentApprover()%>' />
+    <c:set var="fiscalDeptApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetFiscalDepartmentApprover()%>' />
 </c:if>
+
 <div id="tabs" class="tabposition">
 	<ul>
 	
@@ -80,7 +77,11 @@
 		</c:if>
 
         <%-- Maintenance --%>
-        <c:if test="${systemAdmin || globalViewOnly || KOHRLocationViewOnly || KOHRLocationAdmin || academicAdmin || institutionViewOnly || orgViewOnly || orgAdmin || deptAdmin || deptViewOnly }">
+        <c:if test="${systemAdmin || globalViewOnly || positionSystemViewOnly || locationAdmin || locationViewOnly || KOHRInstitutionAdmin || KOHRAcademicHrAdmin || KOHRInstitutionViewOnly || KOHRLocationAdmin || KOHRLocationViewOnly ||
+            KOHRLocationAdmin || KOHROrgAdmin || KOHROrgViewOnly || HRDepartmentAdmin || HRDepartmentViewOnly || HRInstitutionApprover ||
+            academicHRInstitutionApprover || budgetApprover || payrollApprover || HRlocationApprover || academicHRLocationApprover || fiscalLocationApprover ||
+            HROrgApprover || fiscalOrgApprover || departmentApprover || fiscalDeptApprover}">
+
             <c:if test='${selectedTab == "kpmemaintenance"}'>
                 <li class="red">
                     <a class="red" href="portal.do?selectedTab=kpmemaintenance"

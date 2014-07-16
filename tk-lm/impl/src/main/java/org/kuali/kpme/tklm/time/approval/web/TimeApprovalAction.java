@@ -37,6 +37,9 @@ import org.displaytag.util.ParamEncoder;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.calendar.Calendar;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
+import org.kuali.kpme.core.api.namespace.KPMENamespace;
+import org.kuali.kpme.core.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
@@ -45,9 +48,13 @@ import org.kuali.kpme.tklm.common.CalendarApprovalFormAction;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchBo;
 import org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument;
+import org.kuali.kpme.tklm.time.missedpunch.document.MissedPunchDocumentService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.springframework.util.CollectionUtils;
 
 public class TimeApprovalAction extends CalendarApprovalFormAction {
@@ -95,7 +102,10 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 	        setCalendarFields(timeApprovalActionForm);
 	        
 			timeApprovalActionForm.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(timeApprovalActionForm.getCalendarEntry(), new ArrayList<Boolean>()));
-			
+
+
+            //TkServiceLocator.getMissedPunchDocumentService().getMissedPunchDocumentsByTimesheetDocumentId()
+
 			List<String> allPIdsList = getPrincipalIds(timeApprovalActionForm);
 			List<String> pidList = new ArrayList<String>();
 			pidList.addAll(allPIdsList);
@@ -274,6 +284,41 @@ public class TimeApprovalAction extends CalendarApprovalFormAction {
 		    for (ApprovalTimeSummaryRow approvalTimeSummaryRow : approvalRows) {
  	 	 	 	approvalTimeSummaryRow.setMissedPunchList(getMissedPunches(approvalTimeSummaryRow.getDocumentId()));
 		    }
+
+            MissedPunchDocumentService mpds;
+            mpds = TkServiceLocator.getMissedPunchDocumentService();
+
+            Map<String, Boolean> missedPunchPermissions = new HashMap<String, Boolean>();
+
+            for (ApprovalTimeSummaryRow approvalTimeSummaryRow : approvalRows) {
+                for (MissedPunch mp: approvalTimeSummaryRow.getMissedPunchList()) {
+                    MissedPunchDocument mpd = (MissedPunchDocument) mpds.getMissedPunchDocumentByMissedPunchId(mp.getTkMissedPunchId());
+
+                    String groupKey = mpd.getGroupKeyCode();
+                    Long workArea = mpd.getWorkArea();
+                    String department = mpd.getDepartment();
+                    String location = mpd.getGroupKey() != null ? mpd.getGroupKey().getLocationId() : HrServiceLocator.getHrGroupKeyService().getHrGroupKey(mpd.getGroupKeyCode(), mpd.getMissedPunch().getActionLocalDate()).getLocationId();
+
+                    String principalId = HrContext.getPrincipalId();
+                    Map<String, String> roleQualification = new HashMap<String, String>();
+                    roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, principalId);
+                    roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+                    roleQualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), workArea.toString());
+                    roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), groupKey);
+                    roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+
+                    Map<String, String> permissionDetails = new HashMap<String, String>();
+                    permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentTypeByClass(MissedPunchDocument.class));
+
+                    boolean canView = (KimApiServiceLocator.getPermissionService().isAuthorizedByTemplate(principalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(),
+                            KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), permissionDetails, roleQualification));
+
+                    missedPunchPermissions.put(mp.getMissedPunchDocId(), canView);
+                }
+            }
+
+            timeApprovalActionForm.setMissedPunchPermissions(missedPunchPermissions);
+
             List<ApprovalTimeSummaryRow> sublist = new ArrayList<ApprovalTimeSummaryRow>();
             sublist.addAll(approvalRows.subList(beginIndex, endIndex));
 		    timeApprovalActionForm.setApprovalRows(sublist);

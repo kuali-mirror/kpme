@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.kuali.kpme.core.kfs.coa.businessobject.Account;
 import org.kuali.kpme.core.service.HrServiceLocator;
@@ -73,19 +74,21 @@ public class PositionFundingBo extends PositionDerived implements PositionFundin
 		this.source = source;
 	}
 
-	public String getChart() {
-		Map<String, String> fields = new HashMap<String, String>();
-		fields.put("accountNumber", this.account);
-		fields.put("active", "true");
-		Account account = (Account) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class,
-						fields);
-		if (account != null && !account.isClosed()) {
-			this.setChart(account.getChartOfAccountsCode());
-		} else {
-			this.setChart(null);
-		}
-		return chart;
-	}
+    public String getChart() {
+        if (StringUtils.isEmpty(this.chart)) {
+            Map<String, String> fields = new HashMap<String, String>();
+            fields.put("accountNumber", this.account);
+            fields.put("active", "true");
+            Account account = (Account) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Account.class,
+                    fields);
+            if (account != null && !account.isClosed()) {
+                this.setChart(account.getChartOfAccountsCode());
+            } else {
+                this.setChart(null);
+            }
+        }
+        return chart;
+    }
 
 	public void setChart(String chart) {
 		this.chart = chart;

@@ -17,6 +17,7 @@ package org.kuali.kpme.tklm.time.approval.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kpme.tklm.common.CalendarApprovalForm;
 import org.kuali.kpme.tklm.time.approval.summaryrow.ApprovalTimeSummaryRow;
@@ -28,7 +29,19 @@ public class TimeApprovalActionForm extends CalendarApprovalForm {
 	private List<String> payCalendarLabels = new ArrayList<String>();
 	private List<ApprovalTimeSummaryRow> approvalRows = new ArrayList<ApprovalTimeSummaryRow>();
 	private List<String> errorMessageList;
-	
+
+    private Map<String,Boolean> missedPunchPermissions;
+
+    public Map<String, Boolean> getMissedPunchPermissions()
+    {
+        return missedPunchPermissions;
+    }
+
+    public void setMissedPunchPermissions(Map<String, Boolean> permissions)
+    {
+        this.missedPunchPermissions = permissions;
+    }
+
 	public List<String> getPayCalendarLabels() {
 		return payCalendarLabels;
 	}
