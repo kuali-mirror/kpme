@@ -56,7 +56,7 @@ public class EdoSectionSummaryAction  extends EdoAction {
             if ( checklistSectionId.intValue() == currentSectionId ) {
                 currentCheckListSection.add(checklistItem);
                 request.setAttribute("nodeID", currentSectionId );
-                EdoChecklistSection section = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionId());
+                EdoChecklistSection section = EdoServiceLocator.getChecklistSectionService().getChecklistSectionById(checklistItem.getEdoChecklistSectionId());
                 request.setAttribute("sectionName", section.getChecklistSectionName());
                 request.setAttribute("checklistSectionID", checklistSectionId.intValue() );
                 request.setAttribute("nidFwd", ssn.getAttribute("nid"));

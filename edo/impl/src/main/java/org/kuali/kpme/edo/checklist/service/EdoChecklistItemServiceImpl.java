@@ -37,30 +37,30 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
         this.edoChecklistItemDao = edoChecklistItemDao;
     }
 
-    public EdoChecklistItem getChecklistItemByID(String edoChecklistItemID) {
-    	return EdoChecklistItemBo.to(edoChecklistItemDao.getChecklistItemByID(edoChecklistItemID));
+    public EdoChecklistItem getChecklistItemById(String edoChecklistItemId) {
+    	return EdoChecklistItemBo.to(edoChecklistItemDao.getChecklistItemById(edoChecklistItemId));
     }
     
-    public List<EdoChecklistItem> getChecklistItemsBySectionID(String edoChecklistSectionID, LocalDate asOfDate) {        
-        List<EdoChecklistItemBo> bos = edoChecklistItemDao.getChecklistItemsBySectionID(edoChecklistSectionID, asOfDate);
+    public List<EdoChecklistItem> getChecklistItemsBySectionId(String edoChecklistSectionId, LocalDate asOfDate) {        
+        List<EdoChecklistItemBo> bos = edoChecklistItemDao.getChecklistItemsBySectionId(edoChecklistSectionId, asOfDate);
 		return convertToImmutable(bos);
     }
     
-    public List<EdoChecklistItem> getChecklistItems(String groupKey, String organizationCode, String departmentID) {
+    public List<EdoChecklistItem> getChecklistItems(String groupKey, String organizationCode, String departmentId) {
     	
     	List <EdoChecklistItem> returnedItems = new ArrayList<EdoChecklistItem>();
     	LocalDate asOfDate = LocalDate.now();
     	
     	// Call EdoChecklist Service to find checklists for this group key, schoolID and departmentID
-    	List<EdoChecklist> checklists = edoChecklistService.getChecklists(groupKey, organizationCode, departmentID, asOfDate);
+    	List<EdoChecklist> checklists = edoChecklistService.getChecklists(groupKey, organizationCode, departmentId, asOfDate);
     	for (EdoChecklist checklist : checklists) {
-    		String edoChecklistID = checklist.getEdoChecklistId();
-    		List<EdoChecklistSection> checklistSections = edoChecklistSectionService.getChecklistSectionsByChecklistID(edoChecklistID, asOfDate);
+    		String edoChecklistId = checklist.getEdoChecklistId();
+    		List<EdoChecklistSection> checklistSections = edoChecklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId, asOfDate);
 
     		for (EdoChecklistSection checklistSection : checklistSections) {
-    			String edoChecklistSectionID = checklistSection.getEdoChecklistSectionId();
+    			String edoChecklistSectionId = checklistSection.getEdoChecklistSectionId();
     			
-    			List<EdoChecklistItem> items = this.getChecklistItemsBySectionID(edoChecklistSectionID, asOfDate);
+    			List<EdoChecklistItem> items = this.getChecklistItemsBySectionId(edoChecklistSectionId, asOfDate);
     			returnedItems.addAll(items);
     		}
     	}
@@ -68,19 +68,19 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
     	return returnedItems;
     }
     
-    public EdoChecklistItem getChecklistItemByDossierID(String edoDossierID, String itemName) {
+    public EdoChecklistItem getChecklistItemByDossierId(String edoDossierId, String itemName) {
     	
     	LocalDate asOfDate = LocalDate.now();
     	List<String> idList = new ArrayList<String>();
     	
-    	String edoChecklistID = edoDossierService.getEdoDossierById(edoDossierID).getEdoChecklistId();
-    	List<EdoChecklistSection> checklistSections = edoChecklistSectionService.getChecklistSectionsByChecklistID(edoChecklistID, asOfDate);
+    	String edoChecklistId = edoDossierService.getEdoDossierById(edoDossierId).getEdoChecklistId();
+    	List<EdoChecklistSection> checklistSections = edoChecklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId, asOfDate);
     	
     	for (EdoChecklistSection checklistSection : checklistSections) {
     		idList.add(checklistSection.getEdoChecklistSectionId());
     	}
     	
-    	List<EdoChecklistItemBo> bos = edoChecklistItemDao.getChecklistItemsBySectionIDs(idList, asOfDate);
+    	List<EdoChecklistItemBo> bos = edoChecklistItemDao.getChecklistItemsBySectionIds(idList, asOfDate);
     	
     	for (EdoChecklistItemBo bo : bos) {
     		if (StringUtils.equals(itemName, bo.getChecklistItemName())) {
@@ -91,7 +91,7 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
     	return null;
     }
     
-    public SortedMap<String, List<EdoChecklistItem>> getCheckListHash(String groupKey, String organizationCode, String departmentID) {
+    public SortedMap<String, List<EdoChecklistItem>> getCheckListHash(String groupKey, String organizationCode, String departmentId) {
 
     	SortedMap<String, List<EdoChecklistItem>> checklisthash = new TreeMap<String, List<EdoChecklistItem>>(
             new Comparator<String>() {
@@ -102,13 +102,13 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
             }
         );
     	
-    	List<EdoChecklistItem> items = this.getChecklistItems(groupKey, organizationCode, departmentID);
+    	List<EdoChecklistItem> items = this.getChecklistItems(groupKey, organizationCode, departmentId);
         
         if (items != null && items.size() > 0) {
         	
         	for (EdoChecklistItem item : items) {
         		
-        		EdoChecklistSection section = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(item.getEdoChecklistSectionId());
+        		EdoChecklistSection section = EdoServiceLocator.getChecklistSectionService().getChecklistSectionById(item.getEdoChecklistSectionId());
                 String ordSectionName = section.getChecklistSectionOrdinal() + "_" + section.getChecklistSectionName();
                 if (checklisthash.containsKey(ordSectionName)) {
                     checklisthash.get(ordSectionName).add(item);

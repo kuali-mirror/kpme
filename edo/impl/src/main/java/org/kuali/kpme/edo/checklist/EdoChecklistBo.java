@@ -29,7 +29,7 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 	
 	private String edoChecklistId;
     private String dossierTypeCode;
-    private String departmentID;
+    private String departmentId;
     private String organizationCode;
     private String description;
   
@@ -45,7 +45,7 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 		return  new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistId())
 				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
-				.put(KeyFields.DOSSIER_TYPE_CD, this.getDepartmentID())
+				.put(KeyFields.DOSSIER_TYPE_CD, this.getDossierTypeCode())
 				.build();
 	}
     
@@ -80,12 +80,12 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 		this.dossierTypeCode = dossierTypeCode;
 	}
 
-	public String getDepartmentID() {
-		return departmentID;
+	public String getDepartmentId() {
+		return departmentId;
 	}
 
-	public void setDepartmentID(String departmentID) {
-		this.departmentID = departmentID;
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
 	public String getOrganizationCode() {
@@ -111,7 +111,7 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
         EdoChecklistBo eclt = new EdoChecklistBo();
         eclt.setEdoChecklistId(im.getEdoChecklistId());
         eclt.setDossierTypeCode(im.getDossierTypeCode());
-        eclt.setDepartmentID(im.getDepartmentID());
+        eclt.setDepartmentId(im.getDepartmentId());
         eclt.setOrganizationCode(im.getOrganizationCode());
         eclt.setDescription(im.getDescription());
         eclt.setGroupKeyCode(im.getGroupKeyCode());        

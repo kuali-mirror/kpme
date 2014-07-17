@@ -15,7 +15,7 @@ import org.kuali.kpme.edo.checklist.EdoChecklistBo;
  */
 public interface EdoChecklistDao {
 
-    public EdoChecklistBo getChecklistByID(String edoChecklistID);
+    public EdoChecklistBo getChecklistById(String edoChecklistId);
     
-    public List<EdoChecklistBo> getChecklists(String groupKey, String organizationCode, String departmentID, LocalDate asOfDate);
+    public List<EdoChecklistBo> getChecklists(String groupKey, String organizationCode, String departmentId, LocalDate asOfDate);
 }

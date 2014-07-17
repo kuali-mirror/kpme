@@ -26,6 +26,6 @@ public class EdoChecklistSectionMaintainableImpl extends HrBusinessObjectMaintai
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return EdoChecklistSectionBo.from(EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(id));
+		return EdoChecklistSectionBo.from(EdoServiceLocator.getChecklistSectionService().getChecklistSectionById(id));
 	}
 }

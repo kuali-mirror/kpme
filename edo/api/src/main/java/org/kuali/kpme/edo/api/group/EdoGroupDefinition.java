@@ -1,4 +1,4 @@
-package org.kuali.kpme.edo.api.checklist;
+package org.kuali.kpme.edo.api.group;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -15,38 +15,44 @@ import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.w3c.dom.Element;
 
-@XmlRootElement(name = EdoChecklistSection.Constants.ROOT_ELEMENT_NAME)
+@XmlRootElement(name = EdoGroupDefinition.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = EdoChecklistSection.Constants.TYPE_NAME, propOrder = {
-    EdoChecklistSection.Elements.CHECKLIST_SECTION_ORDINAL,
-    EdoChecklistSection.Elements.EDO_CHECKLIST_SECTION_ID,
-    EdoChecklistSection.Elements.EDO_CHECKLIST_ID,
-    EdoChecklistSection.Elements.DESCRIPTION,
-    EdoChecklistSection.Elements.CHECKLIST_SECTION_NAME,
+@XmlType(name = EdoGroupDefinition.Constants.TYPE_NAME, propOrder = {
+    EdoGroupDefinition.Elements.KIM_ROLE_NAME,
+    EdoGroupDefinition.Elements.KIM_TYPE_NAME,
+    EdoGroupDefinition.Elements.WORKFLOW_TYPE,
+    EdoGroupDefinition.Elements.EDO_GROUP_ID,
+    EdoGroupDefinition.Elements.EDO_WORKFLOW_ID,
+    EdoGroupDefinition.Elements.DOSSIER_TYPE,
+    EdoGroupDefinition.Elements.WORKFLOW_LEVEL,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
-    EdoChecklistSection.Elements.ACTIVE,
-    EdoChecklistSection.Elements.ID,
-    EdoChecklistSection.Elements.EFFECTIVE_LOCAL_DATE,
-    EdoChecklistSection.Elements.CREATE_TIME,
-    EdoChecklistSection.Elements.USER_PRINCIPAL_ID,
+    EdoGroupDefinition.Elements.ACTIVE,
+    EdoGroupDefinition.Elements.ID,
+    EdoGroupDefinition.Elements.EFFECTIVE_LOCAL_DATE,
+    EdoGroupDefinition.Elements.CREATE_TIME,
+    EdoGroupDefinition.Elements.USER_PRINCIPAL_ID,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
-public final class EdoChecklistSection
+public final class EdoGroupDefinition
     extends AbstractDataTransferObject
-    implements EdoChecklistSectionContract
+    implements EdoGroupDefinitionContract
 {
 
-    @XmlElement(name = Elements.CHECKLIST_SECTION_ORDINAL, required = false)
-    private final int checklistSectionOrdinal;
-    @XmlElement(name = Elements.EDO_CHECKLIST_SECTION_ID, required = false)
-    private final String edoChecklistSectionId;
-    @XmlElement(name = Elements.EDO_CHECKLIST_ID, required = false)
-    private final String edoChecklistId;
-    @XmlElement(name = Elements.DESCRIPTION, required = false)
-    private final String description;
-    @XmlElement(name = Elements.CHECKLIST_SECTION_NAME, required = false)
-    private final String checklistSectionName;
+    @XmlElement(name = Elements.KIM_ROLE_NAME, required = false)
+    private final String kimRoleName;
+    @XmlElement(name = Elements.KIM_TYPE_NAME, required = false)
+    private final String kimTypeName;
+    @XmlElement(name = Elements.WORKFLOW_TYPE, required = false)
+    private final String workflowType;
+    @XmlElement(name = Elements.EDO_GROUP_ID, required = false)
+    private final String edoGroupId;
+    @XmlElement(name = Elements.EDO_WORKFLOW_ID, required = false)
+    private final String edoWorkflowId;
+    @XmlElement(name = Elements.DOSSIER_TYPE, required = false)
+    private final String dossierType;
+    @XmlElement(name = Elements.WORKFLOW_LEVEL, required = false)
+    private final String workflowLevel;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -69,12 +75,14 @@ public final class EdoChecklistSection
      * Private constructor used only by JAXB.
      * 
      */
-    private EdoChecklistSection() {
-        this.checklistSectionOrdinal = 0;
-        this.edoChecklistSectionId = null;
-        this.edoChecklistId = null;
-        this.description = null;
-        this.checklistSectionName = null;
+    private EdoGroupDefinition() {
+        this.kimRoleName = null;
+        this.kimTypeName = null;
+        this.workflowType = null;
+        this.edoGroupId = null;
+        this.edoWorkflowId = null;
+        this.dossierType = null;
+        this.workflowLevel = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -84,12 +92,14 @@ public final class EdoChecklistSection
         this.userPrincipalId = null;
     }
 
-    private EdoChecklistSection(Builder builder) {
-        this.checklistSectionOrdinal = builder.getChecklistSectionOrdinal();
-        this.edoChecklistSectionId = builder.getEdoChecklistSectionId();
-        this.edoChecklistId = builder.getEdoChecklistId();
-        this.description = builder.getDescription();
-        this.checklistSectionName = builder.getChecklistSectionName();
+    private EdoGroupDefinition(Builder builder) {
+        this.kimRoleName = builder.getKimRoleName();
+        this.kimTypeName = builder.getKimTypeName();
+        this.workflowType = builder.getWorkflowType();
+        this.edoGroupId = builder.getEdoGroupId();
+        this.edoWorkflowId = builder.getEdoWorkflowId();
+        this.dossierType = builder.getDossierType();
+        this.workflowLevel = builder.getWorkflowLevel();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -100,28 +110,38 @@ public final class EdoChecklistSection
     }
 
     @Override
-    public int getChecklistSectionOrdinal() {
-        return this.checklistSectionOrdinal;
+    public String getKimRoleName() {
+        return this.kimRoleName;
     }
 
     @Override
-    public String getEdoChecklistSectionId() {
-        return this.edoChecklistSectionId;
+    public String getKimTypeName() {
+        return this.kimTypeName;
     }
 
     @Override
-    public String getEdoChecklistId() {
-        return this.edoChecklistId;
+    public String getWorkflowType() {
+        return this.workflowType;
     }
 
     @Override
-    public String getDescription() {
-        return this.description;
+    public String getEdoGroupId() {
+        return this.edoGroupId;
     }
 
     @Override
-    public String getChecklistSectionName() {
-        return this.checklistSectionName;
+    public String getEdoWorkflowId() {
+        return this.edoWorkflowId;
+    }
+
+    @Override
+    public String getDossierType() {
+        return this.dossierType;
+    }
+
+    @Override
+    public String getWorkflowLevel() {
+        return this.workflowLevel;
     }
 
     @Override
@@ -161,18 +181,20 @@ public final class EdoChecklistSection
 
 
     /**
-     * A builder which can be used to construct {@link EdoChecklistSection} instances.  Enforces the constraints of the {@link EdoChecklistSectionContract}.
+     * A builder which can be used to construct {@link EdoGroupDefinition} instances.  Enforces the constraints of the {@link EdoGroupDefinitionContract}.
      * 
      */
     public final static class Builder
-        implements Serializable, EdoChecklistSectionContract, ModelBuilder
+        implements Serializable, EdoGroupDefinitionContract, ModelBuilder
     {
 
-        private int checklistSectionOrdinal;
-        private String edoChecklistSectionId;
-        private String edoChecklistId;
-        private String description;
-        private String checklistSectionName;
+        private String kimRoleName;
+        private String kimTypeName;
+        private String workflowType;
+        private String edoGroupId;
+        private String edoWorkflowId;
+        private String dossierType;
+        private String workflowLevel;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -190,17 +212,19 @@ public final class EdoChecklistSection
             return new Builder();
         }
 
-        public static Builder create(EdoChecklistSectionContract contract) {
+        public static Builder create(EdoGroupDefinitionContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-            builder.setChecklistSectionOrdinal(contract.getChecklistSectionOrdinal());
-            builder.setEdoChecklistSectionId(contract.getEdoChecklistSectionId());
-            builder.setEdoChecklistId(contract.getEdoChecklistId());
-            builder.setDescription(contract.getDescription());
-            builder.setChecklistSectionName(contract.getChecklistSectionName());
+            builder.setKimRoleName(contract.getKimRoleName());
+            builder.setKimTypeName(contract.getKimTypeName());
+            builder.setWorkflowType(contract.getWorkflowType());
+            builder.setEdoGroupId(contract.getEdoGroupId());
+            builder.setEdoWorkflowId(contract.getEdoWorkflowId());
+            builder.setDossierType(contract.getDossierType());
+            builder.setWorkflowLevel(contract.getWorkflowLevel());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -211,33 +235,43 @@ public final class EdoChecklistSection
             return builder;
         }
 
-        public EdoChecklistSection build() {
-            return new EdoChecklistSection(this);
+        public EdoGroupDefinition build() {
+            return new EdoGroupDefinition(this);
         }
 
         @Override
-        public int getChecklistSectionOrdinal() {
-            return this.checklistSectionOrdinal;
+        public String getKimRoleName() {
+            return this.kimRoleName;
         }
 
         @Override
-        public String getEdoChecklistSectionId() {
-            return this.edoChecklistSectionId;
+        public String getKimTypeName() {
+            return this.kimTypeName;
         }
 
         @Override
-        public String getEdoChecklistId() {
-            return this.edoChecklistId;
+        public String getWorkflowType() {
+            return this.workflowType;
         }
 
         @Override
-        public String getDescription() {
-            return this.description;
+        public String getEdoGroupId() {
+            return this.edoGroupId;
         }
 
         @Override
-        public String getChecklistSectionName() {
-            return this.checklistSectionName;
+        public String getEdoWorkflowId() {
+            return this.edoWorkflowId;
+        }
+
+        @Override
+        public String getDossierType() {
+            return this.dossierType;
+        }
+
+        @Override
+        public String getWorkflowLevel() {
+            return this.workflowLevel;
         }
 
         @Override
@@ -275,29 +309,39 @@ public final class EdoChecklistSection
             return this.userPrincipalId;
         }
 
-        public void setChecklistSectionOrdinal(int checklistSectionOrdinal) {
+        public void setKimRoleName(String kimRoleName) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.checklistSectionOrdinal = checklistSectionOrdinal;
+            this.kimRoleName = kimRoleName;
         }
 
-        public void setEdoChecklistSectionId(String edoChecklistSectionId) {
+        public void setKimTypeName(String kimTypeName) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoChecklistSectionId = edoChecklistSectionId;
+            this.kimTypeName = kimTypeName;
         }
 
-        public void setEdoChecklistId(String edoChecklistId) {
+        public void setWorkflowType(String workflowType) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoChecklistId = edoChecklistId;
+            this.workflowType = workflowType;
         }
 
-        public void setDescription(String description) {
+        public void setEdoGroupId(String edoGroupId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.description = description;
+            this.edoGroupId = edoGroupId;
         }
 
-        public void setChecklistSectionName(String checklistSectionName) {
+        public void setEdoWorkflowId(String edoWorkflowId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.checklistSectionName = checklistSectionName;
+            this.edoWorkflowId = edoWorkflowId;
+        }
+
+        public void setDossierType(String dossierType) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.dossierType = dossierType;
+        }
+
+        public void setWorkflowLevel(String workflowLevel) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.workflowLevel = workflowLevel;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -344,8 +388,8 @@ public final class EdoChecklistSection
      */
     static class Constants {
 
-        final static String ROOT_ELEMENT_NAME = "edoChecklistSection";
-        final static String TYPE_NAME = "EdoChecklistSectionType";
+        final static String ROOT_ELEMENT_NAME = "edoGroupDefinition";
+        final static String TYPE_NAME = "EdoGroupDefinitionType";
 
     }
 
@@ -356,11 +400,13 @@ public final class EdoChecklistSection
      */
     static class Elements {
 
-        final static String CHECKLIST_SECTION_ORDINAL = "checklistSectionOrdinal";
-        final static String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionId";
-        final static String EDO_CHECKLIST_ID = "edoChecklistId";
-        final static String DESCRIPTION = "description";
-        final static String CHECKLIST_SECTION_NAME = "checklistSectionName";
+        final static String KIM_ROLE_NAME = "kimRoleName";
+        final static String KIM_TYPE_NAME = "kimTypeName";
+        final static String WORKFLOW_TYPE = "workflowType";
+        final static String EDO_GROUP_ID = "edoGroupId";
+        final static String EDO_WORKFLOW_ID = "edoWorkflowId";
+        final static String DOSSIER_TYPE = "dossierType";
+        final static String WORKFLOW_LEVEL = "workflowLevel";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";

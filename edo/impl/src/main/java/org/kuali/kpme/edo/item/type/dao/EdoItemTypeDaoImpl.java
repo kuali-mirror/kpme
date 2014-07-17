@@ -29,11 +29,11 @@ public class EdoItemTypeDaoImpl extends PlatformAwareDaoBaseOjb  implements EdoI
      * @param   itemTypeID  the database ID of the requested item type
      * @return              an object of EdoItemType, null on error or no data
      */
-    public EdoItemTypeBo getItemType(String edoItemTypeID) {
+    public EdoItemTypeBo getItemType(String edoItemTypeId) {
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edoItemTypeId", edoItemTypeID);
+        cConditions.addEqualTo("edoItemTypeId", edoItemTypeId);
 
         Query query = QueryFactory.newQuery(EdoItemTypeBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -46,7 +46,7 @@ public class EdoItemTypeDaoImpl extends PlatformAwareDaoBaseOjb  implements EdoI
         return null;
     }
 
-    public String getItemTypeID(String itemTypeName, LocalDate asOfDate) {
+    public String getItemTypeId(String itemTypeName, LocalDate asOfDate) {
 
         Criteria cConditions = new Criteria();
 

@@ -26,12 +26,12 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
  */
 public class EdoChecklistItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoChecklistItemDao {
 
-    public EdoChecklistItemBo getChecklistItemByID(String edoChecklistItemID) {
+    public EdoChecklistItemBo getChecklistItemById(String edoChecklistItemId) {
         EdoChecklistItemBo checklistItem = new EdoChecklistItemBo();
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edo_checklist_item_id", edoChecklistItemID);
+        cConditions.addEqualTo("edoChecklistItemId", edoChecklistItemId);
 
         QueryByCriteria query = QueryFactory.newQuery(EdoChecklistItemBo.class, cConditions);
 
@@ -48,12 +48,12 @@ public class EdoChecklistItemDaoImpl extends PlatformAwareDaoBaseOjb implements 
 
     }
     
-    public List<EdoChecklistItemBo> getChecklistItemsBySectionID(String edoChecklistSectionID, LocalDate asOfDate) {
+    public List<EdoChecklistItemBo> getChecklistItemsBySectionId(String edoChecklistSectionId, LocalDate asOfDate) {
     	
 		List<EdoChecklistItemBo> results = new ArrayList<EdoChecklistItemBo>();
     	Criteria root = new Criteria();
 
-    	root.addEqualTo("edo_checklist_Section_id", edoChecklistSectionID);
+    	root.addEqualTo("edoChecklistSectionId", edoChecklistSectionId);
     	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistItemBo.class, asOfDate, EdoChecklistItemBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistItemBo.class, EdoChecklistItemBo.BUSINESS_KEYS, false));
         
@@ -67,12 +67,14 @@ public class EdoChecklistItemDaoImpl extends PlatformAwareDaoBaseOjb implements 
         return results;
     }
     
-    public List<EdoChecklistItemBo> getChecklistItemsBySectionIDs(List<String> idList, LocalDate asOfDate) {
+    public List<EdoChecklistItemBo> getChecklistItemsBySectionIds(List<String> idList, LocalDate asOfDate) {
 
         List<EdoChecklistItemBo> results = new LinkedList<EdoChecklistItemBo>();
         Criteria root = new Criteria();
 
-        root.addColumnIn("edo_checklist_Section_id", idList);
+        // For some reason, when use addColumnIn, it has to be the name of the column name, not the field name 
+        //root.addColumnIn("edoChecklistSectionId", idList);  
+        root.addColumnIn("edo_checklist_section_id", idList);
     	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistItemBo.class, asOfDate, EdoChecklistItemBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistItemBo.class, EdoChecklistItemBo.BUSINESS_KEYS, false));
 

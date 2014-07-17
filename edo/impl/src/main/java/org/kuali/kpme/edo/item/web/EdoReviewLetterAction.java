@@ -186,7 +186,7 @@ public class EdoReviewLetterAction extends EdoAction {
         BigDecimal itemID = BigDecimal.ZERO;
         String itemReviewLayerID = null;
         LocalDate currentDate = LocalDate.now();
-        String itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER, currentDate);
+        String itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeId(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER, currentDate);
 
         FormFile uploadFile = edoReviewLetterForm.getUploadFile();
         int checklistItemID = edoReviewLetterForm.getChecklistItemID();

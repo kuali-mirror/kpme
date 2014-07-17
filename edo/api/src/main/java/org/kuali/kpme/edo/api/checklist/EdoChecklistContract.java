@@ -30,12 +30,12 @@ public interface EdoChecklistContract extends KpmeEffectiveKeyedDataTransferObje
 	 * The department id that this EdoChecklist is associated with
 	 * 
 	 * <p>
-	 * departmentID of the EdoChecklist
+	 * departmentId of the EdoChecklist
 	 * <p>
 	 * 
-	 * @return departmentID for EdoChecklist
+	 * @return departmentId for EdoChecklist
 	 */
-	public String getDepartmentID();
+	public String getDepartmentId();
 	
 	/**
 	 * The organization code that this EdoChecklist is associated with

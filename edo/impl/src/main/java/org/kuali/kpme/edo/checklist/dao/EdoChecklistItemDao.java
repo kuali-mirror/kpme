@@ -15,8 +15,8 @@ import org.kuali.kpme.edo.checklist.EdoChecklistItemBo;
  */
 public interface EdoChecklistItemDao {
 
-    public EdoChecklistItemBo getChecklistItemByID(String edoChecklistItemID);
-    public List<EdoChecklistItemBo> getChecklistItemsBySectionID(String edoChecklistSectionID, LocalDate asOfDate);
+    public EdoChecklistItemBo getChecklistItemById(String edoChecklistItemId);
+    public List<EdoChecklistItemBo> getChecklistItemsBySectionId(String edoChecklistSectionId, LocalDate asOfDate);
     
-    public List<EdoChecklistItemBo> getChecklistItemsBySectionIDs(List<String> idList, LocalDate asOfDate);
+    public List<EdoChecklistItemBo> getChecklistItemsBySectionIds(List<String> idList, LocalDate asOfDate);
 }

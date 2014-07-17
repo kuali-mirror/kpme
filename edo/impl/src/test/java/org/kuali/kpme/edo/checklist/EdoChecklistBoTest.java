@@ -32,9 +32,9 @@ public class EdoChecklistBoTest {
 	
 	static {
 		testEdoChecklistBos = new HashMap<String, EdoChecklist>();
-		edoEdoChecklistBuilder.setEdoChecklistId("EDO_CHECKLIST_ID_0001");
+		edoEdoChecklistBuilder.setEdoChecklistId("1000");
 		edoEdoChecklistBuilder.setDescription("Testing Immutable EdoChecklist");
-		edoEdoChecklistBuilder.setDepartmentID("DEFAULT");
+		edoEdoChecklistBuilder.setDepartmentId("DEFAULT");
 		edoEdoChecklistBuilder.setDossierTypeCode("AB");
 		edoEdoChecklistBuilder.setGroupKeyCode("ISU-IA");
 		edoEdoChecklistBuilder.setUserPrincipalId("admin");
@@ -52,7 +52,7 @@ public class EdoChecklistBoTest {
 	
     @Test
     public void testNotEqualsWithGroup() {
-    	EdoChecklist immutable = EdoChecklistBoTest.getEdoChecklist("EDO_CHECKLIST_ID_0001");
+    	EdoChecklist immutable = EdoChecklistBoTest.getEdoChecklist("1000");
     	EdoChecklistBo bo = EdoChecklistBo.from(immutable);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));

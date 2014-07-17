@@ -36,26 +36,6 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 			.add(KeyFields.EDO_CHECKLIST_ITEM_ID)
 			.add(KeyFields.EDO_CHECKLIST_SECTION_ID)
 			.build();
-
-    @Override
-	public boolean isActive() {
-		return super.isActive();
-	}
-
-	@Override
-	public void setActive(boolean active) {
-		super.setActive(active);
-	}
-
-	@Override
-	public String getObjectId() {
-		return super.getObjectId();
-	}
-
-	@Override
-	public Long getVersionNumber() {
-		return super.getVersionNumber();
-	}
 	
 	@Override
 	public String getId() {

@@ -13,31 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kpme.edo.checklist;
+package org.kuali.kpme.edo.group;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.edo.EdoUnitTestBase;
-import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
+import org.kuali.kpme.edo.api.group.EdoGroupDefinition;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 @IntegrationTest
-public class EdoChecklistSectionServiceTest extends EdoUnitTestBase {
+public class EdoGroupDefinitionServiceTest extends EdoUnitTestBase {
 
-	private final String edoChecklistSectionId = "1000";
-	private final String edoChecklistId = "1000";
+	private final String edoGroupDefId = "1000";
+	private final String edoWorkflowId = "1000";
 
 	@Before
 	public void setUp() throws Exception {
-	super.setUp();
-	
+		super.setUp();
 	}
 	
 	@After
@@ -46,18 +44,14 @@ public class EdoChecklistSectionServiceTest extends EdoUnitTestBase {
 	}
 
 	@Test
-	public void testGetEdoChecklistItemById() throws Exception {
-
-		EdoChecklistSection edoChecklistSection = EdoServiceLocator.getChecklistSectionService().getChecklistSectionById(edoChecklistSectionId);
-		assertEquals("testEdoChecklistSection1", edoChecklistSection.getChecklistSectionName());
+	public void testGetEdoGroupDefinition() throws Exception {
+		EdoGroupDefinition edoGroupDefinition = EdoServiceLocator.getEdoGroupDefinitionService().getEdoGroupDefinition(edoGroupDefId);
+		assertEquals("PT", edoGroupDefinition.getDossierType());
 	}
 	
 	@Test
-	public void testGetChecklistItemsBySectionId() throws Exception {
-
-		LocalDate  asOfDate = new LocalDate(2012,1,1);
-		
-		List<EdoChecklistSection> sections = EdoServiceLocator.getChecklistSectionService().getChecklistSectionsByChecklistId(edoChecklistId, asOfDate);
-		assertEquals("returned the correct number of results", 2, sections.size());
+	public void testGetEdoGroupDefinitionsByWorkflowId() throws Exception {		
+		List<EdoGroupDefinition> edoGroupDefinitions = EdoServiceLocator.getEdoGroupDefinitionService().getEdoGroupDefinitionsByWorkflowId(edoWorkflowId);
+		assertEquals("returned the correct number of results", 2, edoGroupDefinitions.size());
 	}
 }

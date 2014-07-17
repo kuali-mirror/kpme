@@ -22,24 +22,24 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
  */
 public class EdoChecklistDaoImpl extends PlatformAwareDaoBaseOjb implements EdoChecklistDao {
 
-    public EdoChecklistBo getChecklistByID(String edoChecklistID) {
+    public EdoChecklistBo getChecklistById(String edoChecklistId) {
 
         Criteria cConditions = new Criteria();
-        cConditions.addEqualTo("edo_checklist_id", edoChecklistID);
+        cConditions.addEqualTo("edoChecklistId", edoChecklistId);
 
         QueryByCriteria query = QueryFactory.newQuery(EdoChecklistBo.class, cConditions);
 		return (EdoChecklistBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
     }
     
-    public List<EdoChecklistBo> getChecklists(String groupKey, String organizationCode, String departmentID, LocalDate asOfDate) {
+    public List<EdoChecklistBo> getChecklists(String groupKey, String organizationCode, String departmentId, LocalDate asOfDate) {
     	
     	List<EdoChecklistBo> results = new ArrayList<EdoChecklistBo>();
     	Criteria root = new Criteria();
 
-    	root.addEqualTo("grp_key_cd", groupKey);
-    	root.addEqualTo("org_cd", organizationCode);
-    	root.addEqualTo("department_id", departmentID);
+    	root.addEqualTo("groupKeyCode", groupKey);
+    	root.addEqualTo("organizationCode", organizationCode);
+    	root.addEqualTo("departmentId", departmentId);
     	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistBo.class, asOfDate, EdoChecklistBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistBo.class, EdoChecklistBo.BUSINESS_KEYS, false));
         

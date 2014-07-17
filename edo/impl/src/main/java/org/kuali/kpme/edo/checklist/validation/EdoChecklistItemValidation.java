@@ -37,16 +37,16 @@ public class EdoChecklistItemValidation extends MaintenanceDocumentRuleBase {
 		EdoChecklistItemBo checklistItem = (EdoChecklistItemBo) this.getNewDataObject();
 		
 		if (checklistItem != null) {
-			isValid &= validateSectionID(checklistItem);
+			isValid &= validateSectionId(checklistItem);
 			isValid &= validateChecklistOrdinal(checklistItem);
 			isValid &= validateChecklistItemName(checklistItem);
 		}
 		return isValid;
 	}
 	
-	private boolean validateSectionID(EdoChecklistItemBo checklistItem) {
+	private boolean validateSectionId(EdoChecklistItemBo checklistItem) {
 		
-		EdoChecklistSection aSection = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionId()) ;
+		EdoChecklistSection aSection = EdoServiceLocator.getChecklistSectionService().getChecklistSectionById(checklistItem.getEdoChecklistSectionId()) ;
 		String errorMes = "Checklist Section '"+ checklistItem.getEdoChecklistSectionId() + "'";
 		if(aSection == null) {
 			this.putFieldError("dataObject.edoChecklistSection", "error.existence", errorMes);
@@ -58,7 +58,7 @@ public class EdoChecklistItemValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateChecklistOrdinal(EdoChecklistItemBo checklistItem) {
 
-		List<EdoChecklistItem> listItems = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionID(checklistItem.getEdoChecklistSectionId(), checklistItem.getEffectiveLocalDate());
+		List<EdoChecklistItem> listItems = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionId(checklistItem.getEdoChecklistSectionId(), checklistItem.getEffectiveLocalDate());
 		for (EdoChecklistItem listItem : listItems) {
 			if (listItem.getChecklistItemOrdinal() == checklistItem.getChecklistItemOrdinal()) {
 				// error.checklist.exist ={0} '{1}' is already in use.
@@ -80,13 +80,13 @@ public class EdoChecklistItemValidation extends MaintenanceDocumentRuleBase {
 		EdoChecklistSectionService checklistSectionService = EdoServiceLocator.getChecklistSectionService();
 		
 		String edoChecklistSectionId = checklistItem.getEdoChecklistSectionId();
-		String edoChecklistId = checklistSectionService.getChecklistSectionByID(edoChecklistSectionId).getEdoChecklistId();
+		String edoChecklistId = checklistSectionService.getChecklistSectionById(edoChecklistSectionId).getEdoChecklistId();
 		
-		List<EdoChecklistSection> sections = checklistSectionService.getChecklistSectionsByChecklistID(edoChecklistId, today);
+		List<EdoChecklistSection> sections = checklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId, today);
 		
 		for (EdoChecklistSection section : sections) {
 			
-			List<EdoChecklistItem> listItems = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionID(section.getEdoChecklistSectionId(), today);
+			List<EdoChecklistItem> listItems = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionId(section.getEdoChecklistSectionId(), today);
 			for (EdoChecklistItem listItem : listItems) {
 				if (listItem.getChecklistItemName().equals(checklistItem.getChecklistItemName())) {
 					// error.checklist.exist ={0} '{1}' is already in use.

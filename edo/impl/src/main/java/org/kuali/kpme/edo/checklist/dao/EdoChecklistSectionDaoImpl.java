@@ -22,22 +22,22 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
  */
 public class EdoChecklistSectionDaoImpl extends PlatformAwareDaoBaseOjb implements EdoChecklistSectionDao {
 
-    public EdoChecklistSectionBo getChecklistSectionByID(String edoChecklistSectionID) {
+    public EdoChecklistSectionBo getChecklistSectionById(String edoChecklistSectionId) {
 
         Criteria cConditions = new Criteria();
-        cConditions.addEqualTo("edo_checklist_section_id", edoChecklistSectionID);
+        cConditions.addEqualTo("edoChecklistSectionId", edoChecklistSectionId);
         
         QueryByCriteria query = QueryFactory.newQuery(EdoChecklistSectionBo.class, cConditions);
 		return (EdoChecklistSectionBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
     }
     
-    public List<EdoChecklistSectionBo> getChecklistSectionsByChecklistID(String edoChecklistID, LocalDate asOfDate) {
+    public List<EdoChecklistSectionBo> getChecklistSectionsByChecklistId(String edoChecklistId, LocalDate asOfDate) {
     	
 		List<EdoChecklistSectionBo> results = new ArrayList<EdoChecklistSectionBo>();
     	Criteria root = new Criteria();
 
-    	root.addEqualTo("edoChecklistId", edoChecklistID);
+    	root.addEqualTo("edoChecklistId", edoChecklistId);
     	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistSectionBo.class, asOfDate, EdoChecklistSectionBo.BUSINESS_KEYS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistSectionBo.class, EdoChecklistSectionBo.BUSINESS_KEYS, false));
         

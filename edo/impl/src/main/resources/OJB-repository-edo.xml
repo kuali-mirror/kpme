@@ -42,7 +42,7 @@
 	<class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklistBo" table="EDO_CHECKLIST_T">
 		<field-descriptor name="edoChecklistId" column="EDO_CHECKLIST_ID" jdbc-type="VARCHAR" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_CHECKLIST_S" />
 		<field-descriptor name="dossierTypeCode" column="DOSSIER_TYP_CD" jdbc-type="VARCHAR" nullable="false" length="2" primarykey="false" />
-		<field-descriptor name="departmentID" column="DEPARTMENT_ID" jdbc-type="VARCHAR" nullable="false" length="12" primarykey="false" />
+		<field-descriptor name="departmentId" column="DEPARTMENT_ID" jdbc-type="VARCHAR" nullable="false" length="12" primarykey="false" />
 		<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" nullable="false" length="10" primarykey="false" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" primarykey="false" />
 		<field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
@@ -244,14 +244,20 @@
         <field-descriptor name="acknowledged" column="acknowledged" jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"  primarykey="false" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.edo.group.EdoGroupDefinition" table="EDO_GROUP_DEF_T">
-        <field-descriptor name="groupId" column="group_id" jdbc-type="NUMERIC" primarykey="true" />
-        <field-descriptor name="workflowId" column="workflow_id" jdbc-type="VARCHAR" length="25" primarykey="false" />
+    <class-descriptor class="org.kuali.kpme.edo.group.EdoGroupDefinitionBo" table="EDO_GROUP_DEF_T">
+        <field-descriptor name="edoGroupId" column="edo_group_id" jdbc-type="VARCHAR" length="60" primarykey="true" />
+        <field-descriptor name="edoWorkflowId" column="edo_workflow_id" jdbc-type="VARCHAR" length="60" primarykey="false" />
         <field-descriptor name="workflowLevel" column="workflow_level" jdbc-type="VARCHAR" length="25" primarykey="false" />
         <field-descriptor name="dossierType" column="dossier_type" jdbc-type="VARCHAR" length="25" primarykey="false" />
         <field-descriptor name="workflowType" column="workflow_type" jdbc-type="VARCHAR" length="25" primarykey="false" />
         <field-descriptor name="kimTypeName" column="kim_type_name" jdbc-type="VARCHAR" length="25" primarykey="false" />
         <field-descriptor name="kimRoleName" column="kim_role_name" jdbc-type="VARCHAR" length="64" primarykey="false" />
+        <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="true"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.edo.group.EdoGroupTracking" table="EDO_GROUP_TRACKING_T">

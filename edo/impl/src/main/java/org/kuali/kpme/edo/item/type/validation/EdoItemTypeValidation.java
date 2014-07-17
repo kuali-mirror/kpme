@@ -39,7 +39,7 @@ public class EdoItemTypeValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateItemTypeName(EdoItemTypeBo edoItemType) {
 		
-		String itemId = EdoServiceLocator.getEdoItemTypeService().getItemTypeID(edoItemType.getItemTypeName(), edoItemType.getEffectiveLocalDate());
+		String itemId = EdoServiceLocator.getEdoItemTypeService().getItemTypeId(edoItemType.getItemTypeName(), edoItemType.getEffectiveLocalDate());
 		
 		if (!StringUtils.isEmpty(itemId)) {
 			

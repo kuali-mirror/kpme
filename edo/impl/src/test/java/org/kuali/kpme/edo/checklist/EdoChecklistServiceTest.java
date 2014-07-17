@@ -47,9 +47,9 @@ public class EdoChecklistServiceTest extends EdoUnitTestBase {
 	@Test
 	public void testGetEdoChecklistById() throws Exception {
 
-		EdoChecklist edoChecklist = EdoServiceLocator.getChecklistService().getChecklistByID(edoChecklistId);
+		EdoChecklist edoChecklist = EdoServiceLocator.getChecklistService().getChecklistById(edoChecklistId);
 		assertEquals("TA", edoChecklist.getDossierTypeCode());
-		assertEquals("DEFAULT", edoChecklist.getDepartmentID());
+		assertEquals("DEFAULT", edoChecklist.getDepartmentId());
 	}
 	
 	@Test

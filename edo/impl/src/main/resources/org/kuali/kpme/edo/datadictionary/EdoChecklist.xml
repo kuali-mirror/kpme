@@ -29,7 +29,7 @@
 			<list merge="true">
 				<ref bean="EdoChecklist-edoChecklistId" />
 				<ref bean="EdoChecklist-dossierTypeCode" />
-				<ref bean="EdoChecklist-departmentID" />
+				<ref bean="EdoChecklist-departmentId" />
 				<ref bean="EdoChecklist-organizationCode" />
 				<ref bean="EdoChecklist-description" />
 			</list>
@@ -60,8 +60,8 @@
 		<property name="label" value="Dossier Type Code" />
 	</bean>
 
-	<bean id="EdoChecklist-departmentID" parent="EdoChecklist-departmentID-parentBean" />
-	<bean id="EdoChecklist-departmentID-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="EdoChecklist-departmentId" parent="EdoChecklist-departmentId-parentBean" />
+	<bean id="EdoChecklist-departmentId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Department" />
 		<property name="maxLength" value="12" />
 		<property name="controlField">
@@ -72,7 +72,7 @@
                 <property name="allowWhitespace" value="false" />
             </bean>
         </property>
-		<property name="name" value="departmentID" />
+		<property name="name" value="departmentId" />
 		<property name="label" value="Department" />
 	</bean>
 	
@@ -126,10 +126,10 @@
                      p:fieldConversions="dossierTypeCode:dossierTypeCode" />
             </property>
         </bean>  
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="departmentID" >
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="departmentId" >
         	<property name="quickfinder">
                <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                     p:fieldConversions="dept:departmentID" />
+                     p:fieldConversions="dept:departmentId" />
             </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="organizationCode" >
@@ -150,10 +150,10 @@
 							p:inquiryParameters="dossierTypeCode:dossierTypeCode,effectiveDate:effectiveDate" />
 			</property>
       	</bean>
-        <bean parent="Uif-DataField" p:propertyName="departmentID" >
+        <bean parent="Uif-DataField" p:propertyName="departmentId" >
         	<property name="inquiry">
 				<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-							p:inquiryParameters="departmentID:dept,groupKeyCode:groupKeyCode,effectiveDate:effectiveDate" />
+							p:inquiryParameters="departmentId:dept,groupKeyCode:groupKeyCode,effectiveDate:effectiveDate" />
 			</property>
         </bean>
         <bean parent="Uif-DataField" p:propertyName="organizationCode" />
@@ -176,7 +176,7 @@
 				<property name="items">
 					<list merge="true">
 						<bean parent="Uif-DataField" p:propertyName="dossierTypeCode" />
-						<bean parent="Uif-DataField" p:propertyName="departmentID" />
+						<bean parent="Uif-DataField" p:propertyName="departmentId" />
 						<bean parent="Uif-DataField" p:propertyName="organizationCode" />
 						<bean parent="Uif-DataField" p:propertyName="description" />
 						<bean parent="Uif-DataField" p:propertyName="active" />
@@ -204,10 +204,10 @@
                      		p:fieldConversions="dossierTypeCode:dossierTypeCode" />
             		</property>
             	</bean>
-		        <bean parent="Uif-InputField" p:propertyName="departmentID" p:required="true" >
+		        <bean parent="Uif-InputField" p:propertyName="departmentId" p:required="true" >
 		        	<property name="quickfinder">
                			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                     		p:fieldConversions="dept:departmentID" />
+                     		p:fieldConversions="dept:departmentId" />
             		</property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="organizationCode" p:required="true" >

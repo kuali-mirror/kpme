@@ -24,10 +24,10 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
  */
 public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDao {
 
-    public EdoItemBo getEdoItem(String edoItemID) {
+    public EdoItemBo getEdoItem(String edoItemId) {
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edoItemId", edoItemID);
+        cConditions.addEqualTo("edoItemId", edoItemId);
 
         Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -40,14 +40,14 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
         return null;
     }
     
-    public List<EdoItemBo> getItemList(String edoDossierID, String edoChecklistItemID) {
+    public List<EdoItemBo> getItemList(String edoDossierId, String edoChecklistItemId) {
 
     	List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edoChecklistItemId", edoChecklistItemID);
-        cConditions.addEqualTo("edoDossierId", edoDossierID);
+        cConditions.addEqualTo("edoChecklistItemId", edoChecklistItemId);
+        cConditions.addEqualTo("edoDossierId", edoDossierId);
 
         Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -90,12 +90,12 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     }
 
     @Override
-    public List<EdoItemBo> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemID) {
+    public List<EdoItemBo> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemId) {
         List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edo_dossier_id", edoDossierId);
-        cConditions.addEqualTo("edo_checklist_item_id", edoChecklistItemID);
+        cConditions.addEqualTo("edoDossierId", edoDossierId);
+        cConditions.addEqualTo("edoChecklistItemId", edoChecklistItemId);
         cConditions.addEqualTo("routed", true);
 
         Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
@@ -110,12 +110,12 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     }
     
     @Override
-    public List<EdoItemBo> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID) {
+    public List<EdoItemBo> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemId) {
     	 List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
          Criteria cConditions = new Criteria();
 
-         cConditions.addEqualTo("edo_dossier_id", edoDossierId);
-         cConditions.addEqualTo("edo_checklist_item_id", edoChecklistItemID);
+         cConditions.addEqualTo("edoDossierId", edoDossierId);
+         cConditions.addEqualTo("edoChecklistItemId", edoChecklistItemId);
          cConditions.addEqualTo("routed", false);
 
          Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
@@ -130,14 +130,15 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     	
     }
 
-    public List<EdoItemBo> getPendingLettersByDossierId(String edoDossierId, String edoChecklistItemID) {
+    public List<EdoItemBo> getPendingLettersByDossierId(String edoDossierId, String edoChecklistItemId) {
         List<EdoItemBo> letterList = new LinkedList<EdoItemBo>();
 
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("edo_dossier_id", edoDossierId);
-        cConditions.addEqualTo("edo_review_layer_def_id", edoChecklistItemID);
-        cConditions.addIsNull("layer_level");
+        cConditions.addEqualTo("edoDossierId", edoDossierId);
+        cConditions.addEqualTo("edoReviewLayerDefId", edoChecklistItemId);
+        //cConditions.addIsNull("layer_level");
+        cConditions.addEqualTo("routed", true);
 
         Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -167,6 +168,8 @@ public class EdoItemDaoImpl extends PlatformAwareDaoBaseOjb implements EdoItemDa
     	Criteria cConditions = new Criteria();
         List<EdoItemBo> itemList = new LinkedList<EdoItemBo>();
 
+        // For some reason, when use addColumnIn, it has to be the name of the column name, not the field name
+        //cConditions.addColumnIn("edoItemId", idList);
         cConditions.addColumnIn("edo_item_id", idList);
 
         Query query = QueryFactory.newQuery(EdoItemBo.class, cConditions);

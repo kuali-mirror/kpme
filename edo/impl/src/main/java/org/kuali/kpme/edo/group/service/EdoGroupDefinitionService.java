@@ -1,8 +1,8 @@
 package org.kuali.kpme.edo.group.service;
 
-import org.kuali.kpme.edo.group.EdoGroupDefinition;
-
 import java.util.List;
+
+import org.kuali.kpme.edo.api.group.EdoGroupDefinition;
 
 /**
  * $HeadURL$
@@ -13,7 +13,7 @@ import java.util.List;
  * Time: 10:44 AM
  */
 public interface EdoGroupDefinitionService {
-    public EdoGroupDefinition getEdoGroupDefinition(Integer groupId);
-    public List<EdoGroupDefinition> getEdoGroupDefinitionsByWorkflowId(String workflowId);
+    public EdoGroupDefinition getEdoGroupDefinition(String edoGroupId);
+    public List<EdoGroupDefinition> getEdoGroupDefinitionsByWorkflowId(String edoWorkflowId);
 
 }

@@ -124,7 +124,7 @@ public class EdoExternalLetterAction extends EdoAction {
         // TODO When item is ready, uncomment the line below
         // String itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER);
         LocalDate currentDate = LocalDate.now();
-        int itemTypeID = Integer.parseInt(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER, currentDate));
+        int itemTypeID = Integer.parseInt(EdoServiceLocator.getEdoItemTypeService().getItemTypeId(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER, currentDate));
 
         FormFile uploadFile = externalLetterForm.getUploadFile();
         int checklistItemID = externalLetterForm.getChecklistItemID();

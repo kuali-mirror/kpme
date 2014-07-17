@@ -21,10 +21,10 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = EdoChecklist.Constants.TYPE_NAME, propOrder = {
     EdoChecklist.Elements.DESCRIPTION,
-    EdoChecklist.Elements.EDO_CHECKLIST_I_D,
+    EdoChecklist.Elements.EDO_CHECKLIST_ID,
     EdoChecklist.Elements.DOSSIER_TYPE_CODE,
     EdoChecklist.Elements.ORGANIZATION_CODE,
-    EdoChecklist.Elements.DEPARTMENT_I_D,
+    EdoChecklist.Elements.DEPARTMENT_ID,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
     EdoChecklist.Elements.ACTIVE,
@@ -43,14 +43,14 @@ public final class EdoChecklist
 
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
-    @XmlElement(name = Elements.EDO_CHECKLIST_I_D, required = false)
+    @XmlElement(name = Elements.EDO_CHECKLIST_ID, required = false)
     private final String edoChecklistId;
     @XmlElement(name = Elements.DOSSIER_TYPE_CODE, required = false)
     private final String dossierTypeCode;
     @XmlElement(name = Elements.ORGANIZATION_CODE, required = false)
     private final String organizationCode;
-    @XmlElement(name = Elements.DEPARTMENT_I_D, required = false)
-    private final String departmentID;
+    @XmlElement(name = Elements.DEPARTMENT_ID, required = false)
+    private final String departmentId;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -82,7 +82,7 @@ public final class EdoChecklist
         this.edoChecklistId = null;
         this.dossierTypeCode = null;
         this.organizationCode = null;
-        this.departmentID = null;
+        this.departmentId = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -99,7 +99,7 @@ public final class EdoChecklist
         this.edoChecklistId = builder.getEdoChecklistId();
         this.dossierTypeCode = builder.getDossierTypeCode();
         this.organizationCode = builder.getOrganizationCode();
-        this.departmentID = builder.getDepartmentID();
+        this.departmentId = builder.getDepartmentId();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -132,8 +132,8 @@ public final class EdoChecklist
     }
 
     @Override
-    public String getDepartmentID() {
-        return this.departmentID;
+    public String getDepartmentId() {
+        return this.departmentId;
     }
 
     @Override
@@ -194,7 +194,7 @@ public final class EdoChecklist
         private String edoChecklistId;
         private String dossierTypeCode;
         private String organizationCode;
-        private String departmentID;
+        private String departmentId;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -224,7 +224,7 @@ public final class EdoChecklist
             builder.setEdoChecklistId(contract.getEdoChecklistId());
             builder.setDossierTypeCode(contract.getDossierTypeCode());
             builder.setOrganizationCode(contract.getOrganizationCode());
-            builder.setDepartmentID(contract.getDepartmentID());
+            builder.setDepartmentId(contract.getDepartmentId());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -262,8 +262,8 @@ public final class EdoChecklist
         }
 
         @Override
-        public String getDepartmentID() {
-            return this.departmentID;
+        public String getDepartmentId() {
+            return this.departmentId;
         }
 
         @Override
@@ -331,9 +331,9 @@ public final class EdoChecklist
             this.organizationCode = organizationCode;
         }
 
-        public void setDepartmentID(String departmentID) {
+        public void setDepartmentId(String departmentId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.departmentID = departmentID;
+            this.departmentId = departmentId;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -403,10 +403,10 @@ public final class EdoChecklist
     static class Elements {
 
         final static String DESCRIPTION = "description";
-        final static String EDO_CHECKLIST_I_D = "edoChecklistId";
+        final static String EDO_CHECKLIST_ID = "edoChecklistId";
         final static String DOSSIER_TYPE_CODE = "dossierTypeCode";
         final static String ORGANIZATION_CODE = "organizationCode";
-        final static String DEPARTMENT_I_D = "departmentID";
+        final static String DEPARTMENT_ID = "departmentId";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";

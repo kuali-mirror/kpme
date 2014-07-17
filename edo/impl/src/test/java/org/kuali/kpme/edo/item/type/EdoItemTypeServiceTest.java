@@ -32,7 +32,7 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoItemTypeServiceTest extends EdoUnitTestBase {
 
-	private final String edoItemTypeID = "1000"; 
+	private final String edoItemTypeId = "1000"; 
 	LocalDate asOfDate = new LocalDate(2012,1,1);
 
 	@Before
@@ -57,21 +57,21 @@ public class EdoItemTypeServiceTest extends EdoUnitTestBase {
 	@Test
 	public void testGetItemType() throws Exception {
 
-		EdoItemType edoItemType = EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeID);
+		EdoItemType edoItemType = EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeId);
 		assertEquals("Supporting Document", edoItemType.getItemTypeName());
 	}
 	
 	@Test
 	public void testGetItemTypeID() throws Exception {
 
-		String itemTypeId = EdoServiceLocator.getEdoItemTypeService().getItemTypeID("Review Letter", asOfDate);
+		String itemTypeId = EdoServiceLocator.getEdoItemTypeService().getItemTypeId("Review Letter", asOfDate);
 		assertEquals("1001", itemTypeId);
 	}
 	
 	@Test
 	public void testGetEdoItemTypeJSONString() throws Exception {
 
-		EdoItemType edoItemType = EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeID);
+		EdoItemType edoItemType = EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeId);
 		String jsonString = EdoServiceLocator.getEdoItemTypeService().getEdoItemTypeJSONString(edoItemType);
 		assertNotNull(jsonString);
 	}
@@ -79,12 +79,12 @@ public class EdoItemTypeServiceTest extends EdoUnitTestBase {
 	@Test
 	public void testSaveOrUpdate() throws Exception {
 		
-		EdoItemType edoItemType = EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeID);
+		EdoItemType edoItemType = EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeId);
 		EdoItemTypeBo edoItemTypeBo = EdoItemTypeBo.from(edoItemType);
 		edoItemTypeBo.setItemTypeName("Extra Supporting Document");
 		EdoServiceLocator.getEdoItemTypeService().saveOrUpdate(EdoItemTypeBo.to(edoItemTypeBo));
 		
-		edoItemType = EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeID);
+		edoItemType = EdoServiceLocator.getEdoItemTypeService().getItemType(edoItemTypeId);
 		assertEquals("Extra Supporting Document", edoItemType.getItemTypeName());
 	}
 	

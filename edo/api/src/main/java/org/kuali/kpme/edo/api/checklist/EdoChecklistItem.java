@@ -19,8 +19,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = EdoChecklistItem.Constants.TYPE_NAME, propOrder = {
     EdoChecklistItem.Elements.CHECKLIST_ITEM_ORDINAL,
-    EdoChecklistItem.Elements.EDO_CHECKLIST_ITEM_I_D,
-    EdoChecklistItem.Elements.EDO_CHECKLIST_SECTION_I_D,
+    EdoChecklistItem.Elements.EDO_CHECKLIST_ITEM_ID,
+    EdoChecklistItem.Elements.EDO_CHECKLIST_SECTION_ID,
     EdoChecklistItem.Elements.ITEM_DESCRIPTION,
     EdoChecklistItem.Elements.CHECKLIST_ITEM_NAME,
     EdoChecklistItem.Elements.REQUIRED,
@@ -40,9 +40,9 @@ public final class EdoChecklistItem
 
     @XmlElement(name = Elements.CHECKLIST_ITEM_ORDINAL, required = false)
     private final int checklistItemOrdinal;
-    @XmlElement(name = Elements.EDO_CHECKLIST_ITEM_I_D, required = false)
+    @XmlElement(name = Elements.EDO_CHECKLIST_ITEM_ID, required = false)
     private final String edoChecklistItemId;
-    @XmlElement(name = Elements.EDO_CHECKLIST_SECTION_I_D, required = false)
+    @XmlElement(name = Elements.EDO_CHECKLIST_SECTION_ID, required = false)
     private final String edoChecklistSectionId;
     @XmlElement(name = Elements.ITEM_DESCRIPTION, required = false)
     private final String itemDescription;
@@ -379,8 +379,8 @@ public final class EdoChecklistItem
     static class Elements {
 
         final static String CHECKLIST_ITEM_ORDINAL = "checklistItemOrdinal";
-        final static String EDO_CHECKLIST_ITEM_I_D = "edoChecklistItemId";
-        final static String EDO_CHECKLIST_SECTION_I_D = "edoChecklistSectionId";
+        final static String EDO_CHECKLIST_ITEM_ID = "edoChecklistItemId";
+        final static String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionId";
         final static String ITEM_DESCRIPTION = "itemDescription";
         final static String CHECKLIST_ITEM_NAME = "checklistItemName";
         final static String REQUIRED = "required";
