@@ -139,4 +139,21 @@ public class TaskDaoOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
 		return this.getPersistenceBrokerTemplate().getCount(query);
     }
 
+	@Override
+	public Long getMaxTaskNumberOverAllWorkareas() {
+		 Long retVal = null;
+		 Criteria root = new Criteria();
+	     Criteria crit = new Criteria();
+	     ReportQueryByCriteria taskNumberSubQuery = QueryFactory.newReportQuery(TaskBo.class, crit);
+	     taskNumberSubQuery.setAttributes(new String[]{"max(task)"});   
+	     root.addEqualTo("task", taskNumberSubQuery);
+	     
+	     Query query = QueryFactory.newQuery(TaskBo.class, root);
+	     TaskBo taskObj = (TaskBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	     if(taskObj != null) {
+	    	 retVal = taskObj.getTask();
+	     }
+	     return retVal;
+	}
+
 }

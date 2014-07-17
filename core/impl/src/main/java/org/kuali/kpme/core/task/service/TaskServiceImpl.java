@@ -92,5 +92,15 @@ public class TaskServiceImpl implements TaskService {
     public int getTaskCount(Long task) {
     	return taskDao.getTaskCount(task);
     }
+
+	@Override
+	public Long getNextTaskNumber() {
+		Long task = new Long("100");
+		Long maxTask = taskDao.getMaxTaskNumberOverAllWorkareas();
+		if (maxTask != null) {
+			task = maxTask + 1;
+		}
+		return task;
+	}
     
 }
