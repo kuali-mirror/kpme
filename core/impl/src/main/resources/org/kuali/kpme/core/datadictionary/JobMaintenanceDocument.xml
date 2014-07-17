@@ -79,11 +79,12 @@
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="name" p:widgetInputOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="jobNumber" p:widgetInputOnly="true"/>
+
                             <bean parent="Uif-InputField" p:propertyName="dept" p:required="true">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinderByScript"
                                           p:dataObjectClassName="org.kuali.kpme.core.department.DepartmentBo"
-                                          p:fieldConversions="dept:dept"/>
+                                          p:fieldConversions="dept:dept" p:lookupParameters="groupKeyCode:groupKeyCode"/>
                                 </property>
                             </bean>
 							<!-- 
