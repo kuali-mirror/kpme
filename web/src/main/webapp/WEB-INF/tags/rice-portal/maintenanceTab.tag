@@ -86,9 +86,6 @@
 </td>
 <td class="content" valign="top">
     <admin:financial />
-
-    <c:if test="setupAndReports">
-        <admin:workflow />
-        <admin:notification />
-    </c:if>
+    <admin:workflow />
+    <admin:notification />
 </td>
