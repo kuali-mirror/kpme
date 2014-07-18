@@ -24,23 +24,31 @@ import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.task.dao.TaskDao;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.SequenceAccessorService;
 
 import java.util.Collections;
 import java.util.List;
 
 public class TaskServiceImpl implements TaskService {
 
-    private TaskDao taskDao;
+    private static final String TK_TASK_S = "TK_TASK_S";
+    
+	private TaskDao taskDao;
+	private SequenceAccessorService sequenceAccessorService;
+    private BusinessObjectService businessObjectService;
 
 	@Override
 	public Task getTask(String tkTaskId) {
-		return TaskBo.to(taskDao.getTask(tkTaskId));
+		return TaskBo.to(getTaskDao().getTask(tkTaskId));
 	}
 
-    @Override
+    
+
+	@Override
     public Task getTask(Long task, LocalDate asOfDate) {
-        TaskBo taskObj =  taskDao.getTask(task, asOfDate);
+        TaskBo taskObj =  getTaskDao().getTask(task, asOfDate);
         if(taskObj == null){
         	taskObj = new TaskBo();
         	taskObj.setActive(true);
@@ -60,24 +68,30 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task saveTask(Task task) {
-        TaskBo bo = KRADServiceLocator.getBusinessObjectService().save(TaskBo.from(task));
+        TaskBo bo = getBusinessObjectService().save(TaskBo.from(task));
         return TaskBo.to(bo);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Task> saveTasks(List<Task> tasks) {
         List<TaskBo> bos = ModelObjectUtils.transform(tasks, TaskBo.toTaskBo);
-        bos = (List<TaskBo>)KRADServiceLocator.getBusinessObjectService().save(bos);
+        bos = (List<TaskBo>)getBusinessObjectService().save(bos);
         return CollectionUtils.isEmpty(bos) ? Collections.<Task>emptyList() : ModelObjectUtils.transform(bos, TaskBo.toTask);
     }
 
     public void setTaskDao(TaskDao taskDao) {
         this.taskDao = taskDao;
-    } 
+    }
+    
+    public TaskDao getTaskDao() {
+		return taskDao;
+	}   
+    
 
 	@Override
 	public Task getMaxTask(Long workArea){
-		return TaskBo.to(taskDao.getMaxTask(workArea));
+		return TaskBo.to(getTaskDao().getMaxTask(workArea));
 	}
 
     @Override
@@ -85,22 +99,43 @@ public class TaskServiceImpl implements TaskService {
         Long taskNumber = StringUtils.isEmpty(task) ? null : Long.parseLong(task);
         Long workAreaNumber = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
         
-        return ModelObjectUtils.transform(taskDao.getTasks(taskNumber, description, workAreaNumber, fromEffdt, toEffdt), TaskBo.toTask);
+        return ModelObjectUtils.transform(getTaskDao().getTasks(taskNumber, description, workAreaNumber, fromEffdt, toEffdt), TaskBo.toTask);
     }
     
     @Override
     public int getTaskCount(Long task) {
-    	return taskDao.getTaskCount(task);
+    	return getTaskDao().getTaskCount(task);
     }
 
 	@Override
 	public Long getNextTaskNumber() {
-		Long task = new Long("100");
-		Long maxTask = taskDao.getMaxTaskNumberOverAllWorkareas();
-		if (maxTask != null) {
-			task = maxTask + 1;
-		}
-		return task;
+		return getSequenceAccessorService().getNextAvailableSequenceNumber(TK_TASK_S) + 1000;
 	}
+
+	public SequenceAccessorService getSequenceAccessorService() {
+		if(this.sequenceAccessorService == null) {
+			this.setSequenceAccessorService(KRADServiceLocator.getSequenceAccessorService());		
+		}
+		return sequenceAccessorService;
+	}
+
+	public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
+		this.sequenceAccessorService = sequenceAccessorService;
+	}
+
+
+
+	public BusinessObjectService getBusinessObjectService() {
+		if(this.businessObjectService == null) {
+			this.setBusinessObjectService(KRADServiceLocator.getBusinessObjectService());
+		}
+		return businessObjectService;
+	}
+
+
+	public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+		this.businessObjectService = businessObjectService;
+	}
+		
     
 }
