@@ -63,13 +63,6 @@
 
 </c:if>
 
-<c:set var = "setupAndReports" value = "false"/>
-<c:if test="${systemAdmin || globalViewOnly  || positionSystemViewOnly || locationAdmin || locationViewOnly || KOHRInstitutionAdmin || KOHRAcademicHrAdmin || KOHRInstitutionViewOnly || KOHRLocationAdmin || KOHRLocationViewOnly ||
-    	KOHRLocationAdmin ||  HRInstitutionApprover ||	academicHRInstitutionApprover || budgetApprover || payrollApprover || HRlocationApprover || academicHRLocationApprover || fiscalLocationApprover || HROrgApprover || fiscalOrgApprover || departmentApprover || fiscalDeptApprover || locationAdmin || locationViewOnly}">
-
-    <c:set var = "setupAndReports" value = "true"/>
-
-</c:if>
 
 
 <c:if test="${not allowed}">
