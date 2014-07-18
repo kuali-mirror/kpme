@@ -7,7 +7,6 @@ import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.KPMEConstants;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
-import org.kuali.kpme.core.api.util.InputFieldDefaultValueFinder;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.role.KPMERole;
 import org.kuali.kpme.core.service.HrServiceLocator;
