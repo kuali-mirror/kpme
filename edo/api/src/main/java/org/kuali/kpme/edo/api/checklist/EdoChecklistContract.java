@@ -2,6 +2,10 @@ package org.kuali.kpme.edo.api.checklist;
 
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
+/**
+ * <p>EdoChecklistContract interface</p>
+ *
+ */
 public interface EdoChecklistContract extends KpmeEffectiveKeyedDataTransferObject {
 	
 	/**

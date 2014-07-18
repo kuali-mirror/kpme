@@ -22,8 +22,8 @@
 				<ref bean="EdoCandidate-principalName" />
 				<ref bean="EdoCandidate-lastName" />
 				<ref bean="EdoCandidate-firstName" />
-				<ref bean="EdoCandidate-primaryDeptID" />
-				<ref bean="EdoCandidate-tnpDeptID" />
+				<ref bean="EdoCandidate-primaryDeptId" />
+				<ref bean="EdoCandidate-tnpDeptId" />
 				<ref bean="EdoCandidate-candidacySchool" />
 			</list>
 		</property>
@@ -113,12 +113,12 @@
 		</property>
 	</bean>
 
-	<bean id="EdoCandidate-primaryDeptID" parent="EdoCandidate-primaryDeptID-parentBean" />
-	<bean id="EdoCandidate-primaryDeptID-parentBean" abstract="true"
+	<bean id="EdoCandidate-primaryDeptId" parent="EdoCandidate-primaryDeptId-parentBean" />
+	<bean id="EdoCandidate-primaryDeptId-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="primaryDeptID" />
-		<property name="label" value="Primary Dept ID" />
-		<property name="shortLabel" value="Primary Dept ID" />
+		<property name="name" value="primaryDeptId" />
+		<property name="label" value="Primary Dept Id" />
+		<property name="shortLabel" value="Primary Dept Id" />
 		<property name="forceUppercase" value="true" />
 		<property name="maxLength" value="21" />
 		<property name="validationPattern">
@@ -139,12 +139,12 @@
 		</property>
 	</bean>
 
-	<bean id="EdoCandidate-tnpDeptID" parent="EdoCandidate-tnpDeptID-parentBean" />
-	<bean id="EdoCandidate-tnpDeptID-parentBean" abstract="true"
+	<bean id="EdoCandidate-tnpDeptId" parent="EdoCandidate-tnpDeptId-parentBean" />
+	<bean id="EdoCandidate-tnpDeptId-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="tnpDeptID" />
-		<property name="label" value="Tenure and Promotion Dept ID" />
-		<property name="shortLabel" value="Tenure and Promotion Dept ID" />
+		<property name="name" value="tnpDeptId" />
+		<property name="label" value="Tenure and Promotion Dept Id" />
+		<property name="shortLabel" value="Tenure and Promotion Dept Id" />
 		<property name="forceUppercase" value="true" />
 		<property name="maxLength" value="21" />
 		<property name="validationPattern">

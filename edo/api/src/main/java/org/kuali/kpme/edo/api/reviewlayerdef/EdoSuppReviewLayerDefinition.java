@@ -1,62 +1,55 @@
-package org.kuali.kpme.edo.api.candidate;
+package org.kuali.kpme.edo.api.reviewlayerdef;
 
 import java.io.Serializable;
 import java.util.Collection;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.groupkey.HrGroupKey;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.w3c.dom.Element;
 
-@XmlRootElement(name = EdoCandidate.Constants.ROOT_ELEMENT_NAME)
+@XmlRootElement(name = EdoSuppReviewLayerDefinition.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = EdoCandidate.Constants.TYPE_NAME, propOrder = {
-    
-    EdoCandidate.Elements.CANDIDACY_SCHOOL,
-    EdoCandidate.Elements.EDO_CANDIDATE_ID,
-    EdoCandidate.Elements.PRINCIPAL_NAME,
-    EdoCandidate.Elements.PRIMARY_DEPT_ID,
-    EdoCandidate.Elements.TNP_DEPT_ID,
-    EdoCandidate.Elements.FIRST_NAME,
-    EdoCandidate.Elements.LAST_NAME,
+@XmlType(name = EdoSuppReviewLayerDefinition.Constants.TYPE_NAME, propOrder = {
+    EdoSuppReviewLayerDefinition.Elements.SUPP_NODE_NAME,
+    EdoSuppReviewLayerDefinition.Elements.ACKNOWLEDGE_FLAG,
+    EdoSuppReviewLayerDefinition.Elements.WORKFLOW_QUALIFIER,
+    EdoSuppReviewLayerDefinition.Elements.EDO_WORKFLOW_ID,
+    EdoSuppReviewLayerDefinition.Elements.EDO_SUPP_REVIEW_LAYER_DEFINITION_ID,
+    EdoSuppReviewLayerDefinition.Elements.EDO_REVIEW_LAYER_DEFINITION_ID,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
-    EdoCandidate.Elements.ACTIVE,
-    EdoCandidate.Elements.ID,
-    EdoCandidate.Elements.EFFECTIVE_LOCAL_DATE,
-    EdoCandidate.Elements.CREATE_TIME,
-    EdoCandidate.Elements.USER_PRINCIPAL_ID,
-    EdoCandidate.Elements.GROUP_KEY_CODE,
-    EdoCandidate.Elements.GROUP_KEY,
+    EdoSuppReviewLayerDefinition.Elements.ACTIVE,
+    EdoSuppReviewLayerDefinition.Elements.ID,
+    EdoSuppReviewLayerDefinition.Elements.EFFECTIVE_LOCAL_DATE,
+    EdoSuppReviewLayerDefinition.Elements.CREATE_TIME,
+    EdoSuppReviewLayerDefinition.Elements.USER_PRINCIPAL_ID,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
-public final class EdoCandidate extends AbstractDataTransferObject implements EdoCandidateContract
-{    
-    @XmlElement(name = Elements.CANDIDACY_SCHOOL, required = false)
-    private final String candidacySchool;
-    @XmlElement(name = Elements.EDO_CANDIDATE_ID, required = false)
-    private final String edoCandidateId;
-    @XmlElement(name = Elements.PRINCIPAL_NAME, required = false)
-    private final String principalName;
-    @XmlElement(name = Elements.PRIMARY_DEPT_ID, required = false)
-    private final String primaryDeptId;
-    @XmlElement(name = Elements.TNP_DEPT_ID, required = false)
-    private final String tnpDeptId;
-    @XmlElement(name = Elements.FIRST_NAME, required = false)
-    private final String firstName;
-    @XmlElement(name = Elements.LAST_NAME, required = false)
-    private final String lastName;
+public final class EdoSuppReviewLayerDefinition
+    extends AbstractDataTransferObject
+    implements EdoSuppReviewLayerDefinitionContract
+{
+
+    @XmlElement(name = Elements.SUPP_NODE_NAME, required = false)
+    private final String suppNodeName;
+    @XmlElement(name = Elements.ACKNOWLEDGE_FLAG, required = false)
+    private final boolean acknowledgeFlag;
+    @XmlElement(name = Elements.WORKFLOW_QUALIFIER, required = false)
+    private final String workflowQualifier;
+    @XmlElement(name = Elements.EDO_WORKFLOW_ID, required = false)
+    private final String edoWorkflowId;
+    @XmlElement(name = Elements.EDO_SUPP_REVIEW_LAYER_DEFINITION_ID, required = false)
+    private final String edoSuppReviewLayerDefinitionId;
+    @XmlElement(name = Elements.EDO_REVIEW_LAYER_DEFINITION_ID, required = false)
+    private final String edoReviewLayerDefinitionId;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -71,10 +64,6 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
     private final String userPrincipalId;
-    @XmlElement(name = Elements.GROUP_KEY_CODE, required = false)
-    private final String groupKeyCode;
-    @XmlElement(name = Elements.GROUP_KEY, required = false)
-    private final HrGroupKey groupKey;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -83,14 +72,13 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      * Private constructor used only by JAXB.
      * 
      */
-    private EdoCandidate() {
-        this.candidacySchool = null;
-        this.edoCandidateId = null;
-        this.principalName = null;
-        this.primaryDeptId = null;
-        this.tnpDeptId = null;
-        this.firstName = null;
-        this.lastName = null;
+    private EdoSuppReviewLayerDefinition() {
+        this.suppNodeName = null;
+        this.acknowledgeFlag = false;
+        this.workflowQualifier = null;
+        this.edoWorkflowId = null;
+        this.edoSuppReviewLayerDefinitionId = null;
+        this.edoReviewLayerDefinitionId = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -98,18 +86,15 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         this.effectiveLocalDate = null;
         this.createTime = null;
         this.userPrincipalId = null;
-        this.groupKeyCode = null;
-        this.groupKey = null;
     }
-    
-    private EdoCandidate(Builder builder) {
-        this.candidacySchool = builder.getCandidacySchool();
-        this.edoCandidateId = builder.getEdoCandidateId();
-        this.principalName = builder.getPrincipalName();
-        this.primaryDeptId = builder.getPrimaryDeptId();
-        this.tnpDeptId = builder.getTnpDeptId();
-        this.firstName = builder.getFirstName();
-        this.lastName = builder.getLastName();
+
+    private EdoSuppReviewLayerDefinition(Builder builder) {
+        this.suppNodeName = builder.getSuppNodeName();
+        this.acknowledgeFlag = builder.isAcknowledgeFlag();
+        this.workflowQualifier = builder.getWorkflowQualifier();
+        this.edoWorkflowId = builder.getEdoWorkflowId();
+        this.edoSuppReviewLayerDefinitionId = builder.getEdoSuppReviewLayerDefinitionId();
+        this.edoReviewLayerDefinitionId = builder.getEdoReviewLayerDefinitionId();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -117,46 +102,38 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         this.effectiveLocalDate = builder.getEffectiveLocalDate();
         this.createTime = builder.getCreateTime();
         this.userPrincipalId = builder.getUserPrincipalId();
-        this.groupKeyCode = builder.getGroupKeyCode();
-        this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
     }
 
     @Override
-    public String getCandidacySchool() {
-        return this.candidacySchool;
+    public String getSuppNodeName() {
+        return this.suppNodeName;
     }
 
     @Override
-    public String getEdoCandidateId() {
-        return this.edoCandidateId;
+    public boolean isAcknowledgeFlag() {
+        return this.acknowledgeFlag;
     }
 
     @Override
-    public String getPrincipalName() {
-        return this.principalName;
+    public String getWorkflowQualifier() {
+        return this.workflowQualifier;
     }
 
     @Override
-    public String getPrimaryDeptId() {
-        return this.primaryDeptId;
-    }
-
-
-    @Override
-    public String getTnpDeptId() {
-        return this.tnpDeptId;
+    public String getEdoWorkflowId() {
+        return this.edoWorkflowId;
     }
 
     @Override
-    public String getFirstName() {
-        return this.firstName;
+    public String getEdoSuppReviewLayerDefinitionId() {
+        return this.edoSuppReviewLayerDefinitionId;
     }
 
     @Override
-    public String getLastName() {
-        return this.lastName;
+    public String getEdoReviewLayerDefinitionId() {
+        return this.edoReviewLayerDefinitionId;
     }
-    
+
     @Override
     public Long getVersionNumber() {
         return this.versionNumber;
@@ -192,30 +169,21 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         return this.userPrincipalId;
     }
 
-    @Override
-    public String getGroupKeyCode() {
-        return this.groupKeyCode;
-    }
-
-    @Override
-    public HrGroupKey getGroupKey() {
-        return this.groupKey;
-    }
-
 
     /**
-     * A builder which can be used to construct {@link EdoCandidate} instances.  Enforces the constraints of the {@link EdoCandidateContract}.
+     * A builder which can be used to construct {@link EdoSuppReviewLayerDefinition} instances.  Enforces the constraints of the {@link EdoSuppReviewLayerDefinitionContract}.
      * 
      */
-    public final static class Builder implements Serializable, EdoCandidateContract, ModelBuilder
+    public final static class Builder
+        implements Serializable, EdoSuppReviewLayerDefinitionContract, ModelBuilder
     {
-        private String candidacySchool;
-        private String edoCandidateId;
-        private String principalName;
-        private String primaryDeptId;
-        private String tnpDeptId;
-        private String firstName;
-        private String lastName;
+
+        private String suppNodeName;
+        private boolean acknowledgeFlag;
+        private String workflowQualifier;
+        private String edoWorkflowId;
+        private String edoSuppReviewLayerDefinitionId;
+        private String edoReviewLayerDefinitionId;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -223,8 +191,6 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         private LocalDate effectiveLocalDate;
         private DateTime createTime;
         private String userPrincipalId;
-        private String groupKeyCode;
-        private HrGroupKey.Builder groupKey;
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -235,29 +201,18 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             return new Builder();
         }
 
-        private Builder(String principalName) {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
-        	setPrincipalName(principalName);
-        }
-
-        public static Builder create(String principalName) {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(principalName);
-        }
-        
-        public static Builder create(EdoCandidateContract contract) {
+        public static Builder create(EdoSuppReviewLayerDefinitionContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-            builder.setCandidacySchool(contract.getCandidacySchool());
-            builder.setEdoCandidateId(contract.getEdoCandidateId());
-            builder.setPrincipalName(contract.getPrincipalName());
-            builder.setPrimaryDeptId(contract.getPrimaryDeptId());
-            builder.setTnpDeptId(contract.getTnpDeptId());
-            builder.setFirstName(contract.getFirstName());
-            builder.setLastName(contract.getLastName());
+            builder.setSuppNodeName(contract.getSuppNodeName());
+            builder.setAcknowledgeFlag(contract.isAcknowledgeFlag());
+            builder.setWorkflowQualifier(contract.getWorkflowQualifier());
+            builder.setEdoWorkflowId(contract.getEdoWorkflowId());
+            builder.setEdoSuppReviewLayerDefinitionId(contract.getEdoSuppReviewLayerDefinitionId());
+            builder.setEdoReviewLayerDefinitionId(contract.getEdoReviewLayerDefinitionId());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -265,49 +220,41 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
             builder.setCreateTime(contract.getCreateTime());
             builder.setUserPrincipalId(contract.getUserPrincipalId());
-            builder.setGroupKeyCode(contract.getGroupKeyCode());
-            builder.setGroupKey(contract.getGroupKey() == null ? null : HrGroupKey.Builder.create(contract.getGroupKey()));
             return builder;
         }
 
-        public EdoCandidate build() {
-            return new EdoCandidate(this);
-        }
-
-
-        @Override
-        public String getCandidacySchool() {
-            return this.candidacySchool;
+        public EdoSuppReviewLayerDefinition build() {
+            return new EdoSuppReviewLayerDefinition(this);
         }
 
         @Override
-        public String getEdoCandidateId() {
-            return this.edoCandidateId;
+        public String getSuppNodeName() {
+            return this.suppNodeName;
         }
 
         @Override
-        public String getPrincipalName() {
-            return this.principalName;
+        public boolean isAcknowledgeFlag() {
+            return this.acknowledgeFlag;
         }
 
         @Override
-        public String getPrimaryDeptId() {
-            return this.primaryDeptId;
-        }
-        
-        @Override
-        public String getTnpDeptId() {
-            return this.tnpDeptId;
+        public String getWorkflowQualifier() {
+            return this.workflowQualifier;
         }
 
         @Override
-        public String getFirstName() {
-            return this.firstName;
+        public String getEdoWorkflowId() {
+            return this.edoWorkflowId;
         }
 
         @Override
-        public String getLastName() {
-            return this.lastName;
+        public String getEdoSuppReviewLayerDefinitionId() {
+            return this.edoSuppReviewLayerDefinitionId;
+        }
+
+        @Override
+        public String getEdoReviewLayerDefinitionId() {
+            return this.edoReviewLayerDefinitionId;
         }
 
         @Override
@@ -345,49 +292,34 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             return this.userPrincipalId;
         }
 
-        @Override
-        public String getGroupKeyCode() {
-            return this.groupKeyCode;
-        }
-        
-        @Override
-        public HrGroupKey.Builder getGroupKey() {
-            return this.groupKey;
+        public void setSuppNodeName(String suppNodeName) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.suppNodeName = suppNodeName;
         }
 
-        public void setCandidacySchool(String candidacySchool) {
+        public void setAcknowledgeFlag(boolean acknowledgeFlag) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.candidacySchool = candidacySchool;
+            this.acknowledgeFlag = acknowledgeFlag;
         }
 
-        public void setEdoCandidateId(String edoCandidateId) {
+        public void setWorkflowQualifier(String workflowQualifier) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoCandidateId = edoCandidateId;
+            this.workflowQualifier = workflowQualifier;
         }
 
-        public void setPrincipalName(String principalName) {
+        public void setEdoWorkflowId(String edoWorkflowId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.principalName = principalName;
+            this.edoWorkflowId = edoWorkflowId;
         }
 
-        public void setPrimaryDeptId(String primaryDeptId) {
+        public void setEdoSuppReviewLayerDefinitionId(String edoSuppReviewLayerDefinitionId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.primaryDeptId = primaryDeptId;
+            this.edoSuppReviewLayerDefinitionId = edoSuppReviewLayerDefinitionId;
         }
 
-        public void setTnpDeptId(String tnpDeptId) {
+        public void setEdoReviewLayerDefinitionId(String edoReviewLayerDefinitionId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.tnpDeptId = tnpDeptId;
-        }
-
-        public void setFirstName(String firstName) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.firstName = firstName;
-        }
-
-        public void setLastName(String lastName) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.lastName = lastName;
+            this.edoReviewLayerDefinitionId = edoReviewLayerDefinitionId;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -425,16 +357,6 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             this.userPrincipalId = userPrincipalId;
         }
 
-        public void setGroupKeyCode(String groupKeyCode) {
-            if (StringUtils.isWhitespace(groupKeyCode)) {
-                throw new IllegalArgumentException("groupKeyCode is blank");
-            }
-            this.groupKeyCode = groupKeyCode;
-        }
-
-        public void setGroupKey(HrGroupKey.Builder groupKey) {
-            this.groupKey = groupKey;
-        }
     }
 
 
@@ -444,8 +366,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      */
     static class Constants {
 
-        final static String ROOT_ELEMENT_NAME = "edoCandidate";
-        final static String TYPE_NAME = "EdoCandidateType";
+        final static String ROOT_ELEMENT_NAME = "edoSuppReviewLayerDefinition";
+        final static String TYPE_NAME = "EdoSuppReviewLayerDefinitionType";
 
     }
 
@@ -455,22 +377,20 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      * 
      */
     static class Elements {
-        final static String CANDIDACY_SCHOOL = "candidacySchool";
-        final static String EDO_CANDIDATE_ID = "edoCandidateId";
-        final static String PRINCIPAL_NAME = "principalName";
-        final static String PRIMARY_DEPT_ID = "primaryDeptId";
-        final static String TNP_DEPT_ID = "tnpDeptId";
-        final static String FIRST_NAME = "firstName";
-        final static String LAST_NAME = "lastName";
+
+        final static String SUPP_NODE_NAME = "suppNodeName";
+        final static String ACKNOWLEDGE_FLAG = "acknowledgeFlag";
+        final static String WORKFLOW_QUALIFIER = "workflowQualifier";
+        final static String EDO_WORKFLOW_ID = "edoWorkflowId";
+        final static String EDO_SUPP_REVIEW_LAYER_DEFINITION_ID = "edoSuppReviewLayerDefinitionId";
+        final static String EDO_REVIEW_LAYER_DEFINITION_ID = "edoReviewLayerDefinitionId";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
         final static String CREATE_TIME = "createTime";
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
-        final static String GROUP_KEY_CODE = "groupKeyCode";
-        final static String GROUP_KEY = "groupKey";
+
     }
 
 }
-
 

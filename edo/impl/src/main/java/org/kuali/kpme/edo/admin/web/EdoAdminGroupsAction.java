@@ -1,7 +1,17 @@
 package org.kuali.kpme.edo.admin.web;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.StringReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -12,11 +22,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kpme.edo.api.group.EdoGroupTracking;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.group.EdoGroup;
-import org.kuali.kpme.edo.group.EdoGroupTracking;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoRule;
@@ -27,14 +36,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.StringReader;
-import java.lang.reflect.Type;
-import java.util.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * $HeadURL$
@@ -166,14 +169,14 @@ public class EdoAdminGroupsAction extends EdoAction {
                 unitString = unitString.concat(tmpDeptId);
                 unitString = unitString.concat(",");
 
-                if (!StringUtils.isEmpty(groupTracking.getSchoolId())) {
-                    tmpSchoolId = groupTracking.getSchoolId();
+                if (!StringUtils.isEmpty(groupTracking.getOrganizationCode())) {
+                    tmpSchoolId = groupTracking.getOrganizationCode();
                 }
                 unitString = unitString.concat(tmpSchoolId);
                 unitString = unitString.concat(",");
 
-                if (!StringUtils.isEmpty(groupTracking.getCampusId())) {
-                    tmpCampusId = groupTracking.getCampusId();
+                if (!StringUtils.isEmpty(groupTracking.getGroupKey().getCampusCode())) {
+                    tmpCampusId = groupTracking.getGroupKey().getCampusCode();
                 }
                 unitString = unitString.concat(tmpCampusId);
                 unitString = unitString.concat(String.format("%n"));

@@ -3,7 +3,10 @@ package org.kuali.kpme.edo.api.item;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 
-
+/**
+ * <p>EdoItemContract interface</p>
+ *
+ */
 public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoItemContract> {
 	
 	/**

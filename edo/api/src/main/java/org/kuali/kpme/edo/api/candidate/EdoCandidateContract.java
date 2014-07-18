@@ -34,9 +34,9 @@ public interface EdoCandidateContract extends KpmeEffectiveKeyedDataTransferObje
 
 	public String getPrincipalName();
 
-	public String getPrimaryDeptID();
+	public String getPrimaryDeptId();
 
-	public String getTnpDeptID();
+	public String getTnpDeptId();
 
 	public String getCandidacySchool();
     

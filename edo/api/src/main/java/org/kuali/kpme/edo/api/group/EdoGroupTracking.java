@@ -1,62 +1,59 @@
-package org.kuali.kpme.edo.api.candidate;
+package org.kuali.kpme.edo.api.group;
 
 import java.io.Serializable;
 import java.util.Collection;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
 import org.w3c.dom.Element;
 
-@XmlRootElement(name = EdoCandidate.Constants.ROOT_ELEMENT_NAME)
+@XmlRootElement(name = EdoGroupTracking.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = EdoCandidate.Constants.TYPE_NAME, propOrder = {
-    
-    EdoCandidate.Elements.CANDIDACY_SCHOOL,
-    EdoCandidate.Elements.EDO_CANDIDATE_ID,
-    EdoCandidate.Elements.PRINCIPAL_NAME,
-    EdoCandidate.Elements.PRIMARY_DEPT_ID,
-    EdoCandidate.Elements.TNP_DEPT_ID,
-    EdoCandidate.Elements.FIRST_NAME,
-    EdoCandidate.Elements.LAST_NAME,
+@XmlType(name = EdoGroupTracking.Constants.TYPE_NAME, propOrder = {
+    EdoGroupTracking.Elements.EDO_WORKFLOW_ID,
+    EdoGroupTracking.Elements.EDO_GROUP_TRACKING_ID,
+    EdoGroupTracking.Elements.DEPARTMENT_ID,
+    EdoGroupTracking.Elements.REVIEW_LEVEL_NAME,
+    EdoGroupTracking.Elements.ORGANIZATION_CODE,
+    EdoGroupTracking.Elements.GROUP_NAME,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
-    EdoCandidate.Elements.ACTIVE,
-    EdoCandidate.Elements.ID,
-    EdoCandidate.Elements.EFFECTIVE_LOCAL_DATE,
-    EdoCandidate.Elements.CREATE_TIME,
-    EdoCandidate.Elements.USER_PRINCIPAL_ID,
-    EdoCandidate.Elements.GROUP_KEY_CODE,
-    EdoCandidate.Elements.GROUP_KEY,
+    EdoGroupTracking.Elements.ACTIVE,
+    EdoGroupTracking.Elements.ID,
+    EdoGroupTracking.Elements.EFFECTIVE_LOCAL_DATE,
+    EdoGroupTracking.Elements.CREATE_TIME,
+    EdoGroupTracking.Elements.USER_PRINCIPAL_ID,
+    EdoGroupTracking.Elements.GROUP_KEY_CODE,
+    EdoGroupTracking.Elements.GROUP_KEY,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
-public final class EdoCandidate extends AbstractDataTransferObject implements EdoCandidateContract
-{    
-    @XmlElement(name = Elements.CANDIDACY_SCHOOL, required = false)
-    private final String candidacySchool;
-    @XmlElement(name = Elements.EDO_CANDIDATE_ID, required = false)
-    private final String edoCandidateId;
-    @XmlElement(name = Elements.PRINCIPAL_NAME, required = false)
-    private final String principalName;
-    @XmlElement(name = Elements.PRIMARY_DEPT_ID, required = false)
-    private final String primaryDeptId;
-    @XmlElement(name = Elements.TNP_DEPT_ID, required = false)
-    private final String tnpDeptId;
-    @XmlElement(name = Elements.FIRST_NAME, required = false)
-    private final String firstName;
-    @XmlElement(name = Elements.LAST_NAME, required = false)
-    private final String lastName;
+public final class EdoGroupTracking
+    extends AbstractDataTransferObject
+    implements EdoGroupTrackingContract
+{
+
+    @XmlElement(name = Elements.EDO_WORKFLOW_ID, required = false)
+    private final String edoWorkflowId;
+    @XmlElement(name = Elements.EDO_GROUP_TRACKING_ID, required = false)
+    private final String edoGroupTrackingId;
+    @XmlElement(name = Elements.DEPARTMENT_ID, required = false)
+    private final String departmentId;
+    @XmlElement(name = Elements.REVIEW_LEVEL_NAME, required = false)
+    private final String reviewLevelName;
+    @XmlElement(name = Elements.ORGANIZATION_CODE, required = false)
+    private final String organizationCode;
+    @XmlElement(name = Elements.GROUP_NAME, required = false)
+    private final String groupName;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -83,14 +80,13 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      * Private constructor used only by JAXB.
      * 
      */
-    private EdoCandidate() {
-        this.candidacySchool = null;
-        this.edoCandidateId = null;
-        this.principalName = null;
-        this.primaryDeptId = null;
-        this.tnpDeptId = null;
-        this.firstName = null;
-        this.lastName = null;
+    private EdoGroupTracking() {
+        this.edoWorkflowId = null;
+        this.edoGroupTrackingId = null;
+        this.departmentId = null;
+        this.reviewLevelName = null;
+        this.organizationCode = null;
+        this.groupName = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -101,15 +97,14 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         this.groupKeyCode = null;
         this.groupKey = null;
     }
-    
-    private EdoCandidate(Builder builder) {
-        this.candidacySchool = builder.getCandidacySchool();
-        this.edoCandidateId = builder.getEdoCandidateId();
-        this.principalName = builder.getPrincipalName();
-        this.primaryDeptId = builder.getPrimaryDeptId();
-        this.tnpDeptId = builder.getTnpDeptId();
-        this.firstName = builder.getFirstName();
-        this.lastName = builder.getLastName();
+
+    private EdoGroupTracking(Builder builder) {
+        this.edoWorkflowId = builder.getEdoWorkflowId();
+        this.edoGroupTrackingId = builder.getEdoGroupTrackingId();
+        this.departmentId = builder.getDepartmentId();
+        this.reviewLevelName = builder.getReviewLevelName();
+        this.organizationCode = builder.getOrganizationCode();
+        this.groupName = builder.getGroupName();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -122,41 +117,35 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     }
 
     @Override
-    public String getCandidacySchool() {
-        return this.candidacySchool;
+    public String getEdoWorkflowId() {
+        return this.edoWorkflowId;
     }
 
     @Override
-    public String getEdoCandidateId() {
-        return this.edoCandidateId;
+    public String getEdoGroupTrackingId() {
+        return this.edoGroupTrackingId;
     }
 
     @Override
-    public String getPrincipalName() {
-        return this.principalName;
+    public String getDepartmentId() {
+        return this.departmentId;
     }
 
     @Override
-    public String getPrimaryDeptId() {
-        return this.primaryDeptId;
-    }
-
-
-    @Override
-    public String getTnpDeptId() {
-        return this.tnpDeptId;
+    public String getReviewLevelName() {
+        return this.reviewLevelName;
     }
 
     @Override
-    public String getFirstName() {
-        return this.firstName;
+    public String getOrganizationCode() {
+        return this.organizationCode;
     }
 
     @Override
-    public String getLastName() {
-        return this.lastName;
+    public String getGroupName() {
+        return this.groupName;
     }
-    
+
     @Override
     public Long getVersionNumber() {
         return this.versionNumber;
@@ -204,18 +193,19 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
 
 
     /**
-     * A builder which can be used to construct {@link EdoCandidate} instances.  Enforces the constraints of the {@link EdoCandidateContract}.
+     * A builder which can be used to construct {@link EdoGroupTracking} instances.  Enforces the constraints of the {@link EdoGroupTrackingContract}.
      * 
      */
-    public final static class Builder implements Serializable, EdoCandidateContract, ModelBuilder
+    public final static class Builder
+        implements Serializable, EdoGroupTrackingContract, ModelBuilder
     {
-        private String candidacySchool;
-        private String edoCandidateId;
-        private String principalName;
-        private String primaryDeptId;
-        private String tnpDeptId;
-        private String firstName;
-        private String lastName;
+
+        private String edoWorkflowId;
+        private String edoGroupTrackingId;
+        private String departmentId;
+        private String reviewLevelName;
+        private String organizationCode;
+        private String groupName;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -235,29 +225,18 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             return new Builder();
         }
 
-        private Builder(String principalName) {
-            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
-        	setPrincipalName(principalName);
-        }
-
-        public static Builder create(String principalName) {
-            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
-            return new Builder(principalName);
-        }
-        
-        public static Builder create(EdoCandidateContract contract) {
+        public static Builder create(EdoGroupTrackingContract contract) {
             if (contract == null) {
                 throw new IllegalArgumentException("contract was null");
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-            builder.setCandidacySchool(contract.getCandidacySchool());
-            builder.setEdoCandidateId(contract.getEdoCandidateId());
-            builder.setPrincipalName(contract.getPrincipalName());
-            builder.setPrimaryDeptId(contract.getPrimaryDeptId());
-            builder.setTnpDeptId(contract.getTnpDeptId());
-            builder.setFirstName(contract.getFirstName());
-            builder.setLastName(contract.getLastName());
+            builder.setEdoWorkflowId(contract.getEdoWorkflowId());
+            builder.setEdoGroupTrackingId(contract.getEdoGroupTrackingId());
+            builder.setDepartmentId(contract.getDepartmentId());
+            builder.setReviewLevelName(contract.getReviewLevelName());
+            builder.setOrganizationCode(contract.getOrganizationCode());
+            builder.setGroupName(contract.getGroupName());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -270,44 +249,38 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             return builder;
         }
 
-        public EdoCandidate build() {
-            return new EdoCandidate(this);
-        }
-
-
-        @Override
-        public String getCandidacySchool() {
-            return this.candidacySchool;
+        public EdoGroupTracking build() {
+            return new EdoGroupTracking(this);
         }
 
         @Override
-        public String getEdoCandidateId() {
-            return this.edoCandidateId;
+        public String getEdoWorkflowId() {
+            return this.edoWorkflowId;
         }
 
         @Override
-        public String getPrincipalName() {
-            return this.principalName;
+        public String getEdoGroupTrackingId() {
+            return this.edoGroupTrackingId;
         }
 
         @Override
-        public String getPrimaryDeptId() {
-            return this.primaryDeptId;
-        }
-        
-        @Override
-        public String getTnpDeptId() {
-            return this.tnpDeptId;
+        public String getDepartmentId() {
+            return this.departmentId;
         }
 
         @Override
-        public String getFirstName() {
-            return this.firstName;
+        public String getReviewLevelName() {
+            return this.reviewLevelName;
         }
 
         @Override
-        public String getLastName() {
-            return this.lastName;
+        public String getOrganizationCode() {
+            return this.organizationCode;
+        }
+
+        @Override
+        public String getGroupName() {
+            return this.groupName;
         }
 
         @Override
@@ -349,45 +322,40 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         public String getGroupKeyCode() {
             return this.groupKeyCode;
         }
-        
+
         @Override
         public HrGroupKey.Builder getGroupKey() {
             return this.groupKey;
         }
 
-        public void setCandidacySchool(String candidacySchool) {
+        public void setEdoWorkflowId(String edoWorkflowId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.candidacySchool = candidacySchool;
+            this.edoWorkflowId = edoWorkflowId;
         }
 
-        public void setEdoCandidateId(String edoCandidateId) {
+        public void setEdoGroupTrackingId(String edoGroupTrackingId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.edoCandidateId = edoCandidateId;
+            this.edoGroupTrackingId = edoGroupTrackingId;
         }
 
-        public void setPrincipalName(String principalName) {
+        public void setDepartmentId(String departmentId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.principalName = principalName;
+            this.departmentId = departmentId;
         }
 
-        public void setPrimaryDeptId(String primaryDeptId) {
+        public void setReviewLevelName(String reviewLevelName) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.primaryDeptId = primaryDeptId;
+            this.reviewLevelName = reviewLevelName;
         }
 
-        public void setTnpDeptId(String tnpDeptId) {
+        public void setOrganizationCode(String organizationCode) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.tnpDeptId = tnpDeptId;
+            this.organizationCode = organizationCode;
         }
 
-        public void setFirstName(String firstName) {
+        public void setGroupName(String groupName) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.firstName = firstName;
-        }
-
-        public void setLastName(String lastName) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.lastName = lastName;
+            this.groupName = groupName;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -426,15 +394,15 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         }
 
         public void setGroupKeyCode(String groupKeyCode) {
-            if (StringUtils.isWhitespace(groupKeyCode)) {
-                throw new IllegalArgumentException("groupKeyCode is blank");
-            }
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.groupKeyCode = groupKeyCode;
         }
 
         public void setGroupKey(HrGroupKey.Builder groupKey) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.groupKey = groupKey;
         }
+
     }
 
 
@@ -444,8 +412,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      */
     static class Constants {
 
-        final static String ROOT_ELEMENT_NAME = "edoCandidate";
-        final static String TYPE_NAME = "EdoCandidateType";
+        final static String ROOT_ELEMENT_NAME = "edoGroupTracking";
+        final static String TYPE_NAME = "EdoGroupTrackingType";
 
     }
 
@@ -455,13 +423,13 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
      * 
      */
     static class Elements {
-        final static String CANDIDACY_SCHOOL = "candidacySchool";
-        final static String EDO_CANDIDATE_ID = "edoCandidateId";
-        final static String PRINCIPAL_NAME = "principalName";
-        final static String PRIMARY_DEPT_ID = "primaryDeptId";
-        final static String TNP_DEPT_ID = "tnpDeptId";
-        final static String FIRST_NAME = "firstName";
-        final static String LAST_NAME = "lastName";
+
+        final static String EDO_WORKFLOW_ID = "edoWorkflowId";
+        final static String EDO_GROUP_TRACKING_ID = "edoGroupTrackingId";
+        final static String DEPARTMENT_ID = "departmentId";
+        final static String REVIEW_LEVEL_NAME = "reviewLevelName";
+        final static String ORGANIZATION_CODE = "organizationCode";
+        final static String GROUP_NAME = "groupName";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
@@ -469,8 +437,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         final static String USER_PRINCIPAL_ID = "userPrincipalId";
         final static String GROUP_KEY_CODE = "groupKeyCode";
         final static String GROUP_KEY = "groupKey";
+
     }
 
 }
-
 

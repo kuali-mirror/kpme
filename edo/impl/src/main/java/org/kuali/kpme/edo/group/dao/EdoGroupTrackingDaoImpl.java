@@ -1,16 +1,16 @@
 package org.kuali.kpme.edo.group.dao;
 
-import org.apache.log4j.Logger;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.edo.group.EdoGroupTracking;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.kpme.edo.group.EdoGroupTrackingBo;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
  * $HeadURL$
@@ -24,41 +24,41 @@ public class EdoGroupTrackingDaoImpl  extends PlatformAwareDaoBaseOjb implements
 
     private static final Logger LOG = Logger.getLogger(EdoGroupTrackingDaoImpl.class);
 
-    public EdoGroupTracking getEdoGroupTracking(Integer groupTrackingId) {
+    public EdoGroupTrackingBo getEdoGroupTracking(String edoGroupTrackingId) {
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("group_tracking_id", groupTrackingId);
+        cConditions.addEqualTo("edoGroupTrackingId", edoGroupTrackingId);
 
-        Query query = QueryFactory.newQuery(EdoGroupTracking.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoGroupTrackingBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
-            return (EdoGroupTracking)c.toArray()[0];
+            return (EdoGroupTrackingBo)c.toArray()[0];
         }
         return null;
     }
 
-    public EdoGroupTracking getEdoGroupTrackingByGroupName(String groupName) {
+    public EdoGroupTrackingBo getEdoGroupTrackingByGroupName(String groupName) {
         Criteria cConditions = new Criteria();
 
         cConditions.addEqualTo("groupName", groupName);
 
-        Query query = QueryFactory.newQuery(EdoGroupTracking.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoGroupTrackingBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
-            return (EdoGroupTracking)c.toArray()[0];
+            return (EdoGroupTrackingBo)c.toArray()[0];
         }
         return null;
     }
 
-    public List<EdoGroupTracking> getEdoGroupTrackingByDepartmentId(String departmentId) {
-        List<EdoGroupTracking> groupList = new ArrayList<EdoGroupTracking>();
+    public List<EdoGroupTrackingBo> getEdoGroupTrackingByDepartmentId(String departmentId) {
+        List<EdoGroupTrackingBo> groupList = new ArrayList<EdoGroupTrackingBo>();
 
         Criteria cConditions = new Criteria();
-        cConditions.addEqualTo("department_id", departmentId);
+        cConditions.addEqualTo("departmentId", departmentId);
 
-        Query query = QueryFactory.newQuery(EdoGroupTracking.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoGroupTrackingBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
@@ -68,13 +68,13 @@ public class EdoGroupTrackingDaoImpl  extends PlatformAwareDaoBaseOjb implements
 
     }
 
-    public List<EdoGroupTracking> getEdoGroupTrackingBySchoolId(String schoolId) {
-        List<EdoGroupTracking> groupList = new ArrayList<EdoGroupTracking>();
+    public List<EdoGroupTrackingBo> getEdoGroupTrackingBySchoolId(String schoolId) {
+        List<EdoGroupTrackingBo> groupList = new ArrayList<EdoGroupTrackingBo>();
 
         Criteria cConditions = new Criteria();
-        cConditions.addEqualTo("school_id", schoolId);
+        cConditions.addEqualTo("organizationCode", schoolId);
 
-        Query query = QueryFactory.newQuery(EdoGroupTracking.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoGroupTrackingBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
@@ -83,13 +83,13 @@ public class EdoGroupTrackingDaoImpl  extends PlatformAwareDaoBaseOjb implements
         return groupList;
     }
 
-    public List<EdoGroupTracking> getEdoGroupTrackingByCampusId(String campusId) {
-        List<EdoGroupTracking> groupList = new ArrayList<EdoGroupTracking>();
+    public List<EdoGroupTrackingBo> getEdoGroupTrackingByCampusId(String campusId) {
+        List<EdoGroupTrackingBo> groupList = new ArrayList<EdoGroupTrackingBo>();
 
         Criteria cConditions = new Criteria();
         cConditions.addEqualTo("campus_id", campusId);
 
-        Query query = QueryFactory.newQuery(EdoGroupTracking.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoGroupTrackingBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
@@ -98,12 +98,12 @@ public class EdoGroupTrackingDaoImpl  extends PlatformAwareDaoBaseOjb implements
         return groupList;
     }
 
-    public void saveOrUpdate(EdoGroupTracking groupTracking) {
+    public void saveOrUpdate(EdoGroupTrackingBo groupTracking) {
         this.getPersistenceBrokerTemplate().store(groupTracking);
     }
 
-    public List<EdoGroupTracking> findEdoGroupTrackingEntries(String departmentId, String schoolId, String campusId) {
-        List<EdoGroupTracking> groupTrackingList = new ArrayList<EdoGroupTracking>();
+    public List<EdoGroupTrackingBo> findEdoGroupTrackingEntries(String departmentId, String schoolId, String campusId) {
+        List<EdoGroupTrackingBo> groupTrackingList = new ArrayList<EdoGroupTrackingBo>();
 
         //String sqlCondition = "(department_id like '%" + departmentId + "%' or department_id is null)";
         //sqlCondition = sqlCondition.concat(" AND (school_id like '%" + schoolId + "%' or school_id is null)");
@@ -120,10 +120,10 @@ public class EdoGroupTrackingDaoImpl  extends PlatformAwareDaoBaseOjb implements
         }
 
         Criteria critSchool1 = new Criteria();
-        critSchool1.addLike("school_id", schoolId.toUpperCase());
+        critSchool1.addLike("organizationCode", schoolId.toUpperCase());
         if (schoolId.equals("*") || schoolId.equals("%")) {
             Criteria critSchool2 = new Criteria();
-            critSchool2.addIsNull("school_id");
+            critSchool2.addIsNull("organizationCode");
             critSchool1.addOrCriteria(critSchool2);
         }
 
@@ -142,7 +142,7 @@ public class EdoGroupTrackingDaoImpl  extends PlatformAwareDaoBaseOjb implements
 
         LOG.info("Query conditions: " + cConditions.toString());
 
-        Query query = QueryFactory.newQuery(EdoGroupTracking.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoGroupTrackingBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
@@ -151,12 +151,12 @@ public class EdoGroupTrackingDaoImpl  extends PlatformAwareDaoBaseOjb implements
         return groupTrackingList;
     }
 
-    public List<EdoGroupTracking> getGroupTrackingEntries() {
+    public List<EdoGroupTrackingBo> getGroupTrackingEntries() {
 
-        List<EdoGroupTracking> results = new LinkedList<EdoGroupTracking>();
+        List<EdoGroupTrackingBo> results = new LinkedList<EdoGroupTrackingBo>();
         Criteria criteria = new Criteria();
 
-        Query query = QueryFactory.newQuery(EdoGroupTracking.class, criteria, true);
+        Query query = QueryFactory.newQuery(EdoGroupTrackingBo.class, criteria, true);
 
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 

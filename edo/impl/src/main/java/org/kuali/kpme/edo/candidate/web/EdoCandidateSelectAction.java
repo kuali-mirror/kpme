@@ -80,7 +80,7 @@ public class EdoCandidateSelectAction extends EdoAction {
         selectedCandidate.setCandidateFirstname(candidate.getFirstName());
         selectedCandidate.setCandidateUsername(candidate.getPrincipalName());
         //selectedCandidate.setCandidateCampusCode(candidate.getCandidacyCampus());
-        selectedCandidate.setCandidateDepartmentID(candidate.getPrimaryDeptID());
+        selectedCandidate.setCandidateDepartmentID(candidate.getPrimaryDeptId());
         selectedCandidate.setCandidateSchoolID(candidate.getCandidacySchool());
 
         if ("".equals(dossier)) {

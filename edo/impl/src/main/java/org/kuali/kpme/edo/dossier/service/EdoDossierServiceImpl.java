@@ -15,11 +15,12 @@ import org.apache.log4j.Logger;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoSuppReviewLayerDefinition;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.dossier.dao.EdoDossierDao;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
-import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.supplemental.EdoSupplementalTracking;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -473,12 +474,12 @@ public class EdoDossierServiceImpl implements EdoDossierService {
          //see if they have any rows in the supp review table
          for(BigDecimal previousLevel : previousLevels) {
          	 //see if they have any rows in the supp review table
-        	 EdoSuppReviewLayerDefinition suppReviewLayerDef= EdoServiceLocator.getEdoReviewLayerDefinitionService().getSuppReviewLayerDefinition(previousLevel);
+        	 EdoSuppReviewLayerDefinition suppReviewLayerDef= EdoServiceLocator.getEdoReviewLayerDefinitionService().getSuppReviewLayerDefinition(previousLevel.toString());
          	 //check to see if any rows exist in the supp tracking table
         	 //if not then insert
         	 //if yes then dont insert just skip
         	 if(suppReviewLayerDef != null){
-        		 EdoSupplementalTracking edoSuppTracking = EdoServiceLocator.getEdoSupplementalTrackingService().getSupplementalTrackingEntryObj(dossierId, suppReviewLayerDef.getReviewLayerDefinitionId());
+        		 EdoSupplementalTracking edoSuppTracking = EdoServiceLocator.getEdoSupplementalTrackingService().getSupplementalTrackingEntryObj(dossierId, new BigDecimal(suppReviewLayerDef.getEdoReviewLayerDefinitionId()));
         	 if(edoSuppTracking != null){
         		 //compare flag
         		 if(edoSuppTracking.isAcknowledged() == true){
@@ -491,7 +492,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         	 else {
         		//store it in the supp tracking table
           		EdoSupplementalTracking edoSupplementalTracking = new EdoSupplementalTracking();
-          		edoSupplementalTracking.setReviewLevel(suppReviewLayerDef.getReviewLayerDefinitionId());
+          		edoSupplementalTracking.setReviewLevel(new BigDecimal(suppReviewLayerDef.getEdoReviewLayerDefinitionId()));
           		edoSupplementalTracking.setDossierId(dossierId);
           		edoSupplementalTracking.setLastUpdated(EdoUtils.getNow());
           		edoSupplementalTracking.setAcknowledged(false);
