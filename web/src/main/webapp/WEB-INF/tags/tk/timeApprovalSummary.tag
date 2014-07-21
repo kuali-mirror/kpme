@@ -35,9 +35,18 @@
 	            			</td>
 	            			<td style="border-left: none">${entry.key}:  (${timeApprovalSummary.weekDates[entry.key]})</td>
 	                        <c:set var="weekHours" value="${entry.value}"/>
+	                        <c:set var="clockLog" value="${timeApprovalSummary.weeklyClockLogs[entry.key]}"/>
 	                        <c:forEach items="${timeApprovalSummary.timeSummaryHeader}" var="hour">
 	                        	<c:if test="${weekHours[hour.key] != null and not empty weekHours[hour.key]}">
-	                        		<td>${weekHours[hour.key]}</td>
+	                        		<c:choose>
+	                        			<c:when test="${clockLog[hour.key] != null and not empty clockLog[hour.key] and clockLog[hour.key]}">
+	                        				<td style='background-color:#F08080'>${weekHours[hour.key]}</td>
+	                        			</c:when>
+	                        			<c:otherwise>
+	                        				<td>${weekHours[hour.key]}</td>
+	                        			</c:otherwise>
+	                        		</c:choose>
+	                        		
 	                        	</c:if>
 	                        	<c:if test="${weekHours[hour.key] == null or empty weekHours[hour.key]}">
 	                        		<td style="background: rgb(224, 235, 225)">${weekHours[hour.key]}</td>
