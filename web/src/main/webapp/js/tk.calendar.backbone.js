@@ -572,9 +572,21 @@ $(function () {
             var timeBlock = timeBlockCollection.get(key.id);
 
             if (this.checkPermissions()) {
-                if (confirm('You are about to delete a time block. Click OK to confirm the delete.')) {
-                    window.location = "TimeDetail.do?methodToCall=deleteTimeBlock&documentId=" + timeBlock.get("documentId") + "&tkTimeBlockId=" + key.id;
-                }
+                $('#confirm-time-block-delete').dialog({
+                    autoOpen: true,
+                    height: 'auto',
+                    width: 'auto',
+                    modal: true,
+                    buttons : {
+                        "OK" : function () {
+                            window.location = 'TimeDetail.do?methodToCall=deleteTimeBlock&documentId=' + timeBlock.get("documentId") + '&tkTimeBlockId=' + key.id
+                            $(this).dialog("close");
+                        },
+                        Cancel : function () {
+                            $(this).dialog("close");
+                        }
+                    },
+                });
             }
         },
 

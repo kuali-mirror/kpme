@@ -247,3 +247,7 @@
         </div>
     </html:form>
 </div>
+
+<div id="confirm-time-block-delete" class="dialog-form" title="Confirm Time Block Deletion">
+    You are about to delete a time block. Click OK to confirm the delete.
+</div>

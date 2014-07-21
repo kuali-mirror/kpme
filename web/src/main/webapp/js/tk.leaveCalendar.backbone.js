@@ -360,8 +360,6 @@ $(function () {
                     height: 'auto',
                     width: 'auto',
                     modal: true,
-                    buttons: {
-                    },
                     buttons : {
                         "OK" : function () {
                             window.location = 'LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=' + key.id + '&hrCalendarEntryId=' + calId;
