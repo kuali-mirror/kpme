@@ -610,22 +610,28 @@ public class TimesheetServiceImpl implements TimesheetService {
     public List<String> validateHours(TimesheetDocument timesheetDocument) {
         List<String> errors = new ArrayList<String>();
 
+        Map<String, Map<String, BigDecimal>> hoursWorked = new HashMap<String, Map<String, BigDecimal>>();
 
         if (timesheetDocument != null && WorkflowTagSupport.isTimesheetApprovalButtonsDisplaying(timesheetDocument.getDocumentId())) {
             DateTimeZone userTimeZone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(timesheetDocument.getPrincipalId()));
 
+
             if (userTimeZone == null) {
                 userTimeZone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
             }
-            String assignmentDesc = "";
+
+            Map<String, BigDecimal> assignmentStandardHours = new HashMap<String, BigDecimal>();
+
             for (Assignment assignment : timesheetDocument.getAllAssignments()) {
-                //get standard hours for job on assignment
                 BigDecimal standardHours = assignment.getJob().getStandardHours();
+
+
+                assignmentStandardHours.put(assignment.getJob().getHrJobId(), standardHours);
+            }
+
+
+            for (Assignment assignment : timesheetDocument.getAllAssignments()) {
                 LocalDate jobStartDate = assignment.getJob().getEffectiveLocalDate();
-                //if standard hours is 0 no validation is needed.
-                if (standardHours.compareTo(new BigDecimal(0)) == 0) {
-                    continue;
-                }
 
                 //create a aggregate of timeblocks for current assignment in the loop
                 List<TimeBlock> assignmentTimeBlocks = new ArrayList<TimeBlock>();
@@ -650,14 +656,37 @@ public class TimesheetServiceImpl implements TimesheetService {
 
                 Map<String, BigDecimal> flsaWeekTotal =  getAssignmentHoursToFlsaWeekMap(tkTimeBlockAggregate, timesheetDocument.getPrincipalId(), assignment.getAssignmentKey(), jobStartDate, userTimeZone);
 
-                for (Map.Entry<String, BigDecimal> entry : flsaWeekTotal.entrySet()) {
-                    if (standardHours.compareTo(entry.getValue()) > 0) {
-                        errors.add("Error: [" + assignment.getAssignmentDescription() + " expected " + standardHours + " hours for " + entry.getKey() + " only " + entry.getValue() + " hours were entered.]");
+
+
+                Map<String, BigDecimal> weekTotal = new HashMap<String, BigDecimal>();
+                for (String weekName : flsaWeekTotal.keySet()) {
+                    BigDecimal thisWeek = new BigDecimal(0.00);
+
+                    if (hoursWorked.containsKey(assignment.getJob().getHrJobId()) && hoursWorked.get(assignment.getJob().getHrJobId()).containsKey(weekName) ) {
+                        thisWeek = thisWeek.add(hoursWorked.get(assignment.getJob().getHrJobId()).get(weekName) );
+                    }
+                    thisWeek = thisWeek.add(flsaWeekTotal.get(weekName));
+                    weekTotal.put(weekName, thisWeek);
+                }
+
+                hoursWorked.put(assignment.getJob().getHrJobId(), weekTotal);
+            }
+
+            for (String totalsJobId : hoursWorked.keySet()) {
+                for (String totalsWeekNum : hoursWorked.get(totalsJobId).keySet() ) {
+
+                    if (((BigDecimal)assignmentStandardHours.get(totalsJobId)).compareTo(new BigDecimal(0)) == 0) {
+                        continue;
+                    }
+
+                    if (  ((BigDecimal)assignmentStandardHours.get(totalsJobId)).compareTo(  ((BigDecimal)hoursWorked.get(totalsJobId).get(totalsWeekNum)) ) > 0)   {
+                        errors.add("Error: [Expected " + ((BigDecimal)assignmentStandardHours.get(totalsJobId)) + " hours for " + totalsWeekNum + " only " + ((BigDecimal)hoursWorked.get(totalsJobId).get(totalsWeekNum)) + " hours were entered.]");
                     }
                 }
             }
 
         }
+
         return errors;
     }
 
