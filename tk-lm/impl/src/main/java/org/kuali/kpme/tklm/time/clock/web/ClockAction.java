@@ -266,9 +266,13 @@ public class ClockAction extends TimesheetAction {
     	caf.setShowDistrubuteButton(false);
     	
     	TimesheetDocument timesheetDocument = caf.getTimesheetDocument();
-        if (timesheetDocument != null) {
+    	List<Assignment> listOfAssignments = caf.getTimesheetDocument().getAssignmentMap().get(LocalDate.now());
+    	if(listOfAssignments == null || listOfAssignments.isEmpty()) {
+    		listOfAssignments = caf.getTimesheetDocument().getAssignmentMap().get(timesheetDocument.getDocEndDate());
+    	}
+        if (timesheetDocument != null && listOfAssignments != null) {
             int eligibleAssignmentCount = 0;
-            for (Assignment a : timesheetDocument.getAssignmentMap().get(LocalDate.now())) {
+            for (Assignment a : listOfAssignments) {
                 WorkArea aWorkArea = HrServiceLocator.getWorkAreaService().getWorkArea(a.getWorkArea(), timesheetDocument.getDocEndDate());
                 if(aWorkArea != null && aWorkArea.isHrsDistributionF()) {
                     eligibleAssignmentCount++;
