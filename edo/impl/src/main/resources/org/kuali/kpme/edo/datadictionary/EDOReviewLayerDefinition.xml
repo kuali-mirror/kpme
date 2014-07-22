@@ -19,6 +19,16 @@
 				<ref bean="EDOReviewLayerDefinition-workflowQualifier" />
 			</list>
 		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition">
+					<property name="dataObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo" />
+					<property name="name" value="suppReviewLayerDefinitions" />
+					<property name="shortLabel" value="Supp Review Layer Definitions" />
+					<property name="label" value="Supplement Review Layer Definitions" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 
     <!-- Attribute Definitions -->
@@ -220,9 +230,29 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="EDOReviewLayerDefinition-suppReviewLayerDefinitionsInquiry"/>
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="EDOReviewLayerDefinition-suppReviewLayerDefinitionsInquiry" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Supplement Review Layer Definitions"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo"/>
+        <property name="propertyName" value="suppReviewLayerDefinitions"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="edoReviewLayerDefinitionId" />
+                <bean parent="Uif-InputField" p:propertyName="suppNodeName"/>
+                <bean parent="Uif-InputField" p:propertyName="acknowledgeFlag"/>
+                <bean parent="Uif-InputField" p:propertyName="edoWorkflowId"/>
+                <bean parent="Uif-InputField" p:propertyName="workflowQualifier"/>
+            </list>
+        </property>
+    </bean>
 
 	<!-- Maintenance View -->
 	<bean id="EdoReviewLayerDefinition-MaintenanceView" parent="EdoReviewLayerDefinition-MaintenanceView-parentBean" />
@@ -246,8 +276,37 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="EdoReviewLayerDefinition-SuppReviewLayerDefinitions" />
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="EdoReviewLayerDefinition-SuppReviewLayerDefinitions" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Supplement Review Layer Definitions"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo"/>
+        <property name="propertyName" value="suppReviewLayerDefinitions"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="showInactiveLines" value = "true"/>
+        <property name="renderInactiveToggleButton" value="false"/>
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="suppNodeName"/>
+                <bean parent="Uif-InputField" p:propertyName="acknowledgeFlag" />
+                <bean parent="Uif-InputField" p:propertyName="edoWorkflowId" />
+                <bean parent="Uif-InputField" p:propertyName="workflowQualifier"/>
+            </list>
+        </property>
+    </bean>
   
 </beans>

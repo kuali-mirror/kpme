@@ -221,6 +221,11 @@
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        
+        <collection-descriptor name="suppReviewLayerDefinitions" element-class-ref="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="false">
+            <inverse-foreignkey field-ref="edoReviewLayerDefinitionId" />
+        </collection-descriptor>
+        
     </class-descriptor>
     
 	 <class-descriptor class="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo" table="EDO_SUPP_REVIEW_LAYER_DEF_T">
@@ -228,16 +233,12 @@
         <field-descriptor name="edoReviewLayerDefinitionId" column="EDO_REVIEW_LAYER_DEF_ID" jdbc-type="VARCHAR" length="60" nullable="false" />    
         <field-descriptor name="suppNodeName" column="SUPPLEMENTAL_NODE_NAME" jdbc-type="VARCHAR" length="100" nullable="false"/>
         <field-descriptor name="acknowledgeFlag" column="ACKNOWLEDGE_FLAG" jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="edoWorkflowId"  column="EDO_WORKFLOW_ID"  jdbc-type="VARCHAR"  length="25"  nullable="false" />
+        <field-descriptor name="edoWorkflowId"  column="EDO_WORKFLOW_ID"  jdbc-type="VARCHAR"  length="60"  nullable="false" />
         <field-descriptor name="workflowQualifier"  column="WORKFLOW_QUALIFIER"  jdbc-type="VARCHAR"  length="25"  nullable="false" />
         <!-- 
         <reference-descriptor name="reviewLayerDefinition"  class-ref="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo"  auto-retrieve="true"  auto-update="none"  auto-delete="none"  proxy="true">
 			<foreignkey field-ref="reviewLayerDefinitionId" />
         </reference-descriptor>  -->
-        <field-descriptor name="effectiveDate"  	column="EFFDT"    		 	jdbc-type="DATE"    nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-		<field-descriptor name="active"         	column="ACTIVE"           	jdbc-type="VARCHAR" length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
-        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor> 

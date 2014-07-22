@@ -1,19 +1,13 @@
 package org.kuali.kpme.edo.reviewlayerdef;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoSuppReviewLayerDefinition;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoSuppReviewLayerDefinitionContract;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-import com.google.common.collect.ImmutableMap;
-
-public class EdoSuppReviewLayerDefinitionBo extends HrBusinessObject implements EdoSuppReviewLayerDefinitionContract {
+public class EdoSuppReviewLayerDefinitionBo extends PersistableBusinessObjectBase implements EdoSuppReviewLayerDefinitionContract {
 	
 	private static final long serialVersionUID = -9121537077110752118L;
-	
-	static class KeyFields {
-		private static final String SUPP_NODE_NAME = "suppNodeName";
-		private static final String EDO_WORK_FLOW_ID = "edoWorkflowId";
-	}
 	
 	private String edoSuppReviewLayerDefinitionId;
 	private String edoReviewLayerDefinitionId;
@@ -21,15 +15,7 @@ public class EdoSuppReviewLayerDefinitionBo extends HrBusinessObject implements 
     private boolean acknowledgeFlag;
     private String edoWorkflowId;
     private String workflowQualifier;
-    
-    @Override
-	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.SUPP_NODE_NAME, this.getSuppNodeName())
-				.put(KeyFields.EDO_WORK_FLOW_ID, this.getEdoWorkflowId())
-				.build();
-	}
-    
+
     //private EdoReviewLayerDefinitionBo reviewLayerDefinition;
     
     public String getEdoSuppReviewLayerDefinitionId() {
@@ -80,17 +66,10 @@ public class EdoSuppReviewLayerDefinitionBo extends HrBusinessObject implements 
         this.workflowQualifier = workflowQualifier;
     }
 
-    @Override
-    protected String getUniqueKey() {
-        return edoSuppReviewLayerDefinitionId;
-    }
-
-    @Override
     public String getId() {
         return getEdoSuppReviewLayerDefinitionId();
     }
 
-    @Override
     public void setId(String id) {
         setEdoSuppReviewLayerDefinitionId(id);
     }
@@ -114,10 +93,9 @@ public class EdoSuppReviewLayerDefinitionBo extends HrBusinessObject implements 
         edoSuppReviewLayerDefinitionBo.setAcknowledgeFlag(edoSuppReviewLayerDefinition.isAcknowledgeFlag());
         edoSuppReviewLayerDefinitionBo.setEdoWorkflowId(edoSuppReviewLayerDefinition.getEdoWorkflowId());
         edoSuppReviewLayerDefinitionBo.setWorkflowQualifier(edoSuppReviewLayerDefinition.getWorkflowQualifier());
-        
-        // finally copy over the common fields into phra from im
-        copyCommonFields(edoSuppReviewLayerDefinitionBo, edoSuppReviewLayerDefinition);
-     
+        edoSuppReviewLayerDefinitionBo.setVersionNumber(edoSuppReviewLayerDefinition.getVersionNumber());
+        edoSuppReviewLayerDefinitionBo.setObjectId(edoSuppReviewLayerDefinition.getObjectId());
+      
         return edoSuppReviewLayerDefinitionBo;
     } 
     
@@ -127,5 +105,17 @@ public class EdoSuppReviewLayerDefinitionBo extends HrBusinessObject implements 
         }
         return EdoSuppReviewLayerDefinition.Builder.create(bo).build();
     }
+    
+    public static final ModelObjectUtils.Transformer<EdoSuppReviewLayerDefinitionBo, EdoSuppReviewLayerDefinition> toImmutable = new ModelObjectUtils.Transformer<EdoSuppReviewLayerDefinitionBo, EdoSuppReviewLayerDefinition>() {
+        public EdoSuppReviewLayerDefinition transform(EdoSuppReviewLayerDefinitionBo input) {
+            return EdoSuppReviewLayerDefinitionBo.to(input);
+        };
+    };
+            
+    public static final ModelObjectUtils.Transformer<EdoSuppReviewLayerDefinition, EdoSuppReviewLayerDefinitionBo> toBo = new ModelObjectUtils.Transformer<EdoSuppReviewLayerDefinition, EdoSuppReviewLayerDefinitionBo>() {
+        public EdoSuppReviewLayerDefinitionBo transform(EdoSuppReviewLayerDefinition input) {
+            return EdoSuppReviewLayerDefinitionBo.from(input);
+        };
+    };
 
 }

@@ -1,16 +1,16 @@
 package org.kuali.kpme.edo.workflow.role;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.edo.permission.EDOKimAttributes;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoPropertyConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kns.workflow.attribute.QualifierResolverBase;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SuppGenericQualifierResolver extends QualifierResolverBase {
 
@@ -23,7 +23,9 @@ public class SuppGenericQualifierResolver extends QualifierResolverBase {
 
         String workflowId = StringUtils.substringBetween(documentContent, "<workflowId>","</workflowId");
 
-        String qualifier = EdoServiceLocator.getEdoReviewLayerDefinitionService().getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
+        // KPME-3711 This method has been moved to EdoSuppReviewLayerDefinitionService
+        //String qualifier = EdoServiceLocator.getEdoReviewLayerDefinitionService().getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
+        String qualifier = EdoServiceLocator.getEdoSuppReviewLayerDefinitionService().getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
 
         if (StringUtils.isNotBlank(qualifier)) {
             if (qualifier.equals(EdoPropertyConstants.EdoSuppReviewLayerDefinitionFields.SCHOOL_ID)) {

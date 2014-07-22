@@ -35,12 +35,13 @@ public interface EdoReviewLayerDefinitionService {
     // moved to here from EdoVoteRecordService
     public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(String edoDossierID);
     
+    // KPME-3711 Moved these to EdoSuppReviewLayerDefinitionService
     // TODO: move the following three methods to 
     // no alteration needed; id passed to EdoSuppReviewLayerDefinition module
     //get the supplemental nodes (authorized nodes)
-    public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(String reviewLayerDefinitionId);
-    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
-    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName);
+    //public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(String reviewLayerDefinitionId);
+    //public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
+    //public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName);
     
     
  // commented out by IU

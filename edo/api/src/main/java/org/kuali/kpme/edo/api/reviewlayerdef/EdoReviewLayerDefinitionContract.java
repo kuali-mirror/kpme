@@ -7,6 +7,8 @@
  */
 package org.kuali.kpme.edo.api.reviewlayerdef;
 
+import java.util.List;
+
 import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
 
 public interface EdoReviewLayerDefinitionContract extends KpmeEffectiveDataTransferObject {
@@ -28,5 +30,16 @@ public interface EdoReviewLayerDefinitionContract extends KpmeEffectiveDataTrans
     public String getWorkflowId();
 
     public String getWorkflowQualifier();
+    
+    /**
+     * The SuppReviewLayerDefinition List
+     *
+     * <p>
+     * suppReviewLayerDefinitions of a EdoReviewLayerDefinition.
+     * <p>
+     *
+     * @return List suppReviewLayerDefinitions for EdoReviewLayerDefinition
+     */
+    public List<? extends EdoSuppReviewLayerDefinitionContract> getSuppReviewLayerDefinitions();
      
 }

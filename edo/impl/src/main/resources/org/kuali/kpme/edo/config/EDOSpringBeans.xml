@@ -77,6 +77,7 @@
     <bean id="edoVoteRecordDao"    class="org.kuali.kpme.edo.vote.dao.EdoVoteRecordDaoImpl"  parent="platformAwareDao" />
     <bean id="edoCandidateDossierDao" class="org.kuali.kpme.edo.dossier.dao.EdoCandidateDossierDaoImpl" parent="platformAwareDao" />
     <bean id="edoReviewLayerDefinitionDao" class="org.kuali.kpme.edo.reviewlayerdef.dao.EdoReviewLayerDefinitionDaoImpl" parent="platformAwareDao" />
+    <bean id="edoSuppReviewLayerDefinitionDao" class="org.kuali.kpme.edo.reviewlayerdef.dao.EdoSuppReviewLayerDefinitionDaoImpl" parent="platformAwareDao" />
     <bean id="dossierProcessDocumentHeaderDao" class="org.kuali.kpme.edo.workflow.dao.DossierProcessDocumentHeaderDaoImpl" parent="platformAwareDao" />
     <bean id="edoSupplementalTrackingDao" class="org.kuali.kpme.edo.supplemental.dao.EdoSupplementalTrackingDaoImpl" parent="platformAwareDao" />
     <bean id="edoGroupDefinitionDao" class="org.kuali.kpme.edo.group.dao.EdoGroupDefinitionDaoImpl" parent="platformAwareDao" />
@@ -130,7 +131,12 @@
     <bean id="edoReviewLayerDefinitionService" class="org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionServiceImpl">
         <property name="edoReviewLayerDefinitionDao" ref="edoReviewLayerDefinitionDao"/>
     </bean>
-      <bean id="edoSupplementalTrackingService" class="org.kuali.kpme.edo.supplemental.service.EdoSupplementalTrackingServiceImpl">
+    
+    <bean id="edoSuppReviewLayerDefinitionService" class="org.kuali.kpme.edo.reviewlayerdef.service.EdoSuppReviewLayerDefinitionServiceImpl">
+        <property name="edoSuppReviewLayerDefinitionDao" ref="edoSuppReviewLayerDefinitionDao"/>
+    </bean>
+    
+    <bean id="edoSupplementalTrackingService" class="org.kuali.kpme.edo.supplemental.service.EdoSupplementalTrackingServiceImpl">
         <property name="edoSupplementalTrackingDao" ref="edoSupplementalTrackingDao"/>
     </bean>
     
@@ -224,6 +230,7 @@
             	<idref local="edoDossierTypeService"/>            	
             	<idref local="edoDossierService"/>
             	<idref local="edoReviewLayerDefinitionService"/>
+            	<idref local="edoSuppReviewLayerDefinitionService"/>
             	<idref local="edoSupplementalTrackingService"/>
             	<idref local="edoVoteRecordService"/>
             	<idref local="edoCandidateDossierService"/>            	

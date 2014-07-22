@@ -403,7 +403,9 @@ public class EdoDossierServiceImpl implements EdoDossierService {
                         // generate a list of node names
                        for (EdoReviewLayerDefinition rvwLayer : validReviewLayers) {
                            // authorizedNodes.add(EdoServiceLocator.getEdoReviewLayerDefinitionService().buildNodeMap(validReviewLayers).get(rvwLayer.getNodeName())); //this is throwing null pointer exception
-                           authorizedNodes.addAll(EdoServiceLocator.getEdoReviewLayerDefinitionService().getAuthorizedSupplementalNodes(rvwLayer.getEdoReviewLayerDefinitionId()));
+                    	   // KPME-3711 This method has been moved to EdoSuppReviewLayerDefinitionService
+                           //authorizedNodes.addAll(EdoServiceLocator.getEdoReviewLayerDefinitionService().getAuthorizedSupplementalNodes(rvwLayer.getEdoReviewLayerDefinitionId()));
+                    	   authorizedNodes.addAll(EdoServiceLocator.getEdoSuppReviewLayerDefinitionService().getAuthorizedSupplementalNodes(rvwLayer.getEdoReviewLayerDefinitionId()));
 
                        }
                     }
@@ -474,12 +476,16 @@ public class EdoDossierServiceImpl implements EdoDossierService {
          //see if they have any rows in the supp review table
          for(BigDecimal previousLevel : previousLevels) {
          	 //see if they have any rows in the supp review table
-        	 EdoSuppReviewLayerDefinition suppReviewLayerDef= EdoServiceLocator.getEdoReviewLayerDefinitionService().getSuppReviewLayerDefinition(previousLevel.toString());
+      	     // KPME-3711 This method has been moved to EdoSuppReviewLayerDefinitionService
+        	 //EdoSuppReviewLayerDefinition suppReviewLayerDef= EdoServiceLocator.getEdoReviewLayerDefinitionService().getSuppReviewLayerDefinition(previousLevel.toString());
+        	 List<EdoSuppReviewLayerDefinition> suppReviewLayerDefs= EdoServiceLocator.getEdoSuppReviewLayerDefinitionService().getSuppReviewLayerDefinitions(previousLevel.toString());
          	 //check to see if any rows exist in the supp tracking table
         	 //if not then insert
         	 //if yes then dont insert just skip
-        	 if(suppReviewLayerDef != null){
-        		 EdoSupplementalTracking edoSuppTracking = EdoServiceLocator.getEdoSupplementalTrackingService().getSupplementalTrackingEntryObj(dossierId, new BigDecimal(suppReviewLayerDef.getEdoReviewLayerDefinitionId()));
+        	 if(!suppReviewLayerDefs.isEmpty()){
+        		 // KPME-3711 this is just passing review_layer_def_id, so use previousLevel instead
+        		 //EdoSupplementalTracking edoSuppTracking = EdoServiceLocator.getEdoSupplementalTrackingService().getSupplementalTrackingEntryObj(dossierId, new BigDecimal(suppReviewLayerDef.getEdoReviewLayerDefinitionId()));
+        		 EdoSupplementalTracking edoSuppTracking = EdoServiceLocator.getEdoSupplementalTrackingService().getSupplementalTrackingEntryObj(dossierId, previousLevel);
         	 if(edoSuppTracking != null){
         		 //compare flag
         		 if(edoSuppTracking.isAcknowledged() == true){
@@ -492,7 +498,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         	 else {
         		//store it in the supp tracking table
           		EdoSupplementalTracking edoSupplementalTracking = new EdoSupplementalTracking();
-          		edoSupplementalTracking.setReviewLevel(new BigDecimal(suppReviewLayerDef.getEdoReviewLayerDefinitionId()));
+          		edoSupplementalTracking.setReviewLevel(previousLevel);
           		edoSupplementalTracking.setDossierId(dossierId);
           		edoSupplementalTracking.setLastUpdated(EdoUtils.getNow());
           		edoSupplementalTracking.setAcknowledged(false);

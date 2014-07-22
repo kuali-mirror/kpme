@@ -15,9 +15,12 @@
 --
 
 delete from EDO_REVIEW_LAYER_DEF_T where edo_review_layer_def_id >= '1000';
+delete from EDO_SUPP_REVIEW_LAYER_DEF_T where EDO_SUPP_REVIEW_LAYER_DEF_ID >= '2000';
 
 INSERT INTO EDO_REVIEW_LAYER_DEF_T(`edo_review_layer_def_id`,`node_name`, `vote_type`, `DESCRIPTION`, `review_letter`, `route_level`, `review_level`, `WORKFLOW_ID`, `WORKFLOW_QUALIFIER`, `USER_PRINCIPAL_ID`,`VER_NBR`, `OBJ_ID`, `TIMESTAMP`) VALUES ('1000', 'nodeName', 'T', 'DESC', 'Y', '1', '1', '1000', 'qualifier', 'admin', 1, uuid(), now());
 INSERT INTO EDO_REVIEW_LAYER_DEF_T(`edo_review_layer_def_id`,`node_name`, `vote_type`, `DESCRIPTION`, `review_letter`, `route_level`, `review_level`, `WORKFLOW_ID`, `WORKFLOW_QUALIFIER`, `USER_PRINCIPAL_ID`,`VER_NBR`, `OBJ_ID`, `TIMESTAMP`) VALUES ('1001', 'nodeName1', 'T', 'DESC1', 'Y', '1', '1', '1001', 'qualifier1', 'admin', 1, uuid(), now());
 
-
 INSERT INTO EDO_REVIEW_LAYER_DEF_T(`edo_review_layer_def_id`,`node_name`, `vote_type`, `DESCRIPTION`, `review_letter`, `route_level`, `review_level`, `WORKFLOW_ID`, `WORKFLOW_QUALIFIER`, `USER_PRINCIPAL_ID`,`VER_NBR`, `OBJ_ID`, `TIMESTAMP`) VALUES ('1010', 'nodeName', 'P', 'DESC', 'Y', '1', '1', '1000', 'qualifier', 'admin', 1, uuid(), now());
+
+INSERT INTO EDO_SUPP_REVIEW_LAYER_DEF_T(`EDO_SUPP_REVIEW_LAYER_DEF_ID`,`EDO_REVIEW_LAYER_DEF_ID`, `SUPPLEMENTAL_NODE_NAME`, `ACKNOWLEDGE_FLAG`, `EDO_WORKFLOW_ID`, `WORKFLOW_QUALIFIER`, `VER_NBR`, `OBJ_ID`) VALUES ('2000', '1000', 'suppDeanAck', 'Y', '1000', 'department', 1, uuid());
+INSERT INTO EDO_SUPP_REVIEW_LAYER_DEF_T(`EDO_SUPP_REVIEW_LAYER_DEF_ID`,`EDO_REVIEW_LAYER_DEF_ID`, `SUPPLEMENTAL_NODE_NAME`, `ACKNOWLEDGE_FLAG`, `EDO_WORKFLOW_ID`, `WORKFLOW_QUALIFIER`, `VER_NBR`, `OBJ_ID`) VALUES ('2001', '1000', 'suppDean', 'N', '1000', 'school', 1, uuid());

@@ -1,14 +1,12 @@
 package org.kuali.kpme.edo.api.reviewlayerdef;
 
-import java.math.BigDecimal;
-
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 
 /**
  * <p>EdoSuppReviewLayerDefinitionContract interface</p>
  *
  */
-public interface EdoSuppReviewLayerDefinitionContract extends KpmeEffectiveDataTransferObject {
+public interface EdoSuppReviewLayerDefinitionContract extends KpmeDataTransferObject {
 
 	/**
 	 * The identifier of the EdoSuppReviewLayerDefinition
