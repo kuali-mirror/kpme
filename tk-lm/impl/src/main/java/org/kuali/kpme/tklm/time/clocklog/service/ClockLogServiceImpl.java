@@ -100,6 +100,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         
         // If the clock action is clock out or lunch out, create a time block besides the clock log
         if (StringUtils.equals(clockAction, TkConstants.CLOCK_OUT) || StringUtils.equals(clockAction, TkConstants.LUNCH_OUT)) {
+        	clockLog = KRADServiceLocator.getBusinessObjectService().save(clockLog);
             processTimeBlock(principalId, documentId, clockLog, assignment, pe, clockAction, userPrincipalId);
         } else {
             //Save current clock log to get id for timeblock building

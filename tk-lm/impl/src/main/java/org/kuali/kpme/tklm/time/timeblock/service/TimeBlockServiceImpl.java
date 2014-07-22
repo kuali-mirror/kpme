@@ -51,6 +51,9 @@ import org.kuali.kpme.tklm.time.timeblock.dao.TimeBlockDao;
 import org.kuali.kpme.tklm.time.timehourdetail.TimeHourDetailBo;
 import org.kuali.kpme.tklm.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.note.Note;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -183,7 +186,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     @Override
     public List<TimeBlock> saveOrUpdateTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId) {
         List<TimeBlockBo> alteredTimeBlocks = new ArrayList<TimeBlockBo>();
-
+        
         List<TimeBlockBo> oldTimeBlockBos = ModelObjectUtils.transform(oldTimeBlocks, toTimeBlockBo);
         List<TimeBlockBo> newTimeBlockBos = ModelObjectUtils.transform(newTimeBlocks, toTimeBlockBo);
         for (TimeBlockBo tb : newTimeBlockBos) {
@@ -216,9 +219,25 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         for (TimeBlockBo timeBlock : savedTimeBlocks) {
         	if(!timeBlockIds.contains(timeBlock.getTkTimeBlockId())) {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.ADD_TIME_BLOCK));
+	            if(!HrContext.getPrincipalId().equals(timeBlock.getPrincipalId())){
+	            	//add Note to time sheet
+	            	Note.Builder builder = Note.Builder.create(timeBlock.getDocumentId(), timeBlock.getUserPrincipalId());
+	            	builder.setCreateDate(new DateTime());
+	            	String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
+	            	builder.setText("Timeblock on " + timeBlock.getBeginDateTime() + " was added on this timesheet by " + principalName + " on your behalf");
+	            	KewApiServiceLocator.getNoteService().createNote(builder.build());
+	            }
 	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
         	} else {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.UPDATE_TIME_BLOCK));
+	            if(!HrContext.getPrincipalId().equals(timeBlock.getPrincipalId())){
+	            	//add Note to time sheet
+	            	Note.Builder builder = Note.Builder.create(timeBlock.getDocumentId(), timeBlock.getUserPrincipalId());
+	            	builder.setCreateDate(new DateTime());
+	            	String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
+	            	builder.setText("Timeblock on " + timeBlock.getBeginDateTime() + " was updated on this timesheet by " + principalName + " on your behalf");
+	            	KewApiServiceLocator.getNoteService().createNote(builder.build());
+	            }
 	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
         	}
         }
@@ -314,7 +333,15 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     @Override
     public void deleteTimeBlock(TimeBlock timeBlock) {
-        KRADServiceLocator.getBusinessObjectService().delete(TimeBlockBo.from(timeBlock));
+    	if(!HrContext.getPrincipalId().equals(timeBlock.getPrincipalId())){
+    		//add Note to time sheet
+    		Note.Builder builder = Note.Builder.create(timeBlock.getDocumentId(), timeBlock.getUserPrincipalId());
+    		builder.setCreateDate(new DateTime());
+    		String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
+    		builder.setText("Timeblock on " + timeBlock.getBeginDateTime() + " was deleted on this timesheet by " + principalName + " on your behalf");
+    		KewApiServiceLocator.getNoteService().createNote(builder.build());
+    	}
+    	KRADServiceLocator.getBusinessObjectService().delete(TimeBlockBo.from(timeBlock));
     }
 
     @Override
