@@ -1,12 +1,12 @@
 package org.kuali.kpme.edo.api.checklist;
 
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 
 /**
  * <p>EdoChecklistSectionContract interface</p>
  *
  */
-public interface EdoChecklistSectionContract extends KpmeEffectiveDataTransferObject {
+public interface EdoChecklistSectionContract extends KpmeDataTransferObject {
 
 	/**
 	 * The identifier of the EdoChecklistSection
@@ -51,8 +51,6 @@ public interface EdoChecklistSectionContract extends KpmeEffectiveDataTransferOb
 	 * @return description for EdoChecklistSection
 	 */
     public String getDescription();
-
-   
 
     /**
 	 * Indicates the order in which the EdoChecklistSection is displayed

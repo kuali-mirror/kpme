@@ -82,7 +82,7 @@ public class EdoChecklistItemValidation extends MaintenanceDocumentRuleBase {
 		String edoChecklistSectionId = checklistItem.getEdoChecklistSectionId();
 		String edoChecklistId = checklistSectionService.getChecklistSectionById(edoChecklistSectionId).getEdoChecklistId();
 		
-		List<EdoChecklistSection> sections = checklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId, today);
+		List<EdoChecklistSection> sections = checklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId);
 		
 		for (EdoChecklistSection section : sections) {
 			

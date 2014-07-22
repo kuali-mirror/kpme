@@ -2,7 +2,6 @@ package org.kuali.kpme.edo.checklist.service;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
 import org.kuali.kpme.edo.checklist.dao.EdoChecklistSectionDao;
@@ -27,8 +26,8 @@ public class EdoChecklistSectionServiceImpl implements EdoChecklistSectionServic
     	return EdoChecklistSectionBo.to(edoChecklistSectionDao.getChecklistSectionById(edoChecklistSectionId));
     }
     
-    public List<EdoChecklistSection> getChecklistSectionsByChecklistId(String edoChecklistId, LocalDate asOfDate) {        
-        List<EdoChecklistSectionBo> bos = edoChecklistSectionDao.getChecklistSectionsByChecklistId(edoChecklistId, asOfDate);
+    public List<EdoChecklistSection> getChecklistSectionsByChecklistId(String edoChecklistId) {        
+        List<EdoChecklistSectionBo> bos = edoChecklistSectionDao.getChecklistSectionsByChecklistId(edoChecklistId);
 		return convertToImmutable(bos);
     }
 }

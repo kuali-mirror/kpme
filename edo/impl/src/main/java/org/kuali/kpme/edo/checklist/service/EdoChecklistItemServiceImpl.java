@@ -55,7 +55,7 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
     	List<EdoChecklist> checklists = edoChecklistService.getChecklists(groupKey, organizationCode, departmentId, asOfDate);
     	for (EdoChecklist checklist : checklists) {
     		String edoChecklistId = checklist.getEdoChecklistId();
-    		List<EdoChecklistSection> checklistSections = edoChecklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId, asOfDate);
+    		List<EdoChecklistSection> checklistSections = edoChecklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId);
 
     		for (EdoChecklistSection checklistSection : checklistSections) {
     			String edoChecklistSectionId = checklistSection.getEdoChecklistSectionId();
@@ -74,7 +74,7 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
     	List<String> idList = new ArrayList<String>();
     	
     	String edoChecklistId = edoDossierService.getEdoDossierById(edoDossierId).getEdoChecklistId();
-    	List<EdoChecklistSection> checklistSections = edoChecklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId, asOfDate);
+    	List<EdoChecklistSection> checklistSections = edoChecklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId);
     	
     	for (EdoChecklistSection checklistSection : checklistSections) {
     		idList.add(checklistSection.getEdoChecklistSectionId());

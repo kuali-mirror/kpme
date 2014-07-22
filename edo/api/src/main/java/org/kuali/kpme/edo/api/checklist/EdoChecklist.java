@@ -2,6 +2,7 @@ package org.kuali.kpme.edo.api.checklist;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -20,6 +21,7 @@ import org.w3c.dom.Element;
 @XmlRootElement(name = EdoChecklist.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = EdoChecklist.Constants.TYPE_NAME, propOrder = {
+    EdoChecklist.Elements.CHECKLIST_SECTIONS,
     EdoChecklist.Elements.DESCRIPTION,
     EdoChecklist.Elements.EDO_CHECKLIST_ID,
     EdoChecklist.Elements.DOSSIER_TYPE_CODE,
@@ -41,6 +43,8 @@ public final class EdoChecklist
     implements EdoChecklistContract
 {
 
+    @XmlElement(name = Elements.CHECKLIST_SECTIONS, required = false)
+    private final List checklistSections;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
     @XmlElement(name = Elements.EDO_CHECKLIST_ID, required = false)
@@ -78,6 +82,7 @@ public final class EdoChecklist
      * 
      */
     private EdoChecklist() {
+        this.checklistSections = null;
         this.description = null;
         this.edoChecklistId = null;
         this.dossierTypeCode = null;
@@ -95,6 +100,7 @@ public final class EdoChecklist
     }
 
     private EdoChecklist(Builder builder) {
+        this.checklistSections = builder.getChecklistSections();
         this.description = builder.getDescription();
         this.edoChecklistId = builder.getEdoChecklistId();
         this.dossierTypeCode = builder.getDossierTypeCode();
@@ -109,6 +115,11 @@ public final class EdoChecklist
         this.userPrincipalId = builder.getUserPrincipalId();
         this.groupKeyCode = builder.getGroupKeyCode();
         this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+    }
+
+    @Override
+    public List getChecklistSections() {
+        return this.checklistSections;
     }
 
     @Override
@@ -190,6 +201,7 @@ public final class EdoChecklist
         implements Serializable, EdoChecklistContract, ModelBuilder
     {
 
+        private List checklistSections;
         private String description;
         private String edoChecklistId;
         private String dossierTypeCode;
@@ -220,6 +232,7 @@ public final class EdoChecklist
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
+            builder.setChecklistSections(contract.getChecklistSections());
             builder.setDescription(contract.getDescription());
             builder.setEdoChecklistId(contract.getEdoChecklistId());
             builder.setDossierTypeCode(contract.getDossierTypeCode());
@@ -239,6 +252,11 @@ public final class EdoChecklist
 
         public EdoChecklist build() {
             return new EdoChecklist(this);
+        }
+
+        @Override
+        public List getChecklistSections() {
+            return this.checklistSections;
         }
 
         @Override
@@ -309,6 +327,11 @@ public final class EdoChecklist
         @Override
         public HrGroupKey.Builder getGroupKey() {
             return this.groupKey;
+        }
+
+        public void setChecklistSections(List checklistSections) {
+            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+            this.checklistSections = checklistSections;
         }
 
         public void setDescription(String description) {
@@ -402,6 +425,7 @@ public final class EdoChecklist
      */
     static class Elements {
 
+        final static String CHECKLIST_SECTIONS = "checklistSections";
         final static String DESCRIPTION = "description";
         final static String EDO_CHECKLIST_ID = "edoChecklistId";
         final static String DOSSIER_TYPE_CODE = "dossierTypeCode";

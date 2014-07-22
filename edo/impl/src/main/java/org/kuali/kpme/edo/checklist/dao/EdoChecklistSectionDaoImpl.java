@@ -7,8 +7,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -32,19 +30,13 @@ public class EdoChecklistSectionDaoImpl extends PlatformAwareDaoBaseOjb implemen
 
     }
     
-    public List<EdoChecklistSectionBo> getChecklistSectionsByChecklistId(String edoChecklistId, LocalDate asOfDate) {
+    public List<EdoChecklistSectionBo> getChecklistSectionsByChecklistId(String edoChecklistId) {
     	
 		List<EdoChecklistSectionBo> results = new ArrayList<EdoChecklistSectionBo>();
     	Criteria root = new Criteria();
 
     	root.addEqualTo("edoChecklistId", edoChecklistId);
-    	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistSectionBo.class, asOfDate, EdoChecklistSectionBo.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistSectionBo.class, EdoChecklistSectionBo.BUSINESS_KEYS, false));
-        
-        Criteria activeFilter = new Criteria();
-        activeFilter.addEqualTo("active", true);
-        root.addAndCriteria(activeFilter);
-        
+                
         Query query = QueryFactory.newQuery(EdoChecklistSectionBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 

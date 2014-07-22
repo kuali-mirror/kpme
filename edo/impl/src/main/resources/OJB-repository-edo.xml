@@ -52,6 +52,9 @@
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="groupKeyCode"  				column="GRP_KEY_CD"        		jdbc-type="VARCHAR"     length="30" nullable="false" primaryKey="false" />
+        <collection-descriptor name="checklistSections" element-class-ref="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="false">
+            <inverse-foreignkey field-ref="edoChecklistId" />
+        </collection-descriptor>      
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo" table="EDO_CHECKLIST_SECTION_T">
@@ -60,12 +63,8 @@
 		<field-descriptor name="checklistSectionName" column="CHECKLIST_SECTION_NAME" jdbc-type="VARCHAR" nullable="false" length="200" primarykey="false" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" primarykey="false" />
 		<field-descriptor name="checklistSectionOrdinal" column="CHECKLIST_SECTION_ORDINAL" jdbc-type="TINYINT" nullable="false" primarykey="false" />
-		<field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="true"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
-        <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
 	</class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.edo.item.EdoItemBo" table="EDO_ITEM_T">

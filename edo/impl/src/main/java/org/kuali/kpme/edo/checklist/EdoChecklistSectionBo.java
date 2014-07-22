@@ -1,12 +1,11 @@
 package org.kuali.kpme.edo.checklist;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSectionContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 
 /**
  * $HeadURL$
@@ -16,12 +15,10 @@ import com.google.common.collect.ImmutableMap;
  * Date: 5/22/14
  * Time: 9:54 AM
  */
-public class EdoChecklistSectionBo extends HrBusinessObject implements EdoChecklistSectionContract {
+public class EdoChecklistSectionBo extends PersistableBusinessObjectBase implements EdoChecklistSectionContract {
 
-	
 	static class KeyFields {
-		private static final String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionId";
-		private static final String EDO_CHECKLIST_ID = "edoChecklistId";
+		private static final String EDO_CHECKLIST_SECTION_NAME = "checklistSectionName";
 	}
 	
 	private String edoChecklistSectionId;
@@ -31,31 +28,15 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
     private int checklistSectionOrdinal;
     
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-			.add(KeyFields.EDO_CHECKLIST_SECTION_ID)
-			.add(KeyFields.EDO_CHECKLIST_ID)
+			.add(KeyFields.EDO_CHECKLIST_SECTION_NAME)
 			.build();
 
-	@Override
 	public String getId() {
 		return  getEdoChecklistSectionId();
 	}
 
-	@Override
 	public void setId(String checklistSectionID) {
 		setEdoChecklistSectionId(checklistSectionID);
-	}
-
-	@Override
-	protected String getUniqueKey() {
-		return getEdoChecklistSectionId();
-	}
-	
-	@Override
-	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_CHECKLIST_SECTION_ID, this.getEdoChecklistSectionId())
-				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistId())
-				.build();
 	}
 
     public String getEdoChecklistSectionId() {
@@ -108,10 +89,8 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
         ecls.setDescription(im.getDescription());
         ecls.setChecklistSectionName(im.getChecklistSectionName());
         ecls.setChecklistSectionOrdinal(im.getChecklistSectionOrdinal());
-
-        // finally copy over the common fields into phra from im
-        copyCommonFields(ecls, im);
-     
+        ecls.setVersionNumber(im.getVersionNumber());
+        ecls.setObjectId(im.getObjectId());     
         return ecls;
     } 
     

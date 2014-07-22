@@ -1,9 +1,13 @@
 package org.kuali.kpme.edo.checklist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.edo.api.checklist.EdoChecklist;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistContract;
+import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 import com.google.common.collect.ImmutableList;
@@ -22,9 +26,10 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 	private static final long serialVersionUID = -3737008004782110416L;
 	
 	static class KeyFields {
-		private static final String EDO_CHECKLIST_ID = "edoChecklistId";
 		private static final String GROUP_KEY_CODE = "groupKeyCode";
 		private static final String DOSSIER_TYPE_CD = "dossierTypeCode";
+		private static final String DEPT_ID = "departmentId";
+		private static final String ORG_CD = "organizationCode";
 	}
 	
 	private String edoChecklistId;
@@ -32,20 +37,23 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
     private String departmentId;
     private String organizationCode;
     private String description;
-  
+    
+    private List<EdoChecklistSectionBo> checklistSections = new ArrayList<EdoChecklistSectionBo> ();
 
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-    		.add(KeyFields.EDO_CHECKLIST_ID)
     		.add(KeyFields.GROUP_KEY_CODE)
     		.add(KeyFields.DOSSIER_TYPE_CD)
+    		.add(KeyFields.DEPT_ID)
+    		.add(KeyFields.ORG_CD)
 			.build();
 	
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistId())
 				.put(KeyFields.GROUP_KEY_CODE, this.getGroupKeyCode())
 				.put(KeyFields.DOSSIER_TYPE_CD, this.getDossierTypeCode())
+				.put(KeyFields.DEPT_ID, this.getDepartmentId())
+				.put(KeyFields.ORG_CD, this.getOrganizationCode())
 				.build();
 	}
     
@@ -103,7 +111,15 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+	public List<EdoChecklistSectionBo> getChecklistSections() {
+		return checklistSections;
+	}
+
+	public void setChecklistSections(List<EdoChecklistSectionBo> checklistSections) {
+		this.checklistSections = checklistSections;
+	}
+
 	public static EdoChecklistBo from(EdoChecklist im) {
         if (im == null) {
             return null;
@@ -116,6 +132,7 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
         eclt.setDescription(im.getDescription());
         eclt.setGroupKeyCode(im.getGroupKeyCode());        
         eclt.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
+        eclt.setChecklistSections(im.getChecklistSections());
 
         // finally copy over the common fields into phra from im
         copyCommonFields(eclt, im);

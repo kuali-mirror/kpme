@@ -55,6 +55,8 @@ public class EdoChecklistSectionValidation extends MaintenanceDocumentRuleBase {
 	
 	private boolean validateSectionOrdinal(EdoChecklistSectionBo checklistSection) {
 
+		// TODO Revisit here
+		/*
 		List<EdoChecklistSection> sections = EdoServiceLocator.getChecklistSectionService().getChecklistSectionsByChecklistId(checklistSection.getEdoChecklistId(), checklistSection.getEffectiveLocalDate());
 		for (EdoChecklistSection section : sections) {
 			if (checklistSection.getChecklistSectionOrdinal() == section.getChecklistSectionOrdinal()) {
@@ -65,9 +67,9 @@ public class EdoChecklistSectionValidation extends MaintenanceDocumentRuleBase {
 				this.putFieldError("dataObject.edoChecklistSection", "error.checklist.exist", params);
 				return false;
 			}
-		}
+		}*/
 		
-		return true;
+		return true; 
 		
 	}
 }

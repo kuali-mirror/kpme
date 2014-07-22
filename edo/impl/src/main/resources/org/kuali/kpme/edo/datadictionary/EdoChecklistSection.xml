@@ -22,7 +22,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   
 	<bean name="EdoChecklistSection" parent="EdoChecklistSection-parentBean" />
-	<bean id="EdoChecklistSection-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+	<bean id="EdoChecklistSection-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="dataObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo" />
 		<property name="objectLabel" value="Checklist Item" />
 		<property name="attributes">
@@ -124,7 +124,6 @@
         </bean>  
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="checklistSectionName" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
     <property name="resultFields">
@@ -138,8 +137,6 @@
         <bean parent="Uif-DataField" p:propertyName="checklistSectionName" />
         <bean parent="Uif-DataField" p:propertyName="description" />
         <bean parent="Uif-DataField" p:propertyName="checklistSectionOrdinal"/>
-        <bean parent="Uif-DataField" p:propertyName="effectiveDate" />
-        <bean parent="Uif-DataField" p:propertyName="active"/>
       </list>
     </property>
   </bean>
@@ -160,8 +157,6 @@
 						<bean parent="Uif-DataField" p:propertyName="checklistSectionName" />
 						<bean parent="Uif-DataField" p:propertyName="description" />
 						<bean parent="Uif-DataField" p:propertyName="checklistSectionOrdinal" />
-						<bean parent="Uif-DataField" p:propertyName="active" />
-						<bean parent="Uif-DataField" p:propertyName="userPrincipalId" />
 					</list>
 				</property>
 			</bean>
@@ -179,7 +174,6 @@
         <bean parent="Uif-MaintenanceGridSection">
           <property name="items">
             <list merge="true">
-            	<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
             	<bean parent="Uif-InputField" p:propertyName="edoChecklistId" p:required="true" >
             		<property name="quickfinder">
                			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistBo"
@@ -193,7 +187,6 @@
 						<bean parent="IntegerPatternConstraint"/>
 					</property>
 		       	</bean>	
-		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
             </list>
           </property>
         </bean>

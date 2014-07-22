@@ -16,5 +16,5 @@
 
 delete from EDO_CHECKLIST_SECTION_T where EDO_CHECKLIST_SECTION_ID >= '1000';
 
-insert into EDO_CHECKLIST_SECTION_T (`EDO_CHECKLIST_SECTION_ID`, `EDO_CHECKLIST_ID`, `CHECKLIST_SECTION_NAME`, `DESCRIPTION`, `CHECKLIST_SECTION_ORDINAL`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1000', '1000', 'testEdoChecklistSection1', 'Testing Immutable EdoChecklistSection', 1, '2012-01-01', 'Y', now(), null, '1');
-insert into EDO_CHECKLIST_SECTION_T (`EDO_CHECKLIST_SECTION_ID`, `EDO_CHECKLIST_ID`, `CHECKLIST_SECTION_NAME`, `DESCRIPTION`, `CHECKLIST_SECTION_ORDINAL`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1001', '1000', 'testEdoChecklistSection2', 'Testing Immutable EdoChecklistSection', 2, '2012-01-01', 'Y', now(), null, '1');
+insert into EDO_CHECKLIST_SECTION_T (`EDO_CHECKLIST_SECTION_ID`, `EDO_CHECKLIST_ID`, `CHECKLIST_SECTION_NAME`, `DESCRIPTION`, `CHECKLIST_SECTION_ORDINAL`, `OBJ_ID`, `VER_NBR`) values ('1000', '1000', 'testEdoChecklistSection1', 'Testing Immutable EdoChecklistSection', 1, null, '1');
+insert into EDO_CHECKLIST_SECTION_T (`EDO_CHECKLIST_SECTION_ID`, `EDO_CHECKLIST_ID`, `CHECKLIST_SECTION_NAME`, `DESCRIPTION`, `CHECKLIST_SECTION_ORDINAL`, `OBJ_ID`, `VER_NBR`) values ('1001', '1000', 'testEdoChecklistSection2', 'Testing Immutable EdoChecklistSection', 2, null, '1');
