@@ -60,7 +60,7 @@
             <column name="id" value="100" />
         </insert>
         <insert tableName="hr_calendar_s">
-            <column name="id" value="2" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_dept_s">
             <column name="id" value="110" />
@@ -72,49 +72,49 @@
             <column name="id" value="104" />
         </insert>
         <insert tableName="hr_earn_code_s">
-            <column name="id" value="23" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_earn_code_security_s">
-            <column name="id" value="24" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_job_s">
-            <column name="id" value="24" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_paytype_s">
-            <column name="id" value="2" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_position_id_s">
-            <column name="id" value="1" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_position_s">
-            <column name="id" value="1" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_principal_attribute_s">
-            <column name="id" value="2" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_sal_group_s">
-            <column name="id" value="14" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="lm_accrual_category_s">
-            <column name="id" value="1" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="tk_assignment_s">
-            <column name="id" value="18" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="tk_clock_log_s">
-            <column name="id" value="1" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="tk_dept_lunch_rl_s">
-            <column name="id" value="3" />
+            <column name="id" value="300" />
         </insert>
         <insert tableName="tk_system_lunch_rl_s">
-            <column name="id" value="1" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="tk_task_s">
             <column name="id" value="104" />
         </insert>
         <insert tableName="tk_time_collection_rl_s">
-            <column name="id" value="4" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="tk_work_area_s">
             <column name="id" value="106" />
@@ -136,10 +136,13 @@
         <loadData tableName="hr_principal_attributes_t" file="src/test/config/db/test/hr_principal_attributes_t.csv" />
         <loadData tableName="hr_position_t" file="src/test/config/db/test/hr_position_t.csv" />
         <loadData tableName="hr_sal_group_t" file="src/test/config/db/test/hr_sal_group_t.csv" />
+        <loadData tableName="hr_pay_grade_t" file="src/test/config/db/test/hr_pay_grade_t.csv" />
         <loadData tableName="lm_accrual_category_t" file="src/test/config/db/test/lm_accrual_category_t.csv" />
         <loadData tableName="tk_assignment_t" file="src/test/config/db/test/tk_assignment_t.csv" />
+        <loadData tableName="tk_assign_acct_t" file="src/test/config/db/test/tk_assign_acct_t.csv" />
         <loadData tableName="tk_dept_lunch_rl_t" file="src/test/config/db/test/tk_dept_lunch_rl_t.csv" />
         <loadData tableName="tk_grace_period_rl_t" file="/src/test/config/db/test/tk_grace_period_rl_t.csv" />
+        <loadData tableName="tk_shift_differential_rl_t" file="/src/test/config/db/test/tk_shift_differential_rl_t.csv" />
         <loadData tableName="tk_system_lunch_rl_t" file="src/test/config/db/test/tk_system_lunch_rl_t.csv" />
         <loadData tableName="tk_task_t" file="src/test/config/db/test/tk_task_t.csv" />
         <loadData tableName="tk_time_collection_rl_t" file="src/test/config/db/test/tk_time_collection_rl_t.csv" />

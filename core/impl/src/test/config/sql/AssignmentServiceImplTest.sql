@@ -17,7 +17,7 @@
 delete from hr_calendar_entries_t where hr_calendar_entry_id >= 5000;
 -- delete from hr_calendar_entries_t where hr_calendar_id = 2 and calendar_name = 'BWS-CAL' and begin_period_date = '2012-03-01 00:00:00' and end_period_date = '2012-03-15 00:00:00';
 
-delete from tk_assignment_t where tk_assignment_id >= 5000;
+delete from tk_assignment_t where CAST(tk_assignment_id as UNSIGNED) >= 5000;
 delete from hr_job_t where hr_job_id >= 5000;
 
 /* calendar entry */

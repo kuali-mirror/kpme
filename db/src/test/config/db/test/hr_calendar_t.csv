@@ -2,3 +2,5 @@ hr_calendar_id,calendar_name,flsa_begin_day,flsa_begin_time,calendar_types,calen
 1,BW-CAL,Sun,00:00:00,Pay,Test Description
 2,BWS-CAL,Sun,00:00:00,Pay,Test Description
 3,BWS-LM,NULL,NULL,Leave,Test Leave Management
+4,BW-T,Sun,00:00:00,Pay,Bi-Weekly Time
+5,SM-T,Sun,00:00:00,Pay,Semi-Monthly Time

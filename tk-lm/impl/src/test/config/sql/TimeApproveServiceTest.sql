@@ -14,7 +14,7 @@
 -- limitations under the License.
 --
 
-delete from tk_assignment_t where tk_assignment_id >= 5000;
+delete from tk_assignment_t where CAST(tk_assignment_id as UNSIGNED) >= 5000;
 delete from hr_job_t where hr_job_id >= 5000;
 delete from hr_principal_attributes_t where hr_principal_attribute_id >= 5000;
 

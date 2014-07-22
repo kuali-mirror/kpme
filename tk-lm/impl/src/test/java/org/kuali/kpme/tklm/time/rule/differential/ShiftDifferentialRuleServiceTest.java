@@ -30,7 +30,7 @@ public class ShiftDifferentialRuleServiceTest extends TKLMIntegrationTestCase {
 	@Test
 	public void testSearchShiftDifferentialRules() throws Exception {
 		List<ShiftDifferentialRule> allResults = TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRules("admin", null, null, null, null, null, "Y", "N");
-		Assert.assertEquals("Search returned the wrong number of results.", 2, allResults.size());
+		Assert.assertEquals("Search returned the wrong number of results.", 22, allResults.size());
 		
 		List<ShiftDifferentialRule> restrictedResults = TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRules("fran", null, null, null, null, null, "Y", "N");
 		Assert.assertEquals("Search returned the wrong number of results.", 0, restrictedResults.size());

@@ -1,3 +1,19 @@
-hr_principal_attribute_id,principal_id,pay_calendar,leave_plan,service_date,fmla_eligible,workers_eligible,timezone,EFFDT,TIMESTAMP,OBJ_ID,VER_NBR,active,leave_calendar,USER_PRINCIPAL_ID
-1,admin,BWS-CAL,NULL,2010-01-01,Y,Y,null,2010-01-01,2010-01-01 08:08:08,7c84567f-c139-11e1-b5db-f07bcba88ef4,1,Y,BWS-LM,admin
-2,eric,BWS-CAL,NULL,2010-01-01,Y,Y,null,2010-01-01,2010-01-01 08:08:08,7c8463ef-c139-11e1-b5db-f07bcba88ef4,1,Y,NULL,admin
+hr_principal_attribute_id,principal_id,pay_calendar,leave_plan,service_date,fmla_eligible,workers_eligible,timezone,EFFDT,TIMESTAMP,OBJ_ID,active,leave_calendar,USER_PRINCIPAL_ID
+1,admin,BWS-CAL,NULL,2010-01-01,Y,Y,null,2010-01-01,2010-01-01 08:08:08,7c84567f-c139-11e1-b5db-f07bcba88ef4,Y,BWS-LM,admin
+2,eric,BWS-CAL,NULL,2010-01-01,Y,Y,null,2010-01-01,2010-01-01 08:08:08,7c8463ef-c139-11e1-b5db-f07bcba88ef4,Y,NULL,admin
+86,10112,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+87,10113,SM-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+88,10114,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+89,10115,BW-T,LEAVE,2010-01-01,N,N,America/Chicago,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+90,10116,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+91,10117,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+92,10118,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+93,10119,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+94,10120,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+95,10121,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+96,10122,BW-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+97,10123,SM-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+98,10124,SM-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+99,10125,SM-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+100,10126,SM-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
+101,10127,SM-T,LEAVE,2010-01-01,N,N,America/Indiana/Indianapolis,2010-01-01,2010-01-01 00:00:00,1,Y,NULL,admin
