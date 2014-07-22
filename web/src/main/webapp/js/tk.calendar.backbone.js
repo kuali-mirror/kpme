@@ -731,7 +731,24 @@ $(function () {
                 }
             });
 
+            this.resetState($("#validation"));
+
+            var errorExists = false;
+            assignmentsForStartDay.each(function(i) {
+                    if (i.get("error"))
+                    {
+                        errorExists = true;
+                    }
+            });
+
+            if (errorExists)
+            {
+                this.displayErrorMessages("Both dates must fall within this pay period", $("#startDate"));
+                return;
+            }
+
             var view = new AssignmentView({collection : assignmentsForStartDay});
+
             // Append the earn code to <select>
             $("#assignment-section")
                 .find('option')
@@ -808,9 +825,14 @@ $(function () {
         },
 
         updateAssignmentsEarnCodesForDate : function() {
-            this.fetchAssignmentsForDay();
-            if (_.getSelectedAssignmentValue() != '') {
-                this.fetchEarnCodeAndLoadFields();
+            this.resetState($("#validation"));
+
+            if (this.checkStartEndDateFields($("#startDate"), $("#endDate"), "Start Date", "End Date"))
+            {
+                this.fetchAssignmentsForDay();
+                if (_.getSelectedAssignmentValue() != '') {
+                    this.fetchEarnCodeAndLoadFields();
+                }
             }
         },
 

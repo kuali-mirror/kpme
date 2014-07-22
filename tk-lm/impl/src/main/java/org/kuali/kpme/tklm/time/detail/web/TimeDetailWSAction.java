@@ -371,11 +371,11 @@ public class TimeDetailWSAction extends TimesheetAction {
         if (invalidStartOrEndDates)
         {
             Map<String, Object> assignmentMap = new HashMap<String, Object>(2);
-            assignmentMap.put("assignment", "");
-            assignmentMap.put("desc", "-- no assignments found --");
-            assignments.add(assignmentMap);
+            assignmentMap.put("assignment", "invalid");
+            assignmentMap.put("error", "invalid");
+            assignmentMap.put("desc", "invalid");
 
-            tdaf.setOutputString(JSONValue.toJSONString(assignments));
+            tdaf.setOutputString(JSONValue.toJSONString(assignmentMap));
             return mapping.findForward("ws");
         }
 
