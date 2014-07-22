@@ -57,18 +57,6 @@ public class PositionAdditionalDepartmentsPeopleFlowTypeServiceImpl extends Data
                             }
                         }
                     }
-                } else {
-                    // If doc itself is instance of Position
-                    if (doc instanceof PositionBo) {
-                        for (PositionDepartmentBo positionDepartment : ((PositionBo)doc).getDepartmentList()) {
-                            if (!positionDepartment.getDeptAfflObj().isPrimaryIndicator()) {
-                                Map<String, String> qualifiers = new HashMap<String, String>();
-                                qualifiers.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getDepartment()));
-                                qualifiers.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), String.valueOf(positionDepartment.getGroupKeyCode()));
-                                deptQualifiers.add(qualifiers);
-                            }
-                        }
-                    }
                 }
             } catch (WorkflowException e) {
                 LOG.error("Unable to retrieve document with documemnt ID: " + document.getDocumentId());
