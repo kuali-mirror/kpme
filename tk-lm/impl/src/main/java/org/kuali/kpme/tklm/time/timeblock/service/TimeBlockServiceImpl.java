@@ -219,25 +219,13 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         for (TimeBlockBo timeBlock : savedTimeBlocks) {
         	if(!timeBlockIds.contains(timeBlock.getTkTimeBlockId())) {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.ADD_TIME_BLOCK));
-	            if(!HrContext.getPrincipalId().equals(timeBlock.getPrincipalId())){
-	            	//add Note to time sheet
-	            	Note.Builder builder = Note.Builder.create(timeBlock.getDocumentId(), timeBlock.getUserPrincipalId());
-	            	builder.setCreateDate(new DateTime());
-	            	String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
-	            	builder.setText("Timeblock on " + timeBlock.getBeginDateTime() + " was added on this timesheet by " + principalName + " on your behalf");
-	            	KewApiServiceLocator.getNoteService().createNote(builder.build());
-	            }
+	            //Add a note to timesheet if approver has added the timeblock
+	            addNote(timeBlock, "added");
 	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
         	} else {
 	            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.UPDATE_TIME_BLOCK));
-	            if(!HrContext.getPrincipalId().equals(timeBlock.getPrincipalId())){
-	            	//add Note to time sheet
-	            	Note.Builder builder = Note.Builder.create(timeBlock.getDocumentId(), timeBlock.getUserPrincipalId());
-	            	builder.setCreateDate(new DateTime());
-	            	String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
-	            	builder.setText("Timeblock on " + timeBlock.getBeginDateTime() + " was updated on this timesheet by " + principalName + " on your behalf");
-	            	KewApiServiceLocator.getNoteService().createNote(builder.build());
-	            }
+	            //Add a note to timesheet if approver has updated the timeblock
+	            addNote(timeBlock, "updated");
 	            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
         	}
         }
@@ -333,15 +321,21 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     @Override
     public void deleteTimeBlock(TimeBlock timeBlock) {
+    	TimeBlockBo timeBlockBo = TimeBlockBo.from(timeBlock);
+    	//Add note to timesheet if approver deleted the timeblock.
+    	addNote(timeBlockBo, "deleted");
+    	KRADServiceLocator.getBusinessObjectService().delete(timeBlockBo);
+    }
+    
+    //Add a note to timesheet for approver's actions
+    public void addNote(TimeBlockBo timeBlock, String actionMessage){
     	if(!HrContext.getPrincipalId().equals(timeBlock.getPrincipalId())){
-    		//add Note to time sheet
     		Note.Builder builder = Note.Builder.create(timeBlock.getDocumentId(), timeBlock.getUserPrincipalId());
     		builder.setCreateDate(new DateTime());
     		String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
-    		builder.setText("Timeblock on " + timeBlock.getBeginDateTime() + " was deleted on this timesheet by " + principalName + " on your behalf");
+    		builder.setText("Timeblock on " + timeBlock.getBeginDateTime() + " was " + actionMessage + " on this timesheet by " + principalName + " on your behalf");
     		KewApiServiceLocator.getNoteService().createNote(builder.build());
     	}
-    	KRADServiceLocator.getBusinessObjectService().delete(TimeBlockBo.from(timeBlock));
     }
 
     @Override
