@@ -460,15 +460,17 @@ public class TimeBlockServiceImpl implements TimeBlockService {
     
     // This method now translates time based on timezone settings.
     //
-    public List<TimeBlock> getTimeBlocks(String documentId) {
+    public List<TimeBlockBo> getInitialTimeBlocks(String documentId) {
     	List<TimeBlockBo> timeBlocks = timeBlockDao.getTimeBlocks(documentId);
         TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
-            DateTimeZone timezone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(tdh.getPrincipalId()));
-            if (timezone == null)
-             timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+        DateTimeZone timezone = DateTimeZone.forID(HrServiceLocator.getTimezoneService().getUserTimezone(tdh.getPrincipalId()));
+        if (timezone == null) {
+            timezone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+        }
         for(TimeBlockBo tb : timeBlocks) {
             String earnCodeType = HrServiceLocator.getEarnCodeService().getEarnCodeType(tb.getEarnCode(), tb.getBeginDateTime().toLocalDate());
             tb.setEarnCodeType(earnCodeType);
+//            tb.assignClockedByMissedPunch();
 			if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone())){
 				tb.setBeginTimeDisplay(tb.getBeginDateTime());
 				tb.setEndTimeDisplay(tb.getEndDateTime());
@@ -478,8 +480,21 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				tb.setEndTimeDisplay(tb.getEndDateTime().withZone(timezone));
 			}
         }
+        return timeBlocks;
+    }
 
-        return ModelObjectUtils.transform(timeBlocks, toTimeBlock);
+
+    public List<TimeBlock> getTimeBlocks(String documentId) {
+        return ModelObjectUtils.transform(getInitialTimeBlocks(documentId), toTimeBlock);
+    }
+
+    public List<TimeBlock> getTimeBlocksWithMissedPunchInfo(String documentId) {
+        List<TimeBlockBo> tbs = getInitialTimeBlocks(documentId);
+        for (TimeBlockBo tb: tbs)
+        {
+            tb.assignClockedByMissedPunch();
+        }
+        return ModelObjectUtils.transform(tbs, toTimeBlock);
     }
 
 /*    @Override

@@ -127,7 +127,10 @@ public interface TimeBlockService {
     //@XmlElement(name = "timeBlock", required = false)
     //@WebResult(name = "timeBlocks")
 	@Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocks}' + 'documentId=' + #p0")
-	public List<TimeBlock> getTimeBlocks(String documentId);	
+	public List<TimeBlock> getTimeBlocks(String documentId);
+
+    @Cacheable(value= TimeBlock.CACHE_NAME, key="'{getTimeBlocksWithMissedPunchInfo}' + 'documentId=' + #p0")
+    public List<TimeBlock> getTimeBlocksWithMissedPunchInfo(String documentId);
 
     /**
 	 * Build a List of TimeBlocks over a span of multiple days

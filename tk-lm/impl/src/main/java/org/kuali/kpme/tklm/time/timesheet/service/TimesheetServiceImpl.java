@@ -323,7 +323,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     	if (payCalEntry != null) {
     		tdoc.setJobs(HrServiceLocator.getJobService().getJobs(principalId, payCalEntry.getEndPeriodFullDateTime().toLocalDate()));
     	}
-    	tdoc.setTimeBlocks(TkServiceLocator.getTimeBlockService().getTimeBlocks(tdoc.getDocumentHeader().getDocumentId()));
+    	tdoc.setTimeBlocks(TkServiceLocator.getTimeBlockService().getTimeBlocksWithMissedPunchInfo(tdoc.getDocumentHeader().getDocumentId()));
     }
 
     public boolean isSynchronousUser() {
