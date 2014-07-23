@@ -343,7 +343,7 @@ $(function () {
             // That's why we call the fillInform() method below, so all the values will still be there when the form is submitted.
             dfd.done(self.fetchOvertimeEarnCode(key.id))
                     .done($("#overtimePref option[value='" + currentOvertimePref + "']").attr("selected", "selected"))
-                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment")))
+                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment"), true))
                     .done(_(timeBlock).fillInForm());
 
             $("#overtime-section").dialog({
@@ -399,7 +399,7 @@ $(function () {
             dfd.done(this.fetchEarnCode(timeBlock.get("assignment"), isTimeBlockReadOnly, timeBlock.get('startDate'), timeBlock.get('earnCode')))
                     .done($("#selectedEarnCode option[value='" + timeBlock.get("earnCode") + "']").attr("selected", "selected"))
                     .done(this.showFieldByEarnCodeType())
-                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment")))
+                    .done(this.fetchAssignmentsForDay(timeBlock.get('startDate'), timeBlock.get("assignment"), true))
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
         },
@@ -509,7 +509,7 @@ $(function () {
 				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
 				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
 				.done(this.showFieldByEarnCodeType())
-                .done(this.fetchAssignmentsForDay(leaveBlock.get('leaveDate'), leaveBlock.get("assignment")))
+                .done(this.fetchAssignmentsForDay(leaveBlock.get('leaveDate'), leaveBlock.get("assignment"), true))
 				.done(_(leaveBlock).leaveBlockFillInForm());
         },
         /**
@@ -714,7 +714,7 @@ $(function () {
 
         },
         
-        fetchAssignmentsForDay : function(e, assignValue) {
+        fetchAssignmentsForDay : function(e, assignValue, suppressErrorCheck) {
             var assignment = assignValue;
             if (assignment == null) {
                 assignment = this.$('#selectedAssignment option:selected').val();
@@ -731,21 +731,6 @@ $(function () {
                 }
             });
 
-            this.resetState($("#validation"));
-
-            var errorExists = false;
-            assignmentsForStartDay.each(function(i) {
-                    if (i.get("error"))
-                    {
-                        errorExists = true;
-                    }
-            });
-
-            if (errorExists)
-            {
-                this.displayErrorMessages("Both dates must fall within this pay period", $("#startDate"));
-                return;
-            }
 
             var view = new AssignmentView({collection : assignmentsForStartDay});
 
@@ -830,6 +815,23 @@ $(function () {
             if (this.checkStartEndDateFields($("#startDate"), $("#endDate"), "Start Date", "End Date"))
             {
                 this.fetchAssignmentsForDay();
+
+                this.resetState($("#validation"));
+                var errorExists = false;
+                assignmentsForStartDay.each(function(i) {
+                    if (i.get("error"))
+                    {
+                        errorExists = true;
+                    }
+                });
+
+                if (errorExists)
+                {
+                    this.displayErrorMessages("Both dates must fall within this pay period", $("#startDate"));
+                    return;
+                }
+
+
                 if (_.getSelectedAssignmentValue() != '') {
                     this.fetchEarnCodeAndLoadFields();
                 }
