@@ -40,9 +40,9 @@ public class DepartmentLunchRuleDaoOjbImpl extends PlatformAwareDaoBaseOjb imple
 		root.addEqualTo("principalId", principalId);
 		root.addEqualTo("jobNumber", jobNumber);
 		root.addEqualTo("groupKeyCode", groupKeyCode);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DeptLunchRule.class, asOfDate, DeptLunchRule.BUSINESS_KEYS, true));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DeptLunchRule.class, DeptLunchRule.BUSINESS_KEYS, true));
-//		root.addEqualTo("active", true);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(DeptLunchRule.class, asOfDate, DeptLunchRule.BUSINESS_KEYS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DeptLunchRule.class, DeptLunchRule.BUSINESS_KEYS, false));
+		root.addEqualTo("active", true);
 
 		//Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		//activeFilter.addEqualTo("active", true);
