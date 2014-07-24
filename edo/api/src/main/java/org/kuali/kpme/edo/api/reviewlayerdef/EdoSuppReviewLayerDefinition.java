@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.kpme.edo.api.item.EdoItem.Builder;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -142,6 +144,17 @@ public final class EdoSuppReviewLayerDefinition
         public static Builder create() {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
             return new Builder();
+        }
+        
+        private Builder(String edoReviewLayerDefinitionId, String suppNodeName) {
+            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setEdoReviewLayerDefinitionId(edoReviewLayerDefinitionId);
+        	setSuppNodeName(suppNodeName);
+        }
+
+        public static Builder create(String edoReviewLayerDefinitionId, String suppNodeName) {
+            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+            return new Builder(edoReviewLayerDefinitionId, suppNodeName);
         }
 
         public static Builder create(EdoSuppReviewLayerDefinitionContract contract) {

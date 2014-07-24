@@ -3,7 +3,7 @@ package org.kuali.kpme.edo.supplemental.dao;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.edo.supplemental.EdoSupplementalTracking;
+import org.kuali.kpme.edo.supplemental.EdoSupplementalTrackingBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.math.BigDecimal;
@@ -20,22 +20,22 @@ import java.util.List;
  */
 public class EdoSupplementalTrackingDaoImpl extends PlatformAwareDaoBaseOjb implements EdoSupplementalTrackingDao {
 
-    public EdoSupplementalTracking getSupplementalTrackingEntry(Integer supplementalTrackingId) {
+    public EdoSupplementalTrackingBo getSupplementalTrackingEntry(String edoSupplementalTrackingId) {
         Criteria criteria = new Criteria();
 
-        criteria.addEqualTo("supplementalTrackingId", supplementalTrackingId);
+        criteria.addEqualTo("edoSupplementalTrackingId", edoSupplementalTrackingId);
 
-        Query query = QueryFactory.newQuery(EdoSupplementalTracking.class, criteria);
-        return (EdoSupplementalTracking) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(EdoSupplementalTrackingBo.class, criteria);
+        return (EdoSupplementalTrackingBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
     //debug this one
-    public EdoSupplementalTracking getSupplementalTrackingEntryObj(Integer dossierId, BigDecimal reviewLevel) {
+    public EdoSupplementalTrackingBo getSupplementalTrackingEntryObj(String edoDossierId, BigDecimal reviewLevel) {
         Criteria criteria = new Criteria();
 
         criteria.addEqualTo("reviewLevel", reviewLevel);
-        criteria.addEqualTo("dossierId",dossierId);
-        Query query = QueryFactory.newQuery(EdoSupplementalTracking.class, criteria);
-        return (EdoSupplementalTracking) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        criteria.addEqualTo("edoDossierId",edoDossierId);
+        Query query = QueryFactory.newQuery(EdoSupplementalTrackingBo.class, criteria);
+        return (EdoSupplementalTrackingBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
     }
     /*public void updateSuppTracking(Integer supplementalTrackingId, Integer dossierId, BigDecimal reviewLevel) {
@@ -48,28 +48,28 @@ public class EdoSupplementalTrackingDaoImpl extends PlatformAwareDaoBaseOjb impl
     }*/
 
 
-    public List<EdoSupplementalTracking> getSupplementTrackingEntries() {
-        List<EdoSupplementalTracking> results = new LinkedList<EdoSupplementalTracking>();
+    public List<EdoSupplementalTrackingBo> getSupplementTrackingEntries() {
+        List<EdoSupplementalTrackingBo> results = new LinkedList<EdoSupplementalTrackingBo>();
         Criteria criteria = new Criteria();
 
-        Query query = QueryFactory.newQuery(EdoSupplementalTracking.class, criteria);
+        Query query = QueryFactory.newQuery(EdoSupplementalTrackingBo.class, criteria);
         results.addAll(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
     }
 
-    public void saveOrUpdate(EdoSupplementalTracking edoSupplementalTracking) {
+    public void saveOrUpdate(EdoSupplementalTrackingBo edoSupplementalTracking) {
         this.getPersistenceBrokerTemplate().store(edoSupplementalTracking);
     }
-    public EdoSupplementalTracking canSeeTheAcknowledgeWithAction(Integer dossierId, BigDecimal reviewLevel) {
+    public EdoSupplementalTrackingBo canSeeTheAcknowledgeWithAction(String edoDossierId, BigDecimal reviewLevel) {
         Criteria criteria = new Criteria();
 
-        criteria.addEqualTo("dossierId", dossierId);
+        criteria.addEqualTo("edoDossierId", edoDossierId);
         criteria.addEqualTo("reviewLevel", reviewLevel);
         criteria.addEqualTo("acknowledged", false);
 
-        Query query = QueryFactory.newQuery(EdoSupplementalTracking.class, criteria);
-        return (EdoSupplementalTracking) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        Query query = QueryFactory.newQuery(EdoSupplementalTrackingBo.class, criteria);
+        return (EdoSupplementalTrackingBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     	
     }
 }

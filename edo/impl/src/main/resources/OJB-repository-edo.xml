@@ -242,13 +242,15 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor> 
     
-    <class-descriptor class="org.kuali.kpme.edo.supplemental.EdoSupplementalTracking" table="EDO_SUPPLEMENTAL_TRACKING_T">
-        <field-descriptor name="supplementalTrackingId" column="supplemental_tracking_id" jdbc-type="NUMERIC" precision="4" scale="0" nullable="false" primarykey="true" />
-        <field-descriptor name="dossierId" column="dossier_id" jdbc-type="NUMERIC" precision="3" scale="0" nullable="false" primarykey="false" />
-        <field-descriptor name="reviewLevel" column="review_level" jdbc-type="NUMERIC" precision="3" scale="0" nullable="false" primarykey="false" />
-        <field-descriptor name="lastUpdated" column="last_updated_date" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
-        <field-descriptor name="updatedBy" column="updated_by" jdbc-type="VARCHAR" precision="16" scale="0" nullable="true"/>
-        <field-descriptor name="acknowledged" column="acknowledged" jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"  primarykey="false" />
+    <class-descriptor class="org.kuali.kpme.edo.supplemental.EdoSupplementalTrackingBo" table="EDO_SUPPLEMENTAL_TRACKING_T">
+        <field-descriptor name="edoSupplementalTrackingId" column="EDO_SUPPLEMENTAL_TRACKING_ID" jdbc-type="VARCHAR" length="60" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_SUPPLEMENTAL_TRACKING_S" />
+        <field-descriptor name="edoDossierId" column="EDO_DOSSIER_ID" jdbc-type="VARCHAR" length="60" nullable="false" primarykey="false" />
+        <field-descriptor name="reviewLevel" column="REVIEW_LEVEL" jdbc-type="TINYINT" nullable="false" primarykey="false" />
+        <field-descriptor name="acknowledged" column="ACKNOWLEDGED" jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"  primarykey="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="actionTimestamp"          column="ACTION_TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kpme.edo.group.EdoGroupDefinitionBo" table="EDO_GROUP_DEF_T">

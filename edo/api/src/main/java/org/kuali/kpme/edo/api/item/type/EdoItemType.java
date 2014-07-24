@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.item.EdoItem.Builder;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -188,6 +189,16 @@ public final class EdoItemType
         public static Builder create() {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
             return new Builder();
+        }
+        
+        private Builder(String itemTypeName) {
+            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setItemTypeName(itemTypeName);
+        }
+
+        public static Builder create(String itemTypeName) {
+            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+            return new Builder(itemTypeName);
         }
 
         public static Builder create(EdoItemTypeContract contract) {

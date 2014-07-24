@@ -12,17 +12,19 @@ import java.util.TreeSet;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoSuppReviewLayerDefinition;
+import org.kuali.kpme.edo.api.supplemental.EdoSupplementalTracking;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.dossier.dao.EdoDossierDao;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.supplemental.EdoSupplementalTracking;
+import org.kuali.kpme.edo.supplemental.EdoSupplementalTrackingBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoUtils;
@@ -485,24 +487,25 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         	 if(!suppReviewLayerDefs.isEmpty()){
         		 // KPME-3711 this is just passing review_layer_def_id, so use previousLevel instead
         		 //EdoSupplementalTracking edoSuppTracking = EdoServiceLocator.getEdoSupplementalTrackingService().getSupplementalTrackingEntryObj(dossierId, new BigDecimal(suppReviewLayerDef.getEdoReviewLayerDefinitionId()));
-        		 EdoSupplementalTracking edoSuppTracking = EdoServiceLocator.getEdoSupplementalTrackingService().getSupplementalTrackingEntryObj(dossierId, previousLevel);
+        		 EdoSupplementalTracking edoSuppTracking = EdoServiceLocator.getEdoSupplementalTrackingService().getSupplementalTrackingEntryObj(dossierId.toString(), previousLevel);
         	 if(edoSuppTracking != null){
         		 //compare flag
         		 if(edoSuppTracking.isAcknowledged() == true){
         			 //update acknowledged to False to avoid redundancy
-        			 edoSuppTracking.setAcknowledged(false);
-        			 EdoServiceLocator.getEdoSupplementalTrackingService().saveOrUpdate(edoSuppTracking);
+        			 EdoSupplementalTracking.Builder copiedEdoSuppTracking = EdoSupplementalTracking.Builder.create(edoSuppTracking);
+        			 copiedEdoSuppTracking.setAcknowledged(false);
+        			 EdoServiceLocator.getEdoSupplementalTrackingService().saveOrUpdate(copiedEdoSuppTracking.build());
         			}
          		
          		}
         	 else {
         		//store it in the supp tracking table
-          		EdoSupplementalTracking edoSupplementalTracking = new EdoSupplementalTracking();
-          		edoSupplementalTracking.setReviewLevel(previousLevel);
-          		edoSupplementalTracking.setDossierId(dossierId);
-          		edoSupplementalTracking.setLastUpdated(EdoUtils.getNow());
+          		EdoSupplementalTracking.Builder edoSupplementalTracking = EdoSupplementalTracking.Builder.create();
+          		edoSupplementalTracking.setReviewLevel(previousLevel.intValue());
+          		edoSupplementalTracking.setEdoDossierId(dossierId.toString());
+          		edoSupplementalTracking.setActionFullDateTime(new DateTime(EdoUtils.getNow()));
           		edoSupplementalTracking.setAcknowledged(false);
-          		EdoServiceLocator.getEdoSupplementalTrackingService().saveOrUpdate(edoSupplementalTracking);
+          		EdoServiceLocator.getEdoSupplementalTrackingService().saveOrUpdate(edoSupplementalTracking.build());
         		 
         	 	}
         	 }

@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import org.joda.time.DateTime;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistSection.Builder;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -258,6 +259,19 @@ public final class EdoItem
         public static Builder create() {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
             return new Builder();
+        }
+        
+        private Builder(String edoItemTypeId, String edoDossierId, String edoChecklistItemId, String fileName) {
+            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setEdoItemTypeId(edoItemTypeId);
+        	setEdoDossierId(edoDossierId);
+        	setEdoChecklistItemId(edoChecklistItemId);
+        	setFileName(fileName);
+        }
+
+        public static Builder create(String edoItemTypeId, String edoDossierId, String edoChecklistItemId, String fileName) {
+            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+            return new Builder(edoItemTypeId, edoDossierId, edoChecklistItemId, fileName);
         }
 
         public static Builder create(EdoItemContract contract) {

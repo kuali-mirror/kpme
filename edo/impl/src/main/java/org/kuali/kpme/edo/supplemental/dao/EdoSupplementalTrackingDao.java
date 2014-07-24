@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.supplemental.dao;
 
-import org.kuali.kpme.edo.supplemental.EdoSupplementalTracking;
+import org.kuali.kpme.edo.supplemental.EdoSupplementalTrackingBo;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
  */
 public interface EdoSupplementalTrackingDao {
 
-    public EdoSupplementalTracking getSupplementalTrackingEntry(Integer supplementalTrackingId);
-    public List<EdoSupplementalTracking> getSupplementTrackingEntries();
-    public void saveOrUpdate(EdoSupplementalTracking edoSupplementalTracking);
-    public EdoSupplementalTracking getSupplementalTrackingEntryObj(Integer dossierId, BigDecimal reviewLevel);
+    public EdoSupplementalTrackingBo getSupplementalTrackingEntry(String edoSupplementalTrackingId);
+    public List<EdoSupplementalTrackingBo> getSupplementTrackingEntries();
+    public void saveOrUpdate(EdoSupplementalTrackingBo edoSupplementalTracking);
+    public EdoSupplementalTrackingBo getSupplementalTrackingEntryObj(String edoDossierId, BigDecimal reviewLevel);
     //public void updateSuppTracking(Integer supplementalTrackingId, Integer dossierId, BigDecimal reviewLevel);
-    public EdoSupplementalTracking canSeeTheAcknowledgeWithAction(Integer dossierId, BigDecimal reviewLevel);
+    public EdoSupplementalTrackingBo canSeeTheAcknowledgeWithAction(String edoDossierId, BigDecimal reviewLevel);
 }

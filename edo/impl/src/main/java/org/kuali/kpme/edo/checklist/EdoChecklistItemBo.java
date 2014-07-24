@@ -21,8 +21,8 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 	private static final long serialVersionUID = -3737008004782110416L;
 	
 	static class KeyFields {
-		private static final String EDO_CHECKLIST_ITEM_ID = "edoChecklistItemId";
 		private static final String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionId";
+		private static final String EDO_CHECKLIST_ITEM_NAME = "checklistItemName";
 	}
 	
 	private String edoChecklistItemId;
@@ -33,8 +33,8 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
     private int checklistItemOrdinal;
     
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-			.add(KeyFields.EDO_CHECKLIST_ITEM_ID)
 			.add(KeyFields.EDO_CHECKLIST_SECTION_ID)
+			.add(KeyFields.EDO_CHECKLIST_ITEM_NAME)
 			.build();
 	
 	@Override
@@ -55,8 +55,8 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_CHECKLIST_ITEM_ID, this.getEdoChecklistItemId())
 				.put(KeyFields.EDO_CHECKLIST_SECTION_ID, this.getEdoChecklistSectionId())
+				.put(KeyFields.EDO_CHECKLIST_ITEM_NAME, this.getChecklistItemName())
 				.build();
 	}
 

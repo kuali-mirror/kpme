@@ -173,6 +173,7 @@ public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoI
 	 * @return action for EdoItem
 	 */
 	public String getAction();
+
 	/**
 	 * The actionTimestamp (DateTime) the EdoItem is associated with
 	 * 

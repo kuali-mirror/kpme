@@ -6,6 +6,7 @@ import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * $HeadURL$
@@ -18,6 +19,7 @@ import com.google.common.collect.ImmutableList;
 public class EdoChecklistSectionBo extends PersistableBusinessObjectBase implements EdoChecklistSectionContract {
 
 	static class KeyFields {
+		private static final String EDO_CHECKLIST_ID = "edoChecklistId";
 		private static final String EDO_CHECKLIST_SECTION_NAME = "checklistSectionName";
 	}
 	
@@ -28,9 +30,17 @@ public class EdoChecklistSectionBo extends PersistableBusinessObjectBase impleme
     private int checklistSectionOrdinal;
     
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
+    		.add(KeyFields.EDO_CHECKLIST_ID)
 			.add(KeyFields.EDO_CHECKLIST_SECTION_NAME)
 			.build();
 
+    public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistId())
+				.put(KeyFields.EDO_CHECKLIST_SECTION_NAME, this.getChecklistSectionName())
+				.build();
+    }
+    
 	public String getId() {
 		return  getEdoChecklistSectionId();
 	}
