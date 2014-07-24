@@ -169,7 +169,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockHistory.setTimestampDeleted(TKUtils.getCurrentTimestamp());
         leaveBlockHistory.setAction(HrConstants.ACTION.DELETE);
         
-        addNote(leaveBlock, "deleted");
+        String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
+        addNote(leaveBlock.getDocumentId(), principalId, "LeaveBlock on " + leaveBlock.getLeaveLocalDate() + " was deleted on this Leave Calendar by " + principalName + " on your behalf");
         // deleting leaveblock
         KRADServiceLocator.getBusinessObjectService().delete(leaveBlock);
         
@@ -343,7 +344,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         }
         saveLeaveBlockBos(currentLeaveBlocks);
         for (LeaveBlockBo leaveblockbo : newlyAddedLeaveBlocks) {
-            addNote(leaveblockbo, "added");			
+        	String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
+            addNote(leaveblockbo.getDocumentId(), principalId, "LeaveBlock on " + leaveblockbo.getLeaveLocalDate() + " was added on this Leave Calendar by " + principalName + " on your behalf");	
 		}
 
         return ModelObjectUtils.transform(newlyAddedLeaveBlocks, toLeaveBlock);
@@ -394,19 +396,19 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockHistory.setAction(HrConstants.ACTION.MODIFIED);
 
         KRADServiceLocator.getBusinessObjectService().save(leaveBlockBo);
-        addNote(leaveBlockBo, "updated");
+        String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
+        addNote(leaveBlockBo.getDocumentId(), principalId, "LeaveBlock on " + leaveBlock.getLeaveLocalDate() + " was updated on this Leave Calendar by " + principalName + " on your behalf");
         // creating history
         KRADServiceLocator.getBusinessObjectService().save(leaveBlockHistory); 
     }    
 
     //Add a note to timesheet for approver's actions
-    public void addNote(LeaveBlockBo leaveBlock, String actionMessage){
-    	if(!HrContext.getPrincipalId().equals(leaveBlock.getPrincipalId())){
+    public void addNote(String documentId,String principalId, String note){
+    	if(!HrContext.getPrincipalId().equals(principalId)){
 
-    		Note.Builder builder = Note.Builder.create(leaveBlock.getDocumentId(),leaveBlock.getPrincipalId());
-    		builder.setCreateDate(new DateTime());
-    		String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
-    		builder.setText("LeaveBlock on " + leaveBlock.getLeaveLocalDate() + " was " + actionMessage + " on this Leave Calendar by " + principalName + " on your behalf");
+    		Note.Builder builder = Note.Builder.create(documentId,principalId);
+    		builder.setCreateDate(new DateTime());	
+    		builder.setText(note);
     		KewApiServiceLocator.getNoteService().createNote(builder.build());
     	}
     }
