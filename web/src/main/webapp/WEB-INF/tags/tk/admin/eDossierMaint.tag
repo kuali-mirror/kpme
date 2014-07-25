@@ -33,6 +33,12 @@
 	         	<portal:portalLink displayTitle="true" title="Checklist" 
 	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.checklist.EdoChecklistBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
 	        </li>
+	        
+	        <li>
+	         	<portal:portalLink displayTitle="true" title="Checklist Section" 
+	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.checklist.EdoChecklistSectionBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
+	        </li>
+	        
 	    	<li>
 	         	<portal:portalLink displayTitle="true" title="Checklist Item" 
 	         			url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.kpme.edo.checklist.EdoChecklistItemBo&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y"/>
