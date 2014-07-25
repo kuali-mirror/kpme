@@ -9,7 +9,7 @@ import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 public interface EdoChecklistItemService {
 
     public EdoChecklistItem getChecklistItemById(String edoChecklistItemId);
-    public List<EdoChecklistItem> getChecklistItemsBySectionId(String edoChecklistSectionId, LocalDate asOfDate);
+    public List<EdoChecklistItem> getChecklistItemsBySectionId(String edoChecklistSectionId);
     
     // from EdoChecklistVService
     public List<EdoChecklistItem> getChecklistItems(String groupKey, String schoolId, String departmentId);  // from getChecklistVService().getChecklistView

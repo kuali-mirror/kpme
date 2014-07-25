@@ -34,6 +34,16 @@
 				<ref bean="EdoChecklistSection-checklistSectionOrdinal" />
 			</list>
 		</property>
+		<property name="collections">
+			<list>
+				<bean parent="CollectionDefinition">
+					<property name="dataObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistItemBo" />
+					<property name="name" value="checklistItems" />
+					<property name="shortLabel" value="Checklist Items" />
+					<property name="label" value="Checklist Items" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 
     <!-- Attribute Definitions -->

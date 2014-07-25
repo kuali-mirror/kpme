@@ -4,6 +4,7 @@ import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItemContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -16,7 +17,7 @@ import com.google.common.collect.ImmutableMap;
  * Date: 5/22/14
  * Time: 9:54 AM
  */
-public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklistItemContract {
+public class EdoChecklistItemBo extends PersistableBusinessObjectBase implements EdoChecklistItemContract {
 
 	private static final long serialVersionUID = -3737008004782110416L;
 	
@@ -36,23 +37,15 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
 			.add(KeyFields.EDO_CHECKLIST_SECTION_ID)
 			.add(KeyFields.EDO_CHECKLIST_ITEM_NAME)
 			.build();
-	
-	@Override
+
 	public String getId() {
 		return  getEdoChecklistItemId();
 	}
 
-	@Override
 	public void setId(String edoChecklistItemId) {
 		setEdoChecklistItemId(edoChecklistItemId);
 	}
 
-	@Override
-	protected String getUniqueKey() {
-		return getEdoChecklistItemId();
-	}
-	
-	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.EDO_CHECKLIST_SECTION_ID, this.getEdoChecklistSectionId())
@@ -118,10 +111,8 @@ public class EdoChecklistItemBo extends HrBusinessObject implements EdoChecklist
         ecli.setChecklistItemName(im.getChecklistItemName());
         ecli.setItemDescription(im.getItemDescription());
         ecli.setChecklistItemOrdinal(im.getChecklistItemOrdinal());
-
-        // finally copy over the common fields into phra from im
-        copyCommonFields(ecli, im);
-     
+        ecli.setVersionNumber(im.getVersionNumber());
+        ecli.setObjectId(im.getObjectId()); 
         return ecli;
     } 
     

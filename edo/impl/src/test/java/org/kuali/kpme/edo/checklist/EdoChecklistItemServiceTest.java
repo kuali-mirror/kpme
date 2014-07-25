@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,10 +54,8 @@ public class EdoChecklistItemServiceTest extends EdoUnitTestBase {
 	
 	@Test
 	public void testGetChecklistItemsBySectionId() throws Exception {
-
-		LocalDate  asOfDate = new LocalDate(2012,1,1);
 		
-		List<EdoChecklistItem> items = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionId(edoCheckListSectionId, asOfDate);
+		List<EdoChecklistItem> items = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionId(edoCheckListSectionId);
 		assertEquals("returned the correct number of results", 2, items.size());
 	}
 	

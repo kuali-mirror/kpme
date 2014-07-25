@@ -22,7 +22,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
   
 	<bean name="EdoChecklistItem" parent="EdoChecklistItem-parentBean" />
-	<bean id="EdoChecklistItem-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+	<bean id="EdoChecklistItem-parentBean" abstract="true" parent="BusinessObjectEntry">
 		<property name="dataObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistItemBo" />
 		<property name="objectLabel" value="Checklist Item" />
 		<property name="attributes">

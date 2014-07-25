@@ -1,5 +1,8 @@
 package org.kuali.kpme.edo.checklist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSectionContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -28,6 +31,8 @@ public class EdoChecklistSectionBo extends PersistableBusinessObjectBase impleme
     private String checklistSectionName;
 	private String description;
     private int checklistSectionOrdinal;
+    
+    private List<EdoChecklistItemBo> checklistItems = new ArrayList<EdoChecklistItemBo> ();
     
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
     		.add(KeyFields.EDO_CHECKLIST_ID)
@@ -89,6 +94,14 @@ public class EdoChecklistSectionBo extends PersistableBusinessObjectBase impleme
 		this.checklistSectionOrdinal = checklistSectionOrdinal;
 	}
 
+	public List<EdoChecklistItemBo> getChecklistItems() {
+		return checklistItems;
+	}
+
+	public void setChecklistItems(List<EdoChecklistItemBo> checklistItems) {
+		this.checklistItems = checklistItems;
+	}
+
 	public static EdoChecklistSectionBo from(EdoChecklistSection im) {
         if (im == null) {
             return null;
@@ -99,8 +112,9 @@ public class EdoChecklistSectionBo extends PersistableBusinessObjectBase impleme
         ecls.setDescription(im.getDescription());
         ecls.setChecklistSectionName(im.getChecklistSectionName());
         ecls.setChecklistSectionOrdinal(im.getChecklistSectionOrdinal());
+        ecls.setChecklistItems(im.getChecklistItems());
         ecls.setVersionNumber(im.getVersionNumber());
-        ecls.setObjectId(im.getObjectId());     
+        ecls.setObjectId(im.getObjectId());        
         return ecls;
     } 
     

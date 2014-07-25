@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.edo.EdoUnitTestBase;
 import org.kuali.kpme.edo.api.checklist.EdoChecklist;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 @IntegrationTest

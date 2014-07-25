@@ -194,7 +194,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     
     public int getItemCount(String edoDossierId, String edoChecklistSectionId) {
     	int count = 0;
-    	List<EdoChecklistItem> checklistItems = edoChecklistItemService.getChecklistItemsBySectionId(edoChecklistSectionId, LocalDate.now());
+    	List<EdoChecklistItem> checklistItems = edoChecklistItemService.getChecklistItemsBySectionId(edoChecklistSectionId);
     	for (EdoChecklistItem checklistItem : checklistItems) {
     		String checklistItemId = checklistItem.getEdoChecklistItemId();
     		List<EdoItem> items = this.getItemList(edoDossierId, checklistItemId);

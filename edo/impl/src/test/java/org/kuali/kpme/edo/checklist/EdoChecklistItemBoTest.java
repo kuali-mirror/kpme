@@ -18,8 +18,6 @@ package org.kuali.kpme.edo.checklist;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
@@ -33,16 +31,10 @@ public class EdoChecklistItemBoTest {
 		edoChecklistItemBuilder.setChecklistItemName("Checklist Item 1");
 		edoChecklistItemBuilder.setItemDescription("Testing Immutable EdoChecklistItem");
 		edoChecklistItemBuilder.setChecklistItemOrdinal(1);
-		edoChecklistItemBuilder.setUserPrincipalId("admin");
-		
 		edoChecklistItemBuilder.setEdoChecklistItemId("1000");
 		edoChecklistItemBuilder.setEdoChecklistSectionId("1000");
 		edoChecklistItemBuilder.setVersionNumber(1L);
 		edoChecklistItemBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
-		edoChecklistItemBuilder.setActive(true);
-		edoChecklistItemBuilder.setId(edoChecklistItemBuilder.getEdoChecklistItemId());
-		edoChecklistItemBuilder.setEffectiveLocalDate(new LocalDate(2014, 3, 1));
-		edoChecklistItemBuilder.setCreateTime(DateTime.now());
 		
 		testEdoChecklistItemBos.put(edoChecklistItemBuilder.getEdoChecklistItemId(), edoChecklistItemBuilder.build());
 	}

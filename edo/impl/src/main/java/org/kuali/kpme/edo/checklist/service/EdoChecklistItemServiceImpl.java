@@ -41,8 +41,8 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
     	return EdoChecklistItemBo.to(edoChecklistItemDao.getChecklistItemById(edoChecklistItemId));
     }
     
-    public List<EdoChecklistItem> getChecklistItemsBySectionId(String edoChecklistSectionId, LocalDate asOfDate) {        
-        List<EdoChecklistItemBo> bos = edoChecklistItemDao.getChecklistItemsBySectionId(edoChecklistSectionId, asOfDate);
+    public List<EdoChecklistItem> getChecklistItemsBySectionId(String edoChecklistSectionId) {        
+        List<EdoChecklistItemBo> bos = edoChecklistItemDao.getChecklistItemsBySectionId(edoChecklistSectionId);
 		return convertToImmutable(bos);
     }
     
@@ -60,7 +60,7 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
     		for (EdoChecklistSection checklistSection : checklistSections) {
     			String edoChecklistSectionId = checklistSection.getEdoChecklistSectionId();
     			
-    			List<EdoChecklistItem> items = this.getChecklistItemsBySectionId(edoChecklistSectionId, asOfDate);
+    			List<EdoChecklistItem> items = this.getChecklistItemsBySectionId(edoChecklistSectionId);
     			returnedItems.addAll(items);
     		}
     	}
@@ -69,8 +69,7 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
     }
     
     public EdoChecklistItem getChecklistItemByDossierId(String edoDossierId, String itemName) {
-    	
-    	LocalDate asOfDate = LocalDate.now();
+
     	List<String> idList = new ArrayList<String>();
     	
     	String edoChecklistId = edoDossierService.getEdoDossierById(edoDossierId).getEdoChecklistId();
@@ -80,7 +79,7 @@ public class EdoChecklistItemServiceImpl implements EdoChecklistItemService {
     		idList.add(checklistSection.getEdoChecklistSectionId());
     	}
     	
-    	List<EdoChecklistItemBo> bos = edoChecklistItemDao.getChecklistItemsBySectionIds(idList, asOfDate);
+    	List<EdoChecklistItemBo> bos = edoChecklistItemDao.getChecklistItemsBySectionIds(idList);
     	
     	for (EdoChecklistItemBo bo : bos) {
     		if (StringUtils.equals(itemName, bo.getChecklistItemName())) {

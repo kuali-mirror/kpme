@@ -1,12 +1,12 @@
 package org.kuali.kpme.edo.api.checklist;
 
-import org.kuali.kpme.core.api.mo.KpmeEffectiveDataTransferObject;
+import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 
 /**
  * <p>EdoChecklistItemContract interface</p>
  *
  */
-public interface EdoChecklistItemContract extends KpmeEffectiveDataTransferObject {
+public interface EdoChecklistItemContract extends KpmeDataTransferObject {
 
 	/**
 	 * The identifier of the EdoChecklistItem
