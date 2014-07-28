@@ -19,7 +19,7 @@
     <!-- Clock Location Rule   -->
     <section>
         <title>Clock Location Rule</title>
-        <para>This feature enables an administrator to restrict clock entry locations by defining
+        <para>This feature enables administrators to restrict clock entry locations by defining
             approved IP addresses for Timekeeping use. Clock location rules can be set system wide,
             or as granular as a specific employee job record. In case of having more than one valid
             clock location rule for an assignment, the most specific rule for that assignment will be
