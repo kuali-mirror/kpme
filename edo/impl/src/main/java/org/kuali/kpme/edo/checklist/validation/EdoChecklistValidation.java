@@ -16,19 +16,15 @@
 package org.kuali.kpme.edo.checklist.validation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
-import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
-import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.checklist.EdoChecklistBo;
 import org.kuali.kpme.edo.checklist.EdoChecklistItemBo;
 import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
-import org.kuali.kpme.edo.checklist.service.EdoChecklistSectionService;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
@@ -45,8 +41,7 @@ public class EdoChecklistValidation extends HrKeyedBusinessObjectValidation {
 		if (checklist != null) {
 			isValid &= validateDossierTypeCode(checklist);
 			isValid &= validateSectionOrdinal(checklist);
-			//isValid &= validateChecklistItemOrdinal(checklist);
-			//isValid &= validateChecklistItemName(checklist);
+			isValid &= validateChecklistItemOrdinal(checklist);
 		}
 		return isValid;
 	}
@@ -86,52 +81,30 @@ public class EdoChecklistValidation extends HrKeyedBusinessObjectValidation {
 		
 	}
 	
-	/*
 	private boolean validateChecklistItemOrdinal(EdoChecklistBo checklist) {
 
-		List<EdoChecklistItem> listItems = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionId(checklistItem.getEdoChecklistSectionId());
-		for (EdoChecklistItem listItem : listItems) {
-			if (listItem.getChecklistItemOrdinal() == checklistItem.getChecklistItemOrdinal()) {
-				// error.checklist.exist ={0} '{1}' is already in use.
-				String[] params = new String[2];
-				params[0] = "Checklist Item Ordenal";
-				params[1] = checklistItem.getChecklistItemOrdinal()+"";
-				this.putFieldError("dataObject.edoChecklistItem", "error.checklist.exist", params);
-				return false;
+		List<EdoChecklistSectionBo> sections =  checklist.getChecklistSections();
+		for (EdoChecklistSectionBo section : sections) {
+			
+			List<EdoChecklistItemBo> items = section.getChecklistItems();
+			List<Integer> ordinals = new ArrayList<Integer>();
+			Set<Integer> sortedOrginals = new HashSet();
+			for (EdoChecklistItemBo item : items) {
+				ordinals.add(item.getChecklistItemOrdinal());
 			}
+			for (Integer ordinal : ordinals) {
+				if (!sortedOrginals.add(ordinal)) {
+					String[] params = new String[2];
+					params[0] = "Checklist Item Ordenal";
+					params[1] = ordinal+"";
+					this.putFieldError("dataObject.edoChecklistItem", "error.checklist.exist", params);
+					return false;		
+				}
+			}	
 		}
-		
+			
 		return true;
 		
 	}
-	
-	private boolean validateChecklistItemName(EdoChecklistBo checklist) {
-
-		EdoChecklistSectionService checklistSectionService = EdoServiceLocator.getChecklistSectionService();
-		
-		String edoChecklistSectionId = checklistItem.getEdoChecklistSectionId();
-		String edoChecklistId = checklistSectionService.getChecklistSectionById(edoChecklistSectionId).getEdoChecklistId();
-		
-		List<EdoChecklistSection> sections = checklistSectionService.getChecklistSectionsByChecklistId(edoChecklistId);
-		
-		for (EdoChecklistSection section : sections) {
-			
-			List<EdoChecklistItem> listItems = EdoServiceLocator.getChecklistItemService().getChecklistItemsBySectionId(section.getEdoChecklistSectionId());
-			for (EdoChecklistItem listItem : listItems) {
-				if (listItem.getChecklistItemName().equals(checklistItem.getChecklistItemName())) {
-					// error.checklist.exist ={0} '{1}' is already in use.
-					String[] params = new String[2];
-					params[0] = "Checklist Item Name";
-					params[1] = checklistItem.getChecklistItemName();
-					this.putFieldError("dataObject.edoChecklistItem", "error.checklist.exist", params);
-					return false;
-				}
-			}
-			
-		}
-
-		return true;
-		
-	}*/
 
 }

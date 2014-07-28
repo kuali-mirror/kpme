@@ -198,24 +198,7 @@
 		</list>
 	</property>
   </bean> 
-  
-  <bean id="EdoChecklist-checklistSectionsInquiry" parent="Uif-Disclosure-TableCollectionSection">
-        <property name="headerText" value="Checklist Sections"/>
-        <property name="collectionObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo"/>
-        <property name="propertyName" value="checklistSections"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="header">
-            <bean parent="Uif-SectionHeader" />
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:propertyName="checklistSectionName"/>
-                <bean parent="Uif-InputField" p:propertyName="description"/>
-                <bean parent="Uif-InputField" p:propertyName="checklistSectionOrdinal"/>
-            </list>				
-        </property>
-    </bean> 
-  	
+	
   <!-- Maintenance View -->
   <bean id="EdoChecklist-MaintenanceView" parent="EdoChecklist-MaintenanceView-parentBean"/>
   <bean id="EdoChecklist-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
@@ -249,40 +232,9 @@
             </list>
           </property>
         </bean>
-        <bean parent="EdoChecklist-ChecklistSections" />
+        <bean parent="EdoChecklist-checklistSectionsMaint" />
       </list>
     </property>
   </bean>
-  
-  <bean id="EdoChecklist-ChecklistSections" parent="Uif-Disclosure-TableCollectionSection">
-        <property name="headerText" value="Checklist Sections"/>
-        <property name="collectionObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo"/>
-        <property name="propertyName" value="checklistSections"/>
-        <property name="layoutManager.richTable.render" value="false"/>
-        <property name="showInactiveLines" value = "true"/>
-        <property name="renderInactiveToggleButton" value="false"/>
-        <property name="addLinePlacement" value="BOTTOM" />
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
-            </list>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:propertyName="checklistSectionName"/>
-                <bean parent="Uif-InputField" p:propertyName="description"/>
-                <bean parent="Uif-InputField" p:propertyName="checklistSectionOrdinal">
-	                <property name="validCharactersConstraint">
-						<bean parent="IntegerPatternConstraint"/>
-					</property>
-                </bean>
-            </list>
-        </property>
-    </bean>
 
 </beans>

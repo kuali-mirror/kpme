@@ -114,94 +114,65 @@
 		<property name="name" value="checklistSectionOrdinal" />
 		<property name="label" value="Checklist Section Ordinal" />
 	</bean>
+	
+	<!-- Inquiry ChecklistSection -->
+  	<bean id="EdoChecklist-checklistSectionsInquiry" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Checklist Sections"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo"/>
+        <property name="propertyName" value="checklistSections"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="checklistSectionName"/>
+                <bean parent="Uif-InputField" p:propertyName="description"/>
+                <bean parent="Uif-InputField" p:propertyName="checklistSectionOrdinal"/>   
+            </list>				
+        </property>
+        <property name="subCollections">
+        	<list>
+        		<bean parent="EdoChecklistSection-checklistItemsInquiry" p:propertyName="checklistItems" />
+        	</list>
+        </property>
+  	</bean>
 
-
-<!--***************************************************************************
-                                   KRAD Views
-        ***************************************************************************-->
-
-  <!--  Lookup view  -->
-  <bean id="EdoChecklistSection-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
-    <property name="headerText" value="Checklist Section Lookup" />
-    <property name="dataObjectClassName" value="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo" />
-    <property name="criteriaFields">
-      <list merge="true">
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="edoChecklistId" >
-        	<property name="quickfinder">
-          			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistBo"
-                		p:fieldConversions="edoChecklistId:edoChecklistId" />
-       		</property>
-        </bean>  
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="checklistSectionName" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-      </list>
-    </property>
-    <property name="resultFields">
-      <list merge="true">
-      	<bean parent="Uif-DataField" p:propertyName="edoChecklistId" >
-      		<property name="inquiry">
-				<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistBo"
-						p:inquiryParameters="edoChecklistId:edoChecklistId,effectiveDate:effectiveDate" />
-			</property>
-      	</bean>
-        <bean parent="Uif-DataField" p:propertyName="checklistSectionName" />
-        <bean parent="Uif-DataField" p:propertyName="description" />
-        <bean parent="Uif-DataField" p:propertyName="checklistSectionOrdinal"/>
-      </list>
-    </property>
-  </bean>
-  
-  <!-- Inquiry View -->
-  <bean id="EdoChecklistSection-InquiryView" parent="Uif-InquiryView">
-	<property name="headerText" value="Checklist Section Inquiry" />
-	<property name="dataObjectClassName" value="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo" />
-	<property name="singlePageView" value="true" />
-	<property name="title" value="Checklist Item Inquiry" />
-	<property name="items">
-		<list>
-			<bean parent="Uif-Disclosure-GridSection">
-				<property name="layoutManager.numberOfColumns" value="2" />
-				<property name="items">
-					<list merge="true">
-						<bean parent="Uif-DataField" p:propertyName="edoChecklistId" />
-						<bean parent="Uif-DataField" p:propertyName="checklistSectionName" />
-						<bean parent="Uif-DataField" p:propertyName="description" />
-						<bean parent="Uif-DataField" p:propertyName="checklistSectionOrdinal" />
-					</list>
-				</property>
-			</bean>
-		</list>
-	</property>
-  </bean>  
-  	
-  <!-- Maintenance View -->
-  <bean id="EdoChecklistSection-MaintenanceView" parent="EdoChecklistSection-MaintenanceView-parentBean"/>
-  <bean id="EdoChecklistSection-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
-    <property name="headerText" value="Checklist Section Maintenance"/>
-    <property name="dataObjectClassName" value="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo"/>
-    <property name="items">
-      <list>
-        <bean parent="Uif-MaintenanceGridSection">
-          <property name="items">
-            <list merge="true">
-            	<bean parent="Uif-InputField" p:propertyName="edoChecklistId" p:required="true" >
-            		<property name="quickfinder">
-               			<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.edo.checklist.EdoChecklistBo"
-                     		p:fieldConversions="edoChecklistId:edoChecklistId" />
-            		</property>
-            	</bean>
-		        <bean parent="Uif-InputField" p:propertyName="checklistSectionName" p:required="true" />
-		        <bean parent="Uif-InputField" p:propertyName="description" />
-		       	<bean parent="Uif-InputField" p:propertyName="checklistSectionOrdinal" p:required="true" p:exclusiveMin="0" >
-	       			<property name="validCharactersConstraint">
+  <!-- Maintenance Section -->  
+  <bean id="EdoChecklist-checklistSectionsMaint" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Checklist Sections"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.checklist.EdoChecklistSectionBo"/>
+        <property name="propertyName" value="checklistSections"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="showInactiveLines" value = "true"/>
+        <property name="renderInactiveToggleButton" value="false"/>
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="checklistSectionName" p:required="true" />
+                <bean parent="Uif-InputField" p:propertyName="description"/>
+                <bean parent="Uif-InputField" p:propertyName="checklistSectionOrdinal" p:required="true" p:exclusiveMin="0">
+	                <property name="validCharactersConstraint">
 						<bean parent="IntegerPatternConstraint"/>
 					</property>
-		       	</bean>	
+                </bean>
             </list>
-          </property>
-        </bean>
-      </list>
-    </property>
+        </property>
+        <property name="subCollections">
+        	<list>
+        		<bean parent="EdoChecklistSection-checklistItemsMaint" p:propertyName="checklistItems" />
+        	</list>
+        </property>
   </bean>
 
 </beans>
