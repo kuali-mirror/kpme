@@ -339,11 +339,15 @@ public class ClockAction extends TimesheetAction {
         clockTimeWithGraceRule = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeWithGraceRule, beginDate);
        
         // validate if there's any overlapping with existing time blocks
-        if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
+        if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
             ClockLog lastLog = null;
             if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_IN)) {
                 lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId, TkConstants.LUNCH_OUT);
             } else if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_IN)) {
+                lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId);
+            }else if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT)) {
+                lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId, TkConstants.LUNCH_IN);
+            } else if (StringUtils.equals(caf.getCurrentClockAction(), TkConstants.CLOCK_OUT)) {
                 lastLog = TkServiceLocator.getClockLogService().getLastClockLog(pId);
             }
             if (lastLog != null) {
@@ -365,6 +369,12 @@ public class ClockAction extends TimesheetAction {
 	        		 if((isRegularEarnCode || regularEarnCodes.contains(earnCodeObj.getEarnCode())) && clockInterval.contains(clockTimeWithGraceRule.getMillis())) {
 	        			 caf.setErrorMessage(TIME_BLOCK_OVERLAP_ERROR);
 	        			 return mapping.findForward("basic");
+	        		 }else if(StringUtils.equals(caf.getCurrentClockAction(),TkConstants.CLOCK_OUT) || StringUtils.equals(caf.getCurrentClockAction(), TkConstants.LUNCH_OUT) && (isRegularEarnCode || regularEarnCodes.contains(earnCodeObj.getEarnCode()))){
+	        			 Interval currentClockInterval = new Interval(lastLog.getClockDateTime(),clockTimeWithGraceRule);
+	        			 if(clockInterval.contains(currentClockInterval) || currentClockInterval.contains(clockInterval)){
+		        			 caf.setErrorMessage(TIME_BLOCK_OVERLAP_ERROR);
+		        			 return mapping.findForward("basic");
+	        			 }
 	        		 }
 	        	 }
 	         }
