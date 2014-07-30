@@ -170,7 +170,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockHistory.setAction(HrConstants.ACTION.DELETE);
         
         String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
-        addNote(leaveBlock.getDocumentId(), principalId, "LeaveBlock on " + leaveBlock.getLeaveLocalDate() + " was deleted on this Leave Calendar by " + principalName + " on your behalf");
+        addNote(leaveBlock.getDocumentId(), leaveBlock.getPrincipalId(), "LeaveBlock on " + leaveBlock.getLeaveLocalDate() + " was deleted on this Leave Calendar by " + principalName + " on your behalf");
         // deleting leaveblock
         KRADServiceLocator.getBusinessObjectService().delete(leaveBlock);
         
@@ -230,7 +230,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // use the current calendar's begin and end date to figure out if this pay period has a leaveDocument
         LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService()
         		.getDocumentHeader(principalId, ce.getBeginPeriodLocalDateTime().toDateTime(), ce.getEndPeriodLocalDateTime().toDateTime());
-        String docId = lcdh == null ? null : lcdh.getDocumentId();
+        TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService()
+        		.getDocumentHeader(principalId,ce.getBeginPeriodLocalDateTime().toDateTime(), ce.getEndPeriodLocalDateTime().toDateTime());
+        String docId = lcdh == null ? (tsdh == null ? null :tsdh.getDocumentId()) : lcdh.getDocumentId();
         
         // TODO: need to integrate with the scheduled timeoff.
     	Interval firstDay = null;
@@ -344,8 +346,13 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         }
         saveLeaveBlockBos(currentLeaveBlocks);
         for (LeaveBlockBo leaveblockbo : newlyAddedLeaveBlocks) {
-        	String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
-            addNote(leaveblockbo.getDocumentId(), principalId, "LeaveBlock on " + leaveblockbo.getLeaveLocalDate() + " was added on this Leave Calendar by " + principalName + " on your behalf");	
+        	if(leaveblockbo!=null){
+        		if(leaveblockbo.getDocumentId()==null){
+        			leaveblockbo.setDocumentId(docId);
+        		}
+        		String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
+        		addNote(docId, principalId, "LeaveBlock on " + leaveblockbo.getLeaveLocalDate() + " was added on this Leave Calendar by " + principalName + " on your behalf");
+        	}
 		}
 
         return ModelObjectUtils.transform(newlyAddedLeaveBlocks, toLeaveBlock);
@@ -397,7 +404,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
         KRADServiceLocator.getBusinessObjectService().save(leaveBlockBo);
         String principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(HrContext.getPrincipalId()).getDefaultName().getCompositeName();
-        addNote(leaveBlockBo.getDocumentId(), principalId, "LeaveBlock on " + leaveBlock.getLeaveLocalDate() + " was updated on this Leave Calendar by " + principalName + " on your behalf");
+        addNote(leaveBlockBo.getDocumentId(), leaveBlockBo.getPrincipalId(), "LeaveBlock on " + leaveBlock.getLeaveLocalDate() + " was updated on this Leave Calendar by " + principalName + " on your behalf");
         // creating history
         KRADServiceLocator.getBusinessObjectService().save(leaveBlockHistory); 
     }    
