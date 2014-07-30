@@ -411,7 +411,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
     //Add a note to timesheet for approver's actions
     public void addNote(String documentId,String principalId, String note){
-    	if(documentId!=null && principalId!=null){
+    	if(documentId!=null && !documentId.isEmpty() && principalId!=null && !principalId.isEmpty()){
     		if(!HrContext.getPrincipalId().equals(principalId)){
 
     			Note.Builder builder = Note.Builder.create(documentId,principalId);
