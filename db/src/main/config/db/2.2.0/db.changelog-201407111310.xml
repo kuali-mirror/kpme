@@ -42,9 +42,7 @@
             <column name="vote_type" type="VARCHAR(45)" >
                 <constraints nullable="false" />
             </column>
-            <column name="DESCRIPTION" type="VARCHAR(100)" >
-                <constraints nullable="false" />
-            </column>
+            <column name="DESCRIPTION" type="VARCHAR(100)" />
             <column name="review_letter" type="VARCHAR(1)" defaultValue="Y" >
                 <constraints nullable="false" />
             </column>

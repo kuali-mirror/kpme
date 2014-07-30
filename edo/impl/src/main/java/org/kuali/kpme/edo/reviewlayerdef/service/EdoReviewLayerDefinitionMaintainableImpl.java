@@ -9,12 +9,7 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 public class EdoReviewLayerDefinitionMaintainableImpl extends HrBusinessObjectMaintainableImpl  { //EdoBusinessObjectMaintainableImpl
 
     private static final long serialVersionUID = 1L;
-
-    /*@Override
-    public EdoReviewLayerDefinitionBo getObjectById( id) {
-        return EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinition(id);
-    }*/
-    
+  
     @Override
 	public HrBusinessObject getObjectById(String id) {
 		return EdoReviewLayerDefinitionBo.from(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById(id));
@@ -26,6 +21,8 @@ public class EdoReviewLayerDefinitionMaintainableImpl extends HrBusinessObjectMa
 		for(EdoSuppReviewLayerDefinitionBo suppReviewLayerDefinition : aReviewLayerDef.getSuppReviewLayerDefinitions()) {
 			suppReviewLayerDefinition.setEdoReviewLayerDefinitionId(aReviewLayerDef.getEdoReviewLayerDefinitionId());
 			suppReviewLayerDefinition.setEdoSuppReviewLayerDefinitionId(null);
+			suppReviewLayerDefinition.setEdoWorkflowId(aReviewLayerDef.getWorkflowId());
+			suppReviewLayerDefinition.setWorkflowQualifier(aReviewLayerDef.getWorkflowQualifier());
 		}
     }
 }

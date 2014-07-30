@@ -91,6 +91,50 @@
         <property name="name" value="workflowQualifier" />
         <property name="label" value="Workflow Qualifier" />
     </bean>
+    
+    <!-- Inquiry -->
+    <bean id="EdoReviewLayerDefinition-suppReviewLayerDefinitionsInquiry" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Supplement Review Layer Definitions"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo"/>
+        <property name="propertyName" value="suppReviewLayerDefinitions"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="suppNodeName"/>
+                <bean parent="Uif-InputField" p:propertyName="acknowledgeFlag"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Maintenance -->
+   	<bean id="EdoReviewLayerDefinition-SuppReviewLayerDefinitions" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Supplement Review Layer Definitions"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo"/>
+        <property name="propertyName" value="suppReviewLayerDefinitions"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="showInactiveLines" value = "true"/>
+        <property name="renderInactiveToggleButton" value="false"/>
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete" p:render="@{#line.objectId eq null}"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="suppNodeName"/>
+                <bean parent="Uif-InputField" p:propertyName="acknowledgeFlag" />
+            </list>
+        </property>
+    </bean>
 	
   
 </beans>
