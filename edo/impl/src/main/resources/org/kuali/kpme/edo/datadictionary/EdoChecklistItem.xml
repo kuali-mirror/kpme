@@ -123,7 +123,6 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="edoChecklistSectionId"/>
                 <bean parent="Uif-InputField" p:propertyName="checklistItemName"/>
                 <bean parent="Uif-InputField" p:propertyName="itemDescription"/>
                 <bean parent="Uif-InputField" p:propertyName="required"/>
