@@ -411,12 +411,14 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
     //Add a note to timesheet for approver's actions
     public void addNote(String documentId,String principalId, String note){
-    	if(!HrContext.getPrincipalId().equals(principalId)){
+    	if(documentId!=null && principalId!=null){
+    		if(!HrContext.getPrincipalId().equals(principalId)){
 
-    		Note.Builder builder = Note.Builder.create(documentId,principalId);
-    		builder.setCreateDate(new DateTime());	
-    		builder.setText(note);
-    		KewApiServiceLocator.getNoteService().createNote(builder.build());
+    			Note.Builder builder = Note.Builder.create(documentId,principalId);
+    			builder.setCreateDate(new DateTime());	
+    			builder.setText(note);
+    			KewApiServiceLocator.getNoteService().createNote(builder.build());
+    		}
     	}
     }
     
