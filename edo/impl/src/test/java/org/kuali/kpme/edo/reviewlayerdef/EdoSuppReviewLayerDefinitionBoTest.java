@@ -34,8 +34,6 @@ public class EdoSuppReviewLayerDefinitionBoTest {
 		EdoSuppReviewLayerDefinitionBuilder.setEdoReviewLayerDefinitionId("1000");
 		EdoSuppReviewLayerDefinitionBuilder.setSuppNodeName("testNodeName");
 		EdoSuppReviewLayerDefinitionBuilder.setAcknowledgeFlag(true);
-		EdoSuppReviewLayerDefinitionBuilder.setEdoWorkflowId("1000");
-		EdoSuppReviewLayerDefinitionBuilder.setWorkflowQualifier("workflowQualifier");
 		EdoSuppReviewLayerDefinitionBuilder.setVersionNumber(1L);
 		EdoSuppReviewLayerDefinitionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		

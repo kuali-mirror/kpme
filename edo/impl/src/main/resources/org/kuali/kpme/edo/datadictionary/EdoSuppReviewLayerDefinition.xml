@@ -12,8 +12,6 @@
 				<ref bean="EdoSuppReviewLayerDefinition-edoReviewLayerDefinitionId" />
 				<ref bean="EdoSuppReviewLayerDefinition-suppNodeName" />
 				<ref bean="EdoSuppReviewLayerDefinition-acknowledgeFlag" />
-				<ref bean="EdoSuppReviewLayerDefinition-edoWorkflowId" />
-				<ref bean="EdoSuppReviewLayerDefinition-workflowQualifier" />
 			</list>
 		</property>
 	</bean>
@@ -63,35 +61,7 @@
     	<property name="name" value="acknowledgeFlag" />
  		<property name="label" value="Acknowledge Flag" />
   	</bean>
-    
-	<bean id="EdoSuppReviewLayerDefinition-edoWorkflowId" parent="EdoSuppReviewLayerDefinition-edoWorkflowId-parentBean"/>
-    <bean id="EdoSuppReviewLayerDefinition-edoWorkflowId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Workflow Id" />
-        <property name="maxLength" value="60" />
-        <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-       	<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
-        <property name="name" value="edoWorkflowId" />
-        <property name="label" value="Workflow Id" />
-    </bean>
-    
-    <bean id="EdoSuppReviewLayerDefinition-workflowQualifier" parent="EdoSuppReviewLayerDefinition-workflowQualifier-parentBean"/>
-    <bean id="EdoSuppReviewLayerDefinition-workflowQualifier-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="Workflow Qualifier" />
-        <property name="maxLength" value="25" />
-        <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="60" />
-		</property>
-       	<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
-        <property name="name" value="workflowQualifier" />
-        <property name="label" value="Workflow Qualifier" />
-    </bean>
-    
+
     <!-- Inquiry -->
     <bean id="EdoReviewLayerDefinition-suppReviewLayerDefinitionsInquiry" parent="Uif-Disclosure-TableCollectionSection">
         <property name="headerText" value="Supplement Review Layer Definitions"/>

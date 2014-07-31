@@ -35,12 +35,15 @@ public interface EdoReviewLayerDefinitionDao {
     
     public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitionsToMax(String maxReviewLevel);
     //supplemental auth nodes
-    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
-    public EdoSuppReviewLayerDefinitionBo getSuppReviewLayerDefinition(String reviewLayerDefinitionId);
     public EdoReviewLayerDefinitionBo getReviewLayerDefinitionBySupplementalNode(String suppNodeName);
     public List<String> getDistinctWorkflowIds();
     public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitionsByWorkflowId(String workflowId);
     public String getLevelQualifierByWorkflowId(String workflowId, String nodeName);
-    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName);
     public List<EdoReviewLayerDefinitionBo> getRouteLevelsWithReviewLayers();
+    
+    // KPME-3711 Moved these to EdoSuppReviewLayerDefinition
+    /*
+    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
+    public EdoSuppReviewLayerDefinitionBo getSuppReviewLayerDefinition(String reviewLayerDefinitionId);
+    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName); */
 }

@@ -231,8 +231,6 @@
         <field-descriptor name="edoReviewLayerDefinitionId" column="EDO_REVIEW_LAYER_DEF_ID" jdbc-type="VARCHAR" length="60" nullable="false" />    
         <field-descriptor name="suppNodeName" column="SUPPLEMENTAL_NODE_NAME" jdbc-type="VARCHAR" length="100" nullable="false"/>
         <field-descriptor name="acknowledgeFlag" column="ACKNOWLEDGE_FLAG" jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="edoWorkflowId"  column="EDO_WORKFLOW_ID"  jdbc-type="VARCHAR"  length="60"  nullable="false" />
-        <field-descriptor name="workflowQualifier"  column="WORKFLOW_QUALIFIER"  jdbc-type="VARCHAR"  length="25"  nullable="false" />
         <!-- 
         <reference-descriptor name="reviewLayerDefinition"  class-ref="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo"  auto-retrieve="true"  auto-update="none"  auto-delete="none"  proxy="true">
 			<foreignkey field-ref="reviewLayerDefinitionId" />

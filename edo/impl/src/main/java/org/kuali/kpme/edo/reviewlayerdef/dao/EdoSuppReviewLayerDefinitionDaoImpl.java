@@ -62,7 +62,8 @@ public class EdoSuppReviewLayerDefinitionDaoImpl extends PlatformAwareDaoBaseOjb
 
         for (Object obj : c ) {
             EdoSuppReviewLayerDefinitionBo suppReviewLayer = (EdoSuppReviewLayerDefinitionBo)obj;
-            qualifier = suppReviewLayer.getWorkflowQualifier();
+            // We don't have qualifier in EdoSuppReviewLayerDefinition any more
+            //qualifier = suppReviewLayer.getWorkflowQualifier();
         }
 
         return qualifier;

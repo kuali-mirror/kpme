@@ -21,8 +21,6 @@ public class EdoReviewLayerDefinitionMaintainableImpl extends HrBusinessObjectMa
 		for(EdoSuppReviewLayerDefinitionBo suppReviewLayerDefinition : aReviewLayerDef.getSuppReviewLayerDefinitions()) {
 			suppReviewLayerDefinition.setEdoReviewLayerDefinitionId(aReviewLayerDef.getEdoReviewLayerDefinitionId());
 			suppReviewLayerDefinition.setEdoSuppReviewLayerDefinitionId(null);
-			suppReviewLayerDefinition.setEdoWorkflowId(aReviewLayerDef.getWorkflowId());
-			suppReviewLayerDefinition.setWorkflowQualifier(aReviewLayerDef.getWorkflowQualifier());
 		}
     }
 }

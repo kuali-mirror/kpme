@@ -57,12 +57,5 @@ public class EdoSuppReviewLayerDefinitionServiceTest extends EdoUnitTestBase {
 		List<String> authorizedSupplementalNodes = EdoServiceLocator.getEdoSuppReviewLayerDefinitionService().getAuthorizedSupplementalNodes("1000");
 		assertEquals(2, authorizedSupplementalNodes.size());
 	}
-	
-	@Test
-	public void testGetSuppLevelQualifierByWorkflowId() throws Exception {
-		
-		String suppLevelQualifier = EdoServiceLocator.getEdoSuppReviewLayerDefinitionService().getSuppLevelQualifierByWorkflowId("1000", "suppDeanAck");
-		assertEquals("department", suppLevelQualifier);
-	}
 
 }

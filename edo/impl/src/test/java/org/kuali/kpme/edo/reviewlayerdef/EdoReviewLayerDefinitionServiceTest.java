@@ -89,9 +89,7 @@ public class EdoReviewLayerDefinitionServiceTest extends EdoUnitTestBase {
 		supp.setAcknowledgeFlag(true);
 		supp.setEdoReviewLayerDefinitionId("1010");
 		supp.setEdoSuppReviewLayerDefinitionId("2010");
-		supp.setEdoWorkflowId("1000");
 		supp.setSuppNodeName("node1");
-		supp.setWorkflowQualifier("qualifier1");
 		supps.add(supp);
 		edoReviewLayerDefinitionBo.setSuppReviewLayerDefinitions(supps);
 		

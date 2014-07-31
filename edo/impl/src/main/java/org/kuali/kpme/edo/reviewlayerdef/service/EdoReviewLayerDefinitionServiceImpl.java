@@ -120,11 +120,20 @@ public class EdoReviewLayerDefinitionServiceImpl implements EdoReviewLayerDefini
         return levelMap;
     }
 
+    // KPME-3711 These methods have been moved to EdoSuppReviewLayerDefinition
+    /*
     public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId) {
     
     	return this.edoReviewLayerDefinitionDao.getAuthorizedSupplementalNodes(reviewLayerDefinitionId);	
     }
     
+    public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(String reviewLayerDefinitionId) {
+    	return EdoSuppReviewLayerDefinitionBo.to(edoReviewLayerDefinitionDao.getSuppReviewLayerDefinition(reviewLayerDefinitionId));
+    }
+   
+    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName) {
+        return this.edoReviewLayerDefinitionDao.getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
+    }*/
 
     public void setEdoReviewLayerDefinitionDao(EdoReviewLayerDefinitionDao edoReviewLayerDefinitionDao) {
         this.edoReviewLayerDefinitionDao = edoReviewLayerDefinitionDao;
@@ -136,23 +145,13 @@ public class EdoReviewLayerDefinitionServiceImpl implements EdoReviewLayerDefini
     	
         this.edoReviewLayerDefinitionDao.saveOrUpdate(bo);
     }
-    
-    public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(String reviewLayerDefinitionId) {
-    	return EdoSuppReviewLayerDefinitionBo.to(edoReviewLayerDefinitionDao.getSuppReviewLayerDefinition(reviewLayerDefinitionId));
-    }
-   
+        
     public List<String> getDistinctWorkflowIds() {
         return this.edoReviewLayerDefinitionDao.getDistinctWorkflowIds();
     }
 
-    
-
     public String getLevelQualifierByWorkflowId(String workflowId, String nodeName) {
         return this.edoReviewLayerDefinitionDao.getLevelQualifierByWorkflowId(workflowId, nodeName);
-    }
-
-    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName) {
-        return this.edoReviewLayerDefinitionDao.getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
     }
 
     public Map<String,String> getReviewLayerDefinitionDescriptionsByWorkflow(String workflowId) {

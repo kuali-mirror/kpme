@@ -21,8 +21,6 @@ public class EdoSuppReviewLayerDefinitionBo extends PersistableBusinessObjectBas
 	private String edoReviewLayerDefinitionId;
 	private String suppNodeName;
     private boolean acknowledgeFlag;
-    private String edoWorkflowId;
-    private String workflowQualifier;
 
     //private EdoReviewLayerDefinitionBo reviewLayerDefinition;
     
@@ -63,22 +61,6 @@ public class EdoSuppReviewLayerDefinitionBo extends PersistableBusinessObjectBas
 		this.acknowledgeFlag = acknowledgeFlag;
 	}
 
-    public String getEdoWorkflowId() {
-        return edoWorkflowId;
-    }
-
-    public void setEdoWorkflowId(String edoWorkflowId) {
-        this.edoWorkflowId = edoWorkflowId;
-    }
-
-    public String getWorkflowQualifier() {
-        return workflowQualifier;
-    }
-
-    public void setWorkflowQualifier(String workflowQualifier) {
-        this.workflowQualifier = workflowQualifier;
-    }
-
     public String getId() {
         return getEdoSuppReviewLayerDefinitionId();
     }
@@ -111,8 +93,6 @@ public class EdoSuppReviewLayerDefinitionBo extends PersistableBusinessObjectBas
         edoSuppReviewLayerDefinitionBo.setEdoReviewLayerDefinitionId(edoSuppReviewLayerDefinition.getEdoReviewLayerDefinitionId());
         edoSuppReviewLayerDefinitionBo.setSuppNodeName(edoSuppReviewLayerDefinition.getSuppNodeName());
         edoSuppReviewLayerDefinitionBo.setAcknowledgeFlag(edoSuppReviewLayerDefinition.isAcknowledgeFlag());
-        edoSuppReviewLayerDefinitionBo.setEdoWorkflowId(edoSuppReviewLayerDefinition.getEdoWorkflowId());
-        edoSuppReviewLayerDefinitionBo.setWorkflowQualifier(edoSuppReviewLayerDefinition.getWorkflowQualifier());
         edoSuppReviewLayerDefinitionBo.setVersionNumber(edoSuppReviewLayerDefinition.getVersionNumber());
         edoSuppReviewLayerDefinitionBo.setObjectId(edoSuppReviewLayerDefinition.getObjectId());
       

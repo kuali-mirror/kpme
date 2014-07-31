@@ -51,27 +51,4 @@ public interface EdoSuppReviewLayerDefinitionContract extends KpmeDataTransferOb
 	 * @return Y for Yes, N for No
 	 */  
 	public boolean isAcknowledgeFlag();
-
-	/**
-	 * The work flow id the EdoSuppReviewLayerDefinition is associated with
-	 * 
-	 * <p>
-	 * edoWorkflowId of the EdoSuppReviewLayerDefinition
-	 * <p>
-	 * 
-	 * @return edoWorkflowId for EdoSuppReviewLayerDefinition
-	 */
-    public String getEdoWorkflowId();
-
-    /**
-	 * The work flow qualifier the EdoSuppReviewLayerDefinition is associated with
-	 * 
-	 * <p>
-	 * workflowQualifier of the EdoSuppReviewLayerDefinition
-	 * <p>
-	 * 
-	 * @return workflowQualifier for EdoSuppReviewLayerDefinition
-	 */
-    public String getWorkflowQualifier();
-
 }

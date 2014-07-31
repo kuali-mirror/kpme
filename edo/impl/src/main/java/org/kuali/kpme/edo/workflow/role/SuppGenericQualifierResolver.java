@@ -25,6 +25,7 @@ public class SuppGenericQualifierResolver extends QualifierResolverBase {
 
         // KPME-3711 This method has been moved to EdoSuppReviewLayerDefinitionService
         //String qualifier = EdoServiceLocator.getEdoReviewLayerDefinitionService().getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
+        // TODO Get qualifier from EdoReviewLayerDefinition instead
         String qualifier = EdoServiceLocator.getEdoSuppReviewLayerDefinitionService().getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
 
         if (StringUtils.isNotBlank(qualifier)) {

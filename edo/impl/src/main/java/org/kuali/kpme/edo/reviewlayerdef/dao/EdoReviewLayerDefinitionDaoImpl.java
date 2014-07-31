@@ -179,7 +179,8 @@ public class EdoReviewLayerDefinitionDaoImpl extends PlatformAwareDaoBaseOjb imp
         return nodeNames;
     }
 
-
+    // KPME-3711 Moved these to EdoSuppReviewLayerDefinition
+    /*
     public List<String> getAuthorizedSupplementalNodes(String edoReviewLayerDefinitionId){
     	List<String> authSuppNodes = new ArrayList<String>();
         List<EdoSuppReviewLayerDefinitionBo> results = new LinkedList<EdoSuppReviewLayerDefinitionBo>();
@@ -208,7 +209,26 @@ public class EdoReviewLayerDefinitionDaoImpl extends PlatformAwareDaoBaseOjb imp
 
         Query query = QueryFactory.newQuery(EdoSuppReviewLayerDefinitionBo.class, criteria);
         return (EdoSuppReviewLayerDefinitionBo) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-    }
+    } 
+    
+     public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName) {
+        String qualifier = null;
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo(EdoPropertyConstants.EdoSuppReviewLayerDefinitionFields.WORKFLOW_ID, workflowId);
+        criteria.addEqualTo(EdoPropertyConstants.EdoSuppReviewLayerDefinitionFields.NODE_NAME, nodeName);
+
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(EdoSuppReviewLayerDefinitionBo.class, criteria);
+
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        for (Object obj : c ) {
+            EdoSuppReviewLayerDefinitionBo suppReviewLayer = (EdoSuppReviewLayerDefinitionBo)obj;
+            qualifier = suppReviewLayer.getWorkflowQualifier();
+        }
+
+        return qualifier;
+    } */
 
     public EdoReviewLayerDefinitionBo getReviewLayerDefinitionBySupplementalNode(String suppNodeName) {
         Criteria criteria = new Criteria();
@@ -281,25 +301,6 @@ public class EdoReviewLayerDefinitionDaoImpl extends PlatformAwareDaoBaseOjb imp
         return qualifier;
     }
 
-
-    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName) {
-        String qualifier = null;
-
-        Criteria criteria = new Criteria();
-        criteria.addEqualTo(EdoPropertyConstants.EdoSuppReviewLayerDefinitionFields.WORKFLOW_ID, workflowId);
-        criteria.addEqualTo(EdoPropertyConstants.EdoSuppReviewLayerDefinitionFields.NODE_NAME, nodeName);
-
-        ReportQueryByCriteria query = QueryFactory.newReportQuery(EdoSuppReviewLayerDefinitionBo.class, criteria);
-
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
-        for (Object obj : c ) {
-            EdoSuppReviewLayerDefinitionBo suppReviewLayer = (EdoSuppReviewLayerDefinitionBo)obj;
-            qualifier = suppReviewLayer.getWorkflowQualifier();
-        }
-
-        return qualifier;
-    }
     public List<EdoReviewLayerDefinitionBo> getRouteLevelsWithReviewLayers() {
     	List<EdoReviewLayerDefinitionBo> results = new ArrayList<EdoReviewLayerDefinitionBo>();
     	
