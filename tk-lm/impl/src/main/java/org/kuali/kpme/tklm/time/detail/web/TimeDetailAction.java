@@ -371,6 +371,8 @@ public class TimeDetailAction extends TimesheetAction {
         // Add a row to the history table
         TimeBlockHistory tbh = new TimeBlockHistory(TimeBlockBo.from(deletedTimeBlock));
         tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
+        tbh.setPrincipalIdModified(principalId);
+        tbh.setTimestampModified(TKUtils.getCurrentTimestamp());
         TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
 
 
