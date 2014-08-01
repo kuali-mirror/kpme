@@ -282,14 +282,16 @@
         <field-descriptor name="groupKeyCode"  		column="GRP_KEY_CD"        	jdbc-type="VARCHAR" length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.edo.group.EdoRoleResponsibility" table="EDO_ROLE_RESPONSIBILITY_DEF_T">
-        <field-descriptor name="kimRoleResponsibilityId" column="kim_role_responsibility_id" jdbc-type="NUMERIC" primarykey="true" />
+    <class-descriptor class="org.kuali.kpme.edo.group.EdoRoleResponsibilityBo" table="EDO_ROLE_RESPONSIBILITY_DEF_T">
+        <field-descriptor name="edoKimRoleResponsibilityId" column="edo_kim_role_responsibility_id" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="EDO_ROLE_RESPONSIBILITY_DEF_S" />
         <field-descriptor name="kimRoleName" column="kim_role_name" jdbc-type="VARCHAR" length="64" primarykey="false" />
         <field-descriptor name="kimResponsibilityName" column="kim_responsibility_name" jdbc-type="VARCHAR" length="64" primarykey="false" />
         <field-descriptor name="kimActionTypeCode" column="kim_action_type_code" jdbc-type="VARCHAR" length="8" primarykey="false" />
         <field-descriptor name="kimActionPolicyCode" column="kim_action_policy_code" jdbc-type="VARCHAR" length="8" primarykey="false" />
-        <field-descriptor name="kimPriority" column="kim_priority" jdbc-type="NUMERIC" primarykey="false" />
-        <field-descriptor name="kimForceAction" column="kim_force_action" jdbc-type="NUMERIC" primarykey="false" />
+        <field-descriptor name="kimPriority" column="kim_priority" jdbc-type="TINYINT" primarykey="false" />
+        <field-descriptor name="kimForceAction" column="kim_force_action" jdbc-type="VARCHAR" length="1" nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kpme.edo.reports.EdoPromotionAndTenureReport" table="EDO_PT_REPORT_V">

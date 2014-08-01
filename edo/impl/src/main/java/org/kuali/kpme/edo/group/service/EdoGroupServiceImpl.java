@@ -1,14 +1,20 @@
 package org.kuali.kpme.edo.group.service;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.kpme.edo.api.group.EdoGroupDefinition;
 import org.kuali.kpme.edo.api.group.EdoGroupTracking;
+import org.kuali.kpme.edo.api.group.EdoRoleResponsibility;
 import org.kuali.kpme.edo.group.EdoGroup;
 import org.kuali.kpme.edo.group.EdoGroupTrackingBo;
-import org.kuali.kpme.edo.group.EdoRoleResponsibility;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -22,13 +28,6 @@ import org.kuali.rice.kim.api.role.RoleResponsibility;
 import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
  * $HeadURL$
@@ -220,10 +219,10 @@ public class EdoGroupServiceImpl implements EdoGroupService {
                 roleRespActionBuilder.setRoleResponsibility(kimRoleResp);
                 roleRespActionBuilder.setRoleResponsibilityId(kimRoleResp.getRoleResponsibilityId());
                 roleRespActionBuilder.setRoleMemberId(roleMember.getId());
-                roleRespActionBuilder.setForceAction(BooleanUtils.toBoolean(edoRoleResp.getKimForceAction().intValue()));
+                roleRespActionBuilder.setForceAction(edoRoleResp.isKimForceAction());
                 roleRespActionBuilder.setActionTypeCode(edoRoleResp.getKimActionTypeCode());
                 roleRespActionBuilder.setActionPolicyCode(edoRoleResp.getKimActionPolicyCode());
-                roleRespActionBuilder.setPriorityNumber(edoRoleResp.getKimPriority().intValue());
+                roleRespActionBuilder.setPriorityNumber(edoRoleResp.getKimPriority());
                 RoleResponsibilityAction roleResponsibilityAction = roleRespActionBuilder.build();
 
                 // and add it to the list

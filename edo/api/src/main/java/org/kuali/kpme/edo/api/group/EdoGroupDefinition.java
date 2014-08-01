@@ -211,6 +211,18 @@ public final class EdoGroupDefinition
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
             return new Builder();
         }
+        
+        private Builder(String edoWorkflowId, String workflowLevel, String dossierType) {
+            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setEdoWorkflowId(edoWorkflowId);
+        	setWorkflowLevel(workflowLevel);
+        	setDossierType(dossierType);
+        }
+
+        public static Builder create(String edoWorkflowId, String workflowLevel, String dossierType) {
+            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+            return new Builder(edoWorkflowId, workflowLevel, dossierType);
+        }
 
         public static Builder create(EdoGroupDefinitionContract contract) {
             if (contract == null) {

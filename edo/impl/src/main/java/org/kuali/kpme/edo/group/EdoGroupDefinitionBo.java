@@ -23,8 +23,9 @@ public class EdoGroupDefinitionBo extends HrBusinessObject implements EdoGroupDe
 	private static final long serialVersionUID = 7089330958890991138L;
 	
 	static class KeyFields {
-		private static final String EDO_GROUP_ID = "edoGroupId";
 		private static final String EDO_WORKFLOW_ID = "edoWorkflowId";
+		private static final String WORKFLOW_LEVEL = "workflowLevel";
+		private static final String DOSSIER_TYPE = "dossierType";
 	}
 
 	private String edoGroupId;
@@ -53,8 +54,9 @@ public class EdoGroupDefinitionBo extends HrBusinessObject implements EdoGroupDe
     @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_GROUP_ID, this.getEdoGroupId())
 				.put(KeyFields.EDO_WORKFLOW_ID, this.getEdoWorkflowId())
+				.put(KeyFields.WORKFLOW_LEVEL, this.getWorkflowLevel())
+				.put(KeyFields.DOSSIER_TYPE, this.getDossierType())
 				.build();
 	}
     
