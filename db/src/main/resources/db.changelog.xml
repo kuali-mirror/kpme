@@ -18,11 +18,11 @@
 -->
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
                       
-    <include file="src/main/config/db/db.changelog-main.xml" />
-    <include file="src/test/config/db/db.changelog-test.xml" />
-    <include file="src/test/config/db/db.changelog-staging.xml" />
-    <include file="src/test/config/db/db.changelog-testdrive.xml" />
+    <include file="org/kuali/kpme/kpme-db/db/db.changelog-main.xml" />
+    <include file="org/kuali/kpme/kpme-db/db/db.changelog-test.xml" />
+    <include file="org/kuali/kpme/kpme-db/db/db.changelog-staging.xml" />
+    <include file="org/kuali/kpme/kpme-db/db/db.changelog-testdrive.xml" />
 
 </databaseChangeLog>

@@ -24,10 +24,10 @@
     </parent>
     <name>KPME DB</name>
     <artifactId>kpme-db</artifactId>
-    <packaging>pom</packaging>
     <properties>
         <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
         <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
+    <liquibase.changeLogFile>src/main/resources/db.changelog.xml</liquibase.changeLogFile>
     </properties>
     <dependencies>
         <dependency>
@@ -41,24 +41,61 @@
             <version>${oracle.jdbc.version}</version>
             <scope>runtime</scope>
         </dependency>-->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-web-framework</artifactId>
+        </dependency>
     </dependencies>
     <build>
+    <!--<resources>
+      <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/config</directory>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <directory>${project.basedir}/src/test/config</directory>
+      </testResource>
+    </testResources>-->
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
-                    <!--<version>2.0.5</version>-->
+          <!--<version>2.0.5</version> -->
                     <configuration>
                         <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-                        <changeLogFile>src/main/resources/db.changelog.xml</changeLogFile>
+                        <changeLogFile>${liquibase.changeLogFile}</changeLogFile>
                         <verbose>true</verbose>
                     </configuration>
+                  <!--<dependencies>
+                    <dependency>
+                      <groupId>${project.groupId}</groupId>
+                      <artifactId>${project.artifactId}</artifactId>
+                      <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                      <groupId>${project.groupId}</groupId>
+                      <artifactId>${project.artifactId}</artifactId>
+                      <version>${project.version}</version>
+                      <type>test-jar</type>
+                    </dependency>
+                  </dependencies>-->
                 </plugin>
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
-                    <!--<version>1.0.0</version>-->
+          <!--<version>1.0.0</version> -->
                     <configuration>
                         <lifecycleMappingMetadata>
                             <pluginExecutions>
@@ -66,7 +103,7 @@
                                     <pluginExecutionFilter>
                                     <groupId>org.liquibase</groupId>
                                     <artifactId>liquibase-maven-plugin</artifactId>
-                                    <!--<versionRange>[2.0-rc3,)</versionRange>-->
+                    <!--<versionRange>[2.0-rc3,)</versionRange> -->
                                     <goals>
                                     <goal>update</goal>
                                     </goals>
@@ -79,7 +116,7 @@
                                     <pluginExecutionFilter>
                                     <groupId>org.apache.maven.plugins</groupId>
                                     <artifactId>maven-dependency-plugin</artifactId>
-                                    <!--<versionRange>[2.8,)</versionRange>-->
+                    <!--<versionRange>[2.8,)</versionRange> -->
                                     <goals>
                                     <goal>unpack</goal>
                                     <goal>copy</goal>
@@ -97,7 +134,52 @@
         </pluginManagement>
     </build>
     <profiles>
-        <profile>
+<!--        <profile>
+      <id>kpme-spring</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>spring-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>load-db</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>loadxml</goal>
+                </goals>
+                <configuration>
+                  <location>classpath:${project.groupId.path}/${project.artifactId}/spring/liquibase-main.xml</location>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.jdbc.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>-->
+    <profile>
             <id>dropFirst</id>
             <properties>
                 <kr.dataSource.dropFirst>true</kr.dataSource.dropFirst>
@@ -111,7 +193,7 @@
                     <plugin>
                         <groupId>org.kuali.maven.plugins</groupId>
                         <artifactId>sql-maven-plugin</artifactId>
-                        <!--<version>1.0.15</version>-->
+            <!--<version>1.0.15</version> -->
                         <executions>
                             <execution>
                                 <id>drop-create</id>
@@ -161,9 +243,8 @@
                         <executions>
                             <execution>
                                 <id>default-cli</id>
-                                <!--<phase>process-resources</phase>-->
+                <!--<phase>process-resources</phase> -->
                                 <configuration>
-
                                     <tasks>
                                         <ant antfile="${project.basedir}/src/main/config/dbcopy/build.xml" dir="${project.basedir}/src/main/config/dbcopy/">
                                             <target name="mysql" />
@@ -188,9 +269,7 @@
                 <kr.dataSource.username>krtt</kr.dataSource.username>
                 <kr.dataSource.password>krtt</kr.dataSource.password>
                 <kr.dataSource.validationQuery>select 1</kr.dataSource.validationQuery>
-                <!--<kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>-->
                 <kr.dataSource.clearCheckSums>true</kr.dataSource.clearCheckSums>
-                <!--<kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap</kr.dataSource.contexts>-->
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging</kr.dataSource.contexts>
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
                 <kpme.dataSource.database>tk</kpme.dataSource.database>
@@ -198,10 +277,9 @@
                 <kpme.dataSource.username>tk</kpme.dataSource.username>
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.validationQuery>select 1</kpme.dataSource.validationQuery>
-                <!--<kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>-->
                 <kpme.dataSource.clearCheckSums>true</kpme.dataSource.clearCheckSums>
-                <!--<kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap</kpme.dataSource.contexts>-->
                 <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-staging</kpme.dataSource.contexts>
+                <liquibase.phase>initialize</liquibase.phase>
             </properties>
             <build>
                 <plugins>
@@ -211,6 +289,7 @@
                         <executions>
                             <execution>
                                 <id>rice-database-load</id>
+                                <!--<phase>${liquibase.phase}</phase>-->
                                 <phase>process-resources</phase>
                                 <goals>
                                     <goal>update</goal>
@@ -220,6 +299,7 @@
                                     <url>${kr.dataSource.jdbcUrl}</url>
                                     <username>${kr.dataSource.username}</username>
                                     <password>${kr.dataSource.password}</password>
+                                    <changelogSchemaName>${kr.dataSource.database}}</changelogSchemaName>
                                     <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
                                     <clearCheckSums>${kr.dataSource.clearCheckSums}</clearCheckSums>
                                     <contexts>${kr.dataSource.contexts}</contexts>
@@ -236,6 +316,7 @@
                                     <url>${kpme.dataSource.jdbcUrl}</url>
                                     <username>${kpme.dataSource.username}</username>
                                     <password>${kpme.dataSource.password}</password>
+                                    <changelogSchemaName>${kpme.dataSource.database}}</changelogSchemaName>
                                     <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
                                     <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
                                     <contexts>${kpme.dataSource.contexts}</contexts>
@@ -264,9 +345,10 @@
                 <kpme.dataSource.username>tk</kpme.dataSource.username>
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.validationQuery>select 1</kpme.dataSource.validationQuery>
-                <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
-                <kpme.dataSource.clearCheckSums>false</kpme.dataSource.clearCheckSums>
+                <kpme.dataSource.dropFirst>falsep</kpme.dataSource.dropFirst>
+                <kpme.dataSource.clearCheckSums>true</kpme.dataSource.clearCheckSums>
                 <kpme.dataSource.contexts>kpme-client-bootstrap,kpme-client-test</kpme.dataSource.contexts>
+                <liquibase.phase>initialize</liquibase.phase>
             </properties>
             <build>
                 <plugins>
@@ -276,6 +358,7 @@
                         <executions>
                             <execution>
                                 <id>rice-database-load</id>
+                                <!--<phase>${liquibase.phase}</phase>-->
                                 <phase>process-resources</phase>
                                 <goals>
                                     <goal>update</goal>
@@ -286,7 +369,8 @@
                                     <username>${kr.dataSource.username}</username>
                                     <password>${kr.dataSource.password}</password>
                                     <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
-                                    <clearCheckSums>${kr.dataSource.clearCheckSums}</clearCheckSums>
+                                    <changelogSchemaName>${kr.dataSource.database}}</changelogSchemaName>
+                                    <clearCheckSums>true</clearCheckSums>
                                     <contexts>${kr.dataSource.contexts}</contexts>
                                 </configuration>
                             </execution>
@@ -301,8 +385,9 @@
                                     <url>${kpme.dataSource.jdbcUrl}</url>
                                     <username>${kpme.dataSource.username}</username>
                                     <password>${kpme.dataSource.password}</password>
+                                    <changelogSchemaName>${kpme.dataSource.database}}</changelogSchemaName>
                                     <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
-                                    <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
+                                    <clearCheckSums>true</clearCheckSums>
                                     <contexts>${kpme.dataSource.contexts}</contexts>
                                 </configuration>
                             </execution>
@@ -338,7 +423,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <!--<version>1.7</version>-->
+            <!--<version>1.7</version> -->
                         <executions>
                             <execution>
                                 <id>regex-version</id>
@@ -425,7 +510,7 @@
                                     <url>${kr.dataSource.jdbcUrl}</url>
                                     <username>${kr.dataSource.username}</username>
                                     <password>${kr.dataSource.password}</password>
-                                    <!--<dropFirst>true</dropFirst>-->
+                  <!--<dropFirst>true</dropFirst> -->
                                     <clearCheckSums>false</clearCheckSums>
                                     <contexts>kpme-server-bootstrap</contexts>
                                     <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-install.sql</migrationSqlOutputFile>
@@ -442,7 +527,7 @@
                                     <url>${kpme.dataSource.jdbcUrl}</url>
                                     <username>${kpme.dataSource.username}</username>
                                     <password>${kpme.dataSource.password}</password>
-                                    <!--<dropFirst>true</dropFirst>-->
+                  <!--<dropFirst>true</dropFirst> -->
                                     <clearCheckSums>false</clearCheckSums>
                                     <contexts>rice-client-bootstrap,kpme-client-bootstrap</contexts>
                                     <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-install.sql</migrationSqlOutputFile>
@@ -461,7 +546,7 @@
                                     <password>${kr.dataSource.password}</password>
                                     <dropFirst>true</dropFirst>
                                     <clearCheckSums>false</clearCheckSums>
-                                    <changeLogFile>src/main/config/db/db.changelog-main-base.xml</changeLogFile>
+                                    <changeLogFile>src/main/resources/org/kuali/kpme/kpme-db/db/db.changelog-main-base.xml</changeLogFile>
                                     <contexts>rice-server-bootstrap,kpme-server-bootstrap</contexts>
                                 </configuration>
                             </execution>
@@ -478,7 +563,7 @@
                                     <password>${kpme.dataSource.password}</password>
                                     <dropFirst>true</dropFirst>
                                     <clearCheckSums>false</clearCheckSums>
-                                    <changeLogFile>src/main/config/db/db.changelog-main-base.xml</changeLogFile>
+                                    <changeLogFile>src/main/resources/org/kuali/kpme/kpme-db/db/db.changelog-main-base.xml</changeLogFile>
                                     <contexts>rice-client-bootstrap,kpme-client-bootstrap</contexts>
                                 </configuration>
                             </execution>
@@ -493,9 +578,9 @@
                                     <url>${kr.dataSource.jdbcUrl}</url>
                                     <username>${kr.dataSource.username}</username>
                                     <password>${kr.dataSource.password}</password>
-                                    <!--<dropFirst>false</dropFirst>-->
+                  <!--<dropFirst>false</dropFirst> -->
                                     <clearCheckSums>false</clearCheckSums>
-                                    <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
+                                    <changeLogFile>src/main/resources/org/kuali/kpme/kpme-db/db/db.changelog-main-upgrade.xml</changeLogFile>
                                     <contexts>kpme-server-bootstrap</contexts>
                                     <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-upgrade.sql</migrationSqlOutputFile>
                                 </configuration>
@@ -511,9 +596,9 @@
                                     <url>${kpme.dataSource.jdbcUrl}</url>
                                     <username>${kpme.dataSource.username}</username>
                                     <password>${kpme.dataSource.password}</password>
-                                    <!--<dropFirst>false</dropFirst>-->
+                                    <!--<dropFirst>false</dropFirst> -->
                                     <clearCheckSums>false</clearCheckSums>
-                                    <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
+                                    <changeLogFile>src/main/resources/org/kuali/kpme/kpme-db/db/db.changelog-main-upgrade.xml</changeLogFile>
                                     <contexts>rice-client-bootstrap,kpme-client-bootstrap</contexts>
                                     <migrationSqlOutputFile>src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-upgrade.sql</migrationSqlOutputFile>
                                 </configuration>

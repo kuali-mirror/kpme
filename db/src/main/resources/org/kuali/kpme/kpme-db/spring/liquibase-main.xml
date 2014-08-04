@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:beans="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:lang="http://www.springframework.org/schema/lang" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                           http://www.springframework.org/schema/lang
+                           http://www.springframework.org/schema/lang/spring-lang-3.1.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.1.xsd"
+        profile="liquibase">
+
+  <bean id="riceDatasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    <property name="url" value="jdbc:mysql://localhost/krtt" />
+    <property name="username" value="krtt" />
+    <property name="password" value="krtt" />
+  </bean>
+
+  <bean id="kpmeDatasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    <property name="url" value="jdbc:mysql://localhost/tk" />
+    <property name="username" value="tk" />
+    <property name="password" value="tk_tk_tk" />
+  </bean>
+
+  <bean id="riceLiquibase" class="liquibase.integration.spring.SpringLiquibase">
+    <property name="dataSource" ref="riceDatasource" />
+    <property name="changeLog" value="classpath:db.changelog.xml" />
+    <property name="contexts" value="rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging" />
+  </bean>
+
+  <bean id="kpmeLiquibase" class="liquibase.integration.spring.SpringLiquibase">
+    <property name="dataSource" ref="kpmeDatasource" />
+    <property name="changeLog" value="classpath:db.changelog.xml" />
+    <property name="contexts" value="rice-client-bootstrap,kpme-client-bootstrap,kpme-client-staging" />
+  </bean>
+
+</beans>
