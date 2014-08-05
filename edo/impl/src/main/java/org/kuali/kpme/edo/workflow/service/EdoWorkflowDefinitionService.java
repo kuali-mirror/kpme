@@ -13,6 +13,6 @@ import java.util.Map;
  */
 public interface EdoWorkflowDefinitionService {
 
-    public List<String> getWorkflowIds();
+    public List<String> getEdoWorkflowIds();
     public Map<String, String> getWorkflowsForDisplay();
 }

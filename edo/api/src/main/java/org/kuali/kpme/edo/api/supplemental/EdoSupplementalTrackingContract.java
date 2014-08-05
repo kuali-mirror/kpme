@@ -1,7 +1,5 @@
 package org.kuali.kpme.edo.api.supplemental;
 
-import java.math.BigDecimal;
-
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 

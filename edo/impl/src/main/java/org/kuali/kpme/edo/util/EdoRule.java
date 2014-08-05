@@ -95,7 +95,7 @@ public class EdoRule {
             GlobalVariables.getMessageMap().putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.group.validate.code", "Workflow ID", workflowId);
             return false;
         }
-        List<String> validWorkflows = EdoServiceLocator.getEdoWorkflowDefinitionService().getWorkflowIds();
+        List<String> validWorkflows = EdoServiceLocator.getEdoWorkflowDefinitionService().getEdoWorkflowIds();
         if (!validWorkflows.contains(workflowId)) {
             GlobalVariables.getMessageMap().putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.group.validate.code", "Workflow ID", workflowId);
             isValid = false;

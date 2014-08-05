@@ -25,8 +25,8 @@ public class EdoWorkflowDefinitionServiceImpl implements EdoWorkflowDefinitionSe
         this.edoWorkflowDefinitionDao = edoWorkflowDefinitionDao;
     }
 
-    public List<String> getWorkflowIds() {
-        return edoWorkflowDefinitionDao.getWorkflowIds();
+    public List<String> getEdoWorkflowIds() {
+        return edoWorkflowDefinitionDao.getEdoWorkflowIds();
     }
 
     public Map<String,String> getWorkflowsForDisplay() {

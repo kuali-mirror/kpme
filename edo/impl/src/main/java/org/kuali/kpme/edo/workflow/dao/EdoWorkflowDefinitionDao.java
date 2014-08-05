@@ -12,7 +12,7 @@ import java.util.*;
  */
 public interface EdoWorkflowDefinitionDao {
 
-    public List<String> getWorkflowIds();
+    public List<String> getEdoWorkflowIds();
     public Map<String, String> getWorkflowsForDisplay();
 
 }

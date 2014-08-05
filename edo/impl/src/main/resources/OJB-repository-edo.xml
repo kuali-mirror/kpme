@@ -328,12 +328,14 @@
         <!-- field-descriptor name="early" column="early" jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"  primarykey="false" /-->                                                          
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.kpme.edo.workflow.EdoWorkflowDefinition" table="EDO_WORKFLOW_DEF_T">
-        <field-descriptor name="workflowId" column="WORKFLOW_ID" jdbc-type="VARCHAR" length="25" primarykey="true"/>
+    <class-descriptor class="org.kuali.kpme.edo.workflow.EdoWorkflowDefinitionBo" table="EDO_WORKFLOW_DEF_T">
+        <field-descriptor name="edoWorkflowId" column="EDO_WORKFLOW_ID" jdbc-type="VARCHAR" length="60" primarykey="true"/>
         <field-descriptor name="workflowName" column="WORKFLOW_NAME" jdbc-type="VARCHAR" length="25" primarykey="false"/>
         <field-descriptor name="workflowDescription" column="WORKFLOW_DESCRIPTION" jdbc-type="VARCHAR" length="512" primarykey="false"/>
-        <field-descriptor name="workflowUpdatedBy" column="WORKFLOW_UPDATED_BY" jdbc-type="VARCHAR" length="25" primarykey="false"/>
-        <field-descriptor name="workflowUpdated" column="WORKFLOW_UPDATED" jdbc-type="DATE" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="actionTimestamp"          column="ACTION_TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
     </class-descriptor>
 
      <class-descriptor class="org.kuali.kpme.edo.submitButton.EdoSubmitButton" table="edo_submit_button_display_t">

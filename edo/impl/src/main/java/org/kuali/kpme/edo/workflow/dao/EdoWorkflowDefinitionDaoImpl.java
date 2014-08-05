@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.edo.workflow.EdoWorkflowDefinition;
+import org.kuali.kpme.edo.workflow.EdoWorkflowDefinitionBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.util.*;
@@ -19,17 +19,17 @@ import java.util.*;
  */
 public class EdoWorkflowDefinitionDaoImpl extends PlatformAwareDaoBaseOjb implements EdoWorkflowDefinitionDao {
 
-    public List<String> getWorkflowIds() {
+    public List<String> getEdoWorkflowIds() {
         List<String> workflowIds = new LinkedList<String>();
         Criteria criteria = new Criteria();
 
-        Query query = QueryFactory.newQuery(EdoWorkflowDefinition.class, criteria);
+        Query query = QueryFactory.newQuery(EdoWorkflowDefinitionBo.class, criteria);
         Collection workflowDefinitions = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         for ( Object workDef : workflowDefinitions) {
-            EdoWorkflowDefinition wd = (EdoWorkflowDefinition) workDef;
-            if (StringUtils.isNotEmpty(wd.getWorkflowId() ) ) {
-                workflowIds.add(wd.getWorkflowId());
+            EdoWorkflowDefinitionBo wd = (EdoWorkflowDefinitionBo) workDef;
+            if (StringUtils.isNotEmpty(wd.getEdoWorkflowId() ) ) {
+                workflowIds.add(wd.getEdoWorkflowId());
             }
         }
 
@@ -41,13 +41,13 @@ public class EdoWorkflowDefinitionDaoImpl extends PlatformAwareDaoBaseOjb implem
 
         Criteria criteria = new Criteria();
 
-        Query query = QueryFactory.newQuery(EdoWorkflowDefinition.class, criteria);
+        Query query = QueryFactory.newQuery(EdoWorkflowDefinitionBo.class, criteria);
         Collection workflowDefinitions = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         for ( Object workDef : workflowDefinitions) {
-            EdoWorkflowDefinition wd = (EdoWorkflowDefinition) workDef;
-            if (StringUtils.isNotEmpty(wd.getWorkflowId() ) ) {
-                workflows.put(wd.getWorkflowId(),wd.getWorkflowName());
+            EdoWorkflowDefinitionBo wd = (EdoWorkflowDefinitionBo) workDef;
+            if (StringUtils.isNotEmpty(wd.getEdoWorkflowId() ) ) {
+                workflows.put(wd.getEdoWorkflowId(),wd.getWorkflowName());
             }
         }
 
