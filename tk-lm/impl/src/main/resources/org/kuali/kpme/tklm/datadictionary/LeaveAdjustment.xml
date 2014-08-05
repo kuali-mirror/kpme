@@ -78,12 +78,12 @@
                             <bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
 						</list>
 					</property>
-                    <property name="supportAttributes">
+                    <!-- <property name="supportAttributes">
                         <list>
                             <bean parent="SupportAttributeDefinition" p:sourceName="relativeEffectiveDate"
                                   p:targetName="effectiveDate" />
                         </list>
-                    </property>
+                    </property> -->
 				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="earnCodeObj" />

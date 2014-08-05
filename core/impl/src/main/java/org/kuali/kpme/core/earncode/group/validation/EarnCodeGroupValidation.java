@@ -40,17 +40,17 @@ public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 			return false;
 		}
 		for(EarnCodeGroupDefinitionBo earnGroupDef : earnGroup.getEarnCodeGroups()){
-			if(earnCodes.contains(earnGroupDef.getEarnCode())){
+			if(earnCodes.contains(earnGroupDef.getEarnCode().toUpperCase())){
 				this.putFieldError("earnCodeGroups["+index+"].earnCode", "earngroup.duplicate.earncode",earnGroupDef.getEarnCode());
 
 			}
 			if(earnGroup.getShowSummary()) {
 				validateEarnCode(earnGroupDef.getEarnCode().toUpperCase(), index, earnGroup);
 			}
-			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode().toUpperCase(), earnGroup.getEffectiveLocalDate())) {
+			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode(), earnGroup.getEffectiveLocalDate())) {
 				this.putFieldError("earnCodeGroups["+index+"].earnCode", "error.existence", "Earncode '" + earnGroupDef.getEarnCode()+ "'");
 			}
-			earnCodes.add(earnGroupDef.getEarnCode());
+			earnCodes.add(earnGroupDef.getEarnCode().toUpperCase());
 			index++;
 		}
 		int count = HrServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveLocalDate());
@@ -78,7 +78,7 @@ public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 				Iterator<EarnCodeGroupDefinitionBo> iterator = earnGroupDefs.iterator();
 				while (iterator.hasNext()) {
 					EarnCodeGroupDefinitionBo def = iterator.next();
-					if(StringUtils.equals(earnCode, def.getEarnCode().toUpperCase())) {
+					if(StringUtils.equalsIgnoreCase(earnCode, def.getEarnCode())) {
 						String[] parameters = new String[2];
 						parameters[0] = earnCode;
 						parameters[1] = earnGroup.getDescr();

@@ -45,7 +45,7 @@ import org.springframework.cache.CacheManager;
  */
 public abstract class KPMEIntegrationTestCase extends RiceInternalSuiteDataTestCase {
 
-	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/../../db/src/main/config/workflow/";
+	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/../../db/src/main/resources/org/kuali/kpme/kpme-db/workflow/";
 
 	private TransactionalLifecycle transactionalLifecycle;
 	

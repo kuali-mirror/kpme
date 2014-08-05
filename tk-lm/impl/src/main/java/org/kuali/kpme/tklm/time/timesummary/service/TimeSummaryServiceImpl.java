@@ -36,9 +36,11 @@ import org.kuali.kpme.core.api.earncode.group.EarnCodeGroup;
 import org.kuali.kpme.core.calendar.entry.CalendarEntryBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.tklm.api.common.TkConstants;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
+import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.api.time.timesummary.TimeSummaryService;
@@ -118,7 +120,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry);
         tkTimeBlockAggregate = TkTimeBlockAggregate.combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 
-		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate, regularEarnCodes, timeSummary, userTimeZone));
+		timeSummary.setWorkedHours(getWorkedHours(principalId, tkTimeBlockAggregate, regularEarnCodes, timeSummary, userTimeZone));
 		
 		// Set Flsa week total map
 		Map<String, BigDecimal> flsaWeekTotal = getHoursToFlsaWeekMap(tkTimeBlockAggregate, principalId, null, regularEarnCodes, userTimeZone);
@@ -432,24 +434,43 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @return A list of BigDecimals containing the number of hours worked.
      * This list will line up with the header.
      */
-    private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate, Set<String> regularEarnCodes, TimeSummary timeSummary,DateTimeZone timezone) {
+    private List<BigDecimal> getWorkedHours(String principalId, TkTimeBlockAggregate aggregate, Set<String> regularEarnCodes, TimeSummary timeSummary,DateTimeZone timezone) {
         List<BigDecimal> hours = new ArrayList<BigDecimal>();
         Map<Integer, BigDecimal> weekHours;
+        Map<Integer, Boolean> weekClockLogMap; 
         Map<String, BigDecimal> weekTotalMap = new LinkedHashMap<String, BigDecimal>();
         Map<String, Integer> weekDateToCalendarDayInt = new HashMap<String, Integer>();
-
+        Map<String, Map<Integer, Boolean>> clockLogMap = new LinkedHashMap<String, Map<Integer, Boolean>>();
+        ClockLog lastClockLog = TkServiceLocator.getClockLogService()
+				.getLastClockLog(principalId);
+        DateTime userClockLogTime = null;
+        if(lastClockLog != null) {
+    		String  approverId = HrContext.getPrincipalId();
+    		String timeZoneString = HrServiceLocator.getTimezoneService().getApproverTimezone(approverId);
+    		DateTimeZone approverTimeZone = StringUtils.isNotBlank(timeZoneString) ? DateTimeZone.forID(timeZoneString) : null;
+    		userClockLogTime = lastClockLog.getClockDateTime().withZone(approverTimeZone);
+        }
+		
         BigDecimal periodTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
 
         int i=0;
         int dayInt=0;
         for (FlsaWeek week : aggregate.getFlsaWeeks(timezone, DateTimeConstants.SUNDAY, true)) {
         	weekHours = new TreeMap<Integer, BigDecimal>();
-        	
+        	weekClockLogMap = new TreeMap<Integer, Boolean>();
             BigDecimal weeklyTotal = HrConstants.BIG_DECIMAL_SCALED_ZERO;
             for (FlsaDay day : week.getFlsaDays()) {
                 BigDecimal totalForDay = HrConstants.BIG_DECIMAL_SCALED_ZERO;
                 LocalDateTime ld = day.getFlsaDate();
                 int ldDay = ld.getDayOfWeek();
+
+                // check for clocklog exists on the day.
+                if(userClockLogTime != null) {
+                	if(userClockLogTime.getDayOfMonth() == ld.getDayOfMonth()) {
+                		weekClockLogMap.put(ldDay, Boolean.TRUE);
+                	}
+                }
+                
                 for (TimeBlock block : day.getAppliedTimeBlocks()) {
                     EarnCodeContract ec = HrServiceLocator.getEarnCodeService().getEarnCode(block.getEarnCode(), block.getEndDateTime().toLocalDate());
                     if (ec != null
@@ -469,11 +490,13 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
             i++;
             weekTotalMap.put("Week "+i, weeklyTotal);
             timeSummary.getWeeklyWorkedHours().put("Week "+i, weekHours);
+            clockLogMap.put("Week "+i, weekClockLogMap);
             hours.add(weeklyTotal);
         }
         hours.add(periodTotal);
         timeSummary.setGrandTotal(periodTotal);
         timeSummary.setWeekTotalMap(weekTotalMap);
+        timeSummary.setWeeklyClockLogs(clockLogMap);
         timeSummary.setWeekDateToCalendarDayInt(weekDateToCalendarDayInt);
         return hours;
     }

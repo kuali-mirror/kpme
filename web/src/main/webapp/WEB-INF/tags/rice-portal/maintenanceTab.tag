@@ -64,6 +64,7 @@
 </c:if>
 
 
+
 <c:if test="${not allowed}">
     <jsp:forward page="portal.do?selectedTab=main"/>
 </c:if>

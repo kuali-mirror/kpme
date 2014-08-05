@@ -33,6 +33,8 @@
     <param name="kpme.groupkey.campus.render">true</param>
     <param name="kpme.groupkey.campus.required">false</param>
 
+    <!-- set to 'default,liquibase' to auto update db on startup-->
+    <param name="spring.profiles.active">default</param>
 
 <!-- Rice Related Overrides -->
     <param name="kim.show.blank.qualifiers">false</param>

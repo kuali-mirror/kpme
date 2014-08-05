@@ -140,12 +140,12 @@ public class ShiftCalendarInterval {
         for (Shift shift: getShifts()) {
             for (ShiftBlock sb : shift.getShiftBlocks())  {
                 if (sb.isApplyPremium()) {
-                    if (shiftBlocksForTimeBlock.containsKey(sb.getTimeBlock())) {
-                        shiftBlocksForTimeBlock.get(sb.getTimeBlock()).add(sb);
+                    if (shiftBlocksForTimeBlock.containsKey(sb.getTimeBlockKey())) {
+                        shiftBlocksForTimeBlock.get(sb.getTimeBlockKey()).add(sb);
                     } else {
                         List<ShiftBlock> tempList = new ArrayList<ShiftBlock>();
                         tempList.add(sb);
-                        shiftBlocksForTimeBlock.put(sb.getTimeBlock(), tempList);
+                        shiftBlocksForTimeBlock.put(sb.getTimeBlockKey(), tempList);
                     }
                 }
             }

@@ -15,7 +15,7 @@
 --
 
 delete from lm_leave_payout_t where lm_leave_payout_id >= '10000';
-delete from hr_earn_code_t where hr_earn_code_id >= '5000';
+delete from hr_earn_code_t where hr_earn_code_id >= 5000;
 
 insert into hr_earn_code_t (`hr_earn_code_id` , `earn_code` ,`descr`,`effdt` ,`ovt_earn_code` ,`ACTIVE`,`OBJ_ID` ,`VER_NBR` ,`timestamp`,`ACCRUAL_CATEGORY`,`inflate_min_hours` , `inflate_factor` ,`LEAVE_PLAN`,`ACCRUAL_BAL_ACTION`, `FRACT_TIME_ALLOWD`, `ROUND_OPT`, `ROLLUP_TO_EARNCODE`, `ELIGIBLE_FOR_ACC`, `AFFECT_PAY`, `ALLOW_SCHD_LEAVE`, `FMLA`, `WORKMANS_COMP`, `DEF_TIME`, `ALLOW_NEGATIVE_ACC_BALANCE`, `RECORD_METHOD`, `USAGE_LIMIT`) values ('5005', 'payoutEC2', 'test payout earn code 2', '2012-03-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'payoutAC2', '1.5', '1.5', 'testLP2', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'Hours', 'I');
 

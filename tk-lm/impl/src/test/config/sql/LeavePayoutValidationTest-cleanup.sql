@@ -15,4 +15,4 @@
 --
 
 delete from lm_leave_payout_t where lm_leave_payout_id >= '10000';
-delete from hr_earn_code_t where hr_earn_code_id >= '5000';
+delete from hr_earn_code_t where hr_earn_code_id >= 5000;

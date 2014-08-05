@@ -7,9 +7,9 @@
     <c:set var="globalViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isGlobalViewOnly()%>' />
     <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
     <c:set var="departmentViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isDepartmentViewOnly()%>' />
-    <c:set var="approver" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAnyApprover()%>' />
-    <c:set var="payrollProcessor" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAnyPayrollProcessor()%>' />
-    <c:set var="reviewer" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetReviewer()%>' />
+    <c:set var="approver" value='<%=org.kuali.kpme.core.util.HrContext.isTargetAnyApprover()%>' />
+    <c:set var="payrollProcessor" value='<%=org.kuali.kpme.core.util.HrContext.isTargetAnyPayrollProcessor()%>' />
+    <c:set var="reviewer" value='<%=org.kuali.kpme.core.util.HrContext.isTargetReviewer()%>' />
     <c:set var="targetActiveEmployee" value='<%=org.kuali.kpme.core.util.HrContext.isTargetActiveEmployee()%>' />
     <c:set var="targetSynchronous" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isTargetSynchronous()%>' />
 </c:if>
@@ -24,8 +24,8 @@
     </c:if>
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
     <c:if test="${approver || reviewer || payrollProcessor}">
-        <li id="approvals" class="ui-state-default ui-corner-top"><a
-                href="TimeApproval.do">Time Approval</a></li>
+      	<li id="approvals" class="ui-state-default ui-corner-top"><a 
+      		href="TimeApproval.do">Time Approval</a></li>
     </c:if>
     <c:if test="${approver || reviewer || payrollProcessor}">
     	<li id="leaveApprovals" class="ui-state-default ui-corner-top"><a

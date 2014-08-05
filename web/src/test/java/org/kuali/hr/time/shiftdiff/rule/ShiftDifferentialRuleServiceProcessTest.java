@@ -29,12 +29,15 @@ import org.kuali.kpme.core.api.assignment.AssignmentDescriptionKey;
 import org.kuali.kpme.core.api.calendar.entry.CalendarEntry;
 import org.kuali.kpme.core.calendar.CalendarBo;
 import org.kuali.kpme.core.service.HrServiceLocator;
+import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.util.TKUtils;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.service.ShiftDifferentialRuleService;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timesheet.TimesheetDocument;
+import org.kuali.kpme.tklm.time.timesheet.TimesheetUtils;
 import org.kuali.kpme.tklm.time.util.TkTimeBlockAggregate;
 import org.kuali.kpme.tklm.utils.TkTestUtils;
 
@@ -290,7 +293,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(14));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin", "Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(14));}},aggregate,2);
 
 		// Run Rule
 		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
@@ -298,7 +301,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
 		// Verify post-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("RGN", new BigDecimal(14));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin", "Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("RGN", new BigDecimal(14));}},aggregate,2);
 	}
 
 	@SuppressWarnings("serial")
@@ -339,7 +342,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(12));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(12));}},aggregate,2);
 
 		// Run Rule
 		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
@@ -347,7 +350,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
 		// Verify post-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(12));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(12));}},aggregate,2);
 	}
 
 	/**
@@ -460,7 +463,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
 		// Verify pre-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(4));put("HOL", new BigDecimal(4));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(4));put("HOL", new BigDecimal(4));}},aggregate,2);
 
 		// Run Rule
 		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
@@ -468,7 +471,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
 		// Verify post-Rule Run
-		TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(4));}},aggregate,2);
+		TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(8));put("REG", new BigDecimal(4));}},aggregate,2);
 
     }
 
@@ -515,7 +518,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(24));}},aggregate,2);
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(24));}},aggregate,2);
 
         // Run Rule
         TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
@@ -523,7 +526,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(17));put("REG", new BigDecimal(24));}},aggregate,2);
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(17));put("REG", new BigDecimal(24));}},aggregate,2);
 
     }
 
@@ -571,7 +574,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(48));}},aggregate,2);
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(48));}},aggregate,2);
 
         // Run Rule
         TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start, "admin");
@@ -580,7 +583,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
 
         // Verify post-Rule Run
         //overlaps from 12a-8a (8 hours), 3p-8a (17 hours), and 3p - 12a (9 hours) == 34 hours
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(34));put("REG", new BigDecimal(48));}},aggregate,2);
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new HashMap<String,BigDecimal>() {{put("PRM", new BigDecimal(34));put("REG", new BigDecimal(48));}},aggregate,2);
 
     }
 
@@ -623,7 +626,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", new BigDecimal(21)).build(), aggregate, 2);
 
@@ -633,7 +636,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", new BigDecimal(9))
                 .put("REG", new BigDecimal(21)).build(),
                 aggregate,
@@ -680,7 +683,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", new BigDecimal(19)).build(), aggregate, 2);
 
@@ -690,7 +693,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", new BigDecimal(7))
                         .put("REG", new BigDecimal(19)).build(),
                 aggregate,
@@ -738,7 +741,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", new BigDecimal(17)).build(), aggregate, 2);
 
@@ -748,7 +751,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", BigDecimal.ZERO)
                         .put("REG", new BigDecimal(17)).build(),
                 aggregate,
@@ -798,7 +801,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", BigDecimal.valueOf(7)).build(), aggregate, 2);
 
@@ -808,7 +811,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", BigDecimal.valueOf(7))
                         .put("REG", BigDecimal.valueOf(7)).build(),
                 aggregate,
@@ -858,7 +861,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", BigDecimal.valueOf(6)).build(), aggregate, 2);
 
@@ -868,7 +871,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", BigDecimal.valueOf(6))
                         .put("REG", BigDecimal.valueOf(6)).build(),
                 aggregate,
@@ -918,7 +921,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", BigDecimal.valueOf(6)).build(), aggregate, 2);
 
@@ -928,7 +931,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", BigDecimal.valueOf(6))
                         .put("REG", BigDecimal.valueOf(6)).build(),
                 aggregate,
@@ -978,7 +981,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", BigDecimal.valueOf(6)).build(), aggregate, 2);
 
@@ -988,7 +991,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", BigDecimal.valueOf(0))
                         .put("REG", BigDecimal.valueOf(6)).build(),
                 aggregate,
@@ -1045,7 +1048,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", BigDecimal.valueOf(6)).build(), aggregate, 2);
 
@@ -1055,7 +1058,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", BigDecimal.valueOf(6))
                         .put("REG", BigDecimal.valueOf(6)).build(),
                 aggregate,
@@ -1115,7 +1118,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
 
         // Verify pre-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
                 .put("PRM", BigDecimal.ZERO)
                 .put("REG", BigDecimal.valueOf(7)).build(), aggregate, 2);
 
@@ -1125,10 +1128,201 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
         TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
         // Verify post-Rule Run
-        TkTestUtils.verifyAggregateHourSums("Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+        TkTestUtils.verifyAggregateHourSums("admin","Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
                         .put("PRM", BigDecimal.valueOf(7))
                         .put("REG", BigDecimal.valueOf(7)).build(),
                 aggregate,
                 2);
     }
+
+
+    /**
+     * Tests WorkSchedules impact on Shift Differential Rule: Simple Case
+     *
+     * Create a single 17 hour timeblock that spans two different shift, neither exceeding the min hours
+     */
+    @Test
+    public void EarnGroupTest() {
+        // Create the Rule
+        // Matches HR Job ID #1 (job # 30)
+        String principalId = "10112";
+
+
+        Long jobNumber = 0L;
+        String groupKey = "IU-IN";
+        Long workArea = 1010L;
+        Long task = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+
+
+        // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+        DateTime start = new DateTime(2010, 3, 29, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
+
+        TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(start, principalId);
+
+        List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+
+        //rgh - monday 8a-11a no-shift
+        DateTime tbStart1 = new DateTime(2010, 3, 30, 8, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("3"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+        //echr - monday 2p-5p - should have 3 hrs SHEG
+        DateTime tbStart2 = new DateTime(2010, 3, 30, 14, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("3"), "ECHR", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+        // Verify pre-Rule Run
+        TkTestUtils.verifyAggregateHourSums(principalId, "Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+                .put("RGH", BigDecimal.valueOf(3))
+                .put("ECHR", BigDecimal.valueOf(3)).build(), aggregate, 2);
+
+        // Run Rule
+
+        //td.setTimeBlocks(blocks);
+        List<LeaveBlock> leaveBlocks = TimesheetUtils.getLeaveBlocksForTimesheet(td);
+        List<TimeBlock> initialBlocks = TimesheetUtils.getTimesheetTimeblocksForProcessing(td, true);
+        List<TimeBlock> referenceTimeBlocks = TimesheetUtils.getReferenceTimeBlocks(initialBlocks);
+
+        //reset time block
+        //List<TimeBlock> tbs = TkServiceLocator.getTimesheetService().resetTimeBlock(initialBlocks, td.getAsOfDate());
+        TimesheetUtils.processTimeBlocksWithRuleChange(blocks, referenceTimeBlocks, leaveBlocks, td.getCalendarEntry(), td, HrContext.getPrincipalId());
+
+        //refresh Timesheet
+        td = TkServiceLocator.getTimesheetService().getTimesheetDocument(td.getDocumentId());
+        aggregate = new TkTimeBlockAggregate(td.getTimeBlocks(), payCalendarEntry);
+        // Verify post-Rule Run
+        TkTestUtils.verifyAggregateHourSums(principalId, "Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+                        .put("RGH", BigDecimal.valueOf(3))
+                        .put("ECHR", BigDecimal.valueOf(3))
+                        .put("SHEG", BigDecimal.valueOf(3)).build(),
+                aggregate,
+                2);
+    }
+
+    @Test
+    public void calendarGroupTest() {
+        // Create the Rule
+        // Matches HR Job ID #1 (job # 30)
+        String principalId = "10113";
+
+
+        Long jobNumber = 0L;
+        String groupKey = "IU-IN";
+        Long workArea = 1010L;
+        Long task = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+
+
+        // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+        DateTime start = new DateTime(2010, 3, 16, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates(principalId, start);
+
+        TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(start, principalId);
+
+        List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+
+        //rgh - monday 8a-11a no-shift
+        DateTime tbStart1 = new DateTime(2010, 3, 21, 8, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("3"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+        //echr - monday 2p-5p - should have 3 hrs SHEG
+        //DateTime tbStart2 = new DateTime(2010, 3, 30, 14, 0, 0, 0, zone);
+        //blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("3"), "ECHR", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+        // Verify pre-Rule Run
+        TkTestUtils.verifyAggregateHourSums(principalId, "Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+                .put("RGH", BigDecimal.valueOf(3)).build(), aggregate, 1);
+
+        // Run Rule
+
+        //td.setTimeBlocks(blocks);
+        List<LeaveBlock> leaveBlocks = TimesheetUtils.getLeaveBlocksForTimesheet(td);
+        List<TimeBlock> initialBlocks = TimesheetUtils.getTimesheetTimeblocksForProcessing(td, true);
+        List<TimeBlock> referenceTimeBlocks = TimesheetUtils.getReferenceTimeBlocks(initialBlocks);
+
+        //reset time block
+        //List<TimeBlock> tbs = TkServiceLocator.getTimesheetService().resetTimeBlock(initialBlocks, td.getAsOfDate());
+        TimesheetUtils.processTimeBlocksWithRuleChange(blocks, referenceTimeBlocks, leaveBlocks, td.getCalendarEntry(), td, HrContext.getPrincipalId());
+
+        //refresh Timesheet
+        td = TkServiceLocator.getTimesheetService().getTimesheetDocument(td.getDocumentId());
+        aggregate = new TkTimeBlockAggregate(td.getTimeBlocks(), payCalendarEntry);
+        // Verify post-Rule Run
+        TkTestUtils.verifyAggregateHourSums(principalId, "Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+                        .put("RGH", BigDecimal.valueOf(3))
+                        .put("SHCG", BigDecimal.valueOf(3))
+                        .put("SHDY", BigDecimal.valueOf(0)).build(),
+                aggregate,
+                1);
+    }
+
+    @Test
+    public void daysTest() {
+        // Create the Rule
+        // Matches HR Job ID #1 (job # 30)
+        String principalId = "10114";
+
+
+        Long jobNumber = 0L;
+        String groupKey = "IU-IN";
+        Long workArea = 1010L;
+        Long task = 0L;
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+
+
+        // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+        DateTime start = new DateTime(2010, 3, 21, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
+
+        TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(start, principalId);
+
+        List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+
+        //rgh - sunday 3p-5p shift: 2 hr SHDY
+        DateTime tbStart1 = new DateTime(2010, 3, 28, 15, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("2"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+        //rgh - monday 3p-5p - shift: none
+        DateTime tbStart2 = new DateTime(2010, 3, 29, 15, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("2"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+        //rgh - sun 10p- mon 3a - shift: 2hr SHDY (on sunday timeblock)
+        DateTime tbStart3 = new DateTime(2010, 3, 28, 22, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart3,   1, new BigDecimal("2"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+        DateTime tbStart4 = new DateTime(2010, 3, 29, 0, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart4,   1, new BigDecimal("3"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+        // Verify pre-Rule Run
+        TkTestUtils.verifyAggregateHourSums(principalId, "Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+                .put("RGH", BigDecimal.valueOf(9)).build(), aggregate, 2);
+
+        // Run Rule
+
+        //td.setTimeBlocks(blocks);
+        List<LeaveBlock> leaveBlocks = TimesheetUtils.getLeaveBlocksForTimesheet(td);
+        List<TimeBlock> initialBlocks = TimesheetUtils.getTimesheetTimeblocksForProcessing(td, true);
+        List<TimeBlock> referenceTimeBlocks = TimesheetUtils.getReferenceTimeBlocks(initialBlocks);
+
+        //reset time block
+        //List<TimeBlock> tbs = TkServiceLocator.getTimesheetService().resetTimeBlock(initialBlocks, td.getAsOfDate());
+        TimesheetUtils.processTimeBlocksWithRuleChange(blocks, referenceTimeBlocks, leaveBlocks, td.getCalendarEntry(), td, HrContext.getPrincipalId());
+
+        //refresh Timesheet
+        td = TkServiceLocator.getTimesheetService().getTimesheetDocument(td.getDocumentId());
+        aggregate = new TkTimeBlockAggregate(td.getTimeBlocks(), payCalendarEntry);
+        // Verify post-Rule Run
+        TkTestUtils.verifyAggregateHourSums(principalId, "Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+                        .put("RGH", BigDecimal.valueOf(9))
+                        .put("SHDY", BigDecimal.valueOf(4)).build(),
+                aggregate,
+                2);
+    }
+
 }
