@@ -257,4 +257,9 @@
         <loadData tableName="PM_PSTN_RPT_GRP_KEY_T" file="org/kuali/kpme/kpme-db/db/staging/pm_pstn_rpt_grp_key_t.csv"/>
     </changeSet>
 
+    <!--temp document type sql... remove when rice >= 2.4 -->
+    <changeSet id="10-workflow" author="jjhanso" dbms="mysql" context="kpme-server-staging">
+        <sqlFile path="org/kuali/kpme/kpme-db/db/staging/workflow.sql" />
+    </changeSet>
+
 </databaseChangeLog>
