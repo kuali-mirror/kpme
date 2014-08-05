@@ -48,7 +48,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
  */
 public abstract class KPMEWebTestCase extends RiceInternalSuiteDataTestCase {
 
-	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/../db/src/main/config/workflow/";
+	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/../db/src/main/resources/org/kuali/kpme/kpme-db/workflow/";
 
 	private static final String RELATIVE_WEBAPP_ROOT = "/src/main/webapp";
 	
