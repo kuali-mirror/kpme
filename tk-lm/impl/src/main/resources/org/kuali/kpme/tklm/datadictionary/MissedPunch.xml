@@ -299,6 +299,7 @@
                 <property name="timePickerWidget.templateOptions">
                 	<map merge="true">
                     	<entry key="step" value="20"/>
+                    	<entry key="timeFormat" value="h:i A"/>
                     </map>
 				</property>
 			</bean>
