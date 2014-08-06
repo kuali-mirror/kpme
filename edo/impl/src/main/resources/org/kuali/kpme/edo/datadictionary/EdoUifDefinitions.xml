@@ -42,7 +42,7 @@
         <property name="applicationNavigation.items">
             <list>
 				<bean parent="Edo-ApplicationHeader-MenuList" 
-					p:toggleText="Main Portal List" />
+					p:toggleText="Main Portal List" p:render="@{portalLinksVisible}"/>
             </list>
         </property>
     </bean>

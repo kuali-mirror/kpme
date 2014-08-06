@@ -18,6 +18,9 @@
 <config>
 
     <param name="kpme.edo.ehcache.config.location" override="false">classpath:kpme.edo.ehcache.xml</param>
+    <!--  TODO: not sure if this parameter is needed, will find out with our GUI changes -->
     <param name="upload.dir">/mnt/edo</param>
+    
+    <param name="khr.edo.portal.link.visible">true</param>
 
 </config>

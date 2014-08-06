@@ -1,6 +1,9 @@
 package org.kuali.kpme.edo.base.web;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.kpme.core.util.HrContext;
+import org.kuali.kpme.edo.util.EdoConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 public class EdoUifForm extends UifFormBase {
@@ -18,6 +21,7 @@ public class EdoUifForm extends UifFormBase {
 	private boolean myDossierVisible;
 	private boolean candidateDelegatesVisible;
 	private boolean guestVisible;
+	private Boolean portalLinksVisible;
 	
 	public EdoUifForm() {
 		super();
@@ -117,6 +121,20 @@ public class EdoUifForm extends UifFormBase {
 
 	public void setGuestVisible(boolean guestVisible) {
 		this.guestVisible = guestVisible;
+	}
+
+
+	public Boolean isPortalLinksVisible() {
+		if(portalLinksVisible == null) {
+			String portalLinkFlag = ConfigContext.getCurrentContextConfig().getProperty(EdoConstants.KHR_EDO_PORTAL_LINK_CONFIG);
+			this.setPortalLinksVisible(StringUtils.isNotBlank(portalLinkFlag) && portalLinkFlag.equals("true") ? Boolean.TRUE : Boolean.FALSE);
+		}
+		return portalLinksVisible;
+	}
+
+
+	public void setPortalLinksVisible(Boolean portalLinksVisible) {
+		this.portalLinksVisible = portalLinksVisible;
 	}
 
 }
