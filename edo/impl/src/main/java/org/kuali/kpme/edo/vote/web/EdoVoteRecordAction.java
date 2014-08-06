@@ -169,8 +169,6 @@ public class EdoVoteRecordAction extends EdoAction {
 //                voteRecord.setDossierId(selectedCandidate.getCandidateDossierID().intValue());
 //                voteRecord.setReviewLayerDefinitionId(reviewLayerDefinition.getReviewLayerDefinitionId());
                 
-                voteRecordBo.setTimestamp(EdoUtils.getNowTS());
-                voteRecordBo.setUserPrincipalId(EdoContext.getUser().getNetworkId());
                 voteRecordBo.setEdoDossierId(selectedCandidate.getCandidateDossierID().toString());
                 voteRecordBo.setEdoReviewLayerDefinitionId(reviewLayerDefinition.getEdoReviewLayerDefinitionId());
                 
@@ -209,8 +207,8 @@ public class EdoVoteRecordAction extends EdoAction {
             voteRecordBo.setAoeCode(voteRecordForm.getAoeCode());
 //            voteRecord.setUpdatedAt(EdoUtils.getNowTS());
 //            voteRecord.setUpdatedBy(EdoContext.getUser().getNetworkId());
-            voteRecordBo.setTimestamp(EdoUtils.getNowTS());
-            voteRecordBo.setUserPrincipalId(EdoContext.getUser().getNetworkId());
+//            voteRecordBo.setTimestamp(EdoUtils.getNowTS());
+//            voteRecordBo.setUserPrincipalId(EdoContext.getUser().getNetworkId());
 
             if (!EdoVoteRecordValidation.validateVoteRecord(voteRecordBo)) {
                 return mapping.findForward("basic");

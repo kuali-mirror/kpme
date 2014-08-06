@@ -15,9 +15,11 @@
  */
 package org.kuali.kpme.edo.vote;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
@@ -41,12 +43,12 @@ public class EdoVoteRecordBoTest {
 		edoVoteRecordBuilder.setAbstainCount(0);
 		edoVoteRecordBuilder.setVoteRound(1);
 		edoVoteRecordBuilder.setVoteSubRound(1);
-		
-		edoVoteRecordBuilder.setUserPrincipalId("admin");
+		edoVoteRecordBuilder.setCreatedAt(new Timestamp(2014-3-1));
+		edoVoteRecordBuilder.setUpdatedAt(new Timestamp(2014-3-1));
+		edoVoteRecordBuilder.setCreatedBy("admin");
 		edoVoteRecordBuilder.setVersionNumber(1L);
 		edoVoteRecordBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		
-		edoVoteRecordBuilder.setId(edoVoteRecordBuilder.getEdoVoteRecordId());
 		
 		testEdoVoteRecordBo.put(edoVoteRecordBuilder.getEdoVoteRecordId(), edoVoteRecordBuilder.build());
 	}

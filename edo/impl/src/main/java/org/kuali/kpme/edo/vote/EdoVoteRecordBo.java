@@ -1,16 +1,19 @@
 package org.kuali.kpme.edo.vote;
 
+import java.sql.Timestamp;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecordContract;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordContract {
+public class EdoVoteRecordBo extends PersistableBusinessObjectBase implements EdoVoteRecordContract {
 	
 	private static final long serialVersionUID = 3095972270492358821L;
 
@@ -37,6 +40,10 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
     
     private Integer voteRound;
     private Integer voteSubRound;
+    
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+    private String createdBy;
    
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
     		.add(KeyFields.EDO_DOSSIER_ID)
@@ -46,7 +53,6 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
     		.add(KeyFields.VOTE_SUB_ROUND)
 			.build();
 	
-    @Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
 		return  new ImmutableMap.Builder<String, Object>()
 				.put(KeyFields.EDO_DOSSIER_ID, this.getEdoDossierId())
@@ -57,19 +63,8 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
 				.build();
 	}
     
-	@Override
 	public String getId() {
 		return getEdoVoteRecordId();
-	}
-
-	@Override
-	public void setId(String edoVoteRecordId) {
-		setEdoVoteRecordId(edoVoteRecordId);
-	}
-	
-	@Override
-	protected String getUniqueKey() {
-		return this.getEdoVoteRecordId();
 	}
 	
     public String getEdoVoteRecordId() {
@@ -170,6 +165,30 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
 		this.abstainCount = abstainCount;
 	}
    
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
 	public static EdoVoteRecordBo from(EdoVoteRecord edoVoteRecord) {
         if (edoVoteRecord == null) {
             return null;
@@ -192,8 +211,15 @@ public class EdoVoteRecordBo extends HrBusinessObject implements EdoVoteRecordCo
         edoVoteRecordBo.setVoteRound(edoVoteRecord.getVoteRound());
         edoVoteRecordBo.setVoteSubRound(edoVoteRecord.getVoteSubRound());
 
+        edoVoteRecordBo.setCreatedAt(edoVoteRecord.getCreatedAt());
+        edoVoteRecordBo.setUpdatedAt(edoVoteRecord.getUpdatedAt());
+        edoVoteRecordBo.setCreatedBy(edoVoteRecord.getCreatedBy());
+        
+        edoVoteRecordBo.setVersionNumber(edoVoteRecord.getVersionNumber());
+        edoVoteRecordBo.setObjectId(edoVoteRecord.getObjectId()); 
+        
         // finally copy over the common fields into phra from im
-        copyCommonFields(edoVoteRecordBo, edoVoteRecord);
+        //copyCommonFields(edoVoteRecordBo, edoVoteRecord);
      
         return edoVoteRecordBo;
     } 

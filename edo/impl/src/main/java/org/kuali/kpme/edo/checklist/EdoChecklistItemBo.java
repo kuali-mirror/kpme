@@ -1,6 +1,5 @@
 package org.kuali.kpme.edo.checklist;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItemContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
