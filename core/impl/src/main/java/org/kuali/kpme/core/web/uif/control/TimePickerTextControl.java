@@ -73,7 +73,7 @@ public class TimePickerTextControl extends TextControl {
     protected <T> void copyProperties(T component) {
         super.copyProperties(component);
         TimePickerTextControl timePickerControlCopy = (TimePickerTextControl) component;
-
+        timePickerControlCopy.setCurrentTimeButtonEnabled(this.currentTimeButtonEnabled);
         if(this.timePickerWidget != null) {
         	timePickerControlCopy.setTimePickerWidget((TimePickerWidget)this.timePickerWidget.copy());
         }

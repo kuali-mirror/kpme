@@ -295,12 +295,15 @@
         </property>
         
         <property name="controlField">
-        	<bean parent="KPMEUif-TimePickerTextControl" p:watermarkText="6:00 AM">
-                <property name="timePickerWidget.templateOptions">
-                	<map merge="true">
-                    	<entry key="step" value="20"/>
-                    	<entry key="timeFormat" value="h:i A"/>
-                    </map>
+        	<bean parent="KPMEUif-TimePickerTextControl" p:watermarkText="6:00 AM" p:currentTimeButtonEnabled="false">
+                <property name="timePickerWidget">
+                	<bean parent="KPMEUif-TimePickerWidget">
+                		<property name="templateOptions">
+                			<map merge="true">
+                    			<entry key="step" value="20"/>
+                    		</map>	
+                		</property>                   
+                   	</bean>                	
 				</property>
 			</bean>
 		</property>
@@ -556,35 +559,6 @@
         </property>
     </bean>
     
-    <bean id="KPMEUif-TimePickerTextControl" parent="KPMEUif-TimePickerTextControl-parentBean" />
-	<bean id="KPMEUif-TimePickerTextControl-parentBean" abstract="true" class="org.kuali.kpme.core.web.uif.control.TimePickerTextControl" parent="Uif-TextControl">
-		<property name="size" value="10" />
-		<property name="watermarkText" value="8:00 AM" />
-		
-    	<property name="template" value="/WEB-INF/ftl/components/control/KhrTimePickerTextControl.ftl" />
-    	<property name="templateName" value="kpme_uif_timePickerTextControl" />
-    	<property name="currentTimeButtonEnabled" value="true" />
-    	<property name="timePickerWidget">
-        	<bean parent="KPMEUif-TimePickerWidget" />
-    	</property>
-    	<property name="cssClasses">
-        	<list merge="true">
-            	<value>
-                	KpmeUif-timePickerTextControl
-            	</value>
-        	</list>
-    	</property>
-    	
-	</bean>
     
-    <bean id="KPMEUif-TimePickerWidget" parent="KPMEUif-TimePickerWidget-parentBean" />
-	<bean id="KPMEUif-TimePickerWidget-parentBean" abstract="true" class="org.kuali.kpme.core.web.uif.widget.TimePickerWidget" parent="Uif-WidgetBase">
-    	<property name="templateOptions">
-        	<map merge="true">
-            	<entry key="step" value="15"/>
-             	<entry key="timeFormat" value="h:i A"/>
-        	</map>
-    	</property>
-	</bean>
 	
 </beans>
