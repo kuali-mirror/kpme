@@ -300,7 +300,7 @@
                 	<bean parent="KPMEUif-TimePickerWidget">
                 		<property name="templateOptions">
                 			<map merge="true">
-                    			<entry key="step" value="20"/>
+                    			<entry key="showOnFocus" value="false"/>
                     		</map>	
                 		</property>                   
                    	</bean>                	
@@ -526,12 +526,8 @@
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.assignmentKey"
                                          p:readOnly="@{#dp.assignmentReadOnly  or #dp.missedPunchSubmitted}" p:refreshWhenChangedPropertyNames="#dp.missedPunch.timesheetDocumentId,#dp.missedPunch.actionDate" />
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.actionDate"
-                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>
-                                    
-                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.actionTime" p:readOnly="@{#dp.missedPunchSubmitted}">
-                                    	
-                                    </bean>
-                                    
+                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>                                    
+                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.actionTime" p:readOnly="@{#dp.missedPunchSubmitted}"/>
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.clockAction"
                                           p:readOnly="@{#dp.missedPunchSubmitted}"/>
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.note"
