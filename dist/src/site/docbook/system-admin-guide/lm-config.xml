@@ -1,875 +1,608 @@
 <?xml version='1.0' encoding='UTF-8'?> 
 <chapter xml:id="lm-config" xmlns:xlink="http://www.w3.org/1999/xlink"
-    xmlns="http://docbook.org/ns/docbook" version="5.0">
-    <title>Leave Management Configuration</title>
-	<para>This chapter discusses the configuration of key leave management business objects. The order in which the sections are presented are
-		important in that they generally build on each other. That is, to configure an accrual category, a leave plan should already be configured.
-		While it is possible to configure a leave plan at the time of accrual category configuration, such a configuration would lead to documentation hopping
-		if the reader is not already well acquainted with leave plan configuration requirements. Thus it is recommended to read this chapter in the order presented.
-	</para>
-	<para>
-		The reader should also be familiar with the concepts discussed in the chapter "Basic Setup" in order to test the configurations presented in this chapter.
-	</para>
+	xmlns="http://docbook.org/ns/docbook" version="5.0">
+	<title>Leave Management Configuration</title>
+	<para>This chapter discusses the configuration of key leave management business objects. The
+		order in which the sections are presented are important in that they generally build on each
+		other. That is, to configure an accrual category, a leave plan should already be configured.
+		While it is possible to configure a leave plan at the time of accrual category
+		configuration, such a configuration would lead to documentation hopping if the reader is not
+		already well acquainted with leave plan configuration requirements. Thus it is recommended
+		to read this chapter in the order presented. </para>
+	<para> The reader should also be familiar with the concepts discussed in the chapter "Basic
+		Setup" in order to test the configurations presented in this chapter. </para>
 	<section>
-		<title>Leave Management Navigation</title>
-		<para>
-			KPME Leave Management module introduces a new navigation section within the maintenance tab, as well as new entries to existing navigation groups.
-			<mediaobject>
-				<imageobject>
-					<imagedata fileref="../images/leavemaintsection.jpg" format="JPG" scale="50"/>
-				</imageobject>
-				<textobject>
-					<phrase>Leave Maintenance Section</phrase>
-				</textobject>
-			</mediaobject>
-		</para>
-	</section>
-	<section>
-		<title>Leave Plan Configuration</title>
+		<title>Leave Management Configuration</title>
+		<para>This chapter discusses all rules and configurations for Leave Management module of
+			KHR. All rules and configurations can be accessed through maintenance documents listed
+			under the <emphasis role="bold">Leave Management</emphasis> section on the Time &amp;
+			Leave Admin tab. </para>
 		<mediaobject>
 			<imageobject>
-				<imagedata fileref="../images/lm/newleaveplandoc.jpg" format="JPG" scale="50"/>
+				<imagedata fileref="../images/lm21/leavemaintsection.png" format="png" scale="50"/>
+			</imageobject>
+			<textobject>
+				<phrase>Time &amp; Leave Admin</phrase>
+			</textobject>
+		</mediaobject>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/lm21/leavemaintchannel.png" format="png" scale="75"/>
+			</imageobject>
+			<textobject>
+				<phrase>Leave Maintenance Section</phrase>
+			</textobject>
+		</mediaobject>
+	</section>
+	<section>
+		<title>Leave Plan</title>
+		<para> The system supports configurable Leave Plans that can be attached to employees
+			(Principal HR Attributes) and/or salary groups (Position Management). Leave Plans are
+			used configuring one or more accrual categories. Employees eligible for leave will be
+			designated an Leave Plan via the Principal HR Attributes. An employee's leave plan will
+			be used to determine the start of their leave calendar year (year to date balances and
+			carry over rules), the number of months into the future they can plan their leave, and
+			earn codes that the employee is eligible to use on their leave calendars and/or
+			timesheets. </para>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/lm21/leaveplanmaintdoc.png" format="png" scale="50"/>
 			</imageobject>
 			<textobject>
 				<phrase>Leave Plan Maintenance Document</phrase>
 			</textobject>
-			<caption>The Leave Plan Maintenance Document</caption>
 		</mediaobject>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="../images/req-leave-plan.jpg" format="JPG" scale="50"/>
-			</imageobject>
-			<textobject>
-				<phrase>Leave Plan Field Summary</phrase>
-			</textobject>
-			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/Leave+Plan">Leave Plan</link></caption>
-		</mediaobject>
-		<section>
-			<title>Basic Leave Plan Configuration</title>
-			<para>
-				KPME Leave Management module's Leave Plan enables system administrators to configure rules for earn code eligibility and accrual categories
-				across salary groups and/or locations.
-			</para>
-			<para>
-				To configure a basic leave plan:
-			</para>
-			<orderedlist>
-				<listitem>
-					<para>Navigate to the Leave Plan Lookup view via the Maintenance tab.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/leaveplanlink.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Leave Plan Link Location</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Within the Leave Plan Lookup view, click
-						<inlinemediaobject>
-							<imageobject>
-								<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
-							</imageobject>
-							<textobject>
-								<phrase>create new</phrase>
-							</textobject>
-						</inlinemediaobject>.
-					</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/leaveplancreatenew.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Create new Leave Plan</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>In the document overview tab, enter a description.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/leaveplandesc.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Leave Plan Document Overview Tab</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Select the date the leave plan is to go into effect.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/leaveplaneffdtselect.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Leave Plan Effective Date Selector</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Enter a text identifier, and an optional description to help identify the leave plan.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/leaveplanboid.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Leave Plan Business Object identifier and Description</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Enter the number of planning months.</para>
-				</listitem>
-				<listitem>
-					<para>Enter a value for Calendar Year Start to signify the Month and Day that the leave plan calendar begins.</para>
-				</listitem>
-				<listitem>
-					<para>Ensure that the box labeled "Active" is selected</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/leaveplancomplete.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>The completed leave plan maintenance document</phrase>
-						</textobject>
-						<caption></caption>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Take the desired route action</para>
-				</listitem>
-			</orderedlist>
-		</section>
-		<para>
-			The above example leaves out the fields for carry over batch jobs. The Leave Plan Field Summary image at the start of this section
-			should be referenced for a description of what these fields do. More information about the batch carry over job can be found by reading
-			the chapter "Batch Jobs".
-		</para>
+		<table>
+			<title>Leave Plan Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="1*"/>
+				<colspec colname="c2" colnum="2" colwidth="2.50*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The Effective date for which the Leave Plan will be
+							effective.</entry>
+					</row>
+					<row>
+						<entry>Leave Plan</entry>
+						<entry>Text field used to identify the Leave Plan.</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text field used to describe the Leave Plan.</entry>
+					</row>
+					<row>
+						<entry>Planning Months</entry>
+						<entry>Number of months the accrual service will calculate into the future
+							and allow planning and submission of leave requests</entry>
+					</row>
+					<row>
+						<entry>Calendar Year Start (MM/DD)</entry>
+						<entry>Month and Day (MM/DD) of the start of the leave year (i.e. Calendar
+							or Fiscal Year). This date will be used to calculate year to date
+							accruals, usages, and balances in the leave summary. </entry>
+					</row>
+					<row>
+						<entry>Batch Prior Year Carry Over Start (MM/DD)</entry>
+						<entry>Date batch job should run to create a carry over leave block for each
+							accrual category balance from the prior year. This should run will all
+							leave calendars from the previous year are final. The leave summary that
+							includes accrual balances will use this carry over leave block to
+							calculate available balances. </entry>
+					</row>
+					<row>
+						<entry>Batch Prior Year Carry Over Start Time (00:00 AM)</entry>
+						<entry>Time batch job should run to create a carry over leave block for each
+							accrual category balance from the prior year</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Status of the Leave Plan, checked indicates Active, unchecked
+							indicates Inactive.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
 	</section>
 	<section>
 		<title>Accrual Category Configuration</title>
+		<para>The system supports the creation of accrual categories within leave plans to establish
+			groups of benefit time that can be reported and/or accrued against. Accrual Category
+			will define the rules used by the system’s accrual service including proration, maximum
+			balances, and establish what happens once maximum balances are reached. </para>
 		<mediaobject>
 			<imageobject>
-				<imagedata fileref="../images/lm/accrualcatmaintcompact.jpg" format="JPG" scale="50"/>
+				<imagedata fileref="../images/lm21/acccatmaintdoc.png" format="png" scale="50"/>
 			</imageobject>
 			<textobject>
 				<phrase>Accrual Category Maintenance Document</phrase>
 			</textobject>
-			<caption>
-				<phrase>The Accrual Category Maintenance Document.</phrase>
-			</caption>
 		</mediaobject>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="../images/req-accrual-category.jpg" format="JPG" scale="50"/>
-			</imageobject>
-			<textobject>
-				<phrase>Accrual Category Field Summary</phrase>
-			</textobject>
-			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/Accrual+Category+v2">Accrual Category</link></caption>
-		</mediaobject>
+		<table>
+			<title>Accrual Category Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="1*"/>
+				<colspec colname="c2" colnum="2" colwidth="2.50*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The Effective date for which the Leave Plan will be
+							effective.</entry>
+					</row>
+					<row>
+						<entry>Accrual Category</entry>
+						<entry>Code used to identify the Accrual Category.</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Description of the Accrual Category</entry>
+					</row>
+					<row>
+						<entry>Leave Plan</entry>
+						<entry>Leave Plan associated with the Accrual Category.</entry>
+					</row>
+					<row>
+						<entry>Accrual Earn Interval</entry>
+						<entry>Timing when accrued leave is earned. Options: Daily, Weekly,
+							Semi-Monthly, Monthly, Yearly, Pay Calendar, No Accrual The Accrual
+							Service will create an Accrual timeblock on the last date of the accrual
+							period. Pay Calendar can be used for Timekeeping employees that earns
+							accrual at the end of each pay period. No Accrual can be used for
+							Accrual Categories used for System Scheduled Time Off. </entry>
+					</row>
+					<row>
+						<entry>Proration</entry>
+						<entry>Indicate if accrual is prorated based on partial period. For example,
+							start date is 10th day of the month for Monthly Accrual Earn Interval
+							would be prorated from the start date. If Off, then no leave will be
+							accrued until the start of the next accrual period Accrual earn
+							Interval.</entry>
+					</row>
+					<row>
+						<entry>Unit of Time</entry>
+						<entry>Define unit of time for accruing leave. Options: Days Hours</entry>
+					</row>
+					<row>
+						<entry>Min Percent Worked to Earn Accrual</entry>
+						<entry>The start or end date must be within the minimum days of the Accrual
+							earn Interval. If start or end date is after then no accrual is earned.
+						</entry>
+					</row>
+					<row>
+						<entry>Donation</entry>
+						<entry>Indicates the accrued leave is eligible to be donated. Leave Donation
+							maintenance document will only Donated Accrual Categories that are
+							flagged as eligible for donation. </entry>
+					</row>
+					<row>
+						<entry>Show on Grid</entry>
+						<entry>Accrual Category will be displayed on the leave summary and leave
+							ledger.</entry>
+					</row>
+					<row>
+						<entry>Default Earn Code</entry>
+						<entry>This earn code will be used by the accrual service and assign to
+							accrual timeblocks. This earn code needs to be defined prior to creating
+							the Accrual Category. </entry>
+					</row>
+					<row>
+						<entry>Category Has Rules</entry>
+						<entry>Flag if accrual category has rules. Accrual Categories for
+							transferring leave or for handling System Scheduled Time Off. </entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Status of the Leave Plan, checked indicates Active, unchecked
+							indicates Inactive.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<tip>
+			<para>Prior to creating a new Accrual Category, a Leave Plan and an Earn Code (Accrual
+				Category's Default Earn Code) needs to exist. </para>
+		</tip>
 		<section>
-			<title>Basic Accrual Category Configuration</title>
-			<para>This section gives an example configuration for a basic accrual category. Leave Plan and Earn Code objects should be available for use before configuring an Accrual Category</para>
-			<orderedlist>
-				<listitem>
-					<para>Navigate to the Accrual Category Lookup via the link provided in the Leave Managment section of the Maintenance Tab.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualcategorylink.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>The Create New Button</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Within the Accrual Category Lookup View, click 
-					<inlinemediaobject>
-							<imageobject>
-								<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
-							</imageobject>
-							<textobject>
-								<phrase>create new</phrase>
-							</textobject>
-						</inlinemediaobject>, located:
-					</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualcatcreatenew.jpg" format="JPG" scale="50" />
-						</imageobject>
-						<textobject>
-							<phrase>The Create New Button</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Enter the required description in the Document Overview</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualcatdocdesc.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Accrual Category Document Overview Description</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Select the effective Date</para>
-				</listitem>
-				<listitem>
-					<para>In Accrual Category, enter a short identifier, i.e. SICK, VAC ...</para>
-				</listitem>
-				<listitem>
-					<para>Use the quick finder icon to select the Leave Plan this accrual category belongs to.</para>
-				</listitem>
-				<listitem>
-					<para>Select the Accrual Earn Interval</para>
-				</listitem>
-				<listitem>
-					<para>Select whether or not Accruals will be prorated</para>
-				</listitem>
-				<listitem>
-					<para>Select the unit of time for accruals under this category.</para>
-				</listitem>
-				<listitem>
-					<para>Enter the Min Percent Worked to Earn Accrual</para>
-				</listitem>
-				<listitem>
-					<para>Select if donations are accepted for the Accrual Category</para>
-				</listitem>
-				<listitem>
-					<para>Select if the Accrual Category should show on the Employee's Leave Summary.</para>
-				</listitem>
-				<listitem>
-					<para>Locate or enter the default Earn Code associated with the Accrual Category.</para>
-				</listitem>
-				<listitem>
-					<para>Select No for Category Has Rules</para>
-				</listitem>
-				<listitem>
-					<para>Make sure the "Active" box is checked.</para>
-					<para>The basic Accrual Category should look something like this:</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualcatcomplete.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>A Complete Basic Accrual Category</phrase>
-						</textobject>
-						<caption>A basic accrual category configuration with monthly accruals in units of hours, prorated for partial service and without a service minimum, that does not accept donations, has no rules, and will appear on employees leave calendars.</caption>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Submit / Blanket Approve the document</para>
-				</listitem>
-			</orderedlist>
-		</section>
-	</section>
-	<section>
-		<title>Accrual Category Rule Configuration</title>
-		<para>This section describes the configurations necessary to implement common rules for an accrual category. To follow along with this section, 
-			  the reader should complete the sections for Leave Plan and Accrual Category configuration, or the objects should already be defined in the
-			  application.
-		</para>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="../images/lm/accrualrulecompact.jpg" format="JPG" scale="50"/>
-			</imageobject>
-			<textobject>
-				<phrase>Accrual Category Rule Tab</phrase>
-			</textobject>
-			<caption>
-				<phrase>Accrual Category Maintenance Document. This image shows the Accrual Category Maintenance tab in its hidden state, with the Accrual Category Rules tab expanded.</phrase>
-			</caption>
-		</mediaobject>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="../images/req-accrual-cat-rule.jpg" format="JPG" scale="50"/>
-			</imageobject>
-			<textobject>
-				<phrase>Accrual Category Rule Field Summary</phrase>
-			</textobject>
-			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/Accrual+Category+v2">Accrual Category Rule</link></caption>
-		</mediaobject>
-		<para>One accrual category rule can be used to define up to four properties for an accrual category;</para>
-		<itemizedlist>
-			<listitem>
-				<para>Accrual rates</para>
-			</listitem>
-			<listitem>
-				<para>Maximum balance limits</para>
-			</listitem>
-			<listitem>
-				<para>Maximum carryover limits</para>
-			</listitem>
-			<listitem>
-				<para>Usage limits</para>
-			</listitem>
-		</itemizedlist>
-		<para></para>
-		<section>
-			<title>Accrual Rate Configuration</title>
-			<para>For this example we define a simple rule that will enable accruals without a limit on the maximum balance for the accrual category.</para>
-			<para>This configuration requires either:
-				<orderedlist numeration="loweralpha">
-					<listitem>
-						<para>An existing accrual category defined in the system, or</para>
-					</listitem>
-					<listitem>
-						<para>A defined set of basic business object components that will alow for the creation of a new accrual category rule. i.e. Earn Codes, Leave Plan, etc</para>
-					</listitem>
-				</orderedlist>
-			</para>
-			<orderedlist>
-				<listitem>
-					<para>Open the Accrual Category Lookup View</para>
-					<para>In the Leave Maintenance section of the maintenance tab , click on "Accrual Category" </para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/accrualcategorylink.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Accrual Category Maintenance link</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Open the Accrual Category Maintenance Document</para>
-					<para>If creating a NEW accrual category, in the Accrual Category Lookup View, click 
-					<inlinemediaobject>
-						<imageobject>
-							<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>create new</phrase>
-						</textobject>
-					</inlinemediaobject> and skip to step three.</para>
-					<para>If using an existing Accrual Cateogry:</para>
-					<orderedlist numeration="loweralpha">
-						<listitem>
-							<para>In the resulting Accrual Category Lookup View, search for the accrual category either by filtering results through one of the fields or by simply clicking “search”.</para>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/accrualcatlookup.jpg" format="JPG" scale="50"/>
-								</imageobject>
-								<textobject>
-									<phrase>Accrual Category Lookup View</phrase>
-								</textobject>
-							</mediaobject>
-						</listitem>
-						<listitem>
-							<para>Next, locate the row containing the accrual category to which the new rule will be attached and click “edit”.</para>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/lm/accrualcatlookupedit.jpg" format="JPG" scale="50"/>
-								</imageobject>
-								<textobject>
-									<phrase>Accrual Category Lookup Edit</phrase>
-								</textobject>
-							</mediaobject>
-							<para>This will open the accrual category for editing.</para>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/lm/exampleaccrualcatedit.jpg" format="JPG" scale="35"/>
-								</imageobject>
-								<textobject>
-									<phrase>Accrual Category Maintenance Document Edit</phrase>
-								</textobject>
-								<caption>
-									<phrase>Adding a rule to an existing accrual category</phrase>
-								</caption>
-							</mediaobject>
-							<note>Check the field values on the Accrual Category for proper definitions. Depending on the rule being defined, certain values may need to change on the accrual category in order for the rule to be properly picked up by the application. If working with a new accrual category, review the previous chapter, Accrual Category Configuration. Once the Accrual Category has been configured properly for accruals, move to the Accrual Category Rules Tab</note>	
-						</listitem>
-					</orderedlist>
-				</listitem>
-				<listitem>
-					<para>In the Document Overview tab, enter a description of the changes to be made.</para>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="../images/lm/accrualruleadddesc.jpg" format="JPG" scale="40"/>
-					</imageobject>
-					<textobject>
-						<phrase>Document Overview tab</phrase>
-					</textobject>
-					<caption>
-						<phrase>The Document Overview tab</phrase>
-					</caption>
-				</mediaobject>
-				</listitem>
-				<listitem>
-					<para>In the Accrual Category Rules tab, select a value for the Service Unit of Time field.</para>
-					<para>This value will determine the rate at which accruals occur</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualrulestab.jpg" format="JPG" scale="40"/>
-						</imageobject>
-						<textobject>
-							<phrase>Accrual Rules tab</phrase>
-						</textobject>
-						<caption>
-							<phrase>The Accrual Rules tab within the Accrual Category Maintenance Document.<note>The Accrual Category Tab is hidden in this image</note></phrase>
-						</caption>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Enter Start and End values</para>
-				</listitem>
-				<listitem>
-					<para>Define the accrual rate</para>
-				</listitem>
-				<listitem>
-					<para>Make sure “No” is selected for Max Bal Flag</para>
-				</listitem>
-				<listitem>
-					<para>Ensure that the Active box is checked.</para>
-				</listitem>
-				<listitem>
-					<para>Click the "add" button below the fields.</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualrulecomplete.jpg" format="JPG" scale="40"/>
-						</imageobject>
-						<textobject>
-							<phrase>Complete Accrual Rate Rule</phrase>
-						</textobject>
-						<caption>
-							<phrase>The rule in this image defines an accrual category with no balance limit that will accrue leave at the rate of twelve hours per month,
-									starting at the employees service date and ending once the employee has reached six months of service. 
-									The "add" button is highlighted with a red arrow.</phrase>
-						</caption>
-					</mediaobject>
-					<important>Clicking "add" will attach the rule to the accrual category, however, the accrual category must still be routed in order to save the data.</important>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualruleadded.jpg" format="JPG" scale="40"/>
-						</imageobject>
-						<textobject>
-							<phrase>The added rule</phrase>
-						</textobject>
-						<caption>
-							<phrase>This image shows the rule has been added to the document, however, it must still be submitted.</phrase>
-						</caption>
-					</mediaobject>
-					<para>In the above image, the yellow asterisk on the Accrual Category Maintenance tab indicates that a field on the accrual category has changed as well.
-						In this case, "Has Rules" has been switched to "Yes", and the accrual category's earn interval has been updated to reflect a monthly accrual.</para>	
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualcatedited.jpg" format="JPG" scale="40"/>
-						</imageobject>
-						<textobject>
-							<phrase>Changes to the existing accrual category</phrase>
-						</textobject>
-						<caption>
-							<phrase>Hiding the Accrual Category Rules tab, and collapsing the Accrual Category Maintenance tab, show two fields on the accrual category that needed to be changed to match the Accrual Category Rule form requirements.</phrase>
-						</caption>
-					</mediaobject>									
-				</listitem>
-			</orderedlist>
-		</section>
-		<section>
-			<title>Maximum Balance Limit Configuration</title>
-			<para>This section provides a basic walk through for configuring maximum balance. The section, Max Balance Transactions, gives a detailed examination of the workflow for the transactions triggered by these rules.</para>
-			<note>The configurations for basic Accrual Category Rules, such as the one given in the previous example, are assumed to be completed before proceeding with the following examples.</note>
-			<para>To define a maximum balance limit, in the Accrual Category Rules tab:</para>
-			<orderedlist>
-				<listitem>
-					<para>Ensure that the Service Unit of Time, Start and End and Accrual Rate are properly defined, as well as the appropriate fields within the Accrual Category Maintenance tab. Review Accrual Category Configuration if necessary.</para>
-				</listitem>
-				<listitem>
-					<para>Select “Yes” for Max Bal Flag</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/accrualrulemaxbalflag.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Max Bal Flag field highlight</phrase>
-						</textobject>
-					</mediaobject>
-				</listitem>
-				<listitem>
-					<para>Enter a value for Max Balance. This value will be used for all principals within the selected Leave Plan, but can also be overridden through the use of KPME’s Employee Overrides. Please see the Leave Management Administration documentation for more on the use of Employee Overrides.</para>
-				</listitem>
-				<listitem>
-					<para>Select the frequency with which the max balance action should occur via Max Balance Action Frequency</para>
-					<itemizedlist>
-						<listitem>
-							<para>If On-Demand is the selected Max Balance Action Frequency:</para>
-							<para>Employees will be allowed to initiate the transaction at-will so long as the rule in effect is on-demand, and that balance limit has been exceeded.</para>
-						</listitem>
-						<listitem>
-							<para>If Leave-Approve is the selected Max Balance Action Frequency:</para>
-							<para>Employees will be re-directed to the transaction form upon submission of their calendar for approval.</para>
-						</listitem>
-						<listitem>
-							<para>If Year-End is the selected Max Balance Action Frequency:</para>
-							<para>Employees will be re-directed to the transaction form upon submission of the calendar containing the final day in the leave plan’s calendar year.</para>
-						</listitem>
-					</itemizedlist>
-				</listitem>
-				<listitem>
-					<para>Select the Action at Max Balance:</para>
-					<itemizedlist>
-						<listitem>
-							<para>If LOSE is the selected Action at Max Balance, no other field values are needed. The document may be submitted and/or approved.</para>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/lm/accrualrulelose.jpg" format="JPG" scale="50"/>
-								</imageobject>
-								<textobject>
-									<phrase>Max Balance Lose Rule</phrase>
-								</textobject>
-								<caption>The rule in this image will Forfeit all leave over the maximum limit</caption>
-							</mediaobject>
-							<para>Result:</para>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/lm/forfeituredialog.jpg" format="JPG" scale="50"/>
-								</imageobject>
-								<textobject>
-									<phrase>Forfeiture prompt resulting from the configuration of a Lose rule</phrase>
-								</textobject>
-								<caption>A Lose rule will prompt the user to confirm forfeiture when submitting their calendar.</caption>
-							</mediaobject>
-						</listitem>
-						<listitem>
-							<para>If TRANSFER is the selected Action at Max Balance:</para>
-							<orderedlist numeration="lowerroman">
-								<listitem>
-									<para>Enter the Max Balance Transfer to Accrual Category by either typing in, or locating via the quick find icon, the accrual category that leave will be transferred to.</para>
-								</listitem>
-								<listitem>
-									<para>Enter the Max Balance Transfer Conversion Factor. The transfer amount will be multiplied by this value prior to being moved to the credited accrual category.</para>
-								</listitem>
-								<listitem>
-									<para>Optionally enter the Max Transfer Amount. If no value is given, there will be no limit to the amount that can be transferred.</para>
-									<note>This amount can be overriden on a person-by-person basis. See the Employee Overrides section of the Leave Administration documentation for the configuration of Max Transfer Amount Employee Overrides.</note>
-								</listitem>
-							</orderedlist>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/lm/accrualruletransfer.jpg" format="JPG" scale="50"/>
-								</imageobject>
-								<textobject>
-									<phrase>Max Balance Transfer Rule</phrase>
-								</textobject>
-								<caption>The rule in this image will grant employees a TRANSFER ON-DEMAND to accrual category ISU-PS-SCK at a conversion rate of 50%</caption>
-							</mediaobject>
-							<para>Result:</para>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/lm/transferform.jpg" format="JPG" scale="50"/>
-								</imageobject>
-								<textobject>
-									<phrase>Balance Transfer Form</phrase>
-								</textobject>
-								<caption>Balance Transfer Form</caption>
-							</mediaobject>
-						</listitem>
-						<listitem>
-							<para>If PAYOUT is the selected Action at Max Balance:</para>
-							<orderedlist numeration="lowerroman">
-								<listitem>
-									<para>Enter the Max Payout Amount. If no value is given for this field, there will be no limit to the amount of leave that can be moved to the Max Payout Earn Code.</para>
-									<note>This amount can be overriden on a person-by-person basis. See the Employee Overrides section of the Leave Administration documentation for the configuration of Max Payout Amount Employee Overrides.</note>
-								</listitem>
-								<listitem>
-									<para>Enter the Max Payout Earn Code by either typing it in, or using the quick find icon to locate the code.</para>
-								</listitem>
-							</orderedlist>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/lm/accrualrulepayout.jpg" format="JPG" scale="50"/>
-								</imageobject>
-								<textobject>
-									<phrase>Max Balance Payout Rule</phrase>
-								</textobject>
-								<caption>The rule in this image will trigger a PAYOUT to earn code PAYOUT-EC with frequency Leave Approve</caption>
-							</mediaobject>
-							<para>Result:</para>
-							<mediaobject>
-								<imageobject>
-									<imagedata fileref="../images/lm/payoutform.jpg" format="JPG" scale="50"/>
-								</imageobject>
-								<textobject>
-									<phrase>Balance Payout Form</phrase>
-								</textobject>
-								<caption>Balance Payout Form</caption>
-							</mediaobject>
-						</listitem>
-					</itemizedlist>
-				</listitem>	
-				<listitem>
-					<para>Ensure that the Active box is checked</para>
-				</listitem>
-				<listitem>
-					<para>Save the changes.</para>
-					<itemizedlist>
-						<listitem>
-							<para>If editing an existing accrual category rule, use an action provided for the accrual category maintenance document.</para>
-						</listitem>
-						<listitem>
-							<para>If creating a new accrual category rule, first click the "add" button located below "Active" check box, then use
-								an action provided for the accrual category maintenance document.</para>
-						</listitem>
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../images/maintrouteactions.jpg" format="JPG" scale="50"/>
-							</imageobject>
-							<textobject>
-								<phrase>Accrual Category Maintenance Document actions</phrase>
-							</textobject>
-							<caption>Available actions for Accrual Category Maintenance Document</caption>
-						</mediaobject>
-					</itemizedlist>
-				</listitem>
-			</orderedlist>
-		</section>
-		<section>
-			<title>Maximum Carryover Limit Configuration</title>
-			<para>Aside from the basic carryover rule, there are two situations where a carryover rule is defined in conjunction with another rule that is given special attention. These situations follow basic carryover configuration, under Conjunctive Rules.</para>
-			<section>
-				<title>Basic Carryover Configuration</title>
-				<para>To define a basic carryover limit, simply enter a value into the Max Annual Carry Over field, relative to the selected Unit of Time for the accrual category. This amount can be adjusted on a principal-by-principal basis. See the Employee Overrides section of the Leave Management Administration documentation for details.</para>
-				<note>The carryover process can be automated via a batch job. Please see the Batch Jobs documentation for information on how to automate the carryover process.</note>
-				<note>Maximum Carryover can be overriden through the use of KPME's Employee Overrides. See the Leave Management Administrative Documentation for Max Annual Carry Override configuration.</note>
-			</section>
-			<para>With a maximum carry over limit defined, the balance for an accrual category will automatically be adjusted when submitting a calendar containing the last day of the calendar year. This day is derived from the leave plan defined on the accrual category to which this rule is attached.
-			This adjustment is achieved by placing a leave block in an amount of the adjustment on the employee’s calendar.</para>
-			<section>
-				<title>Conjunctive Rules</title>
-				<para>When combined with a maximum balance rule, a maximum carry over limit may vary its behavior based on the frequency of the balance transaction:</para>
-				<section>
-					<title>Leave-Approve Max Balance with Max Annual Carryover</title>
-					<para>When defined with a Leave-Approve Action, the adjustment amounts for both carryover and leave-approve actions are calculated relative to the same ending balance;
-						the balance as of the last day of the leave plan’s calendar year. Up to four adjustment leave blocks are created with status requested, a maximum of three coming from 
-						the balance transaction and the fourth coming from the carryover adjustment.</para>
-					<para>If the max balance action is approved, the requested leave block containing the adjustment amount for carryover is re-calculated to reflect the resulting balance. 
-					If the max balance action is disapproved, the requested adjustment amount for carryover needs no correction.</para>
-					<para>Example:</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/conjunctiveruledef.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Max Carry Over / Leave Approve Max Balance Action rule</phrase>
-						</textobject>
-						<caption>Example of a Max Carry Over rule defined with a Leave Approve Max Balance rule.<note>MAX-CO is the accrual category on this rule, with earn code MAX-EC. MAX-BAL-TFR displays earn code MAXBAL-TRF on leave calendars.</note></caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/conjunctiverule1.jpg" format="JPG" scale="42"/>
-						</imageobject>
-						<textobject>
-							<phrase>Balances as of the final day of the leave plan's calendar year.</phrase>
-						</textobject>
-						<caption>Note the accrued balance for MAX-CO. These are the balances as of the last day of the leave plan's year.</caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/conjunctiverulecarryoverblock.jpg" format="JPG" scale="42"/>
-						</imageobject>
-						<textobject>
-							<phrase>Carry over leave block created during calendar submission</phrase>
-						</textobject>
-						<caption>The amount of the carry over leave block created upon calendar submission is relative to an accrued balance of 32</caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/conjunctiveruletransferblock.jpg" format="JPG" scale="42"/>
-						</imageobject>
-						<textobject>
-							<phrase>Transfer leave block created during calendar submission</phrase>
-						</textobject>
-						<caption>The amount of the transfer leave block created upon calendar submission is also relative to an accrued balance of 32</caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/conjunctiveruletransferdoc.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Approved Transfer Doc</phrase>
-						</textobject>
-						<caption>The Balance Transfer Document is approved</caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/conjunctiveruletransferblockapproved.jpg" format="JPG" scale="42"/>
-						</imageobject>
-						<textobject>
-							<phrase>Transfer block is approved</phrase>
-						</textobject>
-						<caption>The status of the leave block created through the Balance Transfer document changes to approved.</caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/conjunctiverulecarryoverblockadjust.jpg" format="JPG" scale="42"/>
-						</imageobject>
-						<textobject>
-							<phrase>Carry over block is adjusted with the resulting balance.</phrase>
-						</textobject>
-						<caption>The amount of the leave block created via the carry over rule adjusts to the new balance.</caption>
-					</mediaobject>
-				</section>
-				<section>
-					<title>Year-End Max Balance with Max Annual Carryover</title>
-					<para>When defined with a Year-End Action, any amount in excess of the carryover limit and up to the maximum balance limit will be included in the year-end balance transaction. 
-					</para>
-					<para>Example:</para>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/yeconjunctiveruledef.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>A Year End conjunctive rule definition</phrase>
-						</textobject>
-						<caption>This rule defines a carry over trigger as well as a year end max balance action.<note>MAXB is the accrual category of this rule, with earn code MAXB-A. MAX-BAL-TFR displays earn code MAXBAL-TRF on leave calendars.</note></caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/conjunctiverule1.jpg" format="JPG" scale="42"/>
-						</imageobject>
-						<textobject>
-							<phrase>The balances for the accrual category</phrase>
-						</textobject>
-						<caption>Note the accrued balance for MAXB</caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/yeconjunctiveruletransferblock.jpg" format="JPG" scale="42"/>
-						</imageobject>
-						<textobject>
-							<phrase>The requested leave blocks created from the conjunctive rule.</phrase>
-						</textobject>
-						<caption>The requested amount in the leave blocks created for the balance transfer include the carry over adjustment</caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/yeconjunctiverulexferdocapproved.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Year end transfer document approved</phrase>
-						</textobject>
-						<caption>The Transfer doc for the Year-End action is approved.</caption>
-					</mediaobject>
-					<mediaobject>
-						<imageobject>
-							<imagedata fileref="../images/lm/yeconjunctiverulexferblockapproved.jpg" format="JPG" scale="42"/>
-						</imageobject>
-						<textobject>
-							<phrase>Corresponding leave blocks move to approved status.</phrase>
-						</textobject>
-						<caption>Both leave blocks move to approved status</caption>
-					</mediaobject>
-				</section>
-			</section>
-		</section>	
-		<section>
-			<title>Maximum Usage Limit Configuration</title>
-			<para>To define a usage limit, simply enter a value into the “Max Usage” field, relative to the selected Unit of Time for the accrual category.</para>
-			<para>With a maximum usage limit defined, an employee will not be allowed to add leave blocks to their calendar if the amount in the leave block, when added to the YTD usage as of the requested leave date, exceeds this limit.</para>
-			<note>Maximum usage can be overriden through the use of KPME Leave Management's Employee Override feature. Please see the Leave Management Administration documentation's section on Employee Overrides.</note>
-		</section>
-		<section>
-			<title>Multiple Accrual Category Rules</title>
-			<para>KPME Leave Managment allows accrual categories to be configured with multiple rules, each rule covering a non-overlapping service interval.</para>
-			<para>To define multiple rules on a single accrual category, each rule must have START and END values that do not overlap any other defined rule. There must also be no gaps between the end of one rule and the start of another.</para>
-			<para>Example:</para>
+			<title>Accrual Category Rule</title>
+			<para>This section describes the configurations necessary to implement common rules for
+				an accrual category. To follow along with this section, the reader should complete
+				the sections for Leave Plan and Accrual Category configuration, or the objects
+				should already be defined in the application. </para>
 			<mediaobject>
 				<imageobject>
-					<imagedata fileref="../images/lm/multipleruledaccrualcat.jpg" format="JPG" scale="55"/>
+					<imagedata fileref="../images/lm21/accrulesmaintdoc.png" format="png" scale="50"
+					/>
 				</imageobject>
 				<textobject>
-					<phrase>An accrual category with three rules defined.</phrase>
+					<phrase>Accrual Category Rules</phrase>
 				</textobject>
-				<caption>This accrual category has three rules defined.</caption>
 			</mediaobject>
-			<para>The first rule defines a LOSE action with frequency leave approve if the balance exceeds 6 hours. It is in effect from the date of hire of an employee up to the end of their second month of service.</para>
-			<para>The second rule defines a TRANSFER action with frequency LEAVE APPROVE if the balance exceeds 10 hours. It goes into effect at the start of the third month of service and remains in effect up to the end of the fourth month of service</para>
-			<para>The third rule defines a TRANSFER action with frequency ON-DEMAND if the balance exceeds 14 hours. It goes into effect at the start of the employee's fifth month of service, extending through the remainder of service.</para>
+			<para>One accrual category rule can be used to define up to four properties for an
+				accrual category;</para>
+			<itemizedlist>
+				<listitem>
+					<para>Accrual rates</para>
+				</listitem>
+				<listitem>
+					<para>Maximum balance limits</para>
+				</listitem>
+				<listitem>
+					<para>Maximum carryover limits</para>
+				</listitem>
+				<listitem>
+					<para>Usage limits</para>
+				</listitem>
+			</itemizedlist>
+			<para/>
+			<section>
+				<title>Accrual Rate Configuration</title>
+				<para>Accrual Category that is flagged to have Accrual Rules are required to enter
+					at least one rule. Accrual Rules are used to defined the amount of leave that is
+					accrued based on lenght of service. The employee's service date found in their
+					Principal HR Attribute record is used by the accrual service to determined which
+					rules should be used to calculate their accrued leave for an Accrual Earn
+					Interval. </para>
+				<table>
+					<title>Accrual Category Rule Fields for configuring Accrual Rate</title>
+					<tgroup cols="2">
+						<colspec colname="c1" colnum="1" colwidth="1*"/>
+						<colspec colname="c2" colnum="2" colwidth="2.50*"/>
+						<thead>
+							<row>
+								<entry>Field</entry>
+								<entry>Description</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>Service Unit of Time</entry>
+								<entry>Unit of time for measuring service start and end amounts for
+									the accrual rule</entry>
+							</row>
+							<row>
+								<entry>Start</entry>
+								<entry>Accrual rule begins on the indicated service
+									milestone.</entry>
+							</row>
+							<row>
+								<entry>End</entry>
+								<entry>Accrual rule ends on the indicated service milestone.</entry>
+							</row>
+							<row>
+								<entry>Accrual Rate</entry>
+								<entry>Amount accrued for each Accrual Earn Interval.</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</section>
+			<section>
+				<title>Maximum Balance Limit Configuration</title>
+				<para>Maximum Balances limits can be set for each Accrual Category rule. Configuring
+					maximum balances for accrual category rules includes setting the max balance
+					limit, when max balance actions are triggered, and what happens when max balance
+					has been reached. </para>
+				<para>When max balance is reached a warning will appear on the employee's Leave
+					Calendar.</para>
+				<table>
+					<title>Accrual Category Rule Fields for configuring Max Balances</title>
+					<tgroup cols="2">
+						<colspec colname="c1" colnum="1" colwidth="1*"/>
+						<colspec colname="c2" colnum="2" colwidth="2.50*"/>
+						<thead>
+							<row>
+								<entry>Field</entry>
+								<entry>Description</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>Max Balance Flag</entry>
+								<entry>The Accrual Rule has a Max Balance limit</entry>
+							</row>
+							<row>
+								<entry>Max Balance</entry>
+								<entry>The amount of accrued leave that will trigger maximum balance
+									action.</entry>
+							</row>
+							<row>
+								<entry>Max Balance Action Frequency</entry>
+								<entry>When a Max Balance transaction may occur. Leave Approve: When
+									a Leave Calendar or Time Detail is submitted for approval max
+									balance transaction will be triggered. Year End: When the Leave
+									Calendar or Time Detail prior begining of the Leave Plan's
+									Calendar Start date is submitted for approval max balance
+									transaction will be triggered. On Demand: Once maximum balance
+									is reached the employee has the option to request the Action at
+									Max Balance (Transfer or Payout) </entry>
+							</row>
+							<row>
+								<entry>Action at Max Balance</entry>
+								<entry>Determines the type of transaction that will occure when Max
+									Balance is reached and triggered by the Max Balance Action
+									Frequency. Transfer: Triggers a Balance Transfer document.
+									Payout: Triggers a Payout document. Lose: Leave over the max
+									balance limit will be forfieted. </entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+				<section>
+					<title>Action at Max Balance: Transfer</title>
+					<para>Employees will be prompted for a Balance Transfer document populated with
+						the Accrual Rule's values. This document will be routed for approval to the
+						employee's Work Area approver and Department Payroll Processor. Leave blocks
+						for the amount of leave transfered and/or forfeited will appear on the Leave
+						Calendar. All pending Balance Transfer documents must be approved before
+						Leave Calendars can be approved. </para>
+					<table>
+						<title>Accrual Category Rule Fields for configuring Transfer at Max
+							Balances</title>
+						<tgroup cols="2">
+							<colspec colname="c1" colnum="1" colwidth="1*"/>
+							<colspec colname="c2" colnum="2" colwidth="2.50*"/>
+							<thead>
+								<row>
+									<entry>Field</entry>
+									<entry>Description</entry>
+								</row>
+							</thead>
+							<tbody>
+								<row>
+									<entry>Max Balance Transfer to Accrual Category</entry>
+									<entry>Accrual Category that will be be used to accrue the
+										transfer.</entry>
+								</row>
+								<row>
+									<entry>Max Balance Transfer Conversion Factor</entry>
+									<entry>The leave can be transferred at a converted rate.</entry>
+								</row>
+								<row>
+									<entry>Max Transfer Amount</entry>
+									<entry>Maximum amount of leave that can be transferred to the
+										Transfer Accrual Category. Remaining balance over the max
+										balance limit will be forfieted. </entry>
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
+				</section>
+				<section>
+					<title>Action at Max Balance: Payout</title>
+					<para>Employees will be prompted for a Leave Payout document populated with the
+						Accrual Rule's values. This document will be routed for approval to the
+						employee's Work Area approver and Department Payroll Processor. Leave blocks
+						for the amount of leave paid out and/or forfeited will appear on the Leave
+						Calendar. All pending Leave Payout documents must be approved before Leave
+						Calendars can be approved. </para>
+					<table>
+						<title>Accrual Category Rule Fields for configuring Transfer at Max
+							Balances</title>
+						<tgroup cols="2">
+							<colspec colname="c1" colnum="1" colwidth="1*"/>
+							<colspec colname="c2" colnum="2" colwidth="2.50*"/>
+							<thead>
+								<row>
+									<entry>Field</entry>
+									<entry>Description</entry>
+								</row>
+							</thead>
+							<tbody>
+								<row>
+									<entry>Max Payout Amount</entry>
+									<entry>Maximum amount of leave can be paid out.</entry>
+								</row>
+								<row>
+									<entry>Max Payout Earn Code</entry>
+									<entry>Earn code used for paying out leave. This earn code can
+										be used for a feed to payroll system. </entry>
+								</row>
+							</tbody>
+						</tgroup>
+					</table>
+				</section>
+				<section>
+					<title>Action at Max Balance: Lose</title>
+					<para>Employees will be prompted with the amount of leave that will be forfeited
+						so accrued balance is no longer at the max balance limit. All the forfeited
+						amount will appear on the leave calendar. </para>
+				</section>
+			</section>
+			<section>
+				<title>Maximum Usage Limit Configuration</title>
+				<para>To define a usage limit, simply enter a value into the “Max Usage” field,
+					relative to the selected Unit of Time for the accrual category.</para>
+				<para>With a maximum usage limit defined, an employee will not be allowed to add
+					leave blocks to their calendar if the amount in the leave block, when added to
+					the YTD usage (Leave Plan's Calendar Start Date) as of the requested leave date,
+					exceeds this limit.</para>
+				<note>
+					<para>Maximum usage can be overriden through the use of KHR Leave Management's
+						Employee Override feature. Please see the Leave Management Administration
+						documentation's section on Employee Overrides.</para>
+				</note>
+			</section>
+			<section>
+				<title>Maximum Carryover Limit Configuration</title>
+				<para>Maximum Annual Carryover Limit can be set for each Accrual Category rule. With
+					a maximum carry over limit defined, the balance for an accrual category will
+					automatically be adjusted when submitting a calendar containing the last day of
+					the calendar year. This day is derived from the leave plan defined on the
+					accrual category to which this rule is attached. This adjustment is achieved by
+					placing a leave block in an amount of the adjustment on the employee’s calendar. </para>
+				<note>
+					<para>Each leave plan has an automated batch carryover process job. Please see
+						the Batch Jobs documentation for information on how to automate the
+						carryover process.</para>
+				</note>
+				<note>
+					<para>Maximum Carryover can be overriden through the use of KHR's Employee
+						Overrides. See the Leave Management Administrative Documentation for Max
+						Annual Carry Override configuration.</para>
+				</note>
+				<section>
+					<title>Conjunctive Rules</title>
+					<para>When combined with a maximum balance rule, a maximum carry over limit may
+						vary its behavior based on the frequency of the balance transaction:</para>
+					<section>
+						<title>Leave-Approve Max Balance with Max Annual Carryover</title>
+						<para>When defined with a Leave-Approve Action, the adjustment amounts for
+							both carryover and leave-approve actions are calculated relative to the
+							same ending balance; the balance as of the last day of the leave plan’s
+							calendar year. Up to four adjustment leave blocks are created with
+							status requested, a maximum of three coming from the balance transaction
+							and the fourth coming from the carryover adjustment.</para>
+						<para>If the max balance action is approved, the requested leave block
+							containing the adjustment amount for carryover is re-calculated to
+							reflect the resulting balance. If the max balance action is disapproved,
+							the requested adjustment amount for carryover needs no
+							correction.</para>
+					</section>
+					<section>
+						<title>Year-End Max Balance with Max Annual Carryover</title>
+						<para>When defined with a Year-End Action, any amount in excess of the
+							carryover limit and up to the maximum balance limit will be included in
+							the year-end balance transaction. </para>
+					</section>
+				</section>
+			</section>
+			<section>
+				<title>Multiple Accrual Category Rules</title>
+				<para>KHR Leave Managment allows accrual categories to be configured with multiple
+					rules, each rule covering a non-overlapping service interval.</para>
+				<para>To define multiple rules on a single accrual category, each rule must have
+					START and END values that do not overlap any other defined rule. There must also
+					be no gaps between the end of one rule and the start of another.</para>
+			</section>
 		</section>
 	</section>
+	<!-- 
 	<section>
 		<title>Max Balance Transactions</title>
-		<para>KPME Leave Management makes available three pre-defined transactions and three frequencies with which transactions can occur. With the exception of the On-Demand frequency, these transactions are triggered automatically, with respect to the frequency set within the accrual category’s rules. 
-	When the balance of an accrual category has been found to be in excess of the maximum limit defined within its rules, a warning will appear on exempt employees’ leave calendars, non-exempt leave eligible employees’ time calendars, and will also appear on the employee’s approval row within the time and leave approval tabs.
-		</para>
+		<para>KPME Leave Management makes available three pre-defined transactions and three
+			frequencies with which transactions can occur. With the exception of the On-Demand
+			frequency, these transactions are triggered automatically, with respect to the frequency
+			set within the accrual category’s rules. When the balance of an accrual category has
+			been found to be in excess of the maximum limit defined within its rules, a warning will
+			appear on exempt employees’ leave calendars, non-exempt leave eligible employees’ time
+			calendars, and will also appear on the employee’s approval row within the time and leave
+			approval tabs. </para>
 		<section>
 			<title>Transaction Frequencies</title>
-			<para>KPME Leave Management uses the values defined on accrual category rules to automatically determine when specific transactions should occur.</para>
+			<para>KPME Leave Management uses the values defined on accrual category rules to
+				automatically determine when specific transactions should occur.</para>
 			<section>
 				<title>On-Demand</title>
-				<para>Transactions that occur with this frequency will automatically present a button that the user may click to initiate the transaction. This button is made available and active when either:</para>
+				<para>Transactions that occur with this frequency will automatically present a
+					button that the user may click to initiate the transaction. This button is made
+					available and active when either:</para>
 				<itemizedlist>
 					<listitem>
-						<para>the employee’s service as of the current date brings them under a rule with an On-Demand frequency and the existing balance when this rule takes effect is over the limit defined by the rule, or</para>
+						<para>the employee’s service as of the current date brings them under a rule
+							with an On-Demand frequency and the existing balance when this rule
+							takes effect is over the limit defined by the rule, or</para>
 					</listitem>
 					<listitem>
-						<para>An accrual has occurred in an amount that exceeds the balance limit under the given rule.</para>
+						<para>An accrual has occurred in an amount that exceeds the balance limit
+							under the given rule.</para>
 					</listitem>
 				</itemizedlist>
 				<mediaobject>
 					<imageobject>
-						<imagedata fileref="../images/lm/ondemandtransferbutton.jpg" format="JPG" scale="45"/>
+						<imagedata fileref="../images/lm/ondemandtransferbutton.jpg" format="JPG"
+							scale="45"/>
 					</imageobject>
 					<textobject>
 						<phrase>On-Demand Max Balance Action Button Location</phrase>
 					</textobject>
-					<caption>A max balance transaction rule with frequency On-Demand triggers a button when the action can be taken.</caption>
+					<caption>A max balance transaction rule with frequency On-Demand triggers a
+						button when the action can be taken.</caption>
 				</mediaobject>
-				<para>The button remains available until the employee executes the transaction, a rule change occurs under the accrual category or the balance for the accrual category is brought below the maximum defined limit via usage, adjustments, donation or other means. If no such action occurs before the end of the period or a rule change, the button becomes disabled.</para>
+				<para>The button remains available until the employee executes the transaction, a
+					rule change occurs under the accrual category or the balance for the accrual
+					category is brought below the maximum defined limit via usage, adjustments,
+					donation or other means. If no such action occurs before the end of the period
+					or a rule change, the button becomes disabled.</para>
 				<para>To execute an on-demand balance transaction, employee's must:</para>
 				<orderedlist>
 					<listitem>
-						<para>Click the enabled button to be presented with a max balance action form. The form will look similar to this:</para>
+						<para>Click the enabled button to be presented with a max balance action
+							form. The form will look similar to this:</para>
 						<mediaobject>
 							<imageobject>
-								<imagedata fileref="../images/lm/ondemandtransferprompt.jpg" format="JPG" scale="40"/>
+								<imagedata fileref="../images/lm/ondemandtransferprompt.jpg"
+									format="JPG" scale="40"/>
 							</imageobject>
 							<textobject>
 								<phrase>On-Demand Max Balance Action Dialog</phrase>
 							</textobject>
-							<caption>The pre-filled values represent the minimum amount needed to bring the balance back to its limit, with a maximized transaction amount which minimizes loss. If there is forfeiture, the transfer amount cannot be increased.</caption>
+							<caption>The pre-filled values represent the minimum amount needed to
+								bring the balance back to its limit, with a maximized transaction
+								amount which minimizes loss. If there is forfeiture, the transfer
+								amount cannot be increased.</caption>
 						</mediaobject>
-						<para></para>
+						<para/>
 					</listitem>
 					<listitem>
-						<para>Review the values in the form, and adjust the transaction amount if desired. If the transaction amount is changed, the other values will be updated after the form is submitted. If there is an error in the transaction amount field, they will be prompted to fix it. </para>
+						<para>Review the values in the form, and adjust the transaction amount if
+							desired. If the transaction amount is changed, the other values will be
+							updated after the form is submitted. If there is an error in the
+							transaction amount field, they will be prompted to fix it. </para>
 						<mediaobject>
 							<imageobject>
-								<imagedata fileref="../images/lm/ondemandtransferprompterror.jpg" format="JPG" scale="40"/>
+								<imagedata fileref="../images/lm/ondemandtransferprompterror.jpg"
+									format="JPG" scale="40"/>
 							</imageobject>
 							<textobject>
 								<phrase>On-Demand Max Balance Action Form Error</phrase>
 							</textobject>
-							<caption>A negative amount was entered into the transfer amount field, preventing the form from being submitted.</caption>
+							<caption>A negative amount was entered into the transfer amount field,
+								preventing the form from being submitted.</caption>
 						</mediaobject>
 						<mediaobject>
 							<imageobject>
-								<imagedata fileref="../images/lm/ondemandtransfererrorcorrected.jpg" format="JPG" scale="40"/>
+								<imagedata fileref="../images/lm/ondemandtransfererrorcorrected.jpg"
+									format="JPG" scale="40"/>
 							</imageobject>
 							<textobject>
 								<phrase>Corrected On-Demand Transfer Prompt Error</phrase>
 							</textobject>
-							<caption>The negative sign has been removed. <note>Notice the values in the forfeited amount and amount transferred fields.</note></caption>
-						</mediaobject>						
+							<caption>The negative sign has been removed. <note>Notice the values in
+									the forfeited amount and amount transferred
+								fields.</note></caption>
+						</mediaobject>
 					</listitem>
 				</orderedlist>
 				<mediaobject>
 					<imageobject>
-						<imagedata fileref="../images/lm/ondemandtransferblocks.jpg" format="JPG" scale="80"/>
+						<imagedata fileref="../images/lm/ondemandtransferblocks.jpg" format="JPG"
+							scale="80"/>
 					</imageobject>
 					<textobject>
 						<phrase>Resulting leave blocks created by this transaction</phrase>
 					</textobject>
-					<caption>The resulting leave blocks created from the transaction. The forfeited amount and amount transferred fields have been updated relative to the transfer amount entered.</caption>
+					<caption>The resulting leave blocks created from the transaction. The forfeited
+						amount and amount transferred fields have been updated relative to the
+						transfer amount entered.</caption>
 				</mediaobject>
-				<para>Also note the resulting warning message on the employee's leave calendar.</para>
+				<para>Also note the resulting warning message on the employee's leave
+					calendar.</para>
 				<mediaobject>
 					<imageobject>
-						<imagedata fileref="../images/lm/ondemandtransferpendingdoc.jpg" format="JPG" scale="47"/>
+						<imagedata fileref="../images/lm/ondemandtransferpendingdoc.jpg"
+							format="JPG" scale="47"/>
 					</imageobject>
 					<textobject>
 						<phrase>Pending transfer document warning</phrase>
@@ -878,69 +611,107 @@
 			</section>
 			<section>
 				<title>Year-End</title>
-				<para>Year-end frequency transactions are identical to leave-approve transactions, however, are triggered only if</para>
+				<para>Year-end frequency transactions are identical to leave-approve transactions,
+					however, are triggered only if</para>
 				<orderedlist numeration="lowerroman">
 					<listitem>
-						<para>The accrued balance is found to be in excess of the max balance limit as defined by the rule in effect as of the last day of the final leave period in the leave plan’s calendar year.</para>
+						<para>The accrued balance is found to be in excess of the max balance limit
+							as defined by the rule in effect as of the last day of the final leave
+							period in the leave plan’s calendar year.</para>
 					</listitem>
 					<listitem>
 						<para>This day is within the calendar being submitted for approval.</para>
 					</listitem>
 				</orderedlist>
-				<para>In such a case, employees will be prompted to submit the transaction in a similar fashion to leave-approve transactions.</para>
+				<para>In such a case, employees will be prompted to submit the transaction in a
+					similar fashion to leave-approve transactions.</para>
 			</section>
 			<section>
 				<title>Leave Approve</title>
-				<para>Transactions with this frequency occur when an employee submits a calendar. If the accrued balance as of the last day of a leave period is found to be in excess of its maximum limits and this day is within the calendar being submitted, the employee will be prompted to submit the transaction prior to the calendar being routed for approval.</para>
-				<note>For non-exempt leave eligible employees if the calendar does not include the last day of the leave period, a warning will continue to display, but no transaction will be triggered upon submission.</note>
+				<para>Transactions with this frequency occur when an employee submits a calendar. If
+					the accrued balance as of the last day of a leave period is found to be in
+					excess of its maximum limits and this day is within the calendar being
+					submitted, the employee will be prompted to submit the transaction prior to the
+					calendar being routed for approval.</para>
+				<note>For non-exempt leave eligible employees if the calendar does not include the
+					last day of the leave period, a warning will continue to display, but no
+					transaction will be triggered upon submission.</note>
 			</section>
-			
+
 		</section>
 		<section>
 			<title>Transaction Types</title>
-			<para>Three transactions are available by default in KPME Leave Management. Transfer, Payout and Lose. Each transaction type has differences, some subtle, in their look and feel and in their execution.  Transfer and Payout are very similar to each other in most regard, whereas the Lose action is noticeably different. Here we examine each transaction type, including submission walkthroughs and comparisons.</para>
+			<para>Three transactions are available by default in KPME Leave Management. Transfer,
+				Payout and Lose. Each transaction type has differences, some subtle, in their look
+				and feel and in their execution. Transfer and Payout are very similar to each other
+				in most regard, whereas the Lose action is noticeably different. Here we examine
+				each transaction type, including submission walkthroughs and comparisons.</para>
 			<section>
 				<title>Lose</title>
-				<para>This transaction forfeits unused leave and may occur with leave-approve or year-end frequencies.</para>
-				<para>If the balance of an accrual category is over its limit as of the last day of the leave period, when the employee clicks the “Submit for Approval” button, they will be presented with a simple dialog to confirm forfeiture of leave in excess of this limit.</para>
-				<para>To confirm the loss, click “Forfeit”. Otherwise, click cancel to return to the calendar. Once the loss is confirmed, a single approved usage leave block will be created on the calendar in an amount equal to the forfeited amount, and the calendar will immediately resume submission for approval.</para>
+				<para>This transaction forfeits unused leave and may occur with leave-approve or
+					year-end frequencies.</para>
+				<para>If the balance of an accrual category is over its limit as of the last day of
+					the leave period, when the employee clicks the “Submit for Approval” button,
+					they will be presented with a simple dialog to confirm forfeiture of leave in
+					excess of this limit.</para>
+				<para>To confirm the loss, click “Forfeit”. Otherwise, click cancel to return to the
+					calendar. Once the loss is confirmed, a single approved usage leave block will
+					be created on the calendar in an amount equal to the forfeited amount, and the
+					calendar will immediately resume submission for approval.</para>
 				<para>Lose actions do no require approval by department admins.</para>
 			</section>
 			<section>
 				<title>Transfer</title>
-				<para>This transaction moves leave from one accrual category to another at a pre-determined rate. Transfer may occur with any of the three provided frequencies. As with the Lose transaction, a Transfer action is triggered upon calendar submission when the balance for an accrual category is found to be in excess as of the last day of the leave period.</para>
-				<para>
-					Instead of a dialog, the Employee is redirected to a page containing solely the transfer form. This form is identical to the form presented with On-Demand frequencies, but is not contained within a dialog box.
-					Once this form is submitted and correctly validated, up to three leave blocks are created on the calendar belonging to the document id listed on the form. Each block is created with a “requested” status, one for the transfer amount, amount transferred (adjusted for any conversion factor) and, if there exists, forfeiture. The calendar then resumes normal submission, and the Employee is redirected back to the submitted calendar.
-					All Transfer actions require approval by department admins
-				</para>
+				<para>This transaction moves leave from one accrual category to another at a
+					pre-determined rate. Transfer may occur with any of the three provided
+					frequencies. As with the Lose transaction, a Transfer action is triggered upon
+					calendar submission when the balance for an accrual category is found to be in
+					excess as of the last day of the leave period.</para>
+				<para> Instead of a dialog, the Employee is redirected to a page containing solely
+					the transfer form. This form is identical to the form presented with On-Demand
+					frequencies, but is not contained within a dialog box. Once this form is
+					submitted and correctly validated, up to three leave blocks are created on the
+					calendar belonging to the document id listed on the form. Each block is created
+					with a “requested” status, one for the transfer amount, amount transferred
+					(adjusted for any conversion factor) and, if there exists, forfeiture. The
+					calendar then resumes normal submission, and the Employee is redirected back to
+					the submitted calendar. All Transfer actions require approval by department
+					admins </para>
 			</section>
 			<section>
 				<title>Payout</title>
-				<para>This transaction moves leave from an accrual category into an earn code that can be used by payroll to add to salary or wages. Payout may occur with any of the three provided frequencies. As with Transfer and Lose actions, a Payout action can be triggered upon submission of a calendar, and follows the same basic flow. All Payout actions require approval by department admins.</para>
+				<para>This transaction moves leave from an accrual category into an earn code that
+					can be used by payroll to add to salary or wages. Payout may occur with any of
+					the three provided frequencies. As with Transfer and Lose actions, a Payout
+					action can be triggered upon submission of a calendar, and follows the same
+					basic flow. All Payout actions require approval by department admins.</para>
 			</section>
 		</section>
-	<para>
-	</para>
+		<para> </para>
 		<section>
 			<title>Balance Transaction Approval</title>
-			<para>With the exception of the Lose action, all balance transactions must go through the approval process. When a max balance action is taken by an employee,
-				KPME automatically routes the document to the employee's approver. At that time, the document will become available in the approvers action list, as well as in document search. 
-			</para>
-			<para>Balance Transfer and Leave Payout Documents (Max Balance Transaction Maintenance Documents) must be approved or disapproved before the calendar on which they reside can be approved.</para>
+			<para>With the exception of the Lose action, all balance transactions must go through
+				the approval process. When a max balance action is taken by an employee, KPME
+				automatically routes the document to the employee's approver. At that time, the
+				document will become available in the approvers action list, as well as in document
+				search. </para>
+			<para>Balance Transfer and Leave Payout Documents (Max Balance Transaction Maintenance
+				Documents) must be approved or disapproved before the calendar on which they reside
+				can be approved.</para>
 			<para>To take system administrative action on a transaction document:</para>
-			<note>Department admins can locate pending balance transaction documents in their action list.</note>
+			<note>Department admins can locate pending balance transaction documents in their action
+				list.</note>
 			<orderedlist>
 				<listitem>
-					<para>Open the Document lookup view by clicking 
-					<inlinemediaobject>
-						<imageobject>
-							<imagedata fileref="../images/docsearchbutton.jpg" format="JPG" scale="50"/>
-						</imageobject>
-						<textobject>
-							<phrase>Doc Search button</phrase>
-						</textobject>
-					</inlinemediaobject>, located: </para>
+					<para>Open the Document lookup view by clicking <inlinemediaobject>
+							<imageobject>
+								<imagedata fileref="../images/docsearchbutton.jpg" format="JPG"
+									scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>Doc Search button</phrase>
+							</textobject>
+						</inlinemediaobject>, located: </para>
 					<mediaobject>
 						<imageobject>
 							<imagedata fileref="../images/docsearch.jpg" format="JPG" scale="50"/>
@@ -948,13 +719,16 @@
 					</mediaobject>
 				</listitem>
 				<listitem>
-					<para>Perform a search, filtering results by one of the provided fields if necessary.</para>
+					<para>Perform a search, filtering results by one of the provided fields if
+						necessary.</para>
 				</listitem>
 				<listitem>
-					<para>Locate the document, and click on the link provided by the document id</para>
+					<para>Locate the document, and click on the link provided by the document
+						id</para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/balancedoclookup.jpg" format="JPG" scale="47"/>
+							<imagedata fileref="../images/lm/balancedoclookup.jpg" format="JPG"
+								scale="47"/>
 						</imageobject>
 						<textobject>
 							<phrase>Locating the max balance document</phrase>
@@ -962,21 +736,25 @@
 					</mediaobject>
 				</listitem>
 				<listitem>
-					<para>Enter an annotative remark in the field provided, then select the action to take.</para>
+					<para>Enter an annotative remark in the field provided, then select the action
+						to take.</para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/balancedocaction.jpg" format="JPG" scale="47"/>
+							<imagedata fileref="../images/lm/balancedocaction.jpg" format="JPG"
+								scale="47"/>
 						</imageobject>
 						<textobject>
-							<phrase>Taking adminstrative action on a Max Balance Transaction Maintenance Document</phrase>
+							<phrase>Taking adminstrative action on a Max Balance Transaction
+								Maintenance Document</phrase>
 						</textobject>
 					</mediaobject>
 				</listitem>
 			</orderedlist>
-			<para></para>
+			<para/>
 			<mediaobject>
 				<imageobject>
-					<imagedata fileref="../images/lm/balanceactionapproved.jpg" format="JPG" scale="47"/>
+					<imagedata fileref="../images/lm/balanceactionapproved.jpg" format="JPG"
+						scale="47"/>
 				</imageobject>
 				<textobject>
 					<phrase>A Max Balance Action Document after approval</phrase>
@@ -985,46 +763,150 @@
 			</mediaobject>
 			<mediaobject>
 				<imageobject>
-					<imagedata fileref="../images/lm/balanceactionresultingcalendar.jpg" format="JPG" scale="47"/>
+					<imagedata fileref="../images/lm/balanceactionresultingcalendar.jpg"
+						format="JPG" scale="47"/>
 				</imageobject>
 				<textobject>
 					<phrase>Resulting calendar</phrase>
 				</textobject>
-				<caption>The warning message on the calendar has changed to a simple notification/reminder, and the requested leave blocks change to "Approved" status.<note>The forfeiture and amount transfered amounts have been adjusted with respect to the transfer amount.</note></caption>
+				<caption>The warning message on the calendar has changed to a simple
+					notification/reminder, and the requested leave blocks change to "Approved"
+						status.<note>The forfeiture and amount transfered amounts have been adjusted
+						with respect to the transfer amount.</note></caption>
 			</mediaobject>
 		</section>
 	</section>
-		<section>
+ -->
+	<section>
 		<title>System Scheduled Time Off</title>
-		<para>KPME Leave Management supports University Holiday designation via System Scheduled Time Off (SSTO). This feature effectively replaces Holiday Calendar in previous versions of KPME's Timekeeping.
-		</para>
+		<para>KHR Leave Management supports University Holiday designation via System Scheduled Time
+			Off (SSTO). KHR's accrual service accrue the System Scheduled Time Off dates assocated
+			with an employee's Leave Plan and Accrual Categories. </para>
 		<mediaobject>
 			<imageobject>
-				<imagedata fileref="../images/lm/newsstodoc.jpg" format="JPG" scale="50"/>
+				<imagedata fileref="../images/lm21/sstomaintdoc.png" format="png" scale="50"/>
 			</imageobject>
-			<textobject>
-				<phrase>System Scheduled Time Off Maintenance Document</phrase>
-			</textobject>
 			<caption>
-				<phrase>The System Scheduled Time Off Maintenance Document.</phrase>
+				<para>The System Scheduled Time Off Maintenance Document.</para>
 			</caption>
 		</mediaobject>
-		<mediaobject>
-			<imageobject>
-				<imagedata fileref="../images/req-ssto.jpg" format="JPG" scale="47"/>
-			</imageobject>
-			<textobject>
-				<phrase>System Scheduled Time Off Field Summary</phrase>
-			</textobject>
-			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/System+Scheduled+Time+Off">System Scheduled Time Off</link></caption>
-		</mediaobject>
+		<tip>
+			<para>Leave Plans that give employee's paid time off for holiday's will need to create
+				an accrual category and default earn code before entered System Scheduled Time Off
+				records for the Leave Plan. </para>
+		</tip>
+		<table frame="none">
+			<title>SSTO Fields :</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>Date the scheduled time off record will go into effect</entry>
+					</row>
+					<row>
+						<entry>Earn Code</entry>
+						<entry>The earn code associated with the scheduled time off.</entry>
+					</row>
+					<row>
+						<entry>Accrual Category</entry>
+						<entry>Read-only field, populated from the accrual category field of the
+							given earn code.</entry>
+					</row>
+					<row>
+						<entry>Leave Plan</entry>
+						<entry>Read-only field, populated from the leave plan field of the given
+							earn code / accrual category.</entry>
+					</row>
+					<row>
+						<entry>Accrued Date</entry>
+						<entry>Date the holiday is available to use. The accrual service will place
+							a System Scheduled Time Off accrual leave block on the employees leave
+							calendar on this date.</entry>
+					</row>
+					<row>
+						<entry>Scheduled Time Off Date</entry>
+						<entry>Date of the scheduled time off that is put on the calendar. If there
+							is Scheduled Time Off Date, then the accrual service will create a usage
+							leave block on this date. If no Scheduled Time Off Date, then the
+							employee will have an available balance as of the accrual date (i.e.
+							floating holiday).</entry>
+					</row>
+					<row>
+						<entry>Location</entry>
+						<entry>The location in which this SSTO is applicable. Accepts wild card
+							(%).</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text field used to describe the scheduled time off.</entry>
+					</row>
+					<row>
+						<entry>Amount of Time</entry>
+						<entry>The amount of leave time available for this scheduled time off.
+							Precision is based off Earn Code's Fractional Time Allowed
+							field.</entry>
+					</row>
+					<row>
+						<entry>Unused Time</entry>
+						<entry>Provides options on how the amount of time can be used. No Unused
+							Time Allowed, Transfer and Bank. If an employee is allowed to transfer
+							or bank time the accrued usage leave block will display on the leave
+							calendar or timesheet with the option to remove the leave block to have
+							the time transferred or banked. </entry>
+					</row>
+					<row>
+						<entry>Transfer to Earn Code</entry>
+						<entry>If Unused Time is Transfer, the converted amount of time will be made
+							available for use by this earn code.</entry>
+					</row>
+					<row>
+						<entry>Transfer Conversion Factor</entry>
+						<entry>Conversion rate applied to the unused Amount of Time to be
+							transferred</entry>
+					</row>
+					<row>
+						<entry>Premium Holiday</entry>
+						<entry>Flag indicating whether this SSTO is a premium holiday. If checked,
+							'Y', gives certain employees a higher rate of pay when working the
+							Scheduled Time Off Date.</entry>
+					</row>
+					<row>
+						<entry>Premium Earn Code</entry>
+						<entry>Regular hours recorded on this date for non-Exempt employee's with
+							this SSTO will receive the premium earn code for time worked. This earn
+							code may have inflate factor.</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Flag indicating activitiy. If checked, 'Y', record will be active as
+							of the effective date. if unchecked, 'N', record will become inactive as
+							of the effective date.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<!--
 		<section>
 			<title>Floating Holiday Configuration</title>
-			<para>This example will move through basic configuration of system scheduled time off.<note>System Scheduled Time Off requires use of an Earn Code from which some of its properties are derived.
-			For instruction on Earn Code configuration, see the chapter "Basic Configuration"</note></para>
+			<para>This example will move through basic configuration of system scheduled time
+					off.
+				<note><para>System Scheduled Time Off requires use of an Earn Code from which some
+					of its properties are derived. For instruction on Earn Code configuration, see
+					the chapter "Basic Configuration"</para>
+				</note>
+			</para>
 			<orderedlist>
 				<listitem>
-					<para>Navigate to the System Scheduled Time Off Lookup via the link provided in the Leave Managment section of the Maintenance Tab.</para>
+					<para>Navigate to the System Scheduled Time Off Lookup via the link provided in
+						the Leave Managment section of the Maintenance Tab.</para>
 					<mediaobject>
 						<imageobject>
 							<imagedata fileref="../images/lm/sstolink.jpg" format="JPG" scale="50"/>
@@ -1035,19 +917,19 @@
 					</mediaobject>
 				</listitem>
 				<listitem>
-					<para>Within the System Scheduled Time Off Lookup View, click 
-					<inlinemediaobject>
+					<para>Within the System Scheduled Time Off Lookup View, click <inlinemediaobject>
 							<imageobject>
-								<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
+								<imagedata fileref="../images/createnewbutton.jpg" format="JPG"
+									scale="50"/>
 							</imageobject>
 							<textobject>
 								<phrase>create new</phrase>
 							</textobject>
-						</inlinemediaobject>, located:
-					</para>
+						</inlinemediaobject>, located: </para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/sstocreatenew.jpg" format="JPG" scale="50" />
+							<imagedata fileref="../images/lm/sstocreatenew.jpg" format="JPG"
+								scale="50"/>
 						</imageobject>
 						<textobject>
 							<phrase>The Create New Button</phrase>
@@ -1055,28 +937,33 @@
 					</mediaobject>
 				</listitem>
 				<listitem>
-					<para>Within the Document Overview tab of the System Scheduled Time Off Maintenance Document, enter the required description.</para>
+					<para>Within the Document Overview tab of the System Scheduled Time Off
+						Maintenance Document, enter the required description.</para>
 				</listitem>
 				<listitem>
-					<para>Select an effective date from the current date up to one year in the future.</para>
+					<para>Select an effective date from the current date up to one year in the
+						future.</para>
 				</listitem>
 				<listitem>
-					<para>Enter or use the quick finder to return an earn code for the Earn Code field.</para>
-					<note>
-						When using the quick finder, the earn code returned will auto-populate the Accrual Category and Leave Plan fields from the values defined on that Earn Code.
-					</note>
+					<para>Enter or use the quick finder to return an earn code for the Earn Code
+						field.</para>
+					<note> When using the quick finder, the earn code returned will auto-populate
+						the Accrual Category and Leave Plan fields from the values defined on that
+						Earn Code. </note>
 				</listitem>
 				<listitem>
 					<para>Select the Accrued Date.</para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/sstoearncode.jpg" format="JPG" scale="45"/>
+							<imagedata fileref="../images/lm/sstoearncode.jpg" format="JPG"
+								scale="45"/>
 						</imageobject>
 						<textobject>
 							<phrase>System Scheduled Time Off accrued date defined</phrase>
 						</textobject>
 					</mediaobject>
-					<note>The accrued date should be the date that the Amount of Time for this SSTO is accumulated.</note>
+					<note>The accrued date should be the date that the Amount of Time for this SSTO
+						is accumulated.</note>
 				</listitem>
 				<listitem>
 					<para>No Scheduled Time Off Date is required for floating holiday</para>
@@ -1088,28 +975,35 @@
 					<para>Enter a description.</para>
 				</listitem>
 				<listitem>
-					<para>Enter the Amount of Time that can be taken for the scheduled time off.</para>
+					<para>Enter the Amount of Time that can be taken for the scheduled time
+						off.</para>
 				</listitem>
 				<listitem>
 					<para>Select "Bank" for Unused Time.</para>
-					<note>Refer to the field summary at the start of this section for field requirements when selecting the Unused time.
-						A value of "Bank" indicates the Amount of Time will be placed into the Accrual Category on the supplied Accrued Date.
-						"Transfer" indicates the Amount of Time, adjusted by the Transfer Conversion Factor, will be available for transfer
-						once the holiday accrual appears on the employees calendar.
-						"No Unused Time Allowed" will generate a leave block on the calendar that cannot be removed or edited by the employee. If No Unused Time Allowed is selected,
-						specify the same date for Scheduled Time Off Date and Accrued Date.</note>
+					<note>Refer to the field summary at the start of this section for field
+						requirements when selecting the Unused time. A value of "Bank" indicates the
+						Amount of Time will be placed into the Accrual Category on the supplied
+						Accrued Date. "Transfer" indicates the Amount of Time, adjusted by the
+						Transfer Conversion Factor, will be available for transfer once the holiday
+						accrual appears on the employees calendar. "No Unused Time Allowed" will
+						generate a leave block on the calendar that cannot be removed or edited by
+						the employee. If No Unused Time Allowed is selected, specify the same date
+						for Scheduled Time Off Date and Accrued Date.</note>
 				</listitem>
 				<listitem>
-					<para>Select whether this System Scheduled Time off is a premium holiday. A "Yes" indicates a higher rate of pay for employees who work this day.</para>
+					<para>Select whether this System Scheduled Time off is a premium holiday. A
+						"Yes" indicates a higher rate of pay for employees who work this day.</para>
 				</listitem>
 				<listitem>
 					<para>Ensure that the "Active" box is checked</para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/sstocomplete.jpg" format="JPG" scale="45" />
+							<imagedata fileref="../images/lm/sstocomplete.jpg" format="JPG"
+								scale="45"/>
 						</imageobject>
 						<textobject>
-							<phrase>Completed System Scheduled Time Off Maintenance Document</phrase>
+							<phrase>Completed System Scheduled Time Off Maintenance
+								Document</phrase>
 						</textobject>
 						<caption>A Basic System Scheduled Time Off Maintenance Document</caption>
 					</mediaobject>
@@ -1118,17 +1012,21 @@
 					<para>Finally, Submit the document.</para>
 				</listitem>
 			</orderedlist>
-			<para>The resulting accrual leave block generated by the floating holiday SSTO definition will appear on the employee's calendar as shown:</para>
+			<para>The resulting accrual leave block generated by the floating holiday SSTO
+				definition will appear on the employee's calendar as shown:</para>
 			<mediaobject>
 				<imageobject>
 					<imagedata fileref="../images/lm/sstobank1.jpg" format="JPG" scale="45"/>
 				</imageobject>
 				<textobject>
-					<phrase>Accrual generated when "Bank" is option selected as Unused Time.</phrase>
+					<phrase>Accrual generated when "Bank" is option selected as Unused
+						Time.</phrase>
 				</textobject>
-				<caption>A single accrual will be generated for SSTO's when "Bank" is selected for Unused Time option.</caption>
+				<caption>A single accrual will be generated for SSTO's when "Bank" is selected for
+					Unused Time option.</caption>
 			</mediaobject>
-			<para>The following images show an SSTO defined with "No Unused Time Allowed", and the resulting leave blocks on an employees calendar.</para>
+			<para>The following images show an SSTO defined with "No Unused Time Allowed", and the
+				resulting leave blocks on an employees calendar.</para>
 			<mediaobject>
 				<imageobject>
 					<imagedata fileref="../images/lm/sstounuseddef.jpg" format="JPG" scale="45"/>
@@ -1143,20 +1041,25 @@
 					<imagedata fileref="../images/lm/sstounusedblock.jpg" format="JPG" scale="45"/>
 				</imageobject>
 				<textobject>
-					<phrase>Resulting leave blocks generated by the SSTO on the accrued/scheduled time off date.</phrase>
+					<phrase>Resulting leave blocks generated by the SSTO on the accrued/scheduled
+						time off date.</phrase>
 				</textobject>
-				<caption>No Unused Time Allowed creates one accrual leave block and one usage leave block on the employees calendar.</caption>
+				<caption>No Unused Time Allowed creates one accrual leave block and one usage leave
+					block on the employees calendar.</caption>
 			</mediaobject>
 		</section>
-		<section>
+-->
+		<!--		<section>
 			<title>Transferable System Scheduled Time Off</title>
-			<para>This section will move through the steps required by employees in order for them to transfer unused time. We begin with a sample SSTO definition.</para>
+			<para>This section will move through the steps required by employees in order for them
+				to transfer unused time. We begin with a sample SSTO definition.</para>
 			<mediaobject>
 				<imageobject>
 					<imagedata fileref="../images/lm/sstotransferdef.jpg" format="JPG" scale="60"/>
 				</imageobject>
 				<textobject>
-					<phrase>Example SSTO definition that allows for the transfer of unused time.</phrase>
+					<phrase>Example SSTO definition that allows for the transfer of unused
+						time.</phrase>
 				</textobject>
 				<caption>A sample transferable SSTO</caption>
 			</mediaobject>
@@ -1166,9 +1069,11 @@
 					<imagedata fileref="../images/lm/sstotransfer1.jpg" format="JPG" scale="60"/>
 				</imageobject>
 				<textobject>
-					<phrase>One accrual leave block is created on the accrued date, with the usage leave block created on the scheduled time off date.</phrase>
+					<phrase>One accrual leave block is created on the accrued date, with the usage
+						leave block created on the scheduled time off date.</phrase>
 				</textobject>
-				<caption>Resulting leave blocks created by the above transferable SSTO definition.</caption>
+				<caption>Resulting leave blocks created by the above transferable SSTO
+					definition.</caption>
 			</mediaobject>
 			<para>To initiate the transfer the unused time, employees must:</para>
 			<orderedlist>
@@ -1176,50 +1081,156 @@
 					<para>Click the x on the usage leave block.</para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/sstotransfer4.jpg" format="JPG" scale="60"/>
+							<imagedata fileref="../images/lm/sstotransfer4.jpg" format="JPG"
+								scale="60"/>
 						</imageobject>
 						<textobject>
-							<phrase>Deleting the usage leave block created by the transferable SSTO will trigger the transfer of unused time</phrase>
+							<phrase>Deleting the usage leave block created by the transferable SSTO
+								will trigger the transfer of unused time</phrase>
 						</textobject>
-						<caption>The usage leave block generated by the transferable SSTO, when removed, triggers the balance transfer document.</caption>
+						<caption>The usage leave block generated by the transferable SSTO, when
+							removed, triggers the balance transfer document.</caption>
 					</mediaobject>
 				</listitem>
 				<listitem>
-					<para>In the dialog box that appears, confirm the deletion of the usage leave block.</para>
+					<para>In the dialog box that appears, confirm the deletion of the usage leave
+						block.</para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/sstotransfer2.jpg" format="JPG" scale="75"/>
+							<imagedata fileref="../images/lm/sstotransfer2.jpg" format="JPG"
+								scale="75"/>
 						</imageobject>
 						<textobject>
-							<phrase>Deleting the usage leave block created by the transferable SSTO will trigger the transfer of unused time</phrase>
+							<phrase>Deleting the usage leave block created by the transferable SSTO
+								will trigger the transfer of unused time</phrase>
 						</textobject>
-						<caption>Employees must first confirm the removal of the usage leave block in order to be presented with the transfer document.</caption>
+						<caption>Employees must first confirm the removal of the usage leave block
+							in order to be presented with the transfer document.</caption>
 					</mediaobject>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/lm/sstotransfer3.jpg" format="JPG" scale="45"/>
+							<imagedata fileref="../images/lm/sstotransfer3.jpg" format="JPG"
+								scale="45"/>
 						</imageobject>
 						<textobject>
-							<phrase>The balance transfer document resulting from the confirmation of usage leave block removal on a transferable SSTO</phrase>
+							<phrase>The balance transfer document resulting from the confirmation of
+								usage leave block removal on a transferable SSTO</phrase>
 						</textobject>
-						<caption>The balance transfer document is pre-populated with values defined in the transferable SSTO at the start of this example.</caption>
+						<caption>The balance transfer document is pre-populated with values defined
+							in the transferable SSTO at the start of this example.</caption>
 					</mediaobject>
 				</listitem>
 				<listitem>
 					<para>Finally, submit the balance transfer document</para>
 				</listitem>
 			</orderedlist>
-			<para>Upon successful submission of the Balance Transfer document, both leave blocks generated by the transferable SSTO are replaced with a single leave block representing the transaction that has taken place.</para>
+			<para>Upon successful submission of the Balance Transfer document, both leave blocks
+				generated by the transferable SSTO are replaced with a single leave block
+				representing the transaction that has taken place.</para>
 			<mediaobject>
 				<imageobject>
 					<imagedata fileref="../images/lm/sstotransfer5.jpg" format="JPG" scale="45"/>
 				</imageobject>
 				<textobject>
-					<phrase>The resulting leave block generated by the transfer of unused time for the SSTO defined at the start of this section.</phrase>
+					<phrase>The resulting leave block generated by the transfer of unused time for
+						the SSTO defined at the start of this section.</phrase>
 				</textobject>
-				<caption>A single leave block replaces the SSTO generated leave blocks. This leave block remains in requested status until the balance transfer document is approved or disapproved.</caption>
+				<caption>A single leave block replaces the SSTO generated leave blocks. This leave
+					block remains in requested status until the balance transfer document is
+					approved or disapproved.</caption>
 			</mediaobject>
-			<note>If the balance transfer document is disapproved, the system retro-actively adds the SSTO generated leave blocks back to the calendar.</note>
+			<note>If the balance transfer document is disapproved, the system retro-actively adds
+				the SSTO generated leave blocks back to the calendar.</note>
+		</section>
+-->
+	</section>
+	<section>
+		<title>Leave Blocks and Earn Codes</title>
+		<para> Leave blocks are placed on leave calendars to show accruals, usage and adjustments of
+			leave through out the reporting period. The type of leave block along with the earn code
+			determine how the leave balances are calculated. </para>
+		<section>
+			<title>Leave Block Types</title>
+			<para>
+				<itemizedlist>
+					<listitem>
+						<para>Usage Leave Blocks: usage on Leave Calendar or Timesheet</para>
+					</listitem>
+					<listitem>
+						<para>Accrual: leave blocks generated by the Accrual Service</para>
+					</listitem>
+					<listitem>
+						<para>Balance Transfer: leave block created from Balance Transfer
+							document</para>
+					</listitem>
+					<listitem>
+						<para>Payout: leave block created from Payout document</para>
+					</listitem>
+					<listitem>
+						<para>Carryover Adjustment: leave block created from Maximum Annual
+							Carryover transaction</para>
+					</listitem>
+					<listitem>
+						<para>Leave Adjustment: leave blocks created from Leave Adjustment
+							document</para>
+					</listitem>
+					<listitem>
+						<para>Donation: leave blocks created from Leave Donation document</para>
+					</listitem>
+				</itemizedlist>
+			</para>
+		</section>
+		<section>
+			<title>Leave Earn Codes</title>
+			<para>All leave blocks on a leave calendar will have an Earn Code associated with it and
+				the earn codes are associated with the employee's leave plan. The earn code's leave
+				attributes, such as leave plan, defines the availablity of earn codes on the leave
+				calendar and the impact the leave block has on the Accrual Category's balances.
+			</para>
+			<section>
+				<title>Available Earn Codes for Leave</title>
+				<para>Earn Codes that are available for reporting leave on an employee's leave calendar or timesheet
+					is driven by the leave attributes of the earn code (See Earn Code maintenance document) and Earn Code Security record for the earn code.
+					<orderedlist>
+						<listitem>
+							<para>All earn codes for user's Leave Plan (Principal HR Attribute) and Accrual Balance Action is Usage</para>
+							<itemizedlist>
+								<listitem>
+									<para>Earn Code's with Allow Scheduled Leave are available on future leave reporting calendars. </para>
+								</listitem>
+							</itemizedlist>
+						</listitem>
+						<listitem>
+							<para>Earn Code Security record for the earn code determines if earn code is available on leave calendar and/or timesheet
+								the roles that have permission to use the earn code.  
+							</para>
+						</listitem>
+						<listitem>
+							<para>Earn Codes flagged as FMLA or Worker's Comp are available on leave calendars and/or timesheets of employees have 
+								FMLA and Worker's Comp indicators (Principal HR Attributes).   
+							</para>
+						</listitem>
+						
+					</orderedlist>
+				</para>
+			</section>
+			<section>
+				<title>Calculating Accrual Category Balances</title>
+				<para>The leave summary provides the balances for leave on current and future leave calendars.  Year to Date (YTD) calculations
+					uses the employee's Leave Plan calendar start date.  The earn code's Accrual Balance Action attribute will determine how the 
+					leave block impacts how the leave earned and leave usage balances are calculated.  
+				</para>
+				<para>YTD Earned calculates all the sum of all the accrual, balance transer, payout,
+					donation, and the carryover adjustement (previous years leave balanced created via batch job) leave block types.  This total also includes 
+					any leave blocks from the time calendar, leave calendar and leave adjustments that have an earn code with Accrual Balance Action of Adjustment.  
+				</para>
+				<para>YTD Usage is calculation of all the approved time calendar, leave calendar, and leave adjustment leave blocks with earn codes that have an Accrual 
+					Balance Action of Usage
+				</para>
+				<para>Planned/Future Usage calculation includes all approved, requested, and planned leave blocks that are on future leave calendar and have an 
+					earn code with an Accrual Balance Action of Usage.  
+				</para>
+			</section>
 		</section>
 	</section>
 </chapter>
