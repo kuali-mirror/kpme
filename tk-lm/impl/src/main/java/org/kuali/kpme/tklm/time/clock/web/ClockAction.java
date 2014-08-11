@@ -216,10 +216,23 @@ public class ClockAction extends TimesheetAction {
 		        			Long workArea = assignment.getWorkArea();
                             String dept = assignment.getJob().getDept();
                             String groupKeyCode = assignment.getJob().getGroupKeyCode();
+
+
+                            //String location = assignment.getJob().getGroupKey().getLocation().getLocation();
+
 		        			/*String principalId = HrContext.getPrincipalId();*/
 		        			DateTime startOfToday = LocalDate.now().toDateTimeAtStartOfDay();
+
+                            String location = HrServiceLocator.getHrGroupKeyService().getHrGroupKey(groupKeyCode, startOfToday.toLocalDate()).getLocationId();
+
+
                             isApproverOrReviewerForCurrentAssignment =
                                     HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER.getRoleName(), workArea, startOfToday)
+
+                                    || HrServiceLocator.getKPMERoleService().principalHasRole(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_ADMINISTRATOR.getRoleName(), startOfToday)
+
+                                    || HrServiceLocator.getKPMERoleService().principalHasRoleInLocation(principalId, KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, startOfToday)
+
 		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, startOfToday)
 		        					|| HrServiceLocator.getKPMERoleService().principalHasRoleInWorkArea(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.REVIEWER.getRoleName(), workArea, startOfToday)
                                     || HrServiceLocator.getKPMERoleService().principalHasRoleInDepartment(principalId, KPMENamespace.KPME_HR.getNamespaceCode(), KPMERole.PAYROLL_PROCESSOR.getRoleName(), dept, groupKeyCode, startOfToday)
