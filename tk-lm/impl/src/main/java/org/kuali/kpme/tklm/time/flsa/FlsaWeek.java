@@ -45,6 +45,10 @@ public class FlsaWeek implements FlsaWeekContract {
 		flsaDays.add(flsaDay);
 	}
 
+    public LocalTime getPayPeriodBeginTime()
+    {
+        return this.payPeriodBeginTime;
+    }
 	/**
 	 * Check to see if the first week is Full or not.
 	 * 
