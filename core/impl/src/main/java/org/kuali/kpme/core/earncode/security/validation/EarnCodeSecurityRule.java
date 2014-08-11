@@ -42,6 +42,7 @@ import java.util.List;
     public class EarnCodeSecurityRule extends HrKeyedBusinessObjectValidation {
 
     protected boolean validateGroupKeyCode(EarnCodeSecurityBo departmentEarnCode) {
+
         if (StringUtils.equals(departmentEarnCode.getGroupKeyCode(), HrConstants.WILDCARD_CHARACTER)) {
             return true;
         }
@@ -59,18 +60,30 @@ import java.util.List;
 		}
 	}
 
+    private Department getDepartment(EarnCodeSecurityBo departmentEarnCode)
+    {
+        return HrServiceLocator.getDepartmentService().getDepartment(departmentEarnCode.getDept(), departmentEarnCode.getGroupKeyCode(), departmentEarnCode.getEffectiveLocalDate());
+    }
+
 	private boolean validateDept(EarnCodeSecurityBo departmentEarnCode) {
 
 		if (StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER)) {
             return true;
         }
 
-        DepartmentBo dbo = departmentEarnCode.getDepartmentObj();
+        if ( (!StringUtils.equals(departmentEarnCode.getDept(), HrConstants.WILDCARD_CHARACTER))
+                && (this.getDepartment(departmentEarnCode) != null)
+                && (StringUtils.equals(departmentEarnCode.getGroupKeyCode(), HrConstants.WILDCARD_CHARACTER)) )
+        {
+            this.putFieldError("dept", "error.department.groupkey.nomatch", departmentEarnCode.getDept());
+            return false;
+        }
+
 
         /* if ( (departmentEarnCode.getDepartmentObj() != null)
             && (StringUtils.equals(departmentEarnCode.getDepartmentObj().getGroupKeyCode(), departmentEarnCode.getGroupKeyCode() ) ) ) { */
 
-        Department dept = HrServiceLocator.getDepartmentService().getDepartment(departmentEarnCode.getDept(), departmentEarnCode.getGroupKeyCode(), departmentEarnCode.getEffectiveLocalDate());
+        Department dept = this.getDepartment(departmentEarnCode);
 
         if ( (dept != null)
                 && (StringUtils.equals(dept.getGroupKeyCode(), departmentEarnCode.getGroupKeyCode() ) ) ) {
@@ -178,6 +191,11 @@ import java.util.List;
         else if (StringUtils.equals(department, HrConstants.WILDCARD_CHARACTER))
         {
             departmentObjs = HrServiceLocator.getDepartmentService().getDepartmentsWithGroupKey(groupKeyCode, LocalDate.now());
+        }
+        else if (StringUtils.equals(groupKeyCode, HrConstants.WILDCARD_CHARACTER))
+        {
+            //if the department is specified, the group key must NOT be a wildcard.
+            return false;
         }
         else
         {
