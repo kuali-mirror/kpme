@@ -48,7 +48,7 @@
     </bean>
     
     <bean id="Edo-ApplicationHeader-MenuList" parent="Edo-ApplicationHeader-MenuList-parent" />
-    <bean id="Edo-ApplicationHeader-MenuList-parent" parent="Uif-DropdownToggleMenu" p:toggleCaretClass="" p:toggleText="test">
+    <bean id="Edo-ApplicationHeader-MenuList-parent" parent="Uif-DropdownToggleMenu">
         <property name="menuGroup">
             <bean parent="Uif-AppMenuGroup" p:layoutManager.defaultItemColSpan="12">
                 <property name="items">
@@ -146,9 +146,13 @@
 										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-AllFilesView&amp;methodToCall=start&amp;hideReturnLink=true"
 									 	p:iconClass="icon-list4" />	
 									
-									<bean parent="Uif-Link" p:linkText="Help"
-										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-HelpView&amp;methodToCall=start&amp;hideReturnLink=true"
-									 	p:iconClass="icon-question-sign" />
+<!-- 									<bean parent="Uif-Link" p:linkText="Help" -->
+<!-- 										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-HelpView&amp;methodToCall=start&amp;hideReturnLink=true" -->
+<!-- 									 	p:iconClass="icon-question-sign" /> -->
+
+									<bean parent="Edo-Help-Menu" 
+										p:toggleText="Help" 
+										p:iconClass="icon-question-sign" />
 
 								</list>
 							</property>
@@ -159,7 +163,31 @@
 		</property>
 	</bean>
 	
-	
+	<bean id="Edo-Help-Menu" parent="Edo-Help-Menu-parent" />
+    <bean id="Edo-Help-Menu-parent" parent="Uif-DropdownToggleMenu">
+    	<property name="menuGroup">
+     		 <bean parent="Uif-SimpleListGroup" p:layoutManager.libraryCssClasses="dropdown-menu">
+		    	 <property name="items">
+	                    <list>
+	                        <bean parent="Uif-Link" 
+			          			p:linkText="Help Topic"
+			          			p:cssClasses="edo-toggle-menu"
+								p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-HelpTopic-View&amp;methodToCall=start&amp;hideReturnLink=true" /> 
+					        <bean parent="Uif-Link" 
+				          		p:linkText="Promotion and Tenure Guidelines"
+				          		p:cssClasses="edo-toggle-menu"
+							  	p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-PTGuidelines-View&amp;methodToCall=start&amp;hideReturnLink=true" /> 
+							<bean parent="Uif-Link" 
+				          		p:linkText="Sample eDossier"
+				          		p:cssClasses="edo-toggle-menu"
+								p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-sampleEdossier-View&amp;methodToCall=start&amp;hideReturnLink=true" />
+	            
+	                    </list>
+		   		 </property>
+	   		 </bean>
+   		 </property>
+    </bean>	
+    
 	<bean id="Edo-CommonHeader-UserInfoSection" parent="Uif-GridGroup">
         <property name="layoutManager.numberOfColumns" value="4"/>
 <!--         <property name="layoutManager.libraryCssClasses"> -->

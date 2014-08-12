@@ -17,6 +17,18 @@
 @import "style.css";
 @import "../plugins/fancybox/jquery.fancybox.css";
 
+.edo-application-header {
+ 	margin-left: auto;
+    margin-right: auto;
+}
+.edo-header-image {
+	padding-left: 80px;
+}
+
+.edo-header-menu {
+	padding-right: 100px;
+}
+
 .edo-header {
     text-align: right;
     vertical-align: right;
@@ -35,4 +47,26 @@
     font-weight: 400;
     line-height: normal;
     text-align: left;
+    vertical-align: bottom;
+}
+
+.edo-view {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1300px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333333;
+}
+
+.edo-user-info {
+	
+	vertical-align: right;
+	text-align: right;
+}
+
+.edo-toggle-menu {
+	vertical-align: left;
+	text-align: left;
 }
