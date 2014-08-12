@@ -107,16 +107,14 @@ public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableI
                 personSearch.putAll(nonBlankSearchCriteria);
                 personSearch.put("principalId", p.getPrincipalId());
 
-                List<JobBo> res = (List<JobBo>)getLookupService().findCollectionBySearchHelper(getDataObjectClass(),
-                        personSearch, unbounded, searchResultsLimit);
+                List<JobBo> res = (List<JobBo>)super.getSearchResults(form, personSearch, unbounded);
 
                 rawSearchResults.addAll(res);
             }
         }
         else
         {
-            rawSearchResults = (List<JobBo>)getLookupService().findCollectionBySearchHelper(getDataObjectClass(),
-                    nonBlankSearchCriteria, unbounded, searchResultsLimit);
+            rawSearchResults = (List<JobBo>)super.getSearchResults(form, nonBlankSearchCriteria, unbounded);
         }
 
         if (rawSearchResults == null) {
@@ -128,7 +126,7 @@ public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableI
 
         List<JobBo> filteredResults = filterLookupJobs(rawSearchResults, userPrincipalId);
 
-        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
+//        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
 
         return filteredResults;
     }
