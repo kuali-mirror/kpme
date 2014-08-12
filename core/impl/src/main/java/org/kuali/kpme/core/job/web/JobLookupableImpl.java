@@ -78,23 +78,9 @@ public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableI
     public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
 
-        Integer searchResultsLimit = null;
-
         List<JobBo> rawSearchResults = new ArrayList<JobBo>();
 
         // removed blank search values and decrypt any encrypted search values
-        Map<String, String> nonBlankSearchCriteria = processSearchCriteria(form, searchCriteria);
-        nonBlankSearchCriteria.remove("firstName");
-        nonBlankSearchCriteria.remove("lastName");
-
-
-        if (nonBlankSearchCriteria == null) {
-            return new ArrayList<Object>();
-        }
-
-        if (!unbounded) {
-            searchResultsLimit = LookupUtils.getSearchResultsLimit(getDataObjectClass(), form);
-        }
 
         if (StringUtils.isNotEmpty(searchCriteria.get("firstName")) || StringUtils.isNotEmpty(searchCriteria.get("lastName"))) {
             Map<String, String> fields = new HashMap<String, String>();
@@ -105,8 +91,10 @@ public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableI
 
             for (Person p : people) {
                 Map<String, String> personSearch = new HashMap<String, String>();
-                personSearch.putAll(nonBlankSearchCriteria);
+                personSearch.putAll(searchCriteria);
                 personSearch.put("principalId", p.getPrincipalId());
+                personSearch.remove("firstName");
+                personSearch.remove("lastName");
 
                 List<JobBo> res = (List<JobBo>)super.getSearchResults(form, personSearch, unbounded);
 
@@ -115,20 +103,17 @@ public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableI
         }
         else
         {
-            rawSearchResults = (List<JobBo>)super.getSearchResults(form, nonBlankSearchCriteria, unbounded);
-        }
+            searchCriteria.remove("firstName");
+            searchCriteria.remove("lastName");
 
-        if (rawSearchResults == null) {
-            rawSearchResults = new ArrayList<JobBo>();
-        } else {
-            sortSearchResults(form, (List<?>) rawSearchResults);
-        }
 
+            rawSearchResults = (List<JobBo>)super.getSearchResults(form, searchCriteria, unbounded);
+        }
 
         List<JobBo> filteredResults = filterLookupJobs(rawSearchResults, userPrincipalId);
 
         GlobalVariables.setMessageMap(new MessageMap());
-        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
+        generateLookupResultsMessages(form, searchCriteria, filteredResults, unbounded);
 
         return filteredResults;
     }
