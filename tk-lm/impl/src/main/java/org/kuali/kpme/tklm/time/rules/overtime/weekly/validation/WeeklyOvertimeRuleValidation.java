@@ -22,6 +22,7 @@ import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRuleGroup;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
 
@@ -46,6 +47,7 @@ public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
 
 		int index = 0;
 		for(WeeklyOvertimeRule rule : ruleGroup.getLstWeeklyOvertimeRules()) {
+            rule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
             valid &= validateWeeklyOvertimeRule(rule, "lstWeeklyOvertimeRules["+index+"].");
 			index++;
 		}
@@ -90,5 +92,31 @@ public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
 
         return valid;
     }
+/*
+	@Override
+	protected boolean processCustomRouteDocumentBusinessRules(
+			MaintenanceDocument document) {
+		boolean valid = false;
 
+		LOG.debug("entering custom validation for DailyOvertimeRule");
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		if (pbo instanceof DailyOvertimeRule) {
+			DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) pbo;
+			dailyOvertimeRule.setUserPrincipalId(GlobalVariables
+					.getUserSession().getPrincipalId());
+			if (dailyOvertimeRule != null) {
+				valid = true;
+				//valid &= this.validateLocation(dailyOvertimeRule);
+				valid &= this.validatePayType(dailyOvertimeRule);
+				valid &= this.validateDepartment(dailyOvertimeRule);
+				valid &= this.validateWorkArea(dailyOvertimeRule);
+				valid &= this.validateEarnCode(dailyOvertimeRule);
+				valid &= this.validateEarnGroup(dailyOvertimeRule);
+				valid &= this.validateGroupKeyCode(dailyOvertimeRule);
+			}
+		}
+
+		return valid;
+	}
+ */
 }
