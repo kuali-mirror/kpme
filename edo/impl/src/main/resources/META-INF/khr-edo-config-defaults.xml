@@ -23,4 +23,5 @@
     
     <param name="khr.edo.portal.link.visible">true</param>
 
+    <param name="kpme.struts.message.resources">ApplicationResources,org.kuali.kpme.edo.ApplicationResources</param>
 </config>

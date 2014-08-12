@@ -267,7 +267,8 @@
 
     <controller processorClass="org.kuali.kpme.edo.base.web.EdoRequestProcessor"></controller>
 
-    <message-resources null="true" parameter="ApplicationResources"/>
+    <!--<message-resources null="true" parameter="ApplicationResources"/>-->
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
     <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
         <set-property property="pathnames" value="/WEB-INF/validator-rules.xml"/>
     </plug-in>
