@@ -33,6 +33,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 import java.util.*;
@@ -126,7 +127,8 @@ public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableI
 
         List<JobBo> filteredResults = filterLookupJobs(rawSearchResults, userPrincipalId);
 
-//        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
+        GlobalVariables.setMessageMap(new MessageMap());
+        generateLookupResultsMessages(form, nonBlankSearchCriteria, filteredResults, unbounded);
 
         return filteredResults;
     }
