@@ -16,51 +16,40 @@
 package org.kuali.kpme.core.job.web;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.department.Department;
-import org.kuali.kpme.core.api.job.Job;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.permission.KPMEPermissionTemplate;
+import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.job.JobBo;
-import org.kuali.kpme.core.lookup.KPMELookupableImpl;
 import org.kuali.kpme.core.lookup.KpmeHrGroupKeyedBusinessObjectLookupableImpl;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.core.service.HrServiceLocator;
-import org.kuali.kpme.core.util.TKUtils;
-import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.lookup.LookupUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.krad.web.form.LookupForm;
 
 import java.util.*;
 
-//public class JobLookupableImpl extends KPMELookupableImpl{
 public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableImpl {
-    private static final ModelObjectUtils.Transformer<Job, JobBo> toJobBo =
-            new ModelObjectUtils.Transformer<Job, JobBo>() {
-                public JobBo transform(Job input) {
-                    return JobBo.from(input);
-                };
-            };
-
+   
+	private static final long serialVersionUID = 7167634961509244966L;
+	
     protected List<JobBo> filterLookupJobs(List<JobBo> rawResults, String userPrincipalId)
     {
         List<JobBo> results = new ArrayList<JobBo>();
         for (JobBo jobObj : rawResults)
         {
-            String department = jobObj.getDept();
-            Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(department, jobObj.getGroupKeyCode(), jobObj.getEffectiveLocalDate());
-            String location = departmentObj != null ? departmentObj.getGroupKey().getLocationId() : null;
-
             Map<String, String> roleQualification = new HashMap<String, String>();
             roleQualification.put(KimConstants.AttributeConstants.PRINCIPAL_ID, userPrincipalId);
-            roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
+            roleQualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), jobObj.getDept());
             roleQualification.put(KPMERoleMemberAttribute.GROUP_KEY_CODE.getRoleMemberAttributeName(), jobObj.getGroupKeyCode());
-            roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
+            
+            HrGroupKeyBo groupKey = jobObj.getGroupKey();
+			if(groupKey != null) {
+				roleQualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), groupKey.getLocationId());
+				roleQualification.put(KPMERoleMemberAttribute.INSTITUION.getRoleMemberAttributeName(), groupKey.getInstitutionCode());
+			}
 
             if (!KimApiServiceLocator.getPermissionService().isPermissionDefinedByTemplate(KPMENamespace.KPME_WKFLW.getNamespaceCode(),
                     KPMEPermissionTemplate.VIEW_KPME_RECORD.getPermissionTemplateName(), new HashMap<String, String>())
@@ -77,18 +66,13 @@ public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableI
     @Override
     public List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
         String userPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-
         List<JobBo> rawSearchResults = new ArrayList<JobBo>();
-
-        // removed blank search values and decrypt any encrypted search values
-
+        
         if (StringUtils.isNotEmpty(searchCriteria.get("firstName")) || StringUtils.isNotEmpty(searchCriteria.get("lastName"))) {
             Map<String, String> fields = new HashMap<String, String>();
             fields.put("firstName", searchCriteria.get("firstName"));
             fields.put("lastName", searchCriteria.get("lastName"));
             List<Person> people = KimApiServiceLocator.getPersonService().findPeople(fields);
-
-
             for (Person p : people) {
                 Map<String, String> personSearch = new HashMap<String, String>();
                 personSearch.putAll(searchCriteria);
@@ -97,24 +81,18 @@ public class JobLookupableImpl extends KpmeHrGroupKeyedBusinessObjectLookupableI
                 personSearch.remove("lastName");
 
                 List<JobBo> res = (List<JobBo>)super.getSearchResults(form, personSearch, unbounded);
-
                 rawSearchResults.addAll(res);
             }
-        }
-        else
-        {
+        } else {
             searchCriteria.remove("firstName");
             searchCriteria.remove("lastName");
-
-
+            
             rawSearchResults = (List<JobBo>)super.getSearchResults(form, searchCriteria, unbounded);
         }
 
         List<JobBo> filteredResults = filterLookupJobs(rawSearchResults, userPrincipalId);
-
         GlobalVariables.setMessageMap(new MessageMap());
         generateLookupResultsMessages(form, searchCriteria, filteredResults, unbounded);
-
         return filteredResults;
     }
 
