@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.edo.checklist;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class EdoChecklistBoTest {
 		testEdoChecklistBos = new HashMap<String, EdoChecklist>();
 		edoEdoChecklistBuilder.setEdoChecklistId("1000");
 		edoEdoChecklistBuilder.setDescription("Testing Immutable EdoChecklist");
+        edoEdoChecklistBuilder.setChecklistSections(Collections.singletonList(EdoChecklistSectionBoTest.edoEdoChecklistSectionBuilder));
 		edoEdoChecklistBuilder.setDepartmentId("DEFAULT");
 		edoEdoChecklistBuilder.setDossierTypeCode("AB");
 		edoEdoChecklistBuilder.setGroupKeyCode("ISU-IA");

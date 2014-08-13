@@ -126,7 +126,7 @@
         <field-descriptor name="aoeCode" 			column="aoe_code" 			jdbc-type="CHAR" 	length="1" nullable="true"/>    
         <field-descriptor name="currentRank" 		column="current_rank" 		jdbc-type="VARCHAR" length="32" nullable="false"/>
         <field-descriptor name="rankSought" 		column="rank_sought" 		jdbc-type="VARCHAR" length="32" nullable="false"/>										
-        <field-descriptor name="dueDate" 			column="due_date" 			jdbc-type="DATE" 	nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="dueDateVal" 			column="due_date" 			jdbc-type="DATE" 	nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="dossierStatus" 		column="dossier_status" 	jdbc-type="VARCHAR" length="12" nullable="false"/>
         <field-descriptor name="workflowId" 		column="workflow_id" 		jdbc-type="VARCHAR" 	length="25" nullable="false"/>
         <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
@@ -167,8 +167,8 @@
 	    <field-descriptor name="abstainCount"    	column="abstain_count"    	jdbc-type="INTEGER" />
 	    <field-descriptor name="voteRound"    		column="vote_round"    		jdbc-type="INTEGER" />
 	    <field-descriptor name="voteSubRound"    	column="vote_subround"    	jdbc-type="INTEGER" />
-        <field-descriptor name="createdAt"          column="created_at"         jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
-        <field-descriptor name="updatedAt"          column="updated_at"         jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="createdAtVal"       column="created_at"         jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="updatedAtVal"       column="updated_at"         jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
         <field-descriptor name="createdBy"    		column="created_by"  		jdbc-type="VARCHAR" length="40" nullable="false" />
         <field-descriptor name="objectId"       	column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber"  	column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
@@ -191,7 +191,7 @@
         <field-descriptor name="candidacyYear" column="candidacy_year" jdbc-type="NUMERIC" precision="0" nullable="false" />
         <field-descriptor name="currentRank" column="current_rank" jdbc-type="VARCHAR" length="32" nullable="false"/>
         <field-descriptor name="rankSought" column="rank_sought" jdbc-type="VARCHAR" length="32" nullable="false"/>
-        <field-descriptor name="dueDate" column="due_date" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
+        <field-descriptor name="dueDateVal" column="due_date" jdbc-type="DATE" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
         <field-descriptor name="documentId" column="document_id" jdbc-type="VARCHAR" length="40" nullable="false"/>
         <field-descriptor name="dossierStatus" column="dossier_status" jdbc-type="VARCHAR" length="12" nullable="false"/>
         <field-descriptor name="username" column="username" jdbc-type="VARCHAR" length="16" nullable="false"/>

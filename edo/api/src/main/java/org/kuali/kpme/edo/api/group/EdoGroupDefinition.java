@@ -8,11 +8,15 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = EdoGroupDefinition.Constants.ROOT_ELEMENT_NAME)
@@ -61,8 +65,10 @@ public final class EdoGroupDefinition
     private final boolean active;
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
     private final LocalDate effectiveLocalDate;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.CREATE_TIME, required = false)
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)

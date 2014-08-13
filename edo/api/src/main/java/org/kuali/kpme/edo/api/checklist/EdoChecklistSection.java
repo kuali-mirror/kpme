@@ -2,6 +2,7 @@ package org.kuali.kpme.edo.api.checklist;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,9 +10,12 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = EdoChecklistSection.Constants.ROOT_ELEMENT_NAME)
@@ -33,7 +37,7 @@ public final class EdoChecklistSection
 {
 
     @XmlElement(name = Elements.CHECKLIST_ITEMS, required = false)
-    private final List checklistItems;
+    private final List<EdoChecklistItem> checklistItems;
     @XmlElement(name = Elements.CHECKLIST_SECTION_ORDINAL, required = false)
     private final int checklistSectionOrdinal;
     @XmlElement(name = Elements.EDO_CHECKLIST_SECTION_ID, required = false)
@@ -68,7 +72,7 @@ public final class EdoChecklistSection
     }
 
     private EdoChecklistSection(Builder builder) {
-        this.checklistItems = builder.getChecklistItems();
+        this.checklistItems = ModelObjectUtils.<EdoChecklistItem>buildImmutableCopy(builder.getChecklistItems());
         this.checklistSectionOrdinal = builder.getChecklistSectionOrdinal();
         this.edoChecklistSectionId = builder.getEdoChecklistSectionId();
         this.edoChecklistId = builder.getEdoChecklistId();
@@ -79,7 +83,7 @@ public final class EdoChecklistSection
     }
 
     @Override
-    public List getChecklistItems() {
+    public List<EdoChecklistItem> getChecklistItems() {
         return this.checklistItems;
     }
 
@@ -127,7 +131,7 @@ public final class EdoChecklistSection
         implements Serializable, EdoChecklistSectionContract, ModelBuilder
     {
 
-        private List checklistItems;
+        private List<EdoChecklistItem.Builder> checklistItems;
         private int checklistSectionOrdinal;
         private String edoChecklistSectionId;
         private String edoChecklistId;
@@ -135,6 +139,12 @@ public final class EdoChecklistSection
         private String checklistSectionName;
         private Long versionNumber;
         private String objectId;
+        private static final ModelObjectUtils.Transformer<EdoChecklistItemContract, EdoChecklistItem.Builder> toChecklistItemBuilder =
+                new ModelObjectUtils.Transformer<EdoChecklistItemContract, EdoChecklistItem.Builder>() {
+                    public EdoChecklistItem.Builder transform(EdoChecklistItemContract input) {
+                        return EdoChecklistItem.Builder.create(input);
+                    }
+                };
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -151,7 +161,11 @@ public final class EdoChecklistSection
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-            builder.setChecklistItems(contract.getChecklistItems());
+            if (CollectionUtils.isEmpty(contract.getChecklistItems())) {
+                builder.setChecklistItems(Collections.<EdoChecklistItem.Builder>emptyList());
+            } else {
+                builder.setChecklistItems(ModelObjectUtils.transform(contract.getChecklistItems(), toChecklistItemBuilder));
+            }
             builder.setChecklistSectionOrdinal(contract.getChecklistSectionOrdinal());
             builder.setEdoChecklistSectionId(contract.getEdoChecklistSectionId());
             builder.setEdoChecklistId(contract.getEdoChecklistId());
@@ -167,7 +181,7 @@ public final class EdoChecklistSection
         }
 
         @Override
-        public List getChecklistItems() {
+        public List<EdoChecklistItem.Builder> getChecklistItems() {
             return this.checklistItems;
         }
 
@@ -206,7 +220,7 @@ public final class EdoChecklistSection
             return this.objectId;
         }
 
-        public void setChecklistItems(List checklistItems) {
+        public void setChecklistItems(List<EdoChecklistItem.Builder> checklistItems) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.checklistItems = checklistItems;
         }

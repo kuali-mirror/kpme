@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.edo.checklist;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ public class EdoChecklistSectionBoTest {
 		edoEdoChecklistSectionBuilder.setEdoChecklistId("1000");
 		edoEdoChecklistSectionBuilder.setVersionNumber(1L);
 		edoEdoChecklistSectionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
+        edoEdoChecklistSectionBuilder.setChecklistItems(Collections.singletonList(EdoChecklistItemBoTest.edoChecklistItemBuilder));
 		testEdoChecklistSectionBos.put(edoEdoChecklistSectionBuilder.getEdoChecklistSectionId(), edoEdoChecklistSectionBuilder.build());
 	}
 	

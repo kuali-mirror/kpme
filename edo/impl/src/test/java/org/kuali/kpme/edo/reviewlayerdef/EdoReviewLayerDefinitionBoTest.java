@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.edo.reviewlayerdef;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +45,7 @@ public class EdoReviewLayerDefinitionBoTest {
 		edoReviewLayerDefinitionBuilder.setUserPrincipalId("admin");
 		edoReviewLayerDefinitionBuilder.setVersionNumber(1L);
 		edoReviewLayerDefinitionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
+        edoReviewLayerDefinitionBuilder.setSuppReviewLayerDefinitions(Collections.singletonList(EdoSuppReviewLayerDefinitionBoTest.EdoSuppReviewLayerDefinitionBuilder));
 		
 		edoReviewLayerDefinitionBuilder.setId(edoReviewLayerDefinitionBuilder.getEdoReviewLayerDefinitionId());
 		

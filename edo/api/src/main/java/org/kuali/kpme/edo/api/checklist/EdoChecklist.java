@@ -1,22 +1,25 @@
 package org.kuali.kpme.edo.api.checklist;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.account.AssignmentAccount;
+import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @XmlRootElement(name = EdoChecklist.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
@@ -44,7 +47,7 @@ public final class EdoChecklist
 {
 
     @XmlElement(name = Elements.CHECKLIST_SECTIONS, required = false)
-    private final List checklistSections;
+    private final List<EdoChecklistSection> checklistSections;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
     @XmlElement(name = Elements.EDO_CHECKLIST_ID, required = false)
@@ -63,8 +66,10 @@ public final class EdoChecklist
     private final boolean active;
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
     private final LocalDate effectiveLocalDate;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.CREATE_TIME, required = false)
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
@@ -100,7 +105,7 @@ public final class EdoChecklist
     }
 
     private EdoChecklist(Builder builder) {
-        this.checklistSections = builder.getChecklistSections();
+        this.checklistSections = ModelObjectUtils.<EdoChecklistSection>buildImmutableCopy(builder.getChecklistSections());
         this.description = builder.getDescription();
         this.edoChecklistId = builder.getEdoChecklistId();
         this.dossierTypeCode = builder.getDossierTypeCode();
@@ -118,7 +123,7 @@ public final class EdoChecklist
     }
 
     @Override
-    public List getChecklistSections() {
+    public List<EdoChecklistSection> getChecklistSections() {
         return this.checklistSections;
     }
 
@@ -201,7 +206,7 @@ public final class EdoChecklist
         implements Serializable, EdoChecklistContract, ModelBuilder
     {
 
-        private List checklistSections;
+        private List<EdoChecklistSection.Builder> checklistSections;
         private String description;
         private String edoChecklistId;
         private String dossierTypeCode;
@@ -216,6 +221,13 @@ public final class EdoChecklist
         private String userPrincipalId;
         private String groupKeyCode;
         private HrGroupKey.Builder groupKey;
+
+        private static final ModelObjectUtils.Transformer<EdoChecklistSectionContract, EdoChecklistSection.Builder> toChecklistSectionBuilder =
+                new ModelObjectUtils.Transformer<EdoChecklistSectionContract, EdoChecklistSection.Builder>() {
+                    public EdoChecklistSection.Builder transform(EdoChecklistSectionContract input) {
+                        return EdoChecklistSection.Builder.create(input);
+                    }
+                };
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -232,7 +244,11 @@ public final class EdoChecklist
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
-            builder.setChecklistSections(contract.getChecklistSections());
+            if (CollectionUtils.isEmpty(contract.getChecklistSections())) {
+                builder.setChecklistSections(Collections.<EdoChecklistSection.Builder>emptyList());
+            } else {
+                builder.setChecklistSections(ModelObjectUtils.transform(contract.getChecklistSections(), toChecklistSectionBuilder));
+            }
             builder.setDescription(contract.getDescription());
             builder.setEdoChecklistId(contract.getEdoChecklistId());
             builder.setDossierTypeCode(contract.getDossierTypeCode());
@@ -255,7 +271,7 @@ public final class EdoChecklist
         }
 
         @Override
-        public List getChecklistSections() {
+        public List<EdoChecklistSection.Builder> getChecklistSections() {
             return this.checklistSections;
         }
 
@@ -329,8 +345,7 @@ public final class EdoChecklist
             return this.groupKey;
         }
 
-        public void setChecklistSections(List checklistSections) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
+        public void setChecklistSections(List<EdoChecklistSection.Builder> checklistSections) {
             this.checklistSections = checklistSections;
         }
 

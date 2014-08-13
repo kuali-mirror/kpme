@@ -3,6 +3,7 @@ package org.kuali.kpme.edo.vote;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecordContract;
@@ -41,8 +42,8 @@ public class EdoVoteRecordBo extends PersistableBusinessObjectBase implements Ed
     private Integer voteRound;
     private Integer voteSubRound;
     
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private Timestamp createdAtVal;
+    private Timestamp updatedAtVal;
     private String createdBy;
    
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
@@ -165,20 +166,20 @@ public class EdoVoteRecordBo extends PersistableBusinessObjectBase implements Ed
 		this.abstainCount = abstainCount;
 	}
    
-	public Timestamp getCreatedAt() {
-		return createdAt;
+	public DateTime getCreatedAt() {
+		return createdAtVal == null ? null : new DateTime(createdAtVal);
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
+	public void setCreatedAtVal(Timestamp createdAtVal) {
+		this.createdAtVal = createdAtVal;
 	}
 
-	public Timestamp getUpdatedAt() {
-		return updatedAt;
+	public DateTime getUpdatedAt() {
+		return updatedAtVal == null ? null : new DateTime(updatedAtVal);
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setUpdatedAtVal(Timestamp updatedAtVal) {
+		this.updatedAtVal = updatedAtVal;
 	}
 
 	public String getCreatedBy() {
@@ -211,8 +212,8 @@ public class EdoVoteRecordBo extends PersistableBusinessObjectBase implements Ed
         edoVoteRecordBo.setVoteRound(edoVoteRecord.getVoteRound());
         edoVoteRecordBo.setVoteSubRound(edoVoteRecord.getVoteSubRound());
 
-        edoVoteRecordBo.setCreatedAt(edoVoteRecord.getCreatedAt());
-        edoVoteRecordBo.setUpdatedAt(edoVoteRecord.getUpdatedAt());
+        edoVoteRecordBo.setCreatedAtVal(edoVoteRecord.getCreatedAt() == null ? null : new Timestamp(edoVoteRecord.getCreatedAt().getMillis()));
+        edoVoteRecordBo.setUpdatedAtVal(edoVoteRecord.getUpdatedAt() == null ? null : new Timestamp(edoVoteRecord.getUpdatedAt().getMillis()));
         edoVoteRecordBo.setCreatedBy(edoVoteRecord.getCreatedBy());
         
         edoVoteRecordBo.setVersionNumber(edoVoteRecord.getVersionNumber());

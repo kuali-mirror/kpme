@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,8 +44,8 @@ public class EdoVoteRecordBoTest {
 		edoVoteRecordBuilder.setAbstainCount(0);
 		edoVoteRecordBuilder.setVoteRound(1);
 		edoVoteRecordBuilder.setVoteSubRound(1);
-		edoVoteRecordBuilder.setCreatedAt(new Timestamp(2014-3-1));
-		edoVoteRecordBuilder.setUpdatedAt(new Timestamp(2014-3-1));
+		edoVoteRecordBuilder.setCreatedAt(new DateTime(2014, 3, 1, 0, 0));
+		edoVoteRecordBuilder.setUpdatedAt(new DateTime(2014, 3, 1, 0, 0));
 		edoVoteRecordBuilder.setCreatedBy("admin");
 		edoVoteRecordBuilder.setVersionNumber(1L);
 		edoVoteRecordBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");

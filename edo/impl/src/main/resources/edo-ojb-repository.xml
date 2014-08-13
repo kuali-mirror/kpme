@@ -608,7 +608,7 @@
                           jdbc-type="VARCHAR"
                           length="32"
                           nullable="false"/>
-        <field-descriptor name="dueDate"
+        <field-descriptor name="dueDateVal"
                           column="due_date"
                           jdbc-type="DATE"
                           conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlDateFieldConversion"/>
@@ -699,10 +699,10 @@
                              column="aoe_code"
                              jdbc-type="VARCHAR"
                              length="1" />
-           <field-descriptor name="createdAt"
+           <field-descriptor name="createdAtVal"
                              column="created_at"
                              jdbc-type="TIMESTAMP"/>
-           <field-descriptor name="updatedAt"
+           <field-descriptor name="updatedAtVal"
                              column="updated_at"
                              jdbc-type="TIMESTAMP"/>
            <field-descriptor name="createdBy"

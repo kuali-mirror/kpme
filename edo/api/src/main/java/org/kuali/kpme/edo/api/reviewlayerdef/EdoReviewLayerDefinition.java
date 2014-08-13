@@ -2,6 +2,7 @@ package org.kuali.kpme.edo.api.reviewlayerdef;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,11 +10,19 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistSectionContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = EdoReviewLayerDefinition.Constants.ROOT_ELEMENT_NAME)
@@ -58,7 +67,7 @@ public final class EdoReviewLayerDefinition
     @XmlElement(name = Elements.EDO_REVIEW_LAYER_DEFINITION_ID, required = false)
     private final String edoReviewLayerDefinitionId;
     @XmlElement(name = Elements.SUPP_REVIEW_LAYER_DEFINITIONS, required = false)
-    private final List suppReviewLayerDefinitions;
+    private final List<EdoSuppReviewLayerDefinition> suppReviewLayerDefinitions;
     @XmlElement(name = Elements.NODE_NAME, required = false)
     private final String nodeName;
     @XmlElement(name = Elements.VOTE_TYPE, required = false)
@@ -71,8 +80,10 @@ public final class EdoReviewLayerDefinition
     private final boolean active;
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
     private final LocalDate effectiveLocalDate;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.CREATE_TIME, required = false)
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
@@ -113,7 +124,7 @@ public final class EdoReviewLayerDefinition
         this.reviewLetter = builder.isReviewLetter();
         this.description = builder.getDescription();
         this.edoReviewLayerDefinitionId = builder.getEdoReviewLayerDefinitionId();
-        this.suppReviewLayerDefinitions = builder.getSuppReviewLayerDefinitions();
+        this.suppReviewLayerDefinitions = ModelObjectUtils.<EdoSuppReviewLayerDefinition>buildImmutableCopy(builder.getSuppReviewLayerDefinitions());
         this.nodeName = builder.getNodeName();
         this.voteType = builder.getVoteType();
         this.versionNumber = builder.getVersionNumber();
@@ -161,7 +172,7 @@ public final class EdoReviewLayerDefinition
     }
 
     @Override
-    public List getSuppReviewLayerDefinitions() {
+    public List<EdoSuppReviewLayerDefinition> getSuppReviewLayerDefinitions() {
         return this.suppReviewLayerDefinitions;
     }
 
@@ -226,7 +237,7 @@ public final class EdoReviewLayerDefinition
         private boolean reviewLetter;
         private String description;
         private String edoReviewLayerDefinitionId;
-        private List suppReviewLayerDefinitions;
+        private List<EdoSuppReviewLayerDefinition.Builder> suppReviewLayerDefinitions;
         private String nodeName;
         private String voteType;
         private Long versionNumber;
@@ -237,6 +248,12 @@ public final class EdoReviewLayerDefinition
         private DateTime createTime;
         private String userPrincipalId;
 
+        private static final ModelObjectUtils.Transformer<EdoSuppReviewLayerDefinitionContract, EdoSuppReviewLayerDefinition.Builder> toSuppReviewLayerBuilder =
+                new ModelObjectUtils.Transformer<EdoSuppReviewLayerDefinitionContract, EdoSuppReviewLayerDefinition.Builder>() {
+                    public EdoSuppReviewLayerDefinition.Builder transform(EdoSuppReviewLayerDefinitionContract input) {
+                        return EdoSuppReviewLayerDefinition.Builder.create(input);
+                    }
+                };
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
         }
@@ -272,7 +289,11 @@ public final class EdoReviewLayerDefinition
             builder.setReviewLetter(contract.isReviewLetter());
             builder.setDescription(contract.getDescription());
             builder.setEdoReviewLayerDefinitionId(contract.getEdoReviewLayerDefinitionId());
-            builder.setSuppReviewLayerDefinitions(contract.getSuppReviewLayerDefinitions());
+            if (CollectionUtils.isEmpty(contract.getSuppReviewLayerDefinitions())) {
+                builder.setSuppReviewLayerDefinitions(Collections.<EdoSuppReviewLayerDefinition.Builder>emptyList());
+            } else {
+                builder.setSuppReviewLayerDefinitions(ModelObjectUtils.transform(contract.getSuppReviewLayerDefinitions(), toSuppReviewLayerBuilder));
+            }
             builder.setNodeName(contract.getNodeName());
             builder.setVoteType(contract.getVoteType());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -325,7 +346,7 @@ public final class EdoReviewLayerDefinition
         }
 
         @Override
-        public List getSuppReviewLayerDefinitions() {
+        public List<EdoSuppReviewLayerDefinition.Builder> getSuppReviewLayerDefinitions() {
             return this.suppReviewLayerDefinitions;
         }
 
@@ -409,7 +430,7 @@ public final class EdoReviewLayerDefinition
             this.edoReviewLayerDefinitionId = edoReviewLayerDefinitionId;
         }
 
-        public void setSuppReviewLayerDefinitions(List suppReviewLayerDefinitions) {
+        public void setSuppReviewLayerDefinitions(List<EdoSuppReviewLayerDefinition.Builder> suppReviewLayerDefinitions) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.suppReviewLayerDefinitions = suppReviewLayerDefinitions;
         }

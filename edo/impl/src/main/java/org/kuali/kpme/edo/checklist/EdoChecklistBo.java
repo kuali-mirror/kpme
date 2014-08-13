@@ -1,8 +1,10 @@
 package org.kuali.kpme.edo.checklist;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.edo.api.checklist.EdoChecklist;
@@ -132,7 +134,11 @@ public class EdoChecklistBo extends HrKeyedBusinessObject implements EdoChecklis
         eclt.setDescription(im.getDescription());
         eclt.setGroupKeyCode(im.getGroupKeyCode());        
         eclt.setGroupKey(HrGroupKeyBo.from(im.getGroupKey()));
-        eclt.setChecklistSections(im.getChecklistSections());
+        if (CollectionUtils.isEmpty(im.getChecklistSections())) {
+            eclt.setChecklistSections(Collections.<EdoChecklistSectionBo>emptyList());
+        } else {
+            eclt.setChecklistSections(ModelObjectUtils.transform(im.getChecklistSections(), EdoChecklistSectionBo.toBo));
+        }
 
         // finally copy over the common fields into phra from im
         copyCommonFields(eclt, im);

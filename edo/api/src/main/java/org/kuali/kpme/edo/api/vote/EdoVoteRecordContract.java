@@ -2,6 +2,7 @@ package org.kuali.kpme.edo.api.vote;
 
 import java.sql.Timestamp;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 
@@ -30,9 +31,9 @@ public interface EdoVoteRecordContract extends KpmeDataTransferObject {
 
     public Integer getVoteSubRound();
     
-    public Timestamp getCreatedAt();
+    public DateTime getCreatedAt();
 
-	public Timestamp getUpdatedAt();
+	public DateTime getUpdatedAt();
 
 	public String getCreatedBy();
 

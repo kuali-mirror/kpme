@@ -112,7 +112,7 @@ public class EdoChecklistSectionBo extends PersistableBusinessObjectBase impleme
         ecls.setDescription(im.getDescription());
         ecls.setChecklistSectionName(im.getChecklistSectionName());
         ecls.setChecklistSectionOrdinal(im.getChecklistSectionOrdinal());
-        ecls.setChecklistItems(im.getChecklistItems());
+        ecls.setChecklistItems(ModelObjectUtils.transform(im.getChecklistItems(), EdoChecklistItemBo.toBo));
         ecls.setVersionNumber(im.getVersionNumber());
         ecls.setObjectId(im.getObjectId());        
         return ecls;

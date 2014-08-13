@@ -191,7 +191,7 @@ public class EdoReviewLayerDefinitionBo extends HrBusinessObject implements EdoR
          edoReviewLayerDefinitionBo.setWorkflowId(edoReviewLayerDefinition.getWorkflowId());
          
          edoReviewLayerDefinitionBo.setWorkflowQualifier(edoReviewLayerDefinition.getWorkflowQualifier());
-         edoReviewLayerDefinitionBo.setSuppReviewLayerDefinitions(edoReviewLayerDefinition.getSuppReviewLayerDefinitions());
+         edoReviewLayerDefinitionBo.setSuppReviewLayerDefinitions(ModelObjectUtils.transform(edoReviewLayerDefinition.getSuppReviewLayerDefinitions(), EdoSuppReviewLayerDefinitionBo.toBo));
          
          // finally copy over the common fields into phra from im
          copyCommonFields(edoReviewLayerDefinitionBo, edoReviewLayerDefinition);

@@ -2,6 +2,7 @@ package org.kuali.kpme.edo.dossier;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
@@ -75,7 +76,7 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
     private String organizationCode;
     private String currentRank;
     private String rankSought;
-    private Date dueDate;
+    private Date dueDateVal;
     private String dossierStatus;
     private String secondaryUnit;
     private String workflowId;
@@ -173,12 +174,12 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
         this.rankSought = rankSought;
     }
 
-    public Date getDueDate() {
-        return dueDate;
+    public DateTime getDueDate() {
+        return dueDateVal == null ? null : new DateTime(dueDateVal);
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public void setDueDateVal(Date dueDateVal) {
+        this.dueDateVal = dueDateVal;
     }
 
     public String getDossierStatus() {
@@ -229,7 +230,7 @@ public class EdoDossierBo extends HrKeyedBusinessObject implements EdoDossierCon
         edoDossierBo.setOrganizationCode(edoDossier.getOrganizationCode());
         edoDossierBo.setCurrentRank(edoDossier.getCurrentRank());
         edoDossierBo.setRankSought(edoDossier.getRankSought());
-        edoDossierBo.setDueDate(edoDossier.getDueDate());
+        edoDossierBo.setDueDateVal(edoDossier.getDueDate() == null ? null : edoDossier.getDueDate().toDate());
         edoDossierBo.setDossierStatus(edoDossier.getDossierStatus());
         edoDossierBo.setWorkflowId(edoDossier.getWorkflowId());
         

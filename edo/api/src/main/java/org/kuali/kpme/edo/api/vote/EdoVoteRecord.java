@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -18,6 +19,8 @@ import org.kuali.kpme.edo.api.dossier.EdoDossier.Builder;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = EdoVoteRecord.Constants.ROOT_ELEMENT_NAME)
@@ -73,11 +76,13 @@ public final class EdoVoteRecord
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
     private final String objectId;
-  
+
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.CREATED_AT, required = false)
-    private final Timestamp createdAt;
+    private final DateTime createdAt;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.UPDATED_AT, required = false)
-    private final Timestamp updatedAt;
+    private final DateTime updatedAt;
     @XmlElement(name = Elements.CREATED_BY, required = false)
     private final String createdBy;
     @SuppressWarnings("unused")
@@ -192,12 +197,12 @@ public final class EdoVoteRecord
     }
 
     @Override
-    public Timestamp getCreatedAt() {
+    public DateTime getCreatedAt() {
         return this.createdAt;
     }
 
     @Override
-    public Timestamp getUpdatedAt() {
+    public DateTime getUpdatedAt() {
         return this.updatedAt;
     }
 
@@ -229,8 +234,8 @@ public final class EdoVoteRecord
         private Long versionNumber;
         private String objectId;
         
-        private Timestamp updatedAt;
-        private Timestamp createdAt;
+        private DateTime updatedAt;
+        private DateTime createdAt;
         private String createdBy;
 
         private Builder() {
@@ -353,12 +358,12 @@ public final class EdoVoteRecord
         }
 
         @Override
-        public Timestamp getCreatedAt() {
+        public DateTime getCreatedAt() {
             return this.createdAt;
         }
 
         @Override
-        public Timestamp getUpdatedAt() {
+        public DateTime getUpdatedAt() {
             return this.updatedAt;
         }
 
@@ -433,12 +438,12 @@ public final class EdoVoteRecord
             this.objectId = objectId;
         }
 
-        public void setCreatedAt(Timestamp createdAt) {
+        public void setCreatedAt(DateTime createdAt) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.createdAt = createdAt;
         }
 
-        public void setUpdatedAt(Timestamp updatedAt) {
+        public void setUpdatedAt(DateTime updatedAt) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.updatedAt = updatedAt;
         }
