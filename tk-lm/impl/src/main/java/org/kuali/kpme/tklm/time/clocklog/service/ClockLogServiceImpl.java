@@ -31,6 +31,7 @@ import org.kuali.kpme.tklm.api.time.clocklog.ClockLog;
 import org.kuali.kpme.tklm.api.time.clocklog.ClockLogService;
 import org.kuali.kpme.tklm.api.time.missedpunch.MissedPunch;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.common.LMConstants;
 import org.kuali.kpme.tklm.time.clocklog.ClockLogBo;
 import org.kuali.kpme.tklm.time.clocklog.dao.ClockLogDao;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
@@ -48,15 +49,29 @@ import java.util.List;
 import java.util.Set;
 
 public class ClockLogServiceImpl implements ClockLogService {
-	
+
 	private static final Logger LOG = Logger.getLogger(ClockLogServiceImpl.class);
-	
+
     private ClockLogDao clockLogDao;
+
+    void invalidIpCheck(ClockLog clockLog)
+    {
+        String allowActionFromInvalidLocaiton = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.ALLOW_CLOCKINGEMPLOYYE_FROM_INVALIDLOCATION);
+        if ( (StringUtils.equals(allowActionFromInvalidLocaiton, "false") ) && (clockLog.isUnapprovedIP() ) )
+        {
+            //throw exception here.
+        }
+        return;
+    }
+
 
     public ClockLog saveClockLog(ClockLog clockLog) {
         if (clockLog == null) {
             return null;
         }
+
+        invalidIpCheck(clockLog);
+
         ClockLogBo bo = ClockLogBo.from(clockLog);
     	bo = KRADServiceLocator.getBusinessObjectService().save(bo);
         return ClockLogBo.to(bo);
@@ -103,6 +118,8 @@ public class ClockLogServiceImpl implements ClockLogService {
             processTimeBlock(principalId, documentId, clockLog, assignment, pe, clockAction, userPrincipalId);
         } else {
             //Save current clock log to get id for timeblock building
+
+            invalidIpCheck(ClockLogBo.to(clockLog));
             clockLog = KRADServiceLocator.getBusinessObjectService().save(clockLog);
         }
         return ClockLogBo.to(clockLog);
@@ -124,6 +141,8 @@ public class ClockLogServiceImpl implements ClockLogService {
             beginClockLogId = lastLog.getTkClockLogId();
         }
         //Save current clock log to get id for timeblock building
+        invalidIpCheck(ClockLogBo.to(clockLog));
+
         KRADServiceLocator.getBusinessObjectService().save(clockLog);
         endClockLogId = clockLog.getTkClockLogId();
 
