@@ -10,16 +10,6 @@
 	      <bean parent="Uif-RicePortalParentLocation"/>
 	    </property>
 		<property name="singlePageView" value="true"/>
-	   
-<!-- 	    <property name="navigation"> -->
-<!-- 	      <ref bean="Edo-HomePageLayout-NavMenu"/> -->
-<!-- 	    </property> -->
-
-	 	<property name="cssClasses">
-	      <list merge="true">
-	        <value>demo-kradSampleAppDemo</value>
-	      </list>
-	    </property>
 	    
 	    <property name="page">
 	    	<bean parent="Uif-Page">

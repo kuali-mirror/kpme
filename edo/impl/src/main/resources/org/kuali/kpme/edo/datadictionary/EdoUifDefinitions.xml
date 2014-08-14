@@ -144,11 +144,24 @@
 									 
 									<bean parent="Uif-Link" p:linkText="All Files"
 										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-AllFilesView&amp;methodToCall=start&amp;hideReturnLink=true"
-									 	p:iconClass="icon-list4" />	
+									 	p:iconClass="icon-list4" />
+									 	
+									<!-- super users options --> 
+									<bean parent="Uif-Link" p:linkText="Admin"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-AdminView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-wrench3" p:render="@{adminVisible}" />
+									 		
+									<bean parent="Uif-Link" p:linkText="eDossiers"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-EdossiersSuperView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-folder-open2" p:render="@{eDossiersVisible}" />
 									
-<!-- 									<bean parent="Uif-Link" p:linkText="Help" -->
-<!-- 										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-HelpView&amp;methodToCall=start&amp;hideReturnLink=true" -->
-<!-- 									 	p:iconClass="icon-question-sign" /> -->
+									<bean parent="Uif-Link" p:linkText="Chair Delegates"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-ChairDelegatesView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-hammer2" p:render="@{chairDelegatesVisible}"/>
+									
+									<bean parent="Uif-Link" p:linkText="Export"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-ExportSuperView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-share2" p:render="@{superExportVisible}"/>
 
 									<bean parent="Edo-Help-Menu" 
 										p:toggleText="Help" 
@@ -176,7 +189,8 @@
 					        <bean parent="Uif-Link" 
 				          		p:linkText="Promotion and Tenure Guidelines"
 				          		p:cssClasses="edo-toggle-menu"
-							  	p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-PTGuidelines-View&amp;methodToCall=start&amp;hideReturnLink=true" /> 
+				          		p:href="http://www.indiana.edu/~vpfaa/docs/promotion_tenure_reappointment/pt-revised-review-guidelines.pdf" />
+<!-- 							  	p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-PTGuidelines-View&amp;methodToCall=start&amp;hideReturnLink=true" />  -->
 							<bean parent="Uif-Link" 
 				          		p:linkText="Sample eDossier"
 				          		p:cssClasses="edo-toggle-menu"
