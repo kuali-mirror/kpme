@@ -15,6 +15,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.base.web.EdoAction;
@@ -24,10 +25,8 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoRule;
-import org.kuali.kpme.edo.util.EdoUtils;
 import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.kpme.edo.vote.validation.EdoVoteRecordValidation;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 
 public class EdoVoteRecordAction extends EdoAction {
@@ -59,11 +58,11 @@ public class EdoVoteRecordAction extends EdoAction {
             voteRecordForm.setVoteRecords(voteRecords);
 
             //Determine the current review layer definition
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(selectedCandidate.getCandidateDossierID().intValue());
+            EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(selectedCandidate.getCandidateDossierID().toString());
             EdoReviewLayerDefinition currentReviewLayerDefinition = null;
             if (documentHeader != null) {
                 currentDossierId = new Integer(documentHeader.getEdoDossierId());
-                List<String> currentNodes = KEWServiceLocator.getRouteNodeService().getCurrentRouteNodeNames(documentHeader.getDocumentId());
+                List<String> currentNodes = KEWServiceLocator.getRouteNodeService().getCurrentRouteNodeNames(documentHeader.getEdoDocumentId());
                 Set<String> currentNodesSet = new HashSet<String>();
                 currentNodesSet.addAll(currentNodes);
                 Collection<EdoReviewLayerDefinition> currentReviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId, currentNodesSet);
@@ -88,11 +87,11 @@ public class EdoVoteRecordAction extends EdoAction {
             request.setAttribute("hasSupplementalWaiting", false);
 
             // check to see if there are pending supplemental documents that need a vote
-            List<DossierProcessDocumentHeader> suppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(currentDossierId);
+            List<EdoDossierDocumentInfo> suppDocHeaders = EdoServiceLocator.getEdoDossierDocumentInfoService().getPendingSupplementalDocuments(currentDossierId.toString());
             if (CollectionUtils.isNotEmpty(suppDocHeaders)) {
                 boolean isWaiting = false;
-                for (DossierProcessDocumentHeader docHeader : suppDocHeaders) {
-                    isWaiting = isWaiting || EdoServiceLocator.getEdoSupplementalPendingStatusService().isWaiting(docHeader.getDocumentId(),EdoContext.getPrincipalId());
+                for (EdoDossierDocumentInfo docHeader : suppDocHeaders) {
+                    isWaiting = isWaiting || EdoServiceLocator.getEdoSupplementalPendingStatusService().isWaiting(docHeader.getEdoDocumentId(),EdoContext.getPrincipalId());
                 }
                 if (isWaiting) {
                     request.setAttribute("hasSupplementalWaiting", true);

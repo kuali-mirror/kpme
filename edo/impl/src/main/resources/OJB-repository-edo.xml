@@ -155,6 +155,22 @@
         </reference-descriptor>
     </class-descriptor>
     
+    <class-descriptor class="org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo" table="EDO_DOSSIER_DOC_INFO_T">
+    	<field-descriptor name="edoDocumentId" 		column="edo_document_id"  	jdbc-type="VARCHAR" nullable="false" primarykey="true" />
+        <field-descriptor name="edoDossierId" 		column="edo_dossier_id" 	jdbc-type="VARCHAR" nullable="false" />
+        <field-descriptor name="documentStatus" 	column="DOCUMENT_STATUS" 	jdbc-type="VARCHAR" nullable="false" />
+        <field-descriptor name="documentTypeName" 	column="DOC_TYPE_NAME" 		jdbc-type="VARCHAR" length="100" nullable="false" />
+        <field-descriptor name="principalId" 		column="principal_id" 		jdbc-type="VARCHAR" length="100" nullable="false" />
+        <field-descriptor name="objectId"       	column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber"  	column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
+        <!-- 
+        <reference-descriptor name="edoDossier" class-ref="org.kuali.kpme.edo.dossier.EdoDossierBo" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <foreignkey field-ref="edoDossierId" />
+        </reference-descriptor>
+        -->
+    </class-descriptor>
+    
+    
     <class-descriptor class="org.kuali.kpme.edo.vote.EdoVoteRecordBo" table="EDO_VOTE_RECORD_T">
 		<field-descriptor name="edoVoteRecordId" 	column="edo_vote_record_id" jdbc-type="VARCHAR" length="60" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_DOSSIER_S" />
 	    <field-descriptor name="edoDossierId"    	column="edo_dossier_id"    	jdbc-type="VARCHAR" length="60" nullable="false" />

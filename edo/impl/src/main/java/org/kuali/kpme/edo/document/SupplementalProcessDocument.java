@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.document;
 
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 
 /**
  * $HeadURL$
@@ -12,6 +12,6 @@ import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
  */
 public interface SupplementalProcessDocument{
 
-    DossierProcessDocumentHeader getDocumentHeader();
+    EdoDossierDocumentInfoBo getDocumentHeader();
 
 }

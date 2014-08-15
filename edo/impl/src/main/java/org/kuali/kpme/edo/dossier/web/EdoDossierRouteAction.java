@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.base.web.EdoForm;
@@ -20,7 +21,6 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoRule;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -225,10 +225,10 @@ public class EdoDossierRouteAction extends EdoAction {
           	EdoServiceLocator.getEdoDossierService().approveSupplemental(principal.getPrincipalId(), edoDossierRouteForm.getDossierId(), suppType);
           }
         //notify the current level of newly uploaded review letter
-        DossierProcessDocumentHeader dossierDocumentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(edoDossierRouteForm.getDossierId());
+        EdoDossierDocumentInfo dossierDocumentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(edoDossierRouteForm.getDossierId().toString());
         if (ObjectUtils.isNotNull(dossierDocumentHeader)) {
             //Get the parent workflow document (dossier).
-        	WorkflowDocument dossierWorkflowDocument = WorkflowDocumentFactory.loadDocument(dossierDocumentHeader.getPrincipalId(), dossierDocumentHeader.getDocumentId());
+        	WorkflowDocument dossierWorkflowDocument = WorkflowDocumentFactory.loadDocument(dossierDocumentHeader.getPrincipalId(), dossierDocumentHeader.getEdoDocumentId());
             //Get the parent workflow document route level name.
             DocumentRouteHeaderValue dossierRouteHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(dossierWorkflowDocument.getDocumentId());
             //make a service call to notify the current level where the parent edoc is 

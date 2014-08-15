@@ -1,9 +1,9 @@
 package org.kuali.kpme.edo.document;
 
 
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 
 public interface DossierProcessDocument {
 
-    DossierProcessDocumentHeader getDocumentHeader();
+    EdoDossierDocumentInfoBo getDocumentHeader();
 }

@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoSuppReviewLayerDefinition;
@@ -21,15 +22,12 @@ import org.kuali.kpme.edo.api.supplemental.EdoSupplementalTracking;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.dossier.dao.EdoDossierDao;
-import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
-import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.supplemental.EdoSupplementalTrackingBo;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoUtils;
 import org.kuali.kpme.edo.util.TagSupport;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -158,22 +156,23 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         WorkflowDocument workflowDocument = WorkflowDocumentFactory.createDocument(principalId, documentTypeName, documentUpdateBuilder.build(), documentContentBuilder.build());
 
         //Add the document to the header table.
-        DossierProcessDocumentHeader documentHeader = new DossierProcessDocumentHeader();
-        documentHeader.setDocumentId(workflowDocument.getDocumentId());
+        EdoDossierDocumentInfoBo documentHeader = new EdoDossierDocumentInfoBo();
+        documentHeader.setEdoDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(workflowDocument.getStatus().getCode());
         documentHeader.setEdoDossierId(dossierId);
         documentHeader.setPrincipalId(principalId);
         documentHeader.setDocumentTypeName(documentTypeName);
-        EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(documentHeader);
+        EdoServiceLocator.getEdoDossierDocumentInfoService().saveOrUpdate(documentHeader.to(documentHeader));
 
         //Update the dossier table
-        //dossier.setDocumentID(workflowDocument.getDocumentId());
-        //dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.SUBMITTED);
-        // dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.PENDING);
-        //dossier.setLastUpdated(EdoUtils.getNow());
+        EdoDossierBo edoDossierBo = new EdoDossierBo();
+        //edoDossierBo.setEdoDocumentID(workflowDocument.getDocumentId());
+        edoDossierBo.setDossierStatus(EdoConstants.DOSSIER_STATUS.SUBMITTED);
+        edoDossierBo.setDossierStatus(EdoConstants.DOSSIER_STATUS.PENDING);
+        //edoDossierBo.setTimestamp((EdoUtils.getNow());
         Principal submitter = KimApiServiceLocator.getIdentityService().getPrincipal(EdoContext.getPrincipalId());
-        //dossier.setUpdatedBy(submitter.getPrincipalName());
-        EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
+        edoDossierBo.setCandidatePrincipalName(submitter.getPrincipalName());
+        EdoServiceLocator.getEdoDossierService().saveOrUpdate(edoDossierBo.to(edoDossierBo));
 
         return workflowDocument;
     }
@@ -188,13 +187,13 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         WorkflowDocument workflowDocument = WorkflowDocumentFactory.createDocument(principalId, documentTypeName, documentUpdateBuilder.build(), documentContentBuilder.build());
 
         //Add the document to the header table.
-        DossierProcessDocumentHeader documentHeader = new DossierProcessDocumentHeader();
-        documentHeader.setDocumentId(workflowDocument.getDocumentId());
+        EdoDossierDocumentInfoBo documentHeader = new EdoDossierDocumentInfoBo();
+        documentHeader.setEdoDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(workflowDocument.getStatus().getCode());
         documentHeader.setEdoDossierId(dossierId);
         documentHeader.setPrincipalId(principalId);
         documentHeader.setDocumentTypeName(documentTypeName);
-        EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(documentHeader);
+        EdoServiceLocator.getEdoDossierDocumentInfoService().saveOrUpdate(documentHeader.to(documentHeader));
 
         return workflowDocument;
     }
@@ -209,20 +208,21 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         WorkflowDocument workflowDocument = WorkflowDocumentFactory.createDocument(principalId, documentTypeName, documentUpdateBuilder.build(), documentContentBuilder.build());
        
         //Add the document to the header table.
-        DossierProcessDocumentHeader documentHeader = new DossierProcessDocumentHeader();
-        documentHeader.setDocumentId(workflowDocument.getDocumentId());
+        EdoDossierDocumentInfoBo documentHeader = new EdoDossierDocumentInfoBo();
+        documentHeader.setEdoDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(workflowDocument.getStatus().getCode());
         documentHeader.setEdoDossierId(dossierId);
         documentHeader.setPrincipalId(principalId);
         documentHeader.setDocumentTypeName(documentTypeName);
-        EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(documentHeader);
+        EdoServiceLocator.getEdoDossierDocumentInfoService().saveOrUpdate(documentHeader.to(documentHeader));
         
         //Update the dossier table
+        EdoDossierBo edoDossierBo = new EdoDossierBo();
         //dossier.setDocumentID(workflowDocument.getDocumentId());
         //dossier.setLastUpdated(EdoUtils.getNow());
         Principal submitter = KimApiServiceLocator.getIdentityService().getPrincipal(EdoContext.getPrincipalId());
-        //dossier.setUpdatedBy(submitter.getPrincipalName());
-        EdoServiceLocator.getEdoDossierService().saveOrUpdate(dossier);
+        edoDossierBo.setCandidatePrincipalName(submitter.getPrincipalName());
+        EdoServiceLocator.getEdoDossierService().saveOrUpdate(edoDossierBo.to(edoDossierBo));
 
         return workflowDocument;
     }
@@ -235,15 +235,15 @@ public class EdoDossierServiceImpl implements EdoDossierService {
             String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getWorkflowId();
 
             //Get the document header.
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
+            EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(dossierId.toString());
             boolean isResubmission = false;
             String candidatePrincipalId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getCandidatePrincipalName();
             Principal candidatePrincipal = KimApiServiceLocator.getIdentityService().getPrincipal(candidatePrincipalId);
 
             if (ObjectUtils.isNotNull(documentHeader)) {
                 //Get the document.
-                workflowDocument = WorkflowDocumentFactory.loadDocument(EdoContext.getPrincipalId(), documentHeader.getDocumentId());
-                DocumentRouteHeaderValue routeHeaderValue = KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentHeader.getDocumentId());
+                workflowDocument = WorkflowDocumentFactory.loadDocument(EdoContext.getPrincipalId(), documentHeader.getEdoDocumentId());
+                DocumentRouteHeaderValue routeHeaderValue = KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentHeader.getEdoDocumentId());
                 List<RouteNodeInstance> initialNodes = routeHeaderValue.getInitialRouteNodeInstances();
                 for (RouteNodeInstance node : initialNodes) {
                     if (workflowDocument.getCurrentNodeNames().contains(node.getName())
@@ -319,20 +319,20 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         boolean routed = false;
         if (ObjectUtils.isNotNull(dossierId)) {
             //Get the document header.
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
+            EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(dossierId.toString());
 
             if (ObjectUtils.isNotNull(documentHeader) && StringUtils.isNotEmpty(node)) {
                 //Route the document.
                 if (ActionType.SU_APPROVE.equals(superUserAction)) {
                     try {
-                        KEWServiceLocator.getWorkflowDocumentService().superUserNodeApproveAction(EdoContext.getPrincipalId(), documentHeader.getDocumentId(), node, "Super User approved.", true);
+                        KEWServiceLocator.getWorkflowDocumentService().superUserNodeApproveAction(EdoContext.getPrincipalId(), documentHeader.getEdoDocumentId(), node, "Super User approved.", true);
                         routed = true;
                     } catch (InvalidActionTakenException ex) {
                         //Add error for display.
                     }
                 } else if (ActionType.SU_RETURN_TO_PREVIOUS.equals(superUserAction)) {
                     try {
-                        KEWServiceLocator.getWorkflowDocumentService().superUserReturnDocumentToPreviousNode(EdoContext.getPrincipalId(), documentHeader.getDocumentId(), node, "Super User approved.", true);
+                        KEWServiceLocator.getWorkflowDocumentService().superUserReturnDocumentToPreviousNode(EdoContext.getPrincipalId(), documentHeader.getEdoDocumentId(), node, "Super User approved.", true);
                         routed = true;
                     } catch (InvalidActionTakenException ex) {
                         //Add error for display.
@@ -350,12 +350,12 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         boolean routed = false;
         if (ObjectUtils.isNotNull(dossierId)) {
             //Get the document header.
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
+            EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(dossierId.toString());
 
             if (ObjectUtils.isNotNull(documentHeader)) {
                 //Get the document.
-                DocumentRouteHeaderValue routeHeaderValue = KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentHeader.getDocumentId());
-                workflowDocument = WorkflowDocumentFactory.loadDocument(EdoContext.getPrincipalId(), documentHeader.getDocumentId());
+                DocumentRouteHeaderValue routeHeaderValue = KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentHeader.getEdoDocumentId());
+                workflowDocument = WorkflowDocumentFactory.loadDocument(EdoContext.getPrincipalId(), documentHeader.getEdoDocumentId());
 
                 if (workflowDocument != null && routeHeaderValue != null && CollectionUtils.isNotEmpty(routeHeaderValue.getInitialRouteNodeInstances())) {
                     workflowDocument.returnToPreviousNode("Returning to candidate", routeHeaderValue.getInitialRouteNodeInstances().get(0).getName());
@@ -385,10 +385,10 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         String suppDocType = getSupplementalDocTypeMap().get(dossierType);
         if (ObjectUtils.isNotNull(dossierId)) {
             //Get the document header of the parent dossier workflow document.
-            DossierProcessDocumentHeader dossierDocumentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
+            EdoDossierDocumentInfo dossierDocumentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(dossierId.toString());
             if (ObjectUtils.isNotNull(dossierDocumentHeader)) {
                 //Get the parent workflow document (dossier).
-                dossierWorkflowDocument = WorkflowDocumentFactory.loadDocument(dossierDocumentHeader.getPrincipalId(), dossierDocumentHeader.getDocumentId());
+                dossierWorkflowDocument = WorkflowDocumentFactory.loadDocument(dossierDocumentHeader.getPrincipalId(), dossierDocumentHeader.getEdoDocumentId());
                 //Get the parent workflow document route level name.
                 DocumentRouteHeaderValue dossierRouteHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(dossierWorkflowDocument.getDocumentId());
                 //String routeDescription = null;
@@ -533,13 +533,13 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         EdoDossierType dossierTypeObj = EdoServiceLocator.getEdoDossierTypeService().getEdoDossierTypeByName(dossierType);
         if (ObjectUtils.isNotNull(dossierId)) {
             //Get the document header.
-            List<DossierProcessDocumentHeader> documentHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeaderByDocType(dossierId, dossierTypeObj.getDocumentTypeName());
+            List<EdoDossierDocumentInfo> documentHeaders = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDocType(dossierId.toString(), dossierTypeObj.getDocumentTypeName());
 
             if (!documentHeaders.isEmpty()) {
             	  //Get the document.
             	//loop through all the document headers and change the status to approve
-            	for(DossierProcessDocumentHeader documentHeader :  documentHeaders) {
-            		workflowDocument = WorkflowDocumentFactory.loadDocument(EdoContext.getPrincipalId(), documentHeader.getDocumentId());
+            	for(EdoDossierDocumentInfo documentHeader :  documentHeaders) {
+            		workflowDocument = WorkflowDocumentFactory.loadDocument(EdoContext.getPrincipalId(), documentHeader.getEdoDocumentId());
            
             	  if (workflowDocument.checkStatus(DocumentStatus.ENROUTE)) {
                       workflowDocument.approve("Supplemental Document is Approved");
@@ -601,7 +601,7 @@ public class EdoDossierServiceImpl implements EdoDossierService {
         if (dossier.getDossierStatus().equals(EdoConstants.DOSSIER_STATUS.RECONSIDERATION)) {
         	//TODO: take care of dossier.getDocumentID()
             //DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossier.getDocumentID());
-        	DossierProcessDocumentHeader documentHeader = null;
+        	EdoDossierDocumentInfoBo documentHeader = null;
         	if (documentHeader != null) {
                 if (documentHeader.getDocumentStatus().equals("R")) {
                     isRouted = true;

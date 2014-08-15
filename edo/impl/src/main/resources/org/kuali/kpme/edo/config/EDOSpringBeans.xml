@@ -78,7 +78,7 @@
     <bean id="edoCandidateDossierDao" class="org.kuali.kpme.edo.dossier.dao.EdoCandidateDossierDaoImpl" parent="platformAwareDao" />
     <bean id="edoReviewLayerDefinitionDao" class="org.kuali.kpme.edo.reviewlayerdef.dao.EdoReviewLayerDefinitionDaoImpl" parent="platformAwareDao" />
     <bean id="edoSuppReviewLayerDefinitionDao" class="org.kuali.kpme.edo.reviewlayerdef.dao.EdoSuppReviewLayerDefinitionDaoImpl" parent="platformAwareDao" />
-    <bean id="dossierProcessDocumentHeaderDao" class="org.kuali.kpme.edo.workflow.dao.DossierProcessDocumentHeaderDaoImpl" parent="platformAwareDao" />
+    <bean id="edoDossierDocumentInfoDao" class="org.kuali.kpme.edo.workflow.dao.EdoDossierDocumentInfoDaoImpl" parent="platformAwareDao" />
     <bean id="edoSupplementalTrackingDao" class="org.kuali.kpme.edo.supplemental.dao.EdoSupplementalTrackingDaoImpl" parent="platformAwareDao" />
     <bean id="edoGroupDefinitionDao" class="org.kuali.kpme.edo.group.dao.EdoGroupDefinitionDaoImpl" parent="platformAwareDao" />
     <bean id="edoGroupTrackingDao" class="org.kuali.kpme.edo.group.dao.EdoGroupTrackingDaoImpl" parent="platformAwareDao" />
@@ -150,8 +150,8 @@
     
     <bean id="authorizationService" class="org.kuali.kpme.edo.authorization.service.AuthorizationServiceImpl" />
 
-    <bean id="dossierProcessDocumentHeaderService" class="org.kuali.kpme.edo.workflow.service.DossierProcessDocumentHeaderServiceImpl">
-        <property name="dossierProcessDocumentHeaderDao" ref="dossierProcessDocumentHeaderDao"/>
+    <bean id="edoDossierDocumentInfoService" class="org.kuali.kpme.edo.workflow.service.EdoDossierDocumentInfoServiceImpl">
+        <property name="edoDossierDocumentInfoDao" ref="edoDossierDocumentInfoDao"/>
     </bean>
 
     <bean id="edoPendingSupplementalStatusService" class="org.kuali.kpme.edo.workflow.service.EdoSupplementalPendingStatusServiceImpl" />
@@ -235,7 +235,7 @@
             	<idref local="edoVoteRecordService"/>
             	<idref local="edoCandidateDossierService"/>            	
             	<idref local="authorizationService"/>
-            	<idref local="dossierProcessDocumentHeaderService"/>
+            	<idref local="edoDossierDocumentInfoService"/>
             	<idref local="edoPendingSupplementalStatusService"/>
             	<idref local="edoGroupService"/>
             	<idref local="edoGroupDefinitionService"/>            	

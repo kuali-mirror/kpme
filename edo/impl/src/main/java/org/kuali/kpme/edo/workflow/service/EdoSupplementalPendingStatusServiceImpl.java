@@ -40,7 +40,7 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
 	public boolean isWaiting(String supplementalDocumentId, String principalId) {
 		boolean isWaiting = false;
 		Collection<String> groupIds = new TreeSet<String>();
-		BigDecimal currentDossierRouteLevel = EdoServiceLocator.getDossierProcessDocumentHeaderService().getCurrentRouteLevel(EdoContext.getSelectedCandidate().getCandidateDossierID().intValue());
+		BigDecimal currentDossierRouteLevel = EdoServiceLocator.getEdoDossierDocumentInfoService().getCurrentRouteLevel(EdoContext.getSelectedCandidate().getCandidateDossierID().toString());
 
 		List<ActionRequestValue> actionRequests = KEWServiceLocator.getActionRequestService().findPendingByDoc(supplementalDocumentId);
 
