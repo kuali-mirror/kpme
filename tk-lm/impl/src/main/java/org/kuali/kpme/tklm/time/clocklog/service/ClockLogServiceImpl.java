@@ -203,11 +203,11 @@ public class ClockLogServiceImpl implements ClockLogService {
     }
 
     @Override
-    public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry) {
+    public ClockLog getLastClockLog(String groupKeyCode, String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry) {
         TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
         if(tdh == null)
         	return null;
-        return ClockLogBo.to(clockLogDao.getLastClockLog(principalId, jobNumber, workArea, task, tdh.getDocumentId()));
+        return ClockLogBo.to(clockLogDao.getLastClockLog(groupKeyCode, principalId, jobNumber, workArea, task, tdh.getDocumentId()));
     }
 
     @Override

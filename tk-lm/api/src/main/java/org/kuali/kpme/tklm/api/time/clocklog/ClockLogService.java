@@ -67,15 +67,17 @@ public interface ClockLogService {
     public ClockLog getLastClockLog(String principalId, String clockAction);
     
 	/**
-	 * Fetch last clock log for principal id, assignment details, and calendar entry
+	 * Fetch last clock log for group key code, principal id, assignment details, and calendar entry
+	 * @param groupKeyCode
 	 * @param principalId
 	 * @param jobNumber
 	 * @param workArea
 	 * @param task
+	 * @param task2 
 	 * @param calendarEntry
 	 * @return
 	 */
-	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry);
+	public ClockLog getLastClockLog(String groupKeyCode, String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry);
 
 
     
