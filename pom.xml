@@ -72,7 +72,7 @@
         <liquibase.version>3.1.1</liquibase.version>
         <log4j.version>1.2.16</log4j.version>
         <mockito.version>1.9.0</mockito.version>
-        <mysql.jdbc.version>5.1.23</mysql.jdbc.version>
+        <mysql.jdbc.version>5.1.31</mysql.jdbc.version>
         <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
         <mysql-connector-java.jar.location>${jdbc.drivers.location}/mysql/${mysql.jdbc.artifactId}/${mysql.jdbc.version}/${mysql.jdbc.artifactId}-${mysql.jdbc.version}.jar</mysql-connector-java.jar.location>
         <ojdbc14.jar.location>${jdbc.drivers.location}/com/oracle/${oracle.jdbc.artifactId}/${oracle.jdbc.version}/${oracle.jdbc.artifactId}-${oracle.jdbc.version}.jar</ojdbc14.jar.location>
