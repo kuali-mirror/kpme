@@ -209,7 +209,7 @@
             <type>SearchableXmlAttribute</type>
             <applicationId>KPME</applicationId>
             <searchingConfig>
-                <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
+                <fieldDef name="payCalendarEnd" title="Pay Calendar End Date (YYYY-MM-DD)">
                     <display>
                         <type>text</type>
                     </display>
