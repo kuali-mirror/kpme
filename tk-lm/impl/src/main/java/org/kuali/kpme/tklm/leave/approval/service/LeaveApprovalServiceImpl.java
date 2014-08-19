@@ -353,15 +353,15 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 //        List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks, calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
         //get LeaveSummary and check for warnings
-    	Map<String, Set<LeaveBlockContract>> eligibilities;
+    	Map<String, Set<LeaveBlock>> eligibilities;
     	try {
     		eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
     	} catch (Exception e) {
     		eligibilities = null;
     	}
     	if (eligibilities != null) {
-    		for (Entry<String,Set<LeaveBlockContract>> entry : eligibilities.entrySet()) {
-    			for(LeaveBlockContract block : entry.getValue()) {
+    		for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
+    			for(LeaveBlock block : entry.getValue()) {
                     AccrualCategoryRuleContract rule = block.getAccrualCategoryRule();
     				if (rule != null) {
     					AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
@@ -392,7 +392,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			earnCodeLeaveHours.put(leaveSummaryDate, new LinkedHashMap<String, BigDecimal>());
 		}
 		
-		for (LeaveBlockContract lb : leaveBlocks) {
+		for (LeaveBlock lb : leaveBlocks) {
 			DateTime leaveDate = lb.getLeaveLocalDate().toDateTimeAtStartOfDay();
 			
 			if (earnCodeLeaveHours.get(leaveDate.toLocalDateTime()) != null) {
@@ -543,7 +543,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService {
 			accrualCategoryLeaveHours.put(leaveSummaryDate, new LinkedHashMap<String, BigDecimal>());
 		}
 		
-		for (LeaveBlockContract lb : leaveBlocks) {
+		for (LeaveBlock lb : leaveBlocks) {
 			DateTime leaveDate = lb.getLeaveLocalDate().toDateTimeAtStartOfDay();
 			
 			AccrualCategoryContract ac = lb.getAccrualCategoryObj();

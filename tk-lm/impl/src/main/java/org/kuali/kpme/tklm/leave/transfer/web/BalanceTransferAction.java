@@ -79,7 +79,7 @@ public class BalanceTransferAction extends KPMEAction {
 			LeaveCalendarDocumentHeader lcdh = LmServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
             CalendarEntry calendarEntry = null;
 			String strutsActionForward = "";
-			String methodToCall = "approveLeaveCalendar";
+			String methodToCall;
 			if(ObjectUtils.isNull(tsdh) && ObjectUtils.isNull(lcdh)) {
 				LOG.error("No document found");
 				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.document.notfound");
@@ -102,7 +102,7 @@ public class BalanceTransferAction extends KPMEAction {
 			
 			if(ObjectUtils.isNull(calendarEntry)) {
 				LOG.error("Could not retreive calendar entry for document " + documentId);
-				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.calendarentry.notfound", new String[] {documentId});
+				GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.calendarentry.notfound", documentId);
 				return mapping.findForward("basic");
 //				throw new RuntimeException("Could not retreive calendar entry for document " + documentId);
 			}
@@ -294,15 +294,13 @@ public class BalanceTransferAction extends KPMEAction {
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 
 		List<LeaveBlock> eligibleTransfers = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
-		if(eligibleTransfers != null && !eligibleTransfers.isEmpty()) {
+		if(CollectionUtils.isNotEmpty(eligibleTransfers)) {
 			
-			Collections.sort(eligibleTransfers, new Comparator() {
+			Collections.sort(eligibleTransfers, new Comparator<LeaveBlock>() {
 
                 @Override
-                public int compare(Object o1, Object o2) {
-                    LeaveBlockBo l1 = (LeaveBlockBo) o1;
-                    LeaveBlockBo l2 = (LeaveBlockBo) o2;
-                    return l1.getLeaveDate().compareTo(l2.getLeaveDate());
+                public int compare(LeaveBlock o1, LeaveBlock o2) {
+                    return o1.getLeaveDateTime().compareTo(o2.getLeaveDateTime());
                 }
 
             });
@@ -383,13 +381,11 @@ public class BalanceTransferAction extends KPMEAction {
 		List<LeaveBlock> eligibleTransfers = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
 		if(eligibleTransfers != null && !eligibleTransfers.isEmpty()) {
 			
-			Collections.sort(eligibleTransfers, new Comparator() {
+			Collections.sort(eligibleTransfers, new Comparator<LeaveBlock>() {
 				
 				@Override
-				public int compare(Object o1, Object o2) {
-					LeaveBlockBo l1 = (LeaveBlockBo) o1;
-					LeaveBlockBo l2 = (LeaveBlockBo) o2;
-					return l1.getLeaveDate().compareTo(l2.getLeaveDate());
+				public int compare(LeaveBlock o1, LeaveBlock o2) {
+					return o1.getLeaveDateTime().compareTo(o2.getLeaveDateTime());
 				}
 				
 			});
@@ -403,7 +399,7 @@ public class BalanceTransferAction extends KPMEAction {
 			
 			LeaveBlockBo leaveBlock = LeaveBlockBo.from(eligibleTransfers.get(0));
 			LocalDate effectiveDate = leaveBlock.getLeaveLocalDate();
-            AccrualCategoryRuleContract accrualRule = leaveBlock.getAccrualCategoryRule();
+            AccrualCategoryRule accrualRule = leaveBlock.getAccrualCategoryRule();
 			if(accrualRule != null) {
 				AccrualCategory accrualCategory = HrServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = LmServiceLocator.getAccrualService().getAccruedBalanceForPrincipal(principalId, accrualCategory, leaveBlock.getLeaveLocalDate());

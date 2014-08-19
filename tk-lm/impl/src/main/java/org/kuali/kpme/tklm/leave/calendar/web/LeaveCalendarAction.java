@@ -564,7 +564,7 @@ public class LeaveCalendarAction extends CalendarFormAction {
         List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
 
         Interval calendarInterval = new Interval(calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
-        Map<String,Set<LeaveBlockContract>> maxBalInfractions = new HashMap<String,Set<LeaveBlockContract>>();
+        Map<String,Set<LeaveBlock>> maxBalInfractions = new HashMap<String,Set<LeaveBlock>>();
         
         DateTime effectiveDate = LocalDate.now().toDateTimeAtStartOfDay();
         if (!calendarInterval.contains(effectiveDate)) {
@@ -575,8 +575,8 @@ public class LeaveCalendarAction extends CalendarFormAction {
 	        maxBalInfractions = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
 	        
 	        LeaveSummary summary = leaveCalendarForm.getLeaveSummary();
-	        for (Entry<String,Set<LeaveBlockContract>> entry : maxBalInfractions.entrySet()) {
-	        	for (LeaveBlockContract lb : entry.getValue()) {
+	        for (Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
+	        	for (LeaveBlock lb : entry.getValue()) {
 	        		AccrualCategoryContract accrualCat = lb.getAccrualCategoryObj();
 		        	AccrualCategoryRuleContract aRule = lb.getAccrualCategoryRule();
 		        	List<LeaveSummaryRow> summaryRows = summary.getLeaveSummaryRows();
