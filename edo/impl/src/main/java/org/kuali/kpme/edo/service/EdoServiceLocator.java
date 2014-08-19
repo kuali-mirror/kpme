@@ -23,6 +23,7 @@ import org.kuali.kpme.edo.item.type.service.EdoItemTypeService;
 import org.kuali.kpme.edo.notification.service.EdoNotificationService;
 import org.kuali.kpme.edo.reports.dao.EdoPromotionAndTenureReportViewDao;
 import org.kuali.kpme.edo.reports.service.EdoPromotionAndTenureReportViewService;
+import org.kuali.kpme.edo.reviewernote.service.EdoReviewerNoteService;
 import org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionService;
 import org.kuali.kpme.edo.reviewlayerdef.service.EdoSuppReviewLayerDefinitionService;
 import org.kuali.kpme.edo.role.service.EdoRoleMaintenanceService;
@@ -86,8 +87,8 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static final String EDO_ROLE_RESPONSIBILITY_SERVICE = "edoRoleResponsibilityService";
     public static final String EDO_ROLE_MAINTENANCE_SERVICE = "edoRoleMaintenanceService";
     public static final String EDO_DISPLAY_SUBMIT_BUTTON_SERVICE= "edoDisplaySubmitButtonService";
+    public static final String EDO_REVIEWER_NOTE_SERVICE = "edoReviewerNoteService";
     public static final String EDO_COMMITTEES_READY_SERVICE= "edoCommitteesReadyService";
-
     
     public static final String EDO_PROMOTIONANDTENURE_REPORT_VIEW_SERVICE = "edoPromotionAndTenureReportViewService";
 
@@ -251,9 +252,13 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static EdoDisplaySubmitButtonService getEdoDisplaySubmitButtonService() {
         return (EdoDisplaySubmitButtonService) SPRING_APPLICATION_CONTEXT.getBean(EDO_DISPLAY_SUBMIT_BUTTON_SERVICE);
     }
-    
+
+    public static EdoReviewerNoteService getEdoReviewerNoteService() {
+   	 return (EdoReviewerNoteService)SPRING_APPLICATION_CONTEXT.getBean(EDO_REVIEWER_NOTE_SERVICE);
+	}
+
     public static EdoCommitteesReadyService getEdoCommitteesReadyService() {
         return (EdoCommitteesReadyService) SPRING_APPLICATION_CONTEXT.getBean(EDO_COMMITTEES_READY_SERVICE);
     }
-    
+
 }

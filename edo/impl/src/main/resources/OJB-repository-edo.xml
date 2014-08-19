@@ -365,5 +365,14 @@
         <field-descriptor name="groupKeyCode"  		column="GRP_KEY_CD"        	jdbc-type="VARCHAR" length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
     
-    
+    <class-descriptor class="org.kuali.kpme.edo.reviewernote.EdoReviewerNoteBo" table="EDO_REVIEWER_NOTE_T">
+    	<field-descriptor name="edoReviewerNoteId" 	column="edo_reviewer_note_id"  	jdbc-type="VARCHAR" length="60" nullable="false" primarykey="true" autoincrement="true" sequence-name="EDO_REVIEWER_NOTE_S" />
+    	<field-descriptor name="edoDossierId" 		column="edo_dossier_id"  	jdbc-type="VARCHAR" length="60" nullable="false" />		
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
+        <field-descriptor name="note" 				column="note" 				jdbc-type="VARCHAR" nullable="false"/>		
+        <field-descriptor name="reviewDateVal" 		column="review_date" 		jdbc-type="DATE" 	nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="createdAtVal"       column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="objectId"       	column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber"  	column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
+    </class-descriptor>
 </descriptor-repository>

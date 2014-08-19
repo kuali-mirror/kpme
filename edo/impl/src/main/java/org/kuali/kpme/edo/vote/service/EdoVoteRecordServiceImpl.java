@@ -1,15 +1,11 @@
 package org.kuali.kpme.edo.vote.service;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
-//import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.vote.EdoVoteRecordBo;
 import org.kuali.kpme.edo.vote.dao.EdoVoteRecordDao;

@@ -89,6 +89,7 @@
     <bean id="edoChecklistItemDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistItemDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistSectionDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistSectionDaoImpl" parent="platformAwareDao" />
     <bean id="edoCommitteesReadyDao" class="org.kuali.kpme.edo.committeesready.dao.EdoCommitteesReadyDaoImpl" parent="platformAwareDao" />
+    <bean id="edoReviewerNoteDao" class="org.kuali.kpme.edo.reviewernote.dao.EdoReviewerNoteDaoImpl" parent="platformAwareDao" />
     <!-- end of eDossier DAO Definitions -->
     
     <!-- eDossier Service Definitions -->
@@ -190,6 +191,10 @@
         <property name="edoCommitteesReadyDao" ref="edoCommitteesReadyDao"/>
     </bean>
     
+    <bean id="edoReviewerNoteService" class="org.kuali.kpme.edo.reviewernote.service.EdoReviewerNoteServiceImpl">
+        <property name="edoReviewerNoteDao" ref="edoReviewerNoteDao"/>
+    </bean>
+    
     <bean id="maintenanceService" class="org.kuali.kpme.edo.service.MaintenanceServiceImpl" />
     <!-- end of eDossier Service Definitions -->
     
@@ -251,6 +256,7 @@
             	<idref local="edoWorkflowDefinitionService"/>            	
             	<idref local="edoDisplaySubmitButtonService"/>
             	<idref local="edoCommitteesReadyService"/>
+            	<idref local="edoReviewerNoteService"/>
             	<idref local="maintenanceService"/>            	
             </list>
         </property>

@@ -50,7 +50,6 @@ public class EdoItemTypeServiceTest extends EdoUnitTestBase {
 	public void testGetItemTypeList() throws Exception {
 
 		List<EdoItemType> edoItemTypes = EdoServiceLocator.getEdoItemTypeService().getItemTypeList(asOfDate);
-		System.out.println("edoItemTypes size "+edoItemTypes.size());
 		assertEquals("returned the correct number of results", 3, edoItemTypes.size());
 	}
 
