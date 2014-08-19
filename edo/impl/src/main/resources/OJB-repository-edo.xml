@@ -355,10 +355,14 @@
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
     </class-descriptor>
 
-     <class-descriptor class="org.kuali.kpme.edo.submitButton.EdoSubmitButton" table="edo_submit_button_display_t">
-        <field-descriptor name="edoSubmitButtonDisplayId" column="edo_submit_button_display_id " jdbc-type="NUMERIC" primarykey="true" />
-        <field-descriptor name="campusCode" column="campus_code " jdbc-type="CHAR" length="2" primarykey="false" />
-        <field-descriptor name="activeFlag" column="ACTIVE_FLAG" jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />     
+     <class-descriptor class="org.kuali.kpme.edo.committeesready.EdoCommitteesReadyBo" table="EDO_COMMITTEES_READY_T">
+        <field-descriptor name="edoCommitteesReadyId" column="EDO_COMMITTEES_READY_ID" jdbc-type="VARCHAR" length="60" primarykey="true" />
+        <field-descriptor name="ready" column="READY" jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.kpme.core.TimestampConverter" />
+        <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" nullable="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="groupKeyCode"  		column="GRP_KEY_CD"        	jdbc-type="VARCHAR" length="30" nullable="false" primaryKey="false" />
     </class-descriptor>
     
     

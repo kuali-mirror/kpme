@@ -88,6 +88,7 @@
     <bean id="edoDisplaySubmitButtonDao" class="org.kuali.kpme.edo.submitButton.dao.EdoDisplaySubmitButtonDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistItemDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistItemDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistSectionDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistSectionDaoImpl" parent="platformAwareDao" />
+    <bean id="edoCommitteesReadyDao" class="org.kuali.kpme.edo.committeesready.dao.EdoCommitteesReadyDaoImpl" parent="platformAwareDao" />
     <!-- end of eDossier DAO Definitions -->
     
     <!-- eDossier Service Definitions -->
@@ -185,6 +186,10 @@
         <property name="edoDisplaySubmitButtonDao" ref="edoDisplaySubmitButtonDao"/>
     </bean>
     
+    <bean id="edoCommitteesReadyService" class="org.kuali.kpme.edo.committeesready.service.EdoCommitteesReadyServiceImpl">
+        <property name="edoCommitteesReadyDao" ref="edoCommitteesReadyDao"/>
+    </bean>
+    
     <bean id="maintenanceService" class="org.kuali.kpme.edo.service.MaintenanceServiceImpl" />
     <!-- end of eDossier Service Definitions -->
     
@@ -245,6 +250,7 @@
             	<idref local="edoPromotionAndTenureReportViewService"/>
             	<idref local="edoWorkflowDefinitionService"/>            	
             	<idref local="edoDisplaySubmitButtonService"/>
+            	<idref local="edoCommitteesReadyService"/>
             	<idref local="maintenanceService"/>            	
             </list>
         </property>

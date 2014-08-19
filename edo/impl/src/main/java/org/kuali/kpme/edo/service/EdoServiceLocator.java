@@ -37,6 +37,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.kuali.kpme.edo.committeesready.service.EdoCommitteesReadyService;
 
 import javax.sql.DataSource;
 
@@ -85,6 +86,7 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static final String EDO_ROLE_RESPONSIBILITY_SERVICE = "edoRoleResponsibilityService";
     public static final String EDO_ROLE_MAINTENANCE_SERVICE = "edoRoleMaintenanceService";
     public static final String EDO_DISPLAY_SUBMIT_BUTTON_SERVICE= "edoDisplaySubmitButtonService";
+    public static final String EDO_COMMITTEES_READY_SERVICE= "edoCommitteesReadyService";
 
     
     public static final String EDO_PROMOTIONANDTENURE_REPORT_VIEW_SERVICE = "edoPromotionAndTenureReportViewService";
@@ -248,6 +250,10 @@ public class EdoServiceLocator implements ApplicationContextAware {
     
     public static EdoDisplaySubmitButtonService getEdoDisplaySubmitButtonService() {
         return (EdoDisplaySubmitButtonService) SPRING_APPLICATION_CONTEXT.getBean(EDO_DISPLAY_SUBMIT_BUTTON_SERVICE);
+    }
+    
+    public static EdoCommitteesReadyService getEdoCommitteesReadyService() {
+        return (EdoCommitteesReadyService) SPRING_APPLICATION_CONTEXT.getBean(EDO_COMMITTEES_READY_SERVICE);
     }
     
 }
