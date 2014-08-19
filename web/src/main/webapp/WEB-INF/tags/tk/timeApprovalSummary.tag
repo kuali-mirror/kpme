@@ -5,6 +5,7 @@
 <%@ attribute name="timeApprovalSummary" required="true" type="org.kuali.kpme.tklm.time.timesummary.TimeSummary"%>
 <%@ attribute name="principalId" required="true" type="java.lang.String"%>
 <%@ attribute name="error" required="true" type="java.lang.String"%>
+<%@ attribute name="clockStatusMessage" required="true" type="java.lang.String"%>
 
 <div id="timeapproval-summary" class="${error}">
     <div id="timesheet-table-basic">
@@ -39,7 +40,7 @@
 	                        <c:forEach items="${timeApprovalSummary.timeSummaryHeader}" var="hour">
 	                        	<c:if test="${weekHours[hour.key] != null and not empty weekHours[hour.key]}">
 	                        		<c:choose>
-	                        			<c:when test="${clockLog[hour.key] != null and not empty clockLog[hour.key] and clockLog[hour.key]}">
+	                        			<c:when test="${clockLog[hour.key] != null and not empty clockLog[hour.key] and clockLog[hour.key] and clockStatusMessage.contains('Clocked in')}">
 	                        				<td style='background-color:#F08080'>${weekHours[hour.key]}</td>
 	                        			</c:when>
 	                        			<c:otherwise>
