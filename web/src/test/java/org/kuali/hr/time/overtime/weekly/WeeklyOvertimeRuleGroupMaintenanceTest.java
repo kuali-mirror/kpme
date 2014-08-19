@@ -53,6 +53,7 @@ public class WeeklyOvertimeRuleGroupMaintenanceTest extends WeeklyOvertimeRuleMa
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.effectiveDate", "4/01/2011");
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.maxHoursEarnGroup", "REG");
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.convertFromEarnGroup", "REG");
+        HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.applyToEarnGroup", "REG");
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.convertToEarnCode", OVERTIME_EARN_GROUP);
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.maxHours", "5");
 		HtmlUnitUtil.setFieldValue(page, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.step", "10");

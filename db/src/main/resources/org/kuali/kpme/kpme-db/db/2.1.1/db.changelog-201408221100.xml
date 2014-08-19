@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Copyright 2004-2014 The Kuali Foundation
@@ -19,10 +18,13 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <!-- rice upgrade includes here.  commented out example below -->
-    <!--<include file="org/kuali/kpme/kpme-db/db/rice/db.changelog-2.3.1.xml" />-->
+    <changeSet id="1" author="mlemons" context="kpme-client-bootstrap">
+        <addColumn tableName="TK_WEEKLY_OVERTIME_RL_T">
+            <column name="APPLY_TO_ERN_GROUP" type="VARCHAR(10)"/>
+            <column name="OVERRIDE_WORKAREA_DEFAULT" type="VARCHAR(1)" defaultValue="N"/>
+        </addColumn>
 
-    <!-- uncomment the following line when first changeset in the 2.0.1 folder is created -->
-    <include file="org/kuali/kpme/kpme-db/db/db.changelog-2.1.1.xml" />
 
+
+    </changeSet>
 </databaseChangeLog>

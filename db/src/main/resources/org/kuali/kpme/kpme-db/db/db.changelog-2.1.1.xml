@@ -19,10 +19,5 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <!-- rice upgrade includes here.  commented out example below -->
-    <!--<include file="org/kuali/kpme/kpme-db/db/rice/db.changelog-2.3.1.xml" />-->
-
-    <!-- uncomment the following line when first changeset in the 2.0.1 folder is created -->
-    <include file="org/kuali/kpme/kpme-db/db/db.changelog-2.1.1.xml" />
-
+    <includeAll path="org/kuali/kpme/kpme-db/db/2.1.1/" />
 </databaseChangeLog>
