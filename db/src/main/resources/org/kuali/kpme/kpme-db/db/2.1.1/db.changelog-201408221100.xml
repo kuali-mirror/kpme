@@ -23,8 +23,8 @@
             <column name="APPLY_TO_ERN_GROUP" type="VARCHAR(10)"/>
             <column name="OVERRIDE_WORKAREA_DEFAULT" type="VARCHAR(1)" defaultValue="N"/>
         </addColumn>
-
-
-
+        <update tableName="TK_WEEKLY_OVERTIME_RL_T">
+            <column name="APPLY_TO_ERN_GROUP" valueComputed="CONVERT_FROM_ERN_GROUP"/>
+        </update>
     </changeSet>
 </databaseChangeLog>
