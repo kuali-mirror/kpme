@@ -19,8 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.kpme.tklm.time.rules.validation.TkKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
-import org.kuali.kpme.tklm.common.AuthorizationValidationUtils;
-import org.kuali.kpme.tklm.time.rules.clocklocation.ClockLocationRule;
 import org.kuali.kpme.tklm.time.rules.timecollection.TimeCollectionRule;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -71,12 +69,15 @@ public class TimeCollectionRuleValidation extends TkKeyedBusinessObjectValidatio
 	
 	boolean validateWildcards(TimeCollectionRule tcr) {
 
-        if(validateWorkAreaDeptWildcarding(tcr)){
+        if(!validateWorkAreaDeptWildcarding(tcr)){
 			// add error when work area defined, department is wild carded.
-			this.putFieldError("workArea", "error.wc.wadef", "workarea '" +  tcr.getWorkArea() + "'");
+			this.putFieldError("workArea", "error.wc.wadef");
 			return false;
-		}else if(validateGroupKeyDeptWildcarding(tcr)){
-			this.putFieldError("groupKeyCode", "error.wc.wadef", "workarea '" +  tcr.getWorkArea() + "'");
+		}
+        
+        if(!validateGroupKeyDeptWildcarding(tcr)){
+        	// add error when dept is defined, groupkey is wild carded.
+			this.putFieldError("groupKeyCode", "error.wc.deptdef");
 			return false;
 		}
         
