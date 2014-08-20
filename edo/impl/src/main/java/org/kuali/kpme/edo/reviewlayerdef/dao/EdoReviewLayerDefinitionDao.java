@@ -1,7 +1,7 @@
 package org.kuali.kpme.edo.reviewlayerdef.dao;
 
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
-import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,12 +35,15 @@ public interface EdoReviewLayerDefinitionDao {
     
     public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitionsToMax(String maxReviewLevel);
     //supplemental auth nodes
-    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
-    public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(BigDecimal reviewLayerDefinitionID);
     public EdoReviewLayerDefinitionBo getReviewLayerDefinitionBySupplementalNode(String suppNodeName);
     public List<String> getDistinctWorkflowIds();
     public List<EdoReviewLayerDefinitionBo> getReviewLayerDefinitionsByWorkflowId(String workflowId);
     public String getLevelQualifierByWorkflowId(String workflowId, String nodeName);
-    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName);
     public List<EdoReviewLayerDefinitionBo> getRouteLevelsWithReviewLayers();
+    
+    // KPME-3711 Moved these to EdoSuppReviewLayerDefinition
+    /*
+    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
+    public EdoSuppReviewLayerDefinitionBo getSuppReviewLayerDefinition(String reviewLayerDefinitionId);
+    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName); */
 }

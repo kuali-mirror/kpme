@@ -3,13 +3,14 @@ package org.kuali.kpme.edo.util;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.base.web.EdoForm;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.permission.EDOPermissionTemplate;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.submitButton.EdoSubmitButton;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.UserSession;
@@ -340,7 +341,7 @@ public class EdoContext {
         	if(ObjectUtils.isNotNull(dossier) && !StringUtils.equals(dossier.getDossierStatus(),"CLOSED")) {
         	//TODO: take care of dossier.getDocumentID(), documentID is not in EdoDossier
         	//DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossier.getDocumentID());
-        	DossierProcessDocumentHeader documentHeader = null;
+        	EdoDossierDocumentInfoBo documentHeader = null;
         		if(documentHeader != null) {
             	//check if document is finalized or not
             	if(StringUtils.equals(documentHeader.getDocumentStatus(), "F")) {
@@ -366,13 +367,13 @@ public class EdoContext {
 
     	EdoSelectedCandidate selectedCandidate = getSelectedCandidate();
         if (selectedCandidate != null) {
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(selectedCandidate.getCandidateDossierID().intValue());
+            EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(selectedCandidate.getCandidateDossierID().toString());
             if(documentHeader != null) {
-                List<DossierProcessDocumentHeader> suppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(new Integer(documentHeader.getEdoDossierId()));
+                List<EdoDossierDocumentInfo> suppDocHeaders = EdoServiceLocator.getEdoDossierDocumentInfoService().getPendingSupplementalDocuments(documentHeader.getEdoDossierId());
                 if (CollectionUtils.isNotEmpty(suppDocHeaders)) {
                     boolean isWaiting = false;
-                    for(DossierProcessDocumentHeader docHeader : suppDocHeaders) {
-                        isWaiting = isWaiting || EdoServiceLocator.getEdoSupplementalPendingStatusService().isWaiting(docHeader.getDocumentId(),EdoContext.getPrincipalId());
+                    for(EdoDossierDocumentInfo docHeader : suppDocHeaders) {
+                        isWaiting = isWaiting || EdoServiceLocator.getEdoSupplementalPendingStatusService().isWaiting(docHeader.getEdoDocumentId(),EdoContext.getPrincipalId());
                     }
                     if (isWaiting) {
                         return true;

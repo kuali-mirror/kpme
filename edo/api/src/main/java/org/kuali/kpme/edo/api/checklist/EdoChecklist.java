@@ -1,30 +1,35 @@
 package org.kuali.kpme.edo.api.checklist;
 
-import java.io.Serializable;
-import java.util.Collection;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.account.AssignmentAccount;
+import org.kuali.kpme.core.api.assignment.account.AssignmentAccountContract;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
-import org.kuali.kpme.core.api.groupkey.HrGroupKeyContract;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @XmlRootElement(name = EdoChecklist.Constants.ROOT_ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = EdoChecklist.Constants.TYPE_NAME, propOrder = {
+    EdoChecklist.Elements.CHECKLIST_SECTIONS,
     EdoChecklist.Elements.DESCRIPTION,
-    EdoChecklist.Elements.EDO_CHECKLIST_I_D,
+    EdoChecklist.Elements.EDO_CHECKLIST_ID,
     EdoChecklist.Elements.DOSSIER_TYPE_CODE,
     EdoChecklist.Elements.ORGANIZATION_CODE,
-    EdoChecklist.Elements.DEPARTMENT_I_D,
+    EdoChecklist.Elements.DEPARTMENT_ID,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
     EdoChecklist.Elements.ACTIVE,
@@ -41,16 +46,18 @@ public final class EdoChecklist
     implements EdoChecklistContract
 {
 
+    @XmlElement(name = Elements.CHECKLIST_SECTIONS, required = false)
+    private final List<EdoChecklistSection> checklistSections;
     @XmlElement(name = Elements.DESCRIPTION, required = false)
     private final String description;
-    @XmlElement(name = Elements.EDO_CHECKLIST_I_D, required = false)
+    @XmlElement(name = Elements.EDO_CHECKLIST_ID, required = false)
     private final String edoChecklistId;
     @XmlElement(name = Elements.DOSSIER_TYPE_CODE, required = false)
     private final String dossierTypeCode;
     @XmlElement(name = Elements.ORGANIZATION_CODE, required = false)
     private final String organizationCode;
-    @XmlElement(name = Elements.DEPARTMENT_I_D, required = false)
-    private final String departmentID;
+    @XmlElement(name = Elements.DEPARTMENT_ID, required = false)
+    private final String departmentId;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
@@ -59,8 +66,10 @@ public final class EdoChecklist
     private final boolean active;
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
     private final LocalDate effectiveLocalDate;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.CREATE_TIME, required = false)
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
@@ -78,11 +87,12 @@ public final class EdoChecklist
      * 
      */
     private EdoChecklist() {
+        this.checklistSections = null;
         this.description = null;
         this.edoChecklistId = null;
         this.dossierTypeCode = null;
         this.organizationCode = null;
-        this.departmentID = null;
+        this.departmentId = null;
         this.versionNumber = null;
         this.objectId = null;
         this.active = false;
@@ -95,11 +105,12 @@ public final class EdoChecklist
     }
 
     private EdoChecklist(Builder builder) {
+        this.checklistSections = ModelObjectUtils.<EdoChecklistSection>buildImmutableCopy(builder.getChecklistSections());
         this.description = builder.getDescription();
         this.edoChecklistId = builder.getEdoChecklistId();
         this.dossierTypeCode = builder.getDossierTypeCode();
         this.organizationCode = builder.getOrganizationCode();
-        this.departmentID = builder.getDepartmentID();
+        this.departmentId = builder.getDepartmentId();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
         this.active = builder.isActive();
@@ -109,6 +120,11 @@ public final class EdoChecklist
         this.userPrincipalId = builder.getUserPrincipalId();
         this.groupKeyCode = builder.getGroupKeyCode();
         this.groupKey = builder.getGroupKey() == null ? null : builder.getGroupKey().build();
+    }
+
+    @Override
+    public List<EdoChecklistSection> getChecklistSections() {
+        return this.checklistSections;
     }
 
     @Override
@@ -132,8 +148,8 @@ public final class EdoChecklist
     }
 
     @Override
-    public String getDepartmentID() {
-        return this.departmentID;
+    public String getDepartmentId() {
+        return this.departmentId;
     }
 
     @Override
@@ -190,11 +206,12 @@ public final class EdoChecklist
         implements Serializable, EdoChecklistContract, ModelBuilder
     {
 
+        private List<EdoChecklistSection.Builder> checklistSections;
         private String description;
         private String edoChecklistId;
         private String dossierTypeCode;
         private String organizationCode;
-        private String departmentID;
+        private String departmentId;
         private Long versionNumber;
         private String objectId;
         private boolean active;
@@ -204,6 +221,13 @@ public final class EdoChecklist
         private String userPrincipalId;
         private String groupKeyCode;
         private HrGroupKey.Builder groupKey;
+
+        private static final ModelObjectUtils.Transformer<EdoChecklistSectionContract, EdoChecklistSection.Builder> toChecklistSectionBuilder =
+                new ModelObjectUtils.Transformer<EdoChecklistSectionContract, EdoChecklistSection.Builder>() {
+                    public EdoChecklistSection.Builder transform(EdoChecklistSectionContract input) {
+                        return EdoChecklistSection.Builder.create(input);
+                    }
+                };
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -220,11 +244,16 @@ public final class EdoChecklist
             }
             // TODO if create() is modified to accept required parameters, this will need to be modified
             Builder builder = create();
+            if (CollectionUtils.isEmpty(contract.getChecklistSections())) {
+                builder.setChecklistSections(Collections.<EdoChecklistSection.Builder>emptyList());
+            } else {
+                builder.setChecklistSections(ModelObjectUtils.transform(contract.getChecklistSections(), toChecklistSectionBuilder));
+            }
             builder.setDescription(contract.getDescription());
             builder.setEdoChecklistId(contract.getEdoChecklistId());
             builder.setDossierTypeCode(contract.getDossierTypeCode());
             builder.setOrganizationCode(contract.getOrganizationCode());
-            builder.setDepartmentID(contract.getDepartmentID());
+            builder.setDepartmentId(contract.getDepartmentId());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
             builder.setActive(contract.isActive());
@@ -239,6 +268,11 @@ public final class EdoChecklist
 
         public EdoChecklist build() {
             return new EdoChecklist(this);
+        }
+
+        @Override
+        public List<EdoChecklistSection.Builder> getChecklistSections() {
+            return this.checklistSections;
         }
 
         @Override
@@ -262,8 +296,8 @@ public final class EdoChecklist
         }
 
         @Override
-        public String getDepartmentID() {
-            return this.departmentID;
+        public String getDepartmentId() {
+            return this.departmentId;
         }
 
         @Override
@@ -311,6 +345,10 @@ public final class EdoChecklist
             return this.groupKey;
         }
 
+        public void setChecklistSections(List<EdoChecklistSection.Builder> checklistSections) {
+            this.checklistSections = checklistSections;
+        }
+
         public void setDescription(String description) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.description = description;
@@ -331,9 +369,9 @@ public final class EdoChecklist
             this.organizationCode = organizationCode;
         }
 
-        public void setDepartmentID(String departmentID) {
+        public void setDepartmentId(String departmentId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.departmentID = departmentID;
+            this.departmentId = departmentId;
         }
 
         public void setVersionNumber(Long versionNumber) {
@@ -402,11 +440,12 @@ public final class EdoChecklist
      */
     static class Elements {
 
+        final static String CHECKLIST_SECTIONS = "checklistSections";
         final static String DESCRIPTION = "description";
-        final static String EDO_CHECKLIST_I_D = "edoChecklistId";
+        final static String EDO_CHECKLIST_ID = "edoChecklistId";
         final static String DOSSIER_TYPE_CODE = "dossierTypeCode";
         final static String ORGANIZATION_CODE = "organizationCode";
-        final static String DEPARTMENT_I_D = "departmentID";
+        final static String DEPARTMENT_ID = "departmentId";
         final static String ACTIVE = "active";
         final static String ID = "id";
         final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";

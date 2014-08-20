@@ -66,5 +66,5 @@ public interface ClockLogDao {
 	
 	public void deleteClockLogsForDocumentId(String documentId);
 
-    public ClockLogBo getLastClockLog(String principalId, String jobNumber, String workArea, String task, String timesheetId);
+    public ClockLogBo getLastClockLog(String groupKeyCode, String principalId, String jobNumber, String workArea, String task, String timesheetId);
 }

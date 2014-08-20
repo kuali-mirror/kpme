@@ -77,7 +77,8 @@
     <bean id="edoVoteRecordDao"    class="org.kuali.kpme.edo.vote.dao.EdoVoteRecordDaoImpl"  parent="platformAwareDao" />
     <bean id="edoCandidateDossierDao" class="org.kuali.kpme.edo.dossier.dao.EdoCandidateDossierDaoImpl" parent="platformAwareDao" />
     <bean id="edoReviewLayerDefinitionDao" class="org.kuali.kpme.edo.reviewlayerdef.dao.EdoReviewLayerDefinitionDaoImpl" parent="platformAwareDao" />
-    <bean id="dossierProcessDocumentHeaderDao" class="org.kuali.kpme.edo.workflow.dao.DossierProcessDocumentHeaderDaoImpl" parent="platformAwareDao" />
+    <bean id="edoSuppReviewLayerDefinitionDao" class="org.kuali.kpme.edo.reviewlayerdef.dao.EdoSuppReviewLayerDefinitionDaoImpl" parent="platformAwareDao" />
+    <bean id="edoDossierDocumentInfoDao" class="org.kuali.kpme.edo.workflow.dao.EdoDossierDocumentInfoDaoImpl" parent="platformAwareDao" />
     <bean id="edoSupplementalTrackingDao" class="org.kuali.kpme.edo.supplemental.dao.EdoSupplementalTrackingDaoImpl" parent="platformAwareDao" />
     <bean id="edoGroupDefinitionDao" class="org.kuali.kpme.edo.group.dao.EdoGroupDefinitionDaoImpl" parent="platformAwareDao" />
     <bean id="edoGroupTrackingDao" class="org.kuali.kpme.edo.group.dao.EdoGroupTrackingDaoImpl" parent="platformAwareDao" />
@@ -87,6 +88,8 @@
     <bean id="edoDisplaySubmitButtonDao" class="org.kuali.kpme.edo.submitButton.dao.EdoDisplaySubmitButtonDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistItemDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistItemDaoImpl" parent="platformAwareDao" />
     <bean id="edoChecklistSectionDao" class="org.kuali.kpme.edo.checklist.dao.EdoChecklistSectionDaoImpl" parent="platformAwareDao" />
+    <bean id="edoCommitteesReadyDao" class="org.kuali.kpme.edo.committeesready.dao.EdoCommitteesReadyDaoImpl" parent="platformAwareDao" />
+    <bean id="edoReviewerNoteDao" class="org.kuali.kpme.edo.reviewernote.dao.EdoReviewerNoteDaoImpl" parent="platformAwareDao" />
     <!-- end of eDossier DAO Definitions -->
     
     <!-- eDossier Service Definitions -->
@@ -130,7 +133,12 @@
     <bean id="edoReviewLayerDefinitionService" class="org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionServiceImpl">
         <property name="edoReviewLayerDefinitionDao" ref="edoReviewLayerDefinitionDao"/>
     </bean>
-      <bean id="edoSupplementalTrackingService" class="org.kuali.kpme.edo.supplemental.service.EdoSupplementalTrackingServiceImpl">
+    
+    <bean id="edoSuppReviewLayerDefinitionService" class="org.kuali.kpme.edo.reviewlayerdef.service.EdoSuppReviewLayerDefinitionServiceImpl">
+        <property name="edoSuppReviewLayerDefinitionDao" ref="edoSuppReviewLayerDefinitionDao"/>
+    </bean>
+    
+    <bean id="edoSupplementalTrackingService" class="org.kuali.kpme.edo.supplemental.service.EdoSupplementalTrackingServiceImpl">
         <property name="edoSupplementalTrackingDao" ref="edoSupplementalTrackingDao"/>
     </bean>
     
@@ -144,8 +152,8 @@
     
     <bean id="authorizationService" class="org.kuali.kpme.edo.authorization.service.AuthorizationServiceImpl" />
 
-    <bean id="dossierProcessDocumentHeaderService" class="org.kuali.kpme.edo.workflow.service.DossierProcessDocumentHeaderServiceImpl">
-        <property name="dossierProcessDocumentHeaderDao" ref="dossierProcessDocumentHeaderDao"/>
+    <bean id="edoDossierDocumentInfoService" class="org.kuali.kpme.edo.workflow.service.EdoDossierDocumentInfoServiceImpl">
+        <property name="edoDossierDocumentInfoDao" ref="edoDossierDocumentInfoDao"/>
     </bean>
 
     <bean id="edoPendingSupplementalStatusService" class="org.kuali.kpme.edo.workflow.service.EdoSupplementalPendingStatusServiceImpl" />
@@ -177,6 +185,14 @@
     
     <bean id="edoDisplaySubmitButtonService" class="org.kuali.kpme.edo.submitButton.service.EdoDisplaySubmitButtonServiceImpl">
         <property name="edoDisplaySubmitButtonDao" ref="edoDisplaySubmitButtonDao"/>
+    </bean>
+    
+    <bean id="edoCommitteesReadyService" class="org.kuali.kpme.edo.committeesready.service.EdoCommitteesReadyServiceImpl">
+        <property name="edoCommitteesReadyDao" ref="edoCommitteesReadyDao"/>
+    </bean>
+    
+    <bean id="edoReviewerNoteService" class="org.kuali.kpme.edo.reviewernote.service.EdoReviewerNoteServiceImpl">
+        <property name="edoReviewerNoteDao" ref="edoReviewerNoteDao"/>
     </bean>
     
     <bean id="maintenanceService" class="org.kuali.kpme.edo.service.MaintenanceServiceImpl" />
@@ -224,11 +240,12 @@
             	<idref local="edoDossierTypeService"/>            	
             	<idref local="edoDossierService"/>
             	<idref local="edoReviewLayerDefinitionService"/>
+            	<idref local="edoSuppReviewLayerDefinitionService"/>
             	<idref local="edoSupplementalTrackingService"/>
             	<idref local="edoVoteRecordService"/>
             	<idref local="edoCandidateDossierService"/>            	
             	<idref local="authorizationService"/>
-            	<idref local="dossierProcessDocumentHeaderService"/>
+            	<idref local="edoDossierDocumentInfoService"/>
             	<idref local="edoPendingSupplementalStatusService"/>
             	<idref local="edoGroupService"/>
             	<idref local="edoGroupDefinitionService"/>            	
@@ -238,6 +255,8 @@
             	<idref local="edoPromotionAndTenureReportViewService"/>
             	<idref local="edoWorkflowDefinitionService"/>            	
             	<idref local="edoDisplaySubmitButtonService"/>
+            	<idref local="edoCommitteesReadyService"/>
+            	<idref local="edoReviewerNoteService"/>
             	<idref local="maintenanceService"/>            	
             </list>
         </property>

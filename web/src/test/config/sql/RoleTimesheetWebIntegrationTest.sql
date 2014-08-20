@@ -34,7 +34,7 @@ insert into hr_job_t (hr_job_id, PRINCIPAL_ID, JOB_NUMBER, EFFDT, dept, HR_SAL_G
 insert into hr_earn_code_security_t (HR_EARN_CODE_SECURITY_ID,  DEPT, HR_SAL_GROUP,  EARN_CODE,  EMPLOYEE,  APPROVER, OBJ_ID, VER_NBR, LOCATION, ACTIVE, EFFDT, TIMESTAMP, EARN_CODE_TYPE, PAYROLLPROCESSOR, GRP_KEY_CD) values ('1000', '%', '%', 'RGN', 'Y', 'Y', NULL, '1', 'BL', 'Y', '2010-01-01', '2010-01-01 08"08:08', 'T', 'N', 'IU-BL');
 
 # Set up principal Calendars
-delete from hr_principal_attributes_t where hr_principal_attribute_id >= '1001' AND hr_principal_attribute_id <= '1010'
+delete from hr_principal_attributes_t where hr_principal_attribute_id in ('1001', '1002', '1003', '1004', '1005', '1006', '1007', '1002', '1009', '1010')
 insert into hr_principal_attributes_t (hr_principal_attribute_id, principal_id, pay_calendar, leave_plan, service_date, fmla_eligible, workers_eligible, timezone, EFFDT, TIMESTAMP, OBJ_ID, VER_NBR, active, leave_calendar) values('1001','testuser1', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01', now(), uuid(), '1', 'Y', null);
 insert into hr_principal_attributes_t (hr_principal_attribute_id, principal_id, pay_calendar, leave_plan, service_date, fmla_eligible, workers_eligible, timezone, EFFDT, TIMESTAMP, OBJ_ID, VER_NBR, active, leave_calendar) values('1002','testuser2', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);
 insert into hr_principal_attributes_t (hr_principal_attribute_id, principal_id, pay_calendar, leave_plan, service_date, fmla_eligible, workers_eligible, timezone, EFFDT, TIMESTAMP, OBJ_ID, VER_NBR, active, leave_calendar) values('1003','testuser3', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null);

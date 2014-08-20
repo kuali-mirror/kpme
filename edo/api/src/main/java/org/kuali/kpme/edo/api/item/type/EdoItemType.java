@@ -8,11 +8,16 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.item.EdoItem.Builder;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = EdoItemType.Constants.ROOT_ELEMENT_NAME)
@@ -55,8 +60,10 @@ public final class EdoItemType
     private final boolean active;
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
     private final LocalDate effectiveLocalDate;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.CREATE_TIME, required = false)
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
@@ -188,6 +195,16 @@ public final class EdoItemType
         public static Builder create() {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
             return new Builder();
+        }
+        
+        private Builder(String itemTypeName) {
+            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setItemTypeName(itemTypeName);
+        }
+
+        public static Builder create(String itemTypeName) {
+            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+            return new Builder(itemTypeName);
         }
 
         public static Builder create(EdoItemTypeContract contract) {

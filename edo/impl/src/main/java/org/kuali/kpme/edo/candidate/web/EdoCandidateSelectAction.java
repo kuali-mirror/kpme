@@ -18,6 +18,7 @@ import org.apache.struts.action.ActionRedirect;
 import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.base.web.EdoAction;
 import org.kuali.kpme.edo.candidate.EdoSelectedCandidate;
@@ -27,7 +28,6 @@ import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoRule;
 import org.kuali.kpme.edo.util.TagSupport;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -80,7 +80,7 @@ public class EdoCandidateSelectAction extends EdoAction {
         selectedCandidate.setCandidateFirstname(candidate.getFirstName());
         selectedCandidate.setCandidateUsername(candidate.getPrincipalName());
         //selectedCandidate.setCandidateCampusCode(candidate.getCandidacyCampus());
-        selectedCandidate.setCandidateDepartmentID(candidate.getPrimaryDeptID());
+        selectedCandidate.setCandidateDepartmentID(candidate.getPrimaryDeptId());
         selectedCandidate.setCandidateSchoolID(candidate.getCandidacySchool());
 
         if ("".equals(dossier)) {
@@ -187,7 +187,7 @@ public class EdoCandidateSelectAction extends EdoAction {
             // what does this do - TC
             // tcb: this provides the node drop down lists for super actions to route/return a dossier
             if (currentDossier != null && currentDossier.getEdoDossierId() != null) {
-                DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(currentDossier.getEdoDossierId());
+                EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(currentDossier.getEdoDossierId());
                 if (documentHeader != null) {
                     //edoCandidateSelectForm.setFutureNodes(KEWServiceLocator.getRouteNodeService().findFutureNodeNames(currentDossier.getDocumentId()));
                     //edoCandidateSelectForm.setPreviousNodes(KEWServiceLocator.getRouteNodeService().findPreviousNodeNames(currentDossier.getDocumentId()));
@@ -216,16 +216,16 @@ public class EdoCandidateSelectAction extends EdoAction {
             boolean canTakeAction = EdoServiceLocator.getAuthorizationService().isAuthorizedToVote_W(EdoContext.getPrincipalId());
 
             if (canTakeAction) {
-                DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(selectedCandidate.getCandidateDossierID().intValue());
+                EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(selectedCandidate.getCandidateDossierID().toString());
 
                 if (documentHeader != null) {
-                    List<DossierProcessDocumentHeader> suppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(new Integer(documentHeader.getEdoDossierId()));
+                    List<EdoDossierDocumentInfo> suppDocHeaders = EdoServiceLocator.getEdoDossierDocumentInfoService().getPendingSupplementalDocuments(documentHeader.getEdoDossierId());
                     if (CollectionUtils.isNotEmpty(suppDocHeaders)) {
                         boolean hasAddedVoteRecord = false;
                         boolean hasAddedReviewLetter = false;
-                        for (DossierProcessDocumentHeader docHeader : suppDocHeaders) {
-                            hasAddedReviewLetter = hasAddedReviewLetter || EdoServiceLocator.getEdoSupplementalPendingStatusService().hasAddedSupplementalReviewLetter(docHeader.getDocumentId());
-                            hasAddedVoteRecord = hasAddedVoteRecord || EdoServiceLocator.getEdoSupplementalPendingStatusService().hasAddedSupplementalVoteRecord(docHeader.getDocumentId());
+                        for (EdoDossierDocumentInfo docHeader : suppDocHeaders) {
+                            hasAddedReviewLetter = hasAddedReviewLetter || EdoServiceLocator.getEdoSupplementalPendingStatusService().hasAddedSupplementalReviewLetter(docHeader.getEdoDocumentId());
+                            hasAddedVoteRecord = hasAddedVoteRecord || EdoServiceLocator.getEdoSupplementalPendingStatusService().hasAddedSupplementalVoteRecord(docHeader.getEdoDocumentId());
                         }
                         if (hasAddedReviewLetter || hasAddedVoteRecord) {
                             request.setAttribute("hasTakenSupplementalAction", true);

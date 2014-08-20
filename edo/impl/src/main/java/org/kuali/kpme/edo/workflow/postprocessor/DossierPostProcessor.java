@@ -2,12 +2,13 @@ package org.kuali.kpme.edo.workflow.postprocessor;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoUtils;
 import org.kuali.kpme.edo.util.TagSupport;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
@@ -35,28 +36,28 @@ public class DossierPostProcessor extends DefaultPostProcessor {
     @Override
     public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
         ProcessDocReport pdr = null;
-        DossierProcessDocumentHeader document = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(statusChangeEvent.getDocumentId());
+        EdoDossierDocumentInfo document = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDocId(statusChangeEvent.getDocumentId());
         if (document != null) {
         	pdr = super.doRouteStatusChange(statusChangeEvent);
             DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
             DocumentStatus oldDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getOldRouteStatus());
-            updateDossierProcessDocumentHeaderStatus(document, newDocumentStatus);
+            updateEdoDossierDocumentInfoStatus(document, newDocumentStatus);
             //if the edoc is not TenureSupplemental or PromotionSupplemental execute the below part
         	if(!(StringUtils.equals(document.getDocumentTypeName(), "TenureSupplementalProcessDocument") || StringUtils.equals(document.getDocumentTypeName(), "PromotionSupplementalProcessDocument"))) {
         	
             //Update the dossier table
-            EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossier(document.getDocumentId());
+            EdoDossierBo dossier = EdoServiceLocator.getEdoDossierService().getDossier(document.getEdoDocumentId());
             if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
             	dossier.setDossierStatus(EdoConstants.DOSSIER_STATUS.SUBMITTED);
                 Principal approver = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(dossier.getCandidatePrincipalName());
             	//make a permission check
             	if(KimApiServiceLocator.getPermissionService().isAuthorized(approver.getPrincipalId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPER_USER_APPROVE_TENURE_SUPP_PERMISSION, new HashMap<String, String>()) || 
             	   KimApiServiceLocator.getPermissionService().isAuthorized(approver.getPrincipalId(), EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUPER_USER_APPROVE_PROMOTION_SUPP_PERMISSION, new HashMap<String, String>())) {
-                       List<DossierProcessDocumentHeader> pendingSuppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(Integer.valueOf(dossier.getEdoDossierId()));
+                       List<EdoDossierDocumentInfo> pendingSuppDocHeaders = EdoServiceLocator.getEdoDossierDocumentInfoService().getPendingSupplementalDocuments(dossier.getEdoDossierId());
                         if (CollectionUtils.isNotEmpty(pendingSuppDocHeaders)) {
-                        for(DossierProcessDocumentHeader pendingSuppDocHeader : pendingSuppDocHeaders) {
+                        for(EdoDossierDocumentInfo pendingSuppDocHeader : pendingSuppDocHeaders) {
 	                        	WorkflowDocumentActionsService documentActionsService = (WorkflowDocumentActionsService)KsbApiServiceLocator.getMessageHelper().getServiceAsynchronously(new QName(KewApiConstants.Namespaces.KEW_NAMESPACE_2_0, KewApiConstants.ServiceNames.WORKFLOW_DOCUMENT_ACTIONS_SERVICE_SOAP), "EDO");
-	                        	DocumentActionParameters.Builder builder = DocumentActionParameters.Builder.create(pendingSuppDocHeader.getDocumentId(), approver.getPrincipalId());
+	                        	DocumentActionParameters.Builder builder = DocumentActionParameters.Builder.create(pendingSuppDocHeader.getEdoDocumentId(), approver.getPrincipalId());
 	                            builder.setAnnotation("Blanket Approving pending Supplemental Documents");
 	                        	documentActionsService.superUserBlanketApprove( builder.build(), true);
                         	                      	
@@ -128,8 +129,12 @@ public class DossierPostProcessor extends DefaultPostProcessor {
        
     }
 
-    private void updateDossierProcessDocumentHeaderStatus(DossierProcessDocumentHeader dossierProcessDocumentHeader, DocumentStatus newDocumentStatus) {
-        dossierProcessDocumentHeader.setDocumentStatus(newDocumentStatus.getCode());
-        EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(dossierProcessDocumentHeader);
+    private void updateEdoDossierDocumentInfoStatus(EdoDossierDocumentInfo dossierProcessDocumentHeader, DocumentStatus newDocumentStatus) {
+    	EdoDossierDocumentInfoBo bo = EdoDossierDocumentInfoBo.from(dossierProcessDocumentHeader);
+    	
+    	bo.setDocumentStatus(newDocumentStatus.getCode());
+    	EdoServiceLocator.getEdoDossierDocumentInfoService().saveOrUpdate(bo.to(bo));
+    	//dossierProcessDocumentHeader.(newDocumentStatus.getCode());
+        //EdoServiceLocator.getDossierProcessDocumentHeaderService().saveOrUpdate(dossierProcessDocumentHeader);
     }
 }

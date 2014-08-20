@@ -235,3 +235,7 @@
         </div>
     </html:form>
 </div>
+
+<div id="confirm-leave-block-delete" class="dialog-form" title="Confirm Leave Block Deletion">
+    You are about to delete a leave block. Click OK to confirm the delete.
+</div>

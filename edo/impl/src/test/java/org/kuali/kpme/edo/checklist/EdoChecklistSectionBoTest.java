@@ -15,11 +15,10 @@
  */
 package org.kuali.kpme.edo.checklist;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
@@ -32,25 +31,18 @@ public class EdoChecklistSectionBoTest {
 		testEdoChecklistSectionBos = new HashMap<String, EdoChecklistSection>();
 		edoEdoChecklistSectionBuilder.setChecklistSectionName("Checklist Section 1");
 		edoEdoChecklistSectionBuilder.setDescription("Testing Immutable EdoChecklistSection");
-		edoEdoChecklistSectionBuilder.setChecklistSectionOrdinal(3);
-		edoEdoChecklistSectionBuilder.setUserPrincipalId("admin");
-		
-		edoEdoChecklistSectionBuilder.setEdoChecklistSectionId("EDO_CHECKLIST_SECTION_ID_0001");
-		edoEdoChecklistSectionBuilder.setEdoChecklistId("EDO_CHECKLIST_ID_0001");
-		
+		edoEdoChecklistSectionBuilder.setChecklistSectionOrdinal(3);		
+		edoEdoChecklistSectionBuilder.setEdoChecklistSectionId("1000");
+		edoEdoChecklistSectionBuilder.setEdoChecklistId("1000");
 		edoEdoChecklistSectionBuilder.setVersionNumber(1L);
 		edoEdoChecklistSectionBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
-		edoEdoChecklistSectionBuilder.setActive(true);
-		edoEdoChecklistSectionBuilder.setId(edoEdoChecklistSectionBuilder.getEdoChecklistSectionId());
-		edoEdoChecklistSectionBuilder.setEffectiveLocalDate(new LocalDate(2014, 3, 1));
-		edoEdoChecklistSectionBuilder.setCreateTime(DateTime.now());
-		
+        edoEdoChecklistSectionBuilder.setChecklistItems(Collections.singletonList(EdoChecklistItemBoTest.edoChecklistItemBuilder));
 		testEdoChecklistSectionBos.put(edoEdoChecklistSectionBuilder.getEdoChecklistSectionId(), edoEdoChecklistSectionBuilder.build());
 	}
 	
     @Test
     public void testNotEqualsWithGroup() {
-    	EdoChecklistSection immutable = EdoChecklistSectionBoTest.getEdoChecklistSection("EDO_CHECKLIST_SECTION_ID_0001");
+    	EdoChecklistSection immutable = EdoChecklistSectionBoTest.getEdoChecklistSection("1000");
     	EdoChecklistSectionBo bo = EdoChecklistSectionBo.from(immutable);
         Assert.assertFalse(bo.equals(immutable));
         Assert.assertFalse(immutable.equals(bo));

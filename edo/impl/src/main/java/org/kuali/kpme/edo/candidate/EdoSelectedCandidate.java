@@ -59,7 +59,7 @@ public class EdoSelectedCandidate {
         setCandidateFirstname(edoCandidate.getFirstName());
         setCandidateUsername(edoCandidate.getPrincipalName());
         //setCandidateCampusCode(edoCandidate.getCandidacyCampus());
-        setCandidateDepartmentID(edoCandidate.getPrimaryDeptID());
+        setCandidateDepartmentID(edoCandidate.getPrimaryDeptId());
         setCandidateSchoolID(edoCandidate.getCandidacySchool());
         setAoe(dossier.getAoeCode());
         setDossierTypeCode(dossierType.getDossierTypeCode());

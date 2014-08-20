@@ -27,9 +27,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.edo.EdoUnitTestBase;
-import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.api.candidate.EdoCandidate;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
+import org.kuali.kpme.edo.service.EdoServiceLocator;
 @IntegrationTest
 public class EdoDossierServiceTest extends EdoUnitTestBase {	
 

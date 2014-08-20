@@ -2,6 +2,7 @@
 package org.kuali.kpme.edo.api.vote;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -10,6 +11,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -17,6 +19,8 @@ import org.kuali.kpme.edo.api.dossier.EdoDossier.Builder;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = EdoVoteRecord.Constants.ROOT_ELEMENT_NAME)
@@ -33,13 +37,12 @@ import org.w3c.dom.Element;
     EdoVoteRecord.Elements.YES_COUNT,
     EdoVoteRecord.Elements.AOE_CODE,
     EdoVoteRecord.Elements.VOTE_TYPE,
+    EdoVoteRecord.Elements.CREATED_AT,
+    EdoVoteRecord.Elements.UPDATED_AT,
+    EdoVoteRecord.Elements.CREATED_BY,
+    
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
-    EdoVoteRecord.Elements.ACTIVE,
-    EdoVoteRecord.Elements.ID,
-    EdoVoteRecord.Elements.EFFECTIVE_LOCAL_DATE,
-    EdoVoteRecord.Elements.CREATE_TIME,
-    EdoVoteRecord.Elements.USER_PRINCIPAL_ID,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class EdoVoteRecord
@@ -73,16 +76,15 @@ public final class EdoVoteRecord
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
     private final String objectId;
-    @XmlElement(name = Elements.ACTIVE, required = false)
-    private final boolean active;
-    @XmlElement(name = Elements.ID, required = false)
-    private final String id;
-    @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
-    private final LocalDate effectiveLocalDate;
-    @XmlElement(name = Elements.CREATE_TIME, required = false)
-    private final DateTime createTime;
-    @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
-    private final String userPrincipalId;
+
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    @XmlElement(name = Elements.CREATED_AT, required = false)
+    private final DateTime createdAt;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    @XmlElement(name = Elements.UPDATED_AT, required = false)
+    private final DateTime updatedAt;
+    @XmlElement(name = Elements.CREATED_BY, required = false)
+    private final String createdBy;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -105,11 +107,9 @@ public final class EdoVoteRecord
         this.voteType = null;
         this.versionNumber = null;
         this.objectId = null;
-        this.active = false;
-        this.id = null;
-        this.effectiveLocalDate = null;
-        this.createTime = null;
-        this.userPrincipalId = null;
+        this.createdAt = null;
+        this.updatedAt = null;
+        this.createdBy = null;
     }
 
     private EdoVoteRecord(Builder builder) {
@@ -126,11 +126,9 @@ public final class EdoVoteRecord
         this.voteType = builder.getVoteType();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
-        this.active = builder.isActive();
-        this.id = builder.getId();
-        this.effectiveLocalDate = builder.getEffectiveLocalDate();
-        this.createTime = builder.getCreateTime();
-        this.userPrincipalId = builder.getUserPrincipalId();
+        this.createdAt = builder.getCreatedAt();
+        this.updatedAt = builder.getUpdatedAt();
+        this.createdBy = builder.getCreatedBy();
     }
 
     @Override
@@ -199,28 +197,18 @@ public final class EdoVoteRecord
     }
 
     @Override
-    public boolean isActive() {
-        return this.active;
+    public DateTime getCreatedAt() {
+        return this.createdAt;
     }
 
     @Override
-    public String getId() {
-        return this.id;
+    public DateTime getUpdatedAt() {
+        return this.updatedAt;
     }
 
     @Override
-    public LocalDate getEffectiveLocalDate() {
-        return this.effectiveLocalDate;
-    }
-
-    @Override
-    public DateTime getCreateTime() {
-        return this.createTime;
-    }
-
-    @Override
-    public String getUserPrincipalId() {
-        return this.userPrincipalId;
+    public String getCreatedBy() {
+        return this.createdBy;
     }
 
 
@@ -245,11 +233,10 @@ public final class EdoVoteRecord
         private String voteType;
         private Long versionNumber;
         private String objectId;
-        private boolean active;
-        private String id;
-        private LocalDate effectiveLocalDate;
-        private DateTime createTime;
-        private String userPrincipalId;
+        
+        private DateTime updatedAt;
+        private DateTime createdAt;
+        private String createdBy;
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -294,11 +281,10 @@ public final class EdoVoteRecord
             builder.setVoteType(contract.getVoteType());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
-            builder.setActive(contract.isActive());
-            builder.setId(contract.getId());
-            builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
-            builder.setCreateTime(contract.getCreateTime());
-            builder.setUserPrincipalId(contract.getUserPrincipalId());
+           
+            builder.setCreatedAt(contract.getCreatedAt());
+            builder.setUpdatedAt(contract.getUpdatedAt());
+            builder.setCreatedBy(contract.getCreatedBy());
             return builder;
         }
 
@@ -372,29 +358,20 @@ public final class EdoVoteRecord
         }
 
         @Override
-        public boolean isActive() {
-            return this.active;
+        public DateTime getCreatedAt() {
+            return this.createdAt;
         }
 
         @Override
-        public String getId() {
-            return this.id;
+        public DateTime getUpdatedAt() {
+            return this.updatedAt;
         }
 
         @Override
-        public LocalDate getEffectiveLocalDate() {
-            return this.effectiveLocalDate;
+        public String getCreatedBy() {
+            return this.createdBy;
         }
 
-        @Override
-        public DateTime getCreateTime() {
-            return this.createTime;
-        }
-
-        @Override
-        public String getUserPrincipalId() {
-            return this.userPrincipalId;
-        }
 
         public void setVoteSubRound(Integer voteSubRound) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
@@ -461,29 +438,19 @@ public final class EdoVoteRecord
             this.objectId = objectId;
         }
 
-        public void setActive(boolean active) {
+        public void setCreatedAt(DateTime createdAt) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.active = active;
+            this.createdAt = createdAt;
         }
 
-        public void setId(String id) {
+        public void setUpdatedAt(DateTime updatedAt) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.id = id;
+            this.updatedAt = updatedAt;
         }
 
-        public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
+        public void setCreatedBy(String createdBy) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.effectiveLocalDate = effectiveLocalDate;
-        }
-
-        public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.createTime = createTime;
-        }
-
-        public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.userPrincipalId = userPrincipalId;
+            this.createdBy = createdBy;
         }
 
     }
@@ -518,11 +485,9 @@ public final class EdoVoteRecord
         final static String YES_COUNT = "yesCount";
         final static String AOE_CODE = "aoeCode";
         final static String VOTE_TYPE = "voteType";
-        final static String ACTIVE = "active";
-        final static String ID = "id";
-        final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
-        final static String CREATE_TIME = "createTime";
-        final static String USER_PRINCIPAL_ID = "userPrincipalId";
+        final static String CREATED_AT = "createdAt";
+        final static String UPDATED_AT = "updatedAt";
+        final static String CREATED_BY = "createdBy";
 
     }
 

@@ -16,8 +16,13 @@
 package org.kuali.kpme.core.api.util;
 
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
+import org.kuali.kpme.core.api.assignment.Assignment;
+
+import java.util.*;
 
 public class KpmeUtils {
     public static String formatAssignmentKey(String groupKeyCode, Long jobNumber, Long workArea, Long task) {
@@ -32,6 +37,17 @@ public class KpmeUtils {
         }
 
         return assignmentKey;
+    }
+
+    public static List<Assignment> getUniqueAssignments(Map<LocalDate, List<Assignment>> history) {
+        if (MapUtils.isEmpty(history)) {
+            return Collections.emptyList();
+        }
+        Set<Assignment> allAssignments = new HashSet<Assignment>();
+        for (List<Assignment> assignList : history.values()) {
+            allAssignments.addAll(assignList);
+        }
+        return new ArrayList<Assignment>(allAssignments);
     }
 
     public static <T extends Comparable<? super T>> int nullSafeCompare(T s1, T s2) {

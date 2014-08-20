@@ -43,6 +43,7 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.TransactionalDocumentRuleBase;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.List;
@@ -239,21 +240,27 @@ public class MissedPunchDocumentRule extends TransactionalDocumentRuleBase {
 	        		
 	        DateTime dateTimeWithUserZone = TKUtils.convertDateStringToDateTime(dateString, timeString);
 	        DateTime actionDateTime = dateTimeWithUserZone.withZone(TKUtils.getSystemDateTimeZone());
-	        
+
+            //missedPunch.get
+
 	        TimesheetDocument timesheetDocument = null;
 	        if (StringUtils.isNotBlank(documentId)) {
 	            timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 		        List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
 		        for(TimeBlock tb : tbList) {
-		        	String earnCode = tb.getEarnCode();
-		        	EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
-		        	if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
-		        		Interval clockInterval = new Interval(tb.getBeginDateTime(), tb.getEndDateTime());
-		           	 	if(clockInterval.contains(actionDateTime.getMillis())) {
-		           	 		GlobalVariables.getMessageMap().putError("document", "clock.mp.already.logged.time");
-		           	 		return false;
-		           	 	}
-		        	}
+                    if ( !(StringUtils.equals(tb.getClockLogBeginId(), missedPunch.getTkClockLogId()))
+                            &&  !(StringUtils.equals(tb.getClockLogEndId(), missedPunch.getTkClockLogId())) )
+                    {
+                        String earnCode = tb.getEarnCode();
+                        EarnCodeContract earnCodeObj = HrServiceLocator.getEarnCodeService().getEarnCode(earnCode, timesheetDocument.getAsOfDate());
+                        if(earnCodeObj != null && HrConstants.EARN_CODE_TIME.equals(earnCodeObj.getEarnCodeType())) {
+                            Interval clockInterval = new Interval(tb.getBeginDateTime(), tb.getEndDateTime());
+                            if(clockInterval.contains(actionDateTime.getMillis())) {
+                                GlobalVariables.getMessageMap().putError("document", "clock.mp.already.logged.time");
+                                valid = false;
+                            }
+                        }
+                    }
 		        }
 	        }
         }

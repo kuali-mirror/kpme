@@ -63,5 +63,7 @@ public interface TaskService {
      * @return int
      */
     public int getTaskCount(Long task);
+    
+	public Long getNextTaskNumber();
 
 }

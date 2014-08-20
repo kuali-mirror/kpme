@@ -23,12 +23,12 @@ public class EdoChecklistServiceImpl implements EdoChecklistService {
         this.edoChecklistDao = edoChecklistDao;
     }
 
-    public EdoChecklist getChecklistByID(String edoChecklistID) {
-    	return EdoChecklistBo.to(edoChecklistDao.getChecklistByID(edoChecklistID));
+    public EdoChecklist getChecklistById(String edoChecklistId) {
+    	return EdoChecklistBo.to(edoChecklistDao.getChecklistById(edoChecklistId));
     }
 
-    public List<EdoChecklist> getChecklists(String groupKey, String organizationCode, String departmentID, LocalDate asOfDate) {
-    	List<EdoChecklistBo> bos = edoChecklistDao.getChecklists(groupKey, organizationCode, departmentID, asOfDate);
+    public List<EdoChecklist> getChecklists(String groupKey, String organizationCode, String departmentId, LocalDate asOfDate) {
+    	List<EdoChecklistBo> bos = edoChecklistDao.getChecklists(groupKey, organizationCode, departmentId, asOfDate);
     	return convertToImmutable(bos);
 	}
 }

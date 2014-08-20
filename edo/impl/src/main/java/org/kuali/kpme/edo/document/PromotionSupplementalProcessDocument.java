@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.document;
 
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 import org.kuali.rice.kew.engine.node.SplitResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,17 +31,17 @@ public class PromotionSupplementalProcessDocument implements Serializable, Suppl
 
 	public static final String TENURE_PROCESS_DOCUMENT_TYPE = "PromotionSupplementalProcessDocument";
 
-    private DossierProcessDocumentHeader documentHeader;
+    private EdoDossierDocumentInfoBo documentHeader;
 
-    public PromotionSupplementalProcessDocument(DossierProcessDocumentHeader documentHeader) {
+    public PromotionSupplementalProcessDocument(EdoDossierDocumentInfoBo documentHeader) {
         this.documentHeader = documentHeader;
     }
 
-    public DossierProcessDocumentHeader getDocumentHeader() {
+    public EdoDossierDocumentInfoBo getDocumentHeader() {
         return documentHeader;
     }
 
-    public void setDocumentHeader(DossierProcessDocumentHeader documentHeader) {
+    public void setDocumentHeader(EdoDossierDocumentInfoBo documentHeader) {
         this.documentHeader = documentHeader;
     }
 

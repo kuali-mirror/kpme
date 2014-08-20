@@ -1,15 +1,17 @@
 package org.kuali.kpme.edo.group.service;
 
-import org.apache.log4j.Logger;
-import org.kuali.kpme.edo.group.EdoGroupTracking;
-import org.kuali.kpme.edo.group.dao.EdoGroupTrackingDao;
-import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
-import org.kuali.rice.krad.util.ObjectUtils;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+import org.kuali.kpme.edo.api.group.EdoGroupTracking;
+import org.kuali.kpme.edo.group.EdoGroupTrackingBo;
+import org.kuali.kpme.edo.group.dao.EdoGroupTrackingDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * $HeadURL$
@@ -23,6 +25,10 @@ public class EdoGroupTrackingServiceImpl extends PlatformAwareDaoBaseOjb impleme
 
     private static final Logger LOG = Logger.getLogger(EdoGroupTrackingServiceImpl.class);
     private EdoGroupTrackingDao edoGroupTrackingDao;
+    
+    protected List<EdoGroupTracking> convertToImmutable(List<EdoGroupTrackingBo> bos) {
+		return ModelObjectUtils.transform(bos, EdoGroupTrackingBo.toImmutable);
+	}
 
     public EdoGroupTrackingDao getEdoGroupTrackingDao() {
         return edoGroupTrackingDao;
@@ -32,42 +38,46 @@ public class EdoGroupTrackingServiceImpl extends PlatformAwareDaoBaseOjb impleme
         this.edoGroupTrackingDao = edoGroupTrackingDao;
     }
 
-    public EdoGroupTracking getEdoGroupTracking(Integer groupTrackingId) {
-        return edoGroupTrackingDao.getEdoGroupTracking(groupTrackingId);
+    public EdoGroupTracking getEdoGroupTracking(String edoGroupTrackingId) {
+        return EdoGroupTrackingBo.to(edoGroupTrackingDao.getEdoGroupTracking(edoGroupTrackingId));
     }
 
-    public EdoGroupTracking getEdoGroupTrackingByGroupName(String groupName) {
-        return edoGroupTrackingDao.getEdoGroupTrackingByGroupName(groupName);
+    public EdoGroupTracking getEdoGroupTrackingByGroupName(String groupName) {        
+        return EdoGroupTrackingBo.to(edoGroupTrackingDao.getEdoGroupTrackingByGroupName(groupName));
     }
 
     public List<EdoGroupTracking> getEdoGroupTrackingByDepartmentId(String departmentId) {
-        return edoGroupTrackingDao.getEdoGroupTrackingByDepartmentId(departmentId);
+        List<EdoGroupTrackingBo> bos = edoGroupTrackingDao.getEdoGroupTrackingByDepartmentId(departmentId);
+    	return convertToImmutable(bos);
     }
 
     public List<EdoGroupTracking> getEdoGroupTrackingBySchoolId(String schoolId) {
-        return edoGroupTrackingDao.getEdoGroupTrackingBySchoolId(schoolId);
+    	List<EdoGroupTrackingBo> bos = edoGroupTrackingDao.getEdoGroupTrackingBySchoolId(schoolId);
+    	return convertToImmutable(bos);
     }
 
     public List<EdoGroupTracking> getEdoGroupTrackingByCampusId(String campusId) {
-        return edoGroupTrackingDao.getEdoGroupTrackingByCampusId(campusId);
+    	List<EdoGroupTrackingBo> bos = edoGroupTrackingDao.getEdoGroupTrackingByCampusId(campusId);
+        return convertToImmutable(bos);
     }
 
     public boolean kimGroupTrackingExists(String groupName) {
         boolean result = false;
-        EdoGroupTracking grp = edoGroupTrackingDao.getEdoGroupTrackingByGroupName(groupName);
+        EdoGroupTrackingBo grp = edoGroupTrackingDao.getEdoGroupTrackingByGroupName(groupName);
         if (ObjectUtils.isNotNull(grp)) {
             result = true;
         }
         return result;
     }
 
-    public void saveOrUpdate(EdoGroupTracking groupTracking) {
-        this.edoGroupTrackingDao.saveOrUpdate(groupTracking);
+    public void saveOrUpdate(EdoGroupTrackingBo groupTracking) {
+        this.edoGroupTrackingDao.saveOrUpdate(groupTracking); 
     }
 
     public List<EdoGroupTracking> findEdoGroupTrackingEntries(String departmentId, String schoolId, String campusId) {
 
-        return edoGroupTrackingDao.findEdoGroupTrackingEntries(departmentId, schoolId, campusId);
+    	List<EdoGroupTrackingBo> bos = edoGroupTrackingDao.findEdoGroupTrackingEntries(departmentId, schoolId, campusId);
+        return convertToImmutable(bos);
     }
 
     public List<String> getDistinctDepartmentList() {
@@ -75,8 +85,8 @@ public class EdoGroupTrackingServiceImpl extends PlatformAwareDaoBaseOjb impleme
 
         Map<String,String> hash = new HashMap<String, String>();
 
-        List<EdoGroupTracking> allEntries = edoGroupTrackingDao.getGroupTrackingEntries();
-        for (EdoGroupTracking edoGroupTracking : allEntries) {
+        List<EdoGroupTrackingBo> allEntries = edoGroupTrackingDao.getGroupTrackingEntries();
+        for (EdoGroupTrackingBo edoGroupTracking : allEntries) {
             if (edoGroupTracking.getDepartmentId() != null) {
                 hash.put(edoGroupTracking.getDepartmentId(),"1");
             }
@@ -92,10 +102,10 @@ public class EdoGroupTrackingServiceImpl extends PlatformAwareDaoBaseOjb impleme
 
         Map<String,String> hash = new HashMap<String, String>();
 
-        List<EdoGroupTracking> allEntries = edoGroupTrackingDao.getGroupTrackingEntries();
-        for (EdoGroupTracking edoGroupTracking : allEntries) {
-            if (edoGroupTracking.getSchoolId() != null) {
-                hash.put(edoGroupTracking.getSchoolId(),"1");
+        List<EdoGroupTrackingBo> allEntries = edoGroupTrackingDao.getGroupTrackingEntries();
+        for (EdoGroupTrackingBo edoGroupTracking : allEntries) {
+            if (edoGroupTracking.getOrganizationCode() != null) {
+                hash.put(edoGroupTracking.getOrganizationCode(),"1");
             }
         }
         for (String str : hash.keySet()) {
@@ -109,10 +119,10 @@ public class EdoGroupTrackingServiceImpl extends PlatformAwareDaoBaseOjb impleme
 
         Map<String,String> hash = new HashMap<String, String>();
 
-        List<EdoGroupTracking> allEntries = edoGroupTrackingDao.getGroupTrackingEntries();
-        for (EdoGroupTracking edoGroupTracking : allEntries) {
-            if (edoGroupTracking.getCampusId() != null) {
-                hash.put(edoGroupTracking.getCampusId(),"1");
+        List<EdoGroupTrackingBo> allEntries = edoGroupTrackingDao.getGroupTrackingEntries();
+        for (EdoGroupTrackingBo edoGroupTracking : allEntries) {
+            if (edoGroupTracking.getGroupKey().getCampusCode() != null) {
+                hash.put(edoGroupTracking.getGroupKey().getCampusCode(),"1");
             }
         }
         for (String str : hash.keySet()) {

@@ -266,8 +266,15 @@
     <!-- Weekly Overtime Rule -->
     <class-descriptor class="org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRule" table="TK_WEEKLY_OVERTIME_RL_T">
         <field-descriptor name="tkWeeklyOvertimeRuleId"         column="TK_WEEKLY_OVERTIME_RL_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="TK_WEEKLY_OVERTIME_RL_S" />
-        <field-descriptor name="maxHoursEarnGroup"              column="MAX_HRS_ERN_GROUP"          jdbc-type="VARCHAR"     length="3" />
+
+        <field-descriptor name="maxHoursEarnGroup"              column="MAX_HRS_ERN_GROUP"          jdbc-type="VARCHAR"     length="10" />
+
         <field-descriptor name="convertFromEarnGroup"           column="CONVERT_FROM_ERN_GROUP"     jdbc-type="VARCHAR"     length="3" />
+
+        <field-descriptor name="applyToEarnGroup"               column="APPLY_TO_ERN_GROUP"     jdbc-type="VARCHAR"     length="10" />
+
+        <field-descriptor name="overrideWorkAreaDefaultOvertime" column="OVERRIDE_WORKAREA_DEFAULT"  jdbc-type="VARCHAR"     length="1" nullable="false" defaultValue="N" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+
         <field-descriptor name="convertToEarnCode"              column="CONVERT_TO_ERNCD"           jdbc-type="VARCHAR"     length="15" />
         <field-descriptor name="effectiveDate"                  column="EFFDT"                      jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="step"                           column="STEP"                       jdbc-type="DECIMAL"     primarykey="false" />

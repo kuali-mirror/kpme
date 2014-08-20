@@ -2,14 +2,14 @@ package org.kuali.kpme.edo.api.checklist;
 
 import java.io.Serializable;
 import java.util.Collection;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
+
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
@@ -19,18 +19,13 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = EdoChecklistItem.Constants.TYPE_NAME, propOrder = {
     EdoChecklistItem.Elements.CHECKLIST_ITEM_ORDINAL,
-    EdoChecklistItem.Elements.EDO_CHECKLIST_ITEM_I_D,
-    EdoChecklistItem.Elements.EDO_CHECKLIST_SECTION_I_D,
+    EdoChecklistItem.Elements.EDO_CHECKLIST_ITEM_ID,
+    EdoChecklistItem.Elements.EDO_CHECKLIST_SECTION_ID,
     EdoChecklistItem.Elements.ITEM_DESCRIPTION,
     EdoChecklistItem.Elements.CHECKLIST_ITEM_NAME,
     EdoChecklistItem.Elements.REQUIRED,
     CoreConstants.CommonElements.VERSION_NUMBER,
     CoreConstants.CommonElements.OBJECT_ID,
-    EdoChecklistItem.Elements.ACTIVE,
-    EdoChecklistItem.Elements.ID,
-    EdoChecklistItem.Elements.EFFECTIVE_LOCAL_DATE,
-    EdoChecklistItem.Elements.CREATE_TIME,
-    EdoChecklistItem.Elements.USER_PRINCIPAL_ID,
     CoreConstants.CommonElements.FUTURE_ELEMENTS
 })
 public final class EdoChecklistItem
@@ -40,9 +35,9 @@ public final class EdoChecklistItem
 
     @XmlElement(name = Elements.CHECKLIST_ITEM_ORDINAL, required = false)
     private final int checklistItemOrdinal;
-    @XmlElement(name = Elements.EDO_CHECKLIST_ITEM_I_D, required = false)
+    @XmlElement(name = Elements.EDO_CHECKLIST_ITEM_ID, required = false)
     private final String edoChecklistItemId;
-    @XmlElement(name = Elements.EDO_CHECKLIST_SECTION_I_D, required = false)
+    @XmlElement(name = Elements.EDO_CHECKLIST_SECTION_ID, required = false)
     private final String edoChecklistSectionId;
     @XmlElement(name = Elements.ITEM_DESCRIPTION, required = false)
     private final String itemDescription;
@@ -54,16 +49,6 @@ public final class EdoChecklistItem
     private final Long versionNumber;
     @XmlElement(name = CoreConstants.CommonElements.OBJECT_ID, required = false)
     private final String objectId;
-    @XmlElement(name = Elements.ACTIVE, required = false)
-    private final boolean active;
-    @XmlElement(name = Elements.ID, required = false)
-    private final String id;
-    @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
-    private final LocalDate effectiveLocalDate;
-    @XmlElement(name = Elements.CREATE_TIME, required = false)
-    private final DateTime createTime;
-    @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
-    private final String userPrincipalId;
     @SuppressWarnings("unused")
     @XmlAnyElement
     private final Collection<Element> _futureElements = null;
@@ -81,11 +66,6 @@ public final class EdoChecklistItem
         this.required = false;
         this.versionNumber = null;
         this.objectId = null;
-        this.active = false;
-        this.id = null;
-        this.effectiveLocalDate = null;
-        this.createTime = null;
-        this.userPrincipalId = null;
     }
 
     private EdoChecklistItem(Builder builder) {
@@ -97,11 +77,6 @@ public final class EdoChecklistItem
         this.required = builder.isRequired();
         this.versionNumber = builder.getVersionNumber();
         this.objectId = builder.getObjectId();
-        this.active = builder.isActive();
-        this.id = builder.getId();
-        this.effectiveLocalDate = builder.getEffectiveLocalDate();
-        this.createTime = builder.getCreateTime();
-        this.userPrincipalId = builder.getUserPrincipalId();
     }
 
     @Override
@@ -144,31 +119,6 @@ public final class EdoChecklistItem
         return this.objectId;
     }
 
-    @Override
-    public boolean isActive() {
-        return this.active;
-    }
-
-    @Override
-    public String getId() {
-        return this.id;
-    }
-
-    @Override
-    public LocalDate getEffectiveLocalDate() {
-        return this.effectiveLocalDate;
-    }
-
-    @Override
-    public DateTime getCreateTime() {
-        return this.createTime;
-    }
-
-    @Override
-    public String getUserPrincipalId() {
-        return this.userPrincipalId;
-    }
-
 
     /**
      * A builder which can be used to construct {@link EdoChecklistItem} instances.  Enforces the constraints of the {@link EdoChecklistItemContract}.
@@ -186,11 +136,6 @@ public final class EdoChecklistItem
         private boolean required;
         private Long versionNumber;
         private String objectId;
-        private boolean active;
-        private String id;
-        private LocalDate effectiveLocalDate;
-        private DateTime createTime;
-        private String userPrincipalId;
 
         private Builder() {
             // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
@@ -199,6 +144,17 @@ public final class EdoChecklistItem
         public static Builder create() {
             // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
             return new Builder();
+        }
+        
+        private Builder(String edoChecklistSectionId, String checklistItemName) {
+            // TODO modify this constructor as needed to pass any required values and invoke the appropriate 'setter' methods
+        	setEdoChecklistSectionId(edoChecklistSectionId);
+        	setChecklistItemName(checklistItemName);
+        }
+
+        public static Builder create(String edoChecklistSectionId, String checklistItemName) {
+            // TODO modify as needed to pass any required values and add them to the signature of the 'create' method
+            return new Builder(edoChecklistSectionId, checklistItemName);
         }
 
         public static Builder create(EdoChecklistItemContract contract) {
@@ -215,11 +171,6 @@ public final class EdoChecklistItem
             builder.setRequired(contract.isRequired());
             builder.setVersionNumber(contract.getVersionNumber());
             builder.setObjectId(contract.getObjectId());
-            builder.setActive(contract.isActive());
-            builder.setId(contract.getId());
-            builder.setEffectiveLocalDate(contract.getEffectiveLocalDate());
-            builder.setCreateTime(contract.getCreateTime());
-            builder.setUserPrincipalId(contract.getUserPrincipalId());
             return builder;
         }
 
@@ -267,31 +218,6 @@ public final class EdoChecklistItem
             return this.objectId;
         }
 
-        @Override
-        public boolean isActive() {
-            return this.active;
-        }
-
-        @Override
-        public String getId() {
-            return this.id;
-        }
-
-        @Override
-        public LocalDate getEffectiveLocalDate() {
-            return this.effectiveLocalDate;
-        }
-
-        @Override
-        public DateTime getCreateTime() {
-            return this.createTime;
-        }
-
-        @Override
-        public String getUserPrincipalId() {
-            return this.userPrincipalId;
-        }
-
         public void setChecklistItemOrdinal(int checklistItemOrdinal) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.checklistItemOrdinal = checklistItemOrdinal;
@@ -332,31 +258,6 @@ public final class EdoChecklistItem
             this.objectId = objectId;
         }
 
-        public void setActive(boolean active) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.active = active;
-        }
-
-        public void setId(String id) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.id = id;
-        }
-
-        public void setEffectiveLocalDate(LocalDate effectiveLocalDate) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.effectiveLocalDate = effectiveLocalDate;
-        }
-
-        public void setCreateTime(DateTime createTime) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.createTime = createTime;
-        }
-
-        public void setUserPrincipalId(String userPrincipalId) {
-            // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.userPrincipalId = userPrincipalId;
-        }
-
     }
 
 
@@ -379,16 +280,11 @@ public final class EdoChecklistItem
     static class Elements {
 
         final static String CHECKLIST_ITEM_ORDINAL = "checklistItemOrdinal";
-        final static String EDO_CHECKLIST_ITEM_I_D = "edoChecklistItemId";
-        final static String EDO_CHECKLIST_SECTION_I_D = "edoChecklistSectionId";
+        final static String EDO_CHECKLIST_ITEM_ID = "edoChecklistItemId";
+        final static String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionId";
         final static String ITEM_DESCRIPTION = "itemDescription";
         final static String CHECKLIST_ITEM_NAME = "checklistItemName";
         final static String REQUIRED = "required";
-        final static String ACTIVE = "active";
-        final static String ID = "id";
-        final static String EFFECTIVE_LOCAL_DATE = "effectiveLocalDate";
-        final static String CREATE_TIME = "createTime";
-        final static String USER_PRINCIPAL_ID = "userPrincipalId";
 
     }
 

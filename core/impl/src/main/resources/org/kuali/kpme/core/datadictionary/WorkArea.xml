@@ -306,6 +306,7 @@
                 <bean parent="WorkArea-InactivePrincipalRoleMembers" />
                 <bean parent="WorkArea-PositionRoleMembers" />
                 <bean parent="WorkArea-InactivePositionRoleMembers" />
+                <bean parent="WorkArea-workAreaMembers" p:render="@{!(document.newMaintainableObject.maintenanceAction eq 'New')}" p:readOnly="true"/>
 			</list>
 		</property>
 	</bean>
@@ -427,6 +428,26 @@
         </property>
     </bean>
     
+    <bean id="WorkArea-workAreaMembers" parent="Uif-Disclosure-TableCollectionSection" p:disclosure.defaultOpen="false" >
+        <property name="headerText" value="Workarea Members"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.AssignmentBo"/>
+        <property name="propertyName" value="workAreaMembers"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="showInactiveLines" value = "false"/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="principalId" />
+                <bean parent="Uif-InputField" p:propertyName="name" p:label="Principal Name"/>
+                <bean parent="Uif-InputField" p:propertyName="jobNumber" />
+                <bean parent="Uif-InputField" p:propertyName="task" />
+            </list>
+        </property>
+    </bean>
+    
     <!-- KRAD Inquiry View -->
     
     <bean id="WorkArea-InquiryView" parent="Uif-InquiryView" >
@@ -458,6 +479,7 @@
                 <bean parent="WorkArea-inactivePrincipalRoleMembersInquiry"/>
                 <bean parent="WorkArea-positionRoleMembersInquiry"/>
                 <bean parent="WorkArea-inactivePositionRoleMembersInquiry"/>
+                <bean parent="WorkArea-workAreaMembersInquiry"/>
             </list>
         </property>
     </bean>
@@ -557,5 +579,22 @@
         </property>
     </bean>
     
+    <bean id="WorkArea-workAreaMembersInquiry" parent="Uif-Disclosure-TableCollectionSection">
+        <property name="headerText" value="Workarea Members"/>
+        <property name="collectionObjectClass" value="org.kuali.kpme.core.assignment.AssignmentBo"/>
+        <property name="propertyName" value="workAreaMembers"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="header"> <!-- Without this, active/inactive button shows up -->
+            <bean parent="Uif-SectionHeader" />
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="principalId"/>
+                <bean parent="Uif-InputField" p:propertyName="name" p:label="Principal Name"/>
+                <bean parent="Uif-InputField" p:propertyName="jobNumber"/>
+                <bean parent="Uif-InputField" p:propertyName="task"/>
+            </list>
+        </property>
+    </bean>
     
 </beans>

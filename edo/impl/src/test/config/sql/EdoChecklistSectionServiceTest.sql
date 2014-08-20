@@ -15,6 +15,11 @@
 --
 
 delete from EDO_CHECKLIST_SECTION_T where EDO_CHECKLIST_SECTION_ID >= '1000';
+delete from EDO_CHECKLIST_ITEM_T where EDO_CHECKLIST_ITEM_ID >= '2000';
 
-insert into EDO_CHECKLIST_SECTION_T (`EDO_CHECKLIST_SECTION_ID`, `EDO_CHECKLIST_ID`, `CHECKLIST_SECTION_NAME`, `DESCRIPTION`, `CHECKLIST_SECTION_ORDINAL`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1000', '1000', 'testEdoChecklistSection1', 'Testing Immutable EdoChecklistSection', 1, '2012-01-01', 'Y', now(), null, '1');
-insert into EDO_CHECKLIST_SECTION_T (`EDO_CHECKLIST_SECTION_ID`, `EDO_CHECKLIST_ID`, `CHECKLIST_SECTION_NAME`, `DESCRIPTION`, `CHECKLIST_SECTION_ORDINAL`, `EFFDT`, `ACTIVE`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`) values ('1001', '1000', 'testEdoChecklistSection2', 'Testing Immutable EdoChecklistSection', 2, '2012-01-01', 'Y', now(), null, '1');
+insert into EDO_CHECKLIST_SECTION_T (`EDO_CHECKLIST_SECTION_ID`, `EDO_CHECKLIST_ID`, `CHECKLIST_SECTION_NAME`, `DESCRIPTION`, `CHECKLIST_SECTION_ORDINAL`, `OBJ_ID`, `VER_NBR`) values ('1000', '1000', 'testEdoChecklistSection1', 'Testing Immutable EdoChecklistSection', 1, null, '1');
+insert into EDO_CHECKLIST_SECTION_T (`EDO_CHECKLIST_SECTION_ID`, `EDO_CHECKLIST_ID`, `CHECKLIST_SECTION_NAME`, `DESCRIPTION`, `CHECKLIST_SECTION_ORDINAL`, `OBJ_ID`, `VER_NBR`) values ('1001', '1000', 'testEdoChecklistSection2', 'Testing Immutable EdoChecklistSection', 2, null, '1');
+
+insert into EDO_CHECKLIST_ITEM_T (`EDO_CHECKLIST_ITEM_ID`, `EDO_CHECKLIST_SECTION_ID`, `CHECKLIST_ITEM_NAME`, `DESCRIPTION`, `REQUIRED`, `CHECKLIST_ITEM_ORDINAL`, `OBJ_ID`, `VER_NBR`) values ('2000', '1000', 'testEdoChecklistItem1', 'Testing Immutable EdoChecklistItem1', 'Y', 1, uuid(), '1');
+insert into EDO_CHECKLIST_ITEM_T (`EDO_CHECKLIST_ITEM_ID`, `EDO_CHECKLIST_SECTION_ID`, `CHECKLIST_ITEM_NAME`, `DESCRIPTION`, `REQUIRED`, `CHECKLIST_ITEM_ORDINAL`, `OBJ_ID`, `VER_NBR`) values ('2001', '1000', 'testEdoChecklistItem2', 'Testing Immutable EdoChecklistItem2', 'Y', 2, uuid(), '1');
+insert into EDO_CHECKLIST_ITEM_T (`EDO_CHECKLIST_ITEM_ID`, `EDO_CHECKLIST_SECTION_ID`, `CHECKLIST_ITEM_NAME`, `DESCRIPTION`, `REQUIRED`, `CHECKLIST_ITEM_ORDINAL`, `OBJ_ID`, `VER_NBR`) values ('2002', '1000', 'testEdoChecklistItem3', 'Testing Immutable EdoChecklistItem3', 'Y', 3, uuid(), '1');

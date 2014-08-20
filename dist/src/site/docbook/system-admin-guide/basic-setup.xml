@@ -2,926 +2,40 @@
 <chapter xml:id="basic-setup" xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns="http://docbook.org/ns/docbook" version="5.0">
 	<title>Basic Setup</title>
-    <section>
-        <title>Introduction</title>
-        <para>
-            With the application server running, proceed to the KHR Maintenance Portal:
-        </para>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="../images/portal-length.png" format="PNG" scale="50"/>
-            </imageobject>
-         <caption>
-         	<para>
-         		The KHR Maintenance Portal
-         	</para>
-         </caption>
-        </mediaobject>
-        <para>
-            This chapter will cover the administration of CORE KPME business objects, located in the HR/Payroll link grouping found on the left hand side of the page.
-        </para>
-	     <mediaobject>
-	         <imageobject>
-	             <imagedata fileref="../images/core-links.png" format="PNG" scale="100"/>
-	         </imageobject>
-	      <caption>
-	      	<para>
-	      		HR/Payroll Group
-	      	</para>
-	      </caption>
-	     </mediaobject>
-	    <para>
-	    	We will also need to create an object linked in the Administrative grouping located at the bottom left of the maintenance portal.
-	    </para>
-	        <mediaobject>
-	            <imageobject>
-	                <imagedata fileref="../images/administrative-links.png" format="PNG" scale="100"/>
-	            </imageobject>
-	         <caption>
-	         	<para>
-	         		HR/Payroll Group
-	         	</para>
-	         </caption>
-	        </mediaobject>
-	    <para>
-	    	In-depth Leave Management and Timekeeping administration are covered in <link xlink:href="https://wiki.kuali.org/display/KPMEDOC/KPME+System+Administration+Guide">subsequent guides</link>,
-	   		however, will require understanding of concepts and objects presented in this chapter. This chapter also makes a few assumptions on readers knowledge and existence of basic rice objects and components.
-	   		For instance, <link xlink:href="http://site.kuali.org/rice/2.3.2/reference/html/KIM_Guide.html#d13526e167">Person Maintenance</link>, documented
-	   		within the <link xlink:href="http://site.kuali.org/rice/2.3.2/reference/html/KIM_Guide.htm">Kauli Identity Management</link> guide.
-	    </para>
-    </section>
-    <section>
-    	<title>Institution</title>
-		<para>Institution is required by a number of HR/Payroll related objects, such as Salary Group.</para>
-        <table frame="none">
-            <title>Institution Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry>Effective Date</entry>
-                        <entry>The date the institution record takes effect</entry>
-                    </row>
-                    <row>
-                        <entry>Institution Code</entry>
-                        <entry>Alpha-numeric code used to identify the institution. Ex: ISU</entry>
-                    </row>
-                    <row>
-                        <entry>Description</entry>
-                        <entry>Optional long description of Institution</entry>
-                    </row>
-                    <row>
-                        <entry>Active</entry>
-                        <entry>Indicator specifying whether the institution will turned active or inactive on the given effective date.</entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-    </section>
-    <section>
-    	<title>Location</title>
-    	<para>Location, like Institution, is also required by a number of HR/Payroll objects, including Salary Group and other, more fine-grained location-based objects, such as
-    	Department</para>
-        <table frame="none">
-            <title>Location Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry>Effective Date</entry>
-                        <entry>The date this Location will go into effect. This date should be on or before any role members defined for the location.</entry>
-                    </row>
-                    <row>
-                        <entry>Location</entry>
-                        <entry>Alpha-numeric code used to identify the location. Ex: IA</entry>
-                    </row>
-                    <row>
-                        <entry>Timezone</entry>
-                        <entry>The timezone in which this location resides</entry>
-                    </row>
-                    <row>
-                        <entry>Description</entry>
-                        <entry>Long description of Location</entry>
-                    </row>
-                    <row>
-                        <entry>Active</entry>
-                        <entry>Indicator used to activate or deactivate the location.</entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-    	<section>
-    		<title>Location Role Member</title>
-    		<para>This Role Member consists of a principal paired with a role. Depending on the role, the principal may be given elevated permissions
-    			not otherwise available to them, such as availability of specific earn codes, or the ability to view calendar documents across all
-    			departments the location encompasses.</para>
-	        <table frame="none">
-	            <title>Location Role Member Fields</title>
-	            <tgroup cols="2">
-	                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-	                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-	                <thead>
-	                    <row>
-	                        <entry>Field</entry>
-	                        <entry>Description</entry>
-	                    </row>
-	                </thead>
-	                <tbody>
-	                    <row>
-	                        <entry>Effective Date</entry>
-	                        <entry>This date should be on or after the effective date of the Location object to which it is attached.</entry>
-	                    </row>
-	                    <row>
-	                        <entry>Principal Id</entry>
-	                        <entry>This field selects the person to receive the role for the location</entry>
-	                    </row>
-	                    <row>
-	                        <entry>Principal Name</entry>
-	                        <entry>Read-only field populated from Principal Id</entry>
-	                    </row>
-	                    <row>
-	                        <entry>Role Name</entry>
-	                        <entry>Specifies which role to give to the principal for the location. Roles are divided between "Time Location" and "Leave Location"
-	                        	and further divided by Administrator and View Only Permissions</entry>
-	                    </row>
-	                    <row>
-	                        <entry>Expiration Date</entry>
-	                        <entry>Optional field to specify a date for which the role is to be removed from the princpal. If left blank, the role will not automatically expire.</entry>
-	                    </row>
-	                </tbody>
-	            </tgroup>
-	        </table>
-    	</section>
-    </section>
-    <section>
-    	<title>Department</title>
-    	<para>A Location is partitioned into Department(s). Department may be given additional properties not applicable to the broader location, and 
-    		Work Areas are defined within a Department.</para>
-        <table frame="none">
-            <title>Department Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry>Effective Date</entry>
-                        <entry>The date the Department record will go into effect.</entry>
-                    </row>
-                    <row>
-                        <entry>Department</entry>
-                        <entry>An alpha-numeric code used to identify the department</entry>
-                    </row>
-                    <row>
-                        <entry>Description</entry>
-                        <entry>Long description of Department</entry>
-                    </row>
-                    <row>
-                        <entry>Location</entry>
-                        <entry>The Location to which this department belongs</entry>
-                    </row>
-                    <row>
-                        <entry>Chart</entry>
-                        <entry>Optional field to specify an Administrative Chart</entry>
-                    </row>
-                    <row>
-                        <entry>Organization</entry>
-                        <entry>Optional field to specify an Organization</entry>
-                    </row>
-                    <row>
-                        <entry>Payroll Approval</entry>
-                        <entry>Flag indicating whether specific documents, i.e. Leave and Timekeeping, created within the department will go through payroll approval.</entry>
-                    </row>
-                    <row>
-                        <entry>Active</entry>
-                        <entry>Indicator for activity</entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-    	<section>
-    		<title>Department Role Member</title>
-    		<para>This Role Member consists of a principal paired with a role. Depending on the role, the principal may be given elevated permissions
-    			not otherwise available to them, such as availability of specific earn codes, or the ability to view calendar documents across all
-    			work areas the department contains.</para>
-	        <table frame="none">
-	            <title>Department Role Member Fields</title>
-	            <tgroup cols="2">
-	                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-	                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-	                <thead>
-	                    <row>
-	                        <entry>Field</entry>
-	                        <entry>Description</entry>
-	                    </row>
-	                </thead>
-	                <tbody>
-	                    <row>
-	                        <entry>Effective Date</entry>
-	                        <entry>This date should be on or after the effective date of the Department object to which it is attached.</entry>
-	                    </row>
-	                    <row>
-	                        <entry>Principal Id</entry>
-	                        <entry>This field selects the person to receive the role for the department</entry>
-	                    </row>
-	                    <row>
-	                        <entry>Principal Name</entry>
-	                        <entry>Read-only field populated from Principal Id</entry>
-	                    </row>
-	                    <row>
-	                        <entry>Role Name</entry>
-	                        <entry>Specifies which role to give to the principal for the department. Roles are divided between "Time" and "Leave" Departments
-	                        	and further divided by Administrator and View Only Permissions</entry>
-	                    </row>
-	                    <row>
-	                        <entry>Expiration Date</entry>
-	                        <entry>Optional field to specify a date for which the role is to be removed from the princpal. If left blank, the role will not automatically expire.</entry>
-	                    </row>
-	                </tbody>
-	            </tgroup>
-	        </table>
-    	</section>
-    </section>
-    <section>
-    	<title>Work Area</title>
-    	<para></para>
-        <table frame="none">
-            <title>Work Area Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry>Effective Date</entry>
-                        <entry>The date the work area record is to become effective</entry>
-                    </row>
-                    <row>
-                        <entry>Work Area</entry>
-                        <entry>Auto-generated, read-only field used to uniquely identify the work area.</entry>
-                    </row>
-                    <row>
-                        <entry>Description</entry>
-                        <entry>Long Description of the work area</entry>
-                    </row>
-                    <row>
-                        <entry>Overtime Edit Role</entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry>Default Overtime Earn Code</entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry>Department</entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry>Admin Description</entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry>HR Distribution</entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry>Active</entry>
-                        <entry></entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-    	<section>
-    		<title>Work Area Task</title>
-    		<para>TODO: define basic object, describe relationship</para>
-	        <table frame="none">
-	            <title>Work Area Task Fields</title>
-	            <tgroup cols="2">
-	                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-	                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-	                <thead>
-	                    <row>
-	                        <entry>Field</entry>
-	                        <entry>Description</entry>
-	                    </row>
-	                </thead>
-	                <tbody>
-	                    <row>
-	                        <entry>Effective Date</entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry>Task</entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry>Description</entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry>Administrative Description</entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry>Active</entry>
-	                        <entry></entry>
-	                    </row>
-	                </tbody>
-	            </tgroup>
-	        </table>
-    	</section>
-    	<section>
-	    	<title>Work Area Role Members</title>
-	    	<para>A Work Area Role Member may be added via Position or Principal. A Role Member added for a Position may contain more than one
-	    		principal if more than one employee is allowed to hold a single position.</para>
-	    	<section>
-	    		<title>Work Area Principal Role Member</title>
-	    		<para>TODO: Describe purpose for Work Area Principal Role Members, define basic object</para>
-		        <table frame="none">
-		            <title>Work Area Principal Role Member Fields</title>
-		            <tgroup cols="2">
-		                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-		                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-		                <thead>
-		                    <row>
-		                        <entry>Field</entry>
-		                        <entry>Description</entry>
-		                    </row>
-		                </thead>
-		                <tbody>
-		                    <row>
-		                        <entry>Effective Date</entry>
-		                        <entry>The date which the Role Member becomes effective</entry>
-		                    </row>
-		                    <row>
-		                        <entry>Principal Id</entry>
-		                        <entry>The principal to which the role will be given.</entry>
-		                    </row>
-		                    <row>
-		                        <entry>Principal Name</entry>
-		                        <entry>Read-only field auto-populated from principal id.</entry>
-		                    </row>
-		                    <row>
-		                        <entry>Role Name</entry>
-		                        <entry>As of KPME v2.0, three roles are available; Approver, Approver Delegate and Reviewer. Time and Leave documents
-		                        	may be routed to, and specific actions can be requested of each of these roles.</entry>
-		                    </row>
-		                    <row>
-		                        <entry>Expiration Date</entry>
-		                        <entry>The date on which this role member will be removed from the Work Area.</entry>
-		                    </row>
-		                </tbody>
-		            </tgroup>
-		        </table>
-	    	</section>
-	    	<section>
-	    		<title>Work Area Position Role Member</title>
-	    		<para>TODO: Describe purpose for Work Area Position Role Members, define basic object</para>
-		        <table frame="none">
-		            <title>Work Area Position Role Member Fields</title>
-		            <tgroup cols="2">
-		                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-		                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-		                <thead>
-		                    <row>
-		                        <entry>Field</entry>
-		                        <entry>Description</entry>
-		                    </row>
-		                </thead>
-		                <tbody>
-		                    <row>
-		                        <entry>Effective Date</entry>
-		                        <entry>The date on which this Position Role Member will become effective</entry>
-		                    </row>
-		                    <row>
-		                        <entry>Position Number</entry>
-		                        <entry>The position to which this role will be given.</entry>
-		                    </row>
-		                    <row>
-		                        <entry>Role Name</entry>
-		                        <entry>As of KPME v2.0, three roles are available; Approver, Approver Delegate and Reviewer. Time and Leave documents
-		                        	may be routed to, and specific actions can be requested of each of these roles.</entry>
-		                    </row>
-		                    <row>
-		                        <entry>Expiration Date</entry>
-		                        <entry>Optional date which will remove the position role member from the Work Area.</entry>
-		                    </row>
-		                </tbody>
-		            </tgroup>
-		        </table>
-	    	</section>
-    	</section>
-    </section>
-    <section>
-    	<title>Salary Group</title>
-    	<para>Salary Group is a high-level HR/Payroll object that can span multiple institutions and locations. It contains a number of
-    		properties useful for reporting and in the execution of KPME's business logic.</para>
-        <table frame="none">
-            <title>Salary Group Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry>Effective Date</entry>
-                        <entry>The date on which this Salary Group is to go in effect.</entry>
-                    </row>
-                    <row>
-                        <entry>Salary Group</entry>
-                        <entry>Code used to identify the Salary Group</entry>
-                    </row>
-                    <row>
-                        <entry>Description</entry>
-                        <entry>Optional long description</entry>
-                    </row>
-                    <row>
-                        <entry>Institution</entry>
-                        <entry>The institution to which the Salary Group belongs. Wild cards are acceptable.</entry>
-                    </row>
-                    <row>
-                        <entry>Location</entry>
-                        <entry>The location in which the Salary Group is available. Wild cards are acceptable.</entry>
-                    </row>
-                    <row>
-                        <entry>Percent Time</entry>
-                        <entry>Maximum percentage of time worked for the salary group. When defining individual positions and jobs,
-                        the percent time will be less than the Salary Group's Percent Time. Used for leave accrual and payroll calculations,
-                        Full Time Engagement reporting, etc. Steps in increments of whole numbers. Positive amounts only, less than 100.</entry>
-                    </row>
-                    <row>
-                        <entry>Benefit Eligible</entry>
-                        <entry>Yes or No field indicating whether entities within this salary group are benefit eligible.</entry>
-                    </row>
-                    <row>
-                        <entry>Leave Eligible</entry>
-                        <entry>Yes or No field indicating whether entities within this salary group are eligible for leave.</entry>
-                    </row>
-                    <row>
-                        <entry>Leave Plan</entry>
-                        <entry>Unless Leave Eligible = "Y" (Yes), this is a required field. It is not required if the salary group is not leave eligible. </entry>
-                    </row>
-                    <row>
-                        <entry>Active</entry>
-                        <entry>Indicator used for activity.</entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-    </section>
-    <section>
-    	<title>Pay Grade</title>
-    	<para>TODO: Provide field mapping for Pay Grade, define basic object</para>
-        <table frame="none">
-            <title>Pay Grade Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-    </section>
-    <section>
-    	<title>Pay Step</title>
-    	<para>TODO: Provide field mapping for Pay Step, define basic object</para>
-        <table frame="none">
-            <title>Pay Step Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-    </section>
 	<section>
-		<title>Earn Codes with Earn Code Security</title>
-		<section>
-			<title>Earn Code</title>
-			<para>TODO: Update to reflect the change in field organization, add any new/changed fields.</para>
-			<para>
-                The Earn Code maintenance page is used to define codes to categorize employee’s hours/earnings and time off.  For each earn code, you can define 
-                how the employees records - in/out time, hours, days or flat dollar amount.  These codes may or may not be attached to an accrual category for
-				tracking leave against available balances or simple reporting.  Most earn code attributes are defined in the payroll system, but there are a few 
-				codes which need to be modified on the timesheet prior to the data being extracted to payroll.  An inflation factor and inflate minimum hours 
-				value are definable on the earn code document.  These actions occur on the recorded hours in the timesheet and therefore would NOT need to be 
-				done in the payroll system.  Additionally there are numerous flags on the earn code to limit availability and determine eligibility for accrual 
-				and scheduling leave.
-			</para>
-			<table frame="none">
-				<title>Earn Code Fields</title>
-				<tgroup cols="2">
-					<colspec colname="c1" colnum="1" colwidth="2.00*" />
-					<colspec colname="c2" colnum="2" colwidth="4.00*" />
-					<thead>
-						<row>
-							<entry>Field</entry>
-							<entry>Description</entry>
-						</row>
-					</thead>
-					<tbody>
-						<row>
-							<entry>Effective Date</entry>
-							<entry>
-                                The Effective date for which the earn code will be effective. This date needs to be on/prior to the date the rule to takes 
-                                effect.  When editing, it will determine the date the new values go into effect.
-							</entry>
-						</row>
-						<row>
-							<entry>Earn Code</entry>
-							<entry>Alpha/Numeric code used to identify the earnings code.</entry>
-						</row>
-						<row>
-							<entry>Description</entry>
-							<entry>Long description of earnings classification.</entry>
-						</row>
-						<row>
-							<entry>Roll up to Earn Code</entry>
-							<entry>
-                                This field allows earn codes to be associated with another for payroll extract.  For example, you could associate all the Sick 
-                                codes with the regular sick earn code and not extract the detail into your payroll system. (Sick family leave, sick injury, etc. 
-                                could all be extracted.)
-							</entry>
-						</row>
-						<row>
-							<entry>Record Method</entry>
-							<entry>
-                                Determines the value that will be entered for the earn code.  The Time earn code requires in/out times, The Hours earn code 
-                                will require a hours amount, the Days earn code will require a days amount, and the Amount earn code will require a dollar 
-                                amount.
-							</entry>
-						</row>
-						<row>
-							<entry>Active</entry>
-							<entry>
-                                Status of the category, checked indicates Active, unchecked indicates Inactive.  If the rule is being eliminated, insert a new 
-                                effective dated row and uncheck the active box.
-							</entry>
-						</row>
-
-						<row>
-							<entry>Overtime Earn Code</entry>
-							<entry>
-                                Checked box indicates this may be used for overtime earn code. Codes with this checkbox are not available for entry on the 
-                                timesheet.
-							</entry>
-						</row>
-						<row>
-							<entry>Inflate Min Hours</entry>
-							<entry>
-                                Hours incurred will be inflated to this minimum hours value.  For example, Call Back Time rules specify the employee earns a
-								minimum number of hours, regardless of the time worked. Set an inflate minimum hours on the earn code and the employee will see
-								the number of hours correctly on the timesheet, instead of assuming it will be inflated later.
-							</entry>
-						</row>
-						<row>
-							<entry>Inflate Factor</entry>
-							<entry>
-                                The hours incurred will be multiplied by this factor. For example, Compensatory Time Earned (in lieu of overtime) is earned at
-								a factor of 1.5. When the employee earns comp time, this setting will inflate the hours by a factor of 1.5 and all hours shown 
-								on the timesheet will be the inflated value. The employee will know the exact number of hours earned.
-							</entry>
-						</row>
-						<row>
-							<entry>Counts as Regular Pay</entry>
-							<entry>
-								Use this field to cacluate the "Worked Hours"" in the Time Summary. This flag can be used by implementing institutions to 
-								develop payroll extracts
-							</entry>
-						</row>
-
-						<row>
-							<entry>Leave Plan</entry>
-							<entry>Employees with the indicated Leave Plan may have access to this Earn Code on their Leave Calendar and Time Sheet</entry>
-						</row>
-						<row>
-							<entry>Accrual Category</entry>
-							<entry>If a category is entered the usage is validated against the employee’s balances.</entry>
-						</row>
-						<row>
-							<entry>Accrual Balance Action</entry>
-							<entry>
-                                Supports validating against the Accrual Category associated with the Earn Code and instruct if it adjusts the balance of that 
-                                category.  Usage should validate against the available balance subtract from the total.  Adjustment would work without 
-                                validation and add/subtract the entry.
-							</entry>
-						</row>
-						<row>
-							<entry>Rounding Option</entry>
-							<entry>Used when calculating leave accruals and reporting.</entry>
-						</row>
-						<row>
-							<entry>Fractional time allowed</entry>
-							<entry>Define fractional unit of time used for reporting leave.  Indicate number of decimals.</entry>
-						</row>
-						<row>
-							<entry>Usage Limit</entry>
-							<entry>Used to indicate what effect time or leave reported with this earn code has on usage limits.</entry>
-						</row>
-						<row>
-							<entry>Eligible for Accrual</entry>
-							<entry>
-                                Flag indicating this type of leave is eligible for accrual. This applies to all accrual categories the employee is eligible for.
-							</entry>
-						</row>
-						<row>
-							<entry>Affect Pay</entry>
-							<entry>
-                                Flag indicating use of this earn code will affect the employee's pay and can be used by schools who are extracting data to their 
-                                payroll system. When earn code is used, a notification is sent to approver and department admin.
-							</entry>
-						</row>
-						<row>
-							<entry>Allow Scheduled Leave</entry>
-							<entry>Allow scheduling of leave on future leave calendars (i.e. weather related leave).</entry>
-						</row>
-						<row>
-							<entry>FMLA</entry>
-							<entry>FLMA Earn Code indicator. If Principal HR Attributes is
-								flagged for FMLA,
-								employee will have option to select this Leave
-								Code.
-							</entry>
-						</row>
-						<row>
-							<entry>Workman’s Comp</entry>
-							<entry>
-                                Workman's Comp Earn Code indicator. If Principal HR Attributes is flagged for Workman’s Comp, employee will have option to 
-                                select this Earn Code.
-							</entry>
-						</row>
-						<row>
-							<entry>Default Amount of Time</entry>
-							<entry>
-                                When a user selects earn code the specified amount of time will appear in the amount of leave taken. User can change the hours 
-                                as needed once populated.
-							</entry>
-						</row>
-						<row>
-							<entry>Allow Negative Accrual Balance</entry>
-							<entry>Allows usage to take the balance of the Accrual Category into the negative.</entry>
-						</row>
-					</tbody>
-				</tgroup>
-			</table>
-			<para>
-	            We seperated Time and Leave attributes into different sections on Earn Code Maintenance Document to better organize the fields and make the GUI more user friendly. 
-	            <mediaobject>
-		            <imageobject>
-		                <imagedata fileref="../images/EarnCodeSections.jpg" format="JPG" scale="40"/>
-		            </imageobject>
-		            <textobject>
-		                <phrase>Earn Code Maintenance Document</phrase>
-		            </textobject>
-		            <caption>Earn Code Maintenance Document</caption>
-	        	</mediaobject>
-	        	<para>
-		        	<mediaobject>
-			            <imageobject>
-			                <imagedata fileref="../images/tk/EarnCodeTimeExpanded.jpg" format="JPG" scale="40"/>
-			            </imageobject>
-			            <textobject>
-			                <phrase>Earn Code Maintenance Document - Time Keeping expanded</phrase>
-			            </textobject>
-			            <caption>Earn Code Maintenance Document - Time Keeping expanded</caption>
-		        	</mediaobject>
-	        	</para>
-	        	<para>
-		        	<mediaobject>
-			            <imageobject>
-			                <imagedata fileref="../images/lm/EarnCodeLeaveExpanded.jpg" format="JPG" scale="40"/>
-			            </imageobject>
-			            <textobject>
-			                <phrase>Earn Code Maintenance Document - Leave Management expanded</phrase>
-			            </textobject>
-			            <caption>Earn Code Maintenance Document - Leave Management expanded</caption>
-		        	</mediaobject>
-	        	</para>
-	        </para>
-			<note>
-				<para>
-					Earn Codes must have an Earn Code Security entry to appear on the calendars. If an Earn Code does not have an Earn Code Security entry it 
-					will not be displayed by default.
-				</para>
-			</note>
-			<para>TODO: Define basic earn code(s) for use with other business objects</para>
-		</section>
-		<section>
-			<title>Earn Code Security</title>
-			<para>TODO: Update mapping to reflect new or changed fields.</para>
-			<para>
-                The Earn Code Security maintenance page is used to define which roles (employee, approver) see specific earn codes on the timesheet and/or Leave 
-                Calendar. This is definable at the department, salary group or location value. These fields are accept wild cards (%).
-			</para>
-			<para>
-                Formerly called Department Earn Code in Timekeeping.
-			</para>
-			<table frame="none">
-				<title>Earn Code Security Fields</title>
-				<tgroup cols="2">
-					<colspec colname="c1" colnum="1" colwidth="2.00*" />
-					<colspec colname="c2" colnum="2" colwidth="4.00*" />
-					<thead>
-						<row>
-							<entry>Field</entry>
-							<entry>Description</entry>
-						</row>
-					</thead>
-					<tbody>
-						<row>
-							<entry>Effective Date</entry>
-							<entry>
-                                The Effective date for which the earn code security rule will be effective. This date needs to be on/prior to the date the rule 
-                                to takes effect.  When editing, it will determine the date the new values go into effect.
-							</entry>
-						</row>
-						<row>
-							<entry>Location</entry>
-							<entry>If a location is defined, only entries associated with a job record in this location will be subject.</entry>
-						</row>
-						<row>
-							<entry>Department</entry>
-							<entry>If a department is defined, only entries associated with a job record in this department will be subject.</entry>
-						</row>
-						<row>
-							<entry>Salary Group</entry>
-							<entry>If a salary group is defined, only entries associated with a job rcd in this salary group will be subject.</entry>
-						</row>
-						<row>
-							<entry>Earn Code</entry>
-							<entry>This is the code to define values for earn code.</entry>
-						</row>
-						<row>
-							<entry>Earn Code Type</entry>
-							<entry>Determines if Earn Code should be displayed on Timesheet, Leave Calendar, or Both.</entry>
-						</row>
-						<row>
-							<entry>Employee/Approver/Payroll Processor</entry>
-							<entry>The role checked can select the specified code on the time/leave entry box.</entry>
-						</row>
-						<row>
-							<entry>Active</entry>
-							<entry>
-                                Status of the department code rule, checked indicates Active, unchecked indicates Inactive.  If the rule is being eliminated, 
-                                insert a new effective dated row and uncheck the active box.
-							</entry>
-						</row>
-					</tbody>
-				</tgroup>
-			</table>
-			<para>TOOD: Define basic Earn Code Security for use with other objects</para>
-		</section>
+		<title>Introduction</title>
+		<para>This chapter will cover the administration of CORE KHR business objects, located in
+			the HR/Payroll link grouping found on the left hand side of the page. We will also need
+			to create an object linked in the Administrative grouping located at the bottom left of
+			the maintenance portal. </para>
+		<para>In-depth Leave Management and Timekeeping administration are covered in <link
+				xlink:href="https://wiki.kuali.org/display/KPMEDOC/KPME+System+Administration+Guide"
+				>subsequent guides</link>, however, will require understanding of concepts and
+			objects presented in this chapter. This chapter also makes a few assumptions on readers
+			knowledge and existence of basic rice objects and components. For instance, <link
+				xlink:href="http://site.kuali.org/rice/2.3.2/reference/html/KIM_Guide.html#d13526e167"
+				>Person Maintenance</link>, documented within the <link
+				xlink:href="http://site.kuali.org/rice/2.3.2/reference/html/KIM_Guide.htm">Kauli
+				Identity Management</link> guide. </para>
+		<para>With the application server running, proceed to the KHR Maintenance Portal: </para>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/portal-length.png" format="PNG" scale="100"/>
+			</imageobject>
+			<caption>
+				<para> The KHR Maintenance Portal </para>
+			</caption>
+		</mediaobject>
 	</section>
 	<section>
-		<title>Earn Code Group</title>
-		<para>TODO: Update mapping to reflect any new or changed fields.</para>
-		<para>
-            The Earn Code Group maintenance page is used to define groupings of earn codes.  In timekeeping, these groups are also used to define the summary
-			sections on the timesheet and in the overtime rule setup page.
-		</para>
-		<para>
-			Earn Code Groups can also be used to alert the user with a warning or additional information needed when using certain earn codes on their timesheet 
-			or leave calendar.
-		</para>
+		<title>Institution</title>
+		<para>Institution is required by Group Key which is required for a number of HR/Payroll
+			related objects.</para>
 		<table frame="none">
-			<title>Earn Code Group Fields</title>
+			<title>Institution Fields</title>
 			<tgroup cols="2">
-				<colspec colname="c1" colnum="1" colwidth="2.00*" />
-				<colspec colname="c2" colnum="2" colwidth="4.00*" />
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
 				<thead>
 					<row>
 						<entry>Field</entry>
@@ -931,45 +45,76 @@
 				<tbody>
 					<row>
 						<entry>Effective Date</entry>
-						<entry>
-                            The Effective date for which the department code rule will be effective. This date needs to be on/prior to the date the rule takes 
-                            effect.  When editing, it will determine the date the new values go into effect.
-						</entry>
+						<entry>The date the institution record takes effect</entry>
 					</row>
 					<row>
-						<entry>Earn Code Group</entry>
-						<entry>Text field used to identify the group.</entry>
+						<entry>Institution Code</entry>
+						<entry>Alpha-numeric code used to identify the institution. Ex: ISU</entry>
 					</row>
 					<row>
 						<entry>Description</entry>
-						<entry>Text which describes the purpose of this grouping of earn codes.</entry>
-					</row>
-					<row>
-						<entry>Show on Summary</entry>
-						<entry>Text which describes the purpose of this grouping of earn codes.</entry>
+						<entry>Optional long description of Institution</entry>
 					</row>
 					<row>
 						<entry>Active</entry>
-						<entry>
-                            Status of the earn group, checked indicates Active, unchecked indicates Inactive. If the earn group is being eliminated, insert a 
-                            new effective dated row and uncheck the active box.
-						</entry>
+						<entry>Indicator specifying whether the institution will turned active or
+							inactive on the given effective date.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+	<section>
+		<title>Location</title>
+		<para>Location, like Institution, is also required by Group Key. Location can be used to
+			define multiple locations associated with an institution. </para>
+		<table frame="none">
+			<title>Location Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The date this Location will go into effect. This date should be on or
+							before any role members defined for the location.</entry>
 					</row>
 					<row>
-						<entry>Warning Text</entry>
-						<entry>Text entered into this field will display on calendars and approval pages when an employee uses an earn code belonging to this group</entry>
+						<entry>Location</entry>
+						<entry>Alpha-numeric code used to identify the location. Ex: IA</entry>
+					</row>
+					<row>
+						<entry>Timezone</entry>
+						<entry>The timezone in which this location resides.</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Long description of Location</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Indicator used to activate or deactivate the location.</entry>
 					</row>
 				</tbody>
 			</tgroup>
 		</table>
 		<section>
-			<title>Earn Code Group Definition</title>
-			<para>The Earn Code Group Definition Collection belonging to Earn Code Group Maintenance is used for associating specific earn codes with the group.</para>
+			<title>Location Role Member</title>
+			<para>This Role Member consists of a principal paired with a role. Depending on the
+				role, the principal may be given elevated permissions not otherwise available to
+				them, such as availability of specific earn codes, or the ability to view calendar
+				documents across all departments the location encompasses.</para>
 			<table frame="none">
-				<title>Earn Code Group Fields</title>
+				<title>Location Role Member Fields</title>
 				<tgroup cols="2">
-					<colspec colname="c1" colnum="1" colwidth="2.00*" />
-					<colspec colname="c2" colnum="2" colwidth="4.00*" />
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
 					<thead>
 						<row>
 							<entry>Field</entry>
@@ -978,46 +123,544 @@
 					</thead>
 					<tbody>
 						<row>
-							<entry>Earn Code</entry>
-							<entry>
-	                            In the Earn Group Definitions section, add the earn codes to be included in this group.
-							</entry>
+							<entry>Effective Date</entry>
+							<entry>This date should be on or after the effective date of the
+								Location object to which it is attached.</entry>
 						</row>
 						<row>
-							<entry>Description</entry>
-							<entry>Read-only field that auto-populates with the description of the earn code</entry>
+							<entry>Principal Id</entry>
+							<entry>This field selects the person to receive the role for the
+								location</entry>
+						</row>
+						<row>
+							<entry>Principal Name</entry>
+							<entry>Read-only field populated from Principal Id</entry>
+						</row>
+						<row>
+							<entry>Role Name</entry>
+							<entry>Specifies which role to give to the principal for the location.
+								Roles are divided between "Time Location" and "Leave Location" and
+								further divided by Administrator and View Only Permissions</entry>
+						</row>
+						<row>
+							<entry>Expiration Date</entry>
+							<entry>Optional field to specify a date for which the role is to be
+								removed from the princpal. If left blank, the role will not
+								automatically expire.</entry>
 						</row>
 					</tbody>
 				</tgroup>
 			</table>
 		</section>
-		<para>TODO: define basic earn code group for use with other objects</para>
 	</section>
-	
 	<section>
-		<title>Set up Calendars for leave and pay with leave entries</title>
+		<title>Group Key</title>
+		<para>Group Key defines combination of location, campus and institution and used by several
+			core objects such as Department, Position, Job, etc... Large KHR implementations can use
+			Group Key to define data by their unique institutions/campuses/locations combinations.
+			Group Key is used through out KHR to define different rules and business logic applied
+			throughout the system.</para>
+		<table frame="none">
+			<title>Group Key Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The date the Group Key record will go into effect.</entry>
+					</row>
+					<row>
+						<entry>Group Key</entry>
+						<entry>An alpha-numeric code used to identify the Group Key</entry>
+					</row>
+					<row>
+						<entry>Location</entry>
+						<entry>The Location to associate with the Group Key</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Long description of Group Key</entry>
+					</row>
+					<row>
+						<entry>Campus Code</entry>
+						<entry>The Campus to associate with the Group Key</entry>
+					</row>
+					<row>
+						<entry>Insitition</entry>
+						<entry>The Insitition to associate with the Group Key</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Indicator for activity</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+	<section>
+		<title>Organization</title>
+		<para>Organization is used to define organizational divisions within an institution. </para>
+		<table frame="none">
+			<title>Organization Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Chart</entry>
+						<entry>Field to specify an Administrative Chart</entry>
+					</row>
+					<row>
+						<entry>Organization Code</entry>
+						<entry>An alpha-numeric code used to identify the Organization.</entry>
+					</row>
+					<row>
+						<entry>Organization</entry>
+						<entry>Long description of Organization</entry>
+					</row>
+					<row>
+						<entry>Organization</entry>
+						<entry>Optional field to specify an Organization</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Indicator for activity</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+	<section>
+		<title>Department</title>
+		<para>A Location is partitioned into Department(s). Department may be given additional
+			properties not applicable to the broader location, and Work Areas are defined within a
+			Department.</para>
+		<table frame="none">
+			<title>Department Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The date the Department record will go into effect.</entry>
+					</row>
+					<row>
+						<entry>Group Key</entry>
+						<entry>The Group Key (Institution and Location) to which this department
+							belongs</entry>
+					</row>
+					<row>
+						<entry>Department</entry>
+						<entry>An alpha-numeric code used to identify the department</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Long description of Department</entry>
+					</row>
+					<row>
+						<entry>Chart</entry>
+						<entry>Optional field to specify an Administrative Chart</entry>
+					</row>
+					<row>
+						<entry>Organization</entry>
+						<entry>Optional field to specify an Organization</entry>
+					</row>
+					<row>
+						<entry>Payroll Approval</entry>
+						<entry>Flag indicating whether specific documents for Leave and Timekeeping
+							will go through the second level of payroll approval. If Payroll
+							Approver is checked then a Payroll Processor role needs to be
+							assigned.</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Indicator used to activate or deactivate the Department</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<section>
+			<title>Department Role Member</title>
+			<para>This Role Member consists of a principal paired with a role. Depending on the
+				role, the principal may be given elevated permissions not otherwise available to
+				them, such as availability of specific earn codes, or the ability to view calendar
+				documents across all work areas the department contains. Users assigned the Payroll
+				Processor role will the second and final route level for specific Timekeeping and
+				Leave Management documents. </para>
+			<table frame="none">
+				<title>Department Role Member Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry>This date should be on or after the effective date of the
+								Department object to which it is attached.</entry>
+						</row>
+						<row>
+							<entry>Principal Id</entry>
+							<entry>This field selects the person to receive the role for the
+								department</entry>
+						</row>
+						<row>
+							<entry>Principal Name</entry>
+							<entry>Read-only field populated from Principal Id</entry>
+						</row>
+						<row>
+							<entry>Role Name</entry>
+							<entry>Specifies which role to give to the principal for the department.
+								Roles are divided between Payroll Processor, "Time" and "Leave"
+								Departments and further divided by Administrator and View Only
+								Permissions</entry>
+						</row>
+						<row>
+							<entry>Expiration Date</entry>
+							<entry>Optional field to specify a date for which the role is to be
+								removed from the princpal. If left blank, the role will not
+								automatically expire.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Department Affiliation</title>
+			<para>Define different types of affliations that an institution may associate with
+				departments. Position Management allows a Position to have multiple affilationations
+				with departments beyond a primary department affliation. Examples of department
+				affiliations may be funding, rank, leave reporting. </para>
+			<table frame="none">
+				<title>Department Affiliation Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry>The date the department affiliation record is to become
+								effective</entry>
+						</row>
+						<row>
+							<entry>Department Affiliation Type</entry>
+							<entry>Descriptive code to identify the type of department
+								affiliations.</entry>
+						</row>
+						<row>
+							<entry>Primary Indicator</entry>
+							<entry>Flag used to indicate the affiliation type for the primary
+								department and can be used to require at least one primary
+								department.</entry>
+						</row>
+						<row>
+							<entry>Role Name</entry>
+							<entry>Specifies which role to give to the principal for the department.
+								Roles are divided between Payroll Processor, "Time" and "Leave"
+								Departments and further divided by Administrator and View Only
+								Permissions</entry>
+						</row>
+						<row>
+							<entry>Expiration Date</entry>
+							<entry>Optional field to specify a date for which the role is to be
+								removed from the princpal. If left blank, the role will not
+								automatically expire.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+	</section>
+	<section>
+		<title>Work Area</title>
+		<para>The Work Area maintenance page is used to define areas within a department where
+			employees can record their work. Work area is associated with an employees job.
+			Approvers are assigned by work area, therefore the work area drives routing for employee
+			timesheets. Additionally, multiple rules within the system are definable down to the
+			work area level. Examples of rules definable by work area include - Time Collection Rule
+			- designates whether the user will clock in / out or manually record time blocks and
+			Clock Location Rule - designates the IP location where the user is expected to clock in
+			/ out from. </para>
+		<para>Work Area numbers are unique and assigned by the system. When creating a new work area
+			the description is important because that is what the employee sees when choosing the
+			assignment to clock into. </para>
+		<para>The “Approver” role is assigned on the work area maintenance document. The work area
+			must have at least one valid approver to route a timesheet for approval. </para>
+		<table frame="none">
+			<title>Work Area Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The date the work area record is to become effective</entry>
+					</row>
+					<row>
+						<entry>Work Area</entry>
+						<entry>Auto-generated, read-only field used to uniquely identify the work
+							area</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Long Description of the work area</entry>
+					</row>
+					<row>
+						<entry>Overtime Edit Role</entry>
+						<entry>Defines role that can edit the overtime code</entry>
+					</row>
+					<row>
+						<entry>Default Overtime Earn Code</entry>
+						<entry>Defines the default earn code for overtime earnings. Only earn codes
+							that are designated as an Overtime Earn Code can be used (see Earn Code
+							Maintenance Document). If no earn code is submitted then overtime rule's
+							earn codes will apply to the overtime hours.</entry>
+					</row>
+					<row>
+						<entry>Department</entry>
+						<entry>The department this work area is associated with</entry>
+					</row>
+					<row>
+						<entry>Admin Description</entry>
+						<entry>Additional description field. This could be longer since it is not
+							going to be displayed on the timesheet assignment drop down.</entry>
+					</row>
+					<row>
+						<entry>HR Distribution</entry>
+						<entry>Used to allow employees to clock in and out of a single assignment
+							and then distribute hours at the end of the day to multiple assignments.
+							Hours distribution is only available for time blocks created by the
+							clock.</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Indicator used to activate or deactivate the Work Area</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<section>
+			<title>Work Area Task</title>
+			<para>Task is a further designation within work area that can optionally be defined and
+				used for tracking time. Together, the work area and task are referred to as
+				"assignment" with specific funding associated with the assignment. Employees clock
+				in / out or record their time against an assignment. </para>
+			<table frame="none">
+				<title>Work Area Task Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry>The Effective date for which the task will be effective. This
+								date needs to be on/prior to the date the rule to takes effect. When
+								editing, it will determine the date the new values go into
+								effect.</entry>
+						</row>
+						<row>
+							<entry>Task</entry>
+							<entry>Numeric value for the task that is autogenerated</entry>
+						</row>
+						<row>
+							<entry>Description</entry>
+							<entry>Text field used to identify the task. This description is
+								presented to the employee when selecting the assignment to clock in
+								or manually record their time.</entry>
+						</row>
+						<row>
+							<entry>Administrative Description</entry>
+							<entry>Additional description field. This could be longer since it is
+								not going to be displayed on the timesheet assignment drop
+								down.</entry>
+						</row>
+						<row>
+							<entry>Active</entry>
+							<entry>Indicator used to activate or deactivate the Task</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Work Area Role Members</title>
+			<para>A Work Area Role Member may be added via Position or Principal. A Role Member
+				added for a Position may contain more than one principal if more than one employee
+				is allowed to hold a single position.</para>
+			<section>
+				<title>Work Area Principal Role Member</title>
+				<para>3 types of roles can be assigned to a work area <orderedlist>
+						<listitem>
+							<para><emphasis role="bold">Work Area Approver</emphasis> is the first
+								stop for timesheets and leave calendars to be approved. This role
+								also is the only approval needed for missed punch documents, leave
+								requests, and any payouts or balance transfers triggered by leave
+								accrual category reaching a maximum balance limit.</para>
+						</listitem>
+						<listitem>
+							<para><emphasis role="bold">Approver Delegate</emphasis> can be
+								designated if an Approver is not available to approve KHR documents
+								during a short period of time. Assigning Delegate role requires an
+								Expiration Date that cannot be greater than 6 months from the
+								effective date or into the future. During the period of time the
+								Delegate role is active the user will have similar access to the
+								work area approver and is the primary approver for that work area.
+							</para>
+						</listitem>
+						<listitem>
+							<para><emphasis role="bold">Reviewer</emphasis> role has access to view
+								and edit the work area's timesheets and leave calendars, but are
+								unable to approve timekeeping or leave calendar documents. </para>
+							<para/>
+						</listitem>
+					</orderedlist>
+				</para>
+				<para>When creating or editing a Work Area maintenance document, any of the work
+					area roles can be assigned and at least one active work area approver is
+					required to submit the document. </para>
+				<table frame="none">
+					<title>Work Area Principal Role Member Fields</title>
+					<tgroup cols="2">
+						<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+						<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+						<thead>
+							<row>
+								<entry>Field</entry>
+								<entry>Description</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>Effective Date</entry>
+								<entry>The date which the Role Member becomes effective</entry>
+							</row>
+							<row>
+								<entry>Principal Id</entry>
+								<entry>The principal to which the role will be given.</entry>
+							</row>
+							<row>
+								<entry>Principal Name</entry>
+								<entry>Read-only field auto-populated from principal id.</entry>
+							</row>
+							<row>
+								<entry>Role Name</entry>
+								<entry>Approver, Approver Delegate and Reviewer. Time and Leave
+									documents may be routed to, and specific actions can be
+									requested of each of these roles.</entry>
+							</row>
+							<row>
+								<entry>Expiration Date</entry>
+								<entry>The date on which this role member will be removed from the
+									Work Area.</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</section>
+			<section>
+				<title>Work Area Position Role Member</title>
+				<para>Work Area roles can also be assigned to a Position Number and the principal id
+					with a job that has that Position Number is an approver for the work area. </para>
+				<table frame="none">
+					<title>Work Area Position Role Member Fields</title>
+					<tgroup cols="2">
+						<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+						<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+						<thead>
+							<row>
+								<entry>Field</entry>
+								<entry>Description</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>Effective Date</entry>
+								<entry>The date on which this Position Role Member will become
+									effective</entry>
+							</row>
+							<row>
+								<entry>Position Number</entry>
+								<entry>The position to which this role will be given.</entry>
+							</row>
+							<row>
+								<entry>Role Name</entry>
+								<entry>>Approver, Approver Delegate and Reviewer. Time and Leave
+									documents may be routed to, and specific actions can be
+									requested of each of these roles.</entry>
+							</row>
+							<row>
+								<entry>Expiration Date</entry>
+								<entry>Optional date which will remove the position role member from
+									the Work Area.</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</section>
+		</section>
+	</section>
+	<section>
+		<title>Set up Calendars for leave and pay periods</title>
 		<section>
 			<title>Calendar</title>
-			<para>
-				The system supports multiple pay cycles that are definable by start date/time and end date/time.  This allows for institutions to define 
-				multiple pay and leave calendars such as monthly, semi-monthly, biweekly, or weekly. For example, an institution may define a pay period 
-				beginning at Noon on a Thursday which runs 2 weeks to Noon the following Thursday.
-			</para>
-			<para>
-				The Timekeeping and Leave Managements modules must allow for institutions to define calendars for which employees will report their time and 
-				leave. These calendars may or  may not correspond to payroll calendars.  For example, institutions may choose to define leave reporting 
-				calendars to be from the 15th of the month to the 15th of the following month while the payroll calendar may be from the 1st of the month to the 
-				1st of the next month for the same employee.
-			</para>
-			<para>
-				The system can define calendars for Pay and Leave. These Calendars will be furthered defined by the Calendar Entries maintenance document with 
-				the reporting periods and also associated with employees on the Principal HR Attributes Maintenance Document.
-			</para>
+			<para> The system supports multiple pay and leave cycles that are definable by start
+				date/time and end date/time. Institutions can define multiple pay and leave
+				reporting calendars such as monthly, semi-monthly, biweekly, or weekly. For example,
+				an institution may define a pay period beginning at Noon on a Thursday which runs 2
+				weeks to Noon the following Thursday. </para>
+			<para> Calendars are assigned to an employee determining the length and frequency of
+				their individual timesheets and leave calendars. Calendars are categories by Pay and
+				Leave. These Calendars will be furthered defined by the Calendar Entries maintenance
+				document with the reporting periods and also associated with employees on the
+				Principal HR Attributes Maintenance Document. </para>
 			<table frame="none">
 				<title>Calendar Fields</title>
 				<tgroup cols="2">
-					<colspec colname="c1" colnum="1" colwidth="2.00*" />
-					<colspec colname="c2" colnum="2" colwidth="4.00*" />
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
 					<thead>
 						<row>
 							<entry>Field</entry>
@@ -1027,7 +670,8 @@
 					<tbody>
 						<row>
 							<entry>Calendar Name</entry>
-							<entry>Text field used to defined the calendar entry for Pay or Leave reporting periods.</entry>
+							<entry>Text field used to defined the calendar entry for Pay or Leave
+								reporting periods.</entry>
 						</row>
 						<row>
 							<entry>Calendar Descriptions</entry>
@@ -1035,36 +679,39 @@
 						</row>
 						<row>
 							<entry>Calendar Type</entry>
-							<entry>Indicate calendar is to be used for Pay or Leave reporting periods.</entry>
+							<entry>Indicate calendar is to be used for Pay or Leave reporting
+								periods.</entry>
 						</row>
 						<row>
 							<entry>FLSA Begin Day</entry>
-							<entry>This value determines the FLSA period for overtime calculations.</entry>
+							<entry>For Pay Calandars, this determines the FLSA period for overtime
+								calculations.</entry>
 						</row>
 						<row>
 							<entry>FLSA Begin Time</entry>
-							<entry>Time of day when FLSA period begins.</entry>
+							<entry>For Pay Calandars, time of day when FLSA period begins.</entry>
 						</row>
 					</tbody>
 				</tgroup>
 			</table>
-			<para>TODO: Define basic calendar(s) for use with other objects</para>
+			<para>For each employee that will report time and/or leave they will have an Principal
+				HR Attribute record. If a user has a Pay Calendar value, their timesheet will be
+				determined by the Pay Calendar's Calendar Entries (see next section). If the user
+				has a Leave Calendar value, their leave calendar reporting period will be determine
+				by the Leave Calendar's Calendar Entries. Shift Differential Rules can be applied to
+				employees timesheet timeblock with a Pay Calendar qualifier </para>
 		</section>
 		<section>
 			<title>Calendar Entries</title>
-			<para>TODO: Add field mappings for Batch Payroll Approval</para>
-			<para>
-                The system can define calendars for Pay or Leave. The Calendar Entry maintenance page defines the pay period (timesheet) and/or leave 
-                reporting period.
-			</para>
-			<para>
-                Entries must be created for a time period before a timesheet and/or leave calendar can be created.
-            </para>
+			<para> The system can define calendars for Pay or Leave. The Calendar Entry maintenance
+				page defines the time period pay calendars (timesheet) andr leave reporting period. </para>
+			<para> Entries must be created for a time period before a timesheet and/or leave
+				calendar can be created. </para>
 			<table frame="none">
 				<title>Calendar Entries Fields</title>
 				<tgroup cols="2">
-					<colspec colname="c1" colnum="1" colwidth="2.00*" />
-					<colspec colname="c2" colnum="2" colwidth="4.00*" />
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
 					<thead>
 						<row>
 							<entry>Field</entry>
@@ -1078,335 +725,850 @@
 						</row>
 						<row>
 							<entry>Begin Period Date/Time</entry>
-							<entry>Date period starts. This drives what calendar days show on the timesheet and/or leave calendar. </entry>
+							<entry>Date period starts. This drives what calendar days show on the
+								timesheet and/or leave calendar. </entry>
 						</row>
 						<row>
 							<entry>End Period Date/Time</entry>
-							<entry>Date period ends. This drives what calendars days show on the timesheet and/or leave calendar.</entry>
+							<entry>Date period ends. This drives what calendars days show on the
+								timesheet and/or leave calendar.</entry>
 						</row>
 						<row>
 							<entry>Batch Initiate Date/Time</entry>
-							<entry>Date batch should run to create timesheets and/or leave calendars for the reporting period.</entry>
+							<entry>Date batch should run to create timesheets and/or leave calendars
+								for the reporting period. For Pay Calendar, this date/time should
+								occur prior to the Batch End Pay Period Date/Time.</entry>
 						</row>
 						<row>
 							<entry>Batch End Pay Period Date/Time</entry>
-							<entry>
-                                For Pay Calendar, date batch job should run to end all timeblocks for this pay period. This inserts clock outs at the end of 
-                                the pay period, and clock ins at the beginning of the subsequent pay period.
-							</entry>
+							<entry> For Pay Calendar, date batch job should run to end all
+								timeblocks for this pay period. This inserts clock outs at the end
+								of the pay period, and clock ins at the beginning of the subsequent
+								pay period. If the system supports clock employees in different
+								timezones this job needs to be set to run after midnight of the
+								latest timezone. </entry>
 						</row>
 						<row>
 							<entry>Batch Employee Approval Date/Time</entry>
-							<entry>Date batch job should run to employee approve timesheets and/or leave calendars</entry>
+							<entry>Date batch job should run to employee approve timesheets (i.e.
+								payroll deadlines) and/or leave calendars.</entry>
 						</row>
 						<row>
 							<entry>Batch Supervisor Approval Date/Time</entry>
-							<entry>Date batch job should run to supervisor approve timesheets and/or leave calendars</entry>
+							<entry>Date batch job should run to supervisor approve timesheets (i.e.
+								payroll deadlines) and/or leave calendars. Timesheets and leave
+								calendars documents for Departments that DO NOT have a Payroll
+								Processor role will be final.</entry>
 						</row>
 						<row>
 							<entry>Batch Payroll Approval Date/Time</entry>
-							<entry>Date batch job should run to payroll approve timesheets and/or leave calendars.</entry>
+							<entry>Date batch job should run to payroll approve timesheets (i.e.
+								payroll deadlines) and/or leave calendars. Timesheets and leave
+								calendars documents for Departments that DO have a Payroll Processor
+								role will be final.</entry>
 						</row>
 					</tbody>
 				</tgroup>
 			</table>
 			<note>
-                <para>
-                    To learn more about how to configure the batch Date/Time fields, please see the Batch Jobs documentation.
-                </para>
+				<para> To learn more about how to configure the batch Date/Time fields, please see
+					the Batch Jobs documentation. </para>
 			</note>
-			<para>TODO: Define basic calendar entry for use with leave and time managmenet</para>
 		</section>
 	</section>
+	<section>
+		<title>Earn Codes with Earn Code Security</title>
+		<section>
+			<title>Earn Code</title>
+			<para>The Earn Code maintenance page is used to define codes to categorize employee’s
+				hours/earnings and time off. Earn codes define how the employees records time and
+				leave blocks on timesheets and leave calendars. Most earn code attributes are
+				defined in the payroll system, but there are a few codes which need to be modified
+				on the timesheet prior to the data being extracted to payroll. An inflation factor
+				and inflate minimum hours value are definable on the earn code document. These
+				actions occur on the recorded hours in the timesheet, therefore would NOT need to be
+				done in the payroll system. These codes may or may not be attached to an accrual
+				category for tracking time against available balances or simple reporting.
+				Additionally there are numerous flags on the earn code to limit availability and
+				determine eligibility for accrual and scheduling leave. </para>
+			<table frame="none">
+				<title>Earn Code Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry> The Effective date for which the earn code will be effective.
+								This date needs to be on/prior to the date the rule to takes effect.
+								When editing, it will determine the date the new values go into
+								effect. </entry>
+						</row>
+						<row>
+							<entry>Earn Code</entry>
+							<entry>Alpha/Numeric code used to identify the earnings code. This value
+								will appear on the calendar's time and leave blocks.</entry>
+						</row>
+						<row>
+							<entry>Description</entry>
+							<entry>Long description of earnings classification. This value will
+								appear after Earn Code when adding time and leave blocks.</entry>
+						</row>
+						<row>
+							<entry>Roll up to Earn Code</entry>
+							<entry> This field allows earn codes to be associated with another for
+								payroll extract. For example, you could associate all the Sick codes
+								with the regular sick earn code and not extract the detail into your
+								payroll system. (Sick family leave, sick injury, etc. could all be
+								extracted.) </entry>
+						</row>
+						<row>
+							<entry>Record Method</entry>
+							<entry> Determines the value that will be entered for the earn code. The
+								Time earn code requires in/out times, The Hours earn code will
+								require a hours amount, the Days earn code will require a days
+								amount, and the Amount earn code will require a dollar amount.
+							</entry>
+						</row>
+						<row>
+							<entry>Active</entry>
+							<entry> Status of the category, checked indicates Active, unchecked
+								indicates Inactive. If the rule is being eliminated, insert a new
+								effective dated row and uncheck the active box. </entry>
+						</row>
 
-    <section>
-    	<title>Pay Type</title>
-    	<para>TODO: Provide field mapping for Pay Type, define basic object</para>
-        <table frame="none">
-            <title>Pay Type Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-    </section>	
-   	<section>
-		<title>Position Base</title>
-		<para>TODO: Provide field mapping for Position Base, define basic object</para>
-        <table frame="none">
-            <title>Position Base Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
+						<row>
+							<entry>Overtime Earn Code</entry>
+							<entry> Checked box indicates this may be used for overtime earn code.
+								Codes with this checkbox are not available for entry on the
+								timesheet. </entry>
+						</row>
+						<row>
+							<entry>Inflate Min Hours</entry>
+							<entry> Hours incurred will be inflated to this minimum hours value. For
+								example, Call Back Time rules specify the employee earns a minimum
+								number of hours, regardless of the time worked. Set an inflate
+								minimum hours on the earn code and the employee will see the number
+								of hours correctly on the timesheet, instead of assuming it will be
+								inflated later. </entry>
+						</row>
+						<row>
+							<entry>Inflate Factor</entry>
+							<entry> The hours incurred will be multiplied by this factor. For
+								example, Compensatory Time Earned (in lieu of overtime) is earned at
+								a factor of 1.5. When the employee earns comp time, this setting
+								will inflate the hours by a factor of 1.5 and all hours shown on the
+								timesheet will be the inflated value. The employee will know the
+								exact number of hours earned. </entry>
+						</row>
+						<row>
+							<entry>Counts as Regular Pay</entry>
+							<entry> Use this field to cacluate the "Worked Hours"" in the Time
+								Summary. This flag can be used by implementing institutions to
+								develop payroll extracts </entry>
+						</row>
+						<row>
+							<entry>Leave Plan</entry>
+							<entry>Employees with the indicated Leave Plan may have access to this
+								Earn Code on their Leave Calendar and Time Sheet</entry>
+						</row>
+						<row>
+							<entry>Accrual Category</entry>
+							<entry>If a category is entered the usage is validated against the
+								employee’s balances.</entry>
+						</row>
+						<row>
+							<entry>Accrual Balance Action</entry>
+							<entry> Supports validating against the Accrual Category associated with
+								the Earn Code and instruct if it adjusts the balance of that
+								category. Usage should validate against the available balance
+								subtract from the total. Adjustment would work without validation
+								and add/subtract the entry. Earn codes for timekeeping should have
+								None selected. </entry>
+						</row>
+						<row>
+							<entry>Rounding Option</entry>
+							<entry>Traditional or Truncated rounding method is used when calculating
+								leave accruals and reporting.</entry>
+						</row>
+						<row>
+							<entry>Fractional time allowed</entry>
+							<entry>Define fractional unit of time used for reporting leave. Indicate
+								number of decimals.</entry>
+						</row>
+						<row>
+							<entry>Usage Limit</entry>
+							<entry>Include/Excluded indicates what effect time or leave reported
+								with this earn code has on the Accrual Category's usage
+								limits.</entry>
+						</row>
+						<row>
+							<entry>Eligible for Accrual</entry>
+							<entry> Flag indicating this type of leave is eligible for accrual. This
+								applies to all accrual categories the employee is eligible for. When
+								a time or leave block is reported on a calendar with an earn code
+								flagged as No, a negative accrual leave block will be calculated.
+							</entry>
+						</row>
+						<row>
+							<entry>Affect Pay</entry>
+							<entry> Earn codes with Yes flag will affect the employee's pay and can
+								be used by schools who are extracting data to their payroll system.
+								When earn code is used, a notification is sent to approver and
+								department admin. </entry>
+						</row>
+						<row>
+							<entry>Allow Scheduled Leave</entry>
+							<entry>Earn codes with Yes flag will be available to user role on future
+								leave calendars based Earn Code Security.</entry>
+						</row>
+						<row>
+							<entry>FMLA</entry>
+							<entry>FLMA Earn Code indicator. If Principal HR Attributes is flagged
+								for FMLA, the user role may have option to select this Earn Code
+								based Earn Code Security. </entry>
+						</row>
+						<row>
+							<entry>Workman’s Comp</entry>
+							<entry> Workman's Comp Earn Code indicator. If Principal HR Attributes
+								is flagged for Workman’s Comp, the user role may have option to
+								select this Earn Code based Earn Code Security. </entry>
+						</row>
+						<row>
+							<entry>Default Amount of Time</entry>
+							<entry> Optional amount can be entered to provide user a default amount
+								of hours (earn code method of hours) when adding a new leave block
+								to a calendar. When a user selects earn code the specified amount of
+								time will appear in the amount of leave taken. User can change the
+								hours as needed once populated. </entry>
+						</row>
+						<row>
+							<entry>Allow Negative Accrual Balance</entry>
+							<entry>Allows usage to take the balance of the Accrual Category to a
+								negative value.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<note>
+				<para> Earn Codes must have an Earn Code Security entry to appear on the calendars.
+					If an Earn Code does not have an Earn Code Security entry it will not be
+					displayed by default. </para>
+			</note>
+			<para>Earn codes used with several business objects within KHR Timekeeping and Leave
+				Management. </para>
+			<para>
+				<itemizedlist>
+					<listitem>
+						<para><emphasis role="bold">Pay Type</emphasis> Regular Earn Code attribute
+							will define the earn code used for timeblocks reporting time worked.
+						</para>
+					</listitem>
+					<listitem>
+						<para><emphasis role="bold">Earn Code Group</emphasis> defines set of earn
+							codes that maybe used in timekeeping or leave rules. </para>
+					</listitem>
+					<listitem>
+						<para><emphasis role="bold">Earn Code Security</emphasis> determines the
+							availability of earn codes on the timesheet and leave calendar based on
+							the user's role for the timesheet or leave calendar </para>
+					</listitem>
+					<listitem>
+						<para><emphasis role="bold">Accrual Category</emphasis> has a default earn
+							code that will be used for accrual leave blocks and attributes of that
+							earn code will determine how leave balances are calculated. </para>
+					</listitem>
+					<listitem>
+						<para><emphasis role="bold">System Scheduled Time Off</emphasis> requires
+							the earn code for the Accrual Category used to accrue time off for
+							university holidays.</para>
+					</listitem>
+					<listitem>
+						<para><emphasis role="bold">Weekly Overtime Rule</emphasis> designates an
+							earn code value to be assigned the calculated overtime hours unless a
+								<emphasis role="bold">Work Area</emphasis> has a default overtime
+							earn code defined.</para>
+					</listitem>
+					<listitem>
+						<para><emphasis role="bold">Shift Differential Rule</emphasis> designates an
+							earn code value to be assigned any qualifying shift differential time.
+						</para>
+					</listitem>
+					<listitem>
+						<para>If <emphasis role="bold">Department Lunch Rule</emphasis> is going to
+							be used, a simple LUN earn code needs to be defined for the auto lunch
+							deduction is attached to qualifying timeblocks. </para>
+					</listitem>
+				</itemizedlist>
+			</para>
+		</section>
+		<section>
+			<title>Earn Code Security</title>
+			<para> The Earn Code Security maintenance page is used to define which roles (employee,
+				approver, payroll processor) see specific earn codes on the timesheet and/or Leave
+				Calendar. This is definable at the department, salary group or group key value.
+				These fields are accept wild cards (%). </para>
+			<para>When adding time or leave blocks to a calendar, an assignment must be selected
+				before the earn code options are displayed. Available earn codes will be determined
+				by the selected Assignment's department, work area, salary group and the user's
+				role. </para>
+			<table frame="none">
+				<title>Earn Code Security Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry> The Effective date for which the earn code security rule will be
+								effective. This date needs to be on/prior to the date the rule to
+								takes effect. When editing, it will determine the date the new
+								values go into effect. </entry>
+						</row>
+						<row>
+							<entry>Group Key</entry>
+							<entry>If a group key is defined, only entries associated with a job
+								record in this group key will be subject.</entry>
+						</row>
+						<row>
+							<entry>Department</entry>
+							<entry>If a department is defined, only entries associated with a job
+								record in this department will be subject.</entry>
+						</row>
+						<row>
+							<entry>Salary Group</entry>
+							<entry>If a salary group is defined, only entries associated with a job
+								rcd in this salary group will be subject.</entry>
+						</row>
+						<row>
+							<entry>Earn Code</entry>
+							<entry>This is the code to define values for earn code.</entry>
+						</row>
+						<row>
+							<entry>Earn Code Type</entry>
+							<entry>Determines if Earn Code should be displayed on Timesheet, Leave
+								Calendar, or Both.</entry>
+						</row>
+						<row>
+							<entry>Employee/Approver/Payroll Processor</entry>
+							<entry>The role checked can select the specified code on the time/leave
+								entry box.</entry>
+						</row>
+						<row>
+							<entry>Active</entry>
+							<entry> Status of the Earn Code Security, checked indicates Active,
+								unchecked indicates Inactive. If the rule is being eliminated,
+								insert a new effective dated row and uncheck the active box.
+							</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<note>
+				<para>Overtime Earn Codes must have an Earn Code Security record if the Work Area
+					allows for the Overtime Earn Code to be edited (i.e. changed from Comp Time to
+					Overtime).</para>
+			</note>
+		</section>
 	</section>
-
+	<section>
+		<title>Earn Code Group</title>
+		<para> The Earn Code Group maintenance page is used to define groupings of earn codes. Earn
+			Code Groups are used for defining timekeeping rules, displaying the time summary, and
+			displaying warnings or additional information regarding the earn codes used for
+			timeblocks on the timesheet or leave calendar. </para>
+		<table frame="none">
+			<title>Earn Code Group Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry> The Effective date for which the department code rule will be
+							effective. This date needs to be on/prior to the date the rule takes
+							effect. When editing, it will determine the date the new values go into
+							effect. </entry>
+					</row>
+					<row>
+						<entry>Earn Code Group</entry>
+						<entry>Text field used to identify the group.</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text which describes the purpose of this grouping of earn
+							codes.</entry>
+					</row>
+					<row>
+						<entry>Show on Summary</entry>
+						<entry>In the Time Detail summary, the sum of timeblocks with earn codes in
+							the Earn Code Group will be displayed as a row. The Earn Code Group's
+							description text will display in the summary to description to the
+							summarizied hours. </entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry> Status of the earn group, checked indicates Active, unchecked
+							indicates Inactive. If the earn group is being eliminated, insert a new
+							effective dated row and uncheck the active box. </entry>
+					</row>
+					<row>
+						<entry>Warning Text</entry>
+						<entry>Text entered into this field will display on calendars and approval
+							pages when an employee uses an earn code belonging to this group</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<note>
+			<para>Warning messages that display timesheets and leave calendars are also available
+				for approvers to see from the Time Approval and Leave Approval grids </para>
+		</note>
+		<section>
+			<title>Earn Code Group Definition</title>
+			<para>The Earn Code Group Definition Collection belonging to Earn Code Group Maintenance
+				is used for associating specific earn codes with the group.</para>
+			<table frame="none">
+				<title>Earn Code Group Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Earn Code</entry>
+							<entry> In the Earn Group Definitions section, add the earn codes to be
+								included in this group. </entry>
+						</row>
+						<row>
+							<entry>Description</entry>
+							<entry>Read-only field that auto-populates with the description of the
+								earn code</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<note>
+				<para>An Earn Code can only be in one Earn Code Group that is flagged to display in
+					the Time Detail Summary.</para>
+			</note>
+			<para>Timekeeping's Shift Differential Rule and Weekly Overtime Rule used Earn Code
+				Groups to identify qualifying Earn Codes. For example, all the pay type regular earn
+				codes would be include the Earn Code Groups defined for both rules. </para>
+		</section>
+	</section>
+	<section>
+		<title>Pay Type</title>
+		<para>The Pay Type maintenance page defines a classification of position / job used to
+			divide groups of employees according to payroll attributes. This attribute is associated
+			with an employees job and is further used to qualify for timekeeping rules such as Time
+			Collection, Shift Differential, and Daily Overtime. Pay Type will likely be defined off
+			an existing payroll attribute and created at implementation time to designate different
+			rules for different populations of employees. </para>
+		<table frame="none">
+			<title>Pay Type Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The date on which this Pay Type is to go in effect.</entry>
+					</row>
+					<row>
+						<entry>Pay Type</entry>
+						<entry>Code used to identify the Pay Type</entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Optional long description</entry>
+					</row>
+					<row>
+						<entry>Regular Earn Code</entry>
+						<entry>The Earn Code that will be used to report time worked. Assignments
+							will use the Job's Pay Type to determine the regular earn code for
+							timeblocks that will record regular time worked. </entry>
+					</row>
+					<row>
+						<entry>FLSA Status</entry>
+						<entry>Payroll attribute</entry>
+					</row>
+					<row>
+						<entry>Pay Frequency</entry>
+						<entry>Payroll attribute</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Indicator used to activate or deactivate the Pay Type</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+	<section>
+		<title>Core Position Management</title>
+		<para>With KHR's modulations you can turn on and off modules for your implementations. Salary
+			Group, Pay Grade and Position are required for all KHR modules. Depending on the module
+			being implemented the required information may vary. For example with Position
+			Management, position has several data attributes that may not be required for a
+			Timekeeping implementation. If Position Management is not being implemented then the
+			system administrator can access Salary Group, Pay Grade and Position Base from the Time
+			&amp; Leave Admin </para>
+		<section>
+			<title>Salary Group</title>
+			<para>Salary Group is a high-level HR/Payroll object that can span multiple institutions
+				and locations (Group Keys). It contains a number of properties useful for reporting
+				and in the execution of KHR's business logic.</para>
+			<table frame="none">
+				<title>Salary Group Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry>The date on which this Salary Group is to go in effect.</entry>
+						</row>
+						<row>
+							<entry>Salary Group</entry>
+							<entry>Code used to identify the Salary Group</entry>
+						</row>
+						<row>
+							<entry>Description</entry>
+							<entry>Optional long description</entry>
+						</row>
+						<row>
+							<entry>Group Key</entry>
+							<entry>The Group Keys (Institution and Location) to which this Salary
+								Group belongs</entry>
+						</row>
+						<row>
+							<entry>Percent Time</entry>
+							<entry>Maximum percentage of time worked for the salary group. When
+								defining individual positions and jobs, the percent time will be
+								less than the Salary Group's Percent Time. Used for leave accrual
+								and payroll calculations, Full Time Engagement reporting, etc. Steps
+								in increments of whole numbers. Positive amounts only, less than
+								100.</entry>
+						</row>
+						<row>
+							<entry>Benefit Eligible</entry>
+							<entry>Yes or No field indicating whether entities within this salary
+								group are benefit eligible.</entry>
+						</row>
+						<row>
+							<entry>Leave Eligible</entry>
+							<entry>Yes or No field indicating whether entities within this salary
+								group are eligible for leave.</entry>
+						</row>
+						<row>
+							<entry>Leave Plan</entry>
+							<entry>Unless Leave Eligible = "Y" (Yes), this is a required field. It
+								is not required if the salary group is not leave eligible. </entry>
+						</row>
+						<row>
+							<entry>Active</entry>
+							<entry>Indicator used to activate or deactivate the Salary Group</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Pay Grade</title>
+			<para>Defines detailed pay and hiring ranges for Salary Groups. </para>
+			<para>The Pay Grade maintenance page is used to define a classification of position /
+				job to divide groups of employees for the purposes of defining rules within the Time
+				and Attendance system. Pay grade can be used to define specific shift differential
+				rules for the employees in the identified pay grade. </para>
+			<table frame="none">
+				<title>Pay Grade Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Effective Date</entry>
+							<entry>The date on which this Salary Group is to go in effect.</entry>
+						</row>
+						<row>
+							<entry>Pay Grade</entry>
+							<entry>Code used to identify the Pay Grade</entry>
+						</row>
+						<row>
+							<entry>Salary Group</entry>
+							<entry>The Salary Group to which this Pay Grade belongs</entry>
+						</row>
+						<row>
+							<entry>Description</entry>
+							<entry>Optional long description</entry>
+						</row>
+						<row>
+							<entry>Active</entry>
+							<entry>Indicator used to activate or deactivate the Pay Grade</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<note>
+				<para>Shift Differential Rule has Salary Group and Pay Grade qualifiers</para>
+			</note>
+		</section>
+		<section>
+			<title>Position</title>
+			<para>Position records are created with a unique position number that can be assigned to
+				Job.</para>
+			<para>A Work Area approver role can also be assigned by Position Number. Employees with
+				Job record that has the Position Number will be the approver for Work Area. </para>
+			<table frame="none">
+				<title>Position Base Fields</title>
+				<tgroup cols="2">
+					<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+					<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Position Number</entry>
+							<entry>Auto generated unique Position Number that will be assigned a
+								Job</entry>
+						</row>
+						<row>
+							<entry>Effective Date</entry>
+							<entry>The date on which this Position is to go in effect.</entry>
+						</row>
+						<row>
+							<entry>Description</entry>
+							<entry>Optional long description</entry>
+						</row>
+						<row>
+							<entry>Active</entry>
+							<entry>Indicator used to activate or deactivate the Position</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<note>
+				<para>If the KHR implementation that does not include the Position Management
+					Module, Position document is a simplified document called Position Base</para>
+			</note>
+		</section>
+	</section>
 	<section>
 		<title>Job</title>
-		<para>TODO: Provide field mapping for Job, define basic object</para>
-        <table frame="none">
-            <title>Job Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
+		<para>The Job maintenance page is used to associate a person with job attributes and
+			utilized by KHR Timekeeping and Leave Management. A single person may have multiple jobs
+			and each job can have only one pay rate. Each job for a given employee is assigned a
+			unique job number. Attributes on the job maintenance page are used to determine
+			timekeeping rules to apply and which jobs are eligible for leave. It is likely that
+			these attributes will be mapped to an existing payroll/HR system. </para>
+		<para> </para>
+		<table frame="none">
+			<title>Job Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The date on which this Job is to go in effect.</entry>
+					</row>
+					<row>
+						<entry>Group Key</entry>
+						<entry>The Group Key (Institution and Location) to which this Job's
+							Department belongs</entry>
+					</row>
+					<row>
+						<entry>Principal ID</entry>
+						<entry>Principal ID for the employee the job belongs</entry>
+					</row>
+					<row>
+						<entry>Name</entry>
+						<entry>Read only field that populates when Principal ID is provided</entry>
+					</row>
+					<row>
+						<entry>Job Number</entry>
+						<entry>Sequential number which uniquely identify the employees job
+							occurrence for this employee. Number is automatically generated and is
+							unique for each job record for an employee. </entry>
+					</row>
+					<row>
+						<entry/>
+						<entry>The department the job is associated with. This drives the available
+							work areas when setting up assignments for this job. </entry>
+					</row>
+					<row>
+						<entry>Position</entry>
+						<entry>Position associated with the job.</entry>
+					</row>
+					<row>
+						<entry>Pay Type</entry>
+						<entry>The pay type value appropriate for this job.</entry>
+					</row>
+					<row>
+						<entry>Salary Group</entry>
+						<entry>The salary group value appropriate for this job.</entry>
+					</row>
+					<row>
+						<entry>Pay Grade</entry>
+						<entry>The pay grade value appropriate for this job.</entry>
+					</row>
+					<row>
+						<entry>Compensation Rate</entry>
+						<entry>The hourly rate for this job. Only one rate per job is
+							supported.</entry>
+					</row>
+					<row>
+						<entry>Standard Hours</entry>
+						<entry>The standard hours for this job. This drives accrual proration and
+							“ready to approve criteria” for the timesheet (only timesheets meeting
+							standard hours can be approved). Hourly jobs can have 0 standard
+							hours.</entry>
+					</row>
+					<row>
+						<entry>FTE</entry>
+						<entry>Read only FTE that is calcuated from standard hours and 40 hours work
+							week. Used by the accrual service for calculating leave accrued by on
+							FTE. </entry>
+					</row>
+					<row>
+						<entry>Eligible for Leave</entry>
+						<entry>Flag indicating the job is eligible for leave benefits. If checked,
+							the accrual service will use the calculated FTE for prorated Accrual
+							Categories. </entry>
+					</row>
+					<row>
+						<entry>FLSA Status</entry>
+						<entry>Indicates if Job is FLSA exempt or non-exempt. This field along with
+							Eligible for Leave and a defined leave plan on the employee's Principal
+							HR Attributes will determine what timekeeping and leave calendars are
+							displayed for the employee. </entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Indicator used to activate or deactivate the Job</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
 	</section>
 
 	<section>
 		<title>Assignment</title>
 		<para>TODO: Provide field mapping for Assignment, define basic object</para>
-        <table frame="none">
-            <title>Assignment Fields</title>
-            <tgroup cols="2">
-                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-                <thead>
-                    <row>
-                        <entry>Field</entry>
-                        <entry>Description</entry>
-                    </row>
-                </thead>
-                <tbody>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                    <row>
-                        <entry></entry>
-                        <entry></entry>
-                    </row>
-                </tbody>
-            </tgroup>
-        </table>
-        <section>
-        	<title>Assignment Account</title>
-			<para>TODO: Provide field mapping for Assignment, define basic object</para>
-	        <table frame="none">
-	            <title>Assignment Fields</title>
-	            <tgroup cols="2">
-	                <colspec colname="c1" colnum="1" colwidth="2.00*" />
-	                <colspec colname="c2" colnum="2" colwidth="4.00*" />
-	                <thead>
-	                    <row>
-	                        <entry>Field</entry>
-	                        <entry>Description</entry>
-	                    </row>
-	                </thead>
-	                <tbody>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                    <row>
-	                        <entry></entry>
-	                        <entry></entry>
-	                    </row>
-	                </tbody>
-	            </tgroup>
-	        </table>
-        </section>
+		<table frame="none">
+			<title>Assignment Fields</title>
+			<tgroup cols="2">
+				<colspec colname="c1" colnum="1" colwidth="2.00*"/>
+				<colspec colname="c2" colnum="2" colwidth="4.00*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>The date on which this Assignment is to go in effect.</entry>
+					</row>
+					<row>
+						<entry>Group Key</entry>
+						<entry>The Group Key (Institution and Location) to which this assignment's
+							Department belongs</entry>
+					</row>
+					<row>
+						<entry>Principal ID</entry>
+						<entry>Principal ID for the employee the assignment belongs</entry>
+					</row>
+					<row>
+						<entry>Name</entry>
+						<entry>Read only field that populates when Principal ID is provided</entry>
+					</row>
+					<row>
+						<entry>Job Number</entry>
+						<entry>Sequential number which uniquely identify the employees job
+							occurrence for this employee. Number is automatically generated and is
+							unique for each job record for an employee. </entry>
+					</row>
+					<row>
+						<entry>Department</entry>
+						<entry>The department the assignment is associated with. The Principal ID's
+							Job and the Work Area must be the same Department. </entry>
+					</row>
+					<row>
+						<entry>Work Area</entry>
+						<entry>The work area the assignment is associated with</entry>
+					</row>
+					<row>
+						<entry>Task</entry>
+						<entry>The work area's Task the assignment is associated with. Task is not
+							required.</entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Indicator used to activate or deactivate the Assignment</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<section>
+			<title>Assignment Accounts</title>
+			<para>Assignment accounts will associated the designated funding account with the time
+				reported for the assignment on a timesheet. Funding for an assignment can be
+				associated with multiple accounts and distributed by percentages. Also funding can
+				be designated for earn codes for the time reported on the timesheet. </para>
+		</section>
 	</section>
-
 </chapter>

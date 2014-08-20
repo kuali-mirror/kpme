@@ -1,13 +1,12 @@
 package org.kuali.kpme.edo.reviewlayerdef.service;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
-import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinition;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoSuppReviewLayerDefinition;
 
 public interface EdoReviewLayerDefinitionService {
     // TODO resolve dependency of EdoAdminGroupMembersAction.processMemberRecords on this method
@@ -36,12 +35,13 @@ public interface EdoReviewLayerDefinitionService {
     // moved to here from EdoVoteRecordService
     public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(String edoDossierID);
     
+    // KPME-3711 Moved these to EdoSuppReviewLayerDefinitionService
     // TODO: move the following three methods to 
     // no alteration needed; id passed to EdoSuppReviewLayerDefinition module
     //get the supplemental nodes (authorized nodes)
-    public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(BigDecimal reviewLayerDefinitionId);
-    public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
-    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName);
+    //public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(String reviewLayerDefinitionId);
+    //public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId);
+    //public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName);
     
     
  // commented out by IU

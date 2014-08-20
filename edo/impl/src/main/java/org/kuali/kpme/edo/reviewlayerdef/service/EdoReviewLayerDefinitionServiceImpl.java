@@ -1,6 +1,5 @@
 package org.kuali.kpme.edo.reviewlayerdef.service;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,9 +10,10 @@ import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
+import org.kuali.kpme.edo.api.reviewlayerdef.EdoSuppReviewLayerDefinition;
 import org.kuali.kpme.edo.api.vote.EdoVoteRecord;
 import org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo;
-import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinition;
+import org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo;
 import org.kuali.kpme.edo.reviewlayerdef.dao.EdoReviewLayerDefinitionDao;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
@@ -120,11 +120,20 @@ public class EdoReviewLayerDefinitionServiceImpl implements EdoReviewLayerDefini
         return levelMap;
     }
 
+    // KPME-3711 These methods have been moved to EdoSuppReviewLayerDefinition
+    /*
     public List<String> getAuthorizedSupplementalNodes(String reviewLayerDefinitionId) {
     
     	return this.edoReviewLayerDefinitionDao.getAuthorizedSupplementalNodes(reviewLayerDefinitionId);	
     }
     
+    public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(String reviewLayerDefinitionId) {
+    	return EdoSuppReviewLayerDefinitionBo.to(edoReviewLayerDefinitionDao.getSuppReviewLayerDefinition(reviewLayerDefinitionId));
+    }
+   
+    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName) {
+        return this.edoReviewLayerDefinitionDao.getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
+    }*/
 
     public void setEdoReviewLayerDefinitionDao(EdoReviewLayerDefinitionDao edoReviewLayerDefinitionDao) {
         this.edoReviewLayerDefinitionDao = edoReviewLayerDefinitionDao;
@@ -136,23 +145,13 @@ public class EdoReviewLayerDefinitionServiceImpl implements EdoReviewLayerDefini
     	
         this.edoReviewLayerDefinitionDao.saveOrUpdate(bo);
     }
-    
-    public EdoSuppReviewLayerDefinition getSuppReviewLayerDefinition(BigDecimal reviewLayerDefinitionId) {
-    	return this.edoReviewLayerDefinitionDao.getSuppReviewLayerDefinition(reviewLayerDefinitionId);
-    }
-   
+        
     public List<String> getDistinctWorkflowIds() {
         return this.edoReviewLayerDefinitionDao.getDistinctWorkflowIds();
     }
 
-    
-
     public String getLevelQualifierByWorkflowId(String workflowId, String nodeName) {
         return this.edoReviewLayerDefinitionDao.getLevelQualifierByWorkflowId(workflowId, nodeName);
-    }
-
-    public String getSuppLevelQualifierByWorkflowId(String workflowId, String nodeName) {
-        return this.edoReviewLayerDefinitionDao.getSuppLevelQualifierByWorkflowId(workflowId, nodeName);
     }
 
     public Map<String,String> getReviewLayerDefinitionDescriptionsByWorkflow(String workflowId) {
@@ -168,9 +167,9 @@ public class EdoReviewLayerDefinitionServiceImpl implements EdoReviewLayerDefini
         return levelMap;
     }
     
-    public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(String edoDossierID) {
+    public EdoReviewLayerDefinition findFirstNegativeReviewLayerByVote(String edoDossierId) {
         EdoReviewLayerDefinition rld = null;
-        String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(edoDossierID).getWorkflowId();
+        String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(edoDossierId).getWorkflowId();
 
         Collection<EdoReviewLayerDefinition> reviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId);
         List<EdoReviewLayerDefinition> voteRecordLayerDefinitions = new LinkedList<EdoReviewLayerDefinition>();
@@ -181,7 +180,7 @@ public class EdoReviewLayerDefinitionServiceImpl implements EdoReviewLayerDefini
             }
         }
         for (EdoReviewLayerDefinition voteRLD : voteRecordLayerDefinitions) {
-            EdoVoteRecord voteRecord = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(edoDossierID, voteRLD.getEdoReviewLayerDefinitionId());
+            EdoVoteRecord voteRecord = EdoServiceLocator.getEdoVoteRecordService().getVoteRecordMostCurrentRound(edoDossierId, voteRLD.getEdoReviewLayerDefinitionId());
             if (EdoServiceLocator.getEdoVoteRecordService().isNegativeVote(voteRecord)) {
                 if (rld == null) {
                     rld = voteRLD;

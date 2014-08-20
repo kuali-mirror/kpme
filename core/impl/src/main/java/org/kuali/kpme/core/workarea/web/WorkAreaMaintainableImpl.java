@@ -31,7 +31,6 @@ import org.joda.time.Interval;
 import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.namespace.KPMENamespace;
 import org.kuali.kpme.core.api.position.PositionBaseContract;
-import org.kuali.kpme.core.api.task.TaskContract;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrDataObjectMaintainableImpl;
 import org.kuali.kpme.core.role.KPMERole;
@@ -58,7 +57,6 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
-@SuppressWarnings("deprecation")
 public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 
 	private static final long serialVersionUID = -624127817308880466L;
@@ -79,20 +77,6 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 		return HrServiceLocatorInternal.getWorkAreaInternalService().getWorkArea(id);
 	}
 
-	/*@Override
-	@SuppressWarnings("rawtypes")
-    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
-        List sections = super.getSections(document, oldMaintainable);
-
-        for (Object obj : sections) {
-            Section sec = (Section) obj;
-            if (sec.getSectionId().equals("inactivePrincipalRoleMembers") || sec.getSectionId().equals("inactivePositionRoleMembers")) {
-            	sec.setHidden(!document.isOldBusinessObjectInDocument());
-            }
-        }
-
-        return sections;
-    }*/
 
 	@Override
 	public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
@@ -227,7 +211,7 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 				if (valid) {
 					if (task.getTask() == null) {
 						if(this.getTaskCount()==null){
-							this.setTaskCount(this.getMaxTaskNumber(workArea));
+							this.setTaskCount(HrServiceLocator.getTaskService().getNextTaskNumber());
 						}
 						task.setTask(this.getTaskCount());
 						this.setTaskCount(this.getTaskCount()+1);
@@ -398,14 +382,7 @@ public class WorkAreaMaintainableImpl extends HrDataObjectMaintainableImpl {
 		return valid;
 	}
 
-	private Long getMaxTaskNumber(WorkAreaBo workArea) {
-		Long task = new Long("100");
-		TaskContract maxTask = HrServiceLocator.getTaskService().getMaxTask(workArea.getWorkArea());
-		if (maxTask != null) {
-			task = maxTask.getTask() + 1;
-		}
-		return task;
-	}
+
 	
 	@Override
 	public void saveDataObject() {

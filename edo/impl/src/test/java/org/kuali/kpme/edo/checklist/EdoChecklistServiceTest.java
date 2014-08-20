@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.edo.EdoUnitTestBase;
 import org.kuali.kpme.edo.api.checklist.EdoChecklist;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 @IntegrationTest
@@ -47,13 +48,14 @@ public class EdoChecklistServiceTest extends EdoUnitTestBase {
 	@Test
 	public void testGetEdoChecklistById() throws Exception {
 
-		EdoChecklist edoChecklist = EdoServiceLocator.getChecklistService().getChecklistByID(edoChecklistId);
+		EdoChecklist edoChecklist = EdoServiceLocator.getChecklistService().getChecklistById(edoChecklistId);
 		assertEquals("TA", edoChecklist.getDossierTypeCode());
-		assertEquals("DEFAULT", edoChecklist.getDepartmentID());
+		assertEquals("DEFAULT", edoChecklist.getDepartmentId());
+		assertEquals("returned the correct number of results for checklist sections", 2, edoChecklist.getChecklistSections().size());
 	}
 	
 	@Test
-	public void getChecklists() throws Exception {
+	public void testGetChecklists() throws Exception {
 		
 		LocalDate  asOfDate = new LocalDate(2012,1,1);
 		

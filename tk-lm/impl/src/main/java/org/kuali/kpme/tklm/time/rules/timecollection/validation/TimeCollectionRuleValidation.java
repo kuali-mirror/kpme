@@ -15,7 +15,7 @@
  */
 package org.kuali.kpme.tklm.time.rules.timecollection.validation;
 
-import org.apache.cxf.common.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.kpme.tklm.time.rules.validation.TkKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.ValidationUtils;
@@ -57,6 +57,33 @@ public class TimeCollectionRuleValidation extends TkKeyedBusinessObjectValidatio
 		}
 	}
 
+	public static boolean validateWorkAreaDeptWildcarding(TimeCollectionRule tcr) {
+        return StringUtils.equals(tcr.getDept(), HrConstants.WILDCARD_CHARACTER)
+                && HrConstants.WILDCARD_LONG.equals(tcr.getWorkArea());
+    }
+	
+	boolean validateWildcards(TimeCollectionRule tcr) {
+
+        if(validateWorkAreaDeptWildcarding(tcr)){
+			// add error when work area defined, department is wild carded.
+			this.putFieldError("workArea", "error.wc.wadef");
+			return false;
+		}
+        
+        if(validateGroupKeyDeptWildcarding(tcr)){
+        	// add error when dept is defined, groupkey is wild carded.
+			this.putFieldError("groupKeyCode", "error.wc.deptdef");
+			return false;
+		}
+        
+		return true;
+    }
+	
+	private boolean validateGroupKeyDeptWildcarding(TimeCollectionRule tcr) {
+        return StringUtils.equals(tcr.getGroupKeyCode(), HrConstants.WILDCARD_CHARACTER)
+                && StringUtils.equals(tcr.getDept(), HrConstants.WILDCARD_CHARACTER);
+    }
+
 	/**
 	 * It looks like the method that calls this class doesn't actually care
 	 * about the return type.
@@ -75,6 +102,7 @@ public class TimeCollectionRuleValidation extends TkKeyedBusinessObjectValidatio
 			timeCollectionRule.setUserPrincipalId(GlobalVariables.getUserSession().getLoggedInUserPrincipalName());
 			if (timeCollectionRule != null) {
 				valid = true;
+				valid &= this.validateWildcards(timeCollectionRule);
 				valid &= this.validateDepartment(timeCollectionRule);
 				valid &= this.validateWorkArea(timeCollectionRule);
 				valid &= this.validatePayType(timeCollectionRule);

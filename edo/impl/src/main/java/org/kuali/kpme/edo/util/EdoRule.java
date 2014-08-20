@@ -8,11 +8,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -95,7 +96,7 @@ public class EdoRule {
             GlobalVariables.getMessageMap().putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.group.validate.code", "Workflow ID", workflowId);
             return false;
         }
-        List<String> validWorkflows = EdoServiceLocator.getEdoWorkflowDefinitionService().getWorkflowIds();
+        List<String> validWorkflows = EdoServiceLocator.getEdoWorkflowDefinitionService().getEdoWorkflowIds();
         if (!validWorkflows.contains(workflowId)) {
             GlobalVariables.getMessageMap().putError(EdoConstants.ErrorKeys.ERROR_KEYS, "error.group.validate.code", "Workflow ID", workflowId);
             isValid = false;
@@ -123,7 +124,7 @@ public class EdoRule {
 
         // get the ID of the General section (required) from the DB
         for (EdoChecklistItem checklistItem : checklistItems) {
-        	String sectionName = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(checklistItem.getEdoChecklistSectionId()).getChecklistSectionName();
+        	String sectionName = EdoServiceLocator.getChecklistSectionService().getChecklistSectionById(checklistItem.getEdoChecklistSectionId()).getChecklistSectionName();
             if (sectionName.equals(EdoConstants.EDO_GENERAL_SECTION_NAME)) {
                 generalSectionId = new BigDecimal(checklistItem.getEdoChecklistSectionId());
             }
@@ -145,21 +146,21 @@ public class EdoRule {
     }
 
     public static boolean dossierHasSupplementalsPending(String edoDossierId) {
-        String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
+        String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierId(edoDossierId, EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
         List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierId, edoChecklistItemID);
         boolean hasPending = CollectionUtils.isNotEmpty(itemList);
 
         return hasPending;
     }
     public static boolean dossierHasReconsiderPending(String edoDossierId) {
-    	String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
+    	String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierId(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
         List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getPendingItemsByDossierId(edoDossierId, edoChecklistItemID);
         boolean hasPending = CollectionUtils.isNotEmpty(itemList);
 
         return hasPending;
     }
     public static boolean canUploadFileUnderReconsiderCategory(String edoDossierId) {
-    	  String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierID(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
+    	  String edoChecklistItemID = EdoServiceLocator.getChecklistItemService().getChecklistItemByDossierId(edoDossierId, EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME).getEdoChecklistItemId();
           List<EdoItem> itemList = EdoServiceLocator.getEdoItemService().getItemsByDossierIdForAddendumFalgZero(edoDossierId, edoChecklistItemID);
           boolean canUploadReconsiderItems = CollectionUtils.isEmpty(itemList);
 
@@ -169,9 +170,9 @@ public class EdoRule {
     public static boolean isDossierReadyForRoute(BigDecimal dossierId) {
         //Get the current route nodes.
         if (dossierId != null) {
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId.intValue());
+            EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(dossierId.toString());
             if (documentHeader != null) {
-                EdoDossierBo eDossier = EdoServiceLocator.getEdoDossierService().getDossier(documentHeader.getDocumentId());
+                EdoDossierBo eDossier = EdoServiceLocator.getEdoDossierService().getDossier(documentHeader.getEdoDocumentId());
                 String workflowId = eDossier.getWorkflowId();
                 //TODO: take care of dossier.getDocumentID()
                 //DocumentRouteHeaderValue dossierRouteHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(eDossier.getDocumentID());

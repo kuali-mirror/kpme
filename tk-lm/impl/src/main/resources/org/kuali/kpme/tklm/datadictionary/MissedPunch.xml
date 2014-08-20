@@ -293,9 +293,24 @@
                   p:value="^(0?[1-9]|1[0-2]):([0-5][0-9]) (AM|PM)$" 
                   p:messageKey="validation.time12AMPM"/>
         </property>
+        
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:watermarkText="6:00 AM"/>
-        </property>
+        	<bean parent="KPMEUif-TimePickerTextControl" p:watermarkText="6:00 AM" p:currentTimeButtonEnabled="false">
+                <property name="timePickerWidget">
+                	<bean parent="KPMEUif-TimePickerWidget">
+                		<property name="templateOptions">
+                			<map merge="true">
+                    			<entry key="showOnFocus" value="false"/>
+                    		</map>	
+                		</property>                   
+                   	</bean>                	
+				</property>
+			</bean>
+		</property>
+		
+<!--         <property name="controlField"> -->
+<!--             <bean parent="Uif-TextControl" p:watermarkText="6:00 AM"/> -->
+<!--         </property> -->
     </bean>
 
     <bean id="MissedPunch-clockAction" parent="MissedPunch-clockAction-parentBean" />
@@ -482,6 +497,19 @@
         <property name="headerText" value="Missed Punch" />
         <property name="breadcrumbs.render" value="false"/>
         <property name="singlePageView" value="true" />
+        
+        <property name="additionalCssFiles">
+            <list>
+                <value>khrPlugins/timepicker/jquery.timepicker.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>js/timePickerWidget.js</value>
+                <value>khrPlugins/timepicker/jquery.timepicker.js</value>
+            </list>
+        </property>
+        
         <property name="page">
             <bean parent="Uif-Page">
                 <property name="items">
@@ -498,9 +526,8 @@
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.assignmentKey"
                                          p:readOnly="@{#dp.assignmentReadOnly  or #dp.missedPunchSubmitted}" p:refreshWhenChangedPropertyNames="#dp.missedPunch.timesheetDocumentId,#dp.missedPunch.actionDate" />
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.actionDate"
-                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>
-                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.actionTime"
-                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>
+                                          p:readOnly="@{#dp.missedPunchSubmitted}"/>                                    
+                                    <bean parent="Uif-InputField" p:propertyName="missedPunch.actionTime" p:readOnly="@{#dp.missedPunchSubmitted}"/>
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.clockAction"
                                           p:readOnly="@{#dp.missedPunchSubmitted}"/>
                                     <bean parent="Uif-InputField" p:propertyName="missedPunch.note"
@@ -528,4 +555,6 @@
         </property>
     </bean>
     
+    
+	
 </beans>

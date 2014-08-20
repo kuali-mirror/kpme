@@ -310,32 +310,67 @@ $(function () {
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
             var calId = $('#hrCalendarEntryId').val();
-            
-//            if (this.checkPermissions()) {
-            	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
-            	var leaveBlock = leaveBlockCollection.get(key.id);
-            	var canTransferLB = leaveBlock.get("canTransfer") ? true : false;
-            	if(canTransferLB) {
-	            	$('#lm-transfer-empty').empty();
-		            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=deleteSSTOLeaveBlock&leaveBlockId=' + key.id +'"></iframe>');
-		 
-		            $('#lm-transfer-dialog').dialog({
-		                autoOpen: true,
-		                height: 'auto',
-		                width: 'auto',
-		                modal: true,
-		                buttons: {
-		                },
-		                beforeClose: function(event, ui) {
-		                    var URL = unescape(window.parent.location);
-		                    window.parent.location.href = URL;
-		                    window.close();
-		                }
-	           		});
-            	} else {
-            		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&hrCalendarEntryId=" + calId;
-            	}
-              }	
+
+            var leaveBlock = leaveBlockCollection.get(key.id);
+            var canTransferLB = leaveBlock.get("canTransfer") ? true : false;
+
+            if(canTransferLB) {
+
+                $('#confirm-leave-block-delete').dialog({
+                    autoOpen: true,
+                    height: 'auto',
+                    width: 'auto',
+                    modal: true,
+                    buttons: {
+                    },
+                    buttons : {
+                        "OK" : function () {
+                            $(this).dialog("close");
+
+                            $('#lm-transfer-empty').empty();
+                            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=deleteSSTOLeaveBlock&leaveBlockId=' + key.id +'"></iframe>');
+
+                            $('#lm-transfer-dialog').dialog({
+                                autoOpen: true,
+                                height: 'auto',
+                                width: 'auto',
+                                modal: true,
+                                buttons: {
+                                },
+                                beforeClose: function(event, ui) {
+                                    var URL = unescape(window.parent.location);
+                                    window.parent.location.href = URL;
+                                    window.close();
+                                }
+                            });
+                        },
+                        Cancel : function () {
+                            $(this).dialog("close");
+                        }
+                    },
+                });
+
+
+            } else {
+                //window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&hrCalendarEntryId=" + calId;
+                //$('#confirm-forfeiture-dialog').empty();
+
+                $('#confirm-leave-block-delete').dialog({
+                    autoOpen: true,
+                    height: 'auto',
+                    width: 'auto',
+                    modal: true,
+                    buttons : {
+                        "OK" : function () {
+                            window.location = 'LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=' + key.id + '&hrCalendarEntryId=' + calId;
+                            $(this).dialog("close");
+                        },
+                        Cancel : function () {
+                            $(this).dialog("close");
+                        }
+                    },
+                });
+            }
 //            }
         },
         

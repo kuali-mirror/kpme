@@ -39,16 +39,16 @@ public class EdoItemTypeServiceImpl implements EdoItemTypeService {
         return convertToImmutable(bos);
     }
 
-    public EdoItemType getItemType(String edoItemTypeID) {        
-        return EdoItemTypeBo.to(edoItemTypeDao.getItemType(edoItemTypeID));
+    public EdoItemType getItemType(String edoItemTypeId) {        
+        return EdoItemTypeBo.to(edoItemTypeDao.getItemType(edoItemTypeId));
     }
 
     public void saveOrUpdate(EdoItemType itemTypeObj) {
         this.edoItemTypeDao.saveOrUpdate(EdoItemTypeBo.from(itemTypeObj));
     }
 
-    public String getItemTypeID(String itemTypeName, LocalDate asOfDate) {
-        return this.edoItemTypeDao.getItemTypeID(itemTypeName, asOfDate);
+    public String getItemTypeId(String itemTypeName, LocalDate asOfDate) {
+        return this.edoItemTypeDao.getItemTypeId(itemTypeName, asOfDate);
     }
     
     public String getEdoItemTypeJSONString(EdoItemType aType) {

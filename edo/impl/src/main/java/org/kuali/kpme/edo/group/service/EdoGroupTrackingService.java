@@ -1,8 +1,9 @@
 package org.kuali.kpme.edo.group.service;
 
-import org.kuali.kpme.edo.group.EdoGroupTracking;
-
 import java.util.List;
+
+import org.kuali.kpme.edo.api.group.EdoGroupTracking;
+import org.kuali.kpme.edo.group.EdoGroupTrackingBo;
 
 /**
  * $HeadURL$
@@ -14,13 +15,13 @@ import java.util.List;
  */
 public interface EdoGroupTrackingService {
 
-    public EdoGroupTracking getEdoGroupTracking(Integer groupTrackingId);
+    public EdoGroupTracking getEdoGroupTracking(String edoGroupTrackingId);
     public EdoGroupTracking getEdoGroupTrackingByGroupName(String groupName);
     public List<EdoGroupTracking> getEdoGroupTrackingByDepartmentId(String departmentId);
     public List<EdoGroupTracking> getEdoGroupTrackingBySchoolId(String schoolId);
     public List<EdoGroupTracking> getEdoGroupTrackingByCampusId(String campusId);
     public boolean kimGroupTrackingExists(String groupName);
-    public void saveOrUpdate(EdoGroupTracking groupTracking);
+    public void saveOrUpdate(EdoGroupTrackingBo groupTracking);
     public List<EdoGroupTracking> findEdoGroupTrackingEntries(String departmentId, String schoolId, String campusId);
     public List<String> getDistinctDepartmentList();
     public List<String> getDistinctSchoolList();

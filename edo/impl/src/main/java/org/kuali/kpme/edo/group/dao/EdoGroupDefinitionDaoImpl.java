@@ -3,7 +3,7 @@ package org.kuali.kpme.edo.group.dao;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kpme.edo.group.EdoGroupDefinition;
+import org.kuali.kpme.edo.group.EdoGroupDefinitionBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.util.ArrayList;
@@ -20,27 +20,27 @@ import java.util.List;
  */
 public class EdoGroupDefinitionDaoImpl   extends PlatformAwareDaoBaseOjb implements EdoGroupDefinitionDao {
 
-    public EdoGroupDefinition getEdoGroupDefinition(Integer groupId) {
+    public EdoGroupDefinitionBo getEdoGroupDefinition(String edoGroupId) {
         Criteria cConditions = new Criteria();
 
-        cConditions.addEqualTo("group_id", groupId);
+        cConditions.addEqualTo("edoGroupId", edoGroupId);
 
-        Query query = QueryFactory.newQuery(EdoGroupDefinition.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoGroupDefinitionBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {
-            return (EdoGroupDefinition)c.toArray()[0];
+            return (EdoGroupDefinitionBo)c.toArray()[0];
         }
         return null;
     }
 
-    public List<EdoGroupDefinition> getEdoGroupDefinitionsByWorkflowId(String workflowId) {
-        List<EdoGroupDefinition> groupDefList = new ArrayList<EdoGroupDefinition>();
+    public List<EdoGroupDefinitionBo> getEdoGroupDefinitionsByWorkflowId(String workflowId) {
+        List<EdoGroupDefinitionBo> groupDefList = new ArrayList<EdoGroupDefinitionBo>();
 
         Criteria cConditions = new Criteria();
-        cConditions.addEqualTo("workflow_id", workflowId);
+        cConditions.addEqualTo("edoWorkflowId", workflowId);
 
-        Query query = QueryFactory.newQuery(EdoGroupDefinition.class, cConditions);
+        Query query = QueryFactory.newQuery(EdoGroupDefinitionBo.class, cConditions);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         if (c != null && c.size() != 0) {

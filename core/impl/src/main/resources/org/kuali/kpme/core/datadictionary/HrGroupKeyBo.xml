@@ -202,8 +202,16 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="HrGroupKey-LookupView" parent="HrGroupKey-LookupView-QuickFinder">
+		<property name="viewName" value="default" />
+	    <property name="resultsGroup">
+        	<bean parent="KPMEAttributes-LookupView-ViewLink"/>
+   		</property>		
+	</bean>
 
-	<bean id="HrGroupKey-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+	<bean id="HrGroupKey-LookupView-QuickFinder" parent="KPMEUif-EffectiveDateBONoViewLinkLookupView">
+		<property name="viewName" value="quickFinderView" />
 		<property name="headerText" value="Group Key Lookup" />
 		<property name="dataObjectClassName" value="org.kuali.kpme.core.groupkey.HrGroupKeyBo" />
 		<property name="criteriaFields">
@@ -212,6 +220,7 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="locationId">
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinderByScript"
+                        	  p:viewName="quickFinderView"
                               p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
                               p:fieldConversions="location:locationId" />
                     </property>
@@ -282,8 +291,10 @@
                                   p:required="true"
                                   p:render="true">
                                 <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
-                                          p:fieldConversions="location:locationId" />
+                                    <bean parent="Uif-QuickFinderByScript"
+                                    	p:viewName="quickFinderView" 
+                                    	p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo"
+                                        p:fieldConversions="location:locationId" />
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="description" p:required="false" />

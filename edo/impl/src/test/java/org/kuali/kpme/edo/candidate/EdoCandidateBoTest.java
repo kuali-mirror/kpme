@@ -38,8 +38,8 @@ public class EdoCandidateBoTest {
 		edoCandidateBuilder.setFirstName("firstName");
 		edoCandidateBuilder.setLastName("lastName");
 		edoCandidateBuilder.setCandidacySchool("test-candidacy-school");
-		edoCandidateBuilder.setPrimaryDeptID("PHY");
-		edoCandidateBuilder.setTnpDeptID("PHY");
+		edoCandidateBuilder.setPrimaryDeptId("PHY");
+		edoCandidateBuilder.setTnpDeptId("PHY");
 		edoCandidateBuilder.setVersionNumber(1L);
 		edoCandidateBuilder.setObjectId("0804716a-cbb7-11e3-9cd3-51a754ad6a0a");
 		edoCandidateBuilder.setActive(true);

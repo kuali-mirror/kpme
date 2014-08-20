@@ -90,7 +90,7 @@ public class EdoSolicitedLetterAction extends EdoAction {
         String currentTreeNodeID_s = ssn.getAttribute("nid").toString().split("_")[2];
 
         // set page request variables for title and description
-        EdoChecklistItem checklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemByID(currentTreeNodeID_s);
+        EdoChecklistItem checklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemById(currentTreeNodeID_s);
         request.setAttribute("nodeID", currentTreeNodeID );
         request.setAttribute("itemName", checklistItem.getChecklistItemName());
         request.setAttribute("itemDescription", checklistItem.getItemDescription());
@@ -128,7 +128,7 @@ public class EdoSolicitedLetterAction extends EdoAction {
         // TODO When item is ready, uncomment the line below
         // String itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_ADDENDUM);
         LocalDate currentDate = LocalDate.now();
-        int itemTypeID = Integer.parseInt(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_ADDENDUM, currentDate));
+        int itemTypeID = Integer.parseInt(EdoServiceLocator.getEdoItemTypeService().getItemTypeId(EdoConstants.EDO_ITEM_TYPE_NAME_ADDENDUM, currentDate));
 
         FormFile uploadFile = solicitedLetterForm.getUploadFile();
         int checklistItemID = solicitedLetterForm.getChecklistItemID();

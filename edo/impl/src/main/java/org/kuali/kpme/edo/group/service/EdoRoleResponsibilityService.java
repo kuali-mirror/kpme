@@ -1,8 +1,8 @@
 package org.kuali.kpme.edo.group.service;
 
-import org.kuali.kpme.edo.group.EdoRoleResponsibility;
-
 import java.util.List;
+
+import org.kuali.kpme.edo.api.group.EdoRoleResponsibility;
 
 /**
  * $HeadURL$

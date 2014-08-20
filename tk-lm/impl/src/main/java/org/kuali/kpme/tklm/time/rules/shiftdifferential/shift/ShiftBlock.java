@@ -21,7 +21,10 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
+import org.kuali.kpme.tklm.api.time.timehourdetail.TimeHourDetail;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
+
+import java.util.Collections;
 
 
 public class ShiftBlock implements Comparable<ShiftBlock> {
@@ -54,6 +57,12 @@ public class ShiftBlock implements Comparable<ShiftBlock> {
 
     public TimeBlock getTimeBlock() {
         return timeBlock;
+    }
+
+    public TimeBlock getTimeBlockKey() {
+        TimeBlock.Builder builder = TimeBlock.Builder.create(getTimeBlock());
+        builder.setTimeHourDetails(Collections.<TimeHourDetail.Builder>emptyList());
+        return builder.build();
     }
 
     public void setTimeBlock(TimeBlock timeBlock) {

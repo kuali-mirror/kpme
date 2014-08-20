@@ -17,8 +17,8 @@ import org.kuali.kpme.edo.api.item.type.EdoItemType;
 public interface EdoItemTypeService {
 
     public List<EdoItemType> getItemTypeList(LocalDate asOfDate);
-    public EdoItemType getItemType(String edoItemTypeID);
-    public String getItemTypeID(String itemTypeName, LocalDate asOfDate);
+    public EdoItemType getItemType(String edoItemTypeId);
+    public String getItemTypeId(String itemTypeName, LocalDate asOfDate);
     public void saveOrUpdate(EdoItemType itemTypeObj);
     public String getEdoItemTypeJSONString(EdoItemType aType);
 }

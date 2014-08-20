@@ -16,3 +16,4 @@
 
 
 delete from EDO_REVIEW_LAYER_DEF_T where edo_review_layer_def_id >= '1000';
+delete from EDO_SUPP_REVIEW_LAYER_DEF_T where EDO_SUPP_REVIEW_LAYER_DEF_ID >= '2000';

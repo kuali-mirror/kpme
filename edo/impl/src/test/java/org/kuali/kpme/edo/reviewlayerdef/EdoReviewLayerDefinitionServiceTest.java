@@ -17,6 +17,7 @@ package org.kuali.kpme.edo.reviewlayerdef;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class EdoReviewLayerDefinitionServiceTest extends EdoUnitTestBase {
 		EdoReviewLayerDefinition edoReviewlayerDifinition = (EdoReviewLayerDefinition)EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById("1000");
 		
 		assertEquals("1000", edoReviewlayerDifinition.getEdoReviewLayerDefinitionId());
+		assertEquals("Returned a correct number of results", 2, edoReviewlayerDifinition.getSuppReviewLayerDefinitions().size()); // KPME-3711
 	}
 	
 	@Test
@@ -80,10 +82,22 @@ public class EdoReviewLayerDefinitionServiceTest extends EdoUnitTestBase {
 		assertEquals("P", immutable.getVoteType());
 		
 		edoReviewLayerDefinitionBo.setVoteType("T");
+		
+		// KPME-3711
+		List<EdoSuppReviewLayerDefinitionBo> supps = new ArrayList<EdoSuppReviewLayerDefinitionBo>();
+		EdoSuppReviewLayerDefinitionBo supp = new EdoSuppReviewLayerDefinitionBo();
+		supp.setAcknowledgeFlag(true);
+		supp.setEdoReviewLayerDefinitionId("1010");
+		supp.setEdoSuppReviewLayerDefinitionId("2010");
+		supp.setSuppNodeName("node1");
+		supps.add(supp);
+		edoReviewLayerDefinitionBo.setSuppReviewLayerDefinitions(supps);
+		
 		EdoServiceLocator.getEdoReviewLayerDefinitionService().saveOrUpdate(EdoReviewLayerDefinition.Builder.create(edoReviewLayerDefinitionBo).build());
 		
 		immutable = (EdoReviewLayerDefinition)EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitionById("1010");
 		assertEquals("T", immutable.getVoteType());
+		assertEquals("Returned a correct number of results", 1, immutable.getSuppReviewLayerDefinitions().size()); // KPME-3711
 	}
 	
 	@Test

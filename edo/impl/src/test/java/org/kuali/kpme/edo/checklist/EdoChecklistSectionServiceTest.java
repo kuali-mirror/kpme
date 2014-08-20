@@ -19,12 +19,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kpme.core.IntegrationTest;
 import org.kuali.kpme.edo.EdoUnitTestBase;
+import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 
@@ -46,18 +46,17 @@ public class EdoChecklistSectionServiceTest extends EdoUnitTestBase {
 	}
 
 	@Test
-	public void testGetEdoChecklistItemById() throws Exception {
+	public void testGetEdoChecklistSectionById() throws Exception {
 
-		EdoChecklistSection edoChecklistSection = EdoServiceLocator.getChecklistSectionService().getChecklistSectionByID(edoChecklistSectionId);
+		EdoChecklistSection edoChecklistSection = EdoServiceLocator.getChecklistSectionService().getChecklistSectionById(edoChecklistSectionId);
 		assertEquals("testEdoChecklistSection1", edoChecklistSection.getChecklistSectionName());
+		assertEquals("returned the correct number of results for items", 3, edoChecklistSection.getChecklistItems().size());
 	}
 	
 	@Test
-	public void testGetChecklistItemsBySectionID() throws Exception {
-
-		LocalDate  asOfDate = new LocalDate(2012,1,1);
+	public void testGetChecklistItemsBySectionId() throws Exception {
 		
-		List<EdoChecklistSection> sections = EdoServiceLocator.getChecklistSectionService().getChecklistSectionsByChecklistID(edoChecklistId, asOfDate);
-		assertEquals("returned the correct number of results", 2, sections.size());
+		List<EdoChecklistSection> sections = EdoServiceLocator.getChecklistSectionService().getChecklistSectionsByChecklistId(edoChecklistId);
+		assertEquals("returned the correct number of resultss", 2, sections.size());
 	}
 }

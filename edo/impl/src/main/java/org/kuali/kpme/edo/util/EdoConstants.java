@@ -306,4 +306,7 @@ public class EdoConstants {
     	RANK.put("Professor", "Professor");
     }
     
+    public static final String KHR_EDO_PORTAL_LINK_CONFIG = "khr.edo.portal.link.visible";
+    
+    
 }

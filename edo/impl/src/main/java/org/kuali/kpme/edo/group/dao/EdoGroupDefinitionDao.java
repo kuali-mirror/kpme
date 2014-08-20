@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.group.dao;
 
-import org.kuali.kpme.edo.group.EdoGroupDefinition;
+import org.kuali.kpme.edo.group.EdoGroupDefinitionBo;
 import java.util.List;
 
 /**
@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface EdoGroupDefinitionDao {
 
-    public EdoGroupDefinition getEdoGroupDefinition(Integer groupId);
-    public List<EdoGroupDefinition> getEdoGroupDefinitionsByWorkflowId(String workflowId);
+    public EdoGroupDefinitionBo getEdoGroupDefinition(String edoGroupId);
+    public List<EdoGroupDefinitionBo> getEdoGroupDefinitionsByWorkflowId(String edoWorkflowId);
 }

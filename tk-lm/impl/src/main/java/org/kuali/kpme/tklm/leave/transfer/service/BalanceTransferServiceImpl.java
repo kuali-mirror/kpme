@@ -169,7 +169,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				}
 			}
 			
-			assert(adjustedMaxBalance.compareTo(accruedBalance.subtract(bt.getTransferAmount().add(bt.getForfeitedAmount()))) == 0);
+			//assert(adjustedMaxBalance.compareTo(accruedBalance.subtract(bt.getTransferAmount().add(bt.getForfeitedAmount()))) == 0);
 
 			// Max Carry Over logic for Year End transfers.
 			if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),HrConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
@@ -214,10 +214,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);
             bt.setUserPrincipalId(HrContext.getPrincipalId());
-			if(ObjectUtils.isNotNull(transferConversionFactor))
-				bt.setAmountTransferred(bt.getTransferAmount().multiply(transferConversionFactor).setScale(2, RoundingMode.HALF_UP));
-			else
-				bt.setAmountTransferred(bt.getTransferAmount());
+			if(ObjectUtils.isNotNull(transferConversionFactor)) {
+                bt.setAmountTransferred(bt.getTransferAmount().multiply(transferConversionFactor).setScale(2, RoundingMode.HALF_UP));
+            } else {
+                bt.setAmountTransferred(bt.getTransferAmount());
+            }
 		}
 		return bt;
 	}

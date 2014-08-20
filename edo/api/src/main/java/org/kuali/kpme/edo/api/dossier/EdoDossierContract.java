@@ -17,6 +17,7 @@ package org.kuali.kpme.edo.api.dossier;
 
 import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 import org.kuali.kpme.core.api.util.HrApiConstants;
 
@@ -47,7 +48,7 @@ public interface EdoDossierContract extends KpmeEffectiveKeyedDataTransferObject
 
     public String getRankSought();
 
-    public Date getDueDate();
+    public DateTime getDueDate();
 
     public String getDossierStatus();
   

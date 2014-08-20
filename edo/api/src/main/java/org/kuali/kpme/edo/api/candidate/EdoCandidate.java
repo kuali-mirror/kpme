@@ -9,14 +9,18 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.util.jaxb.LocalTimeAdapter;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
+import org.kuali.rice.core.api.util.jaxb.LocalDateAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = EdoCandidate.Constants.ROOT_ELEMENT_NAME)
@@ -50,9 +54,9 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     @XmlElement(name = Elements.PRINCIPAL_NAME, required = false)
     private final String principalName;
     @XmlElement(name = Elements.PRIMARY_DEPT_ID, required = false)
-    private final String primaryDeptID;
+    private final String primaryDeptId;
     @XmlElement(name = Elements.TNP_DEPT_ID, required = false)
-    private final String tnpDeptID;
+    private final String tnpDeptId;
     @XmlElement(name = Elements.FIRST_NAME, required = false)
     private final String firstName;
     @XmlElement(name = Elements.LAST_NAME, required = false)
@@ -65,8 +69,10 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     private final boolean active;
     @XmlElement(name = Elements.ID, required = false)
     private final String id;
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @XmlElement(name = Elements.EFFECTIVE_LOCAL_DATE, required = false)
     private final LocalDate effectiveLocalDate;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.CREATE_TIME, required = false)
     private final DateTime createTime;
     @XmlElement(name = Elements.USER_PRINCIPAL_ID, required = false)
@@ -87,8 +93,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         this.candidacySchool = null;
         this.edoCandidateId = null;
         this.principalName = null;
-        this.primaryDeptID = null;
-        this.tnpDeptID = null;
+        this.primaryDeptId = null;
+        this.tnpDeptId = null;
         this.firstName = null;
         this.lastName = null;
         this.versionNumber = null;
@@ -106,8 +112,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         this.candidacySchool = builder.getCandidacySchool();
         this.edoCandidateId = builder.getEdoCandidateId();
         this.principalName = builder.getPrincipalName();
-        this.primaryDeptID = builder.getPrimaryDeptID();
-        this.tnpDeptID = builder.getTnpDeptID();
+        this.primaryDeptId = builder.getPrimaryDeptId();
+        this.tnpDeptId = builder.getTnpDeptId();
         this.firstName = builder.getFirstName();
         this.lastName = builder.getLastName();
         this.versionNumber = builder.getVersionNumber();
@@ -137,14 +143,14 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
     }
 
     @Override
-    public String getPrimaryDeptID() {
-        return this.primaryDeptID;
+    public String getPrimaryDeptId() {
+        return this.primaryDeptId;
     }
 
 
     @Override
-    public String getTnpDeptID() {
-        return this.tnpDeptID;
+    public String getTnpDeptId() {
+        return this.tnpDeptId;
     }
 
     @Override
@@ -212,8 +218,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         private String candidacySchool;
         private String edoCandidateId;
         private String principalName;
-        private String primaryDeptID;
-        private String tnpDeptID;
+        private String primaryDeptId;
+        private String tnpDeptId;
         private String firstName;
         private String lastName;
         private Long versionNumber;
@@ -254,8 +260,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             builder.setCandidacySchool(contract.getCandidacySchool());
             builder.setEdoCandidateId(contract.getEdoCandidateId());
             builder.setPrincipalName(contract.getPrincipalName());
-            builder.setPrimaryDeptID(contract.getPrimaryDeptID());
-            builder.setTnpDeptID(contract.getTnpDeptID());
+            builder.setPrimaryDeptId(contract.getPrimaryDeptId());
+            builder.setTnpDeptId(contract.getTnpDeptId());
             builder.setFirstName(contract.getFirstName());
             builder.setLastName(contract.getLastName());
             builder.setVersionNumber(contract.getVersionNumber());
@@ -291,13 +297,13 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         }
 
         @Override
-        public String getPrimaryDeptID() {
-            return this.primaryDeptID;
+        public String getPrimaryDeptId() {
+            return this.primaryDeptId;
         }
         
         @Override
-        public String getTnpDeptID() {
-            return this.tnpDeptID;
+        public String getTnpDeptId() {
+            return this.tnpDeptId;
         }
 
         @Override
@@ -370,14 +376,14 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
             this.principalName = principalName;
         }
 
-        public void setPrimaryDeptID(String primaryDeptID) {
+        public void setPrimaryDeptId(String primaryDeptId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.primaryDeptID = primaryDeptID;
+            this.primaryDeptId = primaryDeptId;
         }
 
-        public void setTnpDeptID(String tnpDeptID) {
+        public void setTnpDeptId(String tnpDeptId) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
-            this.tnpDeptID = tnpDeptID;
+            this.tnpDeptId = tnpDeptId;
         }
 
         public void setFirstName(String firstName) {
@@ -458,8 +464,8 @@ public final class EdoCandidate extends AbstractDataTransferObject implements Ed
         final static String CANDIDACY_SCHOOL = "candidacySchool";
         final static String EDO_CANDIDATE_ID = "edoCandidateId";
         final static String PRINCIPAL_NAME = "principalName";
-        final static String PRIMARY_DEPT_ID = "primaryDeptID";
-        final static String TNP_DEPT_ID = "tnpDeptID";
+        final static String PRIMARY_DEPT_ID = "primaryDeptId";
+        final static String TNP_DEPT_ID = "tnpDeptId";
         final static String FIRST_NAME = "firstName";
         final static String LAST_NAME = "lastName";
         final static String ACTIVE = "active";

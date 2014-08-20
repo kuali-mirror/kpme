@@ -1,9 +1,12 @@
 package org.kuali.kpme.edo.checklist;
 
-import org.kuali.kpme.core.bo.HrBusinessObject;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSection;
 import org.kuali.kpme.edo.api.checklist.EdoChecklistSectionContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -16,12 +19,11 @@ import com.google.common.collect.ImmutableMap;
  * Date: 5/22/14
  * Time: 9:54 AM
  */
-public class EdoChecklistSectionBo extends HrBusinessObject implements EdoChecklistSectionContract {
+public class EdoChecklistSectionBo extends PersistableBusinessObjectBase implements EdoChecklistSectionContract {
 
-	
 	static class KeyFields {
-		private static final String EDO_CHECKLIST_SECTION_ID = "edoChecklistSectionId";
 		private static final String EDO_CHECKLIST_ID = "edoChecklistId";
+		private static final String EDO_CHECKLIST_SECTION_NAME = "checklistSectionName";
 	}
 	
 	private String edoChecklistSectionId;
@@ -30,52 +32,26 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
 	private String description;
     private int checklistSectionOrdinal;
     
+    private List<EdoChecklistItemBo> checklistItems = new ArrayList<EdoChecklistItemBo> ();
+    
     public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
-			.add(KeyFields.EDO_CHECKLIST_SECTION_ID)
-			.add(KeyFields.EDO_CHECKLIST_ID)
+    		.add(KeyFields.EDO_CHECKLIST_ID)
+			.add(KeyFields.EDO_CHECKLIST_SECTION_NAME)
 			.build();
 
-    @Override
-	public boolean isActive() {
-		return super.isActive();
-	}
-
-	@Override
-	public void setActive(boolean active) {
-		super.setActive(active);
-	}
-
-	@Override
-	public String getObjectId() {
-		return super.getObjectId();
-	}
-
-	@Override
-	public Long getVersionNumber() {
-		return super.getVersionNumber();
-	}
-	
-	@Override
+    public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+    	return  new ImmutableMap.Builder<String, Object>()
+				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistId())
+				.put(KeyFields.EDO_CHECKLIST_SECTION_NAME, this.getChecklistSectionName())
+				.build();
+    }
+    
 	public String getId() {
 		return  getEdoChecklistSectionId();
 	}
 
-	@Override
 	public void setId(String checklistSectionID) {
 		setEdoChecklistSectionId(checklistSectionID);
-	}
-
-	@Override
-	protected String getUniqueKey() {
-		return getEdoChecklistSectionId();
-	}
-	
-	@Override
-	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
-		return  new ImmutableMap.Builder<String, Object>()
-				.put(KeyFields.EDO_CHECKLIST_SECTION_ID, this.getEdoChecklistSectionId())
-				.put(KeyFields.EDO_CHECKLIST_ID, this.getEdoChecklistId())
-				.build();
 	}
 
     public String getEdoChecklistSectionId() {
@@ -118,6 +94,14 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
 		this.checklistSectionOrdinal = checklistSectionOrdinal;
 	}
 
+	public List<EdoChecklistItemBo> getChecklistItems() {
+		return checklistItems;
+	}
+
+	public void setChecklistItems(List<EdoChecklistItemBo> checklistItems) {
+		this.checklistItems = checklistItems;
+	}
+
 	public static EdoChecklistSectionBo from(EdoChecklistSection im) {
         if (im == null) {
             return null;
@@ -128,10 +112,9 @@ public class EdoChecklistSectionBo extends HrBusinessObject implements EdoCheckl
         ecls.setDescription(im.getDescription());
         ecls.setChecklistSectionName(im.getChecklistSectionName());
         ecls.setChecklistSectionOrdinal(im.getChecklistSectionOrdinal());
-
-        // finally copy over the common fields into phra from im
-        copyCommonFields(ecls, im);
-     
+        ecls.setChecklistItems(ModelObjectUtils.transform(im.getChecklistItems(), EdoChecklistItemBo.toBo));
+        ecls.setVersionNumber(im.getVersionNumber());
+        ecls.setObjectId(im.getObjectId());        
         return ecls;
     } 
     

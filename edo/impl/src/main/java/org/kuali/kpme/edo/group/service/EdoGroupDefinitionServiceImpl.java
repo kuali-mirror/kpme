@@ -1,10 +1,12 @@
 package org.kuali.kpme.edo.group.service;
 
-import org.apache.log4j.Logger;
-import org.kuali.kpme.edo.group.EdoGroupDefinition;
-import org.kuali.kpme.edo.group.dao.EdoGroupDefinitionDao;
-
 import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.kuali.kpme.edo.api.group.EdoGroupDefinition;
+import org.kuali.kpme.edo.group.EdoGroupDefinitionBo;
+import org.kuali.kpme.edo.group.dao.EdoGroupDefinitionDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 /**
  * $HeadURL$
@@ -18,6 +20,10 @@ public class EdoGroupDefinitionServiceImpl implements EdoGroupDefinitionService 
 
     private static final Logger LOG = Logger.getLogger(EdoGroupDefinitionServiceImpl.class);
     private EdoGroupDefinitionDao edoGroupDefinitionDao;
+    
+    protected List<EdoGroupDefinition> convertToImmutable(List<EdoGroupDefinitionBo> bos) {
+		return ModelObjectUtils.transform(bos, EdoGroupDefinitionBo.toImmutable);
+	}
 
     public EdoGroupDefinitionDao getEdoGroupDefinitionDao() {
         return edoGroupDefinitionDao;
@@ -27,12 +33,13 @@ public class EdoGroupDefinitionServiceImpl implements EdoGroupDefinitionService 
         this.edoGroupDefinitionDao = edoGroupDefinitionDao;
     }
 
-    public EdoGroupDefinition getEdoGroupDefinition(Integer groupId) {
-        return edoGroupDefinitionDao.getEdoGroupDefinition(groupId);
+    public EdoGroupDefinition getEdoGroupDefinition(String edoGroupId) {        
+        return EdoGroupDefinitionBo.to(edoGroupDefinitionDao.getEdoGroupDefinition(edoGroupId));
     }
 
-    public List<EdoGroupDefinition> getEdoGroupDefinitionsByWorkflowId(String workflowId) {
-        return edoGroupDefinitionDao.getEdoGroupDefinitionsByWorkflowId(workflowId);
+    public List<EdoGroupDefinition> getEdoGroupDefinitionsByWorkflowId(String edoWorkflowId) {        
+        List<EdoGroupDefinitionBo> bos = edoGroupDefinitionDao.getEdoGroupDefinitionsByWorkflowId(edoWorkflowId);
+		return convertToImmutable(bos);
     }
 
 }

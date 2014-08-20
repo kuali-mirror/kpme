@@ -1,7 +1,13 @@
 package org.kuali.kpme.edo.api.checklist;
 
+import java.util.List;
+
 import org.kuali.kpme.core.api.mo.KpmeEffectiveKeyedDataTransferObject;
 
+/**
+ * <p>EdoChecklistContract interface</p>
+ *
+ */
 public interface EdoChecklistContract extends KpmeEffectiveKeyedDataTransferObject {
 	
 	/**
@@ -30,12 +36,12 @@ public interface EdoChecklistContract extends KpmeEffectiveKeyedDataTransferObje
 	 * The department id that this EdoChecklist is associated with
 	 * 
 	 * <p>
-	 * departmentID of the EdoChecklist
+	 * departmentId of the EdoChecklist
 	 * <p>
 	 * 
-	 * @return departmentID for EdoChecklist
+	 * @return departmentId for EdoChecklist
 	 */
-	public String getDepartmentID();
+	public String getDepartmentId();
 	
 	/**
 	 * The organization code that this EdoChecklist is associated with
@@ -58,5 +64,16 @@ public interface EdoChecklistContract extends KpmeEffectiveKeyedDataTransferObje
 	 * @return description for EdoChecklist
 	 */
 	public String getDescription();
+	
+	/**
+	 * The list of ChecklistSection that is associated with the EdoChecklist
+	 * 
+	 * <p>
+	 * checklistSections of the EdoChecklist
+	 * <p>
+	 * 
+	 * @return checklistSections for EdoChecklist
+	 */
+	public List<? extends EdoChecklistSectionContract> getChecklistSections();
 
 }

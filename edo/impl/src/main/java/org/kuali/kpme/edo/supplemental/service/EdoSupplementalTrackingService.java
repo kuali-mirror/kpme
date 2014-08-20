@@ -1,9 +1,9 @@
 package org.kuali.kpme.edo.supplemental.service;
 
-import org.kuali.kpme.edo.supplemental.EdoSupplementalTracking;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import org.kuali.kpme.edo.api.supplemental.EdoSupplementalTracking;
 
 /**
  * $HeadURL$
@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface EdoSupplementalTrackingService {
 
-    public EdoSupplementalTracking getSupplementalTrackingEntry(Integer supplementalTrackingId);
+    public EdoSupplementalTracking getSupplementalTrackingEntry(String edoSupplementalTrackingId);
     public List<EdoSupplementalTracking> getSupplementTrackingEntries();
     public void saveOrUpdate(EdoSupplementalTracking edoSupplementalTracking);
-    public EdoSupplementalTracking getSupplementalTrackingEntryObj(Integer dossierId, BigDecimal reviewLevel); 
+    public EdoSupplementalTracking getSupplementalTrackingEntryObj(String edoDossierId, BigDecimal reviewLevel); 
    // public void updateSuppTracking(Integer supplementalTrackingId, Integer dossierId, BigDecimal reviewLevel);
-    public EdoSupplementalTracking canSeeTheAcknowledgeWithAction(Integer dossierId, BigDecimal reviewLevel);
+    public EdoSupplementalTracking canSeeTheAcknowledgeWithAction(String edoDossierId, BigDecimal reviewLevel);
 
 }

@@ -15,9 +15,16 @@
  */
 package org.kuali.kpme.edo.checklist.validation;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.edo.api.dossier.type.EdoDossierType;
 import org.kuali.kpme.edo.checklist.EdoChecklistBo;
+import org.kuali.kpme.edo.checklist.EdoChecklistItemBo;
+import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
@@ -33,6 +40,8 @@ public class EdoChecklistValidation extends HrKeyedBusinessObjectValidation {
 		
 		if (checklist != null) {
 			isValid &= validateDossierTypeCode(checklist);
+			isValid &= validateSectionOrdinal(checklist);
+			isValid &= validateChecklistItemOrdinal(checklist);
 		}
 		return isValid;
 	}
@@ -49,5 +58,53 @@ public class EdoChecklistValidation extends HrKeyedBusinessObjectValidation {
 		return true;
 	}
 	
+	private boolean validateSectionOrdinal(EdoChecklistBo checklist) {
+		
+		List<EdoChecklistSectionBo> sections = checklist.getChecklistSections();
+		List<Integer> ordinals = new ArrayList<Integer>();
+		Set<Integer> sortedOrginals = new HashSet();
+		
+		for (EdoChecklistSectionBo section : sections) {
+			ordinals.add(section.getChecklistSectionOrdinal());
+		}
+		for (Integer ordinal : ordinals) {
+			if (!sortedOrginals.add(ordinal)) {
+				String[] params = new String[2];
+				params[0] = "Checklist Section Ordenal";
+				params[1] = ordinal+"";
+				this.putFieldError("dataObject.edoChecklistSection", "error.checklist.exist", params);
+				return false;		
+			}
+		}
+
+		return true; 
+		
+	}
 	
+	private boolean validateChecklistItemOrdinal(EdoChecklistBo checklist) {
+
+		List<EdoChecklistSectionBo> sections =  checklist.getChecklistSections();
+		for (EdoChecklistSectionBo section : sections) {
+			
+			List<EdoChecklistItemBo> items = section.getChecklistItems();
+			List<Integer> ordinals = new ArrayList<Integer>();
+			Set<Integer> sortedOrginals = new HashSet();
+			for (EdoChecklistItemBo item : items) {
+				ordinals.add(item.getChecklistItemOrdinal());
+			}
+			for (Integer ordinal : ordinals) {
+				if (!sortedOrginals.add(ordinal)) {
+					String[] params = new String[2];
+					params[0] = "Checklist Item Ordenal";
+					params[1] = ordinal+"";
+					this.putFieldError("dataObject.edoChecklistItem", "error.checklist.exist", params);
+					return false;		
+				}
+			}	
+		}
+			
+		return true;
+		
+	}
+
 }

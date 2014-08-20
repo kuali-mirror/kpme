@@ -39,7 +39,9 @@
 				<ref bean="WeeklyOvertimeRule-maxHoursEarnGroup" />
 				<ref bean="WeeklyOvertimeRule-convertFromEarnGroup" />
 				<ref bean="WeeklyOvertimeRule-convertToEarnCode" />
+                <ref bean="WeeklyOvertimeRule-applyToEarnGroup"/>
 				<ref bean="WeeklyOvertimeRule-step" />
+                <ref bean="WeeklyOvertimeRule-overrideWorkAreaDefaultOvertime"/>
 				<ref bean="WeeklyOvertimeRule-maxHours" />
 				<ref bean="WeeklyOvertimeRule-ovtEarnCode" />
 			</list>
@@ -67,7 +69,21 @@
 					</property>
 					
 				</bean>
-				
+
+
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="applyToEarnGroupObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="applyToEarnGroup"
+                                  p:targetName="earnCodeGroup" />
+                        </list>
+                    </property>
+
+                </bean>
+
+
+
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="convertToEarnCodeObj" />
 					<property name="primitiveAttributes">
@@ -115,6 +131,27 @@
 		<property name="name" value="convertFromEarnGroup" />
 		<property name="label" value="Convert from Earn Group" />
 	</bean>
+
+
+    <bean id="WeeklyOvertimeRule-applyToEarnGroup" parent="WeeklyOvertimeRule-applyToEarnGroup-parentBean" />
+    <bean id="WeeklyOvertimeRule-applyToEarnGroup-parentBean"
+          abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Apply To EarnGroup" />
+        <property name="maxLength" value="10" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
+        <property name="name" value="applyToEarnGroup" />
+        <property name="label" value="Apply To Earn Group" />
+    </bean>
+
+
+
 	<bean id="WeeklyOvertimeRule-convertToEarnCode" parent="WeeklyOvertimeRule-convertToEarnCode-parentBean" />
 	<bean id="WeeklyOvertimeRule-convertToEarnCode-parentBean"
 		abstract="true" parent="AttributeDefinition">
@@ -162,6 +199,25 @@
 		<property name="label" value="Max Hours" />
 	</bean>
 
+
+    <bean id="WeeklyOvertimeRule-overrideWorkAreaDefaultOvertime" parent="WeeklyOvertimeRule-overrideWorkAreaDefaultOvertime-parentBean" />
+    <bean id="WeeklyOvertimeRule-overrideWorkAreaDefaultOvertime-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name = "shortLabel" value = "Override Work Area's Default Overtime"/>
+
+        <property name="control">
+            <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+
+        <property name = "name" value="overrideWorkAreaDefaultOvertime"/>
+        <property name = "label" value="Override Work Area's Default Overtime"/>
+    </bean>
+
+
+
+
 	<bean id="WeeklyOvertimeRule-ovtEarnCode" parent="WeeklyOvertimeRule-ovtEarnCode-parentBean" />
 	<bean id="WeeklyOvertimeRule-ovtEarnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -189,6 +245,7 @@
 				<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="convertFromEarnGroup" />
 				<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />
+                <bean parent="FieldDefinition" p:attributeName="applyToEarnGroup"/>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="step" />
 				<bean parent="FieldDefinition" p:attributeName="maxHours" />		
@@ -210,6 +267,7 @@
 							<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
 							<bean parent="FieldDefinition" p:attributeName="convertFromEarnGroup" />
 							<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />
+                            <bean parent="FieldDefinition" p:attributeName="applyToEarnGroup"/>
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="step" />
 							<bean parent="FieldDefinition" p:attributeName="maxHours" />

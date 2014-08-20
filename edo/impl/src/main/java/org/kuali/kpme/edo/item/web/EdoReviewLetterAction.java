@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.api.item.EdoItem;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.base.web.EdoAction;
@@ -35,7 +36,6 @@ import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoRule;
 import org.kuali.kpme.edo.util.EdoUtils;
 import org.kuali.kpme.edo.util.QueryParams;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -68,7 +68,7 @@ public class EdoReviewLetterAction extends EdoAction {
 
         //figure out the dossier's current level
         //BigDecimal dossierCurrentRouteLevel = EdoServiceLocator.getDossierProcessDocumentHeaderService().getCurrentRouteLevel(selectedCandidate.getCandidateDossierID().intValue());
-        String dossierCurrentRouteLevelName = EdoServiceLocator.getDossierProcessDocumentHeaderService().getCurrentRouteLevelName(selectedCandidate.getCandidateDossierID().intValue());
+        String dossierCurrentRouteLevelName = EdoServiceLocator.getEdoDossierDocumentInfoService().getCurrentRouteLevelName(selectedCandidate.getCandidateDossierID().toString());
 
         //BigDecimal dossierCurrentReviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildRouteLevelMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions()).get(dossierCurrentRouteLevel).getReviewLevel();
         String dossierCurrentReviewLevel = EdoServiceLocator.getEdoReviewLayerDefinitionService().buildReviewLevelByRouteMap(EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId)).get(dossierCurrentRouteLevelName);
@@ -142,14 +142,14 @@ public class EdoReviewLetterAction extends EdoAction {
         request.setAttribute("hasUploadReviewLetterSupplemental", false);
 
         // check to see if there are pending supplemental documents that need a new letter
-        DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(selectedCandidate.getCandidateDossierID().intValue());
+        EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(selectedCandidate.getCandidateDossierID().toString());
 
         if (documentHeader != null) {
-            List<DossierProcessDocumentHeader> suppDocHeaders = EdoServiceLocator.getDossierProcessDocumentHeaderService().getPendingSupplementalDocuments(new Integer(documentHeader.getEdoDossierId()));
+            List<EdoDossierDocumentInfo> suppDocHeaders = EdoServiceLocator.getEdoDossierDocumentInfoService().getPendingSupplementalDocuments(documentHeader.getEdoDossierId());
             if (CollectionUtils.isNotEmpty(suppDocHeaders)) {
                 boolean isWaiting = false;
-                for (DossierProcessDocumentHeader docHeader : suppDocHeaders) {
-                    isWaiting = isWaiting || EdoServiceLocator.getEdoSupplementalPendingStatusService().isWaiting(docHeader.getDocumentId(),EdoContext.getPrincipalId());
+                for (EdoDossierDocumentInfo docHeader : suppDocHeaders) {
+                    isWaiting = isWaiting || EdoServiceLocator.getEdoSupplementalPendingStatusService().isWaiting(docHeader.getEdoDocumentId(),EdoContext.getPrincipalId());
                 }
                 if (isWaiting) {
                     request.setAttribute("hasSupplementalWaiting", true);
@@ -186,7 +186,7 @@ public class EdoReviewLetterAction extends EdoAction {
         BigDecimal itemID = BigDecimal.ZERO;
         String itemReviewLayerID = null;
         LocalDate currentDate = LocalDate.now();
-        String itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER, currentDate);
+        String itemTypeID = EdoServiceLocator.getEdoItemTypeService().getItemTypeId(EdoConstants.EDO_ITEM_TYPE_NAME_REVIEW_LETTER, currentDate);
 
         FormFile uploadFile = edoReviewLetterForm.getUploadFile();
         int checklistItemID = edoReviewLetterForm.getChecklistItemID();

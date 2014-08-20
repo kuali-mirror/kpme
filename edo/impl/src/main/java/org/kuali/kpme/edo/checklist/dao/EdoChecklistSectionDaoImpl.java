@@ -7,8 +7,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.joda.time.LocalDate;
-import org.kuali.kpme.core.util.OjbSubQueryUtil;
 import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -22,29 +20,23 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
  */
 public class EdoChecklistSectionDaoImpl extends PlatformAwareDaoBaseOjb implements EdoChecklistSectionDao {
 
-    public EdoChecklistSectionBo getChecklistSectionByID(String edoChecklistSectionID) {
+    public EdoChecklistSectionBo getChecklistSectionById(String edoChecklistSectionId) {
 
         Criteria cConditions = new Criteria();
-        cConditions.addEqualTo("edo_checklist_section_id", edoChecklistSectionID);
+        cConditions.addEqualTo("edoChecklistSectionId", edoChecklistSectionId);
         
         QueryByCriteria query = QueryFactory.newQuery(EdoChecklistSectionBo.class, cConditions);
 		return (EdoChecklistSectionBo)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 
     }
     
-    public List<EdoChecklistSectionBo> getChecklistSectionsByChecklistID(String edoChecklistID, LocalDate asOfDate) {
+    public List<EdoChecklistSectionBo> getChecklistSectionsByChecklistId(String edoChecklistId) {
     	
 		List<EdoChecklistSectionBo> results = new ArrayList<EdoChecklistSectionBo>();
     	Criteria root = new Criteria();
 
-    	root.addEqualTo("edoChecklistId", edoChecklistID);
-    	root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EdoChecklistSectionBo.class, asOfDate, EdoChecklistSectionBo.BUSINESS_KEYS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EdoChecklistSectionBo.class, EdoChecklistSectionBo.BUSINESS_KEYS, false));
-        
-        Criteria activeFilter = new Criteria();
-        activeFilter.addEqualTo("active", true);
-        root.addAndCriteria(activeFilter);
-        
+    	root.addEqualTo("edoChecklistId", edoChecklistId);
+                
         Query query = QueryFactory.newQuery(EdoChecklistSectionBo.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 

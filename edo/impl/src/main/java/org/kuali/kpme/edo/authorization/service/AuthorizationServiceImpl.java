@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kpme.edo.api.dossier.EdoDossier;
+import org.kuali.kpme.edo.api.dossier.EdoDossierDocumentInfo;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.dossier.EdoDossierBo;
 import org.kuali.kpme.edo.permission.EDOKimAttributes;
@@ -14,7 +15,7 @@ import org.kuali.kpme.edo.service.EdoServiceLocator;
 import org.kuali.kpme.edo.util.EdoConstants;
 import org.kuali.kpme.edo.util.EdoContext;
 import org.kuali.kpme.edo.util.EdoUser;
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -194,13 +195,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         boolean isAuthorized = false;
         if (StringUtils.isNotEmpty(principalId) && dossierId != null) {
             //Get the current document header
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
+            EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(dossierId.toString());
             List<BigDecimal> authorizedEditLevels = getAuthorizedLevels(principalId, EDOPermissionTemplate.EDIT_VOTE_RECORD.getPermissionTemplateName());
             String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getWorkflowId();
 
             if (documentHeader != null) {
                 //Get the current nodes
-                List<String> currentNodes = KEWServiceLocator.getRouteNodeService().getCurrentRouteNodeNames(documentHeader.getDocumentId());
+                List<String> currentNodes = KEWServiceLocator.getRouteNodeService().getCurrentRouteNodeNames(documentHeader.getEdoDocumentId());
                 Set<String> currentNodesSet = new HashSet<String>();
                 currentNodesSet.addAll(currentNodes);
                 Collection<EdoReviewLayerDefinition> reviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId, currentNodesSet);
@@ -231,13 +232,13 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         boolean isAuthorized = false;
         if (StringUtils.isNotEmpty(principalId) && dossierId != null) {
             //Get the current document header
-            DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
+            EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(dossierId.toString());
             List<BigDecimal> authorizedEditLevels = getAuthorizedLevels(principalId, EDOPermissionTemplate.UPLOAD_REVIEW_LETTER.getPermissionTemplateName());
             String workflowId = EdoServiceLocator.getEdoDossierService().getEdoDossierById(dossierId.toString()).getWorkflowId();
 
             if (documentHeader != null) {
                 //Get the current nodes
-                List<String> currentNodes = KEWServiceLocator.getRouteNodeService().getCurrentRouteNodeNames(documentHeader.getDocumentId());
+                List<String> currentNodes = KEWServiceLocator.getRouteNodeService().getCurrentRouteNodeNames(documentHeader.getEdoDocumentId());
                 Set<String> currentNodesSet = new HashSet<String>();
                 currentNodesSet.addAll(currentNodes);
                 Collection<EdoReviewLayerDefinition> reviewLayerDefinitions = EdoServiceLocator.getEdoReviewLayerDefinitionService().getReviewLayerDefinitions(workflowId, currentNodesSet);
@@ -373,19 +374,19 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     public boolean isAuthorizedToTakeDocumentAction(String principalId, Integer dossierId, ActionType actionType) {
-        DossierProcessDocumentHeader documentHeader = EdoServiceLocator.getDossierProcessDocumentHeaderService().getDossierProcessDocumentHeader(dossierId);
+        EdoDossierDocumentInfo documentHeader = EdoServiceLocator.getEdoDossierDocumentInfoService().getEdoDossierDocumentInfoByDossierId(dossierId.toString());
         WorkflowDocument wfd = null;
         Set<ActionRequestType> actionRequests = new HashSet<ActionRequestType>();
         Set<ActionType> validActions = new HashSet<ActionType>();
         boolean isCandidateLevel = false;
 
         if (documentHeader != null) {
-            wfd = WorkflowDocumentFactory.loadDocument(principalId, documentHeader.getDocumentId());
+            wfd = WorkflowDocumentFactory.loadDocument(principalId, documentHeader.getEdoDocumentId());
             if (wfd != null) {
                 actionRequests = wfd.getRequestedActions().getRequestedActions();
                 validActions = wfd.getValidActions().getValidActions();
 
-                DocumentRouteHeaderValue routeHeaderValue = KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentHeader.getDocumentId());
+                DocumentRouteHeaderValue routeHeaderValue = KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentHeader.getEdoDocumentId());
                 List<RouteNodeInstance> initialNodes = routeHeaderValue.getInitialRouteNodeInstances();
 
                 for (RouteNodeInstance node : initialNodes) {
@@ -615,7 +616,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private boolean permissionToSubmit(String principalId) {
         return KimApiServiceLocator.getPermissionService().isAuthorized(principalId, EdoConstants.EDO_NAME_SPACE, EdoConstants.EDO_SUBMIT_DOSSIER_PERMISSION, new HashMap<String, String>());
     }
-    private boolean permissionToCancel(String principalId, DossierProcessDocumentHeader documentHeader) {
+    private boolean permissionToCancel(String principalId, EdoDossierDocumentInfo documentHeader) {
         if (documentHeader != null && StringUtils.isNotEmpty(principalId)) {
             Map<String, String> permissionDetails = new HashMap<String, String>();
             permissionDetails.put(KewApiConstants.DOCUMENT_TYPE_NAME_DETAIL, documentHeader.getDocumentTypeName());

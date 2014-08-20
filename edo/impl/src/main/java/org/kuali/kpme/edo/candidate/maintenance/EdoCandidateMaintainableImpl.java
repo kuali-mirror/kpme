@@ -50,15 +50,15 @@ public class EdoCandidateMaintainableImpl extends HrBusinessObjectMaintainableIm
         }
         
         if (person != null && person.getPrimaryDepartmentCode() != null) {
-        	aNewEdoCandidateBo.setPrimaryDeptID(person.getPrimaryDepartmentCode());
+        	aNewEdoCandidateBo.setPrimaryDeptId(person.getPrimaryDepartmentCode());
         }else{
-        	aNewEdoCandidateBo.setPrimaryDeptID("");
+        	aNewEdoCandidateBo.setPrimaryDeptId("");
         }
 
         if (person != null && person.getPrimaryDepartmentCode() != null) {
-        	aNewEdoCandidateBo.setTnpDeptID(person.getPrimaryDepartmentCode());
+        	aNewEdoCandidateBo.setTnpDeptId(person.getPrimaryDepartmentCode());
         }else{
-        	aNewEdoCandidateBo.setTnpDeptID("");
+        	aNewEdoCandidateBo.setTnpDeptId("");
         }
         
         return aNewEdoCandidateBo;

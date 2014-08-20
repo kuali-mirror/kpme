@@ -23,12 +23,14 @@ import org.kuali.kpme.edo.item.type.service.EdoItemTypeService;
 import org.kuali.kpme.edo.notification.service.EdoNotificationService;
 import org.kuali.kpme.edo.reports.dao.EdoPromotionAndTenureReportViewDao;
 import org.kuali.kpme.edo.reports.service.EdoPromotionAndTenureReportViewService;
+import org.kuali.kpme.edo.reviewernote.service.EdoReviewerNoteService;
 import org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionService;
+import org.kuali.kpme.edo.reviewlayerdef.service.EdoSuppReviewLayerDefinitionService;
 import org.kuali.kpme.edo.role.service.EdoRoleMaintenanceService;
 import org.kuali.kpme.edo.submitButton.service.EdoDisplaySubmitButtonService;
 import org.kuali.kpme.edo.supplemental.service.EdoSupplementalTrackingService;
 import org.kuali.kpme.edo.vote.service.EdoVoteRecordService;
-import org.kuali.kpme.edo.workflow.service.DossierProcessDocumentHeaderService;
+import org.kuali.kpme.edo.workflow.service.EdoDossierDocumentInfoService;
 import org.kuali.kpme.edo.workflow.service.EdoSupplementalPendingStatusService;
 import org.kuali.kpme.edo.workflow.service.EdoWorkflowDefinitionService;
 import org.kuali.rice.krad.service.DataDictionaryService;
@@ -36,6 +38,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.kuali.kpme.edo.committeesready.service.EdoCommitteesReadyService;
 
 import javax.sql.DataSource;
 
@@ -66,8 +69,9 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static final String ITEM_TYPE_SERVICE = "edoItemTypeService";
     public static final String VOTE_RECORD_SERVICE = "edoVoteRecordService";
     public static final String REVIEW_LAYER_DEFINITION_SERVICE = "edoReviewLayerDefinitionService";
+    public static final String SUPP_REVIEW_LAYER_DEFINITION_SERVICE = "edoSuppReviewLayerDefinitionService";
     public static final String DIGITAL_ASSET_SERVICE = "DigitalAssetService";
-	public static final String DOSSIER_PROCESS_DOCUMENT_HEADER_SERVICE = "dossierProcessDocumentHeaderService";
+	public static final String EDO_DOSSIER_DOCUMENT_INFO_SERVICE = "edoDossierDocumentInfoService";
     public static final String DOSSIER_PENDING_SUPPLEMENTAL_STATUS_SERVICE = "edoPendingSupplementalStatusService";
 	public static final String SUPP_TRACKING_SERVICE = "edoSupplementalTrackingService";
     public static final String WORKFLOW_DEFINITION_SERVICE = "edoWorkflowDefinitionService";
@@ -83,7 +87,8 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static final String EDO_ROLE_RESPONSIBILITY_SERVICE = "edoRoleResponsibilityService";
     public static final String EDO_ROLE_MAINTENANCE_SERVICE = "edoRoleMaintenanceService";
     public static final String EDO_DISPLAY_SUBMIT_BUTTON_SERVICE= "edoDisplaySubmitButtonService";
-
+    public static final String EDO_REVIEWER_NOTE_SERVICE = "edoReviewerNoteService";
+    public static final String EDO_COMMITTEES_READY_SERVICE= "edoCommitteesReadyService";
     
     public static final String EDO_PROMOTIONANDTENURE_REPORT_VIEW_SERVICE = "edoPromotionAndTenureReportViewService";
 
@@ -168,11 +173,15 @@ public class EdoServiceLocator implements ApplicationContextAware {
     }
 
     public static EdoVoteRecordService getEdoVoteRecordService() {
-            return (EdoVoteRecordService)SPRING_APPLICATION_CONTEXT.getBean(VOTE_RECORD_SERVICE);
-        }
+        return (EdoVoteRecordService)SPRING_APPLICATION_CONTEXT.getBean(VOTE_RECORD_SERVICE);
+    }
 
     public static EdoReviewLayerDefinitionService getEdoReviewLayerDefinitionService() {
         return (EdoReviewLayerDefinitionService)SPRING_APPLICATION_CONTEXT.getBean(REVIEW_LAYER_DEFINITION_SERVICE);
+    }
+    
+    public static EdoSuppReviewLayerDefinitionService getEdoSuppReviewLayerDefinitionService() {
+        return (EdoSuppReviewLayerDefinitionService)SPRING_APPLICATION_CONTEXT.getBean(SUPP_REVIEW_LAYER_DEFINITION_SERVICE);
     }
 
     //EDO-33
@@ -192,8 +201,8 @@ public class EdoServiceLocator implements ApplicationContextAware {
         return (JdbcTemplate) SPRING_APPLICATION_CONTEXT.getBean("edoJdbcTemplate");
     }
     //work flow service
-    public static DossierProcessDocumentHeaderService getDossierProcessDocumentHeaderService() {
-    	 return (DossierProcessDocumentHeaderService)SPRING_APPLICATION_CONTEXT.getBean(DOSSIER_PROCESS_DOCUMENT_HEADER_SERVICE);
+    public static EdoDossierDocumentInfoService getEdoDossierDocumentInfoService() {
+    	 return (EdoDossierDocumentInfoService)SPRING_APPLICATION_CONTEXT.getBean(EDO_DOSSIER_DOCUMENT_INFO_SERVICE);
 	}
 
     public static EdoSupplementalPendingStatusService getEdoSupplementalPendingStatusService() {
@@ -243,5 +252,13 @@ public class EdoServiceLocator implements ApplicationContextAware {
     public static EdoDisplaySubmitButtonService getEdoDisplaySubmitButtonService() {
         return (EdoDisplaySubmitButtonService) SPRING_APPLICATION_CONTEXT.getBean(EDO_DISPLAY_SUBMIT_BUTTON_SERVICE);
     }
-    
+
+    public static EdoReviewerNoteService getEdoReviewerNoteService() {
+   	 return (EdoReviewerNoteService)SPRING_APPLICATION_CONTEXT.getBean(EDO_REVIEWER_NOTE_SERVICE);
+	}
+
+    public static EdoCommitteesReadyService getEdoCommitteesReadyService() {
+        return (EdoCommitteesReadyService) SPRING_APPLICATION_CONTEXT.getBean(EDO_COMMITTEES_READY_SERVICE);
+    }
+
 }

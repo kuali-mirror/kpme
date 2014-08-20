@@ -374,7 +374,7 @@ public class EdoChecklistItemAction extends EdoAction {
             if (isNewFile) {
                 item.setActionFullDateTime(new DateTime(sqlTimestamp));
                 LocalDate currentDate = LocalDate.now();
-                item.setEdoItemTypeId(EdoServiceLocator.getEdoItemTypeService().getItemTypeID(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT, currentDate));
+                item.setEdoItemTypeId(EdoServiceLocator.getEdoItemTypeService().getItemTypeId(EdoConstants.EDO_ITEM_TYPE_NAME_SUPPORTING_DOCUMENT, currentDate));
                 item.setUserPrincipalId(uploadUsername);
                 item.setEdoDossierId(dossierID.toString());
                 item.setEdoChecklistItemId(checklistItemID+"");
@@ -395,7 +395,7 @@ public class EdoChecklistItemAction extends EdoAction {
             }
             // these attributes will need to be updated for both new file and replacement
             // but we can't update until the old file is removed, as above
-            EdoChecklistItem edoChecklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemByID(checklistItemID+"");
+            EdoChecklistItem edoChecklistItem = EdoServiceLocator.getChecklistItemService().getChecklistItemById(checklistItemID+"");
           //  if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklist.getChecklistItemName())) {
           if(StringUtils.equals(EdoConstants.EDO_SUPPLEMENTAL_ITEM_CATEGORY_NAME, edoChecklistItem.getChecklistItemName()) || StringUtils.equals(EdoConstants.EDO_RECONSIDERATION_ITEM_CATEGORY_NAME, edoChecklistItem.getChecklistItemName())) {
 	

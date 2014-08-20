@@ -17,16 +17,16 @@ import org.kuali.kpme.edo.item.EdoItemBo;
  * To change this template use File | Settings | File Templates.
  */
 public interface EdoItemService {
-    public EdoItem getEdoItem(String edoItemID);
-    public EdoItemBo getEdoItemBo(String edoItemID);
-    public List<EdoItem> getItemList(String edoDossierID, String checklistItemID);
+    public EdoItem getEdoItem(String edoItemId);
+    public EdoItemBo getEdoItemBo(String edoItemId);
+    public List<EdoItem> getItemList(String edoDossierId, String checklistItemId);
     public void saveOrUpdate(EdoItemBo itemBo);
     public void saveOrUpdate(EdoItem item);
     public void saveOrUpdate(List<EdoItem> edoItems);
-    public EdoItem getFile(String edoItemID, ByteArrayOutputStream bao) throws IOException;
+    public EdoItem getFile(String edoItemId, ByteArrayOutputStream bao) throws IOException;
     public Integer getNextRowIndexNum(String edoChecklistItemId, String uploader);
-    public List<EdoItem> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemID);
-    public List<EdoItem> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID);
+    public List<EdoItem> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemId);
+    public List<EdoItem> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemId);
     public boolean isReviewLetterPendingRoute(String edoDossierId, String edoReviewLayerDefintionId);
     public void updateLetterAsLevelRouted(String edoDossierId, String edoReviewLayerDefinitionId);
     public void deleteItem(EdoItem item);

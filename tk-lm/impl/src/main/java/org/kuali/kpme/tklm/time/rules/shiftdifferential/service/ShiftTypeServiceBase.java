@@ -18,6 +18,7 @@ package org.kuali.kpme.tklm.time.rules.shiftdifferential.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.TKUtils;
 import org.kuali.kpme.tklm.api.time.timeblock.TimeBlock;
@@ -26,6 +27,7 @@ import org.kuali.kpme.tklm.time.rules.shiftdifferential.ShiftDifferentialRule;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.shift.Shift;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.shift.ShiftBlock;
 import org.kuali.kpme.tklm.time.rules.shiftdifferential.shift.ShiftCalendarInterval;
+import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -134,16 +136,20 @@ public class ShiftTypeServiceBase implements ShiftTypeService {
             return;
         }
         for (TimeBlock tb : timeBlocks) {
-            if (shiftCalendarInterval.getJobNumbers().contains(tb.getJobNumber())) {
-                int counter = 0;  // only possible for timeblock to overlap two shifts
-                Interval tbInterval = new Interval(tb.getBeginDateTime(), tb.getEndDateTime());
-                for (Shift shift : shiftCalendarInterval.getShifts()) {
-                    if (shift.getShiftInterval().overlaps(tbInterval)) {
-                        shift.addShiftBlock(tb);
-                        counter++;
-                    }
-                    if (counter >= 2) {
-                        break;
+            Set<String> fromEarnGroup = HrServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(shiftCalendarInterval.getRule().getFromEarnGroup(), tb.getBeginDateTime().toLocalDate());
+            if (CollectionUtils.isNotEmpty(fromEarnGroup)
+                    && fromEarnGroup.contains(tb.getEarnCode())) {
+                if (shiftCalendarInterval.getJobNumbers().contains(tb.getJobNumber())) {
+                    int counter = 0;  // only possible for timeblock to overlap two shifts
+                    Interval tbInterval = new Interval(tb.getBeginDateTime(), tb.getEndDateTime());
+                    for (Shift shift : shiftCalendarInterval.getShifts()) {
+                        if (shift.getShiftInterval().overlaps(tbInterval)) {
+                            shift.addShiftBlock(tb);
+                            counter++;
+                        }
+                        if (counter >= 2) {
+                            break;
+                        }
                     }
                 }
             }

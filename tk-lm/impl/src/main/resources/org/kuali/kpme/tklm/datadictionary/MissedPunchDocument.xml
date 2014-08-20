@@ -147,6 +147,17 @@
         <property name="headerText" value="Missed Punch" />
         <property name="formClass" value="org.kuali.kpme.tklm.time.missedpunch.web.MissedPunchForm" />
         <property name="documentClass" value="org.kuali.kpme.tklm.time.missedpunch.MissedPunchDocument"/>
+         <property name="additionalCssFiles">
+            <list>
+                <value>khrPlugins/timepicker/jquery.timepicker.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>js/timePickerWidget.js</value>
+                <value>khrPlugins/timepicker/jquery.timepicker.js</value>
+            </list>
+        </property>
         <property name="items">
             <list merge="true">
 	            <bean parent="Uif-DocumentPage">

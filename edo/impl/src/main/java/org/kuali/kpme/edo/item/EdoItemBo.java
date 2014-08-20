@@ -8,6 +8,9 @@ import org.kuali.kpme.edo.api.item.EdoItemContract;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
 
 
 /**
@@ -20,7 +23,16 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * To change this template use File | Settings | File Templates.
  */
 public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemContract {
-   
+
+	private static final long serialVersionUID = -6465675990155553098L;
+	
+	static class KeyFields {
+		private static final String EDO_ITEM_TYPE_ID = "edoItemTypeId";
+		private static final String EDO_DOSSIER_ID = "edoDossierId";
+		private static final String EDO_CHECKLIST_ITEM_ID = "edoChecklistItemId";
+		private static final String FILE_NAME = "fileName";
+	}
+	
 	private String edoItemId;
 	private String edoItemTypeId;
 	private String edoChecklistItemId;
@@ -37,6 +49,13 @@ public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemC
 	private String fileDescription;
 	private String action;
     private boolean active;
+    
+    public static final ImmutableList<String> BUSINESS_KEYS = new ImmutableList.Builder<String>()
+			.add(KeyFields.EDO_ITEM_TYPE_ID)
+			.add(KeyFields.EDO_DOSSIER_ID)
+			.add(KeyFields.EDO_CHECKLIST_ITEM_ID)
+			.add(KeyFields.FILE_NAME)
+			.build();
  
     public EdoItemBo() {}
 
@@ -46,6 +65,15 @@ public class EdoItemBo extends PersistableBusinessObjectBase implements EdoItemC
 
 	public void setId(String id) {
 		setEdoItemId(id);
+	}
+
+	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
+		return  new ImmutableMap.Builder<String, Object>()
+				.put(KeyFields.EDO_ITEM_TYPE_ID, this.getEdoItemTypeId())
+				.put(KeyFields.EDO_DOSSIER_ID, this.getEdoDossierId())
+				.put(KeyFields.EDO_CHECKLIST_ITEM_ID, this.getEdoChecklistItemId())
+				.put(KeyFields.FILE_NAME, this.getFileName())
+				.build();
 	}
 
 	public String getEdoItemId() {

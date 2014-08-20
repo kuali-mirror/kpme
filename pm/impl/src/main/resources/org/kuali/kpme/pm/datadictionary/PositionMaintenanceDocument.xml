@@ -303,7 +303,7 @@
                               p:refreshWhenChangedPropertyNames="#dp.process"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.kpme.core.util.GroupKeyValueFinder" />
+                        <bean class="org.kuali.kpme.pm.position.PositionGroupKeyValueFinder" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="primaryDepartment"

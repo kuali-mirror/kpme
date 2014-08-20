@@ -51,6 +51,12 @@ public class DeptLunchRuleRule extends TkKeyedBusinessObjectValidation {
 	}
 
 	boolean validateDepartment(DeptLunchRule ruleObj) {
+        if ( ( ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER) ) && ( !ruleObj.getWorkArea().equals(HrConstants.WILDCARD_LONG) ) && (ruleObj.getWorkArea() != null) )
+        {
+            this.putFieldError("dept", "error.wc.wadef");
+            return false;
+        }
+
 		if (ruleObj.getDept() != null
 			&& !ruleObj.getDept().equals(HrConstants.WILDCARD_CHARACTER) // KPME-2688
 			&& !ValidationUtils.validateDepartment(ruleObj.getDept(), ruleObj.getGroupKeyCode(), ruleObj.getEffectiveLocalDate())) {

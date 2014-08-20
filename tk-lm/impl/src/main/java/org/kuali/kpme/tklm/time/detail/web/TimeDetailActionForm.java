@@ -31,6 +31,7 @@ import org.kuali.kpme.tklm.time.calendar.TkCalendar;
 import org.kuali.kpme.tklm.time.service.TkServiceLocator;
 import org.kuali.kpme.tklm.time.timeblock.TimeBlockBo;
 import org.kuali.kpme.tklm.time.timesummary.TimeSummary;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
@@ -214,4 +215,12 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
         return TkServiceLocator.getTKPermissionService().canDeleteTimeBlock(HrContext.getPrincipalId(), timeBlock);
     }
 
+    public int getPageSize() {
+        String parameterValue = ConfigContext.getCurrentContextConfig().getProperty("kpme.tklm.actualtime.page.size");
+        Integer limit = 25;
+        if(StringUtils.isNotBlank(parameterValue)) {
+            limit = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty("kpme.tklm.actualtime.page.size"));
+        }
+        return limit;
+    }
 }

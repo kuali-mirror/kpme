@@ -39,7 +39,7 @@ public class EdoPropertyConstants {
         public static final String DEPARTMENT_ID = "departmentId";
         public static final String SCHOOL_ID = "schoolId";
         public static final String CAMPUS_ID = "campusId";
-        public static final String WORKFLOW_ID = "workflowId";
+        public static final String WORKFLOW_ID = "edoWorkflowId";
         public static final String NODE_NAME = "suppNodeName";
     }
 

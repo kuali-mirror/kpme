@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.bo.validation.HrKeyedBusinessObjectValidation;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.kfs.coa.businessobject.Chart;
@@ -38,7 +37,6 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-@SuppressWarnings("deprecation")
 public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 
 	@Override
@@ -136,7 +134,7 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 		return valid;
 	}
 
-	boolean validateRolePresent(List<DepartmentPrincipalRoleMemberBo> roleMembers, LocalDate effectiveDate, boolean payrollProcessorRequired) {
+	protected boolean validateRolePresent(List<DepartmentPrincipalRoleMemberBo> roleMembers, LocalDate effectiveDate, boolean payrollProcessorRequired) {
 		boolean valid = true;
 		boolean activeFlag = false;
 	    boolean payrollProcessorFlag = false;
@@ -156,21 +154,12 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
 					valid = false;
 				} 
 			}
-			if (StringUtils.equals(role.getName(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName())) {
-				if(roleMember.getActiveToDateValue() == null) {
-					this.putFieldError(prefix + "expirationDate", "error.role.expiration.required");
-					valid = false;
-				} else {
-					LocalDate dateLimit = roleMember.getActiveFromDate().toLocalDate().plusMonths(6).minusDays(1);
-					if(roleMember.getActiveToDate().toLocalDate().isAfter(dateLimit)) {
-						this.putFieldError(prefix + "expirationDate", "error.role.expiration.duration");
-						valid = false;
-					}
-				}
-			}
+			// invocation of hook method for custom validation 
+			valid &= validateRoleAndMembership(role, roleMember, prefix);
+			
 			if (StringUtils.equals(role.getName(), KPMERole.PAYROLL_PROCESSOR.getRoleName())) {
-               payrollProcessorFlag = true;
-            }
+				payrollProcessorFlag = true;
+			}
 		}
 
 		if (!activeFlag) {
@@ -182,6 +171,24 @@ public class DepartmentValidation extends HrKeyedBusinessObjectValidation {
         }
 
 		return valid & activeFlag;
+	}
+
+	// hook method for implementor to perform custom validation on role and membership
+	protected boolean validateRoleAndMembership(Role role, RoleMemberBo roleMember, String prefix) {
+		boolean valid = true;
+		if (StringUtils.equals(role.getName(), KPMERole.PAYROLL_PROCESSOR_DELEGATE.getRoleName())) {
+			if (roleMember.getActiveToDateValue() == null) {
+				this.putFieldError(prefix + "expirationDate", "error.role.expiration.required");
+				valid = false;
+			} else {
+				LocalDate dateLimit = roleMember.getActiveFromDate().toLocalDate().plusMonths(6).minusDays(1);
+				if (roleMember.getActiveToDate().toLocalDate().isAfter(dateLimit)) {
+					this.putFieldError(prefix + "expirationDate", "error.role.expiration.duration");
+					valid = false;
+				}
+			}
+		}
+		return valid;
 	}
 
 	@Override

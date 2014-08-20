@@ -16,14 +16,14 @@ import org.kuali.kpme.edo.item.EdoItemBo;
  */
 public interface EdoItemDao {
 
-    public EdoItemBo getEdoItem(String edoItemID);
-    public List<EdoItemBo> getItemList(String edoDossierID, String checklistItemID);
+    public EdoItemBo getEdoItem(String edoItemId);
+    public List<EdoItemBo> getItemList(String edoDossierId, String checklistItemId);
     public void saveOrUpdate(EdoItemBo item);
     public void saveOrUpdate(List<EdoItemBo> edoItems);
     public void deleteItem(EdoItemBo item);
     public Integer getNextRowIndexNum(String edoChecklistItemId, String uploader);
-    public List<EdoItemBo> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemID);
-    public List<EdoItemBo> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID);
+    public List<EdoItemBo> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemId);
+    public List<EdoItemBo> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemId);
     public List<EdoItemBo> getPendingLettersByDossierId(String edoDossierId, String edoReviewLayerDefinitionId);
     
     public List<EdoItemBo> getReviewLetterEdoItems(String edoDossierId, String edoReviewLayerDefinitionId);

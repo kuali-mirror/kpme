@@ -24,18 +24,77 @@
     <bean id="Edo-ApplicationHeader" parent="Edo-ApplicationHeader-parent"/>
     <bean id="Edo-ApplicationHeader-parent" parent="Uif-ApplicationHeaderBase">
         <property name="applicationNavigation.brandImage">
-            <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/images/logo-khr.png"/>
+            <bean parent="Uif-Image" 
+            	p:source="@{#ConfigProperties['application.url']}/images/logo-khr.png"
+            	p:additionalCssClasses="edo-header-image"/>
+        </property>
+        <property name="cssClasses">
+	      <list merge="true">
+	        <value>edo-application-header</value>
+	      </list>
+	    </property>
+	    <property name="applicationNavigation.additionalCssClasses">
+	    	<list merge="true">
+	        	<value>edo-header-menu</value>
+	     	</list>
+	    </property>
+	    		
+        <property name="applicationNavigation.items">
+            <list>
+				<bean parent="Edo-ApplicationHeader-MenuList" 
+					p:toggleText="Main Portal List" p:render="@{portalLinksVisible}"/>
+            </list>
         </property>
     </bean>
     
+    <bean id="Edo-ApplicationHeader-MenuList" parent="Edo-ApplicationHeader-MenuList-parent" />
+    <bean id="Edo-ApplicationHeader-MenuList-parent" parent="Uif-DropdownToggleMenu">
+        <property name="menuGroup">
+            <bean parent="Uif-AppMenuGroup" p:layoutManager.defaultItemColSpan="12">
+                <property name="items">
+                    <list>
+                        <bean parent="Edo-ApplicationHeader-MenuListGroup"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
+     <bean id="Edo-ApplicationHeader-MenuListGroup" parent="Uif-SimpleGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MenuList" p:headerText="Menu items">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Link" 
+			            		p:linkText="KHR Menu"
+								p:href="@{#ConfigProperties['application.url']}/portal.do?selectedTab=main" /> 
+<!-- 							<bean parent="Uif-Link"  -->
+<!-- 			            		p:linkText="Action List" -->
+<!-- 								p:href="${ConfigProperties.application.url}/portal.do?channelTitle=Action%20List&channelUrl=${ConfigProperties.rice.server.url}/kew/ActionList.do" />  -->
+<!--                            	<bean parent="Uif-Link"  -->
+<!-- 			            		p:linkText="Doc Search" -->
+<!-- 								p:href="${ConfigProperties.application.url}/portal.do?channelTitle=Document%20Search&channelUrl=${ConfigProperties.rice.server.url}/kew/DocumentSearch.do?docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do" />  -->
+                           
+                           	<bean parent="Uif-Link" 
+			            		p:linkText="KHR Maintenance"
+								p:href="@{#ConfigProperties['application.url']}/portal.do?selectedTab=kpmemaintenance" /> 
+							<bean parent="Uif-Link" 
+			            		p:linkText="Rice Administration"
+								p:href="@{#ConfigProperties['application.url']}/portal.do?selectedTab=riceadministration" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+      
     <bean id="Edo-CommonHeader" parent="Edo-CommonHeader-parentBean" />
 	<bean id="Edo-CommonHeader-parentBean" abstract="true"
 		parent="Uif-ViewHeader" >	
 		<property name="title" value="eDossier"/>	
 		<property name="upperGroup">
 			<bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="uif-documentInfo">
-<!-- 			p:additionalCssClasses="edo-header" > -->
-<!-- 			p:additionalCssClasses="uif-documentInfo"> -->
 				<property name="cssClasses">
 			      <list merge="true">
 			        <value>edo-header</value>
@@ -43,6 +102,20 @@
 			    </property>
 				<property name="items">
 					<list>
+<!-- 						<ref bean="Edo-CommonHeader-UserInfoSection" /> -->
+<!-- 						<bean parent="Uif-HorizontalBoxGroup"> -->
+<!-- 							<property name="cssClasses"> -->
+<!-- 						      <list merge="true"> -->
+<!-- 						        <value>edo-user-info</value> -->
+<!-- 						      </list> -->
+<!-- 						    </property> -->
+<!-- 							<property name="items"> -->
+<!-- 								<list> -->
+<!-- 									<bean parent="Uif-MessageField" p:label="Employee Name" p:messageText="@{employeeName}" /> -->
+<!-- 									<bean parent="Uif-MessageField" p:label="Employee ID" p:messageText="@{employeeId}" /> -->
+<!-- 								</list> -->
+<!-- 							</property> -->
+<!-- 						</bean> -->
 						<bean parent="Uif-MessageField" p:label="Employee Name" p:messageText="@{employeeName}" />
 						<bean parent="Uif-MessageField" p:label="Employee ID" p:messageText="@{employeeId}" />
 						<bean parent="Uif-MessageField" p:label="User Name" p:messageText="@{userName}" />
@@ -71,11 +144,28 @@
 									 
 									<bean parent="Uif-Link" p:linkText="All Files"
 										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-AllFilesView&amp;methodToCall=start&amp;hideReturnLink=true"
-									 	p:iconClass="icon-list4" />	
+									 	p:iconClass="icon-list4" />
+									 	
+									<!-- super users options --> 
+									<bean parent="Uif-Link" p:linkText="Admin"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-AdminView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-wrench3" p:render="@{adminVisible}" />
+									 		
+									<bean parent="Uif-Link" p:linkText="eDossiers"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-EdossiersSuperView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-folder-open2" p:render="@{eDossiersVisible}" />
 									
-									<bean parent="Uif-Link" p:linkText="Help"
-										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-HelpView&amp;methodToCall=start&amp;hideReturnLink=true"
-									 	p:iconClass="icon-question-sign" />
+									<bean parent="Uif-Link" p:linkText="Chair Delegates"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-ChairDelegatesView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-hammer2" p:render="@{chairDelegatesVisible}"/>
+									
+									<bean parent="Uif-Link" p:linkText="Export"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-ExportSuperView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-share2" p:render="@{superExportVisible}"/>
+
+									<bean parent="Edo-Help-Menu" 
+										p:toggleText="Help" 
+										p:iconClass="icon-question-sign" />
 
 								</list>
 							</property>
@@ -85,6 +175,88 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<bean id="Edo-Help-Menu" parent="Edo-Help-Menu-parent" />
+    <bean id="Edo-Help-Menu-parent" parent="Uif-DropdownToggleMenu">
+    	<property name="menuGroup">
+     		 <bean parent="Uif-SimpleListGroup" p:layoutManager.libraryCssClasses="dropdown-menu">
+		    	 <property name="items">
+	                    <list>
+	                        <bean parent="Uif-Link" 
+			          			p:linkText="Help Topic"
+			          			p:cssClasses="edo-toggle-menu"
+								p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-HelpTopic-View&amp;methodToCall=start&amp;hideReturnLink=true" /> 
+					        <bean parent="Uif-Link" 
+				          		p:linkText="Promotion and Tenure Guidelines"
+				          		p:cssClasses="edo-toggle-menu"
+				          		p:href="http://www.indiana.edu/~vpfaa/docs/promotion_tenure_reappointment/pt-revised-review-guidelines.pdf" />
+<!-- 							  	p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-PTGuidelines-View&amp;methodToCall=start&amp;hideReturnLink=true" />  -->
+							<bean parent="Uif-Link" 
+				          		p:linkText="Sample eDossier"
+				          		p:cssClasses="edo-toggle-menu"
+								p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-sampleEdossier-View&amp;methodToCall=start&amp;hideReturnLink=true" />
+	            
+	                    </list>
+		   		 </property>
+	   		 </bean>
+   		 </property>
+    </bean>	
+    
+	<bean id="Edo-CommonHeader-UserInfoSection" parent="Uif-GridGroup">
+        <property name="layoutManager.numberOfColumns" value="4"/>
+<!--         <property name="layoutManager.libraryCssClasses"> -->
+<!-- 		      <list merge="false"> -->
+<!-- 		        <value>table</value> -->
+<!-- 		      </list> -->
+<!-- 		</property> -->
+		<property name="cssClasses">
+	      <list merge="true">
+	        <value>edo-user-info</value>
+	      </list>
+	    </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:label="Employee Name" p:messageText="@{employeeName}" />
+				<bean parent="Uif-MessageField" p:label="Employee ID" p:messageText="@{employeeId}" />
+				<bean parent="Uif-MessageField" p:label="User Name" p:messageText="@{userName}" />
+				<bean parent="Uif-MessageField" p:label="User Department" p:messageText="@{userDept}"  />
+				<bean parent="Uif-MessageField" p:label="Target Employee Name" p:messageText="@{targetEmployeeName}" p:render="@{targetFlag}"/>
+				<bean parent="Uif-MessageField" p:label="Target Employee Id" p:messageText="@{targetEmployeeId}" p:render="@{targetFlag}"/>	
+				
+				<bean parent="Uif-ActionBar">
+							<property name="items">
+								<list>
+									<bean parent="Uif-Link" p:linkText="My eDossier"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-MyDossierView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-folder-open2" p:render="@{myDossierVisible}"/>
+									
+									<bean parent="Uif-Link" p:linkText="Candidate Delegates"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoCandidateDelegates?viewId=Edo-CandidateDelegatesView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-rocket2" p:render="@{candidateDelegatesVisible}"/>
+									
+									<bean parent="Uif-Link" p:linkText="Guest"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoGuests?viewId=Edo-GuestView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-eye-open" p:render="@{guestVisible}"/>
+									
+									<bean parent="Uif-Link" p:linkText="Export"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-ExportView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-share2" />
+									 
+									<bean parent="Uif-Link" p:linkText="All Files"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-AllFilesView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-list4" />	
+									
+									<bean parent="Uif-Link" p:linkText="Help"
+										p:href="@{#ConfigProperties['application.url']}/kpme/edoHome?viewId=Edo-HelpView&amp;methodToCall=start&amp;hideReturnLink=true"
+									 	p:iconClass="icon-question-sign" />
+
+								</list>
+							</property>
+						</bean>		
+				
+            </list>
+        </property>
+    </bean>
     
     <bean id="Edo-View" abstract="true" parent="Edo-View-parent"/>
   	<bean id="Edo-View-parent" abstract="true" parent="Uif-FormView" >
@@ -93,6 +265,11 @@
 				<value>css/edo.css</value>
 			</list>
 		</property>
+		<property name="cssClasses">
+	      <list merge="true">
+	        <value>edo-view</value>
+	      </list>
+	    </property>
         <property name="applicationHeader" ref="Edo-ApplicationHeader"/> 
         <property name="parentLocation">
 		      <bean parent="Uif-RicePortalParentLocation"/>

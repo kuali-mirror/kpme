@@ -8,11 +8,11 @@ import org.kuali.kpme.edo.api.checklist.EdoChecklistItem;
 
 public interface EdoChecklistItemService {
 
-    public EdoChecklistItem getChecklistItemByID(String edoChecklistItemId);
-    public List<EdoChecklistItem> getChecklistItemsBySectionID(String edoChecklistSectionId, LocalDate asOfDate);
+    public EdoChecklistItem getChecklistItemById(String edoChecklistItemId);
+    public List<EdoChecklistItem> getChecklistItemsBySectionId(String edoChecklistSectionId);
     
     // from EdoChecklistVService
-    public List<EdoChecklistItem> getChecklistItems(String groupKey, String schoolID, String departmentID);  // from getChecklistVService().getChecklistView
-    public EdoChecklistItem getChecklistItemByDossierID(String edoDossierID, String itemName); // from getChecklistVService().getChecklistItemByName
-    public SortedMap<String, List<EdoChecklistItem>> getCheckListHash(String groupKey, String schoolID, String departmentID);  // from getChecklistVService().getCheckListHash
+    public List<EdoChecklistItem> getChecklistItems(String groupKey, String schoolId, String departmentId);  // from getChecklistVService().getChecklistView
+    public EdoChecklistItem getChecklistItemByDossierId(String edoDossierId, String itemName); // from getChecklistVService().getChecklistItemByName
+    public SortedMap<String, List<EdoChecklistItem>> getCheckListHash(String groupKey, String schoolId, String departmentId);  // from getChecklistVService().getCheckListHash
 }

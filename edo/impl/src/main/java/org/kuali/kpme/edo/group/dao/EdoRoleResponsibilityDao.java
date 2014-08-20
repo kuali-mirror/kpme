@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.group.dao;
 
-import org.kuali.kpme.edo.group.EdoRoleResponsibility;
+import org.kuali.kpme.edo.group.EdoRoleResponsibilityBo;
 import java.util.*;
 
 /**
@@ -13,8 +13,8 @@ import java.util.*;
  */
 public interface EdoRoleResponsibilityDao {
 
-    public List<EdoRoleResponsibility> getEdoRoleResponsibilityByRoleName(String roleName);
-    public List<EdoRoleResponsibility> getEdoRoleResponsibilityByResponsibilityName(String responsibilityName);
-    public List<EdoRoleResponsibility> getEdoRoleResponsibilityByRoleAndResponsibility(String roleName, String responsibilityName);
+    public List<EdoRoleResponsibilityBo> getEdoRoleResponsibilityByRoleName(String roleName);
+    public List<EdoRoleResponsibilityBo> getEdoRoleResponsibilityByResponsibilityName(String responsibilityName);
+    public List<EdoRoleResponsibilityBo> getEdoRoleResponsibilityByRoleAndResponsibility(String roleName, String responsibilityName);
 
 }

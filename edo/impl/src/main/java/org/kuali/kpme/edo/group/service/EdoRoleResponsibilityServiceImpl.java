@@ -1,10 +1,12 @@
 package org.kuali.kpme.edo.group.service;
 
-import org.apache.log4j.Logger;
-import org.kuali.kpme.edo.group.EdoRoleResponsibility;
-import org.kuali.kpme.edo.group.dao.EdoRoleResponsibilityDao;
-
 import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.kuali.kpme.edo.api.group.EdoRoleResponsibility;
+import org.kuali.kpme.edo.group.EdoRoleResponsibilityBo;
+import org.kuali.kpme.edo.group.dao.EdoRoleResponsibilityDao;
+import org.kuali.rice.core.api.mo.ModelObjectUtils;
 
 /**
  * $HeadURL$
@@ -18,6 +20,10 @@ public class EdoRoleResponsibilityServiceImpl implements EdoRoleResponsibilitySe
 
     private static final Logger LOG = Logger.getLogger(EdoRoleResponsibilityService.class);
     private EdoRoleResponsibilityDao edoRoleResponsibilityDao;
+    
+    protected List<EdoRoleResponsibility> convertToImmutable(List<EdoRoleResponsibilityBo> bos) {
+		return ModelObjectUtils.transform(bos, EdoRoleResponsibilityBo.toImmutable);
+	}
 
     public EdoRoleResponsibilityDao getEdoRoleResponsibilityDao() {
         return edoRoleResponsibilityDao;
@@ -28,14 +34,18 @@ public class EdoRoleResponsibilityServiceImpl implements EdoRoleResponsibilitySe
     }
 
     public List<EdoRoleResponsibility> getEdoRoleResponsibilityByRoleName(String roleName) {
-        return this.edoRoleResponsibilityDao.getEdoRoleResponsibilityByRoleName(roleName);
+    	List<EdoRoleResponsibilityBo> bos = this.edoRoleResponsibilityDao.getEdoRoleResponsibilityByRoleName(roleName);
+    	return convertToImmutable(bos);
+    	
     }
 
     public List<EdoRoleResponsibility> getEdoRoleResponsibilityByResponsibilityName(String responsibilityName) {
-        return this.edoRoleResponsibilityDao.getEdoRoleResponsibilityByResponsibilityName(responsibilityName);
+    	List<EdoRoleResponsibilityBo> bos = this.edoRoleResponsibilityDao.getEdoRoleResponsibilityByResponsibilityName(responsibilityName);
+        return convertToImmutable(bos);
     }
 
     public List<EdoRoleResponsibility> getEdoRoleResponsibilityByRoleAndResponsibility(String roleName, String responsibilityName) {
-        return this.edoRoleResponsibilityDao.getEdoRoleResponsibilityByRoleAndResponsibility(roleName, responsibilityName);
+    	List<EdoRoleResponsibilityBo> bos = this.edoRoleResponsibilityDao.getEdoRoleResponsibilityByRoleAndResponsibility(roleName, responsibilityName);
+        return convertToImmutable(bos);
     }
 }

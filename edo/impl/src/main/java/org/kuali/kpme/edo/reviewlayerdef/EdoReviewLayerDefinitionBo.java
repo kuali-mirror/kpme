@@ -1,5 +1,8 @@
 package org.kuali.kpme.edo.reviewlayerdef;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinition;
 import org.kuali.kpme.edo.api.reviewlayerdef.EdoReviewLayerDefinitionContract;
@@ -35,6 +38,8 @@ public class EdoReviewLayerDefinitionBo extends HrBusinessObject implements EdoR
     private String routeLevel;
     private String workflowId;
     private String workflowQualifier;
+    
+    private List<EdoSuppReviewLayerDefinitionBo> suppReviewLayerDefinitions = new ArrayList<EdoSuppReviewLayerDefinitionBo>();
     
     @Override
 	public boolean isActive() {
@@ -156,9 +161,17 @@ public class EdoReviewLayerDefinitionBo extends HrBusinessObject implements EdoR
     public void setWorkflowQualifier(String workflowQualifier) {
         this.workflowQualifier = workflowQualifier;
     }
-    
-    
- 	public static EdoReviewLayerDefinitionBo from(EdoReviewLayerDefinition edoReviewLayerDefinition) {
+
+ 	public List<EdoSuppReviewLayerDefinitionBo> getSuppReviewLayerDefinitions() {
+		return suppReviewLayerDefinitions;
+	}
+
+	public void setSuppReviewLayerDefinitions(
+			List<EdoSuppReviewLayerDefinitionBo> suppReviewLayerDefinitions) {
+		this.suppReviewLayerDefinitions = suppReviewLayerDefinitions;
+	}
+
+	public static EdoReviewLayerDefinitionBo from(EdoReviewLayerDefinition edoReviewLayerDefinition) {
          if (edoReviewLayerDefinition == null) {
              return null;
          }
@@ -178,6 +191,7 @@ public class EdoReviewLayerDefinitionBo extends HrBusinessObject implements EdoR
          edoReviewLayerDefinitionBo.setWorkflowId(edoReviewLayerDefinition.getWorkflowId());
          
          edoReviewLayerDefinitionBo.setWorkflowQualifier(edoReviewLayerDefinition.getWorkflowQualifier());
+         edoReviewLayerDefinitionBo.setSuppReviewLayerDefinitions(ModelObjectUtils.transform(edoReviewLayerDefinition.getSuppReviewLayerDefinitions(), EdoSuppReviewLayerDefinitionBo.toBo));
          
          // finally copy over the common fields into phra from im
          copyCommonFields(edoReviewLayerDefinitionBo, edoReviewLayerDefinition);

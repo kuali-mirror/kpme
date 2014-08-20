@@ -10,14 +10,17 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.kuali.kpme.core.api.groupkey.HrGroupKey;
+import org.kuali.kpme.core.api.util.jaxb.LocalTimeAdapter;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.mo.AbstractDataTransferObject;
 import org.kuali.rice.core.api.mo.ModelBuilder;
+import org.kuali.rice.core.api.util.jaxb.DateTimeAdapter;
 import org.w3c.dom.Element;
 
 @XmlRootElement(name = EdoDossier.Constants.ROOT_ELEMENT_NAME)
@@ -74,8 +77,9 @@ public final class EdoDossier
     private final String candidatePrincipalName;
     @XmlElement(name = Elements.EDO_CHECKLIST_ID, required = false)
     private final String edoChecklistId;
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = Elements.DUE_DATE, required = false)
-    private final Date dueDate;
+    private final DateTime dueDate;
     @XmlElement(name = Elements.AOE_CODE, required = false)
     private final String aoeCode;
     @XmlElement(name = CoreConstants.CommonElements.VERSION_NUMBER, required = false)
@@ -210,7 +214,7 @@ public final class EdoDossier
     }
 
     @Override
-    public Date getDueDate() {
+    public DateTime getDueDate() {
         return this.dueDate;
     }
 
@@ -282,7 +286,7 @@ public final class EdoDossier
         private String edoDossierTypeId;
         private String candidatePrincipalName;
         private String edoChecklistId;
-        private Date dueDate;
+        private DateTime dueDate;
         private String aoeCode;
         private Long versionNumber;
         private String objectId;
@@ -404,7 +408,7 @@ public final class EdoDossier
         }
 
         @Override
-        public Date getDueDate() {
+        public DateTime getDueDate() {
             return this.dueDate;
         }
 
@@ -513,7 +517,7 @@ public final class EdoDossier
             this.edoChecklistId = edoChecklistId;
         }
 
-        public void setDueDate(Date dueDate) {
+        public void setDueDate(DateTime dueDate) {
             // TODO add validation of input value if required and throw IllegalArgumentException if needed
             this.dueDate = dueDate;
         }

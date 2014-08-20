@@ -44,7 +44,7 @@
     <bean id="KPMEAttributes-LookupView-ViewLink" parent="Uif-LookupResultsCollectionSection">
 		<property name="lineActions">
 			<list merge="true">
-		    	<bean parent="Uif-Link" p:order="10">
+		    	<bean parent="Uif-Link" p:order="10" p:render="@{#view.showMaintenanceLinks}">
 		        	<property name="linkText" value="view" />
 		            <property name="finalizeMethodToCall" value="buildViewActionLink"/>
 		            <property name="finalizeMethodAdditionalArguments">
@@ -88,7 +88,11 @@
 		      <list merge="true">
 		      	<bean parent="KPMEGroupKeyLookupCriteriaInputField" p:propertyName="groupKeyCode" >
               		<property name="quickfinder">
-                  		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
+                  		<bean parent="Uif-QuickFinderByScript"
+                  			p:viewName="quickFinderView"  
+                  			p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" 
+                  			p:fieldConversions="groupKeyCode:groupKeyCode" 
+                  			p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
               		</property>
           		</bean>
           		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institutionCode">
@@ -98,7 +102,10 @@
 		        </bean>
 		        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="locationId">
 		       		<property name="quickfinder">
-			       		<bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo" p:fieldConversions="location:locationId" />
+			       		<bean parent="Uif-QuickFinderByScript"
+			       			p:viewName="quickFinderView" 
+			       			p:dataObjectClassName="org.kuali.kpme.core.location.LocationBo" 
+			       			p:fieldConversions="location:locationId" />
 			   		 </property>
 		        </bean>		          
 		      </list>
@@ -254,7 +261,11 @@
 
                 <bean parent = "KPMEGroupKeyed-MaintenanceGridSection-GroupKey">
                     <property name="quickfinder">
-                        <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" p:fieldConversions="groupKeyCode:groupKeyCode" p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
+                        <bean parent="Uif-QuickFinderByScript"
+                        	p:viewName="quickFinderView"  
+                        	p:dataObjectClassName="org.kuali.kpme.core.groupkey.HrGroupKeyBo" 
+                        	p:fieldConversions="groupKeyCode:groupKeyCode" 
+                        	p:lookupParameters="relativeEffectiveDate:effectiveDate"/>
                     </property>
                 </bean>
        		</list>
@@ -441,5 +452,36 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="KPMEUif-TimePickerTextControl" parent="KPMEUif-TimePickerTextControl-parentBean" />
+	<bean id="KPMEUif-TimePickerTextControl-parentBean" abstract="true" class="org.kuali.kpme.core.web.uif.control.TimePickerTextControl" parent="Uif-TextControl">
+		<property name="size" value="10" />
+		<property name="watermarkText" value="8:00 AM" />
+		
+    	<property name="template" value="/WEB-INF/ftl/components/control/KhrTimePickerTextControl.ftl" />
+    	<property name="templateName" value="kpme_uif_timePickerTextControl" />
+    	<property name="currentTimeButtonEnabled" value="true" />
+    	<property name="timePickerWidget">
+        	<bean parent="KPMEUif-TimePickerWidget" />
+    	</property>
+    	<property name="cssClasses">
+        	<list merge="true">
+            	<value>
+                	KpmeUif-timePickerTextControl
+            	</value>
+        	</list>
+    	</property>
+    	
+	</bean>
+    
+    <bean id="KPMEUif-TimePickerWidget" parent="KPMEUif-TimePickerWidget-parentBean" />
+	<bean id="KPMEUif-TimePickerWidget-parentBean" abstract="true" class="org.kuali.kpme.core.web.uif.widget.TimePickerWidget" parent="Uif-WidgetBase">
+    	<property name="templateOptions">
+        	<map merge="true">
+            	<entry key="step" value="15"/>
+             	<entry key="timeFormat" value="h:i A"/>
+        	</map>
+    	</property>
+	</bean>
 
 </beans>

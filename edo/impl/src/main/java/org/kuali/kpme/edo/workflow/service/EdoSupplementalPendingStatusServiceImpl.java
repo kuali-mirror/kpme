@@ -40,7 +40,7 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
 	public boolean isWaiting(String supplementalDocumentId, String principalId) {
 		boolean isWaiting = false;
 		Collection<String> groupIds = new TreeSet<String>();
-		BigDecimal currentDossierRouteLevel = EdoServiceLocator.getDossierProcessDocumentHeaderService().getCurrentRouteLevel(EdoContext.getSelectedCandidate().getCandidateDossierID().intValue());
+		BigDecimal currentDossierRouteLevel = EdoServiceLocator.getEdoDossierDocumentInfoService().getCurrentRouteLevel(EdoContext.getSelectedCandidate().getCandidateDossierID().toString());
 
 		List<ActionRequestValue> actionRequests = KEWServiceLocator.getActionRequestService().findPendingByDoc(supplementalDocumentId);
 
@@ -207,17 +207,13 @@ public class EdoSupplementalPendingStatusServiceImpl implements	EdoSupplementalP
         EdoVoteRecord mostCurrentVoteRecord =  builder.build();
 
 		for (EdoVoteRecord voteRec : voteRecords) {
-//			if (voteRec.getUpdatedAt().after(maxDate)) {
-//				maxDate = voteRec.getUpdatedAt();
-//				mostCurrentVoteRecord = voteRec;
-//			}
-			
-			if (voteRec.getCreateTime().isAfter(maxDate)) {
-				maxDate = voteRec.getCreateTime();
+			// if (voteRec.getUpdatedAt().after(new TimeStamp(maxDate))) {
+			if (voteRec.getUpdatedAt() != null ) {
+				maxDate = new DateTime(voteRec.getUpdatedAt());
 				mostCurrentVoteRecord = voteRec;
 			}
 		}
-		DateTime vrUpdatedDT = new DateTime(mostCurrentVoteRecord.getCreateTime());
+		DateTime vrUpdatedDT = new DateTime(mostCurrentVoteRecord.getCreatedAt());
 
 		if (documentCreated.isAfter(vrUpdatedDT)) {
 			// supp doc created after last updated vote record, so has NOT added

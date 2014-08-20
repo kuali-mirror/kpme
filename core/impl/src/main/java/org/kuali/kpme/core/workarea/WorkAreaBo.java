@@ -17,14 +17,18 @@ package org.kuali.kpme.core.workarea;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
+import org.kuali.kpme.core.api.assignment.Assignment;
 import org.kuali.kpme.core.api.workarea.WorkArea;
 import org.kuali.kpme.core.api.workarea.WorkAreaContract;
+import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.bo.HrKeyedBusinessObject;
 import org.kuali.kpme.core.department.DepartmentBo;
 import org.kuali.kpme.core.earncode.EarnCodeBo;
 import org.kuali.kpme.core.groupkey.HrGroupKeyBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPositionRoleMemberBo;
 import org.kuali.kpme.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
+import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.task.TaskBo;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.rice.core.api.mo.ModelObjectUtils;
@@ -88,6 +92,9 @@ public class WorkAreaBo extends HrKeyedBusinessObject implements WorkAreaContrac
     
     @Transient
     private List<WorkAreaPositionRoleMemberBo> inactivePositionRoleMembers = new ArrayList<WorkAreaPositionRoleMemberBo>();
+    
+    @Transient
+    private List<AssignmentBo> workAreaMembers = new ArrayList<AssignmentBo>(); 
     
 	@Override
 	public ImmutableMap<String, Object> getBusinessKeyValuesMap() {
@@ -283,7 +290,24 @@ public class WorkAreaBo extends HrKeyedBusinessObject implements WorkAreaContrac
 		this.hrsDistributionF = hrsDistributionF;
 	}
 
-    public static WorkAreaBo from(WorkArea im) {
+	
+    public List<AssignmentBo> getWorkAreaMembers() {
+    	workAreaMembers =  new ArrayList<>();
+    	if(workArea != null && getEffectiveLocalDate() != null) {
+    		List<Assignment> workAreaAssignments = HrServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(this.workArea, this.getEffectiveLocalDate());
+    		for (Assignment assignment : workAreaAssignments) {
+    			workAreaMembers.add(AssignmentBo.from(assignment));
+            }
+    	}
+		return workAreaMembers;
+	}
+
+	public void setWorkAreaMembers(List<AssignmentBo> workAreaMemebers) {
+		this.workAreaMembers = workAreaMemebers;
+	}
+
+	
+	public static WorkAreaBo from(WorkArea im) {
         if (im == null) {
             return null;
         }

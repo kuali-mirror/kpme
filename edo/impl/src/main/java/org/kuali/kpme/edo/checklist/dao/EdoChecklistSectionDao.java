@@ -2,7 +2,6 @@ package org.kuali.kpme.edo.checklist.dao;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
 
 /**
@@ -15,6 +14,6 @@ import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
  */
 public interface EdoChecklistSectionDao {
 
-    public EdoChecklistSectionBo getChecklistSectionByID(String edoChecklistSectionID);
-    public List<EdoChecklistSectionBo> getChecklistSectionsByChecklistID(String edoChecklistID, LocalDate asOfDate);
+    public EdoChecklistSectionBo getChecklistSectionById(String edoChecklistSectionId);
+    public List<EdoChecklistSectionBo> getChecklistSectionsByChecklistId(String edoChecklistId);
 }

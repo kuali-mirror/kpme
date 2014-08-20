@@ -3,7 +3,10 @@ package org.kuali.kpme.edo.api.item;
 import org.joda.time.DateTime;
 import org.kuali.kpme.core.api.mo.KpmeDataTransferObject;
 
-
+/**
+ * <p>EdoItemContract interface</p>
+ *
+ */
 public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoItemContract> {
 	
 	/**
@@ -170,6 +173,7 @@ public interface EdoItemContract extends KpmeDataTransferObject, Comparable<EdoI
 	 * @return action for EdoItem
 	 */
 	public String getAction();
+
 	/**
 	 * The actionTimestamp (DateTime) the EdoItem is associated with
 	 * 

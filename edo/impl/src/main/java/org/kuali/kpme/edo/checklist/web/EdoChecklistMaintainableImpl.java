@@ -18,6 +18,8 @@ package org.kuali.kpme.edo.checklist.web;
 import org.kuali.kpme.core.bo.HrBusinessObject;
 import org.kuali.kpme.core.bo.HrBusinessObjectMaintainableImpl;
 import org.kuali.kpme.edo.checklist.EdoChecklistBo;
+import org.kuali.kpme.edo.checklist.EdoChecklistItemBo;
+import org.kuali.kpme.edo.checklist.EdoChecklistSectionBo;
 import org.kuali.kpme.edo.service.EdoServiceLocator;
 
 public class EdoChecklistMaintainableImpl extends HrBusinessObjectMaintainableImpl {
@@ -26,6 +28,22 @@ public class EdoChecklistMaintainableImpl extends HrBusinessObjectMaintainableIm
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		return EdoChecklistBo.from(EdoServiceLocator.getChecklistService().getChecklistByID(id));
+		return EdoChecklistBo.from(EdoServiceLocator.getChecklistService().getChecklistById(id));
+	}
+	
+	@Override
+	public void customSaveLogic(HrBusinessObject hrObj){
+		
+		EdoChecklistBo aChecklist = (EdoChecklistBo) hrObj;
+		
+		for(EdoChecklistSectionBo aSection : aChecklist.getChecklistSections()) {
+			
+			for(EdoChecklistItemBo aItem : aSection.getChecklistItems()) {
+				aItem.setEdoChecklistItemId(null);
+			}
+			
+			aSection.setEdoChecklistId(aChecklist.getEdoChecklistId());
+			aSection.setEdoChecklistSectionId(null);
+		}
 	}
 }

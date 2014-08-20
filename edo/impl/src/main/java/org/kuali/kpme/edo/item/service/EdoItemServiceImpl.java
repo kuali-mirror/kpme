@@ -56,16 +56,16 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
         this.edoItemDao = item;
     }
     
-    public EdoItem getEdoItem(String edoItemID) {
-        return EdoItemBo.to(getEdoItemBo(edoItemID));
+    public EdoItem getEdoItem(String edoItemId) {
+        return EdoItemBo.to(getEdoItemBo(edoItemId));
     }
         
-    public  EdoItemBo getEdoItemBo(String edoItemID) {
-        return edoItemDao.getEdoItem(edoItemID);
+    public  EdoItemBo getEdoItemBo(String edoItemId) {
+        return edoItemDao.getEdoItem(edoItemId);
     }
     
-    public List<EdoItem> getItemList(String edoDossierID, String edoChecklistItemID) {
-        List<EdoItemBo> bos = edoItemDao.getItemList(edoDossierID, edoChecklistItemID);
+    public List<EdoItem> getItemList(String edoDossierId, String edoChecklistItemId) {
+        List<EdoItemBo> bos = edoItemDao.getItemList(edoDossierId, edoChecklistItemId);
     	return convertToImmutable(bos);
     }
     
@@ -81,9 +81,9 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     	this.edoItemDao.saveOrUpdate(convertToBo(edoItems));
     }
 
-    public EdoItem getFile(String edoItemID, ByteArrayOutputStream bao) throws IOException {
+    public EdoItem getFile(String edoItemId, ByteArrayOutputStream bao) throws IOException {
 
-        EdoItemBo item = edoItemDao.getEdoItem(edoItemID);
+        EdoItemBo item = edoItemDao.getEdoItem(edoItemId);
         File fp = new File(item.getFileLocation());
         FileInputStream fis = null;
         try {
@@ -96,7 +96,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
             }
             return EdoItemBo.to(item);
         } catch (Exception e) {
-            throw new RuntimeException("Unable to retrieve file with item ID = " + edoItemID.toString() + ".");
+            throw new RuntimeException("Unable to retrieve file with item Id = " + edoItemId.toString() + ".");
         }
     }
 
@@ -106,14 +106,14 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     }
 
     @Override
-    public List<EdoItem> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemID) {
-    	List <EdoItemBo> bos = this.edoItemDao.getPendingItemsByDossierId(edoDossierId, edoChecklistItemID);
+    public List<EdoItem> getPendingItemsByDossierId(String edoDossierId, String edoChecklistItemId) {
+    	List <EdoItemBo> bos = this.edoItemDao.getPendingItemsByDossierId(edoDossierId, edoChecklistItemId);
         return convertToImmutable(bos);
     }
     
     @Override
-    public List<EdoItem> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemID) {
-    	List<EdoItemBo> bos = this.edoItemDao.getItemsByDossierIdForAddendumFalgZero(edoDossierId, edoChecklistItemID);
+    public List<EdoItem> getItemsByDossierIdForAddendumFalgZero(String edoDossierId, String edoChecklistItemId) {
+    	List<EdoItemBo> bos = this.edoItemDao.getItemsByDossierIdForAddendumFalgZero(edoDossierId, edoChecklistItemId);
     	return convertToImmutable(bos);
     }
 
@@ -129,7 +129,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
         return isPending;
     }
 
-    public void updateLetterAsLevelRouted(String edoDossierId, String edoReviewLayerDefintionId ) {
+    public void updateLetterAsLevelRouted(String edoDossierId, String edoReviewLayerDefintionId) {
         List<EdoItemBo> letters = this.edoItemDao.getPendingLettersByDossierId(edoDossierId, edoReviewLayerDefintionId);
 
         for (EdoItemBo ltr : letters) {
@@ -194,7 +194,7 @@ public class EdoItemServiceImpl extends PlatformAwareDaoBaseOjb implements EdoIt
     
     public int getItemCount(String edoDossierId, String edoChecklistSectionId) {
     	int count = 0;
-    	List<EdoChecklistItem> checklistItems = edoChecklistItemService.getChecklistItemsBySectionID(edoChecklistSectionId, LocalDate.now());
+    	List<EdoChecklistItem> checklistItems = edoChecklistItemService.getChecklistItemsBySectionId(edoChecklistSectionId);
     	for (EdoChecklistItem checklistItem : checklistItems) {
     		String checklistItemId = checklistItem.getEdoChecklistItemId();
     		List<EdoItem> items = this.getItemList(edoDossierId, checklistItemId);

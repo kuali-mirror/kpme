@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.document;
 
-import org.kuali.kpme.edo.workflow.DossierProcessDocumentHeader;
+import org.kuali.kpme.edo.workflow.EdoDossierDocumentInfoBo;
 
 import java.io.Serializable;
 
@@ -8,17 +8,17 @@ public class PromotionProcessDocument implements Serializable, DossierProcessDoc
 
     public static final String PROMOTION_PROCESS_DOCUMENT_TYPE = "PromotionProcessDocument";
 
-    private DossierProcessDocumentHeader documentHeader;
+    private EdoDossierDocumentInfoBo documentHeader;
 
-    public PromotionProcessDocument(DossierProcessDocumentHeader documentHeader) {
+    public PromotionProcessDocument(EdoDossierDocumentInfoBo documentHeader) {
         this.documentHeader = documentHeader;
     }
 
-    public DossierProcessDocumentHeader getDocumentHeader() {
+    public EdoDossierDocumentInfoBo getDocumentHeader() {
         return documentHeader;
     }
 
-    public void setDocumentHeader(DossierProcessDocumentHeader documentHeader) {
+    public void setDocumentHeader(EdoDossierDocumentInfoBo documentHeader) {
         this.documentHeader = documentHeader;
     }
 }

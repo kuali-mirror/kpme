@@ -62,8 +62,8 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
     private String lastName ;
     private String firstName;
     private String principalName;
-    private String primaryDeptID ;
-    private String tnpDeptID;
+    private String primaryDeptId ;
+    private String tnpDeptId;
     private String candidacySchool;
    
     private transient Person principal;
@@ -117,20 +117,20 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
         this.edoCandidateId = edoCandidateId;
     }
 
-    public String getPrimaryDeptID() {
-        return primaryDeptID;
+    public String getPrimaryDeptId() {
+        return primaryDeptId;
     }
 
-    public void setPrimaryDeptID(String primaryDeptID) {
-        this.primaryDeptID = primaryDeptID;
+    public void setPrimaryDeptId(String primaryDeptId) {
+        this.primaryDeptId = primaryDeptId;
     }
 
-    public String getTnpDeptID() {
-        return tnpDeptID;
+    public String getTnpDeptId() {
+        return tnpDeptId;
     }
 
-    public void setTnpDeptID(String tnpDeptID) {
-        this.tnpDeptID = tnpDeptID;
+    public void setTnpDeptId(String tnpDeptId) {
+        this.tnpDeptId = tnpDeptId;
     }
 
     public String getCandidacySchool() {
@@ -151,7 +151,7 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
         tmp.add(this.getLastName());
         tmp.add(this.getFirstName());
         tmp.add(this.getPrincipalName());
-        tmp.add(this.getPrimaryDeptID());
+        tmp.add(this.getPrimaryDeptId());
         tmp.add(this.getCandidacySchool());
         return gson.toJson(tmp, tmpType).toString();
     }
@@ -166,8 +166,8 @@ public class EdoCandidateBo extends HrKeyedBusinessObject implements EdoCandidat
         edoCandidateBo.setPrincipalName(edoCandidate.getPrincipalName());
         edoCandidateBo.setLastName(edoCandidate.getLastName());
         edoCandidateBo.setFirstName(edoCandidate.getFirstName());
-        edoCandidateBo.setPrimaryDeptID(edoCandidate.getPrimaryDeptID());
-        edoCandidateBo.setTnpDeptID(edoCandidate.getTnpDeptID());
+        edoCandidateBo.setPrimaryDeptId(edoCandidate.getPrimaryDeptId());
+        edoCandidateBo.setTnpDeptId(edoCandidate.getTnpDeptId());
         edoCandidateBo.setCandidacySchool(edoCandidate.getCandidacySchool());
         
         edoCandidateBo.setGroupKeyCode(edoCandidate.getGroupKeyCode());

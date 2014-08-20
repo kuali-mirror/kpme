@@ -1,6 +1,6 @@
 package org.kuali.kpme.edo.group.dao;
 
-import org.kuali.kpme.edo.group.EdoGroupTracking;
+import org.kuali.kpme.edo.group.EdoGroupTrackingBo;
 import java.util.List;
 
 /**
@@ -13,12 +13,12 @@ import java.util.List;
  */
 public interface EdoGroupTrackingDao {
 
-    public EdoGroupTracking getEdoGroupTracking(Integer groupTrackingId);
-    public EdoGroupTracking getEdoGroupTrackingByGroupName(String groupName);
-    public List<EdoGroupTracking> getEdoGroupTrackingByDepartmentId(String departmentId);
-    public List<EdoGroupTracking> getEdoGroupTrackingBySchoolId(String schoolId);
-    public List<EdoGroupTracking> getEdoGroupTrackingByCampusId(String campusId);
-    public void saveOrUpdate(EdoGroupTracking groupTracking);
-    public List<EdoGroupTracking> findEdoGroupTrackingEntries(String departmentId, String schoolId, String campusId);
-    public List<EdoGroupTracking> getGroupTrackingEntries();
+    public EdoGroupTrackingBo getEdoGroupTracking(String edoGroupTrackingId);
+    public EdoGroupTrackingBo getEdoGroupTrackingByGroupName(String groupName);
+    public List<EdoGroupTrackingBo> getEdoGroupTrackingByDepartmentId(String departmentId);
+    public List<EdoGroupTrackingBo> getEdoGroupTrackingBySchoolId(String schoolId);
+    public List<EdoGroupTrackingBo> getEdoGroupTrackingByCampusId(String campusId);
+    public void saveOrUpdate(EdoGroupTrackingBo groupTracking);
+    public List<EdoGroupTrackingBo> findEdoGroupTrackingEntries(String departmentId, String schoolId, String campusId);
+    public List<EdoGroupTrackingBo> getGroupTrackingEntries();
 }

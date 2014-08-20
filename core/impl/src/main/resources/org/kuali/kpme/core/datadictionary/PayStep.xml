@@ -171,8 +171,10 @@
 					<bean parent="Uif-InputField" p:propertyName="payStep" p:required="true"/>
 					<bean parent="Uif-InputField" p:propertyName="salaryGroup" p:required="true">
 						<property name="quickfinder">
-				            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
-				                  p:fieldConversions="hrSalGroup:salaryGroup"/>
+				            <bean parent="Uif-QuickFinderByScript"
+				            	p:viewName="quickFinderView" 
+				            	p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
+				                p:fieldConversions="hrSalGroup:salaryGroup"/>
 				        </property>
 					</bean>
 					<bean parent="Uif-InputField" p:propertyName="payGrade" p:required="true">
@@ -214,8 +216,10 @@
       	<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payStep" />
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="salaryGroup">
 			<property name="quickfinder">
-	            <bean parent="Uif-QuickFinderByScript" p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
-	                  p:fieldConversions="hrSalGroup:salaryGroup"/>
+	            <bean parent="Uif-QuickFinderByScript"
+	            	p:viewName="quickFinderView"	 
+	            	p:dataObjectClassName="org.kuali.kpme.core.salarygroup.SalaryGroupBo"
+	                p:fieldConversions="hrSalGroup:salaryGroup"/>
 	        </property>
 		</bean>
 		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="payGrade">
