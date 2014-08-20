@@ -493,7 +493,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
                 List<TimeHourDetailBo> newTimeHourDetails = new ArrayList<TimeHourDetailBo>();
                 for (TimeHourDetailBo detail : timeHourDetails)
                 {
-                    if (detail.getHours().compareTo(BigDecimal.ZERO) != 0)
+                    if ( (detail.getHours().compareTo(BigDecimal.ZERO) != 0) || StringUtils.equals(detail.getEarnCode(), timeBlock.getEarnCode()) )
                     {
                         newTimeHourDetails.add(detail);
                     }
