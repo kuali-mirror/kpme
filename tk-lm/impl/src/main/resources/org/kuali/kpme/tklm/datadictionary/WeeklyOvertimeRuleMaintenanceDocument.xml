@@ -55,10 +55,17 @@
                 <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" />
                 <bean parent="MaintainableFieldDefinition" p:name="maxHoursEarnGroup" />
                 <bean parent="MaintainableFieldDefinition" p:name="convertFromEarnGroup" />
+
+                <bean parent="MaintainableFieldDefinition" p:name="applyToEarnGroup" />
+
                 <bean parent="MaintainableFieldDefinition" p:name="convertToEarnCode" />
                 <bean parent="MaintainableFieldDefinition" p:name="step" />
                 <bean parent="MaintainableFieldDefinition" p:name="maxHours" />
-                <bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />              
+                <bean parent="MaintainableFieldDefinition" p:name="userPrincipalId" />
+
+                <bean parent="MaintainableFieldDefinition" p:name="overrideWorkAreaDefaultOvertime"/>
+
+
                 <bean parent="MaintainableFieldDefinition" p:name="active" />
                 <bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode" p:defaultValue="Y"/>
             </list>

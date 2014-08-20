@@ -22,10 +22,15 @@ import org.kuali.kpme.tklm.time.rules.overtime.weekly.WeeklyOvertimeRuleGroup;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.math.BigDecimal;
 
 public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
 
     private static final String ADD_LINE_LOCATION = "add.lstWeeklyOvertimeRules.";
+    private BigDecimal maxHours;
+    private String maxHoursEarnGroup;
 
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
@@ -46,12 +51,64 @@ public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
 
 		int index = 0;
 		for(WeeklyOvertimeRule rule : ruleGroup.getLstWeeklyOvertimeRules()) {
+            valid &= validateMatchingMaxHours(rule.getMaxHours(), "lstWeeklyOvertimeRules["+index+"].");
+            valid &= validateMatchingMaxHoursGroup(rule.getMaxHoursEarnGroup(), "lstWeeklyOvertimeRules["+index+"].");
+
+            rule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
             valid &= validateWeeklyOvertimeRule(rule, "lstWeeklyOvertimeRules["+index+"].");
 			index++;
 		}
 
 		return valid;
 	}
+
+    /*
+    weeklyOvertimeRule.maxHours.mustMatch=The Max Hours for all steps must match.
+weeklyOvertimeRule.maxHoursEarnGroup.mustMatch=The Max Hour Earn Group for all steps must match.
+
+     */
+
+    boolean validateMatchingMaxHours(BigDecimal ruleMaxHours, String errorFieldPrefix)
+    {
+        if (errorFieldPrefix == null)
+        {
+            errorFieldPrefix = "";
+        }
+
+        if (this.maxHours == null)
+        {
+            this.maxHours = ruleMaxHours;
+        }
+
+        if (this.maxHours.compareTo(ruleMaxHours) == 0)
+        {
+            return true;
+        }
+
+        this.putFieldError(errorFieldPrefix + "maxHours", "weeklyOvertimeRule.maxHours.mustMatch");
+        return false;
+    }
+
+    boolean validateMatchingMaxHoursGroup(String ruleMaxHoursEarnGroup, String errorFieldPrefix)
+    {
+        if (errorFieldPrefix == null)
+        {
+            errorFieldPrefix = "";
+        }
+
+        if (this.maxHoursEarnGroup == null)
+        {
+            this.maxHoursEarnGroup = ruleMaxHoursEarnGroup;
+        }
+
+        if (StringUtils.equals(ruleMaxHoursEarnGroup, this.maxHoursEarnGroup))
+        {
+            return true;
+        }
+
+        this.putFieldError(errorFieldPrefix + "maxHoursEarnGroup", "weeklyOvertimeRule.maxHoursEarnGroup.mustMatch");
+        return false;
+    }
 
     boolean validateWeeklyOvertimeRule(WeeklyOvertimeRule rule, String errorFieldPrefix) {
         boolean valid = true;
@@ -90,5 +147,31 @@ public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
 
         return valid;
     }
+/*
+	@Override
+	protected boolean processCustomRouteDocumentBusinessRules(
+			MaintenanceDocument document) {
+		boolean valid = false;
 
+		LOG.debug("entering custom validation for DailyOvertimeRule");
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		if (pbo instanceof DailyOvertimeRule) {
+			DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) pbo;
+			dailyOvertimeRule.setUserPrincipalId(GlobalVariables
+					.getUserSession().getPrincipalId());
+			if (dailyOvertimeRule != null) {
+				valid = true;
+				//valid &= this.validateLocation(dailyOvertimeRule);
+				valid &= this.validatePayType(dailyOvertimeRule);
+				valid &= this.validateDepartment(dailyOvertimeRule);
+				valid &= this.validateWorkArea(dailyOvertimeRule);
+				valid &= this.validateEarnCode(dailyOvertimeRule);
+				valid &= this.validateEarnGroup(dailyOvertimeRule);
+				valid &= this.validateGroupKeyCode(dailyOvertimeRule);
+			}
+		}
+
+		return valid;
+	}
+ */
 }

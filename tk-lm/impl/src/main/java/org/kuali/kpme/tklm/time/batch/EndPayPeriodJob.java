@@ -68,11 +68,12 @@ public class EndPayPeriodJob extends BatchJob {
 	    	    
 	    		List<Assignment> assignments = HrServiceLocator.getAssignmentService().getAllAssignmentsByCalEntryForTimeCalendar(pId, calendarEntry);
 	    		for (Assignment assignment : assignments) {
+	    			String groupKeyCode = assignment.getGroupKeyCode();
 	    			String jobNumber = String.valueOf(assignment.getJobNumber());
 	    			String workArea = String.valueOf(assignment.getWorkArea());
 	    			String task = String.valueOf(assignment.getTask());
 	    			
-	    			ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(pId, jobNumber, workArea, task, calendarEntry);
+	    			ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(groupKeyCode, pId, jobNumber, workArea, task, calendarEntry);
 	    	    	if (lastClockLog != null && TkConstants.ON_THE_CLOCK_CODES.contains(lastClockLog.getClockAction())) {
 	    	    		runEndPayPeriodJobForUser(calendarEntry, pId, lastClockLog, batchUserPrincipalId);
 	    	    	}

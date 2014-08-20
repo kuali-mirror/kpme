@@ -252,7 +252,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
             return null;
         }
 
-        DateTimeZone zone = HrServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
         List<ShiftCalendarInterval> shiftCalendars = getShiftCalendarIntervals(timesheetDocument, zone);
         for (ShiftCalendarInterval sci : shiftCalendars) {
             for (List<TimeBlock> blocks : blockDays) {

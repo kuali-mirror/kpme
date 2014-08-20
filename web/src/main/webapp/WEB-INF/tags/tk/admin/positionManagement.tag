@@ -37,16 +37,11 @@
     <c:set var="KOHROrgViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetKOHROrgViewOnly()%>' />
     <c:set var="HRDepartmentAdmin" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHRDepartmentAdmin()%>' />
     <c:set var="HRDepartmentViewOnly" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHRDepartmentViewOnly()%>' />
-    <c:set var="HRInstitutionApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHRInstitutionApprover()%>' />
-    <c:set var="academicHRInstitutionApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAcademicHRInstitutionApprover()%>' />
+
     <c:set var="budgetApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetBudgetApprover()%>' />
     <c:set var="payrollApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetPayrollApprover()%>' />
-    <c:set var="HRlocationApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHRLocationApprover()%>' />
-    <c:set var="academicHRLocationApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetAcademicHRLocationApprover()%>' />
     <c:set var="fiscalLocationApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetFiscalLocationApprover()%>' />
-    <c:set var="HROrgApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetHROrgApprover()%>' />
     <c:set var="fiscalOrgApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetFiscalOrgApprover()%>' />
-    <c:set var="departmentApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetDepartmentApprover()%>' />
     <c:set var="fiscalDeptApprover" value='<%=org.kuali.kpme.core.util.HrContext.isUserOrTargetFiscalDepartmentApprover()%>' />
     <c:set var="locationAdmin" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationAdmin()%>' />
     <c:set var="locationViewOnly" value='<%=org.kuali.kpme.tklm.time.util.TkContext.isLocationViewOnly()%>' />
@@ -54,7 +49,8 @@
 
 <c:set var = "setupAndReports" value = "false"/>
 <c:if test="${systemAdmin || globalViewOnly  || positionSystemViewOnly || locationAdmin || locationViewOnly || KOHRInstitutionAdmin || KOHRAcademicHrAdmin || KOHRInstitutionViewOnly || KOHRLocationAdmin || KOHRLocationViewOnly ||
-    	KOHRLocationAdmin ||  HRInstitutionApprover ||	academicHRInstitutionApprover || budgetApprover || payrollApprover || HRlocationApprover || academicHRLocationApprover || fiscalLocationApprover || HROrgApprover || fiscalOrgApprover || departmentApprover || fiscalDeptApprover || locationAdmin || locationViewOnly}">
+    	KOHRLocationAdmin ||  	 budgetApprover || payrollApprover ||   fiscalLocationApprover ||
+    	fiscalOrgApprover ||  fiscalDeptApprover || locationAdmin || locationViewOnly}">
 
     <c:set var = "setupAndReports" value = "true"/>
 

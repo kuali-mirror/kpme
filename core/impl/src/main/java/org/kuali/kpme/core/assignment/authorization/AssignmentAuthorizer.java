@@ -15,38 +15,24 @@
  */
 package org.kuali.kpme.core.assignment.authorization;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kpme.core.api.department.Department;
 import org.kuali.kpme.core.assignment.AssignmentBo;
 import org.kuali.kpme.core.authorization.KPMEMaintenanceDocumentViewAuthorizer;
 import org.kuali.kpme.core.role.KPMERoleMemberAttribute;
-import org.kuali.kpme.core.service.HrServiceLocator;
-
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
 public class AssignmentAuthorizer extends KPMEMaintenanceDocumentViewAuthorizer {
 
 	private static final long serialVersionUID = 1962036374728477204L;
 
 	protected void addRoleQualification(Object dataObject, Map<String, String> attributes) {
 		super.addRoleQualification(dataObject, attributes);
-
-		String location = StringUtils.EMPTY;
 		
-		if (dataObject instanceof AssignmentBo) {
-			AssignmentBo assignmentObj = (AssignmentBo) dataObject;
-			
-			if (assignmentObj != null) {
-				Department departmentObj = HrServiceLocator.getDepartmentService().getDepartment(assignmentObj.getDept(), assignmentObj.getGroupKeyCode(), assignmentObj.getEffectiveLocalDate());
-				
-				if (departmentObj != null) {
-					location = departmentObj.getGroupKey().getLocationId();
-				}
-			}
-		}
+		// put in the department qualifier for the role membership attributes
+		if (dataObject instanceof AssignmentBo && dataObject != null) {
+			attributes.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), ((AssignmentBo) dataObject).getDept());
+			attributes.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), ((AssignmentBo) dataObject).getWorkArea().toString());
+		}		
 		
-		attributes.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
 	}
 
 }

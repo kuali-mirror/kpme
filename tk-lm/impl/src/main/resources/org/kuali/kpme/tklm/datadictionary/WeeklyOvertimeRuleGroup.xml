@@ -73,6 +73,14 @@
 										<bean parent="FieldDefinition" p:attributeName="maxHoursEarnGroup" />
 										<bean parent="FieldDefinition" p:attributeName="convertFromEarnGroup" />
 										<bean parent="FieldDefinition" p:attributeName="convertToEarnCode" />
+
+                                        <bean parent="FieldDefinition" p:attributeName="applyToEarnGroup" />
+
+                                        <bean parent="FieldDefinition" p:attributeName="overrideWorkAreaDefaultOvertime" />
+
+
+
+
 										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 										<bean parent="FieldDefinition" p:attributeName="step" />
 										<bean parent="FieldDefinition" p:attributeName="maxHours" />

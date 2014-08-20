@@ -235,12 +235,12 @@ public class TimeDetailAction extends TimesheetAction {
         	PrincipalHRAttributes principalCalendar = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodFullDateTime().toLocalDate());
 
         	Interval calendarInterval = new Interval(calendarEntry.getBeginPeriodFullDateTime(), calendarEntry.getEndPeriodFullDateTime());
-        	Map<String,Set<LeaveBlockContract>> maxBalInfractions = new HashMap<String,Set<LeaveBlockContract>>();
+        	Map<String,Set<LeaveBlock>> maxBalInfractions = new HashMap<String,Set<LeaveBlock>>();
 	        
         	if (principalCalendar != null) {
         		maxBalInfractions = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
    	        
-        		for (Entry<String,Set<LeaveBlockContract>> entry : maxBalInfractions.entrySet()) {
+        		for (Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
         			for (LeaveBlockContract lb : entry.getValue()) {
         				if (calendarInterval.contains(lb.getLeaveDateTime())) {
 	    	        		AccrualCategoryContract accrualCat = lb.getAccrualCategoryObj();

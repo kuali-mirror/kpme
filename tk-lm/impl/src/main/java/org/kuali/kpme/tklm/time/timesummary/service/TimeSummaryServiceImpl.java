@@ -206,8 +206,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     	
     	if (LmServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, HrConstants.FLSA_STATUS_NON_EXEMPT, true)) {
     		
-        	Map<String,Set<LeaveBlockContract>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
-        	Set<? extends LeaveBlockContract> onDemandTransfers = eligibilities.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+        	Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
+        	Set<? extends LeaveBlock> onDemandTransfers = eligibilities.get(HrConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
 
         	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodFullDateTime(),calendarEntry.getEndPeriodFullDateTime());
         	
@@ -215,7 +215,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         	//change, no warning given to the employee of balance limits being exceeded except on or after that day.
 
         	if(!onDemandTransfers.isEmpty()) {
-            	for(LeaveBlockContract lb : onDemandTransfers) {
+            	for(LeaveBlock lb : onDemandTransfers) {
             		LocalDate leaveDate = lb.getLeaveLocalDate();
                 	LeaveSummary summary = (LeaveSummary)LmServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, leaveDate.plusDays(1));
                 	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());

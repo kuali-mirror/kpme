@@ -302,10 +302,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
 		allMessages.put("warningMessages", new HashSet<String>());
 
-        Map<String, Set<LeaveBlockContract>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
+        Map<String, Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
 	
 		if (eligibilities != null) {
-			for (Entry<String,Set<LeaveBlockContract>> entry : eligibilities.entrySet()) {
+			for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
 				for(LeaveBlockContract lb : entry.getValue()) {
 					AccrualCategoryRuleContract rule = lb.getAccrualCategoryRule();
 					if (rule != null) {

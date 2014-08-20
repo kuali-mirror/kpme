@@ -45,6 +45,7 @@
 
     <include file="org/kuali/kpme/kpme-db/db/db.changelog-2.0.0.xml" />
     <include file="org/kuali/kpme/kpme-db/db/db.changelog-2.0.1.xml" />
+
     <include file="org/kuali/kpme/kpme-db/db/db.changelog-2.1.0.xml" />
-    
+    <include file="org/kuali/kpme/kpme-db/db/db.changelog-2.1.1.xml" />
 </databaseChangeLog>

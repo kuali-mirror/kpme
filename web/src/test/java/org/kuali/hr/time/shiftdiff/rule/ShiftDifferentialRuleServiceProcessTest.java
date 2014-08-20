@@ -1325,4 +1325,71 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMEWebTestCase {
                 2);
     }
 
+
+    @Test
+    public void daysTestTimeZone() {
+        // Create the Rule
+        // Matches HR Job ID #1 (job # 30)
+        String principalId = "10115";
+
+
+        Long jobNumber = 0L;
+        String groupKey = "IU-IN";
+        Long workArea = 1010L;
+        Long task = 0L;
+        HrContext.setTargetPrincipalId(principalId);
+        DateTimeZone zone = HrServiceLocator.getTimezoneService().getTargetUserTimezoneWithFallback();
+
+
+        // Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
+        DateTime start = new DateTime(2010, 3, 21, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        CalendarEntry payCalendarEntry =  HrServiceLocator.getCalendarEntryService().getCurrentCalendarDates("admin", start);
+
+        TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(start, principalId);
+
+        List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+
+        //rgh - sunday 3p-5p shift: 2 hr SHDY
+        DateTime tbStart1 = new DateTime(2010, 3, 28, 15, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart1,   1, new BigDecimal("2"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+        //rgh - monday 3p-5p - shift: none
+        DateTime tbStart2 = new DateTime(2010, 3, 29, 15, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart2,   1, new BigDecimal("2"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+        //rgh - sun 10p- mon 3a - shift: 2hr SHDY2 (on sunday timeblock)
+        DateTime tbStart3 = new DateTime(2010, 3, 28, 22, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart3,   1, new BigDecimal("2"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+        DateTime tbStart4 = new DateTime(2010, 3, 29, 0, 0, 0, 0, zone);
+        blocks.addAll(TkTestUtils.createUniformTimeBlocks(tbStart4,   1, new BigDecimal("3"), "RGH", jobNumber, workArea, task, groupKey, td.getDocumentId()));
+
+
+        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+
+        // Verify pre-Rule Run
+        TkTestUtils.verifyAggregateHourSums(principalId, "Pre-Check", new ImmutableMap.Builder<String, BigDecimal>()
+                .put("RGH", BigDecimal.valueOf(9)).build(), aggregate, 2);
+
+        // Run Rule
+
+        //td.setTimeBlocks(blocks);
+        List<LeaveBlock> leaveBlocks = TimesheetUtils.getLeaveBlocksForTimesheet(td);
+        List<TimeBlock> initialBlocks = TimesheetUtils.getTimesheetTimeblocksForProcessing(td, true);
+        List<TimeBlock> referenceTimeBlocks = TimesheetUtils.getReferenceTimeBlocks(initialBlocks);
+
+        //reset time block
+        //List<TimeBlock> tbs = TkServiceLocator.getTimesheetService().resetTimeBlock(initialBlocks, td.getAsOfDate());
+        TimesheetUtils.processTimeBlocksWithRuleChange(blocks, referenceTimeBlocks, leaveBlocks, td.getCalendarEntry(), td, HrContext.getPrincipalId());
+
+        //refresh Timesheet
+        td = TkServiceLocator.getTimesheetService().getTimesheetDocument(td.getDocumentId());
+        aggregate = new TkTimeBlockAggregate(td.getTimeBlocks(), payCalendarEntry);
+        // Verify post-Rule Run
+        TkTestUtils.verifyAggregateHourSums(principalId, "Post Rules Check", new ImmutableMap.Builder<String, BigDecimal>()
+                        .put("RGH", BigDecimal.valueOf(9))
+                        .put("SHDY2", BigDecimal.valueOf(4)).build(),
+                aggregate,
+                2);
+        HrContext.clearTargetUser();
+    }
 }

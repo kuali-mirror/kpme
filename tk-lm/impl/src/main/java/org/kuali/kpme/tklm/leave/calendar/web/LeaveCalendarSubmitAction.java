@@ -15,6 +15,7 @@
  */
 package org.kuali.kpme.tklm.leave.calendar.web;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -27,6 +28,7 @@ import org.kuali.kpme.core.service.HrServiceLocator;
 import org.kuali.kpme.core.util.HrConstants;
 import org.kuali.kpme.core.util.HrContext;
 import org.kuali.kpme.core.web.KPMEAction;
+import org.kuali.kpme.tklm.api.leave.block.LeaveBlock;
 import org.kuali.kpme.tklm.api.leave.block.LeaveBlockContract;
 import org.kuali.kpme.tklm.leave.calendar.LeaveCalendarDocument;
 import org.kuali.kpme.tklm.leave.service.LmServiceLocator;
@@ -69,17 +71,17 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
             	
-        		Map<String,Set<LeaveBlockContract>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
+        		Map<String,Set<LeaveBlock>> eligibilities = LmServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
         		
         		ActionRedirect transferRedirect = new ActionRedirect();
         		ActionRedirect payoutRedirect = new ActionRedirect();
 				
-				List<LeaveBlockContract> eligibleTransfers = new ArrayList<LeaveBlockContract>();
-				List<LeaveBlockContract> eligiblePayouts = new ArrayList<LeaveBlockContract>();
+				List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
+				List<LeaveBlock> eligiblePayouts = new ArrayList<LeaveBlock>();
         		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodFullDateTime(), document.getCalendarEntry().getEndPeriodFullDateTime());
-        		for(Entry<String,Set<LeaveBlockContract>> entry : eligibilities.entrySet()) {
+        		for(Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
         			
-            		for(LeaveBlockContract lb : entry.getValue()) {
+            		for(LeaveBlock lb : entry.getValue()) {
             			if(interval.contains(lb.getLeaveDateTime())) {
 	            			//maxBalanceViolations should, if a violation exists, return a leave block with leave date either current date, or the end period date - 1 days.
                     		PrincipalHRAttributes pha = HrServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), lb.getLeaveLocalDate());
@@ -101,13 +103,13 @@ public class LeaveCalendarSubmitAction extends KPMEAction {
             			}
             		}
         		}
-        		if(!eligibleTransfers.isEmpty()) {
+        		if(CollectionUtils.isNotEmpty(eligibleTransfers)) {
         			//LOSE actions get lumped into this set, and are redirected back to this page to handle submission via dialog.
             		transferRedirect.setPath("/BalanceTransfer.do?"+request.getQueryString());
             		request.getSession().setAttribute("eligibilities", eligibleTransfers);
             		return transferRedirect;
         		}
-        		if(!eligiblePayouts.isEmpty()) {
+        		if(CollectionUtils.isNotEmpty(eligiblePayouts)) {
             		payoutRedirect.setPath("/LeavePayout.do?"+request.getQueryString());
             		request.getSession().setAttribute("eligibilities", eligiblePayouts);
             		return payoutRedirect;           			

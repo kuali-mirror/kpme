@@ -47,6 +47,12 @@ ALTER TABLE TK_TIME_COLLECTION_RL_T MODIFY USER_PRINCIPAL_ID VARCHAR2(40)
 -- Changeset src/main/config/db/2.0.1/db.changelog-201310140900.xml::11::jjhanso
 ALTER TABLE TK_WEEKLY_OVERTIME_RL_T MODIFY USER_PRINCIPAL_ID VARCHAR2(40)
 /
+-- Changeset src/main/config/db/2.0.1/db.changelog-201310212000.xml::1::henrydfs::(Checksum: 3:e382c3212e5131dd9476bb71d7ccf2fb)
+ALTER TABLE HR_POSITION_T DROP COLUMN WK_PSTN_TTL
+/
+-- Changeset src/main/config/db/2.0.1/db.changelog-201310212000.xml::2::henrydfs::(Checksum: 3:8bbde79a03d66d0f89d578a0881358a2)
+ALTER TABLE PM_PSTN_DEPT_T ADD HR_PSTN_ID VARCHAR2(60) NOT NULL
+/
 -- Changeset src/main/config/db/2.0.1/db.changelog-201311261430.xml::1::yingzhou
 ALTER TABLE LM_ACCRUAL_CATEGORY_T MODIFY DESCR NULL
 /
