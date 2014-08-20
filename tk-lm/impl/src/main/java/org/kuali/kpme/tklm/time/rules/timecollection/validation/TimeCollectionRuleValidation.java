@@ -58,24 +58,19 @@ public class TimeCollectionRuleValidation extends TkKeyedBusinessObjectValidatio
 	}
 
 	public static boolean validateWorkAreaDeptWildcarding(TimeCollectionRule tcr) {
-        boolean ret = true;
-
-        if (StringUtils.equals(tcr.getDept(), HrConstants.WILDCARD_CHARACTER)) {
-            ret = tcr.getWorkArea().equals(HrConstants.WILDCARD_LONG);
-        }
-
-        return ret;
+        return StringUtils.equals(tcr.getDept(), HrConstants.WILDCARD_CHARACTER)
+                && HrConstants.WILDCARD_LONG.equals(tcr.getWorkArea());
     }
 	
 	boolean validateWildcards(TimeCollectionRule tcr) {
 
-        if(!validateWorkAreaDeptWildcarding(tcr)){
+        if(validateWorkAreaDeptWildcarding(tcr)){
 			// add error when work area defined, department is wild carded.
 			this.putFieldError("workArea", "error.wc.wadef");
 			return false;
 		}
         
-        if(!validateGroupKeyDeptWildcarding(tcr)){
+        if(validateGroupKeyDeptWildcarding(tcr)){
         	// add error when dept is defined, groupkey is wild carded.
 			this.putFieldError("groupKeyCode", "error.wc.deptdef");
 			return false;
@@ -85,16 +80,9 @@ public class TimeCollectionRuleValidation extends TkKeyedBusinessObjectValidatio
     }
 	
 	private boolean validateGroupKeyDeptWildcarding(TimeCollectionRule tcr) {
-		// TODO Auto-generated method stub
-		boolean ret = true;
-
-        if (StringUtils.equals(tcr.getGroupKeyCode(), HrConstants.WILDCARD_CHARACTER)) {
-            ret = StringUtils.equals(tcr.getDept(), HrConstants.WILDCARD_CHARACTER);
-        }
-
-        return ret;
-		
-	}
+        return StringUtils.equals(tcr.getGroupKeyCode(), HrConstants.WILDCARD_CHARACTER)
+                && StringUtils.equals(tcr.getDept(), HrConstants.WILDCARD_CHARACTER);
+    }
 
 	/**
 	 * It looks like the method that calls this class doesn't actually care
