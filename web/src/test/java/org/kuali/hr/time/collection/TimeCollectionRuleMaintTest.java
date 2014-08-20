@@ -122,12 +122,12 @@ public class TimeCollectionRuleMaintTest extends KPMEWebTestCase {
 		timeCollectionRuleLookup = HtmlUnitUtil.clickInputContainingText(
 				timeCollectionRuleLookup, "search");
 		Assert.assertTrue("Page contains test timeCollectionRule",
-				timeCollectionRuleLookup.asText().contains(TEST_CODE));
+				timeCollectionRuleLookup.asText().contains(TEST_CODE_DEPARTMENT_VALID));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
 				timeCollectionRuleLookup, "edit",
 				timeCollectionRuleId);
 		Assert.assertTrue("Maintenance Page contains test timeCollectionRule",
-				maintPage.asText().contains(TEST_CODE));
+				maintPage.asText().contains(TEST_CODE_DEPARTMENT_VALID));
 	}
 
 	@Override
