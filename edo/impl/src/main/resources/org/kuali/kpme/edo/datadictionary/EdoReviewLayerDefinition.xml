@@ -2,63 +2,63 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 
-	<bean id="EdoReviewLayerDefinition" parent="EdoReviewLayerDefinition-parentBean" />
-	<bean id="EdoReviewLayerDefinition-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
-		<property name="businessObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
-		<property name="objectLabel" value="EdoReviewLayerDefinition" />
-		<property name="attributes">
-			<list merge="true">
-				<ref bean="EdoReviewLayerDefinition-edoReviewLayerDefinitionId" />
-				<ref bean="EdoReviewLayerDefinition-nodeName" />
-				<ref bean="EdoReviewLayerDefinition-voteType" />
-				<ref bean="EdoReviewLayerDefinition-description" />
-				<ref bean="EdoReviewLayerDefinition-reviewLetter" />
-				<ref bean="EdoReviewLayerDefinition-routeLevel" />
-				<ref bean="EdoReviewLayerDefinition-reviewLevel" />
-				<ref bean="EdoReviewLayerDefinition-workflowId" />
-				<ref bean="EdoReviewLayerDefinition-workflowQualifier" />
-			</list>
-		</property>
-		<property name="collections">
-			<list>
-				<bean parent="CollectionDefinition">
-					<property name="dataObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo" />
-					<property name="name" value="suppReviewLayerDefinitions" />
-					<property name="shortLabel" value="Supp Review Layer Definitions" />
-					<property name="label" value="Supplement Review Layer Definitions" />
-				</bean>
-			</list>
-		</property>
-	</bean>
+    <bean id="EdoReviewLayerDefinition" parent="EdoReviewLayerDefinition-parentBean" />
+    <bean id="EdoReviewLayerDefinition-parentBean" abstract="true" parent="KPMEHrBusinessObjectParent">
+        <property name="businessObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
+        <property name="objectLabel" value="EdoReviewLayerDefinition" />
+        <property name="attributes">
+            <list merge="true">
+                <ref bean="EdoReviewLayerDefinition-edoReviewLayerDefinitionId" />
+                <ref bean="EdoReviewLayerDefinition-nodeName" />
+                <ref bean="EdoReviewLayerDefinition-voteType" />
+                <ref bean="EdoReviewLayerDefinition-description" />
+                <ref bean="EdoReviewLayerDefinition-reviewLetter" />
+                <ref bean="EdoReviewLayerDefinition-routeLevel" />
+                <ref bean="EdoReviewLayerDefinition-reviewLevel" />
+                <ref bean="EdoReviewLayerDefinition-workflowId" />
+                <ref bean="EdoReviewLayerDefinition-workflowQualifier" />
+            </list>
+        </property>
+        <property name="collections">
+            <list>
+                <bean parent="CollectionDefinition">
+                    <property name="dataObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoSuppReviewLayerDefinitionBo" />
+                    <property name="name" value="suppReviewLayerDefinitions" />
+                    <property name="shortLabel" value="Supp Review Layer Definitions" />
+                    <property name="label" value="Supplement Review Layer Definitions" />
+                </bean>
+            </list>
+        </property>
+    </bean>
 
     <!-- Attribute Definitions -->
 
-	<bean id="EdoReviewLayerDefinition-edoReviewLayerDefinitionId" parent="EdoReviewLayerDefinition-edoReviewLayerDefinitionId-parentBean" />
-	<bean id="EdoReviewLayerDefinition-edoReviewLayerDefinitionId-parentBean" abstract="true" parent="AttributeDefinition">
-	    <property name="shortLabel" value="id"/>
-	    <property name="maxLength" value="60" />
-	    <property name="controlField">
-	      <bean parent="Uif-TextControl" p:size="60"/>
-	    </property>
-		<property name="name" value="edoReviewLayerDefinitionId" />
-		<property name="label" value="ReviewLayer Definition Id" />
-	</bean>
-	
+    <bean id="EdoReviewLayerDefinition-edoReviewLayerDefinitionId" parent="EdoReviewLayerDefinition-edoReviewLayerDefinitionId-parentBean" />
+    <bean id="EdoReviewLayerDefinition-edoReviewLayerDefinitionId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="id"/>
+        <property name="maxLength" value="60" />
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="60"/>
+        </property>
+        <property name="name" value="edoReviewLayerDefinitionId" />
+        <property name="label" value="ReviewLayer Definition Id" />
+    </bean>
+
     <bean id="EdoReviewLayerDefinition-nodeName" parent="EdoReviewLayerDefinition-nodeName-parentBean"/>
     <bean id="EdoReviewLayerDefinition-nodeName-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Node Name"/>
         <property name="maxLength" value="30"/>
         <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="30" />
-		</property>
+            <bean parent="Uif-TextControl" p:size="30" />
+        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30"/>
         </property>
         <property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" >
-				<property name="allowWhitespace" value="false" />
+            <bean parent="AnyCharacterPatternConstraint" >
+                <property name="allowWhitespace" value="false" />
             </bean>
-		</property>
+        </property>
         <property name="name" value="nodeName"/>
         <property name="label" value="Node Name"/>
     </bean>
@@ -69,17 +69,17 @@
         <property name="shortLabel" value="Vote Type" />
         <property name="maxLength" value="16" />
         <property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" >
-				<property name="allowWhitespace" value="false" />
+            <bean parent="AnyCharacterPatternConstraint" >
+                <property name="allowWhitespace" value="false" />
             </bean>
-		</property>
-       	<property name="controlField">
-			<bean parent="Uif-DropdownControl" />
-		</property>
-		<property name="optionsFinder">
-			<bean
-				class="org.kuali.kpme.edo.vote.type.EdoVoteTypeValuesFinder" /><!--  p:addBlankOption="true" -->
-		</property>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-DropdownControl" />
+        </property>
+        <property name="optionsFinder">
+            <bean
+                    class="org.kuali.kpme.edo.vote.type.EdoVoteTypeValuesFinder" /><!--  p:addBlankOption="true" -->
+        </property>
         <property name="name" value="voteType" />
         <property name="label" value="Vote Type" />
     </bean>
@@ -89,13 +89,13 @@
         <property name="shortLabel" value="Description"/>
         <property name="maxLength" value="120"/>
         <property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" >
-				<property name="allowWhitespace" value="true" />
+            <bean parent="AnyCharacterPatternConstraint" >
+                <property name="allowWhitespace" value="true" />
             </bean>
-		</property>
+        </property>
         <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="30" />
-		</property>
+            <bean parent="Uif-TextControl" p:size="30" />
+        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="30" />
         </property>
@@ -103,22 +103,22 @@
         <property name="label" value="Description"/>
     </bean>
 
-	<bean id="EdoReviewLayerDefinition-reviewLetter" parent="EdoReviewLayerDefinition-reviewLetter-parentBean"/>
- 	<bean id="EdoReviewLayerDefinition-reviewLetter-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
-    	<property name="name" value="reviewLetter" />
- 		<property name="label" value="Review Letter" />
-  	</bean>
-	
+    <bean id="EdoReviewLayerDefinition-reviewLetter" parent="EdoReviewLayerDefinition-reviewLetter-parentBean"/>
+    <bean id="EdoReviewLayerDefinition-reviewLetter-parentBean" abstract="true" parent="KpmeAttributeReference-genericCheckbox">
+        <property name="name" value="reviewLetter" />
+        <property name="label" value="Review Letter" />
+    </bean>
+
     <bean id="EdoReviewLayerDefinition-reviewLevel" parent="EdoReviewLayerDefinition-reviewLevel-parentBean"/>
     <bean id="EdoReviewLayerDefinition-reviewLevel-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Review Level" />
         <property name="maxLength" value="3" />
         <property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
+            <bean parent="AnyCharacterPatternConstraint" />
+        </property>
         <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="3" />
-		</property>
+            <bean parent="Uif-TextControl" p:size="3" />
+        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="3" />
         </property>
@@ -131,135 +131,135 @@
         <property name="shortLabel" value="Route Level" />
         <property name="maxLength" value="3" />
         <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="3" />
-		</property>
+            <bean parent="Uif-TextControl" p:size="3" />
+        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="3" />
         </property>
-       	<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" />
+        </property>
         <property name="name" value="routeLevel" />
         <property name="label" value="Route Level" />
     </bean>
-    
-	<bean id="EdoReviewLayerDefinition-workflowId" parent="EdoReviewLayerDefinition-workflowId-parentBean"/>
+
+    <bean id="EdoReviewLayerDefinition-workflowId" parent="EdoReviewLayerDefinition-workflowId-parentBean"/>
     <bean id="EdoReviewLayerDefinition-workflowId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Workflow Id" />
         <property name="maxLength" value="3" />
         <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="3" />
-		</property>
+            <bean parent="Uif-TextControl" p:size="3" />
+        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="3" />
         </property>
-       	<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" />
+        </property>
         <property name="name" value="workflowId" />
         <property name="label" value="Workflow Id" />
     </bean>
-    
+
     <bean id="EdoReviewLayerDefinition-workflowQualifier" parent="EdoReviewLayerDefinition-workflowQualifier-parentBean"/>
     <bean id="EdoReviewLayerDefinition-workflowQualifier-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Workflow Qualifier" />
         <property name="maxLength" value="15" />
         <property name="controlField">
-			<bean parent="Uif-TextControl" p:size="15" />
-		</property>
+            <bean parent="Uif-TextControl" p:size="15" />
+        </property>
         <property name="control">
             <bean parent="TextControlDefinition" p:size="3" />
         </property>
-       	<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" />
+        </property>
         <property name="name" value="workflowQualifier" />
         <property name="label" value="Workflow Qualifier" />
     </bean>
-	
-	<!--***************************************************************************
+
+    <!--***************************************************************************
                                    KRAD Views
         ***************************************************************************-->
 
-	<!-- Lookup view -->
-	<bean id="EdoReviewLayerDefinition-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
-		<property name="headerText" value="Review Layer Definition Lookup" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
-		<property name="criteriaFields">
-			<list merge="true">
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="nodeName" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="workflowId" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
-			</list>
-		</property>
-		<property name="resultFields">
-			<list merge="true">
-				<bean parent="Uif-DataField" p:propertyName="nodeName" />
-				<bean parent="Uif-DataField" p:propertyName="voteType" />
-				<bean parent="Uif-DataField" p:propertyName="description" />
-				<bean parent="Uif-DataField" p:propertyName="reviewLetter" />
-				<bean parent="Uif-DataField" p:propertyName="reviewLevel" />
-				<bean parent="Uif-DataField" p:propertyName="routeLevel" />
-				<bean parent="Uif-DataField" p:propertyName="workflowId" />
-				<bean parent="Uif-DataField" p:propertyName="workflowQualifier" />
-			</list>
-		</property>
-	</bean>
+    <!-- Lookup view -->
+    <bean id="EdoReviewLayerDefinition-LookupView" parent="KPMEUif-EffectiveDateBOLookupView">
+        <property name="headerText" value="Review Layer Definition Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
+        <property name="criteriaFields">
+            <list merge="true">
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="nodeName" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workflowId" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list merge="true">
+                <bean parent="Uif-DataField" p:propertyName="nodeName" />
+                <bean parent="Uif-DataField" p:propertyName="voteType" />
+                <bean parent="Uif-DataField" p:propertyName="description" />
+                <bean parent="Uif-DataField" p:propertyName="reviewLetter" />
+                <bean parent="Uif-DataField" p:propertyName="reviewLevel" />
+                <bean parent="Uif-DataField" p:propertyName="routeLevel" />
+                <bean parent="Uif-DataField" p:propertyName="workflowId" />
+                <bean parent="Uif-DataField" p:propertyName="workflowQualifier" />
+            </list>
+        </property>
+    </bean>
 
-	<!-- Inquiry View -->
-	<bean id="EdoReviewLayerDefinition-InquiryView" parent="Uif-InquiryView">
-		<property name="headerText" value="Review Layer Definition Inquiry" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
-		<property name="singlePageView" value="true" />
-		<property name="title" value="Review Layer Definition Inquiry" />
-		<property name="items">
-			<list>
-				<bean parent="Uif-Disclosure-GridSection">
-					<property name="layoutManager.numberOfColumns" value="2" />
-					<property name="items">
-						<list merge="true">
-							<bean parent="Uif-DataField" p:propertyName="nodeName" />
-							<bean parent="Uif-DataField" p:propertyName="voteType" />
-							<bean parent="Uif-DataField" p:propertyName="description" />
-							<bean parent="Uif-DataField" p:propertyName="reviewLetter" />
-							<bean parent="Uif-DataField" p:propertyName="reviewLevel" />
-							<bean parent="Uif-DataField" p:propertyName="routeLevel" />
-							<bean parent="Uif-DataField" p:propertyName="workflowId" />
-							<bean parent="Uif-DataField" p:propertyName="workflowQualifier" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="EdoReviewLayerDefinition-suppReviewLayerDefinitionsInquiry"/>
-			</list>
-		</property>
-	</bean>
+    <!-- Inquiry View -->
+    <bean id="EdoReviewLayerDefinition-InquiryView" parent="Uif-InquiryView">
+        <property name="headerText" value="Review Layer Definition Inquiry" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
+        <property name="singlePageView" value="true" />
+        <property name="title" value="Review Layer Definition Inquiry" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-Disclosure-GridSection">
+                    <property name="layoutManager.numberOfColumns" value="2" />
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-DataField" p:propertyName="nodeName" />
+                            <bean parent="Uif-DataField" p:propertyName="voteType" />
+                            <bean parent="Uif-DataField" p:propertyName="description" />
+                            <bean parent="Uif-DataField" p:propertyName="reviewLetter" />
+                            <bean parent="Uif-DataField" p:propertyName="reviewLevel" />
+                            <bean parent="Uif-DataField" p:propertyName="routeLevel" />
+                            <bean parent="Uif-DataField" p:propertyName="workflowId" />
+                            <bean parent="Uif-DataField" p:propertyName="workflowQualifier" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="EdoReviewLayerDefinition-suppReviewLayerDefinitionsInquiry"/>
+            </list>
+        </property>
+    </bean>
 
-	<!-- Maintenance View -->
-	<bean id="EdoReviewLayerDefinition-MaintenanceView" parent="EdoReviewLayerDefinition-MaintenanceView-parentBean" />
-	<bean id="EdoReviewLayerDefinition-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
-		<property name="headerText" value="Review Layer Definition Maintenance" />
-		<property name="dataObjectClassName" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
-		<property name="items">
-			<list>
-				<bean parent="Uif-MaintenanceGridSection">
-					<property name="items">
-						<list merge="true">
-							<bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="nodeName" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="voteType"	p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="description" />
-							<bean parent="Uif-InputField" p:propertyName="reviewLetter"	p:defaultValue="true" />
-							<bean parent="Uif-InputField" p:propertyName="reviewLevel" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="routeLevel" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="workflowId" p:required="true" />
-							<bean parent="Uif-InputField" p:propertyName="workflowQualifier" p:required="true" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="EdoReviewLayerDefinition-SuppReviewLayerDefinitions" />
-			</list>
-		</property>
-	</bean>
-  
+    <!-- Maintenance View -->
+    <bean id="EdoReviewLayerDefinition-MaintenanceView" parent="EdoReviewLayerDefinition-MaintenanceView-parentBean" />
+    <bean id="EdoReviewLayerDefinition-MaintenanceView-parentBean" abstract="true" parent="KPMEEffectiveDateBO-MaintenanceView">
+        <property name="headerText" value="Review Layer Definition Maintenance" />
+        <property name="dataObjectClassName" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-MaintenanceGridSection">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-InputField" p:propertyName="effectiveDate" p:required="true" />
+                            <bean parent="Uif-InputField" p:propertyName="nodeName" p:required="true" />
+                            <bean parent="Uif-InputField" p:propertyName="voteType"	p:required="true" />
+                            <bean parent="Uif-InputField" p:propertyName="description" />
+                            <bean parent="Uif-InputField" p:propertyName="reviewLetter"	p:defaultValue="true" />
+                            <bean parent="Uif-InputField" p:propertyName="reviewLevel" p:required="true" />
+                            <bean parent="Uif-InputField" p:propertyName="routeLevel" p:required="true" />
+                            <bean parent="Uif-InputField" p:propertyName="workflowId" p:required="true" />
+                            <bean parent="Uif-InputField" p:propertyName="workflowQualifier" p:required="true" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="EdoReviewLayerDefinition-SuppReviewLayerDefinitions" />
+            </list>
+        </property>
+    </bean>
+
 </beans>

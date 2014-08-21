@@ -9,14 +9,14 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="EdoReviewLayerDefinitionMaintenanceDocument" parent="EdoReviewLayerDefinitionMaintenanceDocument-parentBean" />
-	<bean id="EdoReviewLayerDefinitionMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry" >
-		<property name="dataObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" /> 
-		<property name="maintainableClass" value="org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionMaintainableImpl" />
-		<property name="documentTypeName" value="ReviewLayerDefinitionDocument" /> 
-		<!-- 
-		<property name="documentAuthorizerClass" value="org.kuali.kpme.edo.authorization.SuperUserAuthorizer" />	
-		-->
-	</bean>
+    <bean id="EdoReviewLayerDefinitionMaintenanceDocument" parent="EdoReviewLayerDefinitionMaintenanceDocument-parentBean" />
+    <bean id="EdoReviewLayerDefinitionMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry" >
+        <property name="dataObjectClass" value="org.kuali.kpme.edo.reviewlayerdef.EdoReviewLayerDefinitionBo" />
+        <property name="maintainableClass" value="org.kuali.kpme.edo.reviewlayerdef.service.EdoReviewLayerDefinitionMaintainableImpl" />
+        <property name="documentTypeName" value="ReviewLayerDefinitionDocument" />
+        <!--
+        <property name="documentAuthorizerClass" value="org.kuali.kpme.edo.authorization.SuperUserAuthorizer" />
+        -->
+    </bean>
 
 </beans>
