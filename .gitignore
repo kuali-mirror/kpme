@@ -1,0 +1,11 @@
+target
+.settings
+.project
+.classpath
+.attach*
+*~
+.metadata
+*.releaseBackup
+release.properties
+.idea
+*.iml
