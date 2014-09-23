@@ -39,6 +39,7 @@
         <module>env</module>
         <module>dist</module>
         <module>tools</module>
+        <module>usc</module>
         <!--<module>ui-test</module>-->
     </modules>
     <properties>
