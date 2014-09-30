@@ -18,10 +18,108 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>edu.usc.org.kuali.kpme</groupId>
+        <groupId>org.kuali.usc.kpme</groupId>
         <artifactId>usc-kpme-tk</artifactId>
         <version>2.1.0</version>
     </parent>
     <name>USC KPME Timekeeping API</name>
     <artifactId>usc-kpme-tk-api</artifactId>
+
+  <dependencies>
+    <dependency>
+	    <groupId>${rice-groupId}</groupId>
+	 	<artifactId>rice-location-api</artifactId>
+	    <version>${rice-version}</version>
+	    <scope>provided</scope>
+	    <exclusions>
+	      <exclusion>
+	        <artifactId>slf4j-api</artifactId>
+	        <groupId>org.slf4j</groupId>
+	      </exclusion>
+	    </exclusions>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <svc.campus2.name>CampusService2</svc.campus2.name>
+    <svc.campus2.wsdl>${wsdl.dir}/${svc.campus2.name}.wsdl</svc.campus2.wsdl>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-java2ws-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>campusService2-wsdl</id>
+            <phase>${rice.java2ws.phase}</phase>
+            <configuration>
+              <className>org.kuali.usc.kpme.tk.api.CampusService2</className>
+              <outputFile>${svc.campus2.wsdl}</outputFile>
+              <serviceName>CampusService2</serviceName>
+               <genWsdl>true</genWsdl>
+            </configuration>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-wsdls</id>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${svc.campus2.wsdl}</file>
+                  <classifier>${svc.campus2.name}</classifier>
+                  <type>wsdl</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+    	<plugins>
+    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+    		<plugin>
+    			<groupId>org.eclipse.m2e</groupId>
+    			<artifactId>lifecycle-mapping</artifactId>
+    			<version>1.0.0</version>
+    			<configuration>
+    				<lifecycleMappingMetadata>
+    					<pluginExecutions>
+    						<pluginExecution>
+    							<pluginExecutionFilter>
+    								<groupId>org.apache.cxf</groupId>
+    								<artifactId>
+    									cxf-java2ws-plugin
+    								</artifactId>
+    								<versionRange>
+    									[2.7.0,)
+    								</versionRange>
+    								<goals>
+    									<goal>java2ws</goal>
+    								</goals>
+    							</pluginExecutionFilter>
+    							<action>
+    								<ignore />
+    							</action>
+    						</pluginExecution>
+    					</pluginExecutions>
+    				</lifecycleMappingMetadata>
+    			</configuration>
+    		</plugin>
+    	</plugins>
+    </pluginManagement>
+  </build>
+
 </project>

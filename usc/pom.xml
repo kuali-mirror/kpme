@@ -23,10 +23,17 @@
         <version>2.1.0</version>
     </parent>
     <name>USC Customizations</name>
-    <groupId>edu.usc.org.kuali.kpme</groupId>
+    <groupId>org.kuali.usc.kpme</groupId>
     <artifactId>usc</artifactId>
     <packaging>pom</packaging>
     
+<properties>
+  <rice-groupId>org.kuali.rice</rice-groupId>
+  <rice-version>2.4.2</rice-version>
+  <wsdl.dir>${project.build.directory}/wsdl</wsdl.dir>
+  <rice.java2ws.phase>process-classes</rice.java2ws.phase>
+</properties>
+
     <modules>
       <module>kpme</module>
     </modules>
