@@ -30,6 +30,11 @@
             <artifactId>usc-kpme-tk-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+          <groupId>org.kuali.kpme</groupId>
+          <artifactId>kpme-core-impl</artifactId>
+          <version>2.1.0</version>
+        </dependency>
         
         <dependency>
         	<groupId>${rice-groupId}</groupId>

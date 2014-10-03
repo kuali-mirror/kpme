@@ -170,7 +170,8 @@
 
     <bean id="calendarEntryDao" class="org.kuali.kpme.core.calendar.entry.dao.CalendarEntryDaoOjbImpl" parent="platformAwareDao" />
 
-    <bean id="departmentDao" class="org.kuali.kpme.core.department.dao.DepartmentDaoOjbImpl" parent="platformAwareDao" />
+	<!-- ****MODIFIED**** -->
+    <bean id="departmentDao" class=" org.kuali.usc.kpme.tk.impl.Department2DaoOjbImpl" parent="platformAwareDao" />
 
     <bean id="departmentAffiliationDao" class="org.kuali.kpme.core.departmentaffiliation.dao.DepartmentAffiliationDaoObjImpl" parent="platformAwareDao" />
 
@@ -260,7 +261,8 @@
         <property name="earnCodeSecurityDao" ref="earnCodeSecurityDao"/>
     </bean>
 
-    <bean id="departmentService" class="org.kuali.kpme.core.department.service.DepartmentServiceImpl">
+	<!-- ****MODIFIED**** -->
+    <bean id="departmentService" class="org.kuali.usc.kpme.tk.impl.Department2ServiceImpl">
         <property name="departmentDao" ref="departmentDao"/>
         <property name="hrGroupKeyService" ref="hrGroupKeyService"/>
     </bean>
